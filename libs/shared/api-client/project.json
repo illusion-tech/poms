@@ -1,0 +1,29 @@
+{
+  "name": "shared-api-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/api-client",
+  "tags": ["scope:shared", "type:generated"],
+  "targets": {
+    "generate": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["poms-api:openapi"],
+      "options": {
+        "commands": [
+          "powershell -NoProfile -Command \"if (Test-Path 'libs/shared/api-client') { Get-ChildItem 'libs/shared/api-client' -Force | Where-Object { $_.Name -notin @('project.json') } | Remove-Item -Recurse -Force }\"",
+          "pnpm exec openapi-generator-cli generate -c tools/openapi/typescript-angular.config.json --skip-validate-spec"
+        ],
+        "parallel": false
+      },
+      "outputs": ["{workspaceRoot}/libs/shared/api-client"]
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["generate"],
+      "options": {
+        "command": "git diff --exit-code -- libs/shared/api-client"
+      }
+    }
+  }
+}
+

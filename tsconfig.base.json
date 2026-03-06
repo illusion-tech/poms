@@ -1,0 +1,42 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/out-tsc",
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "bundler",
+        "importHelpers": true,
+        "target": "ES2022",
+        "module": "ES2022",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["apps/poms-admin/src/*"],
+            "@poms/admin/core/*": ["apps/poms-admin/src/app/core/*"],
+            "@poms/admin/demo/*": ["apps/poms-admin/src/app/demo/*"],
+            "@poms/admin/features/*": ["apps/poms-admin/src/app/features/*"],
+            "@poms/admin/layout/*": ["apps/poms-admin/src/app/layout/*"],
+            "@poms/admin/shared/*": ["apps/poms-admin/src/app/shared/*"],
+            "@poms/shared-contracts": ["libs/shared/contracts/src/index.ts"],
+            "@poms/shared-contracts/*": ["libs/shared/contracts/src/*"],
+            "@poms/api-contracts": ["libs/api/contracts/src/index.ts"],
+            "@poms/api-contracts/*": ["libs/api/contracts/src/*"],
+            "@poms/shared-api-client": ["libs/shared/api-client/index.ts"],
+            "@poms/shared-api-client/*": ["libs/shared/api-client/*"],
+            "@poms/admin-data-access": ["libs/admin/data-access/src/index.ts"],
+            "@poms/admin-data-access/*": ["libs/admin/data-access/src/*"]
+        }
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
+    }
+}

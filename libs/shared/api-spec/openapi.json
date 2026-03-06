@@ -1,0 +1,381 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "登录并获取 JWT",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取当前登录用户信息",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/me/navigation": {
+      "get": {
+        "operationId": "NavigationController_getNavigation",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationListDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取当前用户可见的导航菜单树",
+        "tags": [
+          "Navigation"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "POMS API",
+    "description": "Project Oriented Management System API",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ],
+        "id": "LoginRequest"
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accessToken"
+        ],
+        "id": "LoginResponse"
+      },
+      "UnitOrg": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "description"
+        ],
+        "id": "UnitOrg"
+      },
+      "SanitizedUserWithOrgUnits": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "platform:users:manage",
+                "platform:roles:manage",
+                "platform:navigation:manage",
+                "platform:org-units:manage",
+                "project:read",
+                "project:write",
+                "project:delete",
+                "nav:dashboard:view",
+                "nav:platform:view",
+                "nav:projects:view",
+                "nav:profile:view"
+              ]
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "avatarUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "lastLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "phoneVerified": {
+            "type": "boolean"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnitOrg"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "username",
+          "roles",
+          "permissions",
+          "email",
+          "avatarUrl",
+          "isActive",
+          "lastLoginAt",
+          "emailVerified",
+          "phoneVerified",
+          "phone",
+          "orgUnits"
+        ],
+        "id": "SanitizedUserWithOrgUnits"
+      },
+      "NavigationListDto__schema0": {
+        "$ref": "#/components/schemas/NavigationItem"
+      },
+      "NavigationItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "group",
+              "collapsable",
+              "divider"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "link": {
+            "type": "string",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayOrder": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "isHidden": {
+            "type": "boolean"
+          },
+          "isDisabled": {
+            "type": "boolean"
+          },
+          "requiredPermissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "platform:users:manage",
+                "platform:roles:manage",
+                "platform:navigation:manage",
+                "platform:org-units:manage",
+                "project:read",
+                "project:write",
+                "project:delete",
+                "nav:dashboard:view",
+                "nav:platform:view",
+                "nav:projects:view",
+                "nav:profile:view"
+              ]
+            },
+            "nullable": true
+          },
+          "meta": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {},
+            "nullable": true
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NavigationListDto__schema0"
+            },
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "key",
+          "type",
+          "title",
+          "subtitle",
+          "link",
+          "icon",
+          "displayOrder",
+          "isHidden",
+          "isDisabled",
+          "requiredPermissions",
+          "meta",
+          "children"
+        ],
+        "id": "NavigationItem"
+      },
+      "NavigationListDto": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/NavigationListDto__schema0"
+        },
+        "id": "NavigationList"
+      }
+    }
+  }
+}

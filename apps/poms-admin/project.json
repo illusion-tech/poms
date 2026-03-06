@@ -1,0 +1,85 @@
+{
+    "name": "poms-admin",
+    "$schema": "node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "apps/poms-admin/src",
+    "tags": ["scope:admin", "type:app"],
+    "prefix": "app",
+    "generators": {
+        "@schematics/angular:component": {
+            "style": "scss"
+        }
+    },
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:application",
+            "options": {
+                "outputPath": "dist/apps/poms-admin",
+                "index": "apps/poms-admin/src/index.html",
+                "browser": "apps/poms-admin/src/main.ts",
+                "tsConfig": "apps/poms-admin/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "apps/poms-admin/public"
+                    }
+                ],
+                "styles": ["apps/poms-admin/src/assets/styles.scss", "apps/poms-admin/src/assets/tailwind.css"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "1mb",
+                            "maximumError": "5mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production",
+            "outputs": ["{options.outputPath}"]
+        },
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "buildTarget": "poms-admin:build:production"
+                },
+                "development": {
+                    "buildTarget": "poms-admin:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "options": {
+                "jestConfig": "apps/poms-admin/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "lintFilePatterns": ["apps/poms-admin/**/*.ts", "apps/poms-admin/**/*.html"]
+            }
+        }
+    }
+}
