@@ -5,14 +5,18 @@
 **适用范围**: `POMS` 第一阶段平台治理域本轮设计评审结论
 **关联文档**:
 
-- `platform-governance-review-checklist.md`
-- `platform-governance-design.md`
-- `user-management-design.md`
-- `role-permission-design.md`
-- `org-unit-design.md`
-- `navigation-design.md`
-- `navigation-route-mapping.md`
-- `../business-authorization-matrix.md`
+- 上游设计:
+  - `platform-governance-review-checklist.md`
+  - `platform-governance-design.md`
+  - `../business-authorization-matrix.md`
+- 同级设计:
+  - `user-management-design.md`
+  - `role-permission-design.md`
+  - `org-unit-design.md`
+  - `navigation-design.md`
+  - `navigation-route-mapping.md`
+
+> 阅读提示：本文档是平台治理域当轮评审的历史摘要，保留评审当时的状态判断与推进建议，用于审计和过程回溯；若要查看当前全局状态、当前阅读路径和业务授权矩阵的最新成熟度，应以 `../README.md`、`../poms-design-progress.md`、`../design-convergence-review-checklist.md` 和 `../business-authorization-matrix.md` 为准。
 
 ---
 

@@ -5,13 +5,15 @@
 **适用范围**: `POMS` 第一阶段平台治理域设计收口与评审准备
 **关联文档**:
 
-- `platform-governance-design.md`
-- `user-management-design.md`
-- `role-permission-design.md`
-- `org-unit-design.md`
-- `navigation-design.md`
-- `navigation-route-mapping.md`
-- `../poms-design-progress.md`
+- 上游设计:
+  - `../poms-design-progress.md`
+  - `platform-governance-design.md`
+- 同级设计:
+  - `user-management-design.md`
+  - `role-permission-design.md`
+  - `org-unit-design.md`
+  - `navigation-design.md`
+  - `navigation-route-mapping.md`
 
 ---
 

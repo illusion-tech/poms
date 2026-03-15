@@ -5,11 +5,17 @@
 **适用范围**: `POMS` 第一阶段平台治理域中的导航菜单模块
 **关联文档**:
 
-- `platform-governance-design.md`
-- `role-permission-design.md`
-- `../poms-requirements-spec.md`
-- `../poms-hld.md`
-- `../../adr/003-navigation-single-source-of-truth.md`
+- 上游设计:
+  - `../poms-requirements-spec.md`
+  - `../poms-hld.md`
+  - `platform-governance-design.md`
+- 同级设计:
+  - `role-permission-design.md`
+  - `navigation-route-mapping.md`
+- 相关 ADR:
+  - `../../adr/003-navigation-single-source-of-truth.md`
+  - `../../adr/009-platform-navigation-group-visibility-rule.md`
+  - `../../adr/010-platform-user-management-route-bridging-status.md`
 
 ---
 

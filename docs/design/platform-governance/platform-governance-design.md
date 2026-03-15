@@ -5,11 +5,17 @@
 **适用范围**: `POMS` 第一阶段平台治理域
 **关联文档**:
 
-- `../poms-requirements-spec.md`
-- `../poms-hld.md`
-- `../../adr/001-platform-permission-model.md`
-- `../../adr/002-org-unit-model-and-assignment.md`
-- `../../adr/003-navigation-single-source-of-truth.md`
+- 上游设计:
+  - `../poms-requirements-spec.md`
+  - `../poms-hld.md`
+  - `../poms-design-progress.md`
+- 相关 ADR:
+  - `../../adr/001-platform-permission-model.md`
+  - `../../adr/002-org-unit-model-and-assignment.md`
+  - `../../adr/003-navigation-single-source-of-truth.md`
+  - `../../adr/008-current-user-profile-output-contract.md`
+  - `../../adr/009-platform-navigation-group-visibility-rule.md`
+  - `../../adr/010-platform-user-management-route-bridging-status.md`
 
 ---
 

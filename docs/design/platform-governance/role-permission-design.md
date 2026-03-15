@@ -5,10 +5,15 @@
 **适用范围**: `POMS` 第一阶段平台治理域中的角色与权限模块
 **关联文档**:
 
-- `platform-governance-design.md`
-- `../poms-requirements-spec.md`
-- `../poms-hld.md`
-- `../../adr/001-platform-permission-model.md`
+- 上游设计:
+  - `../poms-requirements-spec.md`
+  - `../poms-hld.md`
+  - `platform-governance-design.md`
+- 同级设计:
+  - `user-management-design.md`
+  - `navigation-design.md`
+- 相关 ADR:
+  - `../../adr/001-platform-permission-model.md`
 
 ---
 

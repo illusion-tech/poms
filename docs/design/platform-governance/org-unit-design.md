@@ -5,11 +5,16 @@
 **适用范围**: `POMS` 第一阶段平台治理域中的组织单元模块
 **关联文档**:
 
-- `platform-governance-design.md`
-- `user-management-design.md`
-- `../poms-requirements-spec.md`
-- `../poms-hld.md`
-- `../../adr/002-org-unit-model-and-assignment.md`
+- 上游设计:
+  - `../poms-requirements-spec.md`
+  - `../poms-hld.md`
+  - `platform-governance-design.md`
+- 同级设计:
+  - `user-management-design.md`
+  - `role-permission-design.md`
+- 相关 ADR:
+  - `../../adr/002-org-unit-model-and-assignment.md`
+  - `../../adr/008-current-user-profile-output-contract.md`
 
 ---
 
