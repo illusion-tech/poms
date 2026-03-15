@@ -64,6 +64,7 @@
 
 - `design-convergence-review-checklist.md`：设计收口与评审前一致性清单
 - `design-review-execution-checklist.md`：详细设计评审执行清单
+- `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 ## 命名规则
@@ -216,6 +217,7 @@
 
 - `design-convergence-review-checklist.md`
 - `design-review-execution-checklist.md`
+- `design-review-follow-up-summary.md`
 
 ## 后续演进建议
 

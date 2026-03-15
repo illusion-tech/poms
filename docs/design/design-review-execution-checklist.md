@@ -7,6 +7,7 @@
 
 - 上游设计:
   - `design-convergence-review-checklist.md`
+  - `design-review-follow-up-summary.md`
   - `poms-design-progress.md`
   - `poms-requirements-spec.md`
   - `poms-hld.md`
