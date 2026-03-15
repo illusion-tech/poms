@@ -1,18 +1,19 @@
-import { Component, computed, ElementRef, inject, model, signal, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { AppBreadcrumb } from './app.breadcrumb';
-import { InputTextModule } from 'primeng/inputtext';
+import { Component, computed, ElementRef, inject, model, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthStore } from '@poms/admin-data-access';
+import { AvatarModule } from 'primeng/avatar';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { RippleModule } from 'primeng/ripple';
-import { BadgeModule } from 'primeng/badge';
+import { InputTextModule } from 'primeng/inputtext';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { AvatarModule } from 'primeng/avatar';
-import { FormsModule } from '@angular/forms';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
+import { LayoutService } from '../service/layout.service';
+import { AppBreadcrumb } from './app.breadcrumb';
 
 interface NotificationsBars {
     id: string;
@@ -126,6 +127,12 @@ interface NotificationsBars {
                     <div
                         class="list-none p-2 m-0 rounded-2xl border border-surface overflow-hidden absolute bg-surface-0 dark:bg-surface-900 hidden origin-top w-52 mt-2 right-0 z-999 top-auto shadow-[0px_56px_16px_0px_rgba(0,0,0,0.00),0px_36px_14px_0px_rgba(0,0,0,0.01),0px_20px_12px_0px_rgba(0,0,0,0.02),0px_9px_9px_0px_rgba(0,0,0,0.03),0px_2px_5px_0px_rgba(0,0,0,0.04)]"
                     >
+                        @if (currentUser()) {
+                            <div class="px-2.5 py-2 mb-1 border-b border-surface">
+                                <p class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ currentUser()?.username }}</p>
+                                <p class="text-xs text-surface-500 dark:text-surface-400 truncate">{{ currentUser()?.email }}</p>
+                            </div>
+                        }
                         <ul class="flex flex-col gap-1">
                             <li>
                                 <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
@@ -152,7 +159,7 @@ interface NotificationsBars {
                                 </a>
                             </li>
                             <li>
-                                <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
+                                <a (click)="logout()" class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
                                     <i class="pi pi-power-off"></i>
                                     <span>Log out</span>
                                 </a>
@@ -171,8 +178,16 @@ interface NotificationsBars {
 })
 export class AppTopbar {
     layoutService = inject(LayoutService);
+    readonly #authStore = inject(AuthStore);
+    readonly #router = inject(Router);
 
     isDarkTheme = computed(() => this.layoutService.isDarkTheme());
+    currentUser = computed(() => this.#authStore.currentUser());
+
+    logout() {
+        this.#authStore.logout();
+        this.#router.navigate(['/auth/login']);
+    }
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 

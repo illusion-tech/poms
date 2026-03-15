@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
 import { GoogleWidget } from '@poms/admin/features/auth/components/googlewidget';
 import { AppleWidget } from '@poms/admin/features/auth/components/applewidget';
@@ -71,7 +71,7 @@ import { RouterModule } from '@angular/router';
                         <button pButton class="w-full" rounded>Register</button>
                         <div class="flex items-center justify-center gap-2">
                             <span class="text-surface-500 dark:text-white/64">Already have an account?</span>
-                            <a routerLink="/landing/login" class="text-primary">Login</a>
+                            <a routerLink="/auth/login" class="text-primary">Login</a>
                         </div>
                     </form>
                 </div>

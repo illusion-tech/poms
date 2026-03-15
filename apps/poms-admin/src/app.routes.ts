@@ -3,11 +3,13 @@ import { AppLayout } from '@/app/layout/components/app.layout';
 import { LandingLayout } from '@/app/layout/components/app.landinglayout';
 import { AuthLayout } from '@/app/layout/components/app.authlayout';
 import { Notfound } from '@poms/admin/demo/misc/notfound/notfound';
+import { authGuard } from '@/app/core/auth/auth.guard';
 
 export const appRoutes: Routes = [
     {
         path: '',
         component: AppLayout,
+        canActivate: [authGuard],
         children: [
             {
                 path: '',
@@ -83,6 +85,20 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('@poms/admin/features/landing/contact').then((c) => c.Contact)
             },
             {
+                path: 'oops',
+                loadComponent: () => import('@poms/admin/demo/misc/oops/oops').then((c) => c.Oops)
+            },
+            {
+                path: 'error',
+                redirectTo: '/notfound'
+            }
+        ]
+    },
+    {
+        path: 'auth',
+        component: AuthLayout,
+        children: [
+            {
                 path: 'login',
                 loadComponent: () => import('@poms/admin/features/auth/login').then((c) => c.Login)
             },
@@ -107,24 +123,11 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('@poms/admin/features/auth/lockscreen').then((c) => c.LockScreen)
             },
             {
-                path: 'oops',
-                loadComponent: () => import('@poms/admin/demo/misc/oops/oops').then((c) => c.Oops)
-            },
-            {
                 path: 'access',
                 loadComponent: () => import('@poms/admin/features/auth/access').then((c) => c.Access)
-            },
-            {
-                path: 'error',
-                redirectTo: '/notfound'
             }
         ]
     },
     { path: 'notfound', component: Notfound },
-    {
-        path: 'auth',
-        component: AuthLayout,
-        children: []
-    },
     { path: '**', redirectTo: '/notfound' }
 ];

@@ -28,7 +28,7 @@ export class AuthStore {
     readonly navigationTree = signal<NavigationItem[]>([]);
 
     readonly isAuthenticated = computed(() => this.token() !== null);
-    readonly menuModel = computed(() => this.#toMenuModel(this.navigationTree()));
+    readonly menuModel = computed(() => this.#toMenuModel(this.navigationTree(), true));
 
     async login(username: string, password: string): Promise<void> {
         const response = await firstValueFrom(
@@ -70,23 +70,40 @@ export class AuthStore {
         this.navigationTree.set(nav ?? []);
     }
 
-    #toMenuModel(items: NavigationItem[]): MenuItem[] {
-        return items.map((item) => {
+    #toMenuModel(items: NavigationItem[], isRoot = false): MenuItem[] {
+        const result: MenuItem[] = [];
+        for (const item of items) {
+            if (item.isHidden) continue;
+
             if (item.type === 'divider') {
-                return { separator: true };
+                // 避免在已有 separator 后再次插入
+                if (result.length > 0 && !result[result.length - 1].separator) {
+                    result.push({ separator: true });
+                }
+                continue;
             }
+
             const menuItem: MenuItem = {
                 label: item.title ?? undefined,
                 icon: item.icon ?? undefined,
                 disabled: item.isDisabled,
             };
-            if (item.link) {
+
+            if (item.type === 'basic' && item.link) {
                 menuItem.routerLink = [item.link];
             }
+
             if (item.children && item.children.length > 0) {
                 menuItem.items = this.#toMenuModel(item.children);
             }
-            return menuItem;
-        });
+
+            // 根层级的 group/collapsable 之间若没有 divider，自动补分隔符
+            if (isRoot && result.length > 0 && !result[result.length - 1].separator) {
+                result.push({ separator: true });
+            }
+
+            result.push(menuItem);
+        }
+        return result;
     }
 }
