@@ -20,6 +20,11 @@ async function bootstrap() {
     const openApiDoc = SwaggerModule.createDocument(app, openApiConfig);
     SwaggerModule.setup('api-docs', app, cleanupOpenApiDoc(openApiDoc));
 
+    app.enableCors({
+        origin: process.env['CORS_ORIGIN'] ?? 'http://localhost:4200',
+        credentials: true,
+    });
+
     const port = process.env['PORT'] || 3333;
     await app.listen(port);
     Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);

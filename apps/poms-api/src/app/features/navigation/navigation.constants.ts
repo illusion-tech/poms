@@ -47,7 +47,7 @@ export const NAVIGATION_TREE: NavigationItem[] = [
         displayOrder: 200,
         isHidden: false,
         isDisabled: false,
-        requiredPermissions: ['nav:platform:view'],
+        requiredPermissions: null,
         meta: null,
         children: [
             {
