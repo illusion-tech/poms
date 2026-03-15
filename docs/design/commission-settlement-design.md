@@ -1,17 +1,21 @@
 # POMS 提成结算设计
 
 **文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-11
+**最后更新**: 2026-03-16
 **适用范围**: `POMS` 第一阶段提成治理域中的角色分配、计算、发放、异常调整与重算
 **关联文档**:
 
-- `poms-requirements-spec.md`
-- `poms-hld.md`
-- `project-lifecycle-design.md`
-- `contract-finance-design.md`
-- `business-authorization-matrix.md`
-- `../adr/005-approval-flow-implementation-strategy.md`
-- `../adr/007-phase1-finance-integration-and-recording-boundary.md`
+- 上游设计:
+  - `poms-requirements-spec.md`
+  - `poms-hld.md`
+  - `project-lifecycle-design.md`
+  - `contract-finance-design.md`
+- 同级设计:
+  - `business-authorization-matrix.md`
+  - `workflow-and-approval-design.md`
+- 相关 ADR:
+  - `../adr/005-approval-flow-implementation-strategy.md`
+  - `../adr/007-phase1-finance-integration-and-recording-boundary.md`
 
 ---
 
@@ -412,6 +416,24 @@ flowchart LR
 - `exceptionRule`
 - `status`
 
+### 12.6 与授权矩阵对齐的字段包建议
+
+为与 `business-authorization-matrix.md` 保持一致，提成治理域第一阶段建议固定以下字段包：
+
+- `CommissionRoleAssignment` 角色分配包：`roleType`、`userId`、`weight`
+- `CommissionRoleAssignment` 冻结信息包：`status`、`version`、`frozenAt`
+- `CommissionCalculation` 计算输入包：`ruleVersionId`、`sourceSnapshotId`、`recognizedRevenueTaxExclusive`、`recognizedCostTaxExclusive`
+- `CommissionCalculation` 计算结果包：`contributionGrossMargin`、`contributionGrossMarginRate`、`commissionPool`、`status`
+- `CommissionPayout` 发放审批包：`stageType`、`selectedTier`、`theoreticalCapAmount`、`approvedAmount`
+- `CommissionPayout` 发放登记包：`paidRecordAmount`、发放登记时间、`status`
+- `CommissionAdjustment` 调整执行包：`adjustmentType`、`amount`、`reason`、`status`、`executedAt`
+- `CommissionRuleVersion` 规则定义包：`tierDefinition`、`firstStageCapRule`、`secondStageCapRule`、`retentionRule`、`lowDownPaymentRule`、`exceptionRule`
+
+说明：
+
+- 除普通说明性字段外，上述字段包原则上都属于高敏字段包。
+- 冻结、复核生效、审批放行、暂停 / 冲销、执行调整、启用规则版本等动作不得通过普通更新接口改写字段包内容。
+
 ---
 
 ## 13. 对业务授权矩阵的输出
@@ -424,9 +446,28 @@ flowchart LR
 - 触发提成计算
 - 复核并生效提成计算
 - 发起提成发放审批
-- 批准 / 暂停 / 关闭提成发放
+- 批准提成发放
+- 登记提成发放
+- 暂停 / 冲销提成发放
 - 发起异常调整
 - 批准并执行提成调整
+
+补充对齐口径：
+
+- `CommissionRoleAssignment` 冻结：放行方式 = `审批/确认`
+- `CommissionCalculation` 生效与重算：放行方式 = `复核/审批`
+- `CommissionPayout` 批准：放行方式 = `审批`
+- `CommissionPayout` 登记发放：放行方式 = `无`
+- `CommissionPayout` 暂停 / 冲销：放行方式 = `审批`
+- `CommissionAdjustment` 执行：放行方式 = `审批`
+- `CommissionRuleVersion` 生效：放行方式 = `审批`
+
+### 13.1 与矩阵口径对齐的补充约束
+
+- 提成参与角色、分配比例、批准金额、暂停 / 冲销结论属于 `高` 敏感字段，不得由普通编辑直接覆盖
+- 提成计算、发放、调整统一受财务归口组织约束，并结合项目归属组织判断业务归属
+- 关闭、暂停、冲销、重算等动作必须按独立对象动作处理，不得被归并为普通状态编辑
+- 普通更新接口仅允许草稿态说明字段维护，高敏字段包必须经命令型动作或系统派生链路进入有效状态
 
 ---
 
@@ -457,4 +498,4 @@ flowchart LR
 
 ## 16. 当前结论
 
-本首版文档已经足以作为提成治理域详细设计基线。当前最重要的是继续把审批流与业务授权矩阵按本口径展开，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路在第一阶段形成稳定闭环。
+本首版文档已经足以作为提成治理域详细设计基线。当前最重要的动作不是继续扩写提成专题，而是完成与合同资金域、审批流、业务授权矩阵之间的最后一轮收口并进入正式评审，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路以当前口径稳定闭环。

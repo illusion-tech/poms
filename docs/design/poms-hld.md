@@ -5,14 +5,22 @@
 **适用范围**: `POMS` 全系统
 **关联文档**:
 
-- `poms-requirements-spec.md`
-- `../adr/001-platform-permission-model.md`
-- `../adr/002-org-unit-model-and-assignment.md`
-- `../adr/003-navigation-single-source-of-truth.md`
-- `../adr/004-contract-finance-domain-module-boundary.md`
-- `../adr/005-approval-flow-implementation-strategy.md`
-- `../adr/006-project-as-primary-domain-object.md`
-- `../adr/007-phase1-finance-integration-and-recording-boundary.md`
+- 上游设计:
+  - `poms-requirements-spec.md`
+- 同级设计:
+  - `poms-design-progress.md`
+  - `project-lifecycle-design.md`
+  - `contract-finance-design.md`
+  - `commission-settlement-design.md`
+  - `workflow-and-approval-design.md`
+- 相关 ADR:
+  - `../adr/001-platform-permission-model.md`
+  - `../adr/002-org-unit-model-and-assignment.md`
+  - `../adr/003-navigation-single-source-of-truth.md`
+  - `../adr/004-contract-finance-domain-module-boundary.md`
+  - `../adr/005-approval-flow-implementation-strategy.md`
+  - `../adr/006-project-as-primary-domain-object.md`
+  - `../adr/007-phase1-finance-integration-and-recording-boundary.md`
 
 ---
 
@@ -282,7 +290,7 @@ flowchart LR
 - `CommissionCalculation`
 - `CommissionPayout`
 - `CommissionAdjustment`
-- `RuleVersion`
+- `CommissionRuleVersion`
 - `ApprovalRecord`
 - `AuditLog`
 - `Attachment`
@@ -490,18 +498,18 @@ flowchart TD
 
 ### 10.2 关键数据可信源
 
-| 数据主题                   | 单一可信源                                  | 说明                                                     |
-| -------------------------- | ------------------------------------------- | -------------------------------------------------------- |
-| 合同金额 / 税率 / 付款条款 | `Contract` + `ContractTermSnapshot`         | 合同主记录承载当前合同主体，快照承载生效时口径           |
-| 合同补充协议               | `ContractAmendment`                         | 补充协议独立建模，不作为普通附件替代                     |
-| 实际回款                   | `ReceiptRecord`                             | 以实际到账金额为准，到账日期用于规则触发                 |
-| 回款生效口径               | `ReceiptRecord` 已确认记录                  | 第一阶段以系统内录入并经财务确认后的记录作为生效回款事实 |
-| 成本                       | `PayableRecord` / `PaymentRecord`           | 第一阶段以成本台账为主，不含税口径进入毛利计算           |
-| 验收节点                   | `AcceptanceRecord`                          | 作为第二阶段和最终阶段提成发放的重要前置依据             |
-| 提成角色冻结版本           | `CommissionRoleAssignment`                  | 仅冻结版本可进入有效提成计算                             |
-| 生效提成结果               | `CommissionCalculation`                     | 仅生效版本作为应发依据                                   |
-| 提成发放与冲销结果         | `CommissionPayout` / `CommissionAdjustment` | 已发、已冲销、已扣回结果均需独立留痕                     |
-| 规则来源                   | `RuleVersion`                               | 毛利审批规则、分档规则和异常规则统一以规则版本为准       |
+| 数据主题                   | 单一可信源                                  | 说明                                                       |
+| -------------------------- | ------------------------------------------- | ---------------------------------------------------------- |
+| 合同金额 / 税率 / 付款条款 | `Contract` + `ContractTermSnapshot`         | 合同主记录承载当前合同主体，快照承载生效时口径             |
+| 合同补充协议               | `ContractAmendment`                         | 补充协议独立建模，不作为普通附件替代                       |
+| 实际回款                   | `ReceiptRecord`                             | 以实际到账金额为准，到账日期用于规则触发                   |
+| 回款生效口径               | `ReceiptRecord` 已确认记录                  | 第一阶段以系统内录入并经财务确认后的记录作为生效回款事实   |
+| 成本                       | `PayableRecord` / `PaymentRecord`           | 第一阶段以成本台账为主，不含税口径进入毛利计算             |
+| 验收节点                   | `AcceptanceRecord`                          | 作为第二阶段和最终阶段提成发放的重要前置依据               |
+| 提成角色冻结版本           | `CommissionRoleAssignment`                  | 仅冻结版本可进入有效提成计算                               |
+| 生效提成结果               | `CommissionCalculation`                     | 仅生效版本作为应发依据                                     |
+| 提成发放与冲销结果         | `CommissionPayout` / `CommissionAdjustment` | 已发、已冲销、已扣回结果均需独立留痕                       |
+| 规则来源                   | `CommissionRuleVersion`                     | 提成分档、低首付款、质保金与异常规则统一以提成规则版本为准 |
 
 ### 10.3 不可变记录与版本化约束
 

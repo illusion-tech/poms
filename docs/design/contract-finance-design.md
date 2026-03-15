@@ -1,16 +1,21 @@
 # POMS 合同资金域设计
 
 **文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-11
+**最后更新**: 2026-03-16
 **适用范围**: `POMS` 第一阶段合同资金域中的合同、应收回款、应付付款基础台账与发票管理
 **关联文档**:
 
-- `poms-requirements-spec.md`
-- `poms-hld.md`
-- `project-lifecycle-design.md`
-- `business-authorization-matrix.md`
-- `../adr/004-contract-finance-domain-module-boundary.md`
-- `../adr/007-phase1-finance-integration-and-recording-boundary.md`
+- 上游设计:
+  - `poms-requirements-spec.md`
+  - `poms-hld.md`
+  - `project-lifecycle-design.md`
+- 同级设计:
+  - `business-authorization-matrix.md`
+  - `workflow-and-approval-design.md`
+  - `commission-settlement-design.md`
+- 相关 ADR:
+  - `../adr/004-contract-finance-domain-module-boundary.md`
+  - `../adr/007-phase1-finance-integration-and-recording-boundary.md`
 
 ---
 
@@ -361,6 +366,25 @@ flowchart LR
 - `status`
 - `exceptionReason`
 
+### 12.6 与授权矩阵对齐的字段包建议
+
+为与 `business-authorization-matrix.md` 保持一致，合同资金域第一阶段建议把关键字段继续抽象为以下字段包：
+
+- `Contract` 合同金额包：`amountTaxInclusive`、`amountTaxExclusive`、`taxRate`
+- `Contract` 付款条件包：`paymentTerms`、`downPaymentRate`、`retentionRate`
+- `Contract` 合同标识包：`contractCode`、`customerName`、`signDate`
+- `ReceivablePlan` 应收计划包：计划节点、计划金额、计划日期、质保金节点标识
+- `ReceiptRecord` 到账事实包：`receiptAmount`、`receiptDate`、`sourceType`
+- `ReceiptRecord` 确认结论包：`confirmedAt`、`confirmedBy`、`status`、冲销原因
+- `PaymentRecord` 付款事实包：`paidAmount`、`paymentDate`、`status`
+- `InvoiceRecord` 发票状态包：`invoiceType`、`invoiceNumber`、`invoiceAmount`、`invoiceDate`、`status`
+- `InvoiceRecord` 异常处理包：`exceptionReason`、异常处理结论、关闭时间
+
+说明：
+
+- 上述字段包中，合同金额包、付款条件包、到账事实包、确认结论包属于高敏字段包。
+- 高敏字段包不得通过普通更新接口直接生效，应通过审核、生效、确认、冲销、关闭等命令型动作进入有效口径。
+
 ---
 
 ## 13. 跨域输出
@@ -380,17 +404,20 @@ flowchart LR
 
 ### 13.3 对审批流设计的输出
 
-- 合同审核与生效确认节点
-- 回款确认节点
-- 发票异常确认节点
-- 合同变更对新快照生效的审批节点
+- `Contract` 提交审核：放行方式 = `审批`
+- `Contract` 生效：放行方式 = `审批/确认`
+- `ReceiptRecord` 财务确认：放行方式 = `确认`
+- `ReceiptRecord` 冲销 / 作废：放行方式 = `审批/确认`
+- `PaymentRecord` 确认生效：放行方式 = `确认`
+- `InvoiceRecord` 标记异常 / 解除异常：放行方式 = `审批/确认`
+- `ContractAmendment` 生效新快照：放行方式 = `审批`
 
 ### 13.4 对业务授权矩阵的输出
 
 本文档至少输出以下第一批稳定对象动作：
 
 - 登记合同草稿
-- 审核合同资金字段
+- 提交合同审核
 - 确认合同生效
 - 登记补充协议 / 合同变更
 - 初始化应收计划
@@ -399,8 +426,17 @@ flowchart LR
 - 冲销回款记录
 - 登记应付台账
 - 登记付款跟踪
+- 确认付款生效
 - 维护发票状态
-- 标记发票异常 / 关闭发票记录
+- 标记发票异常 / 解除异常
+- 关闭发票记录
+
+### 13.5 与矩阵口径对齐的补充约束
+
+- 合同金额、税率、付款条款、首付款比例等属于 `高` 敏感字段，不得由普通登记动作直接生效
+- 回款确认、付款确认、发票异常处理与关闭动作统一受财务归口组织限制
+- 作废、冲销、关闭类动作不属于普通编辑，必须独立留痕并按矩阵中的高敏感动作处理
+- 普通更新接口只允许维护草稿态字段或中敏感字段包，高敏字段包应通过命令型动作接口处理
 
 ---
 
@@ -431,4 +467,4 @@ flowchart LR
 
 ## 16. 当前结论
 
-本首版文档已经足以作为合同资金域详细设计基线。当前最重要的是以“合同生效、回款确认、成本纳入口径、发票状态跟踪”这四类生效事实为中心，继续驱动提成治理、审批流与业务授权矩阵向下细化，而不是提前把范围扩张成完整财务系统设计。
+本首版文档已经足以作为合同资金域详细设计基线。当前最重要的动作不是继续扩写合同资金专题，而是以“合同生效、回款确认、成本纳入口径、发票状态跟踪”这四类生效事实为中心，完成跨文档收口并进入正式评审；待评审结论稳定后，再把接口命令、状态迁移和数据模型口径冻结下来。

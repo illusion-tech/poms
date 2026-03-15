@@ -1,16 +1,22 @@
 # POMS 项目生命周期设计
 
 **文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-11
+**最后更新**: 2026-03-16
 **适用范围**: `POMS` 第一阶段销售流程域中的 `Project` 主对象生命周期
 **关联文档**:
 
-- `poms-requirements-spec.md`
-- `poms-hld.md`
-- `business-authorization-matrix.md`
-- `../adr/005-approval-flow-implementation-strategy.md`
-- `../adr/006-project-as-primary-domain-object.md`
-- `../adr/011-bid-tender-modeling-in-project-lifecycle.md`
+- 上游设计:
+  - `poms-requirements-spec.md`
+  - `poms-hld.md`
+  - `poms-design-progress.md`
+- 同级设计:
+  - `business-authorization-matrix.md`
+  - `workflow-and-approval-design.md`
+  - `contract-finance-design.md`
+- 相关 ADR:
+  - `../adr/005-approval-flow-implementation-strategy.md`
+  - `../adr/006-project-as-primary-domain-object.md`
+  - `../adr/011-bid-tender-modeling-in-project-lifecycle.md`
 
 ---
 
@@ -240,17 +246,17 @@ flowchart LR
 
 ## 8. 关键闸口与审批触发
 
-| 阶段 / 子流程                            | 关键动作             | 是否需审批                       | 审批/确认主体                        | 不通过后的结果                   |
-| ---------------------------------------- | -------------------- | -------------------------------- | ------------------------------------ | -------------------------------- |
-| `assessment`                             | 提交立项评估         | 是                               | 副总经理                             | 维持阻断或关闭                   |
-| `scope-confirmation`                     | 确认范围与技术可行性 | 是，按确认口径处理               | 技术支持 / 售前最终确认              | 不得进入商务收口                 |
-| `commercial-closure` / `QuotationReview` | 提交报价与毛利评审   | 是                               | 副总经理 / 公司高层                  | 不得形成有效报价或进入签约前准备 |
-| `commercial-closure` / `BidProcess`      | 发起投标决策         | 是                               | 销售负责人 / 副总经理 / 公司高层     | 不得进入投标准备或正式投标       |
-| `commercial-closure` / `BidProcess`      | 登记投标结果         | 是，按结果确认口径处理           | 销售负责人 / 商务负责人 / 必要审批人 | 未中标则进入关闭语义，不得签约   |
-| `commercial-closure` / `contracting`     | 发起高层介入申请     | 是                               | 公司高层                             | 不得进入例外放行                 |
-| `contracting`                            | 签约登记             | 是，按必要审批角色和确认规则处理 | 商务行政、财务、必要审批角色         | 不得形成有效合同                 |
-| `handover`                               | 完成移交确认         | 是，按多方确认口径处理           | 销售、技术支持、商务行政、相关责任人 | 不得进入执行态                   |
-| `acceptance`                             | 确认阶段/最终验收    | 是，按验收确认口径处理           | 相关责任人 / 业务确认角色            | 不得进入完成态或后续结算条件     |
+| 阶段 / 子流程                            | 关键动作             | 放行方式   | 审批/确认主体                        | 不通过后的结果                   |
+| ---------------------------------------- | -------------------- | ---------- | ------------------------------------ | -------------------------------- |
+| `assessment`                             | 提交立项评估         | 审批       | 副总经理                             | 维持阻断或关闭                   |
+| `scope-confirmation`                     | 确认范围与技术可行性 | 确认       | 技术支持 / 售前最终确认              | 不得进入商务收口                 |
+| `commercial-closure` / `QuotationReview` | 提交报价与毛利评审   | 审批       | 副总经理 / 公司高层                  | 不得形成有效报价或进入签约前准备 |
+| `commercial-closure` / `BidProcess`      | 发起投标决策         | 审批       | 销售负责人 / 副总经理 / 公司高层     | 不得进入投标准备或正式投标       |
+| `commercial-closure` / `BidProcess`      | 登记投标结果         | 审批/确认  | 销售负责人 / 商务负责人 / 必要审批人 | 未中标则进入关闭语义，不得签约   |
+| `commercial-closure` / `contracting`     | 发起高层介入申请     | 审批       | 公司高层                             | 不得进入例外放行                 |
+| `contracting`                            | 签约登记             | 审批/确认  | 商务行政、财务、必要审批角色         | 不得形成有效合同                 |
+| `handover`                               | 完成移交确认         | 多方确认   | 销售、技术支持、商务行政、相关责任人 | 不得进入执行态                   |
+| `acceptance`                             | 确认阶段/最终验收    | 确认       | 相关责任人 / 业务确认角色            | 不得进入完成态或后续结算条件     |
 
 说明：
 
@@ -422,4 +428,4 @@ flowchart LR
 
 ## 15. 当前结论
 
-本轮回写后，`Project` 主链路已按 ADR-011 收敛到“主生命周期 + `BidProcess` 子流程”的分层口径。下一步最重要的是继续把 `poms-requirements-spec.md` 和 `business-authorization-matrix.md` 按同一口径回写，避免上游需求说明、生命周期设计和授权矩阵再次漂移。
+本轮收口后，`Project` 主链路已按 ADR-011 收敛到“主生命周期 + `BidProcess` 子流程”的分层口径，并已与授权矩阵、审批流设计建立稳定映射。下一步不再是继续扩写生命周期专题，而是完成跨文档收口、执行正式评审，并在评审结论稳定后进入接口与数据模型冻结准备。
