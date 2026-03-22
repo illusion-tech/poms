@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
 import { ContractRepository } from './contract.repository';
 
@@ -30,7 +31,10 @@ export interface UpdateContractBasicInfoRecord {
 
 @Injectable()
 export class ContractService {
-    constructor(private readonly contractRepository: ContractRepository) {}
+    constructor(
+        private readonly contractRepository: ContractRepository,
+        private readonly projectService: ProjectService
+    ) {}
 
     async findMany(query: FindContractsQuery): Promise<Contract[]> {
         return this.contractRepository.findMany(query);
@@ -45,6 +49,16 @@ export class ContractService {
     }
 
     async createAndSave(input: CreateContractRecord): Promise<Contract> {
+        const project = await this.projectService.findById(input.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${input.projectId} not found`);
+        }
+
+        const existingContract = await this.contractRepository.findByNo(input.contractNo);
+        if (existingContract) {
+            throw new ConflictException(`Contract no ${input.contractNo} already exists`);
+        }
+
         const contract = this.contractRepository.create({
             projectId: input.projectId,
             contractNo: input.contractNo,

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -52,6 +52,11 @@ export class ProjectService {
     }
 
     async createAndSave(input: CreateProjectRecord): Promise<Project> {
+        const existingProject = await this.projectRepository.findByCode(input.projectCode);
+        if (existingProject) {
+            throw new ConflictException(`Project code ${input.projectCode} already exists`);
+        }
+
         const project = this.projectRepository.create({
             projectCode: input.projectCode,
             projectName: input.projectName,
