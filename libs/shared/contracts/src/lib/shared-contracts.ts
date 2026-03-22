@@ -61,7 +61,7 @@ export type Role = z.infer<typeof RoleSchema>;
 
 export const UnitOrgSchema = z
     .object({
-        id: z.string().uuid(),
+        id: z.uuid(),
         name: z.string(),
         code: z.string().nullable(),
         description: z.string().nullable()
@@ -76,7 +76,7 @@ export type UnitOrg = z.infer<typeof UnitOrgSchema>;
 
 export const SanitizedUserSchema = z
     .object({
-        id: z.string().uuid(),
+        id: z.uuid(),
         displayName: z.string(),
         username: z.string(),
         roles: z.array(z.string()),
@@ -84,7 +84,7 @@ export const SanitizedUserSchema = z
         email: z.string().email().nullable(),
         avatarUrl: z.string().url().nullable(),
         isActive: z.boolean(),
-        lastLoginAt: z.string().datetime().nullable(),
+        lastLoginAt: z.iso.datetime().nullable(),
         emailVerified: z.boolean(),
         phoneVerified: z.boolean(),
         phone: z.string().nullable()
@@ -105,7 +105,7 @@ export type SanitizedUserWithOrgUnits = z.infer<typeof SanitizedUserWithOrgUnits
 
 export const UserPayloadSchema = z
     .object({
-        sub: z.string().uuid(),
+        sub: z.uuid(),
         username: z.string(),
         permissions: z.array(z.enum(PERMISSION_KEYS))
     })
@@ -162,7 +162,7 @@ export interface NavigationItem {
 export const LoginRequestSchema = z
     .object({
         username: z.string().min(1),
-        password: z.string().min(1),
+        password: z.string().min(1)
     })
     .meta({ id: 'LoginRequest' });
 
@@ -170,7 +170,7 @@ export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 
 export const LoginResponseSchema = z
     .object({
-        accessToken: z.string(),
+        accessToken: z.string()
     })
     .meta({ id: 'LoginResponse' });
 
@@ -182,22 +182,22 @@ export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
 export const ProjectSummarySchema = z
     .object({
-        id: z.string().uuid(),
+        id: z.uuid(),
         projectCode: z.string(),
         projectName: z.string(),
-        customerId: z.string().uuid().nullable(),
+        customerId: z.uuid().nullable(),
         status: z.string(),
         currentStage: z.string(),
-        ownerOrgId: z.string().uuid().nullable(),
-        ownerUserId: z.string().uuid().nullable(),
-        plannedSignAt: z.string().datetime().nullable(),
-        closedAt: z.string().datetime().nullable(),
+        ownerOrgId: z.uuid().nullable(),
+        ownerUserId: z.uuid().nullable(),
+        plannedSignAt: z.iso.datetime().nullable(),
+        closedAt: z.iso.datetime().nullable(),
         closedReason: z.string().nullable(),
         rowVersion: z.number().int(),
-        createdAt: z.string().datetime(),
-        createdBy: z.string().uuid().nullable(),
-        updatedAt: z.string().datetime(),
-        updatedBy: z.string().uuid().nullable()
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
     })
     .meta({ id: 'ProjectSummary' });
 
@@ -211,15 +211,124 @@ export const CreateProjectRequestSchema = z
     .object({
         projectCode: z.string().trim().min(1).max(64),
         projectName: z.string().trim().min(1).max(255),
-        customerId: z.string().uuid().nullable().optional(),
+        customerId: z.uuid().nullable().optional(),
         status: z.string().trim().min(1).max(32).optional(),
         currentStage: z.string().trim().min(1).max(64),
-        ownerOrgId: z.string().uuid().nullable().optional(),
-        ownerUserId: z.string().uuid().nullable().optional(),
-        plannedSignAt: z.string().datetime().nullable().optional(),
-        createdBy: z.string().uuid().nullable().optional(),
-        updatedBy: z.string().uuid().nullable().optional()
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional(),
+        plannedSignAt: z.iso.datetime().nullable().optional(),
+        createdBy: z.uuid().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
     })
     .meta({ id: 'CreateProjectRequest' });
 
 export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
+
+export const ProjectListQuerySchema = z
+    .object({
+        status: z.string().trim().min(1).max(32).optional(),
+        currentStage: z.string().trim().min(1).max(64).optional(),
+        ownerOrgId: z.uuid().optional(),
+        keyword: z.string().trim().min(1).max(128).optional()
+    })
+    .meta({ id: 'ProjectListQuery' });
+
+export type ProjectListQuery = z.infer<typeof ProjectListQuerySchema>;
+
+export const UpdateProjectBasicInfoRequestSchema = z
+    .object({
+        projectName: z.string().trim().min(1).max(255).optional(),
+        customerId: z.uuid().nullable().optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional(),
+        plannedSignAt: z.iso.datetime().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.projectName !== undefined ||
+            value.customerId !== undefined ||
+            value.ownerOrgId !== undefined ||
+            value.ownerUserId !== undefined ||
+            value.plannedSignAt !== undefined ||
+            value.updatedBy !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateProjectBasicInfoRequest' });
+
+export type UpdateProjectBasicInfoRequest = z.infer<typeof UpdateProjectBasicInfoRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Contract
+// ---------------------------------------------------------------------------
+
+export const ContractSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        contractNo: z.string(),
+        status: z.string(),
+        signedAmount: z.string(),
+        currencyCode: z.string(),
+        currentSnapshotId: z.uuid().nullable(),
+        signedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'ContractSummary' });
+
+export type ContractSummary = z.infer<typeof ContractSummarySchema>;
+
+export const ContractListSchema = z.array(ContractSummarySchema).meta({ id: 'ContractList' });
+
+export type ContractList = z.infer<typeof ContractListSchema>;
+
+export const ContractListQuerySchema = z
+    .object({
+        projectId: z.uuid().optional(),
+        status: z.string().trim().min(1).max(32).optional(),
+        keyword: z.string().trim().min(1).max(128).optional()
+    })
+    .meta({ id: 'ContractListQuery' });
+
+export type ContractListQuery = z.infer<typeof ContractListQuerySchema>;
+
+export const CreateContractRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        contractNo: z.string().trim().min(1).max(64),
+        status: z.string().trim().min(1).max(32).optional(),
+        signedAmount: z.string().trim().min(1).max(64),
+        currencyCode: z.string().trim().min(1).max(16).optional(),
+        currentSnapshotId: z.uuid().nullable().optional(),
+        signedAt: z.iso.datetime().nullable().optional(),
+        createdBy: z.uuid().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
+    })
+    .meta({ id: 'CreateContractRequest' });
+
+export type CreateContractRequest = z.infer<typeof CreateContractRequestSchema>;
+
+export const UpdateContractBasicInfoRequestSchema = z
+    .object({
+        signedAmount: z.string().trim().min(1).max(64).optional(),
+        currencyCode: z.string().trim().min(1).max(16).optional(),
+        currentSnapshotId: z.uuid().nullable().optional(),
+        signedAt: z.iso.datetime().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.signedAmount !== undefined ||
+            value.currencyCode !== undefined ||
+            value.currentSnapshotId !== undefined ||
+            value.signedAt !== undefined ||
+            value.updatedBy !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateContractBasicInfoRequest' });
+
+export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
