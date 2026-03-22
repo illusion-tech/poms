@@ -1,9 +1,6 @@
 {
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "npmScope": "poms",
-    "affected": {
-        "defaultBase": "main"
-    },
     "workspaceLayout": {
         "appsDir": "apps",
         "libsDir": "libs"
@@ -47,7 +44,6 @@
             "tags": []
         }
     },
-    "nxCloudId": "69a0516d47859f6ca66f23f6",
     "plugins": [
         {
             "plugin": "@nx/webpack/plugin",
@@ -82,5 +78,8 @@
         "@nx/angular:component": {
             "style": "css"
         }
+    },
+    "tui": {
+        "enabled": false
     }
 }
