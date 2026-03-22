@@ -18,7 +18,8 @@ describe('ContractController', () => {
             findByNo: jest.fn(),
             findById: jest.fn(),
             createAndSave: jest.fn(),
-            updateBasicInfo: jest.fn()
+            updateBasicInfo: jest.fn(),
+            activate: jest.fn()
         } as unknown as jest.Mocked<ContractService>;
         approvalService = {
             submitContractReview: jest.fn()
@@ -96,7 +97,8 @@ describe('ContractController', () => {
             businessStatusAfter: 'pending-review',
             approvalRecordId: '40000000-0000-0000-0000-000000000001',
             confirmationRecordId: null,
-            todoItemIds: ['50000000-0000-0000-0000-000000000001']
+            todoItemIds: ['50000000-0000-0000-0000-000000000001'],
+            snapshotId: null
         });
 
         await controller.submitReview(
@@ -109,6 +111,32 @@ describe('ContractController', () => {
 
         expect(approvalService.submitContractReview).toHaveBeenCalledWith(contractId, userId, {
             comment: '请审核合同'
+        });
+    });
+
+    it('activates contract with current user identity', async () => {
+        contractService.activate.mockResolvedValue({
+            targetId: contractId,
+            targetType: 'Contract',
+            resultStatus: 'activated',
+            businessStatusAfter: 'active',
+            approvalRecordId: '40000000-0000-0000-0000-000000000001',
+            confirmationRecordId: null,
+            todoItemIds: [],
+            snapshotId: '60000000-0000-0000-0000-000000000001'
+        });
+
+        await controller.activate(
+            contractId,
+            {
+                user: { sub: userId, username: 'admin', permissions: ['project:write'] }
+            },
+            { comment: '合同已审核通过', expectedVersion: 3 }
+        );
+
+        expect(contractService.activate).toHaveBeenCalledWith(contractId, userId, {
+            comment: '合同已审核通过',
+            expectedVersion: 3
         });
     });
 

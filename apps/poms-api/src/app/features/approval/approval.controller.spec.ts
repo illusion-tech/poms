@@ -26,10 +26,11 @@ describe('ApprovalController', () => {
             targetId: '30000000-0000-0000-0000-000000000001',
             targetType: 'Contract',
             resultStatus: 'approved',
-            businessStatusAfter: 'active',
+            businessStatusAfter: 'pending-review',
             approvalRecordId,
             confirmationRecordId: null,
-            todoItemIds: ['50000000-0000-0000-0000-000000000001']
+            todoItemIds: ['50000000-0000-0000-0000-000000000001'],
+            snapshotId: null
         });
 
         await controller.approveRecord(
@@ -51,7 +52,8 @@ describe('ApprovalController', () => {
             businessStatusAfter: 'draft',
             approvalRecordId,
             confirmationRecordId: null,
-            todoItemIds: ['50000000-0000-0000-0000-000000000001']
+            todoItemIds: ['50000000-0000-0000-0000-000000000001'],
+            snapshotId: null
         });
 
         await controller.rejectRecord(

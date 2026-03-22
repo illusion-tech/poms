@@ -1,4 +1,5 @@
 import {
+    ActivateContractRequestSchema,
     ContractListQuerySchema,
     ContractListSchema,
     ContractSummarySchema,
@@ -16,3 +17,5 @@ export class ContractListQueryDto extends createZodDto(ContractListQuerySchema) 
 export class CreateContractRequestDto extends createZodDto(CreateContractRequestSchema) {}
 
 export class UpdateContractBasicInfoRequestDto extends createZodDto(UpdateContractBasicInfoRequestSchema) {}
+
+export class ActivateContractRequestDto extends createZodDto(ActivateContractRequestSchema) {}

@@ -1,5 +1,14 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { ProjectService } from '../project/project.service';
+
+jest.mock('@mikro-orm/nestjs', () => ({
+    InjectRepository: () => () => undefined
+}));
+
+jest.mock('../approval/approval-record.entity', () => ({
+    ApprovalRecord: class ApprovalRecord {}
+}));
+
 import { ContractService } from './contract.service';
 
 describe('ContractService', () => {
@@ -15,6 +24,9 @@ describe('ContractService', () => {
         findById: jest.Mock;
         findMany: jest.Mock;
     };
+    let approvalRecordRepository: {
+        findOne: jest.Mock;
+    };
     let projectService: jest.Mocked<ProjectService>;
 
     beforeEach(() => {
@@ -25,11 +37,14 @@ describe('ContractService', () => {
             findById: jest.fn(),
             findMany: jest.fn()
         };
+        approvalRecordRepository = {
+            findOne: jest.fn()
+        };
         projectService = {
             findById: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
 
-        service = new ContractService(contractRepository as never, projectService);
+        service = new ContractService(contractRepository as never, projectService, approvalRecordRepository as never);
     });
 
     it('creates a contract after validating project existence and defaults', async () => {
@@ -130,6 +145,57 @@ describe('ContractService', () => {
         await expect(service.updateBasicInfo(contractId, { updatedBy: userId })).rejects.toThrow(
             NotFoundException
         );
+    });
+
+    it('activates a reviewed contract and generates snapshot id when missing', async () => {
+        const approvedApprovalId = '40000000-0000-0000-0000-000000000001';
+        const contract = createContractEntity({
+            status: 'pending-review',
+            rowVersion: 3
+        });
+        contractRepository.findById.mockResolvedValue(contract);
+        contractRepository.save.mockResolvedValue(undefined);
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: approvedApprovalId });
+
+        const result = await service.activate(contractId, userId, {
+            comment: '确认合同生效',
+            expectedVersion: 3
+        });
+
+        expect(contract.status).toBe('active');
+        expect(contract.currentSnapshotId).toMatch(
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        );
+        expect(contract.updatedBy).toBe(userId);
+        expect(result).toEqual({
+            targetId: contractId,
+            targetType: 'Contract',
+            resultStatus: 'activated',
+            businessStatusAfter: 'active',
+            approvalRecordId: approvedApprovalId,
+            confirmationRecordId: null,
+            todoItemIds: [],
+            snapshotId: contract.currentSnapshotId
+        });
+    });
+
+    it('rejects activation when no approved review record exists', async () => {
+        contractRepository.findById.mockResolvedValue(
+            createContractEntity({
+                status: 'pending-review'
+            })
+        );
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(null);
+
+        await expect(
+            service.activate(contractId, userId, {
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(BadRequestException);
     });
 
     function createContractEntity(overrides: Record<string, unknown> = {}) {

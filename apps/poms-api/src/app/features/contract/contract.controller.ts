@@ -1,6 +1,7 @@
 import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+    ActivateContractRequestDto,
     CommandResultDto,
     ContractDto,
     ContractListDto,
@@ -112,6 +113,18 @@ export class ContractController {
         @Body() body: SubmitContractReviewRequestDto,
     ): Promise<CommandResult> {
         return this.approvalService.submitContractReview(id, req.user.sub, body);
+    }
+
+    @Post(':id/activate')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '确认合同生效' })
+    @ApiOkResponse({ type: CommandResultDto })
+    activate(
+        @Param('id') id: string,
+        @Request() req: { user: UserPayload },
+        @Body() body: ActivateContractRequestDto
+    ): Promise<CommandResult> {
+        return this.contractService.activate(id, req.user.sub, body);
     }
 }
 

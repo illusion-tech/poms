@@ -333,6 +333,15 @@ export const UpdateContractBasicInfoRequestSchema = z
 
 export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
 
+export const ActivateContractRequestSchema = z
+    .object({
+        comment: z.string().trim().min(1).max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ActivateContractRequest' });
+
+export type ActivateContractRequest = z.infer<typeof ActivateContractRequestSchema>;
+
 // ---------------------------------------------------------------------------
 // Approval / Todo
 // ---------------------------------------------------------------------------
@@ -399,7 +408,8 @@ export const CommandResultSchema = z
         businessStatusAfter: z.string(),
         approvalRecordId: z.uuid().nullable(),
         confirmationRecordId: z.uuid().nullable(),
-        todoItemIds: z.array(z.uuid())
+        todoItemIds: z.array(z.uuid()),
+        snapshotId: z.uuid().nullable().optional()
     })
     .meta({ id: 'CommandResult' });
 

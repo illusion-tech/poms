@@ -112,7 +112,8 @@ export class ApprovalService {
                 businessStatusAfter: contract.status,
                 approvalRecordId: approvalRecord.id,
                 confirmationRecordId: null,
-                todoItemIds: [todoItem.id]
+                todoItemIds: [todoItem.id],
+                snapshotId: null
             };
         });
     }
@@ -196,7 +197,7 @@ export class ApprovalService {
             approvalRecord.closedAt = new Date();
             approvalRecord.currentApproverUserId = null;
 
-            contract.status = decision === 'approved' ? 'active' : 'draft';
+            contract.status = decision === 'approved' ? 'pending-review' : 'draft';
 
             const todoItemIds: string[] = [];
             if (todoItem) {
@@ -215,7 +216,8 @@ export class ApprovalService {
                 businessStatusAfter: contract.status,
                 approvalRecordId: approvalRecord.id,
                 confirmationRecordId: null,
-                todoItemIds
+                todoItemIds,
+                snapshotId: null
             };
         });
     }

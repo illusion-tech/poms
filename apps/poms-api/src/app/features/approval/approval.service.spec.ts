@@ -92,7 +92,8 @@ describe('ApprovalService', () => {
             businessStatusAfter: 'pending-review',
             approvalRecordId,
             confirmationRecordId: null,
-            todoItemIds: [todoItemId]
+            todoItemIds: [todoItemId],
+            snapshotId: null
         });
     });
 
@@ -114,7 +115,7 @@ describe('ApprovalService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
-    it('approves pending review and closes todo', async () => {
+    it('approves pending review and closes todo without activating contract yet', async () => {
         const approval = createApprovalRecord();
         const contract = createContract({ status: 'pending-review' });
         const todo = createTodoItem();
@@ -129,10 +130,11 @@ describe('ApprovalService', () => {
         });
 
         expect(approval.currentStatus).toBe('approved');
-        expect(contract.status).toBe('active');
+        expect(contract.status).toBe('pending-review');
         expect(todo.status).toBe('completed');
         expect(result.resultStatus).toBe('approved');
-        expect(result.businessStatusAfter).toBe('active');
+        expect(result.businessStatusAfter).toBe('pending-review');
+        expect(result.snapshotId).toBeNull();
     });
 
     it('rejects pending review back to draft and cancels todo', async () => {
@@ -155,6 +157,7 @@ describe('ApprovalService', () => {
         expect(todo.status).toBe('canceled');
         expect(result.resultStatus).toBe('rejected');
         expect(result.businessStatusAfter).toBe('draft');
+        expect(result.snapshotId).toBeNull();
     });
 
     it('blocks approval when current user is not assignee', async () => {

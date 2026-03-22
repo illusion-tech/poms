@@ -1,4 +1,9 @@
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import type { CommandResult } from '@poms/shared-contracts';
+import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ApprovalRecord } from '../approval/approval-record.entity';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
 import { ContractRepository } from './contract.repository';
@@ -29,11 +34,21 @@ export interface UpdateContractBasicInfoRecord {
     updatedBy?: string | null;
 }
 
+export interface ActivateContractRecord {
+    comment?: string;
+    expectedVersion?: number;
+}
+
+const CONTRACT_REVIEW_APPROVAL_TYPE = 'contract-review';
+const CONTRACT_TARGET_TYPE = 'Contract';
+
 @Injectable()
 export class ContractService {
     constructor(
         private readonly contractRepository: ContractRepository,
-        private readonly projectService: ProjectService
+        private readonly projectService: ProjectService,
+        @InjectRepository(ApprovalRecord)
+        private readonly approvalRecordRepository: EntityRepository<ApprovalRecord>
     ) {}
 
     async findMany(query: FindContractsQuery): Promise<Contract[]> {
@@ -109,5 +124,62 @@ export class ContractService {
         await this.contractRepository.save(contract);
 
         return contract;
+    }
+
+    async activate(id: string, actorUserId: string, input: ActivateContractRecord): Promise<CommandResult> {
+        const contract = await this.contractRepository.findById(id);
+        if (!contract) {
+            throw new NotFoundException(`Contract ${id} not found`);
+        }
+
+        if (contract.status !== 'pending-review') {
+            throw new BadRequestException(`Contract ${id} cannot be activated in status ${contract.status}`);
+        }
+
+        this.assertExpectedVersion(contract.rowVersion, input.expectedVersion, 'Contract');
+
+        const pendingApproval = await this.approvalRecordRepository.findOne({
+            approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
+            targetObjectType: CONTRACT_TARGET_TYPE,
+            targetObjectId: contract.id,
+            currentStatus: 'pending'
+        });
+        if (pendingApproval) {
+            throw new BadRequestException(`Contract ${id} still has a pending review approval`);
+        }
+
+        const approvedApproval = await this.approvalRecordRepository.findOne({
+            approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
+            targetObjectType: CONTRACT_TARGET_TYPE,
+            targetObjectId: contract.id,
+            currentStatus: 'approved'
+        });
+        if (!approvedApproval) {
+            throw new BadRequestException(`Contract ${id} cannot be activated without an approved review record`);
+        }
+
+        const snapshotId = contract.currentSnapshotId ?? randomUUID();
+        contract.status = 'active';
+        contract.currentSnapshotId = snapshotId;
+        contract.updatedBy = actorUserId;
+
+        await this.contractRepository.save(contract);
+
+        return {
+            targetId: contract.id,
+            targetType: CONTRACT_TARGET_TYPE,
+            resultStatus: 'activated',
+            businessStatusAfter: contract.status,
+            approvalRecordId: approvedApproval.id,
+            confirmationRecordId: null,
+            todoItemIds: [],
+            snapshotId
+        };
+    }
+
+    private assertExpectedVersion(actualVersion: number, expectedVersion: number | undefined, resourceType: string): void {
+        if (expectedVersion !== undefined && actualVersion !== expectedVersion) {
+            throw new ConflictException(`${resourceType} version ${expectedVersion} does not match current version ${actualVersion}`);
+        }
     }
 }
