@@ -45,6 +45,12 @@
 - `contract-finance-design.md`：合同资金域设计，聚焦合同、回款、成本和发票台账
 - `commission-settlement-design.md`：提成结算设计，聚焦提成计算、发放、异常调整与重算
 - `workflow-and-approval-design.md`：审批流与风控闸口设计，聚焦审批模型、统一待办与通知审计
+- `interface-command-design.md`：接口命令设计，聚焦普通更新、命令型动作与系统派生接口的边界
+- `interface-openapi-dto-design.md`：接口 OpenAPI 与 DTO 边界设计，聚焦请求/响应模型与接口合同边界
+- `query-view-boundary-design.md`：查询视图边界设计，聚焦列表、详情、经营看板、统一待办与历史追溯的读侧边界
+- `data-model-prerequisites.md`：数据模型冻结前提，聚焦主表、版本表、快照表与动作记录表的分类边界
+- `table-structure-freeze-design.md`：表结构冻结设计，聚焦逻辑表职责、关键关系与字段组冻结边界
+- `schema-ddl-design.md`：Schema 与 DDL 细化设计，聚焦命名规则、公共字段模板、主外键、唯一约束与高频索引基线
 
 ### 3. 治理与横切设计（Governance）
 
@@ -65,6 +71,7 @@
 - `design-convergence-review-checklist.md`：设计收口与评审前一致性清单
 - `design-review-execution-checklist.md`：详细设计评审执行清单
 - `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
+- `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 ## 命名规则
@@ -207,6 +214,24 @@
 - `contract-finance-design.md`
 - `commission-settlement-design.md`
 - `workflow-and-approval-design.md`
+- `interface-command-design.md`
+- `interface-openapi-dto-design.md`
+- `query-view-boundary-design.md`
+- `data-model-prerequisites.md`
+- `table-structure-freeze-design.md`
+- `schema-ddl-design.md`
+
+### 治理与横切设计
+
+- `business-authorization-matrix.md`
+- `platform-governance/README.md`
+
+### 评审与治理文档
+
+- `design-convergence-review-checklist.md`
+- `design-review-execution-checklist.md`
+- `design-review-follow-up-summary.md`
+- `implementation-delivery-guide.md`
 
 ### 治理与横切设计
 
