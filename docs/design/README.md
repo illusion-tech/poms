@@ -34,6 +34,7 @@
 - `poms-requirements-spec.md`：系统需求说明，负责把制度条款翻译成系统规则
 - `poms-hld.md`：高层设计，负责给出系统蓝图、模块关系和核心边界
 - `poms-design-progress.md`：设计进度跟踪，负责管理设计资产状态、依赖关系和下一步产出
+- `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片
 
 ### 2. 业务域设计（Domains）
 
@@ -72,6 +73,7 @@
 - `design-review-execution-checklist.md`：详细设计评审执行清单
 - `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
+- `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，聚焦远期目标、中期里程碑与近期实施重点
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 ## 命名规则
@@ -190,9 +192,10 @@
 3. `docs/adr/` 下已接受的 ADR
 4. `poms-hld.md`
 5. `poms-design-progress.md`
-6. 具体业务域设计文档
-7. 平台治理域设计文档
-8. 评审与治理文档
+6. `poms-phase1-delivery-roadmap.md`
+7. 具体业务域设计文档
+8. 平台治理域设计文档
+9. 评审与治理文档
 
 如果读者的目标是参与某一专项设计评审，则建议改为：
 
@@ -207,6 +210,7 @@
 - `poms-requirements-spec.md`
 - `poms-hld.md`
 - `poms-design-progress.md`
+- `poms-phase1-delivery-roadmap.md`
 
 ### 业务域设计
 
@@ -232,6 +236,7 @@
 - `design-review-execution-checklist.md`
 - `design-review-follow-up-summary.md`
 - `implementation-delivery-guide.md`
+- `poms-phase1-delivery-roadmap.md`
 
 ### 治理与横切设计
 

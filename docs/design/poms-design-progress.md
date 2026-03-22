@@ -34,8 +34,8 @@
 - 多项高影响架构问题已通过 ADR 固化
 - 平台治理域详细设计已完成评审前收口并进入 `Review`
 - 业务对象动作授权矩阵已形成首版基线
-- 当前主要工作重心已从“ORM 最终选型”推进到“`MikroORM` 工程接入、首批 migration 落地、开发期 seed 固化与核心对象测试补齐”
-- 当前已完成数据库产品、migration 路线与应用层 ORM 选型，并已进入 `Project` / `Contract` 首批实现切片
+- 当前主要工作重心已从“ORM 最终选型”推进到“`MikroORM` 工程接入、首批 migration 落地、开发期 seed 固化、核心对象测试补齐与审批 / 待办最小支撑落地”
+- 当前已完成数据库产品、migration 路线与应用层 ORM 选型，并已进入 `Project` / `Contract` 首批实现切片与审批最小闭环实现
 - 已新增实施入口文档，用于统一切片推进顺序、完成定义与文档回写约束
 
 ---
@@ -66,11 +66,12 @@
 
 ### 4.2 基线设计
 
-| 文档                                    | 当前状态 | 作用                                                     | 是否可作为下游输入 |
-| --------------------------------------- | -------- | -------------------------------------------------------- | ------------------ |
-| `docs/design/poms-requirements-spec.md` | Accepted | 制度到系统能力映射、范围、状态机、权限矩阵、规则边界     | 是                 |
-| `docs/design/poms-hld.md`               | Accepted | 领域蓝图、模块边界、数据可信源、版本化约束               | 是                 |
-| `docs/design/poms-design-progress.md`   | Active   | 当前设计进度跟踪与治理看板，负责维护整体成熟度与依赖关系 | 是                 |
+| 文档                                          | 当前状态 | 作用                                                       | 是否可作为下游输入 |
+| --------------------------------------------- | -------- | ---------------------------------------------------------- | ------------------ |
+| `docs/design/poms-requirements-spec.md`       | Accepted | 制度到系统能力映射、范围、状态机、权限矩阵、规则边界       | 是                 |
+| `docs/design/poms-hld.md`                     | Accepted | 领域蓝图、模块边界、数据可信源、版本化约束                 | 是                 |
+| `docs/design/poms-design-progress.md`         | Active   | 当前设计进度跟踪与治理看板，负责维护整体成熟度与依赖关系   | 是                 |
+| `docs/design/poms-phase1-delivery-roadmap.md` | Active   | 第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片 | 是                 |
 
 ### 4.3 业务域设计
 
@@ -108,6 +109,7 @@
 | `docs/design/design-review-execution-checklist.md`                        | Active   | 详细设计评审执行清单，用于组织下一轮逐文档评审                 | 是                 |
 | `docs/design/design-review-follow-up-summary.md`                          | Active   | 首轮正式评审后的 follow-up 归并，约束实现前必须补齐项边界      | 是                 |
 | `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则 | 是                 |
+| `docs/design/poms-phase1-delivery-roadmap.md`                             | Active   | 第一阶段交付路线图，统一远期目标、中期里程碑与近期实施重点     | 是                 |
 | `docs/design/platform-governance/platform-governance-review-checklist.md` | Active   | 平台治理域评审清单，收敛评审门槛、阻塞项、收口动作与通过标准   | 是                 |
 | `docs/design/platform-governance/platform-governance-review-summary.md`   | Active   | 平台治理域评审结论摘要，记录本轮评审结论、已关闭阻塞项和动作   | 是                 |
 
@@ -169,6 +171,7 @@
 - 已形成 `schema-ddl-design.md` 首版基线，开始把逻辑表结构继续映射为真实建表脚本前的直接输入物
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
+- 已形成 `poms-phase1-delivery-roadmap.md`，开始把第一阶段终局目标、中期里程碑与近期切片统一到同一交付入口
 
 ---
 
@@ -179,7 +182,7 @@
 1. 完成 `Project` 首个完整实施切片，补齐真实测试并固定日期字段与状态约束语义
 2. 完成 `Contract` 核心链路切片，固定项目关联校验、合同唯一约束与基础信息更新语义
 3. 补齐开发期最小 seed 数据，使 migration + seeder 可直接启动联调环境
-4. 进入审批 / 统一待办最小支撑切片，并继续评估第一阶段是否需要少量派生汇总表或坚持应用层实时聚合
+4. 已启动审批 / 统一待办最小支撑切片，当前首版聚焦 `Contract` 提交审核、审批通过 / 驳回和统一待办关闭链路
 
 ---
 
@@ -212,9 +215,9 @@
 
 如果按当前成熟度推进，下一步最合适的是：
 
-1. 继续完成 `Project` 首个完整实施切片，重点补齐真实测试、失败路径校验与 OpenAPI 合同稳定化
-2. 紧接着完成 `Contract` 核心链路切片，并以项目关联、合同唯一约束和日期语义作为校验重点
-3. 在现有 migration 基线之上固化最小开发 seed，并把结果持续回写到相关设计文档与进度板
+1. 在当前 `Contract` 审批最小支撑基础上，继续补齐激活命令、审批详情读侧和更多对象动作映射
+2. 把统一待办读侧继续向前端壳层联调输入收敛，避免后续前端先做静态待办页
+3. 在现有 migration 基线之上继续固化最小开发 seed，并把结果持续回写到相关设计文档与进度板
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 
