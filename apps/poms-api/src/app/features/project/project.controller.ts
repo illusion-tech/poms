@@ -1,20 +1,13 @@
-import type { ProjectSummary } from '@poms/shared-contracts';
-import { CreateProjectRequestDto, ProjectDto, ProjectListDto } from '@poms/api-contracts';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
-    Body,
-    Controller,
-    Get,
-    NotFoundException,
-    Param,
-    Post
-} from '@nestjs/common';
-import {
-    ApiBearerAuth,
-    ApiCreatedResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags
-} from '@nestjs/swagger';
+    CreateProjectRequestDto,
+    ProjectDto,
+    ProjectListDto,
+    ProjectListQueryDto,
+    UpdateProjectBasicInfoRequestDto
+} from '@poms/api-contracts';
+import type { ProjectListQuery, ProjectSummary } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Project } from './project.entity';
 import { ProjectService } from './project.service';
@@ -29,10 +22,30 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目列表' })
     @ApiOkResponse({ type: ProjectListDto })
-    async list(): Promise<ProjectSummary[]> {
-        const projects = await this.projectService.findAll();
+    async list(@Query() query: ProjectListQueryDto): Promise<ProjectSummary[]> {
+        const listQuery: ProjectListQuery = {
+            status: query.status,
+            currentStage: query.currentStage,
+            ownerOrgId: query.ownerOrgId,
+            keyword: query.keyword
+        };
+
+        const projects = await this.projectService.findMany(listQuery);
 
         return projects.map(mapProjectToSummary);
+    }
+
+    @Get('code/:projectCode')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '按项目编码获取项目详情' })
+    @ApiOkResponse({ type: ProjectDto })
+    async getByCode(@Param('projectCode') projectCode: string): Promise<ProjectSummary> {
+        const project = await this.projectService.findByCode(projectCode);
+        if (!project) {
+            throw new NotFoundException(`Project code ${projectCode} not found`);
+        }
+
+        return mapProjectToSummary(project);
     }
 
     @Get(':id')
@@ -64,6 +77,35 @@ export class ProjectController {
             plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null,
             createdBy: body.createdBy ?? null,
             updatedBy: body.updatedBy ?? null
+        });
+
+        return mapProjectToSummary(project);
+    }
+
+    @Patch(':id/basic')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '更新项目基础信息' })
+    @ApiOkResponse({ type: ProjectDto })
+    async updateBasicInfo(
+        @Param('id') id: string,
+        @Body() body: UpdateProjectBasicInfoRequestDto
+    ): Promise<ProjectSummary> {
+        let plannedSignAt: Date | null | undefined;
+        if (body.plannedSignAt === undefined) {
+            plannedSignAt = undefined;
+        } else if (body.plannedSignAt === null) {
+            plannedSignAt = null;
+        } else {
+            plannedSignAt = new Date(body.plannedSignAt);
+        }
+
+        const project = await this.projectService.updateBasicInfo(id, {
+            projectName: body.projectName,
+            customerId: body.customerId,
+            ownerOrgId: body.ownerOrgId,
+            ownerUserId: body.ownerUserId,
+            plannedSignAt,
+            updatedBy: body.updatedBy
         });
 
         return mapProjectToSummary(project);
