@@ -1,7 +1,16 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
-import type { ContractListQuery, ContractSummary } from '@poms/shared-contracts';
+import {
+    CommandResultDto,
+    ContractDto,
+    ContractListDto,
+    ContractListQueryDto,
+    CreateContractRequestDto,
+    SubmitContractReviewRequestDto,
+    UpdateContractBasicInfoRequestDto
+} from '@poms/api-contracts';
+import type { CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
+import { ApprovalService } from '../approval/approval.service';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Contract } from './contract.entity';
 import { ContractService } from './contract.service';
@@ -10,7 +19,10 @@ import { ContractService } from './contract.service';
 @ApiBearerAuth()
 @Controller('contracts')
 export class ContractController {
-    constructor(private readonly contractService: ContractService) {}
+    constructor(
+        private readonly contractService: ContractService,
+        private readonly approvalService: ApprovalService
+    ) {}
 
     @Get()
     @HasPermissions('project:read')
@@ -79,24 +91,27 @@ export class ContractController {
     @ApiOperation({ summary: '更新合同基础信息' })
     @ApiOkResponse({ type: ContractDto })
     async updateBasicInfo(@Param('id') id: string, @Body() body: UpdateContractBasicInfoRequestDto): Promise<ContractSummary> {
-        let signedAt: Date | null | undefined;
-        if (body.signedAt === undefined) {
-            signedAt = undefined;
-        } else if (body.signedAt === null) {
-            signedAt = null;
-        } else {
-            signedAt = new Date(body.signedAt);
-        }
-
         const contract = await this.contractService.updateBasicInfo(id, {
             signedAmount: body.signedAmount,
             currencyCode: body.currencyCode,
             currentSnapshotId: body.currentSnapshotId,
-            signedAt,
+            signedAt: body.signedAt === undefined ? undefined : body.signedAt === null ? null : new Date(body.signedAt),
             updatedBy: body.updatedBy
         });
 
         return mapContractToSummary(contract);
+    }
+
+    @Post(':id/submit-review')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '提交合同审核' })
+    @ApiOkResponse({ type: CommandResultDto })
+    submitReview(
+        @Param('id') id: string,
+        @Request() req: { user: UserPayload },
+        @Body() body: SubmitContractReviewRequestDto,
+    ): Promise<CommandResult> {
+        return this.approvalService.submitContractReview(id, req.user.sub, body);
     }
 }
 

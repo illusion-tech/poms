@@ -11,6 +11,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
+import { ApprovalController } from './app/features/approval/approval.controller';
+import { ApprovalService } from './app/features/approval/approval.service';
 import { AuthController } from './app/core/auth/auth.controller';
 import { ContractController } from './app/features/contract/contract.controller';
 import { ContractService } from './app/features/contract/contract.service';
@@ -20,7 +22,14 @@ import { ProjectController } from './app/features/project/project.controller';
 import { ProjectService } from './app/features/project/project.service';
 
 @Module({
-    controllers: [AppController, AuthController, NavigationController, ProjectController, ContractController],
+    controllers: [
+        AppController,
+        AuthController,
+        NavigationController,
+        ProjectController,
+        ContractController,
+        ApprovalController
+    ],
     providers: [
         AppService,
         {
@@ -41,6 +50,10 @@ import { ProjectService } from './app/features/project/project.service';
         },
         {
             provide: ContractService,
+            useValue: {}
+        },
+        {
+            provide: ApprovalService,
             useValue: {}
         },
         {

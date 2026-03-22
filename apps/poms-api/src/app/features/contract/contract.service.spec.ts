@@ -1,4 +1,4 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { ProjectService } from '../project/project.service';
 import { ContractService } from './contract.service';
 
@@ -107,6 +107,21 @@ describe('ContractService', () => {
         expect(contract.updatedBy).toBe(userId);
         expect(contractRepository.save).toHaveBeenCalledWith(contract);
         expect(result).toBe(contract);
+    });
+
+    it('rejects basic info updates after review has started', async () => {
+        contractRepository.findById.mockResolvedValue(
+            createContractEntity({
+                status: 'pending-review'
+            })
+        );
+
+        await expect(
+            service.updateBasicInfo(contractId, {
+                signedAmount: '920000.00',
+                updatedBy: userId
+            })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('throws when updating a missing contract', async () => {

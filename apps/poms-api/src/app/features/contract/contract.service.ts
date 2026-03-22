@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
 import { ContractRepository } from './contract.repository';
@@ -80,6 +80,10 @@ export class ContractService {
         const contract = await this.contractRepository.findById(id);
         if (!contract) {
             throw new NotFoundException(`Contract ${id} not found`);
+        }
+
+        if (contract.status !== 'draft') {
+            throw new BadRequestException(`Contract ${id} cannot be edited in status ${contract.status}`);
         }
 
         if (input.signedAmount !== undefined) {

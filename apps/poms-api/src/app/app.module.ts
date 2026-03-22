@@ -5,12 +5,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
+import { ApprovalModule } from './features/approval/approval.module';
 import { ContractModule } from './features/contract/contract.module';
 import { NavigationModule } from './features/navigation/navigation.module';
 import { ProjectModule } from './features/project/project.module';
 
 @Module({
-    imports: [PersistenceModule, AuthModule, NavigationModule, ProjectModule, ContractModule],
+    imports: [PersistenceModule, AuthModule, NavigationModule, ProjectModule, ApprovalModule, ContractModule],
     controllers: [AppController],
     providers: [
         AppService,

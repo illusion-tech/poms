@@ -1,5 +1,6 @@
 import { ContractController } from './contract.controller';
 import { ContractService } from './contract.service';
+import { ApprovalService } from '../approval/approval.service';
 
 describe('ContractController', () => {
     const contractId = '30000000-0000-0000-0000-000000000001';
@@ -9,6 +10,7 @@ describe('ContractController', () => {
 
     let controller: ContractController;
     let contractService: jest.Mocked<ContractService>;
+    let approvalService: jest.Mocked<ApprovalService>;
 
     beforeEach(() => {
         contractService = {
@@ -18,8 +20,11 @@ describe('ContractController', () => {
             createAndSave: jest.fn(),
             updateBasicInfo: jest.fn()
         } as unknown as jest.Mocked<ContractService>;
+        approvalService = {
+            submitContractReview: jest.fn()
+        } as unknown as jest.Mocked<ApprovalService>;
 
-        controller = new ContractController(contractService);
+        controller = new ContractController(contractService, approvalService);
     });
 
     it('maps create payload signedAt into Date', async () => {
@@ -81,6 +86,30 @@ describe('ContractController', () => {
                 updatedBy: userId
             })
         );
+    });
+
+    it('submits contract review with current user identity', async () => {
+        approvalService.submitContractReview.mockResolvedValue({
+            targetId: contractId,
+            targetType: 'Contract',
+            resultStatus: 'submitted',
+            businessStatusAfter: 'pending-review',
+            approvalRecordId: '40000000-0000-0000-0000-000000000001',
+            confirmationRecordId: null,
+            todoItemIds: ['50000000-0000-0000-0000-000000000001']
+        });
+
+        await controller.submitReview(
+            contractId,
+            {
+                user: { sub: userId, username: 'admin', permissions: ['project:write'] }
+            },
+            { comment: '请审核合同' }
+        );
+
+        expect(approvalService.submitContractReview).toHaveBeenCalledWith(contractId, userId, {
+            comment: '请审核合同'
+        });
     });
 
     function createContractEntity(overrides: Record<string, unknown> = {}) {

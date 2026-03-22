@@ -76,7 +76,7 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         id: '30000000-0000-0000-0000-000000000002',
         projectId: DEV_PROJECT_SEEDS[1].id,
         contractNo: 'HT-2026-002',
-        status: 'signed',
+        status: 'active',
         signedAmount: '1280000.00',
         currencyCode: 'CNY',
         currentSnapshotId: null,
