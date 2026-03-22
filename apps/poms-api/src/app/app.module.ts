@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
-import { AuthModule } from './core/auth/auth.module';
-import { NavigationModule } from './features/navigation/navigation.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './core/auth/auth.module';
+import { PersistenceModule } from './core/persistence/persistence.module';
+import { NavigationModule } from './features/navigation/navigation.module';
+import { ProjectModule } from './features/project/project.module';
 
 @Module({
-    imports: [AuthModule, NavigationModule],
+    imports: [PersistenceModule, AuthModule, NavigationModule, ProjectModule],
     controllers: [AppController],
     providers: [
         AppService,
