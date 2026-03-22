@@ -1,4 +1,4 @@
-import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type {
     ApprovalRecordSummary,
@@ -27,6 +27,7 @@ const CONTRACT_TARGET_TYPE = 'Contract';
 const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
 const DEFAULT_APPROVER_USER_ID = DEV_USERS[0].id;
+const APPROVAL_ACTIONS = ['approve', 'reject'];
 
 @Injectable()
 export class ApprovalService {
@@ -137,7 +138,15 @@ export class ApprovalService {
 
     async findApprovalRecordById(id: string): Promise<ApprovalRecordSummary | null> {
         const record = await this.approvalRecordRepository.findOne({ id });
-        return record ? mapApprovalRecordToSummary(record) : null;
+        if (!record) {
+            return null;
+        }
+
+        const relatedContract = record.targetObjectType === CONTRACT_TARGET_TYPE
+            ? await this.contractRepository.findOne({ id: record.targetObjectId })
+            : null;
+
+        return mapApprovalRecordToSummary(record, relatedContract);
     }
 
     async findOpenTodosForUser(userId: string): Promise<TodoItemSummary[]> {
@@ -146,7 +155,34 @@ export class ApprovalService {
             { orderBy: { createdAt: QueryOrder.ASC } }
         );
 
-        return todos.map(mapTodoItemToSummary);
+        if (todos.length === 0) {
+            return [];
+        }
+
+        const approvalSourceIds = [...new Set(
+            todos
+                .filter((todo) => todo.sourceType === TODO_SOURCE_TYPE)
+                .map((todo) => todo.sourceId)
+        )];
+        const contractTargetIds = [...new Set(
+            todos
+                .filter((todo) => todo.targetObjectType === CONTRACT_TARGET_TYPE)
+                .map((todo) => todo.targetObjectId)
+        )];
+
+        const [approvalRecords, contracts] = await Promise.all([
+            approvalSourceIds.length > 0
+                ? this.approvalRecordRepository.find({ id: { $in: approvalSourceIds } })
+                : Promise.resolve([]),
+            contractTargetIds.length > 0
+                ? this.contractRepository.find({ id: { $in: contractTargetIds } })
+                : Promise.resolve([])
+        ]);
+
+        const approvalById = new Map(approvalRecords.map((record) => [record.id, record]));
+        const contractById = new Map(contracts.map((contract) => [contract.id, contract]));
+
+        return todos.map((todo) => mapTodoItemToSummary(todo, approvalById.get(todo.sourceId), contractById.get(todo.targetObjectId)));
     }
 
     private async resolveApprovalDecision(
@@ -229,7 +265,7 @@ export class ApprovalService {
     }
 }
 
-function mapApprovalRecordToSummary(record: ApprovalRecord): ApprovalRecordSummary {
+function mapApprovalRecordToSummary(record: ApprovalRecord, relatedContract: Contract | null): ApprovalRecordSummary {
     return {
         id: record.id,
         approvalType: record.approvalType,
@@ -239,10 +275,13 @@ function mapApprovalRecordToSummary(record: ApprovalRecord): ApprovalRecordSumma
         projectId: record.projectId ?? null,
         currentStatus: record.currentStatus,
         currentNodeKey: record.currentNodeKey,
+        currentNodeName: mapNodeName(record.currentNodeKey),
         initiatorUserId: record.initiatorUserId,
         currentApproverUserId: record.currentApproverUserId ?? null,
         decision: record.decision ?? null,
         decisionComment: record.decisionComment ?? null,
+        targetTitle: relatedContract?.contractNo ?? null,
+        targetStatus: relatedContract?.status ?? null,
         submittedAt: record.submittedAt.toISOString(),
         decidedAt: record.decidedAt?.toISOString() ?? null,
         closedAt: record.closedAt?.toISOString() ?? null,
@@ -252,7 +291,7 @@ function mapApprovalRecordToSummary(record: ApprovalRecord): ApprovalRecordSumma
     };
 }
 
-function mapTodoItemToSummary(todoItem: TodoItem): TodoItemSummary {
+function mapTodoItemToSummary(todoItem: TodoItem, approvalRecord?: ApprovalRecord, relatedContract?: Contract): TodoItemSummary {
     return {
         id: todoItem.id,
         sourceType: todoItem.sourceType,
@@ -264,6 +303,9 @@ function mapTodoItemToSummary(todoItem: TodoItem): TodoItemSummary {
         projectId: todoItem.projectId ?? null,
         title: todoItem.title,
         summary: todoItem.summary ?? null,
+        targetTitle: relatedContract?.contractNo ?? null,
+        currentNodeName: approvalRecord ? mapNodeName(approvalRecord.currentNodeKey) : null,
+        allowedActions: todoItem.todoType === TODO_TYPE && ['open', 'processing'].includes(todoItem.status) ? APPROVAL_ACTIONS : [],
         assigneeUserId: todoItem.assigneeUserId,
         status: todoItem.status,
         priority: todoItem.priority,
@@ -273,4 +315,12 @@ function mapTodoItemToSummary(todoItem: TodoItem): TodoItemSummary {
         createdAt: todoItem.createdAt.toISOString(),
         updatedAt: todoItem.updatedAt.toISOString()
     };
+}
+
+function mapNodeName(currentNodeKey: string): string | null {
+    if (currentNodeKey === CONTRACT_REVIEW_NODE_KEY) {
+        return '合同审核';
+    }
+
+    return null;
 }

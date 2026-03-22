@@ -1576,6 +1576,10 @@
           "currentNodeKey": {
             "type": "string"
           },
+          "currentNodeName": {
+            "type": "string",
+            "nullable": true
+          },
           "initiatorUserId": {
             "type": "string",
             "format": "uuid",
@@ -1592,6 +1596,14 @@
             "nullable": true
           },
           "decisionComment": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetStatus": {
             "type": "string",
             "nullable": true
           },
@@ -1637,10 +1649,13 @@
           "projectId",
           "currentStatus",
           "currentNodeKey",
+          "currentNodeName",
           "initiatorUserId",
           "currentApproverUserId",
           "decision",
           "decisionComment",
+          "targetTitle",
+          "targetStatus",
           "submittedAt",
           "decidedAt",
           "closedAt",
@@ -1733,6 +1748,20 @@
             "type": "string",
             "nullable": true
           },
+          "targetTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentNodeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "assigneeUserId": {
             "type": "string",
             "format": "uuid",
@@ -1783,6 +1812,9 @@
           "projectId",
           "title",
           "summary",
+          "targetTitle",
+          "currentNodeName",
+          "allowedActions",
           "assigneeUserId",
           "status",
           "priority",

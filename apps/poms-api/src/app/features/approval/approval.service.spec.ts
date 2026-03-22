@@ -40,7 +40,7 @@ describe('ApprovalService', () => {
     let service: ApprovalService;
     let approvalRecordRepository: { getEntityManager: jest.Mock; findOne: jest.Mock; find: jest.Mock };
     let todoItemRepository: { find: jest.Mock };
-    let contractRepository: Record<string, never>;
+    let contractRepository: { findOne: jest.Mock; find: jest.Mock };
     let em: {
         transactional: jest.Mock;
         findOne: jest.Mock;
@@ -67,7 +67,10 @@ describe('ApprovalService', () => {
         todoItemRepository = {
             find: jest.fn()
         };
-        contractRepository = {};
+        contractRepository = {
+            findOne: jest.fn(),
+            find: jest.fn()
+        };
 
         service = new ApprovalService(approvalRecordRepository as never, todoItemRepository as never, contractRepository as never);
     });
@@ -176,10 +179,35 @@ describe('ApprovalService', () => {
         );
     });
 
-    it('lists only open todos for current user', async () => {
+    it('returns approval detail with related contract summary fields', async () => {
+        approvalRecordRepository.findOne.mockResolvedValue(createApprovalRecord({ currentStatus: 'approved' }));
+        contractRepository.findOne.mockResolvedValue(createContract({ status: 'pending-review' }));
+
+        const result = await service.findApprovalRecordById(approvalRecordId);
+
+        expect(contractRepository.findOne).toHaveBeenCalledWith({ id: contractId });
+        expect(result).toEqual(
+            expect.objectContaining({
+                id: approvalRecordId,
+                currentNodeKey: 'contract-review',
+                currentNodeName: '合同审核',
+                targetTitle: 'HT-2026-001',
+                targetStatus: 'pending-review'
+            })
+        );
+    });
+
+    it('lists only open todos for current user with target summary and allowed actions', async () => {
         todoItemRepository.find.mockResolvedValue([
             createTodoItem({ status: 'open' }),
             createTodoItem({ id: '50000000-0000-0000-0000-000000000002', sourceId: '40000000-0000-0000-0000-000000000002' })
+        ]);
+        approvalRecordRepository.find.mockResolvedValue([
+            createApprovalRecord(),
+            createApprovalRecord({ id: '40000000-0000-0000-0000-000000000002' })
+        ]);
+        contractRepository.find.mockResolvedValue([
+            createContract()
         ]);
 
         const todos = await service.findOpenTodosForUser(approverUserId);
@@ -188,7 +216,20 @@ describe('ApprovalService', () => {
             { assigneeUserId: approverUserId, status: { $in: ['open', 'processing'] } },
             { orderBy: { createdAt: 'ASC' } }
         );
+        expect(approvalRecordRepository.find).toHaveBeenCalledWith({
+            id: { $in: [approvalRecordId, '40000000-0000-0000-0000-000000000002'] }
+        });
+        expect(contractRepository.find).toHaveBeenCalledWith({
+            id: { $in: [contractId] }
+        });
         expect(todos).toHaveLength(2);
+        expect(todos[0]).toEqual(
+            expect.objectContaining({
+                targetTitle: 'HT-2026-001',
+                currentNodeName: '合同审核',
+                allowedActions: ['approve', 'reject']
+            })
+        );
     });
 
     function pickGeneratedId(entityName?: string): string {
