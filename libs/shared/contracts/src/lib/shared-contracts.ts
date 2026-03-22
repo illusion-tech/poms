@@ -175,3 +175,51 @@ export const LoginResponseSchema = z
     .meta({ id: 'LoginResponse' });
 
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
+
+// ---------------------------------------------------------------------------
+// Project
+// ---------------------------------------------------------------------------
+
+export const ProjectSummarySchema = z
+    .object({
+        id: z.string().uuid(),
+        projectCode: z.string(),
+        projectName: z.string(),
+        customerId: z.string().uuid().nullable(),
+        status: z.string(),
+        currentStage: z.string(),
+        ownerOrgId: z.string().uuid().nullable(),
+        ownerUserId: z.string().uuid().nullable(),
+        plannedSignAt: z.string().datetime().nullable(),
+        closedAt: z.string().datetime().nullable(),
+        closedReason: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.string().datetime(),
+        createdBy: z.string().uuid().nullable(),
+        updatedAt: z.string().datetime(),
+        updatedBy: z.string().uuid().nullable()
+    })
+    .meta({ id: 'ProjectSummary' });
+
+export type ProjectSummary = z.infer<typeof ProjectSummarySchema>;
+
+export const ProjectListSchema = z.array(ProjectSummarySchema).meta({ id: 'ProjectList' });
+
+export type ProjectList = z.infer<typeof ProjectListSchema>;
+
+export const CreateProjectRequestSchema = z
+    .object({
+        projectCode: z.string().trim().min(1).max(64),
+        projectName: z.string().trim().min(1).max(255),
+        customerId: z.string().uuid().nullable().optional(),
+        status: z.string().trim().min(1).max(32).optional(),
+        currentStage: z.string().trim().min(1).max(64),
+        ownerOrgId: z.string().uuid().nullable().optional(),
+        ownerUserId: z.string().uuid().nullable().optional(),
+        plannedSignAt: z.string().datetime().nullable().optional(),
+        createdBy: z.string().uuid().nullable().optional(),
+        updatedBy: z.string().uuid().nullable().optional()
+    })
+    .meta({ id: 'CreateProjectRequest' });
+
+export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
