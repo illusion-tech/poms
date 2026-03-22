@@ -332,3 +332,103 @@ export const UpdateContractBasicInfoRequestSchema = z
     .meta({ id: 'UpdateContractBasicInfoRequest' });
 
 export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Approval / Todo
+// ---------------------------------------------------------------------------
+
+export const ApprovalRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        approvalType: z.string(),
+        businessDomain: z.string(),
+        targetObjectType: z.string(),
+        targetObjectId: z.uuid(),
+        projectId: z.uuid().nullable(),
+        currentStatus: z.string(),
+        currentNodeKey: z.string(),
+        initiatorUserId: z.uuid(),
+        currentApproverUserId: z.uuid().nullable(),
+        decision: z.string().nullable(),
+        decisionComment: z.string().nullable(),
+        submittedAt: z.iso.datetime(),
+        decidedAt: z.iso.datetime().nullable(),
+        closedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ApprovalRecordSummary' });
+
+export type ApprovalRecordSummary = z.infer<typeof ApprovalRecordSummarySchema>;
+
+export const TodoItemSummarySchema = z
+    .object({
+        id: z.uuid(),
+        sourceType: z.string(),
+        sourceId: z.uuid(),
+        todoType: z.string(),
+        businessDomain: z.string(),
+        targetObjectType: z.string(),
+        targetObjectId: z.uuid(),
+        projectId: z.uuid().nullable(),
+        title: z.string(),
+        summary: z.string().nullable(),
+        assigneeUserId: z.uuid(),
+        status: z.string(),
+        priority: z.string(),
+        dueAt: z.iso.datetime().nullable(),
+        completedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'TodoItemSummary' });
+
+export type TodoItemSummary = z.infer<typeof TodoItemSummarySchema>;
+
+export const TodoItemListSchema = z.array(TodoItemSummarySchema).meta({ id: 'TodoItemList' });
+
+export type TodoItemList = z.infer<typeof TodoItemListSchema>;
+
+export const CommandResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        targetType: z.string(),
+        resultStatus: z.string(),
+        businessStatusAfter: z.string(),
+        approvalRecordId: z.uuid().nullable(),
+        confirmationRecordId: z.uuid().nullable(),
+        todoItemIds: z.array(z.uuid())
+    })
+    .meta({ id: 'CommandResult' });
+
+export type CommandResult = z.infer<typeof CommandResultSchema>;
+
+export const SubmitContractReviewRequestSchema = z
+    .object({
+        comment: z.string().trim().min(1).max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'SubmitContractReviewRequest' });
+
+export type SubmitContractReviewRequest = z.infer<typeof SubmitContractReviewRequestSchema>;
+
+export const ApproveRecordRequestSchema = z
+    .object({
+        comment: z.string().trim().min(1).max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ApproveRecordRequest' });
+
+export type ApproveRecordRequest = z.infer<typeof ApproveRecordRequestSchema>;
+
+export const RejectApprovalRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(255),
+        comment: z.string().trim().min(1).max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RejectApprovalRecordRequest' });
+
+export type RejectApprovalRecordRequest = z.infer<typeof RejectApprovalRecordRequestSchema>;
