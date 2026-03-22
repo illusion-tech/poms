@@ -17,3 +17,9 @@
 - `Project` 主对象核心表
 - 合同资金域首批主表
 - 审批支撑最小表集
+
+推荐校验流程：
+
+- `pnpm nx run poms-api:migration-check`
+- `pnpm nx run poms-api:migration-up`
+- `pnpm nx run poms-api:seeder-run`
