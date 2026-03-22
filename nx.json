@@ -10,26 +10,45 @@
     },
     "targetDefaults": {
         "build": {
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"],
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "production",
+                "^production"
+            ],
             "cache": true
         },
         "test": {
-            "inputs": ["default", "^production"],
+            "inputs": [
+                "default",
+                "^production"
+            ],
             "cache": true
         },
         "lint": {
-            "inputs": ["default", "^default"]
+            "inputs": [
+                "default",
+                "^default"
+            ]
         },
         "@nx/js:tsc": {
             "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "production",
+                "^production"
+            ]
         }
     },
     "namedInputs": {
         "sharedGlobals": [],
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "default": [
+            "{projectRoot}/**/*",
+            "sharedGlobals"
+        ],
         "production": [
             "default",
             "!{projectRoot}/tsconfig.spec.json",
@@ -47,7 +66,7 @@
             "tags": []
         }
     },
-    "nxCloudId": "69a0516d47859f6ca66f23f6",
+    "nxCloudId": "69bf9fc63191a96e86a665d5",
     "plugins": [
         {
             "plugin": "@nx/webpack/plugin",
@@ -71,7 +90,11 @@
             "options": {
                 "targetName": "test"
             },
-            "exclude": ["poms-api-e2e/**/*", "apps-e2e/**/*", "apps/poms-api-e2e/**/*"]
+            "exclude": [
+                "poms-api-e2e/**/*",
+                "apps-e2e/**/*",
+                "apps/poms-api-e2e/**/*"
+            ]
         }
     ],
     "generators": {
