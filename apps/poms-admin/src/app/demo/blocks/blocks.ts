@@ -161,11 +161,11 @@ import { FormsModule } from '@angular/forms';
                     <div class="flex flex-col items-center gap-8 w-full">
                         <div class="flex flex-col gap-6 w-full">
                             <p-iconfield>
-                                <p-inputicon styleClass="pi pi-user text-white/70!" />
+                                <p-inputicon class="pi pi-user text-white/70!" />
                                 <input pInputText type="text" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Username" />
                             </p-iconfield>
                             <p-iconfield>
-                                <p-inputicon styleClass="pi pi-lock text-white/70!" />
+                                <p-inputicon class="pi pi-lock text-white/70!" />
                                 <input pInputText type="password" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Password" />
                             </p-iconfield>
                         </div>
@@ -690,11 +690,11 @@ export class Blocks {
             <div class="flex flex-col items-center gap-8 w-full">
                 <div class="flex flex-col gap-6 w-full">
                     <p-iconfield>
-                        <p-inputicon styleClass="pi pi-user text-white/70!" />
+                        <p-inputicon class="pi pi-user text-white/70!" />
                         <input pInputText type="text" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Username" />
                     </p-iconfield>
                     <p-iconfield>
-                        <p-inputicon styleClass="pi pi-lock text-white/70!" />
+                        <p-inputicon class="pi pi-lock text-white/70!" />
                         <input pInputText type="password" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Password" />
                     </p-iconfield>
                 </div>

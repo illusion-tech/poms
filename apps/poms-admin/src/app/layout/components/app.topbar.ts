@@ -1,30 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, ElementRef, inject, model, signal, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthStore } from '@poms/admin-data-access';
+import { AuthStore, TodoItemSummary } from '@poms/admin-data-access';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../service/layout.service';
 import { AppBreadcrumb } from './app.breadcrumb';
 
-interface NotificationsBars {
-    id: string;
-    label: string;
-    badge?: string | any;
-}
-
 @Component({
     selector: '[app-topbar]',
     standalone: true,
-    imports: [RouterModule, CommonModule, FormsModule, StyleClassModule, AppBreadcrumb, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, RippleModule, BadgeModule, OverlayBadgeModule, AvatarModule],
+    imports: [RouterModule, CommonModule, StyleClassModule, AppBreadcrumb, ButtonModule, BadgeModule, OverlayBadgeModule, AvatarModule],
     template: ` <div class="layout-topbar">
         <div class="topbar-left">
             <a tabindex="0" #menubutton type="button" class="menu-button" (click)="onMenuButtonClick()">
@@ -50,72 +39,57 @@ interface NotificationsBars {
                 </li>
                 <li class="right-sidebar-item static sm:relative">
                     <a class="right-sidebar-button relative z-50" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveActiveClass="animate-fadeout" leaveToClass="hidden" [hideOnOutsideClick]="true">
-                        <span class="w-2 h-2 rounded-full bg-red-500 absolute top-2 right-2.5"></span>
+                        @if (openTodosCount() > 0) {
+                            <span class="w-2 h-2 rounded-full bg-red-500 absolute top-2 right-2.5"></span>
+                        }
                         <i class="pi pi-bell"></i>
                     </a>
                     <div
                         class="list-none m-0 py-4 px-4 rounded-3xl border border-surface absolute bg-surface-0 dark:bg-surface-900 overflow-hidden hidden origin-top min-w-72 sm:w-[24rem] mt-2 right-0 z-50 top-auto shadow-[0px_56px_16px_0px_rgba(0,0,0,0.00),0px_36px_14px_0px_rgba(0,0,0,0.01),0px_20px_12px_0px_rgba(0,0,0,0.02),0px_9px_9px_0px_rgba(0,0,0,0.03),0px_2px_5px_0px_rgba(0,0,0,0.04)]"
                         style="right: -100px"
                     >
-                        <div class="flex items-center gap-2 justify-between">
-                            <span class="text-lg font-medium text-surface-950 dark:text-surface-0">Notifications</span>
-                            <button pRipple class="text-surface-700 dark:text-surface-300 text-sm font-medium">Mark all as read</button>
-                        </div>
-                        <div class="my-2 shadow-custom-shadow border border-surface-200 dark:border-surface-800 bg-white/55 dark:bg-white/8 flex items-center gap-2 rounded-full p-1">
-                            @for (item of notificationsBars(); track item.id; let i = $index) {
-                                <button
-                                    [ngClass]="{ 'bg-primary-100 dark:bg-primary-900': selectedNotificationBar() === item.id, 'hover:bg-primary-100/30 dark:hover:bg-primary-900/30': selectedNotificationBar() !== item.id }"
-                                    class="rounded-full p-2 flex-1 flex items-center justify-center transition-all hover:cursor-pointer"
-                                    (click)="selectedNotificationBar.set(item.id)"
-                                >
-                                    <span class="capitalize font-medium text-surface-950 dark:text-surface-0">{{ item.id }}</span>
-                                </button>
+                        <div class="flex items-center gap-2 justify-between mb-4">
+                            <span class="text-lg font-medium text-surface-950 dark:text-surface-0">待办事项</span>
+                            @if (openTodosCount() > 0) {
+                                <span class="px-2 py-1 rounded-md text-xs font-semibold bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300">{{ openTodosCount() }} 项待处理</span>
                             }
                         </div>
-                        <div class="mt-4 mb-8">
-                            <p-icon-field>
-                                <p-inputicon class="pi pi-search" />
-                                <input pInputText [(ngModel)]="notificationSearch" placeholder="Search" class="w-full!" />
-                            </p-icon-field>
-                        </div>
-                        <ul class="flex flex-col gap-8">
-                            @for (item of selectedNotificationsBarData(); track item.name; let i = $index) {
-                                <li class="flex gap-3">
-                                    <div class="flex flex-col items-center gap-1">
-                                        <p-overlay-badge value="" severity="danger" class="inline-flex">
-                                            <p-avatar size="large">
-                                                <img [src]="item.image" class="rounded-lg" />
-                                            </p-avatar>
-                                        </p-overlay-badge>
-                                        <span class="flex-1 w-px bg-surface-200 dark:bg-surface-800"></span>
-                                    </div>
-                                    <div class="flex-1 pt-2 space-y-2">
-                                        <div class="flex items-center justify-between gap-2">
-                                            <span class="font-medium text-surface-950 dark:text-surface-0">{{ item.name }}</span>
-                                            <div class="text-sm text-surface-700 dark:text-surface-200 flex items-center gap-1">
-                                                {{ item.time }}
-                                                <div *ngIf="!item.read" class="w-2! h-2! rounded-full bg-green-500"></div>
+                        @if (myTodos().length === 0) {
+                            <div class="py-8 text-center">
+                                <i class="pi pi-check-circle text-4xl text-surface-300 dark:text-surface-600 mb-3"></i>
+                                <p class="text-sm text-surface-500 dark:text-surface-400">暂无待办事项</p>
+                            </div>
+                        } @else {
+                            <ul class="flex flex-col gap-4 max-h-80 overflow-y-auto">
+                                @for (todo of myTodos(); track todo.id) {
+                                    <li
+                                        class="flex gap-3 p-3 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors cursor-pointer"
+                                        (click)="navigateToTodo(todo)"
+                                    >
+                                        <div class="flex items-start pt-0.5">
+                                            <div class="w-8 h-8 flex items-center justify-center rounded-lg" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
+                                                <i class="pi text-sm" [ngClass]="todo.status === 'open' ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
                                             </div>
                                         </div>
-                                        <div class="p-2 bg-surface-100 dark:bg-surface-800 border border-surface rounded-lg">
-                                            <p class="text-sm text-surface-700 dark:text-surface-200 line-clamp-2 text-ellipsis">
-                                                {{ item.description }}
-                                            </p>
-                                        </div>
-                                        <div *ngIf="item.attachment" class="p-2 bg-surface-100 dark:bg-surface-800 border border-surface rounded-lg flex items-start gap-3">
-                                            <div class="w-8 h-8 flex items-center justify-center rounded-md shadow-sm bg-surface-0 dark:bg-surface-950">
-                                                <i class="pi pi-file-pdf text-primary"></i>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between gap-2">
+                                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ todo.title }}</span>
                                             </div>
-                                            <div class="flex-1 flex flex-col gap-0.5">
-                                                <span class="text-sm font-medium text-surface-700 dark:text-surface-200">{{ item.attachment.title }}</span>
-                                                <span class="text-xs text-surface-700 dark:text-surface-200">{{ item.attachment.size }}</span>
+                                            @if (todo.currentNodeName) {
+                                                <span class="text-xs text-surface-500 dark:text-surface-400">{{ todo.currentNodeName }}</span>
+                                            }
+                                            <div class="flex items-center gap-2 mt-1.5">
+                                                <span class="text-xs text-surface-400 dark:text-surface-500">{{ todo.businessDomain }}</span>
+                                                @if (todo.targetTitle) {
+                                                    <span class="text-xs text-surface-300 dark:text-surface-600">&middot;</span>
+                                                    <span class="text-xs text-surface-400 dark:text-surface-500 truncate">{{ todo.targetTitle }}</span>
+                                                }
                                             </div>
-                                            <p-button icon="pi pi-download" severity="contrast" styleClass="w-8! h-8! p-0!"></p-button>
                                         </div>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
                     </div>
                 </li>
                 <li class="profile-item static sm:relative">
@@ -183,106 +157,23 @@ export class AppTopbar {
 
     isDarkTheme = computed(() => this.layoutService.isDarkTheme());
     currentUser = computed(() => this.#authStore.currentUser());
+    myTodos = computed(() => this.#authStore.myTodos());
+    openTodosCount = computed(() => this.#authStore.openTodosCount());
 
     logout() {
         this.#authStore.logout();
         this.#router.navigate(['/auth/login']);
     }
 
+    navigateToTodo(todo: TodoItemSummary) {
+        if (todo.targetObjectType === 'Contract') {
+            this.#router.navigate(['/contracts', todo.targetObjectId]);
+        } else if (todo.targetObjectType === 'Project') {
+            this.#router.navigate(['/projects', todo.targetObjectId]);
+        }
+    }
+
     @ViewChild('menubutton') menuButton!: ElementRef;
-
-    notificationSearch = '';
-
-    notificationsBars = signal<NotificationsBars[]>([
-        {
-            id: 'inbox',
-            label: 'Inbox',
-            badge: '2'
-        },
-        {
-            id: 'general',
-            label: 'General'
-        },
-        {
-            id: 'archived',
-            label: 'Archived'
-        }
-    ]);
-
-    notifications = signal<any[]>([
-        {
-            id: 'inbox',
-            data: [
-                {
-                    image: '/demo/images/avatar/avatar-square-m-2.jpg',
-                    name: 'Michael Lee',
-                    description: 'You have a new message from the support team regarding your recent inquiry.',
-                    time: '1 hour ago',
-                    attachment: {
-                        title: 'Contract',
-                        size: '2.1 MB'
-                    },
-                    read: false
-                },
-                {
-                    image: '/demo/images/avatar/avatar-square-f-1.jpg',
-                    name: 'Alice Johnson',
-                    description: 'Your report has been successfully submitted and is under review.',
-                    time: '10 minutes ago',
-                    read: true
-                },
-                {
-                    image: '/demo/images/avatar/avatar-square-f-2.jpg',
-                    name: 'Emily Davis',
-                    description: 'The project deadline has been updated to September 30th. Please check the details.',
-                    time: 'Yesterday at 4:35 PM',
-                    read: false
-                }
-            ]
-        },
-        {
-            id: 'general',
-            data: [
-                {
-                    image: '/demo/images/avatar/avatar-square-f-1.jpg',
-                    name: 'Alice Johnson',
-                    description: 'Reminder: Your subscription is about to expire in 3 days. Renew now to avoid interruption.',
-                    time: '30 minutes ago',
-                    read: true
-                },
-                {
-                    image: '/demo/images/avatar/avatar-square-m-2.jpg',
-                    name: 'Michael Lee',
-                    description: 'The server maintenance has been completed successfully. No further downtime is expected.',
-                    time: 'Yesterday at 2:15 PM',
-                    read: false
-                }
-            ]
-        },
-        {
-            id: 'archived',
-            data: [
-                {
-                    image: '/demo/images/avatar/avatar-square-m-1.jpg',
-                    name: 'Lucas Brown',
-                    description: 'Your appointment with Dr. Anderson has been confirmed for October 12th at 10:00 AM.',
-                    time: '1 week ago',
-                    read: false
-                },
-                {
-                    image: '/demo/images/avatar/avatar-square-f-2.jpg',
-                    name: 'Emily Davis',
-                    description: 'The document you uploaded has been successfully archived for future reference.',
-                    time: '2 weeks ago',
-                    read: true
-                }
-            ]
-        }
-    ]);
-
-    selectedNotificationBar = model(this.notificationsBars()[0].id ?? 'inbox');
-
-    selectedNotificationsBarData = computed(() => this.notifications().find((f) => f.id === this.selectedNotificationBar()).data);
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();

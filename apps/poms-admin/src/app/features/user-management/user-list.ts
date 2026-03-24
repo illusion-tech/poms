@@ -1,18 +1,18 @@
-import { Component, computed, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
-import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { TagModule } from 'primeng/tag';
-import { DialogModule } from 'primeng/dialog';
-import { SelectModule } from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
 import { Menu, MenuModule } from 'primeng/menu';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SelectModule } from 'primeng/select';
+import { Table, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 interface User {
     id: number;
@@ -38,7 +38,7 @@ interface User {
 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                     <p-iconfield class="w-full sm:w-[217px]">
-                        <p-inputicon styleClass="pi pi-search" />
+                        <p-inputicon class="pi pi-search" />
                         <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="Search" class="w-full! py-2! rounded-xl!" />
                     </p-iconfield>
 
