@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary } from '@poms/shared-api-client';
+import { ApprovalApi, AuthApi, NavigationApi } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import type { NavigationItem, SanitizedUserWithOrgUnits } from '@poms/shared-api-client';
-import { AuthApi, NavigationApi } from '@poms/shared-api-client';
 
 export interface MenuItem {
     label?: string;
@@ -20,20 +20,19 @@ const TOKEN_STORAGE_KEY = 'poms_access_token';
 export class AuthStore {
     readonly #authApi = inject(AuthApi);
     readonly #navApi = inject(NavigationApi);
+    readonly #approvalApi = inject(ApprovalApi);
 
-    readonly token = signal<string | null>(
-        typeof localStorage !== 'undefined' ? localStorage.getItem(TOKEN_STORAGE_KEY) : null,
-    );
+    readonly token = signal(typeof localStorage !== 'undefined' ? localStorage.getItem(TOKEN_STORAGE_KEY) : null);
     readonly currentUser = signal<SanitizedUserWithOrgUnits | null>(null);
     readonly navigationTree = signal<NavigationItem[]>([]);
+    readonly myTodos = signal<TodoItemSummary[]>([]);
 
     readonly isAuthenticated = computed(() => this.token() !== null);
     readonly menuModel = computed(() => this.#toMenuModel(this.navigationTree(), true));
+    readonly openTodosCount = computed(() => this.myTodos().filter((t) => t.status === 'open').length);
 
     async login(username: string, password: string): Promise<void> {
-        const response = await firstValueFrom(
-            this.#authApi.authControllerLogin({ loginRequest: { username, password } }),
-        );
+        const response = await firstValueFrom(this.#authApi.authControllerLogin({ loginRequest: { username, password } }));
         const { accessToken } = response;
         localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
         this.token.set(accessToken);
@@ -45,6 +44,7 @@ export class AuthStore {
         this.token.set(null);
         this.currentUser.set(null);
         this.navigationTree.set([]);
+        this.myTodos.set([]);
     }
 
     async initialize(): Promise<void> {
@@ -53,13 +53,10 @@ export class AuthStore {
     }
 
     async #loadUserData(): Promise<void> {
-        const [user, nav] = await Promise.all([
-            firstValueFrom(
-                this.#authApi.authControllerGetProfile().pipe(catchError(() => of(null))),
-            ),
-            firstValueFrom(
-                this.#navApi.navigationControllerGetNavigation().pipe(catchError(() => of([]))),
-            ),
+        const [user, nav, todos] = await Promise.all([
+            firstValueFrom(this.#authApi.authControllerGetProfile().pipe(catchError(() => of(null)))),
+            firstValueFrom(this.#navApi.navigationControllerGetNavigation().pipe(catchError(() => of([])))),
+            firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))))
         ]);
         if (!user) {
             // Token 失效，清除本地状态
@@ -68,6 +65,7 @@ export class AuthStore {
         }
         this.currentUser.set(user);
         this.navigationTree.set(nav ?? []);
+        this.myTodos.set(todos ?? []);
     }
 
     #toMenuModel(items: NavigationItem[], isRoot = false): MenuItem[] {
@@ -86,7 +84,7 @@ export class AuthStore {
             const menuItem: MenuItem = {
                 label: item.title ?? undefined,
                 icon: item.icon ?? undefined,
-                disabled: item.isDisabled,
+                disabled: item.isDisabled
             };
 
             if (item.type === 'basic' && item.link) {
