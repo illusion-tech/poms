@@ -4,7 +4,6 @@ import { createNestMikroOrmOptions } from './persistence.config';
 
 @Global()
 @Module({
-    imports: [MikroOrmModule.forRoot(createNestMikroOrmOptions())],
-    exports: [MikroOrmModule]
+    imports: [MikroOrmModule.forRoot(createNestMikroOrmOptions())]
 })
 export class PersistenceModule {}
