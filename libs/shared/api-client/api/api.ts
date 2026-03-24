@@ -1,7 +1,13 @@
 export * from './app.service';
 import { AppApi } from './app.service';
+export * from './approval.service';
+import { ApprovalApi } from './approval.service';
 export * from './auth.service';
 import { AuthApi } from './auth.service';
+export * from './contract.service';
+import { ContractApi } from './contract.service';
 export * from './navigation.service';
 import { NavigationApi } from './navigation.service';
-export const APIS = [AppApi, AuthApi, NavigationApi];
+export * from './project.service';
+import { ProjectApi } from './project.service';
+export const APIS = [AppApi, ApprovalApi, AuthApi, ContractApi, NavigationApi, ProjectApi];
