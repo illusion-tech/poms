@@ -18,6 +18,7 @@ export const PERMISSION_KEYS = [
     'nav:dashboard:view',
     'nav:platform:view',
     'nav:projects:view',
+    'nav:contracts:view',
     'nav:profile:view'
 ] as const;
 
@@ -39,6 +40,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'nav:dashboard:view': { description: '查看工作台菜单', group: '导航' },
     'nav:platform:view': { description: '查看平台管理菜单', group: '导航' },
     'nav:projects:view': { description: '查看项目菜单', group: '导航' },
+    'nav:contracts:view': { description: '查看合同菜单', group: '导航' },
     'nav:profile:view': { description: '查看个人中心菜单', group: '导航' }
 };
 
@@ -262,12 +264,18 @@ export type UpdateProjectBasicInfoRequest = z.infer<typeof UpdateProjectBasicInf
 // Contract
 // ---------------------------------------------------------------------------
 
+export const CONTRACT_STATUSES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const;
+
+export const ContractStatusSchema = z.enum(CONTRACT_STATUSES).meta({ id: 'ContractStatus' });
+
+export type ContractStatus = z.infer<typeof ContractStatusSchema>;
+
 export const ContractSummarySchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
         contractNo: z.string(),
-        status: z.string(),
+        status: ContractStatusSchema,
         signedAmount: z.string(),
         currencyCode: z.string(),
         currentSnapshotId: z.uuid().nullable(),
@@ -289,7 +297,7 @@ export type ContractList = z.infer<typeof ContractListSchema>;
 export const ContractListQuerySchema = z
     .object({
         projectId: z.uuid().optional(),
-        status: z.string().trim().min(1).max(32).optional(),
+        status: ContractStatusSchema.optional(),
         keyword: z.string().trim().min(1).max(128).optional()
     })
     .meta({ id: 'ContractListQuery' });
@@ -300,7 +308,7 @@ export const CreateContractRequestSchema = z
     .object({
         projectId: z.uuid(),
         contractNo: z.string().trim().min(1).max(64),
-        status: z.string().trim().min(1).max(32).optional(),
+        status: ContractStatusSchema.optional(),
         signedAmount: z.string().trim().min(1).max(64),
         currencyCode: z.string().trim().min(1).max(16).optional(),
         currentSnapshotId: z.uuid().nullable().optional(),
@@ -373,6 +381,14 @@ export const ApprovalRecordSummarySchema = z
     .meta({ id: 'ApprovalRecordSummary' });
 
 export type ApprovalRecordSummary = z.infer<typeof ApprovalRecordSummarySchema>;
+
+/**
+ * 领域特化的审批记录类型，将 targetStatus 窄化为具体业务状态枚举。
+ * 用于在领域 Store 层做一次边界断言后，下游消费者全程受益于推导。
+ */
+export type DomainApprovalRecord<TStatus extends string> = Omit<ApprovalRecordSummary, 'targetStatus'> & {
+    targetStatus: TStatus | null;
+};
 
 export const TodoItemSummarySchema = z
     .object({

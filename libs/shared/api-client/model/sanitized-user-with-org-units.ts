@@ -36,6 +36,7 @@ export enum SanitizedUserWithOrgUnitsPermissionsEnum {
     NavDashboardView = 'nav:dashboard:view',
     NavPlatformView = 'nav:platform:view',
     NavProjectsView = 'nav:projects:view',
+    NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'
 };
 

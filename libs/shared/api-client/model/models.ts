@@ -2,6 +2,7 @@ export * from './activate-contract-request';
 export * from './approval-record-summary';
 export * from './approve-record-request';
 export * from './command-result';
+export * from './contract-status';
 export * from './contract-summary';
 export * from './create-contract-request';
 export * from './create-project-request';
