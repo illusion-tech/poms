@@ -572,3 +572,198 @@ export const RejectApprovalRecordRequestSchema = z
     .meta({ id: 'RejectApprovalRecordRequest' });
 
 export type RejectApprovalRecordRequest = z.infer<typeof RejectApprovalRecordRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Commission — Rule Version
+// ---------------------------------------------------------------------------
+
+export const CommissionTierSchema = z.object({
+    minMarginRate: z.number().min(0).max(1),
+    maxMarginRate: z.number().min(0).max(1).nullable(),
+    commissionRate: z.number().min(0).max(1)
+});
+
+export const CommissionTierDefinitionSchema = z.object({
+    tiers: z.array(CommissionTierSchema).min(1)
+});
+
+export type CommissionTierDefinition = z.infer<typeof CommissionTierDefinitionSchema>;
+
+export const CommissionRuleVersionSummarySchema = z
+    .object({
+        id: z.uuid(),
+        ruleCode: z.string(),
+        version: z.number().int(),
+        status: z.enum(['draft', 'active', 'stopped']),
+        tierDefinitionJson: CommissionTierDefinitionSchema,
+        effectiveFrom: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionRuleVersionSummary' });
+
+export type CommissionRuleVersionSummary = z.infer<typeof CommissionRuleVersionSummarySchema>;
+
+export const CreateCommissionRuleVersionRequestSchema = z
+    .object({
+        ruleCode: z.string().min(1).max(64),
+        version: z.number().int().positive(),
+        tierDefinitionJson: CommissionTierDefinitionSchema,
+        firstStageCapRuleJson: z.record(z.string(), z.unknown()).nullable().optional(),
+        secondStageCapRuleJson: z.record(z.string(), z.unknown()).nullable().optional(),
+        retentionRuleJson: z.record(z.string(), z.unknown()).nullable().optional(),
+        lowDownPaymentRuleJson: z.record(z.string(), z.unknown()).nullable().optional(),
+        exceptionRuleJson: z.record(z.string(), z.unknown()).nullable().optional(),
+        effectiveFrom: z.iso.datetime().nullable().optional()
+    })
+    .meta({ id: 'CreateCommissionRuleVersionRequest' });
+
+export type CreateCommissionRuleVersionRequest = z.infer<typeof CreateCommissionRuleVersionRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Commission — Role Assignment
+// ---------------------------------------------------------------------------
+
+export const CommissionParticipantSchema = z.object({
+    userId: z.uuid(),
+    displayName: z.string().min(1),
+    roleType: z.string().min(1),
+    weight: z.number().min(0).max(1)
+});
+
+export type CommissionParticipant = z.infer<typeof CommissionParticipantSchema>;
+
+export const CommissionRoleAssignmentSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        version: z.number().int(),
+        isCurrent: z.boolean(),
+        status: z.enum(['draft', 'frozen', 'superseded']),
+        participantsJson: z.array(CommissionParticipantSchema),
+        frozenAt: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionRoleAssignmentSummary' });
+
+export type CommissionRoleAssignmentSummary = z.infer<typeof CommissionRoleAssignmentSummarySchema>;
+
+export const CreateCommissionRoleAssignmentRequestSchema = z
+    .object({
+        participants: z.array(CommissionParticipantSchema).min(1)
+    })
+    .meta({ id: 'CreateCommissionRoleAssignmentRequest' });
+
+export type CreateCommissionRoleAssignmentRequest = z.infer<typeof CreateCommissionRoleAssignmentRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Commission — Calculation
+// ---------------------------------------------------------------------------
+
+export const CommissionCalculationSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        ruleVersionId: z.uuid(),
+        version: z.number().int(),
+        isCurrent: z.boolean(),
+        status: z.enum(['pending', 'calculated', 'effective', 'superseded']),
+        recognizedRevenueTaxExclusive: z.string(),
+        recognizedCostTaxExclusive: z.string(),
+        contributionMargin: z.string(),
+        contributionMarginRate: z.string(),
+        commissionPool: z.string(),
+        recalculatedFromId: z.uuid().nullable(),
+        approvedAt: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionCalculationSummary' });
+
+export type CommissionCalculationSummary = z.infer<typeof CommissionCalculationSummarySchema>;
+
+export const CreateCommissionCalculationRequestSchema = z
+    .object({
+        recognizedRevenueTaxExclusive: z.string().trim().min(1).max(64),
+        recognizedCostTaxExclusive: z.string().trim().min(1).max(64)
+    })
+    .meta({ id: 'CreateCommissionCalculationRequest' });
+
+export type CreateCommissionCalculationRequest = z.infer<typeof CreateCommissionCalculationRequestSchema>;
+
+export const ConfirmCommissionCalculationRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmCommissionCalculationRequest' });
+
+export type ConfirmCommissionCalculationRequest = z.infer<typeof ConfirmCommissionCalculationRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Commission — Payout
+// ---------------------------------------------------------------------------
+
+export const CommissionPayoutStageSchema = z.enum(['first', 'second', 'final']).meta({ id: 'CommissionPayoutStage' });
+
+export type CommissionPayoutStage = z.infer<typeof CommissionPayoutStageSchema>;
+
+export const CommissionPayoutTierSchema = z.enum(['basic', 'mid', 'premium']).meta({ id: 'CommissionPayoutTier' });
+
+export type CommissionPayoutTier = z.infer<typeof CommissionPayoutTierSchema>;
+
+export const CommissionPayoutSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        calculationId: z.uuid(),
+        stageType: CommissionPayoutStageSchema,
+        selectedTier: CommissionPayoutTierSchema,
+        theoreticalCapAmount: z.string(),
+        approvedAmount: z.string().nullable(),
+        paidRecordAmount: z.string().nullable(),
+        status: z.enum(['draft', 'pending-approval', 'approved', 'paid', 'reversed']),
+        approvedAt: z.iso.datetime().nullable(),
+        handledAt: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionPayoutSummary' });
+
+export type CommissionPayoutSummary = z.infer<typeof CommissionPayoutSummarySchema>;
+
+export const CreateCommissionPayoutRequestSchema = z
+    .object({
+        calculationId: z.uuid(),
+        stageType: CommissionPayoutStageSchema,
+        selectedTier: CommissionPayoutTierSchema.default('basic')
+    })
+    .meta({ id: 'CreateCommissionPayoutRequest' });
+
+export type CreateCommissionPayoutRequest = z.infer<typeof CreateCommissionPayoutRequestSchema>;
+
+export const SubmitCommissionPayoutApprovalRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'SubmitCommissionPayoutApprovalRequest' });
+
+export type SubmitCommissionPayoutApprovalRequest = z.infer<typeof SubmitCommissionPayoutApprovalRequestSchema>;
+
+export const ApproveCommissionPayoutRequestSchema = z
+    .object({
+        approvedAmount: z.string().trim().min(1).max(64).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ApproveCommissionPayoutRequest' });
+
+export type ApproveCommissionPayoutRequest = z.infer<typeof ApproveCommissionPayoutRequestSchema>;
+
+export const RegisterCommissionPayoutRequestSchema = z
+    .object({
+        paidRecordAmount: z.string().trim().min(1).max(64),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RegisterCommissionPayoutRequest' });
+
+export type RegisterCommissionPayoutRequest = z.infer<typeof RegisterCommissionPayoutRequestSchema>;
