@@ -52,6 +52,16 @@ export class AuthStore {
         await this.#loadUserData();
     }
 
+    async refreshTodos(): Promise<void> {
+        if (!this.token()) {
+            this.myTodos.set([]);
+            return;
+        }
+
+        const todos = await firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))));
+        this.myTodos.set(todos ?? []);
+    }
+
     async #loadUserData(): Promise<void> {
         const [user, nav, todos] = await Promise.all([
             firstValueFrom(this.#authApi.authControllerGetProfile().pipe(catchError(() => of(null)))),
