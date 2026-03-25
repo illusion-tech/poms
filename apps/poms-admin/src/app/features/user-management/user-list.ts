@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PlatformStore } from '@poms/admin/data-access';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -15,7 +16,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 
 interface User {
-    id: number;
+    id: string;
     name: string;
     avatar: string;
     role: string;
@@ -174,97 +175,29 @@ interface User {
     `
 })
 export class UserList {
+    readonly #platformStore = inject(PlatformStore);
+
     @ViewChild('dt') dt!: Table;
     @ViewChild('actionMenu') actionMenu!: Menu;
 
-    users = signal<User[]>([
-        {
-            id: 1,
-            name: 'Brook Simmons',
+    users = computed<User[]>(() =>
+        this.#platformStore.users().map((user) => ({
+            id: user.id,
+            name: user.displayName,
             avatar: '/demo/images/avatar/avatar-f-3.png',
-            role: 'Admin',
-            department: 'Sales',
-            joinDate: 'Feb 5th, 2025',
-            authorizationLevel: 'Full Access',
-            status: 'Active'
-        },
-        {
-            id: 2,
-            name: 'Dianne Russell',
-            avatar: '/demo/images/avatar/avatar-f-5.png',
-            role: 'Manager',
-            department: 'HR',
-            joinDate: 'Feb 24th, 2025',
-            authorizationLevel: 'Viewing Only',
-            status: 'Deactive'
-        },
-        {
-            id: 3,
-            name: 'Amy Elsner',
-            avatar: '/demo/images/avatar/amyelsner.png',
-            role: 'Admin',
-            department: 'Marketing',
-            joinDate: 'Feb 24th, 2025',
-            authorizationLevel: 'Restricted',
-            status: 'Active'
-        },
-        {
-            id: 4,
-            name: 'Guy Hawkins',
-            avatar: '/demo/images/avatar/avatar-m-2.png',
-            role: 'Admin',
-            department: 'Marketing',
-            joinDate: 'Jan 28th, 2025',
-            authorizationLevel: 'Restricted',
-            status: 'Active'
-        },
-        {
-            id: 5,
-            name: 'Darrell Steward',
-            avatar: '/demo/images/avatar/avatar-m-4.png',
-            role: 'Employee',
-            department: 'Sales',
-            joinDate: 'Jan 21th, 2025',
-            authorizationLevel: 'Viewing Only',
-            status: 'Deactive'
-        },
-        {
-            id: 6,
-            name: 'Onyama Limba',
-            avatar: '/demo/images/avatar/onyamalimba.png',
-            role: 'Manager',
-            department: 'HR',
-            joinDate: 'Jan 21th, 2025',
-            authorizationLevel: 'Full Access',
-            status: 'Deactive'
-        },
-        {
-            id: 7,
-            name: 'Arlene McCoy',
-            avatar: '/demo/images/avatar/avatar-f-7.png',
-            role: 'Manager',
-            department: 'HR',
-            joinDate: 'Jan 21th, 2025',
-            authorizationLevel: 'Full Access',
-            status: 'Deactive'
-        },
-        {
-            id: 8,
-            name: 'Annette Black',
-            avatar: '/demo/images/avatar/annafali.png',
-            role: 'Employee',
-            department: 'Marketing',
-            joinDate: 'Jan 28th, 2025',
-            authorizationLevel: 'Full Access',
-            status: 'Active'
-        }
-    ]);
+            role: user.roleNames.join(' / ') || '未分配角色',
+            department: user.primaryOrgUnitName ?? '未分配组织',
+            joinDate: user.createdAt.slice(0, 10),
+            authorizationLevel: user.roleNames.length > 0 ? 'Real API' : 'No Role',
+            status: user.isActive ? 'Active' : 'Deactive'
+        }))
+    );
 
     selectedUsers: User[] = [];
     searchValue = '';
     first = 0;
     rows = 8;
-    selectedUserId = signal<number | null>(null);
+    selectedUserId = signal<string | null>(null);
 
     menuItems = computed(() => {
         const userId = this.selectedUserId();
@@ -302,9 +235,11 @@ export class UserList {
     constructor(
         private router: Router,
         private confirmationService: ConfirmationService
-    ) {}
+    ) {
+        void this.#platformStore.loadUsers();
+    }
 
-    toggleMenu(event: Event, userId: number) {
+    toggleMenu(event: Event, userId: string) {
         this.selectedUserId.set(userId);
         this.actionMenu.toggle(event);
     }
@@ -317,7 +252,7 @@ export class UserList {
         return status === 'Active' ? 'success' : 'danger';
     }
 
-    openEditDialog(userId: number) {
+    openEditDialog(userId: string) {
         const user = this.users().find((u) => u.id === userId);
         if (user) {
             this.editingUser = user;
@@ -336,7 +271,8 @@ export class UserList {
     saveUser() {
         if (this.editingUser) {
             const users = this.users();
-            const index = users.findIndex((u) => u.id === this.editingUser!.id);
+            const editingUser = this.editingUser;
+            const index = users.findIndex((u) => u.id === editingUser.id);
             if (index !== -1) {
                 users[index] = {
                     ...users[index],
@@ -363,7 +299,7 @@ export class UserList {
         this.router.navigate(['/profile/create/basic-information']);
     }
 
-    confirmDelete(userId: number) {
+    confirmDelete(userId: string) {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete this user?',
             header: 'Confirm Deletion',
@@ -383,7 +319,8 @@ export class UserList {
         });
     }
 
-    deleteUser(userId: number) {
-        this.users.set(this.users().filter((u) => u.id !== userId));
+    deleteUser(userId: string) {
+        const users = this.#platformStore.users().filter((u) => u.id !== userId);
+        void users;
     }
 }
