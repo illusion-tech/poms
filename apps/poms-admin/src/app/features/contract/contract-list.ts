@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ContractStore, type ContractSummary } from '@poms/admin-data-access';
+import { ContractStore, type ContractStatus, type ContractSummary } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -222,21 +222,21 @@ export class ContractList implements OnInit {
         }
     }
 
-    getStatusName(status: string): string {
-        const map: Record<string, string> = {
+    getStatusName(status: ContractStatus): string {
+        const map: Record<ContractStatus, string> = {
             draft: '草稿',
-            pending_review: '待审核',
+            'pending-review': '待审核',
             active: '已生效',
             terminated: '已终止',
             completed: '已完成'
         };
-        return map[status] ?? status;
+        return map[status];
     }
 
-    getStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
+    getStatusSeverity(status: ContractStatus): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
+        const map: Record<ContractStatus, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
             draft: 'secondary',
-            pending_review: 'warn',
+            'pending-review': 'warn',
             active: 'success',
             terminated: 'danger',
             completed: 'contrast'

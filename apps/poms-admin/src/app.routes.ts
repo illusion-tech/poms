@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/components/app.layout';
-import { LandingLayout } from './app/layout/components/app.landinglayout';
 import { AuthLayout } from './app/layout/components/app.authlayout';
 import { Notfound } from './app/demo/misc/notfound/notfound';
 import { authGuard } from './app/core/auth/auth.guard';
@@ -42,90 +41,14 @@ export const appRoutes: Routes = [
                 data: { breadcrumb: '合同详情' }
             },
             {
-                path: 'demo-marketing',
-                loadComponent: () => import('./app/features/dashboard/marketing/marketingdashboard').then((c) => c.MarketingDashboard),
-                data: { breadcrumb: 'Marketing Dashboard' }
-            },
-            {
-                path: 'dashboard-ecommerce',
-                loadComponent: () => import('./app/features/dashboard/ecommerce/ecommercedashboard').then((c) => c.EcommerceDashboard),
-                data: { breadcrumb: 'E-Commerce Dashboard' }
-            },
-            {
-                path: 'dashboard-banking',
-                loadComponent: () => import('./app/features/dashboard/banking/bankingdashboard').then((c) => c.BankingDashboard),
-                data: { breadcrumb: 'Banking Dashboard' }
-            },
-            {
-                path: 'uikit',
-                data: { breadcrumb: 'UI Kit' },
-                loadChildren: () => import('./app/demo/uikit/uikit.routes')
-            },
-            {
-                path: 'documentation',
-                data: { breadcrumb: 'Documentation' },
-                loadComponent: () => import('./app/demo/documentation/documentation').then((c) => c.Documentation)
-            },
-            {
-                path: 'pages',
-                loadChildren: () => import('./app/demo/pages.routes'),
-                data: { breadcrumb: 'Pages' }
-            },
-            {
-                path: 'apps',
-                loadChildren: () => import('./app/features/apps.routes'),
-                data: { breadcrumb: 'Apps' }
-            },
-
-            {
-                path: 'blocks',
-                data: { breadcrumb: 'Free Blocks' },
-                loadChildren: () => import('./app/demo/blocks/blocks.routes')
-            },
-            {
-                path: 'ecommerce',
-                loadChildren: () => import('./app/demo/ecommerce/ecommerce.routes'),
-                data: { breadcrumb: 'E-Commerce' }
-            },
-            {
                 path: 'profile',
                 loadChildren: () => import('./app/features/user-management/usermanagement.routes'),
-                data: { breadcrumb: 'User Management' }
+                data: { breadcrumb: '个人中心' }
             },
             {
                 path: 'platform/users',
                 loadComponent: () => import('./app/features/user-management/user-list').then((c) => c.UserList),
                 data: { breadcrumb: '用户管理' }
-            }
-        ]
-    },
-    {
-        path: 'landing',
-        component: LandingLayout,
-        children: [
-            {
-                path: '',
-                loadComponent: () => import('./app/features/landing').then((c) => c.Landing)
-            },
-            {
-                path: 'about',
-                loadComponent: () => import('./app/features/landing/about').then((c) => c.About)
-            },
-            {
-                path: 'pricing',
-                loadComponent: () => import('./app/features/landing/pricing').then((c) => c.Pricing)
-            },
-            {
-                path: 'contact',
-                loadComponent: () => import('./app/features/landing/contact').then((c) => c.Contact)
-            },
-            {
-                path: 'oops',
-                loadComponent: () => import('./app/demo/misc/oops/oops').then((c) => c.Oops)
-            },
-            {
-                path: 'error',
-                redirectTo: '/notfound'
             }
         ]
     },
