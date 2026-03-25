@@ -49,6 +49,16 @@ export const appRoutes: Routes = [
                 path: 'platform/users',
                 loadComponent: () => import('./app/features/user-management/user-list').then((c) => c.UserList),
                 data: { breadcrumb: '用户管理' }
+            },
+            {
+                path: 'platform/roles',
+                loadComponent: () => import('./app/features/platform/role-list').then((c) => c.RoleList),
+                data: { breadcrumb: '角色管理' }
+            },
+            {
+                path: 'platform/org-units',
+                loadComponent: () => import('./app/features/platform/org-unit-list').then((c) => c.OrgUnitList),
+                data: { breadcrumb: '组织管理' }
             }
         ]
     },

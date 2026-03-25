@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, ApplicationConfig, inject, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
-import { AuthStore, providePomsApiClient } from '@poms/admin-data-access';
+import { AuthStore, PlatformStore, providePomsApiClient } from '@poms/admin-data-access';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { definePreset } from '@primeuix/themes';
@@ -86,6 +86,7 @@ export const appConfig: ApplicationConfig = {
             deps: [AuthStore],
             multi: true,
         },
+        PlatformStore,
         provideZonelessChangeDetection(),
         providePrimeNG({ theme: { preset: MyPreset, options: { darkModeSelector: '.app-dark' } } })
     ]

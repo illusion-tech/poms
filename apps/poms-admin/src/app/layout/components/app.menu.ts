@@ -59,6 +59,16 @@ export class AppMenu {
                     label: '用户管理',
                     icon: 'pi pi-users',
                     routerLink: ['/platform/users']
+                },
+                {
+                    label: '角色管理',
+                    icon: 'pi pi-shield',
+                    routerLink: ['/platform/roles']
+                },
+                {
+                    label: '组织管理',
+                    icon: 'pi pi-building',
+                    routerLink: ['/platform/org-units']
                 }
             ]
         }
