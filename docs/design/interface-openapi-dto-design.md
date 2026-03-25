@@ -1,7 +1,7 @@
 # POMS 接口 OpenAPI 与 DTO 边界设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-19
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段命令型接口与普通更新接口的 OpenAPI / DTO 输入输出边界基线
 **关联文档**:
 
@@ -32,6 +32,11 @@
 - 普通更新 DTO 与命令 DTO 的边界如何固定
 
 本文档不是最终 OpenAPI 文件，不直接替代 `openapi.yaml`；它的作用是先冻结接口合同边界，再进入具体 schema 与 path 设计。
+
+补充当前阶段判断：
+
+- 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
+- 因此需要把平台治理域命令 DTO、普通更新 DTO 与提成治理域补齐切片 DTO 边界补充为可直接指导接口定义的程度
 
 ---
 
@@ -101,10 +106,33 @@
 | `CommissionRoleAssignment` | `PATCH /commission-role-assignments/{id}` | 草稿态角色分配说明       | 冻结结果、变更审批结论                | 冻结后禁止普通编辑              |
 | `CommissionPayout`         | `PATCH /commission-payouts/{id}`          | 草稿态说明、非关键备注   | 批准金额、暂停 / 冲销结果、已发放结果 | 不得代替审批与登记发放          |
 | `CommissionAdjustment`     | `PATCH /commission-adjustments/{id}`      | 草稿态原因补录           | 执行结果、冲销结论、补发结论          | 执行必须走命令                  |
+| `User`                     | `PATCH /platform/users/{id}`              | 展示字段、联系方式等     | 启停、角色集合、组织集合              | 不得代替平台主数据高敏动作      |
+| `Role`                     | `PATCH /platform/roles/{id}`              | 名称、描述、排序         | 启停结论、权限集合                    | 不得代替角色启停与权限绑定      |
+| `OrgUnit`                  | `PATCH /platform/org-units/{id}`          | 名称、说明、排序         | 启停结论、父子移动结果                | 不得代替组织树结构命令          |
+| `NavigationItem`           | `PATCH /platform/navigation/{id}`         | 受控说明性字段           | 显隐、禁用、权限要求、关键链接变更    | 第一阶段建议只保留受控维护入口  |
 
 ---
 
 ## 5. 命令型接口 OpenAPI / DTO 草案
+
+### 5.0 平台治理域首批命令
+
+| 命令                             | OpenAPI 草案                               | 请求 DTO 建议字段                                                                                   | 明确禁止输入                          | 响应 DTO 关键字段                                      |
+| -------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------ |
+| `createPlatformUser`             | `POST /platform/users`                     | `username`、`displayName`、`email`、`phone`、`primaryOrgUnitId`、`initialRoleIds`                   | `isActive` 强行生效、历史审计字段     | `targetId`、`businessStatusAfter`、`roleAssignmentIds` |
+| `activatePlatformUser`           | `POST /platform/users/{id}:activate`       | `comment`、`expectedVersion`                                                                        | 用户基础资料字段整包覆盖              | `targetId`、`businessStatusAfter`、`resultStatus`      |
+| `deactivatePlatformUser`         | `POST /platform/users/{id}:deactivate`     | `reason`、`comment`、`expectedVersion`                                                              | 用户基础资料字段整包覆盖              | `targetId`、`businessStatusAfter`、`resultStatus`      |
+| `assignUserRoles`                | `PUT /platform/users/{id}/roles`           | `roleIds`、`reason`、`expectedVersion`                                                              | 用户基础资料字段、组织字段            | `targetId`、`businessStatusAfter`、`roleAssignmentIds` |
+| `assignUserOrgMemberships`       | `PUT /platform/users/{id}/org-memberships` | `primaryOrgUnitId`、`secondaryOrgUnitIds`、`reason`、`expectedVersion`                              | 用户基础资料字段、角色字段            | `targetId`、`businessStatusAfter`、`orgMembershipIds`  |
+| `createPlatformRole`             | `POST /platform/roles`                     | `roleKey`、`name`、`description`、`displayOrder`                                                    | `permissionKeys` 静默写入系统保护权限 | `targetId`、`businessStatusAfter`                      |
+| `activatePlatformRole`           | `POST /platform/roles/{id}:activate`       | `comment`、`expectedVersion`                                                                        | 角色普通维护字段整包覆盖              | `targetId`、`businessStatusAfter`                      |
+| `deactivatePlatformRole`         | `POST /platform/roles/{id}:deactivate`     | `reason`、`comment`、`expectedVersion`                                                              | 角色普通维护字段整包覆盖              | `targetId`、`businessStatusAfter`                      |
+| `assignRolePermissions`          | `PUT /platform/roles/{id}/permissions`     | `permissionKeys`、`reason`、`expectedVersion`                                                       | 角色基础字段、组织范围字段            | `targetId`、`businessStatusAfter`、`permissionKeys`    |
+| `createOrgUnit`                  | `POST /platform/org-units`                 | `name`、`code`、`description`、`parentId`、`displayOrder`                                           | 用户关系字段、组织启停字段            | `targetId`、`businessStatusAfter`                      |
+| `activateOrgUnit`                | `POST /platform/org-units/{id}:activate`   | `comment`、`expectedVersion`                                                                        | 普通组织说明字段整包覆盖              | `targetId`、`businessStatusAfter`                      |
+| `deactivateOrgUnit`              | `POST /platform/org-units/{id}:deactivate` | `reason`、`comment`、`expectedVersion`                                                              | 普通组织说明字段整包覆盖              | `targetId`、`businessStatusAfter`                      |
+| `moveOrgUnit`                    | `POST /platform/org-units/{id}:move`       | `newParentId`、`displayOrder`、`reason`、`expectedVersion`                                          | 普通说明字段、用户关系字段            | `targetId`、`businessStatusAfter`、`newParentId`       |
+| `updateNavigationItemGovernance` | `POST /platform/navigation/{id}:govern`    | `title`、`icon`、`displayOrder`、`isHidden`、`isDisabled`、`requiredPermissions`、`expectedVersion` | 非受控未知路由、框架私有运行时参数    | `targetId`、`businessStatusAfter`、`resultStatus`      |
 
 ### 5.1 销售流程域首批命令
 
@@ -152,6 +180,12 @@
 | `executeCommissionAdjustment`    | `POST /commission-adjustments/{id}:execute`           | `comment`、`expectedVersion`                               | 草稿原因字段与执行结果字段混合提交      | `targetId`、`businessStatusAfter`、`approvalRecordId` |
 | `activateCommissionRuleVersion`  | `POST /commission-rule-versions/{id}:activate`        | `comment`、`expectedVersion`                               | 规则定义包静默改写                      | `targetId`、`businessStatusAfter`、`newVersionId`     |
 
+补充与第一阶段补齐切片的 DTO 映射：
+
+- `P1-S10` 应先冻结规则版本、角色冻结 / 变更相关请求 DTO
+- `P1-S11` 应先冻结计算复核、发放审批、登记发放请求 DTO
+- `P1-S12` 应先冻结调整执行、重算触发请求 DTO
+
 ### 5.4 横切审批域公共命令
 
 | 命令                      | OpenAPI 草案                              | 请求 DTO 建议字段                            | 明确禁止输入                 | 响应 DTO 关键字段                                         |
@@ -172,6 +206,10 @@
 1. `PatchDto`: 仅用于草稿态普通维护。
 2. `CommandRequestDto`: 仅用于单一动作命令。
 3. `CommandResultDto`: 仅用于返回动作执行结果。
+
+对平台治理域与提成治理域，建议再补一层统一响应投影约定：
+
+4. `AdminDetailDto` / `DomainDetailDto`: 仅用于详情查询，不在命令响应中直接复用。
 
 建议避免以下反模式：
 

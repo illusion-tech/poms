@@ -1,7 +1,7 @@
 # POMS Schema 与 DDL 细化设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-19
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段在接口、查询视图与逻辑表结构边界稳定后，用于进入真实建表脚本前的 schema / DDL 级细化基线
 **关联文档**:
 
@@ -33,6 +33,11 @@
 - 哪些约束应在 DDL 中强绑定，哪些仅保留业务引用
 
 本文档仍不是最终数据库迁移脚本，但它已经是写建表 SQL、ORM schema 或迁移文件前的直接输入。第一阶段默认数据库能力以 `ADR-012` 已接受的 `PostgreSQL` 方案为准，应用层 ORM 默认采用 `MikroORM`。
+
+补充当前阶段判断：
+
+- 本文档当前不仅服务于已完成主干链路，也直接服务于平台治理域与提成治理域的第一阶段补齐实施
+- 因此需要把平台治理域主数据表与提成治理域核心表明确补入 DDL 级输入
 
 ---
 
@@ -150,8 +155,21 @@
 - `receivable_plan_version.contract_id -> contract.id`
 - `receivable_plan_version.snapshot_id -> contract_term_snapshot.id`
 - `payment_record.payable_record_id -> payable_record.id`
+- `platform_user.primary_org_unit_id -> org_unit.id`
+- `user_role_assignment.user_id -> platform_user.id`
+- `user_role_assignment.role_id -> role.id`
+- `user_org_membership.user_id -> platform_user.id`
+- `user_org_membership.org_unit_id -> org_unit.id`
+- `role_permission_assignment.role_id -> role.id`
 - `commission_calculation.project_id -> project.id`
 - `commission_calculation.rule_version_id -> commission_rule_version.id`
+- `commission_role_assignment.project_id -> project.id`
+- `commission_role_assignment.user_id -> platform_user.id`
+- `commission_payout.project_id -> project.id`
+- `commission_payout.calculation_id -> commission_calculation.id`
+- `commission_adjustment.project_id -> project.id`
+- `commission_adjustment.related_payout_id -> commission_payout.id`
+- `commission_adjustment.related_calculation_id -> commission_calculation.id`
 - `commission_calculation_snapshot.commission_calculation_id -> commission_calculation.id`
 - `approval_record_node.approval_record_id -> approval_record.id`
 - `confirmation_participant.confirmation_record_id -> confirmation_record.id`
@@ -179,19 +197,26 @@
 
 第一阶段建议至少固定以下唯一约束：
 
-| 表                                   | 唯一约束建议                              | 目的                                           |
-| ------------------------------------ | ----------------------------------------- | ---------------------------------------------- |
-| `project`                            | `project_code`                            | 项目编号唯一                                   |
-| `contract`                           | `contract_no`                             | 合同编号唯一                                   |
-| `invoice_record`                     | `invoice_no`                              | 发票编号唯一，若业务允许外部重复则改为条件唯一 |
-| `scope_confirmation_version`         | `project_id + version`                    | 项目范围版本唯一                               |
-| `contract_amendment`                 | `contract_id + version`                   | 合同变更版本唯一                               |
-| `receivable_plan_version`            | `contract_id + version`                   | 应收计划版本唯一                               |
-| `commission_role_assignment_version` | `project_id + version`                    | 提成角色分配版本唯一                           |
-| `commission_calculation`             | `project_id + version`                    | 提成计算版本唯一                               |
-| `commission_rule_version`            | `version` 或 `rule_code + version`        | 规则版本唯一                                   |
-| `approval_record_node`               | `approval_record_id + node_key`           | 审批节点唯一                                   |
-| `confirmation_participant`           | `confirmation_record_id + participant_id` | 确认参与人唯一                                 |
+| 表                           | 唯一约束建议                                   | 目的                                           |
+| ---------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| `project`                    | `project_code`                                 | 项目编号唯一                                   |
+| `contract`                   | `contract_no`                                  | 合同编号唯一                                   |
+| `platform_user`              | `username`                                     | 登录名唯一                                     |
+| `role`                       | `role_key`                                     | 角色稳定键唯一                                 |
+| `org_unit`                   | `code`                                         | 组织编码唯一                                   |
+| `user_role_assignment`       | `user_id + role_id`（有效关系条件唯一）        | 同一用户同一角色有效关系唯一                   |
+| `user_org_membership`        | `user_id + org_unit_id`（有效关系条件唯一）    | 同一用户同一组织有效关系唯一                   |
+| `role_permission_assignment` | `role_id + permission_key`（有效关系条件唯一） | 同一角色同一权限有效关系唯一                   |
+| `invoice_record`             | `invoice_no`                                   | 发票编号唯一，若业务允许外部重复则改为条件唯一 |
+| `scope_confirmation_version` | `project_id + version`                         | 项目范围版本唯一                               |
+| `contract_amendment`         | `contract_id + version`                        | 合同变更版本唯一                               |
+| `receivable_plan_version`    | `contract_id + version`                        | 应收计划版本唯一                               |
+| `commission_role_assignment` | `project_id + version`                         | 提成角色分配版本唯一                           |
+| `commission_calculation`     | `project_id + version`                         | 提成计算版本唯一                               |
+| `commission_rule_version`    | `version` 或 `rule_code + version`             | 规则版本唯一                                   |
+| `commission_payout`          | `project_id + calculation_id + stage_type`     | 同一项目同一计算版本同一发放阶段唯一           |
+| `approval_record_node`       | `approval_record_id + node_key`                | 审批节点唯一                                   |
+| `confirmation_participant`   | `confirmation_record_id + participant_id`      | 确认参与人唯一                                 |
 
 对于 `is_current = true` 的版本表，第一阶段建议直接使用 `PostgreSQL` 的部分唯一索引表达“同一主体同一时刻只能存在一条当前有效记录”，例如：
 
@@ -210,6 +235,13 @@
 - `project.status`
 - `project.current_stage`
 - `project.owner_org_id`
+- `platform_user.username`
+- `platform_user.is_active`
+- `platform_user.primary_org_unit_id`
+- `role.role_key`
+- `role.is_active`
+- `org_unit.parent_id`
+- `org_unit.is_active`
 - `contract.project_id`
 - `contract.status`
 - `receipt_record.project_id`
@@ -218,8 +250,14 @@
 - `invoice_record.project_id`
 - `invoice_record.contract_id`
 - `invoice_record.status`
+- `user_role_assignment.user_id + status`
+- `user_org_membership.user_id + status`
+- `role_permission_assignment.role_id + status`
 - `commission_calculation.project_id`
 - `commission_calculation.is_current`
+- `commission_role_assignment.project_id + is_current`
+- `commission_payout.project_id + status`
+- `commission_adjustment.project_id + status`
 
 ### 6.2 动作追溯与待办索引
 
@@ -240,7 +278,7 @@
 - `scope_confirmation_version.project_id + is_current`
 - `contract_amendment.contract_id + is_current`
 - `receivable_plan_version.contract_id + is_current`
-- `commission_role_assignment_version.project_id + is_current`
+- `commission_role_assignment.project_id + is_current`
 - `commission_calculation.project_id + is_current`
 - `contract_term_snapshot.contract_id + effective_at`
 
@@ -350,6 +388,261 @@
 - 外键：`project_id -> project.id`、`rule_version_id -> commission_rule_version.id`
 - 唯一：`project_id + version`
 - 索引：`project_id + is_current`、`status`
+
+### 7.4A `platform_user`
+
+建议最小字段：
+
+- `id`
+- `username`
+- `display_name`
+- `email`
+- `phone`
+- `avatar_url`
+- `is_active`
+- `primary_org_unit_id`
+- `last_login_at`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`primary_org_unit_id -> org_unit.id`
+- 唯一：`username`
+- 索引：`username`、`is_active`、`primary_org_unit_id`
+
+### 7.4B `role`
+
+建议最小字段：
+
+- `id`
+- `role_key`
+- `name`
+- `description`
+- `is_active`
+- `is_system_role`
+- `display_order`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 唯一：`role_key`
+- 索引：`role_key`、`is_active`
+
+### 7.4C `org_unit`
+
+建议最小字段：
+
+- `id`
+- `name`
+- `code`
+- `description`
+- `parent_id`
+- `is_active`
+- `display_order`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`parent_id -> org_unit.id`
+- 唯一：`code`
+- 索引：`parent_id`、`is_active`
+
+### 7.4D `user_role_assignment`
+
+建议最小字段：
+
+- `id`
+- `user_id`
+- `role_id`
+- `status`
+- `assigned_at`
+- `assigned_by`
+- `revoked_at`
+- `revoked_by`
+- `change_reason`
+- `created_at`
+- `created_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`user_id -> platform_user.id`、`role_id -> role.id`
+- 条件唯一：同一 `user_id + role_id` 仅允许一条 `status = active`
+- 索引：`user_id + status`、`role_id + status`
+
+### 7.4E `user_org_membership`
+
+建议最小字段：
+
+- `id`
+- `user_id`
+- `org_unit_id`
+- `membership_type`
+- `status`
+- `assigned_at`
+- `assigned_by`
+- `revoked_at`
+- `revoked_by`
+- `change_reason`
+- `created_at`
+- `created_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`user_id -> platform_user.id`、`org_unit_id -> org_unit.id`
+- 条件唯一：同一 `user_id + org_unit_id` 仅允许一条 `status = active`
+- 条件唯一：同一 `user_id` 仅允许一条 `membership_type = primary and status = active`
+- 索引：`user_id + status`、`org_unit_id + status`
+
+### 7.4F `role_permission_assignment`
+
+建议最小字段：
+
+- `id`
+- `role_id`
+- `permission_key`
+- `status`
+- `assigned_at`
+- `assigned_by`
+- `revoked_at`
+- `revoked_by`
+- `change_reason`
+- `created_at`
+- `created_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`role_id -> role.id`
+- 条件唯一：同一 `role_id + permission_key` 仅允许一条 `status = active`
+- 索引：`role_id + status`、`permission_key`
+
+### 7.4G `commission_rule_version`
+
+建议最小字段：
+
+- `id`
+- `rule_code`
+- `version`
+- `status`
+- `effective_from`
+- `tier_definition_json`
+- `first_stage_cap_rule_json`
+- `second_stage_cap_rule_json`
+- `retention_rule_json`
+- `low_down_payment_rule_json`
+- `exception_rule_json`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 唯一：`rule_code + version`
+- 索引：`status`、`effective_from`
+
+### 7.4H `commission_role_assignment`
+
+建议最小字段：
+
+- `id`
+- `project_id`
+- `version`
+- `is_current`
+- `role_type`
+- `user_id`
+- `weight`
+- `status`
+- `frozen_at`
+- `supersedes_id`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`project_id -> project.id`、`user_id -> platform_user.id`
+- 唯一：`project_id + version`
+- 索引：`project_id + is_current`、`status`
+
+### 7.4I `commission_payout`
+
+建议最小字段：
+
+- `id`
+- `project_id`
+- `calculation_id`
+- `stage_type`
+- `selected_tier`
+- `theoretical_cap_amount`
+- `approved_amount`
+- `paid_record_amount`
+- `status`
+- `approved_at`
+- `approved_by`
+- `handled_at`
+- `handled_by`
+- `reversed_from_id`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`project_id -> project.id`、`calculation_id -> commission_calculation.id`
+- 唯一：`project_id + calculation_id + stage_type`
+- 索引：`project_id + status`、`calculation_id`
+
+### 7.4J `commission_adjustment`
+
+建议最小字段：
+
+- `id`
+- `project_id`
+- `adjustment_type`
+- `related_payout_id`
+- `related_calculation_id`
+- `amount`
+- `reason`
+- `status`
+- `executed_at`
+- `executed_by`
+- `row_version`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`project_id -> project.id`、`related_payout_id -> commission_payout.id`、`related_calculation_id -> commission_calculation.id`
+- 索引：`project_id + status`、`related_payout_id`、`related_calculation_id`
 
 ### 7.5 `approval_record`
 

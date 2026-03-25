@@ -1,7 +1,7 @@
 # POMS 表结构冻结设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-19
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段在查询视图边界与数据模型前提已形成基线后，用于进入 schema / DDL 细化前的逻辑表结构冻结设计
 **关联文档**:
 
@@ -33,6 +33,11 @@
 
 本文档不是最终 DDL，也不直接给出具体数据库方言；它的作用是先冻结逻辑表边界、主键关系、核心字段组和读写支撑要求，再进入真正的 schema 命名、字段类型、索引与约束细化。
 
+补充当前阶段判断：
+
+- 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
+- 因此需要把平台治理域主数据逻辑表与提成治理域补齐对象正式纳入表结构冻结范围
+
 ---
 
 ## 2. 冻结范围与基本原则
@@ -58,6 +63,11 @@
 | 快照表        | 承载生效时点冻结输入                         | `contract_term_snapshot`、`commission_calculation_snapshot`                                              | 必须明确生成时点与引用关系                             |
 | 动作记录表    | 承载审批、确认、关闭、作废、冲销、重算等事实 | `approval_record`、`confirmation_record`、`receipt_record_action`                                        | 必须追加式留痕，不能被普通更新覆盖                     |
 | 派生 / 支撑表 | 承载待办、通知、附件、审计、汇总缓存等       | `todo_item`、`notification_record`、`audit_log`                                                          | 必须明确其派生来源，不反向决定主体事实                 |
+
+补充说明：
+
+- 平台治理域中的关系表（用户-角色、用户-组织、角色-权限）在第一阶段应视为正式关系事实源，而不是临时映射层
+- 提成治理域中的规则、分配、计算、发放、调整对象在第一阶段都应进入正式冻结范围，不能继续停留在专题设计层
 
 ---
 
@@ -89,14 +99,30 @@
 
 ### 4.3 提成治理域
 
-| 逻辑表                               | 表角色     | 最小字段组                                                                                       | 关键关系                      | 说明                 |
-| ------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------ | ----------------------------- | -------------------- |
-| `commission_role_assignment_version` | 版本表     | `id`、`project_id`、`version`、`is_current`、`status`                                            | 归属 `project`                | 角色分配版本链       |
-| `commission_calculation`             | 版本表     | `id`、`project_id`、`rule_version_id`、`version`、`is_current`、`status`、`recalculated_from_id` | 归属 `project`                | 计算结果版本链       |
-| `commission_calculation_snapshot`    | 快照表     | `id`、`commission_calculation_id`、`snapshot_status`、`generated_at`                             | 归属 `commission_calculation` | 计算输入冻结口径     |
-| `commission_payout`                  | 动作记录表 | `id`、`project_id`、`approved_amount`、`paid_amount`、`status`、`paid_at`                        | 归属 `project`                | 发放与冲销事实       |
-| `commission_adjustment`              | 动作记录表 | `id`、`project_id`、`adjustment_type`、`status`、`handled_at`                                    | 归属 `project`                | 异常调整、补发、扣回 |
-| `commission_rule_version`            | 版本表     | `id`、`version`、`is_current`、`effective_at`、`status`                                          | 被计算结果引用                | 统一规则版本对象     |
+| 逻辑表                            | 表角色     | 最小字段组                                                                                                          | 关键关系                                  | 说明                 |
+| --------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | -------------------- |
+| `commission_rule_version`         | 版本表     | `id`、`rule_code`、`version`、`status`、`effective_at`                                                              | 被计算结果引用                            | 统一规则版本对象     |
+| `commission_role_assignment`      | 版本表     | `id`、`project_id`、`version`、`is_current`、`role_type`、`user_id`、`weight`、`status`                             | 归属 `project`                            | 角色分配版本链       |
+| `commission_calculation`          | 版本表     | `id`、`project_id`、`rule_version_id`、`version`、`is_current`、`status`、`recalculated_from_id`                    | 归属 `project`                            | 计算结果版本链       |
+| `commission_calculation_snapshot` | 快照表     | `id`、`commission_calculation_id`、`snapshot_status`、`generated_at`                                                | 归属 `commission_calculation`             | 计算输入冻结口径     |
+| `commission_payout`               | 动作记录表 | `id`、`project_id`、`calculation_id`、`stage_type`、`approved_amount`、`paid_record_amount`、`status`、`handled_at` | 归属 `project` / `commission_calculation` | 发放与冲销事实       |
+| `commission_adjustment`           | 动作记录表 | `id`、`project_id`、`adjustment_type`、`related_payout_id`、`related_calculation_id`、`status`、`handled_at`        | 归属 `project` / 提成发放 / 计算结果      | 异常调整、补发、扣回 |
+
+### 4.3A 平台治理域
+
+| 逻辑表                       | 表角色        | 最小字段组                                                                               | 关键关系                          | 说明                   |
+| ---------------------------- | ------------- | ---------------------------------------------------------------------------------------- | --------------------------------- | ---------------------- |
+| `platform_user`              | 主体主表      | `id`、`username`、`display_name`、`is_active`、`primary_org_unit_id`                     | 归属 `org_unit`                   | 平台用户主体           |
+| `role`                       | 主体主表      | `id`、`role_key`、`name`、`is_active`、`is_system_role`                                  | 被 `user_role_assignment` 引用    | 平台角色主体           |
+| `org_unit`                   | 主体主表      | `id`、`name`、`code`、`parent_id`、`is_active`、`display_order`                          | 自引用树结构；被用户关系引用      | 平台组织树主体         |
+| `user_role_assignment`       | 动作 / 关系表 | `id`、`user_id`、`role_id`、`status`、`assigned_at`、`revoked_at`                        | 归属 `platform_user` / `role`     | 用户与角色正式关系来源 |
+| `user_org_membership`        | 动作 / 关系表 | `id`、`user_id`、`org_unit_id`、`membership_type`、`status`、`assigned_at`、`revoked_at` | 归属 `platform_user` / `org_unit` | 用户与组织正式关系来源 |
+| `role_permission_assignment` | 动作 / 关系表 | `id`、`role_id`、`permission_key`、`status`、`assigned_at`、`revoked_at`                 | 归属 `role`                       | 角色与权限正式关系来源 |
+
+说明：
+
+- 第一阶段权限字典仍可保持共享契约 + 种子事实源，不强制单独冻结为可维护主表
+- 但 `role_permission_assignment` 必须进入正式关系表冻结范围
 
 ### 4.4 横切支撑域
 
@@ -142,6 +168,23 @@
 - `created_at`、`created_by`
 - `updated_at`、`updated_by`
 - `expected_version` 或等价乐观锁字段
+
+### 5.5 平台治理域关键字段组
+
+- `platform_user.username / is_active / primary_org_unit_id`
+- `role.role_key / is_active / is_system_role`
+- `org_unit.code / parent_id / is_active / display_order`
+- `user_role_assignment.status / assigned_at / revoked_at`
+- `user_org_membership.membership_type / status / assigned_at / revoked_at`
+- `role_permission_assignment.permission_key / status / assigned_at / revoked_at`
+
+### 5.6 提成治理域关键字段组补充
+
+- `commission_rule_version.rule_code / version / status / effective_at`
+- `commission_role_assignment.role_type / user_id / weight / version / is_current`
+- `commission_calculation.rule_version_id / version / is_current / recalculated_from_id`
+- `commission_payout.calculation_id / stage_type / approved_amount / paid_record_amount / status`
+- `commission_adjustment.adjustment_type / related_payout_id / related_calculation_id / status`
 
 说明：
 

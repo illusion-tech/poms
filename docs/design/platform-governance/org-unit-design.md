@@ -1,7 +1,7 @@
 # POMS 组织单元详细设计
 
-**文档状态**: Review
-**最后更新**: 2026-03-10
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段平台治理域中的组织单元模块
 **关联文档**:
 
@@ -75,6 +75,12 @@
 - 当前共享契约中的 `UnitOrg` 仅包含 `id/name/code/description`
 - 当前 `SanitizedUserWithOrgUnits` 中的 `orgUnits` 仍基于轻量 `UnitOrg` 输出
 - 当前真实组织树、启停、排序、父子关系管理尚未进入正式实现
+
+当前缺口判断：
+
+- 尚无 `OrgUnit` 正式实体、migration、repository 与管理模块
+- 尚无组织树查询、详情、创建、更新、启停、移动等真实 API
+- 尚无 `UserOrgMembership` 的真实持久化关系模型
 
 这意味着第一阶段组织单元设计需要明确：
 
@@ -161,6 +167,18 @@ flowchart TD
 - `UnitOrg` 仅作为轻量展示视图使用
 - `UnitOrg` 不承载 `parentId`、`isActive`、`displayOrder` 等组织管理字段
 - 若前端需要组织管理能力，应通过正式组织单元接口读取完整模型，而不是复用 `UnitOrg`
+
+### 6.4 第一阶段最小落地要求
+
+第一阶段组织单元补齐时，至少应落到以下能力：
+
+- 组织树查询
+- 组织单元详情查询
+- 组织单元创建
+- 组织单元基础信息更新
+- 组织启用 / 停用
+- 组织节点移动与排序调整
+- 用户主责 / 附属组织选择时消费正式组织数据源
 
 ---
 
@@ -258,6 +276,32 @@ flowchart TD
 
 - 不允许将节点移动到已停用节点之下
 - 不允许将节点移动到自身后代之下
+
+### 9.7 与补齐计划的衔接
+
+本模块属于 `P1-S08` 的优先起步对象。
+
+原因：
+
+- 用户必须绑定主责组织
+- 平台主数据真实化需要先有正式组织事实源
+- 后续导航、审批责任人、提成参与人都需要统一组织维度
+
+第一阶段建议至少提供以下接口：
+
+- `GET /platform/org-units/tree`
+- `GET /platform/org-units`
+- `GET /platform/org-units/:id`
+- `POST /platform/org-units`
+- `PATCH /platform/org-units/:id`
+- `POST /platform/org-units/:id/activate`
+- `POST /platform/org-units/:id/deactivate`
+- `POST /platform/org-units/:id/move`
+
+说明：
+
+- 启停与移动应使用命令接口
+- 排序调整可并入移动命令或独立命令，但不建议静默混入普通更新
 - 已停用节点下不允许新建、移动或激活子节点
 - 节点移动后应同步影响树路径和相关派生展示信息
 

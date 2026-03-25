@@ -1,7 +1,7 @@
 # POMS 提成结算设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-16
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段提成治理域中的角色分配、计算、发放、异常调整与重算
 **关联文档**:
 
@@ -45,6 +45,12 @@
 - 本文档优先收敛生效数据来源、规则版本、发放上限和异常处理
 - 本文档不在第一阶段承诺对接真实财务付款、薪资系统或银行流水
 
+补充当前实现判断：
+
+- 当前仓库中提成治理域仍无真实后端模块、实体、migration、API、前端页面与测试
+- 当前提成治理域仍停留在“设计已形成、实现未启动”的状态
+- 因此本模块不应再被视为后续可选议题，而应重新纳回第一阶段补齐范围
+
 ---
 
 ## 3. 上游约束
@@ -81,6 +87,18 @@
 - `CommissionPayout`
 - `CommissionAdjustment`
 - `CommissionRuleVersion`
+
+### 5.4 当前缺口判断
+
+截至当前，以下能力仍未进入真实实现：
+
+- 提成规则版本持久化与生效接口
+- 提成角色分配与冻结接口
+- 提成计算与结果持久化
+- 提成发放审批与业务发放登记接口
+- 提成异常调整、冲销与重算链路
+- 提成治理前端列表 / 详情 / 操作页面
+- 提成治理自动化测试与 OpenAPI 客户端产物
 
 ### 5.2 第一阶段不在本域内强行扩展的内容
 
@@ -214,6 +232,22 @@ flowchart LR
 - 状态：草稿、待生效、已生效、已停用
 - 关键动作：创建、提交生效、启用、停用
 - 回退规则：已生效规则不得静默改写，应通过新版本替代
+
+### 8.6 与第一阶段补齐计划的衔接
+
+本模块在第一阶段补齐中分为三个实现切片：
+
+- `P1-S10`：提成规则与角色分配基线
+- `P1-S11`：提成计算与发放最小闭环
+- `P1-S12`：提成异常调整与重算闭环
+
+实现顺序要求：
+
+1. 先建立 `CommissionRuleVersion` 与 `CommissionRoleAssignment`
+2. 再建立 `CommissionCalculation` 与 `CommissionPayout`
+3. 最后建立 `CommissionAdjustment` 与重算替代链
+
+不建议跳过规则与分配直接先做发放页或审批页。
 
 ---
 
@@ -484,6 +518,45 @@ flowchart LR
 - 违规、退款、坏账等异常能生成调整记录并保留审计链
 - 已发放记录不可直接删除，只能暂停、冲销或补发
 
+### 14.1 第一阶段最小接口建议
+
+为支持第一阶段补齐，建议至少提供以下接口族：
+
+#### 规则与角色分配
+
+- `GET /commission/rule-versions`
+- `GET /commission/rule-versions/:id`
+- `POST /commission/rule-versions`
+- `POST /commission/rule-versions/:id/activate`
+- `GET /projects/:projectId/commission-role-assignments`
+- `POST /projects/:projectId/commission-role-assignments`
+- `POST /projects/:projectId/commission-role-assignments/:id/freeze`
+
+#### 计算与发放
+
+- `POST /projects/:projectId/commission-calculations/trigger`
+- `GET /projects/:projectId/commission-calculations`
+- `POST /commission-calculations/:id/effective`
+- `GET /projects/:projectId/commission-payouts`
+- `POST /projects/:projectId/commission-payouts`
+- `POST /commission-payouts/:id/submit-review`
+- `POST /commission-payouts/:id/approve`
+- `POST /commission-payouts/:id/register-payment`
+
+#### 调整与重算
+
+- `GET /projects/:projectId/commission-adjustments`
+- `POST /projects/:projectId/commission-adjustments`
+- `POST /commission-adjustments/:id/approve`
+- `POST /commission-adjustments/:id/execute`
+- `POST /commission-calculations/:id/recalculate`
+
+说明：
+
+- 高敏动作必须使用命令接口
+- 发放登记不等价于真实财务付款
+- 重算必须保留替代关系，不能覆盖原记录
+
 ---
 
 ## 15. 当前仍待后续细化的问题
@@ -498,4 +571,4 @@ flowchart LR
 
 ## 16. 当前结论
 
-本首版文档已经足以作为提成治理域详细设计基线。当前最重要的动作不是继续扩写提成专题，而是完成与合同资金域、审批流、业务授权矩阵之间的最后一轮收口并进入正式评审，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路以当前口径稳定闭环。
+本首版文档已足以作为提成治理域补齐实施的设计输入。当前最重要的动作不是继续停留在专题设计，而是按 `P1-S10` ~ `P1-S12` 的顺序进入真实实现，并在每个切片完成后同步回写接口、表结构、审批映射与进度文档，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路在第一阶段真实落地。

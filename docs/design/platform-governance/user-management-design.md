@@ -1,7 +1,7 @@
 # POMS 用户管理详细设计
 
-**文档状态**: Review
-**最后更新**: 2026-03-10
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段平台治理域中的用户管理模块
 **关联文档**:
 
@@ -75,9 +75,15 @@
 
 - 后端 `auth/login` 当前使用开发期硬编码用户与明文密码，仅用于本地联调
 - 后端 `auth/profile` 当前返回 `SanitizedUserWithOrgUnits`
-- 当前 `profile` 返回数据中 `roles` 仍为空数组，`orgUnits` 也为空数组，说明真实关系模型尚未接入
+- 当前用户、角色、组织主要仍来自开发期平台 fixture，而不是真实持久化模型
 - 当前共享契约中 `SanitizedUser` / `SanitizedUserWithOrgUnits` 已具备基础用户展示字段
 - 前端 `poms-admin` 的用户列表与创建页仍主要是模板演示数据，尚不是系统真实用户管理实现
+
+当前缺口判断：
+
+- 尚无 `User` 正式实体、repository、migration 与管理模块
+- 尚无用户列表、详情、创建、更新、启停、角色分配、组织分配的真实 API
+- `/platform/users` 仍未接入真实用户管理后端
 
 这意味着第一阶段用户管理设计需要明确两层边界：
 
@@ -189,6 +195,25 @@ flowchart LR
 - 用户恢复启用后，可重新参与正常认证与授权计算
 - 第一阶段不允许以删除用户代替停用用户
 
+### 6.5 第一阶段最小落地要求
+
+第一阶段用户管理补齐时，至少应落到以下能力：
+
+- 用户列表查询
+- 用户详情查询
+- 用户创建
+- 用户基础资料更新
+- 用户启用 / 停用
+- 用户角色分配与撤销
+- 用户主责组织绑定与附属组织维护
+
+第一阶段不要求：
+
+- 自助注册
+- 找回密码
+- 复杂密码安全策略前台化
+- 用户画像类扩展属性
+
 ---
 
 ## 7. 认证与用户状态衔接
@@ -228,6 +253,16 @@ flowchart LR
 - 用户角色关系与组织关系查询
 - 当前用户资料的真实聚合输出
 
+### 7.5 与补齐计划的衔接
+
+本模块属于 `P1-S08` 的核心范围。
+
+补齐顺序建议：
+
+1. 先落 `User`、`LocalCredential`、`UserRoleAssignment`、`UserOrgMembership` 的真实表结构
+2. 再补最小管理 API 与当前用户聚合查询
+3. 最后把 `/platform/users` 页面切换到真实 API
+
 ---
 
 ## 8. 用户与角色关系设计
@@ -258,6 +293,25 @@ flowchart LR
 - 同一 `userId + roleId` 在有效状态下应唯一
 - 撤销关系应保留历史记录，不建议直接物理删除
 - 用户有效权限只计算有效角色关系
+
+### 8.2 第一阶段接口建议
+
+第一阶段建议至少提供以下接口：
+
+- `GET /platform/users`
+- `GET /platform/users/:id`
+- `POST /platform/users`
+- `PATCH /platform/users/:id`
+- `POST /platform/users/:id/activate`
+- `POST /platform/users/:id/deactivate`
+- `PUT /platform/users/:id/roles`
+- `PUT /platform/users/:id/org-memberships`
+
+说明：
+
+- 高敏动作不与普通资料更新混用
+- 角色分配和组织分配建议使用单独命令接口
+- 当前用户资料接口继续独立于后台管理接口存在
 - 用户停用后，即使关系仍保留，也不得继续获得有效权限
 
 ### 8.2 与角色权限设计的衔接

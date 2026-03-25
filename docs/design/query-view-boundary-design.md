@@ -1,7 +1,7 @@
 # POMS 查询视图边界设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-19
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段在进入表结构冻结与 schema / DDL 细化前，对查询接口、详情视图、经营看板与统一待办读侧边界的基线约束
 **关联文档**:
 
@@ -32,6 +32,11 @@
 - 查询视图对表结构冻结提出哪些约束
 
 本文档不是最终查询 API 清单，也不直接给出最终 SQL 或报表实现；它的作用是先冻结“读侧需要什么边界”，避免后续表结构冻结时只围绕写侧对象落表而忽略实际查询需求。
+
+补充当前阶段判断：
+
+- 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
+- 因此需要把平台治理页、提成治理页和平台主数据聚合查询正式纳入第一阶段读侧边界
 
 ---
 
@@ -126,6 +131,18 @@
 | `CommissionPayoutListView`        | `CommissionPayout`      | 支撑发放列表     | `payoutNo`、`projectName`、`approvedAmount`、`paidAmount`、`payoutStatus`                             | 批准金额与实际登记金额并列但不可混算 |
 | `CommissionAdjustmentHistoryView` | `CommissionAdjustment`  | 支撑异常调整追溯 | `adjustmentType`、`relatedTargetType`、`relatedTargetId`、`resultStatus`、`handledAt`                 | 以动作事实为中心                     |
 
+### 5.3A 平台治理域
+
+| 查询视图                       | 主要对象         | 目标                      | 最小字段组                                                                                                  | 额外约束                                 |
+| ------------------------------ | ---------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `PlatformUserListView`         | `User`           | 支撑用户管理列表          | `username`、`displayName`、`email`、`phone`、`isActive`、`primaryOrgUnitName`、`roleNames`                  | 不展开完整组织树与权限全集               |
+| `PlatformUserDetailView`       | `User`           | 支撑用户详情与关系维护    | 主体字段、主责组织、附属组织摘要、当前角色摘要、`allowedActions`                                            | `allowedActions` 为聚合输出，不是事实源  |
+| `PlatformRoleListView`         | `Role`           | 支撑角色列表              | `roleKey`、`name`、`isActive`、`isSystemRole`、`permissionCount`                                            | 权限明细不在列表全量展开                 |
+| `PlatformRoleDetailView`       | `Role`           | 支撑角色详情与权限维护    | 主体字段、权限摘要、被引用用户数、`allowedActions`                                                          | 权限字典只读事实源需可追溯               |
+| `OrgUnitTreeView`              | `OrgUnit`        | 支撑组织树维护            | `id`、`name`、`code`、`isActive`、`displayOrder`、`children`                                                | 组织树是正式读模型，不复用轻量 `UnitOrg` |
+| `OrgUnitDetailView`            | `OrgUnit`        | 支撑组织详情              | 主体字段、父节点摘要、子节点摘要、挂靠用户数量、`allowedActions`                                            | 不在详情中平铺所有用户列表               |
+| `NavigationGovernanceListView` | `NavigationItem` | 支撑导航治理列表 / 树视图 | `key`、`title`、`type`、`link`、`displayOrder`、`isHidden`、`isDisabled`、`requiredPermissions`、`children` | 不引入前端框架私有字段                   |
+
 ### 5.4 横切支撑域
 
 | 查询视图                       | 主要对象             | 目标             | 最小字段组                                                                                                              | 额外约束                 |
@@ -162,6 +179,11 @@
 - `riskFlags`
 - `lastUpdatedAt`
 
+补充说明：
+
+- 第一阶段平台治理域不强制建设独立经营看板，但至少要具备用户、角色、组织、导航四类管理查询视图
+- 提成治理域至少要具备列表、详情、历史三类查询视图，否则写侧命令无法形成可验证闭环
+
 ---
 
 ## 7. 查询接口分层建议
@@ -190,6 +212,7 @@
 3. 经营看板关键汇总字段可以从稳定事实源计算，或落到明确的派生 / 汇总表，而不是依赖临时页面逻辑。
 4. 主表、版本表、快照表、动作记录表之间的关系足以支撑详情视图与历史视图同时存在。
 5. `allowedActions`、`riskFlags`、各种 `Summary` 字段允许由应用层或读侧聚合生成，但不得迫使写表结构与视图结构一一同形。
+6. 平台治理域查询视图必须支撑后台管理页真实接入，不应长期依赖 fixture 或前端本地 signal 假数据。
 
 ---
 

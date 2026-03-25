@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-03-22
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -24,7 +24,7 @@
 
 截至目前，`POMS` 整体处于：
 
-**“总纲需求与 HLD 已完成第一阶段基线收敛，关键架构决策已固定，多份模块详细设计已形成 `Draft (Baseline)`，首轮正式评审已完成，当前已补齐接口、查询视图、表结构冻结与 schema / DDL 首版边界，并已接受 `PostgreSQL + SQL-first migration + MikroORM` 作为数据持久层路线，现已进入首批工程切片实现、seed 基线固化与测试补齐阶段”**
+**“第一阶段核心业务主链路（项目、合同、审批、待办、平台壳层）已在真实 PostgreSQL 与真实 API 上完成端到端验证，但平台治理域与提成治理域尚未补齐，当前处于第一阶段缺口补齐与重新收口准备阶段”**
 
 当前阶段特征：
 
@@ -34,9 +34,9 @@
 - 多项高影响架构问题已通过 ADR 固化
 - 平台治理域详细设计已完成评审前收口并进入 `Review`
 - 业务对象动作授权矩阵已形成首版基线
-- 当前主要工作重心已从“ORM 最终选型”推进到“`MikroORM` 工程接入、首批 migration 落地、开发期 seed 固化、核心对象测试补齐与审批 / 待办最小支撑落地”
-- 当前已完成数据库产品、migration 路线与应用层 ORM 选型，并已进入 `Project` / `Contract` 首批实现切片与审批最小闭环实现
-- 已新增实施入口文档，用于统一切片推进顺序、完成定义与文档回写约束
+- 核心工程切片（`Project`、`Contract`、审批待办、平台壳层）已完成真实环境验证
+- 真实数据库 migration、seeder 与 API 探活已成功，前后端主干链路已闭环
+- 平台治理域后端能力与提成治理域仍未完成，当前主要工作重心应转为“第一阶段缺口补齐”，而非直接进入第二阶段
 
 ---
 
@@ -51,7 +51,7 @@
 | 设计分类与域级拆分 | 已启动   | `platform-governance/` 已形成首个治理域子目录，其他设计资产已按主题逐步收敛 |
 | 接口设计冻结       | 已启动   | 已形成接口命令与 OpenAPI / DTO 边界基线，待进入最终 schema 文件层细化       |
 | 表结构冻结         | 已启动   | 已形成数据模型前提、查询视图边界、逻辑表结构与 schema / DDL 细化基线        |
-| 开发排期承诺       | 未开始   | 不建议在当前阶段直接冻结排期                                                |
+| 开发排期承诺       | 未开始   | 在第一阶段缺口补齐前，不建议直接冻结后续阶段排期                            |
 
 ---
 
@@ -75,31 +75,33 @@
 
 ### 4.3 业务域设计
 
-| 文档                                           | 当前状态         | 作用                                                                   | 是否可作为下游输入 |
-| ---------------------------------------------- | ---------------- | ---------------------------------------------------------------------- | ------------------ |
-| `docs/design/project-lifecycle-design.md`      | Draft (Baseline) | 项目生命周期、状态机、阻断规则、阶段矩阵，已按 `BidProcess` 口径回写   | 是                 |
-| `docs/design/contract-finance-design.md`       | Draft (Baseline) | 合同、回款、成本、发票的详细设计，已形成合同资金域对象与生效口径基线   | 是                 |
-| `docs/design/commission-settlement-design.md`  | Draft (Baseline) | 提成计算、发放、异常调整与重算设计，已形成提成治理域基线               | 是                 |
-| `docs/design/workflow-and-approval-design.md`  | Draft (Baseline) | 审批流、待办聚合、风控闸口设计，已形成统一审批模型与公共能力基线       | 是                 |
-| `docs/design/interface-command-design.md`      | Draft (Baseline) | 接口命令设计基线，收敛普通更新、命令型动作与系统派生接口边界           | 是                 |
-| `docs/design/interface-openapi-dto-design.md`  | Draft (Baseline) | 接口 OpenAPI 与 DTO 边界基线，收敛命令请求/响应与普通更新 DTO 边界     | 是                 |
-| `docs/design/query-view-boundary-design.md`    | Draft (Baseline) | 查询视图边界基线，收敛列表、详情、经营看板与统一待办的读侧边界         | 是                 |
-| `docs/design/data-model-prerequisites.md`      | Draft (Baseline) | 数据模型冻结前提基线，收敛主表、版本表、快照表与动作记录表边界         | 是                 |
-| `docs/design/table-structure-freeze-design.md` | Draft (Baseline) | 表结构冻结设计基线，收敛逻辑表职责、关键关系与字段组冻结边界           | 是                 |
-| `docs/design/schema-ddl-design.md`             | Draft (Baseline) | Schema 与 DDL 细化基线，收敛命名、公共字段、主外键、唯一约束与索引策略 | 是                 |
+| 文档                                               | 当前状态         | 作用                                                                         | 是否可作为下游输入 |
+| -------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------- | ------------------ |
+| `docs/design/project-lifecycle-design.md`          | Draft (Baseline) | 项目生命周期、状态机、阻断规则、阶段矩阵，已按 `BidProcess` 口径回写         | 是                 |
+| `docs/design/contract-finance-design.md`           | Draft (Baseline) | 合同、回款、成本、发票的详细设计，已形成合同资金域对象与生效口径基线         | 是                 |
+| `docs/design/commission-settlement-design.md`      | Active           | 提成计算、发放、异常调整与重算设计，已补第一阶段实现缺口、接口建议与切片映射 | 是                 |
+| `docs/design/workflow-and-approval-design.md`      | Draft (Baseline) | 审批流、待办聚合、风控闸口设计，已形成统一审批模型与公共能力基线             | 是                 |
+| `docs/design/interface-command-design.md`          | Active           | 接口命令设计，已补平台治理域命令集合与提成治理域补齐切片映射                 | 是                 |
+| `docs/design/interface-openapi-dto-design.md`      | Active           | 接口 OpenAPI 与 DTO 边界设计，已补平台治理域 DTO 边界与提成治理域切片映射    | 是                 |
+| `docs/design/query-view-boundary-design.md`        | Active           | 查询视图边界设计，已补平台治理域管理查询视图与提成治理域读侧闭环要求         | 是                 |
+| `docs/design/data-model-prerequisites.md`          | Active           | 数据模型冻结前提，已补平台治理域主数据对象、关系对象与提成治理域补齐前提     | 是                 |
+| `docs/design/table-structure-freeze-design.md`     | Active           | 表结构冻结设计，已补平台治理域与提成治理域逻辑表、关系表与关键字段组         | 是                 |
+| `docs/design/schema-ddl-design.md`                 | Active           | Schema 与 DDL 细化设计，已补平台治理域与提成治理域核心表、约束与索引基线     | 是                 |
+| `docs/design/poms-phase1-gap-closure-plan.md`      | Active           | 第一阶段缺口补齐计划，统一未完成承诺项、补齐切片、通过条件与回写要求         | 是                 |
+| `docs/design/poms-phase1-gap-closure-checklist.md` | Active           | 第一阶段缺口补齐验收清单，统一硬门槛、验收证据、通过判断与收口模板           | 是                 |
 
 ### 4.4 治理与横切设计
 
-| 文档                                                            | 当前状态         | 作用                                                             | 是否可作为下游输入 |
-| --------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------- | ------------------ |
-| `docs/design/business-authorization-matrix.md`                  | Draft (Baseline) | 业务对象动作授权矩阵基线，已补销售、合同资金、提成与横切审批动作 | 是                 |
-| `docs/design/platform-governance/README.md`                     | Active           | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物       | 是                 |
-| `docs/design/platform-governance/platform-governance-design.md` | Review           | 平台治理域详细设计总入口，收敛用户、角色权限、组织和导航设计约束 | 是                 |
-| `docs/design/platform-governance/user-management-design.md`     | Review           | 用户管理详细设计，收敛用户模型、账户状态、角色组织关系与认证衔接 | 是                 |
-| `docs/design/platform-governance/role-permission-design.md`     | Review           | 角色与权限详细设计，收敛权限字典、角色模型与授权计算规则         | 是                 |
-| `docs/design/platform-governance/org-unit-design.md`            | Review           | 组织单元详细设计，收敛组织树模型、启停移动规则与用户归属衔接     | 是                 |
-| `docs/design/platform-governance/navigation-design.md`          | Review           | 导航菜单详细设计，收敛导航契约、权限过滤、前端适配与路由对照     | 是                 |
-| `docs/design/platform-governance/navigation-route-mapping.md`   | Review           | 导航-路由对照表，收敛导航启用、路由迁移与前端收敛基线            | 是                 |
+| 文档                                                            | 当前状态 | 作用                                                                     | 是否可作为下游输入 |
+| --------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ | ------------------ |
+| `docs/design/business-authorization-matrix.md`                  | Active   | 业务对象动作授权矩阵，已补平台治理域动作矩阵并可直接指导第一阶段补齐实施 | 是                 |
+| `docs/design/platform-governance/README.md`                     | Active   | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物               | 是                 |
+| `docs/design/platform-governance/platform-governance-design.md` | Active   | 平台治理域详细设计总入口，已补第一阶段正式承诺、缺口判断与最小落地要求   | 是                 |
+| `docs/design/platform-governance/user-management-design.md`     | Active   | 用户管理详细设计，已补第一阶段最小落地要求、接口建议与补齐顺序           | 是                 |
+| `docs/design/platform-governance/role-permission-design.md`     | Active   | 角色与权限详细设计，已补正式缺口、最小落地要求与接口建议                 | 是                 |
+| `docs/design/platform-governance/org-unit-design.md`            | Active   | 组织单元详细设计，已补真实组织树能力、接口建议与补齐顺序                 | 是                 |
+| `docs/design/platform-governance/navigation-design.md`          | Active   | 导航菜单详细设计，已补导航治理缺口与第一阶段补齐口径                     | 是                 |
+| `docs/design/platform-governance/navigation-route-mapping.md`   | Active   | 导航-路由对照表，已回写当前真实页面状态与补齐切片衔接                    | 是                 |
 
 ### 4.5 评审与治理文档
 
@@ -163,26 +165,27 @@
 - 业务授权矩阵已补字段敏感度、组织范围和关闭 / 作废 / 冲销类动作基线
 - 设计收口清单中的剩余低风险项已关闭，详细设计当前结论已统一到正式评审前口径
 - 已完成首轮正式评审执行，当前评审结论建议为 `Passed with follow-up`
-- 已形成 `interface-command-design.md` 首版基线，开始把评审后续项落到实现前输入物上
-- 已形成 `interface-openapi-dto-design.md` 首版基线，开始把接口动作边界继续下钻为接口合同边界
-- 已形成 `query-view-boundary-design.md` 首版基线，开始把读侧列表、详情、经营看板与统一待办边界固定为稳定输入
-- 已形成 `data-model-prerequisites.md` 首版基线，开始把接口合同边界映射为数据模型冻结前提
-- 已形成 `table-structure-freeze-design.md` 首版基线，开始把数据模型前提与查询视图边界映射为逻辑表结构冻结设计
-- 已形成 `schema-ddl-design.md` 首版基线，开始把逻辑表结构继续映射为真实建表脚本前的直接输入物
+- 已形成 `interface-command-design.md` 并补齐平台治理域命令集合与提成治理域补齐切片映射
+- 已形成 `interface-openapi-dto-design.md` 并补齐平台治理域 DTO 边界与提成治理域补齐切片映射
+- 已形成 `query-view-boundary-design.md` 并补齐平台治理域管理查询视图与提成治理域读侧闭环要求
+- 已形成 `data-model-prerequisites.md` 并补齐平台治理域主数据 / 关系对象与提成治理域补齐前提
+- 已形成 `table-structure-freeze-design.md` 并补齐平台治理域与提成治理域逻辑表冻结输入
+- 已形成 `schema-ddl-design.md` 并补齐平台治理域与提成治理域核心表 DDL 输入，开始直接服务缺口补齐实现
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
 - 已形成 `poms-phase1-delivery-roadmap.md`，开始把第一阶段终局目标、中期里程碑与近期切片统一到同一交付入口
+- **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---
 
 ## 7. 当前未完成但已明确的输出物
 
-当前不再缺少新的核心冻结前设计文档，未完成项主要转为首批实现切片补齐与后续横切能力推进：
+当前第一阶段主干链路虽已完成，但仍存在必须补齐的正式承诺项：
 
-1. 完成 `Project` 首个完整实施切片，补齐真实测试并固定日期字段与状态约束语义
-2. 完成 `Contract` 核心链路切片，固定项目关联校验、合同唯一约束与基础信息更新语义
-3. 补齐开发期最小 seed 数据，使 migration + seeder 可直接启动联调环境
-4. 已启动审批 / 统一待办最小支撑切片，当前首版聚焦 `Contract` 提交审核、审批通过 / 驳回和统一待办关闭链路
+1. 平台治理域后端真实化：补齐 `User`、`Role`、`OrgUnit` 及其关系模型、管理接口与测试
+2. 平台导航治理闭环：补齐导航与真实角色/权限、真实路由和受控维护机制的正式闭环
+3. 提成治理域实现：按规则、分配、计算、发放、调整 / 重算顺序启动真实代码实现
+4. 在以上缺口补齐后，重新发起第一阶段收口评估
 
 ---
 
@@ -192,9 +195,9 @@
 
 但仍存在以下设计治理风险：
 
-- 设计文档已形成分类基线，接口命令、OpenAPI / DTO、查询视图、数据模型前提、表结构冻结、schema / DDL 细化基线与持久层技术选型均已完成，但真实迁移脚本和工程接入尚未落地
-- 业务权限矩阵已形成可评审基线，但字段级全量矩阵是否继续下钻到页面 / DTO 级别，仍需结合接口与查询视图边界继续确认
-- 若不持续维护本进度文档，后续文档状态和依赖关系容易再次漂移
+- 若继续沿用“第一阶段已收口”口径，会掩盖平台治理域与提成治理域尚未完成的事实，导致验收标准失真
+- 业务权限矩阵已形成可评审基线，但字段级全量矩阵是否继续下钻到页面 / DTO 级别，仍需在后续阶段结合实际诉求确认
+- 若不及时把未完成承诺项重新纳回第一阶段，前后端团队对“何时算完”的预期会持续分歧
 
 ---
 

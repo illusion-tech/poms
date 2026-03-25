@@ -1,7 +1,7 @@
 # POMS 接口命令设计
 
-**文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-19
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段实现前的接口命令边界、首批命令型动作清单与接口冻结输入
 **关联文档**:
 
@@ -29,6 +29,11 @@
 
 本文档不是 OpenAPI 明细，也不是最终 DTO 设计稿；它的目标是先冻结“接口形态与动作边界”，避免在实现阶段再次把高敏感动作混回普通 PATCH / PUT。
 
+补充当前阶段判断：
+
+- 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
+- 因此需要把平台治理域命令边界与提成治理域补齐切片的命令集合补充到可直接指导接口切分的程度
+
 ---
 
 ## 2. 接口分类基线
@@ -54,6 +59,25 @@
 ---
 
 ## 4. 第一阶段最小命令集合
+
+### 4.0 平台治理域
+
+| 对象                       | 命令建议                         | 触发动作                  | 前提摘要                          | 放行方式 | 结果摘要                   |
+| -------------------------- | -------------------------------- | ------------------------- | --------------------------------- | -------- | -------------------------- |
+| `User`                     | `createPlatformUser`             | 创建用户                  | 具备平台用户管理权限；用户名唯一  | 无       | 创建用户主体与初始关系     |
+| `User`                     | `activatePlatformUser`           | 启用用户                  | 用户存在且当前为停用              | 无       | 用户恢复参与认证与授权计算 |
+| `User`                     | `deactivatePlatformUser`         | 停用用户                  | 用户存在且当前为启用              | 无       | 用户后续请求失效           |
+| `UserRoleAssignment`       | `assignUserRoles`                | 分配角色                  | 用户、角色存在且角色可用          | 无       | 重算用户有效角色与权限     |
+| `UserOrgMembership`        | `assignUserOrgMemberships`       | 绑定 / 调整组织           | 用户、组织存在且组织可用          | 无       | 固化主责/附属组织关系      |
+| `Role`                     | `createPlatformRole`             | 创建角色                  | 具备角色管理权限；角色键唯一      | 无       | 创建角色主体               |
+| `Role`                     | `activatePlatformRole`           | 启用角色                  | 角色存在且当前为停用              | 无       | 角色重新参与授权计算       |
+| `Role`                     | `deactivatePlatformRole`         | 停用角色                  | 角色存在且当前为启用              | 无       | 角色退出后续授权计算       |
+| `RolePermissionAssignment` | `assignRolePermissions`          | 分配 / 撤销权限           | 角色存在；权限 key 合法且允许使用 | 无       | 固化角色权限集合           |
+| `OrgUnit`                  | `createOrgUnit`                  | 创建组织                  | 父节点合法且启用；编码唯一        | 无       | 创建组织节点               |
+| `OrgUnit`                  | `activateOrgUnit`                | 启用组织                  | 组织存在且当前为停用              | 无       | 组织重新进入可选范围       |
+| `OrgUnit`                  | `deactivateOrgUnit`              | 停用组织                  | 组织存在且当前为启用              | 无       | 级联停用子树并禁止新增引用 |
+| `OrgUnit`                  | `moveOrgUnit`                    | 移动组织节点              | 目标父节点合法；不得形成环        | 无       | 固化树结构变更             |
+| `NavigationItem`           | `updateNavigationItemGovernance` | 调整标题/图标/排序/显隐等 | 导航项存在；链接与权限要求均合法  | 无       | 形成受控导航治理变更       |
 
 ### 4.1 销售流程域
 
@@ -104,6 +128,12 @@
 | `CommissionAdjustment`     | `executeCommissionAdjustment`    | 提交审批 / 执行 | 调整草稿已完整并获批准                     | 审批      | 执行补发、扣回、冲销或重算 |
 | `CommissionRuleVersion`    | `activateCommissionRuleVersion`  | 提交生效 / 启用 | 规则草稿已完成                             | 审批      | 启用新规则版本             |
 
+补充对第一阶段补齐切片的映射：
+
+- `P1-S10`：优先落 `activateCommissionRuleVersion`、`freezeCommissionRoleAssignment`、`submitCommissionRoleChange`
+- `P1-S11`：优先落 `approveCommissionCalculation`、`submitCommissionPayoutApproval`、`registerCommissionPayout`
+- `P1-S12`：优先落 `recalculateCommission`、`submitCommissionAdjustment`、`executeCommissionAdjustment`
+
 ### 4.4 横切审批域
 
 | 对象                 | 命令建议                  | 触发动作    | 前提摘要                     | 放行方式 | 结果摘要                   |
@@ -121,17 +151,21 @@
 
 第一阶段建议仅保留以下普通更新接口能力：
 
-| 对象                       | 允许保留的普通更新能力     | 约束摘要                               |
-| -------------------------- | -------------------------- | -------------------------------------- |
-| `Project`                  | 基础信息编辑、备注补录     | 不得改写阶段推进、成交路径、关闭结论   |
-| `BidProcess`               | 上传附件、补充澄清说明     | 不得直接写入决策结论、投标结果         |
-| `Contract`                 | 草稿字段维护               | 仅限草稿态，不得直接生效高敏字段包     |
-| `ReceiptRecord`            | 登记态补录说明、附件补充   | 不得直接完成财务确认或冲销             |
-| `PaymentRecord`            | 登记态补录                 | 不得直接进入生效成本口径               |
-| `InvoiceRecord`            | 非异常状态下的普通台账维护 | 异常、解除异常、关闭必须走命令接口     |
-| `CommissionRoleAssignment` | 草稿态角色分配维护         | 冻结后不得普通编辑                     |
-| `CommissionPayout`         | 草稿态说明补充             | 批准、暂停、冲销、登记发放不得普通编辑 |
-| `CommissionAdjustment`     | 草稿态原因补录             | 执行结论不得普通编辑                   |
+| 对象                       | 允许保留的普通更新能力     | 约束摘要                                 |
+| -------------------------- | -------------------------- | ---------------------------------------- |
+| `Project`                  | 基础信息编辑、备注补录     | 不得改写阶段推进、成交路径、关闭结论     |
+| `BidProcess`               | 上传附件、补充澄清说明     | 不得直接写入决策结论、投标结果           |
+| `Contract`                 | 草稿字段维护               | 仅限草稿态，不得直接生效高敏字段包       |
+| `ReceiptRecord`            | 登记态补录说明、附件补充   | 不得直接完成财务确认或冲销               |
+| `PaymentRecord`            | 登记态补录                 | 不得直接进入生效成本口径                 |
+| `InvoiceRecord`            | 非异常状态下的普通台账维护 | 异常、解除异常、关闭必须走命令接口       |
+| `CommissionRoleAssignment` | 草稿态角色分配维护         | 冻结后不得普通编辑                       |
+| `CommissionPayout`         | 草稿态说明补充             | 批准、暂停、冲销、登记发放不得普通编辑   |
+| `CommissionAdjustment`     | 草稿态原因补录             | 执行结论不得普通编辑                     |
+| `User`                     | 基础资料维护               | 不得混入启停、角色分配、组织分配         |
+| `Role`                     | 描述、排序等普通维护       | 不得混入启停、权限绑定                   |
+| `OrgUnit`                  | 名称、说明等普通维护       | 不得混入启停、移动、树结构调整           |
+| `NavigationItem`           | 受控说明性维护             | 不得绕过命令直接修改显隐、禁用和权限要求 |
 
 ---
 
@@ -177,3 +211,8 @@
 ## 9. 当前结论
 
 第一阶段已经具备冻结“接口形态边界”的条件。当前最稳妥的做法是先把高敏感对象动作固定到命令型接口，把草稿维护限制在普通更新接口，把快照、计算、待办和通知限制在系统派生接口，然后再进入 OpenAPI 与 DTO 级别的详细接口设计。
+
+补充当前直接下一步：
+
+- 平台治理域按 `create/activate/deactivate/assign/move/update-governance` 这一组命令边界进入实现准备
+- 提成治理域按 `规则 -> 冻结 -> 计算生效 -> 发放批准/登记 -> 调整执行/重算` 的命令顺序进入实现准备

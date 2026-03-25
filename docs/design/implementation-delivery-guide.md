@@ -217,11 +217,11 @@ stateDiagram-v2
 
 ## 11. 当前建议的下一步
 
-若按当前成熟度继续推进，最合适的直接下一步是：
+若按当前成熟度继续推进，最合适的直接下一步已不再是继续扩大第二阶段议题，而是先补齐第一阶段未完成承诺：
 
-1. 在后端工程中完成 `MikroORM` 基础接入与配置约定。
-2. 建立第一批 migration 的目录、命名规则与执行方式。
-3. 选择一个最小但完整的切片，优先从 `Project` 主对象核心表开始落地。
-4. 每完成一个切片，就把结果回写到 `poms-design-progress.md` 与相关设计文档。
+1. 启动平台治理域补齐切片，优先完成 `OrgUnit`、`Role`、`User` 与关系模型的真实持久化落地。
+2. 在平台主数据真实化后，补齐平台导航治理闭环，使导航与真实角色/权限、真实路由和受控维护机制一致。
+3. 按 `CommissionRuleVersion -> CommissionRoleAssignment -> CommissionCalculation -> CommissionPayout -> CommissionAdjustment` 顺序启动提成治理域实现。
+4. 每完成一个补齐切片，就把结果回写到 `poms-design-progress.md`、`poms-phase1-delivery-roadmap.md` 与对应业务域设计文档。
 
-本文档后续若继续维护，应重点跟随“实施流程是否被团队稳定执行”演进，而不是扩写新的业务规则。
+本文档后续若继续维护，应重点跟随“第一阶段缺口是否被按切片稳定补齐”演进，而不是提前扩写新的第二阶段业务规则。

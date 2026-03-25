@@ -1,7 +1,7 @@
 # POMS 导航-路由对照表
 
-**文档状态**: Review
-**最后更新**: 2026-03-10
+**文档状态**: Active
+**最后更新**: 2026-03-25
 **适用范围**: `POMS` 第一阶段平台治理域中的导航与前端路由收敛
 **关联文档**:
 
@@ -44,17 +44,30 @@
 
 | 导航键                | 目标导航链接           | 当前前端现状                  | 状态          | 第一阶段处理建议                                   |
 | --------------------- | ---------------------- | ----------------------------- | ------------- | -------------------------------------------------- |
-| `dashboard`           | `/dashboard`           | 当前首页仍以 `/` 为主         | `bridged`     | 在路由侧补收敛或建立兼容跳转后再完全收口           |
-| `projects`            | `/projects`            | 当前未见稳定业务页            | `planned`     | 页面就位并与权限、导航联调后再正式启用             |
-| `platform.users`      | `/platform/users`      | 当前用户管理仍在 `/profile/*` | `planned`     | 页面就位并完成导航、守卫与必要桥接验证后再正式启用 |
-| `platform.roles`      | `/platform/roles`      | 当前未见稳定业务页            | `planned`     | 页面就位后再正式启用                               |
-| `platform.org-units`  | `/platform/org-units`  | 当前未见稳定业务页            | `planned`     | 页面就位后再正式启用                               |
-| `platform.navigation` | `/platform/navigation` | 当前未见稳定业务页            | `planned`     | 页面就位后再正式启用                               |
+| `dashboard`           | `/dashboard`           | 已有真实工作台页              | `implemented` | 继续保持为正式首页入口                             |
+| `projects`            | `/projects`            | 已有真实业务页                | `implemented` | 继续保持启用，并与权限、导航同步校验               |
+| `platform.users`      | `/platform/users`      | 已有页面壳，但仍未接真实后端  | `bridged`     | 在 `P1-S08` 中把页面切到真实用户管理 API           |
+| `platform.roles`      | `/platform/roles`      | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S09` 中补齐页面落点与守卫                   |
+| `platform.org-units`  | `/platform/org-units`  | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S08/P1-S09` 中补齐页面落点与组织树查询      |
+| `platform.navigation` | `/platform/navigation` | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S09` 中补齐最小治理页或受控维护入口         |
 | `my_profile`          | `/profile`             | 当前已有 `/profile/*` 体系    | `implemented` | 可保留为当前阶段正式入口                           |
 
 ---
 
-## 5. 变更要求
+## 5. 与第一阶段缺口补齐计划的衔接
+
+当前阶段，平台导航不应再被视为“已完成”，而应分两层理解：
+
+1. **消费层已跑通**：当前用户导航树已能通过真实接口下发，前端也能真实消费。
+2. **治理层未补齐**：平台治理域中的用户、角色、组织与导航管理入口尚未全部形成正式闭环。
+
+因此第一阶段补齐要求如下：
+
+- `platform.users` 在 `P1-S08` 中从页面壳切换到真实用户管理能力
+- `platform.roles`、`platform.org-units`、`platform.navigation` 在 `P1-S09` 中补齐真实落点
+- 任一平台导航项在页面未就位前，不应被判定为完整通过
+
+## 6. 变更要求
 
 - 任一导航键的目标链接变更，必须同步更新本表和后端导航定义
 - 任一状态从 `planned` 进入 `bridged` 或 `implemented`，都应补充对应页面承载与守卫验证
