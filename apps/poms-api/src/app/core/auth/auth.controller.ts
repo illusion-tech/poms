@@ -6,26 +6,43 @@ import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swa
 import { findDevUserByCredentials, findDevUserById } from '../platform/dev-platform.fixtures';
 import { Authenticated } from './decorators/authenticated.decorator';
 import { Public } from './decorators/public.decorator';
+import { PlatformService } from '../../features/platform/platform.service';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly jwtService: JwtService) {}
+    constructor(
+        private readonly jwtService: JwtService,
+        private readonly platformService: PlatformService
+    ) {}
 
     @Post('login')
     @Public()
     @ApiOperation({ summary: '登录并获取 JWT' })
     @ApiOkResponse({ type: LoginResponseDto })
-    login(@Body() dto: LoginRequestDto): LoginResponseDto {
-        const user = findDevUserByCredentials(dto.username, dto.password);
-        if (!user) throw new UnauthorizedException('用户名或密码错误');
+    async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
+        const platformUser = await this.platformService.verifyCredentials(dto.username, dto.password);
+        if (platformUser) {
+            const payload: UserPayload = {
+                sub: platformUser.userId,
+                username: platformUser.username,
+                permissions: platformUser.permissions
+            };
+            return { accessToken: this.jwtService.sign(payload) };
+        }
 
-        const payload: UserPayload = {
-            sub: user.id,
-            username: user.username,
-            permissions: user.permissions,
-        };
-        return { accessToken: this.jwtService.sign(payload) };
+        // fixture fallback for dev/transition period
+        const fixtureUser = findDevUserByCredentials(dto.username, dto.password);
+        if (fixtureUser) {
+            const payload: UserPayload = {
+                sub: fixtureUser.id,
+                username: fixtureUser.username,
+                permissions: fixtureUser.permissions
+            };
+            return { accessToken: this.jwtService.sign(payload) };
+        }
+
+        throw new UnauthorizedException('用户名或密码错误');
     }
 
     @Get('profile')
@@ -33,10 +50,10 @@ export class AuthController {
     @ApiBearerAuth()
     @ApiOperation({ summary: '获取当前登录用户信息' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
-    getProfile(@Request() req: { user: UserPayload }): SanitizedUserWithOrgUnitsDto {
+    async getProfile(@Request() req: { user: UserPayload }): Promise<SanitizedUserWithOrgUnitsDto> {
         const { sub, username, permissions } = req.user;
         const user = findDevUserById(sub);
-        return {
+        const fallbackProfile: SanitizedUserWithOrgUnitsDto = {
             id: sub,
             username,
             displayName: user?.displayName ?? username,
@@ -49,7 +66,11 @@ export class AuthController {
             emailVerified: false,
             phoneVerified: false,
             phone: null,
-            orgUnits: user?.orgUnits ?? [],
+            orgUnits: user?.orgUnits ?? []
         };
+
+        const platformProfile = await this.platformService.getSanitizedUserProfile(sub, { username, permissions });
+
+        return platformProfile ?? fallbackProfile;
     }
 }

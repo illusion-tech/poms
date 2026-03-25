@@ -3,8 +3,8 @@ import { ContractService } from './contract.service';
 import { ApprovalService } from '../approval/approval.service';
 
 describe('ContractController', () => {
-    const contractId = '30000000-0000-0000-0000-000000000001';
-    const projectId = '20000000-0000-0000-0000-000000000001';
+    const contractId = '30000000-0000-4000-8000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-0000-0000-000000000001';
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
@@ -96,9 +96,9 @@ describe('ContractController', () => {
             targetType: 'Contract',
             resultStatus: 'submitted',
             businessStatusAfter: 'pending-review',
-            approvalRecordId: '40000000-0000-0000-0000-000000000001',
+            approvalRecordId: '40000000-0000-4000-8000-000000000001',
             confirmationRecordId: null,
-            todoItemIds: ['50000000-0000-0000-0000-000000000001'],
+            todoItemIds: ['50000000-0000-4000-8000-000000000001'],
             snapshotId: null
         });
 
@@ -117,7 +117,7 @@ describe('ContractController', () => {
 
     it('returns current approval summary for contract', async () => {
         approvalService.findLatestApprovalForTarget.mockResolvedValue({
-            id: '40000000-0000-0000-0000-000000000001',
+            id: '40000000-0000-4000-8000-000000000001',
             approvalType: 'contract-review',
             businessDomain: 'contract-finance',
             targetObjectType: 'Contract',
@@ -151,10 +151,10 @@ describe('ContractController', () => {
             targetType: 'Contract',
             resultStatus: 'activated',
             businessStatusAfter: 'active',
-            approvalRecordId: '40000000-0000-0000-0000-000000000001',
+            approvalRecordId: '40000000-0000-4000-8000-000000000001',
             confirmationRecordId: null,
             todoItemIds: [],
-            snapshotId: '60000000-0000-0000-0000-000000000001'
+            snapshotId: '60000000-0000-4000-8000-000000000001'
         });
 
         await controller.activate(

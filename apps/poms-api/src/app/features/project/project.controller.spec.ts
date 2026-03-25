@@ -1,9 +1,23 @@
+jest.mock('@mikro-orm/core', () => {
+    const makeChain = () => {
+        const chain: Record<string, unknown> = {};
+        ['primary', 'nullable', 'length', 'defaultRaw', 'unique', 'fieldName', 'version', 'default', 'onCreate', 'onUpdate'].forEach((m) => {
+            chain[m] = () => chain;
+        });
+        return chain;
+    };
+    const defineEntity = (_config: unknown) => ({ class: class {}, setClass: () => {} });
+    defineEntity.properties = new Proxy({} as Record<string, unknown>, { get: () => makeChain });
+    return { QueryOrder: { ASC: 'ASC', DESC: 'DESC' }, defineEntity };
+});
+
 import { NotFoundException } from '@nestjs/common';
 import { ProjectController } from './project.controller';
+import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 
 describe('ProjectController', () => {
-    const projectId = '20000000-0000-0000-0000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-0000-0000-000000000001';
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
@@ -90,8 +104,8 @@ describe('ProjectController', () => {
         await expect(controller.getById(projectId)).rejects.toThrow(NotFoundException);
     });
 
-    function createProjectEntity(overrides: Record<string, unknown> = {}) {
-        return {
+    function createProjectEntity(overrides: Partial<Project> = {}): Project {
+        return Object.assign(new Project(), {
             id: projectId,
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
@@ -109,6 +123,6 @@ describe('ProjectController', () => {
             updatedAt: baseDate,
             updatedBy: userId,
             ...overrides
-        };
+        });
     }
 });

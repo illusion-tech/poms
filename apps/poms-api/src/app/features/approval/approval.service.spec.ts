@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
 
 jest.mock('node:crypto', () => ({
-    randomUUID: jest.fn().mockReturnValueOnce('40000000-0000-0000-0000-000000000001').mockReturnValueOnce('50000000-0000-0000-0000-000000000001')
+    randomUUID: jest.fn().mockReturnValueOnce('40000000-0000-4000-8000-000000000001').mockReturnValueOnce('50000000-0000-4000-8000-000000000001')
 }));
 
 jest.mock('@mikro-orm/core', () => ({
@@ -30,10 +30,10 @@ jest.mock('./todo-item.entity', () => ({
 import { ApprovalService } from './approval.service';
 
 describe('ApprovalService', () => {
-    const approvalRecordId = '40000000-0000-0000-0000-000000000001';
-    const todoItemId = '50000000-0000-0000-0000-000000000001';
-    const contractId = '30000000-0000-0000-0000-000000000001';
-    const projectId = '20000000-0000-0000-0000-000000000001';
+    const approvalRecordId = '40000000-0000-4000-8000-000000000001';
+    const todoItemId = '50000000-0000-4000-8000-000000000001';
+    const contractId = '30000000-0000-4000-8000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const initiatorUserId = '00000000-0000-0000-0000-000000000002';
     const approverUserId = '00000000-0000-0000-0000-000000000001';
 
@@ -226,15 +226,15 @@ describe('ApprovalService', () => {
     });
 
     it('lists only open todos for current user with target summary and allowed actions', async () => {
-        todoItemRepository.find.mockResolvedValue([createTodoItem({ status: 'open' }), createTodoItem({ id: '50000000-0000-0000-0000-000000000002', sourceId: '40000000-0000-0000-0000-000000000002' })]);
-        approvalRecordRepository.find.mockResolvedValue([createApprovalRecord(), createApprovalRecord({ id: '40000000-0000-0000-0000-000000000002' })]);
+        todoItemRepository.find.mockResolvedValue([createTodoItem({ status: 'open' }), createTodoItem({ id: '50000000-0000-4000-8000-000000000002', sourceId: '40000000-0000-4000-8000-000000000002' })]);
+        approvalRecordRepository.find.mockResolvedValue([createApprovalRecord(), createApprovalRecord({ id: '40000000-0000-4000-8000-000000000002' })]);
         contractRepository.find.mockResolvedValue([createContract()]);
 
         const todos = await service.findOpenTodosForUser(approverUserId);
 
         expect(todoItemRepository.find).toHaveBeenCalledWith({ assigneeUserId: approverUserId, status: { $in: ['open', 'processing'] } }, { orderBy: { createdAt: 'ASC' } });
         expect(approvalRecordRepository.find).toHaveBeenCalledWith({
-            id: { $in: [approvalRecordId, '40000000-0000-0000-0000-000000000002'] }
+            id: { $in: [approvalRecordId, '40000000-0000-4000-8000-000000000002'] }
         });
         expect(contractRepository.find).toHaveBeenCalledWith({
             id: { $in: [contractId] }

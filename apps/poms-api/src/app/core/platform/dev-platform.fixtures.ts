@@ -12,13 +12,13 @@ export interface DevUserFixture {
 
 export const DEV_ORG_UNITS: UnitOrg[] = [
     {
-        id: '10000000-0000-0000-0000-000000000001',
+        id: '10000000-0000-4000-8000-000000000001',
         name: '销售管理中心',
         code: 'SALES-HQ',
         description: '开发环境默认平台组织单元'
     },
     {
-        id: '10000000-0000-0000-0000-000000000002',
+        id: '10000000-0000-4000-8000-000000000002',
         name: '华南销售一部',
         code: 'SALES-SOUTH-1',
         description: '开发环境默认业务组织单元'

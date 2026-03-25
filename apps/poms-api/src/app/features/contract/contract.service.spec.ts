@@ -12,8 +12,8 @@ jest.mock('../approval/approval-record.entity', () => ({
 import { ContractService } from './contract.service';
 
 describe('ContractService', () => {
-    const contractId = '30000000-0000-0000-0000-000000000001';
-    const projectId = '20000000-0000-0000-0000-000000000001';
+    const contractId = '30000000-0000-4000-8000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-0000-0000-000000000001';
 
     let service: ContractService;
@@ -148,7 +148,7 @@ describe('ContractService', () => {
     });
 
     it('activates a reviewed contract and generates snapshot id when missing', async () => {
-        const approvedApprovalId = '40000000-0000-0000-0000-000000000001';
+        const approvedApprovalId = '40000000-0000-4000-8000-000000000001';
         const contract = createContractEntity({
             status: 'pending-review',
             rowVersion: 3

@@ -32,7 +32,7 @@ const defaultOrgUnit = DEV_ORG_UNITS[1];
 
 export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
     {
-        id: '20000000-0000-0000-0000-000000000001',
+        id: '20000000-0000-4000-8000-000000000001',
         projectCode: 'PRJ-2026-001',
         projectName: 'POMS 首期项目主链路样例',
         customerId: null,
@@ -45,7 +45,7 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         updatedBy: adminUser.id
     },
     {
-        id: '20000000-0000-0000-0000-000000000002',
+        id: '20000000-0000-4000-8000-000000000002',
         projectCode: 'PRJ-2026-002',
         projectName: 'POMS 审批与导航联调样例',
         customerId: null,
@@ -61,7 +61,7 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
 
 export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
     {
-        id: '30000000-0000-0000-0000-000000000001',
+        id: '30000000-0000-4000-8000-000000000001',
         projectId: DEV_PROJECT_SEEDS[0].id,
         contractNo: 'HT-2026-001',
         status: 'draft',
@@ -73,7 +73,7 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         updatedBy: adminUser.id
     },
     {
-        id: '30000000-0000-0000-0000-000000000002',
+        id: '30000000-0000-4000-8000-000000000002',
         projectId: DEV_PROJECT_SEEDS[1].id,
         contractNo: 'HT-2026-002',
         status: 'active',
