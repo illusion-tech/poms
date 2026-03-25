@@ -8,6 +8,10 @@ export class NavigationService {
         return this.#filterTree(NAVIGATION_TREE, userPermissions);
     }
 
+    getAllNavigationItems(): NavigationItem[] {
+        return NAVIGATION_TREE;
+    }
+
     #filterTree(items: NavigationItem[], userPermissions: PermissionKey[]): NavigationItem[] {
         const result: NavigationItem[] = [];
 

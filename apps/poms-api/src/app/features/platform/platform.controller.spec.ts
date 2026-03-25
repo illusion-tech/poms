@@ -1,9 +1,11 @@
+import { NavigationService } from '../navigation/navigation.service';
 import { PlatformController } from './platform.controller';
 import { PlatformService } from './platform.service';
 
 describe('PlatformController', () => {
     let controller: PlatformController;
     let service: jest.Mocked<PlatformService>;
+    let navigationService: jest.Mocked<NavigationService>;
 
     beforeEach(() => {
         service = {
@@ -22,7 +24,12 @@ describe('PlatformController', () => {
             updateOrgUnit: jest.fn()
         } as unknown as jest.Mocked<PlatformService>;
 
-        controller = new PlatformController(service);
+        navigationService = {
+            getNavigationForUser: jest.fn(),
+            getAllNavigationItems: jest.fn()
+        } as unknown as jest.Mocked<NavigationService>;
+
+        controller = new PlatformController(service, navigationService);
     });
 
     it('returns platform users from service', async () => {
@@ -161,5 +168,15 @@ describe('PlatformController', () => {
 
         expect(service.updateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body);
         expect(result).toBe(updated);
+    });
+
+    it('returns full navigation tree from navigationService', () => {
+        const fullTree = [{ id: 'nav-dashboard', key: 'dashboard' }];
+        navigationService.getAllNavigationItems.mockReturnValue(fullTree as never);
+
+        const result = controller.getAllNavigationItems();
+
+        expect(navigationService.getAllNavigationItems).toHaveBeenCalled();
+        expect(result).toBe(fullTree);
     });
 });

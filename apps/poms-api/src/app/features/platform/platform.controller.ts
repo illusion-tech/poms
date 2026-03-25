@@ -1,4 +1,4 @@
-import type { PlatformUserList } from '@poms/shared-contracts';
+import type { NavigationItem, PlatformUserList } from '@poms/shared-contracts';
 import {
     AssignRolePermissionsRequestDto,
     AssignUserOrgMembershipsRequestDto,
@@ -6,6 +6,7 @@ import {
     CreateOrgUnitRequestDto,
     CreatePlatformUserRequestDto,
     CreateRoleRequestDto,
+    NavigationListDto,
     PlatformUserListDto,
     SanitizedUserWithOrgUnitsDto,
     UpdateOrgUnitRequestDto,
@@ -14,13 +15,17 @@ import {
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { NavigationService } from '../navigation/navigation.service';
 import { PlatformService } from './platform.service';
 
 @ApiTags('Platform')
 @ApiBearerAuth()
 @Controller('platform')
 export class PlatformController {
-    constructor(private readonly platformService: PlatformService) {}
+    constructor(
+        private readonly platformService: PlatformService,
+        private readonly navigationService: NavigationService
+    ) {}
 
     @Get('users')
     @HasPermissions('platform:users:manage')
@@ -116,5 +121,13 @@ export class PlatformController {
     @ApiOkResponse({ schema: { type: 'object' } })
     updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto) {
         return this.platformService.updateOrgUnit(id, body);
+    }
+
+    @Get('navigation')
+    @HasPermissions('platform:navigation:manage')
+    @ApiOperation({ summary: '获取完整导航树（平台管理员只读视图）' })
+    @ApiOkResponse({ type: NavigationListDto })
+    getAllNavigationItems(): NavigationItem[] {
+        return this.navigationService.getAllNavigationItems();
     }
 }

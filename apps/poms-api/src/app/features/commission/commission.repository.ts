@@ -1,0 +1,144 @@
+import { EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Injectable } from '@nestjs/common';
+import { Project } from '../project/project.entity';
+import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionPayout } from './commission-payout.entity';
+import { CommissionRoleAssignment } from './commission-role-assignment.entity';
+import { CommissionRuleVersion } from './commission-rule-version.entity';
+
+@Injectable()
+export class CommissionRepository {
+    constructor(
+        @InjectRepository(Project)
+        private readonly projectRepository: EntityRepository<Project>,
+        @InjectRepository(CommissionRuleVersion)
+        private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
+        @InjectRepository(CommissionRoleAssignment)
+        private readonly roleAssignmentRepository: EntityRepository<CommissionRoleAssignment>,
+        @InjectRepository(CommissionCalculation)
+        private readonly calculationRepository: EntityRepository<CommissionCalculation>,
+        @InjectRepository(CommissionPayout)
+        private readonly payoutRepository: EntityRepository<CommissionPayout>
+    ) {}
+
+    async findProjectById(id: string): Promise<Project | null> {
+        return this.projectRepository.findOne({ id });
+    }
+
+    // ── Rule Versions ────────────────────────────────────────────────────────
+
+    async findAllRuleVersions(): Promise<CommissionRuleVersion[]> {
+        return this.ruleVersionRepository.findAll({
+            orderBy: { ruleCode: QueryOrder.ASC, version: QueryOrder.DESC }
+        });
+    }
+
+    async findRuleVersionById(id: string): Promise<CommissionRuleVersion | null> {
+        return this.ruleVersionRepository.findOne({ id });
+    }
+
+    async findRuleVersionByCodeAndVersion(ruleCode: string, version: number): Promise<CommissionRuleVersion | null> {
+        return this.ruleVersionRepository.findOne({ ruleCode, version });
+    }
+
+    async findActiveRuleVersion(ruleCode: string): Promise<CommissionRuleVersion | null> {
+        return this.ruleVersionRepository.findOne({ ruleCode, status: 'active' });
+    }
+
+    createRuleVersion(input: ConstructorParameters<typeof CommissionRuleVersion>[0]): CommissionRuleVersion {
+        return this.ruleVersionRepository.create(input);
+    }
+
+    async persistAndFlushRuleVersion(entity: CommissionRuleVersion): Promise<void> {
+        await this.ruleVersionRepository.getEntityManager().persistAndFlush(entity);
+    }
+
+    async flushRuleVersion(): Promise<void> {
+        await this.ruleVersionRepository.getEntityManager().flush();
+    }
+
+    // ── Role Assignments ─────────────────────────────────────────────────────
+
+    async findCurrentRoleAssignment(projectId: string): Promise<CommissionRoleAssignment | null> {
+        return this.roleAssignmentRepository.findOne({ projectId, isCurrent: true });
+    }
+
+    async findRoleAssignmentById(id: string): Promise<CommissionRoleAssignment | null> {
+        return this.roleAssignmentRepository.findOne({ id });
+    }
+
+    async findAllRoleAssignmentsForProject(projectId: string): Promise<CommissionRoleAssignment[]> {
+        return this.roleAssignmentRepository.find(
+            { projectId },
+            { orderBy: { version: QueryOrder.DESC } }
+        );
+    }
+
+    createRoleAssignment(input: ConstructorParameters<typeof CommissionRoleAssignment>[0]): CommissionRoleAssignment {
+        return this.roleAssignmentRepository.create(input);
+    }
+
+    async persistAndFlushRoleAssignment(entity: CommissionRoleAssignment): Promise<void> {
+        await this.roleAssignmentRepository.getEntityManager().persistAndFlush(entity);
+    }
+
+    async flushRoleAssignment(): Promise<void> {
+        await this.roleAssignmentRepository.getEntityManager().flush();
+    }
+
+    // ── Calculations ─────────────────────────────────────────────────────────
+
+    async findCurrentCalculation(projectId: string): Promise<CommissionCalculation | null> {
+        return this.calculationRepository.findOne({ projectId, isCurrent: true });
+    }
+
+    async findCalculationById(id: string): Promise<CommissionCalculation | null> {
+        return this.calculationRepository.findOne({ id });
+    }
+
+    async findCalculationsForProject(projectId: string): Promise<CommissionCalculation[]> {
+        return this.calculationRepository.find({ projectId }, { orderBy: { version: QueryOrder.DESC } });
+    }
+
+    createCalculation(input: ConstructorParameters<typeof CommissionCalculation>[0]): CommissionCalculation {
+        return this.calculationRepository.create(input);
+    }
+
+    async persistAndFlushCalculation(entity: CommissionCalculation): Promise<void> {
+        await this.calculationRepository.getEntityManager().persistAndFlush(entity);
+    }
+
+    async flushCalculation(): Promise<void> {
+        await this.calculationRepository.getEntityManager().flush();
+    }
+
+    // ── Payouts ──────────────────────────────────────────────────────────────
+
+    async findPayoutById(id: string): Promise<CommissionPayout | null> {
+        return this.payoutRepository.findOne({ id });
+    }
+
+    async findPayoutsForProject(projectId: string): Promise<CommissionPayout[]> {
+        return this.payoutRepository.find(
+            { projectId },
+            { orderBy: { createdAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findPayoutByProjectCalculationStage(projectId: string, calculationId: string, stageType: string): Promise<CommissionPayout | null> {
+        return this.payoutRepository.findOne({ projectId, calculationId, stageType });
+    }
+
+    createPayout(input: ConstructorParameters<typeof CommissionPayout>[0]): CommissionPayout {
+        return this.payoutRepository.create(input);
+    }
+
+    async persistAndFlushPayout(entity: CommissionPayout): Promise<void> {
+        await this.payoutRepository.getEntityManager().persistAndFlush(entity);
+    }
+
+    async flushPayout(): Promise<void> {
+        await this.payoutRepository.getEntityManager().flush();
+    }
+}

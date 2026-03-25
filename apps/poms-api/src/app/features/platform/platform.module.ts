@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { NavigationModule } from '../navigation/navigation.module';
 import { PlatformController } from './platform.controller';
 import { OrgUnit } from './org-unit.entity';
 import { PlatformRole } from './role.entity';
@@ -11,7 +12,7 @@ import { UserOrgMembership } from './user-org-membership.entity';
 import { RolePermissionAssignment } from './role-permission-assignment.entity';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([OrgUnit, PlatformRole, PlatformUser, UserRoleAssignment, UserOrgMembership, RolePermissionAssignment])],
+    imports: [MikroOrmModule.forFeature([OrgUnit, PlatformRole, PlatformUser, UserRoleAssignment, UserOrgMembership, RolePermissionAssignment]), NavigationModule],
     controllers: [PlatformController],
     providers: [PlatformRepository, PlatformService],
     exports: [MikroOrmModule, PlatformService]
