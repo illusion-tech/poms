@@ -7,4 +7,5 @@ export * from './lib/platform/platform.store';
 export * from './lib/project/project.store';
 
 export type { ActivateContractRequest, ApprovalRecordSummary, CommandResult, ContractSummary, CreateContractRequest, CreateProjectRequest, ProjectSummary, SubmitContractReviewRequest, TodoItemSummary } from '@poms/shared-api-client';
+export type { PlatformUserListItem, PlatformRoleSummary, PlatformOrgUnitSummary, CreatePlatformUserRequest, AssignUserRolesRequest, AssignUserOrgMembershipsRequest, CreateRoleRequest, AssignRolePermissionsRequest, CreateOrgUnitRequest, UpdateOrgUnitRequest } from '@poms/shared-api-client';
 export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';
