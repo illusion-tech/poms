@@ -1,7 +1,11 @@
 import { BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
 
 jest.mock('node:crypto', () => ({
-    randomUUID: jest.fn().mockReturnValueOnce('40000000-0000-4000-8000-000000000001').mockReturnValueOnce('50000000-0000-4000-8000-000000000001')
+    randomUUID: jest
+        .fn()
+        .mockReturnValueOnce('40000000-0000-4000-8000-000000000001')
+        .mockReturnValueOnce('50000000-0000-4000-8000-000000000001')
+        .mockReturnValue('generated-uuid')
 }));
 
 jest.mock('@mikro-orm/core', () => ({
@@ -19,6 +23,10 @@ jest.mock('../contract/contract.entity', () => ({
     Contract: class Contract {}
 }));
 
+jest.mock('../commission/commission-payout.entity', () => ({
+    CommissionPayout: class CommissionPayout {}
+}));
+
 jest.mock('./approval-record.entity', () => ({
     ApprovalRecord: class ApprovalRecord {}
 }));
@@ -33,6 +41,7 @@ describe('ApprovalService', () => {
     const approvalRecordId = '40000000-0000-4000-8000-000000000001';
     const todoItemId = '50000000-0000-4000-8000-000000000001';
     const contractId = '30000000-0000-4000-8000-000000000001';
+    const payoutId = '31000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
     const initiatorUserId = '00000000-0000-0000-0000-000000000002';
     const approverUserId = '00000000-0000-0000-0000-000000000001';
@@ -41,6 +50,7 @@ describe('ApprovalService', () => {
     let approvalRecordRepository: { getEntityManager: jest.Mock; findOne: jest.Mock; find: jest.Mock };
     let todoItemRepository: { find: jest.Mock };
     let contractRepository: { findOne: jest.Mock; find: jest.Mock };
+    let commissionPayoutRepository: { findOne: jest.Mock; find: jest.Mock };
     let em: {
         transactional: jest.Mock;
         findOne: jest.Mock;
@@ -71,8 +81,12 @@ describe('ApprovalService', () => {
             findOne: jest.fn(),
             find: jest.fn()
         };
+        commissionPayoutRepository = {
+            findOne: jest.fn(),
+            find: jest.fn()
+        };
 
-        service = new ApprovalService(approvalRecordRepository as never, todoItemRepository as never, contractRepository as never);
+        service = new ApprovalService(approvalRecordRepository as never, todoItemRepository as never, contractRepository as never, commissionPayoutRepository as never);
     });
 
     it('submits contract review and creates approval plus todo', async () => {
@@ -133,7 +147,7 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord();
         const contract = createContract({ status: 'pending-review' });
         const todo = createTodoItem();
-        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(contract).mockResolvedValueOnce(todo);
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(todo).mockResolvedValueOnce(contract);
 
         const result = await service.approveRecord(approvalRecordId, approverUserId, {
             comment: '审核通过',
@@ -148,11 +162,63 @@ describe('ApprovalService', () => {
         expect(result.snapshotId).toBeNull();
     });
 
+    it('submits commission payout approval and creates approval plus todo', async () => {
+        const payout = createCommissionPayout({ status: 'draft', rowVersion: 2 });
+        em.findOne.mockResolvedValueOnce(payout).mockResolvedValueOnce(null);
+
+        const result = await service.submitCommissionPayoutApproval(payoutId, initiatorUserId, {
+            expectedVersion: 2
+        });
+
+        expect(payout.status).toBe('pending-approval');
+        expect(result).toEqual(
+            expect.objectContaining({
+                targetId: payoutId,
+                targetType: 'CommissionPayout',
+                resultStatus: 'submitted',
+                businessStatusAfter: 'pending-approval',
+                confirmationRecordId: null,
+                snapshotId: null
+            })
+        );
+        expect(result.approvalRecordId).toBeTruthy();
+        expect(result.todoItemIds).toHaveLength(1);
+    });
+
+    it('approves pending commission payout and closes todo', async () => {
+        const approval = createApprovalRecord({
+            approvalType: 'commission-payout-approval',
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            currentNodeKey: 'commission-payout-approval'
+        });
+        const payout = createCommissionPayout({ status: 'pending-approval' });
+        const todo = createTodoItem({
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            title: '提成发放审批：第一阶段'
+        });
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(todo).mockResolvedValueOnce(payout);
+
+        const result = await service.approveRecord(approvalRecordId, approverUserId, {
+            comment: '批准发放',
+            expectedVersion: 4
+        });
+
+        expect(payout.status).toBe('approved');
+        expect(payout.approvedAmount).toBe('480.00');
+        expect(todo.status).toBe('completed');
+        expect(result.targetType).toBe('CommissionPayout');
+        expect(result.businessStatusAfter).toBe('approved');
+    });
+
     it('rejects pending review back to draft and cancels todo', async () => {
         const approval = createApprovalRecord();
         const contract = createContract({ status: 'pending-review' });
         const todo = createTodoItem();
-        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(contract).mockResolvedValueOnce(todo);
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(todo).mockResolvedValueOnce(contract);
 
         const result = await service.rejectRecord(approvalRecordId, approverUserId, {
             reason: '金额条款不完整',
@@ -198,6 +264,29 @@ describe('ApprovalService', () => {
         );
     });
 
+    it('returns approval detail with related payout summary fields', async () => {
+        approvalRecordRepository.findOne.mockResolvedValue(
+            createApprovalRecord({
+                approvalType: 'commission-payout-approval',
+                businessDomain: 'commission',
+                targetObjectType: 'CommissionPayout',
+                targetObjectId: payoutId,
+                currentNodeKey: 'commission-payout-approval'
+            })
+        );
+        commissionPayoutRepository.findOne.mockResolvedValue(createCommissionPayout({ status: 'pending-approval' }));
+
+        const result = await service.findApprovalRecordById(approvalRecordId);
+
+        expect(result).toEqual(
+            expect.objectContaining({
+                currentNodeName: '提成发放审批',
+                targetTitle: '第一阶段提成发放',
+                targetStatus: 'pending-approval'
+            })
+        );
+    });
+
     it('returns latest approval summary for target object', async () => {
         approvalRecordRepository.findOne.mockResolvedValue(createApprovalRecord({ currentStatus: 'approved' }));
         contractRepository.findOne.mockResolvedValue(createContract({ status: 'pending-review' }));
@@ -226,24 +315,57 @@ describe('ApprovalService', () => {
     });
 
     it('lists only open todos for current user with target summary and allowed actions', async () => {
-        todoItemRepository.find.mockResolvedValue([createTodoItem({ status: 'open' }), createTodoItem({ id: '50000000-0000-4000-8000-000000000002', sourceId: '40000000-0000-4000-8000-000000000002' })]);
-        approvalRecordRepository.find.mockResolvedValue([createApprovalRecord(), createApprovalRecord({ id: '40000000-0000-4000-8000-000000000002' })]);
+        todoItemRepository.find.mockResolvedValue([
+            createTodoItem({ status: 'open' }),
+            createTodoItem({ id: '50000000-0000-4000-8000-000000000002', sourceId: '40000000-0000-4000-8000-000000000002' }),
+            createTodoItem({
+                id: '50000000-0000-4000-8000-000000000003',
+                sourceId: '40000000-0000-4000-8000-000000000003',
+                businessDomain: 'commission',
+                targetObjectType: 'CommissionPayout',
+                targetObjectId: payoutId,
+                title: '提成发放审批：第一阶段'
+            })
+        ]);
+        approvalRecordRepository.find.mockResolvedValue([
+            createApprovalRecord(),
+            createApprovalRecord({ id: '40000000-0000-4000-8000-000000000002' }),
+            createApprovalRecord({
+                id: '40000000-0000-4000-8000-000000000003',
+                approvalType: 'commission-payout-approval',
+                businessDomain: 'commission',
+                targetObjectType: 'CommissionPayout',
+                targetObjectId: payoutId,
+                currentNodeKey: 'commission-payout-approval'
+            })
+        ]);
         contractRepository.find.mockResolvedValue([createContract()]);
+        commissionPayoutRepository.find.mockResolvedValue([createCommissionPayout()]);
 
         const todos = await service.findOpenTodosForUser(approverUserId);
 
         expect(todoItemRepository.find).toHaveBeenCalledWith({ assigneeUserId: approverUserId, status: { $in: ['open', 'processing'] } }, { orderBy: { createdAt: 'ASC' } });
         expect(approvalRecordRepository.find).toHaveBeenCalledWith({
-            id: { $in: [approvalRecordId, '40000000-0000-4000-8000-000000000002'] }
+            id: { $in: [approvalRecordId, '40000000-0000-4000-8000-000000000002', '40000000-0000-4000-8000-000000000003'] }
         });
         expect(contractRepository.find).toHaveBeenCalledWith({
             id: { $in: [contractId] }
         });
-        expect(todos).toHaveLength(2);
+        expect(commissionPayoutRepository.find).toHaveBeenCalledWith({
+            id: { $in: [payoutId] }
+        });
+        expect(todos).toHaveLength(3);
         expect(todos[0]).toEqual(
             expect.objectContaining({
                 targetTitle: 'HT-2026-001',
                 currentNodeName: '合同审核',
+                allowedActions: ['approve', 'reject']
+            })
+        );
+        expect(todos[2]).toEqual(
+            expect.objectContaining({
+                targetTitle: '第一阶段提成发放',
+                currentNodeName: '提成发放审批',
                 allowedActions: ['approve', 'reject']
             })
         );
@@ -318,6 +440,26 @@ describe('ApprovalService', () => {
             dueAt: null,
             completedAt: null,
             rowVersion: 1,
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createCommissionPayout(overrides: Record<string, unknown> = {}) {
+        return {
+            id: payoutId,
+            projectId,
+            calculationId: '52000000-0000-4000-8000-000000000001',
+            stageType: 'first',
+            selectedTier: 'basic',
+            theoreticalCapAmount: '480.00',
+            approvedAmount: null,
+            paidRecordAmount: null,
+            status: 'draft',
+            approvedAt: null,
+            handledAt: null,
+            rowVersion: 4,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             updatedAt: new Date('2026-03-22T10:00:00.000Z'),
             ...overrides

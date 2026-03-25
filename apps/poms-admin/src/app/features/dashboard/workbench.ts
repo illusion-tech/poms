@@ -137,6 +137,8 @@ export class Workbench implements OnInit {
             this.#router.navigate(['/contracts', todo.targetObjectId]);
         } else if (todo.targetObjectType === 'Project') {
             this.#router.navigate(['/projects', todo.targetObjectId]);
+        } else if (todo.targetObjectType === 'CommissionPayout' && todo.projectId) {
+            this.#router.navigate(['/projects', todo.projectId]);
         }
     }
 

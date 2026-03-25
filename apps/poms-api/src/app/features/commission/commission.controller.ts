@@ -1,4 +1,4 @@
-import type { CommissionCalculationSummary, CommissionPayoutSummary, CommissionRoleAssignmentSummary, CommissionRuleVersionSummary } from '@poms/shared-contracts';
+import type { CommissionCalculationSummary, CommissionPayoutSummary, CommissionRoleAssignmentSummary, CommissionRuleVersionSummary, UserPayload } from '@poms/shared-contracts';
 import {
     ApproveCommissionPayoutRequestDto,
     CommissionCalculationListDto,
@@ -16,16 +16,20 @@ import {
     RegisterCommissionPayoutRequestDto,
     SubmitCommissionPayoutApprovalRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { ApprovalService } from '../approval/approval.service';
 import { CommissionService } from './commission.service';
 
 @ApiTags('Commission')
 @ApiBearerAuth()
 @Controller('commission')
 export class CommissionController {
-    constructor(private readonly commissionService: CommissionService) {}
+    constructor(
+        private readonly commissionService: CommissionService,
+        private readonly approvalService: ApprovalService
+    ) {}
 
     // ── Rule Versions ─────────────────────────────────────────────────────────
 
@@ -159,9 +163,17 @@ export class CommissionController {
     submitPayoutApproval(
         @Param('projectId') projectId: string,
         @Param('id') id: string,
+        @Request() req: { user: UserPayload },
         @Body() body: SubmitCommissionPayoutApprovalRequestDto
     ): Promise<CommissionPayoutSummary> {
-        return this.commissionService.submitPayoutApproval(projectId, id, body);
+        return this.approvalService.submitCommissionPayoutApproval(id, req.user.sub, body).then(async () => {
+            const payouts = await this.commissionService.listPayouts(projectId);
+            const payout = payouts.find((item) => item.id === id);
+            if (!payout) {
+                throw new NotFoundException(`CommissionPayout ${id} not found after approval submission`);
+            }
+            return payout;
+        });
     }
 
     @Post('projects/:projectId/payouts/:id/approve')

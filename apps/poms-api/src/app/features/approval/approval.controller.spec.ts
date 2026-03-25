@@ -15,7 +15,8 @@ describe('ApprovalController', () => {
             approveRecord: jest.fn(),
             rejectRecord: jest.fn(),
             findOpenTodosForUser: jest.fn(),
-            submitContractReview: jest.fn()
+            submitContractReview: jest.fn(),
+            submitCommissionPayoutApproval: jest.fn()
         } as unknown as jest.Mocked<ApprovalService>;
 
         controller = new ApprovalController(approvalService);

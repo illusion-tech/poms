@@ -1,4 +1,5 @@
 import { CommissionController } from './commission.controller';
+import { ApprovalService } from '../approval/approval.service';
 import { CommissionService } from './commission.service';
 
 const RULE_VERSION_ID = '50000000-0000-4000-8000-000000000001';
@@ -67,6 +68,7 @@ const stubPayout = {
 describe('CommissionController', () => {
     let controller: CommissionController;
     let service: jest.Mocked<CommissionService>;
+    let approvalService: jest.Mocked<ApprovalService>;
 
     beforeEach(() => {
         service = {
@@ -82,12 +84,15 @@ describe('CommissionController', () => {
             confirmCalculation: jest.fn(),
             listPayouts: jest.fn(),
             createPayout: jest.fn(),
-            submitPayoutApproval: jest.fn(),
             approvePayout: jest.fn(),
             registerPayout: jest.fn()
         } as unknown as jest.Mocked<CommissionService>;
 
-        controller = new CommissionController(service);
+        approvalService = {
+            submitCommissionPayoutApproval: jest.fn()
+        } as unknown as jest.Mocked<ApprovalService>;
+
+        controller = new CommissionController(service, approvalService);
     });
 
     it('returns rule version list from service', async () => {
@@ -178,10 +183,23 @@ describe('CommissionController', () => {
         expect(result).toBe(stubPayout);
     });
 
-    it('delegates submitPayoutApproval to service', async () => {
-        service.submitPayoutApproval.mockResolvedValue({ ...stubPayout, status: 'pending-approval' });
-        const result = await controller.submitPayoutApproval(PROJECT_ID, PAYOUT_ID, {} as never);
-        expect(service.submitPayoutApproval).toHaveBeenCalledWith(PROJECT_ID, PAYOUT_ID, {});
+    it('delegates submitPayoutApproval to approval service and reloads payout snapshot', async () => {
+        approvalService.submitCommissionPayoutApproval.mockResolvedValue({
+            targetId: PAYOUT_ID,
+            targetType: 'CommissionPayout',
+            resultStatus: 'submitted',
+            businessStatusAfter: 'pending-approval',
+            approvalRecordId: '40000000-0000-4000-8000-000000000001',
+            confirmationRecordId: null,
+            todoItemIds: ['50000000-0000-4000-8000-000000000001'],
+            snapshotId: null
+        });
+        service.listPayouts.mockResolvedValue([{ ...stubPayout, status: 'pending-approval' }]);
+
+        const result = await controller.submitPayoutApproval(PROJECT_ID, PAYOUT_ID, { user: { sub: 'user-1' } } as never, {} as never);
+
+        expect(approvalService.submitCommissionPayoutApproval).toHaveBeenCalledWith(PAYOUT_ID, 'user-1', {});
+        expect(service.listPayouts).toHaveBeenCalledWith(PROJECT_ID);
         expect(result.status).toBe('pending-approval');
     });
 
