@@ -47,8 +47,9 @@
 
 补充当前实现判断：
 
-- 当前仓库中提成治理域仍无真实后端模块、实体、migration、API、前端页面与测试
-- 当前提成治理域仍停留在“设计已形成、实现未启动”的状态
+- 当前仓库中提成治理域已完成 `P1-S10`：`CommissionRuleVersion`、`CommissionRoleAssignment` 的真实后端模块、实体、migration、API 与测试已落地
+- `P1-S11` 已启动并完成后端最小闭环：`CommissionCalculation`、`CommissionPayout` 的表结构、实体、共享契约、API 与测试已落地
+- 当前仍未完成的部分主要集中在 `P1-S11` 的审批待办接入、前端页面，以及 `P1-S12` 的异常调整 / 重算闭环
 - 因此本模块不应再被视为后续可选议题，而应重新纳回第一阶段补齐范围
 
 ---
@@ -92,13 +93,10 @@
 
 截至当前，以下能力仍未进入真实实现：
 
-- 提成规则版本持久化与生效接口
-- 提成角色分配与冻结接口
-- 提成计算与结果持久化
-- 提成发放审批与业务发放登记接口
+- 提成发放审批与统一待办的正式接入
 - 提成异常调整、冲销与重算链路
 - 提成治理前端列表 / 详情 / 操作页面
-- 提成治理自动化测试与 OpenAPI 客户端产物
+- 提成治理前后端联调入口与更完整的 OpenAPI / API Client 产物
 
 ### 5.2 第一阶段不在本域内强行扩展的内容
 
@@ -522,26 +520,29 @@ flowchart LR
 
 为支持第一阶段补齐，建议至少提供以下接口族：
 
-#### 规则与角色分配
+#### 当前已落地
 
 - `GET /commission/rule-versions`
-- `GET /commission/rule-versions/:id`
 - `POST /commission/rule-versions`
 - `POST /commission/rule-versions/:id/activate`
-- `GET /projects/:projectId/commission-role-assignments`
-- `POST /projects/:projectId/commission-role-assignments`
-- `POST /projects/:projectId/commission-role-assignments/:id/freeze`
+- `POST /commission/rule-versions/:id/stop`
+- `GET /commission/projects/:projectId/role-assignment`
+- `POST /commission/projects/:projectId/role-assignment`
+- `POST /commission/projects/:projectId/role-assignment/:id/freeze`
+- `GET /commission/projects/:projectId/calculations`
+- `POST /commission/projects/:projectId/calculations/trigger`
+- `POST /commission/projects/:projectId/calculations/:id/effective`
+- `GET /commission/projects/:projectId/payouts`
+- `POST /commission/projects/:projectId/payouts`
+- `POST /commission/projects/:projectId/payouts/:id/submit-approval`
+- `POST /commission/projects/:projectId/payouts/:id/approve`
+- `POST /commission/projects/:projectId/payouts/:id/register-payout`
 
-#### 计算与发放
+#### 后续待补
 
-- `POST /projects/:projectId/commission-calculations/trigger`
-- `GET /projects/:projectId/commission-calculations`
-- `POST /commission-calculations/:id/effective`
-- `GET /projects/:projectId/commission-payouts`
-- `POST /projects/:projectId/commission-payouts`
-- `POST /commission-payouts/:id/submit-review`
-- `POST /commission-payouts/:id/approve`
-- `POST /commission-payouts/:id/register-payment`
+- payout 审批与统一待办 / 审批记录的正式接入
+- 至少一个提成治理前端演示入口
+- `CommissionAdjustment` 与 `recalculate` 相关接口
 
 #### 调整与重算
 
@@ -571,4 +572,4 @@ flowchart LR
 
 ## 16. 当前结论
 
-本首版文档已足以作为提成治理域补齐实施的设计输入。当前最重要的动作不是继续停留在专题设计，而是按 `P1-S10` ~ `P1-S12` 的顺序进入真实实现，并在每个切片完成后同步回写接口、表结构、审批映射与进度文档，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路在第一阶段真实落地。
+本首版文档已足以作为提成治理域补齐实施的设计输入。当前 `P1-S10` 已完成、`P1-S11` 已进入后端最小闭环阶段，接下来最重要的动作是继续把 payout 审批接入统一待办、补前端演示入口，并按 `P1-S12` 收口异常调整 / 重算，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路在第一阶段真实落地。

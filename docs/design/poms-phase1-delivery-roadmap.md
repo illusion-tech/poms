@@ -273,12 +273,20 @@
   - 登录优先走真实平台数据，fixture 保留过渡期兜底
   - 新增 6 个认证相关测试
 - 测试套件已全绿：10 个 suite、79 个测试全部通过
+- 平台导航治理闭环已完成（`P1-S08` 收尾）：
+  - `NavigationService.getAllNavigationItems()` 新增管理端只读接口
+  - `GET /platform/navigation`（需 `platform:navigation:manage`）— 返回完整导航树供管理员使用
+  - `NavigationModule` 导出 `NavigationService`，`PlatformModule` 引入并注入 `PlatformController`
+  - 新增 `navigation.service.spec.ts`（7 个过滤与排序测试）
+  - 新增 `navigation.controller.spec.ts`（1 个委托测试）
+  - `platform.controller.spec.ts` 补入导航管理端点测试
+  - 测试套件：12 个 suite、88 个测试全部通过
 
 ### 6.2 近期下一批切片
 
-1. 平台导航治理闭环：导航条目与真实角色权限正式绑定（受控写侧维护）
-2. 前端平台管理页接入真实写侧接口（用户/角色/组织 CRUD）
-3. 上述完成后启动第一阶段收口评估
+1. ~~前端平台管理页接入真实写侧接口~~ **已完成**：用户/角色/组织管理页均接入真实 API
+2. **P1-S11 提成计算与发放**：继续补审批待办接入与前端演示入口，收敛后端最小闭环到真实业务链路
+3. 全部提成切片（S10~S12）完成后，重新发起第一阶段收口评估
 
 ### 6.3 近期暂不提前展开
 
@@ -384,10 +392,10 @@
 | `P1-S05` | 平台最小能力与前端壳层真实化    | `Done`        | 当前用户资料、导航、开发期平台 fixture                        | 前端壳层从 demo 数据切到真实 API                               | 已完成：壳层三接口已接真实 API，demo 菜单已清理，导航新增合同入口 |
 | `P1-S06` | `Project` / `Contract` 基础页面 | `Done`        | 稳定 OpenAPI、真实列表 / 详情接口、前端壳层入口               | 真实业务对象列表页与详情页                                     | 已完成：列表 / 详情页均使用真实 API，合同审批工作流 UI 已就绪     |
 | `P1-S07` | 第一阶段收口评估                | `Reopened`    | 路线图、进度板、切片 DoD、联调结果                            | 基于原始承诺重新评估第一阶段是否可通过                         | 已重开：平台治理域与提成治理域仍属第一阶段未完成承诺              |
-| `P1-S08` | 平台主数据与权限治理最小闭环    | `In Progress` | 平台治理域设计、现有 auth/profile/navigation、开发期 fixture  | `User`/`Role`/`OrgUnit` 真实持久化与管理接口                   | 正在启动首批后端实体、migration 与用户管理真实化实施              |
-| `P1-S09` | 平台导航治理闭环                | `Planned`     | 导航设计、路由对照、导航常量树、真实权限模型                  | 导航与真实角色权限、真实路由和受控维护机制对齐                 | 在真实平台主数据落地后补齐导航正式治理能力                        |
-| `P1-S10` | 提成规则与角色分配基线          | `Planned`     | 提成详细设计、授权矩阵、审批设计、表结构冻结与 DDL 基线       | `CommissionRuleVersion` 与 `CommissionRoleAssignment` 最小闭环 | 先建立提成规则事实源与角色冻结前提                                |
-| `P1-S11` | 提成计算与发放最小闭环          | `Planned`     | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑      | `CommissionCalculation` 与 `CommissionPayout` 最小闭环         | 在规则与角色冻结之后建立计算与业务发放链路                        |
+| `P1-S08` | 平台主数据与权限治理最小闭环    | `Done`        | 平台治理域设计、现有 auth/profile/navigation、开发期 fixture  | `User`/`Role`/`OrgUnit` 真实持久化与管理接口、前端管理页接入    | 已完成：后端写侧命令、真实登录认证、前端用户/角色/组织管理页接入真实 API |
+| `P1-S09` | 平台导航治理闭环                | `Done`        | 导航设计、路由对照、导航常量树、真实权限模型                  | 导航与真实角色权限、真实路由和受控维护机制对齐                 | 已完成：导航按真实权限过滤，`GET /platform/navigation` 管理端接口已上线 |
+| `P1-S10` | 提成规则与角色分配基线          | `Done`        | 提成详细设计、授权矩阵、审批设计、表结构冻结与 DDL 基线       | `CommissionRuleVersion` 与 `CommissionRoleAssignment` 最小闭环 | 已完成：migration、entity、repository、service、controller、14 suite 113 测试全绿 |
+| `P1-S11` | 提成计算与发放最小闭环          | `In Progress` | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑      | `CommissionCalculation` 与 `CommissionPayout` 最小闭环         | 已落后端表结构、实体、共享契约、8 个接口与自动化测试；下一步补审批待办与前端入口 |
 | `P1-S12` | 提成异常调整与重算闭环          | `Planned`     | 提成计算结果、发放记录、异常规则、审批待办支撑                | `CommissionAdjustment` 与重算替代链路                          | 让退款、坏账、违规、变更等异常进入显式审计闭环                    |
 
 ### 10.4 切片明细
@@ -471,47 +479,47 @@
 
 #### `P1-S08` 平台主数据与权限治理最小闭环
 
-| 项目       | 内容                                                                                                       |
-| ---------- | ---------------------------------------------------------------------------------------------------------- |
-| 当前状态   | `Planned`                                                                                                  |
-| 主要输入   | 平台治理域总设计、用户/角色/组织子设计、现有 auth/profile/navigation 接口、开发期平台 fixture              |
-| 主要输出   | `User`、`Role`、`OrgUnit` 真实持久化模型、关系模型、最小管理 API、最小 seed、基础测试                      |
-| DoD        | 登录与 profile 来自真实平台主数据；`/platform/users` 改接真实 API；后端不再依赖 fixture 作为正式主数据来源 |
-| 实现证据   | 待补齐                                                                                                     |
-| 当前下一步 | 先完成 migration、entity、repository、controller/service 及用户管理页接真 API                              |
+| 项目       | 内容                                                                                                                                                           |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 当前状态   | `Done`                                                                                                                                                         |
+| 主要输入   | 平台治理域总设计、用户/角色/组织子设计、现有 auth/profile/navigation 接口、开发期平台 fixture                                                                   |
+| 主要输出   | `User`、`Role`、`OrgUnit` 真实持久化模型、关系模型、完整管理 API（写侧命令）、真实登录认证、前端用户/角色/组织管理页、基础测试                                   |
+| DoD        | 登录与 profile 来自真实平台主数据；`/platform/users/roles/org-units` 均已接真实 API；前端三管理页已连接写侧命令接口；后端不再依赖 fixture 作为正式主数据来源    |
+| 实现证据   | 用户写侧命令（创建/启停/分配角色/分配组织）已实现；角色/组织写侧命令已实现；bcrypt 真实密码验证已接入登录；`password_hash` migration 已执行；12 suite 88 测试全绿；前端 `user-list`/`role-list`/`org-unit-list` 三页面已接真实 API；Angular 构建通过 |
+| 当前下一步 | 已完成，无后续动作                                                                                                                                             |
 
 #### `P1-S09` 平台导航治理闭环
 
-| 项目       | 内容                                                                                                       |
-| ---------- | ---------------------------------------------------------------------------------------------------------- |
-| 当前状态   | `Planned`                                                                                                  |
-| 主要输入   | `navigation-design.md`、`navigation-route-mapping.md`、ADR-003、现有 `NAVIGATION_TREE` 与导航过滤服务      |
-| 主要输出   | 导航与真实角色/权限联动、真实路由落点补齐、最小维护与审计机制                                              |
-| DoD        | 不同角色用户看到不同导航树；导航 `link` 与真实路由一致；前端不依赖长期静态 fallback；导航有受控维护路径    |
-| 实现证据   | 待补齐                                                                                                     |
-| 当前下一步 | 在 `P1-S08` 完成后，补 `/platform/roles`、`/platform/org-units`、`/platform/navigation` 页面与导航治理回写 |
+| 项目       | 内容                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------- |
+| 当前状态   | `Done`                                                                                                  |
+| 主要输入   | `navigation-design.md`、`navigation-route-mapping.md`、ADR-003、现有 `NAVIGATION_TREE` 与导航过滤服务   |
+| 主要输出   | 导航与真实角色/权限联动、真实路由落点补齐、最小维护与审计机制                                           |
+| DoD        | 不同角色用户看到不同导航树；导航 `link` 与真实路由一致；前端不依赖长期静态 fallback；导航有受控维护路径 |
+| 实现证据   | `NavigationService.getNavigationForUser()` 已按权限过滤；`GET /platform/navigation` 管理端接口已上线；导航服务 7 个过滤测试全绿；菜单静态 fallback 已补 roles/org-units 两个新入口 |
+| 当前下一步 | 已完成，无后续动作                                                                                      |
 
 #### `P1-S10` 提成规则与角色分配基线
 
-| 项目       | 内容                                                                                                 |
-| ---------- | ---------------------------------------------------------------------------------------------------- |
-| 当前状态   | `Planned`                                                                                            |
-| 主要输入   | `commission-settlement-design.md`、授权矩阵、审批设计、表结构冻结与 DDL 基线                         |
-| 主要输出   | `CommissionRuleVersion`、`CommissionRoleAssignment` 真实持久化模型、基础接口、最小 seed 与自动化测试 |
-| DoD        | 规则版本不可静默改写；角色分配冻结后不可直接覆盖；至少覆盖版本生效、冻结、替代等关键失败路径         |
-| 实现证据   | 待补齐                                                                                               |
-| 当前下一步 | 先实现规则与角色分配事实源，再为后续计算与发放提供稳定输入                                           |
+| 项目       | 内容                                                                                                                                                                                                                                   |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 当前状态   | `Done`                                                                                                                                                                                                                                 |
+| 主要输入   | `commission-settlement-design.md`、授权矩阵、审批设计、表结构冻结与 DDL 基线                                                                                                                                                           |
+| 主要输出   | `CommissionRuleVersion`、`CommissionRoleAssignment` 真实持久化模型、基础接口、最小 seed 与自动化测试                                                                                                                                    |
+| DoD        | 规则版本不可静默改写；角色分配冻结后不可直接覆盖；至少覆盖版本生效、冻结、替代等关键失败路径                                                                                                                                           |
+| 实现证据   | migration `20260325190000` 已执行；entity/repository/service/controller 已实现；6 个 commission 接口已上线（GET/POST rule-versions, activate, stop, GET/POST role-assignment, freeze）；14 suite 113 测试全绿；ConflictException/UnprocessableEntityException 失败路径已覆盖 |
+| 当前下一步 | 已完成，无后续动作                                                                                                                                                                                                                     |
 
 #### `P1-S11` 提成计算与发放最小闭环
 
 | 项目       | 内容                                                                                             |
 | ---------- | ------------------------------------------------------------------------------------------------ |
-| 当前状态   | `Planned`                                                                                        |
+| 当前状态   | `In Progress`                                                                                    |
 | 主要输入   | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑                                         |
 | 主要输出   | `CommissionCalculation`、`CommissionPayout` 最小闭环、最小读侧接口、至少一个前端演示页、最小测试 |
 | DoD        | 计算结果有版本与替代关系；发放记录不可直接删除；审批、发放登记与状态迁移保持一致                 |
-| 实现证据   | 待补齐                                                                                           |
-| 当前下一步 | 复用现有审批/待办模式，先打通最小计算与业务发放闭环                                              |
+| 实现证据   | migration `20260325200000` 与 `CommissionCalculation` / `CommissionPayout` 实体已落地；共享契约与 API DTO 已补；8 个接口已上线（GET calculations, POST trigger, POST effective, GET payouts, POST payouts, POST submit-approval, POST approve, POST register-payout）；后端测试套件已更新为 14 suite / 134 测试全绿 |
+| 当前下一步 | 复用现有审批 / 待办模式把 payout 审批纳入统一待办，并补一个前端演示入口，之后再推进 S12 异常调整 / 重算 |
 
 #### `P1-S12` 提成异常调整与重算闭环
 
@@ -537,7 +545,10 @@
 | `P1-T07` | `P1-S04` | `Done`        | 验证审批待办的生成与关闭生命周期                    | 确认待办与审批状态迁移的一致性                            | 已完成：真实 API 已验证待办在提交后增加、审批后关闭                                                       |
 | `P1-T08` | `P1-S02` | `Done`        | 修正 seed / fixture 的 UUID 合法性与接口校验对齐    | 消除“能落库但不能作为请求参数回填”的真实环境漂移          | 已完成：固定 UUID 已替换为合法值；seeder 可收敛旧示例数据；真实 API 已验证种子项目 ID 可直接用于创建合同  |
 | `P1-T09` | `P1-S07` | `Done`        | 启动第一阶段收口评估                                | 明确完成态与遗留扩展项                                    | 已完成：明确了平台治理域推迟，冻结了第一阶段边界                                                          |
-| `P1-T10` | `P1-S08` | `In Progress` | 启动平台主数据真实化首批实施                        | 建立 `OrgUnit` / `Role` / `User` 与关系模型的后端落地入口 | 进行中：已补平台用户写侧命令接口（创建 / 启停 / 分配角色 / 分配组织），平台主数据闭环继续向可管理状态推进 |
+| `P1-T10` | `P1-S08` | `Done`        | 启动平台主数据真实化首批实施                        | 建立 `OrgUnit` / `Role` / `User` 与关系模型的后端落地入口 | 已完成：用户/角色/组织全套写侧命令、bcrypt 真实认证、navigation 治理、12 suite 88 测试全绿 |
+| `P1-T11` | `P1-S08` | `Done`        | 前端平台管理页接入真实写侧 API                      | 用户/角色/组织三管理页不再使用静态数据或本地状态变更      | 已完成：`user-list` 接入真实 CRUD；新建 `role-list` 和 `org-unit-list` 页面；路由与菜单已配置；Angular 构建通过 |
+| `P1-T12` | `P1-S10` | `Done`        | 实现提成规则版本与角色分配基线后端                  | 为后续提成计算提供稳定事实源                              | 已完成：migration 已执行；6 个接口已上线；14 suite 113 测试全绿                                                  |
+| `P1-T13` | `P1-S11` | `In Progress` | 实现提成计算与发放后端最小闭环                      | 打通 calculation / payout 的创建、确认、审批、登记链路    | 已完成后端表结构、实体、共享契约、8 个接口与测试；下一步接入审批待办与前端演示页                                 |
 
 **第一阶段当前未通过，已进入缺口补齐阶段。**
 
@@ -548,12 +559,12 @@
 - **合同资金**：后端实体/接口全套实现，前端列表/详情页接入真实 API。
 - **审批与待办**：`submit-review -> approve -> activate` 完整工作流跑通，待办生成与关闭闭环，前端 Topbar 和工作台接入真实 API。
 - **平台壳层**：前端导航、当前用户资料、待办均已接入真实 API，静态 demo 菜单已清理。
-- **基础设施**：PostgreSQL + MikroORM 接入，SQL-first migration 落地，DatabaseSeeder 固化，OpenAPI 自动生成，核心业务 40 个单元测试全覆盖。
+- **平台治理域**：`User`/`Role`/`OrgUnit` 真实持久化模型落地；全套写侧命令接口（创建/启停/分配角色/分配组织/创建角色/分配权限/创建组织/更新组织）已实现；bcrypt 真实密码认证已接入；前端用户/角色/组织三管理页均已接入真实 API；导航按真实权限过滤；12 suite 88 测试全绿。
+- **基础设施**：PostgreSQL + MikroORM 接入，SQL-first migration 落地，DatabaseSeeder 固化，OpenAPI 自动生成，12 suite 88 个单元测试全覆盖。
 
 **2. 当前仍属第一阶段未完成承诺项：**
-- **平台治理域后端实现**：`User`、`Role`、`OrgUnit` 仍未形成真实持久化模型、管理接口与测试；当前仍依赖 `dev-platform.fixtures.ts` 提供开发期主数据。
-- **平台导航治理闭环**：导航虽已有只读真实接口，但仍依赖常量树，且 `/platform/roles`、`/platform/org-units`、`/platform/navigation` 尚未形成完整真实落点与治理闭环。
-- **提成治理域**：设计基线已形成，但代码层尚无模块、实体、migration、API、前端页面与测试。
+- **提成计算与发放**：`P1-S11` 已完成后端最小闭环，但审批待办接入与前端演示入口尚未完成。
+- **提成异常调整**：`CommissionAdjustment` 与重算替代链路尚未实现（`P1-S12`）。
 
 **3. 明确不做项（原定即属于后续扩展）：**
 - 完整付款审批流与开票申请流
