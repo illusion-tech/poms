@@ -16,6 +16,7 @@
   - `../../adr/008-current-user-profile-output-contract.md`
   - `../../adr/009-platform-navigation-group-visibility-rule.md`
   - `../../adr/010-platform-user-management-route-bridging-status.md`
+   - `../../adr/013-platform-governance-physical-schema-boundary.md`
 
 ---
 
@@ -101,6 +102,7 @@
 - 当前应以“第一阶段缺口补齐”为目标，而不是默认把平台治理域推迟到第二阶段
 - 平台壳层真实化不等于平台治理域已完成
 - 导航消费能力已就位，不等于导航治理能力已完成
+- 平台治理域第一阶段物理表继续使用 `poms` schema，不单独拆出 `core` schema
 
 ---
 

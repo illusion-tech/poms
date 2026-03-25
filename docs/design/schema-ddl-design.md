@@ -7,6 +7,7 @@
 
 - 上游设计:
   - `../adr/012-data-persistence-technology-selection.md`
+  - `../adr/013-platform-governance-physical-schema-boundary.md`
   - `poms-requirements-spec.md`
   - `poms-hld.md`
   - `poms-design-progress.md`
@@ -59,6 +60,10 @@
 - 逻辑名称建议为 `poms`
 - 不按域拆多个数据库 schema
 - 通过表名和外键关系表达域分层，而不是通过物理 schema 强隔离
+
+补充约束：
+
+- 平台治理域第一阶段继续使用 `poms` schema，不单独拆出 `core` schema，详见 `ADR-013`
 
 这样做的原因是：
 
