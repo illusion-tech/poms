@@ -22,7 +22,8 @@ describe('ContractController', () => {
             activate: jest.fn()
         } as unknown as jest.Mocked<ContractService>;
         approvalService = {
-            submitContractReview: jest.fn()
+            submitContractReview: jest.fn(),
+            findLatestApprovalForTarget: jest.fn()
         } as unknown as jest.Mocked<ApprovalService>;
 
         controller = new ContractController(contractService, approvalService);
@@ -112,6 +113,36 @@ describe('ContractController', () => {
         expect(approvalService.submitContractReview).toHaveBeenCalledWith(contractId, userId, {
             comment: '请审核合同'
         });
+    });
+
+    it('returns current approval summary for contract', async () => {
+        approvalService.findLatestApprovalForTarget.mockResolvedValue({
+            id: '40000000-0000-0000-0000-000000000001',
+            approvalType: 'contract-review',
+            businessDomain: 'contract-finance',
+            targetObjectType: 'Contract',
+            targetObjectId: contractId,
+            projectId,
+            currentStatus: 'pending',
+            currentNodeKey: 'contract-review',
+            currentNodeName: '合同审核',
+            initiatorUserId: userId,
+            currentApproverUserId: userId,
+            decision: null,
+            decisionComment: null,
+            targetTitle: 'HT-2026-001',
+            targetStatus: 'pending-review',
+            submittedAt: baseDate.toISOString(),
+            decidedAt: null,
+            closedAt: null,
+            rowVersion: 1,
+            createdAt: baseDate.toISOString(),
+            updatedAt: baseDate.toISOString()
+        });
+
+        await controller.getCurrentApproval(contractId);
+
+        expect(approvalService.findLatestApprovalForTarget).toHaveBeenCalledWith('Contract', contractId);
     });
 
     it('activates contract with current user identity', async () => {

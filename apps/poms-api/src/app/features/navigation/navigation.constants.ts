@@ -37,6 +37,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
         children: null
     },
     {
+        id: 'nav-contracts',
+        key: 'contracts',
+        type: 'basic',
+        title: '合同管理',
+        subtitle: null,
+        link: '/contracts',
+        icon: 'pi pi-file-edit',
+        displayOrder: 150,
+        isHidden: false,
+        isDisabled: false,
+        requiredPermissions: ['nav:contracts:view'],
+        meta: null,
+        children: null
+    },
+    {
         id: 'nav-platform',
         key: 'platform',
         type: 'group',

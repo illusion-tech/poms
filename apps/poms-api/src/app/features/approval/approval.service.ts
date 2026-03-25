@@ -1,20 +1,8 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import type {
-    ApprovalRecordSummary,
-    ApproveRecordRequest,
-    CommandResult,
-    RejectApprovalRecordRequest,
-    SubmitContractReviewRequest,
-    TodoItemSummary
-} from '@poms/shared-contracts';
-import {
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    Injectable,
-    NotFoundException
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import type { ApprovalRecordSummary, ApproveRecordRequest, CommandResult, RejectApprovalRecordRequest, SubmitContractReviewRequest, TodoItemSummary } from '@poms/shared-contracts';
+import { randomUUID } from 'node:crypto';
 import { DEV_USERS } from '../../core/platform/dev-platform.fixtures';
 import { Contract } from '../contract/contract.entity';
 import { ApprovalRecord } from './approval-record.entity';
@@ -40,11 +28,7 @@ export class ApprovalService {
         private readonly contractRepository: EntityRepository<Contract>
     ) {}
 
-    async submitContractReview(
-        contractId: string,
-        initiatorUserId: string,
-        input: SubmitContractReviewRequest
-    ): Promise<CommandResult> {
+    async submitContractReview(contractId: string, initiatorUserId: string, input: SubmitContractReviewRequest): Promise<CommandResult> {
         return this.approvalRecordRepository.getEntityManager().transactional(async (em) => {
             const contract = await em.findOne(Contract, { id: contractId });
             if (!contract) {
@@ -69,7 +53,11 @@ export class ApprovalService {
 
             contract.status = 'pending-review';
 
+            const approvalRecordId = randomUUID();
+            const todoItemId = randomUUID();
+
             const approvalRecord = em.create(ApprovalRecord, {
+                id: approvalRecordId,
                 approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
                 businessDomain: CONTRACT_BUSINESS_DOMAIN,
                 targetObjectType: CONTRACT_TARGET_TYPE,
@@ -87,8 +75,9 @@ export class ApprovalService {
             });
 
             const todoItem = em.create(TodoItem, {
+                id: todoItemId,
                 sourceType: TODO_SOURCE_TYPE,
-                sourceId: approvalRecord.id,
+                sourceId: approvalRecordId,
                 todoType: TODO_TYPE,
                 businessDomain: CONTRACT_BUSINESS_DOMAIN,
                 targetObjectType: CONTRACT_TARGET_TYPE,
@@ -119,19 +108,11 @@ export class ApprovalService {
         });
     }
 
-    async approveRecord(
-        approvalRecordId: string,
-        actorUserId: string,
-        input: ApproveRecordRequest
-    ): Promise<CommandResult> {
+    async approveRecord(approvalRecordId: string, actorUserId: string, input: ApproveRecordRequest): Promise<CommandResult> {
         return this.resolveApprovalDecision(approvalRecordId, actorUserId, 'approved', input.comment ?? null, input.expectedVersion);
     }
 
-    async rejectRecord(
-        approvalRecordId: string,
-        actorUserId: string,
-        input: RejectApprovalRecordRequest
-    ): Promise<CommandResult> {
+    async rejectRecord(approvalRecordId: string, actorUserId: string, input: RejectApprovalRecordRequest): Promise<CommandResult> {
         const comment = input.comment ? `${input.reason}\n${input.comment}` : input.reason;
         return this.resolveApprovalDecision(approvalRecordId, actorUserId, 'rejected', comment, input.expectedVersion);
     }
@@ -142,41 +123,47 @@ export class ApprovalService {
             return null;
         }
 
-        const relatedContract = record.targetObjectType === CONTRACT_TARGET_TYPE
-            ? await this.contractRepository.findOne({ id: record.targetObjectId })
-            : null;
+        const relatedContract = record.targetObjectType === CONTRACT_TARGET_TYPE ? await this.contractRepository.findOne({ id: record.targetObjectId }) : null;
+
+        return mapApprovalRecordToSummary(record, relatedContract);
+    }
+
+    async findLatestApprovalForTarget(targetObjectType: string, targetObjectId: string): Promise<ApprovalRecordSummary | null> {
+        const record = await this.approvalRecordRepository.findOne(
+            {
+                targetObjectType,
+                targetObjectId
+            },
+            {
+                orderBy: {
+                    submittedAt: QueryOrder.DESC,
+                    createdAt: QueryOrder.DESC
+                }
+            }
+        );
+
+        if (!record) {
+            return null;
+        }
+
+        const relatedContract = record.targetObjectType === CONTRACT_TARGET_TYPE ? await this.contractRepository.findOne({ id: record.targetObjectId }) : null;
 
         return mapApprovalRecordToSummary(record, relatedContract);
     }
 
     async findOpenTodosForUser(userId: string): Promise<TodoItemSummary[]> {
-        const todos = await this.todoItemRepository.find(
-            { assigneeUserId: userId, status: { $in: ['open', 'processing'] } },
-            { orderBy: { createdAt: QueryOrder.ASC } }
-        );
+        const todos = await this.todoItemRepository.find({ assigneeUserId: userId, status: { $in: ['open', 'processing'] } }, { orderBy: { createdAt: QueryOrder.ASC } });
 
         if (todos.length === 0) {
             return [];
         }
 
-        const approvalSourceIds = [...new Set(
-            todos
-                .filter((todo) => todo.sourceType === TODO_SOURCE_TYPE)
-                .map((todo) => todo.sourceId)
-        )];
-        const contractTargetIds = [...new Set(
-            todos
-                .filter((todo) => todo.targetObjectType === CONTRACT_TARGET_TYPE)
-                .map((todo) => todo.targetObjectId)
-        )];
+        const approvalSourceIds = [...new Set(todos.filter((todo) => todo.sourceType === TODO_SOURCE_TYPE).map((todo) => todo.sourceId))];
+        const contractTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === CONTRACT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
 
         const [approvalRecords, contracts] = await Promise.all([
-            approvalSourceIds.length > 0
-                ? this.approvalRecordRepository.find({ id: { $in: approvalSourceIds } })
-                : Promise.resolve([]),
-            contractTargetIds.length > 0
-                ? this.contractRepository.find({ id: { $in: contractTargetIds } })
-                : Promise.resolve([])
+            approvalSourceIds.length > 0 ? this.approvalRecordRepository.find({ id: { $in: approvalSourceIds } }) : Promise.resolve([]),
+            contractTargetIds.length > 0 ? this.contractRepository.find({ id: { $in: contractTargetIds } }) : Promise.resolve([])
         ]);
 
         const approvalById = new Map(approvalRecords.map((record) => [record.id, record]));
@@ -185,13 +172,7 @@ export class ApprovalService {
         return todos.map((todo) => mapTodoItemToSummary(todo, approvalById.get(todo.sourceId), contractById.get(todo.targetObjectId)));
     }
 
-    private async resolveApprovalDecision(
-        approvalRecordId: string,
-        actorUserId: string,
-        decision: 'approved' | 'rejected',
-        comment: string | null,
-        expectedVersion?: number
-    ): Promise<CommandResult> {
+    private async resolveApprovalDecision(approvalRecordId: string, actorUserId: string, decision: 'approved' | 'rejected', comment: string | null, expectedVersion?: number): Promise<CommandResult> {
         return this.approvalRecordRepository.getEntityManager().transactional(async (em) => {
             const approvalRecord = await em.findOne(ApprovalRecord, { id: approvalRecordId });
             if (!approvalRecord) {
@@ -201,9 +182,7 @@ export class ApprovalService {
             this.assertExpectedVersion(approvalRecord.rowVersion, expectedVersion, 'ApprovalRecord');
 
             if (approvalRecord.currentStatus !== 'pending') {
-                throw new BadRequestException(
-                    `ApprovalRecord ${approvalRecordId} cannot be processed in status ${approvalRecord.currentStatus}`
-                );
+                throw new BadRequestException(`ApprovalRecord ${approvalRecordId} cannot be processed in status ${approvalRecord.currentStatus}`);
             }
 
             if (approvalRecord.currentApproverUserId !== actorUserId) {

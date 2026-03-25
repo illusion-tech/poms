@@ -1,6 +1,7 @@
 import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import type { ContractStatus } from '@poms/shared-contracts';
 import { Contract } from './contract.entity';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class ContractRepository {
         private readonly contractRepository: EntityRepository<Contract>
     ) {}
 
-    async findMany(input: { projectId?: string; status?: string; keyword?: string }): Promise<Contract[]> {
+    async findMany(input: { projectId?: string; status?: ContractStatus; keyword?: string }): Promise<Contract[]> {
         const where: FilterQuery<Contract> = {};
 
         if (input.projectId) {

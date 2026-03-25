@@ -43,6 +43,7 @@ export const DEV_USERS: DevUserFixture[] = [
             'nav:dashboard:view',
             'nav:platform:view',
             'nav:projects:view',
+            'nav:contracts:view',
             'nav:profile:view'
         ],
         orgUnits: DEV_ORG_UNITS
@@ -53,7 +54,7 @@ export const DEV_USERS: DevUserFixture[] = [
         password: 'viewer123',
         displayName: '只读用户',
         roles: ['project-viewer'],
-        permissions: ['project:read', 'nav:dashboard:view', 'nav:projects:view', 'nav:profile:view'],
+        permissions: ['project:read', 'nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'],
         orgUnits: [DEV_ORG_UNITS[1]]
     }
 ];

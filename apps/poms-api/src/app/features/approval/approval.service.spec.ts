@@ -1,13 +1,13 @@
-import {
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    NotFoundException
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
+
+jest.mock('node:crypto', () => ({
+    randomUUID: jest.fn().mockReturnValueOnce('40000000-0000-0000-0000-000000000001').mockReturnValueOnce('50000000-0000-0000-0000-000000000001')
+}));
 
 jest.mock('@mikro-orm/core', () => ({
     QueryOrder: {
-        ASC: 'ASC'
+        ASC: 'ASC',
+        DESC: 'DESC'
     }
 }));
 
@@ -77,9 +77,7 @@ describe('ApprovalService', () => {
 
     it('submits contract review and creates approval plus todo', async () => {
         const contract = createContract({ status: 'draft', rowVersion: 3 });
-        em.findOne
-            .mockResolvedValueOnce(contract)
-            .mockResolvedValueOnce(null);
+        em.findOne.mockResolvedValueOnce(contract).mockResolvedValueOnce(null);
 
         const result = await service.submitContractReview(contractId, initiatorUserId, {
             comment: '请审核合同条款',
@@ -87,6 +85,25 @@ describe('ApprovalService', () => {
         });
 
         expect(contract.status).toBe('pending-review');
+        expect(em.create).toHaveBeenNthCalledWith(
+            1,
+            expect.any(Function),
+            expect.objectContaining({
+                id: approvalRecordId,
+                targetObjectId: contractId,
+                currentStatus: 'pending'
+            })
+        );
+        expect(em.create).toHaveBeenNthCalledWith(
+            2,
+            expect.any(Function),
+            expect.objectContaining({
+                id: todoItemId,
+                sourceId: approvalRecordId,
+                targetObjectId: contractId,
+                status: 'open'
+            })
+        );
         expect(em.persist).toHaveBeenCalled();
         expect(result).toEqual({
             targetId: contractId,
@@ -101,31 +118,22 @@ describe('ApprovalService', () => {
     });
 
     it('rejects duplicate pending contract review approvals', async () => {
-        em.findOne
-            .mockResolvedValueOnce(createContract({ status: 'draft' }))
-            .mockResolvedValueOnce(createApprovalRecord({ currentStatus: 'pending' }));
+        em.findOne.mockResolvedValueOnce(createContract({ status: 'draft' })).mockResolvedValueOnce(createApprovalRecord({ currentStatus: 'pending' }));
 
-        await expect(
-            service.submitContractReview(contractId, initiatorUserId, {})
-        ).rejects.toThrow(ConflictException);
+        await expect(service.submitContractReview(contractId, initiatorUserId, {})).rejects.toThrow(ConflictException);
     });
 
     it('requires contract to stay in draft before submit review', async () => {
         em.findOne.mockResolvedValueOnce(createContract({ status: 'active' }));
 
-        await expect(
-            service.submitContractReview(contractId, initiatorUserId, {})
-        ).rejects.toThrow(BadRequestException);
+        await expect(service.submitContractReview(contractId, initiatorUserId, {})).rejects.toThrow(BadRequestException);
     });
 
     it('approves pending review and closes todo without activating contract yet', async () => {
         const approval = createApprovalRecord();
         const contract = createContract({ status: 'pending-review' });
         const todo = createTodoItem();
-        em.findOne
-            .mockResolvedValueOnce(approval)
-            .mockResolvedValueOnce(contract)
-            .mockResolvedValueOnce(todo);
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(contract).mockResolvedValueOnce(todo);
 
         const result = await service.approveRecord(approvalRecordId, approverUserId, {
             comment: '审核通过',
@@ -144,10 +152,7 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord();
         const contract = createContract({ status: 'pending-review' });
         const todo = createTodoItem();
-        em.findOne
-            .mockResolvedValueOnce(approval)
-            .mockResolvedValueOnce(contract)
-            .mockResolvedValueOnce(todo);
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(contract).mockResolvedValueOnce(todo);
 
         const result = await service.rejectRecord(approvalRecordId, approverUserId, {
             reason: '金额条款不完整',
@@ -166,17 +171,13 @@ describe('ApprovalService', () => {
     it('blocks approval when current user is not assignee', async () => {
         em.findOne.mockResolvedValueOnce(createApprovalRecord({ currentApproverUserId: approverUserId }));
 
-        await expect(
-            service.approveRecord(approvalRecordId, initiatorUserId, {})
-        ).rejects.toThrow(ForbiddenException);
+        await expect(service.approveRecord(approvalRecordId, initiatorUserId, {})).rejects.toThrow(ForbiddenException);
     });
 
     it('throws when approval record is missing', async () => {
         em.findOne.mockResolvedValueOnce(null);
 
-        await expect(service.approveRecord(approvalRecordId, approverUserId, {})).rejects.toThrow(
-            NotFoundException
-        );
+        await expect(service.approveRecord(approvalRecordId, approverUserId, {})).rejects.toThrow(NotFoundException);
     });
 
     it('returns approval detail with related contract summary fields', async () => {
@@ -197,25 +198,41 @@ describe('ApprovalService', () => {
         );
     });
 
+    it('returns latest approval summary for target object', async () => {
+        approvalRecordRepository.findOne.mockResolvedValue(createApprovalRecord({ currentStatus: 'approved' }));
+        contractRepository.findOne.mockResolvedValue(createContract({ status: 'pending-review' }));
+
+        const result = await service.findLatestApprovalForTarget('Contract', contractId);
+
+        expect(approvalRecordRepository.findOne).toHaveBeenCalledWith(
+            {
+                targetObjectType: 'Contract',
+                targetObjectId: contractId
+            },
+            {
+                orderBy: {
+                    submittedAt: 'DESC',
+                    createdAt: 'DESC'
+                }
+            }
+        );
+        expect(result).toEqual(
+            expect.objectContaining({
+                id: approvalRecordId,
+                currentStatus: 'approved',
+                targetTitle: 'HT-2026-001'
+            })
+        );
+    });
+
     it('lists only open todos for current user with target summary and allowed actions', async () => {
-        todoItemRepository.find.mockResolvedValue([
-            createTodoItem({ status: 'open' }),
-            createTodoItem({ id: '50000000-0000-0000-0000-000000000002', sourceId: '40000000-0000-0000-0000-000000000002' })
-        ]);
-        approvalRecordRepository.find.mockResolvedValue([
-            createApprovalRecord(),
-            createApprovalRecord({ id: '40000000-0000-0000-0000-000000000002' })
-        ]);
-        contractRepository.find.mockResolvedValue([
-            createContract()
-        ]);
+        todoItemRepository.find.mockResolvedValue([createTodoItem({ status: 'open' }), createTodoItem({ id: '50000000-0000-0000-0000-000000000002', sourceId: '40000000-0000-0000-0000-000000000002' })]);
+        approvalRecordRepository.find.mockResolvedValue([createApprovalRecord(), createApprovalRecord({ id: '40000000-0000-0000-0000-000000000002' })]);
+        contractRepository.find.mockResolvedValue([createContract()]);
 
         const todos = await service.findOpenTodosForUser(approverUserId);
 
-        expect(todoItemRepository.find).toHaveBeenCalledWith(
-            { assigneeUserId: approverUserId, status: { $in: ['open', 'processing'] } },
-            { orderBy: { createdAt: 'ASC' } }
-        );
+        expect(todoItemRepository.find).toHaveBeenCalledWith({ assigneeUserId: approverUserId, status: { $in: ['open', 'processing'] } }, { orderBy: { createdAt: 'ASC' } });
         expect(approvalRecordRepository.find).toHaveBeenCalledWith({
             id: { $in: [approvalRecordId, '40000000-0000-0000-0000-000000000002'] }
         });

@@ -1,6 +1,6 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import type { CommandResult } from '@poms/shared-contracts';
+import type { CommandResult, ContractStatus } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
@@ -10,14 +10,14 @@ import { ContractRepository } from './contract.repository';
 
 export interface FindContractsQuery {
     projectId?: string;
-    status?: string;
+    status?: ContractStatus;
     keyword?: string;
 }
 
 export interface CreateContractRecord {
     projectId: string;
     contractNo: string;
-    status?: string;
+    status?: ContractStatus;
     signedAmount: string;
     currencyCode?: string;
     currentSnapshotId?: string | null;

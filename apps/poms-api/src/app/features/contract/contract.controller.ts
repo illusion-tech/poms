@@ -1,18 +1,9 @@
 import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-    ActivateContractRequestDto,
-    CommandResultDto,
-    ContractDto,
-    ContractListDto,
-    ContractListQueryDto,
-    CreateContractRequestDto,
-    SubmitContractReviewRequestDto,
-    UpdateContractBasicInfoRequestDto
-} from '@poms/api-contracts';
-import type { CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
-import { ApprovalService } from '../approval/approval.service';
+import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, SubmitContractReviewRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
+import type { ApprovalRecordSummary, CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { ApprovalService } from '../approval/approval.service';
 import { Contract } from './contract.entity';
 import { ContractService } from './contract.service';
 
@@ -67,6 +58,19 @@ export class ContractController {
         return mapContractToSummary(contract);
     }
 
+    @Get(':id/current-approval')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取合同当前审批摘要' })
+    @ApiOkResponse({ type: ApprovalRecordDto })
+    async getCurrentApproval(@Param('id') id: string): Promise<ApprovalRecordSummary> {
+        const approvalRecord = await this.approvalService.findLatestApprovalForTarget('Contract', id);
+        if (!approvalRecord) {
+            throw new NotFoundException(`No approval record found for contract ${id}`);
+        }
+
+        return approvalRecord;
+    }
+
     @Post()
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建合同基础台账' })
@@ -107,11 +111,7 @@ export class ContractController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '提交合同审核' })
     @ApiOkResponse({ type: CommandResultDto })
-    submitReview(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: SubmitContractReviewRequestDto,
-    ): Promise<CommandResult> {
+    submitReview(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: SubmitContractReviewRequestDto): Promise<CommandResult> {
         return this.approvalService.submitContractReview(id, req.user.sub, body);
     }
 
@@ -119,11 +119,7 @@ export class ContractController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '确认合同生效' })
     @ApiOkResponse({ type: CommandResultDto })
-    activate(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: ActivateContractRequestDto
-    ): Promise<CommandResult> {
+    activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<CommandResult> {
         return this.contractService.activate(id, req.user.sub, body);
     }
 }
