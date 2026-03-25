@@ -285,7 +285,7 @@
 ### 6.2 近期下一批切片
 
 1. ~~前端平台管理页接入真实写侧接口~~ **已完成**：用户/角色/组织管理页均接入真实 API
-2. **P1-S11 提成计算与发放**：继续补审批待办接入与前端演示入口，收敛后端最小闭环到真实业务链路
+2. **P1-S11 提成计算与发放**：继续补前端演示入口，把已接入待办的 payout 审批串到真实业务页
 3. 全部提成切片（S10~S12）完成后，重新发起第一阶段收口评估
 
 ### 6.3 近期暂不提前展开
@@ -395,7 +395,7 @@
 | `P1-S08` | 平台主数据与权限治理最小闭环    | `Done`        | 平台治理域设计、现有 auth/profile/navigation、开发期 fixture  | `User`/`Role`/`OrgUnit` 真实持久化与管理接口、前端管理页接入    | 已完成：后端写侧命令、真实登录认证、前端用户/角色/组织管理页接入真实 API |
 | `P1-S09` | 平台导航治理闭环                | `Done`        | 导航设计、路由对照、导航常量树、真实权限模型                  | 导航与真实角色权限、真实路由和受控维护机制对齐                 | 已完成：导航按真实权限过滤，`GET /platform/navigation` 管理端接口已上线 |
 | `P1-S10` | 提成规则与角色分配基线          | `Done`        | 提成详细设计、授权矩阵、审批设计、表结构冻结与 DDL 基线       | `CommissionRuleVersion` 与 `CommissionRoleAssignment` 最小闭环 | 已完成：migration、entity、repository、service、controller、14 suite 113 测试全绿 |
-| `P1-S11` | 提成计算与发放最小闭环          | `In Progress` | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑      | `CommissionCalculation` 与 `CommissionPayout` 最小闭环         | 已落后端表结构、实体、共享契约、8 个接口与自动化测试；下一步补审批待办与前端入口 |
+| `P1-S11` | 提成计算与发放最小闭环          | `In Progress` | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑      | `CommissionCalculation` 与 `CommissionPayout` 最小闭环         | 已落后端表结构、实体、共享契约、8 个接口、统一审批待办接入与自动化测试；下一步补前端入口 |
 | `P1-S12` | 提成异常调整与重算闭环          | `Planned`     | 提成计算结果、发放记录、异常规则、审批待办支撑                | `CommissionAdjustment` 与重算替代链路                          | 让退款、坏账、违规、变更等异常进入显式审计闭环                    |
 
 ### 10.4 切片明细
@@ -518,8 +518,8 @@
 | 主要输入   | 提成规则、角色分配、生效合同/回款/成本事实、审批最小支撑                                         |
 | 主要输出   | `CommissionCalculation`、`CommissionPayout` 最小闭环、最小读侧接口、至少一个前端演示页、最小测试 |
 | DoD        | 计算结果有版本与替代关系；发放记录不可直接删除；审批、发放登记与状态迁移保持一致                 |
-| 实现证据   | migration `20260325200000` 与 `CommissionCalculation` / `CommissionPayout` 实体已落地；共享契约与 API DTO 已补；8 个接口已上线（GET calculations, POST trigger, POST effective, GET payouts, POST payouts, POST submit-approval, POST approve, POST register-payout）；后端测试套件已更新为 14 suite / 134 测试全绿 |
-| 当前下一步 | 复用现有审批 / 待办模式把 payout 审批纳入统一待办，并补一个前端演示入口，之后再推进 S12 异常调整 / 重算 |
+| 实现证据   | migration `20260325200000` 与 `CommissionCalculation` / `CommissionPayout` 实体已落地；共享契约与 API DTO 已补；8 个接口已上线（GET calculations, POST trigger, POST effective, GET payouts, POST payouts, POST submit-approval, POST approve, POST register-payout）；payout 已接入统一审批记录与待办；后端测试套件已更新为 14 suite / 137 测试全绿 |
+| 当前下一步 | 补一个提成治理前端演示入口，把 payout 审批从工作台待办顺到业务页，之后再推进 S12 异常调整 / 重算 |
 
 #### `P1-S12` 提成异常调整与重算闭环
 
@@ -548,7 +548,7 @@
 | `P1-T10` | `P1-S08` | `Done`        | 启动平台主数据真实化首批实施                        | 建立 `OrgUnit` / `Role` / `User` 与关系模型的后端落地入口 | 已完成：用户/角色/组织全套写侧命令、bcrypt 真实认证、navigation 治理、12 suite 88 测试全绿 |
 | `P1-T11` | `P1-S08` | `Done`        | 前端平台管理页接入真实写侧 API                      | 用户/角色/组织三管理页不再使用静态数据或本地状态变更      | 已完成：`user-list` 接入真实 CRUD；新建 `role-list` 和 `org-unit-list` 页面；路由与菜单已配置；Angular 构建通过 |
 | `P1-T12` | `P1-S10` | `Done`        | 实现提成规则版本与角色分配基线后端                  | 为后续提成计算提供稳定事实源                              | 已完成：migration 已执行；6 个接口已上线；14 suite 113 测试全绿                                                  |
-| `P1-T13` | `P1-S11` | `In Progress` | 实现提成计算与发放后端最小闭环                      | 打通 calculation / payout 的创建、确认、审批、登记链路    | 已完成后端表结构、实体、共享契约、8 个接口与测试；下一步接入审批待办与前端演示页                                 |
+| `P1-T13` | `P1-S11` | `In Progress` | 实现提成计算与发放后端最小闭环                      | 打通 calculation / payout 的创建、确认、审批、登记链路    | 已完成后端表结构、实体、共享契约、8 个接口、统一审批待办接入与测试；下一步补前端演示页                           |
 
 **第一阶段当前未通过，已进入缺口补齐阶段。**
 
@@ -563,7 +563,7 @@
 - **基础设施**：PostgreSQL + MikroORM 接入，SQL-first migration 落地，DatabaseSeeder 固化，OpenAPI 自动生成，12 suite 88 个单元测试全覆盖。
 
 **2. 当前仍属第一阶段未完成承诺项：**
-- **提成计算与发放**：`P1-S11` 已完成后端最小闭环，但审批待办接入与前端演示入口尚未完成。
+- **提成计算与发放**：`P1-S11` 已完成后端最小闭环与审批待办接入，但前端演示入口尚未完成。
 - **提成异常调整**：`CommissionAdjustment` 与重算替代链路尚未实现（`P1-S12`）。
 
 **3. 明确不做项（原定即属于后续扩展）：**
