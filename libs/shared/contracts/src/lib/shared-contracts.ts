@@ -10,6 +10,12 @@ export const PERMISSION_KEYS = [
     'platform:roles:manage',
     'platform:navigation:manage',
     'platform:org-units:manage',
+    // 提成治理
+    'commission:rule-versions:manage',
+    'commission:assignments:manage',
+    'commission:calculations:manage',
+    'commission:payouts:manage',
+    'commission:adjustments:manage',
     // 项目
     'project:read',
     'project:write',
@@ -34,6 +40,11 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:roles:manage': { description: '管理角色与权限', group: '平台管理' },
     'platform:navigation:manage': { description: '管理导航菜单', group: '平台管理' },
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
+    'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
+    'commission:assignments:manage': { description: '管理提成角色分配', group: '提成治理' },
+    'commission:calculations:manage': { description: '管理提成计算结果', group: '提成治理' },
+    'commission:payouts:manage': { description: '管理提成发放', group: '提成治理' },
+    'commission:adjustments:manage': { description: '管理提成调整', group: '提成治理' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
     'project:delete': { description: '删除项目', group: '项目' },
@@ -100,6 +111,116 @@ export const SanitizedUserWithOrgUnitsSchema = SanitizedUserSchema.extend({
 }).meta({ id: 'SanitizedUserWithOrgUnits' });
 
 export type SanitizedUserWithOrgUnits = z.infer<typeof SanitizedUserWithOrgUnitsSchema>;
+
+export const PlatformUserSummarySchema = z
+    .object({
+        id: z.uuid(),
+        username: z.string(),
+        displayName: z.string(),
+        email: z.string().email().nullable(),
+        phone: z.string().nullable(),
+        isActive: z.boolean(),
+        primaryOrgUnitId: z.uuid().nullable(),
+        primaryOrgUnitName: z.string().nullable(),
+        roleNames: z.array(z.string()),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PlatformUserSummary' });
+
+export type PlatformUserSummary = z.infer<typeof PlatformUserSummarySchema>;
+
+export const PlatformUserListSchema = z.array(PlatformUserSummarySchema).meta({ id: 'PlatformUserList' });
+
+export type PlatformUserList = z.infer<typeof PlatformUserListSchema>;
+
+export const CreatePlatformUserRequestSchema = z
+    .object({
+        username: z.string().min(1).max(64),
+        displayName: z.string().min(1).max(128),
+        email: z.string().email().nullable().optional(),
+        phone: z.string().max(64).nullable().optional(),
+        primaryOrgUnitId: z.uuid().nullable(),
+        initialRoleIds: z.array(z.uuid()).default([])
+    })
+    .meta({ id: 'CreatePlatformUserRequest' });
+
+export type CreatePlatformUserRequest = z.infer<typeof CreatePlatformUserRequestSchema>;
+
+export const UpdatePlatformUserActivationRequestSchema = z
+    .object({
+        reason: z.string().max(1000).optional(),
+        comment: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'UpdatePlatformUserActivationRequest' });
+
+export type UpdatePlatformUserActivationRequest = z.infer<typeof UpdatePlatformUserActivationRequestSchema>;
+
+export const AssignUserRolesRequestSchema = z
+    .object({
+        roleIds: z.array(z.uuid()),
+        reason: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'AssignUserRolesRequest' });
+
+export type AssignUserRolesRequest = z.infer<typeof AssignUserRolesRequestSchema>;
+
+export const AssignUserOrgMembershipsRequestSchema = z
+    .object({
+        primaryOrgUnitId: z.uuid(),
+        secondaryOrgUnitIds: z.array(z.uuid()).default([]),
+        reason: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'AssignUserOrgMembershipsRequest' });
+
+export type AssignUserOrgMembershipsRequest = z.infer<typeof AssignUserOrgMembershipsRequestSchema>;
+
+export const CreateRoleRequestSchema = z
+    .object({
+        roleKey: z.string().trim().min(1).max(64),
+        name: z.string().trim().min(1).max(128),
+        description: z.string().max(1000).nullable().optional(),
+        displayOrder: z.number().int().min(0).optional()
+    })
+    .meta({ id: 'CreateRoleRequest' });
+
+export type CreateRoleRequest = z.infer<typeof CreateRoleRequestSchema>;
+
+export const AssignRolePermissionsRequestSchema = z
+    .object({
+        permissionKeys: z.array(z.enum(PERMISSION_KEYS))
+    })
+    .meta({ id: 'AssignRolePermissionsRequest' });
+
+export type AssignRolePermissionsRequest = z.infer<typeof AssignRolePermissionsRequestSchema>;
+
+export const CreateOrgUnitRequestSchema = z
+    .object({
+        name: z.string().trim().min(1).max(128),
+        code: z.string().trim().min(1).max(64),
+        description: z.string().max(1000).nullable().optional(),
+        parentId: z.uuid().nullable().optional(),
+        displayOrder: z.number().int().min(0).optional()
+    })
+    .meta({ id: 'CreateOrgUnitRequest' });
+
+export type CreateOrgUnitRequest = z.infer<typeof CreateOrgUnitRequestSchema>;
+
+export const UpdateOrgUnitRequestSchema = z
+    .object({
+        name: z.string().trim().min(1).max(128).optional(),
+        description: z.string().max(1000).nullable().optional(),
+        displayOrder: z.number().int().min(0).optional()
+    })
+    .refine((v) => v.name !== undefined || v.description !== undefined || v.displayOrder !== undefined, {
+        message: 'At least one field is required for update'
+    })
+    .meta({ id: 'UpdateOrgUnitRequest' });
+
+export type UpdateOrgUnitRequest = z.infer<typeof UpdateOrgUnitRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // JWT UserPayload（JWT 解码后注入到 Request.user 的结构）
@@ -246,16 +367,9 @@ export const UpdateProjectBasicInfoRequestSchema = z
         plannedSignAt: z.iso.datetime().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
     })
-    .refine(
-        (value) =>
-            value.projectName !== undefined ||
-            value.customerId !== undefined ||
-            value.ownerOrgId !== undefined ||
-            value.ownerUserId !== undefined ||
-            value.plannedSignAt !== undefined ||
-            value.updatedBy !== undefined,
-        { message: 'At least one field is required for update' }
-    )
+    .refine((value) => value.projectName !== undefined || value.customerId !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined || value.plannedSignAt !== undefined || value.updatedBy !== undefined, {
+        message: 'At least one field is required for update'
+    })
     .meta({ id: 'UpdateProjectBasicInfoRequest' });
 
 export type UpdateProjectBasicInfoRequest = z.infer<typeof UpdateProjectBasicInfoRequestSchema>;
@@ -328,15 +442,9 @@ export const UpdateContractBasicInfoRequestSchema = z
         signedAt: z.iso.datetime().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
     })
-    .refine(
-        (value) =>
-            value.signedAmount !== undefined ||
-            value.currencyCode !== undefined ||
-            value.currentSnapshotId !== undefined ||
-            value.signedAt !== undefined ||
-            value.updatedBy !== undefined,
-        { message: 'At least one field is required for update' }
-    )
+    .refine((value) => value.signedAmount !== undefined || value.currencyCode !== undefined || value.currentSnapshotId !== undefined || value.signedAt !== undefined || value.updatedBy !== undefined, {
+        message: 'At least one field is required for update'
+    })
     .meta({ id: 'UpdateContractBasicInfoRequest' });
 
 export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
