@@ -3,7 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Project } from '../project/project.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
-import { CommissionPayout } from './commission-payout.entity';
+import { CommissionPayout, type CommissionPayoutStage } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 
@@ -51,7 +51,9 @@ export class CommissionRepository {
     }
 
     async persistAndFlushRuleVersion(entity: CommissionRuleVersion): Promise<void> {
-        await this.ruleVersionRepository.getEntityManager().persistAndFlush(entity);
+        const em = this.ruleVersionRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
     }
 
     async flushRuleVersion(): Promise<void> {
@@ -80,7 +82,9 @@ export class CommissionRepository {
     }
 
     async persistAndFlushRoleAssignment(entity: CommissionRoleAssignment): Promise<void> {
-        await this.roleAssignmentRepository.getEntityManager().persistAndFlush(entity);
+        const em = this.roleAssignmentRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
     }
 
     async flushRoleAssignment(): Promise<void> {
@@ -106,7 +110,9 @@ export class CommissionRepository {
     }
 
     async persistAndFlushCalculation(entity: CommissionCalculation): Promise<void> {
-        await this.calculationRepository.getEntityManager().persistAndFlush(entity);
+        const em = this.calculationRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
     }
 
     async flushCalculation(): Promise<void> {
@@ -126,7 +132,7 @@ export class CommissionRepository {
         );
     }
 
-    async findPayoutByProjectCalculationStage(projectId: string, calculationId: string, stageType: string): Promise<CommissionPayout | null> {
+    async findPayoutByProjectCalculationStage(projectId: string, calculationId: string, stageType: CommissionPayoutStage): Promise<CommissionPayout | null> {
         return this.payoutRepository.findOne({ projectId, calculationId, stageType });
     }
 
@@ -135,7 +141,9 @@ export class CommissionRepository {
     }
 
     async persistAndFlushPayout(entity: CommissionPayout): Promise<void> {
-        await this.payoutRepository.getEntityManager().persistAndFlush(entity);
+        const em = this.payoutRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
     }
 
     async flushPayout(): Promise<void> {

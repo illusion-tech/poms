@@ -1,4 +1,4 @@
-import type { NavigationItem, PlatformUserList } from '@poms/shared-contracts';
+import type { NavigationItem, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList } from '@poms/shared-contracts';
 import {
     AssignRolePermissionsRequestDto,
     AssignUserOrgMembershipsRequestDto,
@@ -7,6 +7,10 @@ import {
     CreatePlatformUserRequestDto,
     CreateRoleRequestDto,
     NavigationListDto,
+    PlatformOrgUnitListDto,
+    PlatformOrgUnitSummaryDto,
+    PlatformRoleListDto,
+    PlatformRoleSummaryDto,
     PlatformUserListDto,
     SanitizedUserWithOrgUnitsDto,
     UpdateOrgUnitRequestDto,
@@ -78,48 +82,48 @@ export class PlatformController {
     @Get('roles')
     @HasPermissions('platform:roles:manage')
     @ApiOperation({ summary: '获取平台角色列表（基础查询）' })
-    @ApiOkResponse({ schema: { type: 'array', items: { type: 'object' } } })
-    async listRoles() {
+    @ApiOkResponse({ type: PlatformRoleListDto })
+    async listRoles(): Promise<PlatformRoleSummary[]> {
         return this.platformService.listRoles();
     }
 
     @Post('roles')
     @HasPermissions('platform:roles:manage')
     @ApiOperation({ summary: '创建平台角色' })
-    @ApiOkResponse({ schema: { type: 'object' } })
-    createRole(@Body() body: CreateRoleRequestDto) {
+    @ApiOkResponse({ type: PlatformRoleSummaryDto })
+    createRole(@Body() body: CreateRoleRequestDto): Promise<PlatformRoleSummary> {
         return this.platformService.createRole(body);
     }
 
     @Post('roles/:id/permissions')
     @HasPermissions('platform:roles:manage')
     @ApiOperation({ summary: '分配角色权限（全量替换）' })
-    @ApiOkResponse({ schema: { type: 'object' } })
-    assignRolePermissions(@Param('id') id: string, @Body() body: AssignRolePermissionsRequestDto) {
+    @ApiOkResponse({ type: PlatformRoleSummaryDto })
+    assignRolePermissions(@Param('id') id: string, @Body() body: AssignRolePermissionsRequestDto): Promise<PlatformRoleSummary> {
         return this.platformService.assignRolePermissions(id, body);
     }
 
     @Get('org-units')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '获取平台组织列表（基础查询）' })
-    @ApiOkResponse({ schema: { type: 'array', items: { type: 'object' } } })
-    async listOrgUnits() {
+    @ApiOkResponse({ type: PlatformOrgUnitListDto })
+    async listOrgUnits(): Promise<PlatformOrgUnitSummary[]> {
         return this.platformService.listOrgUnits();
     }
 
     @Post('org-units')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '创建组织单元' })
-    @ApiOkResponse({ schema: { type: 'object' } })
-    createOrgUnit(@Body() body: CreateOrgUnitRequestDto) {
+    @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
+    createOrgUnit(@Body() body: CreateOrgUnitRequestDto): Promise<PlatformOrgUnitSummary> {
         return this.platformService.createOrgUnit(body);
     }
 
     @Patch('org-units/:id')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '更新组织单元基本信息' })
-    @ApiOkResponse({ schema: { type: 'object' } })
-    updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto) {
+    @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
+    updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto): Promise<PlatformOrgUnitSummary> {
         return this.platformService.updateOrgUnit(id, body);
     }
 

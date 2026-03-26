@@ -397,7 +397,15 @@ describe('PlatformService', () => {
 
             expect(repository.findRoleByKey).toHaveBeenCalledWith('sales-manager');
             expect(repository.saveAll).toHaveBeenCalled();
-            expect(result).toBe(created);
+            expect(result).toEqual(
+                expect.objectContaining({
+                    id: created.id,
+                    roleKey: created.roleKey,
+                    name: created.name,
+                    createdAt: created.createdAt.toISOString(),
+                    updatedAt: created.updatedAt.toISOString()
+                })
+            );
         });
 
         it('throws ConflictException when roleKey already exists', async () => {
@@ -443,7 +451,15 @@ describe('PlatformService', () => {
 
             expect(repository.findOrgUnitByCode).toHaveBeenCalledWith('SALES-NORTH');
             expect(repository.saveAll).toHaveBeenCalled();
-            expect(result).toBe(created);
+            expect(result).toEqual(
+                expect.objectContaining({
+                    id: created.id,
+                    name: created.name,
+                    code: created.code,
+                    createdAt: created.createdAt.toISOString(),
+                    updatedAt: created.updatedAt.toISOString()
+                })
+            );
         });
 
         it('throws ConflictException when code already exists', async () => {
@@ -502,7 +518,12 @@ function createRole(overrides: Record<string, unknown> = {}) {
         id: '30000000-0000-4000-8000-000000000001',
         roleKey: 'platform-admin',
         name: '平台管理员',
+        description: null,
+        isActive: true,
+        isSystemRole: false,
+        displayOrder: 0,
         createdAt: new Date('2026-03-25T10:00:00.000Z'),
+        updatedAt: new Date('2026-03-25T10:00:00.000Z'),
         ...overrides
     };
 }
@@ -513,7 +534,11 @@ function createOrgUnit(overrides: Record<string, unknown> = {}) {
         name: '销售管理中心',
         code: 'SALES-HQ',
         description: '默认组织',
+        parentId: null,
+        isActive: true,
+        displayOrder: 0,
         createdAt: new Date('2026-03-25T10:00:00.000Z'),
+        updatedAt: new Date('2026-03-25T10:00:00.000Z'),
         ...overrides
     };
 }

@@ -16,7 +16,7 @@ export const CommissionRuleVersionSchema = defineEntity({
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         ruleCode: p.string().length(64).fieldName('rule_code'),
         version: p.integer(),
-        status: p.string().length(32).default('draft') as ReturnType<typeof p.string> & { (): CommissionRuleVersionStatus },
+        status: p.string().$type<CommissionRuleVersionStatus>().length(32).default('draft'),
         tierDefinitionJson: p.json<TierDefinition>().fieldName('tier_definition_json'),
         firstStageCapRuleJson: p.json<Record<string, unknown>>().nullable().fieldName('first_stage_cap_rule_json'),
         secondStageCapRuleJson: p.json<Record<string, unknown>>().nullable().fieldName('second_stage_cap_rule_json'),

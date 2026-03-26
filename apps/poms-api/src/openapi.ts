@@ -1,76 +1,40 @@
 import 'reflect-metadata';
 
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { Module } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { Global, Module } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Test } from '@nestjs/testing';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
-import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { AppController } from './app/app.controller';
-import { AppService } from './app/app.service';
-import { ApprovalController } from './app/features/approval/approval.controller';
-import { ApprovalService } from './app/features/approval/approval.service';
-import { AuthController } from './app/core/auth/auth.controller';
-import { ContractController } from './app/features/contract/contract.controller';
-import { ContractService } from './app/features/contract/contract.service';
-import { NavigationController } from './app/features/navigation/navigation.controller';
-import { NavigationService } from './app/features/navigation/navigation.service';
-import { ProjectController } from './app/features/project/project.controller';
-import { ProjectService } from './app/features/project/project.service';
+import { AppModule } from './app/app.module';
+import { PersistenceModule } from './app/core/persistence/persistence.module';
 
+@Global()
 @Module({
-    controllers: [
-        AppController,
-        AuthController,
-        NavigationController,
-        ProjectController,
-        ContractController,
-        ApprovalController
-    ],
-    providers: [
-        AppService,
-        {
-            provide: JwtService,
-            useValue: {
-                sign: () => 'openapi-placeholder-token'
-            }
-        },
-        {
-            provide: NavigationService,
-            useValue: {
-                getNavigationForUser: () => []
-            }
-        },
-        {
-            provide: ProjectService,
-            useValue: {}
-        },
-        {
-            provide: ContractService,
-            useValue: {}
-        },
-        {
-            provide: ApprovalService,
-            useValue: {}
-        },
-        {
-            provide: APP_PIPE,
-            useClass: ZodValidationPipe
-        },
-        {
-            provide: APP_INTERCEPTOR,
-            useClass: ZodSerializerInterceptor
-        }
+    imports: [
+        MikroOrmModule.forRoot({
+            driver: PostgreSqlDriver,
+            dbName: 'openapi-placeholder',
+            connect: false,
+            autoLoadEntities: true,
+            registerRequestContext: false,
+            discovery: { warnWhenNoEntities: false }
+        } as never)
     ]
 })
-class OpenApiModule {}
+class OpenApiPersistenceModule {}
 
 async function exportOpenApi() {
-    const app = await NestFactory.create(OpenApiModule, { logger: false });
+    const moduleRef = await Test.createTestingModule({
+        imports: [AppModule]
+    })
+        .overrideModule(PersistenceModule)
+        .useModule(OpenApiPersistenceModule)
+        .compile();
 
+    const app = moduleRef.createNestApplication();
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
 
@@ -96,4 +60,3 @@ exportOpenApi().catch((err) => {
     console.error(err);
     process.exit(1);
 });
-

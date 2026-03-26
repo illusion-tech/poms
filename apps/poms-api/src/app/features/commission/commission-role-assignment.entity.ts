@@ -20,7 +20,7 @@ export const CommissionRoleAssignmentSchema = defineEntity({
         projectId: p.uuid().fieldName('project_id'),
         version: p.integer(),
         isCurrent: p.boolean().default(true).fieldName('is_current'),
-        status: p.string().length(32).default('draft') as ReturnType<typeof p.string> & { (): CommissionRoleAssignmentStatus },
+        status: p.string().$type<CommissionRoleAssignmentStatus>().length(32).default('draft'),
         participantsJson: p.json<CommissionParticipant[]>().default([]).fieldName('participants_json'),
         frozenAt: p.datetime().nullable().fieldName('frozen_at'),
         frozenBy: p.uuid().nullable().fieldName('frozen_by'),

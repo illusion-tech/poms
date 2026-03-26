@@ -1,7 +1,9 @@
-import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, PermissionKey, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
+import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, PermissionKey, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
+import { OrgUnit } from './org-unit.entity';
 import { PlatformRepository } from './platform.repository';
+import { PlatformRole } from './role.entity';
 
 @Injectable()
 export class PlatformService {
@@ -53,7 +55,7 @@ export class PlatformService {
         userId: string,
         fallback: {
             username: string;
-            permissions: string[];
+            permissions: PermissionKey[];
         }
     ): Promise<SanitizedUserWithOrgUnits | null> {
         const { orgUnitMap, roleNamesByUserId, primaryOrgByUserId } = await this.#loadUserAggregationContext();
@@ -91,11 +93,12 @@ export class PlatformService {
         };
     }
 
-    async listRoles() {
-        return this.platformRepository.findAllRoles();
+    async listRoles(): Promise<PlatformRoleSummary[]> {
+        const roles = await this.platformRepository.findAllRoles();
+        return roles.map((role) => this.#toRoleSummary(role));
     }
 
-    async createRole(request: CreateRoleRequest) {
+    async createRole(request: CreateRoleRequest): Promise<PlatformRoleSummary> {
         const existing = await this.platformRepository.findRoleByKey(request.roleKey);
         if (existing) throw new ConflictException(`Role key ${request.roleKey} already exists`);
 
@@ -110,10 +113,10 @@ export class PlatformService {
             updatedBy: null
         });
         await this.platformRepository.saveAll([role]);
-        return role;
+        return this.#toRoleSummary(role);
     }
 
-    async assignRolePermissions(roleId: string, request: AssignRolePermissionsRequest) {
+    async assignRolePermissions(roleId: string, request: AssignRolePermissionsRequest): Promise<PlatformRoleSummary> {
         const role = await this.platformRepository.findRoleById(roleId);
         if (!role) throw new NotFoundException(`Role ${roleId} not found`);
 
@@ -131,14 +134,15 @@ export class PlatformService {
             })
         );
         await this.platformRepository.saveAll(assignments);
-        return role;
+        return this.#toRoleSummary(role);
     }
 
-    async listOrgUnits() {
-        return this.platformRepository.findAllOrgUnits();
+    async listOrgUnits(): Promise<PlatformOrgUnitSummary[]> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        return orgUnits.map((orgUnit) => this.#toOrgUnitSummary(orgUnit));
     }
 
-    async createOrgUnit(request: CreateOrgUnitRequest) {
+    async createOrgUnit(request: CreateOrgUnitRequest): Promise<PlatformOrgUnitSummary> {
         const existing = await this.platformRepository.findOrgUnitByCode(request.code);
         if (existing) throw new ConflictException(`OrgUnit code ${request.code} already exists`);
 
@@ -153,10 +157,10 @@ export class PlatformService {
             updatedBy: null
         });
         await this.platformRepository.saveAll([orgUnit]);
-        return orgUnit;
+        return this.#toOrgUnitSummary(orgUnit);
     }
 
-    async updateOrgUnit(id: string, request: UpdateOrgUnitRequest) {
+    async updateOrgUnit(id: string, request: UpdateOrgUnitRequest): Promise<PlatformOrgUnitSummary> {
         const orgUnit = await this.platformRepository.findOrgUnitById(id);
         if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
 
@@ -165,7 +169,7 @@ export class PlatformService {
         if (request.displayOrder !== undefined) orgUnit.displayOrder = request.displayOrder;
 
         await this.platformRepository.saveAll([orgUnit]);
-        return orgUnit;
+        return this.#toOrgUnitSummary(orgUnit);
     }
 
     async createUser(request: CreatePlatformUserRequest) {
@@ -307,5 +311,33 @@ export class PlatformService {
         }
 
         return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId };
+    }
+
+    #toRoleSummary(role: PlatformRole): PlatformRoleSummary {
+        return {
+            id: role.id,
+            roleKey: role.roleKey,
+            name: role.name,
+            description: role.description ?? null,
+            isActive: role.isActive,
+            isSystemRole: role.isSystemRole,
+            displayOrder: role.displayOrder,
+            createdAt: role.createdAt.toISOString(),
+            updatedAt: role.updatedAt.toISOString()
+        };
+    }
+
+    #toOrgUnitSummary(orgUnit: OrgUnit): PlatformOrgUnitSummary {
+        return {
+            id: orgUnit.id,
+            name: orgUnit.name,
+            code: orgUnit.code,
+            description: orgUnit.description ?? null,
+            parentId: orgUnit.parentId ?? null,
+            isActive: orgUnit.isActive,
+            displayOrder: orgUnit.displayOrder,
+            createdAt: orgUnit.createdAt.toISOString(),
+            updatedAt: orgUnit.updatedAt.toISOString()
+        };
     }
 }
