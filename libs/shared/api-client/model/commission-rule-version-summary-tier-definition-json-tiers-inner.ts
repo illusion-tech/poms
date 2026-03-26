@@ -9,9 +9,9 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface CommissionRuleVersionSummaryTierDefinitionJsonTiersInner { 
+    minMarginRate: number;
+    maxMarginRate: number | null;
+    commissionRate: number;
 }
 

@@ -9,9 +9,9 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface UpdatePlatformUserActivationRequest { 
+    reason?: string;
+    comment?: string;
+    expectedVersion?: number;
 }
 

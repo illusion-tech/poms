@@ -9,9 +9,7 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface ConfirmCommissionCalculationRequest { 
+    expectedVersion?: number;
 }
 

@@ -134,6 +134,46 @@ export const PlatformUserListSchema = z.array(PlatformUserSummarySchema).meta({ 
 
 export type PlatformUserList = z.infer<typeof PlatformUserListSchema>;
 
+export const PlatformRoleSummarySchema = z
+    .object({
+        id: z.uuid(),
+        roleKey: z.string(),
+        name: z.string(),
+        description: z.string().nullable(),
+        isActive: z.boolean(),
+        isSystemRole: z.boolean(),
+        displayOrder: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PlatformRoleSummary' });
+
+export type PlatformRoleSummary = z.infer<typeof PlatformRoleSummarySchema>;
+
+export const PlatformRoleListSchema = z.array(PlatformRoleSummarySchema).meta({ id: 'PlatformRoleList' });
+
+export type PlatformRoleList = z.infer<typeof PlatformRoleListSchema>;
+
+export const PlatformOrgUnitSummarySchema = z
+    .object({
+        id: z.uuid(),
+        name: z.string(),
+        code: z.string(),
+        description: z.string().nullable(),
+        parentId: z.uuid().nullable(),
+        isActive: z.boolean(),
+        displayOrder: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PlatformOrgUnitSummary' });
+
+export type PlatformOrgUnitSummary = z.infer<typeof PlatformOrgUnitSummarySchema>;
+
+export const PlatformOrgUnitListSchema = z.array(PlatformOrgUnitSummarySchema).meta({ id: 'PlatformOrgUnitList' });
+
+export type PlatformOrgUnitList = z.infer<typeof PlatformOrgUnitListSchema>;
+
 export const CreatePlatformUserRequestSchema = z
     .object({
         username: z.string().min(1).max(64),
@@ -667,6 +707,7 @@ export const CommissionCalculationSummarySchema = z
         projectId: z.uuid(),
         ruleVersionId: z.uuid(),
         version: z.number().int(),
+        rowVersion: z.number().int().positive(),
         isCurrent: z.boolean(),
         status: z.enum(['pending', 'calculated', 'effective', 'superseded']),
         recognizedRevenueTaxExclusive: z.string(),
@@ -717,6 +758,7 @@ export const CommissionPayoutSummarySchema = z
         id: z.uuid(),
         projectId: z.uuid(),
         calculationId: z.uuid(),
+        rowVersion: z.number().int().positive(),
         stageType: CommissionPayoutStageSchema,
         selectedTier: CommissionPayoutTierSchema,
         theoreticalCapAmount: z.string(),

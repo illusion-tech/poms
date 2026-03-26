@@ -9,9 +9,12 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export enum CommissionPayoutStage {
+
+    First = 'first',
+
+    Second = 'second',
+
+    Final = 'final'
 }
 

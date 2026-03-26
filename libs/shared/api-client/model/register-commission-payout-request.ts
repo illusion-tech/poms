@@ -9,9 +9,8 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface RegisterCommissionPayoutRequest { 
+    paidRecordAmount: string;
+    expectedVersion?: number;
 }
 

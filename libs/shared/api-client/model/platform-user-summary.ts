@@ -9,14 +9,16 @@
  */
 
 
-export interface PlatformRoleSummary { 
+export interface PlatformUserSummary { 
     id: string;
-    roleKey: string;
-    name: string;
-    description: string | null;
+    username: string;
+    displayName: string;
+    email: string | null;
+    phone: string | null;
     isActive: boolean;
-    isSystemRole: boolean;
-    displayOrder: number;
+    primaryOrgUnitId: string | null;
+    primaryOrgUnitName: string | null;
+    roleNames: Array<string>;
     createdAt: string;
     updatedAt: string;
 }

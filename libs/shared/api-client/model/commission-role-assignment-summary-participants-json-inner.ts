@@ -9,9 +9,10 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface CommissionRoleAssignmentSummaryParticipantsJsonInner { 
+    userId: string;
+    displayName: string;
+    roleType: string;
+    weight: number;
 }
 
