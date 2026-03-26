@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlatformStore } from '@poms/admin-data-access';
+import type { PermissionKey } from '@poms/shared-contracts';
+import { PermissionsMeta } from '@poms/shared-contracts';
+import { AssignRolePermissionsRequestPermissionKeysEnum } from '@poms/shared-api-client';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -12,27 +15,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 
-// All available permission keys grouped by domain
-const PERMISSION_GROUPS = [
-    {
-        group: '平台管理',
-        keys: ['platform:users:manage', 'platform:roles:manage', 'platform:org-units:manage', 'platform:navigation:manage']
-    },
-    {
-        group: '项目管理',
-        keys: ['project:read', 'project:write', 'project:approve']
-    },
-    {
-        group: '合同管理',
-        keys: ['contract:read', 'contract:write', 'contract:approve']
-    },
-    {
-        group: '导航',
-        keys: ['nav:dashboard:view', 'nav:platform:view']
-    }
-];
-
-const ALL_PERMISSION_KEYS = PERMISSION_GROUPS.flatMap((g) => g.keys);
+const PERMISSION_GROUPS = Object.entries(
+    Object.values(AssignRolePermissionsRequestPermissionKeysEnum).reduce<Record<string, AssignRolePermissionsRequestPermissionKeysEnum[]>>((groups, key) => {
+        const group = PermissionsMeta[key as PermissionKey].group;
+        const existing = groups[group] ?? [];
+        existing.push(key);
+        groups[group] = existing;
+        return groups;
+    }, {})
+).map(([group, keys]) => ({ group, keys }));
 
 @Component({
     selector: 'app-role-list',
@@ -186,16 +177,16 @@ export class RoleList {
     assignPermDialogVisible = false;
     assigningRoleId = signal('');
     assigningRoleName = signal('');
-    selectedPermissions = signal(new Set<string>());
+    selectedPermissions = signal(new Set<AssignRolePermissionsRequestPermissionKeysEnum>());
 
     openAssignPermissionsDialog(roleId: string, roleName: string) {
         this.assigningRoleId.set(roleId);
         this.assigningRoleName.set(roleName);
-        this.selectedPermissions.set(new Set<string>());
+        this.selectedPermissions.set(new Set<AssignRolePermissionsRequestPermissionKeysEnum>());
         this.assignPermDialogVisible = true;
     }
 
-    togglePermission(key: string) {
+    togglePermission(key: AssignRolePermissionsRequestPermissionKeysEnum) {
         this.selectedPermissions.update((set) => {
             const next = new Set(set);
             next.has(key) ? next.delete(key) : next.add(key);

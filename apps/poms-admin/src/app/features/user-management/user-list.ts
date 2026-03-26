@@ -177,7 +177,7 @@ import { ToastModule } from 'primeng/toast';
                     <p class="text-surface-600">为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配所属组织</p>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">主组织</label>
-                        <p-select [(ngModel)]="assignOrgForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择主组织" class="w-full" appendTo="body" [showClear]="true" />
+                        <p-select [(ngModel)]="assignOrgForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择主组织" class="w-full" appendTo="body" />
                     </div>
                 </div>
                 <ng-template #footer>
@@ -301,18 +301,22 @@ export class UserList {
     // ── Assign org dialog ──────────────────────────────────────────────────
 
     assignOrgDialogVisible = false;
-    assignOrgForm = { primaryOrgUnitId: null as string | null };
+    assignOrgForm = { primaryOrgUnitId: '' };
 
     openAssignOrgDialog(userId: string) {
         this.selectedUserId.set(userId);
         const user = this.platformStore.users().find((u) => u.id === userId);
-        this.assignOrgForm = { primaryOrgUnitId: user?.primaryOrgUnitId ?? null };
+        this.assignOrgForm = { primaryOrgUnitId: user?.primaryOrgUnitId ?? '' };
         this.assignOrgDialogVisible = true;
     }
 
     async saveUserOrg() {
         const userId = this.selectedUserId();
         if (!userId) return;
+        if (!this.assignOrgForm.primaryOrgUnitId) {
+            this.messageService.add({ severity: 'warn', summary: '请选择主组织', detail: '当前接口要求必须设置一个主组织' });
+            return;
+        }
         try {
             await this.platformStore.assignUserOrgMemberships(userId, {
                 primaryOrgUnitId: this.assignOrgForm.primaryOrgUnitId,

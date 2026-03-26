@@ -91,8 +91,8 @@ import { ToastModule } from 'primeng/toast';
                         <input pInputText [(ngModel)]="createForm.name" placeholder="如 华北销售部" class="w-full" />
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label class="font-medium">组织编码</label>
-                        <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH（可选）" class="w-full" />
+                        <label class="font-medium">组织编码 *</label>
+                        <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH" class="w-full" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">描述</label>
@@ -116,7 +116,8 @@ import { ToastModule } from 'primeng/toast';
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织编码</label>
-                        <input pInputText [(ngModel)]="editForm.code" class="w-full" />
+                        <input pInputText [(ngModel)]="editForm.code" class="w-full" [readonly]="true" />
+                        <small class="text-surface-500">组织编码创建后暂不支持修改</small>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">描述</label>
@@ -152,14 +153,14 @@ export class OrgUnitList {
     }
 
     async createOrgUnit() {
-        if (!this.createForm.name.trim()) {
-            this.messageService.add({ severity: 'warn', summary: '请填写组织名称' });
+        if (!this.createForm.name.trim() || !this.createForm.code.trim()) {
+            this.messageService.add({ severity: 'warn', summary: '请填写必填项', detail: '组织名称和组织编码为必填项' });
             return;
         }
         try {
             await this.platformStore.createOrgUnit({
                 name: this.createForm.name.trim(),
-                code: this.createForm.code.trim() || null,
+                code: this.createForm.code.trim(),
                 description: this.createForm.description.trim() || null
             });
             this.createDialogVisible = false;
@@ -187,7 +188,6 @@ export class OrgUnitList {
         try {
             await this.platformStore.updateOrgUnit(id, {
                 name: this.editForm.name.trim(),
-                code: this.editForm.code.trim() || null,
                 description: this.editForm.description.trim() || null
             });
             this.editDialogVisible = false;

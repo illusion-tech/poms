@@ -33,6 +33,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                     <div class="flex items-center gap-2">
                         <p-tag [value]="getStageName(project()!.currentStage)" [severity]="getStageSeverity(project()!.currentStage)" />
                         <p-tag [value]="getStatusName(project()!.status)" [severity]="getStatusSeverity(project()!.status)" />
+                        <p-button label="提成治理" icon="pi pi-wallet" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToCommission()" class="cursor-pointer" />
                         <p-button label="编辑" icon="pi pi-pencil" severity="primary" [rounded]="true" (onClick)="showEditDialog()" class="cursor-pointer" />
                     </div>
                 </div>
@@ -155,6 +156,13 @@ export class ProjectDetail implements OnInit {
 
     goBack() {
         this.#router.navigate(['/projects']);
+    }
+
+    goToCommission() {
+        const project = this.project();
+        if (project) {
+            this.#router.navigate(['/projects', project.id, 'commission']);
+        }
     }
 
     showEditDialog() {

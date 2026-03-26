@@ -31,6 +31,11 @@ export const appRoutes: Routes = [
                 data: { breadcrumb: '项目详情' }
             },
             {
+                path: 'projects/:id/commission',
+                loadComponent: () => import('./app/features/commission/project-commission').then((c) => c.ProjectCommission),
+                data: { breadcrumb: '提成治理' }
+            },
+            {
                 path: 'contracts',
                 loadComponent: () => import('./app/features/contract/contract-list').then((c) => c.ContractList),
                 data: { breadcrumb: '合同管理' }
