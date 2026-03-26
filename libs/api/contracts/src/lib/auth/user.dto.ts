@@ -8,6 +8,10 @@ import {
     LoginRequestSchema,
     LoginResponseSchema,
     NavigationItemSchema,
+    PlatformOrgUnitListSchema,
+    PlatformOrgUnitSummarySchema,
+    PlatformRoleListSchema,
+    PlatformRoleSummarySchema,
     PlatformUserListSchema,
     PlatformUserSummarySchema,
     SanitizedUserSchema,
@@ -38,6 +42,14 @@ export class LoginResponseDto extends createZodDto(LoginResponseSchema) {}
 export class PlatformUserSummaryDto extends createZodDto(PlatformUserSummarySchema) {}
 
 export class PlatformUserListDto extends createZodDto(PlatformUserListSchema) {}
+
+export class PlatformRoleSummaryDto extends createZodDto(PlatformRoleSummarySchema) {}
+
+export class PlatformRoleListDto extends createZodDto(PlatformRoleListSchema) {}
+
+export class PlatformOrgUnitSummaryDto extends createZodDto(PlatformOrgUnitSummarySchema) {}
+
+export class PlatformOrgUnitListDto extends createZodDto(PlatformOrgUnitListSchema) {}
 
 export class CreatePlatformUserRequestDto extends createZodDto(CreatePlatformUserRequestSchema) {}
 
