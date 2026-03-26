@@ -7,27 +7,26 @@ import 'reflect-metadata';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
 import { AppModule } from './app/app.module';
+import { GLOBAL_PREFIX, buildOpenApiConfig } from './config/openapi.config';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    const globalPrefix = 'api';
-    app.setGlobalPrefix(globalPrefix);
+    app.setGlobalPrefix(GLOBAL_PREFIX);
 
-    const openApiConfig = new DocumentBuilder().setTitle('POMS API').setDescription('Project Oriented Management System API').setVersion('0.1.0').addBearerAuth().build();
-    const openApiDoc = SwaggerModule.createDocument(app, openApiConfig);
+    const openApiDoc = SwaggerModule.createDocument(app, buildOpenApiConfig());
     SwaggerModule.setup('api-docs', app, cleanupOpenApiDoc(openApiDoc));
 
     app.enableCors({
         origin: process.env['CORS_ORIGIN'] ?? 'http://localhost:4200',
-        credentials: true,
+        credentials: true
     });
 
     const port = process.env['PORT'] || 3333;
     await app.listen(port);
-    Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+    Logger.log(`🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
     Logger.log(`📚 Swagger UI: http://localhost:${port}/api-docs`);
 }
 

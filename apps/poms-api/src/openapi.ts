@@ -3,13 +3,14 @@ import 'reflect-metadata';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Global, Module } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { Test } from '@nestjs/testing';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { AppModule } from './app/app.module';
 import { PersistenceModule } from './app/core/persistence/persistence.module';
+import { GLOBAL_PREFIX, buildOpenApiConfig } from './config/openapi.config';
 
 @Global()
 @Module({
@@ -35,17 +36,9 @@ async function exportOpenApi() {
         .compile();
 
     const app = moduleRef.createNestApplication();
-    const globalPrefix = 'api';
-    app.setGlobalPrefix(globalPrefix);
+    app.setGlobalPrefix(GLOBAL_PREFIX);
 
-    const openApiConfig = new DocumentBuilder()
-        .setTitle('POMS API')
-        .setDescription('Project Oriented Management System API')
-        .setVersion('0.1.0')
-        .addBearerAuth()
-        .build();
-
-    const openApiDoc = SwaggerModule.createDocument(app, openApiConfig);
+    const openApiDoc = SwaggerModule.createDocument(app, buildOpenApiConfig());
     const cleaned = cleanupOpenApiDoc(openApiDoc);
 
     const outFile = resolve(process.cwd(), 'libs/shared/api-spec/openapi.json');
