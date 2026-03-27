@@ -50,7 +50,7 @@
 - 当前仓库中提成治理域已完成 `P1-S10`：`CommissionRuleVersion`、`CommissionRoleAssignment` 的真实后端模块、实体、migration、API 与测试已落地
 - `P1-S11` 已完成“后端最小闭环 + 统一审批待办接入 + 前端演示入口”：`CommissionCalculation`、`CommissionPayout` 的表结构、实体、共享契约、API、审批记录 / 待办、项目级提成治理页与工作台待办跳转均已落地
 - `P1-S11` 的实体建模与接口契约已完成一轮稳定化：金额字段恢复为 `MikroORM DecimalType` 精确值建模（运行时 `string`），状态 / 阶段字段改为显式强类型声明，`commission` / `platform` OpenAPI 与共享 API Client 已重新对齐
-- 当前仍未完成的部分主要集中在 `P1-S12` 的异常调整 / 重算闭环
+- `P1-S12` 的异常调整 / 重算闭环已完成，当前提成治理域三段切片均已进入真实实现状态
 - 因此本模块不应再被视为后续可选议题，而应重新纳回第一阶段补齐范围
 
 ---
@@ -538,17 +538,20 @@ flowchart LR
 - `POST /commission/projects/:projectId/payouts/:id/approve`
 - `POST /commission/projects/:projectId/payouts/:id/register-payout`
 
-#### 后续待补
+#### 当前已落地
 
-- `CommissionAdjustment` 与 `recalculate` 相关接口
+- `GET /commission/projects/:projectId/adjustments`
+- `POST /commission/projects/:projectId/adjustments`
+- `POST /commission/projects/:projectId/adjustments/:id/submit-approval`
+- `POST /commission/projects/:projectId/adjustments/:id/execute`
+- `POST /commission/projects/:projectId/calculations/:id/recalculate`
 
 #### 调整与重算
 
-- `GET /projects/:projectId/commission-adjustments`
-- `POST /projects/:projectId/commission-adjustments`
-- `POST /commission-adjustments/:id/approve`
-- `POST /commission-adjustments/:id/execute`
-- `POST /commission-calculations/:id/recalculate`
+- `CommissionAdjustment` 已作为异常入口对象落地，并接入统一审批记录与待办
+- payout 已补 `suspended` 状态，支持“草稿 -> 待审批 -> 已批准 -> 已发放 / 已暂停 / 已冲销”的最小状态机
+- `recalculate` 会生成新的 `CommissionCalculation` 版本并将旧版本标记为 `superseded`
+- 重算同时写入 `adjustmentType = recalculate` 的执行留痕，以补齐异常原因与版本替代审计链
 
 说明：
 
@@ -570,4 +573,4 @@ flowchart LR
 
 ## 16. 当前结论
 
-本首版文档已足以作为提成治理域补齐实施的设计输入。当前 `P1-S10` / `P1-S11` 已完成，接下来最重要的动作是按 `P1-S12` 收口异常调整 / 重算，确保“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”这条链路在第一阶段真实落地。
+本首版文档已足以作为提成治理域补齐实施的设计输入。当前 `P1-S10` / `P1-S11` / `P1-S12` 已完成，提成治理域已形成“合同资金生效事实 -> 提成计算 -> 分阶段发放 -> 异常调整 / 重算”的第一阶段真实链路；下一步应转入第一阶段正式收口评估与真实环境探活回写。
