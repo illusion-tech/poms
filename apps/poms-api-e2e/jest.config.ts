@@ -13,6 +13,7 @@ export default {
             }
         ]
     },
+    testMatch: ['<rootDir>/src/**/*.e2e-spec.ts'],
     moduleFileExtensions: ['ts', 'js', 'html'],
     coverageDirectory: '../../coverage/poms-api-e2e'
 };
