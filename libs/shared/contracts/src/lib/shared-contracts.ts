@@ -16,6 +16,8 @@ export const PERMISSION_KEYS = [
     'commission:calculations:manage',
     'commission:payouts:manage',
     'commission:adjustments:manage',
+    // 合同资金
+    'contract:finance:manage',
     // 项目
     'project:read',
     'project:write',
@@ -45,6 +47,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'commission:calculations:manage': { description: '管理提成计算结果', group: '提成治理' },
     'commission:payouts:manage': { description: '管理提成发放', group: '提成治理' },
     'commission:adjustments:manage': { description: '管理提成调整', group: '提成治理' },
+    'contract:finance:manage': { description: '管理合同资金事实', group: '合同资金' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
     'project:delete': { description: '删除项目', group: '项目' },
@@ -497,6 +500,117 @@ export const ActivateContractRequestSchema = z
     .meta({ id: 'ActivateContractRequest' });
 
 export type ActivateContractRequest = z.infer<typeof ActivateContractRequestSchema>;
+
+export const RECEIPT_RECORD_STATUSES = [
+    'draft',
+    'pending-confirmation',
+    'confirmed',
+    'reversed',
+    'void'
+] as const;
+
+export const ReceiptRecordStatusSchema = z
+    .enum(RECEIPT_RECORD_STATUSES)
+    .meta({ id: 'ReceiptRecordStatus' });
+
+export type ReceiptRecordStatus = z.infer<typeof ReceiptRecordStatusSchema>;
+
+export const ReceiptRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        contractId: z.uuid(),
+        projectId: z.uuid(),
+        receiptAmount: z.string(),
+        receiptDate: z.iso.datetime(),
+        sourceType: z.string(),
+        status: ReceiptRecordStatusSchema,
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ReceiptRecordSummary' });
+
+export type ReceiptRecordSummary = z.infer<typeof ReceiptRecordSummarySchema>;
+
+export const ReceiptRecordListSchema = z
+    .array(ReceiptRecordSummarySchema)
+    .meta({ id: 'ReceiptRecordList' });
+
+export type ReceiptRecordList = z.infer<typeof ReceiptRecordListSchema>;
+
+export const CreateReceiptRecordRequestSchema = z
+    .object({
+        receiptAmount: z.string().trim().min(1).max(64),
+        receiptDate: z.iso.datetime(),
+        sourceType: z.string().trim().min(1).max(32).optional()
+    })
+    .meta({ id: 'CreateReceiptRecordRequest' });
+
+export type CreateReceiptRecordRequest = z.infer<typeof CreateReceiptRecordRequestSchema>;
+
+export const ConfirmReceiptRecordRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmReceiptRecordRequest' });
+
+export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordRequestSchema>;
+
+export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'void'] as const;
+
+export const PaymentRecordStatusSchema = z
+    .enum(PAYMENT_RECORD_STATUSES)
+    .meta({ id: 'PaymentRecordStatus' });
+
+export type PaymentRecordStatus = z.infer<typeof PaymentRecordStatusSchema>;
+
+export const PaymentRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        contractId: z.uuid().nullable(),
+        paymentAmount: z.string(),
+        paymentDate: z.iso.datetime(),
+        costCategory: z.string(),
+        sourceType: z.string(),
+        status: PaymentRecordStatusSchema,
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PaymentRecordSummary' });
+
+export type PaymentRecordSummary = z.infer<typeof PaymentRecordSummarySchema>;
+
+export const PaymentRecordListSchema = z
+    .array(PaymentRecordSummarySchema)
+    .meta({ id: 'PaymentRecordList' });
+
+export type PaymentRecordList = z.infer<typeof PaymentRecordListSchema>;
+
+export const CreatePaymentRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        paymentAmount: z.string().trim().min(1).max(64),
+        paymentDate: z.iso.datetime(),
+        costCategory: z.string().trim().min(1).max(64),
+        sourceType: z.string().trim().min(1).max(32).optional()
+    })
+    .meta({ id: 'CreatePaymentRecordRequest' });
+
+export type CreatePaymentRecordRequest = z.infer<typeof CreatePaymentRecordRequestSchema>;
+
+export const ConfirmPaymentRecordRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmPaymentRecordRequest' });
+
+export type ConfirmPaymentRecordRequest = z.infer<typeof ConfirmPaymentRecordRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // Approval / Todo
