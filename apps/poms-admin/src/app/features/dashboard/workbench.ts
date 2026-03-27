@@ -144,6 +144,13 @@ export class Workbench implements OnInit {
                     approvalRecordId: todo.sourceType === 'ApprovalRecord' ? todo.sourceId : null
                 }
             });
+        } else if (todo.targetObjectType === 'CommissionAdjustment' && todo.projectId) {
+            this.#router.navigate(['/projects', todo.projectId, 'commission'], {
+                queryParams: {
+                    adjustmentId: todo.targetObjectId,
+                    approvalRecordId: todo.sourceType === 'ApprovalRecord' ? todo.sourceId : null
+                }
+            });
         }
     }
 
