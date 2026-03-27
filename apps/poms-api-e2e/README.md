@@ -1,13 +1,17 @@
 # poms-api-e2e
 
-`poms-api-e2e` uses a domain-oriented layout:
+`poms-api-e2e` 采用面向域的布局：
 
-- `src/poms-api/*.e2e-spec.ts`: end-to-end specs grouped by business domain.
-- `src/support/*.ts`: shared API clients, test data builders, assertions, and workflow helpers.
+- `src/poms-api/*.e2e-spec.ts`：按业务域分组的端到端规范。
+- `src/support/*.ts`：共享的 API 客户端、测试数据构建器、断言和工作流助手。
 
-Conventions:
+约定：
 
-- Reuse shared-contract types instead of redefining DTO shapes locally.
-- Keep happy-path workflows and guard/negative-path tests in the same domain spec.
-- Prefix runtime-created records with `E2E-` so `seeder-run` can clean them before each test run.
-- Put repeated request choreography in support helpers; keep spec files focused on intent and assertions.
+- 复用共享契约类型而不是在本地重新定义 DTO 形状。
+- 在同一个域规范中保留正常流程和保护/负面路径测试。
+- 将乐观并发（`409`）和审批拒绝/回滚视为命令式工作流的一流 e2e 范畴。
+- 将读侧断言视为一流的 e2e 覆盖范围，用于阶段关闭：命令成功/失败后，验证 `/me/todos`、审批详情和域列表/详情视图反映新状态。
+- 对于审批式工作流，覆盖生命周期关闭和恢复：被拒绝的项目在重新提交时必须创建新的审批记录，而不是默认重用旧记录。
+- 对于新引入的业务域，除了正常流程外，至少要覆盖一个权限边界（`401`/`403`）、一个无效状态转换（`422`）和一个乐观并发路径（`409`）。
+- 使用 `E2E-` 前缀标记运行时创建的业务记录，使用 `e2e-` 前缀标记辅助平台角色，以便 `seeder-run` 在每次测试运行前清理它们。
+- 将重复的请求编排放在支持助手中；保持规范文件关注意图和断言。

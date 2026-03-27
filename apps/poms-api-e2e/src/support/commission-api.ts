@@ -1,6 +1,7 @@
 import type { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import { findOpenTodoForTarget, getApprovalRecord } from './approval-api';
+import { createActiveContractForProject } from './contract-api';
 import { createProjectForProfile } from './project-api';
 import {
     buildCalculationInput,
@@ -258,6 +259,13 @@ export async function setupEffectiveCalculationScenario(
         projectCode: `E2E-CMS-${unique}`,
         projectName: `E2E 提成治理链 ${unique}`,
         currentStage: 'execution'
+    });
+
+    await createActiveContractForProject(client, project.id, profile.id, {
+        contractNo: `E2E-CMS-HT-${unique}`,
+        signedAmount: '188000.00',
+        receiptAmount: '100000.00',
+        paymentAmount: '70000.00'
     });
 
     const ruleVersion = await createRuleVersion(
