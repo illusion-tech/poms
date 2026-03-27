@@ -32,6 +32,7 @@ export enum CommissionPayoutSummaryStatusEnum {
     PendingApproval = 'pending-approval',
     Approved = 'approved',
     Paid = 'paid',
+    Suspended = 'suspended',
     Reversed = 'reversed'
 };
 

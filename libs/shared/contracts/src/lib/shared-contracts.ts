@@ -764,7 +764,7 @@ export const CommissionPayoutSummarySchema = z
         theoreticalCapAmount: z.string(),
         approvedAmount: z.string().nullable(),
         paidRecordAmount: z.string().nullable(),
-        status: z.enum(['draft', 'pending-approval', 'approved', 'paid', 'reversed']),
+        status: z.enum(['draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed']),
         approvedAt: z.iso.datetime().nullable(),
         handledAt: z.iso.datetime().nullable(),
         createdAt: z.iso.datetime(),
@@ -809,3 +809,71 @@ export const RegisterCommissionPayoutRequestSchema = z
     .meta({ id: 'RegisterCommissionPayoutRequest' });
 
 export type RegisterCommissionPayoutRequest = z.infer<typeof RegisterCommissionPayoutRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Commission — Adjustment
+// ---------------------------------------------------------------------------
+
+export const CommissionAdjustmentTypeSchema = z
+    .enum(['suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'])
+    .meta({ id: 'CommissionAdjustmentType' });
+
+export type CommissionAdjustmentType = z.infer<typeof CommissionAdjustmentTypeSchema>;
+
+export const CommissionAdjustmentSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        rowVersion: z.number().int().positive(),
+        adjustmentType: CommissionAdjustmentTypeSchema,
+        relatedPayoutId: z.uuid().nullable(),
+        relatedCalculationId: z.uuid().nullable(),
+        amount: z.string().nullable(),
+        reason: z.string(),
+        status: z.enum(['draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed']),
+        executedAt: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionAdjustmentSummary' });
+
+export type CommissionAdjustmentSummary = z.infer<typeof CommissionAdjustmentSummarySchema>;
+
+export const CreateCommissionAdjustmentRequestSchema = z
+    .object({
+        adjustmentType: CommissionAdjustmentTypeSchema,
+        relatedPayoutId: z.uuid().nullable().optional(),
+        relatedCalculationId: z.uuid().nullable().optional(),
+        amount: z.string().trim().min(1).max(64).nullable().optional(),
+        reason: z.string().trim().min(1).max(256)
+    })
+    .meta({ id: 'CreateCommissionAdjustmentRequest' });
+
+export type CreateCommissionAdjustmentRequest = z.infer<typeof CreateCommissionAdjustmentRequestSchema>;
+
+export const SubmitCommissionAdjustmentApprovalRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'SubmitCommissionAdjustmentApprovalRequest' });
+
+export type SubmitCommissionAdjustmentApprovalRequest = z.infer<typeof SubmitCommissionAdjustmentApprovalRequestSchema>;
+
+export const ExecuteCommissionAdjustmentRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ExecuteCommissionAdjustmentRequest' });
+
+export type ExecuteCommissionAdjustmentRequest = z.infer<typeof ExecuteCommissionAdjustmentRequestSchema>;
+
+export const RecalculateCommissionRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(256),
+        recognizedRevenueTaxExclusive: z.string().trim().min(1).max(64).optional(),
+        recognizedCostTaxExclusive: z.string().trim().min(1).max(64).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RecalculateCommissionRequest' });
+
+export type RecalculateCommissionRequest = z.infer<typeof RecalculateCommissionRequestSchema>;

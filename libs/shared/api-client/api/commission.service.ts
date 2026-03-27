@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { ApproveCommissionPayoutRequest } from '../model/approve-commission-payout-request';
 // @ts-ignore
+import { CommissionAdjustmentSummary } from '../model/commission-adjustment-summary';
+// @ts-ignore
 import { CommissionCalculationSummary } from '../model/commission-calculation-summary';
 // @ts-ignore
 import { CommissionPayoutSummary } from '../model/commission-payout-summary';
@@ -29,6 +31,8 @@ import { CommissionRuleVersionSummary } from '../model/commission-rule-version-s
 // @ts-ignore
 import { ConfirmCommissionCalculationRequest } from '../model/confirm-commission-calculation-request';
 // @ts-ignore
+import { CreateCommissionAdjustmentRequest } from '../model/create-commission-adjustment-request';
+// @ts-ignore
 import { CreateCommissionCalculationRequest } from '../model/create-commission-calculation-request';
 // @ts-ignore
 import { CreateCommissionPayoutRequest } from '../model/create-commission-payout-request';
@@ -37,7 +41,13 @@ import { CreateCommissionRoleAssignmentRequest } from '../model/create-commissio
 // @ts-ignore
 import { CreateCommissionRuleVersionRequest } from '../model/create-commission-rule-version-request';
 // @ts-ignore
+import { ExecuteCommissionAdjustmentRequest } from '../model/execute-commission-adjustment-request';
+// @ts-ignore
+import { RecalculateCommissionRequest } from '../model/recalculate-commission-request';
+// @ts-ignore
 import { RegisterCommissionPayoutRequest } from '../model/register-commission-payout-request';
+// @ts-ignore
+import { SubmitCommissionAdjustmentApprovalRequest } from '../model/submit-commission-adjustment-approval-request';
 // @ts-ignore
 import { SubmitCommissionPayoutApprovalRequest } from '../model/submit-commission-payout-approval-request';
 
@@ -63,6 +73,11 @@ export interface CommissionControllerConfirmCalculationRequestParams {
     confirmCommissionCalculationRequest: ConfirmCommissionCalculationRequest;
 }
 
+export interface CommissionControllerCreateAdjustmentRequestParams {
+    projectId: string;
+    createCommissionAdjustmentRequest: CreateCommissionAdjustmentRequest;
+}
+
 export interface CommissionControllerCreatePayoutRequestParams {
     projectId: string;
     createCommissionPayoutRequest: CreateCommissionPayoutRequest;
@@ -77,12 +92,22 @@ export interface CommissionControllerCreateRuleVersionRequestParams {
     createCommissionRuleVersionRequest: CreateCommissionRuleVersionRequest;
 }
 
+export interface CommissionControllerExecuteAdjustmentRequestParams {
+    projectId: string;
+    id: string;
+    executeCommissionAdjustmentRequest: ExecuteCommissionAdjustmentRequest;
+}
+
 export interface CommissionControllerFreezeRoleAssignmentRequestParams {
     projectId: string;
     id: string;
 }
 
 export interface CommissionControllerGetCurrentRoleAssignmentRequestParams {
+    projectId: string;
+}
+
+export interface CommissionControllerListAdjustmentsRequestParams {
     projectId: string;
 }
 
@@ -94,6 +119,12 @@ export interface CommissionControllerListPayoutsRequestParams {
     projectId: string;
 }
 
+export interface CommissionControllerRecalculateCalculationRequestParams {
+    projectId: string;
+    id: string;
+    recalculateCommissionRequest: RecalculateCommissionRequest;
+}
+
 export interface CommissionControllerRegisterPayoutRequestParams {
     projectId: string;
     id: string;
@@ -102,6 +133,12 @@ export interface CommissionControllerRegisterPayoutRequestParams {
 
 export interface CommissionControllerStopRuleVersionRequestParams {
     id: string;
+}
+
+export interface CommissionControllerSubmitAdjustmentApprovalRequestParams {
+    projectId: string;
+    id: string;
+    submitCommissionAdjustmentApprovalRequest: SubmitCommissionAdjustmentApprovalRequest;
 }
 
 export interface CommissionControllerSubmitPayoutApprovalRequestParams {
@@ -342,6 +379,80 @@ export class CommissionApi extends BaseService {
     }
 
     /**
+     * 创建项目提成调整草稿
+     * @endpoint post /api/commission/projects/{projectId}/adjustments
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerCreateAdjustment(requestParameters: CommissionControllerCreateAdjustmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionAdjustmentSummary>;
+    public commissionControllerCreateAdjustment(requestParameters: CommissionControllerCreateAdjustmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionAdjustmentSummary>>;
+    public commissionControllerCreateAdjustment(requestParameters: CommissionControllerCreateAdjustmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionAdjustmentSummary>>;
+    public commissionControllerCreateAdjustment(requestParameters: CommissionControllerCreateAdjustmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerCreateAdjustment.');
+        }
+        const createCommissionAdjustmentRequest = requestParameters?.createCommissionAdjustmentRequest;
+        if (createCommissionAdjustmentRequest === null || createCommissionAdjustmentRequest === undefined) {
+            throw new Error('Required parameter createCommissionAdjustmentRequest was null or undefined when calling commissionControllerCreateAdjustment.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/adjustments`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionAdjustmentSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createCommissionAdjustmentRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 创建项目提成发放草稿
      * @endpoint post /api/commission/projects/{projectId}/payouts
      * @param requestParameters
@@ -560,6 +671,84 @@ export class CommissionApi extends BaseService {
     }
 
     /**
+     * 执行已批准的提成调整
+     * @endpoint post /api/commission/projects/{projectId}/adjustments/{id}/execute
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerExecuteAdjustment(requestParameters: CommissionControllerExecuteAdjustmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionAdjustmentSummary>;
+    public commissionControllerExecuteAdjustment(requestParameters: CommissionControllerExecuteAdjustmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionAdjustmentSummary>>;
+    public commissionControllerExecuteAdjustment(requestParameters: CommissionControllerExecuteAdjustmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionAdjustmentSummary>>;
+    public commissionControllerExecuteAdjustment(requestParameters: CommissionControllerExecuteAdjustmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerExecuteAdjustment.');
+        }
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling commissionControllerExecuteAdjustment.');
+        }
+        const executeCommissionAdjustmentRequest = requestParameters?.executeCommissionAdjustmentRequest;
+        if (executeCommissionAdjustmentRequest === null || executeCommissionAdjustmentRequest === undefined) {
+            throw new Error('Required parameter executeCommissionAdjustmentRequest was null or undefined when calling commissionControllerExecuteAdjustment.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/adjustments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/execute`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionAdjustmentSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: executeCommissionAdjustmentRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 冻结项目提成角色分配（草稿→冻结）
      * @endpoint post /api/commission/projects/{projectId}/role-assignment/{id}/freeze
      * @param requestParameters
@@ -671,6 +860,66 @@ export class CommissionApi extends BaseService {
         let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/role-assignment`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommissionRoleAssignmentSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目提成调整列表
+     * @endpoint get /api/commission/projects/{projectId}/adjustments
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerListAdjustments(requestParameters: CommissionControllerListAdjustmentsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CommissionAdjustmentSummary>>;
+    public commissionControllerListAdjustments(requestParameters: CommissionControllerListAdjustmentsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CommissionAdjustmentSummary>>>;
+    public commissionControllerListAdjustments(requestParameters: CommissionControllerListAdjustmentsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CommissionAdjustmentSummary>>>;
+    public commissionControllerListAdjustments(requestParameters: CommissionControllerListAdjustmentsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerListAdjustments.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/adjustments`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<CommissionAdjustmentSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -859,6 +1108,84 @@ export class CommissionApi extends BaseService {
     }
 
     /**
+     * 触发提成重算并生成新版本
+     * @endpoint post /api/commission/projects/{projectId}/calculations/{id}/recalculate
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerRecalculateCalculation(requestParameters: CommissionControllerRecalculateCalculationRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionCalculationSummary>;
+    public commissionControllerRecalculateCalculation(requestParameters: CommissionControllerRecalculateCalculationRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionCalculationSummary>>;
+    public commissionControllerRecalculateCalculation(requestParameters: CommissionControllerRecalculateCalculationRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionCalculationSummary>>;
+    public commissionControllerRecalculateCalculation(requestParameters: CommissionControllerRecalculateCalculationRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerRecalculateCalculation.');
+        }
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling commissionControllerRecalculateCalculation.');
+        }
+        const recalculateCommissionRequest = requestParameters?.recalculateCommissionRequest;
+        if (recalculateCommissionRequest === null || recalculateCommissionRequest === undefined) {
+            throw new Error('Required parameter recalculateCommissionRequest was null or undefined when calling commissionControllerRecalculateCalculation.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/calculations/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/recalculate`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionCalculationSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: recalculateCommissionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 登记提成业务发放
      * @endpoint post /api/commission/projects/{projectId}/payouts/{id}/register-payout
      * @param requestParameters
@@ -986,6 +1313,84 @@ export class CommissionApi extends BaseService {
         return this.httpClient.request<CommissionRuleVersionSummary>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 提交提成调整审批
+     * @endpoint post /api/commission/projects/{projectId}/adjustments/{id}/submit-approval
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerSubmitAdjustmentApproval(requestParameters: CommissionControllerSubmitAdjustmentApprovalRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionAdjustmentSummary>;
+    public commissionControllerSubmitAdjustmentApproval(requestParameters: CommissionControllerSubmitAdjustmentApprovalRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionAdjustmentSummary>>;
+    public commissionControllerSubmitAdjustmentApproval(requestParameters: CommissionControllerSubmitAdjustmentApprovalRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionAdjustmentSummary>>;
+    public commissionControllerSubmitAdjustmentApproval(requestParameters: CommissionControllerSubmitAdjustmentApprovalRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerSubmitAdjustmentApproval.');
+        }
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling commissionControllerSubmitAdjustmentApproval.');
+        }
+        const submitCommissionAdjustmentApprovalRequest = requestParameters?.submitCommissionAdjustmentApprovalRequest;
+        if (submitCommissionAdjustmentApprovalRequest === null || submitCommissionAdjustmentApprovalRequest === undefined) {
+            throw new Error('Required parameter submitCommissionAdjustmentApprovalRequest was null or undefined when calling commissionControllerSubmitAdjustmentApproval.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/commission/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/adjustments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/submit-approval`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionAdjustmentSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: submitCommissionAdjustmentApprovalRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
