@@ -16,7 +16,7 @@ import {
     UpdateOrgUnitRequestDto,
     UpdatePlatformUserActivationRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { NavigationService } from '../navigation/navigation.service';
@@ -49,6 +49,7 @@ export class PlatformController {
 
     @Post('users/:id/activate')
     @HasPermissions('platform:users:manage')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用平台用户' })
     @ApiOkResponse({ schema: { type: 'object' } })
     activateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto) {
@@ -57,6 +58,7 @@ export class PlatformController {
 
     @Post('users/:id/deactivate')
     @HasPermissions('platform:users:manage')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用平台用户' })
     @ApiOkResponse({ schema: { type: 'object' } })
     deactivateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto) {
@@ -65,6 +67,7 @@ export class PlatformController {
 
     @Post('users/:id/roles')
     @HasPermissions('platform:users:manage')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户角色' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
     assignUserRoles(@Param('id') id: string, @Body() body: AssignUserRolesRequestDto) {
@@ -73,6 +76,7 @@ export class PlatformController {
 
     @Post('users/:id/org-memberships')
     @HasPermissions('platform:users:manage')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户组织关系' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
     assignUserOrgMemberships(@Param('id') id: string, @Body() body: AssignUserOrgMembershipsRequestDto) {
@@ -97,6 +101,7 @@ export class PlatformController {
 
     @Post('roles/:id/permissions')
     @HasPermissions('platform:roles:manage')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配角色权限（全量替换）' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
     assignRolePermissions(@Param('id') id: string, @Body() body: AssignRolePermissionsRequestDto): Promise<PlatformRoleSummary> {

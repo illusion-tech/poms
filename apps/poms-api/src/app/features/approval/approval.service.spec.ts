@@ -48,8 +48,8 @@ describe('ApprovalService', () => {
     const payoutId = '31000000-0000-4000-8000-000000000001';
     const adjustmentId = '32000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
-    const initiatorUserId = '00000000-0000-0000-0000-000000000002';
-    const approverUserId = '00000000-0000-0000-0000-000000000001';
+    const initiatorUserId = '00000000-0000-4000-8000-000000000002';
+    const approverUserId = '00000000-0000-4000-8000-000000000001';
 
     let service: ApprovalService;
     let approvalRecordRepository: { getEntityManager: jest.Mock; findOne: jest.Mock; find: jest.Mock };

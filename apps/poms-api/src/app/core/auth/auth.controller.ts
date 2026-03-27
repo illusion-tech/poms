@@ -1,6 +1,6 @@
 import type { UserPayload } from '@poms/shared-contracts';
 import { LoginRequestDto, LoginResponseDto, SanitizedUserWithOrgUnitsDto } from '@poms/api-contracts';
-import { Body, Controller, Get, Post, Request, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { findDevUserByCredentials, findDevUserById } from '../platform/dev-platform.fixtures';
@@ -18,6 +18,7 @@ export class AuthController {
 
     @Post('login')
     @Public()
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '登录并获取 JWT' })
     @ApiOkResponse({ type: LoginResponseDto })
     async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {

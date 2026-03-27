@@ -35,7 +35,7 @@ describe('NavigationController', () => {
         service.getNavigationForUser.mockReturnValue(mockTree);
 
         const result = controller.getNavigation({
-            user: { sub: '00000000-0000-0000-0000-000000000001', username: 'admin', permissions: ['nav:dashboard:view'] }
+            user: { sub: '00000000-0000-4000-8000-000000000001', username: 'admin', permissions: ['nav:dashboard:view'] }
         });
 
         expect(service.getNavigationForUser).toHaveBeenCalledWith(['nav:dashboard:view']);

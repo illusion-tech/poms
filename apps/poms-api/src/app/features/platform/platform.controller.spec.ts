@@ -35,7 +35,7 @@ describe('PlatformController', () => {
     it('returns platform users from service', async () => {
         service.listUsers.mockResolvedValue([
             {
-                id: '00000000-0000-0000-0000-000000000001',
+                id: '00000000-0000-4000-8000-000000000001',
                 username: 'admin',
                 displayName: '超级管理员',
                 email: null,
@@ -75,7 +75,7 @@ describe('PlatformController', () => {
 
     it('delegates createUser to service with request body', async () => {
         const body = { username: 'newuser', displayName: '新用户', email: null, phone: null, primaryOrgUnitId: null, initialRoleIds: [] };
-        const created = { id: '00000000-0000-0000-0000-000000000002', username: 'newuser' };
+        const created = { id: '00000000-0000-4000-8000-000000000002', username: 'newuser' };
         service.createUser.mockResolvedValue(created as never);
 
         const result = await controller.createUser(body as never);
@@ -85,44 +85,44 @@ describe('PlatformController', () => {
     });
 
     it('delegates activateUser to service with id and body', async () => {
-        const user = { id: '00000000-0000-0000-0000-000000000001', isActive: true };
+        const user = { id: '00000000-0000-4000-8000-000000000001', isActive: true };
         service.activateUser.mockResolvedValue(user as never);
 
-        const result = await controller.activateUser('00000000-0000-0000-0000-000000000001', {} as never);
+        const result = await controller.activateUser('00000000-0000-4000-8000-000000000001', {} as never);
 
-        expect(service.activateUser).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001', {});
+        expect(service.activateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {});
         expect(result).toBe(user);
     });
 
     it('delegates deactivateUser to service with id and body', async () => {
-        const user = { id: '00000000-0000-0000-0000-000000000001', isActive: false };
+        const user = { id: '00000000-0000-4000-8000-000000000001', isActive: false };
         service.deactivateUser.mockResolvedValue(user as never);
 
-        const result = await controller.deactivateUser('00000000-0000-0000-0000-000000000001', {} as never);
+        const result = await controller.deactivateUser('00000000-0000-4000-8000-000000000001', {} as never);
 
-        expect(service.deactivateUser).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001', {});
+        expect(service.deactivateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {});
         expect(result).toBe(user);
     });
 
     it('delegates assignUserRoles to service with id and body', async () => {
         const body = { roleIds: ['30000000-0000-4000-8000-000000000001'] };
-        const profile = { id: '00000000-0000-0000-0000-000000000001', roles: ['平台管理员'] };
+        const profile = { id: '00000000-0000-4000-8000-000000000001', roles: ['平台管理员'] };
         service.assignUserRoles.mockResolvedValue(profile as never);
 
-        const result = await controller.assignUserRoles('00000000-0000-0000-0000-000000000001', body as never);
+        const result = await controller.assignUserRoles('00000000-0000-4000-8000-000000000001', body as never);
 
-        expect(service.assignUserRoles).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001', body);
+        expect(service.assignUserRoles).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body);
         expect(result).toBe(profile);
     });
 
     it('delegates assignUserOrgMemberships to service with id and body', async () => {
         const body = { primaryOrgUnitId: '10000000-0000-4000-8000-000000000001', secondaryOrgUnitIds: [] };
-        const profile = { id: '00000000-0000-0000-0000-000000000001', orgUnits: [] };
+        const profile = { id: '00000000-0000-4000-8000-000000000001', orgUnits: [] };
         service.assignUserOrgMemberships.mockResolvedValue(profile as never);
 
-        const result = await controller.assignUserOrgMemberships('00000000-0000-0000-0000-000000000001', body as never);
+        const result = await controller.assignUserOrgMemberships('00000000-0000-4000-8000-000000000001', body as never);
 
-        expect(service.assignUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001', body);
+        expect(service.assignUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body);
         expect(result).toBe(profile);
     });
 

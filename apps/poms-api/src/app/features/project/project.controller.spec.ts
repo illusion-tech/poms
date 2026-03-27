@@ -18,7 +18,7 @@ import { ProjectService } from './project.service';
 
 describe('ProjectController', () => {
     const projectId = '20000000-0000-4000-8000-000000000001';
-    const userId = '00000000-0000-0000-0000-000000000001';
+    const userId = '00000000-0000-4000-8000-000000000001';
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
     let controller: ProjectController;

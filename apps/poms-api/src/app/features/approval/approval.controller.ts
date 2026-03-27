@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ApprovalRecordDto,
@@ -33,6 +33,7 @@ export class ApprovalController {
 
     @Post('approval-records/:id/approve')
     @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批通过' })
     @ApiOkResponse({ type: CommandResultDto })
     approveRecord(
@@ -45,6 +46,7 @@ export class ApprovalController {
 
     @Post('approval-records/:id/reject')
     @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批驳回' })
     @ApiOkResponse({ type: CommandResultDto })
     rejectRecord(

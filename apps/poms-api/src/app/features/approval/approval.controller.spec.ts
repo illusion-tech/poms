@@ -4,7 +4,7 @@ import { ApprovalService } from './approval.service';
 
 describe('ApprovalController', () => {
     const approvalRecordId = '40000000-0000-4000-8000-000000000001';
-    const userId = '00000000-0000-0000-0000-000000000001';
+    const userId = '00000000-0000-4000-8000-000000000001';
 
     let controller: ApprovalController;
     let approvalService: jest.Mocked<ApprovalService>;

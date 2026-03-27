@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, SubmitContractReviewRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
 import type { ApprovalRecordSummary, CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
@@ -109,6 +109,7 @@ export class ContractController {
 
     @Post(':id/submit-review')
     @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '提交合同审核' })
     @ApiOkResponse({ type: CommandResultDto })
     submitReview(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: SubmitContractReviewRequestDto): Promise<CommandResult> {
@@ -117,6 +118,7 @@ export class ContractController {
 
     @Post(':id/activate')
     @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同生效' })
     @ApiOkResponse({ type: CommandResultDto })
     activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<CommandResult> {

@@ -75,7 +75,7 @@ describe('PlatformService', () => {
 
     it('aggregates platform users with real role names and primary org names', async () => {
         repository.findAllUsers.mockResolvedValue([
-            createUser({ id: '00000000-0000-0000-0000-000000000001', username: 'admin', displayName: '超级管理员', primaryOrgUnitId: '10000000-0000-4000-8000-000000000001' })
+            createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', displayName: '超级管理员', primaryOrgUnitId: '10000000-0000-4000-8000-000000000001' })
         ]);
         repository.findAllRoles.mockResolvedValue([
             createRole({ id: '30000000-0000-4000-8000-000000000001', name: '平台管理员' })
@@ -84,10 +84,10 @@ describe('PlatformService', () => {
             createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ' })
         ]);
         repository.findActiveUserRoleAssignments.mockResolvedValue([
-            { userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+            { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
         ]);
         repository.findActiveUserOrgMemberships.mockResolvedValue([
-            { userId: '00000000-0000-0000-0000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
+            { userId: '00000000-0000-4000-8000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
         ]);
 
         const result = await service.listUsers();
@@ -111,16 +111,16 @@ describe('PlatformService', () => {
             createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ' })
         ]);
         repository.findActiveUserRoleAssignments.mockResolvedValue([
-            { userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+            { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
         ]);
         repository.findActiveUserOrgMemberships.mockResolvedValue([
-            { userId: '00000000-0000-0000-0000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
+            { userId: '00000000-0000-4000-8000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
         ]);
         repository.findUserById.mockResolvedValue(
-            createUser({ id: '00000000-0000-0000-0000-000000000001', username: 'admin', displayName: '超级管理员', primaryOrgUnitId: '10000000-0000-4000-8000-000000000001' })
+            createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', displayName: '超级管理员', primaryOrgUnitId: '10000000-0000-4000-8000-000000000001' })
         );
 
-        const result = await service.getSanitizedUserProfile('00000000-0000-0000-0000-000000000001', {
+        const result = await service.getSanitizedUserProfile('00000000-0000-4000-8000-000000000001', {
             username: 'admin',
             permissions: ['platform:users:manage']
         });
@@ -159,7 +159,7 @@ describe('PlatformService', () => {
     describe('createUser', () => {
         it('creates user with role assignments and primary org membership', async () => {
             repository.findUserByUsername.mockResolvedValue(null);
-            const createdUser = createUser({ id: '00000000-0000-0000-0000-000000000002', username: 'newuser', displayName: '新用户' });
+            const createdUser = createUser({ id: '00000000-0000-4000-8000-000000000002', username: 'newuser', displayName: '新用户' });
             repository.createUser.mockReturnValue(createdUser);
             repository.createUserRoleAssignment.mockReturnValue({});
             repository.createUserOrgMembership.mockReturnValue({});
@@ -202,10 +202,10 @@ describe('PlatformService', () => {
 
     describe('activateUser', () => {
         it('sets user isActive to true and saves', async () => {
-            const user = createUser({ id: '00000000-0000-0000-0000-000000000001', isActive: false });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', isActive: false });
             repository.findUserById.mockResolvedValue(user);
 
-            const result = await service.activateUser('00000000-0000-0000-0000-000000000001', {});
+            const result = await service.activateUser('00000000-0000-4000-8000-000000000001', {});
 
             expect(result.isActive).toBe(true);
             expect(repository.saveAll).toHaveBeenCalledWith([user]);
@@ -222,10 +222,10 @@ describe('PlatformService', () => {
 
     describe('deactivateUser', () => {
         it('sets user isActive to false and saves', async () => {
-            const user = createUser({ id: '00000000-0000-0000-0000-000000000001', isActive: true });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', isActive: true });
             repository.findUserById.mockResolvedValue(user);
 
-            const result = await service.deactivateUser('00000000-0000-0000-0000-000000000001', {});
+            const result = await service.deactivateUser('00000000-0000-4000-8000-000000000001', {});
 
             expect(result.isActive).toBe(false);
             expect(repository.saveAll).toHaveBeenCalledWith([user]);
@@ -242,7 +242,7 @@ describe('PlatformService', () => {
 
     describe('assignUserRoles', () => {
         it('deletes existing assignments and saves new role assignments', async () => {
-            const user = createUser({ id: '00000000-0000-0000-0000-000000000001' });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001' });
             repository.findUserById.mockResolvedValue(user);
             repository.createUserRoleAssignment.mockReturnValue({});
             repository.findAllUsers.mockResolvedValue([]);
@@ -251,13 +251,13 @@ describe('PlatformService', () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([]);
             repository.findActiveUserOrgMemberships.mockResolvedValue([]);
 
-            await service.assignUserRoles('00000000-0000-0000-0000-000000000001', {
+            await service.assignUserRoles('00000000-0000-4000-8000-000000000001', {
                 roleIds: ['30000000-0000-4000-8000-000000000001']
             });
 
-            expect(repository.deleteUserRoleAssignments).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001');
+            expect(repository.deleteUserRoleAssignments).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001');
             expect(repository.createUserRoleAssignment).toHaveBeenCalledWith(
-                expect.objectContaining({ userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' })
+                expect.objectContaining({ userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' })
             );
             expect(repository.saveAll).toHaveBeenCalled();
         });
@@ -273,7 +273,7 @@ describe('PlatformService', () => {
 
     describe('assignUserOrgMemberships', () => {
         it('deletes existing memberships and saves primary and secondary memberships', async () => {
-            const user = createUser({ id: '00000000-0000-0000-0000-000000000001' });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001' });
             repository.findUserById.mockResolvedValue(user);
             repository.createUserOrgMembership.mockReturnValue({});
             repository.findAllUsers.mockResolvedValue([]);
@@ -282,12 +282,12 @@ describe('PlatformService', () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([]);
             repository.findActiveUserOrgMemberships.mockResolvedValue([]);
 
-            await service.assignUserOrgMemberships('00000000-0000-0000-0000-000000000001', {
+            await service.assignUserOrgMemberships('00000000-0000-4000-8000-000000000001', {
                 primaryOrgUnitId: '10000000-0000-4000-8000-000000000001',
                 secondaryOrgUnitIds: ['10000000-0000-4000-8000-000000000002']
             });
 
-            expect(repository.deleteUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000001');
+            expect(repository.deleteUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001');
             expect(repository.createUserOrgMembership).toHaveBeenCalledTimes(2);
             expect(repository.createUserOrgMembership).toHaveBeenCalledWith(
                 expect.objectContaining({ orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' })
@@ -312,11 +312,11 @@ describe('PlatformService', () => {
 
     describe('verifyCredentials', () => {
         it('returns userId, username and permissions when credentials are valid', async () => {
-            const user = createUser({ id: '00000000-0000-0000-0000-000000000001', username: 'admin', passwordHash: '$2b$10$hash', isActive: true });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', passwordHash: '$2b$10$hash', isActive: true });
             repository.findActiveUserByUsername.mockResolvedValue(user);
             mockCompare.mockResolvedValue(true as never);
             repository.findActiveUserRoleAssignments.mockResolvedValue([
-                { userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
             ]);
             repository.findActiveRolePermissionAssignments.mockResolvedValue([
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
@@ -326,7 +326,7 @@ describe('PlatformService', () => {
             const result = await service.verifyCredentials('admin', 'admin123');
 
             expect(result).toEqual({
-                userId: '00000000-0000-0000-0000-000000000001',
+                userId: '00000000-0000-4000-8000-000000000001',
                 username: 'admin',
                 permissions: ['project:read', 'project:write']
             });
@@ -363,8 +363,8 @@ describe('PlatformService', () => {
     describe('getPermissionsForUser', () => {
         it('returns deduplicated permissions from all assigned roles', async () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([
-                { userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' },
-                { userId: '00000000-0000-0000-0000-000000000001', roleId: '30000000-0000-4000-8000-000000000002' }
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' },
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000002' }
             ]);
             repository.findActiveRolePermissionAssignments.mockResolvedValue([
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
@@ -372,7 +372,7 @@ describe('PlatformService', () => {
                 { roleId: '30000000-0000-4000-8000-000000000002', permissionKey: 'project:read' }
             ]);
 
-            const result = await service.getPermissionsForUser('00000000-0000-0000-0000-000000000001');
+            const result = await service.getPermissionsForUser('00000000-0000-4000-8000-000000000001');
 
             expect(result).toEqual(expect.arrayContaining(['project:read', 'project:write']));
             expect(result).toHaveLength(2); // deduplicated
@@ -381,7 +381,7 @@ describe('PlatformService', () => {
         it('returns empty array when user has no role assignments', async () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([]);
 
-            const result = await service.getPermissionsForUser('00000000-0000-0000-0000-000000000001');
+            const result = await service.getPermissionsForUser('00000000-0000-4000-8000-000000000001');
 
             expect(result).toEqual([]);
         });
@@ -498,7 +498,7 @@ describe('PlatformService', () => {
 
 function createUser(overrides: Record<string, unknown> = {}) {
     return {
-        id: '00000000-0000-0000-0000-000000000001',
+        id: '00000000-0000-4000-8000-000000000001',
         username: 'admin',
         displayName: '超级管理员',
         email: null,

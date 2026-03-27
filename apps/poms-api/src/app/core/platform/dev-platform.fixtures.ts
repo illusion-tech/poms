@@ -27,7 +27,7 @@ export const DEV_ORG_UNITS: UnitOrg[] = [
 
 export const DEV_USERS: DevUserFixture[] = [
     {
-        id: '00000000-0000-0000-0000-000000000001',
+        id: '00000000-0000-4000-8000-000000000001',
         username: 'admin',
         password: 'admin123',
         displayName: '超级管理员',
@@ -54,7 +54,7 @@ export const DEV_USERS: DevUserFixture[] = [
         orgUnits: DEV_ORG_UNITS
     },
     {
-        id: '00000000-0000-0000-0000-000000000002',
+        id: '00000000-0000-4000-8000-000000000002',
         username: 'viewer',
         password: 'viewer123',
         displayName: '只读用户',

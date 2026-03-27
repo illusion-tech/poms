@@ -3,7 +3,7 @@ import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
     const projectId = '20000000-0000-4000-8000-000000000001';
-    const userId = '00000000-0000-0000-0000-000000000001';
+    const userId = '00000000-0000-4000-8000-000000000001';
 
     let service: ProjectService;
     let projectRepository: {
