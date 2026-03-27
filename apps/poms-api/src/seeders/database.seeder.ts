@@ -10,7 +10,6 @@ export class DatabaseSeeder extends Seeder {
         const connection = em.getConnection();
         const seededPlatformUsernames = DEV_USERS.map((user) => sqlValue(user.username)).join(', ');
         const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectCode)).join(', ');
-        const seededContractNos = DEV_CONTRACT_SEEDS.map((contract) => sqlValue(contract.contractNo)).join(', ');
 
         await connection.execute(`
             delete from "${schema}"."role_permission_assignment"
@@ -49,6 +48,73 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."org_unit"
             where "code" in ('SALES-HQ', 'SALES-SOUTH-1');
+        `);
+
+        // 清理历史 e2e 脏数据，避免测试数据跨运行累积影响稳定性
+        await connection.execute(`
+            delete from "${schema}"."todo_item"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."approval_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_adjustment"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_payout"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_calculation"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_role_assignment"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."project"
+            where "project_code" like 'E2E-%';
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_rule_version"
+            where "rule_code" like '000-E2E-%';
         `);
 
         // 级联清理所有引用种子项目的数据（不仅限于种子合同，避免测试期间 API 创建的数据阻塞删除）
