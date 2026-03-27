@@ -1,5 +1,7 @@
 import type {
     ApproveCommissionPayoutRequest,
+    CommissionAdjustmentSummary,
+    CommissionAdjustmentType,
     CommissionCalculationSummary,
     CommissionPayoutStage,
     CommissionPayoutSummary,
@@ -7,18 +9,22 @@ import type {
     CommissionRoleAssignmentSummary,
     CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
+    CreateCommissionAdjustmentRequest,
     CreateCommissionCalculationRequest,
     CreateCommissionPayoutRequest,
     CreateCommissionRoleAssignmentRequest,
     CreateCommissionRuleVersionRequest,
+    ExecuteCommissionAdjustmentRequest,
+    RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
     SubmitCommissionPayoutApprovalRequest
 } from '@poms/shared-contracts';
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import type { CommissionCalculation } from './commission-calculation.entity';
-import type { CommissionPayout } from './commission-payout.entity';
+import { CommissionAdjustment } from './commission-adjustment.entity';
+import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionPayout } from './commission-payout.entity';
 import type { CommissionRoleAssignment } from './commission-role-assignment.entity';
-import type { CommissionRuleVersion } from './commission-rule-version.entity';
+import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionRepository } from './commission.repository';
 
 const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTier, number>> = {
@@ -325,6 +331,152 @@ export class CommissionService {
         return this.#toPayoutSummary(entity);
     }
 
+    // ── Adjustments ────────────────────────────────────────────────────────
+
+    async listAdjustments(projectId: string): Promise<CommissionAdjustmentSummary[]> {
+        const entities = await this.repo.findAdjustmentsForProject(projectId);
+        return entities.map(this.#toAdjustmentSummary);
+    }
+
+    async createAdjustment(projectId: string, dto: CreateCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
+        await this.#assertProjectExists(projectId);
+
+        const payout = dto.relatedPayoutId ? await this.repo.findPayoutById(dto.relatedPayoutId) : null;
+        const calculation = dto.relatedCalculationId ? await this.repo.findCalculationById(dto.relatedCalculationId) : null;
+        this.#assertAdjustmentLinks(projectId, dto.adjustmentType, payout, calculation);
+        if ((dto.adjustmentType === 'clawback' || dto.adjustmentType === 'supplement') && !dto.amount) {
+            throw new UnprocessableEntityException(`${dto.adjustmentType === 'clawback' ? '扣回' : '补发'}调整必须填写金额`);
+        }
+        const parsedAmount = dto.amount ? this.#parseDecimal(dto.amount, 'amount') : null;
+        if (parsedAmount !== null && parsedAmount <= 0) {
+            throw new UnprocessableEntityException('调整金额必须大于 0');
+        }
+
+        const entity = this.repo.createAdjustment({
+            projectId,
+            adjustmentType: dto.adjustmentType,
+            relatedPayoutId: payout?.id ?? null,
+            relatedCalculationId: calculation?.id ?? payout?.calculationId ?? null,
+            amount: parsedAmount !== null ? this.#formatAmount(parsedAmount) : null,
+            reason: dto.reason.trim(),
+            status: 'draft',
+            executedAt: null,
+            executedBy: null
+        });
+
+        await this.repo.persistAndFlushAdjustment(entity);
+        return this.#toAdjustmentSummary(entity);
+    }
+
+    async executeAdjustment(projectId: string, id: string, dto: ExecuteCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
+        return this.repo.transactional(async (em) => {
+            const adjustment = await em.findOne(CommissionAdjustment, { id });
+            if (!adjustment || adjustment.projectId !== projectId) {
+                throw new NotFoundException(`项目 ${projectId} 的提成调整 ${id} 不存在`);
+            }
+            this.#assertExpectedVersion(adjustment.rowVersion, dto.expectedVersion, 'CommissionAdjustment');
+
+            if (adjustment.status !== 'approved') {
+                throw new UnprocessableEntityException(`只有已批准状态的提成调整可以执行，当前状态: ${adjustment.status}`);
+            }
+
+            const payout = adjustment.relatedPayoutId ? await em.findOne(CommissionPayout, { id: adjustment.relatedPayoutId }) : null;
+            if (adjustment.adjustmentType !== 'recalculate' && !payout) {
+                throw new UnprocessableEntityException('当前调整未关联提成发放记录，无法执行');
+            }
+
+            if (adjustment.adjustmentType === 'suspend-payout') {
+                this.#assertPayoutStatus(payout, ['approved', 'paid'], '暂停');
+                payout.status = 'suspended';
+                payout.handledAt = new Date();
+            }
+
+            if (adjustment.adjustmentType === 'reverse-payout') {
+                this.#assertPayoutStatus(payout, ['paid', 'suspended'], '冲销');
+                payout.status = 'reversed';
+                payout.handledAt = new Date();
+            }
+
+            if (adjustment.adjustmentType === 'clawback' || adjustment.adjustmentType === 'supplement') {
+                this.#assertPayoutStatus(payout, ['paid', 'suspended', 'approved'], adjustment.adjustmentType === 'clawback' ? '扣回' : '补发');
+            }
+
+            adjustment.status = 'executed';
+            adjustment.executedAt = new Date();
+
+            em.persist([adjustment, ...(payout ? [payout] : [])]);
+            await em.flush();
+
+            return this.#toAdjustmentSummary(adjustment);
+        });
+    }
+
+    async recalculateCalculation(projectId: string, id: string, dto: RecalculateCommissionRequest): Promise<CommissionCalculationSummary> {
+        return this.repo.transactional(async (em) => {
+            const current = await em.findOne(CommissionCalculation, { id });
+            if (!current || current.projectId !== projectId) {
+                throw new NotFoundException(`项目 ${projectId} 的提成计算 ${id} 不存在`);
+            }
+            this.#assertExpectedVersion(current.rowVersion, dto.expectedVersion, 'CommissionCalculation');
+
+            if (!current.isCurrent || current.status !== 'effective') {
+                throw new UnprocessableEntityException(`只有当前已生效的提成计算结果可以触发重算，当前状态: ${current.status}`);
+            }
+
+            const ruleVersion = await em.findOne(CommissionRuleVersion, { id: current.ruleVersionId });
+            if (!ruleVersion) {
+                throw new UnprocessableEntityException(`提成规则版本 ${current.ruleVersionId} 不存在，无法触发重算`);
+            }
+
+            const revenue = dto.recognizedRevenueTaxExclusive
+                ? this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive')
+                : this.#toNumber(current.recognizedRevenueTaxExclusive);
+            const cost = dto.recognizedCostTaxExclusive
+                ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive')
+                : this.#toNumber(current.recognizedCostTaxExclusive);
+            const contributionMargin = revenue - cost;
+            const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
+            const commissionRate = this.#resolveCommissionRate(ruleVersion, contributionMarginRate);
+            const commissionPool = contributionMargin > 0 && commissionRate > 0 ? contributionMargin * commissionRate : 0;
+
+            const nextCalculation = em.create(CommissionCalculation, {
+                projectId,
+                ruleVersionId: current.ruleVersionId,
+                version: current.version + 1,
+                isCurrent: true,
+                status: 'calculated',
+                recognizedRevenueTaxExclusive: this.#formatAmount(revenue),
+                recognizedCostTaxExclusive: this.#formatAmount(cost),
+                contributionMargin: this.#formatAmount(contributionMargin),
+                contributionMarginRate: this.#formatRate(contributionMarginRate),
+                commissionPool: this.#formatAmount(commissionPool),
+                recalculatedFromId: current.id,
+                approvedAt: null,
+                approvedBy: null
+            });
+
+            const adjustment = em.create(CommissionAdjustment, {
+                projectId,
+                adjustmentType: 'recalculate',
+                relatedPayoutId: null,
+                relatedCalculationId: current.id,
+                amount: this.#formatAmount(Math.abs(commissionPool - this.#toNumber(current.commissionPool))),
+                reason: dto.reason.trim(),
+                status: 'executed',
+                executedAt: new Date(),
+                executedBy: null
+            });
+
+            current.isCurrent = false;
+            current.status = 'superseded';
+
+            em.persist([current, nextCalculation, adjustment]);
+            await em.flush();
+
+            return this.#toCalculationSummary(nextCalculation);
+        });
+    }
+
     // ── Mappers ─────────────────────────────────────────────────────────────
 
     readonly #toRuleVersionSummary = (e: CommissionRuleVersion): CommissionRuleVersionSummary => ({
@@ -386,6 +538,21 @@ export class CommissionService {
         updatedAt: e.updatedAt.toISOString()
     });
 
+    readonly #toAdjustmentSummary = (e: CommissionAdjustment): CommissionAdjustmentSummary => ({
+        id: e.id,
+        projectId: e.projectId,
+        rowVersion: e.rowVersion,
+        adjustmentType: e.adjustmentType as CommissionAdjustmentType,
+        relatedPayoutId: e.relatedPayoutId ?? null,
+        relatedCalculationId: e.relatedCalculationId ?? null,
+        amount: e.amount ? this.#stringifyDecimal(e.amount) : null,
+        reason: e.reason,
+        status: e.status as CommissionAdjustmentSummary['status'],
+        executedAt: e.executedAt ? e.executedAt.toISOString() : null,
+        createdAt: e.createdAt.toISOString(),
+        updatedAt: e.updatedAt.toISOString()
+    });
+
     async #assertProjectExists(projectId: string): Promise<void> {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
@@ -396,6 +563,41 @@ export class CommissionService {
     async #findLatestActiveRuleVersion(): Promise<CommissionRuleVersion | null> {
         const versions = await this.repo.findAllRuleVersions();
         return versions.find((version) => version.status === 'active') ?? null;
+    }
+
+    #assertAdjustmentLinks(
+        projectId: string,
+        adjustmentType: CreateCommissionAdjustmentRequest['adjustmentType'],
+        payout: CommissionPayout | null,
+        calculation: CommissionCalculation | null
+    ): void {
+        if (adjustmentType === 'recalculate') {
+            throw new UnprocessableEntityException('重算请使用专用重算命令，不应通过普通调整草稿创建');
+        }
+
+        if (!payout && !calculation) {
+            throw new UnprocessableEntityException('提成调整必须至少关联一条提成发放记录或提成计算结果');
+        }
+
+        if (payout && payout.projectId !== projectId) {
+            throw new NotFoundException(`项目 ${projectId} 关联的提成发放记录不存在`);
+        }
+
+        if (calculation && calculation.projectId !== projectId) {
+            throw new NotFoundException(`项目 ${projectId} 关联的提成计算结果不存在`);
+        }
+
+        if ((adjustmentType === 'suspend-payout' || adjustmentType === 'reverse-payout' || adjustmentType === 'clawback' || adjustmentType === 'supplement') && !payout) {
+            throw new UnprocessableEntityException('当前调整类型必须关联提成发放记录');
+        }
+
+        if (adjustmentType === 'suspend-payout') {
+            this.#assertPayoutStatus(payout, ['approved', 'paid'], '暂停');
+        }
+
+        if (adjustmentType === 'reverse-payout') {
+            this.#assertPayoutStatus(payout, ['paid', 'suspended'], '冲销');
+        }
     }
 
     #resolveCommissionRate(ruleVersion: CommissionRuleVersion, contributionMarginRate: number): number {
@@ -416,6 +618,15 @@ export class CommissionService {
             throw new UnprocessableEntityException(`${fieldName} 必须是合法数值`);
         }
         return parsed;
+    }
+
+    #assertPayoutStatus(payout: CommissionPayout | null, allowedStatuses: CommissionPayoutSummary['status'][], actionName: string): asserts payout is CommissionPayout {
+        if (!payout) {
+            throw new UnprocessableEntityException(`当前调整未关联提成发放记录，无法执行${actionName}`);
+        }
+        if (!allowedStatuses.includes(payout.status as CommissionPayoutSummary['status'])) {
+            throw new UnprocessableEntityException(`提成发放当前状态 ${payout.status} 不允许执行${actionName}`);
+        }
     }
 
     #formatAmount(value: number): string {

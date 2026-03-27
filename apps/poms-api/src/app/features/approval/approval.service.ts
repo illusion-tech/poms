@@ -1,9 +1,19 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import type { ApprovalRecordSummary, ApproveRecordRequest, CommandResult, RejectApprovalRecordRequest, SubmitCommissionPayoutApprovalRequest, SubmitContractReviewRequest, TodoItemSummary } from '@poms/shared-contracts';
+import type {
+    ApprovalRecordSummary,
+    ApproveRecordRequest,
+    CommandResult,
+    RejectApprovalRecordRequest,
+    SubmitCommissionAdjustmentApprovalRequest,
+    SubmitCommissionPayoutApprovalRequest,
+    SubmitContractReviewRequest,
+    TodoItemSummary
+} from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import { DEV_USERS } from '../../core/platform/dev-platform.fixtures';
+import { CommissionAdjustment } from '../commission/commission-adjustment.entity';
 import { CommissionPayout } from '../commission/commission-payout.entity';
 import { Contract } from '../contract/contract.entity';
 import { ApprovalRecord } from './approval-record.entity';
@@ -17,6 +27,9 @@ const COMMISSION_PAYOUT_APPROVAL_TYPE = 'commission-payout-approval';
 const COMMISSION_PAYOUT_NODE_KEY = 'commission-payout-approval';
 const COMMISSION_BUSINESS_DOMAIN = 'commission';
 const COMMISSION_PAYOUT_TARGET_TYPE = 'CommissionPayout';
+const COMMISSION_ADJUSTMENT_APPROVAL_TYPE = 'commission-adjustment-approval';
+const COMMISSION_ADJUSTMENT_NODE_KEY = 'commission-adjustment-approval';
+const COMMISSION_ADJUSTMENT_TARGET_TYPE = 'CommissionAdjustment';
 const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
 const DEFAULT_APPROVER_USER_ID = DEV_USERS[0].id;
@@ -32,7 +45,9 @@ export class ApprovalService {
         @InjectRepository(Contract)
         private readonly contractRepository: EntityRepository<Contract>,
         @InjectRepository(CommissionPayout)
-        private readonly commissionPayoutRepository: EntityRepository<CommissionPayout>
+        private readonly commissionPayoutRepository: EntityRepository<CommissionPayout>,
+        @InjectRepository(CommissionAdjustment)
+        private readonly commissionAdjustmentRepository: EntityRepository<CommissionAdjustment>
     ) {}
 
     async submitContractReview(contractId: string, initiatorUserId: string, input: SubmitContractReviewRequest): Promise<CommandResult> {
@@ -204,6 +219,86 @@ export class ApprovalService {
         });
     }
 
+    async submitCommissionAdjustmentApproval(adjustmentId: string, initiatorUserId: string, input: SubmitCommissionAdjustmentApprovalRequest): Promise<CommandResult> {
+        return this.approvalRecordRepository.getEntityManager().transactional(async (em) => {
+            const adjustment = await em.findOne(CommissionAdjustment, { id: adjustmentId });
+            if (!adjustment) {
+                throw new NotFoundException(`CommissionAdjustment ${adjustmentId} not found`);
+            }
+
+            if (adjustment.status !== 'draft') {
+                throw new BadRequestException(`CommissionAdjustment ${adjustmentId} cannot submit approval in status ${adjustment.status}`);
+            }
+
+            this.assertExpectedVersion(adjustment.rowVersion, input.expectedVersion, 'CommissionAdjustment');
+
+            const existingApproval = await em.findOne(ApprovalRecord, {
+                approvalType: COMMISSION_ADJUSTMENT_APPROVAL_TYPE,
+                targetObjectType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
+                targetObjectId: adjustment.id,
+                currentStatus: 'pending'
+            });
+            if (existingApproval) {
+                throw new ConflictException(`CommissionAdjustment ${adjustmentId} already has a pending approval`);
+            }
+
+            adjustment.status = 'pending-approval';
+
+            const approvalRecordId = randomUUID();
+            const todoItemId = randomUUID();
+
+            const approvalRecord = em.create(ApprovalRecord, {
+                id: approvalRecordId,
+                approvalType: COMMISSION_ADJUSTMENT_APPROVAL_TYPE,
+                businessDomain: COMMISSION_BUSINESS_DOMAIN,
+                targetObjectType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
+                targetObjectId: adjustment.id,
+                projectId: adjustment.projectId,
+                currentStatus: 'pending',
+                currentNodeKey: COMMISSION_ADJUSTMENT_NODE_KEY,
+                initiatorUserId,
+                currentApproverUserId: DEFAULT_APPROVER_USER_ID,
+                decision: null,
+                decisionComment: null,
+                submittedAt: new Date(),
+                decidedAt: null,
+                closedAt: null
+            });
+
+            const todoItem = em.create(TodoItem, {
+                id: todoItemId,
+                sourceType: TODO_SOURCE_TYPE,
+                sourceId: approvalRecordId,
+                todoType: TODO_TYPE,
+                businessDomain: COMMISSION_BUSINESS_DOMAIN,
+                targetObjectType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
+                targetObjectId: adjustment.id,
+                projectId: adjustment.projectId,
+                title: `提成调整审批：${mapAdjustmentTypeName(adjustment.adjustmentType)}`,
+                summary: adjustment.reason,
+                assigneeUserId: DEFAULT_APPROVER_USER_ID,
+                status: 'open',
+                priority: 'high',
+                dueAt: null,
+                completedAt: null
+            });
+
+            em.persist([adjustment, approvalRecord, todoItem]);
+            await em.flush();
+
+            return {
+                targetId: adjustment.id,
+                targetType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
+                resultStatus: 'submitted',
+                businessStatusAfter: adjustment.status,
+                approvalRecordId: approvalRecord.id,
+                confirmationRecordId: null,
+                todoItemIds: [todoItem.id],
+                snapshotId: null
+            };
+        });
+    }
+
     async findApprovalRecordById(id: string): Promise<ApprovalRecordSummary | null> {
         const record = await this.approvalRecordRepository.findOne({ id });
         if (!record) {
@@ -242,18 +337,23 @@ export class ApprovalService {
         const approvalSourceIds = [...new Set(todos.filter((todo) => todo.sourceType === TODO_SOURCE_TYPE).map((todo) => todo.sourceId))];
         const contractTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === CONTRACT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
         const payoutTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === COMMISSION_PAYOUT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
+        const adjustmentTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === COMMISSION_ADJUSTMENT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
 
-        const [approvalRecords, contracts, payouts] = await Promise.all([
+        const [approvalRecords, contracts, payouts, adjustments] = await Promise.all([
             approvalSourceIds.length > 0 ? this.approvalRecordRepository.find({ id: { $in: approvalSourceIds } }) : Promise.resolve([]),
             contractTargetIds.length > 0 ? this.contractRepository.find({ id: { $in: contractTargetIds } }) : Promise.resolve([]),
-            payoutTargetIds.length > 0 ? this.commissionPayoutRepository.find({ id: { $in: payoutTargetIds } }) : Promise.resolve([])
+            payoutTargetIds.length > 0 ? this.commissionPayoutRepository.find({ id: { $in: payoutTargetIds } }) : Promise.resolve([]),
+            adjustmentTargetIds.length > 0 ? this.commissionAdjustmentRepository.find({ id: { $in: adjustmentTargetIds } }) : Promise.resolve([])
         ]);
 
         const approvalById = new Map(approvalRecords.map((record) => [record.id, record]));
         const contractById = new Map(contracts.map((contract) => [contract.id, contract]));
         const payoutById = new Map(payouts.map((payout) => [payout.id, payout]));
+        const adjustmentById = new Map(adjustments.map((adjustment) => [adjustment.id, adjustment]));
 
-        return todos.map((todo) => mapTodoItemToSummary(todo, approvalById.get(todo.sourceId), contractById.get(todo.targetObjectId), payoutById.get(todo.targetObjectId)));
+        return todos.map((todo) =>
+            mapTodoItemToSummary(todo, approvalById.get(todo.sourceId), contractById.get(todo.targetObjectId), payoutById.get(todo.targetObjectId), adjustmentById.get(todo.targetObjectId))
+        );
     }
 
     private async resolveApprovalDecision(approvalRecordId: string, actorUserId: string, decision: 'approved' | 'rejected', comment: string | null, expectedVersion?: number): Promise<CommandResult> {
@@ -348,6 +448,29 @@ export class ApprovalService {
                 };
             }
 
+            if (approvalRecord.targetObjectType === COMMISSION_ADJUSTMENT_TARGET_TYPE && approvalRecord.approvalType === COMMISSION_ADJUSTMENT_APPROVAL_TYPE) {
+                const adjustment = await em.findOne(CommissionAdjustment, { id: approvalRecord.targetObjectId });
+                if (!adjustment) {
+                    throw new NotFoundException(`CommissionAdjustment ${approvalRecord.targetObjectId} not found`);
+                }
+
+                adjustment.status = decision === 'approved' ? 'approved' : 'rejected';
+
+                em.persist([approvalRecord, adjustment, ...(todoItem ? [todoItem] : [])]);
+                await em.flush();
+
+                return {
+                    targetId: adjustment.id,
+                    targetType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
+                    resultStatus: decision,
+                    businessStatusAfter: adjustment.status,
+                    approvalRecordId: approvalRecord.id,
+                    confirmationRecordId: null,
+                    todoItemIds,
+                    snapshotId: null
+                };
+            }
+
             throw new BadRequestException(`ApprovalRecord ${approvalRecordId} is not supported by the current approval slice`);
         });
     }
@@ -356,8 +479,10 @@ export class ApprovalService {
         const relatedContract = record.targetObjectType === CONTRACT_TARGET_TYPE ? await this.contractRepository.findOne({ id: record.targetObjectId }) : null;
         const relatedPayout =
             record.targetObjectType === COMMISSION_PAYOUT_TARGET_TYPE ? await this.commissionPayoutRepository.findOne({ id: record.targetObjectId }) : null;
+        const relatedAdjustment =
+            record.targetObjectType === COMMISSION_ADJUSTMENT_TARGET_TYPE ? await this.commissionAdjustmentRepository.findOne({ id: record.targetObjectId }) : null;
 
-        return mapApprovalRecordToSummary(record, relatedContract, relatedPayout);
+        return mapApprovalRecordToSummary(record, relatedContract, relatedPayout, relatedAdjustment);
     }
 
     private assertExpectedVersion(actualVersion: number, expectedVersion: number | undefined, resourceType: string): void {
@@ -367,7 +492,12 @@ export class ApprovalService {
     }
 }
 
-function mapApprovalRecordToSummary(record: ApprovalRecord, relatedContract: Contract | null, relatedPayout: CommissionPayout | null): ApprovalRecordSummary {
+function mapApprovalRecordToSummary(
+    record: ApprovalRecord,
+    relatedContract: Contract | null,
+    relatedPayout: CommissionPayout | null,
+    relatedAdjustment: CommissionAdjustment | null
+): ApprovalRecordSummary {
     return {
         id: record.id,
         approvalType: record.approvalType,
@@ -382,8 +512,8 @@ function mapApprovalRecordToSummary(record: ApprovalRecord, relatedContract: Con
         currentApproverUserId: record.currentApproverUserId ?? null,
         decision: record.decision ?? null,
         decisionComment: record.decisionComment ?? null,
-        targetTitle: relatedContract?.contractNo ?? (relatedPayout ? mapPayoutTitle(relatedPayout) : null),
-        targetStatus: relatedContract?.status ?? relatedPayout?.status ?? null,
+        targetTitle: relatedContract?.contractNo ?? (relatedPayout ? mapPayoutTitle(relatedPayout) : relatedAdjustment ? mapAdjustmentTitle(relatedAdjustment) : null),
+        targetStatus: relatedContract?.status ?? relatedPayout?.status ?? relatedAdjustment?.status ?? null,
         submittedAt: record.submittedAt.toISOString(),
         decidedAt: record.decidedAt?.toISOString() ?? null,
         closedAt: record.closedAt?.toISOString() ?? null,
@@ -393,7 +523,13 @@ function mapApprovalRecordToSummary(record: ApprovalRecord, relatedContract: Con
     };
 }
 
-function mapTodoItemToSummary(todoItem: TodoItem, approvalRecord?: ApprovalRecord, relatedContract?: Contract, relatedPayout?: CommissionPayout): TodoItemSummary {
+function mapTodoItemToSummary(
+    todoItem: TodoItem,
+    approvalRecord?: ApprovalRecord,
+    relatedContract?: Contract,
+    relatedPayout?: CommissionPayout,
+    relatedAdjustment?: CommissionAdjustment
+): TodoItemSummary {
     return {
         id: todoItem.id,
         sourceType: todoItem.sourceType,
@@ -405,7 +541,7 @@ function mapTodoItemToSummary(todoItem: TodoItem, approvalRecord?: ApprovalRecor
         projectId: todoItem.projectId ?? null,
         title: todoItem.title,
         summary: todoItem.summary ?? null,
-        targetTitle: relatedContract?.contractNo ?? (relatedPayout ? mapPayoutTitle(relatedPayout) : null),
+        targetTitle: relatedContract?.contractNo ?? (relatedPayout ? mapPayoutTitle(relatedPayout) : relatedAdjustment ? mapAdjustmentTitle(relatedAdjustment) : null),
         currentNodeName: approvalRecord ? mapNodeName(approvalRecord.currentNodeKey) : null,
         allowedActions: todoItem.todoType === TODO_TYPE && ['open', 'processing'].includes(todoItem.status) ? APPROVAL_ACTIONS : [],
         assigneeUserId: todoItem.assigneeUserId,
@@ -426,12 +562,38 @@ function mapNodeName(currentNodeKey: string): string | null {
     if (currentNodeKey === COMMISSION_PAYOUT_NODE_KEY) {
         return '提成发放审批';
     }
+    if (currentNodeKey === COMMISSION_ADJUSTMENT_NODE_KEY) {
+        return '提成调整审批';
+    }
 
     return null;
 }
 
 function mapPayoutTitle(payout: CommissionPayout): string {
     return `${mapPayoutStageName(payout.stageType)}提成发放`;
+}
+
+function mapAdjustmentTitle(adjustment: CommissionAdjustment): string {
+    return `${mapAdjustmentTypeName(adjustment.adjustmentType)}调整`;
+}
+
+function mapAdjustmentTypeName(adjustmentType: string): string {
+    if (adjustmentType === 'suspend-payout') {
+        return '暂停发放';
+    }
+    if (adjustmentType === 'reverse-payout') {
+        return '冲销发放';
+    }
+    if (adjustmentType === 'clawback') {
+        return '扣回';
+    }
+    if (adjustmentType === 'supplement') {
+        return '补发';
+    }
+    if (adjustmentType === 'recalculate') {
+        return '重算';
+    }
+    return adjustmentType;
 }
 
 function mapPayoutStageName(stageType: string): string {

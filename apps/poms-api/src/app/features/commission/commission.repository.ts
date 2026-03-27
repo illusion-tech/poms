@@ -1,7 +1,8 @@
-import { EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Project } from '../project/project.entity';
+import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 import { CommissionPayout, type CommissionPayoutStage } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
@@ -19,8 +20,14 @@ export class CommissionRepository {
         @InjectRepository(CommissionCalculation)
         private readonly calculationRepository: EntityRepository<CommissionCalculation>,
         @InjectRepository(CommissionPayout)
-        private readonly payoutRepository: EntityRepository<CommissionPayout>
+        private readonly payoutRepository: EntityRepository<CommissionPayout>,
+        @InjectRepository(CommissionAdjustment)
+        private readonly adjustmentRepository: EntityRepository<CommissionAdjustment>
     ) {}
+
+    async transactional<T>(work: (em: EntityManager) => Promise<T>): Promise<T> {
+        return this.projectRepository.getEntityManager().transactional(work);
+    }
 
     async findProjectById(id: string): Promise<Project | null> {
         return this.projectRepository.findOne({ id });
@@ -148,5 +155,32 @@ export class CommissionRepository {
 
     async flushPayout(): Promise<void> {
         await this.payoutRepository.getEntityManager().flush();
+    }
+
+    // ── Adjustments ──────────────────────────────────────────────────────────
+
+    async findAdjustmentById(id: string): Promise<CommissionAdjustment | null> {
+        return this.adjustmentRepository.findOne({ id });
+    }
+
+    async findAdjustmentsForProject(projectId: string): Promise<CommissionAdjustment[]> {
+        return this.adjustmentRepository.find(
+            { projectId },
+            { orderBy: { createdAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC } }
+        );
+    }
+
+    createAdjustment(input: ConstructorParameters<typeof CommissionAdjustment>[0]): CommissionAdjustment {
+        return this.adjustmentRepository.create(input);
+    }
+
+    async persistAndFlushAdjustment(entity: CommissionAdjustment): Promise<void> {
+        const em = this.adjustmentRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushAdjustment(): Promise<void> {
+        await this.adjustmentRepository.getEntityManager().flush();
     }
 }

@@ -6,6 +6,7 @@ const RULE_VERSION_ID = '50000000-0000-4000-8000-000000000001';
 const ASSIGNMENT_ID = '51000000-0000-4000-8000-000000000001';
 const CALCULATION_ID = '52000000-0000-4000-8000-000000000001';
 const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
+const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 
 const stubRuleVersion = {
@@ -36,6 +37,7 @@ const stubCalculation = {
     projectId: PROJECT_ID,
     ruleVersionId: RULE_VERSION_ID,
     version: 1,
+    rowVersion: 1,
     isCurrent: true,
     status: 'calculated' as const,
     recognizedRevenueTaxExclusive: '100000.00',
@@ -53,6 +55,7 @@ const stubPayout = {
     id: PAYOUT_ID,
     projectId: PROJECT_ID,
     calculationId: CALCULATION_ID,
+    rowVersion: 1,
     stageType: 'first' as const,
     selectedTier: 'basic' as const,
     theoreticalCapAmount: '480.00',
@@ -61,6 +64,21 @@ const stubPayout = {
     status: 'draft' as const,
     approvedAt: null,
     handledAt: null,
+    createdAt: '2026-03-25T10:00:00.000Z',
+    updatedAt: '2026-03-25T10:00:00.000Z'
+};
+
+const stubAdjustment = {
+    id: ADJUSTMENT_ID,
+    projectId: PROJECT_ID,
+    rowVersion: 1,
+    adjustmentType: 'suspend-payout' as const,
+    relatedPayoutId: PAYOUT_ID,
+    relatedCalculationId: CALCULATION_ID,
+    amount: null,
+    reason: '客户退款待核实',
+    status: 'draft' as const,
+    executedAt: null,
     createdAt: '2026-03-25T10:00:00.000Z',
     updatedAt: '2026-03-25T10:00:00.000Z'
 };
@@ -82,14 +100,19 @@ describe('CommissionController', () => {
             listCalculations: jest.fn(),
             triggerCalculation: jest.fn(),
             confirmCalculation: jest.fn(),
+            recalculateCalculation: jest.fn(),
             listPayouts: jest.fn(),
             createPayout: jest.fn(),
             approvePayout: jest.fn(),
-            registerPayout: jest.fn()
+            registerPayout: jest.fn(),
+            listAdjustments: jest.fn(),
+            createAdjustment: jest.fn(),
+            executeAdjustment: jest.fn()
         } as unknown as jest.Mocked<CommissionService>;
 
         approvalService = {
-            submitCommissionPayoutApproval: jest.fn()
+            submitCommissionPayoutApproval: jest.fn(),
+            submitCommissionAdjustmentApproval: jest.fn()
         } as unknown as jest.Mocked<ApprovalService>;
 
         controller = new CommissionController(service, approvalService);
@@ -168,6 +191,14 @@ describe('CommissionController', () => {
         expect(result.status).toBe('effective');
     });
 
+    it('delegates recalculateCalculation to service', async () => {
+        service.recalculateCalculation.mockResolvedValue({ ...stubCalculation, id: '52000000-0000-4000-8000-000000000002', version: 2, status: 'calculated' });
+        const body = { reason: '回款冲减', expectedVersion: 1 };
+        const result = await controller.recalculateCalculation(PROJECT_ID, CALCULATION_ID, body as never);
+        expect(service.recalculateCalculation).toHaveBeenCalledWith(PROJECT_ID, CALCULATION_ID, body);
+        expect(result.version).toBe(2);
+    });
+
     it('returns payout list from service', async () => {
         service.listPayouts.mockResolvedValue([stubPayout]);
         const result = await controller.listPayouts(PROJECT_ID);
@@ -215,5 +246,47 @@ describe('CommissionController', () => {
         const result = await controller.registerPayout(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '400.00' } as never);
         expect(service.registerPayout).toHaveBeenCalledWith(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '400.00' });
         expect(result.status).toBe('paid');
+    });
+
+    it('returns adjustment list from service', async () => {
+        service.listAdjustments.mockResolvedValue([stubAdjustment]);
+        const result = await controller.listAdjustments(PROJECT_ID);
+        expect(service.listAdjustments).toHaveBeenCalledWith(PROJECT_ID);
+        expect(result).toHaveLength(1);
+    });
+
+    it('delegates createAdjustment to service', async () => {
+        const body = { adjustmentType: 'suspend-payout', relatedPayoutId: PAYOUT_ID, reason: '客户退款待核实' };
+        service.createAdjustment.mockResolvedValue(stubAdjustment);
+        const result = await controller.createAdjustment(PROJECT_ID, body as never);
+        expect(service.createAdjustment).toHaveBeenCalledWith(PROJECT_ID, body);
+        expect(result).toBe(stubAdjustment);
+    });
+
+    it('delegates submitAdjustmentApproval to approval service and reloads adjustment snapshot', async () => {
+        approvalService.submitCommissionAdjustmentApproval.mockResolvedValue({
+            targetId: ADJUSTMENT_ID,
+            targetType: 'CommissionAdjustment',
+            resultStatus: 'submitted',
+            businessStatusAfter: 'pending-approval',
+            approvalRecordId: '40000000-0000-4000-8000-000000000011',
+            confirmationRecordId: null,
+            todoItemIds: ['50000000-0000-4000-8000-000000000011'],
+            snapshotId: null
+        });
+        service.listAdjustments.mockResolvedValue([{ ...stubAdjustment, status: 'pending-approval' }]);
+
+        const result = await controller.submitAdjustmentApproval(PROJECT_ID, ADJUSTMENT_ID, { user: { sub: 'user-1' } } as never, {} as never);
+
+        expect(approvalService.submitCommissionAdjustmentApproval).toHaveBeenCalledWith(ADJUSTMENT_ID, 'user-1', {});
+        expect(service.listAdjustments).toHaveBeenCalledWith(PROJECT_ID);
+        expect(result.status).toBe('pending-approval');
+    });
+
+    it('delegates executeAdjustment to service', async () => {
+        service.executeAdjustment.mockResolvedValue({ ...stubAdjustment, status: 'executed', executedAt: '2026-03-25T10:20:00.000Z' });
+        const result = await controller.executeAdjustment(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 } as never);
+        expect(service.executeAdjustment).toHaveBeenCalledWith(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 });
+        expect(result.status).toBe('executed');
     });
 });

@@ -1,6 +1,15 @@
-import type { CommissionCalculationSummary, CommissionPayoutSummary, CommissionRoleAssignmentSummary, CommissionRuleVersionSummary, UserPayload } from '@poms/shared-contracts';
+import type {
+    CommissionAdjustmentSummary,
+    CommissionCalculationSummary,
+    CommissionPayoutSummary,
+    CommissionRoleAssignmentSummary,
+    CommissionRuleVersionSummary,
+    UserPayload
+} from '@poms/shared-contracts';
 import {
     ApproveCommissionPayoutRequestDto,
+    CommissionAdjustmentListDto,
+    CommissionAdjustmentSummaryDto,
     CommissionCalculationListDto,
     CommissionCalculationSummaryDto,
     CommissionPayoutListDto,
@@ -9,11 +18,15 @@ import {
     CommissionRuleVersionListDto,
     CommissionRuleVersionSummaryDto,
     ConfirmCommissionCalculationRequestDto,
+    CreateCommissionAdjustmentRequestDto,
     CreateCommissionCalculationRequestDto,
     CreateCommissionPayoutRequestDto,
     CreateCommissionRoleAssignmentRequestDto,
     CreateCommissionRuleVersionRequestDto,
+    ExecuteCommissionAdjustmentRequestDto,
+    RecalculateCommissionRequestDto,
     RegisterCommissionPayoutRequestDto,
+    SubmitCommissionAdjustmentApprovalRequestDto,
     SubmitCommissionPayoutApprovalRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
@@ -134,6 +147,19 @@ export class CommissionController {
         return this.commissionService.confirmCalculation(projectId, id, body);
     }
 
+    @Post('projects/:projectId/calculations/:id/recalculate')
+    @HasPermissions('commission:calculations:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '触发提成重算并生成新版本' })
+    @ApiOkResponse({ type: CommissionCalculationSummaryDto })
+    recalculateCalculation(
+        @Param('projectId') projectId: string,
+        @Param('id') id: string,
+        @Body() body: RecalculateCommissionRequestDto
+    ): Promise<CommissionCalculationSummary> {
+        return this.commissionService.recalculateCalculation(projectId, id, body);
+    }
+
     // ── Payouts ─────────────────────────────────────────────────────────────
 
     @Get('projects/:projectId/payouts')
@@ -200,5 +226,60 @@ export class CommissionController {
         @Body() body: RegisterCommissionPayoutRequestDto
     ): Promise<CommissionPayoutSummary> {
         return this.commissionService.registerPayout(projectId, id, body);
+    }
+
+    // ── Adjustments ────────────────────────────────────────────────────────
+
+    @Get('projects/:projectId/adjustments')
+    @HasPermissions('commission:adjustments:manage')
+    @ApiOperation({ summary: '获取项目提成调整列表' })
+    @ApiOkResponse({ type: CommissionAdjustmentListDto })
+    listAdjustments(@Param('projectId') projectId: string): Promise<CommissionAdjustmentSummary[]> {
+        return this.commissionService.listAdjustments(projectId);
+    }
+
+    @Post('projects/:projectId/adjustments')
+    @HasPermissions('commission:adjustments:manage')
+    @ApiOperation({ summary: '创建项目提成调整草稿' })
+    @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
+    createAdjustment(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateCommissionAdjustmentRequestDto
+    ): Promise<CommissionAdjustmentSummary> {
+        return this.commissionService.createAdjustment(projectId, body);
+    }
+
+    @Post('projects/:projectId/adjustments/:id/submit-approval')
+    @HasPermissions('commission:adjustments:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '提交提成调整审批' })
+    @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
+    submitAdjustmentApproval(
+        @Param('projectId') projectId: string,
+        @Param('id') id: string,
+        @Request() req: { user: UserPayload },
+        @Body() body: SubmitCommissionAdjustmentApprovalRequestDto
+    ): Promise<CommissionAdjustmentSummary> {
+        return this.approvalService.submitCommissionAdjustmentApproval(id, req.user.sub, body).then(async () => {
+            const adjustments = await this.commissionService.listAdjustments(projectId);
+            const adjustment = adjustments.find((item) => item.id === id);
+            if (!adjustment) {
+                throw new NotFoundException(`CommissionAdjustment ${id} not found after approval submission`);
+            }
+            return adjustment;
+        });
+    }
+
+    @Post('projects/:projectId/adjustments/:id/execute')
+    @HasPermissions('commission:adjustments:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '执行已批准的提成调整' })
+    @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
+    executeAdjustment(
+        @Param('projectId') projectId: string,
+        @Param('id') id: string,
+        @Body() body: ExecuteCommissionAdjustmentRequestDto
+    ): Promise<CommissionAdjustmentSummary> {
+        return this.commissionService.executeAdjustment(projectId, id, body);
     }
 }

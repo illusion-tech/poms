@@ -1,6 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
 
-export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'reversed';
+export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'suspended' | 'reversed';
 export type CommissionPayoutStage = 'first' | 'second' | 'final';
 export type CommissionPayoutTier = 'basic' | 'mid' | 'premium';
 

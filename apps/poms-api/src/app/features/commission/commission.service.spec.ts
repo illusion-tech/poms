@@ -1,7 +1,7 @@
 jest.mock('@mikro-orm/core', () => {
     const makeChain = () => {
         const chain: Record<string, unknown> = {};
-        ['primary', 'nullable', 'length', 'defaultRaw', 'unique', 'fieldName', 'version', 'default', 'onCreate', 'onUpdate'].forEach((m) => {
+        ['primary', 'nullable', 'length', 'defaultRaw', 'unique', 'fieldName', 'version', 'default', 'onCreate', 'onUpdate', '$type', 'precision', 'scale'].forEach((m) => {
             chain[m] = () => chain;
         });
         return chain;
@@ -19,6 +19,7 @@ const RULE_VERSION_ID = '50000000-0000-4000-8000-000000000001';
 const ASSIGNMENT_ID = '51000000-0000-4000-8000-000000000001';
 const CALCULATION_ID = '52000000-0000-4000-8000-000000000001';
 const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
+const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 
 const makeDraftRule = (overrides: Record<string, unknown> = {}) => ({
@@ -95,6 +96,22 @@ const makeDraftPayout = (overrides: Record<string, unknown> = {}) => ({
     ...overrides
 });
 
+const makeDraftAdjustment = (overrides: Record<string, unknown> = {}) => ({
+    id: ADJUSTMENT_ID,
+    projectId: PROJECT_ID,
+    adjustmentType: 'suspend-payout',
+    relatedPayoutId: PAYOUT_ID,
+    relatedCalculationId: CALCULATION_ID,
+    amount: null,
+    reason: '客户退款待核实',
+    status: 'draft',
+    executedAt: null,
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    updatedAt: new Date('2026-03-25T10:00:00Z'),
+    ...overrides
+});
+
 describe('CommissionService', () => {
     let service: CommissionService;
     let repo: jest.Mocked<CommissionRepository>;
@@ -127,6 +144,32 @@ describe('CommissionService', () => {
             createPayout: jest.fn(),
             persistAndFlushPayout: jest.fn(),
             flushPayout: jest.fn()
+            ,
+            transactional: jest.fn(async (work) => work({
+                findOne: jest.fn(async (entity, where) => {
+                    if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
+                        return where.id === ADJUSTMENT_ID ? makeDraftAdjustment({ status: 'approved' }) : null;
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                        return where.id === PAYOUT_ID ? makeDraftPayout({ status: 'approved' }) : null;
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionCalculation') {
+                        return where.id === CALCULATION_ID ? makeCalculatedResult({ status: 'effective' }) : null;
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionRuleVersion') {
+                        return makeDraftRule({ status: 'active' });
+                    }
+                    return null;
+                }),
+                create: jest.fn((entity, input) => ({ id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input })),
+                persist: jest.fn(),
+                flush: jest.fn()
+            })),
+            findAdjustmentById: jest.fn(),
+            findAdjustmentsForProject: jest.fn(),
+            createAdjustment: jest.fn(),
+            persistAndFlushAdjustment: jest.fn(),
+            flushAdjustment: jest.fn()
         } as unknown as jest.Mocked<CommissionRepository>;
 
         service = new CommissionService(repo);
@@ -463,6 +506,71 @@ describe('CommissionService', () => {
         it('throws if paid amount exceeds approved amount', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
             await expect(service.registerPayout(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
+        });
+    });
+
+    describe('listAdjustments', () => {
+        it('returns adjustment list from repository', async () => {
+            repo.findAdjustmentsForProject.mockResolvedValue([makeDraftAdjustment() as never]);
+            const result = await service.listAdjustments(PROJECT_ID);
+            expect(result).toHaveLength(1);
+            expect(result[0].adjustmentType).toBe('suspend-payout');
+        });
+    });
+
+    describe('createAdjustment', () => {
+        it('creates payout suspension adjustment draft', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved' }) as never);
+            repo.findCalculationById.mockResolvedValue(makeCalculatedResult({ status: 'effective' }) as never);
+            repo.createAdjustment.mockReturnValue(makeDraftAdjustment() as never);
+            repo.persistAndFlushAdjustment.mockResolvedValue();
+
+            const result = await service.createAdjustment(PROJECT_ID, {
+                adjustmentType: 'suspend-payout',
+                relatedPayoutId: PAYOUT_ID,
+                relatedCalculationId: CALCULATION_ID,
+                reason: '客户退款待核实'
+            });
+
+            expect(repo.createAdjustment).toHaveBeenCalledWith(expect.objectContaining({ adjustmentType: 'suspend-payout', status: 'draft' }));
+            expect(result.status).toBe('draft');
+        });
+
+        it('requires amount for clawback adjustment', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'paid' }) as never);
+
+            await expect(
+                service.createAdjustment(PROJECT_ID, {
+                    adjustmentType: 'clawback',
+                    relatedPayoutId: PAYOUT_ID,
+                    reason: '坏账扣回'
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+    });
+
+    describe('executeAdjustment', () => {
+        it('executes approved suspension adjustment and suspends payout', async () => {
+            const result = await service.executeAdjustment(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 });
+            expect(repo.transactional).toHaveBeenCalled();
+            expect(result.status).toBe('executed');
+        });
+    });
+
+    describe('recalculateCalculation', () => {
+        it('creates recalculated version and adjustment trail', async () => {
+            const result = await service.recalculateCalculation(PROJECT_ID, CALCULATION_ID, {
+                reason: '回款冲减',
+                recognizedRevenueTaxExclusive: '80000.00',
+                recognizedCostTaxExclusive: '70000.00',
+                expectedVersion: 1
+            });
+
+            expect(repo.transactional).toHaveBeenCalled();
+            expect(result.version).toBe(2);
+            expect(result.recalculatedFromId).toBe(CALCULATION_ID);
         });
     });
 });
