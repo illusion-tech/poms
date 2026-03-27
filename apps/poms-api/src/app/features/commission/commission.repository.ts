@@ -1,6 +1,9 @@
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { Contract } from '../contract/contract.entity';
+import { PaymentRecord } from '../contract-finance/payment-record.entity';
+import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -13,6 +16,12 @@ export class CommissionRepository {
     constructor(
         @InjectRepository(Project)
         private readonly projectRepository: EntityRepository<Project>,
+        @InjectRepository(Contract)
+        private readonly contractRepository: EntityRepository<Contract>,
+        @InjectRepository(ReceiptRecord)
+        private readonly receiptRepository: EntityRepository<ReceiptRecord>,
+        @InjectRepository(PaymentRecord)
+        private readonly paymentRepository: EntityRepository<PaymentRecord>,
         @InjectRepository(CommissionRuleVersion)
         private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
         @InjectRepository(CommissionRoleAssignment)
@@ -31,6 +40,18 @@ export class CommissionRepository {
 
     async findProjectById(id: string): Promise<Project | null> {
         return this.projectRepository.findOne({ id });
+    }
+
+    async findActiveContractsForProject(projectId: string): Promise<Contract[]> {
+        return this.contractRepository.find({ projectId, status: 'active' });
+    }
+
+    async findConfirmedReceiptsForProject(projectId: string): Promise<ReceiptRecord[]> {
+        return this.receiptRepository.find({ projectId, status: 'confirmed' });
+    }
+
+    async findConfirmedPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
+        return this.paymentRepository.find({ projectId, status: 'confirmed' });
     }
 
     // ── Rule Versions ────────────────────────────────────────────────────────

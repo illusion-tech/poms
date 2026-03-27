@@ -33,6 +33,8 @@ const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTie
     final: { basic: 1, mid: 1, premium: 1 }
 };
 
+const ROLE_FREEZE_ALLOWED_STAGES = new Set(['handover', 'execution', 'acceptance', 'completed']);
+
 @Injectable()
 export class CommissionService {
     constructor(private readonly repo: CommissionRepository) {}
@@ -145,6 +147,8 @@ export class CommissionService {
             throw new UnprocessableEntityException('角色分配必须至少包含一名参与者才能冻结');
         }
 
+        await this.#assertProjectReadyForRoleFreeze(projectId);
+
         entity.status = 'frozen';
         entity.frozenAt = new Date();
         await this.repo.flushRoleAssignment();
@@ -160,6 +164,9 @@ export class CommissionService {
 
     async triggerCalculation(projectId: string, dto: CreateCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
         await this.#assertProjectExists(projectId);
+        const revenue = this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive');
+        const cost = this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive');
+        await this.#assertEffectiveContractFacts(projectId, revenue, cost);
 
         const activeRule = await this.#findLatestActiveRuleVersion();
         if (!activeRule) {
@@ -171,8 +178,6 @@ export class CommissionService {
             throw new UnprocessableEntityException('当前项目不存在已冻结的提成角色分配，无法触发提成计算');
         }
 
-        const revenue = this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive');
-        const cost = this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive');
         const contributionMargin = revenue - cost;
         const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
         const commissionRate = this.#resolveCommissionRate(activeRule, contributionMarginRate);
@@ -557,6 +562,46 @@ export class CommissionService {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`项目 ${projectId} 不存在`);
+        }
+    }
+
+    async #assertProjectReadyForRoleFreeze(projectId: string): Promise<void> {
+        const project = await this.repo.findProjectById(projectId);
+        if (!project) {
+            throw new NotFoundException(`项目 ${projectId} 不存在`);
+        }
+
+        if (!ROLE_FREEZE_ALLOWED_STAGES.has(project.currentStage)) {
+            throw new UnprocessableEntityException(`项目当前阶段 ${project.currentStage} 尚未完成移交，不能冻结提成角色分配`);
+        }
+    }
+
+    async #assertEffectiveContractFacts(projectId: string, revenue: number, cost: number): Promise<void> {
+        const activeContracts = await this.repo.findActiveContractsForProject(projectId);
+        if (activeContracts.length === 0) {
+            throw new UnprocessableEntityException('当前项目不存在已生效合同台账，无法触发提成计算');
+        }
+
+        const confirmedReceipts = await this.repo.findConfirmedReceiptsForProject(projectId);
+        const confirmedReceiptAmount = confirmedReceipts.reduce(
+            (sum, item) => sum + this.#toNumber(item.receiptAmount),
+            0
+        );
+        if (revenue > 0 && confirmedReceiptAmount < revenue) {
+            throw new UnprocessableEntityException(
+                `当前项目已确认回款不足以支撑本次提成收入口径，已确认回款 ${this.#formatAmount(confirmedReceiptAmount)}，请求收入 ${this.#formatAmount(revenue)}`
+            );
+        }
+
+        const confirmedPayments = await this.repo.findConfirmedPaymentsForProject(projectId);
+        const confirmedPaymentAmount = confirmedPayments.reduce(
+            (sum, item) => sum + this.#toNumber(item.paymentAmount),
+            0
+        );
+        if (cost > 0 && confirmedPaymentAmount < cost) {
+            throw new UnprocessableEntityException(
+                `当前项目已确认成本不足以支撑本次提成成本口径，已确认成本 ${this.#formatAmount(confirmedPaymentAmount)}，请求成本 ${this.#formatAmount(cost)}`
+            );
         }
     }
 

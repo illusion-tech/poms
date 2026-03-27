@@ -54,8 +54,25 @@ const makeDraftAssignment = (overrides: Record<string, unknown> = {}) => ({
     ...overrides
 });
 
-const makeProject = () => ({
-    id: PROJECT_ID
+const makeProject = (overrides: Record<string, unknown> = {}) => ({
+    id: PROJECT_ID,
+    currentStage: 'execution',
+    ...overrides
+});
+
+const makeActiveContract = (overrides: Record<string, unknown> = {}) => ({
+    id: '30000000-0000-4000-8000-000000000001',
+    projectId: PROJECT_ID,
+    contractNo: 'HT-2026-001',
+    status: 'active',
+    signedAmount: '100000.00',
+    currencyCode: 'CNY',
+    currentSnapshotId: '31000000-0000-4000-8000-000000000001',
+    signedAt: new Date('2026-03-25T10:00:00Z'),
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    updatedAt: new Date('2026-03-25T10:00:00Z'),
+    ...overrides
 });
 
 const makeCalculatedResult = (overrides: Record<string, unknown> = {}) => ({
@@ -119,6 +136,9 @@ describe('CommissionService', () => {
     beforeEach(() => {
         repo = {
             findProjectById: jest.fn(),
+            findActiveContractsForProject: jest.fn(),
+            findConfirmedReceiptsForProject: jest.fn(),
+            findConfirmedPaymentsForProject: jest.fn(),
             findAllRuleVersions: jest.fn(),
             findRuleVersionById: jest.fn(),
             findRuleVersionByCodeAndVersion: jest.fn(),
@@ -323,6 +343,7 @@ describe('CommissionService', () => {
         it('freezes a draft assignment', async () => {
             const assignment = makeDraftAssignment();
             repo.findRoleAssignmentById.mockResolvedValue(assignment as never);
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
             repo.flushRoleAssignment.mockResolvedValue();
 
             const result = await service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID);
@@ -350,6 +371,13 @@ describe('CommissionService', () => {
             repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ participantsJson: [] }) as never);
             await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
         });
+
+        it('throws UnprocessableEntityException if project has not reached handover stage', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
+            repo.findProjectById.mockResolvedValue(makeProject({ currentStage: 'negotiation' }) as never);
+
+            await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
+        });
     });
 
     // ── Calculations ────────────────────────────────────────────────────────
@@ -366,6 +394,9 @@ describe('CommissionService', () => {
     describe('triggerCalculation', () => {
         it('creates a new calculated commission result', async () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
+            repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
             repo.findAllRuleVersions.mockResolvedValue([makeDraftRule({ status: 'active' }) as never]);
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
             repo.findCurrentCalculation.mockResolvedValue(null);
@@ -385,8 +416,51 @@ describe('CommissionService', () => {
 
         it('throws if active rule version is missing', async () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
+            repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
             repo.findAllRuleVersions.mockResolvedValue([]);
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
+
+            await expect(
+                service.triggerCalculation(PROJECT_ID, {
+                    recognizedRevenueTaxExclusive: '100000.00',
+                    recognizedCostTaxExclusive: '70000.00'
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('throws if project has no active contract facts', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([]);
+
+            await expect(
+                service.triggerCalculation(PROJECT_ID, {
+                    recognizedRevenueTaxExclusive: '100000.00',
+                    recognizedCostTaxExclusive: '70000.00'
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('throws if confirmed receipts are less than requested revenue', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
+            repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '50000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
+
+            await expect(
+                service.triggerCalculation(PROJECT_ID, {
+                    recognizedRevenueTaxExclusive: '100000.00',
+                    recognizedCostTaxExclusive: '70000.00'
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('throws if confirmed payments are less than requested cost', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
+            repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '30000.00' }] as never);
 
             await expect(
                 service.triggerCalculation(PROJECT_ID, {

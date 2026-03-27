@@ -16,6 +16,7 @@ export class DatabaseSeeder extends Seeder {
             where "role_id" in (
                 select "id" from "${schema}"."role"
                 where "role_key" in ('platform-admin', 'project-viewer')
+                    or "role_key" like 'e2e-%'
             );
         `);
 
@@ -24,6 +25,10 @@ export class DatabaseSeeder extends Seeder {
             where "user_id" in (
                 select "id" from "${schema}"."platform_user"
                 where "username" in (${seededPlatformUsernames})
+            )
+            or "role_id" in (
+                select "id" from "${schema}"."role"
+                where "role_key" like 'e2e-%'
             );
         `);
 
@@ -42,7 +47,8 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             delete from "${schema}"."role"
-            where "role_key" in ('platform-admin', 'project-viewer');
+            where "role_key" in ('platform-admin', 'project-viewer')
+                or "role_key" like 'e2e-%';
         `);
 
         await connection.execute(`
@@ -118,6 +124,22 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         // 级联清理所有引用种子项目的数据（不仅限于种子合同，避免测试期间 API 创建的数据阻塞删除）
+        await connection.execute(`
+            delete from "${schema}"."payment_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."receipt_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
         await connection.execute(`
             delete from "${schema}"."todo_item"
             where "target_object_id" in (
@@ -237,19 +259,20 @@ export class DatabaseSeeder extends Seeder {
             ('60000000-0000-4000-8000-000000000007', '30000000-0000-4000-8000-000000000001', 'commission:calculations:manage'),
             ('60000000-0000-4000-8000-000000000008', '30000000-0000-4000-8000-000000000001', 'commission:payouts:manage'),
             ('60000000-0000-4000-8000-000000000009', '30000000-0000-4000-8000-000000000001', 'commission:adjustments:manage'),
-            ('60000000-0000-4000-8000-000000000010', '30000000-0000-4000-8000-000000000001', 'project:read'),
-            ('60000000-0000-4000-8000-000000000011', '30000000-0000-4000-8000-000000000001', 'project:write'),
-            ('60000000-0000-4000-8000-000000000012', '30000000-0000-4000-8000-000000000001', 'project:delete'),
-            ('60000000-0000-4000-8000-000000000013', '30000000-0000-4000-8000-000000000001', 'nav:dashboard:view'),
-            ('60000000-0000-4000-8000-000000000014', '30000000-0000-4000-8000-000000000001', 'nav:platform:view'),
-            ('60000000-0000-4000-8000-000000000015', '30000000-0000-4000-8000-000000000001', 'nav:projects:view'),
-            ('60000000-0000-4000-8000-000000000016', '30000000-0000-4000-8000-000000000001', 'nav:contracts:view'),
-            ('60000000-0000-4000-8000-000000000017', '30000000-0000-4000-8000-000000000001', 'nav:profile:view'),
-            ('60000000-0000-4000-8000-000000000018', '30000000-0000-4000-8000-000000000002', 'project:read'),
-            ('60000000-0000-4000-8000-000000000019', '30000000-0000-4000-8000-000000000002', 'nav:dashboard:view'),
-            ('60000000-0000-4000-8000-000000000020', '30000000-0000-4000-8000-000000000002', 'nav:projects:view'),
-            ('60000000-0000-4000-8000-000000000021', '30000000-0000-4000-8000-000000000002', 'nav:contracts:view'),
-            ('60000000-0000-4000-8000-000000000022', '30000000-0000-4000-8000-000000000002', 'nav:profile:view');
+            ('60000000-0000-4000-8000-000000000010', '30000000-0000-4000-8000-000000000001', 'contract:finance:manage'),
+            ('60000000-0000-4000-8000-000000000011', '30000000-0000-4000-8000-000000000001', 'project:read'),
+            ('60000000-0000-4000-8000-000000000012', '30000000-0000-4000-8000-000000000001', 'project:write'),
+            ('60000000-0000-4000-8000-000000000013', '30000000-0000-4000-8000-000000000001', 'project:delete'),
+            ('60000000-0000-4000-8000-000000000014', '30000000-0000-4000-8000-000000000001', 'nav:dashboard:view'),
+            ('60000000-0000-4000-8000-000000000015', '30000000-0000-4000-8000-000000000001', 'nav:platform:view'),
+            ('60000000-0000-4000-8000-000000000016', '30000000-0000-4000-8000-000000000001', 'nav:projects:view'),
+            ('60000000-0000-4000-8000-000000000017', '30000000-0000-4000-8000-000000000001', 'nav:contracts:view'),
+            ('60000000-0000-4000-8000-000000000018', '30000000-0000-4000-8000-000000000001', 'nav:profile:view'),
+            ('60000000-0000-4000-8000-000000000019', '30000000-0000-4000-8000-000000000002', 'project:read'),
+            ('60000000-0000-4000-8000-000000000020', '30000000-0000-4000-8000-000000000002', 'nav:dashboard:view'),
+            ('60000000-0000-4000-8000-000000000021', '30000000-0000-4000-8000-000000000002', 'nav:projects:view'),
+            ('60000000-0000-4000-8000-000000000022', '30000000-0000-4000-8000-000000000002', 'nav:contracts:view'),
+            ('60000000-0000-4000-8000-000000000023', '30000000-0000-4000-8000-000000000002', 'nav:profile:view');
         `);
 
         for (const contract of DEV_CONTRACT_SEEDS) {
