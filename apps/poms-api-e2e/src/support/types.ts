@@ -1,5 +1,6 @@
 export type {
     AssignRolePermissionsRequest,
+    AssignUserOrgMembershipsRequest,
     AssignUserRolesRequest,
     ApprovalRecordSummary,
     ApproveRecordRequest,
@@ -21,6 +22,7 @@ export type {
     ContractSummary,
     CreateRoleRequest,
     PermissionKey,
+    PlatformOrgUnitSummary,
     PlatformRoleSummary,
     PlatformUserList,
     PlatformUserSummary,
@@ -32,5 +34,8 @@ export type {
     SubmitCommissionAdjustmentApprovalRequest,
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
-    TodoItemSummary
+    TodoItemSummary,
+    UpdatePlatformUserActivationRequest,
+    NavigationItem,
+    CreateOrgUnitRequest
 } from '@poms/shared-contracts';

@@ -2,12 +2,17 @@ import type { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import type {
     AssignRolePermissionsRequest,
+    AssignUserOrgMembershipsRequest,
     AssignUserRolesRequest,
+    CreateOrgUnitRequest,
     CreateRoleRequest,
+    NavigationItem,
+    PlatformOrgUnitSummary,
     PlatformRoleSummary,
     PlatformUserList,
     PlatformUserSummary,
-    SanitizedUserWithOrgUnits
+    SanitizedUserWithOrgUnits,
+    UpdatePlatformUserActivationRequest
 } from './types';
 
 export async function listPlatformUsers(client: AxiosInstance): Promise<PlatformUserList> {
@@ -49,6 +54,60 @@ export async function assignUserRoles(
         `/platform/users/${userId}/roles`,
         input
     );
+    return expectStatus(response, 200);
+}
+
+export async function assignUserOrgMemberships(
+    client: AxiosInstance,
+    userId: string,
+    input: AssignUserOrgMembershipsRequest
+): Promise<SanitizedUserWithOrgUnits> {
+    const response = await client.post<SanitizedUserWithOrgUnits>(
+        `/platform/users/${userId}/org-memberships`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function deactivatePlatformUser(
+    client: AxiosInstance,
+    userId: string,
+    input: UpdatePlatformUserActivationRequest = {}
+): Promise<PlatformUserSummary> {
+    const response = await client.post<PlatformUserSummary>(
+        `/platform/users/${userId}/deactivate`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function activatePlatformUser(
+    client: AxiosInstance,
+    userId: string,
+    input: UpdatePlatformUserActivationRequest = {}
+): Promise<PlatformUserSummary> {
+    const response = await client.post<PlatformUserSummary>(
+        `/platform/users/${userId}/activate`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function listPlatformOrgUnits(client: AxiosInstance): Promise<PlatformOrgUnitSummary[]> {
+    const response = await client.get<PlatformOrgUnitSummary[]>('/platform/org-units');
+    return expectStatus(response, 200);
+}
+
+export async function createOrgUnit(
+    client: AxiosInstance,
+    input: CreateOrgUnitRequest
+): Promise<PlatformOrgUnitSummary> {
+    const response = await client.post<PlatformOrgUnitSummary>('/platform/org-units', input);
+    return expectStatus(response, 201);
+}
+
+export async function getMyNavigation(client: AxiosInstance): Promise<NavigationItem[]> {
+    const response = await client.get<NavigationItem[]>('/me/navigation');
     return expectStatus(response, 200);
 }
 
