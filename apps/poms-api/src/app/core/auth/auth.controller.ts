@@ -3,6 +3,8 @@ import { LoginRequestDto, LoginResponseDto, SanitizedUserWithOrgUnitsDto } from 
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { RuntimeAuditService } from '../runtime-audit/runtime-audit.service';
+import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../runtime-audit/runtime-audit-request.utils';
 import { findDevUserByCredentials, findDevUserById } from '../platform/dev-platform.fixtures';
 import { Authenticated } from './decorators/authenticated.decorator';
 import { Public } from './decorators/public.decorator';
@@ -13,7 +15,8 @@ import { PlatformService } from '../../features/platform/platform.service';
 export class AuthController {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly platformService: PlatformService
+        private readonly platformService: PlatformService,
+        private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     @Post('login')
@@ -21,7 +24,7 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '登录并获取 JWT' })
     @ApiOkResponse({ type: LoginResponseDto })
-    async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
+    async login(@Body() dto: LoginRequestDto, @Request() req: RuntimeAuditRequestLike): Promise<LoginResponseDto> {
         const platformUser = await this.platformService.verifyCredentials(dto.username, dto.password);
         if (platformUser) {
             const payload: UserPayload = {
@@ -34,6 +37,7 @@ export class AuthController {
 
         const isKnownPlatformUsername = await this.platformService.isKnownPlatformUsername(dto.username);
         if (isKnownPlatformUsername) {
+            await this.#recordLoginFailure(dto.username, req, 'invalid_credentials');
             throw new UnauthorizedException('用户名或密码错误');
         }
 
@@ -48,6 +52,7 @@ export class AuthController {
             return { accessToken: this.jwtService.sign(payload) };
         }
 
+        await this.#recordLoginFailure(dto.username, req, 'invalid_credentials');
         throw new UnauthorizedException('用户名或密码错误');
     }
 
@@ -78,5 +83,22 @@ export class AuthController {
         const platformProfile = await this.platformService.getSanitizedUserProfile(sub, { username, permissions });
 
         return platformProfile ?? fallbackProfile;
+    }
+
+    async #recordLoginFailure(username: string, request: RuntimeAuditRequestLike, reason: string): Promise<void> {
+        await this.runtimeAuditService.recordSecurityEvent({
+            eventType: 'auth.login.failed',
+            severity: 'warning',
+            principal: username,
+            requestId: getRequestId(request),
+            path: getRequestPath(request),
+            method: getRequestMethod(request),
+            result: 'failed',
+            ip: getRequestIp(request),
+            userAgent: getRequestUserAgent(request),
+            details: {
+                reason
+            }
+        });
     }
 }

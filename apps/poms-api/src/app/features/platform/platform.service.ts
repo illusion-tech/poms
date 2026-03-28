@@ -1,13 +1,17 @@
 import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, PermissionKey, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { OrgUnit } from './org-unit.entity';
 import { PlatformRepository } from './platform.repository';
 import { PlatformRole } from './role.entity';
 
 @Injectable()
 export class PlatformService {
-    constructor(private readonly platformRepository: PlatformRepository) {}
+    constructor(
+        private readonly platformRepository: PlatformRepository,
+        private readonly runtimeAuditService: RuntimeAuditService
+    ) {}
 
     async verifyCredentials(username: string, password: string): Promise<{ userId: string; username: string; permissions: PermissionKey[] } | null> {
         const user = await this.platformRepository.findActiveUserByUsername(username);
@@ -118,7 +122,7 @@ export class PlatformService {
         return roles.map((role) => this.#toRoleSummary(role));
     }
 
-    async createRole(request: CreateRoleRequest): Promise<PlatformRoleSummary> {
+    async createRole(request: CreateRoleRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
         const existing = await this.platformRepository.findRoleByKey(request.roleKey);
         if (existing) throw new ConflictException(`Role key ${request.roleKey} already exists`);
 
@@ -133,12 +137,29 @@ export class PlatformService {
             updatedBy: null
         });
         await this.platformRepository.saveAll([role]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.role.created',
+            targetType: 'PlatformRole',
+            targetId: role.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            afterSnapshot: {
+                roleKey: role.roleKey,
+                name: role.name,
+                isActive: role.isActive,
+                isSystemRole: role.isSystemRole,
+                displayOrder: role.displayOrder
+            }
+        });
         return this.#toRoleSummary(role);
     }
 
-    async assignRolePermissions(roleId: string, request: AssignRolePermissionsRequest): Promise<PlatformRoleSummary> {
+    async assignRolePermissions(roleId: string, request: AssignRolePermissionsRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
         const role = await this.platformRepository.findRoleById(roleId);
         if (!role) throw new NotFoundException(`Role ${roleId} not found`);
+        const previousPermissionKeys = (await this.platformRepository.findActiveRolePermissionAssignments())
+            .filter((assignment) => assignment.roleId === roleId)
+            .map((assignment) => assignment.permissionKey);
 
         await this.platformRepository.deleteRolePermissionAssignments(roleId);
         const assignments = request.permissionKeys.map((permissionKey) =>
@@ -154,6 +175,19 @@ export class PlatformService {
             })
         );
         await this.platformRepository.saveAll(assignments);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.role.permissions.replaced',
+            targetType: 'PlatformRole',
+            targetId: roleId,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: {
+                permissionKeys: previousPermissionKeys
+            },
+            afterSnapshot: {
+                permissionKeys: request.permissionKeys
+            }
+        });
         return this.#toRoleSummary(role);
     }
 
@@ -162,7 +196,7 @@ export class PlatformService {
         return orgUnits.map((orgUnit) => this.#toOrgUnitSummary(orgUnit));
     }
 
-    async createOrgUnit(request: CreateOrgUnitRequest): Promise<PlatformOrgUnitSummary> {
+    async createOrgUnit(request: CreateOrgUnitRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
         const existing = await this.platformRepository.findOrgUnitByCode(request.code);
         if (existing) throw new ConflictException(`OrgUnit code ${request.code} already exists`);
 
@@ -177,22 +211,54 @@ export class PlatformService {
             updatedBy: null
         });
         await this.platformRepository.saveAll([orgUnit]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.org-unit.created',
+            targetType: 'OrgUnit',
+            targetId: orgUnit.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            afterSnapshot: {
+                code: orgUnit.code,
+                name: orgUnit.name,
+                parentId: orgUnit.parentId,
+                displayOrder: orgUnit.displayOrder,
+                isActive: orgUnit.isActive
+            }
+        });
         return this.#toOrgUnitSummary(orgUnit);
     }
 
-    async updateOrgUnit(id: string, request: UpdateOrgUnitRequest): Promise<PlatformOrgUnitSummary> {
+    async updateOrgUnit(id: string, request: UpdateOrgUnitRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
         const orgUnit = await this.platformRepository.findOrgUnitById(id);
         if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
+        const beforeSnapshot = {
+            name: orgUnit.name,
+            description: orgUnit.description,
+            displayOrder: orgUnit.displayOrder
+        };
 
         if (request.name !== undefined) orgUnit.name = request.name;
         if (request.description !== undefined) orgUnit.description = request.description ?? null;
         if (request.displayOrder !== undefined) orgUnit.displayOrder = request.displayOrder;
 
         await this.platformRepository.saveAll([orgUnit]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.org-unit.updated',
+            targetType: 'OrgUnit',
+            targetId: orgUnit.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: {
+                name: orgUnit.name,
+                description: orgUnit.description,
+                displayOrder: orgUnit.displayOrder
+            }
+        });
         return this.#toOrgUnitSummary(orgUnit);
     }
 
-    async createUser(request: CreatePlatformUserRequest) {
+    async createUser(request: CreatePlatformUserRequest, operatorId?: string | null) {
         const existingUser = await this.platformRepository.findUserByUsername(request.username);
         if (existingUser) {
             throw new ConflictException(`Platform user ${request.username} already exists`);
@@ -233,31 +299,67 @@ export class PlatformService {
         );
 
         await this.platformRepository.saveAll([user, ...memberships, ...roleAssignments]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.created',
+            targetType: 'PlatformUser',
+            targetId: user.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            afterSnapshot: {
+                username: user.username,
+                displayName: user.displayName,
+                primaryOrgUnitId: user.primaryOrgUnitId,
+                initialRoleIds: request.initialRoleIds
+            }
+        });
 
         return user;
     }
 
-    async activateUser(userId: string, request: UpdatePlatformUserActivationRequest) {
+    async activateUser(userId: string, request: UpdatePlatformUserActivationRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
         void request;
+        const beforeIsActive = user.isActive;
         user.isActive = true;
         await this.platformRepository.saveAll([user]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.activated',
+            targetType: 'PlatformUser',
+            targetId: user.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: { isActive: beforeIsActive },
+            afterSnapshot: { isActive: user.isActive }
+        });
         return user;
     }
 
-    async deactivateUser(userId: string, request: UpdatePlatformUserActivationRequest) {
+    async deactivateUser(userId: string, request: UpdatePlatformUserActivationRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
         void request;
+        const beforeIsActive = user.isActive;
         user.isActive = false;
         await this.platformRepository.saveAll([user]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.deactivated',
+            targetType: 'PlatformUser',
+            targetId: user.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: { isActive: beforeIsActive },
+            afterSnapshot: { isActive: user.isActive }
+        });
         return user;
     }
 
-    async assignUserRoles(userId: string, request: AssignUserRolesRequest) {
+    async assignUserRoles(userId: string, request: AssignUserRolesRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+        const previousRoleIds = (await this.platformRepository.findActiveUserRoleAssignments())
+            .filter((assignment) => assignment.userId === userId)
+            .map((assignment) => assignment.roleId);
 
         await this.platformRepository.deleteUserRoleAssignments(userId);
         const assignments = request.roleIds.map((roleId) =>
@@ -269,12 +371,31 @@ export class PlatformService {
             })
         );
         await this.platformRepository.saveAll(assignments);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.roles.replaced',
+            targetType: 'PlatformUser',
+            targetId: userId,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: {
+                roleIds: previousRoleIds
+            },
+            afterSnapshot: {
+                roleIds: request.roleIds
+            }
+        });
         return this.getSanitizedUserProfile(userId, { username: user.username, permissions: [] });
     }
 
-    async assignUserOrgMemberships(userId: string, request: AssignUserOrgMembershipsRequest) {
+    async assignUserOrgMemberships(userId: string, request: AssignUserOrgMembershipsRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+        const previousMemberships = (await this.platformRepository.findActiveUserOrgMemberships())
+            .filter((membership) => membership.userId === userId)
+            .map((membership) => ({
+                orgUnitId: membership.orgUnitId,
+                membershipType: membership.membershipType
+            }));
 
         await this.platformRepository.deleteUserOrgMemberships(userId);
         user.primaryOrgUnitId = request.primaryOrgUnitId;
@@ -299,6 +420,20 @@ export class PlatformService {
         ];
 
         await this.platformRepository.saveAll([user, ...memberships]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.org-memberships.replaced',
+            targetType: 'PlatformUser',
+            targetId: userId,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: {
+                memberships: previousMemberships
+            },
+            afterSnapshot: {
+                primaryOrgUnitId: request.primaryOrgUnitId,
+                secondaryOrgUnitIds: request.secondaryOrgUnitIds
+            }
+        });
         return this.getSanitizedUserProfile(userId, { username: user.username, permissions: [] });
     }
 

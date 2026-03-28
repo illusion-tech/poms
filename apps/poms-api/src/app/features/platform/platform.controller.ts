@@ -1,4 +1,5 @@
 import type { NavigationItem, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList } from '@poms/shared-contracts';
+import type { UserPayload } from '@poms/shared-contracts';
 import {
     AssignRolePermissionsRequestDto,
     AssignUserOrgMembershipsRequestDto,
@@ -16,7 +17,7 @@ import {
     UpdateOrgUnitRequestDto,
     UpdatePlatformUserActivationRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { NavigationService } from '../navigation/navigation.service';
@@ -43,8 +44,8 @@ export class PlatformController {
     @HasPermissions('platform:users:manage')
     @ApiOperation({ summary: '创建平台用户' })
     @ApiOkResponse({ schema: { type: 'object' } })
-    createUser(@Body() body: CreatePlatformUserRequestDto) {
-        return this.platformService.createUser(body);
+    createUser(@Body() body: CreatePlatformUserRequestDto, @Request() req: { user: UserPayload }) {
+        return this.platformService.createUser(body, req.user.sub);
     }
 
     @Post('users/:id/activate')
@@ -52,8 +53,8 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用平台用户' })
     @ApiOkResponse({ schema: { type: 'object' } })
-    activateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto) {
-        return this.platformService.activateUser(id, body);
+    activateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto, @Request() req: { user: UserPayload }) {
+        return this.platformService.activateUser(id, body, req.user.sub);
     }
 
     @Post('users/:id/deactivate')
@@ -61,8 +62,8 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用平台用户' })
     @ApiOkResponse({ schema: { type: 'object' } })
-    deactivateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto) {
-        return this.platformService.deactivateUser(id, body);
+    deactivateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserActivationRequestDto, @Request() req: { user: UserPayload }) {
+        return this.platformService.deactivateUser(id, body, req.user.sub);
     }
 
     @Post('users/:id/roles')
@@ -70,8 +71,8 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户角色' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
-    assignUserRoles(@Param('id') id: string, @Body() body: AssignUserRolesRequestDto) {
-        return this.platformService.assignUserRoles(id, body);
+    assignUserRoles(@Param('id') id: string, @Body() body: AssignUserRolesRequestDto, @Request() req: { user: UserPayload }) {
+        return this.platformService.assignUserRoles(id, body, req.user.sub);
     }
 
     @Post('users/:id/org-memberships')
@@ -79,8 +80,8 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户组织关系' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
-    assignUserOrgMemberships(@Param('id') id: string, @Body() body: AssignUserOrgMembershipsRequestDto) {
-        return this.platformService.assignUserOrgMemberships(id, body);
+    assignUserOrgMemberships(@Param('id') id: string, @Body() body: AssignUserOrgMembershipsRequestDto, @Request() req: { user: UserPayload }) {
+        return this.platformService.assignUserOrgMemberships(id, body, req.user.sub);
     }
 
     @Get('roles')
@@ -95,8 +96,8 @@ export class PlatformController {
     @HasPermissions('platform:roles:manage')
     @ApiOperation({ summary: '创建平台角色' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
-    createRole(@Body() body: CreateRoleRequestDto): Promise<PlatformRoleSummary> {
-        return this.platformService.createRole(body);
+    createRole(@Body() body: CreateRoleRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
+        return this.platformService.createRole(body, req.user.sub);
     }
 
     @Post('roles/:id/permissions')
@@ -104,8 +105,8 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配角色权限（全量替换）' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
-    assignRolePermissions(@Param('id') id: string, @Body() body: AssignRolePermissionsRequestDto): Promise<PlatformRoleSummary> {
-        return this.platformService.assignRolePermissions(id, body);
+    assignRolePermissions(@Param('id') id: string, @Body() body: AssignRolePermissionsRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
+        return this.platformService.assignRolePermissions(id, body, req.user.sub);
     }
 
     @Get('org-units')
@@ -120,16 +121,16 @@ export class PlatformController {
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '创建组织单元' })
     @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
-    createOrgUnit(@Body() body: CreateOrgUnitRequestDto): Promise<PlatformOrgUnitSummary> {
-        return this.platformService.createOrgUnit(body);
+    createOrgUnit(@Body() body: CreateOrgUnitRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
+        return this.platformService.createOrgUnit(body, req.user.sub);
     }
 
     @Patch('org-units/:id')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '更新组织单元基本信息' })
     @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
-    updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto): Promise<PlatformOrgUnitSummary> {
-        return this.platformService.updateOrgUnit(id, body);
+    updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
+        return this.platformService.updateOrgUnit(id, body, req.user.sub);
     }
 
     @Get('navigation')

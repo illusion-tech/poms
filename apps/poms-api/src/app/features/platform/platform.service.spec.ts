@@ -42,6 +42,9 @@ describe('PlatformService', () => {
         findOrgUnitByCode: jest.Mock;
         createOrgUnit: jest.Mock;
     };
+    let runtimeAuditService: {
+        recordAuditLog: jest.Mock;
+    };
 
     beforeEach(() => {
         repository = {
@@ -69,8 +72,11 @@ describe('PlatformService', () => {
             findOrgUnitByCode: jest.fn(),
             createOrgUnit: jest.fn()
         };
+        runtimeAuditService = {
+            recordAuditLog: jest.fn().mockResolvedValue(undefined)
+        };
 
-        service = new PlatformService(repository as never);
+        service = new PlatformService(repository as never, runtimeAuditService as never);
     });
 
     it('aggregates platform users with real role names and primary org names', async () => {
@@ -181,6 +187,13 @@ describe('PlatformService', () => {
                 expect.objectContaining({ roleId: '30000000-0000-4000-8000-000000000001' })
             );
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.created',
+                    targetType: 'PlatformUser',
+                    targetId: createdUser.id
+                })
+            );
             expect(result).toBe(createdUser);
         });
 
@@ -209,6 +222,14 @@ describe('PlatformService', () => {
 
             expect(result.isActive).toBe(true);
             expect(repository.saveAll).toHaveBeenCalledWith([user]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.activated',
+                    targetId: user.id,
+                    beforeSnapshot: { isActive: false },
+                    afterSnapshot: { isActive: true }
+                })
+            );
         });
 
         it('throws NotFoundException when user does not exist', async () => {
@@ -229,6 +250,14 @@ describe('PlatformService', () => {
 
             expect(result.isActive).toBe(false);
             expect(repository.saveAll).toHaveBeenCalledWith([user]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.deactivated',
+                    targetId: user.id,
+                    beforeSnapshot: { isActive: true },
+                    afterSnapshot: { isActive: false }
+                })
+            );
         });
 
         it('throws NotFoundException when user does not exist', async () => {
@@ -260,6 +289,12 @@ describe('PlatformService', () => {
                 expect.objectContaining({ userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' })
             );
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.roles.replaced',
+                    targetId: '00000000-0000-4000-8000-000000000001'
+                })
+            );
         });
 
         it('throws NotFoundException when user does not exist', async () => {
@@ -296,6 +331,12 @@ describe('PlatformService', () => {
                 expect.objectContaining({ orgUnitId: '10000000-0000-4000-8000-000000000002', membershipType: 'secondary' })
             );
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.org-memberships.replaced',
+                    targetId: '00000000-0000-4000-8000-000000000001'
+                })
+            );
         });
 
         it('throws NotFoundException when user does not exist', async () => {
@@ -430,6 +471,12 @@ describe('PlatformService', () => {
 
             expect(repository.findRoleByKey).toHaveBeenCalledWith('sales-manager');
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.created',
+                    targetId: created.id
+                })
+            );
             expect(result).toEqual(
                 expect.objectContaining({
                     id: created.id,
@@ -454,6 +501,7 @@ describe('PlatformService', () => {
         it('replaces role permission assignments', async () => {
             const role = createRole({ id: '30000000-0000-4000-8000-000000000001' });
             repository.findRoleById.mockResolvedValue(role);
+            repository.findActiveRolePermissionAssignments.mockResolvedValue([]);
             repository.createRolePermissionAssignment.mockReturnValue({});
 
             await service.assignRolePermissions('30000000-0000-4000-8000-000000000001', {
@@ -463,6 +511,12 @@ describe('PlatformService', () => {
             expect(repository.deleteRolePermissionAssignments).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001');
             expect(repository.createRolePermissionAssignment).toHaveBeenCalledTimes(2);
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.permissions.replaced',
+                    targetId: '30000000-0000-4000-8000-000000000001'
+                })
+            );
         });
 
         it('throws NotFoundException when role does not exist', async () => {
@@ -484,6 +538,12 @@ describe('PlatformService', () => {
 
             expect(repository.findOrgUnitByCode).toHaveBeenCalledWith('SALES-NORTH');
             expect(repository.saveAll).toHaveBeenCalled();
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.created',
+                    targetId: created.id
+                })
+            );
             expect(result).toEqual(
                 expect.objectContaining({
                     id: created.id,
@@ -517,6 +577,14 @@ describe('PlatformService', () => {
             expect(result.name).toBe('销售总部');
             expect(result.displayOrder).toBe(1);
             expect(repository.saveAll).toHaveBeenCalledWith([orgUnit]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.updated',
+                    targetId: orgUnit.id,
+                    beforeSnapshot: expect.objectContaining({ name: '销售管理中心', displayOrder: 0 }),
+                    afterSnapshot: expect.objectContaining({ name: '销售总部', displayOrder: 1 })
+                })
+            );
         });
 
         it('throws NotFoundException when org unit does not exist', async () => {

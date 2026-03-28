@@ -6,6 +6,7 @@ describe('PlatformController', () => {
     let controller: PlatformController;
     let service: jest.Mocked<PlatformService>;
     let navigationService: jest.Mocked<NavigationService>;
+    const request = { user: { sub: 'operator-id' } };
 
     beforeEach(() => {
         service = {
@@ -78,9 +79,9 @@ describe('PlatformController', () => {
         const created = { id: '00000000-0000-4000-8000-000000000002', username: 'newuser' };
         service.createUser.mockResolvedValue(created as never);
 
-        const result = await controller.createUser(body as never);
+        const result = await controller.createUser(body as never, request as never);
 
-        expect(service.createUser).toHaveBeenCalledWith(body);
+        expect(service.createUser).toHaveBeenCalledWith(body, 'operator-id');
         expect(result).toBe(created);
     });
 
@@ -88,9 +89,9 @@ describe('PlatformController', () => {
         const user = { id: '00000000-0000-4000-8000-000000000001', isActive: true };
         service.activateUser.mockResolvedValue(user as never);
 
-        const result = await controller.activateUser('00000000-0000-4000-8000-000000000001', {} as never);
+        const result = await controller.activateUser('00000000-0000-4000-8000-000000000001', {} as never, request as never);
 
-        expect(service.activateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {});
+        expect(service.activateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {}, 'operator-id');
         expect(result).toBe(user);
     });
 
@@ -98,9 +99,9 @@ describe('PlatformController', () => {
         const user = { id: '00000000-0000-4000-8000-000000000001', isActive: false };
         service.deactivateUser.mockResolvedValue(user as never);
 
-        const result = await controller.deactivateUser('00000000-0000-4000-8000-000000000001', {} as never);
+        const result = await controller.deactivateUser('00000000-0000-4000-8000-000000000001', {} as never, request as never);
 
-        expect(service.deactivateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {});
+        expect(service.deactivateUser).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {}, 'operator-id');
         expect(result).toBe(user);
     });
 
@@ -109,9 +110,9 @@ describe('PlatformController', () => {
         const profile = { id: '00000000-0000-4000-8000-000000000001', roles: ['平台管理员'] };
         service.assignUserRoles.mockResolvedValue(profile as never);
 
-        const result = await controller.assignUserRoles('00000000-0000-4000-8000-000000000001', body as never);
+        const result = await controller.assignUserRoles('00000000-0000-4000-8000-000000000001', body as never, request as never);
 
-        expect(service.assignUserRoles).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body);
+        expect(service.assignUserRoles).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body, 'operator-id');
         expect(result).toBe(profile);
     });
 
@@ -120,9 +121,9 @@ describe('PlatformController', () => {
         const profile = { id: '00000000-0000-4000-8000-000000000001', orgUnits: [] };
         service.assignUserOrgMemberships.mockResolvedValue(profile as never);
 
-        const result = await controller.assignUserOrgMemberships('00000000-0000-4000-8000-000000000001', body as never);
+        const result = await controller.assignUserOrgMemberships('00000000-0000-4000-8000-000000000001', body as never, request as never);
 
-        expect(service.assignUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body);
+        expect(service.assignUserOrgMemberships).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', body, 'operator-id');
         expect(result).toBe(profile);
     });
 
@@ -131,9 +132,9 @@ describe('PlatformController', () => {
         const created = { id: '30000000-0000-4000-8000-000000000002', roleKey: 'sales-manager' };
         service.createRole.mockResolvedValue(created as never);
 
-        const result = await controller.createRole(body as never);
+        const result = await controller.createRole(body as never, request as never);
 
-        expect(service.createRole).toHaveBeenCalledWith(body);
+        expect(service.createRole).toHaveBeenCalledWith(body, 'operator-id');
         expect(result).toBe(created);
     });
 
@@ -142,9 +143,9 @@ describe('PlatformController', () => {
         const role = { id: '30000000-0000-4000-8000-000000000001' };
         service.assignRolePermissions.mockResolvedValue(role as never);
 
-        const result = await controller.assignRolePermissions('30000000-0000-4000-8000-000000000001', body as never);
+        const result = await controller.assignRolePermissions('30000000-0000-4000-8000-000000000001', body as never, request as never);
 
-        expect(service.assignRolePermissions).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001', body);
+        expect(service.assignRolePermissions).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001', body, 'operator-id');
         expect(result).toBe(role);
     });
 
@@ -153,9 +154,9 @@ describe('PlatformController', () => {
         const created = { id: '10000000-0000-4000-8000-000000000003', code: 'SALES-NORTH' };
         service.createOrgUnit.mockResolvedValue(created as never);
 
-        const result = await controller.createOrgUnit(body as never);
+        const result = await controller.createOrgUnit(body as never, request as never);
 
-        expect(service.createOrgUnit).toHaveBeenCalledWith(body);
+        expect(service.createOrgUnit).toHaveBeenCalledWith(body, 'operator-id');
         expect(result).toBe(created);
     });
 
@@ -164,9 +165,9 @@ describe('PlatformController', () => {
         const updated = { id: '10000000-0000-4000-8000-000000000001', name: '销售总部' };
         service.updateOrgUnit.mockResolvedValue(updated as never);
 
-        const result = await controller.updateOrgUnit('10000000-0000-4000-8000-000000000001', body as never);
+        const result = await controller.updateOrgUnit('10000000-0000-4000-8000-000000000001', body as never, request as never);
 
-        expect(service.updateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body);
+        expect(service.updateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body, 'operator-id');
         expect(result).toBe(updated);
     });
 
