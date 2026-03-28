@@ -3,6 +3,9 @@ import { NavigationService } from './navigation.service';
 describe('NavigationService', () => {
     let service: NavigationService;
 
+    const collectKeys = (items: ReturnType<NavigationService['getNavigationForUser']>): string[] =>
+        items.flatMap((item) => [item.key, ...(item.children ? collectKeys(item.children) : [])]);
+
     beforeEach(() => {
         service = new NavigationService();
     });
@@ -10,7 +13,8 @@ describe('NavigationService', () => {
     it('returns only items whose requiredPermissions are satisfied', () => {
         const result = service.getNavigationForUser(['nav:dashboard:view', 'nav:projects:view']);
 
-        const keys = result.map((item) => item.key);
+        const keys = collectKeys(result);
+        expect(result.map((item) => item.key)).toEqual(['overview', 'business']);
         expect(keys).toContain('dashboard');
         expect(keys).toContain('projects');
         expect(keys).not.toContain('contracts');
@@ -57,7 +61,8 @@ describe('NavigationService', () => {
             'platform:navigation:manage'
         ]);
 
-        const keys = result.map((item) => item.key);
+        const keys = collectKeys(result);
+        expect(result.map((item) => item.key)).toEqual(['overview', 'business', 'platform', 'account']);
         expect(keys).toContain('dashboard');
         expect(keys).toContain('projects');
         expect(keys).toContain('contracts');
