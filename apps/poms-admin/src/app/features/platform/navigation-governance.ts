@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, type Route } from '@angular/router';
+import type { NavigationSyncSummary } from '@poms/shared-contracts';
 import { type NavigationItem, PlatformApi } from '@poms/shared-api-client';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -52,7 +54,17 @@ interface NavigationGovernanceRow {
                             <p-inputicon class="pi pi-search" />
                             <input pInputText [(ngModel)]="searchValue" placeholder="搜索导航键、标题或路由" class="w-full! py-2! rounded-xl!" />
                         </p-iconfield>
-                        <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" [loading]="loading()" (onClick)="reload()" class="w-full sm:w-auto" />
+                        <div class="flex items-center gap-3">
+                            <p-button
+                                icon="pi pi-history"
+                                label="记录同步审计"
+                                severity="contrast"
+                                [loading]="syncing()"
+                                (onClick)="syncAudit()"
+                                class="w-full sm:w-auto"
+                            />
+                            <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" [loading]="loading()" (onClick)="reload()" class="w-full sm:w-auto" />
+                        </div>
                     </div>
                 </div>
 
@@ -60,7 +72,7 @@ interface NavigationGovernanceRow {
                     <div class="rounded-2xl border border-amber-300/70 bg-amber-50 dark:bg-amber-950/20 px-4 py-4">
                         <p class="text-sm text-surface-800 dark:text-surface-100 m-0 leading-6">
                             当前阶段仅补齐受控只读治理入口。标题、图标、排序、显隐、禁用与权限要求仍由代码评审和发布流程维护；
-                            审计留痕与写侧口径继续由 <span class="font-mono">P1-T25</span> 收口。
+                            导航事实源同步审计与统一安全事件基线继续由 <span class="font-mono">P1-S13</span> 收口。
                         </p>
                     </div>
                 </div>
@@ -167,11 +179,13 @@ interface NavigationGovernanceRow {
     `
 })
 export class NavigationGovernance {
+    readonly #http = inject(HttpClient);
     readonly #platformApi = inject(PlatformApi);
     readonly #messageService = inject(MessageService);
     readonly #router = inject(Router);
 
     readonly loading = signal(false);
+    readonly syncing = signal(false);
     readonly rows = signal<NavigationGovernanceRow[]>([]);
     readonly routePaths = new Set(this.#collectRoutePaths(this.#router.config));
     searchValue = '';
@@ -219,6 +233,32 @@ export class NavigationGovernance {
                 detail: '未能获取导航治理数据，请检查管理员权限或后端服务状态'
             });
         }
+    }
+
+    async syncAudit() {
+        this.syncing.set(true);
+
+        const summary = await firstValueFrom(
+            this.#http.post<NavigationSyncSummary>('/api/platform/navigation/sync', {}).pipe(catchError(() => of(null)))
+        );
+
+        this.syncing.set(false);
+
+        if (!summary) {
+            this.#messageService.add({
+                severity: 'error',
+                summary: '同步失败',
+                detail: '未能记录导航同步审计，请检查管理员权限或后端服务状态'
+            });
+            return;
+        }
+
+        this.#messageService.add({
+            severity: 'success',
+            summary: '已记录同步审计',
+            detail: `节点 ${summary.nodeCount} 个，校验 ${summary.treeChecksum.slice(0, 12)}`
+        });
+        await this.reload();
     }
 
     #flattenTree(items: NavigationItem[], depth = 0): NavigationGovernanceRow[] {
