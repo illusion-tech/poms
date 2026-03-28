@@ -3,9 +3,6 @@ import { Component, computed, ElementRef, inject, ViewChild } from '@angular/cor
 import { Router, RouterModule } from '@angular/router';
 import { AuthStore, TodoItemSummary } from '@poms/admin-data-access';
 import { AvatarModule } from 'primeng/avatar';
-import { BadgeModule } from 'primeng/badge';
-import { ButtonModule } from 'primeng/button';
-import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../service/layout.service';
 import { AppBreadcrumb } from './app.breadcrumb';
@@ -13,7 +10,7 @@ import { AppBreadcrumb } from './app.breadcrumb';
 @Component({
     selector: '[app-topbar]',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, AppBreadcrumb, ButtonModule, BadgeModule, OverlayBadgeModule, AvatarModule],
+    imports: [RouterModule, CommonModule, StyleClassModule, AppBreadcrumb, AvatarModule],
     template: ` <div class="layout-topbar">
         <div class="topbar-left">
             <a tabindex="0" #menubutton type="button" class="menu-button" (click)="onMenuButtonClick()">

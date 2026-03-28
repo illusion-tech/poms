@@ -14,7 +14,9 @@ import { LayoutService } from '@/app/layout/service/layout.service';
         <button class="layout-config-button config-link" (click)="layoutService.toggleConfigSidebar()">
             <i class="pi pi-cog"></i>
         </button>
-        <app-configurator location="landing" />
+        @defer (when layoutService.layoutState().configSidebarVisible) {
+            <app-configurator location="landing" />
+        }
     `
 })
 export class AuthLayout {

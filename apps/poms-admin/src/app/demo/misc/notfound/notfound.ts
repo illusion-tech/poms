@@ -345,7 +345,9 @@ import { LayoutService } from '@/app/layout/service/layout.service';
         <button class="layout-config-button config-link" (click)="layoutService.toggleConfigSidebar()">
             <i class="pi pi-cog"></i>
         </button>
-        <app-configurator simple />`
+        @defer (when layoutService.layoutState().configSidebarVisible) {
+            <app-configurator simple />
+        }`
 })
 export class Notfound {
     layoutService = inject(LayoutService);

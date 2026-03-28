@@ -1,15 +1,14 @@
-import { Component, computed, inject, Renderer2, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { AppTopbar } from './app.topbar';
-import { AppSidebar } from './app.sidebar';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { AppConfigurator } from './app.configurator';
 import { AppBreadcrumb } from '@/app/layout/components/app.breadcrumb';
 import { AppFooter } from '@/app/layout/components/app.footer';
-import { AppSearch } from '@/app/layout/components/app.search';
 import { AppRightMenu } from '@/app/layout/components/app.rightmenu';
+import { AppSearch } from '@/app/layout/components/app.search';
+import { LayoutService } from '@/app/layout/service/layout.service';
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AppConfigurator } from './app.configurator';
+import { AppSidebar } from './app.sidebar';
+import { AppTopbar } from './app.topbar';
 
 @Component({
     selector: 'app-layout',
@@ -28,9 +27,15 @@ import { AppRightMenu } from '@/app/layout/components/app.rightmenu';
                     <div app-footer></div>
                 </div>
             </div>
-            <app-configurator />
-            <div app-search></div>
-            <div app-rightmenu></div>
+            @defer (when layoutService.layoutState().configSidebarVisible) {
+                <app-configurator />
+            }
+            @defer (when layoutService.layoutState().searchBarActive) {
+                <div app-search></div>
+            }
+            @defer (when layoutService.layoutState().rightMenuVisible) {
+                <div app-rightmenu></div>
+            }
             <div class="layout-mask"></div>
         </div>
     `

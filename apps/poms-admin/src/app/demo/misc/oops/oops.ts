@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { AppConfigurator } from '@/app/layout/components/app.configurator';
 import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-oops',
     standalone: true,
-    imports: [AppConfigurator, RouterModule],
+    imports: [RouterModule],
     template: ` <section class="animate-fadein animate-duration-300 animate-ease-in relative lg:pb-14 lg:py-52 py-36">
             <div class="landing-container mx-auto relative z-10 px-12">
                 <div class="relative mt-24 max-w-184 mx-auto">
@@ -489,7 +488,6 @@ import { RouterModule } from '@angular/router';
                     </div>
                 </div>
             </div>
-        </section>
-        <app-configurator simple />`
+        </section>`
 })
 export class Oops {}

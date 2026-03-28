@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/components/app.layout';
 import { AuthLayout } from './app/layout/components/app.authlayout';
-import { Notfound } from './app/demo/misc/notfound/notfound';
 import { authGuard } from './app/core/auth/auth.guard';
 import { permissionGuard } from './app/core/auth/permission.guard';
 
@@ -123,6 +122,9 @@ export const appRoutes: Routes = [
             }
         ]
     },
-    { path: 'notfound', component: Notfound },
+    {
+        path: 'notfound',
+        loadComponent: () => import('./app/demo/misc/notfound/notfound').then((c) => c.Notfound)
+    },
     { path: '**', redirectTo: '/notfound' }
 ];
