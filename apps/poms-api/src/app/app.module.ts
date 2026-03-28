@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
+import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
 import { ApprovalModule } from './features/approval/approval.module';
 import { CommissionModule } from './features/commission/commission.module';
 import { ContractModule } from './features/contract/contract.module';
@@ -14,7 +15,7 @@ import { PlatformModule } from './features/platform/platform.module';
 import { ProjectModule } from './features/project/project.module';
 
 @Module({
-    imports: [PersistenceModule, AuthModule, NavigationModule, PlatformModule, ProjectModule, ApprovalModule, ContractModule, ContractFinanceModule, CommissionModule],
+    imports: [PersistenceModule, RuntimeAuditModule, AuthModule, NavigationModule, PlatformModule, ProjectModule, ApprovalModule, ContractModule, ContractFinanceModule, CommissionModule],
     controllers: [AppController],
     providers: [
         AppService,
