@@ -1,4 +1,7 @@
 export type {
+    AuditLogList,
+    AuditLogListQuery,
+    AuditLogSummary,
     AssignRolePermissionsRequest,
     AssignUserOrgMembershipsRequest,
     AssignUserRolesRequest,
@@ -31,11 +34,15 @@ export type {
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
     SanitizedUserWithOrgUnits,
+    SecurityEventList,
+    SecurityEventListQuery,
+    SecurityEventSummary,
     SubmitCommissionAdjustmentApprovalRequest,
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
     TodoItemSummary,
     UpdatePlatformUserActivationRequest,
     NavigationItem,
+    NavigationSyncSummary,
     CreateOrgUnitRequest
 } from '@poms/shared-contracts';

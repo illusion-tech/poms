@@ -11,8 +11,10 @@ import {
     findPlatformRoleByKey,
     findPlatformUserByUsername,
     getMyNavigation,
-    listPlatformRoles
+    listPlatformRoles,
+    syncPlatformNavigation
 } from '../support/platform-api';
+import { listAuditLogs, listSecurityEvents } from '../support/runtime-audit-api';
 import { makeUniqueSuffix } from '../support/test-data';
 import type { NavigationItem } from '../support/types';
 
@@ -144,5 +146,115 @@ describe('poms-api platform governance e2e', () => {
                 secondaryOrgUnitIds: []
             });
         }
+    });
+
+    it('exposes persisted audit logs and security events through the minimal query endpoints', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const from = new Date().toISOString();
+        const unique = Date.now().toString(36).toUpperCase();
+        const navigationSync = await syncPlatformNavigation(adminClient);
+
+        const createdOrg = await createOrgUnit(adminClient, {
+            name: `E2E 审计组织 ${unique}`,
+            code: `E2EAUDIT${unique}`,
+            description: '用于验证运行时审计查询接口',
+            displayOrder: 100
+        });
+
+        const failedLoginResponse = await createApiClient().post('/auth/login', {
+            username: 'admin',
+            password: 'wrong-password'
+        });
+        expectErrorStatus(failedLoginResponse, 401, '用户名或密码错误');
+
+        const invalidTokenClient = createApiClient('malformed-token');
+        const invalidTokenResponse = await invalidTokenClient.get('/auth/profile');
+        expectErrorStatus(invalidTokenResponse, 401);
+
+        const auditLogs = await listAuditLogs(adminClient, {
+            from,
+            eventType: 'platform.org-unit.created',
+            targetId: createdOrg.id,
+            limit: 5
+        });
+        expect(
+            auditLogs.some(
+                (event) =>
+                    event.eventType === 'platform.org-unit.created' &&
+                    event.targetId === createdOrg.id &&
+                    event.result === 'success'
+            )
+        ).toBe(true);
+
+        const navigationAuditLogs = await listAuditLogs(adminClient, {
+            from,
+            eventType: 'platform.navigation.synced',
+            targetId: navigationSync.targetId,
+            limit: 5
+        });
+        expect(
+            navigationAuditLogs.some(
+                (event) =>
+                    event.eventType === 'platform.navigation.synced' &&
+                    event.targetId === navigationSync.targetId &&
+                    event.afterSnapshot?.['treeChecksum'] === navigationSync.treeChecksum
+            )
+        ).toBe(true);
+
+        const loginFailures = await listSecurityEvents(adminClient, {
+            from,
+            eventType: 'auth.login.failed',
+            principal: 'admin',
+            result: 'failed',
+            limit: 5
+        });
+        expect(
+            loginFailures.some(
+                (event) =>
+                    event.eventType === 'auth.login.failed' &&
+                    event.principal === 'admin' &&
+                    event.result === 'failed'
+            )
+        ).toBe(true);
+
+        const invalidTokenEvents = await listSecurityEvents(adminClient, {
+            from,
+            eventType: 'auth.token.invalid',
+            path: '/api/auth/profile',
+            limit: 5
+        });
+        expect(
+            invalidTokenEvents.some(
+                (event) =>
+                    event.eventType === 'auth.token.invalid' &&
+                    event.path === '/api/auth/profile' &&
+                    (event.result === 'failed' || event.result === 'expired')
+            )
+        ).toBe(true);
+
+        const viewerSession = await loginAsViewer();
+        const routeDeniedResponse = await viewerSession.client.post('/security-events/route-denied', {
+            path: '/platform/users',
+            returnUrl: '/platform/users',
+            requiredPermissions: ['platform:users:manage']
+        });
+        expect(routeDeniedResponse.status).toBe(202);
+
+        const routeDeniedEvents = await listSecurityEvents(adminClient, {
+            from,
+            eventType: 'authz.route.denied',
+            actorId: viewerSession.profile.id,
+            path: '/platform/users',
+            limit: 5
+        });
+        expect(
+            routeDeniedEvents.some(
+                (event) =>
+                    event.eventType === 'authz.route.denied' &&
+                    event.actorId === viewerSession.profile.id &&
+                    event.path === '/platform/users' &&
+                    event.result === 'blocked'
+            )
+        ).toBe(true);
     });
 });

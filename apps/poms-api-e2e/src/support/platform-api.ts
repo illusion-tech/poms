@@ -7,6 +7,7 @@ import type {
     CreateOrgUnitRequest,
     CreateRoleRequest,
     NavigationItem,
+    NavigationSyncSummary,
     PlatformOrgUnitSummary,
     PlatformRoleSummary,
     PlatformUserList,
@@ -108,6 +109,11 @@ export async function createOrgUnit(
 
 export async function getMyNavigation(client: AxiosInstance): Promise<NavigationItem[]> {
     const response = await client.get<NavigationItem[]>('/me/navigation');
+    return expectStatus(response, 200);
+}
+
+export async function syncPlatformNavigation(client: AxiosInstance): Promise<NavigationSyncSummary> {
+    const response = await client.post<NavigationSyncSummary>('/platform/navigation/sync', {});
     return expectStatus(response, 200);
 }
 
