@@ -1,7 +1,7 @@
 # POMS 导航-路由对照表
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
+**最后更新**: 2026-03-28
 **适用范围**: `POMS` 第一阶段平台治理域中的导航与前端路由收敛
 **关联文档**:
 
@@ -42,30 +42,30 @@
 
 ## 4. 第一阶段对照表
 
-| 导航键                | 目标导航链接           | 当前前端现状                  | 状态          | 第一阶段处理建议                                   |
-| --------------------- | ---------------------- | ----------------------------- | ------------- | -------------------------------------------------- |
-| `dashboard`           | `/dashboard`           | 已有真实工作台页              | `implemented` | 继续保持为正式首页入口                             |
-| `projects`            | `/projects`            | 已有真实业务页                | `implemented` | 继续保持启用，并与权限、导航同步校验               |
-| `platform.users`      | `/platform/users`      | 已有页面壳，但仍未接真实后端  | `bridged`     | 在 `P1-S08` 中把页面切到真实用户管理 API           |
-| `platform.roles`      | `/platform/roles`      | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S09` 中补齐页面落点与守卫                   |
-| `platform.org-units`  | `/platform/org-units`  | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S08/P1-S09` 中补齐页面落点与组织树查询      |
-| `platform.navigation` | `/platform/navigation` | 当前仅有导航入口，无真实页面  | `planned`     | 在 `P1-S09` 中补齐最小治理页或受控维护入口         |
-| `my_profile`          | `/profile`             | 当前已有 `/profile/*` 体系    | `implemented` | 可保留为当前阶段正式入口                           |
+| 导航键                | 目标导航链接           | 当前前端现状                               | 状态          | 第一阶段处理建议                                                 |
+| --------------------- | ---------------------- | ------------------------------------------ | ------------- | ---------------------------------------------------------------- |
+| `dashboard`           | `/dashboard`           | 已有真实工作台页                           | `implemented` | 继续保持为正式首页入口                                           |
+| `projects`            | `/projects`            | 已有真实业务页                             | `implemented` | 继续保持启用，并与权限、导航同步校验                             |
+| `platform.users`      | `/platform/users`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口，并持续用 smoke 覆盖可达性与拦截              |
+| `platform.roles`      | `/platform/roles`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                               |
+| `platform.org-units`  | `/platform/org-units`  | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                               |
+| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看导航树与路由对齐结果 | `implemented` | 第一阶段按受控只读治理入口启用；写侧治理与审计另由 `P1-T25` 收口 |
+| `my_profile`          | `/profile`             | 当前已有 `/profile/*` 体系                 | `implemented` | 可保留为当前阶段正式入口                                         |
 
 ---
 
 ## 5. 与第一阶段缺口补齐计划的衔接
 
-当前阶段，平台导航不应再被视为“已完成”，而应分两层理解：
+当前阶段，平台导航应分两层理解：
 
-1. **消费层已跑通**：当前用户导航树已能通过真实接口下发，前端也能真实消费。
-2. **治理层未补齐**：平台治理域中的用户、角色、组织与导航管理入口尚未全部形成正式闭环。
+1. **消费层与页面落点已跑通**：当前用户导航树已能通过真实接口下发，前端也已有 `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/navigation` 四类平台治理入口。
+2. **治理写侧仍待补齐**：`/platform/navigation` 当前是受控只读治理入口，最小维护路径与审计留痕仍需由 `P1-T25` 收口。
 
 因此第一阶段补齐要求如下：
 
-- `platform.users` 在 `P1-S08` 中从页面壳切换到真实用户管理能力
-- `platform.roles`、`platform.org-units`、`platform.navigation` 在 `P1-S09` 中补齐真实落点
-- 任一平台导航项在页面未就位前，不应被判定为完整通过
+- `platform.users`、`platform.roles`、`platform.org-units`、`platform.navigation` 当前均已具备真实落点，可按当前链接正式启用
+- `navigation-route-mapping.md` 需继续与真实前端路由同步维护，避免再次漂移
+- 平台导航写侧治理与审计要求仍不应被误判为已完成，需继续跟踪 `P1-T25`
 
 ## 6. 变更要求
 
