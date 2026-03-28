@@ -39,24 +39,37 @@ test.describe('poms-admin platform governance smoke', () => {
     test('admin can reach the platform governance pages', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
+        await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '总览' })).toBeVisible();
+        await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '业务管理' })).toBeVisible();
+        await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '平台配置' })).toBeVisible();
+        await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '个人设置' })).toBeVisible();
 
-        await page.goto('/platform/users');
+        await page.getByRole('link', { name: '项目管理' }).click();
+        await expect(page).toHaveURL(/\/projects$/);
+
+        await page.getByRole('link', { name: '合同管理' }).click();
+        await expect(page).toHaveURL(/\/contracts$/);
+
+        await page.getByRole('link', { name: '用户管理' }).click();
         await expect(page).toHaveURL(/\/platform\/users$/);
         await expect(page.getByRole('heading', { name: '用户管理' })).toBeVisible();
 
-        await page.goto('/platform/roles');
+        await page.getByRole('link', { name: '角色与权限' }).click();
         await expect(page).toHaveURL(/\/platform\/roles$/);
         await expect(page.getByRole('heading', { name: '角色管理' })).toBeVisible();
 
-        await page.goto('/platform/org-units');
+        await page.getByRole('link', { name: '组织单元' }).click();
         await expect(page).toHaveURL(/\/platform\/org-units$/);
         await expect(page.getByRole('heading', { name: '组织管理' })).toBeVisible();
 
-        await page.goto('/platform/navigation');
+        await page.getByRole('link', { name: '导航菜单' }).click();
         await expect(page).toHaveURL(/\/platform\/navigation$/);
         await expect(page.getByRole('heading', { name: '导航治理' })).toBeVisible();
         await page.getByRole('button', { name: '记录同步审计' }).click();
         await expect(page.getByText('已记录同步审计')).toBeVisible();
+
+        await page.getByRole('link', { name: '个人中心' }).click();
+        await expect(page).toHaveURL(/\/profile(?:\/list)?$/);
     });
 
     test('viewer does not see platform governance menu entries', async ({ page }) => {

@@ -34,21 +34,32 @@ export class AppMenu {
 
     readonly #staticFallback: any[] = [
         {
-            label: '工作台',
-            icon: 'pi pi-home',
-            routerLink: ['/dashboard']
+            label: '总览',
+            icon: 'pi pi-th-large',
+            items: [
+                {
+                    label: '工作台',
+                    icon: 'pi pi-home',
+                    routerLink: ['/dashboard']
+                }
+            ]
         },
         { separator: true },
         {
-            label: '项目管理',
+            label: '业务管理',
             icon: 'pi pi-briefcase',
-            routerLink: ['/projects']
-        },
-        { separator: true },
-        {
-            label: '合同管理',
-            icon: 'pi pi-file-edit',
-            routerLink: ['/contracts']
+            items: [
+                {
+                    label: '项目管理',
+                    icon: 'pi pi-briefcase',
+                    routerLink: ['/projects']
+                },
+                {
+                    label: '合同管理',
+                    icon: 'pi pi-file-edit',
+                    routerLink: ['/contracts']
+                }
+            ]
         },
         { separator: true },
         {
@@ -69,6 +80,23 @@ export class AppMenu {
                     label: '组织管理',
                     icon: 'pi pi-building',
                     routerLink: ['/platform/org-units']
+                },
+                {
+                    label: '导航菜单',
+                    icon: 'pi pi-bars',
+                    routerLink: ['/platform/navigation']
+                }
+            ]
+        },
+        { separator: true },
+        {
+            label: '个人设置',
+            icon: 'pi pi-user',
+            items: [
+                {
+                    label: '个人中心',
+                    icon: 'pi pi-user',
+                    routerLink: ['/profile']
                 }
             ]
         }

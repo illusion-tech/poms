@@ -7,49 +7,81 @@ import type { NavigationItem } from '@poms/shared-contracts';
  */
 export const NAVIGATION_TREE: NavigationItem[] = [
     {
-        id: 'nav-dashboard',
-        key: 'dashboard',
-        type: 'basic',
-        title: '工作台',
+        id: 'nav-overview',
+        key: 'overview',
+        type: 'group',
+        title: '总览',
         subtitle: null,
-        link: '/dashboard',
-        icon: 'pi pi-home',
+        link: null,
+        icon: 'pi pi-th-large',
         displayOrder: 0,
         isHidden: false,
         isDisabled: false,
-        requiredPermissions: ['nav:dashboard:view'],
+        requiredPermissions: null,
         meta: null,
-        children: null
+        children: [
+            {
+                id: 'nav-dashboard',
+                key: 'dashboard',
+                type: 'basic',
+                title: '工作台',
+                subtitle: null,
+                link: '/dashboard',
+                icon: 'pi pi-home',
+                displayOrder: 0,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:dashboard:view'],
+                meta: null,
+                children: null
+            }
+        ]
     },
     {
-        id: 'nav-projects',
-        key: 'projects',
-        type: 'basic',
-        title: '项目管理',
+        id: 'nav-business',
+        key: 'business',
+        type: 'group',
+        title: '业务管理',
         subtitle: null,
-        link: '/projects',
+        link: null,
         icon: 'pi pi-briefcase',
         displayOrder: 100,
         isHidden: false,
         isDisabled: false,
-        requiredPermissions: ['nav:projects:view'],
+        requiredPermissions: null,
         meta: null,
-        children: null
-    },
-    {
-        id: 'nav-contracts',
-        key: 'contracts',
-        type: 'basic',
-        title: '合同管理',
-        subtitle: null,
-        link: '/contracts',
-        icon: 'pi pi-file-edit',
-        displayOrder: 150,
-        isHidden: false,
-        isDisabled: false,
-        requiredPermissions: ['nav:contracts:view'],
-        meta: null,
-        children: null
+        children: [
+            {
+                id: 'nav-projects',
+                key: 'projects',
+                type: 'basic',
+                title: '项目管理',
+                subtitle: null,
+                link: '/projects',
+                icon: 'pi pi-briefcase',
+                displayOrder: 0,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:projects:view'],
+                meta: null,
+                children: null
+            },
+            {
+                id: 'nav-contracts',
+                key: 'contracts',
+                type: 'basic',
+                title: '合同管理',
+                subtitle: null,
+                link: '/contracts',
+                icon: 'pi pi-file-edit',
+                displayOrder: 10,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:contracts:view'],
+                meta: null,
+                children: null
+            }
+        ]
     },
     {
         id: 'nav-platform',
@@ -128,18 +160,34 @@ export const NAVIGATION_TREE: NavigationItem[] = [
         ]
     },
     {
-        id: 'nav-profile',
-        key: 'my_profile',
-        type: 'basic',
-        title: '个人中心',
+        id: 'nav-account',
+        key: 'account',
+        type: 'group',
+        title: '个人设置',
         subtitle: null,
-        link: '/profile',
+        link: null,
         icon: 'pi pi-user',
-        displayOrder: 999,
+        displayOrder: 900,
         isHidden: false,
         isDisabled: false,
-        requiredPermissions: ['nav:profile:view'],
+        requiredPermissions: null,
         meta: null,
-        children: null
+        children: [
+            {
+                id: 'nav-profile',
+                key: 'my_profile',
+                type: 'basic',
+                title: '个人中心',
+                subtitle: null,
+                link: '/profile',
+                icon: 'pi pi-user',
+                displayOrder: 0,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:profile:view'],
+                meta: null,
+                children: null
+            }
+        ]
     }
 ];
