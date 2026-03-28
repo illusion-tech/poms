@@ -60,6 +60,7 @@
 当前文档包括：
 
 - `business-authorization-matrix.md`：业务对象动作授权矩阵，用于沉淀跨域授权基线
+- `runtime-audit-and-security-event-design.md`：统一运行时审计与安全事件设计，用于冻结第一阶段最小审计落库与安全事件结构化留痕基线
 - `platform-governance/README.md`：平台治理域设计入口，聚合总设计、子设计与配套输出物
 - `platform-governance/` 子目录下的用户、角色权限、组织、导航等详细设计
 

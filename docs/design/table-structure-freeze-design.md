@@ -136,6 +136,7 @@
 | `notification_record`      | 派生 / 支撑表  | `id`、`target_type`、`target_id`、`notification_type`、`status`                       | 由业务动作派生             | 统一通知     |
 | `attachment`               | 派生 / 支撑表  | `id`、`storage_key`、`biz_type`、`biz_id`、`uploaded_at`                              | 被业务对象或动作记录引用   | 通用附件     |
 | `audit_log`                | 派生 / 支撑表  | `id`、`event_type`、`target_type`、`target_id`、`operator_id`、`occurred_at`          | 通用引用业务对象           | 统一审计     |
+| `security_event`           | 派生 / 支撑表  | `id`、`event_type`、`actor_id`、`path`、`result`、`occurred_at`                       | 通用引用用户或匿名访问主体 | 安全事件     |
 
 ---
 

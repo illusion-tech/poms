@@ -151,6 +151,7 @@
 | `ApprovalRecordDetailView`     | `ApprovalRecord`     | 支撑审批追溯     | 当前状态、节点进度、处理历史、关联对象摘要                                                                              | 节点历史与当前节点要分层 |
 | `ConfirmationRecordDetailView` | `ConfirmationRecord` | 支撑确认追溯     | 当前状态、参与人进度、历史处理记录、关联对象摘要                                                                        | 多方确认进度应是派生展示 |
 | `AuditEventListView`           | `AuditLog`           | 支撑统一审计查询 | `eventType`、`targetType`、`targetId`、`operatorName`、`occurredAt`、`result`                                           | 不承载业务对象字段镜像   |
+| `SecurityEventListView`        | `SecurityEvent`      | 支撑安全追溯     | `eventType`、`actorName`、`path`、`permissionKey`、`occurredAt`、`result`、`severity`                                   | 不替代原始接入日志       |
 
 ---
 
