@@ -66,6 +66,14 @@ const MyPreset = definePreset(Aura, {
     }
 });
 
+function resolveApiBasePath(): string {
+    const runtimeConfig = globalThis as typeof globalThis & {
+        __POMS_API_BASE_URL__?: string;
+    };
+
+    return runtimeConfig.__POMS_API_BASE_URL__ ?? '';
+}
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter(
@@ -77,14 +85,14 @@ export const appConfig: ApplicationConfig = {
             withEnabledBlockingInitialNavigation()
         ),
         providePomsApiClient({
-            basePath: 'http://localhost:3333',
-            getAccessToken: () => inject(AuthStore).token() ?? undefined,
+            basePath: resolveApiBasePath(),
+            getAccessToken: () => inject(AuthStore).token() ?? undefined
         }),
         {
             provide: APP_INITIALIZER,
             useFactory: (authStore: AuthStore) => () => authStore.initialize(),
             deps: [AuthStore],
-            multi: true,
+            multi: true
         },
         PlatformStore,
         provideZonelessChangeDetection(),

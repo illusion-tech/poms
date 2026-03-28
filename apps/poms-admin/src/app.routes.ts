@@ -3,6 +3,7 @@ import { AppLayout } from './app/layout/components/app.layout';
 import { AuthLayout } from './app/layout/components/app.authlayout';
 import { Notfound } from './app/demo/misc/notfound/notfound';
 import { authGuard } from './app/core/auth/auth.guard';
+import { permissionGuard } from './app/core/auth/permission.guard';
 
 export const appRoutes: Routes = [
     {
@@ -53,17 +54,38 @@ export const appRoutes: Routes = [
             {
                 path: 'platform/users',
                 loadComponent: () => import('./app/features/user-management/user-list').then((c) => c.UserList),
-                data: { breadcrumb: '用户管理' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '用户管理',
+                    requiredPermissions: ['platform:users:manage']
+                }
             },
             {
                 path: 'platform/roles',
                 loadComponent: () => import('./app/features/platform/role-list').then((c) => c.RoleList),
-                data: { breadcrumb: '角色管理' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '角色管理',
+                    requiredPermissions: ['platform:roles:manage']
+                }
             },
             {
                 path: 'platform/org-units',
                 loadComponent: () => import('./app/features/platform/org-unit-list').then((c) => c.OrgUnitList),
-                data: { breadcrumb: '组织管理' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '组织管理',
+                    requiredPermissions: ['platform:org-units:manage']
+                }
+            },
+            {
+                path: 'platform/navigation',
+                loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '导航治理',
+                    requiredPermissions: ['platform:navigation:manage']
+                }
             }
         ]
     },

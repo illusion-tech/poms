@@ -30,6 +30,16 @@
             },
             "configurations": {
                 "production": {
+                    "optimization": {
+                        "scripts": true,
+                        "styles": {
+                            "minify": true,
+                            "inlineCritical": true
+                        },
+                        "fonts": {
+                            "inline": false
+                        }
+                    },
                     "budgets": [
                         {
                             "type": "initial",
@@ -60,7 +70,8 @@
                     "buildTarget": "poms-admin:build:production"
                 },
                 "development": {
-                    "buildTarget": "poms-admin:build:development"
+                    "buildTarget": "poms-admin:build:development",
+                    "proxyConfig": "apps/poms-admin/proxy.conf.cjs"
                 }
             },
             "defaultConfiguration": "development"
