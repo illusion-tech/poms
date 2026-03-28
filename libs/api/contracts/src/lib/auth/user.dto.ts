@@ -8,6 +8,7 @@ import {
     LoginRequestSchema,
     LoginResponseSchema,
     NavigationItemSchema,
+    NavigationSyncSummarySchema,
     PlatformOrgUnitListSchema,
     PlatformOrgUnitSummarySchema,
     PlatformRoleListSchema,
@@ -34,6 +35,8 @@ export class NavigationItemDto extends createZodDto(NavigationItemSchema) {}
 export class NavigationListDto extends createZodDto(
     z.array(NavigationItemSchema).meta({ id: 'NavigationList' }),
 ) {}
+
+export class NavigationSyncSummaryDto extends createZodDto(NavigationSyncSummarySchema) {}
 
 export class LoginRequestDto extends createZodDto(LoginRequestSchema) {}
 

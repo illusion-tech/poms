@@ -343,6 +343,130 @@ export const LoginResponseSchema = z
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
 // ---------------------------------------------------------------------------
+// Runtime Audit
+// ---------------------------------------------------------------------------
+
+export const NavigationSyncSummarySchema = z
+    .object({
+        targetId: z.literal('platform-navigation'),
+        nodeCount: z.number().int().nonnegative(),
+        routeCount: z.number().int().nonnegative(),
+        hiddenCount: z.number().int().nonnegative(),
+        disabledCount: z.number().int().nonnegative(),
+        treeChecksum: z.string().length(64),
+        navigationKeys: z.array(z.string()),
+        routeLinks: z.array(z.string())
+    })
+    .meta({ id: 'NavigationSyncSummary' });
+
+export type NavigationSyncSummary = z.infer<typeof NavigationSyncSummarySchema>;
+
+export const AuditSnapshotSchema = z.record(z.string(), z.unknown()).meta({ id: 'AuditSnapshot' });
+
+export type AuditSnapshot = z.infer<typeof AuditSnapshotSchema>;
+
+export const AuditLogResultSchema = z.enum(['success', 'rejected', 'failed']).meta({ id: 'AuditLogResult' });
+
+export type AuditLogResult = z.infer<typeof AuditLogResultSchema>;
+
+export const AuditLogSummarySchema = z
+    .object({
+        id: z.uuid(),
+        eventType: z.string(),
+        targetType: z.string(),
+        targetId: z.string(),
+        operatorId: z.uuid().nullable(),
+        requestId: z.string().nullable(),
+        result: AuditLogResultSchema,
+        reason: z.string().nullable(),
+        beforeSnapshot: AuditSnapshotSchema.nullable(),
+        afterSnapshot: AuditSnapshotSchema.nullable(),
+        metadata: AuditSnapshotSchema.nullable(),
+        occurredAt: z.iso.datetime()
+    })
+    .meta({ id: 'AuditLogSummary' });
+
+export type AuditLogSummary = z.infer<typeof AuditLogSummarySchema>;
+
+export const AuditLogListSchema = z.array(AuditLogSummarySchema).meta({ id: 'AuditLogList' });
+
+export type AuditLogList = z.infer<typeof AuditLogListSchema>;
+
+export const AuditLogListQuerySchema = z
+    .object({
+        from: z.iso.datetime().optional(),
+        to: z.iso.datetime().optional(),
+        eventType: z.string().min(1).max(128).optional(),
+        targetType: z.string().min(1).max(64).optional(),
+        targetId: z.string().min(1).max(128).optional(),
+        operatorId: z.uuid().optional(),
+        result: AuditLogResultSchema.optional(),
+        limit: z.coerce.number().int().min(1).max(100).optional()
+    })
+    .meta({ id: 'AuditLogListQuery' });
+
+export type AuditLogListQuery = z.infer<typeof AuditLogListQuerySchema>;
+
+export const SecurityEventResultSchema = z.enum(['blocked', 'failed', 'expired']).meta({ id: 'SecurityEventResult' });
+
+export type SecurityEventResult = z.infer<typeof SecurityEventResultSchema>;
+
+export const SecurityEventSeveritySchema = z.enum(['info', 'warning', 'high']).meta({ id: 'SecurityEventSeverity' });
+
+export type SecurityEventSeverity = z.infer<typeof SecurityEventSeveritySchema>;
+
+export const SecurityEventSummarySchema = z
+    .object({
+        id: z.uuid(),
+        eventType: z.string(),
+        severity: SecurityEventSeveritySchema,
+        actorId: z.uuid().nullable(),
+        principal: z.string().nullable(),
+        requestId: z.string().nullable(),
+        path: z.string(),
+        method: z.string().nullable(),
+        permissionKey: z.string().nullable(),
+        result: SecurityEventResultSchema,
+        ip: z.string().nullable(),
+        userAgent: z.string().nullable(),
+        details: AuditSnapshotSchema.nullable(),
+        occurredAt: z.iso.datetime()
+    })
+    .meta({ id: 'SecurityEventSummary' });
+
+export type SecurityEventSummary = z.infer<typeof SecurityEventSummarySchema>;
+
+export const SecurityEventListSchema = z.array(SecurityEventSummarySchema).meta({ id: 'SecurityEventList' });
+
+export type SecurityEventList = z.infer<typeof SecurityEventListSchema>;
+
+export const SecurityEventListQuerySchema = z
+    .object({
+        from: z.iso.datetime().optional(),
+        to: z.iso.datetime().optional(),
+        eventType: z.string().min(1).max(128).optional(),
+        actorId: z.uuid().optional(),
+        principal: z.string().min(1).max(255).optional(),
+        path: z.string().min(1).max(255).optional(),
+        permissionKey: z.string().min(1).max(128).optional(),
+        result: SecurityEventResultSchema.optional(),
+        limit: z.coerce.number().int().min(1).max(100).optional()
+    })
+    .meta({ id: 'SecurityEventListQuery' });
+
+export type SecurityEventListQuery = z.infer<typeof SecurityEventListQuerySchema>;
+
+export const RecordRouteDeniedSecurityEventRequestSchema = z
+    .object({
+        path: z.string().min(1).max(255),
+        returnUrl: z.string().min(1).max(255).nullable().optional(),
+        requiredPermissions: z.array(z.enum(PERMISSION_KEYS)).min(1)
+    })
+    .meta({ id: 'RecordRouteDeniedSecurityEventRequest' });
+
+export type RecordRouteDeniedSecurityEventRequest = z.infer<typeof RecordRouteDeniedSecurityEventRequestSchema>;
+
+// ---------------------------------------------------------------------------
 // Project
 // ---------------------------------------------------------------------------
 
