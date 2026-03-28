@@ -1,4 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import type { PermissionKey } from '@poms/shared-contracts';
 import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary } from '@poms/shared-api-client';
 import { ApprovalApi, AuthApi, NavigationApi } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
@@ -30,6 +31,11 @@ export class AuthStore {
     readonly isAuthenticated = computed(() => this.token() !== null);
     readonly menuModel = computed(() => this.#toMenuModel(this.navigationTree(), true));
     readonly openTodosCount = computed(() => this.myTodos().filter((t) => t.status === 'open').length);
+
+    hasAnyPermission(requiredPermissions: readonly PermissionKey[]): boolean {
+        const currentPermissions = (this.currentUser()?.permissions ?? []) as string[];
+        return requiredPermissions.some((permission) => currentPermissions.includes(permission));
+    }
 
     async login(username: string, password: string): Promise<void> {
         const response = await firstValueFrom(this.#authApi.authControllerLogin({ loginRequest: { username, password } }));
