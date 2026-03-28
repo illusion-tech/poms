@@ -43,7 +43,7 @@
 | 导航 `link` 与真实路由一致                            | `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/navigation` 均有真实路由 | 前端路由存在、`platform-governance.smoke.spec.ts`                                         | `Done`   | 路由对照文档已同步到当前真实状态                                  | `—`      |
 | 未授权用户直接输入 URL 时，页面守卫与接口授权同时生效 | 后端接口鉴权与前端权限路由守卫均已实现                                                           | API `HasPermissions`、`permission.guard.spec.ts`、`platform-governance.smoke.spec.ts`     | `Done`   | 已补“未授权直输 URL 被前端拒绝并保留 returnUrl”的浏览器层证据     | `—`      |
 | `/platform/navigation` 已有真实页面或受控治理入口     | 已有只读治理页，消费 `GET /platform/navigation` 并展示导航树与路由对齐结果                       | API / OpenAPI、构建通过、`platform-governance.smoke.spec.ts`                              | `Done`   | 页面落点与最小受控治理入口已收口；后续仅剩统一运行时审计基础设施规划 | `—`      |
-| 导航治理具备最小维护与审计路径                        | 已明确第一阶段采用受控代码/seed 维护导航事实源，并要求同步到运行时后写入统一 `audit_log` | `navigation-design.md`、`platform-governance-design.md`、`poms-phase1-gap-closure-checklist.md` | `Open`   | 受控维护路径已定义，但运行时 `audit_log` 仍未实现；当前不能把导航审计判为已闭环 | `P1-T28` |
+| 导航治理具备最小维护与审计路径                        | 已明确第一阶段采用受控代码/seed 维护导航事实源；用户/角色/组织高敏命令已开始写入统一 `audit_log` | `navigation-design.md`、`platform-governance-design.md`、`platform.service.spec.ts`、`pnpm nx test poms-api --runInBand` | `In Review`   | 导航事实源仍缺显式同步 / 发布动作，当前无法形成带操作者 / 批次上下文的导航运行时审计记录 | `P1-T28` |
 
 ---
 
@@ -51,10 +51,10 @@
 
 | 切片 / 承诺                                  | 当前实现                           | 已有验证 | 当前判断 | 确认缺口                                                       | 待办     |
 | -------------------------------------------- | ---------------------------------- | -------- | -------- | -------------------------------------------------------------- | -------- |
-| 第一阶段存在统一 `audit_log` 运行时持久化模型 | 上游设计已有 `audit_log` 逻辑表基线 | 文档基线 | `Open`   | 仓库尚无真实 migration / entity / repository / writer 基础设施 | `P1-T27` |
-| 第一阶段存在统一 `security_event` 结构化持久化模型 | 仅有需求和零散文档提及             | 文档基线 | `Open`   | 尚无真实模型、落库路径与查询出口                               | `P1-T27` |
-| 平台治理高敏动作写入统一 `audit_log`         | 当前仅有命令执行与受控维护路径     | 无明确自动化证据 | `Open`   | 用户/角色/组织/导航事实源同步动作尚未生成系统内统一审计记录    | `P1-T28` |
-| 登录失败、无效令牌、权限拒绝写入 `security_event` | 当前只有鉴权与守卫逻辑             | 单测、e2e 证明拒绝发生 | `Open`   | 拒绝已能发生，但未形成统一结构化安全事件留痕                   | `P1-T28` |
+| 第一阶段存在统一 `audit_log` 运行时持久化模型 | 已实现 `audit_log` entity、repository、writer service、global module 与 migration | `runtime-audit.service.spec.ts`、`pnpm nx build poms-api`、migration `20260328120000` | `Done`   | `—` | `—` |
+| 第一阶段存在统一 `security_event` 结构化持久化模型 | 已实现 `security_event` entity、repository、writer service、global module 与 migration | `runtime-audit.service.spec.ts`、`pnpm nx build poms-api`、migration `20260328120000` | `Done`   | `—` | `—` |
+| 平台治理高敏动作写入统一 `audit_log`         | 用户/角色/组织高敏命令已在 `platform.service.ts` 写入统一 `audit_log`；导航仍停留在受控代码/seed 维护 | `platform.service.spec.ts`、`pnpm nx test poms-api --runInBand`、`pnpm nx run poms-api-e2e:e2e --runInBand --testPathPattern=platform-governance.e2e-spec.ts` | `In Review`   | 导航事实源仍缺显式同步 / 发布动作与查询出口，当前不能把平台治理域统一审计判为完成 | `P1-T28` |
+| 登录失败、无效令牌、权限拒绝写入 `security_event` | `auth.controller.ts`、`permissions.guard.ts`、`jwt.strategy.ts` 已写入登录失败、接口权限拒绝与“令牌主体已失效/不存在”拒绝事件 | `auth.controller.spec.ts`、`permissions.guard.spec.ts`、`jwt.strategy.spec.ts`、`pnpm nx test poms-api --runInBand` | `In Review`   | 通用无效 / 过期 JWT 与前端路由拒绝事件仍未统一落库；同时缺查询出口，暂不能签收 | `P1-T28` |
 | 审计与安全事件具备最小查询出口               | 当前无统一管理接口或读侧视图       | 无       | `Open`   | 缺最小 API / 查询视图与验收证据                                | `P1-T29` |
 
 ---
@@ -65,7 +65,7 @@
 
 1. `P1-S08` 的主体实现与阶段验收证据已收口，可维持 `Done`。
 2. `P1-S09` 的页面、路由与受控维护路径已收口，但导航运行时审计仍未落地，当前不应维持 `Done`。
-3. 当前第一阶段剩余主缺口已转为统一运行时审计与安全事件基线，需先完成 `P1-T27` ~ `P1-T29`，再执行 `P1-T20`。
+3. 当前第一阶段剩余主缺口已转为统一运行时审计与安全事件基线；`P1-T27` 已完成，需继续收口 `P1-T28` ~ `P1-T29`，再执行 `P1-T20`。
 
 ---
 
