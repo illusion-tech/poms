@@ -32,6 +32,11 @@ export class AuthController {
             return { accessToken: this.jwtService.sign(payload) };
         }
 
+        const isKnownPlatformUsername = await this.platformService.isKnownPlatformUsername(dto.username);
+        if (isKnownPlatformUsername) {
+            throw new UnauthorizedException('用户名或密码错误');
+        }
+
         // fixture fallback for dev/transition period
         const fixtureUser = findDevUserByCredentials(dto.username, dto.password);
         if (fixtureUser) {

@@ -387,6 +387,39 @@ describe('PlatformService', () => {
         });
     });
 
+    describe('resolveActiveAuthUser', () => {
+        it('returns current username and live permissions for an active user', async () => {
+            repository.findUserById.mockResolvedValue(
+                createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', isActive: true })
+            );
+            repository.findActiveUserRoleAssignments.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+            ]);
+            repository.findActiveRolePermissionAssignments.mockResolvedValue([
+                { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
+                { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'platform:roles:manage' }
+            ]);
+
+            const result = await service.resolveActiveAuthUser('00000000-0000-4000-8000-000000000001');
+
+            expect(result).toEqual({
+                userId: '00000000-0000-4000-8000-000000000001',
+                username: 'admin',
+                permissions: ['project:read', 'platform:roles:manage']
+            });
+        });
+
+        it('returns null when the user is inactive', async () => {
+            repository.findUserById.mockResolvedValue(
+                createUser({ id: '00000000-0000-4000-8000-000000000001', isActive: false })
+            );
+
+            const result = await service.resolveActiveAuthUser('00000000-0000-4000-8000-000000000001');
+
+            expect(result).toBeNull();
+        });
+    });
+
     describe('createRole', () => {
         it('creates role when roleKey does not exist', async () => {
             repository.findRoleByKey.mockResolvedValue(null);

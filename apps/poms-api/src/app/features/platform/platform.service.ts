@@ -20,6 +20,26 @@ export class PlatformService {
         return { userId: user.id, username: user.username, permissions };
     }
 
+    async resolveActiveAuthUser(userId: string): Promise<{ userId: string; username: string; permissions: PermissionKey[] } | null> {
+        const user = await this.platformRepository.findUserById(userId);
+        if (!user || !user.isActive) return null;
+
+        const permissions = await this.getPermissionsForUser(user.id);
+        return {
+            userId: user.id,
+            username: user.username,
+            permissions
+        };
+    }
+
+    async isKnownPlatformUser(userId: string): Promise<boolean> {
+        return (await this.platformRepository.findUserById(userId)) !== null;
+    }
+
+    async isKnownPlatformUsername(username: string): Promise<boolean> {
+        return (await this.platformRepository.findUserByUsername(username)) !== null;
+    }
+
     async getPermissionsForUser(userId: string): Promise<PermissionKey[]> {
         const userRoleAssignments = await this.platformRepository.findActiveUserRoleAssignments();
         const roleIds = userRoleAssignments.filter((a) => a.userId === userId).map((a) => a.roleId);
