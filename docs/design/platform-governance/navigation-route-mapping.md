@@ -46,10 +46,11 @@
 | --------------------- | ---------------------- | ------------------------------------------ | ------------- | ------------------------------------------------------------------------------------- |
 | `dashboard`           | `/dashboard`           | 已有真实工作台页                           | `implemented` | 继续保持为正式首页入口                                                                |
 | `projects`            | `/projects`            | 已有真实业务页                             | `implemented` | 继续保持启用，并与权限、导航同步校验                                                  |
+| `contracts`           | `/contracts`           | 已有真实业务页                             | `implemented` | 继续保持启用，并与权限、导航同步校验                                                  |
 | `platform.users`      | `/platform/users`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口，并持续用 smoke 覆盖可达性与拦截                                   |
 | `platform.roles`      | `/platform/roles`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                                                    |
 | `platform.org-units`  | `/platform/org-units`  | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                                                    |
-| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看导航树与路由对齐结果 | `implemented` | 第一阶段按受控只读治理入口启用；导航事实源同步写入统一 `audit_log` 仍待 `P1-T28` 落地 |
+| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看导航树与路由对齐结果 | `implemented` | 第一阶段按受控治理入口启用，并通过显式同步命令把导航事实源变化写入统一 `audit_log`    |
 | `my_profile`          | `/profile`             | 当前已有 `/profile/*` 体系                 | `implemented` | 可保留为当前阶段正式入口                                                              |
 
 ---
@@ -58,14 +59,14 @@
 
 当前阶段，平台导航应分两层理解：
 
-1. **消费层与页面落点已跑通**：当前用户导航树已能通过真实接口下发，前端也已有 `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/navigation` 四类平台治理入口。
-2. **运行时审计仍待补齐**：`/platform/navigation` 当前虽已具备受控只读治理入口，但导航事实源同步到运行时后的统一 `audit_log` 写入仍未落地。
+1. **消费层与页面落点已跑通**：当前用户导航树已能通过真实接口下发，前端已收敛为“一级分组、二级页面入口”，并已有 `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/navigation` 四类平台治理入口。
+2. **运行时审计已收口**：`/platform/navigation` 当前除只读治理页外，还具备显式同步命令，可把导航事实源同步结果写入统一 `audit_log`。
 
 因此第一阶段补齐要求如下：
 
 - `platform.users`、`platform.roles`、`platform.org-units`、`platform.navigation` 当前均已具备真实落点，可按当前链接正式启用
 - `navigation-route-mapping.md` 需继续与真实前端路由同步维护，避免再次漂移
-- 平台导航运行时审计要求当前仍不应被误判为已完成，需继续跟踪 `P1-T26` ~ `P1-T28`
+- 平台导航的一级分组不单独承担真实路由，对照表继续只维护二级可跳转叶子节点
 
 ## 6. 变更要求
 
