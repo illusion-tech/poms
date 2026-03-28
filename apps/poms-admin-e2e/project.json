@@ -1,0 +1,19 @@
+{
+    "name": "poms-admin-e2e",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "implicitDependencies": ["poms-admin", "poms-api"],
+    "targets": {
+        "e2e": {
+            "executor": "nx:run-commands",
+            "cache": false,
+            "dependsOn": ["poms-api:seeder-run"],
+            "options": {
+                "command": "pnpm exec playwright test --config apps/poms-admin-e2e/playwright.config.ts"
+            },
+            "outputs": [
+                "{workspaceRoot}/dist/playwright/poms-admin-e2e"
+            ]
+        }
+    }
+}
