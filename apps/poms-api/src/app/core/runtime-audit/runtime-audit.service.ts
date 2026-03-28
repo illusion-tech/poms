@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import type { AuditLogListQuery, AuditLogSummary, SecurityEventListQuery, SecurityEventSummary } from '@poms/shared-contracts';
 import type { AuditSnapshot } from './audit-log.entity';
 import { RuntimeAuditRepository } from './runtime-audit.repository';
 import type { SecurityEventDetails } from './security-event.entity';
@@ -73,5 +74,79 @@ export class RuntimeAuditService {
         });
 
         await this.runtimeAuditRepository.saveAll([entity]);
+    }
+
+    async listAuditLogs(query: AuditLogListQuery): Promise<AuditLogSummary[]> {
+        const occurredAt = this.#createOccurredAtFilter(query.from, query.to);
+        const entities = await this.runtimeAuditRepository.findAuditLogs(
+            {
+                ...(query.eventType ? { eventType: query.eventType } : {}),
+                ...(query.targetType ? { targetType: query.targetType } : {}),
+                ...(query.targetId ? { targetId: query.targetId } : {}),
+                ...(query.operatorId ? { operatorId: query.operatorId } : {}),
+                ...(query.result ? { result: query.result } : {}),
+                ...(occurredAt ? { occurredAt } : {})
+            },
+            query.limit ?? 50
+        );
+
+        return entities.map((entity) => ({
+            id: entity.id,
+            eventType: entity.eventType,
+            targetType: entity.targetType,
+            targetId: entity.targetId,
+            operatorId: entity.operatorId ?? null,
+            requestId: entity.requestId ?? null,
+            result: entity.result as AuditLogSummary['result'],
+            reason: entity.reason ?? null,
+            beforeSnapshot: entity.beforeSnapshot ?? null,
+            afterSnapshot: entity.afterSnapshot ?? null,
+            metadata: entity.metadata ?? null,
+            occurredAt: entity.occurredAt.toISOString()
+        }));
+    }
+
+    async listSecurityEvents(query: SecurityEventListQuery): Promise<SecurityEventSummary[]> {
+        const occurredAt = this.#createOccurredAtFilter(query.from, query.to);
+        const entities = await this.runtimeAuditRepository.findSecurityEvents(
+            {
+                ...(query.eventType ? { eventType: query.eventType } : {}),
+                ...(query.actorId ? { actorId: query.actorId } : {}),
+                ...(query.principal ? { principal: query.principal } : {}),
+                ...(query.path ? { path: query.path } : {}),
+                ...(query.permissionKey ? { permissionKey: query.permissionKey } : {}),
+                ...(query.result ? { result: query.result } : {}),
+                ...(occurredAt ? { occurredAt } : {})
+            },
+            query.limit ?? 50
+        );
+
+        return entities.map((entity) => ({
+            id: entity.id,
+            eventType: entity.eventType,
+            severity: entity.severity as SecurityEventSummary['severity'],
+            actorId: entity.actorId ?? null,
+            principal: entity.principal ?? null,
+            requestId: entity.requestId ?? null,
+            path: entity.path,
+            method: entity.method ?? null,
+            permissionKey: entity.permissionKey ?? null,
+            result: entity.result as SecurityEventSummary['result'],
+            ip: entity.ip ?? null,
+            userAgent: entity.userAgent ?? null,
+            details: entity.details ?? null,
+            occurredAt: entity.occurredAt.toISOString()
+        }));
+    }
+
+    #createOccurredAtFilter(from?: string, to?: string): { $gte?: Date; $lte?: Date } | null {
+        const filter: { $gte?: Date; $lte?: Date } = {};
+        if (from) {
+            filter.$gte = new Date(from);
+        }
+        if (to) {
+            filter.$lte = new Date(to);
+        }
+        return Object.keys(filter).length > 0 ? filter : null;
     }
 }

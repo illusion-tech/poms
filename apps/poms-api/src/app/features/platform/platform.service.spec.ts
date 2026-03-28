@@ -45,6 +45,9 @@ describe('PlatformService', () => {
     let runtimeAuditService: {
         recordAuditLog: jest.Mock;
     };
+    let navigationService: {
+        getNavigationAuditSnapshot: jest.Mock;
+    };
 
     beforeEach(() => {
         repository = {
@@ -75,8 +78,11 @@ describe('PlatformService', () => {
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         };
+        navigationService = {
+            getNavigationAuditSnapshot: jest.fn()
+        };
 
-        service = new PlatformService(repository as never, runtimeAuditService as never);
+        service = new PlatformService(repository as never, runtimeAuditService as never, navigationService as never);
     });
 
     it('aggregates platform users with real role names and primary org names', async () => {
@@ -593,6 +599,37 @@ describe('PlatformService', () => {
             await expect(
                 service.updateOrgUnit('10000000-0000-4000-8000-000000000099', { name: '不存在' })
             ).rejects.toThrow(NotFoundException);
+        });
+    });
+
+    describe('syncNavigationAudit', () => {
+        it('records an explicit navigation sync audit snapshot', async () => {
+            navigationService.getNavigationAuditSnapshot.mockReturnValue({
+                targetId: 'platform-navigation',
+                nodeCount: 5,
+                routeCount: 4,
+                hiddenCount: 0,
+                disabledCount: 0,
+                treeChecksum: '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+                navigationKeys: ['dashboard', 'projects', 'contracts', 'platform', 'my_profile'],
+                routeLinks: ['/dashboard', '/projects', '/contracts', '/profile']
+            });
+
+            const result = await service.syncNavigationAudit('00000000-0000-4000-8000-000000000001', 'req-sync-001');
+
+            expect(result.targetId).toBe('platform-navigation');
+            expect(navigationService.getNavigationAuditSnapshot).toHaveBeenCalledTimes(1);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.navigation.synced',
+                    targetType: 'NavigationTree',
+                    targetId: 'platform-navigation',
+                    operatorId: '00000000-0000-4000-8000-000000000001',
+                    requestId: 'req-sync-001',
+                    result: 'success',
+                    metadata: { source: 'static-navigation-ssot' }
+                })
+            );
         });
     });
 });

@@ -1,4 +1,4 @@
-import type { NavigationItem, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList } from '@poms/shared-contracts';
+import type { NavigationItem, NavigationSyncSummary, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList } from '@poms/shared-contracts';
 import type { UserPayload } from '@poms/shared-contracts';
 import {
     AssignRolePermissionsRequestDto,
@@ -8,6 +8,7 @@ import {
     CreatePlatformUserRequestDto,
     CreateRoleRequestDto,
     NavigationListDto,
+    NavigationSyncSummaryDto,
     PlatformOrgUnitListDto,
     PlatformOrgUnitSummaryDto,
     PlatformRoleListDto,
@@ -20,6 +21,7 @@ import {
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { NavigationService } from '../navigation/navigation.service';
 import { PlatformService } from './platform.service';
 
@@ -139,5 +141,14 @@ export class PlatformController {
     @ApiOkResponse({ type: NavigationListDto })
     getAllNavigationItems(): NavigationItem[] {
         return this.navigationService.getAllNavigationItems();
+    }
+
+    @Post('navigation/sync')
+    @HasPermissions('platform:navigation:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '记录当前导航 SSOT 的同步审计快照' })
+    @ApiOkResponse({ type: NavigationSyncSummaryDto })
+    syncNavigation(@Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<NavigationSyncSummary> {
+        return this.platformService.syncNavigationAudit(req.user.sub, getRequestId(req));
     }
 }

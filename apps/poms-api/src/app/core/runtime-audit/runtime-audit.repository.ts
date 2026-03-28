@@ -1,4 +1,4 @@
-import { EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { AuditLog } from './audit-log.entity';
@@ -31,5 +31,19 @@ export class RuntimeAuditRepository {
 
     async findRecentSecurityEvents(limit = 20): Promise<SecurityEvent[]> {
         return this.securityEventRepository.findAll({ orderBy: { occurredAt: QueryOrder.DESC }, limit });
+    }
+
+    async findAuditLogs(where: FilterQuery<AuditLog>, limit = 50): Promise<AuditLog[]> {
+        return this.auditLogRepository.find(where, {
+            orderBy: { occurredAt: QueryOrder.DESC },
+            limit
+        });
+    }
+
+    async findSecurityEvents(where: FilterQuery<SecurityEvent>, limit = 50): Promise<SecurityEvent[]> {
+        return this.securityEventRepository.find(where, {
+            orderBy: { occurredAt: QueryOrder.DESC },
+            limit
+        });
     }
 }

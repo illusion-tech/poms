@@ -1,4 +1,5 @@
-import type { NavigationItem, PermissionKey } from '@poms/shared-contracts';
+import { createHash } from 'node:crypto';
+import type { NavigationItem, NavigationSyncSummary, PermissionKey } from '@poms/shared-contracts';
 import { Injectable } from '@nestjs/common';
 import { NAVIGATION_TREE } from './navigation.constants';
 
@@ -10,6 +11,37 @@ export class NavigationService {
 
     getAllNavigationItems(): NavigationItem[] {
         return NAVIGATION_TREE;
+    }
+
+    getNavigationAuditSnapshot(): NavigationSyncSummary {
+        const flattened = this.#flattenTree(NAVIGATION_TREE);
+        const routeLinks = flattened
+            .map((item) => item.link)
+            .filter((link): link is string => typeof link === 'string' && link.length > 0);
+        const navigationKeys = flattened.map((item) => item.key);
+        const hiddenCount = flattened.filter((item) => item.isHidden).length;
+        const disabledCount = flattened.filter((item) => item.isDisabled).length;
+        const treeChecksum = createHash('sha256')
+            .update(
+                JSON.stringify({
+                    navigationKeys,
+                    routeLinks,
+                    hiddenCount,
+                    disabledCount
+                })
+            )
+            .digest('hex');
+
+        return {
+            targetId: 'platform-navigation',
+            nodeCount: flattened.length,
+            routeCount: routeLinks.length,
+            hiddenCount,
+            disabledCount,
+            treeChecksum,
+            navigationKeys,
+            routeLinks
+        };
     }
 
     #filterTree(items: NavigationItem[], userPermissions: PermissionKey[]): NavigationItem[] {
@@ -35,5 +67,9 @@ export class NavigationService {
         }
 
         return result.sort((a, b) => a.displayOrder - b.displayOrder);
+    }
+
+    #flattenTree(items: NavigationItem[]): NavigationItem[] {
+        return items.flatMap((item) => [item, ...(item.children ? this.#flattenTree(item.children) : [])]);
     }
 }

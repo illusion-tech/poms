@@ -1,7 +1,8 @@
-import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, PermissionKey, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
+import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, NavigationSyncSummary, PermissionKey, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { NavigationService } from '../navigation/navigation.service';
 import { OrgUnit } from './org-unit.entity';
 import { PlatformRepository } from './platform.repository';
 import { PlatformRole } from './role.entity';
@@ -10,7 +11,8 @@ import { PlatformRole } from './role.entity';
 export class PlatformService {
     constructor(
         private readonly platformRepository: PlatformRepository,
-        private readonly runtimeAuditService: RuntimeAuditService
+        private readonly runtimeAuditService: RuntimeAuditService,
+        private readonly navigationService: NavigationService
     ) {}
 
     async verifyCredentials(username: string, password: string): Promise<{ userId: string; username: string; permissions: PermissionKey[] } | null> {
@@ -435,6 +437,23 @@ export class PlatformService {
             }
         });
         return this.getSanitizedUserProfile(userId, { username: user.username, permissions: [] });
+    }
+
+    async syncNavigationAudit(operatorId?: string | null, requestId?: string | null): Promise<NavigationSyncSummary> {
+        const snapshot = this.navigationService.getNavigationAuditSnapshot();
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.navigation.synced',
+            targetType: 'NavigationTree',
+            targetId: snapshot.targetId,
+            operatorId: operatorId ?? null,
+            requestId: requestId ?? null,
+            result: 'success',
+            afterSnapshot: snapshot,
+            metadata: {
+                source: 'static-navigation-ssot'
+            }
+        });
+        return snapshot;
     }
 
     async #loadUserAggregationContext() {
