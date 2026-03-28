@@ -210,7 +210,8 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 已完成，第一阶段最终验收快照已形成；当前已无阻塞第一阶段收口的功能性缺口，仅剩非阻塞工程 warning 与后续阶段规划议题
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口，仅剩后续阶段范围规划议题
+- **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
 
@@ -233,7 +234,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：第一阶段已完成最终验收快照；近期工作应转入非阻塞工程治理（如前端构建 warning）与下一阶段范围决策，更完整的应付 / 开票 / 外部对账链保留到后续阶段处理
+3. **下一步**：第一阶段功能、验收与工程 warning 已全部收口；近期工作应直接进入下一阶段范围决策，更完整的应付 / 开票 / 外部对账链保留到后续阶段处理
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 

@@ -37,7 +37,7 @@
 - `pnpm nx test poms-admin --runInBand --testPathPattern=permission.guard.spec.ts`
   - 结果：通过；1 suite / 4 tests 全绿
 - `pnpm nx build poms-admin`
-  - 结果：通过；存在 2 条非阻塞 warning：
+  - 结果：通过；`P1-T20` 当轮曾出现 2 条非阻塞 warning，后续已由 `P1-T30` 收口：
   - `bundle initial exceeded maximum budget`
   - `Unable to locate stylesheet: E:\layout\styles\preloading\preloading.css`
 
@@ -75,6 +75,9 @@
 
 以下问题不阻塞第一阶段正式收口，但应继续留痕并在后续阶段处理：
 
-- `poms-admin` 生产构建 bundle budget 当前超限
-- `E:\layout\styles\preloading\preloading.css` 缺失引用仍在构建 warning 中出现
 - 成本 / 应付 / 对账链当前仍为最小事实模型，尚未扩展为完整财务闭环
+
+补充说明：
+
+- `preloading.css` warning 已在后续 `P1-T30` 中通过把预加载样式内联到 `apps/poms-admin/src/index.html` 收口，构建已不再报 `Unable to locate stylesheet`
+- bundle budget warning 也已在后续 `P1-T30` 中收口：通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
