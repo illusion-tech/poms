@@ -1,8 +1,8 @@
-import { AppBreadcrumb } from '@/app/layout/components/app.breadcrumb';
-import { AppFooter } from '@/app/layout/components/app.footer';
-import { AppRightMenu } from '@/app/layout/components/app.rightmenu';
-import { AppSearch } from '@/app/layout/components/app.search';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { AppBreadcrumb } from './app.breadcrumb';
+import { AppFooter } from './app.footer';
+import { AppRightMenu } from './app.rightmenu';
+import { AppSearch } from './app.search';
+import { LayoutService } from '../service/layout.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
