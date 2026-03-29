@@ -35,6 +35,20 @@
 - `poms-hld.md`：高层设计，负责给出系统蓝图、模块关系和核心边界
 - `poms-design-progress.md`：设计进度跟踪，负责管理设计资产状态、依赖关系和下一步产出
 - `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片
+- `phase2-user-task-map.md`：第二阶段用户画像与任务地图，负责把范围规划拉回真实用户、真实任务与生命周期体验断点
+- `phase2-experience-gap-priority-matrix.md`：第二阶段体验断点与优先级矩阵，负责明确先优化什么、为什么
+- `phase2-lifecycle-experience-blueprint.md`：第二阶段项目全生命周期体验蓝图，负责明确主体验主线、阶段承接点与系统连续工作方式
+- `phase2-experience-optimization-roadmap.md`：第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准
+- `phase2-presigning-workspace-information-architecture.md`：第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系
+- `phase2-presigning-initiation-advancement-workspace.md`：第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示
+- `phase2-presigning-project-overview-workspace.md`：第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构
+- `phase2-presigning-technical-cost-workspace.md`：第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构
+- `phase2-presigning-bid-commercial-workspace.md`：第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转
+- `phase2-presigning-pricing-margin-workspace.md`：第二阶段签约前报价与毛利评审工作区草案，负责细化报价、成本、税务成本、回款条件与放行结论的统一判断
+- `phase2-presigning-contract-readiness-workspace.md`：第二阶段签约前签约就绪工作区草案，负责细化签约前置项检查、可复用事实与进入合同主链前的最终收口判断
+- `phase2-presigning-workspace-handoff-map.md`：第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径
+- `phase2-presigning-workspace-templates.md`：第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板
+- `phase2-execution-cost-workspace-information-architecture.md`：第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构
 
 ### 2. 业务域设计（Domains）
 
@@ -212,6 +226,20 @@
 - `poms-hld.md`
 - `poms-design-progress.md`
 - `poms-phase1-delivery-roadmap.md`
+- `phase2-user-task-map.md`
+- `phase2-experience-gap-priority-matrix.md`
+- `phase2-lifecycle-experience-blueprint.md`
+- `phase2-experience-optimization-roadmap.md`
+- `phase2-presigning-workspace-information-architecture.md`
+- `phase2-presigning-initiation-advancement-workspace.md`
+- `phase2-presigning-project-overview-workspace.md`
+- `phase2-presigning-technical-cost-workspace.md`
+- `phase2-presigning-bid-commercial-workspace.md`
+- `phase2-presigning-pricing-margin-workspace.md`
+- `phase2-presigning-contract-readiness-workspace.md`
+- `phase2-presigning-workspace-handoff-map.md`
+- `phase2-presigning-workspace-templates.md`
+- `phase2-execution-cost-workspace-information-architecture.md`
 
 ### 业务域设计
 
