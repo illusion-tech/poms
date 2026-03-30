@@ -57,6 +57,10 @@
 - `phase2-project-handover-gate-workspace.md`：第二阶段项目移交强节点草案，负责细化移交完成状态、多方确认、交接事实清单、执行责任边界与进入执行态的强 gate
 - `phase2-commission-freeze-at-handover.md`：第二阶段提成角色与权重冻结绑定移交草案，负责细化冻结时点、版本语义、前置条件以及与移交完成 gate 的一致性要求
 - `phase2-handover-closure-rules.md`：第二阶段移交收口口径草案，负责统一合同生效承接、项目移交强节点与提成冻结三层同时成立的最终收口规则
+- `phase2-project-business-outcome-overview.md`：第二阶段项目经营结果总览草案，负责把合同、回款、成本、毛利和当前经营状态收成同一项目级经营入口
+- `phase2-project-unified-accounting-view-caliber.md`：第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径
+- `phase2-project-variance-risk-explanation.md`：第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构
+- `phase2-business-accounting-feedback-rules.md`：第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘
 
 ### 2. 业务域设计（Domains）
 
@@ -256,6 +260,10 @@
 - `phase2-project-handover-gate-workspace.md`
 - `phase2-commission-freeze-at-handover.md`
 - `phase2-handover-closure-rules.md`
+- `phase2-project-business-outcome-overview.md`
+- `phase2-project-unified-accounting-view-caliber.md`
+- `phase2-project-variance-risk-explanation.md`
+- `phase2-business-accounting-feedback-rules.md`
 
 ### 业务域设计
 

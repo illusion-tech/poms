@@ -98,6 +98,10 @@
 | `docs/design/phase2-project-handover-gate-workspace.md`                   | Draft (Baseline) | 第二阶段项目移交强节点草案，负责细化移交完成状态、多方确认、交接事实清单、执行责任边界与进入执行态的强 gate  | 是                 |
 | `docs/design/phase2-commission-freeze-at-handover.md`                     | Draft (Baseline) | 第二阶段提成角色与权重冻结绑定移交草案，负责细化冻结时点、版本语义、前置条件以及与移交完成 gate 的一致性要求 | 是                 |
 | `docs/design/phase2-handover-closure-rules.md`                            | Draft (Baseline) | 第二阶段移交收口口径草案，负责统一合同生效承接、项目移交强节点与提成冻结三层同时成立的最终收口规则           | 是                 |
+| `docs/design/phase2-project-business-outcome-overview.md`                 | Draft (Baseline) | 第二阶段项目经营结果总览草案，负责把合同、回款、成本、毛利和当前经营状态收成同一项目级经营入口               | 是                 |
+| `docs/design/phase2-project-unified-accounting-view-caliber.md`           | Draft (Baseline) | 第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径     | 是                 |
+| `docs/design/phase2-project-variance-risk-explanation.md`                 | Draft (Baseline) | 第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构             | 是                 |
+| `docs/design/phase2-business-accounting-feedback-rules.md`                | Draft (Baseline) | 第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘                 | 是                 |
 
 ### 4.3 业务域设计
 
@@ -232,7 +236,7 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-estimated-to-actual-cost-bridge.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-handover-gate-workspace.md`、`phase2-commission-freeze-at-handover.md` 与 `phase2-handover-closure-rules.md` 二十二份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成第一轮基线闭环，`L3` 已完成合同生效承接、项目移交强节点、提成冻结绑定移交以及统一收口口径四层设计，签约与移交主线已完成第一轮基线闭环，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-estimated-to-actual-cost-bridge.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-handover-gate-workspace.md`、`phase2-commission-freeze-at-handover.md`、`phase2-handover-closure-rules.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md` 与 `phase2-business-accounting-feedback-rules.md` 二十六份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成第一轮基线闭环，`L3` 已完成第一轮基线闭环，`L4` 已完成第一轮基线闭环，并已把经营结果总览、统一核算口径、偏差风险解释和反哺规则四层收口，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
 - **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
@@ -256,7 +260,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：在上述第二阶段基线产物基础上，执行 `L4-T01`，补“项目经营结果总览”工作区详细草案；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+3. **下一步**：在上述第二阶段基线产物基础上，执行 `L5-T01`，补“提成阶段总览与 gate 解释”工作区详细草案；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
@@ -264,7 +268,7 @@
 
 当前顺序固定为：
 
-1. 先进入 `L4-T01 ~ L4-T04`
+1. 先完成 `L5-T01 ~ L5-T04`
 2. 最后进入 `L5-T01 ~ L5-T04` 与 `LX-T01 ~ LX-T03`
 
 当前状态口径统一为：
@@ -298,6 +302,10 @@
 - `B20` `phase2-project-handover-gate-workspace.md`
 - `B21` `phase2-commission-freeze-at-handover.md`
 - `B22` `phase2-handover-closure-rules.md`
+- `B23` `phase2-project-business-outcome-overview.md`
+- `B24` `phase2-project-unified-accounting-view-caliber.md`
+- `B25` `phase2-project-variance-risk-explanation.md`
+- `B26` `phase2-business-accounting-feedback-rules.md`
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 

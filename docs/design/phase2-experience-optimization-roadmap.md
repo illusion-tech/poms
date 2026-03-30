@@ -1,7 +1,7 @@
 # POMS 第二阶段体验优化路线图
 
 **文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-29
+**最后更新**: 2026-03-30
 **适用范围**: `POMS` 第二阶段范围规划前置分析，聚焦体验优化主线、切片顺序、完成标准与阶段回写口径
 **关联文档**:
 
@@ -325,6 +325,10 @@
 | `B20` | `phase2-project-handover-gate-workspace.md`                   | `Done`   | 已形成项目移交强节点草案                                 |
 | `B21` | `phase2-commission-freeze-at-handover.md`                     | `Done`   | 已形成提成角色与权重冻结绑定移交草案                     |
 | `B22` | `phase2-handover-closure-rules.md`                            | `Done`   | 已形成签约到执行收口的统一口径                           |
+| `B23` | `phase2-project-business-outcome-overview.md`                 | `Done`   | 已形成项目经营结果总览草案                               |
+| `B24` | `phase2-project-unified-accounting-view-caliber.md`           | `Done`   | 已形成项目统一核算视图口径草案                           |
+| `B25` | `phase2-project-variance-risk-explanation.md`                 | `Done`   | 已形成项目偏差与风险解释草案                             |
+| `B26` | `phase2-business-accounting-feedback-rules.md`                | `Done`   | 已形成经营核算反哺规则草案                               |
 
 ### 6.1 `L1` 签约前统一工作区
 
@@ -358,12 +362,12 @@
 
 ### 6.4 `L4` 项目经营核算视图
 
-| 编号     | 任务                               | 当前状态      | 备注                   |
-| -------- | ---------------------------------- | ------------- | ---------------------- |
-| `L4-T01` | 补“项目经营结果总览”工作区详细草案 | `Not Started` | 依赖 `L2`              |
-| `L4-T02` | 补统一核算视图口径                 | `Not Started` | 依赖 `L2-T05`          |
-| `L4-T03` | 补“偏差与风险解释”详细草案         | `Not Started` | 依赖 `L4-T01 ~ L4-T02` |
-| `L4-T04` | 明确经营核算如何反哺后续判断       | `Not Started` | 依赖 `L4-T01 ~ L4-T03` |
+| 编号     | 任务                               | 当前状态 | 备注                                                       |
+| -------- | ---------------------------------- | -------- | ---------------------------------------------------------- |
+| `L4-T01` | 补“项目经营结果总览”工作区详细草案 | `Done`   | 已产出 `phase2-project-business-outcome-overview.md`       |
+| `L4-T02` | 补统一核算视图口径                 | `Done`   | 已产出 `phase2-project-unified-accounting-view-caliber.md` |
+| `L4-T03` | 补“偏差与风险解释”详细草案         | `Done`   | 已产出 `phase2-project-variance-risk-explanation.md`       |
+| `L4-T04` | 明确经营核算如何反哺后续判断       | `Done`   | 已产出 `phase2-business-accounting-feedback-rules.md`      |
 
 ### 6.5 `L5` 提成制度化操作体验
 
@@ -426,6 +430,6 @@
 
 下一步建议：
 
-1. 立即执行 `L4-T01`，补“项目经营结果总览”工作区详细草案
-2. `L3` 当前已完成合同生效后承接、项目移交强节点、提成冻结绑定移交与最终收口口径，签约与移交主线已完成第一轮基线闭环
+1. 立即执行 `L5-T01`，补“提成阶段总览与 gate 解释”工作区详细草案
+2. `L4` 已完成第一轮基线闭环，当前下一步正式切入提成制度化操作体验主线
 3. 后续所有讨论和回写，均以本清单编号为跟踪锚点
