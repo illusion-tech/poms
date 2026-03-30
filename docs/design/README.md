@@ -53,6 +53,10 @@
 - `phase2-cost-source-to-project-record-mapping.md`：第二阶段项目成本来源映射口径草案，负责明确采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层
 - `phase2-actual-cost-accumulation-stage-view.md`：第二阶段实际成本累计与阶段视图草案，负责细化三层累计口径、周/月与执行阶段视图、成本类型拆解与风险缺口解释
 - `phase2-estimated-to-actual-cost-bridge.md`：第二阶段估算成本到实际成本承接口径草案，负责明确基线估算版本、估算项到实际成本类型映射与偏差解释规则
+- `phase2-contract-to-handover-workspace.md`：第二阶段合同到移交承接工作区草案，负责细化合同生效后到正式移交前的承接状态、前置项、可复用事实与阻断规则
+- `phase2-project-handover-gate-workspace.md`：第二阶段项目移交强节点草案，负责细化移交完成状态、多方确认、交接事实清单、执行责任边界与进入执行态的强 gate
+- `phase2-commission-freeze-at-handover.md`：第二阶段提成角色与权重冻结绑定移交草案，负责细化冻结时点、版本语义、前置条件以及与移交完成 gate 的一致性要求
+- `phase2-handover-closure-rules.md`：第二阶段移交收口口径草案，负责统一合同生效承接、项目移交强节点与提成冻结三层同时成立的最终收口规则
 
 ### 2. 业务域设计（Domains）
 
@@ -248,6 +252,10 @@
 - `phase2-cost-source-to-project-record-mapping.md`
 - `phase2-actual-cost-accumulation-stage-view.md`
 - `phase2-estimated-to-actual-cost-bridge.md`
+- `phase2-contract-to-handover-workspace.md`
+- `phase2-project-handover-gate-workspace.md`
+- `phase2-commission-freeze-at-handover.md`
+- `phase2-handover-closure-rules.md`
 
 ### 业务域设计
 
