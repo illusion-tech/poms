@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-03-28
+**最后更新**: 2026-03-30
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -76,36 +76,37 @@
 | `docs/design/poms-hld.md`                                                 | Accepted         | 领域蓝图、模块边界、数据可信源、版本化约束                                                                   | 是                 |
 | `docs/design/poms-design-progress.md`                                     | Active           | 当前设计进度跟踪与治理看板，负责维护整体成熟度与依赖关系                                                     | 是                 |
 | `docs/design/poms-phase1-delivery-roadmap.md`                             | Active           | 第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片                                                   | 是                 |
-| `docs/design/phase2-user-task-map.md`                                     | Draft (Baseline) | 第二阶段范围规划前置分析，负责沉淀用户画像、生命周期任务链与体验断点                                         | 是                 |
-| `docs/design/phase2-experience-gap-priority-matrix.md`                    | Draft (Baseline) | 第二阶段体验断点优先级矩阵，负责收敛 `P0/P1` 主断点与优化顺序                                                | 是                 |
-| `docs/design/phase2-lifecycle-experience-blueprint.md`                    | Draft (Baseline) | 第二阶段项目全生命周期体验蓝图，负责明确四条主体验主线、阶段承接点与连续工作方式                             | 是                 |
-| `docs/design/phase2-experience-optimization-roadmap.md`                   | Draft (Baseline) | 第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准                                         | 是                 |
-| `docs/design/phase2-presigning-workspace-information-architecture.md`     | Draft (Baseline) | 第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系              | 是                 |
-| `docs/design/phase2-presigning-initiation-advancement-workspace.md`       | Draft (Baseline) | 第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示           | 是                 |
-| `docs/design/phase2-presigning-project-overview-workspace.md`             | Draft (Baseline) | 第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构                           | 是                 |
-| `docs/design/phase2-presigning-technical-cost-workspace.md`               | Draft (Baseline) | 第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构                       | 是                 |
-| `docs/design/phase2-presigning-bid-commercial-workspace.md`               | Draft (Baseline) | 第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转             | 是                 |
-| `docs/design/phase2-presigning-pricing-margin-workspace.md`               | Draft (Baseline) | 第二阶段签约前报价与毛利评审工作区草案，负责细化报价、成本、税务成本、回款条件与放行结论的统一判断           | 是                 |
-| `docs/design/phase2-presigning-contract-readiness-workspace.md`           | Draft (Baseline) | 第二阶段签约前签约就绪工作区草案，负责细化签约前置项检查、可复用事实与进入合同主链前的最终收口判断           | 是                 |
-| `docs/design/phase2-presigning-workspace-handoff-map.md`                  | Draft (Baseline) | 第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径                   | 是                 |
-| `docs/design/phase2-presigning-workspace-templates.md`                    | Draft (Baseline) | 第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板     | 是                 |
-| `docs/design/phase2-execution-cost-workspace-information-architecture.md` | Draft (Baseline) | 第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构       | 是                 |
-| `docs/design/phase2-project-actual-cost-records.md`                       | Draft (Baseline) | 第二阶段项目级实际成本记录草案，负责细化统一成本记录对象、成本类型、状态模型以及人力成本汇总归集口径         | 是                 |
-| `docs/design/phase2-cost-source-to-project-record-mapping.md`             | Draft (Baseline) | 第二阶段项目成本来源映射口径草案，负责明确采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层 | 是                 |
-| `docs/design/phase2-actual-cost-accumulation-stage-view.md`               | Draft (Baseline) | 第二阶段实际成本累计与阶段视图草案，负责细化三层累计口径、周/月与执行阶段视图、成本类型拆解与风险缺口解释    | 是                 |
-| `docs/design/phase2-estimated-to-actual-cost-bridge.md`                   | Draft (Baseline) | 第二阶段估算成本到实际成本承接口径草案，负责明确基线估算版本、估算项到实际成本类型映射与偏差解释规则         | 是                 |
-| `docs/design/phase2-contract-to-handover-workspace.md`                    | Draft (Baseline) | 第二阶段合同到移交承接工作区草案，负责细化合同生效后到正式移交前的承接状态、前置项、可复用事实与阻断规则     | 是                 |
-| `docs/design/phase2-project-handover-gate-workspace.md`                   | Draft (Baseline) | 第二阶段项目移交强节点草案，负责细化移交完成状态、多方确认、交接事实清单、执行责任边界与进入执行态的强 gate  | 是                 |
-| `docs/design/phase2-commission-freeze-at-handover.md`                     | Draft (Baseline) | 第二阶段提成角色与权重冻结绑定移交草案，负责细化冻结时点、版本语义、前置条件以及与移交完成 gate 的一致性要求 | 是                 |
-| `docs/design/phase2-handover-closure-rules.md`                            | Draft (Baseline) | 第二阶段移交收口口径草案，负责统一合同生效承接、项目移交强节点与提成冻结三层同时成立的最终收口规则           | 是                 |
-| `docs/design/phase2-project-business-outcome-overview.md`                 | Draft (Baseline) | 第二阶段项目经营结果总览草案，负责把合同、回款、成本、毛利和当前经营状态收成同一项目级经营入口               | 是                 |
-| `docs/design/phase2-project-unified-accounting-view-caliber.md`           | Draft (Baseline) | 第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径     | 是                 |
-| `docs/design/phase2-project-variance-risk-explanation.md`                 | Draft (Baseline) | 第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构             | 是                 |
-| `docs/design/phase2-business-accounting-feedback-rules.md`                | Draft (Baseline) | 第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘                 | 是                 |
-| `docs/design/phase2-commission-stage-gate-overview-workspace.md`          | Draft (Baseline) | 第二阶段提成阶段总览与 gate 解释草案，负责把提成阶段、门槛、阻断原因、经营依据和下一步动作收成统一工作区     | 是                 |
-| `docs/design/phase2-commission-staged-payout-adjustment-paths.md`         | Draft (Baseline) | 第二阶段提成分阶段发放与异常调整路径草案，负责把阶段发放、暂停、扣回、冲销、补发和重算串成连续操作链         | 是                 |
-| `docs/design/phase2-commission-retention-final-settlement.md`             | Draft (Baseline) | 第二阶段提成质保金与最终结算收口草案，负责区分非质保部分结清、质保金待结算与项目提成全部结清的最终路径       | 是                 |
-| `docs/design/phase2-commission-rule-explanation-language.md`              | Draft (Baseline) | 第二阶段提成规则可解释表达草案，负责统一阶段、gate、阻断、动作和特例的对用户表达规则                         | 是                 |
+| `docs/design/phase2-user-task-map.md`                                     | Ready for Review | 第二阶段范围规划前置分析，负责沉淀用户画像、生命周期任务链与体验断点                                         | 是                 |
+| `docs/design/phase2-experience-gap-priority-matrix.md`                    | Ready for Review | 第二阶段体验断点优先级矩阵，负责收敛 `P0/P1` 主断点与优化顺序                                                | 是                 |
+| `docs/design/phase2-lifecycle-experience-blueprint.md`                    | Ready for Review | 第二阶段项目全生命周期体验蓝图，负责明确四条主体验主线、阶段承接点与连续工作方式                             | 是                 |
+| `docs/design/phase2-experience-optimization-roadmap.md`                   | Ready for Review | 第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准                                         | 是                 |
+| `docs/design/phase2-presigning-workspace-information-architecture.md`     | Ready for Review | 第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系              | 是                 |
+| `docs/design/phase2-presigning-initiation-advancement-workspace.md`       | Ready for Review | 第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示           | 是                 |
+| `docs/design/phase2-presigning-project-overview-workspace.md`             | Ready for Review | 第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构                           | 是                 |
+| `docs/design/phase2-presigning-technical-cost-workspace.md`               | Ready for Review | 第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构                       | 是                 |
+| `docs/design/phase2-presigning-bid-commercial-workspace.md`               | Ready for Review | 第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转             | 是                 |
+| `docs/design/phase2-presigning-pricing-margin-workspace.md`               | Ready for Review | 第二阶段签约前报价与毛利评审工作区草案，负责细化报价、成本、税务成本、回款条件与放行结论的统一判断           | 是                 |
+| `docs/design/phase2-presigning-contract-readiness-workspace.md`           | Ready for Review | 第二阶段签约前签约就绪工作区草案，负责细化签约前置项检查、可复用事实与进入合同主链前的最终收口判断           | 是                 |
+| `docs/design/phase2-presigning-workspace-handoff-map.md`                  | Ready for Review | 第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径                   | 是                 |
+| `docs/design/phase2-presigning-workspace-templates.md`                    | Ready for Review | 第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板     | 是                 |
+| `docs/design/phase2-execution-cost-workspace-information-architecture.md` | Ready for Review | 第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构       | 是                 |
+| `docs/design/phase2-project-actual-cost-records.md`                       | Ready for Review | 第二阶段项目级实际成本记录草案，负责细化统一成本记录对象、成本类型、状态模型以及人力成本汇总归集口径         | 是                 |
+| `docs/design/phase2-cost-source-to-project-record-mapping.md`             | Ready for Review | 第二阶段项目成本来源映射口径草案，负责明确采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层 | 是                 |
+| `docs/design/phase2-actual-cost-accumulation-stage-view.md`               | Ready for Review | 第二阶段实际成本累计与阶段视图草案，负责细化三层累计口径、周/月与执行阶段视图、成本类型拆解与风险缺口解释    | 是                 |
+| `docs/design/phase2-estimated-to-actual-cost-bridge.md`                   | Ready for Review | 第二阶段估算成本到实际成本承接口径草案，负责明确基线估算版本、估算项到实际成本类型映射与偏差解释规则         | 是                 |
+| `docs/design/phase2-contract-to-handover-workspace.md`                    | Ready for Review | 第二阶段合同到移交承接工作区草案，负责细化合同生效后到正式移交前的承接状态、前置项、可复用事实与阻断规则     | 是                 |
+| `docs/design/phase2-project-handover-gate-workspace.md`                   | Ready for Review | 第二阶段项目移交强节点草案，负责细化移交完成状态、多方确认、交接事实清单、执行责任边界与进入执行态的强 gate  | 是                 |
+| `docs/design/phase2-commission-freeze-at-handover.md`                     | Ready for Review | 第二阶段提成角色与权重冻结绑定移交草案，负责细化冻结时点、版本语义、前置条件以及与移交完成 gate 的一致性要求 | 是                 |
+| `docs/design/phase2-handover-closure-rules.md`                            | Ready for Review | 第二阶段移交收口口径草案，负责统一合同生效承接、项目移交强节点与提成冻结三层同时成立的最终收口规则           | 是                 |
+| `docs/design/phase2-project-business-outcome-overview.md`                 | Ready for Review | 第二阶段项目经营结果总览草案，负责把合同、回款、成本、毛利和当前经营状态收成同一项目级经营入口               | 是                 |
+| `docs/design/phase2-project-unified-accounting-view-caliber.md`           | Ready for Review | 第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径     | 是                 |
+| `docs/design/phase2-project-variance-risk-explanation.md`                 | Ready for Review | 第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构             | 是                 |
+| `docs/design/phase2-business-accounting-feedback-rules.md`                | Ready for Review | 第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘                 | 是                 |
+| `docs/design/phase2-commission-stage-gate-overview-workspace.md`          | Ready for Review | 第二阶段提成阶段总览与 gate 解释草案，负责把提成阶段、门槛、阻断原因、经营依据和下一步动作收成统一工作区     | 是                 |
+| `docs/design/phase2-commission-staged-payout-adjustment-paths.md`         | Ready for Review | 第二阶段提成分阶段发放与异常调整路径草案，负责把阶段发放、暂停、扣回、冲销、补发和重算串成连续操作链         | 是                 |
+| `docs/design/phase2-commission-retention-final-settlement.md`             | Ready for Review | 第二阶段提成质保金与最终结算收口草案，负责区分非质保部分结清、质保金待结算与项目提成全部结清的最终路径       | 是                 |
+| `docs/design/phase2-commission-rule-explanation-language.md`              | Ready for Review | 第二阶段提成规则可解释表达草案，负责统一阶段、gate、阻断、动作和特例的对用户表达规则                         | 是                 |
+| `docs/design/phase2-detailed-design-index-map.md`                         | Ready for Review | 第二阶段详细设计索引与主线地图，负责把 `L1 ~ L5` 已形成的基线收成统一导航入口                                | 是                 |
 
 ### 4.3 业务域设计
 
@@ -129,6 +130,7 @@
 | 文档                                                            | 当前状态 | 作用                                                                     | 是否可作为下游输入 |
 | --------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ | ------------------ |
 | `docs/design/business-authorization-matrix.md`                  | Active   | 业务对象动作授权矩阵，已补平台治理域动作矩阵并可直接指导第一阶段补齐实施 | 是                 |
+| `docs/design/phase2-data-permission-and-sensitive-visibility-design.md` | Ready for Review | 第二阶段业务数据权限与敏感信息可见性设计，负责补齐数据范围权限、敏感字段控制与提成敏感信息约束 | 是                 |
 | `docs/design/platform-governance/README.md`                     | Active   | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物               | 是                 |
 | `docs/design/platform-governance/platform-governance-design.md` | Active   | 平台治理域详细设计总入口，已补第一阶段正式承诺、缺口判断与最小落地要求   | 是                 |
 | `docs/design/platform-governance/user-management-design.md`     | Active   | 用户管理详细设计，已补第一阶段最小落地要求、接口建议与补齐顺序           | 是                 |
@@ -144,6 +146,7 @@
 | `docs/design/design-convergence-review-checklist.md`                      | Active   | 设计收口与评审前一致性清单，归并跨文档不一致与评审前检查项     | 是                 |
 | `docs/design/design-review-execution-checklist.md`                        | Active   | 详细设计评审执行清单，用于组织下一轮逐文档评审                 | 是                 |
 | `docs/design/design-review-follow-up-summary.md`                          | Active   | 首轮正式评审后的 follow-up 归并，约束实现前必须补齐项边界      | 是                 |
+| `docs/design/phase2-review-checklist.md`                                  | Active   | 第二阶段正式审阅清单，负责统一审阅范围、审阅维度、问题记录与结论回写入口 | 是                 |
 | `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则 | 是                 |
 | `docs/design/poms-phase1-delivery-roadmap.md`                             | Active   | 第一阶段交付路线图，统一远期目标、中期里程碑与近期实施重点     | 是                 |
 | `docs/design/platform-governance/platform-governance-review-checklist.md` | Active   | 平台治理域评审清单，收敛评审门槛、阻塞项、收口动作与通过标准   | 是                 |
@@ -240,7 +243,7 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-estimated-to-actual-cost-bridge.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-handover-gate-workspace.md`、`phase2-commission-freeze-at-handover.md`、`phase2-handover-closure-rules.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md`、`phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md` 与 `phase2-commission-rule-explanation-language.md` 三十份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成第一轮基线闭环，`L3` 已完成第一轮基线闭环，`L4` 已完成第一轮基线闭环，`L5` 已完成第一轮基线闭环，并已把阶段总览、分阶段发放 / 异常调整路径、质保金与最终结算收口、统一可解释表达规则四层收口，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段当前已形成三十一份正式基线产物，`L1 ~ L5` 五条主线均已完成第一轮基线闭环，`LX-T01` 已补齐统一索引与主线地图入口，`LX-T02` 已把第二阶段基线文档状态统一纠正为 `Ready for Review`，并新增 `phase2-review-checklist.md` 作为正式审阅入口。同时，业务数据权限与敏感信息可见性已被识别为进入实现前必须补齐的横切设计，新增 `phase2-data-permission-and-sensitive-visibility-design.md` 进入本轮正式审阅范围。当前真实阶段不是“已审阅完成后进入实现排期”，而是“基线已齐，待执行第二阶段正式审阅”。
 - **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
@@ -264,7 +267,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：在上述第二阶段基线产物基础上，执行 `LX-T01`，回收成统一“第二阶段详细设计索引 / 主线地图”；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+3. **下一步**：在上述第二阶段基线产物基础上，先执行 `LX-T03`，完成第二阶段正式审阅并形成问题清单、审阅记录与结论摘要；其中必须覆盖 `phase2-data-permission-and-sensitive-visibility-design.md`。`LX-T04` 的实现排期判断应以后续正式审阅结论为前置。更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
@@ -272,7 +275,8 @@
 
 当前顺序固定为：
 
-1. 先完成 `LX-T01 ~ LX-T03`
+1. 先完成 `LX-T03`
+2. 再执行 `LX-T04`
 
 当前状态口径统一为：
 
@@ -313,6 +317,7 @@
 - `B28` `phase2-commission-staged-payout-adjustment-paths.md`
 - `B29` `phase2-commission-retention-final-settlement.md`
 - `B30` `phase2-commission-rule-explanation-language.md`
+- `B31` `phase2-detailed-design-index-map.md`
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 
@@ -325,3 +330,4 @@
 - 每次某文档从 `Draft` 进入 `Review` 或 `Accepted` 时，更新状态
 - 每次 `docs/design/README.md` 的分类或命名约定发生调整时，应回看本文件是否需要同步修正
 - 若后续阶段推翻当前 ADR 结论，应新增后续 ADR，并同步更新本文件，而不是静默改写历史状态
+

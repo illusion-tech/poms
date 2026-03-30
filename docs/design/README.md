@@ -65,6 +65,7 @@
 - `phase2-commission-staged-payout-adjustment-paths.md`：第二阶段提成分阶段发放与异常调整路径草案，负责把阶段发放、暂停、扣回、冲销、补发和重算串成连续操作链
 - `phase2-commission-retention-final-settlement.md`：第二阶段提成质保金与最终结算收口草案，负责区分非质保部分结清、质保金待结算与项目提成全部结清的最终路径
 - `phase2-commission-rule-explanation-language.md`：第二阶段提成规则可解释表达草案，负责统一阶段、gate、阻断、动作和特例的对用户表达规则
+- `phase2-detailed-design-index-map.md`：第二阶段详细设计索引与主线地图，负责把 `L1 ~ L5` 的已形成基线收成统一导航入口
 
 ### 2. 业务域设计（Domains）
 
@@ -90,6 +91,7 @@
 当前文档包括：
 
 - `business-authorization-matrix.md`：业务对象动作授权矩阵，用于沉淀跨域授权基线
+- `phase2-data-permission-and-sensitive-visibility-design.md`：第二阶段业务数据权限与敏感信息可见性设计，用于补齐数据范围权限、敏感字段控制与提成敏感信息约束
 - `runtime-audit-and-security-event-design.md`：统一运行时审计与安全事件设计，用于冻结第一阶段最小审计落库与安全事件结构化留痕基线
 - `platform-governance/README.md`：平台治理域设计入口，聚合总设计、子设计与配套输出物
 - `platform-governance/` 子目录下的用户、角色权限、组织、导航等详细设计
@@ -103,6 +105,7 @@
 - `design-convergence-review-checklist.md`：设计收口与评审前一致性清单
 - `design-review-execution-checklist.md`：详细设计评审执行清单
 - `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
+- `phase2-review-checklist.md`：第二阶段正式审阅清单，负责收敛 phase2 基线文档的审阅范围、审阅维度、问题记录与结论入口
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，聚焦远期目标、中期里程碑与近期实施重点
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
@@ -194,6 +197,7 @@
 
 - `Draft`：草稿中，方向已开始成形
 - `Draft (Baseline)`：已形成首版稳定基线，但仍需继续收口
+- `Ready for Review`：已形成可审阅基线，但尚未完成正式审阅
 - `Review`：已进入评审或评审前收口阶段
 - `Accepted`：已作为当前阶段正式设计依据
 - `Active`：持续维护中的治理性文档或状态性文档
@@ -202,7 +206,7 @@
 其中：
 
 - 进度板、清单、评审摘要这类治理性文档，通常使用 `Active`
-- 能直接作为实现或下游详细设计输入的文档，通常应逐步从 `Draft` 演进到 `Review` 或 `Accepted`
+- 能直接作为实现或下游详细设计输入的文档，通常应逐步从 `Draft` 演进到 `Draft (Baseline)`、`Ready for Review`、`Review` 或 `Accepted`
 
 如有必要，可在标准状态后追加范围或阶段限定，以表达“该状态在什么边界内成立”，例如：
 
@@ -272,6 +276,7 @@
 - `phase2-commission-staged-payout-adjustment-paths.md`
 - `phase2-commission-retention-final-settlement.md`
 - `phase2-commission-rule-explanation-language.md`
+- `phase2-detailed-design-index-map.md`
 
 ### 业务域设计
 
@@ -289,6 +294,7 @@
 ### 治理与横切设计
 
 - `business-authorization-matrix.md`
+- `phase2-data-permission-and-sensitive-visibility-design.md`
 - `platform-governance/README.md`
 
 ### 评审与治理文档
@@ -296,6 +302,7 @@
 - `design-convergence-review-checklist.md`
 - `design-review-execution-checklist.md`
 - `design-review-follow-up-summary.md`
+- `phase2-review-checklist.md`
 - `implementation-delivery-guide.md`
 - `poms-phase1-delivery-roadmap.md`
 
@@ -309,6 +316,7 @@
 - `design-convergence-review-checklist.md`
 - `design-review-execution-checklist.md`
 - `design-review-follow-up-summary.md`
+- `phase2-review-checklist.md`
 
 ## 后续演进建议
 
