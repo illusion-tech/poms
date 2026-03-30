@@ -61,6 +61,10 @@
 - `phase2-project-unified-accounting-view-caliber.md`：第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径
 - `phase2-project-variance-risk-explanation.md`：第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构
 - `phase2-business-accounting-feedback-rules.md`：第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘
+- `phase2-commission-stage-gate-overview-workspace.md`：第二阶段提成阶段总览与 gate 解释草案，负责把提成阶段、门槛、阻断原因、经营依据和下一步动作收成统一工作区
+- `phase2-commission-staged-payout-adjustment-paths.md`：第二阶段提成分阶段发放与异常调整路径草案，负责把阶段发放、暂停、扣回、冲销、补发和重算串成连续操作链
+- `phase2-commission-retention-final-settlement.md`：第二阶段提成质保金与最终结算收口草案，负责区分非质保部分结清、质保金待结算与项目提成全部结清的最终路径
+- `phase2-commission-rule-explanation-language.md`：第二阶段提成规则可解释表达草案，负责统一阶段、gate、阻断、动作和特例的对用户表达规则
 
 ### 2. 业务域设计（Domains）
 
@@ -264,6 +268,10 @@
 - `phase2-project-unified-accounting-view-caliber.md`
 - `phase2-project-variance-risk-explanation.md`
 - `phase2-business-accounting-feedback-rules.md`
+- `phase2-commission-stage-gate-overview-workspace.md`
+- `phase2-commission-staged-payout-adjustment-paths.md`
+- `phase2-commission-retention-final-settlement.md`
+- `phase2-commission-rule-explanation-language.md`
 
 ### 业务域设计
 

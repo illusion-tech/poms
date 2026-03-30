@@ -329,6 +329,10 @@
 | `B24` | `phase2-project-unified-accounting-view-caliber.md`           | `Done`   | 已形成项目统一核算视图口径草案                           |
 | `B25` | `phase2-project-variance-risk-explanation.md`                 | `Done`   | 已形成项目偏差与风险解释草案                             |
 | `B26` | `phase2-business-accounting-feedback-rules.md`                | `Done`   | 已形成经营核算反哺规则草案                               |
+| `B27` | `phase2-commission-stage-gate-overview-workspace.md`          | `Done`   | 已形成提成阶段总览与 gate 解释工作区草案                 |
+| `B28` | `phase2-commission-staged-payout-adjustment-paths.md`         | `Done`   | 已形成提成分阶段发放与异常调整路径草案                   |
+| `B29` | `phase2-commission-retention-final-settlement.md`             | `Done`   | 已形成提成质保金与最终结算收口草案                       |
+| `B30` | `phase2-commission-rule-explanation-language.md`              | `Done`   | 已形成提成规则可解释表达草案                             |
 
 ### 6.1 `L1` 签约前统一工作区
 
@@ -371,12 +375,12 @@
 
 ### 6.5 `L5` 提成制度化操作体验
 
-| 编号     | 任务                                       | 当前状态      | 备注                   |
-| -------- | ------------------------------------------ | ------------- | ---------------------- |
-| `L5-T01` | 补“提成阶段总览与 gate 解释”工作区详细草案 | `Not Started` | 依赖 `L3`、`L4`        |
-| `L5-T02` | 补“分阶段发放与异常调整路径”详细草案       | `Not Started` | 依赖 `L5-T01`          |
-| `L5-T03` | 补“质保金与最终结算收口”详细草案           | `Not Started` | 依赖 `L5-T01`          |
-| `L5-T04` | 明确提成规则可解释表达                     | `Not Started` | 依赖 `L5-T01 ~ L5-T03` |
+| 编号     | 任务                                       | 当前状态 | 备注                                                         |
+| -------- | ------------------------------------------ | -------- | ------------------------------------------------------------ |
+| `L5-T01` | 补“提成阶段总览与 gate 解释”工作区详细草案 | `Done`   | 已产出 `phase2-commission-stage-gate-overview-workspace.md`  |
+| `L5-T02` | 补“分阶段发放与异常调整路径”详细草案       | `Done`   | 已产出 `phase2-commission-staged-payout-adjustment-paths.md` |
+| `L5-T03` | 补“质保金与最终结算收口”详细草案           | `Done`   | 已产出 `phase2-commission-retention-final-settlement.md`     |
+| `L5-T04` | 明确提成规则可解释表达                     | `Done`   | 已产出 `phase2-commission-rule-explanation-language.md`      |
 
 ### 6.6 全局收口
 
@@ -430,6 +434,6 @@
 
 下一步建议：
 
-1. 立即执行 `L5-T01`，补“提成阶段总览与 gate 解释”工作区详细草案
-2. `L4` 已完成第一轮基线闭环，当前下一步正式切入提成制度化操作体验主线
+1. 立即执行 `LX-T01`，回收成统一“第二阶段详细设计索引 / 主线地图”
+2. `L5` 已完成第一轮基线闭环，下一步转入第二阶段整体收口
 3. 后续所有讨论和回写，均以本清单编号为跟踪锚点

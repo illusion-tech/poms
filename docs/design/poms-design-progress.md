@@ -102,6 +102,10 @@
 | `docs/design/phase2-project-unified-accounting-view-caliber.md`           | Draft (Baseline) | 第二阶段项目统一核算视图口径草案，负责固定收入、成本、毛利、毛利率、税务影响与状态分层的统一经营核算口径     | 是                 |
 | `docs/design/phase2-project-variance-risk-explanation.md`                 | Draft (Baseline) | 第二阶段项目偏差与风险解释草案，负责把经营偏差、风险类型、数据成熟度与下一步动作收成统一解释结构             | 是                 |
 | `docs/design/phase2-business-accounting-feedback-rules.md`                | Draft (Baseline) | 第二阶段经营核算反哺规则草案，负责固定经营结果如何反哺项目执行、提成判断、管理关注与项目复盘                 | 是                 |
+| `docs/design/phase2-commission-stage-gate-overview-workspace.md`          | Draft (Baseline) | 第二阶段提成阶段总览与 gate 解释草案，负责把提成阶段、门槛、阻断原因、经营依据和下一步动作收成统一工作区     | 是                 |
+| `docs/design/phase2-commission-staged-payout-adjustment-paths.md`         | Draft (Baseline) | 第二阶段提成分阶段发放与异常调整路径草案，负责把阶段发放、暂停、扣回、冲销、补发和重算串成连续操作链         | 是                 |
+| `docs/design/phase2-commission-retention-final-settlement.md`             | Draft (Baseline) | 第二阶段提成质保金与最终结算收口草案，负责区分非质保部分结清、质保金待结算与项目提成全部结清的最终路径       | 是                 |
+| `docs/design/phase2-commission-rule-explanation-language.md`              | Draft (Baseline) | 第二阶段提成规则可解释表达草案，负责统一阶段、gate、阻断、动作和特例的对用户表达规则                         | 是                 |
 
 ### 4.3 业务域设计
 
@@ -236,7 +240,7 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-estimated-to-actual-cost-bridge.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-handover-gate-workspace.md`、`phase2-commission-freeze-at-handover.md`、`phase2-handover-closure-rules.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md` 与 `phase2-business-accounting-feedback-rules.md` 二十六份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成第一轮基线闭环，`L3` 已完成第一轮基线闭环，`L4` 已完成第一轮基线闭环，并已把经营结果总览、统一核算口径、偏差风险解释和反哺规则四层收口，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-estimated-to-actual-cost-bridge.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-handover-gate-workspace.md`、`phase2-commission-freeze-at-handover.md`、`phase2-handover-closure-rules.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md`、`phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md` 与 `phase2-commission-rule-explanation-language.md` 三十份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成第一轮基线闭环，`L3` 已完成第一轮基线闭环，`L4` 已完成第一轮基线闭环，`L5` 已完成第一轮基线闭环，并已把阶段总览、分阶段发放 / 异常调整路径、质保金与最终结算收口、统一可解释表达规则四层收口，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
 - **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
@@ -260,7 +264,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：在上述第二阶段基线产物基础上，执行 `L5-T01`，补“提成阶段总览与 gate 解释”工作区详细草案；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+3. **下一步**：在上述第二阶段基线产物基础上，执行 `LX-T01`，回收成统一“第二阶段详细设计索引 / 主线地图”；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
@@ -268,8 +272,7 @@
 
 当前顺序固定为：
 
-1. 先完成 `L5-T01 ~ L5-T04`
-2. 最后进入 `L5-T01 ~ L5-T04` 与 `LX-T01 ~ LX-T03`
+1. 先完成 `LX-T01 ~ LX-T03`
 
 当前状态口径统一为：
 
@@ -306,6 +309,10 @@
 - `B24` `phase2-project-unified-accounting-view-caliber.md`
 - `B25` `phase2-project-variance-risk-explanation.md`
 - `B26` `phase2-business-accounting-feedback-rules.md`
+- `B27` `phase2-commission-stage-gate-overview-workspace.md`
+- `B28` `phase2-commission-staged-payout-adjustment-paths.md`
+- `B29` `phase2-commission-retention-final-settlement.md`
+- `B30` `phase2-commission-rule-explanation-language.md`
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 
