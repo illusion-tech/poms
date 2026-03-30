@@ -301,22 +301,26 @@
 
 这部分不是后续待办，而是已经完成的第二阶段基线输入：
 
-| 编号  | 产物                                                          | 当前状态 | 说明                                                   |
-| ----- | ------------------------------------------------------------- | -------- | ------------------------------------------------------ |
-| `B1`  | `phase2-user-task-map.md`                                     | `Done`   | 已形成用户画像、生命周期任务链与体验断点基线           |
-| `B2`  | `phase2-experience-gap-priority-matrix.md`                    | `Done`   | 已形成 `P0/P1` 断点优先级判断                          |
-| `B3`  | `phase2-lifecycle-experience-blueprint.md`                    | `Done`   | 已形成生命周期体验蓝图                                 |
-| `B4`  | `phase2-experience-optimization-roadmap.md`                   | `Done`   | 已形成第二阶段主线和切片路线图                         |
-| `B5`  | `phase2-presigning-workspace-information-architecture.md`     | `Done`   | 已形成签约前统一工作区信息架构草案                     |
-| `B6`  | `phase2-presigning-initiation-advancement-workspace.md`       | `Done`   | 已形成 `立项与推进` 工作区草案                         |
-| `B7`  | `phase2-presigning-project-overview-workspace.md`             | `Done`   | 已形成 `项目总览` 工作区草案                           |
-| `B8`  | `phase2-presigning-technical-cost-workspace.md`               | `Done`   | 已形成 `技术与成本` 工作区草案，并补入税务成本显式表达 |
-| `B9`  | `phase2-presigning-bid-commercial-workspace.md`               | `Done`   | 已形成 `招投标 / 商务竞标` 工作区草案                  |
-| `B10` | `phase2-presigning-pricing-margin-workspace.md`               | `Done`   | 已形成 `报价与毛利评审` 工作区草案                     |
-| `B11` | `phase2-presigning-contract-readiness-workspace.md`           | `Done`   | 已形成 `签约就绪` 工作区草案                           |
-| `B12` | `phase2-presigning-workspace-handoff-map.md`                  | `Done`   | 已形成签约前六工作区承接关系图                         |
-| `B13` | `phase2-presigning-workspace-templates.md`                    | `Done`   | 已形成签约前主线模板层统一口径                         |
-| `B14` | `phase2-execution-cost-workspace-information-architecture.md` | `Done`   | 已形成执行期成本归集工作区信息架构草案                 |
+| 编号  | 产物                                                          | 当前状态 | 说明                                                     |
+| ----- | ------------------------------------------------------------- | -------- | -------------------------------------------------------- |
+| `B1`  | `phase2-user-task-map.md`                                     | `Done`   | 已形成用户画像、生命周期任务链与体验断点基线             |
+| `B2`  | `phase2-experience-gap-priority-matrix.md`                    | `Done`   | 已形成 `P0/P1` 断点优先级判断                            |
+| `B3`  | `phase2-lifecycle-experience-blueprint.md`                    | `Done`   | 已形成生命周期体验蓝图                                   |
+| `B4`  | `phase2-experience-optimization-roadmap.md`                   | `Done`   | 已形成第二阶段主线和切片路线图                           |
+| `B5`  | `phase2-presigning-workspace-information-architecture.md`     | `Done`   | 已形成签约前统一工作区信息架构草案                       |
+| `B6`  | `phase2-presigning-initiation-advancement-workspace.md`       | `Done`   | 已形成 `立项与推进` 工作区草案                           |
+| `B7`  | `phase2-presigning-project-overview-workspace.md`             | `Done`   | 已形成 `项目总览` 工作区草案                             |
+| `B8`  | `phase2-presigning-technical-cost-workspace.md`               | `Done`   | 已形成 `技术与成本` 工作区草案，并补入税务成本显式表达   |
+| `B9`  | `phase2-presigning-bid-commercial-workspace.md`               | `Done`   | 已形成 `招投标 / 商务竞标` 工作区草案                    |
+| `B10` | `phase2-presigning-pricing-margin-workspace.md`               | `Done`   | 已形成 `报价与毛利评审` 工作区草案                       |
+| `B11` | `phase2-presigning-contract-readiness-workspace.md`           | `Done`   | 已形成 `签约就绪` 工作区草案                             |
+| `B12` | `phase2-presigning-workspace-handoff-map.md`                  | `Done`   | 已形成签约前六工作区承接关系图                           |
+| `B13` | `phase2-presigning-workspace-templates.md`                    | `Done`   | 已形成签约前主线模板层统一口径                           |
+| `B14` | `phase2-execution-cost-workspace-information-architecture.md` | `Done`   | 已形成执行期成本归集工作区信息架构草案                   |
+| `B15` | `phase2-project-actual-cost-records.md`                       | `Done`   | 已形成项目级实际成本记录草案，并固定人力成本汇总归集口径 |
+| `B16` | `phase2-cost-source-to-project-record-mapping.md`             | `Done`   | 已形成四类成本来源映射进统一项目成本记录层的承接口径     |
+| `B17` | `phase2-actual-cost-accumulation-stage-view.md`               | `Done`   | 已形成实际成本累计与阶段视图草案                         |
+| `B18` | `phase2-estimated-to-actual-cost-bridge.md`                   | `Done`   | 已形成估算成本到实际成本的基线版本、映射与偏差解释口径   |
 
 ### 6.1 `L1` 签约前统一工作区
 
@@ -331,13 +335,13 @@
 
 ### 6.2 `L2` 执行期成本归集主线
 
-| 编号     | 任务                                                  | 当前状态      | 备注                                                                 |
-| -------- | ----------------------------------------------------- | ------------- | -------------------------------------------------------------------- |
-| `L2-T01` | 补“执行期成本归集工作区”信息架构草案                  | `Done`        | 已产出 `phase2-execution-cost-workspace-information-architecture.md` |
-| `L2-T02` | 补“项目级实际成本记录”详细草案                        | `Not Started` | 当前下一步；依赖 `L2-T01`                                            |
-| `L2-T03` | 补“采购合同 / 采购发票 / 费用 / 必要付款事实”承接口径 | `Not Started` | 依赖 `L2-T02`                                                        |
-| `L2-T04` | 补“实际成本累计与阶段视图”详细草案                    | `Not Started` | 依赖 `L2-T02 ~ L2-T03`                                               |
-| `L2-T05` | 明确执行期成本如何承接签约前估算成本                  | `Not Started` | 需与 `L1` 成本基线对齐                                               |
+| 编号     | 任务                                                  | 当前状态 | 备注                                                                                             |
+| -------- | ----------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| `L2-T01` | 补“执行期成本归集工作区”信息架构草案                  | `Done`   | 已产出 `phase2-execution-cost-workspace-information-architecture.md`                             |
+| `L2-T02` | 补“项目级实际成本记录”详细草案                        | `Done`   | 已产出 `phase2-project-actual-cost-records.md`，并固定人力成本按人员/角色 + 项目 + 周/月汇总归集 |
+| `L2-T03` | 补“采购合同 / 采购发票 / 费用 / 必要付款事实”承接口径 | `Done`   | 已产出 `phase2-cost-source-to-project-record-mapping.md`                                         |
+| `L2-T04` | 补“实际成本累计与阶段视图”详细草案                    | `Done`   | 已产出 `phase2-actual-cost-accumulation-stage-view.md`                                           |
+| `L2-T05` | 明确执行期成本如何承接签约前估算成本                  | `Done`   | 已产出 `phase2-estimated-to-actual-cost-bridge.md`，并固定估算版本基线、映射关系与偏差解释口径   |
 
 ### 6.3 `L3` 签约与移交强节点
 
@@ -418,6 +422,6 @@
 
 下一步建议：
 
-1. 立即执行 `L2-T02`，补“项目级实际成本记录”详细草案
-2. `L1` 已闭环，`L2` 当前已完成信息架构层，后续回写应沿“信息架构 -> 记录层 -> 承接口径 -> 累计视图 -> 与估算承接”顺序推进
+1. 立即执行 `L3-T01`，补“合同到移交的承接工作区”详细草案
+2. `L2` 当前已完成信息架构层、记录层、来源映射层、累计视图层与估算承接层，软件开发服务类项目的人力成本已固定为“人员/角色 + 项目 + 周/月”的汇总归集口径
 3. 后续所有讨论和回写，均以本清单编号为跟踪锚点

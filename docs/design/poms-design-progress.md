@@ -70,26 +70,30 @@
 
 ### 4.2 基线设计
 
-| 文档                                                                      | 当前状态         | 作用                                                                                                     | 是否可作为下游输入 |
-| ------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------- | ------------------ |
-| `docs/design/poms-requirements-spec.md`                                   | Accepted         | 制度到系统能力映射、范围、状态机、权限矩阵、规则边界                                                     | 是                 |
-| `docs/design/poms-hld.md`                                                 | Accepted         | 领域蓝图、模块边界、数据可信源、版本化约束                                                               | 是                 |
-| `docs/design/poms-design-progress.md`                                     | Active           | 当前设计进度跟踪与治理看板，负责维护整体成熟度与依赖关系                                                 | 是                 |
-| `docs/design/poms-phase1-delivery-roadmap.md`                             | Active           | 第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片                                               | 是                 |
-| `docs/design/phase2-user-task-map.md`                                     | Draft (Baseline) | 第二阶段范围规划前置分析，负责沉淀用户画像、生命周期任务链与体验断点                                     | 是                 |
-| `docs/design/phase2-experience-gap-priority-matrix.md`                    | Draft (Baseline) | 第二阶段体验断点优先级矩阵，负责收敛 `P0/P1` 主断点与优化顺序                                            | 是                 |
-| `docs/design/phase2-lifecycle-experience-blueprint.md`                    | Draft (Baseline) | 第二阶段项目全生命周期体验蓝图，负责明确四条主体验主线、阶段承接点与连续工作方式                         | 是                 |
-| `docs/design/phase2-experience-optimization-roadmap.md`                   | Draft (Baseline) | 第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准                                     | 是                 |
-| `docs/design/phase2-presigning-workspace-information-architecture.md`     | Draft (Baseline) | 第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系          | 是                 |
-| `docs/design/phase2-presigning-initiation-advancement-workspace.md`       | Draft (Baseline) | 第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示       | 是                 |
-| `docs/design/phase2-presigning-project-overview-workspace.md`             | Draft (Baseline) | 第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构                       | 是                 |
-| `docs/design/phase2-presigning-technical-cost-workspace.md`               | Draft (Baseline) | 第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构                   | 是                 |
-| `docs/design/phase2-presigning-bid-commercial-workspace.md`               | Draft (Baseline) | 第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转         | 是                 |
-| `docs/design/phase2-presigning-pricing-margin-workspace.md`               | Draft (Baseline) | 第二阶段签约前报价与毛利评审工作区草案，负责细化报价、成本、税务成本、回款条件与放行结论的统一判断       | 是                 |
-| `docs/design/phase2-presigning-contract-readiness-workspace.md`           | Draft (Baseline) | 第二阶段签约前签约就绪工作区草案，负责细化签约前置项检查、可复用事实与进入合同主链前的最终收口判断       | 是                 |
-| `docs/design/phase2-presigning-workspace-handoff-map.md`                  | Draft (Baseline) | 第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径               | 是                 |
-| `docs/design/phase2-presigning-workspace-templates.md`                    | Draft (Baseline) | 第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板 | 是                 |
-| `docs/design/phase2-execution-cost-workspace-information-architecture.md` | Draft (Baseline) | 第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构   | 是                 |
+| 文档                                                                      | 当前状态         | 作用                                                                                                         | 是否可作为下游输入 |
+| ------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `docs/design/poms-requirements-spec.md`                                   | Accepted         | 制度到系统能力映射、范围、状态机、权限矩阵、规则边界                                                         | 是                 |
+| `docs/design/poms-hld.md`                                                 | Accepted         | 领域蓝图、模块边界、数据可信源、版本化约束                                                                   | 是                 |
+| `docs/design/poms-design-progress.md`                                     | Active           | 当前设计进度跟踪与治理看板，负责维护整体成熟度与依赖关系                                                     | 是                 |
+| `docs/design/poms-phase1-delivery-roadmap.md`                             | Active           | 第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片                                                   | 是                 |
+| `docs/design/phase2-user-task-map.md`                                     | Draft (Baseline) | 第二阶段范围规划前置分析，负责沉淀用户画像、生命周期任务链与体验断点                                         | 是                 |
+| `docs/design/phase2-experience-gap-priority-matrix.md`                    | Draft (Baseline) | 第二阶段体验断点优先级矩阵，负责收敛 `P0/P1` 主断点与优化顺序                                                | 是                 |
+| `docs/design/phase2-lifecycle-experience-blueprint.md`                    | Draft (Baseline) | 第二阶段项目全生命周期体验蓝图，负责明确四条主体验主线、阶段承接点与连续工作方式                             | 是                 |
+| `docs/design/phase2-experience-optimization-roadmap.md`                   | Draft (Baseline) | 第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准                                         | 是                 |
+| `docs/design/phase2-presigning-workspace-information-architecture.md`     | Draft (Baseline) | 第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系              | 是                 |
+| `docs/design/phase2-presigning-initiation-advancement-workspace.md`       | Draft (Baseline) | 第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示           | 是                 |
+| `docs/design/phase2-presigning-project-overview-workspace.md`             | Draft (Baseline) | 第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构                           | 是                 |
+| `docs/design/phase2-presigning-technical-cost-workspace.md`               | Draft (Baseline) | 第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构                       | 是                 |
+| `docs/design/phase2-presigning-bid-commercial-workspace.md`               | Draft (Baseline) | 第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转             | 是                 |
+| `docs/design/phase2-presigning-pricing-margin-workspace.md`               | Draft (Baseline) | 第二阶段签约前报价与毛利评审工作区草案，负责细化报价、成本、税务成本、回款条件与放行结论的统一判断           | 是                 |
+| `docs/design/phase2-presigning-contract-readiness-workspace.md`           | Draft (Baseline) | 第二阶段签约前签约就绪工作区草案，负责细化签约前置项检查、可复用事实与进入合同主链前的最终收口判断           | 是                 |
+| `docs/design/phase2-presigning-workspace-handoff-map.md`                  | Draft (Baseline) | 第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径                   | 是                 |
+| `docs/design/phase2-presigning-workspace-templates.md`                    | Draft (Baseline) | 第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板     | 是                 |
+| `docs/design/phase2-execution-cost-workspace-information-architecture.md` | Draft (Baseline) | 第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构       | 是                 |
+| `docs/design/phase2-project-actual-cost-records.md`                       | Draft (Baseline) | 第二阶段项目级实际成本记录草案，负责细化统一成本记录对象、成本类型、状态模型以及人力成本汇总归集口径         | 是                 |
+| `docs/design/phase2-cost-source-to-project-record-mapping.md`             | Draft (Baseline) | 第二阶段项目成本来源映射口径草案，负责明确采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层 | 是                 |
+| `docs/design/phase2-actual-cost-accumulation-stage-view.md`               | Draft (Baseline) | 第二阶段实际成本累计与阶段视图草案，负责细化三层累计口径、周/月与执行阶段视图、成本类型拆解与风险缺口解释    | 是                 |
+| `docs/design/phase2-estimated-to-actual-cost-bridge.md`                   | Draft (Baseline) | 第二阶段估算成本到实际成本承接口径草案，负责明确基线估算版本、估算项到实际成本类型映射与偏差解释规则         | 是                 |
 
 ### 4.3 业务域设计
 
@@ -224,7 +228,7 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md` 与 `phase2-execution-cost-workspace-information-architecture.md` 十四份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已开始进入执行期成本归集主线的信息架构层，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口；第二阶段讨论已启动，并已新增 `phase2-user-task-map.md`、`phase2-experience-gap-priority-matrix.md`、`phase2-lifecycle-experience-blueprint.md`、`phase2-experience-optimization-roadmap.md`、`phase2-presigning-workspace-information-architecture.md`、`phase2-presigning-initiation-advancement-workspace.md`、`phase2-presigning-project-overview-workspace.md`、`phase2-presigning-technical-cost-workspace.md`、`phase2-presigning-bid-commercial-workspace.md`、`phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-presigning-workspace-templates.md`、`phase2-execution-cost-workspace-information-architecture.md`、`phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`、`phase2-actual-cost-accumulation-stage-view.md` 与 `phase2-estimated-to-actual-cost-bridge.md` 十八份正式产物；其中 `L1` 已完成六工作区、承接关系图与模板层三层收口，`L2` 已完成信息架构层、项目级实际成本记录层、来源映射层、累计视图层与估算承接层，继续把范围规划拉回真实用户、真实任务、体验优先级判断、生命周期连续承接、阶段切片顺序与关键工作区设计
 - **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
@@ -248,7 +252,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：在上述第二阶段基线产物基础上，执行 `L2-T02`，补“项目级实际成本记录”详细草案；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+3. **下一步**：在上述第二阶段基线产物基础上，执行 `L3-T01`，补“合同到移交的承接工作区”详细草案；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
@@ -256,10 +260,9 @@
 
 当前顺序固定为：
 
-1. 先完成 `L2-T02 ~ L2-T05`
-2. 然后进入 `L3-T01 ~ L3-T04`
-3. 再进入 `L4-T01 ~ L4-T04`
-4. 最后进入 `L5-T01 ~ L5-T04` 与 `LX-T01 ~ LX-T03`
+1. 先进入 `L3-T01 ~ L3-T04`
+2. 再进入 `L4-T01 ~ L4-T04`
+3. 最后进入 `L5-T01 ~ L5-T04` 与 `LX-T01 ~ LX-T03`
 
 当前状态口径统一为：
 
@@ -284,6 +287,10 @@
 - `B12` `phase2-presigning-workspace-handoff-map.md`
 - `B13` `phase2-presigning-workspace-templates.md`
 - `B14` `phase2-execution-cost-workspace-information-architecture.md`
+- `B15` `phase2-project-actual-cost-records.md`
+- `B16` `phase2-cost-source-to-project-record-mapping.md`
+- `B17` `phase2-actual-cost-accumulation-stage-view.md`
+- `B18` `phase2-estimated-to-actual-cost-bridge.md`
 
 当前不建议回到新的业务专题扩写；更稳妥的路径是沿着已形成的接口、读侧、表结构冻结与 schema / DDL 基线，继续进入真实迁移脚本落地，并把返工控制在 SQL 或 ORM 实现层。
 

@@ -49,6 +49,10 @@
 - `phase2-presigning-workspace-handoff-map.md`：第二阶段签约前六工作区承接关系图，负责统一输入输出、阻断规则、直接商务路径与合同前收口口径
 - `phase2-presigning-workspace-templates.md`：第二阶段签约前主线模板类文档，负责统一前期成本清单、税务成本表达、风险分类、阻断项分类与关键结论摘要模板
 - `phase2-execution-cost-workspace-information-architecture.md`：第二阶段执行期成本归集工作区信息架构草案，负责细化项目级成本归集总览、统一入口、状态语义与偏差提示结构
+- `phase2-project-actual-cost-records.md`：第二阶段项目级实际成本记录草案，负责细化统一成本记录对象、成本类型、状态模型以及人力成本按人员/角色 + 项目 + 周/月的汇总归集口径
+- `phase2-cost-source-to-project-record-mapping.md`：第二阶段项目成本来源映射口径草案，负责明确采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层
+- `phase2-actual-cost-accumulation-stage-view.md`：第二阶段实际成本累计与阶段视图草案，负责细化三层累计口径、周/月与执行阶段视图、成本类型拆解与风险缺口解释
+- `phase2-estimated-to-actual-cost-bridge.md`：第二阶段估算成本到实际成本承接口径草案，负责明确基线估算版本、估算项到实际成本类型映射与偏差解释规则
 
 ### 2. 业务域设计（Domains）
 
@@ -240,6 +244,10 @@
 - `phase2-presigning-workspace-handoff-map.md`
 - `phase2-presigning-workspace-templates.md`
 - `phase2-execution-cost-workspace-information-architecture.md`
+- `phase2-project-actual-cost-records.md`
+- `phase2-cost-source-to-project-record-mapping.md`
+- `phase2-actual-cost-accumulation-stage-view.md`
+- `phase2-estimated-to-actual-cost-bridge.md`
 
 ### 业务域设计
 
