@@ -127,30 +127,30 @@
 
 ### 4.4 治理与横切设计
 
-| 文档                                                            | 当前状态 | 作用                                                                     | 是否可作为下游输入 |
-| --------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ | ------------------ |
-| `docs/design/business-authorization-matrix.md`                  | Active   | 业务对象动作授权矩阵，已补平台治理域动作矩阵并可直接指导第一阶段补齐实施 | 是                 |
+| 文档                                                                    | 当前状态         | 作用                                                                                           | 是否可作为下游输入 |
+| ----------------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------- | ------------------ |
+| `docs/design/business-authorization-matrix.md`                          | Active           | 业务对象动作授权矩阵，已补平台治理域动作矩阵并可直接指导第一阶段补齐实施                       | 是                 |
 | `docs/design/phase2-data-permission-and-sensitive-visibility-design.md` | Ready for Review | 第二阶段业务数据权限与敏感信息可见性设计，负责补齐数据范围权限、敏感字段控制与提成敏感信息约束 | 是                 |
-| `docs/design/platform-governance/README.md`                     | Active   | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物               | 是                 |
-| `docs/design/platform-governance/platform-governance-design.md` | Active   | 平台治理域详细设计总入口，已补第一阶段正式承诺、缺口判断与最小落地要求   | 是                 |
-| `docs/design/platform-governance/user-management-design.md`     | Active   | 用户管理详细设计，已补第一阶段最小落地要求、接口建议与补齐顺序           | 是                 |
-| `docs/design/platform-governance/role-permission-design.md`     | Active   | 角色与权限详细设计，已补正式缺口、最小落地要求与接口建议                 | 是                 |
-| `docs/design/platform-governance/org-unit-design.md`            | Active   | 组织单元详细设计，已补真实组织树能力、接口建议与补齐顺序                 | 是                 |
-| `docs/design/platform-governance/navigation-design.md`          | Active   | 导航菜单详细设计，已补导航治理缺口与第一阶段补齐口径                     | 是                 |
-| `docs/design/platform-governance/navigation-route-mapping.md`   | Active   | 导航-路由对照表，已回写当前真实页面状态与补齐切片衔接                    | 是                 |
+| `docs/design/platform-governance/README.md`                             | Active           | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物                                     | 是                 |
+| `docs/design/platform-governance/platform-governance-design.md`         | Active           | 平台治理域详细设计总入口，已补第一阶段正式承诺、缺口判断与最小落地要求                         | 是                 |
+| `docs/design/platform-governance/user-management-design.md`             | Active           | 用户管理详细设计，已补第一阶段最小落地要求、接口建议与补齐顺序                                 | 是                 |
+| `docs/design/platform-governance/role-permission-design.md`             | Active           | 角色与权限详细设计，已补正式缺口、最小落地要求与接口建议                                       | 是                 |
+| `docs/design/platform-governance/org-unit-design.md`                    | Active           | 组织单元详细设计，已补真实组织树能力、接口建议与补齐顺序                                       | 是                 |
+| `docs/design/platform-governance/navigation-design.md`                  | Active           | 导航菜单详细设计，已补导航治理缺口与第一阶段补齐口径                                           | 是                 |
+| `docs/design/platform-governance/navigation-route-mapping.md`           | Active           | 导航-路由对照表，已回写当前真实页面状态与补齐切片衔接                                          | 是                 |
 
 ### 4.5 评审与治理文档
 
-| 文档                                                                      | 当前状态 | 作用                                                           | 是否可作为下游输入 |
-| ------------------------------------------------------------------------- | -------- | -------------------------------------------------------------- | ------------------ |
-| `docs/design/design-convergence-review-checklist.md`                      | Active   | 设计收口与评审前一致性清单，归并跨文档不一致与评审前检查项     | 是                 |
-| `docs/design/design-review-execution-checklist.md`                        | Active   | 详细设计评审执行清单，用于组织下一轮逐文档评审                 | 是                 |
-| `docs/design/design-review-follow-up-summary.md`                          | Active   | 首轮正式评审后的 follow-up 归并，约束实现前必须补齐项边界      | 是                 |
+| 文档                                                                      | 当前状态 | 作用                                                                     | 是否可作为下游输入 |
+| ------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ | ------------------ |
+| `docs/design/design-convergence-review-checklist.md`                      | Active   | 设计收口与评审前一致性清单，归并跨文档不一致与评审前检查项               | 是                 |
+| `docs/design/design-review-execution-checklist.md`                        | Active   | 详细设计评审执行清单，用于组织下一轮逐文档评审                           | 是                 |
+| `docs/design/design-review-follow-up-summary.md`                          | Active   | 首轮正式评审后的 follow-up 归并，约束实现前必须补齐项边界                | 是                 |
 | `docs/design/phase2-review-checklist.md`                                  | Active   | 第二阶段正式审阅清单，负责统一审阅范围、审阅维度、问题记录与结论回写入口 | 是                 |
-| `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则 | 是                 |
-| `docs/design/poms-phase1-delivery-roadmap.md`                             | Active   | 第一阶段交付路线图，统一远期目标、中期里程碑与近期实施重点     | 是                 |
-| `docs/design/platform-governance/platform-governance-review-checklist.md` | Active   | 平台治理域评审清单，收敛评审门槛、阻塞项、收口动作与通过标准   | 是                 |
-| `docs/design/platform-governance/platform-governance-review-summary.md`   | Active   | 平台治理域评审结论摘要，记录本轮评审结论、已关闭阻塞项和动作   | 是                 |
+| `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则           | 是                 |
+| `docs/design/poms-phase1-delivery-roadmap.md`                             | Active   | 第一阶段交付路线图，统一远期目标、中期里程碑与近期实施重点               | 是                 |
+| `docs/design/platform-governance/platform-governance-review-checklist.md` | Active   | 平台治理域评审清单，收敛评审门槛、阻塞项、收口动作与通过标准             | 是                 |
+| `docs/design/platform-governance/platform-governance-review-summary.md`   | Active   | 平台治理域评审结论摘要，记录本轮评审结论、已关闭阻塞项和动作             | 是                 |
 
 ### 4.6 ADR 清单
 
@@ -267,7 +267,8 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **下一步**：在上述第二阶段基线产物基础上，先执行 `LX-T03`，完成第二阶段正式审阅并形成问题清单、审阅记录与结论摘要；其中必须覆盖 `phase2-data-permission-and-sensitive-visibility-design.md`。`LX-T04` 的实现排期判断应以后续正式审阅结论为前置。更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+3. **已执行四轮审阅**：`LX-T03` 已完成四轮独立审阅，输出了 `phase2-review-record-round1.md`、`phase2-review-record-round2.md`、`phase2-review-record-round3.md` 与 `phase2-review-record-round4.md`，并在 `phase2-review-checklist.md` 中记录了四轮问题清单，累计 22 个正式问题（10 个 `R1`、10 个 `R2`、2 个 `R3`），覆盖口径缺失、结构化承接深度、时点一致性、回退路径、基础数据治理、公式边界行为、审批结论漂移、执行中变更基线、多合同适配与审批可见性等方面。
+4. **下一步**：继续执行 `LX-T03` 的后续独立审阅轮次（如需要），并根据每一轮的结论补充或收口问题清单。`LX-T04` 的实现排期判断应以后续所有审阅结论为前置。更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
