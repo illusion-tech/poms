@@ -1,7 +1,7 @@
 # POMS 第二阶段提成分阶段发放与异常调整路径草案
 
 **文档状态**: Ready for Review
-**最后更新**: 2026-03-30
+**最后更新**: 2026-04-01
 **适用范围**: `POMS` 第二阶段 `L5-T02` 详细设计草案，聚焦提成分阶段发放与异常调整路径
 **关联文档**:
 
@@ -11,6 +11,7 @@
   - `phase2-project-variance-risk-explanation.md`
 - 同级设计:
   - `commission-settlement-design.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
   - `workflow-and-approval-design.md`
   - `query-view-boundary-design.md`
 - 相关 ADR:
@@ -101,6 +102,27 @@
 - 第二阶段累计可发上限判断
 - 发起申请、审批和登记
 
+**对象与证据链口径**:
+
+- 第二阶段发放统一复用 `AcceptanceRecord`，不额外引入新的阶段成果对象
+- 本阶段允许作为前置的 `AcceptanceRecord` 类型仅包括：`阶段成果确认`、`阶段验收`
+- 当前发放申请必须附带被引用的 `AcceptanceRecord` 标识、确认时间和证据摘要
+- 若 `AcceptanceRecord` 只有结论没有证据引用，不得进入第二阶段发放申请链
+- 发放申请页、审批摘要和打印材料中出现的经营依据字段，必须遵循 `phase2-data-permission-and-sensitive-visibility-design.md` 的最小可见集与遮罩规则，不得因进入发放审批链而自动扩展到完整敏感明细
+
+**确认动作建议**:
+
+1. 业务侧先形成阶段成果或验收材料
+2. 相关责任人 / 业务确认角色执行 `confirmAcceptance`
+3. 系统生成确认留痕、关闭相关待办，并把 `AcceptanceRecord` 标记为当前有效结论
+4. 财务在第二阶段发放申请中引用该记录，而不是手工录入“已验收”文本
+
+**第二阶段阻断规则**:
+
+- 无有效 `AcceptanceRecord` 不得发起第二阶段发放申请
+- 有效 `AcceptanceRecord` 与当前项目、当前发放阶段不匹配，不得发起申请
+- 证据链不完整时，只能补证据，不得越过确认链直接申请发放
+
 ### 4.5 最终阶段发放
 
 应支持：
@@ -126,6 +148,14 @@
 4. 审批决定是否放行及按何档位执行
 5. 财务登记业务发放结果
 6. 系统把阶段累计可发与已发结果更新为新状态
+
+其中第二阶段至少应补充以下前置检查：
+
+1. 读取当前有效 `AcceptanceRecord`
+2. 校验证据链是否完整
+3. 校验是否已满足 80% 已确认回款
+4. 再进入第二阶段档位审批与发放登记
+5. 对审批摘要、打印材料和导出结果应用当前角色可见边界，避免通过发放链路侧漏毛利精确值、人工成本率或全员提成金额
 
 ---
 

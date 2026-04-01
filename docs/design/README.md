@@ -106,6 +106,7 @@
 - `design-review-execution-checklist.md`：详细设计评审执行清单
 - `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
 - `phase2-review-checklist.md`：第二阶段正式审阅清单，负责收敛 phase2 基线文档的审阅范围、审阅维度、问题记录与结论入口
+- `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出是否进入开发的正式结论
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，聚焦远期目标、中期里程碑与近期实施重点
 - `platform-governance/` 子目录下的评审清单与评审摘要文档

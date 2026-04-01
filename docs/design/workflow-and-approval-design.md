@@ -1,7 +1,7 @@
 # POMS 审批流与风控闸口设计
 
 **文档状态**: Draft (Baseline)
-**最后更新**: 2026-03-16
+**最后更新**: 2026-04-01
 **适用范围**: `POMS` 第一阶段审批流、统一待办聚合、审批记录、通知与审计留痕
 **关联文档**:
 
@@ -13,6 +13,7 @@
   - `commission-settlement-design.md`
 - 同级设计:
   - `business-authorization-matrix.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 - 相关 ADR:
   - `../adr/005-approval-flow-implementation-strategy.md`
 
@@ -67,6 +68,7 @@
 - **结论驱动迁移**: 业务对象是否推进、回退、关闭，必须由审批或确认结论显式驱动
 - **最小可演进性**: 第一期先固定模板与聚合能力，未来如需升级为审批中心，应能在当前对象之上演进
 - **风控闸口显式化**: 毛利红线、投标决策、合同生效、回款确认、角色冻结、提成发放等关键节点必须显式落为审批或确认动作
+- **审批权不等于完整敏感字段可见权**: 审批页、待办摘要、打印材料和导出结果仍须遵循 `phase2-data-permission-and-sensitive-visibility-design.md` 中的最小可见集与遮罩规则
 
 ---
 

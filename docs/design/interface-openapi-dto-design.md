@@ -1,8 +1,8 @@
 # POMS 接口 OpenAPI 与 DTO 边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段命令型接口与普通更新接口的 OpenAPI / DTO 输入输出边界基线
+**最后更新**: 2026-04-01
+**适用范围**: `POMS` 第一阶段 OpenAPI / DTO 边界基线，以及第二阶段第一批、第二批实现映射写回前的 DTO 补点输入
 **关联文档**:
 
 - 上游设计:
@@ -10,6 +10,8 @@
   - `poms-hld.md`
   - `poms-design-progress.md`
   - `design-review-follow-up-summary.md`
+  - `phase2-first-batch-implementation-mapping.md`
+  - `phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `project-lifecycle-design.md`
@@ -17,6 +19,7 @@
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
   - `business-authorization-matrix.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -37,6 +40,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理域命令 DTO、普通更新 DTO 与提成治理域补齐切片 DTO 边界补充为可直接指导接口定义的程度
+- 第二阶段第一批专题已经完成七层写回，第二批专题也已进入实现映射，因此还需要把差异复核、承接包初始化、第二阶段验收引用、成本率治理，以及第二批的分摊、归属、税务、`as-of` 与 gate 绑定字段写回 DTO 基线
 
 ---
 
@@ -110,6 +114,17 @@
 | `Role`                     | `PATCH /platform/roles/{id}`              | 名称、描述、排序         | 启停结论、权限集合                    | 不得代替角色启停与权限绑定      |
 | `OrgUnit`                  | `PATCH /platform/org-units/{id}`          | 名称、说明、排序         | 启停结论、父子移动结果                | 不得代替组织树结构命令          |
 | `NavigationItem`           | `PATCH /platform/navigation/{id}`         | 受控说明性字段           | 显隐、禁用、权限要求、关键链接变更    | 第一阶段建议只保留受控维护入口  |
+
+### 4.1 第二阶段第一批补充禁止输入字段
+
+| 专题 | 资源 / DTO 边界                        | 必须禁止进入普通更新 DTO 的字段                                                       | 说明                                                         |
+| ---- | -------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `B1` | `Project` / `ProjectHandover`          | `receiptJudgmentMode`、`effectiveContractSet`、模式来源引用字段                       | 冻结模式只能通过移交 / 冻结命令固化                          |
+| `B2` | `Contract` / `ReceivablePlan`          | `contractReadinessPackageId`、`sourceReadinessId`、正式 `ContractTermSnapshot` 字段包 | 承接包引用与初始化结果不得通过普通 `PATCH` 伪装提交          |
+| `B3` | `Contract` / `QuotationReview`         | `commercialReleaseBaselineId`、`baselineDiffLevel`、`baselineReviewDecision`          | 差异结果与复核结论必须进入命令 DTO                           |
+| `B4` | `CommissionPayout`                     | `acceptanceRecordId`、`acceptanceType`、证据链结论字段                                | 第二阶段发放前提不得隐藏在备注或说明字段                     |
+| `B5` | `ProjectActualCostRecord` / 协作页 DTO | `internalCostRate`、`rateValue`、`rateVersionId`、`effectiveFrom`、`effectiveTo`      | 成本率版本与人力成本归集只能走专用命令 DTO                   |
+| `B6` | 列表 / 详情 / 审批摘要 DTO             | 高敏原值字段与导出授权结论字段混入普通维护 DTO                                        | 字段可见等级与导出权限属于查询投影或命令结果，不属于普通保存 |
 
 ---
 
@@ -186,6 +201,34 @@
 - `P1-S11` 应先冻结计算复核、发放审批、登记发放请求 DTO
 - `P1-S12` 应先冻结调整执行、重算触发请求 DTO
 
+### 5.5 第二阶段第一批补充命令 DTO 草案
+
+| 命令                                                 | OpenAPI 草案                                                        | 请求 DTO 建议字段                                                                                                 | 明确禁止输入                                  | 响应 DTO 关键字段                                                             |
+| ---------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------- |
+| `reviewCommercialReleaseBaselineDiff`                | `POST /commercial-release-baselines/{id}:reviewDiff`                | `diffDecision`、`reviewedFieldKeys`、`comment`、`attachmentIds`、`expectedVersion`                                | 合同草稿字段整包、重新报价字段整包            | `targetId`、`diffResultId`、`baselineReviewDecision`、`resultStatus`          |
+| `initializeContractTermSnapshotFromReadinessPackage` | `POST /contract-readiness-packages/{id}:initializeContractSnapshot` | `contractReadinessPackageId`、`comment`、`expectedVersion`                                                        | 合同页手工拼装的正式条款字段包                | `targetId`、`snapshotId`、`sourceReadinessId`、`businessStatusAfter`          |
+| `initializeReceivablePlanFromReadinessPackage`       | `POST /contract-readiness-packages/{id}:initializeReceivablePlan`   | `contractReadinessPackageId`、`comment`、`expectedVersion`                                                        | 应收节点整包手工改写、合同草稿字段            | `targetId`、`newVersionId`、`sourceReadinessId`、`businessStatusAfter`        |
+| `submitCommissionPayoutApproval` at `stage=second`   | `POST /commission-payouts/{id}:submitApproval`                      | `acceptanceRecordId`、`evidenceSummary`、`comment`、`expectedVersion`                                             | 自由文本“已验收”替代字段、完整验收详情对象    | `targetId`、`approvalRecordId`、`acceptanceRecordId`、`businessStatusAfter`   |
+| `publishInternalCostRateVersion`                     | `POST /internal-cost-rate-versions/{id}:publish`                    | `effectiveFrom`、`effectiveTo`、`rateValue`、`sourceType`、`comment`、`expectedVersion`                           | 普通协作页字段包、历史版本整包覆盖            | `targetId`、`newVersionId`、`supersedesRateVersionId`、`businessStatusAfter`  |
+| `registerLaborCostRecord`                            | `POST /project-actual-cost-records:registerLabor`                   | `projectId`、`rateVersionId`、`laborPeriodStart`、`laborPeriodEnd`、`laborQuantity`、`comment`、`expectedVersion` | `internalCostRate` 原值直写、项目毛利结论字段 | `targetId`、`rateVersionId`、`businessStatusAfter`、`resultStatus`            |
+| `replaceLaborCostRecord`                             | `POST /project-actual-cost-records/{id}:replace`                    | `supersededRecordId`、`rateVersionId`、`reason`、`comment`、`expectedVersion`                                     | 直接物理删除原记录、整包覆盖原审计字段        | `targetId`、`replacementRecordId`、`recalculationCandidateId`、`resultStatus` |
+| `requestSensitiveDataExport`                         | `POST /sensitive-data-export-requests`                              | `targetType`、`targetId`、`fieldPackageKey`、`usageReason`、`exportFormat`、`expectedVersion`                     | 绕过授权直接携带高敏原值、批量对象详情        | `targetId`、`approvalRecordId`、`exportScopeSummary`、`resultStatus`          |
+
+### 5.5A 第二阶段第二批补充命令 DTO 草案
+
+| 命令                                | OpenAPI 草案                                              | 请求 DTO 建议字段                                                                                               | 明确禁止输入                                           | 响应 DTO 关键字段                                                                 |
+| ----------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| `confirmSharedCostAllocationBasis`  | `POST /shared-cost-allocation-bases/{id}:confirm`         | `basisType`、`sourceCostRecordIds`、`allocationMethod`、`projectShareItems[]`、`comment`、`expectedVersion`     | 直接提交 `ProjectOperatingView` 汇总结果、页面拼装总额 | `targetId`、`basisId`、`allocationResultIds`、`businessStatusAfter`               |
+| `replaceSharedCostAllocationResult` | `POST /shared-cost-allocation-results/{id}:replace`       | `supersededAllocationResultId`、`replacementReason`、`projectShareItems[]`、`comment`、`expectedVersion`        | 物理删除旧分摊结果、直接覆盖旧审计字段                 | `targetId`、`replacementResultId`、`supersedesAllocationResultId`、`resultStatus` |
+| `confirmCostStageAttribution`       | `POST /cost-stage-attributions/{id}:confirm`              | `stageAttributionMode`、`attributedStage`、`lockedBySnapshotId`、`comment`、`expectedVersion`                   | 普通成本登记 DTO 混入阶段归属字段                      | `targetId`、`attributionSnapshotId`、`businessStatusAfter`                        |
+| `reclassifyCostStageAttribution`    | `POST /cost-stage-attributions/{id}:reclassify`           | `supersededAttributionId`、`newAttributedStage`、`reclassifyReason`、`comment`、`expectedVersion`               | 无痕覆盖旧归属结果、前端手工改累计结果                 | `targetId`、`attributionSnapshotId`、`supersedesAttributionId`、`resultStatus`    |
+| `confirmAccountingTaxTreatment`     | `POST /accounting-tax-treatments/{id}:confirm`            | `taxTreatmentType`、`deductibilityStatus`、`taxImpactAmount`、`taxPendingFlag`、`comment`、`expectedVersion`    | 把税务影响写回普通合同或成本维护 DTO                   | `targetId`、`taxTreatmentSnapshotId`、`businessStatusAfter`                       |
+| `switchEffectiveOperatingBaseline`  | `POST /operating-baseline-packages/{id}:switchEffective`  | `originalBaselineId`、`changePackageBaselineId`、`effectiveOperatingBaselineId`、`comment`、`expectedVersion`   | 页面临时拼装基线结论、直接写经营偏差结果               | `targetId`、`effectiveOperatingBaselineId`、`baselinePackageId`、`resultStatus`   |
+| `generatePeriodClosingSnapshot`     | `POST /project-operating-snapshots:generatePeriodClosing` | `projectId`、`periodKey`、`snapshotAt`、`comment`、`expectedVersion`                                            | 手工提交整份经营聚合详情对象                           | `targetId`、`periodEndSnapshotId`、`snapshotMode`、`resultStatus`                 |
+| `registerOperatingRestatement`      | `POST /operating-restatements`                            | `projectId`、`periodEndSnapshotId`、`restatedFromSnapshotId`、`restatementReason`、`comment`、`expectedVersion` | 直接修改历史快照当前值、用备注替代重述原因             | `targetId`、`restatementRecordId`、`restatedSnapshotId`、`businessStatusAfter`    |
+| `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`          | `reviewDecision`、`reviewComment`、`expectedVersion`                                                            | 手工改写 `signalLevel`、`dataMaturityLevel` 原始结果   | `targetId`、`signalEvaluationId`、`reviewRecordId`、`resultStatus`                |
+| `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`              | `bindingAction`、`gateReviewDecision`、`blockingReasonCode`、`comment`、`expectedVersion`                       | 前端直接覆盖 `allowedActions`、跳过 `L4` 信号绑定结果  | `targetId`、`bindingResultId`、`gateReviewRecordId`、`businessStatusAfter`        |
+
 ### 5.4 横切审批域公共命令
 
 | 命令                      | OpenAPI 草案                              | 请求 DTO 建议字段                            | 明确禁止输入                 | 响应 DTO 关键字段                                         |
@@ -211,6 +254,10 @@
 
 4. `AdminDetailDto` / `DomainDetailDto`: 仅用于详情查询，不在命令响应中直接复用。
 
+第二阶段第一批补充建议再显式固定一层敏感字段投影约定：
+
+5. `VisibilityProjectedFieldDto`: 仅用于查询响应，至少包含 `value`、`visibilityLevel`、`isExportable`，不得复用为命令请求 DTO。
+
 建议避免以下反模式：
 
 - 一个 DTO 同时既能普通保存，又能触发生效
@@ -227,6 +274,9 @@
 2. 每个命令是否都已明确最小请求 DTO，而不是允许传入整个对象快照。
 3. 每个命令响应是否只暴露结果事实与关键引用，不反向耦合完整查询模型。
 4. 关键命令是否都具备 `expectedVersion` 或等价并发控制位。
+5. 第二阶段发放审批是否已经要求 `acceptanceRecordId`，而不是继续依赖自由文本说明。
+6. 差异复核、承接包初始化、人力成本归集与高敏字段投影是否都已具备独立 DTO 边界。
+7. 第二批的分摊依据、阶段归属、税务处理、经营基线、`as-of` / 期末 / 重述和 gate 复核是否都已具备独立 DTO 边界，且未退回普通维护 DTO。
 
 ---
 
@@ -246,4 +296,4 @@
 
 ## 9. 当前结论
 
-第一阶段已经可以进一步冻结“接口合同边界”。当前最稳妥的推进方式，是先把高敏动作命令化、把请求 DTO 限制在动作最小输入、把响应 DTO 限制在结果事实与关键引用，然后再进入真正的 OpenAPI schema 与数据模型冻结设计。
+第一阶段已经可以进一步冻结“接口合同边界”。当前最稳妥的推进方式，是先把高敏动作命令化、把请求 DTO 限制在动作最小输入、把响应 DTO 限制在结果事实与关键引用，然后把第一批与第二批已确认的 DTO 边界一并沉淀，再进入真正的 OpenAPI schema 与数据模型冻结设计。

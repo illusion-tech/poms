@@ -1,8 +1,8 @@
 # POMS 查询视图边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段在进入表结构冻结与 schema / DDL 细化前，对查询接口、详情视图、经营看板与统一待办读侧边界的基线约束
+**最后更新**: 2026-04-01
+**适用范围**: `POMS` 第一阶段读侧边界基线，以及第二阶段第一批、第二批实现映射写回前的查询视图补点约束
 **关联文档**:
 
 - 上游设计:
@@ -10,6 +10,8 @@
   - `poms-hld.md`
   - `poms-design-progress.md`
   - `design-review-follow-up-summary.md`
+  - `phase2-first-batch-implementation-mapping.md`
+  - `phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -19,6 +21,7 @@
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
   - `business-authorization-matrix.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -37,6 +40,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理页、提成治理页和平台主数据聚合查询正式纳入第一阶段读侧边界
+- 第二阶段第一批六个专题已经完成写回，第二批七个专题也已进入实现映射，因此还需要补齐差异复核、承接包、验收前置、成本率治理，以及分摊、归属、税务、`as-of` 与 gate 绑定等读侧视图
 
 ---
 
@@ -105,31 +109,37 @@
 
 ### 5.1 销售流程域
 
-| 查询视图               | 主要对象     | 目标               | 最小字段组                                                                                                     | 额外约束                         |
-| ---------------------- | ------------ | ------------------ | -------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| `ProjectListView`      | `Project`    | 支撑项目列表与筛选 | `projectCode`、`projectName`、`customerName`、`currentStage`、`ownerOrgName`、`ownerName`、`latestMilestoneAt` | 不携带完整合同与提成明细         |
-| `ProjectDetailView`    | `Project`    | 支撑项目详情页     | 主体字段、阶段摘要、当前投标摘要、当前合同摘要、当前审批 / 确认摘要、`allowedActions`                          | `allowedActions` 仅是视图输出    |
-| `BidProcessDetailView` | `BidProcess` | 支撑投标子流程详情 | 投标基本信息、当前决策状态、结果状态、相关审批摘要、附件摘要                                                   | 不代替 `ProjectDetailView`       |
-| `ProjectTimelineView`  | `Project`    | 支撑阶段里程碑追溯 | 关键动作时间线、动作人、动作结果、关联审批 / 确认引用                                                          | 以动作事实为主，不以列表字段拼装 |
+| 查询视图                  | 主要对象          | 目标                       | 最小字段组                                                                                                     | 额外约束                             |
+| ------------------------- | ----------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `ProjectListView`         | `Project`         | 支撑项目列表与筛选         | `projectCode`、`projectName`、`customerName`、`currentStage`、`ownerOrgName`、`ownerName`、`latestMilestoneAt` | 不携带完整合同与提成明细             |
+| `ProjectDetailView`       | `Project`         | 支撑项目详情页             | 主体字段、阶段摘要、当前投标摘要、当前合同摘要、当前审批 / 确认摘要、`allowedActions`                          | `allowedActions` 仅是视图输出        |
+| `BidProcessDetailView`    | `BidProcess`      | 支撑投标子流程详情         | 投标基本信息、当前决策状态、结果状态、相关审批摘要、附件摘要                                                   | 不代替 `ProjectDetailView`           |
+| `ProjectTimelineView`     | `Project`         | 支撑阶段里程碑追溯         | 关键动作时间线、动作人、动作结果、关联审批 / 确认引用                                                          | 以动作事实为主，不以列表字段拼装     |
+| `PricingReviewDetailView` | `QuotationReview` | 支撑商业放行与毛利评审详情 | 基线摘要、差异等级、复核状态、敏感字段投影后的毛利摘要、`allowedActions`                                       | 必须与合同差异复核使用同一份差异结果 |
 
 ### 5.2 合同资金域
 
-| 查询视图                 | 主要对象         | 目标                   | 最小字段组                                                                                                    | 额外约束                           |
-| ------------------------ | ---------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| `ContractListView`       | `Contract`       | 支撑合同台账列表       | `contractNo`、`projectCode`、`projectName`、`contractStatus`、`signedAmount`、`effectiveAt`                   | 金额字段必须标明当前口径           |
-| `ContractDetailView`     | `Contract`       | 支撑合同详情           | 主体事实、当前有效条款快照摘要、变更版本摘要、应收计划摘要、回款汇总摘要、发票汇总摘要、`allowedActions`      | 快照字段与主表草稿字段应分区展示   |
-| `ReceivablePlanListView` | `ReceivablePlan` | 支撑应收计划列表       | `planNo`、`contractNo`、`plannedAmount`、`plannedAt`、`planStatus`、`version`                                 | 列表中不展开全部节点明细           |
-| `ReceiptRecordListView`  | `ReceiptRecord`  | 支撑回款登记与确认列表 | `receiptNo`、`projectName`、`contractNo`、`registeredAmount`、`confirmedAmount`、`recordStatus`、`sourceType` | 草稿金额与确认金额不得混用         |
-| `InvoiceRecordListView`  | `InvoiceRecord`  | 支撑发票台账列表       | `invoiceNo`、`projectName`、`invoiceAmount`、`invoiceStatus`、`exceptionStatus`                               | 异常状态为派生展示，不替代动作记录 |
+| 查询视图                            | 主要对象                        | 目标                             | 最小字段组                                                                                                    | 额外约束                                 |
+| ----------------------------------- | ------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `ContractListView`                  | `Contract`                      | 支撑合同台账列表                 | `contractNo`、`projectCode`、`projectName`、`contractStatus`、`signedAmount`、`effectiveAt`                   | 金额字段必须标明当前口径                 |
+| `ContractDetailView`                | `Contract`                      | 支撑合同详情                     | 主体事实、当前有效条款快照摘要、变更版本摘要、应收计划摘要、回款汇总摘要、发票汇总摘要、`allowedActions`      | 快照字段与主表草稿字段应分区展示         |
+| `ContractReadinessDetailView`       | `ContractReadinessPackage`      | 支撑签约就绪承接与初始化阻断解释 | 承接包摘要、`commercialReleaseBaselineId`、差异等级、初始化状态、阻断原因、`allowedActions`                   | 承接包与初始化结果必须可追溯到同一来源   |
+| `ContractDiffReviewHistoryView`     | `CommercialReleaseBaselineDiff` | 支撑差异复核历史追溯             | 差异字段摘要、差异等级、复核结论、处理人、处理时间、退回链摘要                                                | 不得与合同普通历史混成单一时间线         |
+| `ReceivablePlanListView`            | `ReceivablePlan`                | 支撑应收计划列表                 | `planNo`、`contractNo`、`plannedAmount`、`plannedAt`、`planStatus`、`version`                                 | 列表中不展开全部节点明细                 |
+| `ReceiptRecordListView`             | `ReceiptRecord`                 | 支撑回款登记与确认列表           | `receiptNo`、`projectName`、`contractNo`、`registeredAmount`、`confirmedAmount`、`recordStatus`、`sourceType` | 草稿金额与确认金额不得混用               |
+| `InvoiceRecordListView`             | `InvoiceRecord`                 | 支撑发票台账列表                 | `invoiceNo`、`projectName`、`invoiceAmount`、`invoiceStatus`、`exceptionStatus`                               | 异常状态为派生展示，不替代动作记录       |
+| `ProjectActualCostRecordDetailView` | `ProjectActualCostRecord`       | 支撑人力成本归集与替代追溯       | `costType`、`rateVersionId`、生效区间、计量依据摘要、替代关系摘要、`allowedActions`                           | 详情默认不向无权角色下钻人员级成本率原值 |
 
 ### 5.3 提成治理域
 
-| 查询视图                          | 主要对象                | 目标             | 最小字段组                                                                                            | 额外约束                             |
-| --------------------------------- | ----------------------- | ---------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `CommissionCalculationListView`   | `CommissionCalculation` | 支撑计算结果列表 | `calculationNo`、`projectName`、`ruleVersionName`、`calculationStatus`、`calculatedAmount`、`version` | 列表只展示当前结果摘要               |
-| `CommissionCalculationDetailView` | `CommissionCalculation` | 支撑计算详情     | 输入快照摘要、角色分配摘要、结果摘要、重算链摘要、审批摘要                                            | 输入来源必须可追溯到快照或版本       |
-| `CommissionPayoutListView`        | `CommissionPayout`      | 支撑发放列表     | `payoutNo`、`projectName`、`approvedAmount`、`paidAmount`、`payoutStatus`                             | 批准金额与实际登记金额并列但不可混算 |
-| `CommissionAdjustmentHistoryView` | `CommissionAdjustment`  | 支撑异常调整追溯 | `adjustmentType`、`relatedTargetType`、`relatedTargetId`、`resultStatus`、`handledAt`                 | 以动作事实为中心                     |
+| 查询视图                          | 主要对象                | 目标                           | 最小字段组                                                                                            | 额外约束                               |
+| --------------------------------- | ----------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `CommissionCalculationListView`   | `CommissionCalculation` | 支撑计算结果列表               | `calculationNo`、`projectName`、`ruleVersionName`、`calculationStatus`、`calculatedAmount`、`version` | 列表只展示当前结果摘要                 |
+| `CommissionCalculationDetailView` | `CommissionCalculation` | 支撑计算详情                   | 输入快照摘要、角色分配摘要、结果摘要、重算链摘要、审批摘要                                            | 输入来源必须可追溯到快照或版本         |
+| `CommissionStageGateView`         | `Project`               | 支撑阶段门槛与冻结模式总览     | 冻结模式摘要、有效合同集合摘要、阶段一 / 阶段二达标状态、`acceptanceRecordSummary`、`allowedActions`  | 同时支持项目汇总与合同拆解双视角       |
+| `CommissionPayoutListView`        | `CommissionPayout`      | 支撑发放列表                   | `payoutNo`、`projectName`、`approvedAmount`、`paidAmount`、`payoutStatus`                             | 批准金额与实际登记金额并列但不可混算   |
+| `CommissionPayoutDetailView`      | `CommissionPayout`      | 支撑发放详情与第二阶段前置校验 | 发放阶段、审批摘要、`acceptanceRecordSummary`、证据链摘要、异常 / 冲销摘要、`allowedActions`          | 第二阶段详情必须能解释是否满足发放前提 |
+| `CommissionAdjustmentHistoryView` | `CommissionAdjustment`  | 支撑异常调整追溯               | `adjustmentType`、`relatedTargetType`、`relatedTargetId`、`resultStatus`、`handledAt`                 | 以动作事实为中心                       |
 
 ### 5.3A 平台治理域
 
@@ -142,6 +152,18 @@
 | `OrgUnitTreeView`              | `OrgUnit`        | 支撑组织树维护            | `id`、`name`、`code`、`isActive`、`displayOrder`、`children`                                                | 组织树是正式读模型，不复用轻量 `UnitOrg` |
 | `OrgUnitDetailView`            | `OrgUnit`        | 支撑组织详情              | 主体字段、父节点摘要、子节点摘要、挂靠用户数量、`allowedActions`                                            | 不在详情中平铺所有用户列表               |
 | `NavigationGovernanceListView` | `NavigationItem` | 支撑导航治理列表 / 树视图 | `key`、`title`、`type`、`link`、`displayOrder`、`isHidden`、`isDisabled`、`requiredPermissions`、`children` | 不引入前端框架私有字段                   |
+
+### 5.3B 第二阶段第二批经营可信源查询补点
+
+| 查询视图                           | 主要对象                                 | 目标                                                 | 最小字段组                                                                                                                | 额外约束                                               |
+| ---------------------------------- | ---------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `SharedCostAllocationDetailView`   | `SharedCostAllocationResult`             | 支撑共享分摊详情与项目份额解释                       | `basisSummary`、`sourceCostRecordSummary`、`allocatedProjectShares`、`supersedesSummary`、`allowedActions`                | 不得退回来源单据全额视图覆盖项目级分摊结果             |
+| `CostStageAttributionHistoryView`  | `CostStageAttributionSnapshot`           | 支撑阶段归属锁定与重分类历史                         | `attributedStage`、`stageAttributionMode`、`lockedBySnapshotSummary`、`reclassifyReason`、`supersedesSummary`             | 必须区分当前归属与历史归属，不把重分类链压平成当前值   |
+| `AccountingTaxTreatmentDetailView` | `AccountingTaxTreatmentSnapshot`         | 支撑税务处理与经营核算口径解释                       | `taxTreatmentType`、`deductibilityStatus`、`taxImpactAmountSummary`、`taxPendingFlag`、`supersedesSummary`                | 对无权角色继续只返回摘要化税务影响                     |
+| `OperatingBaselineBridgeView`      | `OperatingBaselinePackage`               | 支撑原始基线、变更包基线与当前基线桥接               | `originalBaselineSummary`、`changePackageBaselineSummary`、`effectiveOperatingBaselineSummary`、`varianceSourceSummary`   | 不能把变更包吸收进单一“当前预算”字段                   |
+| `ProjectOperatingAsOfView`         | `ProjectOperatingSnapshot`               | 支撑 `realtime / period-end / restated` 三类经营回看 | `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary`、`grossMarginSummary`、`riskFlags`             | 必须显式返回当前视图口径，禁止前端默认把实时口径当历史 |
+| `OperatingSignalEvaluationView`    | `OperatingSignalEvaluationResult`        | 支撑经营公式边界、成熟度与风险信号解释               | `formulaBoundaryAction`、`dataMaturityLevel`、`signalLevel`、`reviewRequired`、`reviewSummary`                            | 系统结果与人工复核结论要分层展示                       |
+| `CommissionGateBindingHistoryView` | `OperatingSignalToCommissionGateBinding` | 支撑 `L4 -> L5` gate 绑定结果与复核追溯              | `signalLevel`、`bindingAction`、`gateReviewDecision`、`blockingReasonSummary`、`handledBy`、`handledAt`、`allowedActions` | `BLOCK` / `REVIEW` 来源必须可追溯到稳定绑定结果        |
 
 ### 5.4 横切支撑域
 
@@ -163,6 +185,12 @@
 2. 汇总字段必须区分“草稿口径”“待确认口径”“已生效口径”，默认经营主指标以已生效口径为准。
 3. 若经营看板展示“风险提示”，应明确其属于派生视图字段，而不是业务主状态本身。
 4. 第一阶段经营看板只做高频摘要与钻取入口，不在同一接口中展开全部动作历史。
+5. 第二阶段第一批场景下，`ProjectOperatingView` 还必须同时支持项目汇总视角与合同拆解视角，并显式返回冻结后的 `receiptJudgmentMode` 与来源摘要。
+6. 所有高敏汇总字段必须支持完整值、摘要值、遮罩占位三种投影结果，不能因其属于经营看板而默认返回完整原值。
+7. 第二阶段第二批场景下，经营回看接口必须显式区分 `realtime`、`period-end` 与 `restated` 三种口径，不能复用同一组“当前值”字段。
+8. 共享分摊、阶段归属、税务处理和经营基线都必须有独立详情或历史视图，不能全部挤进 `ProjectOperatingView` 的说明文本。
+9. `OperatingSignalEvaluationView` 与 `CommissionGateBindingHistoryView` 必须共同证明 `L5` gate 判断来自稳定绑定结果，而不是提成页前端二次计算。
+10. 第二批新增读侧视图仍需继续遵守第一批已冻结的敏感投影边界，不因“解释链更长”而默认扩大原值曝光范围。
 
 建议的 `ProjectOperatingView` 最小字段组：
 
@@ -170,6 +198,9 @@
 - `projectCode`
 - `projectName`
 - `currentStage`
+- `receiptJudgmentMode`
+- `receiptJudgmentModeSourceSummary`
+- `effectiveContractSetSummary`
 - `contractSignedAmountSummary`
 - `receivableConfirmedAmountSummary`
 - `receiptPendingConfirmationAmountSummary`
@@ -184,6 +215,7 @@
 
 - 第一阶段平台治理域不强制建设独立经营看板，但至少要具备用户、角色、组织、导航四类管理查询视图
 - 提成治理域至少要具备列表、详情、历史三类查询视图，否则写侧命令无法形成可验证闭环
+- `grossMarginSummary`、`commissionCalculatedAmountSummary` 等敏感汇总字段应由查询层按角色投影，不承诺每个角色都拿到精确值
 
 ---
 
@@ -234,4 +266,4 @@
 
 ## 10. 当前结论
 
-第一阶段现在已经不只需要写侧边界，也需要读侧边界。当前最稳妥的推进方式，是先把列表、详情、经营看板、统一待办和历史追溯几类查询视图固定为稳定读模型，再据此进入表结构冻结设计，最后才进入真正的 schema / DDL 级细化。
+第一阶段现在已经不只需要写侧边界，也需要读侧边界。当前最稳妥的推进方式，是先把列表、详情、经营看板、统一待办和历史追溯几类查询视图固定为稳定读模型，再把第二批需要的经营可信源与 gate 解释视图一并写回，然后据此进入表结构冻结设计，最后才进入真正的 schema / DDL 级细化。

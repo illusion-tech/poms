@@ -1,8 +1,8 @@
 # POMS 表结构冻结设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段在查询视图边界与数据模型前提已形成基线后，用于进入 schema / DDL 细化前的逻辑表结构冻结设计
+**最后更新**: 2026-04-01
+**适用范围**: `POMS` 第一阶段逻辑表结构冻结设计，以及第二阶段第一批、第二批实现映射写回前的逻辑表补点基线
 **关联文档**:
 
 - 上游设计:
@@ -10,6 +10,8 @@
   - `poms-hld.md`
   - `poms-design-progress.md`
   - `design-review-follow-up-summary.md`
+  - `phase2-first-batch-implementation-mapping.md`
+  - `phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `data-model-prerequisites.md`
@@ -19,6 +21,7 @@
   - `contract-finance-design.md`
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -37,6 +40,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理域主数据逻辑表与提成治理域补齐对象正式纳入表结构冻结范围
+- 第二阶段第一批 6 个专题已完成写回，第二阶段第二批 7 个专题也已进入实现设计下钻，因此需要把相关逻辑表、关键字段组与读写支撑关系正式纳入冻结范围
 
 ---
 
@@ -86,16 +90,16 @@
 
 ### 4.2 合同资金域
 
-| 逻辑表                    | 表角色     | 最小字段组                                                                                          | 关键关系                      | 说明                 |
-| ------------------------- | ---------- | --------------------------------------------------------------------------------------------------- | ----------------------------- | -------------------- |
-| `contract`                | 主体主表   | `id`、`project_id`、`contract_no`、`status`、`signed_amount`、`current_snapshot_id`                 | 归属 `project`                | 合同主事实           |
-| `contract_term_snapshot`  | 快照表     | `id`、`contract_id`、`effective_at`、`effective_by`、`snapshot_status`                              | 归属 `contract`               | 生效条款冻结源       |
-| `contract_amendment`      | 版本表     | `id`、`contract_id`、`version`、`is_current`、`supersedes_id`、`status`                             | 归属 `contract`               | 变更版本链           |
-| `receivable_plan_version` | 版本表     | `id`、`contract_id`、`snapshot_id`、`version`、`is_current`、`status`                               | 归属 `contract_term_snapshot` | 计划版本链           |
-| `receipt_record`          | 动作记录表 | `id`、`project_id`、`contract_id`、`registered_amount`、`confirmed_amount`、`status`、`source_type` | 归属 `project` / `contract`   | 到账登记与确认事实   |
-| `payable_record`          | 主体主表   | `id`、`project_id`、`status`、`registered_amount`                                                   | 归属 `project`                | 第一阶段成本台账主体 |
-| `payment_record`          | 动作记录表 | `id`、`payable_record_id`、`registered_amount`、`status`、`confirmed_at`                            | 归属 `payable_record`         | 付款登记 / 确认事实  |
-| `invoice_record`          | 主体主表   | `id`、`project_id`、`contract_id`、`invoice_no`、`invoice_amount`、`status`、`exception_status`     | 归属 `project` / `contract`   | 发票台账主体         |
+| 逻辑表                    | 表角色     | 最小字段组                                                                                                      | 关键关系                      | 说明                 |
+| ------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------- | -------------------- |
+| `contract`                | 主体主表   | `id`、`project_id`、`contract_no`、`status`、`signed_amount`、`current_snapshot_id`                             | 归属 `project`                | 合同主事实           |
+| `contract_term_snapshot`  | 快照表     | `id`、`contract_id`、`effective_at`、`effective_by`、`snapshot_status`                                          | 归属 `contract`               | 生效条款冻结源       |
+| `contract_amendment`      | 版本表     | `id`、`contract_id`、`version`、`is_current`、`supersedes_id`、`status`                                         | 归属 `contract`               | 变更版本链           |
+| `receivable_plan_version` | 版本表     | `id`、`contract_id`、`snapshot_id`、`version`、`is_current`、`status`                                           | 归属 `contract_term_snapshot` | 计划版本链           |
+| `receipt_record`          | 动作记录表 | `id`、`project_id`、`contract_id`、`registered_amount`、`confirmed_amount`、`status`、`source_type`             | 归属 `project` / `contract`   | 到账登记与确认事实   |
+| `payable_record`          | 主体主表   | `id`、`project_id`、`status`、`registered_amount`                                                               | 归属 `project`                | 第一阶段成本台账主体 |
+| `payment_record`          | 动作记录表 | `id`、`payable_record_id`、`registered_amount`、`status`、`confirmed_at`                                        | 归属 `payable_record`         | 付款登记 / 确认事实  |
+| `invoice_record`          | 主体主表   | `id`、`project_id`、`contract_id`、`invoice_type`、`invoice_no`、`invoice_amount`、`status`、`exception_status` | 归属 `project` / `contract`   | 发票台账主体         |
 
 ### 4.3 提成治理域
 
@@ -204,6 +208,162 @@
 
 ---
 
+## 7. 第二阶段第一批逻辑表补点
+
+第一批不是要新建一套孤立模型，而是要把会决定 `L1 ~ L5` 主事实稳定性的表和子表正式纳入冻结清单。
+
+### 7.1 多合同与冻结模式补点
+
+| 逻辑表                            | 表角色        | 最小字段组                                                                                        | 关键关系                                  | 说明                       |
+| --------------------------------- | ------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------- | -------------------------- |
+| `project_effective_contract_link` | 关系 / 版本表 | `id`、`project_id`、`contract_id`、`is_current`、`linked_at`、`unlinked_at`                       | 归属 `project` / `contract`               | 表达项目当前有效合同集合   |
+| `project_receipt_judgment_freeze` | 动作记录表    | `id`、`project_id`、`receipt_judgment_mode`、`source_type`、`source_id`、`frozen_at`、`frozen_by` | 归属 `project`；可追溯 `project_handover` | 表达项目级回款判断模式冻结 |
+
+### 7.2 签约就绪承接补点
+
+| 逻辑表                            | 表角色        | 最小字段组                                                                                        | 关键关系                          | 说明                             |
+| --------------------------------- | ------------- | ------------------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- |
+| `contract_readiness_package`      | 快照 / 版本表 | `id`、`project_id`、`contract_id`、`status`、`source_baseline_id`、`generated_at`、`generated_by` | 归属 `project` / `contract`       | 承载 `签约就绪` 的结构化承接包   |
+| `contract_readiness_package_item` | 子表          | `id`、`package_id`、`item_type`、`item_key`、`item_status`、`summary_value`                       | 归属 `contract_readiness_package` | 承接包明细、阻断原因和初始化输入 |
+| `contract_snapshot_init_record`   | 动作记录表    | `id`、`package_id`、`snapshot_id`、`status`、`initialized_at`                                     | 归属承接包 / 合同快照             | 正式合同快照初始化留痕           |
+| `receivable_plan_init_record`     | 动作记录表    | `id`、`package_id`、`receivable_plan_version_id`、`status`、`initialized_at`                      | 归属承接包 / 应收计划版本         | 正式应收计划初始化留痕           |
+
+### 7.3 商业放行基线补点
+
+| 逻辑表                              | 表角色        | 最小字段组                                                                                  | 关键关系                            | 说明                       |
+| ----------------------------------- | ------------- | ------------------------------------------------------------------------------------------- | ----------------------------------- | -------------------------- |
+| `commercial_release_baseline`       | 快照表        | `id`、`project_id`、`quotation_review_id`、`status`、`released_at`、`released_by`           | 归属 `project` / `quotation_review` | 商业放行基线主表           |
+| `commercial_baseline_diff_result`   | 动作 / 结果表 | `id`、`baseline_id`、`contract_id`、`diff_level`、`diff_status`、`generated_at`             | 归属基线 / 合同                     | 合同草稿相对基线的差异结果 |
+| `commercial_baseline_diff_item`     | 子表          | `id`、`diff_result_id`、`field_key`、`old_value_summary`、`new_value_summary`、`diff_level` | 归属差异结果                        | 必比字段差异明细           |
+| `commercial_baseline_review_record` | 动作记录表    | `id`、`diff_result_id`、`review_decision`、`reviewed_by`、`reviewed_at`                     | 归属差异结果                        | 差异复核与放行留痕         |
+
+### 7.4 第二阶段验收与发放补点
+
+| 逻辑表                    | 表角色           | 最小字段组                                                                       | 关键关系                   | 说明                 |
+| ------------------------- | ---------------- | -------------------------------------------------------------------------------- | -------------------------- | -------------------- |
+| `acceptance_evidence_ref` | 子表             | `id`、`acceptance_record_id`、`evidence_type`、`evidence_ref_id`、`summary_text` | 归属 `acceptance_record`   | 阶段成果验收证据链   |
+| `commission_payout` 补点  | 动作记录表补字段 | `acceptance_record_id`、`evidence_summary`                                       | 外键到 `acceptance_record` | 第二阶段发放前置引用 |
+
+### 7.5 成本率治理补点
+
+| 逻辑表                            | 表角色         | 最小字段组                                                                               | 关键关系                             | 说明                     |
+| --------------------------------- | -------------- | ---------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------ |
+| `internal_cost_rate_version`      | 版本表         | `id`、`rate_key`、`version`、`status`、`effective_from`、`effective_to`、`supersedes_id` | 被 `project_actual_cost_record` 引用 | 人力成本率版本链         |
+| `project_actual_cost_record` 补点 | 主体主表补字段 | `rate_version_id`、`supersedes_record_id`、`labor_period_start`、`labor_period_end`      | 外键到成本率版本 / 自引用            | `LABOR` 成本追溯与替代链 |
+
+### 7.6 敏感导出与守卫补点
+
+| 逻辑表                          | 表角色     | 最小字段组                                                                                      | 关键关系                 | 说明                |
+| ------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- | ------------------------ | ------------------- |
+| `sensitive_data_export_request` | 动作记录表 | `id`、`target_type`、`target_id`、`field_package_key`、`status`、`requested_by`、`requested_at` | 可关联 `approval_record` | 高敏导出 / 打印申请 |
+| `sensitive_data_export_audit`   | 审计表     | `id`、`request_id`、`result_status`、`exported_at`、`exported_by`                               | 归属导出申请             | 导出执行留痕        |
+
+说明：
+
+- 第一批不强制把字段级可见策略完全做成可维护后台，但逻辑表结构必须允许其有稳定来源和审计对象。
+
+### 7.7 第二阶段第二批逻辑表补点
+
+| 逻辑表                                                   | 表角色            | 最小字段组                                                                                                                 | 关键关系                                                         | 说明                      |
+| -------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------- |
+| `shared_cost_allocation_basis`                           | 快照 / 版本表     | `id`、`source_cost_scope_key`、`basis_type`、`allocation_method`、`status`、`effective_at`、`supersedes_id`                | 被 `shared_cost_allocation_result` 引用                          | 共享分摊依据主表          |
+| `shared_cost_allocation_result`                          | 结果 / 版本表     | `id`、`basis_id`、`project_id`、`allocated_amount`、`allocation_ratio`、`status`、`supersedes_id`                          | 归属分摊依据 / 项目                                              | 项目级分摊结果与替代链    |
+| `cost_stage_attribution_snapshot`                        | 快照表            | `id`、`cost_record_id`、`attributed_stage`、`attribution_mode`、`locked_by_snapshot_id`、`status`、`supersedes_id`         | 归属 `project_actual_cost_record`                                | 阶段归属锁定与重分类      |
+| `accounting_tax_treatment_snapshot`                      | 快照表            | `id`、`project_id`、`tax_treatment_type`、`deductibility_status`、`tax_impact_amount`、`tax_pending_flag`、`supersedes_id` | 归属项目；被经营核算视图引用                                     | 税务处理与核算口径        |
+| `operating_baseline_package`                             | 版本表            | `id`、`project_id`、`original_baseline_id`、`effective_operating_baseline_id`、`status`、`is_current`、`supersedes_id`     | 可被 `change_package_baseline` 与经营桥接视图引用                | 当前有效经营基线包        |
+| `change_package_baseline`                                | 子表 / 版本表     | `id`、`baseline_package_id`、`change_package_id`、`baseline_amount`、`status`、`supersedes_id`                             | 归属 `operating_baseline_package`                                | 变更包基线明细            |
+| `project_operating_snapshot` / `period_closing_snapshot` | 快照表 / 快照表   | `id`、`project_id`、`snapshot_mode`、`snapshot_at`、`source_window_start`、`source_window_end`、`status`、`supersedes_id`  | 归属项目；被 `operating_restatement_record` 引用                 | 实时与期末经营口径        |
+| `operating_restatement_record`                           | 动作记录表        | `id`、`project_id`、`period_end_snapshot_id`、`restates_snapshot_id`、`restatement_reason`、`status`、`handled_at`         | 归属项目；强关联期末快照 / 被替代快照                            | 补录 / 重述链             |
+| `operating_signal_evaluation_result`                     | 派生 / 结果表     | `id`、`project_id`、`signal_level`、`formula_boundary_action`、`review_required`、`evaluated_at`、`status`                 | 归属项目；被 gate 绑定表消费                                     | 经营信号结果              |
+| `data_maturity_evaluation_result`                        | 派生 / 结果表     | `id`、`project_id`、`data_maturity_level`、`evaluation_basis_json`、`evaluated_at`、`status`                               | 归属项目；可与经营信号结果一对一                                 | 数据成熟度结果            |
+| `operating_signal_gate_binding`                          | 派生 / 绑定结果表 | `id`、`project_id`、`signal_evaluation_id`、`binding_action`、`gate_stage_type`、`status`、`generated_at`                  | 归属项目 / 经营信号结果；被 `commission_gate_review_record` 引用 | `L4 -> L5` gate 绑定结果  |
+| `commission_gate_review_record`                          | 动作记录表        | `id`、`binding_id`、`gate_review_decision`、`blocking_reason_code`、`handled_at`、`handled_by`、`status`                   | 归属 gate 绑定结果；可被 `commission_payout` / 审批记录引用      | gate 复核、阻断与放行留痕 |
+
+---
+
+## 8. 第一批关键字段组冻结要求
+
+除原有字段组外，第二阶段第一批建议额外冻结以下字段组语义：
+
+1. 多合同冻结字段组：
+  - `receipt_judgment_mode`
+  - `source_type`
+  - `source_id`
+  - `is_current`
+
+2. 承接包字段组：
+  - `source_baseline_id`
+  - `package_status`
+  - `item_type`
+  - `item_status`
+
+3. 差异复核字段组：
+  - `diff_level`
+  - `diff_status`
+  - `review_decision`
+
+4. 第二阶段发放前置字段组：
+  - `acceptance_record_id`
+  - `evidence_type`
+  - `evidence_ref_id`
+
+5. 人力成本率字段组：
+  - `rate_key`
+  - `effective_from`
+  - `effective_to`
+  - `rate_version_id`
+  - `supersedes_record_id`
+
+6. 敏感导出字段组：
+  - `field_package_key`
+  - `result_status`
+  - `requested_at`
+  - `exported_at`
+
+### 8.1 第二阶段第二批关键字段组冻结要求
+
+除第一批字段组外，第二阶段第二批建议额外冻结以下字段组语义：
+
+1. 共享分摊字段组：
+  - `basis_type`
+  - `allocation_method`
+  - `allocation_ratio`
+  - `supersedes_id`
+
+2. 阶段归属字段组：
+  - `attributed_stage`
+  - `attribution_mode`
+  - `locked_by_snapshot_id`
+  - `reclassify_reason`
+
+3. 税务处理字段组：
+  - `tax_treatment_type`
+  - `deductibility_status`
+  - `tax_impact_amount`
+  - `tax_pending_flag`
+
+4. 经营基线字段组：
+  - `original_baseline_id`
+  - `change_package_id`
+  - `effective_operating_baseline_id`
+  - `is_current`
+
+5. `as-of` / 期末 / 重述字段组：
+  - `snapshot_mode`
+  - `snapshot_at`
+  - `period_end_snapshot_id`
+  - `restates_snapshot_id`
+  - `restatement_reason`
+
+6. 经营信号与 gate 绑定字段组：
+  - `signal_level`
+  - `data_maturity_level`
+  - `binding_action`
+  - `gate_review_decision`
+  - `blocking_reason_code`
+
+---
+
 ## 7. 当前不宜在本阶段冻结的内容
 
 当前不建议在本文件中直接写死以下内容：
@@ -219,7 +379,7 @@
 
 ---
 
-## 8. 进入 schema / DDL 级细化的门槛
+## 9. 进入 schema / DDL 级细化的门槛
 
 建议满足以下条件后，再进入真正的 schema / DDL 级细化：
 
@@ -228,9 +388,10 @@
 - 核心对象的关键字段组语义已稳定
 - 关键外键关系、替代关系、冲销关系已明确
 - 已确认不会因评审 follow-up 再次推翻核心对象边界
+- 第二阶段第一批的关键逻辑表与补字段不会再反向推翻 `L1 / L3 / L4 / L5` 的主事实前提
 
 ---
 
-## 9. 当前结论
+## 10. 当前结论
 
-第一阶段现在已经可以进入“表结构冻结设计”这一步，但仍不应直接跳到最终 DDL。当前最稳妥的推进方式，是先把逻辑表职责、关键关系和字段组语义冻结下来，再进入真正的 schema / DDL 级细化，这样可以把后续返工控制在命名与物理实现层，而不是回退对象分层本身。
+第一阶段现在已经可以进入“表结构冻结设计”这一步，第二阶段第一批与第二批也已经具备把关键逻辑表补点写入冻结设计的条件。当前最稳妥的推进方式，是先把逻辑表职责、关键关系、字段组语义和两批主事实补点冻结下来，再进入真正的 schema / DDL 级细化，这样可以把后续返工控制在命名与物理实现层，而不是回退对象分层本身。

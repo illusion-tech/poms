@@ -1,24 +1,25 @@
 # POMS 第二阶段正式审阅清单
 
 **文档状态**: Active
-**最后更新**: 2026-03-30
+**最后更新**: 2026-04-01
 **适用范围**: `POMS` 第二阶段正式审阅执行入口，聚焦审阅范围、审阅维度、问题记录、结论回写与后续跟踪
 **关联文档**:
 
 - 上游设计:
-  - `phase2-user-task-map.md`
-  - `phase2-experience-gap-priority-matrix.md`
-  - `phase2-lifecycle-experience-blueprint.md`
-  - `phase2-experience-optimization-roadmap.md`
-  - `phase2-detailed-design-index-map.md`
-  - `poms-design-progress.md`
+   - `phase2-user-task-map.md`
+   - `phase2-experience-gap-priority-matrix.md`
+   - `phase2-lifecycle-experience-blueprint.md`
+   - `phase2-experience-optimization-roadmap.md`
+   - `phase2-detailed-design-index-map.md`
+   - `poms-design-progress.md`
+   - `phase2-review-comprehensive-assessment.md`
 - 同级设计:
-  - `phase2-presigning-workspace-information-architecture.md`
-  - `phase2-execution-cost-workspace-information-architecture.md`
-  - `phase2-contract-to-handover-workspace.md`
-  - `phase2-project-business-outcome-overview.md`
-  - `phase2-commission-stage-gate-overview-workspace.md`
-  - `phase2-data-permission-and-sensitive-visibility-design.md`
+   - `phase2-presigning-workspace-information-architecture.md`
+   - `phase2-execution-cost-workspace-information-architecture.md`
+   - `phase2-contract-to-handover-workspace.md`
+   - `phase2-project-business-outcome-overview.md`
+   - `phase2-commission-stage-gate-overview-workspace.md`
+   - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -46,6 +47,8 @@
 - 第二阶段相关基线文档当前状态统一为 `Ready for Review`
 - 已完成四轮独立、留痕的正式审阅，并已产出 `phase2-review-record-round1.md`、`phase2-review-record-round2.md`、`phase2-review-record-round3.md` 与 `phase2-review-record-round4.md`
 - 四轮累计已发现 22 个正式问题（10 个 `R1`、10 个 `R2`、2 个 `R3`），但尚未形成最终通过结论
+- 已新增 `phase2-review-comprehensive-assessment.md`，用于承载四轮问题的多维度综合评估与当前优先级判断
+- 已新增 `phase2-review-follow-up-plan.md` 与 `phase2-first-batch-scope.md`，分别承接正式 follow-up 清单与第一批硬前置专题范围说明
 
 ---
 
@@ -182,6 +185,53 @@
 | `R4-004` | `R2` | 横切 / `phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                  | 权限设计已要求“审批摘要只展示审批所需最小信息”“导出能力单独受控”，但没有定义审批场景级的最小摘要结构。对于副总经理、管理层、财务等并非项目日常参与者的审批人，当前没有口径回答：他们在报价评审、移交确认、提成发放和异常调整审批时，究竟能看到哪些字段、哪些字段要摘要化或遮罩。 | 不是导致审批人看不到足够信息而退回线下，就是导致审批页为便于判断而越权暴露经营或提成敏感字段     | 为各审批场景补“审批摘要字段包”矩阵，并与导出/打印口径一起定义最小可见集、遮罩规则和审计要求              | `Open`   |
 | `R4-005` | `R1` | `L3/L4/L5` / `phase2-contract-to-handover-workspace.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`         | 合同资金域仍把“一个 `Project` 是否允许并行存在多份同时履约的有效合同”列为待细化问题，但第二阶段文档已普遍按“当前有效合同”单数口径设计承接、经营总览和提成阶段判断。若真实业务允许一个项目并行履约多合同，当前 `L3/L4/L5` 的金额、回款比例、质保金和最终结算口径都会失效。        | 影响合同承接、经营核算和提成 gate 的基础可信源，属于实现方向级错误                               | 在第二阶段范围内二选一收口：要么明确禁止并行有效合同，要么补齐多合同项目的汇总、分摊和展示规则           | `Open`   |
 
+### 6.1 综合评估入口
+
+四轮审阅问题的业务价值、技术复杂度、紧迫性、影响面、返工风险与当前优先级，统一见：
+
+- `phase2-review-comprehensive-assessment.md`
+
+### 6.2 综合状态回写
+
+上表中的“当前状态”保留原始审阅记录；正式审阅后的当前执行判断，统一按下表回写：
+
+| 编号     | 综合状态           | 实施批次 | 当前执行判断                                                       |
+| -------- | ------------------ | -------- | ------------------------------------------------------------------ |
+| `R1-001` | `受控后置`         | `第四批` | 已明确为未来扩展；当前只要求保留单币种模型的扩展缝                 |
+| `R1-002` | `规则待细化`       | `第二批` | 成本分摊与项目共享事实需在第一批后优先收口                         |
+| `R1-003` | `规则待细化`       | `第三批` | 合同变更再基线化在合同主链稳定后并行细化                           |
+| `R1-004` | `业务政策未定`     | `第二批` | 税务影响与财务核算口径需先拍板                                     |
+| `R1-005` | `受控后置`         | `第四批` | 异常调整摘要不纳入第一批必需体验                                   |
+| `R1-006` | `规则待细化`       | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+| `R2-001` | `规则待细化`       | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+| `R2-002` | `规则待细化`       | `第二批` | 执行阶段归属与稳定派生规则需先收口                                 |
+| `R2-003` | `规则待细化`       | `第二批` | 需补 `as-of`、期末冻结与补录重述规则                               |
+| `R2-004` | `规则待细化`       | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+| `R2-005` | `规则待细化`       | `第三批` | 在权限主边界稳定后补例外查看与短时揭示                             |
+| `R3-001` | `规则待细化`       | `第三批` | 与 `L1` 主链并行补受控回退与负路径                                 |
+| `R3-002` | `规则待细化`       | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+| `R3-003` | `受控后置`         | `第四批` | 当前先明确仅支持整体移交                                           |
+| `R3-004` | `规则待细化`       | `第二批` | 经营公式边界与数据成熟度联动需统一                                 |
+| `R3-005` | `方向已收口待细化` | `第四批` | 通知与协作触发暂列横切增强，不进入首批                             |
+| `R3-006` | `规则待细化`       | `第三批` | 待 `gate` 主机制稳定后补冻结后受控变更与争议处理                   |
+| `R4-001` | `规则待细化`       | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+| `R4-002` | `规则待细化`       | `第二批` | 需定义执行中变更包基线、汇总口径与重算规则                         |
+| `R4-003` | `规则待细化`       | `第二批` | 需形成 `L4` 经营信号到 `L5 gate` 的绑定矩阵                        |
+| `R4-004` | `规则待细化`       | `第三批` | 在权限主链稳定后补审批摘要字段包与导出 / 打印口径                  |
+| `R4-005` | `方向已收口待细化` | `第一批` | 已完成一轮交叉复核；当前进入实现映射准备                           |
+
+补充说明：
+
+- `R1 / R2 / R3` 是原始问题分级，不等同于当前实施批次
+- 当前实施批次以 `phase2-review-comprehensive-assessment.md` 的依赖链与排序判断为准
+
+### 6.3 follow-up 与第一批范围入口
+
+为避免综合评估停留在分析层，正式 follow-up 清单与进入实现排期的第一批范围说明统一见：
+
+- `phase2-review-follow-up-plan.md`
+- `phase2-first-batch-scope.md`
+
 ---
 
 ## 7. 通过条件
@@ -203,20 +253,22 @@
 - `phase2-experience-optimization-roadmap.md`
 - `phase2-detailed-design-index-map.md`
 - `poms-design-progress.md`
+- `phase2-review-comprehensive-assessment.md`
+- `phase2-review-follow-up-plan.md`
+- `phase2-first-batch-scope.md`
 
 必要时再新增：
 
 - 第二阶段审阅总结文档
-- 第二阶段 follow-up 清单
-- 进入实现排期的第一批范围说明
+- `LX-T04` 统一开发判断文档
 
 ---
 
 ## 9. 当前下一步
 
-当前唯一正确的下一步是：
+当前更准确的下一步是：
 
-1. 以本清单为入口执行 `LX-T03`
-2. 形成正式问题清单
-3. 回写审阅结论
-4. 再进入 `LX-T04`
+1. 继续以 `phase2-review-follow-up-plan.md`、`phase2-first-batch-scope.md` 与 `phase2-first-batch-implementation-mapping.md` 为依据，扩展第二阶段全主线实现设计
+2. 第二批和仍属于当前范围的第三批专题应继续下钻到与第一批同等深度的实现设计层
+3. 第四批继续按增强项和范围限制口径推进，不反向混入当前范围
+4. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再进入 `phase2-lx-t04-full-mainline-development-decision.md` 的统一开发判断

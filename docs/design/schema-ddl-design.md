@@ -1,8 +1,8 @@
 # POMS Schema 与 DDL 细化设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段在接口、查询视图与逻辑表结构边界稳定后，用于进入真实建表脚本前的 schema / DDL 级细化基线
+**最后更新**: 2026-04-01
+**适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批实现映射写回前的 DDL 补点输入
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,8 @@
   - `poms-hld.md`
   - `poms-design-progress.md`
   - `design-review-follow-up-summary.md`
+  - `phase2-first-batch-implementation-mapping.md`
+  - `phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `data-model-prerequisites.md`
@@ -21,6 +23,7 @@
   - `contract-finance-design.md`
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -39,6 +42,7 @@
 
 - 本文档当前不仅服务于已完成主干链路，也直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理域主数据表与提成治理域核心表明确补入 DDL 级输入
+- 第二阶段第一批 6 个专题已完成写回，第二阶段第二批 7 个专题也已进入实现设计下钻，因此还需要把关键主事实补字段、唯一约束与索引要求继续写回 DDL 级输入
 
 ---
 
@@ -358,6 +362,217 @@
 - `confirmed_at`
 - `confirmed_by`
 - `reversed_from_id`
+
+---
+
+## 8. 第二阶段第一批 DDL 补点
+
+第二阶段第一批不要求现在就给出最终 SQL migration，但应至少把会影响唯一约束、外键关系和高频查询的 DDL 级输入固定下来。
+
+### 8.1 多合同与冻结模式 DDL 补点
+
+建议补充以下表或字段：
+
+1. `project_effective_contract_link`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`、`contract_id -> contract.id`
+  - 唯一建议：`project_id + contract_id + is_current(true)` 条件唯一
+  - 索引建议：`project_id + is_current`、`contract_id + is_current`
+
+2. `project_receipt_judgment_freeze`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 唯一建议：同一 `project_id` 仅允许一条当前有效冻结记录，可用条件唯一索引表达
+  - 索引建议：`project_id + frozen_at desc`
+
+### 8.2 承接包 DDL 补点
+
+建议补充以下表：
+
+1. `contract_readiness_package`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`、`contract_id -> contract.id`
+  - 索引建议：`project_id + created_at desc`、`contract_id + status`
+
+2. `contract_readiness_package_item`
+  - 主键：`id`
+  - 外键：`package_id -> contract_readiness_package.id`
+  - 唯一建议：`package_id + item_key`
+
+3. `contract_snapshot_init_record`
+  - 外键：`package_id -> contract_readiness_package.id`、`snapshot_id -> contract_term_snapshot.id`
+
+4. `receivable_plan_init_record`
+  - 外键：`package_id -> contract_readiness_package.id`、`receivable_plan_version_id -> receivable_plan_version.id`
+
+### 8.3 商业放行基线 DDL 补点
+
+建议补充以下表：
+
+1. `commercial_release_baseline`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`、`quotation_review_id -> quotation_review.id`
+  - 索引建议：`project_id + released_at desc`
+
+2. `commercial_baseline_diff_result`
+  - 主键：`id`
+  - 外键：`baseline_id -> commercial_release_baseline.id`、`contract_id -> contract.id`
+  - 唯一建议：同一 `baseline_id + contract_id + diff_status(active)` 条件唯一
+
+3. `commercial_baseline_diff_item`
+  - 主键：`id`
+  - 外键：`diff_result_id -> commercial_baseline_diff_result.id`
+  - 唯一建议：`diff_result_id + field_key`
+
+4. `commercial_baseline_review_record`
+  - 主键：`id`
+  - 外键：`diff_result_id -> commercial_baseline_diff_result.id`
+  - 索引建议：`diff_result_id + reviewed_at desc`
+
+### 8.4 第二阶段验收与发放 DDL 补点
+
+建议补充以下表或字段：
+
+1. `acceptance_evidence_ref`
+  - 主键：`id`
+  - 外键：`acceptance_record_id -> acceptance_record.id`
+  - 索引建议：`acceptance_record_id + evidence_type`
+
+2. `commission_payout.acceptance_record_id`
+  - 外键建议：`acceptance_record_id -> acceptance_record.id`
+  - 约束建议：当 `stage_type = 'second'` 时非空，可通过 `check constraint` 或应用层 + migration 注释约束表达
+
+### 8.5 成本率治理 DDL 补点
+
+建议补充以下表或字段：
+
+1. `internal_cost_rate_version`
+  - 主键：`id`
+  - 唯一建议：`rate_key + version`
+  - 条件唯一建议：同一 `rate_key` 同一时间仅允许一条当前有效记录
+  - 索引建议：`rate_key + is_current`、`effective_from`、`effective_to`
+
+2. `project_actual_cost_record.rate_version_id`
+  - 外键建议：`rate_version_id -> internal_cost_rate_version.id`
+  - 索引建议：`project_id + rate_version_id`、`cost_type + rate_version_id`
+
+3. `project_actual_cost_record.supersedes_record_id`
+  - 自引用外键：`supersedes_record_id -> project_actual_cost_record.id`
+
+### 8.6 敏感导出与审计 DDL 补点
+
+建议补充以下表：
+
+1. `sensitive_data_export_request`
+  - 主键：`id`
+  - 索引建议：`target_type + target_id`、`requested_by + status`
+
+2. `sensitive_data_export_audit`
+  - 主键：`id`
+  - 外键：`request_id -> sensitive_data_export_request.id`
+  - 索引建议：`request_id`、`exported_at desc`
+
+### 8.7 第一批 DDL 级强约束建议
+
+第一批建议至少额外固定以下约束：
+
+1. 同一项目同时只能存在一条当前有效 `project_receipt_judgment_freeze`。
+2. 同一承接包内同一 `item_key` 只能存在一条当前明细。
+3. 同一差异结果内同一必比字段只允许一条差异明细。
+4. `commission_payout` 在第二阶段类型下必须引用有效 `acceptance_record_id`。
+5. `LABOR` 类型的 `project_actual_cost_record` 必须引用 `rate_version_id`。
+
+### 8.8 第二阶段第二批 DDL 补点
+
+第二阶段第二批应继续把会影响历史回看、可信口径与 gate 绑定的表、字段、唯一约束和索引要求固定下来。
+
+#### 8.8.1 共享分摊与阶段归属
+
+1. `shared_cost_allocation_basis`
+  - 主键：`id`
+  - 索引建议：`source_cost_scope_key`、`status + effective_at desc`
+  - 条件唯一建议：同一来源事实范围同一时刻仅允许一条当前有效分摊依据
+
+2. `shared_cost_allocation_result`
+  - 主键：`id`
+  - 外键：`basis_id -> shared_cost_allocation_basis.id`、`project_id -> project.id`
+  - 唯一建议：同一 `basis_id + project_id + status(active)` 条件唯一
+  - 索引建议：`project_id + status`、`basis_id + status`
+
+3. `cost_stage_attribution_snapshot`
+  - 主键：`id`
+  - 外键：`cost_record_id -> project_actual_cost_record.id`
+  - 索引建议：`cost_record_id + handled_at desc`、`attributed_stage + status`
+
+#### 8.8.2 税务处理与经营基线
+
+1. `accounting_tax_treatment_snapshot`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 索引建议：`project_id + status`、`tax_treatment_type + deductibility_status`
+
+2. `operating_baseline_package`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 条件唯一建议：同一 `project_id` 同时仅允许一条 `is_current = true`
+  - 索引建议：`project_id + is_current`、`effective_operating_baseline_id`
+
+3. `change_package_baseline`
+  - 主键：`id`
+  - 外键：`baseline_package_id -> operating_baseline_package.id`
+  - 唯一建议：`baseline_package_id + change_package_id`
+
+#### 8.8.3 `as-of`、期末冻结与重述
+
+1. `project_operating_snapshot`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 索引建议：`project_id + snapshot_at desc`、`project_id + snapshot_mode`
+
+2. `period_closing_snapshot`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 唯一建议：`project_id + period_key + snapshot_mode(period-end)` 条件唯一
+  - 索引建议：`project_id + period_key`、`snapshot_at desc`
+
+3. `operating_restatement_record`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`、`period_end_snapshot_id -> period_closing_snapshot.id`
+  - 外键建议：`restates_snapshot_id -> project_operating_snapshot.id`
+  - 索引建议：`project_id + handled_at desc`、`period_end_snapshot_id`
+
+#### 8.8.4 经营信号与 gate 绑定
+
+1. `operating_signal_evaluation_result`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 索引建议：`project_id + evaluated_at desc`、`signal_level + status`
+
+2. `data_maturity_evaluation_result`
+  - 主键：`id`
+  - 外键建议：`project_id -> project.id`
+  - 索引建议：`project_id + evaluated_at desc`、`data_maturity_level + status`
+
+3. `operating_signal_gate_binding`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`、`signal_evaluation_id -> operating_signal_evaluation_result.id`
+  - 索引建议：`project_id + generated_at desc`、`binding_action + status`
+
+4. `commission_gate_review_record`
+  - 主键：`id`
+  - 外键：`binding_id -> operating_signal_gate_binding.id`
+  - 索引建议：`binding_id + handled_at desc`、`gate_review_decision + status`
+
+### 8.9 第二批 DDL 级强约束建议
+
+第二批建议至少额外固定以下约束：
+
+1. 同一来源事实范围同一时刻只能存在一条当前有效 `shared_cost_allocation_basis`。
+2. 同一 `basis_id + project_id` 只能存在一条当前有效 `shared_cost_allocation_result`。
+3. 同一成本记录同一时刻只能存在一条当前有效 `cost_stage_attribution_snapshot`。
+4. 同一项目同一期末只允许一条当前有效 `period_closing_snapshot`。
+5. 每条 `operating_restatement_record` 都必须引用明确的 `period_end_snapshot_id` 与被替代历史口径。
+6. `operating_signal_gate_binding` 的 `BLOCK` 结论一旦生效，必须能被第二阶段发放命令消费为真实 guard，而不是页面提示。
 - `row_version`
 - `created_at`
 - `created_by`
@@ -706,4 +921,4 @@
 
 ## 10. 当前结论
 
-第一阶段已经具备进入真实建表脚本前的 schema / DDL 级基线。当前最稳妥的推进方式，是在 `ADR-012` 已接受 `PostgreSQL + SQL-first migration + MikroORM` 的前提下，按本文件固定命名规则、公共字段模板、主外键、唯一约束和高频索引基线推进 migration 设计，并同步开始应用层实体映射与仓储建模。
+第一阶段已经具备进入真实建表脚本前的 schema / DDL 级基线，第二阶段第一批与第二批也已经具备把关键约束、外键和索引要求写入 DDL 输入的条件。当前最稳妥的推进方式，是在 `ADR-012` 已接受 `PostgreSQL + SQL-first migration + MikroORM` 的前提下，按本文件固定命名规则、公共字段模板、主外键、唯一约束、高频索引以及两批 DDL 补点推进 migration 设计，并同步开始应用层实体映射与仓储建模。

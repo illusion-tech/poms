@@ -1,8 +1,8 @@
 # POMS 接口命令设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段实现前的接口命令边界、首批命令型动作清单与接口冻结输入
+**最后更新**: 2026-04-01
+**适用范围**: `POMS` 第一阶段接口命令边界基线，以及第二阶段第一批、第二批实现映射写回前的命令补点输入
 **关联文档**:
 
 - 上游设计:
@@ -10,12 +10,15 @@
   - `poms-hld.md`
   - `poms-design-progress.md`
   - `design-review-follow-up-summary.md`
+  - `phase2-first-batch-implementation-mapping.md`
+  - `phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `project-lifecycle-design.md`
   - `contract-finance-design.md`
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
   - `business-authorization-matrix.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
@@ -33,6 +36,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理域命令边界与提成治理域补齐切片的命令集合补充到可直接指导接口切分的程度
+- 第二阶段第一批六个专题已经完成七层写回，第二批七个专题也已形成实现映射桥接，当前需要把新增高敏动作继续写回本文件，避免在实现阶段退回页面拼装或普通 PATCH
 
 ---
 
@@ -81,52 +85,58 @@
 
 ### 4.1 销售流程域
 
-| 对象                         | 命令建议                    | 触发动作     | 前提摘要                              | 放行方式  | 结果摘要                          |
-| ---------------------------- | --------------------------- | ------------ | ------------------------------------- | --------- | --------------------------------- |
-| `ProjectAssessment`          | `submitProjectAssessment`   | 提交立项评估 | 已创建 `Project`，处于 `assessment`   | 审批      | 创建 / 推进审批实例，锁定提交版本 |
-| `ScopeConfirmation`          | `confirmProjectScope`       | 确认范围     | 立项已通过，处于 `scope-confirmation` | 确认      | 固化范围确认版本                  |
-| `QuotationReview`            | `submitQuotationReview`     | 提交报价评审 | 范围已确认，处于 `commercial-closure` | 审批      | 形成报价评审提交批次              |
-| `BidProcess`                 | `submitBidDecision`         | 提交投标决策 | 已创建当前有效 `BidProcess`           | 审批      | 进入投标决策审批链                |
-| `BidProcess`                 | `recordBidResult`           | 登记投标结果 | 已递交或澄清完成                      | 审批/确认 | 固化投标结果，决定能否进入签约    |
-| `ExecutiveEscalationRequest` | `submitExecutiveEscalation` | 发起高层介入 | 满足重大例外或战略项目条件            | 审批      | 创建高层介入审批链                |
-| `Project`                    | `submitProjectContracting`  | 提交签约登记 | 商务收口完成；若招投标则已中标        | 审批/确认 | 进入签约登记放行链                |
-| `Project`                    | `closeProjectAsLost`        | 关闭丢单     | 处于签约前阶段且存在失单事实          | 审批      | 形成 `closed-lost`                |
-| `Project`                    | `terminateProject`          | 终止关闭     | 已进入执行或验收后发生重大终止        | 审批      | 形成 `closed-terminated`          |
-| `ProjectHandover`            | `confirmProjectHandover`    | 完成移交确认 | 已形成合同台账，确认人集合齐备        | 多方确认  | 固化移交完成事实并允许进入执行态  |
-| `AcceptanceRecord`           | `confirmAcceptance`         | 确认验收     | 已形成可验收成果                      | 确认      | 固化验收结论                      |
+| 对象                         | 命令建议                    | 触发动作     | 前提摘要                                                 | 放行方式  | 结果摘要                                         |
+| ---------------------------- | --------------------------- | ------------ | -------------------------------------------------------- | --------- | ------------------------------------------------ |
+| `ProjectAssessment`          | `submitProjectAssessment`   | 提交立项评估 | 已创建 `Project`，处于 `assessment`                      | 审批      | 创建 / 推进审批实例，锁定提交版本                |
+| `ScopeConfirmation`          | `confirmProjectScope`       | 确认范围     | 立项已通过，处于 `scope-confirmation`                    | 确认      | 固化范围确认版本                                 |
+| `QuotationReview`            | `submitQuotationReview`     | 提交报价评审 | 范围已确认，处于 `commercial-closure`                    | 审批      | 形成报价评审提交批次                             |
+| `BidProcess`                 | `submitBidDecision`         | 提交投标决策 | 已创建当前有效 `BidProcess`                              | 审批      | 进入投标决策审批链                               |
+| `BidProcess`                 | `recordBidResult`           | 登记投标结果 | 已递交或澄清完成                                         | 审批/确认 | 固化投标结果，决定能否进入签约                   |
+| `ExecutiveEscalationRequest` | `submitExecutiveEscalation` | 发起高层介入 | 满足重大例外或战略项目条件                               | 审批      | 创建高层介入审批链                               |
+| `Project`                    | `submitProjectContracting`  | 提交签约登记 | 商务收口完成；若招投标则已中标                           | 审批/确认 | 进入签约登记放行链                               |
+| `Project`                    | `closeProjectAsLost`        | 关闭丢单     | 处于签约前阶段且存在失单事实                             | 审批      | 形成 `closed-lost`                               |
+| `Project`                    | `terminateProject`          | 终止关闭     | 已进入执行或验收后发生重大终止                           | 审批      | 形成 `closed-terminated`                         |
+| `ProjectHandover`            | `confirmProjectHandover`    | 完成移交确认 | 已形成合同台账，确认人集合齐备；已选定项目级回款判断模式 | 多方确认  | 固化移交完成事实、冻结模式与当前有效合同集合引用 |
+| `AcceptanceRecord`           | `confirmAcceptance`         | 确认验收     | 已形成可验收成果并提交证据引用                           | 确认      | 固化验收结论、验收类型与证据链摘要               |
 
 ### 4.2 合同资金域
 
-| 对象                | 命令建议                    | 触发动作      | 前提摘要                          | 放行方式  | 结果摘要                                  |
-| ------------------- | --------------------------- | ------------- | --------------------------------- | --------- | ----------------------------------------- |
-| `Contract`          | `submitContractReview`      | 提交审核      | 合同草稿已完成关键条款            | 审批      | 进入合同审核链                            |
-| `Contract`          | `activateContract`          | 生效          | 审核通过，满足财务 / 商务放行条件 | 审批/确认 | 形成当前有效合同与 `ContractTermSnapshot` |
-| `ContractAmendment` | `submitContractAmendment`   | 发起变更      | 已存在生效合同                    | 审批      | 形成合同变更审批链                        |
-| `ContractAmendment` | `activateContractAmendment` | 生效新快照    | 合同变更已获批准                  | 审批      | 替代原有效快照                            |
-| `ReceivablePlan`    | `activateReceivablePlan`    | 初始化 / 生效 | 已存在当前有效合同条款快照        | 确认      | 固化正式应收计划版本                      |
-| `ReceiptRecord`     | `confirmReceiptRecord`      | 财务确认      | 已登记到账记录                    | 确认      | 进入生效回款口径                          |
-| `ReceiptRecord`     | `reverseReceiptRecord`      | 冲销 / 作废   | 原记录存在且允许撤回              | 审批/确认 | 形成冲销链路，不删除原记录                |
-| `PaymentRecord`     | `confirmPaymentRecord`      | 确认生效      | 已登记付款记录                    | 确认      | 进入生效成本口径                          |
-| `PaymentRecord`     | `voidPaymentRecord`         | 作废          | 原付款记录允许撤销                | 确认      | 形成作废留痕                              |
-| `InvoiceRecord`     | `markInvoiceException`      | 标记异常      | 发票记录存在且出现异常            | 审批/确认 | 形成异常留痕                              |
-| `InvoiceRecord`     | `resolveInvoiceException`   | 解除异常      | 异常已处理                        | 审批/确认 | 形成解除留痕                              |
-| `InvoiceRecord`     | `closeInvoiceRecord`        | 关闭          | 发票流程完成或异常处理完结        | 确认      | 形成关闭结论                              |
+| 对象                        | 命令建议                                             | 触发动作           | 前提摘要                                             | 放行方式  | 结果摘要                                       |
+| --------------------------- | ---------------------------------------------------- | ------------------ | ---------------------------------------------------- | --------- | ---------------------------------------------- |
+| `Contract`                  | `submitContractReview`                               | 提交审核           | 合同草稿已完成关键条款                               | 审批      | 进入合同审核链                                 |
+| `Contract`                  | `activateContract`                                   | 生效               | 审核通过，满足财务 / 商务放行条件                    | 审批/确认 | 形成当前有效合同与 `ContractTermSnapshot`      |
+| `ContractAmendment`         | `submitContractAmendment`                            | 发起变更           | 已存在生效合同                                       | 审批      | 形成合同变更审批链                             |
+| `ContractAmendment`         | `activateContractAmendment`                          | 生效新快照         | 合同变更已获批准                                     | 审批      | 替代原有效快照                                 |
+| `ReceivablePlan`            | `activateReceivablePlan`                             | 初始化 / 生效      | 已存在当前有效合同条款快照                           | 确认      | 固化正式应收计划版本                           |
+| `ReceiptRecord`             | `confirmReceiptRecord`                               | 财务确认           | 已登记到账记录                                       | 确认      | 进入生效回款口径                               |
+| `ReceiptRecord`             | `reverseReceiptRecord`                               | 冲销 / 作废        | 原记录存在且允许撤回                                 | 审批/确认 | 形成冲销链路，不删除原记录                     |
+| `PaymentRecord`             | `confirmPaymentRecord`                               | 确认生效           | 已登记付款记录                                       | 确认      | 进入生效成本口径                               |
+| `PaymentRecord`             | `voidPaymentRecord`                                  | 作废               | 原付款记录允许撤销                                   | 确认      | 形成作废留痕                                   |
+| `InvoiceRecord`             | `markInvoiceException`                               | 标记异常           | 发票记录存在且出现异常                               | 审批/确认 | 形成异常留痕                                   |
+| `InvoiceRecord`             | `resolveInvoiceException`                            | 解除异常           | 异常已处理                                           | 审批/确认 | 形成解除留痕                                   |
+| `InvoiceRecord`             | `closeInvoiceRecord`                                 | 关闭               | 发票流程完成或异常处理完结                           | 确认      | 形成关闭结论                                   |
+| `ContractReadinessPackage`  | `initializeContractTermSnapshotFromReadinessPackage` | 初始化合同条款快照 | 已形成当前有效承接包；商业放行差异校验已满足进入条件 | 确认      | 生成受承接包约束的 `ContractTermSnapshot`      |
+| `ContractReadinessPackage`  | `initializeReceivablePlanFromReadinessPackage`       | 初始化应收计划     | 已形成当前有效承接包；合同主链允许初始化应收计划     | 确认      | 生成正式 `ReceivablePlan` 版本与初始化留痕     |
+| `CommercialReleaseBaseline` | `reviewCommercialReleaseBaselineDiff`                | 复核合同差异       | 已存在商业放行基线与差异结果；当前差异等级要求复核   | 审批/确认 | 固化差异复核结论并决定是否允许继续进入合同主链 |
 
 ### 4.3 提成治理域
 
-| 对象                       | 命令建议                         | 触发动作        | 前提摘要                                   | 放行方式  | 结果摘要                   |
-| -------------------------- | -------------------------------- | --------------- | ------------------------------------------ | --------- | -------------------------- |
-| `CommissionRoleAssignment` | `freezeCommissionRoleAssignment` | 提交冻结        | 项目移交已完成，当前版本未冻结             | 审批/确认 | 固化角色冻结版本           |
-| `CommissionRoleAssignment` | `submitCommissionRoleChange`     | 发起变更        | 已存在冻结版本                             | 审批      | 进入角色变更审批链         |
-| `CommissionCalculation`    | `approveCommissionCalculation`   | 复核生效        | 已完成计算，待复核                         | 复核/审批 | 形成有效计算结果           |
-| `CommissionCalculation`    | `recalculateCommission`          | 触发重算        | 合同、回款、成本或异常事实导致需替代旧结果 | 复核/审批 | 形成新的重算链路与替代关系 |
-| `CommissionPayout`         | `submitCommissionPayoutApproval` | 提交审批 / 批准 | 已形成有效发放草稿                         | 审批      | 固化当前阶段发放批准结果   |
-| `CommissionPayout`         | `registerCommissionPayout`       | 登记发放        | 发放审批已通过                             | 无        | 形成业务发放记录           |
-| `CommissionPayout`         | `suspendCommissionPayout`        | 暂停            | 已批准或已发放且出现异常                   | 审批      | 暂停发放链路               |
-| `CommissionPayout`         | `reverseCommissionPayout`        | 冲销            | 已发放记录需撤回                           | 审批      | 形成冲销 / 扣回留痕        |
-| `CommissionAdjustment`     | `submitCommissionAdjustment`     | 发起调整        | 已识别退款、坏账、违规等异常               | 无        | 形成调整草稿               |
-| `CommissionAdjustment`     | `executeCommissionAdjustment`    | 提交审批 / 执行 | 调整草稿已完整并获批准                     | 审批      | 执行补发、扣回、冲销或重算 |
-| `CommissionRuleVersion`    | `activateCommissionRuleVersion`  | 提交生效 / 启用 | 规则草稿已完成                             | 审批      | 启用新规则版本             |
+| 对象                       | 命令建议                         | 触发动作        | 前提摘要                                   | 放行方式  | 结果摘要                                     |
+| -------------------------- | -------------------------------- | --------------- | ------------------------------------------ | --------- | -------------------------------------------- |
+| `CommissionRoleAssignment` | `freezeCommissionRoleAssignment` | 提交冻结        | 项目移交已完成，当前版本未冻结             | 审批/确认 | 固化角色冻结版本                             |
+| `CommissionRoleAssignment` | `submitCommissionRoleChange`     | 发起变更        | 已存在冻结版本                             | 审批      | 进入角色变更审批链                           |
+| `CommissionCalculation`    | `approveCommissionCalculation`   | 复核生效        | 已完成计算，待复核                         | 复核/审批 | 形成有效计算结果                             |
+| `CommissionCalculation`    | `recalculateCommission`          | 触发重算        | 合同、回款、成本或异常事实导致需替代旧结果 | 复核/审批 | 形成新的重算链路与替代关系                   |
+| `CommissionPayout`         | `submitCommissionPayoutApproval` | 提交审批 / 批准 | 已形成有效发放草稿                         | 审批      | 固化当前阶段发放批准结果                     |
+| `CommissionPayout`         | `registerCommissionPayout`       | 登记发放        | 发放审批已通过                             | 无        | 形成业务发放记录                             |
+| `CommissionPayout`         | `suspendCommissionPayout`        | 暂停            | 已批准或已发放且出现异常                   | 审批      | 暂停发放链路                                 |
+| `CommissionPayout`         | `reverseCommissionPayout`        | 冲销            | 已发放记录需撤回                           | 审批      | 形成冲销 / 扣回留痕                          |
+| `CommissionAdjustment`     | `submitCommissionAdjustment`     | 发起调整        | 已识别退款、坏账、违规等异常               | 无        | 形成调整草稿                                 |
+| `CommissionAdjustment`     | `executeCommissionAdjustment`    | 提交审批 / 执行 | 调整草稿已完整并获批准                     | 审批      | 执行补发、扣回、冲销或重算                   |
+| `CommissionRuleVersion`    | `activateCommissionRuleVersion`  | 提交生效 / 启用 | 规则草稿已完成                             | 审批      | 启用新规则版本                               |
+| `InternalCostRateVersion`  | `publishInternalCostRateVersion` | 发布成本率版本  | 版本区间完整、来源合法、已通过财务治理校验 | 审批/确认 | 形成新的有效成本率版本与替代关系             |
+| `ProjectActualCostRecord`  | `registerLaborCostRecord`        | 归集人力成本    | 已存在有效成本率版本；期间与计量依据齐备   | 确认      | 形成引用 `rateVersionId` 的 `LABOR` 成本记录 |
+| `ProjectActualCostRecord`  | `replaceLaborCostRecord`         | 替代 / 重算候选 | 原记录允许替代；替代理由、期间与来源明确   | 审批/确认 | 形成替代链、重算候选与历史留痕               |
 
 补充对第一阶段补齐切片的映射：
 
@@ -136,14 +146,50 @@
 
 ### 4.4 横切审批域
 
-| 对象                 | 命令建议                  | 触发动作    | 前提摘要                     | 放行方式 | 结果摘要                   |
-| -------------------- | ------------------------- | ----------- | ---------------------------- | -------- | -------------------------- |
-| `ApprovalRecord`     | `approveRecord`           | 审批通过    | 当前处理人拥有审批权         | 审批     | 推进业务对象动作           |
-| `ApprovalRecord`     | `rejectApprovalRecord`    | 驳回        | 当前处理人拥有审批权         | 审批     | 驱动业务对象回退或关闭     |
-| `ApprovalRecord`     | `closeApprovalRecord`     | 取消 / 关闭 | 审批终止或业务对象关闭       | 无       | 关闭审批实例与相关待办     |
-| `ApprovalRecord`     | `reassignApprovalRecord`  | 转派        | 当前处理人允许转派           | 无       | 变更处理人并留痕           |
-| `ConfirmationRecord` | `confirmRecord`           | 完成确认    | 当前确认人收到待办           | 确认     | 推进确认计数与业务对象状态 |
-| `ConfirmationRecord` | `closeConfirmationRecord` | 关闭 / 取消 | 确认不再有效或业务对象已终止 | 无       | 关闭确认实例               |
+| 对象                         | 命令建议                     | 触发动作                | 前提摘要                                   | 放行方式  | 结果摘要                       |
+| ---------------------------- | ---------------------------- | ----------------------- | ------------------------------------------ | --------- | ------------------------------ |
+| `ApprovalRecord`             | `approveRecord`              | 审批通过                | 当前处理人拥有审批权                       | 审批      | 推进业务对象动作               |
+| `ApprovalRecord`             | `rejectApprovalRecord`       | 驳回                    | 当前处理人拥有审批权                       | 审批      | 驱动业务对象回退或关闭         |
+| `ApprovalRecord`             | `closeApprovalRecord`        | 取消 / 关闭             | 审批终止或业务对象关闭                     | 无        | 关闭审批实例与相关待办         |
+| `ApprovalRecord`             | `reassignApprovalRecord`     | 转派                    | 当前处理人允许转派                         | 无        | 变更处理人并留痕               |
+| `ConfirmationRecord`         | `confirmRecord`              | 完成确认                | 当前确认人收到待办                         | 确认      | 推进确认计数与业务对象状态     |
+| `ConfirmationRecord`         | `closeConfirmationRecord`    | 关闭 / 取消             | 确认不再有效或业务对象已终止               | 无        | 关闭确认实例                   |
+| `SensitiveDataExportRequest` | `requestSensitiveDataExport` | 申请导出 / 打印高敏摘要 | 调用人具备导出资格；导出范围与用途说明完整 | 审批/确认 | 形成导出授权结论与导出审计留痕 |
+
+### 4.5 第二阶段第一批补充边界说明
+
+第一批六个专题进入实现前，命令边界还需额外固定以下约束：
+
+1. `receiptJudgmentMode` 只能在 `confirmProjectHandover` 与紧邻冻结链路中固化，后续提成页只读不可改。
+2. `ContractTermSnapshot` 与正式 `ReceivablePlan` 的初始化必须引用 `ContractReadinessPackage`，不得退化为合同页手工重填后直接生效。
+3. `activateContract` 前若差异等级为 `需复核` 或更高，必须先完成 `reviewCommercialReleaseBaselineDiff` 或等价复核链路。
+4. `submitCommissionPayoutApproval` 在第二阶段场景下，必须显式绑定有效 `AcceptanceRecord`，不得以自由文本“已验收”替代。
+5. `publishInternalCostRateVersion`、`registerLaborCostRecord`、`replaceLaborCostRecord` 属于实现前必须补齐的写侧入口，不得由普通成本协作页直接承担。
+6. 高敏导出、打印、审批摘要裁剪应通过独立命令或受控后台入口留痕，不允许前端详情页直接绕过字段守卫导出原值。
+
+### 4.6 第二阶段第二批补充命令边界
+
+| 对象                              | 命令建议                            | 触发动作                | 前提摘要                                                       | 放行方式  | 结果摘要                                       |
+| --------------------------------- | ----------------------------------- | ----------------------- | -------------------------------------------------------------- | --------- | ---------------------------------------------- |
+| `SharedCostAllocationBasis`       | `confirmSharedCostAllocationBasis`  | 固化共享分摊依据        | 来源成本事实已确认；分摊方法、项目份额与依据说明齐备           | 审批/确认 | 固化当前有效分摊依据与项目份额输入             |
+| `SharedCostAllocationResult`      | `replaceSharedCostAllocationResult` | 替代共享分摊结果        | 已存在有效分摊结果；替代理由与新依据明确                       | 审批/确认 | 形成新分摊结果、替代链与重算候选               |
+| `CostStageAttributionSnapshot`    | `confirmCostStageAttribution`       | 锁定阶段归属            | 成本记录已形成；归属来源、归属模式与锁定依据齐备               | 确认      | 固化当前有效阶段归属快照                       |
+| `CostStageAttributionSnapshot`    | `reclassifyCostStageAttribution`    | 受控重分类              | 已存在有效阶段归属；重分类原因与影响范围已说明                 | 审批/确认 | 形成新的归属快照并保留重分类历史链             |
+| `AccountingTaxTreatmentSnapshot`  | `confirmAccountingTaxTreatment`     | 固化税务处理结论        | 税务口径已确认；可抵扣状态、影响金额与来源依据齐备             | 审批/确认 | 形成当前有效税务处理快照                       |
+| `AccountingTaxTreatmentSnapshot`  | `replaceAccountingTaxTreatment`     | 替代税务处理结论        | 已存在有效税务处理；替代原因、影响范围与新结论明确             | 审批/确认 | 形成税务处理替代链并刷新经营核算引用           |
+| `OperatingBaselinePackage`        | `switchEffectiveOperatingBaseline`  | 切换当前有效经营基线    | 原始基线、变更包基线和目标有效基线已存在                       | 审批/确认 | 固化当前生效经营基线并触发偏差桥接重算候选     |
+| `PeriodClosingSnapshot`           | `generatePeriodClosingSnapshot`     | 生成期末冻结快照        | 期末边界明确；冻结范围、时间点和口径已确认                     | 受控后台  | 形成期末快照与 `as-of` 可追溯入口              |
+| `OperatingRestatementRecord`      | `registerOperatingRestatement`      | 登记补录 / 重述         | 已存在期末快照或历史口径；重述原因与被替代口径明确             | 审批/确认 | 形成重述记录、替代链与新的历史回看口径         |
+| `OperatingSignalEvaluationResult` | `reviewOperatingSignalEvaluation`   | 经营信号人工复核        | 系统已生成成熟度与信号结果；复核理由和处理结论明确             | 审批/确认 | 固化复核结论并刷新经营信号解释                 |
+| `CommissionGateReviewRecord`      | `reviewCommissionGateBinding`       | gate 复核 / 放行 / 阻断 | 已生成 `L4 -> L5` 绑定结果；当前处理分支为 `REVIEW` 或 `BLOCK` | 审批/确认 | 固化 gate 复核结论、处理人、原因与绑定结果快照 |
+
+第二阶段第二批统一补充以下命令边界约束：
+
+1. 共享分摊、阶段归属、税务处理、经营基线、期末冻结、重述和 gate 复核都不得退回普通 `PATCH` / `PUT`。
+2. 实时口径、期末口径与重述口径的刷新属于系统派生链路，不允许前端直接写“当前值”覆盖历史解释。
+3. 任何替代动作都必须保留 `supersedes` 链，不允许无痕覆盖既有分摊结果、归属结果、税务处理或期末口径。
+4. `reviewCommissionGateBinding` 的 `BLOCK` 结论必须实际阻断第二阶段发放命令，而不是停留在页面提示层。
+5. 第二批命令仍需遵守第一批已冻结的敏感投影与最小可见集约束，不得因为进入 `L4/L5` 视图就放宽高敏字段写入边界。
 
 ---
 
@@ -173,13 +219,17 @@
 
 以下动作不建议作为普通前台命令直接暴露：
 
-| 对象                    | 派生动作     | 触发来源                         | 说明                   |
-| ----------------------- | ------------ | -------------------------------- | ---------------------- |
-| `ContractTermSnapshot`  | 生成有效快照 | 合同生效 / 合同变更生效          | 由命令型动作内部派生   |
-| `CommissionCalculation` | 生成计算草稿 | 冻结版本与生效输入就绪           | 可由受控后台或系统触发 |
-| `TodoItem`              | 生成待办     | 审批 / 确认实例推进              | 不建议人工直接创建     |
-| `NotificationRecord`    | 派发通知     | 审批、确认、关闭、异常等状态变化 | 不建议人工直接创建     |
-| 关联审计记录            | 写入审计链   | 所有命令型动作执行               | 作为命令执行副作用     |
+| 对象                            | 派生动作            | 触发来源                               | 说明                     |
+| ------------------------------- | ------------------- | -------------------------------------- | ------------------------ |
+| `ContractTermSnapshot`          | 生成有效快照        | 合同生效 / 合同变更生效                | 由命令型动作内部派生     |
+| `ContractReadinessPackage`      | 生成 / 刷新承接包   | 签约就绪信息完成、商业放行基线更新     | 由受控后台或命令链路派生 |
+| `CommercialReleaseBaselineDiff` | 生成 / 刷新差异结果 | 商业放行基线固化、合同草稿关键条款变化 | 不建议人工直接编辑结果   |
+| `CommissionCalculation`         | 生成计算草稿        | 冻结版本与生效输入就绪                 | 可由受控后台或系统触发   |
+| `SensitiveFieldProjection`      | 生成字段投影结果    | 详情查询、经营聚合、审批摘要读取       | 由查询层或读侧聚合生成   |
+| `ExportAuditRecord`             | 写入导出留痕        | 高敏导出 / 打印命令执行                | 作为受控导出副作用       |
+| `TodoItem`                      | 生成待办            | 审批 / 确认实例推进                    | 不建议人工直接创建       |
+| `NotificationRecord`            | 派发通知            | 审批、确认、关闭、异常等状态变化       | 不建议人工直接创建       |
+| 关联审计记录                    | 写入审计链          | 所有命令型动作执行                     | 作为命令执行副作用       |
 
 ---
 
@@ -191,6 +241,7 @@
 2. 每个命令是否都有明确的前提、放行方式、对象状态约束和审计责任。
 3. 命令结果是否只返回当前动作关心的事实，不把审批实例状态和业务对象状态重新混成一个字段集合。
 4. 普通更新接口的允许字段范围是否已经与字段包基线一致。
+5. 第二阶段第一批的承接包初始化、差异复核、第二阶段验收引用、成本率版本治理与高敏导出是否都已脱离页面手工流程。
 
 ---
 
@@ -210,9 +261,10 @@
 
 ## 9. 当前结论
 
-第一阶段已经具备冻结“接口形态边界”的条件。当前最稳妥的做法是先把高敏感对象动作固定到命令型接口，把草稿维护限制在普通更新接口，把快照、计算、待办和通知限制在系统派生接口，然后再进入 OpenAPI 与 DTO 级别的详细接口设计。
+第一阶段已经具备冻结“接口形态边界”的条件，第二阶段第一批与第二批也已经具备把新增高敏动作写回命令边界的条件。当前最稳妥的做法是先把高敏感对象动作固定到命令型接口，把草稿维护限制在普通更新接口，把快照、计算、差异校验、字段投影、待办和通知限制在系统派生接口，然后再进入 OpenAPI 与 DTO 级别的详细接口设计。
 
 补充当前直接下一步：
 
 - 平台治理域按 `create/activate/deactivate/assign/move/update-governance` 这一组命令边界进入实现准备
 - 提成治理域按 `规则 -> 冻结 -> 计算生效 -> 发放批准/登记 -> 调整执行/重算` 的命令顺序进入实现准备
+- 第二阶段第二批按 `分摊 -> 归属 -> 税务 -> 基线 -> 期末/重述 -> 信号/gate` 的命令顺序进入实现准备

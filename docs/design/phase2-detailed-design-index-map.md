@@ -1,12 +1,17 @@
 # POMS 第二阶段详细设计索引与主线地图
 
 **文档状态**: Ready for Review
-**最后更新**: 2026-03-30
+**最后更新**: 2026-04-01
 **适用范围**: `POMS` 第二阶段 `LX-T01` 全局收口草案，聚焦详细设计索引、主线地图与当前基线完成状态
 **关联文档**:
 
 - 上游设计:
   - `phase2-experience-optimization-roadmap.md`
+  - `phase2-mainline-delivery-plan.md`
+  - `phase2-mainline-implementation-design-matrix.md`
+  - `phase2-lx-t04-full-mainline-development-decision.md`
+  - `phase2-second-batch-scope.md`
+  - `phase2-second-batch-implementation-mapping.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-user-task-map.md`
   - `phase2-experience-gap-priority-matrix.md`
@@ -30,7 +35,11 @@
 - 它们之间的承接关系是什么
 - 当前哪些已经形成第一轮基线，哪些仍待后续收口
 
-本文档不是替代各专题设计，而是为后续评审、实现排期和跨文档检索提供统一导航。
+本文档不是替代各专题设计，而是为后续评审、实现设计收口、统一开发判断和跨文档检索提供统一导航。
+
+若需要先理解“第二阶段整体到底在做什么、当前真实处于哪一步、审阅问题与实现设计是什么关系”，应先阅读 `phase2-mainline-delivery-plan.md`。
+
+若需要进一步确认 `L1 ~ L5` 五条主线是否都存在从基线到实现设计的完整推进路径，以及哪些第四批内容不会阻断当前主线继续下钻，应继续阅读 `phase2-mainline-implementation-design-matrix.md`。
 
 ---
 
@@ -48,7 +57,7 @@
 
 - `L1 ~ L5` 均已形成第一轮基线
 - 当前所有主线文档均已形成第一轮基线，真实状态应理解为 `Ready for Review`
-- 当前下一步进入正式审阅与全局收口，而不是继续新增主线
+- 当前下一步已从正式审阅转入 follow-up 收口与第一批实现设计前置，而不是继续新增主线
 
 ---
 
@@ -196,12 +205,12 @@
 - `B1 ~ B30` 三十份正式基线产物
 - `L1 ~ L5` 五条主线第一轮基线闭环
 
-当前仍待全局收口的事项：
+当前全局收口状态：
 
-1. `LX-T01`：统一索引 / 主线地图
-2. `LX-T02`：统一纠正文档状态并建立正式审阅入口
-3. `LX-T03`：执行正式审阅并形成问题清单 / 审阅记录 / 结论摘要（已执行四轮独立审阅，累计 22 个正式问题）
-4. `LX-T04`：再决定哪些内容进入实现排期
+1. `LX-T01`：已收口
+2. `LX-T02`：已收口
+3. `LX-T03`：已完成四轮正式审阅，并形成综合评估、follow-up 清单与第一批范围说明
+4. `LX-T04`：当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；正式口径已调整为“待 `L1 ~ L5` 全主线完成当前范围内实现设计后，再统一判断是否进入开发”
 
 本文件完成后，`LX-T01` 可视为收口。
 
@@ -228,13 +237,14 @@
 
 ## 12. 当前结论
 
-第二阶段当前已经不缺主线级设计基线，缺的是全局收口和实现排期决策。
+第二阶段当前已经不缺主线级设计基线，缺的是全局收口、全主线实现设计完成度和统一开发判断。
 
 所以本阶段下一步不应再继续发散新增主线，而应：
 
-1. 完成 `LX-T02`
-2. 执行 `LX-T03`
-3. 再执行 `LX-T04`
-4. 最后才决定进入实现的第一批范围
+1. 以综合评估、follow-up 清单和第一批范围说明为依据，继续回写 `P0 / P1` 正式规则和实现设计输入
+2. 保留第一批六个前置专题作为实现设计先行输入，并继续扩展第二批经营与成本可信源专题的实现设计下钻
+3. `LX-T04` 判断当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
+4. 第二批经营与成本可信源专题当前范围统一见 `phase2-second-batch-scope.md`，实现映射桥接入口统一见 `phase2-second-batch-implementation-mapping.md`
+5. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一决定是否进入开发
 
 在这个基础上，第二阶段才能从“设计已经很多”推进到“设计已经可执行”。
