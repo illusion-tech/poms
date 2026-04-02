@@ -1,8 +1,8 @@
 # POMS 数据模型冻结前提
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段数据模型冻结前提，以及第二阶段第一批、第二批实现映射写回前的数据模型补点基线
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段数据模型冻结前提，以及第二阶段第一批、第二批、第三批实现映射写回前的数据模型补点基线
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -273,6 +274,23 @@
 | `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定 | 是否按项目、阶段或发放批次保留多条历史绑定结果     |
 | `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因      | 是否与 `CommissionPayout` 或发放审批记录建立强关联 |
 
+### 7.8 第二阶段第三批流程健壮性与审批增强对象链
+
+| 对象 / 关系                        | 建议落表类型        | 建模前提摘要                                                     | 冻结前需确认                                      |
+| ---------------------------------- | ------------------- | ---------------------------------------------------------------- | ------------------------------------------------- |
+| `ContractHandoverRebaselineRecord` | 动作 / 版本表       | 表达合同变更后移交前承接链的再基线化动作、替代关系与当前有效基线 | 是否按 `contract_amendment_id` 保留单独版本序列   |
+| `HandoverBaselineImpactItem`       | 子表 / 影响项表     | 表达受再基线化影响的移交前事实项、影响原因与替代结果             | 是否要求逐项保留 `affected_handover_item_id`      |
+| `PresigningRollbackRequest`        | 动作记录表          | 表达签约前受控回退申请、回退起止阶段与原结论失效链               | 是否要求每次回退强引用被失效结论集合              |
+| `PresigningWorkspaceReopenRecord`  | 动作记录表 / 子表   | 表达回退后被重开的工作区、待重估责任人与重开时间                 | 是否允许同一回退请求重开多个工作区                |
+| `SensitiveFieldRevealRequest`      | 动作记录表          | 表达短时揭示申请、用途、申请范围与申请有效期                     | 是否与 `ApprovalRecord` 一对一还是一对多          |
+| `SensitiveFieldRevealGrant`        | 动作记录表 / 授权表 | 表达揭示授权结论、授权字段包、有效时间与到期失效链               | 是否允许同一请求产生多次授权 / 延期记录           |
+| `SensitiveFieldRevealAudit`        | 派生 / 审计表       | 表达揭示后的访问审计、查看人、查看结果与访问时间                 | 是否与统一 `AuditLog` 合表还是独立表达            |
+| `ApprovalSummaryPackageDefinition` | 配置 / 定义表       | 表达审批场景最小字段包、投影级别与导出策略的稳定来源             | 是否按 `approval_scenario_key + package_key` 唯一 |
+| `ApprovalSummarySnapshot`          | 快照 / 派生表       | 表达某次审批读取时使用的摘要字段包快照与场景级投影结果           | 是否按审批对象、场景和投影级别保留历史快照        |
+| `ApprovalSummaryFieldProjection`   | 子表 / 派生表       | 表达摘要包中每个字段的显示级别、遮罩模式与导出策略               | 是否允许把字段定义直接内嵌到快照 JSON             |
+| `CommissionFreezeDisputeRecord`    | 动作记录表          | 表达冻结后争议申请、争议原因、影响角色与仲裁状态                 | 是否强关联当前冻结版本与既有计算 / 发放结果       |
+| `CommissionFreezeChangeRequest`    | 动作 / 版本表       | 表达仲裁后受控变更请求、替代冻结版本链与回溯影响模式             | 是否要求每次替代都生成新的冻结版本而非原地覆盖    |
+
 ---
 
 ## 8. 第一批进入表结构冻结的建议门槛
@@ -290,6 +308,14 @@
 - `ProjectOperatingSnapshot`、`PeriodClosingSnapshot` 与 `OperatingRestatementRecord` 三层历史口径已明确分层，而不是继续复用单一“当前经营值”。
 - `OperatingSignalToCommissionGateBinding` 与 `CommissionGateReviewRecord` 已能稳定支撑 `L5` gate 的阻断、复核和解释追溯。
 - 第二批补点不会反向推翻第一批已冻结的敏感投影、合同集合和冻结模式边界。
+
+### 8.2 第二阶段第三批进入表结构冻结的附加门槛
+
+- `B14 ~ B18` 涉及的再基线化、回退、短时揭示、审批摘要包和冻结后争议处理对象链已明确。
+- `PresigningRollbackRequest -> PresigningWorkspaceReopenRecord` 与 `ContractHandoverRebaselineRecord -> HandoverBaselineImpactItem` 两条负路径 / 替代链已能稳定追溯。
+- `SensitiveFieldRevealRequest / Grant / Audit` 与 `ApprovalSummaryPackageDefinition / Snapshot / Projection` 已能证明“最小可见”和“短时放宽”是两条独立稳定链路。
+- `CommissionFreezeDisputeRecord` 与 `CommissionFreezeChangeRequest` 已能稳定解释对既有提成计算 / 发放的回溯影响，不再依赖人工备注。
+- 第三批补点不会反向推翻第一批敏感投影边界与第二批经营可信源口径。
 
 ---
 

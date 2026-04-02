@@ -1,7 +1,7 @@
 # POMS 第二阶段详细设计索引与主线地图
 
 **文档状态**: Ready for Review
-**最后更新**: 2026-04-01
+**最后更新**: 2026-04-02
 **适用范围**: `POMS` 第二阶段 `LX-T01` 全局收口草案，聚焦详细设计索引、主线地图与当前基线完成状态
 **关联文档**:
 
@@ -12,6 +12,8 @@
   - `phase2-lx-t04-full-mainline-development-decision.md`
   - `phase2-second-batch-scope.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-scope.md`
+  - `phase2-third-batch-implementation-mapping.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-user-task-map.md`
   - `phase2-experience-gap-priority-matrix.md`
@@ -242,9 +244,10 @@
 所以本阶段下一步不应再继续发散新增主线，而应：
 
 1. 以综合评估、follow-up 清单和第一批范围说明为依据，继续回写 `P0 / P1` 正式规则和实现设计输入
-2. 保留第一批六个前置专题作为实现设计先行输入，并继续扩展第二批经营与成本可信源专题的实现设计下钻
+2. 保留第一批六个前置专题作为实现设计先行输入，继续扩展第二批经营与成本可信源专题，并正式打开第三批流程健壮性与审批增强专题的实现设计下钻
 3. `LX-T04` 判断当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
 4. 第二批经营与成本可信源专题当前范围统一见 `phase2-second-batch-scope.md`，实现映射桥接入口统一见 `phase2-second-batch-implementation-mapping.md`
-5. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一决定是否进入开发
+5. 第三批流程健壮性与审批增强专题当前范围统一见 `phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回与关键业务主文档首轮写回统一见 `phase2-third-batch-implementation-mapping.md`
+6. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一决定是否进入开发
 
 在这个基础上，第二阶段才能从“设计已经很多”推进到“设计已经可执行”。

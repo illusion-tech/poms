@@ -1,8 +1,8 @@
 # POMS 接口 OpenAPI 与 DTO 边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段 OpenAPI / DTO 边界基线，以及第二阶段第一批、第二批实现映射写回前的 DTO 补点输入
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段 OpenAPI / DTO 边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DTO 补点输入
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `project-lifecycle-design.md`
@@ -229,6 +230,19 @@
 | `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`          | `reviewDecision`、`reviewComment`、`expectedVersion`                                                            | 手工改写 `signalLevel`、`dataMaturityLevel` 原始结果   | `targetId`、`signalEvaluationId`、`reviewRecordId`、`resultStatus`                |
 | `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`              | `bindingAction`、`gateReviewDecision`、`blockingReasonCode`、`comment`、`expectedVersion`                       | 前端直接覆盖 `allowedActions`、跳过 `L4` 信号绑定结果  | `targetId`、`bindingResultId`、`gateReviewRecordId`、`businessStatusAfter`        |
 
+### 5.5B 第二阶段第三批补充命令 DTO 草案
+
+| 命令                               | OpenAPI 草案                                        | 请求 DTO 建议字段                                                                                                        | 明确禁止输入                                           | 响应 DTO 关键字段                                                               |
+| ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `rebaselineContractHandover`       | `POST /contract-handover-rebaselines`               | `contractAmendmentId`、`rebaselineReason`、`affectedHandoverItemIds[]`、`effectiveBaselineAfterId`、`expectedVersion`    | 合同 / 移交详情整包、页面临时解释文本                  | `targetId`、`rebaselineRecordId`、`effectiveBaselineAfterId`、`resultStatus`    |
+| `submitPresigningRollback`         | `POST /presigning-rollbacks`                        | `projectId`、`rollbackFromStage`、`rollbackToStage`、`rollbackReasonCode`、`reopenWorkspaceKeys[]`、`expectedVersion`    | 普通工作区草稿字段整包、直接改写已通过节点状态         | `targetId`、`rollbackRequestId`、`reopenedWorkspaceKeys`、`businessStatusAfter` |
+| `approvePresigningRollback`        | `POST /presigning-rollbacks/{id}:approve`           | `approvalDecision`、`invalidatesDecisionIds[]`、`comment`、`expectedVersion`                                             | 直接删除原结论、页面自由改写回退目标                   | `targetId`、`rollbackRequestId`、`invalidatedDecisionIds`、`resultStatus`       |
+| `requestSensitiveFieldReveal`      | `POST /sensitive-field-reveals`                     | `targetType`、`targetId`、`fieldPackageKey`、`usageReason`、`expiresAt`、`revealScopeSummary`、`expectedVersion`         | 直接携带高敏原值、绕过权限直接放宽查询投影             | `targetId`、`revealRequestId`、`approvalRecordId`、`resultStatus`               |
+| `approveSensitiveFieldReveal`      | `POST /sensitive-field-reveals/{id}:approve`        | `grantDecision`、`grantedFieldPackageKey`、`expiresAt`、`comment`、`expectedVersion`                                     | 把详情字段直接回传给审批页、用永久授权替代短时授权     | `targetId`、`revealGrantId`、`expiresAt`、`businessStatusAfter`                 |
+| `reviewApprovalSummaryProjection`  | `POST /approval-summary-packages/{targetId}:review` | `approvalScenarioKey`、`summaryPackageKey`、`projectionLevel`、`exportPolicy`、`comment`、`expectedVersion`              | 详情页字段随机子集、未声明场景直接传完整聚合对象       | `targetId`、`summarySnapshotId`、`projectionLevel`、`resultStatus`              |
+| `submitCommissionFreezeDispute`    | `POST /commission-freeze-disputes`                  | `projectId`、`freezeVersionId`、`disputeReason`、`affectedAssignmentIds[]`、`recalculationImpactMode`、`expectedVersion` | 直接改写冻结版本、把争议结论塞进普通冻结维护 DTO       | `targetId`、`disputeRecordId`、`impactAssessmentId`、`businessStatusAfter`      |
+| `arbitrateCommissionFreezeDispute` | `POST /commission-freeze-disputes/{id}:arbitrate`   | `arbitrationDecision`、`replacementFreezeVersionId`、`recalculationImpactMode`、`comment`、`expectedVersion`             | 页面直接改 `isCurrent`、跳过争议链直接替代现有冻结版本 | `targetId`、`disputeRecordId`、`replacementFreezeVersionId`、`resultStatus`     |
+
 ### 5.4 横切审批域公共命令
 
 | 命令                      | OpenAPI 草案                              | 请求 DTO 建议字段                            | 明确禁止输入                 | 响应 DTO 关键字段                                         |
@@ -258,6 +272,10 @@
 
 5. `VisibilityProjectedFieldDto`: 仅用于查询响应，至少包含 `value`、`visibilityLevel`、`isExportable`，不得复用为命令请求 DTO。
 
+第二阶段第三批补充建议再显式固定一层场景化投影约定：
+
+6. `ScenarioProjectionDto`: 仅用于审批摘要包、短时揭示范围和异常流程最小字段集返回，不得复用为普通更新 DTO 或完整详情 DTO。
+
 建议避免以下反模式：
 
 - 一个 DTO 同时既能普通保存，又能触发生效
@@ -277,6 +295,7 @@
 5. 第二阶段发放审批是否已经要求 `acceptanceRecordId`，而不是继续依赖自由文本说明。
 6. 差异复核、承接包初始化、人力成本归集与高敏字段投影是否都已具备独立 DTO 边界。
 7. 第二批的分摊依据、阶段归属、税务处理、经营基线、`as-of` / 期末 / 重述和 gate 复核是否都已具备独立 DTO 边界，且未退回普通维护 DTO。
+8. 第三批的回退 / 再基线化、例外揭示、审批摘要包和冻结后争议处理是否都已具备独立 DTO 边界，且未绕回详情 DTO 或普通维护 DTO。
 
 ---
 

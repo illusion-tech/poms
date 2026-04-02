@@ -1,8 +1,8 @@
 # POMS 接口命令设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段接口命令边界基线，以及第二阶段第一批、第二批实现映射写回前的命令补点输入
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段接口命令边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的命令补点输入
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `project-lifecycle-design.md`
   - `contract-finance-design.md`
@@ -191,6 +192,27 @@
 4. `reviewCommissionGateBinding` 的 `BLOCK` 结论必须实际阻断第二阶段发放命令，而不是停留在页面提示层。
 5. 第二批命令仍需遵守第一批已冻结的敏感投影与最小可见集约束，不得因为进入 `L4/L5` 视图就放宽高敏字段写入边界。
 
+### 4.7 第二阶段第三批补充命令边界
+
+| 对象                               | 命令建议                           | 触发动作               | 前提摘要                                                           | 放行方式  | 结果摘要                                          |
+| ---------------------------------- | ---------------------------------- | ---------------------- | ------------------------------------------------------------------ | --------- | ------------------------------------------------- |
+| `ContractHandoverRebaselineRecord` | `rebaselineContractHandover`       | 发起合同变更再基线化   | 已存在生效合同变更；移交前承接事实已形成；影响范围与替代目标已明确 | 审批/确认 | 形成再基线化记录、影响链与新的当前有效承接基线    |
+| `PresigningRollbackRequest`        | `submitPresigningRollback`         | 发起签约前回退         | 已存在需回退的签约前结论；回退原因、回退目标阶段与重开工作区已明确 | 审批      | 形成回退请求并锁定受影响结论与工作区              |
+| `PresigningRollbackRequest`        | `approvePresigningRollback`        | 审批回退并重开工作区   | 回退请求已提交；待重开工作区与失效结论已复核                       | 审批/确认 | 固化回退放行、重开工作区与原结论失效链            |
+| `SensitiveFieldRevealRequest`      | `requestSensitiveFieldReveal`      | 发起短时揭示申请       | 当前场景存在受控最小可见边界；揭示字段包、用途与有效期已明确       | 审批      | 形成揭示申请、待授权范围与审计起点                |
+| `SensitiveFieldRevealRequest`      | `approveSensitiveFieldReveal`      | 批准 / 驳回短时揭示    | 揭示申请已提交；授权范围、到期时间与审批意见已确认                 | 审批/确认 | 形成揭示授权或驳回结论，并触发失效链与访问审计链  |
+| `ApprovalSummarySnapshot`          | `reviewApprovalSummaryProjection`  | 复核审批摘要字段包     | 场景级摘要包已生成；最小字段集、投影级别与导出策略已明确           | 审批/确认 | 固化审批摘要快照与场景级字段投影结果              |
+| `CommissionFreezeDisputeRecord`    | `submitCommissionFreezeDispute`    | 发起冻结后争议         | 已存在冻结版本；争议原因、影响角色与回溯模式已明确                 | 审批      | 形成争议记录、影响评估入口与待仲裁链              |
+| `CommissionFreezeDisputeRecord`    | `arbitrateCommissionFreezeDispute` | 仲裁争议并生成替代版本 | 争议记录已进入处理态；仲裁结论、替代冻结版本与回溯影响已确认       | 审批/确认 | 固化仲裁结论、替代冻结版本链与重算 / 发放影响摘要 |
+
+第二阶段第三批统一补充以下命令边界约束：
+
+1. 再基线化、签约前回退、短时揭示、审批摘要复核和冻结后争议处理都不得退回普通 `PATCH` / `PUT`。
+2. 任何会重开既有流程、放宽最小可见边界或替代冻结版本的动作，都必须显式携带 `expectedVersion` 或等价并发控制位。
+3. `approvePresigningRollback`、`approveSensitiveFieldReveal` 与 `arbitrateCommissionFreezeDispute` 都必须返回稳定链路引用，不能只返回页面提示文本。
+4. 审批摘要包生成、短时揭示到期失效、回退影响分析和冻结后回溯影响评估优先作为系统派生动作处理，不应退化为页面临时拼装。
+5. 第三批命令仍需继续遵守第一批敏感投影边界与第二批经营可信源口径，不因其属于异常链路而默认放宽写侧权限。
+
 ---
 
 ## 5. 保留为普通更新接口的最小范围
@@ -227,6 +249,10 @@
 | `CommissionCalculation`         | 生成计算草稿        | 冻结版本与生效输入就绪                 | 可由受控后台或系统触发   |
 | `SensitiveFieldProjection`      | 生成字段投影结果    | 详情查询、经营聚合、审批摘要读取       | 由查询层或读侧聚合生成   |
 | `ExportAuditRecord`             | 写入导出留痕        | 高敏导出 / 打印命令执行                | 作为受控导出副作用       |
+| `ApprovalSummarySnapshot`       | 生成 / 刷新摘要包   | 审批场景切换、审批对象状态变化         | 由受控后台或命令链路派生 |
+| `SensitiveFieldRevealGrant`     | 到期失效 / 提前撤销 | 揭示授权到期或受控撤销                 | 作为授权链副作用         |
+| `PresigningRollbackImpact`      | 生成回退影响分析    | 签约前回退申请提交或审批通过           | 不建议人工直接编辑结果   |
+| `CommissionFreezeImpactAssess`  | 生成回溯影响评估    | 冻结后争议提交、仲裁或替代版本确认     | 作为争议处理副作用       |
 | `TodoItem`                      | 生成待办            | 审批 / 确认实例推进                    | 不建议人工直接创建       |
 | `NotificationRecord`            | 派发通知            | 审批、确认、关闭、异常等状态变化       | 不建议人工直接创建       |
 | 关联审计记录                    | 写入审计链          | 所有命令型动作执行                     | 作为命令执行副作用       |
@@ -242,6 +268,7 @@
 3. 命令结果是否只返回当前动作关心的事实，不把审批实例状态和业务对象状态重新混成一个字段集合。
 4. 普通更新接口的允许字段范围是否已经与字段包基线一致。
 5. 第二阶段第一批的承接包初始化、差异复核、第二阶段验收引用、成本率版本治理与高敏导出是否都已脱离页面手工流程。
+6. 第三批的再基线化、回退、短时揭示、审批摘要复核与冻结后争议处理是否都已具备独立命令入口与稳定审计责任。
 
 ---
 

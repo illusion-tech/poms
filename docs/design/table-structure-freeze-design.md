@@ -1,8 +1,8 @@
 # POMS 表结构冻结设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段逻辑表结构冻结设计，以及第二阶段第一批、第二批实现映射写回前的逻辑表补点基线
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段逻辑表结构冻结设计，以及第二阶段第一批、第二批、第三批实现映射写回前的逻辑表补点基线
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `data-model-prerequisites.md`
@@ -279,6 +280,23 @@
 | `operating_signal_gate_binding`                          | 派生 / 绑定结果表 | `id`、`project_id`、`signal_evaluation_id`、`binding_action`、`gate_stage_type`、`status`、`generated_at`                  | 归属项目 / 经营信号结果；被 `commission_gate_review_record` 引用 | `L4 -> L5` gate 绑定结果  |
 | `commission_gate_review_record`                          | 动作记录表        | `id`、`binding_id`、`gate_review_decision`、`blocking_reason_code`、`handled_at`、`handled_by`、`status`                   | 归属 gate 绑定结果；可被 `commission_payout` / 审批记录引用      | gate 复核、阻断与放行留痕 |
 
+### 7.8 第二阶段第三批逻辑表补点
+
+| 逻辑表                                | 表角色              | 最小字段组                                                                                                                                | 关键关系                                                         | 说明                         |
+| ------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------- |
+| `contract_handover_rebaseline_record` | 动作 / 版本表       | `id`、`contract_amendment_id`、`rebaseline_reason`、`effective_baseline_after_id`、`status`、`handled_at`、`supersedes_id`                | 归属合同变更；被 `handover_baseline_impact_item` 引用            | 合同变更再基线化主链         |
+| `handover_baseline_impact_item`       | 子表 / 影响项表     | `id`、`rebaseline_record_id`、`affected_handover_item_id`、`impact_type`、`impact_summary`、`supersedes_baseline_id`                      | 归属再基线化记录                                                 | 受影响移交前事实项明细       |
+| `presigning_rollback_request`         | 动作记录表          | `id`、`project_id`、`rollback_from_stage`、`rollback_to_stage`、`rollback_reason_code`、`status`、`handled_at`、`invalidates_decision_id` | 归属项目；被 `presigning_workspace_reopen_record` 引用           | 签约前回退请求主链           |
+| `presigning_workspace_reopen_record`  | 动作记录表 / 子表   | `id`、`rollback_request_id`、`workspace_key`、`reopened_at`、`reopened_by`、`pending_reevaluation_owner_id`                               | 归属回退请求                                                     | 回退后的工作区重开记录       |
+| `sensitive_field_reveal_request`      | 动作记录表          | `id`、`target_type`、`target_id`、`field_package_key`、`usage_reason`、`requested_expires_at`、`status`、`requested_by`                   | 可关联 `approval_record`；被 `sensitive_field_reveal_grant` 引用 | 短时揭示申请主表             |
+| `sensitive_field_reveal_grant`        | 动作记录表 / 授权表 | `id`、`request_id`、`granted_field_package_key`、`effective_at`、`expires_at`、`revoked_at`、`status`                                     | 归属揭示申请；被 `sensitive_field_reveal_audit` 引用             | 短时揭示授权与失效链         |
+| `sensitive_field_reveal_audit`        | 审计表              | `id`、`grant_id`、`viewer_id`、`access_result`、`accessed_at`、`target_field_summary`                                                     | 归属揭示授权                                                     | 揭示访问审计                 |
+| `approval_summary_package_definition` | 配置 / 定义表       | `id`、`approval_scenario_key`、`summary_package_key`、`projection_level`、`export_policy`、`status`                                       | 被 `approval_summary_snapshot` 引用                              | 审批摘要包定义               |
+| `approval_summary_snapshot`           | 快照 / 派生表       | `id`、`target_type`、`target_id`、`approval_scenario_key`、`summary_package_id`、`projection_level`、`generated_at`、`status`             | 归属审批对象；被 `approval_summary_field_projection` 引用        | 场景级摘要快照               |
+| `approval_summary_field_projection`   | 子表 / 派生表       | `id`、`summary_snapshot_id`、`field_key`、`visibility_level`、`masking_mode`、`export_policy`                                             | 归属摘要快照                                                     | 摘要字段投影明细             |
+| `commission_freeze_dispute_record`    | 动作记录表          | `id`、`project_id`、`freeze_version_id`、`dispute_reason`、`recalculation_impact_mode`、`status`、`handled_at`                            | 归属项目 / 冻结版本；被 `commission_freeze_change_request` 引用  | 冻结后争议主链               |
+| `commission_freeze_change_request`    | 动作 / 版本表       | `id`、`dispute_record_id`、`replacement_freeze_version_id`、`arbitration_decision`、`recalculation_impact_mode`、`status`、`handled_at`   | 归属争议记录；可关联既有计算 / 发放对象                          | 争议后的受控变更与替代版本链 |
+
 ---
 
 ## 8. 第一批关键字段组冻结要求
@@ -361,6 +379,44 @@
   - `binding_action`
   - `gate_review_decision`
   - `blocking_reason_code`
+
+### 8.2 第二阶段第三批关键字段组冻结要求
+
+除前两批字段组外，第二阶段第三批建议额外冻结以下字段组语义：
+
+1. 再基线化字段组：
+  - `contract_amendment_id`
+  - `rebaseline_reason`
+  - `effective_baseline_after_id`
+  - `supersedes_id`
+
+2. 回退与重开字段组：
+  - `rollback_from_stage`
+  - `rollback_to_stage`
+  - `rollback_reason_code`
+  - `invalidates_decision_id`
+  - `workspace_key`
+
+3. 短时揭示字段组：
+  - `field_package_key`
+  - `requested_expires_at`
+  - `granted_field_package_key`
+  - `expires_at`
+  - `access_result`
+
+4. 审批摘要包字段组：
+  - `approval_scenario_key`
+  - `summary_package_key`
+  - `projection_level`
+  - `masking_mode`
+  - `export_policy`
+
+5. 冻结后争议字段组：
+  - `freeze_version_id`
+  - `dispute_reason`
+  - `arbitration_decision`
+  - `replacement_freeze_version_id`
+  - `recalculation_impact_mode`
 
 ---
 

@@ -1,8 +1,8 @@
 # POMS 查询视图边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段读侧边界基线，以及第二阶段第一批、第二批实现映射写回前的查询视图补点约束
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段读侧边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的查询视图补点约束
 **关联文档**:
 
 - 上游设计:
@@ -12,6 +12,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -165,6 +166,20 @@
 | `OperatingSignalEvaluationView`    | `OperatingSignalEvaluationResult`        | 支撑经营公式边界、成熟度与风险信号解释               | `formulaBoundaryAction`、`dataMaturityLevel`、`signalLevel`、`reviewRequired`、`reviewSummary`                            | 系统结果与人工复核结论要分层展示                       |
 | `CommissionGateBindingHistoryView` | `OperatingSignalToCommissionGateBinding` | 支撑 `L4 -> L5` gate 绑定结果与复核追溯              | `signalLevel`、`bindingAction`、`gateReviewDecision`、`blockingReasonSummary`、`handledBy`、`handledAt`、`allowedActions` | `BLOCK` / `REVIEW` 来源必须可追溯到稳定绑定结果        |
 
+### 5.3C 第二阶段第三批异常链路与审批增强查询补点
+
+| 查询视图                                | 主要对象                           | 目标                                       | 最小字段组                                                                                                                            | 额外约束                                                 |
+| --------------------------------------- | ---------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `ContractHandoverRebaselineHistoryView` | `ContractHandoverRebaselineRecord` | 支撑合同变更再基线化历史追溯               | `contractAmendmentSummary`、`rebaselineReason`、`affectedHandoverItemSummary`、`effectiveBaselineAfterSummary`、`handledAt`           | 必须同时解释原始基线、变更影响与当前有效承接口径         |
+| `HandoverBaselineImpactView`            | `ContractHandoverRebaselineRecord` | 支撑移交前承接影响范围解释                 | `originalBaselineSummary`、`changeImpactSummary`、`currentEffectiveBaselineSummary`、`riskFlags`                                      | 不得把再基线化影响压平成单一“当前基线”字段               |
+| `PresigningRollbackHistoryView`         | `PresigningRollbackRequest`        | 支撑签约前回退与负路径历史追溯             | `rollbackFromStage`、`rollbackToStage`、`rollbackReasonCode`、`invalidatedDecisionSummary`、`handledBy`、`handledAt`                  | 必须显式区分当前有效结论与已失效结论                     |
+| `PresigningRollbackImpactView`          | `PresigningWorkspaceReopenRecord`  | 支撑回退后重开工作区与待重估状态总览       | `reopenedWorkspaceSummary`、`pendingReevaluationOwner`、`rollbackImpactSummary`、`allowedActions`                                     | 不得退化为页面说明文本或人工汇总                         |
+| `SensitiveFieldRevealRequestDetailView` | `SensitiveFieldRevealRequest`      | 支撑短时揭示申请详情与授权边界解释         | `fieldPackageSummary`、`usageReason`、`requestedExpiresAt`、`grantStatus`、`approvalSummary`                                          | 不因存在揭示申请而默认放宽详情页完整字段投影             |
+| `SensitiveFieldRevealHistoryView`       | `SensitiveFieldRevealGrant`        | 支撑短时揭示授权链、到期失效与访问审计追溯 | `grantedFieldPackageSummary`、`effectiveAt`、`expiresAt`、`revokedAt`、`auditSummary`                                                 | 必须同时返回授权范围和到期信息，而不是只返回当前可见字段 |
+| `ApprovalSummaryPackageView`            | `ApprovalSummarySnapshot`          | 支撑审批页最小字段包、投影级别与导出策略   | `approvalScenarioKey`、`summaryPackageKey`、`projectionLevel`、`exportPolicy`、`generatedAt`、`allowedActions`                        | 审批摘要字段不得直接复用详情页字段随机子集               |
+| `CommissionFreezeDisputeHistoryView`    | `CommissionFreezeDisputeRecord`    | 支撑冻结后争议、仲裁与替代版本链追溯       | `disputeReason`、`affectedAssignmentSummary`、`arbitrationDecision`、`replacementFreezeVersionSummary`、`handledAt`                   | 必须区分争议请求、仲裁结论与当前有效冻结版本             |
+| `CommissionFreezeImpactAssessmentView`  | `CommissionFreezeChangeRequest`    | 支撑冻结后变更对既有计算 / 发放的回溯影响  | `recalculationImpactMode`、`affectedCalculationSummary`、`affectedPayoutSummary`、`currentEffectiveFreezeVersionSummary`、`riskFlags` | 回溯影响必须来自稳定影响评估链，而不是前端二次计算       |
+
 ### 5.4 横切支撑域
 
 | 查询视图                       | 主要对象             | 目标             | 最小字段组                                                                                                              | 额外约束                 |
@@ -191,6 +206,8 @@
 8. 共享分摊、阶段归属、税务处理和经营基线都必须有独立详情或历史视图，不能全部挤进 `ProjectOperatingView` 的说明文本。
 9. `OperatingSignalEvaluationView` 与 `CommissionGateBindingHistoryView` 必须共同证明 `L5` gate 判断来自稳定绑定结果，而不是提成页前端二次计算。
 10. 第二批新增读侧视图仍需继续遵守第一批已冻结的敏感投影边界，不因“解释链更长”而默认扩大原值曝光范围。
+11. 第三批新增查询视图必须显式返回“授权范围 / 到期时间 / 失效状态 / 替代版本关系”等链路字段，不能只返回当前结果摘要。
+12. 审批摘要包视图与短时揭示视图必须保持场景化最小字段集，不得回退成详情页字段的裁剪子集。
 
 建议的 `ProjectOperatingView` 最小字段组：
 

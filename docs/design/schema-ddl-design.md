@@ -1,8 +1,8 @@
 # POMS Schema 与 DDL 细化设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批实现映射写回前的 DDL 补点输入
+**最后更新**: 2026-04-02
+**适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DDL 补点输入
 **关联文档**:
 
 - 上游设计:
@@ -14,6 +14,7 @@
   - `design-review-follow-up-summary.md`
   - `phase2-first-batch-implementation-mapping.md`
   - `phase2-second-batch-implementation-mapping.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `data-model-prerequisites.md`
@@ -573,6 +574,88 @@
 4. 同一项目同一期末只允许一条当前有效 `period_closing_snapshot`。
 5. 每条 `operating_restatement_record` 都必须引用明确的 `period_end_snapshot_id` 与被替代历史口径。
 6. `operating_signal_gate_binding` 的 `BLOCK` 结论一旦生效，必须能被第二阶段发放命令消费为真实 guard，而不是页面提示。
+
+### 8.10 第二阶段第三批 DDL 补点
+
+第二阶段第三批应继续把会影响负路径追溯、最小可见授权、审批摘要包和冻结后争议处理的表、字段、唯一约束和索引要求固定下来。
+
+#### 8.10.1 再基线化与签约前回退
+
+1. `contract_handover_rebaseline_record`
+  - 主键：`id`
+  - 外键：`contract_amendment_id -> contract_amendment.id`
+  - 外键建议：`effective_baseline_after_id -> contract_term_snapshot.id`
+  - 索引建议：`contract_amendment_id + handled_at desc`、`effective_baseline_after_id`
+
+2. `handover_baseline_impact_item`
+  - 主键：`id`
+  - 外键：`rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 唯一建议：`rebaseline_record_id + affected_handover_item_id`
+
+3. `presigning_rollback_request`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 索引建议：`project_id + handled_at desc`、`rollback_from_stage + rollback_to_stage`
+
+4. `presigning_workspace_reopen_record`
+  - 主键：`id`
+  - 外键：`rollback_request_id -> presigning_rollback_request.id`
+  - 唯一建议：`rollback_request_id + workspace_key`
+
+#### 8.10.2 短时揭示与审批摘要包
+
+1. `sensitive_field_reveal_request`
+  - 主键：`id`
+  - 索引建议：`target_type + target_id`、`requested_by + status`、`requested_expires_at`
+
+2. `sensitive_field_reveal_grant`
+  - 主键：`id`
+  - 外键：`request_id -> sensitive_field_reveal_request.id`
+  - 索引建议：`request_id + status`、`expires_at desc`
+
+3. `sensitive_field_reveal_audit`
+  - 主键：`id`
+  - 外键：`grant_id -> sensitive_field_reveal_grant.id`
+  - 索引建议：`grant_id + accessed_at desc`、`viewer_id + accessed_at desc`
+
+4. `approval_summary_package_definition`
+  - 主键：`id`
+  - 唯一建议：`approval_scenario_key + summary_package_key`
+  - 索引建议：`approval_scenario_key + status`
+
+5. `approval_summary_snapshot`
+  - 主键：`id`
+  - 外键：`summary_package_id -> approval_summary_package_definition.id`
+  - 索引建议：`target_type + target_id`、`approval_scenario_key + generated_at desc`
+
+6. `approval_summary_field_projection`
+  - 主键：`id`
+  - 外键：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 唯一建议：`summary_snapshot_id + field_key`
+
+#### 8.10.3 冻结后争议与受控变更
+
+1. `commission_freeze_dispute_record`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 外键建议：`freeze_version_id -> commission_role_assignment.id`
+  - 索引建议：`project_id + handled_at desc`、`freeze_version_id + status`
+
+2. `commission_freeze_change_request`
+  - 主键：`id`
+  - 外键：`dispute_record_id -> commission_freeze_dispute_record.id`
+  - 外键建议：`replacement_freeze_version_id -> commission_role_assignment.id`
+  - 索引建议：`dispute_record_id + handled_at desc`、`replacement_freeze_version_id`
+
+### 8.11 第三批 DDL 级强约束建议
+
+第三批建议至少额外固定以下约束：
+
+1. 同一 `contract_amendment_id` 在同一承接链上同一时刻只能存在一条当前有效 `contract_handover_rebaseline_record`。
+2. 每条已批准的 `presigning_rollback_request` 至少必须对应一条 `presigning_workspace_reopen_record`，且必须显式保留被失效结论引用。
+3. 每条有效 `sensitive_field_reveal_grant` 都必须带 `expires_at`，且到期后不得继续作为详情查询放宽边界的依据。
+4. 同一审批对象、同一 `approval_scenario_key + projection_level` 在同一时刻只允许一条当前有效 `approval_summary_snapshot`。
+5. `commission_freeze_change_request` 生效前必须存在明确的 `arbitration_decision` 与 `recalculation_impact_mode`，不得直接原地覆盖当前冻结版本。
 - `row_version`
 - `created_at`
 - `created_by`

@@ -148,6 +148,8 @@
 | `docs/design/design-review-execution-checklist.md`                        | Active   | 详细设计评审执行清单，用于组织下一轮逐文档评审                                 | 是                 |
 | `docs/design/design-review-follow-up-summary.md`                          | Active   | 首轮正式评审后的 follow-up 归并，约束实现前必须补齐项边界                      | 是                 |
 | `docs/design/phase2-review-checklist.md`                                  | Active   | 第二阶段正式审阅清单，负责统一审阅范围、审阅维度、问题记录与结论回写入口       | 是                 |
+| `docs/design/phase2-third-batch-scope.md`                                 | Active   | 第二阶段第三批范围说明，负责锁定流程健壮性与审批增强专题的正式范围             | 是                 |
+| `docs/design/phase2-third-batch-implementation-mapping.md`                | Active   | 第二阶段第三批实现映射桥接文档，负责把第三批专题转成实现设计输入               | 是                 |
 | `docs/design/phase2-lx-t04-full-mainline-development-decision.md`         | Active   | 第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出正式开发判断 | 是                 |
 | `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                 | 是                 |
 | `docs/design/poms-phase1-delivery-roadmap.md`                             | Active   | 第一阶段交付路线图，统一远期目标、中期里程碑与近期实施重点                     | 是                 |
@@ -247,7 +249,7 @@
 - **测试基础设施中的关键工程问题已收口**：开发机存在 `HTTP_PROXY/HTTPS_PROXY` 但缺失 `NO_PROXY` 时，Playwright 会对 localhost 探活产生“端口已占用”误判；当前已在 `playwright.config.ts` 中对 `localhost/127.0.0.1` 强制补齐 `NO_PROXY`
 - **测试推进中已收口的关键问题**：平台导航治理已补齐 `/platform/navigation` 只读治理页与路由对照文档同步，`P1-T24` 已关闭；同时已去掉前端生产构建阶段对 Google Fonts inline 的外网依赖，`pnpm nx build poms-admin` 可在当前环境通过
 - **最终探活中的关键问题已收口**：导航信息架构改成“一级分组、二级页面入口”后，`navigation.service.spec.ts` 一度仍按旧根层叶子结构断言，导致后端全量单测首次失败；当前已修正为递归校验新树形结构并重新验证通过
-- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口。第二阶段方面，`L1 ~ L5` 五条主线已完成第一轮基线闭环，`LX-T01` 已补齐统一索引与主线地图入口，`LX-T02` 已把第二阶段基线文档状态统一纠正为 `Ready for Review`，`LX-T03` 已完成四轮正式审阅并补齐 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md`、`phase2-first-batch-scope.md` 与 `phase2-second-batch-scope.md`。第一批六个前置专题现已全部完成主规则回写、跨文档一致性复核和七层实现映射回写；第二批七个经营与成本可信源专题也已完成主规则回写、桥接映射，并已完成六份实现设计总文档的首轮写回；但 `LX-T04` 的官方口径已调整为“待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一判断是否进入开发”，此前“首批受控实现排期”结论已归档，不再作为当前阶段目标。
+- **当前阶段结论**：`P1-T20` 与 `P1-T30` 均已完成；第一阶段最终验收快照已形成，且此前剩余的前端生产构建 warning 已收口，当前已无阻塞第一阶段收口的功能性或工程性缺口。第二阶段方面，`L1 ~ L5` 五条主线已完成第一轮基线闭环，`LX-T01` 已补齐统一索引与主线地图入口，`LX-T02` 已把第二阶段基线文档状态统一纠正为 `Ready for Review`，`LX-T03` 已完成四轮正式审阅并补齐 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md`、`phase2-first-batch-scope.md` 与 `phase2-second-batch-scope.md`。第一批六个前置专题现已全部完成主规则回写、跨文档一致性复核和七层实现映射回写；第二批七个经营与成本可信源专题也已完成主规则回写、桥接映射，并已完成六份实现设计总文档的首轮写回；第三批五个流程健壮性与审批增强专题现已完成正式范围锁定、实现映射桥接、六份实现设计总文档与关键业务主文档的首轮写回，并已完成剩余关键联动文档补点；但 `LX-T04` 的官方口径已调整为“待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一判断是否进入开发”，此前“首批受控实现排期”结论已归档，不再作为当前阶段目标。
 - **非阻塞工程治理已关闭**：`P1-T30` 已完成。`preloading.css` warning 已通过把预加载样式内联到 `index.html` 收口；随后通过把 `app.configurator`、搜索弹层、右侧抽屉改为按需加载，`notfound` 页面改为懒加载，并清理 `app.topbar.ts` 未使用的 PrimeNG 模块，重新执行 `pnpm nx build poms-admin --stats-json` 后，production `initial` 已从约 `1.45 MB` 降到 `899.10 kB`，当前已重新回到 `1 MB` warning budget 以内
 
 ---
@@ -272,7 +274,7 @@
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
 3. **已执行四轮审阅并完成执行层回写基线**：`LX-T03` 已完成四轮独立审阅，输出了 `phase2-review-record-round1.md`、`phase2-review-record-round2.md`、`phase2-review-record-round3.md` 与 `phase2-review-record-round4.md`，并进一步形成 `phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与 `phase2-first-batch-scope.md`，把 22 个正式问题转为多维度评估、批次判断和第一批范围说明。
-4. **下一步**：继续把第二批七个专题和仍属于当前范围的第三批专题推进到与第一批同等深度的实现设计层，待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再依据 `phase2-lx-t04-full-mainline-development-decision.md` 一次性判断是否进入开发；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
+4. **下一步**：在第三批六份总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续做第三批跨文档一致性复核，待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再依据 `phase2-lx-t04-full-mainline-development-decision.md` 一次性判断是否进入开发；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
 
@@ -282,7 +284,8 @@
 
 1. 先完成第一批六个前置专题回写
 2. 再推进第二批经营与成本可信源专题
-3. 第一批稳定后继续扩展第二批与必要第三批实现设计，而不是直接进入开发判断
+3. 第二批写回稳定后正式打开第三批流程健壮性与审批增强专题
+4. 待前三批达到当前范围要求后，再进入统一开发判断
 
 当前状态口径统一为：
 
@@ -295,12 +298,13 @@
 3. 第一批 6 个前置专题已完成主规则回写与一轮跨文档一致性复核。
 4. 第一批 6 个前置专题已完成 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard` 七层实现映射回写。
 5. 第二批 7 个专题已完成主规则回写，并已形成 `phase2-second-batch-scope.md` 作为正式范围入口。
-6. 第二批 7 个专题已形成 `phase2-second-batch-implementation-mapping.md`，并已完成六份实现设计总文档的首轮写回；第三批、第四批专题仍未整体进入与第一批等深的实现映射。
-7. `LX-T04` 当前尚未进入最终统一开发判断；旧的“首批实现排期只纳入第一批六个前置专题”结论已归档。
+6. 第二批 7 个专题已形成 `phase2-second-batch-implementation-mapping.md`，并已完成六份实现设计总文档的首轮写回。
+7. 第三批 5 个专题已形成 `phase2-third-batch-scope.md` 与 `phase2-third-batch-implementation-mapping.md`，并已完成六份实现设计总文档、关键业务主文档与剩余关键联动文档的首轮写回 / 补点。
+8. `LX-T04` 当前尚未进入最终统一开发判断；旧的“首批实现排期只纳入第一批六个前置专题”结论已归档。
 
 因此，当前真实阶段应理解为：
 
-- 第二阶段“基线设计 + 正式审阅 + 第一批七层实现映射 + 第二批总文档首轮写回”已完成；`LX-T04` 当前转为等待全主线实现设计完成后的统一开发判断
+- 第二阶段“基线设计 + 正式审阅 + 第一批七层实现映射 + 第二批总文档首轮写回 + 第三批总文档 / 关键业务主文档 / 关键联动文档首轮写回或补点”已完成；`LX-T04` 当前转为等待全主线实现设计完成后的统一开发判断
 - 但尚未达到“整个第二阶段设计已全部下钻到 command、query、DTO、表结构和守卫”的状态
 - 若需要从主线视角理解第二阶段整体目标、流程与成果，而不是只从 22 个审阅问题切入，统一见 `phase2-mainline-delivery-plan.md`
 
@@ -315,8 +319,9 @@
 5. 再把第一批 6 个专题写回实现设计层，顺序为：`command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard`。
 6. 第一批专题完成上述实现映射并确认主事实稳定后，继续推进第二批经营与成本可信源专题进入同等深度的实现设计。
 7. 第二批稳定后，再处理仍属于当前范围的第三批负路径 / 权限例外 / 审批摘要等专题。
-8. 第四批未来扩展与表达增强项继续保持显式范围限制，不反向混入当前范围。
-9. 仅在 `L1 ~ L5` 全主线于当前范围内完成实现设计后，才进入 `LX-T04` 的统一开发判断。
+8. 第三批完成六份总文档、关键业务主文档与剩余关键联动文档补点后，再继续做跨文档一致性复核。
+9. 第四批未来扩展与表达增强项继续保持显式范围限制，不反向混入当前范围。
+10. 仅在 `L1 ~ L5` 全主线于当前范围内完成实现设计后，才进入 `LX-T04` 的统一开发判断。
 
 禁止倒序推进的情况包括：
 

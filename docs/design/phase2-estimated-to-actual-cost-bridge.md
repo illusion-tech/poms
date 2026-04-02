@@ -1,7 +1,7 @@
 # POMS 第二阶段估算成本到实际成本承接口径草案
 
 **文档状态**: Ready for Review
-**最后更新**: 2026-04-01
+**最后更新**: 2026-04-02
 **适用范围**: `POMS` 第二阶段 `L2-T05` 详细设计草案，聚焦签约前估算成本如何承接到执行期实际成本与偏差解释
 **关联文档**:
 
@@ -12,6 +12,8 @@
   - `phase2-cost-source-to-project-record-mapping.md`
   - `phase2-actual-cost-accumulation-stage-view.md`
   - `phase2-experience-optimization-roadmap.md`
+  - `phase2-third-batch-scope.md`
+  - `phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `project-lifecycle-design.md`
@@ -118,6 +120,25 @@
 - 待审批、已发起但未生效的变更请求，只能作为“待生效变更影响”展示，不得提前并入正式基线
 - 历史对比必须同时保留“相对原始签约基线偏移”和“相对当前有效变更后基线偏差”两套结果
 - 变更包基线只能通过显式增量累加或冲减表达，不允许直接改写 `originalBaselineCost`
+
+### 3.5 移交前再基线化与执行期基线衔接
+
+第三批当前进一步固定一条边界：
+
+- 合同生效后、项目正式移交前发生的正式合同变更，不直接视为执行期 `changePackageBaselineCost`
+- 这类变更若已进入 `L3` 的再基线化链，应先形成“当前移交前有效基线”，再作为执行期承接起点进入 `L2`
+
+换句话说：
+
+1. `originalBaselineCost` 仍表示签约前最后被正式采用的原始签约基线。
+2. 若合同生效后到移交前发生正式变更，且已完成再基线化，则执行期起始比较口径应消费 `currentEffectiveHandoverBaselineCost`。
+3. `currentEffectiveHandoverBaselineCost` 不是对 `originalBaselineCost` 的静默覆盖，而是通过再基线化链显式形成的移交前有效承接基线。
+4. 只有项目进入执行态之后才产生的正式变更包，才继续累加到 `changePackageBaselineCost`。
+
+补充约束：
+
+- 若移交前再基线化尚未收口，执行期不得把旧基线直接拿来当正式偏差比较口径。
+- 偏差解释至少应能区分：原始签约基线偏移、移交前再基线化吸收、执行期变更包吸收。
 
 ---
 
@@ -332,6 +353,7 @@
 `L2-T05` 当前建议固定为：
 
 - 签约前最后被正式采用的有效估算版本，作为执行期对比基线
+- 合同生效后到移交前的正式变更若已完成再基线化，应以当前移交前有效基线作为执行期承接起点，而不是把它误算为执行期变更包
 - 同时保留“原始签约基线”与“当前有效变更后基线”两层结果，不把执行期变更静默改写成原始基线
 - 估算项必须映射到统一实际成本类型
 - 正式偏差判断默认使用 `includedCostTotal`

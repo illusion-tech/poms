@@ -11,6 +11,8 @@
 - `phase2-first-batch-implementation-mapping.md`
 - `phase2-second-batch-scope.md`
 - `phase2-second-batch-implementation-mapping.md`
+- `phase2-third-batch-scope.md`
+- `phase2-third-batch-implementation-mapping.md`
 - `phase2-lx-t04-full-mainline-development-decision.md`
 - `contract-finance-design.md`
 - `phase2-project-unified-accounting-view-caliber.md`
@@ -74,14 +76,14 @@
 
 第一批是继续推进全主线实现设计前最需要先冻结的主对象与主事实前置专题。
 
-| 专题                                                           | 覆盖问题 | 主要回写文档                                                                                                                                                                                                                       | 当前收口目标                             |
-| -------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| 多合同项目主假设与冻结模式                                     | `R4-005` | `contract-finance-design.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-commission-stage-gate-overview-workspace.md` | 已完成一轮交叉复核；当前进入实现映射准备 |
-| `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | `phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                                                                  | 已完成一轮交叉复核；当前进入实现映射准备 |
-| 商业放行基线与最终合同差异校验                                 | `R4-001` | `phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                 | 已完成一轮交叉复核；当前进入实现映射准备 |
-| 第二阶段验收 / 阶段成果确认对象与证据链                        | `R2-004` | `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已完成一轮交叉复核；当前进入实现映射准备 |
-| `internalCostRate` 治理基线                                    | `R3-002` | `phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已完成一轮交叉复核；当前进入实现映射准备 |
-| 敏感数据主边界与最小可见集                                     | `R1-006` | `phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 已完成一轮交叉复核；当前进入实现映射准备 |
+| 专题                                                           | 覆盖问题 | 主要回写文档                                                                                                                                                                                                                       | 当前收口目标                                             |
+| -------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| 多合同项目主假设与冻结模式                                     | `R4-005` | `contract-finance-design.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-commission-stage-gate-overview-workspace.md` | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | `phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                                                                  | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 商业放行基线与最终合同差异校验                                 | `R4-001` | `phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                 | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 第二阶段验收 / 阶段成果确认对象与证据链                        | `R2-004` | `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| `internalCostRate` 治理基线                                    | `R3-002` | `phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 敏感数据主边界与最小可见集                                     | `R1-006` | `phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
 
 第一批当前判断：
 
@@ -149,7 +151,7 @@
 第三批当前判断：
 
 - 第三批可并行，但不应反向改写第一批和第二批已冻结的主事实
-- 若第三批需要新增专题文档，应同步回写进度板和索引入口
+- 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `phase2-third-batch-scope.md` 与 `phase2-third-batch-implementation-mapping.md`
 
 ---
 
@@ -171,7 +173,7 @@
 当前更稳妥的推进顺序如下：
 
 1. 先以 `phase2-second-batch-implementation-mapping.md` 为桥接入口完成六份实现设计总文档写回；当前该步已完成，下一步转入一致性校验并打开第三批专题实现设计。
-2. 再并行推进仍属于当前范围的第三批流程健壮性与审批增强。
+2. 再以 `phase2-third-batch-implementation-mapping.md` 为桥接入口，在六份实现设计总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续推进第三批跨文档一致性复核。
 3. 第四批始终以范围限制或 follow-up 方式显式记录，不得默默丢失。
 4. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再进入统一开发判断。
 
