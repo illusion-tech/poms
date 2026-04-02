@@ -179,7 +179,7 @@
 | `AccountingTaxTreatmentSnapshot`  | `confirmAccountingTaxTreatment`     | 固化税务处理结论        | 税务口径已确认；可抵扣状态、影响金额与来源依据齐备             | 审批/确认 | 形成当前有效税务处理快照                       |
 | `AccountingTaxTreatmentSnapshot`  | `replaceAccountingTaxTreatment`     | 替代税务处理结论        | 已存在有效税务处理；替代原因、影响范围与新结论明确             | 审批/确认 | 形成税务处理替代链并刷新经营核算引用           |
 | `OperatingBaselinePackage`        | `switchEffectiveOperatingBaseline`  | 切换当前有效经营基线    | 原始基线、变更包基线和目标有效基线已存在                       | 审批/确认 | 固化当前生效经营基线并触发偏差桥接重算候选     |
-| `PeriodClosingSnapshot`           | `generatePeriodClosingSnapshot`     | 生成期末冻结快照        | 期末边界明确；冻结范围、时间点和口径已确认                     | 受控后台  | 形成期末快照与 `as-of` 可追溯入口              |
+| `PeriodClosingSnapshot`           | `generatePeriodClosingSnapshot`     | 生成期末冻结快照        | 期末边界明确；冻结范围、时间点和口径已确认                     | 受控后台  | 形成期末快照与时点快照可追溯入口               |
 | `OperatingRestatementRecord`      | `registerOperatingRestatement`      | 登记补录 / 重述         | 已存在期末快照或历史口径；重述原因与被替代口径明确             | 审批/确认 | 形成重述记录、替代链与新的历史回看口径         |
 | `OperatingSignalEvaluationResult` | `reviewOperatingSignalEvaluation`   | 经营信号人工复核        | 系统已生成成熟度与信号结果；复核理由和处理结论明确             | 审批/确认 | 固化复核结论并刷新经营信号解释                 |
 | `CommissionGateReviewRecord`      | `reviewCommissionGateBinding`       | gate 复核 / 放行 / 阻断 | 已生成 `L4 -> L5` 绑定结果；当前处理分支为 `REVIEW` 或 `BLOCK` | 审批/确认 | 固化 gate 复核结论、处理人、原因与绑定结果快照 |

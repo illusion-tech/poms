@@ -41,7 +41,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理域命令 DTO、普通更新 DTO 与提成治理域补齐切片 DTO 边界补充为可直接指导接口定义的程度
-- 第二阶段第一批专题已经完成七层写回，第二批专题也已进入实现映射，因此还需要把差异复核、承接包初始化、第二阶段验收引用、成本率治理，以及第二批的分摊、归属、税务、`as-of` 与 gate 绑定字段写回 DTO 基线
+- 第二阶段第一批专题已经完成七层写回，第二批专题也已进入实现映射，因此还需要把差异复核、承接包初始化、第二阶段验收引用、成本率治理，以及第二批的分摊、归属、税务、时点快照与 gate 绑定字段写回 DTO 基线
 
 ---
 
@@ -230,6 +230,12 @@
 | `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`          | `reviewDecision`、`reviewComment`、`expectedVersion`                                                            | 手工改写 `signalLevel`、`dataMaturityLevel` 原始结果   | `targetId`、`signalEvaluationId`、`reviewRecordId`、`resultStatus`                |
 | `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`              | `bindingAction`、`gateReviewDecision`、`blockingReasonCode`、`comment`、`expectedVersion`                       | 前端直接覆盖 `allowedActions`、跳过 `L4` 信号绑定结果  | `targetId`、`bindingResultId`、`gateReviewRecordId`、`businessStatusAfter`        |
 
+补充约束：
+
+- `asOfMode`、`snapshotMode`、`snapshotAt`、`periodEndSnapshotId`、`restatementReason`、`restatedFromSnapshotId` 可以继续作为 DTO / OpenAPI 技术字段名
+- 页面投影、审批摘要、导出与通知必须把这些字段转换成中文展示，不得直接显示字段名本身或英文术语
+- 统一映射关系如下：`realtime -> 当前实时结果`、`period-end -> 期末冻结快照`、`restated -> 重述快照`、`snapshotAt -> 快照时点`、`periodEndSnapshotId -> 期末快照版本`、`restatementReason -> 重述原因`、`restatedFromSnapshotId -> 被替代快照版本`
+
 ### 5.5B 第二阶段第三批补充命令 DTO 草案
 
 | 命令                               | OpenAPI 草案                                        | 请求 DTO 建议字段                                                                                                        | 明确禁止输入                                           | 响应 DTO 关键字段                                                               |
@@ -294,7 +300,7 @@
 4. 关键命令是否都具备 `expectedVersion` 或等价并发控制位。
 5. 第二阶段发放审批是否已经要求 `acceptanceRecordId`，而不是继续依赖自由文本说明。
 6. 差异复核、承接包初始化、人力成本归集与高敏字段投影是否都已具备独立 DTO 边界。
-7. 第二批的分摊依据、阶段归属、税务处理、经营基线、`as-of` / 期末 / 重述和 gate 复核是否都已具备独立 DTO 边界，且未退回普通维护 DTO。
+7. 第二批的分摊依据、阶段归属、税务处理、经营基线、时点快照 / 期末 / 重述和 gate 复核是否都已具备独立 DTO 边界，且未退回普通维护 DTO。
 8. 第三批的回退 / 再基线化、例外揭示、审批摘要包和冻结后争议处理是否都已具备独立 DTO 边界，且未绕回详情 DTO 或普通维护 DTO。
 
 ---

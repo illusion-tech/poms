@@ -41,7 +41,7 @@
 
 - 本文档当前必须直接服务于平台治理域与提成治理域的第一阶段补齐实施
 - 因此需要把平台治理页、提成治理页和平台主数据聚合查询正式纳入第一阶段读侧边界
-- 第二阶段第一批六个专题已经完成写回，第二批七个专题也已进入实现映射，因此还需要补齐差异复核、承接包、验收前置、成本率治理，以及分摊、归属、税务、`as-of` 与 gate 绑定等读侧视图
+- 第二阶段第一批六个专题已经完成写回，第二批七个专题也已进入实现映射，因此还需要补齐差异复核、承接包、验收前置、成本率治理，以及分摊、归属、税务、时点快照与 gate 绑定等读侧视图
 
 ---
 
@@ -165,6 +165,12 @@
 | `ProjectOperatingAsOfView`         | `ProjectOperatingSnapshot`               | 支撑 `realtime / period-end / restated` 三类经营回看 | `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary`、`grossMarginSummary`、`riskFlags`             | 必须显式返回当前视图口径，禁止前端默认把实时口径当历史 |
 | `OperatingSignalEvaluationView`    | `OperatingSignalEvaluationResult`        | 支撑经营公式边界、成熟度与风险信号解释               | `formulaBoundaryAction`、`dataMaturityLevel`、`signalLevel`、`reviewRequired`、`reviewSummary`                            | 系统结果与人工复核结论要分层展示                       |
 | `CommissionGateBindingHistoryView` | `OperatingSignalToCommissionGateBinding` | 支撑 `L4 -> L5` gate 绑定结果与复核追溯              | `signalLevel`、`bindingAction`、`gateReviewDecision`、`blockingReasonSummary`、`handledBy`、`handledAt`、`allowedActions` | `BLOCK` / `REVIEW` 来源必须可追溯到稳定绑定结果        |
+
+补充约束：
+
+- `ProjectOperatingAsOfView` 是技术命名，不得直接作为页面标题或用户提示语
+- 查询视图返回 `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary` 后，前端投影层必须转换成 `当前实时结果 / 期末冻结快照 / 重述快照`、`快照时点`、`期末快照版本`、`重述原因 / 被替代快照版本` 再展示给用户
+- 若当前视图是历史回看，不得只返回当前值而缺失 `快照时点`、`期末快照版本` 或 `重述原因` 等最小解释字段
 
 ### 5.3C 第二阶段第三批异常链路与审批增强查询补点
 

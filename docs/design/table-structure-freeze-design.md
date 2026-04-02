@@ -366,7 +366,7 @@
   - `effective_operating_baseline_id`
   - `is_current`
 
-5. `as-of` / 期末 / 重述字段组：
+5. 时点快照 / 期末 / 重述字段组：
   - `snapshot_mode`
   - `snapshot_at`
   - `period_end_snapshot_id`

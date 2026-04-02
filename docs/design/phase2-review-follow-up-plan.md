@@ -125,7 +125,7 @@
 | 执行阶段归属与历史稳定派生         | `R2-002` | `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`             | 固定阶段归属字段或派生规则，避免历史解释漂移   |
 | 税务影响与财务核算口径             | `R1-004` | `phase2-project-unified-accounting-view-caliber.md`                                                  | 固定进项税等税务影响在经营口径中的处理方式     |
 | 执行中合同变更基线与变更包基线     | `R4-002` | `phase2-estimated-to-actual-cost-bridge.md`、`phase2-project-unified-accounting-view-caliber.md`     | 区分原始基线与变更包基线，并定义汇总与重算规则 |
-| `as-of`、期末冻结与补录重述        | `R2-003` | `phase2-project-unified-accounting-view-caliber.md`                                                  | 固定月末、关账、补录后的历史回看口径           |
+| 时点快照、期末冻结与补录重述       | `R2-003` | `phase2-project-unified-accounting-view-caliber.md`                                                  | 固定月末、关账、补录后的历史回看口径           |
 | 经营公式边界与数据成熟度联动       | `R3-004` | `phase2-project-unified-accounting-view-caliber.md`、`phase2-business-accounting-feedback-rules.md`  | 统一低回款比例、极端值和成熟度解释规则         |
 | `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | `phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md` | 固定提示、复核、阻断三类动作与审批留痕口径     |
 

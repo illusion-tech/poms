@@ -523,7 +523,7 @@
   - 外键：`baseline_package_id -> operating_baseline_package.id`
   - 唯一建议：`baseline_package_id + change_package_id`
 
-#### 8.8.3 `as-of`、期末冻结与重述
+#### 8.8.3 时点快照、期末冻结与重述
 
 1. `project_operating_snapshot`
   - 主键：`id`

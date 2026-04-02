@@ -267,7 +267,7 @@
 | `CostStageAttributionSnapshot`                       | 快照表            | 固化当前阶段归属、锁定来源与重分类链                             | 是否与阶段累计视图消费同一快照标识                 |
 | `AccountingTaxTreatmentSnapshot`                     | 快照表            | 固化税务处理结论、可抵扣状态与经营核算引用                       | 待确认税务项是否允许保留独立挂起状态               |
 | `OperatingBaselinePackage` / `ChangePackageBaseline` | 版本表 / 子表     | 同时表达原始签约基线、变更包基线与当前有效经营基线               | 是否允许多个变更包共同组成同一有效经营基线         |
-| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，支撑 `as-of` 历史回看            | 实时快照与期末快照是否共用主键体系                 |
+| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，支撑时点快照历史回看             | 实时快照与期末快照是否共用主键体系                 |
 | `OperatingRestatementRecord`                         | 动作记录表        | 表达补录 / 重述动作与被替代历史口径之间的关系                    | 是否要求每条重述都强引用 `periodEndSnapshotId`     |
 | `OperatingSignalEvaluationResult`                    | 派生 / 结果表     | 表达经营信号、风险等级与公式边界计算结果                         | 是否与 `DataMaturityEvaluationResult` 一对一       |
 | `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级与解释动作                                 | 是否允许人工复核覆盖系统结果还是只追加复核记录     |
