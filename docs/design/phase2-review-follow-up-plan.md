@@ -142,16 +142,17 @@
 
 | 专题                     | 覆盖问题 | 主要回写文档                                                | 当前收口目标                                      |
 | ------------------------ | -------- | ----------------------------------------------------------- | ------------------------------------------------- |
-| 合同变更再基线化         | `R1-003` | `phase2-contract-to-handover-workspace.md`                  | 固定合同生效后到移交前的再基线化触发与同步规则    |
-| 签约前受控回退与负路径   | `R3-001` | `phase2-presigning-workspace-handoff-map.md`                | 固定否决、重估、范围变更等负路径处理              |
-| 例外查看与短时揭示       | `R2-005` | `phase2-data-permission-and-sensitive-visibility-design.md` | 固定申请、审批、揭示、到期失效与审计留痕路径      |
-| 审批摘要字段包           | `R4-004` | `phase2-data-permission-and-sensitive-visibility-design.md` | 固定审批场景最小字段集、遮罩口径和导出 / 打印边界 |
-| 冻结后受控变更与争议处理 | `R3-006` | `phase2-commission-freeze-at-handover.md`                   | 固定发起条件、审批角色、回溯影响和争议仲裁路径    |
+| 合同变更再基线化         | `R1-003` | `phase2-contract-to-handover-workspace.md`                  | 固定合同生效后到移交前的再基线化触发、待切换生效状态与结果链 |
+| 签约前受控回退与负路径   | `R3-001` | `phase2-presigning-workspace-handoff-map.md`                | 固定否决、重估、范围变更等负路径处理与受控回退结果链 |
+| 例外查看与短时揭示       | `R2-005` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定申请、审批、揭示、到期失效、审计留痕与短时授权链 |
+| 审批摘要字段包           | `R4-004` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定审批场景最小字段集、投影级别、导出策略与摘要快照口径 |
+| 冻结后受控变更与争议处理 | `R3-006` | `phase2-commission-freeze-at-handover.md`、`workflow-and-approval-design.md` | 固定发起条件、审批角色、争议仲裁、替代冻结版本与重算影响链 |
 
 第三批当前判断：
 
 - 第三批可并行，但不应反向改写第一批和第二批已冻结的主事实
 - 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `phase2-third-batch-scope.md` 与 `phase2-third-batch-implementation-mapping.md`
+- 截至当前，`L1` 受控回退结果链、`L3` 再基线化结果链，以及审批摘要 / 例外授权 / 冻结争议公共链已分别补入对应主文档与 `workflow-and-approval-design.md`，下一步重点转入第三批跨文档一致性复核
 
 ---
 

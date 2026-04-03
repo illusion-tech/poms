@@ -171,7 +171,9 @@
 - `projectId`
 - `approvalScenarioKey`
 - `summaryPackageKey`
+- `summarySnapshotId`
 - `projectionLevel`
+- `exportPolicy`
 - `currentStatus`
 - `initiatorUserId`
 - `currentApproverUserId`
@@ -196,6 +198,34 @@
 
 - 审批页、审批通知、打印材料和导出预览都必须优先消费场景级摘要字段包，不得临时从详情字段中拼装审批材料。
 - `SensitiveFieldRevealRequest` 与 `CommissionFreezeDisputeRecord` 必须保留独立审批实例和独立审计链，不得借用其他业务对象审批记录静默吸收。
+
+### 7.5 第三批审批摘要、例外授权与冻结争议公共链
+
+第三批当前应把以下三条链路视为横切审批公共能力，而不是分散在各业务页上的局部例外：
+
+1. 审批摘要字段包链
+  - `approvalScenarioKey -> summaryPackageKey -> projectionLevel -> exportPolicy -> summarySnapshotId`
+  - 审批页、打印预览、导出预览、审批通知与审计摘要必须引用同一份 `summarySnapshotId`
+  - 不允许用详情页字段随机裁剪替代场景级摘要快照
+
+2. 例外查看与短时揭示链
+  - `SensitiveFieldRevealRequest -> SensitiveFieldRevealGrant -> SensitiveFieldRevealAudit`
+  - 揭示授权必须具备到期失效或受控撤销结果，不允许形成永久放宽
+  - 短时揭示只放宽字段包投影，不改变业务对象默认详情权限
+
+3. 冻结后争议与仲裁链
+  - `CommissionFreezeDisputeRecord -> arbitrationDecision -> replacementFreezeVersionId -> recalculationImpactMode`
+  - 仲裁结论不得直接覆盖当前冻结版本，而应通过替代版本和回溯影响判断进入后续计算 / 发放链
+  - 争议链与审批链都必须可追溯到项目、冻结版本、处理人、处理时间和当前有效结论
+
+建议至少稳定沉淀以下横切对象：
+
+- `ApprovalSummaryPackageDefinition`
+- `ApprovalSummarySnapshot`
+- `ApprovalSummaryFieldProjection`
+- `SensitiveFieldRevealGrant`
+- `SensitiveFieldRevealAudit`
+- `CommissionFreezeDisputeRecord`
 
 ---
 
@@ -293,6 +323,8 @@
 - 高风险节点触发
 - 例外审批结论生效
 - 发放审批结论生效
+- 短时揭示批准 / 到期失效
+- 冻结后争议提交 / 仲裁结论生效 / 替代冻结版本生效
 
 ### 10.2 `NotificationRecord` 建议字段
 
@@ -329,6 +361,12 @@
 - 结论类型
 - 关联对象快照或关键字段快照
 
+第三批补充要求：
+
+- 审批摘要类场景必须记录 `approvalScenarioKey`、`summaryPackageKey`、`summarySnapshotId`、`projectionLevel` 与 `exportPolicy`
+- 短时揭示类场景必须记录揭示申请、授权结果、到期时间、撤销结果与访问审计摘要
+- 冻结后争议类场景必须记录争议原因、仲裁结论、替代冻结版本、回溯影响模式与是否已联动后续计算 / 发放
+
 ### 11.2 附件要求
 
 以下场景建议支持附件强关联：
@@ -340,6 +378,8 @@
 - 合同扫描件与补充协议
 - 发票异常说明
 - 提成调整依据
+- 短时揭示申请依据
+- 冻结后争议与仲裁依据材料
 
 说明：
 

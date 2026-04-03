@@ -15,6 +15,8 @@
   - `project-lifecycle-design.md`
   - `commission-settlement-design.md`
   - `contract-finance-design.md`
+  - `phase2-data-permission-and-sensitive-visibility-design.md`
+  - `workflow-and-approval-design.md`
   - `query-view-boundary-design.md`
 - 相关 ADR:
   - `../adr/006-project-as-primary-domain-object.md`
@@ -145,6 +147,24 @@
 - 确认时间
 - 是否仍有待补事项
 
+### 6.3A 确认摘要与投影引用
+
+移交确认不是普通审批复制，但仍应稳定消费第三批公共摘要链，避免不同确认入口各自拼装材料。
+
+建议移交确认区至少显式引用：
+
+- `approvalScenarioKey = handover-confirmation`
+- `summaryPackageKey`
+- `summarySnapshotId`
+- `projectionLevel`
+- `exportPolicy`
+
+统一约束：
+
+- 参与角色确认区、移交确认通知、打印交接材料与审计摘要必须引用同一份 `summarySnapshotId`
+- `projectionLevel` 只允许在最小确认字段集、摘要字段集与受控揭示字段集之间切换，不允许回退为完整详情页字段直出
+- 若存在短时揭示授权，移交确认页只应在当前授权有效期内叠加相应字段包投影，不得把揭示结果固化为默认可见范围
+
 ### 6.4 关键规则
 
 - 执行负责人未确认，不得完成移交
@@ -174,6 +194,7 @@
 - 不应在移交页重新手工编一份新版本
 - 若合同生效后发生正式变更，移交页必须消费 `L3-T01` 已确认的当前移交前有效基线，不得继续沿用原始承接口径假装未变化
 - 再基线化影响范围未确认时，只允许显示“待收口”，不得继续推进为“可完成移交”
+- 交接事实清单中的打印材料、确认摘要与确认通知必须共享同一份移交确认摘要快照，不得在邮件、打印件和页面之间出现不同字段口径
 
 ---
 

@@ -96,7 +96,7 @@
 ### 4.3 当前状态
 
 - 已完成第一轮基线
-- 已完成六工作区、承接关系图与模板层三层收口
+- 已完成六工作区、承接关系图与模板层三层收口，并补入第三批受控回退结果链
 
 ---
 
@@ -137,7 +137,7 @@
 ### 6.3 当前状态
 
 - 已完成第一轮基线
-- 已形成合同承接、项目移交 gate、提成冻结绑定和收口规则
+- 已形成合同承接、项目移交 gate、提成冻结绑定、收口规则与第三批再基线化结果链
 
 ---
 
@@ -191,6 +191,7 @@
 4. `L4` 输出统一经营事实、偏差解释与管理信号
 5. `L5` 消费 `L3` 和 `L4`，形成提成操作链
 6. `phase2-data-permission-and-sensitive-visibility-design.md` 横切约束上述所有读侧入口、敏感字段与提成可见性边界
+7. `workflow-and-approval-design.md` 横切承接审批摘要字段包、例外揭示授权与冻结争议 / 替代冻结版本的公共链
 
 换句话说：
 
@@ -227,6 +228,7 @@
 3. [phase2-experience-optimization-roadmap.md](/e:/projects/poms/docs/design/phase2-experience-optimization-roadmap.md)
 4. 本文档
 5. 再按 `L1 -> L2 -> L3 -> L4 -> L5` 进入各主线专题文档
+6. 若进入第三批跨切面补点，再补读 `workflow-and-approval-design.md` 与 `phase2-data-permission-and-sensitive-visibility-design.md`
 
 如果目标是进入提成专题，可直接跳到：
 
@@ -244,10 +246,10 @@
 所以本阶段下一步不应再继续发散新增主线，而应：
 
 1. 以综合评估、follow-up 清单和第一批范围说明为依据，继续回写 `P0 / P1` 正式规则和实现设计输入
-2. 保留第一批六个前置专题作为实现设计先行输入，继续扩展第二批经营与成本可信源专题，并正式打开第三批流程健壮性与审批增强专题的实现设计下钻
+2. 保留第一批六个前置专题作为实现设计先行输入，继续扩展第二批经营与成本可信源专题，并在 `L1` 受控回退结果链、`L3` 再基线化结果链与审批公共链已补入主文档 / 联动文档的基础上，继续推进第三批流程健壮性与审批增强专题的跨文档一致性复核
 3. `LX-T04` 判断当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
 4. 第二批经营与成本可信源专题当前范围统一见 `phase2-second-batch-scope.md`，实现映射桥接入口统一见 `phase2-second-batch-implementation-mapping.md`
-5. 第三批流程健壮性与审批增强专题当前范围统一见 `phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回与关键业务主文档首轮写回统一见 `phase2-third-batch-implementation-mapping.md`
+5. 第三批流程健壮性与审批增强专题当前范围统一见 `phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回、关键业务主文档首轮写回，以及审批摘要 / 例外授权 / 冻结争议公共链等关键联动补点统一见 `phase2-third-batch-implementation-mapping.md`
 6. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再统一决定是否进入开发
 
 在这个基础上，第二阶段才能从“设计已经很多”推进到“设计已经可执行”。
