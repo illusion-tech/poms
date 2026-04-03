@@ -268,7 +268,7 @@
 
 当前更准确的下一步是：
 
-1. 继续以 `phase2-review-follow-up-plan.md`、`phase2-first-batch-scope.md` 与 `phase2-first-batch-implementation-mapping.md` 为依据，扩展第二阶段全主线实现设计
-2. 第二批和仍属于当前范围的第三批专题应继续下钻到与第一批同等深度的实现设计层
-3. 第四批继续按增强项和范围限制口径推进，不反向混入当前范围
-4. 待 `L1 ~ L5` 全主线在当前范围内完成实现设计后，再进入 `phase2-lx-t04-full-mainline-development-decision.md` 的统一开发判断
+1. 以 `phase2-lx-t04-full-mainline-development-decision.md` 为第二阶段当前范围的统一开发入口。
+2. 以 `implementation-delivery-guide.md` 为工程切片、完成定义、测试回写与升级规则入口。
+3. 按“平台治理补齐 -> `L1 / L2` 可信源基础 -> `L3` 收口链 -> 提成治理主机制 -> `L4 / L5` 联动链”的顺序组织实现。
+4. 第四批继续按增强项和范围限制口径推进，不反向混入当前范围。

@@ -390,7 +390,7 @@
 | `LX-T01` | 回收成统一“第二阶段详细设计索引 / 主线地图”            | `Done`   | 已产出 `phase2-detailed-design-index-map.md`                                                                                                                             |
 | `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `phase2-review-checklist.md`                                                                                     |
 | `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与 `phase2-first-batch-scope.md` |
-| `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Active` | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；旧的首批受控实现排期判断已归档，不再作为当前设计输入                                                   |
+| `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Done`   | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；已完成统一开发判断并给出 Go 结论，旧的首批受控实现排期判断继续保留为归档输入                           |
 
 ### 6.7 当前明确不展开的方向
 
@@ -436,8 +436,8 @@
 
 下一步建议：
 
-1. 继续完成第二批七个专题与仍属于当前范围的第三批专题的实现设计下钻
-2. `phase2-data-permission-and-sensitive-visibility-design.md` 仍必须纳入全主线实现设计的横切硬约束，不能被移出主入口
-3. 待 `L1 ~ L5` 全部主线在当前范围内完成实现设计后，再进入 `LX-T04` 的统一开发判断
-4. 旧的首批受控实现排期文档已归档，后续不再以“是否允许首批切片启动”作为默认目标
-5. 后续所有讨论和回写，均以本清单编号、实施批次、主线实现设计完成度和 follow-up 专题为跟踪锚点
+1. 按 `LX-T04` 已确认的统一开发范围推进工程实现，不再把“是否进入开发”作为默认讨论主题
+2. `phase2-data-permission-and-sensitive-visibility-design.md` 继续作为全主线工程实现期间的横切硬约束，不能被移出主入口
+3. 优先按“平台治理补齐 -> `L1/L2` 可信源基础 -> `L3` 收口链 -> 提成治理主机制 -> `L4/L5` 联动链”的顺序组织切片
+4. 旧的首批受控实现排期文档继续保留为归档，不再作为当前切片排序依据
+5. 后续所有讨论、实现与回写，均以本清单编号、统一开发范围、统一切片顺序和 follow-up 后置项为跟踪锚点
