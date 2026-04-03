@@ -1,7 +1,7 @@
 # POMS 数据模型冻结前提
 
 **文档状态**: Active
-**最后更新**: 2026-04-03
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第一阶段数据模型冻结前提，以及第二阶段第一批、第二批、第三批实现映射写回前的数据模型补点基线
 **关联文档**:
 
@@ -210,11 +210,20 @@
 
 ### 7.1 多合同项目与冻结模式对象链
 
-| 对象 / 关系                                                        | 建议落表类型  | 建模前提摘要                                                  | 冻结前需确认                                        |
-| ------------------------------------------------------------------ | ------------- | ------------------------------------------------------------- | --------------------------------------------------- |
-| `ProjectEffectiveContractLink`                                     | 关系 / 版本表 | 表达项目当前有效合同集合，避免单一 `current_contract_id` 假设 | 是否按时间片保留历史有效集合                        |
-| `ProjectReceiptJudgmentFreeze`                                     | 动作记录表    | 表达项目级冻结后的 `receiptJudgmentMode`、冻结时点与来源动作  | 是否与 `ProjectHandover` 一对一还是允许后续受控替代 |
-| `ProjectReceiptJudgmentFreeze.sourceHandoverId` / `sourceFreezeId` | 强引用字段    | 用于追溯冻结模式来源                                          | 是否统一通过 `target_type + target_id` 还是强外键   |
+| 对象 / 关系                                                                                  | 建议落表类型  | 建模前提摘要                                                  | 冻结前需确认                                                 |
+| -------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------- | ------------------------------------------------------------ |
+| `ProjectEffectiveContractLink`                                                               | 关系 / 版本表 | 表达项目当前有效合同集合，避免单一 `current_contract_id` 假设 | 是否按时间片保留历史有效集合                                 |
+| `ProjectReceiptJudgmentFreeze`                                                               | 动作记录表    | 表达项目级冻结后的 `receiptJudgmentMode`、冻结时点与来源动作  | 是否与 `ProjectHandover` 一对一还是允许后续受控替代          |
+| `ProjectReceiptJudgmentFreeze.sourceHandoverId` / `sourceFreezeId`                           | 强引用字段    | 用于追溯冻结模式来源                                          | 是否统一通过 `target_type + target_id` 还是强外键            |
+| `ProjectReceiptJudgmentFreeze.sourceHandoverSummarySnapshotId`                               | 强引用字段    | 用于追溯冻结模式消费的移交确认摘要快照                        | 是否要求与 `ProjectHandover.summarySnapshotId` 一致          |
+| `ProjectReceiptJudgmentFreeze.sourceHandoverRebaselineRecordId`                              | 强引用字段    | 用于追溯冻结模式继续沿用的移交前再基线化记录                  | 是否要求与 `ProjectHandover.handoverRebaselineRecordId` 一致 |
+| `ProjectHandover.contractSummarySnapshotId` / `summarySnapshotId`                            | 强引用字段    | 表达移交确认消费的合同承接摘要快照与本次移交确认摘要快照      | 是否统一强关联 `ApprovalSummarySnapshot.id`                  |
+| `ProjectHandover.effectiveHandoverBaselineSnapshotId`                                        | 强引用字段    | 表达本次移交确认绑定的当前移交前有效基线快照                  | 是否统一强关联 `ContractTermSnapshot.id`                     |
+| `ProjectHandover.handoverRebaselineRecordId`                                                 | 强引用字段    | 表达本次移交确认绑定的最近一次已生效再基线化记录              | 若未发生再基线化是否允许为空                                 |
+| `CommissionRoleAssignment.sourceHandoverId` / `handoverSummarySnapshotId`                    | 强引用字段    | 表达冻结版本来源的移交记录与移交确认摘要快照                  | 当前有效冻结版本是否必须一对一引用当前有效移交强节点         |
+| `CommissionRoleAssignment.contractSummarySnapshotId` / `effectiveHandoverBaselineSnapshotId` | 强引用字段    | 表达冻结版本继续沿用的合同承接摘要与移交前有效基线            | 是否随冻结版本历史保留完整收口链                             |
+| `CommissionRoleAssignment.sourceHandoverRebaselineRecordId`                                  | 强引用字段    | 表达冻结版本继续沿用的移交前再基线化记录引用                  | 是否要求与 `ProjectHandover.handoverRebaselineRecordId` 一致 |
+| `CommissionRoleAssignment.supersedesId`                                                      | 版本链字段    | 表达争议仲裁后替代冻结版本保留的被替代关系                    | 当前有效冻结版本是否必须完整保留替代链                       |
 
 ### 7.2 `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 承接对象链
 
@@ -224,15 +233,19 @@
 | `ContractReadinessPackageItem`                      | 子表          | 承载回款节点、范围、风险、承接阻断原因等结构化明细 | 是否需要区分“正式承接字段”和“解释字段”      |
 | `ContractTermSnapshot.source_readiness_package_id`  | 强外键        | 保证正式合同快照可追溯到承接包                     | 是否允许多个快照复用同一承接包              |
 | `ReceivablePlanVersion.source_readiness_package_id` | 强外键        | 保证正式应收计划版本可追溯到承接包                 | 是否与合同快照初始化结果共用一条初始化记录  |
+| `ContractReadinessPackage.workspace_summary_ref`    | 聚合引用组    | 固化六工作区正式输出的来源摘要与版本引用           | 是否拆成独立子表还是落 JSON / 明细表        |
+| `ContractReadinessPackage.guard_decision`           | 守卫结果字段  | 固化当前是否允许初始化正式合同 / 应收计划          | 是否与阻断项明细拆分存储                    |
 
 ### 7.3 商业放行基线与差异复核对象链
 
-| 对象 / 关系                      | 建议落表类型  | 建模前提摘要                                     | 冻结前需确认                             |
-| -------------------------------- | ------------- | ------------------------------------------------ | ---------------------------------------- |
-| `CommercialReleaseBaseline`      | 快照表        | 固化报价评审后进入合同主链的商业放行基线         | 是否与 `QuotationReview` 一对一          |
-| `CommercialBaselineDiffResult`   | 动作 / 结果表 | 记录合同草稿相对基线的差异校验结果               | 是否每次合同草稿关键字段变化都生成新记录 |
-| `CommercialBaselineDiffItem`     | 子表          | 记录必比字段、差异等级、旧值 / 新值摘要          | 摘要字段是否允许落 JSON                  |
-| `CommercialBaselineReviewRecord` | 动作记录表    | 记录差异复核角色、结论、是否允许继续进入合同主链 | 是否与 `ApprovalRecord` 强绑定           |
+| 对象 / 关系                                                                   | 建议落表类型  | 建模前提摘要                                           | 冻结前需确认                             |
+| ----------------------------------------------------------------------------- | ------------- | ------------------------------------------------------ | ---------------------------------------- |
+| `CommercialReleaseBaseline`                                                   | 快照表        | 固化报价评审后进入合同主链的商业放行基线               | 是否与 `QuotationReview` 一对一          |
+| `CommercialBaselineDiffResult`                                                | 动作 / 结果表 | 记录合同草稿相对基线的差异校验结果                     | 是否每次合同草稿关键字段变化都生成新记录 |
+| `CommercialBaselineDiffItem`                                                  | 子表          | 记录必比字段、差异等级、旧值 / 新值摘要                | 摘要字段是否允许落 JSON                  |
+| `CommercialBaselineReviewRecord`                                              | 动作记录表    | 记录差异复核角色、结论、是否允许继续进入合同主链       | 是否与 `ApprovalRecord` 强绑定           |
+| `ContractReadinessPackage.source_baseline_id -> CommercialReleaseBaseline.id` | 强外键        | 保证承接包与进入合同主链的商业放行基线使用同一正式来源 | 是否允许承接包脱离当前有效基线单独存在   |
+| `ContractReadinessPackage.latest_diff_result_id`                              | 强引用        | 固化承接包生成时消费的必比字段差异结果                 | 是否允许承接包引用多轮差异结果历史       |
 
 ### 7.4 第二阶段验收与发放前置对象链
 
@@ -260,36 +273,51 @@
 
 ### 7.7 第二阶段第二批经营可信源对象链
 
-| 对象 / 关系                                          | 建议落表类型      | 建模前提摘要                                                                                    | 冻结前需确认                                       |
-| ---------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| `SharedCostAllocationBasis`                          | 快照 / 版本表     | 固化共享成本的分摊依据、来源事实集合与项目份额输入                                              | 是否按来源事实分组建唯一键                         |
-| `SharedCostAllocationResult`                         | 结果 / 版本表     | 表达项目级分摊结果与替代链，避免来源单据全额重复进入多个项目                                    | 是否需要显式保留 `supersedesAllocationResultId`    |
-| `CostStageAttributionSnapshot`                       | 快照表            | 固化当前阶段归属、锁定来源与重分类链                                                            | 是否与阶段累计视图消费同一快照标识                 |
-| `AccountingTaxTreatmentSnapshot`                     | 快照表            | 固化税务处理结论、可抵扣状态、税务影响摘要与经营核算引用                                        | 待确认税务项是否允许保留独立挂起状态               |
-| `OperatingBaselinePackage` / `ChangePackageBaseline` | 版本表 / 子表     | 同时表达原始签约基线、变更包基线与当前有效经营基线                                              | 是否允许多个变更包共同组成同一有效经营基线         |
-| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，支撑时点快照历史回看                                            | 实时快照与期末快照是否共用主键体系                 |
-| `OperatingRestatementRecord`                         | 动作记录表        | 表达补录 / 重述动作与被替代历史口径之间的关系                                                   | 是否要求每条重述都强引用 `periodEndSnapshotId`     |
-| `OperatingSignalEvaluationResult`                    | 派生 / 结果表     | 表达经营信号、风险等级与公式边界计算结果，并承接下游动作等级输出                                | 是否与 `DataMaturityEvaluationResult` 一对一       |
-| `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级、成本侧动作建议与解释动作                                                | 是否允许人工复核覆盖系统结果还是只追加复核记录     |
-| `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定，并携带下游引用基线 / 快照版本 | 是否按项目、阶段或发放批次保留多条历史绑定结果     |
-| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因                                     | 是否与 `CommissionPayout` 或发放审批记录建立强关联 |
+| 对象 / 关系                                          | 建议落表类型      | 建模前提摘要                                                                                                                          | 冻结前需确认                                                                   |
+| ---------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `SharedCostAllocationBasis`                          | 快照 / 版本表     | 固化共享成本的分摊依据、来源事实集合与项目份额输入                                                                                    | 是否按来源事实分组建唯一键                                                     |
+| `SharedCostAllocationResult`                         | 结果 / 版本表     | 表达项目级分摊结果与替代链，避免来源单据全额重复进入多个项目                                                                          | 是否需要显式保留 `supersedesAllocationResultId`                                |
+| `CostStageAttributionSnapshot`                       | 快照表            | 固化当前阶段归属、锁定来源与重分类链                                                                                                  | 是否与阶段累计视图消费同一快照标识                                             |
+| `AccountingTaxTreatmentSnapshot`                     | 快照表            | 固化税务处理结论、可抵扣状态、税务影响摘要、待闭合税务影响金额与统一经营核算引用                                                      | 待确认税务项是否允许保留独立挂起状态，并与当前有效经营快照保持同一引用链       |
+| `OperatingBaselinePackage` / `ChangePackageBaseline` | 版本表 / 子表     | 同时表达原始签约基线、变更包基线与当前有效经营基线                                                                                    | 是否允许多个变更包共同组成同一有效经营基线                                     |
+| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，并直接承接 `L4-T01 / T02` 的合同、回款、成本、毛利、税务影响摘要、待闭合税务影响金额与基线 / 快照引用 | 实时快照与期末快照是否共用主键体系，以及是否强制保留当前动作等级               |
+| `OperatingRestatementRecord`                         | 动作记录表        | 表达补录 / 重述动作与被替代历史口径之间的关系，并保持“原期末快照 -> 重述记录 -> 新快照 -> 引用基线”完整链                             | 是否要求每条重述都强引用 `periodEndSnapshotId` 与被替代快照                    |
+| `OperatingSignalEvaluationResult`                    | 派生 / 结果表     | 表达经营信号、风险等级、偏差来源、推荐动作与 `L4-T03` 稳定解释结果，并承接当前动作等级与引用基线 / 快照版本输出                       | 是否与 `DataMaturityEvaluationResult` 一对一，还是显式强引用当前有效成熟度结果 |
+| `OperatingSignalReviewRecord`                        | 动作记录表        | 表达人工复核结论、复核后成熟度 / 动作等级、处理意见与 `reviewRecordId` 历史链                                                         | 是否只允许每条经营信号存在一条当前有效复核记录                                 |
+| `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级、成本侧动作建议，并固定分摊稳定性提示、未映射成本提示与待闭合税务影响输入                                      | 是否允许人工复核覆盖系统结果还是只追加复核记录                                 |
+| `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定，并携带基线选择来源、稳定输出包、下一步动作与下游消费摘要            | 是否按项目、阶段或发放批次保留多条历史绑定结果                                 |
+| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因                                                                           | 是否与 `CommissionPayout` 或发放审批记录建立强关联                             |
+
+第二阶段第二批对象链还需继续固定以下承接关系：
+
+1. `ProjectOperatingSnapshot / PeriodClosingSnapshot` 必须直接承接 `L4-T01 / T02` 消费的稳定结果包，而不是只保留 `snapshot_mode / snapshot_at / referencedBaselineVersion` 等元数据后再要求查询层回表重算。
+2. `OperatingSignalEvaluationResult` 与 `OperatingSignalReviewRecord` 必须共同还原 `varianceSourceSummary`、`riskLevel`、`recommendedActionSummary`、`currentActionLevel`、`referencedBaselineVersion` 与 `referencedSnapshotVersion`，作为 `L4-T03` 的实现层事实来源。
+3. `OperatingSignalToCommissionGateBinding` 必须直接承接 `nextActionSummary`、`downstreamConsumerSummary`、`bindingAction`、`currentActionLevel` 与 `baselineSelectionSource`，作为 `L4-T04` 以及下游 `L5` gate 的稳定反馈链入口。
+4. `AccountingTaxTreatmentSnapshot`、`DataMaturityEvaluationResult`、`ProjectOperatingSnapshot`、`OperatingSignalEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 共同构成 `L4` 正式输入包的实现层承接对象，后续不得只剩查询聚合结果而缺失可落表的来源链。
 
 ### 7.8 第二阶段第三批流程健壮性与审批增强对象链
 
-| 对象 / 关系                        | 建议落表类型        | 建模前提摘要                                                     | 冻结前需确认                                      |
-| ---------------------------------- | ------------------- | ---------------------------------------------------------------- | ------------------------------------------------- |
-| `ContractHandoverRebaselineRecord` | 动作 / 版本表       | 表达合同变更后移交前承接链的再基线化动作、替代关系与当前有效基线 | 是否按 `contract_amendment_id` 保留单独版本序列   |
-| `HandoverBaselineImpactItem`       | 子表 / 影响项表     | 表达受再基线化影响的移交前事实项、影响原因与替代结果             | 是否要求逐项保留 `affected_handover_item_id`      |
-| `PresigningRollbackRequest`        | 动作记录表          | 表达签约前受控回退申请、回退起止阶段与原结论失效链               | 是否要求每次回退强引用被失效结论集合              |
-| `PresigningWorkspaceReopenRecord`  | 动作记录表 / 子表   | 表达回退后被重开的工作区、待重估责任人与重开时间                 | 是否允许同一回退请求重开多个工作区                |
-| `SensitiveFieldRevealRequest`      | 动作记录表          | 表达短时揭示申请、用途、申请范围与申请有效期                     | 是否与 `ApprovalRecord` 一对一还是一对多          |
-| `SensitiveFieldRevealGrant`        | 动作记录表 / 授权表 | 表达揭示授权结论、授权字段包、有效时间与到期失效链               | 是否允许同一请求产生多次授权 / 延期记录           |
-| `SensitiveFieldRevealAudit`        | 派生 / 审计表       | 表达揭示后的访问审计、查看人、查看结果与访问时间                 | 是否与统一 `AuditLog` 合表还是独立表达            |
-| `ApprovalSummaryPackageDefinition` | 配置 / 定义表       | 表达审批场景最小字段包、投影级别与导出策略的稳定来源             | 是否按 `approval_scenario_key + package_key` 唯一 |
-| `ApprovalSummarySnapshot`          | 快照 / 派生表       | 表达某次审批读取时使用的摘要字段包快照与场景级投影结果           | 是否按审批对象、场景和投影级别保留历史快照        |
-| `ApprovalSummaryFieldProjection`   | 子表 / 派生表       | 表达摘要包中每个字段的显示级别、遮罩模式与导出策略               | 是否允许把字段定义直接内嵌到快照 JSON             |
-| `CommissionFreezeDisputeRecord`    | 动作记录表          | 表达冻结后争议申请、争议原因、影响角色与仲裁状态                 | 是否强关联当前冻结版本与既有计算 / 发放结果       |
-| `CommissionFreezeChangeRequest`    | 动作 / 版本表       | 表达仲裁后受控变更请求、替代冻结版本链与回溯影响模式             | 是否要求每次替代都生成新的冻结版本而非原地覆盖    |
+| 对象 / 关系                        | 建议落表类型        | 建模前提摘要                                                                                    | 冻结前需确认                                                                  |
+| ---------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `ContractHandoverRebaselineRecord` | 动作 / 版本表       | 表达合同变更后移交前承接链的再基线化动作、替代关系、状态切换与当前有效基线                      | 是否按 `contract_amendment_id` 保留单独版本序列                               |
+| `HandoverBaselineImpactItem`       | 子表 / 影响项表     | 表达受再基线化影响的移交前事实项、影响原因与替代结果                                            | 是否要求逐项保留 `affected_handover_item_id`                                  |
+| `PresigningRollbackRequest`        | 动作记录表          | 表达签约前受控回退申请、回退起止阶段与原结论失效链                                              | 是否要求每次回退强引用被失效结论集合                                          |
+| `PresigningWorkspaceReopenRecord`  | 动作记录表 / 子表   | 表达回退后被重开的工作区、待重估责任人与重开时间                                                | 是否允许同一回退请求重开多个工作区                                            |
+| `SensitiveFieldRevealRequest`      | 动作记录表          | 表达短时揭示申请、字段包粒度、用途、适用对象、当前场景摘要快照引用与申请有效期                  | 是否与 `ApprovalRecord` 一对一还是一对多，以及是否允许脱离审批场景独立申请    |
+| `SensitiveFieldRevealGrant`        | 动作记录表 / 授权表 | 表达揭示授权 / 驳回结论、授权字段包、关联摘要快照、有效时间与撤销 / 到期失效链                  | 是否允许同一请求产生多次授权 / 延期记录，以及是否保留当前有效授权标记         |
+| `SensitiveFieldRevealAudit`        | 派生 / 审计表       | 表达揭示后的访问 / 拒绝访问审计、查看人、查看结果、访问时授权状态与字段包摘要                   | 是否与统一 `AuditLog` 合表还是独立表达                                        |
+| `ApprovalSummaryPackageDefinition` | 配置 / 定义表       | 表达审批场景最小字段包、投影级别、导出策略以及通知 / 打印 / 导出共用的稳定来源                  | 是否按 `approval_scenario_key + package_key` 唯一，以及是否允许一包多投影级别 |
+| `ApprovalSummarySnapshot`          | 快照 / 派生表       | 表达某次审批读取时使用的摘要字段包快照、对象状态、场景级投影结果与统一 `summarySnapshotId` 引用 | 是否按审批对象、场景和投影级别保留历史快照                                    |
+| `ApprovalSummaryFieldProjection`   | 子表 / 派生表       | 表达摘要包中每个字段的显示级别、遮罩模式、导出策略与投影顺序                                    | 是否允许把字段定义直接内嵌到快照 JSON                                         |
+| `CommissionFreezeDisputeRecord`    | 动作记录表          | 表达冻结后争议申请、争议原因、影响角色、当前摘要快照引用、仲裁状态与影响评估入口                | 是否强关联当前冻结版本与既有计算 / 发放结果                                   |
+| `CommissionFreezeChangeRequest`    | 动作 / 版本表       | 表达仲裁后受控变更请求、被替代 / 替代冻结版本链、回溯影响模式、影响评估摘要与统一摘要快照引用   | 是否要求每次替代都生成新的冻结版本而非原地覆盖                                |
+
+第二阶段第三批公共链还需继续固定以下承接关系：
+
+1. `SensitiveFieldRevealRequest / Grant / Audit` 必须以 `fieldPackageKey` 为最小授权粒度，并保留到期、撤销、拒绝与访问留痕，确保“短时放宽”不会沉淀成长期默认可见。
+2. `ApprovalSummaryPackageDefinition / Snapshot / Projection` 必须共同固定 `approvalScenarioKey / summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 这组稳定引用，保证审批页、通知、打印材料与导出预览消费同一份场景摘要快照。
+3. `CommissionFreezeDisputeRecord / CommissionFreezeChangeRequest` 必须共同固定争议原因、影响角色、仲裁结论、被替代 / 替代冻结版本、回溯影响模式、影响评估摘要与同一份 `summarySnapshotId`，保证 gate、发放、最终结算与规则解释页沿用同一公共链。
+4. 第三批公共链对象必须作为 `L5` 的实现层正式入口，而不是只在 `query / DTO` 中出现“审批摘要”“例外查看”或“冻结争议”说明文本。
 
 ---
 
@@ -299,6 +327,8 @@
 
 - 多合同项目的有效合同集合与冻结模式对象链已明确。
 - `ContractReadinessPackage`、`CommercialReleaseBaseline`、`AcceptanceRecord -> CommissionPayout`、`InternalCostRateVersion` 四条关键对象链已明确。
+- `ContractReadinessPackage` 必须能同时锁定六工作区正式输出、当前商业放行基线、当前差异结果与初始化守卫结论，不再只是 `签约就绪` 页面临时拼装摘要。
+- `CommercialReleaseBaseline -> CommercialBaselineDiffResult -> CommercialBaselineReviewRecord -> ContractReadinessPackage` 必须形成同一条进入合同主链前的稳定承接链；若差异等级仍为 `需复核` 或 `必须重审`，不得生成可初始化的承接包。
 - 高敏导出与字段可见等级至少已具备审计与配置来源落点。
 - 当前不会再因为第一批问题反向推翻 `L1 / L3 / L4 / L5` 的主事实边界。
 
@@ -314,8 +344,10 @@
 
 - `B14 ~ B18` 涉及的再基线化、回退、短时揭示、审批摘要包和冻结后争议处理对象链已明确。
 - `PresigningRollbackRequest -> PresigningWorkspaceReopenRecord` 与 `ContractHandoverRebaselineRecord -> HandoverBaselineImpactItem` 两条负路径 / 替代链已能稳定追溯。
-- `SensitiveFieldRevealRequest / Grant / Audit` 与 `ApprovalSummaryPackageDefinition / Snapshot / Projection` 已能证明“最小可见”和“短时放宽”是两条独立稳定链路。
-- `CommissionFreezeDisputeRecord` 与 `CommissionFreezeChangeRequest` 已能稳定解释对既有提成计算 / 发放的回溯影响，不再依赖人工备注。
+- `SensitiveFieldRevealRequest / Grant / Audit` 与 `ApprovalSummaryPackageDefinition / Snapshot / Projection` 已能证明“最小可见”和“短时放宽”是两条独立稳定链路，并已共同固定 `summarySnapshotId / projectionLevel / exportPolicy` 这组场景稳定引用。
+- `CommissionFreezeDisputeRecord` 与 `CommissionFreezeChangeRequest` 已能稳定解释对既有提成计算 / 发放的回溯影响，并已共同固定争议摘要、仲裁结论、替代冻结版本链与统一摘要快照引用，不再依赖人工备注。
+- `ProjectHandover`、`ProjectReceiptJudgmentFreeze` 与 `CommissionRoleAssignment` 还必须共同还原 `handoverRebaselineRecordId(若存在) -> contractSummarySnapshotId -> handoverSummarySnapshotId -> effectiveHandoverBaselineSnapshotId -> freezeVersion` 这条统一收口链，后续 `L4 / L5` 不得各自改挂不同摘要、基线来源或再基线化引用。
+- 若存在冻结争议仲裁替代版本，`CommissionFreezeDisputeRecord -> CommissionFreezeChangeRequest -> CommissionRoleAssignment.supersedesId` 还必须能稳定还原“争议版本 -> 替代版本 -> 当前有效版本”的版本链，不得只保留最终结果。
 - 第三批补点不会反向推翻第一批敏感投影边界与第二批经营可信源口径。
 
 ---

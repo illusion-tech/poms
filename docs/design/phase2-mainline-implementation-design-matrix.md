@@ -1,7 +1,7 @@
 # POMS 第二阶段主线实现设计覆盖矩阵
 
 **文档状态**: Active
-**最后更新**: 2026-04-03
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段 `L1 ~ L5` 五条主线从业务基线进入实现设计层的覆盖证明、阻断判断与推进矩阵
 **关联文档**:
 
@@ -98,13 +98,13 @@
 
 ## 4. 五条主线实现设计覆盖矩阵
 
-| 主线 | 业务基线是否齐备 | 需要覆盖的实现设计层                              | 当前已覆盖层                                                                                                                                                                                                                                                                                                                                                                                                                                            | 当前阻断批次           | 明确可后置项                       | 是否存在完整实现设计路径 |
-| ---- | ---------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------- | ------------------------ |
-| `L1` | 是               | `command/query/DTO/data model/table/schema/guard` | 已覆盖 `command/query/DTO` 的首轮下钻，并已把第三批受控回退 / 负路径补点写回六份实现设计总文档与关键业务主文档                                                                                                                                                                                                                                                                                                                                          | 第一批、第三批         | 第四批中的多币种扩展               | 是                       |
-| `L2` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批七层下钻，并已把第二批分摊 / 阶段 / 税务 / 时点快照补点写回六份实现设计总文档，同时补齐移交前再基线化与执行期基线衔接，并显式固定税务影响摘要、成本数据成熟度状态、成本侧动作建议与引用基线 / 快照版本为输出给 `L4 / L5` 的稳定结果                                                                                                                                                                                                         | 第一批、第二批、第三批 | 无核心后置；部分表达增强可后置     | 是                       |
-| `L3` | 是               | `command/query/DTO/data model/table/schema/guard` | 已覆盖 `command/query/DTO` 的首轮下钻，并已把第三批合同变更再基线化补点写回六份实现设计总文档、关键业务主文档与联动 gate 文档，同时补齐统一收口结果对移交前有效基线、移交记录与冻结版本的联合追溯                                                                                                                                                                                                                                                       | 第一批、第三批         | 第四批中的分期移交                 | 是                       |
-| `L4` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批前置覆盖，并已把第二批核算 / 历史回看 / 信号规则补点写回六份实现设计总文档，同时补齐 `phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md` 与 `phase2-business-accounting-feedback-rules.md` 的稳定消费 / 传递，并把 `L2` 输出的税务影响摘要、成本数据成熟度状态、成本侧动作建议与引用基线 / 快照版本固定为 `L4-T01 / T02 / T03 / T04` 正式输入 | 第一批、第二批         | 部分展示增强可后置                 | 是                       |
-| `L5` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批前置覆盖，并已把第二批 `L4 -> L5` gate 绑定与解释链补点、第三批争议处理 / 审批增强补点写回六份实现设计总文档、关键业务主文档与联动 gate 文档，同时补齐经营基线版本、税务影响摘要、成本数据成熟度状态、成本侧动作建议、快照消费与冻结结果联合追溯，并贯穿到分阶段发放、最终结算与统一规则表达页                                                                                                                                              | 第一批、第二批、第三批 | 第四批中的异常摘要增强与细粒度通知 | 是                       |
+| 主线 | 业务基线是否齐备 | 需要覆盖的实现设计层                              | 当前已覆盖层                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | 当前阻断批次           | 明确可后置项                       | 是否存在完整实现设计路径 |
+| ---- | ---------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------- | ------------------------ |
+| `L1` | 是               | `command/query/DTO/data model/table/schema/guard` | 已覆盖 `command/query/DTO` 的首轮下钻，并已把 `签约就绪 -> ContractReadinessPackage / CommercialReleaseBaseline` 承接链继续写入 `data model / table / schema / guard`，同时把第三批受控回退结果链、审批摘要快照与负路径补点继续固定到 `command / query / DTO / guard` 并写回六份实现设计总文档与关键业务主文档                                                                                                                                                                                                                            | 第一批、第三批         | 第四批中的多币种扩展               | 是                       |
+| `L2` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批七层下钻，并已把第二批分摊 / 阶段 / 税务 / 时点快照补点写回六份实现设计总文档，同时补齐移交前再基线化与执行期基线衔接，并显式固定税务影响摘要、成本数据成熟度状态、成本侧动作建议与引用基线 / 快照版本为输出给 `L4 / L5` 的稳定结果                                                                                                                                                                                                                                                                                           | 第一批、第二批、第三批 | 无核心后置；部分表达增强可后置     | 是                       |
+| `L3` | 是               | `command/query/DTO/data model/table/schema/guard` | 已覆盖 `command/query/DTO` 的首轮下钻，并已把合同承接摘要 -> 移交确认摘要 -> 冻结版本的统一收口链继续固定到 `command / query / DTO / data model / table / schema / guard`，同时把第三批合同变更再基线化、替代冻结版本与联合追溯约束写回六份实现设计总文档、关键业务主文档与联动 gate 文档，并明确 `ProjectHandover`、`ProjectReceiptJudgmentFreeze` 与 `CommissionRoleAssignment` 对 `handoverRebaselineRecordId / contractSummarySnapshotId / handoverSummarySnapshotId / effectiveHandoverBaselineSnapshotId / supersedesId` 的联合追溯 | 第一批、第三批         | 第四批中的分期移交                 | 是                       |
+| `L4` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批前置覆盖，并已把第二批核算 / 历史回看 / 信号规则补点写回六份实现设计总文档，同时补齐 `phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-project-variance-risk-explanation.md` 与 `phase2-business-accounting-feedback-rules.md` 的稳定消费 / 传递，并把 `L2` 输出的税务影响摘要、分摊稳定性提示、未映射成本提示、成本数据成熟度状态、成本侧动作建议、当前动作等级与引用基线 / 快照版本固定为 `L4-T01 / T02 / T03 / T04` 的 `command / query / DTO / guard` 正式输入  | 第一批、第二批         | 部分展示增强可后置                 | 是                       |
+| `L5` | 是               | `command/query/DTO/data model/table/schema/guard` | 已完成第一批前置覆盖，并已把第二批 `L4 -> L5` gate 绑定与解释链补点、第三批争议处理 / 审批增强补点写回六份实现设计总文档、关键业务主文档与联动 gate 文档，同时补齐经营基线版本、税务影响摘要、成本数据成熟度状态、成本侧动作建议、快照消费与冻结结果联合追溯，并贯穿到分阶段发放、最终结算与统一规则表达页                                                                                                                                                                                                                                | 第一批、第二批、第三批 | 第四批中的异常摘要增强与细粒度通知 | 是                       |
 
 这张矩阵已经足以证明一件事：
 
@@ -128,12 +128,20 @@
    - `phase2-presigning-pricing-margin-workspace.md`
    - `phase2-presigning-contract-readiness-workspace.md`
 2. 第一批已把 `R2-001` 与 `R4-001` 纳入实现设计前置，因此 `签约就绪` 承接与商业放行差异复核已有正式下钻入口。
-3. 第三批的 `R3-001` 是负路径增强，不是否定 `L1` 主链实现设计本身。
+3. 第三批的 `R3-001` 与审批摘要快照规则已继续固定到 `command / query / DTO / guard`，说明负路径增强已经具备正式接口边界，而不是只停留在业务主文档。
 4. 第四批的多币种扩展已显式后置，不阻断单币种主线继续下钻。
 
 因此 `L1` 的完成路径是明确且闭环的：
 
 `业务基线 -> 第一批主链收口 -> command/query/DTO -> data model/table/schema/guard -> 第三批补负路径 -> 范围外能力后置`
+
+当前进一步确认：
+
+- 六工作区的正式输出必须通过 `ContractReadinessPackage` 统一收口，而不是由 `签约就绪` 页面临时拼装
+- `CommercialReleaseBaseline`、差异结果与复核结论必须与承接包绑定为同一条进入合同主链前的稳定来源链
+- 承接包未放行时，不得初始化正式 `ContractTermSnapshot` 或 `ReceivablePlan`
+- `PresigningRollbackRequest` 的回退链必须同时返回已失效结论摘要、当前有效结论链与重开工作区 / 待重估责任人摘要，避免 `项目总览` 与 `签约就绪` 二次推断
+- 报价评审、审批通知、打印材料与签约前总览必须共享同一份 `summarySnapshotId`、`projectionLevel` 与 `exportPolicy`
 
 ### 5.2 `L2` 执行期成本归集主线
 
@@ -162,13 +170,18 @@
    - `phase2-commission-freeze-at-handover.md`
    - `phase2-handover-closure-rules.md`
 2. 第一批已把 `R4-005` 纳入实现设计前置，因此多合同、冻结模式和移交流程的主事实已进入实现设计入口。
-3. 当前 `phase2-handover-closure-rules.md` 已进一步把当前有效合同集合、移交前有效基线快照、移交记录和冻结版本收成统一收口结果，确保后续 `L4 / L5` 不再各自引用不同依据。
+3. 当前 `phase2-handover-closure-rules.md` 已进一步把当前有效合同集合、移交前有效基线快照、移交记录和冻结版本收成统一收口结果；本轮又把 `handoverRebaselineRecordId`、`contractSummarySnapshotId`、`handoverSummarySnapshotId`、`effectiveHandoverBaselineSnapshotId` 与 `supersedesId` 继续固定到实现层总文档，确保后续 `L4 / L5` 不再各自引用不同依据或替代链断点。
 4. 第三批的 `R1-003` 属于签后变更再基线化；第四批的 `R3-003` 属于分期移交扩展。两者都建立在 `L3` 主链已经存在的前提下。
 5. 也就是说，`L3` 的主链实现设计不会因为第四批不做而失效，只会失去未来扩展能力。
 
 因此 `L3` 的完成路径是：
 
 `业务基线 -> 第一批多合同与冻结主链 -> 第三批再基线化与统一收口追溯 -> data model/table/schema/guard -> 第四批分期移交按范围决定`
+
+当前进一步确认：
+
+- 既有的 `ProjectHandoverDetailView`、`ContractHandoverSummaryView` 与 `CommissionRoleAssignmentDetailView` 查询侧稳定链，必须继续与写侧 / 模型 / 约束层中的 `handoverRebaselineRecordId(若存在) -> contractSummarySnapshotId -> handoverSummarySnapshotId -> freezeVersion` 保持同链一致
+- `confirmProjectHandover`、`freezeCommissionRoleAssignment` 与 `arbitrateCommissionFreezeDispute` 的 command / guard / schema 约束必须共同锁定 `effectiveHandoverBaselineSnapshotId`、再基线化引用与 `supersedesId`，后续冻结页、通知、打印材料与阶段 gate 不得另挂其他基线来源或绕过替代链
 
 ### 5.4 `L4` 项目经营核算视图
 
@@ -180,12 +193,18 @@
    - `phase2-project-variance-risk-explanation.md`
    - `phase2-business-accounting-feedback-rules.md`
 2. `L4` 的实现设计天然依赖 `L1`、`L2`、`L3` 输出的可信输入，这一点已在路线图和主线地图中明确。
-3. 第一批只是补齐多合同口径前提和敏感投影边界；真正让 `L4` 完整进入实现设计的，是第二批的税务影响摘要、成本数据成熟度状态、成本侧动作建议、时点快照、公式边界、变更包基线和 `L4 -> L5` 绑定矩阵，这些补点当前已被 `L4-T01 / T02 / T03 / T04` 稳定消费、固定为正式输入并向下传递。
+3. 第一批只是补齐多合同口径前提和敏感投影边界；真正让 `L4` 完整进入实现设计的，是第二批的税务影响摘要、分摊稳定性提示、未映射成本提示、成本数据成熟度状态、成本侧动作建议、时点快照、公式边界、变更包基线和 `L4 -> L5` 绑定矩阵，这些补点当前已被 `L4-T01 / T02 / T03 / T04` 稳定消费，并进一步写成 `command / query / DTO / guard` 正式输入包向下传递。
 4. 这不是阻止 `L4` 最终完成，而是说明 `L4` 的完成路径明确依赖第二批收口。
 
 因此 `L4` 的完成路径是：
 
 `业务基线 -> 第一批汇总前提与敏感边界 -> 第二批核算可信源与信号规则 -> command/query/DTO/data model/table/schema/guard 完整下钻`
+
+当前进一步确认：
+
+- `ProjectBusinessOutcomeOverviewView`、`ProjectUnifiedAccountingView`、`ProjectVarianceRiskExplanationView` 与 `BusinessAccountingFeedbackView` 已共同承接 `taxImpactSummary / allocationStabilitySummary / unmappedCostSummary / dataMaturityLevel / costActionRecommendation / currentActionLevel / referencedBaselineVersion / referencedSnapshotVersion`
+- `reviewOperatingSignalEvaluation` 与 `reviewCommissionGateBinding` 已不再只输出说明文本或 gate 结论，而是共同锁定 `currentActionLevel` 与引用基线 / 快照版本，供 `L4-T04` 与 `L5` 直接消费
+- `AccountingTaxTreatmentSnapshot`、`ProjectOperatingSnapshot / PeriodClosingSnapshot`、`OperatingSignalEvaluationResult / OperatingSignalReviewRecord`、`DataMaturityEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 已进一步固定到 `data model / table freeze / schema / DDL`，使 `L4-T01 / T02 / T03 / T04` 的稳定结果包具备可落表、可追溯、可复核的事实来源
 
 ### 5.5 `L5` 提成制度化操作体验
 
@@ -198,12 +217,19 @@
    - `phase2-commission-rule-explanation-language.md`
 2. 第一批已把 `R2-004`、`R1-006`、`R4-005` 纳入实现设计前置，因此阶段 gate、第二阶段发放前置、敏感边界和多合同前提已进入实现设计入口。
 3. 当前 `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md` 与 `phase2-commission-rule-explanation-language.md` 已进一步把冻结版本、经营基线版本、税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级和经营快照版本贯穿到 gate、分阶段发放、异常调整、最终结算与统一表达链路。
-4. 第二批的 `R4-003` 已不再停留在抽象 gate 绑定，而是把税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级与引用基线 / 快照版本固定成 `L5-T01 / T02 / T03` 直接消费的正式输入；第三批的 `R3-006`、`R4-004` 则继续承接争议处理和审批摘要公共链。
-5. 第四批中的异常摘要增强和细粒度通知，即使不做，也不阻断 `L5` 主链进入实现设计。
+4. 第二批的 `R4-003` 已不再停留在抽象 gate 绑定，而是把税务影响摘要、待闭合税务影响、成本数据成熟度状态、成本侧动作建议、动作等级、基线选择来源与引用基线 / 快照版本固定成 `L5-T01 / T02 / T03` 直接消费的正式输入，并继续写成 gate、分阶段发放、最终结算 / 质保金结算与统一规则解释共同消费的 `command / query / DTO / guard` 稳定依据；第三批的 `R3-006`、`R4-004` 则继续承接争议处理和审批摘要公共链。
+5. 当前 `reviewCommissionGateBinding`、`submitCommissionPayoutApproval`、`registerCommissionPayout`、`executeCommissionAdjustment` 以及 `CommissionStageGateView`、`CommissionFinalSettlementView`、`CommissionRuleExplanationView` 已共同锁定 `summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 这组场景摘要快照引用，保证 gate、发放、最终结算 / 质保金结算与规则解释不再各自拼装依据链。
+6. 第四批中的异常摘要增强和细粒度通知，即使不做，也不阻断 `L5` 主链进入实现设计。
 
 因此 `L5` 的完成路径是：
 
 `业务基线 -> 第一批 gate 前置与敏感边界 -> 第二批 L4 正式输入包下传 -> gate/发放/最终结算直接消费 -> 统一解释规则固化 -> 第三批争议/审批增强 -> 第四批表达增强按范围决定`
+
+当前进一步确认：
+
+- `SensitiveFieldRevealRequest / Grant / Audit` 与 `ApprovalSummaryPackageDefinition / Snapshot / Projection` 已进一步固定到 `data model / table freeze / schema / DDL`，并共同锁定 `summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 这组场景稳定引用，保证审批页、通知、打印材料、导出预览与短时揭示链消费同一份场景摘要快照。
+- `CommissionFreezeDisputeRecord / CommissionFreezeChangeRequest` 已进一步固定到 `data model / table freeze / schema / DDL`，并共同锁定争议原因、仲裁状态、被替代 / 替代冻结版本、回溯影响摘要与同一份摘要快照引用，使 gate、发放、最终结算与规则解释页不再依赖前端二次拼装异常链结论。
+- `LX-01` 最终一致性复核已完成：`L1 ~ L5`、六份实现设计总文档、关键业务主文档、关键联动文档与控制面文档之间未发现阻断 `LX-T04` 统一开发判断的显式冲突；剩余工作已收敛为范围判断与开发入口决策。
 
 ---
 

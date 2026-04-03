@@ -1,7 +1,7 @@
 # POMS Schema 与 DDL 细化设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-03
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DDL 补点输入
 **关联文档**:
 
@@ -384,7 +384,28 @@
   - 主键：`id`
   - 外键：`project_id -> project.id`
   - 唯一建议：同一 `project_id` 仅允许一条当前有效冻结记录，可用条件唯一索引表达
-  - 索引建议：`project_id + frozen_at desc`
+  - 外键建议：`source_handover_summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`source_handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 索引建议：`project_id + frozen_at desc`、`source_handover_summary_snapshot_id`、`source_handover_rebaseline_record_id`
+  - 字段补点建议：`source_handover_summary_snapshot_id uuid not null`、`source_handover_rebaseline_record_id uuid`
+
+3. `project_handover` 字段补点
+  - 外键建议：`contract_summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`effective_handover_baseline_snapshot_id -> contract_term_snapshot.id`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 索引建议：`project_id + confirmed_at desc`、`summary_snapshot_id`、`handover_rebaseline_record_id`
+  - 字段补点建议：`contract_summary_snapshot_id uuid not null`、`effective_handover_baseline_snapshot_id uuid not null`、`summary_snapshot_id uuid not null`、`handover_rebaseline_record_id uuid`
+
+4. `commission_role_assignment` 字段补点
+  - 外键建议：`source_handover_id -> project_handover.id`
+  - 外键建议：`contract_summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`handover_summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`effective_handover_baseline_snapshot_id -> contract_term_snapshot.id`
+  - 外键建议：`source_handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 外键建议：`supersedes_id -> commission_role_assignment.id`
+  - 索引建议：`source_handover_id`、`handover_summary_snapshot_id`、`source_handover_rebaseline_record_id`、`supersedes_id`
+  - 字段补点建议：`source_handover_id uuid not null`、`contract_summary_snapshot_id uuid not null`、`handover_summary_snapshot_id uuid not null`、`effective_handover_baseline_snapshot_id uuid not null`、`source_handover_rebaseline_record_id uuid`、`supersedes_id uuid`
 
 ### 8.2 承接包 DDL 补点
 
@@ -393,18 +414,23 @@
 1. `contract_readiness_package`
   - 主键：`id`
   - 外键：`project_id -> project.id`、`contract_id -> contract.id`
-  - 索引建议：`project_id + created_at desc`、`contract_id + status`
+  - 外键建议：`source_baseline_id -> commercial_release_baseline.id`、`latest_diff_result_id -> commercial_baseline_diff_result.id`
+  - 索引建议：`project_id + created_at desc`、`contract_id + status`、`source_baseline_id + status`
+  - 字段补点建议：`guard_decision varchar(32) not null`
 
 2. `contract_readiness_package_item`
   - 主键：`id`
   - 外键：`package_id -> contract_readiness_package.id`
   - 唯一建议：`package_id + item_key`
+  - 索引建议：`package_id + source_workspace_key + item_status`
 
 3. `contract_snapshot_init_record`
   - 外键：`package_id -> contract_readiness_package.id`、`snapshot_id -> contract_term_snapshot.id`
+  - 字段补点建议：`init_decision varchar(32) not null`、`blocked_reason_code varchar(64)`
 
 4. `receivable_plan_init_record`
   - 外键：`package_id -> contract_readiness_package.id`、`receivable_plan_version_id -> receivable_plan_version.id`
+  - 字段补点建议：`init_decision varchar(32) not null`、`blocked_reason_code varchar(64)`
 
 ### 8.3 商业放行基线 DDL 补点
 
@@ -482,6 +508,13 @@
 3. 同一差异结果内同一必比字段只允许一条差异明细。
 4. `commission_payout` 在第二阶段类型下必须引用有效 `acceptance_record_id`。
 5. `LABOR` 类型的 `project_actual_cost_record` 必须引用 `rate_version_id`。
+6. 同一项目在同一 `source_baseline_id` 上同一时刻只能存在一条当前有效 `contract_readiness_package`，避免六工作区输出被并行收口成多套承接包。
+7. 每条已完成 `project_handover` 都必须同时引用明确的 `contract_summary_snapshot_id`、`effective_handover_baseline_snapshot_id` 与 `summary_snapshot_id`，不得只保留文本摘要进入后续冻结链。
+8. 当前有效 `commission_role_assignment` 与当前有效 `project_receipt_judgment_freeze` 必须共同引用同一 `source_handover_id / handover_summary_snapshot_id` 链，防止冻结版本与移交确认结果漂移。
+9. 当前有效 `commission_role_assignment` 的 `contract_summary_snapshot_id`、`handover_summary_snapshot_id` 与 `effective_handover_baseline_snapshot_id` 组合不得为空，后续计算 / 发放不得再回头从合同详情或移交页临时拼装依据。
+10. `contract_readiness_package.guard_decision` 为非放行结论时，不得生成成功的 `contract_snapshot_init_record` 或 `receivable_plan_init_record`。
+11. `ContractTermSnapshot.source_readiness_package_id` 与 `ReceivablePlanVersion.source_readiness_package_id` 指向的承接包，必须同时锁定 `source_baseline_id` 与 `latest_diff_result_id`，不允许合同快照与应收计划分别消费不同的签约前基线版本。
+12. `contract_readiness_package_item.source_workspace_key` 必须覆盖六工作区中的正式输入来源；若任一必备工作区仍缺有效输出，承接包只能生成阻断项，不得进入可初始化状态。
 
 ### 8.8 第二阶段第二批 DDL 补点
 
@@ -511,6 +544,7 @@
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
   - 索引建议：`project_id + status`、`tax_treatment_type + deductibility_status`
+  - 字段补点建议：`tax_impact_pending_amount numeric(18,2) not null default 0`
 
 2. `operating_baseline_package`
   - 主键：`id`
@@ -528,43 +562,61 @@
 1. `project_operating_snapshot`
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
-  - 索引建议：`project_id + snapshot_at desc`、`project_id + snapshot_mode`
+  - 外键建议：`handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 索引建议：`project_id + snapshot_at desc`、`project_id + snapshot_mode`、`project_id + referenced_baseline_version + snapshot_mode`
+  - 字段补点建议：`effective_contract_total numeric(18,2) not null`、`receivable_confirmed_total numeric(18,2) not null`、`included_cost_total numeric(18,2) not null`、`original_baseline_cost numeric(18,2) not null`、`current_effective_baseline_cost numeric(18,2) not null`、`gross_margin_amount numeric(18,2) not null`、`gross_margin_rate numeric(9,6)`、`tax_impact_summary text not null`、`tax_impact_pending_amount numeric(18,2) not null default 0`、`allocation_stability_summary text`、`unmapped_cost_summary text`、`current_action_level varchar(32) not null`、`referenced_baseline_version varchar(64) not null`、`baseline_selection_source varchar(32) not null`
 
 2. `period_closing_snapshot`
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
+  - 外键建议：`handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
   - 唯一建议：`project_id + period_key + snapshot_mode(period-end)` 条件唯一
-  - 索引建议：`project_id + period_key`、`snapshot_at desc`
+  - 索引建议：`project_id + period_key`、`snapshot_at desc`、`project_id + referenced_baseline_version`
+  - 字段补点建议：`effective_contract_total numeric(18,2) not null`、`receivable_confirmed_total numeric(18,2) not null`、`included_cost_total numeric(18,2) not null`、`original_baseline_cost numeric(18,2) not null`、`current_effective_baseline_cost numeric(18,2) not null`、`gross_margin_amount numeric(18,2) not null`、`gross_margin_rate numeric(9,6)`、`tax_impact_summary text not null`、`tax_impact_pending_amount numeric(18,2) not null default 0`、`allocation_stability_summary text`、`unmapped_cost_summary text`、`current_action_level varchar(32) not null`、`referenced_baseline_version varchar(64) not null`、`baseline_selection_source varchar(32) not null`
 
 3. `operating_restatement_record`
   - 主键：`id`
   - 外键：`project_id -> project.id`、`period_end_snapshot_id -> period_closing_snapshot.id`
-  - 外键建议：`restates_snapshot_id -> project_operating_snapshot.id`
-  - 索引建议：`project_id + handled_at desc`、`period_end_snapshot_id`
+  - 外键建议：`restates_snapshot_id -> project_operating_snapshot.id`、`restated_snapshot_id -> project_operating_snapshot.id`
+  - 外键建议：`handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+  - 索引建议：`project_id + handled_at desc`、`period_end_snapshot_id`、`restated_snapshot_id`
+  - 字段补点建议：`restatement_summary text not null`
 
 #### 8.8.4 经营信号与 gate 绑定
 
 1. `operating_signal_evaluation_result`
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
+  - 外键建议：`referenced_snapshot_id -> project_operating_snapshot.id`
+  - 外键建议：`data_maturity_evaluation_id -> data_maturity_evaluation_result.id`
   - 索引建议：`project_id + evaluated_at desc`、`signal_level + status`
+  - 字段补点建议：`risk_level varchar(32) not null`、`variance_source_summary text not null`、`tax_impact_summary text not null`、`allocation_stability_summary text`、`unmapped_cost_summary text`、`current_action_level varchar(32) not null`、`recommended_action_summary text`、`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`
 
 2. `data_maturity_evaluation_result`
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
+  - 外键建议：`referenced_snapshot_id -> project_operating_snapshot.id`
   - 索引建议：`project_id + evaluated_at desc`、`data_maturity_level + status`
-  - 字段补点建议：`cost_action_recommendation varchar(32) not null`
+  - 字段补点建议：`cost_action_recommendation varchar(32) not null`、`tax_impact_pending_amount numeric(18,2) not null default 0`、`allocation_stability_summary text`、`unmapped_cost_summary text`
 
 3. `operating_signal_gate_binding`
   - 主键：`id`
   - 外键：`project_id -> project.id`、`signal_evaluation_id -> operating_signal_evaluation_result.id`
   - 索引建议：`project_id + generated_at desc`、`binding_action + status`
-  - 字段补点建议：`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`
+  - 字段补点建议：`baseline_selection_source varchar(32) not null`、`tax_impact_summary text not null`、`tax_impact_pending_amount numeric(18,2) not null default 0`、`allocation_stability_summary text`、`unmapped_cost_summary text`、`data_maturity_level varchar(32) not null`、`cost_action_recommendation varchar(32) not null`、`current_action_level varchar(32) not null`、`next_action_summary text`、`downstream_consumer_summary text`、`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`
 
-4. `commission_gate_review_record`
+4. `operating_signal_review_record`
+  - 主键：`id`
+  - 外键：`signal_evaluation_id -> operating_signal_evaluation_result.id`
+  - 索引建议：`signal_evaluation_id + handled_at desc`、`review_decision + status`
+  - 条件唯一建议：同一 `signal_evaluation_id` 同时仅允许一条当前有效复核记录
+  - 字段补点建议：`resolved_data_maturity_level varchar(32)`、`resolved_cost_action_recommendation varchar(32)`、`resolved_current_action_level varchar(32) not null`、`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`
+
+5. `commission_gate_review_record`
   - 主键：`id`
   - 外键：`binding_id -> operating_signal_gate_binding.id`
   - 索引建议：`binding_id + handled_at desc`、`gate_review_decision + status`
+  - 字段补点建议：`next_action_summary text`
 
 ### 8.9 第二批 DDL 级强约束建议
 
@@ -578,6 +630,16 @@
 6. `operating_signal_gate_binding` 的 `BLOCK` 结论一旦生效，必须能被第二阶段发放命令消费为真实 guard，而不是页面提示。
 7. `accounting_tax_treatment_snapshot` 应至少补 `tax_impact_summary text not null`，用于固定输出给 `L4 / L5` 的税务影响摘要，而不是要求读侧再次聚合解释。
 8. 当前有效 `data_maturity_evaluation_result` 与 `operating_signal_gate_binding` 必须能共同还原成本数据成熟度状态、成本侧动作建议、动作等级与引用基线 / 快照版本，供 `L4 / L5` 直接消费。
+9. `project_operating_snapshot` 与 `period_closing_snapshot` 必须固化 `referenced_baseline_version` 与 `baseline_selection_source`，历史查询不得把最新经营基线回挂到旧快照上重新解释。
+10. 若某条快照或重述结果消费的是移交前再基线化链，则必须显式引用对应 `handover_rebaseline_record_id` 或等价稳定链路引用；未收口的再基线化记录不得生成当前有效历史口径。
+11. 每条 `operating_restatement_record` 都必须同时引用 `restates_snapshot_id` 与 `restated_snapshot_id`，且 `restated_snapshot_id` 在当前有效记录中条件唯一，保证一条被替代快照只收口到一条当前有效的新快照。
+12. `snapshot_mode=restated` 的 `project_operating_snapshot` 只能由有效 `operating_restatement_record` 生成，并应与同一 `period_end_snapshot_id` 上的期末冻结快照共同构成稳定回看链，不得直接覆盖原 `period_closing_snapshot`。
+13. 当前有效 `project_operating_snapshot` 与 `period_closing_snapshot` 必须至少共同保留合同、回款、成本、毛利、税务影响摘要、待闭合税务影响金额、当前动作等级与引用基线 / 快照版本这组稳定结果，`L4-T01 / T02` 不得回表到最新事实重算旧结果。
+14. 每条有效 `operating_signal_evaluation_result` 都必须引用明确的 `referenced_snapshot_id` 与当前有效 `data_maturity_evaluation_result`，并固定 `variance_source_summary`、`risk_level`、`recommended_action_summary` 与 `current_action_level`，不得只保留 `signal_level` 后由查询层补解释。
+15. `reviewOperatingSignalEvaluation` 必须生成独立 `operating_signal_review_record`，保留系统结果与人工复核结果双链；人工复核可以改变展示结论，但不得原地覆盖原始系统结果。
+16. 同一条经营信号同一时刻只允许一条当前有效 `operating_signal_review_record`；若再次复核，必须新增历史记录并切换当前有效记录，而不是无痕更新旧记录。
+17. `operating_signal_gate_binding` 必须直接保留 `baseline_selection_source`、`tax_impact_summary`、`tax_impact_pending_amount`、`allocation_stability_summary`、`unmapped_cost_summary`、`data_maturity_level`、`cost_action_recommendation`、`current_action_level`、`next_action_summary` 与 `downstream_consumer_summary`，保证 `L4-T04` 与 `L5` 消费同一条反馈链。
+18. `commission_gate_review_record` 只能消费来自当前有效 `operating_signal_gate_binding` 的稳定结果；若绑定结果尚未齐备税务 / 成本 / 动作等级字段，则必须回落为待补数或阻断，不得默认放行。
 
 ### 8.10 第二阶段第三批 DDL 补点
 
@@ -589,7 +651,8 @@
   - 主键：`id`
   - 外键：`contract_amendment_id -> contract_amendment.id`
   - 外键建议：`effective_baseline_after_id -> contract_term_snapshot.id`
-  - 索引建议：`contract_amendment_id + handled_at desc`、`effective_baseline_after_id`
+  - 外键建议：`supersedes_id -> contract_handover_rebaseline_record.id`
+  - 索引建议：`contract_amendment_id + handled_at desc`、`contract_amendment_id + status`、`effective_baseline_after_id`、`supersedes_id`
 
 2. `handover_baseline_impact_item`
   - 主键：`id`
@@ -610,32 +673,43 @@
 
 1. `sensitive_field_reveal_request`
   - 主键：`id`
-  - 索引建议：`target_type + target_id`、`requested_by + status`、`requested_expires_at`
+  - 外键建议：`approval_record_id -> approval_record.id`
+  - 外键建议：`source_summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`target_type + target_id`、`requested_by + status`、`requested_expires_at`、`source_summary_snapshot_id`
+  - 字段补点建议：`projection_level varchar(32)`、`reveal_scope_summary text not null`
 
 2. `sensitive_field_reveal_grant`
   - 主键：`id`
   - 外键：`request_id -> sensitive_field_reveal_request.id`
-  - 索引建议：`request_id + status`、`expires_at desc`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`request_id + status`、`expires_at desc`、`summary_snapshot_id`
+  - 字段补点建议：`grant_decision varchar(32) not null`、`projection_level varchar(32)`、`export_policy varchar(32)`、`revocation_reason_code varchar(64)`
 
 3. `sensitive_field_reveal_audit`
   - 主键：`id`
   - 外键：`grant_id -> sensitive_field_reveal_grant.id`
-  - 索引建议：`grant_id + accessed_at desc`、`viewer_id + accessed_at desc`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`grant_id + accessed_at desc`、`viewer_id + accessed_at desc`、`summary_snapshot_id`
+  - 字段补点建议：`grant_status_at_access varchar(32) not null`
 
 4. `approval_summary_package_definition`
   - 主键：`id`
   - 唯一建议：`approval_scenario_key + summary_package_key`
-  - 索引建议：`approval_scenario_key + status`
+  - 索引建议：`approval_scenario_key + status`、`approval_scenario_key + projection_level + status`
+  - 字段补点建议：`field_rule_version varchar(64) not null`
 
 5. `approval_summary_snapshot`
   - 主键：`id`
   - 外键：`summary_package_id -> approval_summary_package_definition.id`
-  - 索引建议：`target_type + target_id`、`approval_scenario_key + generated_at desc`
+  - 外键建议：`supersedes_id -> approval_summary_snapshot.id`
+  - 索引建议：`target_type + target_id`、`approval_scenario_key + generated_at desc`、`summary_package_id + status`
+  - 字段补点建议：`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`、`business_status_at_snapshot varchar(32) not null`
 
 6. `approval_summary_field_projection`
   - 主键：`id`
   - 外键：`summary_snapshot_id -> approval_summary_snapshot.id`
   - 唯一建议：`summary_snapshot_id + field_key`
+  - 字段补点建议：`field_order integer not null`、`channel_scope_summary text`
 
 #### 8.10.3 冻结后争议与受控变更
 
@@ -643,13 +717,18 @@
   - 主键：`id`
   - 外键：`project_id -> project.id`
   - 外键建议：`freeze_version_id -> commission_role_assignment.id`
-  - 索引建议：`project_id + handled_at desc`、`freeze_version_id + status`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`project_id + handled_at desc`、`freeze_version_id + status`、`summary_snapshot_id`
+  - 字段补点建议：`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`、`affected_assignment_summary text not null`、`arbitration_status varchar(32) not null`、`impact_assessment_summary text`
 
 2. `commission_freeze_change_request`
   - 主键：`id`
   - 外键：`dispute_record_id -> commission_freeze_dispute_record.id`
+  - 外键建议：`superseded_freeze_version_id -> commission_role_assignment.id`
   - 外键建议：`replacement_freeze_version_id -> commission_role_assignment.id`
-  - 索引建议：`dispute_record_id + handled_at desc`、`replacement_freeze_version_id`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`dispute_record_id + handled_at desc`、`replacement_freeze_version_id`、`superseded_freeze_version_id`、`summary_snapshot_id`、`status + handled_at desc`
+  - 字段补点建议：`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`、`affected_calculation_summary text`、`affected_payout_summary text`、`risk_flag_summary text`
 
 ### 8.11 第三批 DDL 级强约束建议
 
@@ -660,6 +739,17 @@
 3. 每条有效 `sensitive_field_reveal_grant` 都必须带 `expires_at`，且到期后不得继续作为详情查询放宽边界的依据。
 4. 同一审批对象、同一 `approval_scenario_key + projection_level` 在同一时刻只允许一条当前有效 `approval_summary_snapshot`。
 5. `commission_freeze_change_request` 生效前必须存在明确的 `arbitration_decision` 与 `recalculation_impact_mode`，不得直接原地覆盖当前冻结版本。
+6. `sensitive_field_reveal_request` 与 `sensitive_field_reveal_grant` 必须以字段包粒度表达授权范围；同一请求同一时刻只允许一条当前有效授权，且授权失效、撤销、拒绝与访问尝试都必须可在 `sensitive_field_reveal_audit` 中留痕。
+7. `sensitive_field_reveal_grant.summary_snapshot_id` 若非空，则必须与来源 `sensitive_field_reveal_request.source_summary_snapshot_id` 保持同链一致；审批页、详情页和导出预览不得在授权通过后改挂另一份摘要快照。
+8. 每条当前有效 `approval_summary_snapshot` 都必须至少对应一条 `approval_summary_field_projection`；通知、打印、导出与冻结争议摘要只能消费该快照，不得各自生成临时字段投影。
+9. 同一 `freeze_version_id` 在同一时刻只允许一条未收口的 `commission_freeze_dispute_record`；若存在待仲裁或待影响评估争议，则后续发放 / 调整只能进入受控暂停或等待仲裁，不得继续按原冻结版本静默推进。
+10. `commission_freeze_dispute_record` 与 `commission_freeze_change_request` 必须共同保留同一 `summary_package_key / summary_snapshot_id / projection_level / export_policy` 公共链；冻结争议通知、仲裁摘要、影响评估、打印材料与导出预览不得混用不同摘要快照。
+11. `commission_freeze_change_request` 若生成替代冻结版本，必须同时保留 `superseded_freeze_version_id` 与 `replacement_freeze_version_id`，且二者必须通过同一争议记录和 `supersedes_id` 链完成衔接，不得出现“只记录新版本、不记录被替代版本”的情况。
+12. `commission_freeze_change_request` 在成为当前有效回溯事实前，必须同时固定 `affected_calculation_summary`、`affected_payout_summary` 与 `risk_flag_summary`；若影响评估未收口，则不得作为 gate、发放、最终结算或规则解释页的稳定依据。
+13. `project_handover.handover_rebaseline_record_id` 一旦非空，必须与 `effective_handover_baseline_snapshot_id` 指向同一条当前有效再基线化结果；若存在 `status in (processing, pending_effective)` 的 `contract_handover_rebaseline_record`，不得生成已完成 `project_handover`。
+14. 当前有效 `project_receipt_judgment_freeze` 与当前有效 `commission_role_assignment` 若消费的是再基线化后的移交口径，则其 `source_handover_rebaseline_record_id` 必须与来源 `project_handover.handover_rebaseline_record_id` 一致，不得在冻结链中改挂其他再基线化记录。
+15. 作为替代版本生效的 `commission_role_assignment` 必须保留 `supersedes_id`，且其 `source_handover_id`、`source_handover_rebaseline_record_id`、`contract_summary_snapshot_id`、`handover_summary_snapshot_id` 与 `effective_handover_baseline_snapshot_id` 必须与被替代版本保持同链一致，除非存在新的正式移交收口重新生成整链。
+16. `commission_freeze_change_request.replacement_freeze_version_id` 指向的冻结版本在成为当前有效版本前，必须能经由 `supersedes_id` 回到被争议的 `freeze_version_id`，并与 `recalculation_impact_mode` 一起作为后续重算 / 发放命令的唯一事实来源。
 - `row_version`
 - `created_at`
 - `created_by`
@@ -878,6 +968,11 @@
 - `role_type`
 - `user_id`
 - `weight`
+- `source_handover_id`
+- `source_handover_rebaseline_record_id`
+- `contract_summary_snapshot_id`
+- `handover_summary_snapshot_id`
+- `effective_handover_baseline_snapshot_id`
 - `status`
 - `frozen_at`
 - `supersedes_id`
@@ -891,8 +986,14 @@
 
 - 主键：`id`
 - 外键：`project_id -> project.id`、`user_id -> platform_user.id`
+- 外键建议：`source_handover_id -> project_handover.id`
+- 外键建议：`source_handover_rebaseline_record_id -> contract_handover_rebaseline_record.id`
+- 外键建议：`contract_summary_snapshot_id -> approval_summary_snapshot.id`
+- 外键建议：`handover_summary_snapshot_id -> approval_summary_snapshot.id`
+- 外键建议：`effective_handover_baseline_snapshot_id -> contract_term_snapshot.id`
+- 外键建议：`supersedes_id -> commission_role_assignment.id`
 - 唯一：`project_id + version`
-- 索引：`project_id + is_current`、`status`
+- 索引：`project_id + is_current`、`status`、`source_handover_id`、`source_handover_rebaseline_record_id`、`handover_summary_snapshot_id`、`supersedes_id`
 
 ### 7.4I `commission_payout`
 
