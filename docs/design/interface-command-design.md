@@ -1,7 +1,7 @@
 # POMS 接口命令设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第一阶段接口命令边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的命令补点输入
 **关联文档**:
 
@@ -170,19 +170,19 @@
 
 ### 4.6 第二阶段第二批补充命令边界
 
-| 对象                              | 命令建议                            | 触发动作                | 前提摘要                                                       | 放行方式  | 结果摘要                                       |
-| --------------------------------- | ----------------------------------- | ----------------------- | -------------------------------------------------------------- | --------- | ---------------------------------------------- |
-| `SharedCostAllocationBasis`       | `confirmSharedCostAllocationBasis`  | 固化共享分摊依据        | 来源成本事实已确认；分摊方法、项目份额与依据说明齐备           | 审批/确认 | 固化当前有效分摊依据与项目份额输入             |
-| `SharedCostAllocationResult`      | `replaceSharedCostAllocationResult` | 替代共享分摊结果        | 已存在有效分摊结果；替代理由与新依据明确                       | 审批/确认 | 形成新分摊结果、替代链与重算候选               |
-| `CostStageAttributionSnapshot`    | `confirmCostStageAttribution`       | 锁定阶段归属            | 成本记录已形成；归属来源、归属模式与锁定依据齐备               | 确认      | 固化当前有效阶段归属快照                       |
-| `CostStageAttributionSnapshot`    | `reclassifyCostStageAttribution`    | 受控重分类              | 已存在有效阶段归属；重分类原因与影响范围已说明                 | 审批/确认 | 形成新的归属快照并保留重分类历史链             |
-| `AccountingTaxTreatmentSnapshot`  | `confirmAccountingTaxTreatment`     | 固化税务处理结论        | 税务口径已确认；可抵扣状态、影响金额与来源依据齐备             | 审批/确认 | 形成当前有效税务处理快照                       |
-| `AccountingTaxTreatmentSnapshot`  | `replaceAccountingTaxTreatment`     | 替代税务处理结论        | 已存在有效税务处理；替代原因、影响范围与新结论明确             | 审批/确认 | 形成税务处理替代链并刷新经营核算引用           |
-| `OperatingBaselinePackage`        | `switchEffectiveOperatingBaseline`  | 切换当前有效经营基线    | 原始基线、变更包基线和目标有效基线已存在                       | 审批/确认 | 固化当前生效经营基线并触发偏差桥接重算候选     |
-| `PeriodClosingSnapshot`           | `generatePeriodClosingSnapshot`     | 生成期末冻结快照        | 期末边界明确；冻结范围、时间点和口径已确认                     | 受控后台  | 形成期末快照与时点快照可追溯入口               |
-| `OperatingRestatementRecord`      | `registerOperatingRestatement`      | 登记补录 / 重述         | 已存在期末快照或历史口径；重述原因与被替代口径明确             | 审批/确认 | 形成重述记录、替代链与新的历史回看口径         |
-| `OperatingSignalEvaluationResult` | `reviewOperatingSignalEvaluation`   | 经营信号人工复核        | 系统已生成成熟度与信号结果；复核理由和处理结论明确             | 审批/确认 | 固化复核结论并刷新经营信号解释                 |
-| `CommissionGateReviewRecord`      | `reviewCommissionGateBinding`       | gate 复核 / 放行 / 阻断 | 已生成 `L4 -> L5` 绑定结果；当前处理分支为 `REVIEW` 或 `BLOCK` | 审批/确认 | 固化 gate 复核结论、处理人、原因与绑定结果快照 |
+| 对象                              | 命令建议                            | 触发动作                | 前提摘要                                                                                                                            | 放行方式  | 结果摘要                                                            |
+| --------------------------------- | ----------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- |
+| `SharedCostAllocationBasis`       | `confirmSharedCostAllocationBasis`  | 固化共享分摊依据        | 来源成本事实已确认；分摊方法、项目份额与依据说明齐备                                                                                | 审批/确认 | 固化当前有效分摊依据与项目份额输入                                  |
+| `SharedCostAllocationResult`      | `replaceSharedCostAllocationResult` | 替代共享分摊结果        | 已存在有效分摊结果；替代理由与新依据明确                                                                                            | 审批/确认 | 形成新分摊结果、替代链与重算候选                                    |
+| `CostStageAttributionSnapshot`    | `confirmCostStageAttribution`       | 锁定阶段归属            | 成本记录已形成；归属来源、归属模式与锁定依据齐备                                                                                    | 确认      | 固化当前有效阶段归属快照                                            |
+| `CostStageAttributionSnapshot`    | `reclassifyCostStageAttribution`    | 受控重分类              | 已存在有效阶段归属；重分类原因与影响范围已说明                                                                                      | 审批/确认 | 形成新的归属快照并保留重分类历史链                                  |
+| `AccountingTaxTreatmentSnapshot`  | `confirmAccountingTaxTreatment`     | 固化税务处理结论        | 税务口径已确认；可抵扣状态、影响金额、税务影响摘要与来源依据齐备                                                                    | 审批/确认 | 形成当前有效税务处理快照，并固定税务影响摘要供 `L4 / L5` 稳定引用   |
+| `AccountingTaxTreatmentSnapshot`  | `replaceAccountingTaxTreatment`     | 替代税务处理结论        | 已存在有效税务处理；替代原因、影响范围与新结论明确                                                                                  | 审批/确认 | 形成税务处理替代链、刷新税务影响摘要与经营核算引用                  |
+| `OperatingBaselinePackage`        | `switchEffectiveOperatingBaseline`  | 切换当前有效经营基线    | 原始基线、变更包基线和目标有效基线已存在                                                                                            | 审批/确认 | 固化当前生效经营基线并触发偏差桥接重算候选                          |
+| `PeriodClosingSnapshot`           | `generatePeriodClosingSnapshot`     | 生成期末冻结快照        | 期末边界明确；冻结范围、时间点和口径已确认                                                                                          | 受控后台  | 形成期末快照与时点快照可追溯入口                                    |
+| `OperatingRestatementRecord`      | `registerOperatingRestatement`      | 登记补录 / 重述         | 已存在期末快照或历史口径；重述原因与被替代口径明确                                                                                  | 审批/确认 | 形成重述记录、替代链与新的历史回看口径                              |
+| `OperatingSignalEvaluationResult` | `reviewOperatingSignalEvaluation`   | 经营信号人工复核        | 系统已生成成熟度与信号结果；复核理由、成本侧动作建议和处理结论明确                                                                  | 审批/确认 | 固化复核结论、数据成熟度状态、成本侧动作建议并刷新经营信号解释      |
+| `CommissionGateReviewRecord`      | `reviewCommissionGateBinding`       | gate 复核 / 放行 / 阻断 | 已生成含税务影响摘要、数据成熟度状态、成本侧动作建议与引用基线 / 快照版本的 `L4 -> L5` 绑定结果；当前处理分支为 `REVIEW` 或 `BLOCK` | 审批/确认 | 固化 gate 复核结论、处理人、原因、引用基线 / 快照版本与绑定结果快照 |
 
 第二阶段第二批统一补充以下命令边界约束：
 
@@ -191,6 +191,8 @@
 3. 任何替代动作都必须保留 `supersedes` 链，不允许无痕覆盖既有分摊结果、归属结果、税务处理或期末口径。
 4. `reviewCommissionGateBinding` 的 `BLOCK` 结论必须实际阻断第二阶段发放命令，而不是停留在页面提示层。
 5. 第二批命令仍需遵守第一批已冻结的敏感投影与最小可见集约束，不得因为进入 `L4/L5` 视图就放宽高敏字段写入边界。
+6. `confirmAccountingTaxTreatment`、`replaceAccountingTaxTreatment`、`reviewOperatingSignalEvaluation` 与 `reviewCommissionGateBinding` 必须共同承接 `taxImpactSummary`、`dataMaturityLevel`、`costActionRecommendation`、`referencedBaselineVersion`、`referencedSnapshotVersion` 这组稳定结果，不得由下游页面或普通写接口临时补齐。
+7. 涉及 `REVIEW / BLOCK` 的命令守卫必须以前述稳定结果包为唯一放行依据，不得只依据前端 `allowedActions`、备注文本或页面临时计算结果决定是否继续发放 / 结算。
 
 ### 4.7 第二阶段第三批补充命令边界
 

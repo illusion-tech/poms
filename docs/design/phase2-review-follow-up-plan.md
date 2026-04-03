@@ -1,7 +1,7 @@
 # POMS 第二阶段正式审阅 follow-up 清单
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第二阶段 `LX-T03` 四轮正式审阅后的 follow-up 归并、专题拆分与进入统一开发判断前的收口跟踪
 **关联文档**:
 
@@ -119,20 +119,20 @@
 - 已形成 `phase2-second-batch-implementation-mapping.md`，并已完成六份实现设计总文档的首轮写回
 - `LX-T04` 当前正式口径统一见 `phase2-lx-t04-full-mainline-development-decision.md`，其判断尚待全主线实现设计完成后执行
 
-| 专题                               | 覆盖问题 | 主要回写文档                                                                                         | 当前收口目标                                   |
-| ---------------------------------- | -------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| 分摊成本与项目共享事实             | `R1-002` | `phase2-cost-source-to-project-record-mapping.md`、`phase2-estimated-to-actual-cost-bridge.md`       | 固定分摊依据、共享事实与项目级聚合规则         |
-| 执行阶段归属与历史稳定派生         | `R2-002` | `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`             | 固定阶段归属字段或派生规则，避免历史解释漂移   |
-| 税务影响与财务核算口径             | `R1-004` | `phase2-project-unified-accounting-view-caliber.md`                                                  | 固定进项税等税务影响在经营口径中的处理方式     |
-| 执行中合同变更基线与变更包基线     | `R4-002` | `phase2-estimated-to-actual-cost-bridge.md`、`phase2-project-unified-accounting-view-caliber.md`     | 区分原始基线与变更包基线，并定义汇总与重算规则 |
-| 时点快照、期末冻结与补录重述       | `R2-003` | `phase2-project-unified-accounting-view-caliber.md`                                                  | 固定月末、关账、补录后的历史回看口径           |
-| 经营公式边界与数据成熟度联动       | `R3-004` | `phase2-project-unified-accounting-view-caliber.md`、`phase2-business-accounting-feedback-rules.md`  | 统一低回款比例、极端值和成熟度解释规则         |
-| `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | `phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md` | 固定提示、复核、阻断三类动作与审批留痕口径     |
+| 专题                               | 覆盖问题 | 主要回写文档                                                                                                                                                                                                                                                     | 当前收口目标                                                                                                                 |
+| ---------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 分摊成本与项目共享事实             | `R1-002` | `phase2-cost-source-to-project-record-mapping.md`、`phase2-estimated-to-actual-cost-bridge.md`                                                                                                                                                                   | 固定分摊依据、共享事实与项目级聚合规则                                                                                       |
+| 执行阶段归属与历史稳定派生         | `R2-002` | `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`                                                                                                                                                                         | 固定阶段归属字段或派生规则，避免历史解释漂移                                                                                 |
+| 税务影响与财务核算口径             | `R1-004` | `phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定进项税等税务影响在经营口径中的处理方式                                                                                   |
+| 执行中合同变更基线与变更包基线     | `R4-002` | `phase2-estimated-to-actual-cost-bridge.md`、`phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                 | 区分原始基线与变更包基线，并定义汇总与重算规则                                                                               |
+| 时点快照、期末冻结与补录重述       | `R2-003` | `phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定月末、关账、补录后的历史回看口径                                                                                         |
+| 经营公式边界与数据成熟度联动       | `R3-004` | `phase2-project-unified-accounting-view-caliber.md`、`phase2-business-accounting-feedback-rules.md`                                                                                                                                                              | 统一低回款比例、极端值和成熟度解释规则                                                                                       |
+| `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | `phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md`、`phase2-commission-rule-explanation-language.md` | 固定税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级与审批留痕口径，并统一 `L5` 的 gate / 发放 / 结算 / 解释消费链 |
 
 第二批当前判断：
 
 - 第二批不应先于第一批单独推进
-- 第一批完成后，第二批现已完成成体系规则回写、桥接映射与六份实现设计总文档首轮写回；但在完成主线文档稳定消费和与第一批同等深度的收敛校验前，仍应以当前范围和主线完整性为上边界，不自动转化为任何开发承诺
+- 第一批完成后，第二批现已完成成体系规则回写、桥接映射与六份实现设计总文档首轮写回；其中 `L2` 输出的税务影响摘要、成本数据成熟度状态、成本侧动作建议与引用基线 / 快照版本，当前已被 `L4-T01 / T02 / T03 / T04` 固定为正式输入，并进一步贯穿到 `L5` 的阶段 gate、分阶段发放、最终结算与统一规则表达；但在完成全主线一致性复核前，仍应以当前范围和主线完整性为上边界，不自动转化为任何开发承诺
 
 ---
 
@@ -140,13 +140,13 @@
 
 第三批用于补齐流程健壮性与审批增强，允许在前两批基本稳定后并行推进。
 
-| 专题                     | 覆盖问题 | 主要回写文档                                                | 当前收口目标                                      |
-| ------------------------ | -------- | ----------------------------------------------------------- | ------------------------------------------------- |
-| 合同变更再基线化         | `R1-003` | `phase2-contract-to-handover-workspace.md`                  | 固定合同生效后到移交前的再基线化触发、待切换生效状态与结果链 |
-| 签约前受控回退与负路径   | `R3-001` | `phase2-presigning-workspace-handoff-map.md`                | 固定否决、重估、范围变更等负路径处理与受控回退结果链 |
-| 例外查看与短时揭示       | `R2-005` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定申请、审批、揭示、到期失效、审计留痕与短时授权链 |
-| 审批摘要字段包           | `R4-004` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定审批场景最小字段集、投影级别、导出策略与摘要快照口径 |
-| 冻结后受控变更与争议处理 | `R3-006` | `phase2-commission-freeze-at-handover.md`、`workflow-and-approval-design.md` | 固定发起条件、审批角色、争议仲裁、替代冻结版本与重算影响链 |
+| 专题                     | 覆盖问题 | 主要回写文档                                                                                   | 当前收口目标                                                 |
+| ------------------------ | -------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 合同变更再基线化         | `R1-003` | `phase2-contract-to-handover-workspace.md`                                                     | 固定合同生效后到移交前的再基线化触发、待切换生效状态与结果链 |
+| 签约前受控回退与负路径   | `R3-001` | `phase2-presigning-workspace-handoff-map.md`                                                   | 固定否决、重估、范围变更等负路径处理与受控回退结果链         |
+| 例外查看与短时揭示       | `R2-005` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定申请、审批、揭示、到期失效、审计留痕与短时授权链         |
+| 审批摘要字段包           | `R4-004` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定审批场景最小字段集、投影级别、导出策略与摘要快照口径     |
+| 冻结后受控变更与争议处理 | `R3-006` | `phase2-commission-freeze-at-handover.md`、`workflow-and-approval-design.md`                   | 固定发起条件、审批角色、争议仲裁、替代冻结版本与重算影响链   |
 
 第三批当前判断：
 

@@ -1,7 +1,7 @@
 # POMS Schema 与 DDL 细化设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DDL 补点输入
 **关联文档**:
 
@@ -553,11 +553,13 @@
   - 主键：`id`
   - 外键建议：`project_id -> project.id`
   - 索引建议：`project_id + evaluated_at desc`、`data_maturity_level + status`
+  - 字段补点建议：`cost_action_recommendation varchar(32) not null`
 
 3. `operating_signal_gate_binding`
   - 主键：`id`
   - 外键：`project_id -> project.id`、`signal_evaluation_id -> operating_signal_evaluation_result.id`
   - 索引建议：`project_id + generated_at desc`、`binding_action + status`
+  - 字段补点建议：`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`
 
 4. `commission_gate_review_record`
   - 主键：`id`
@@ -574,6 +576,8 @@
 4. 同一项目同一期末只允许一条当前有效 `period_closing_snapshot`。
 5. 每条 `operating_restatement_record` 都必须引用明确的 `period_end_snapshot_id` 与被替代历史口径。
 6. `operating_signal_gate_binding` 的 `BLOCK` 结论一旦生效，必须能被第二阶段发放命令消费为真实 guard，而不是页面提示。
+7. `accounting_tax_treatment_snapshot` 应至少补 `tax_impact_summary text not null`，用于固定输出给 `L4 / L5` 的税务影响摘要，而不是要求读侧再次聚合解释。
+8. 当前有效 `data_maturity_evaluation_result` 与 `operating_signal_gate_binding` 必须能共同还原成本数据成熟度状态、成本侧动作建议、动作等级与引用基线 / 快照版本，供 `L4 / L5` 直接消费。
 
 ### 8.10 第二阶段第三批 DDL 补点
 

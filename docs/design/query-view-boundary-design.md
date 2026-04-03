@@ -1,7 +1,7 @@
 # POMS 查询视图边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第一阶段读侧边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的查询视图补点约束
 **关联文档**:
 
@@ -156,21 +156,23 @@
 
 ### 5.3B 第二阶段第二批经营可信源查询补点
 
-| 查询视图                           | 主要对象                                 | 目标                                                 | 最小字段组                                                                                                                | 额外约束                                               |
-| ---------------------------------- | ---------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `SharedCostAllocationDetailView`   | `SharedCostAllocationResult`             | 支撑共享分摊详情与项目份额解释                       | `basisSummary`、`sourceCostRecordSummary`、`allocatedProjectShares`、`supersedesSummary`、`allowedActions`                | 不得退回来源单据全额视图覆盖项目级分摊结果             |
-| `CostStageAttributionHistoryView`  | `CostStageAttributionSnapshot`           | 支撑阶段归属锁定与重分类历史                         | `attributedStage`、`stageAttributionMode`、`lockedBySnapshotSummary`、`reclassifyReason`、`supersedesSummary`             | 必须区分当前归属与历史归属，不把重分类链压平成当前值   |
-| `AccountingTaxTreatmentDetailView` | `AccountingTaxTreatmentSnapshot`         | 支撑税务处理与经营核算口径解释                       | `taxTreatmentType`、`deductibilityStatus`、`taxImpactAmountSummary`、`taxPendingFlag`、`supersedesSummary`                | 对无权角色继续只返回摘要化税务影响                     |
-| `OperatingBaselineBridgeView`      | `OperatingBaselinePackage`               | 支撑原始基线、变更包基线与当前基线桥接               | `originalBaselineSummary`、`changePackageBaselineSummary`、`effectiveOperatingBaselineSummary`、`varianceSourceSummary`   | 不能把变更包吸收进单一“当前预算”字段                   |
-| `ProjectOperatingAsOfView`         | `ProjectOperatingSnapshot`               | 支撑 `realtime / period-end / restated` 三类经营回看 | `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary`、`grossMarginSummary`、`riskFlags`             | 必须显式返回当前视图口径，禁止前端默认把实时口径当历史 |
-| `OperatingSignalEvaluationView`    | `OperatingSignalEvaluationResult`        | 支撑经营公式边界、成熟度与风险信号解释               | `formulaBoundaryAction`、`dataMaturityLevel`、`signalLevel`、`reviewRequired`、`reviewSummary`                            | 系统结果与人工复核结论要分层展示                       |
-| `CommissionGateBindingHistoryView` | `OperatingSignalToCommissionGateBinding` | 支撑 `L4 -> L5` gate 绑定结果与复核追溯              | `signalLevel`、`bindingAction`、`gateReviewDecision`、`blockingReasonSummary`、`handledBy`、`handledAt`、`allowedActions` | `BLOCK` / `REVIEW` 来源必须可追溯到稳定绑定结果        |
+| 查询视图                           | 主要对象                                 | 目标                                                 | 最小字段组                                                                                                                                                                                                                                               | 额外约束                                               |
+| ---------------------------------- | ---------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `SharedCostAllocationDetailView`   | `SharedCostAllocationResult`             | 支撑共享分摊详情与项目份额解释                       | `basisSummary`、`sourceCostRecordSummary`、`allocatedProjectShares`、`supersedesSummary`、`allowedActions`                                                                                                                                               | 不得退回来源单据全额视图覆盖项目级分摊结果             |
+| `CostStageAttributionHistoryView`  | `CostStageAttributionSnapshot`           | 支撑阶段归属锁定与重分类历史                         | `attributedStage`、`stageAttributionMode`、`lockedBySnapshotSummary`、`reclassifyReason`、`supersedesSummary`                                                                                                                                            | 必须区分当前归属与历史归属，不把重分类链压平成当前值   |
+| `AccountingTaxTreatmentDetailView` | `AccountingTaxTreatmentSnapshot`         | 支撑税务处理与经营核算口径解释                       | `taxTreatmentType`、`deductibilityStatus`、`taxImpactAmountSummary`、`taxImpactSummary`、`taxPendingFlag`、`supersedesSummary`                                                                                                                           | 对无权角色继续只返回摘要化税务影响                     |
+| `OperatingBaselineBridgeView`      | `OperatingBaselinePackage`               | 支撑原始基线、变更包基线与当前基线桥接               | `originalBaselineSummary`、`changePackageBaselineSummary`、`effectiveOperatingBaselineSummary`、`varianceSourceSummary`                                                                                                                                  | 不能把变更包吸收进单一“当前预算”字段                   |
+| `ProjectOperatingAsOfView`         | `ProjectOperatingSnapshot`               | 支撑 `realtime / period-end / restated` 三类经营回看 | `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary`、`grossMarginSummary`、`riskFlags`                                                                                                                                            | 必须显式返回当前视图口径，禁止前端默认把实时口径当历史 |
+| `OperatingSignalEvaluationView`    | `OperatingSignalEvaluationResult`        | 支撑经营公式边界、成熟度与风险信号解释               | `formulaBoundaryAction`、`dataMaturityLevel`、`costActionRecommendation`、`signalLevel`、`reviewRequired`、`reviewSummary`                                                                                                                               | 系统结果与人工复核结论要分层展示                       |
+| `CommissionGateBindingHistoryView` | `OperatingSignalToCommissionGateBinding` | 支撑 `L4 -> L5` gate 绑定结果与复核追溯              | `signalLevel`、`taxImpactSummary`、`dataMaturityLevel`、`costActionRecommendation`、`referencedBaselineVersion`、`referencedSnapshotVersion`、`bindingAction`、`gateReviewDecision`、`blockingReasonSummary`、`handledBy`、`handledAt`、`allowedActions` | `BLOCK` / `REVIEW` 来源必须可追溯到稳定绑定结果        |
 
 补充约束：
 
 - `ProjectOperatingAsOfView` 是技术命名，不得直接作为页面标题或用户提示语
 - 查询视图返回 `asOfMode`、`snapshotAt`、`periodEndSnapshotSummary`、`restatementSummary` 后，前端投影层必须转换成 `当前实时结果 / 期末冻结快照 / 重述快照`、`快照时点`、`期末快照版本`、`重述原因 / 被替代快照版本` 再展示给用户
 - 若当前视图是历史回看，不得只返回当前值而缺失 `快照时点`、`期末快照版本` 或 `重述原因` 等最小解释字段
+- `AccountingTaxTreatmentDetailView`、`OperatingSignalEvaluationView` 与 `CommissionGateBindingHistoryView` 必须能对齐还原同一份 `L2` 稳定输出包；若 `L4 / L5` 直接消费 gate 绑定结果，则不得再从其他页面二次拼接税务 / 成本解释
+- `CommissionGateBindingHistoryView` 的 `allowedActions` 只能在 `taxImpactSummary`、`dataMaturityLevel`、`costActionRecommendation`、`referencedBaselineVersion`、`referencedSnapshotVersion` 一并齐备时生成，缺任一字段时应回落为阻断或待复核，而不是默认放行
 
 ### 5.3C 第二阶段第三批异常链路与审批增强查询补点
 
@@ -210,7 +212,7 @@
 6. 所有高敏汇总字段必须支持完整值、摘要值、遮罩占位三种投影结果，不能因其属于经营看板而默认返回完整原值。
 7. 第二阶段第二批场景下，经营回看接口必须显式区分 `realtime`、`period-end` 与 `restated` 三种口径，不能复用同一组“当前值”字段。
 8. 共享分摊、阶段归属、税务处理和经营基线都必须有独立详情或历史视图，不能全部挤进 `ProjectOperatingView` 的说明文本。
-9. `OperatingSignalEvaluationView` 与 `CommissionGateBindingHistoryView` 必须共同证明 `L5` gate 判断来自稳定绑定结果，而不是提成页前端二次计算。
+9. `OperatingSignalEvaluationView` 与 `CommissionGateBindingHistoryView` 必须共同证明 `L5` gate 判断来自含 `taxImpactSummary`、`dataMaturityLevel`、`costActionRecommendation` 与引用基线 / 快照版本的稳定绑定结果，而不是提成页前端二次计算。
 10. 第二批新增读侧视图仍需继续遵守第一批已冻结的敏感投影边界，不因“解释链更长”而默认扩大原值曝光范围。
 11. 第三批新增查询视图必须显式返回“授权范围 / 到期时间 / 失效状态 / 替代版本关系”等链路字段，不能只返回当前结果摘要。
 12. 审批摘要包视图与短时揭示视图必须保持场景化最小字段集，不得回退成详情页字段的裁剪子集。

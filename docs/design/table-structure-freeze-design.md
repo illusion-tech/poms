@@ -1,7 +1,7 @@
 # POMS 表结构冻结设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第一阶段逻辑表结构冻结设计，以及第二阶段第一批、第二批、第三批实现映射写回前的逻辑表补点基线
 **关联文档**:
 
@@ -265,20 +265,20 @@
 
 ### 7.7 第二阶段第二批逻辑表补点
 
-| 逻辑表                                                   | 表角色            | 最小字段组                                                                                                                 | 关键关系                                                         | 说明                      |
-| -------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------- |
-| `shared_cost_allocation_basis`                           | 快照 / 版本表     | `id`、`source_cost_scope_key`、`basis_type`、`allocation_method`、`status`、`effective_at`、`supersedes_id`                | 被 `shared_cost_allocation_result` 引用                          | 共享分摊依据主表          |
-| `shared_cost_allocation_result`                          | 结果 / 版本表     | `id`、`basis_id`、`project_id`、`allocated_amount`、`allocation_ratio`、`status`、`supersedes_id`                          | 归属分摊依据 / 项目                                              | 项目级分摊结果与替代链    |
-| `cost_stage_attribution_snapshot`                        | 快照表            | `id`、`cost_record_id`、`attributed_stage`、`attribution_mode`、`locked_by_snapshot_id`、`status`、`supersedes_id`         | 归属 `project_actual_cost_record`                                | 阶段归属锁定与重分类      |
-| `accounting_tax_treatment_snapshot`                      | 快照表            | `id`、`project_id`、`tax_treatment_type`、`deductibility_status`、`tax_impact_amount`、`tax_pending_flag`、`supersedes_id` | 归属项目；被经营核算视图引用                                     | 税务处理与核算口径        |
-| `operating_baseline_package`                             | 版本表            | `id`、`project_id`、`original_baseline_id`、`effective_operating_baseline_id`、`status`、`is_current`、`supersedes_id`     | 可被 `change_package_baseline` 与经营桥接视图引用                | 当前有效经营基线包        |
-| `change_package_baseline`                                | 子表 / 版本表     | `id`、`baseline_package_id`、`change_package_id`、`baseline_amount`、`status`、`supersedes_id`                             | 归属 `operating_baseline_package`                                | 变更包基线明细            |
-| `project_operating_snapshot` / `period_closing_snapshot` | 快照表 / 快照表   | `id`、`project_id`、`snapshot_mode`、`snapshot_at`、`source_window_start`、`source_window_end`、`status`、`supersedes_id`  | 归属项目；被 `operating_restatement_record` 引用                 | 实时与期末经营口径        |
-| `operating_restatement_record`                           | 动作记录表        | `id`、`project_id`、`period_end_snapshot_id`、`restates_snapshot_id`、`restatement_reason`、`status`、`handled_at`         | 归属项目；强关联期末快照 / 被替代快照                            | 补录 / 重述链             |
-| `operating_signal_evaluation_result`                     | 派生 / 结果表     | `id`、`project_id`、`signal_level`、`formula_boundary_action`、`review_required`、`evaluated_at`、`status`                 | 归属项目；被 gate 绑定表消费                                     | 经营信号结果              |
-| `data_maturity_evaluation_result`                        | 派生 / 结果表     | `id`、`project_id`、`data_maturity_level`、`evaluation_basis_json`、`evaluated_at`、`status`                               | 归属项目；可与经营信号结果一对一                                 | 数据成熟度结果            |
-| `operating_signal_gate_binding`                          | 派生 / 绑定结果表 | `id`、`project_id`、`signal_evaluation_id`、`binding_action`、`gate_stage_type`、`status`、`generated_at`                  | 归属项目 / 经营信号结果；被 `commission_gate_review_record` 引用 | `L4 -> L5` gate 绑定结果  |
-| `commission_gate_review_record`                          | 动作记录表        | `id`、`binding_id`、`gate_review_decision`、`blocking_reason_code`、`handled_at`、`handled_by`、`status`                   | 归属 gate 绑定结果；可被 `commission_payout` / 审批记录引用      | gate 复核、阻断与放行留痕 |
+| 逻辑表                                                   | 表角色            | 最小字段组                                                                                                                                                              | 关键关系                                                         | 说明                      |
+| -------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------- |
+| `shared_cost_allocation_basis`                           | 快照 / 版本表     | `id`、`source_cost_scope_key`、`basis_type`、`allocation_method`、`status`、`effective_at`、`supersedes_id`                                                             | 被 `shared_cost_allocation_result` 引用                          | 共享分摊依据主表          |
+| `shared_cost_allocation_result`                          | 结果 / 版本表     | `id`、`basis_id`、`project_id`、`allocated_amount`、`allocation_ratio`、`status`、`supersedes_id`                                                                       | 归属分摊依据 / 项目                                              | 项目级分摊结果与替代链    |
+| `cost_stage_attribution_snapshot`                        | 快照表            | `id`、`cost_record_id`、`attributed_stage`、`attribution_mode`、`locked_by_snapshot_id`、`status`、`supersedes_id`                                                      | 归属 `project_actual_cost_record`                                | 阶段归属锁定与重分类      |
+| `accounting_tax_treatment_snapshot`                      | 快照表            | `id`、`project_id`、`tax_treatment_type`、`deductibility_status`、`tax_impact_amount`、`tax_pending_flag`、`tax_impact_summary`、`supersedes_id`                        | 归属项目；被经营核算视图引用                                     | 税务处理与核算口径        |
+| `operating_baseline_package`                             | 版本表            | `id`、`project_id`、`original_baseline_id`、`effective_operating_baseline_id`、`status`、`is_current`、`supersedes_id`                                                  | 可被 `change_package_baseline` 与经营桥接视图引用                | 当前有效经营基线包        |
+| `change_package_baseline`                                | 子表 / 版本表     | `id`、`baseline_package_id`、`change_package_id`、`baseline_amount`、`status`、`supersedes_id`                                                                          | 归属 `operating_baseline_package`                                | 变更包基线明细            |
+| `project_operating_snapshot` / `period_closing_snapshot` | 快照表 / 快照表   | `id`、`project_id`、`snapshot_mode`、`snapshot_at`、`source_window_start`、`source_window_end`、`status`、`supersedes_id`                                               | 归属项目；被 `operating_restatement_record` 引用                 | 实时与期末经营口径        |
+| `operating_restatement_record`                           | 动作记录表        | `id`、`project_id`、`period_end_snapshot_id`、`restates_snapshot_id`、`restatement_reason`、`status`、`handled_at`                                                      | 归属项目；强关联期末快照 / 被替代快照                            | 补录 / 重述链             |
+| `operating_signal_evaluation_result`                     | 派生 / 结果表     | `id`、`project_id`、`signal_level`、`formula_boundary_action`、`review_required`、`evaluated_at`、`status`                                                              | 归属项目；被 gate 绑定表消费                                     | 经营信号结果              |
+| `data_maturity_evaluation_result`                        | 派生 / 结果表     | `id`、`project_id`、`data_maturity_level`、`cost_action_recommendation`、`evaluation_basis_json`、`evaluated_at`、`status`                                              | 归属项目；可与经营信号结果一对一                                 | 数据成熟度结果            |
+| `operating_signal_gate_binding`                          | 派生 / 绑定结果表 | `id`、`project_id`、`signal_evaluation_id`、`binding_action`、`gate_stage_type`、`referenced_baseline_version`、`referenced_snapshot_version`、`status`、`generated_at` | 归属项目 / 经营信号结果；被 `commission_gate_review_record` 引用 | `L4 -> L5` gate 绑定结果  |
+| `commission_gate_review_record`                          | 动作记录表        | `id`、`binding_id`、`gate_review_decision`、`blocking_reason_code`、`handled_at`、`handled_by`、`status`                                                                | 归属 gate 绑定结果；可被 `commission_payout` / 审批记录引用      | gate 复核、阻断与放行留痕 |
 
 ### 7.8 第二阶段第三批逻辑表补点
 
@@ -359,6 +359,7 @@
   - `deductibility_status`
   - `tax_impact_amount`
   - `tax_pending_flag`
+  - `tax_impact_summary`
 
 4. 经营基线字段组：
   - `original_baseline_id`
@@ -376,7 +377,10 @@
 6. 经营信号与 gate 绑定字段组：
   - `signal_level`
   - `data_maturity_level`
+  - `cost_action_recommendation`
   - `binding_action`
+  - `referenced_baseline_version`
+  - `referenced_snapshot_version`
   - `gate_review_decision`
   - `blocking_reason_code`
 

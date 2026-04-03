@@ -1,7 +1,7 @@
 # POMS 数据模型冻结前提
 
 **文档状态**: Active
-**最后更新**: 2026-04-02
+**最后更新**: 2026-04-03
 **适用范围**: `POMS` 第一阶段数据模型冻结前提，以及第二阶段第一批、第二批、第三批实现映射写回前的数据模型补点基线
 **关联文档**:
 
@@ -260,19 +260,19 @@
 
 ### 7.7 第二阶段第二批经营可信源对象链
 
-| 对象 / 关系                                          | 建议落表类型      | 建模前提摘要                                                     | 冻结前需确认                                       |
-| ---------------------------------------------------- | ----------------- | ---------------------------------------------------------------- | -------------------------------------------------- |
-| `SharedCostAllocationBasis`                          | 快照 / 版本表     | 固化共享成本的分摊依据、来源事实集合与项目份额输入               | 是否按来源事实分组建唯一键                         |
-| `SharedCostAllocationResult`                         | 结果 / 版本表     | 表达项目级分摊结果与替代链，避免来源单据全额重复进入多个项目     | 是否需要显式保留 `supersedesAllocationResultId`    |
-| `CostStageAttributionSnapshot`                       | 快照表            | 固化当前阶段归属、锁定来源与重分类链                             | 是否与阶段累计视图消费同一快照标识                 |
-| `AccountingTaxTreatmentSnapshot`                     | 快照表            | 固化税务处理结论、可抵扣状态与经营核算引用                       | 待确认税务项是否允许保留独立挂起状态               |
-| `OperatingBaselinePackage` / `ChangePackageBaseline` | 版本表 / 子表     | 同时表达原始签约基线、变更包基线与当前有效经营基线               | 是否允许多个变更包共同组成同一有效经营基线         |
-| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，支撑时点快照历史回看             | 实时快照与期末快照是否共用主键体系                 |
-| `OperatingRestatementRecord`                         | 动作记录表        | 表达补录 / 重述动作与被替代历史口径之间的关系                    | 是否要求每条重述都强引用 `periodEndSnapshotId`     |
-| `OperatingSignalEvaluationResult`                    | 派生 / 结果表     | 表达经营信号、风险等级与公式边界计算结果                         | 是否与 `DataMaturityEvaluationResult` 一对一       |
-| `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级与解释动作                                 | 是否允许人工复核覆盖系统结果还是只追加复核记录     |
-| `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定 | 是否按项目、阶段或发放批次保留多条历史绑定结果     |
-| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因      | 是否与 `CommissionPayout` 或发放审批记录建立强关联 |
+| 对象 / 关系                                          | 建议落表类型      | 建模前提摘要                                                                                    | 冻结前需确认                                       |
+| ---------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `SharedCostAllocationBasis`                          | 快照 / 版本表     | 固化共享成本的分摊依据、来源事实集合与项目份额输入                                              | 是否按来源事实分组建唯一键                         |
+| `SharedCostAllocationResult`                         | 结果 / 版本表     | 表达项目级分摊结果与替代链，避免来源单据全额重复进入多个项目                                    | 是否需要显式保留 `supersedesAllocationResultId`    |
+| `CostStageAttributionSnapshot`                       | 快照表            | 固化当前阶段归属、锁定来源与重分类链                                                            | 是否与阶段累计视图消费同一快照标识                 |
+| `AccountingTaxTreatmentSnapshot`                     | 快照表            | 固化税务处理结论、可抵扣状态、税务影响摘要与经营核算引用                                        | 待确认税务项是否允许保留独立挂起状态               |
+| `OperatingBaselinePackage` / `ChangePackageBaseline` | 版本表 / 子表     | 同时表达原始签约基线、变更包基线与当前有效经营基线                                              | 是否允许多个变更包共同组成同一有效经营基线         |
+| `ProjectOperatingSnapshot` / `PeriodClosingSnapshot` | 快照表 / 快照表   | 分层表达实时口径与期末冻结口径，支撑时点快照历史回看                                            | 实时快照与期末快照是否共用主键体系                 |
+| `OperatingRestatementRecord`                         | 动作记录表        | 表达补录 / 重述动作与被替代历史口径之间的关系                                                   | 是否要求每条重述都强引用 `periodEndSnapshotId`     |
+| `OperatingSignalEvaluationResult`                    | 派生 / 结果表     | 表达经营信号、风险等级与公式边界计算结果，并承接下游动作等级输出                                | 是否与 `DataMaturityEvaluationResult` 一对一       |
+| `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级、成本侧动作建议与解释动作                                                | 是否允许人工复核覆盖系统结果还是只追加复核记录     |
+| `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定，并携带下游引用基线 / 快照版本 | 是否按项目、阶段或发放批次保留多条历史绑定结果     |
+| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因                                     | 是否与 `CommissionPayout` 或发放审批记录建立强关联 |
 
 ### 7.8 第二阶段第三批流程健壮性与审批增强对象链
 
@@ -307,6 +307,7 @@
 - `B7 ~ B13` 涉及的分摊依据、阶段归属、税务处理、经营基线、期末快照、重述记录、经营信号和 gate 复核对象链已明确。
 - `ProjectOperatingSnapshot`、`PeriodClosingSnapshot` 与 `OperatingRestatementRecord` 三层历史口径已明确分层，而不是继续复用单一“当前经营值”。
 - `OperatingSignalToCommissionGateBinding` 与 `CommissionGateReviewRecord` 已能稳定支撑 `L5` gate 的阻断、复核和解释追溯。
+- `AccountingTaxTreatmentSnapshot`、`DataMaturityEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 已明确承载 `L2 -> L4 / L5` 稳定输出包中的税务影响摘要、成本数据成熟度状态、成本侧动作建议与引用基线 / 快照版本。
 - 第二批补点不会反向推翻第一批已冻结的敏感投影、合同集合和冻结模式边界。
 
 ### 8.2 第二阶段第三批进入表结构冻结的附加门槛
