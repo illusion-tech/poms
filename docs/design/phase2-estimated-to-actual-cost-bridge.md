@@ -12,8 +12,8 @@
   - `phase2-cost-source-to-project-record-mapping.md`
   - `phase2-actual-cost-accumulation-stage-view.md`
   - `phase2-experience-optimization-roadmap.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `query-view-boundary-design.md`
   - `project-lifecycle-design.md`

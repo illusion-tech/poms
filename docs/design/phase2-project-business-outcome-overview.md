@@ -12,8 +12,8 @@
   - `phase2-actual-cost-accumulation-stage-view.md`
   - `phase2-project-unified-accounting-view-caliber.md`
   - `phase2-business-accounting-feedback-rules.md`
-  - `phase2-second-batch-scope.md`
-  - `phase2-second-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-second-batch-scope.md`
+  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
 - 同级设计:
   - `contract-finance-design.md`
   - `commission-settlement-design.md`

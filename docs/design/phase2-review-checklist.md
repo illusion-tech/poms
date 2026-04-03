@@ -45,10 +45,10 @@
 
 - `L1 ~ L5` 五条主线的第一轮基线文档已形成
 - 第二阶段相关基线文档当前状态统一为 `Ready for Review`
-- 已完成四轮独立、留痕的正式审阅，并已产出 `phase2-review-record-round1.md`、`phase2-review-record-round2.md`、`phase2-review-record-round3.md` 与 `phase2-review-record-round4.md`
+- 已完成四轮独立、留痕的正式审阅，并已产出 `archive/reviews/phase2-review-record-round1.md`、`archive/reviews/phase2-review-record-round2.md`、`archive/reviews/phase2-review-record-round3.md` 与 `archive/reviews/phase2-review-record-round4.md`
 - 四轮累计已发现 22 个正式问题（10 个 `R1`、10 个 `R2`、2 个 `R3`），但尚未形成最终通过结论
 - 已新增 `phase2-review-comprehensive-assessment.md`，用于承载四轮问题的多维度综合评估与当前优先级判断
-- 已新增 `phase2-review-follow-up-plan.md` 与 `phase2-first-batch-scope.md`，分别承接正式 follow-up 清单与第一批硬前置专题范围说明
+- 已新增 `phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md`，分别承接正式 follow-up 清单与第一批硬前置专题范围说明
 
 ---
 
@@ -67,7 +67,7 @@
 ### 3.2 `L1` 签约前主线
 
 - `phase2-presigning-workspace-information-architecture.md`
-- `phase2-presigning-initiation-advancement-workspace.md`
+- `phase2-presigning-workspace-information-architecture.md`（其中包含 `立项与推进` 章节）
 - `phase2-presigning-project-overview-workspace.md`
 - `phase2-presigning-technical-cost-workspace.md`
 - `phase2-presigning-bid-commercial-workspace.md`
@@ -230,7 +230,7 @@
 为避免综合评估停留在分析层，正式 follow-up 清单与进入实现排期的第一批范围说明统一见：
 
 - `phase2-review-follow-up-plan.md`
-- `phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
 
 ---
 
@@ -255,7 +255,7 @@
 - `poms-design-progress.md`
 - `phase2-review-comprehensive-assessment.md`
 - `phase2-review-follow-up-plan.md`
-- `phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
 
 必要时再新增：
 

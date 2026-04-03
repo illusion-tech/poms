@@ -1,24 +1,24 @@
 # POMS 第二阶段第三批实现映射准备
 
-**文档状态**: Active
-**最后更新**: 2026-04-02
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段第三批五个流程健壮性与审批增强专题，在正式规则范围锁定后进入实现设计层并完成六份总文档首轮写回前后的映射桥接
 **关联文档**:
 
 - 上游设计:
-  - `phase2-review-checklist.md`
-  - `phase2-review-comprehensive-assessment.md`
-  - `phase2-review-follow-up-plan.md`
+  - `../../phase2-review-checklist.md`
+  - `../../phase2-review-comprehensive-assessment.md`
+  - `../../phase2-review-follow-up-plan.md`
   - `phase2-third-batch-scope.md`
-  - `phase2-mainline-implementation-design-matrix.md`
+  - `../../phase2-mainline-implementation-design-matrix.md`
 - 同级设计:
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `query-view-boundary-design.md`
-  - `data-model-prerequisites.md`
-  - `table-structure-freeze-design.md`
-  - `schema-ddl-design.md`
-  - `implementation-delivery-guide.md`
+  - `../../interface-command-design.md`
+  - `../../interface-openapi-dto-design.md`
+  - `../../query-view-boundary-design.md`
+  - `../../data-model-prerequisites.md`
+  - `../../table-structure-freeze-design.md`
+  - `../../schema-ddl-design.md`
+  - `../../implementation-delivery-guide.md`
 
 ---
 
@@ -280,7 +280,7 @@
 
 截至 2026-04-02，第三批已按本文件桥接结果完成以下六份实现设计总文档的首轮写回：
 
-1. `interface-command-design.md`
+1. `../../interface-command-design.md`
   已补第三批专用命令，尤其是：
    - 合同变更再基线化
    - 签约前回退 / 重开
@@ -288,14 +288,14 @@
    - 审批摘要包生成 / 复核
    - 冻结后争议处理与受控变更
 
-2. `interface-openapi-dto-design.md`
+2. `../../interface-openapi-dto-design.md`
   已补第三批 DTO 边界，尤其是：
    - 回退 / 再基线化 DTO
    - 例外揭示 DTO
    - 审批摘要包 DTO
    - 争议与仲裁 DTO
 
-3. `query-view-boundary-design.md`
+3. `../../query-view-boundary-design.md`
   已补第三批查询视图，尤其是：
    - 回退链 / 重开链历史视图
    - 再基线化影响视图
@@ -303,17 +303,17 @@
    - 审批摘要包视图
    - 冻结争议历史与影响视图
 
-4. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`
+4. `../../data-model-prerequisites.md`、`../../table-structure-freeze-design.md`、`../../schema-ddl-design.md`
   已补第三批涉及的回退请求、再基线化记录、短时揭示授权、审批摘要包、冻结争议记录与替代版本链。
 
 5. 关键业务主文档首轮写回
   已完成以下业务主文档的首轮写回：
-   - `phase2-contract-to-handover-workspace.md`
-   - `phase2-presigning-workspace-handoff-map.md`
-   - `phase2-data-permission-and-sensitive-visibility-design.md`
-   - `phase2-commission-freeze-at-handover.md`
-   - `phase2-commission-staged-payout-adjustment-paths.md`
-   - `workflow-and-approval-design.md`
+   - `../../phase2-contract-to-handover-workspace.md`
+   - `../../phase2-presigning-workspace-handoff-map.md`
+   - `../../phase2-data-permission-and-sensitive-visibility-design.md`
+   - `../../phase2-commission-freeze-at-handover.md`
+   - `../../phase2-commission-staged-payout-adjustment-paths.md`
+   - `../../workflow-and-approval-design.md`
 
 ---
 
@@ -337,7 +337,7 @@
 
 1. 第三批五个专题已按本文档映射到 command、query、DTO、数据模型、表结构和 guard 补点。
 2. 上述补点已完成六份实现设计总文档的首轮写回，不再只分散在流程说明和权限说明里。
-3. 上述补点已继续下沉到剩余关键联动文档，包括 `phase2-project-handover-gate-workspace.md`、`phase2-commission-stage-gate-overview-workspace.md` 与 `phase2-estimated-to-actual-cost-bridge.md` 的必要补点。
+3. 上述补点已继续下沉到剩余关键联动文档，包括 `../../phase2-project-handover-gate-workspace.md`、`../../phase2-commission-stage-gate-overview-workspace.md` 与 `../../phase2-estimated-to-actual-cost-bridge.md` 的必要补点。
 4. 下一步应在此基础上继续做跨总文档、业务主文档与联动文档的一致性复核，而不是回退到仅保留桥接入口。
 
 换句话说：

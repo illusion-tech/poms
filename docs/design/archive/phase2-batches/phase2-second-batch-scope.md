@@ -1,16 +1,16 @@
 # POMS 第二阶段经营与成本可信源的第二批范围说明
 
-**文档状态**: Active
-**最后更新**: 2026-04-02
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段在第一批主事实稳定后，对第二批经营与成本可信源专题的范围、边界与收口判定说明
 **关联文档**:
 
-- `phase2-review-checklist.md`
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
+- `../../phase2-review-checklist.md`
+- `../../phase2-review-comprehensive-assessment.md`
+- `../../phase2-review-follow-up-plan.md`
 - `phase2-first-batch-scope.md`
 - `phase2-second-batch-implementation-mapping.md`
-- `phase2-experience-optimization-roadmap.md`
+- `../../phase2-experience-optimization-roadmap.md`
 
 ---
 
@@ -44,19 +44,19 @@
 
 | 包                                       | 覆盖问题 | 范围说明                                                             | 最小交付物                                                                                                | 出口判定                                                         |
 | ---------------------------------------- | -------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `B7` 分摊成本与项目共享事实              | `R1-002` | 固定共享来源事实如何按项目分摊、冻结分摊依据并进入项目成本与偏差判断 | 回写 `phase2-cost-source-to-project-record-mapping.md`、`phase2-estimated-to-actual-cost-bridge.md`       | 共享成本不再以来源全额重复进入多个项目，项目级偏差只消费项目份额 |
-| `B8` 执行阶段归属与历史稳定派生          | `R2-002` | 固定成本记录的阶段归属字段、派生优先级、锁定规则和历史解释方式       | 回写 `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`             | 历史阶段视图不因后续项目阶段调整而无痕漂移                       |
-| `B9` 税务影响与财务核算口径              | `R1-004` | 固定进项税、不可抵扣税额、税务待确认项在经营核算中的处理边界         | 回写 `phase2-project-unified-accounting-view-caliber.md`                                                  | 经营毛利与税务影响的口径边界可解释，且不再双重计算               |
-| `B10` 执行中合同变更基线与变更包基线     | `R4-002` | 固定原始签约基线、已批准变更包基线和当前有效基线之间的关系           | 回写 `phase2-estimated-to-actual-cost-bridge.md`、`phase2-project-unified-accounting-view-caliber.md`     | 正式变更与真实超支被明确区分，原始基线不被静默覆盖               |
-| `B11` 时点快照、期末冻结与补录重述       | `R2-003` | 固定实时结果、期末快照和重述快照的关系                               | 回写 `phase2-project-unified-accounting-view-caliber.md`                                                  | 历史经营结果可以稳定回看，补录不会无痕改写历史                   |
-| `B12` 经营公式边界与数据成熟度联动       | `R3-004` | 固定低回款比例、极端值和数据成熟度对经营公式解释的影响               | 回写 `phase2-project-unified-accounting-view-caliber.md`、`phase2-business-accounting-feedback-rules.md`  | 经营毛利率与偏差信号不再脱离成熟度独立乱用                       |
-| `B13` `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | 固定 `PROMPT / REVIEW / BLOCK` 三类动作与提成阶段页的绑定关系        | 回写 `phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md` | 提成页不再自行解释经营信号，阻断和复核留痕口径统一               |
+| `B7` 分摊成本与项目共享事实              | `R1-002` | 固定共享来源事实如何按项目分摊、冻结分摊依据并进入项目成本与偏差判断 | 回写 `../../phase2-cost-source-to-project-record-mapping.md`、`../../phase2-estimated-to-actual-cost-bridge.md`       | 共享成本不再以来源全额重复进入多个项目，项目级偏差只消费项目份额 |
+| `B8` 执行阶段归属与历史稳定派生          | `R2-002` | 固定成本记录的阶段归属字段、派生优先级、锁定规则和历史解释方式       | 回写 `../../phase2-project-actual-cost-records.md`、`../../phase2-actual-cost-accumulation-stage-view.md`             | 历史阶段视图不因后续项目阶段调整而无痕漂移                       |
+| `B9` 税务影响与财务核算口径              | `R1-004` | 固定进项税、不可抵扣税额、税务待确认项在经营核算中的处理边界         | 回写 `../../phase2-project-unified-accounting-view-caliber.md`                                                  | 经营毛利与税务影响的口径边界可解释，且不再双重计算               |
+| `B10` 执行中合同变更基线与变更包基线     | `R4-002` | 固定原始签约基线、已批准变更包基线和当前有效基线之间的关系           | 回写 `../../phase2-estimated-to-actual-cost-bridge.md`、`../../phase2-project-unified-accounting-view-caliber.md`     | 正式变更与真实超支被明确区分，原始基线不被静默覆盖               |
+| `B11` 时点快照、期末冻结与补录重述       | `R2-003` | 固定实时结果、期末快照和重述快照的关系                               | 回写 `../../phase2-project-unified-accounting-view-caliber.md`                                                  | 历史经营结果可以稳定回看，补录不会无痕改写历史                   |
+| `B12` 经营公式边界与数据成熟度联动       | `R3-004` | 固定低回款比例、极端值和数据成熟度对经营公式解释的影响               | 回写 `../../phase2-project-unified-accounting-view-caliber.md`、`../../phase2-business-accounting-feedback-rules.md`  | 经营毛利率与偏差信号不再脱离成熟度独立乱用                       |
+| `B13` `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | 固定 `PROMPT / REVIEW / BLOCK` 三类动作与提成阶段页的绑定关系        | 回写 `../../phase2-business-accounting-feedback-rules.md`、`../../phase2-commission-stage-gate-overview-workspace.md` | 提成页不再自行解释经营信号，阻断和复核留痕口径统一               |
 
 第二批当前定位：
 
 - 第二批不是对第一批的返工，而是对经营可信源的补强
 - 第二批当前已从“仅正式规则回写”推进到“桥接映射 + 六份实现设计总文档首轮写回”阶段，但仍不等于 `L1 ~ L5` 全主线都已完成与第一批同等深度的稳定消费闭环
-- 截至 2026-04-02，上述七个专题已完成主规则回写、`phase2-second-batch-implementation-mapping.md` 桥接映射，以及 `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`、`data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md` 的首轮写回
+- 截至 2026-04-02，上述七个专题已完成主规则回写、`phase2-second-batch-implementation-mapping.md` 桥接映射，以及 `../../interface-command-design.md`、`../../interface-openapi-dto-design.md`、`../../query-view-boundary-design.md`、`../../data-model-prerequisites.md`、`../../table-structure-freeze-design.md`、`../../schema-ddl-design.md` 的首轮写回
 
 ---
 
@@ -97,7 +97,7 @@
 
 1. 第一批六个专题不存在方向级未决策问题。
 2. 第一批七层实现映射已补到可稳定支撑第二批继续下钻的程度。
-3. `phase2-review-follow-up-plan.md` 与本文件对第二批专题范围保持一致。
+3. `../../phase2-review-follow-up-plan.md` 与本文件对第二批专题范围保持一致。
 4. 第二批主回写文档已明确，不再继续拆散成临时讨论结论。
 
 ### 5.2 出场条件
@@ -105,9 +105,9 @@
 第二批完成后至少应满足：
 
 1. 七个专题均已形成正式规则回写并落到主文档。
-2. `phase2-review-follow-up-plan.md` 已同步真实状态。
-3. `poms-design-progress.md` 已同步第一批与第二批的当前阶段判断。
-4. `phase2-detailed-design-index-map.md` 已提供第二批范围入口。
+2. `../../phase2-review-follow-up-plan.md` 已同步真实状态。
+3. `../../poms-design-progress.md` 已同步第一批与第二批的当前阶段判断。
+4. `../../phase2-detailed-design-index-map.md` 已提供第二批范围入口。
 5. 第二批实现映射桥接入口已固定为 `phase2-second-batch-implementation-mapping.md`，且六份实现设计总文档已完成首轮写回，不再停留在桥接层重复定义第二批专题。
 
 ---

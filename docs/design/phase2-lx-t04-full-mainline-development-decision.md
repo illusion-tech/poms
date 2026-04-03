@@ -9,8 +9,8 @@
 - `phase2-mainline-implementation-design-matrix.md`
 - `phase2-review-comprehensive-assessment.md`
 - `phase2-review-follow-up-plan.md`
-- `phase2-first-batch-scope.md`
-- `phase2-first-batch-implementation-mapping.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
 - `phase2-detailed-design-index-map.md`
 - `poms-design-progress.md`
 

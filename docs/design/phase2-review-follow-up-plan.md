@@ -7,12 +7,12 @@
 
 - `phase2-review-checklist.md`
 - `phase2-review-comprehensive-assessment.md`
-- `phase2-first-batch-scope.md`
-- `phase2-first-batch-implementation-mapping.md`
-- `phase2-second-batch-scope.md`
-- `phase2-second-batch-implementation-mapping.md`
-- `phase2-third-batch-scope.md`
-- `phase2-third-batch-implementation-mapping.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
+- `archive/phase2-batches/phase2-second-batch-scope.md`
+- `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+- `archive/phase2-batches/phase2-third-batch-scope.md`
+- `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - `phase2-lx-t04-full-mainline-development-decision.md`
 - `contract-finance-design.md`
 - `phase2-project-unified-accounting-view-caliber.md`
@@ -90,8 +90,8 @@
 - 若第一批未完成正式回写，不应继续推进全主线实现设计
 - 第一批的目标不是一次性写完全部规则，而是先冻结主事实和主边界
 - 截至 2026-04-01，`R4-005`、`R2-001`、`R4-001`、`R2-004`、`R3-002`、`R1-006` 已完成首轮主规则回写、一轮跨文档一致性复核，以及 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard` 七层实现映射回写；当前应作为全主线实现设计的先行输入
-- 第一批进入后续全主线实现设计前的实现映射桥接入口，统一见 `phase2-first-batch-implementation-mapping.md`
-- 第一批范围与出入场条件，统一见 `phase2-first-batch-scope.md`
+- 第一批进入后续全主线实现设计前的实现映射桥接入口，统一见 `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
+- 第一批范围与出入场条件，统一见 `archive/phase2-batches/phase2-first-batch-scope.md`
 
 ---
 
@@ -151,7 +151,7 @@
 第三批当前判断：
 
 - 第三批可并行，但不应反向改写第一批和第二批已冻结的主事实
-- 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `phase2-third-batch-scope.md` 与 `phase2-third-batch-implementation-mapping.md`
+- 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `archive/phase2-batches/phase2-third-batch-scope.md` 与 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 截至当前，`L1` 受控回退结果链、`L3` 再基线化结果链，以及审批摘要 / 例外授权 / 冻结争议公共链已分别补入对应主文档与 `workflow-and-approval-design.md`，第三批跨文档一致性复核与全主线最终一致性复核也已完成，当前进入 `LX-T04` 的统一开发判断与工程启动准备
 
 ---
@@ -173,8 +173,8 @@
 
 当前更稳妥的推进顺序如下：
 
-1. 先以 `phase2-second-batch-implementation-mapping.md` 为桥接入口完成六份实现设计总文档写回；当前该步已完成，下一步转入一致性校验并打开第三批专题实现设计。
-2. 再以 `phase2-third-batch-implementation-mapping.md` 为桥接入口，在六份实现设计总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续推进第三批跨文档一致性复核。
+1. 先以 `archive/phase2-batches/phase2-second-batch-implementation-mapping.md` 为桥接入口完成六份实现设计总文档写回；当前该步已完成，下一步转入一致性校验并打开第三批专题实现设计。
+2. 再以 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md` 为桥接入口，在六份实现设计总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续推进第三批跨文档一致性复核。
 3. 第四批始终以范围限制或 follow-up 方式显式记录，不得默默丢失。
 4. 当前已完成 `L1 ~ L5` 全主线在当前范围内的实现设计与统一开发判断，后续转入按统一范围与切片顺序推进工程实现。
 
@@ -182,7 +182,7 @@
 
 - `phase2-review-checklist.md`
 - `phase2-review-comprehensive-assessment.md`
-- `phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
 - `poms-design-progress.md`
 - `phase2-experience-optimization-roadmap.md`
 - `phase2-detailed-design-index-map.md`

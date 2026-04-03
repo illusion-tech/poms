@@ -1,8 +1,8 @@
 # POMS 第二阶段体验优化路线图
 
-**文档状态**: Ready for Review
-**最后更新**: 2026-03-30
-**适用范围**: `POMS` 第二阶段范围规划前置分析，聚焦体验优化主线、切片顺序、完成标准与阶段回写口径
+**文档状态**: Active
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第二阶段范围规划、主线切片顺序、统一开发判断结果与开发前后状态回写
 **关联文档**:
 
 - 上游设计:
@@ -301,50 +301,50 @@
 
 这部分不是后续待办，而是已经完成的第二阶段基线输入：
 
-| 编号  | 产物                                                          | 当前状态 | 说明                                                     |
-| ----- | ------------------------------------------------------------- | -------- | -------------------------------------------------------- |
-| `B1`  | `phase2-user-task-map.md`                                     | `Done`   | 已形成用户画像、生命周期任务链与体验断点基线             |
-| `B2`  | `phase2-experience-gap-priority-matrix.md`                    | `Done`   | 已形成 `P0/P1` 断点优先级判断                            |
-| `B3`  | `phase2-lifecycle-experience-blueprint.md`                    | `Done`   | 已形成生命周期体验蓝图                                   |
-| `B4`  | `phase2-experience-optimization-roadmap.md`                   | `Done`   | 已形成第二阶段主线和切片路线图                           |
-| `B5`  | `phase2-presigning-workspace-information-architecture.md`     | `Done`   | 已形成签约前统一工作区信息架构草案                       |
-| `B6`  | `phase2-presigning-initiation-advancement-workspace.md`       | `Done`   | 已形成 `立项与推进` 工作区草案                           |
-| `B7`  | `phase2-presigning-project-overview-workspace.md`             | `Done`   | 已形成 `项目总览` 工作区草案                             |
-| `B8`  | `phase2-presigning-technical-cost-workspace.md`               | `Done`   | 已形成 `技术与成本` 工作区草案，并补入税务成本显式表达   |
-| `B9`  | `phase2-presigning-bid-commercial-workspace.md`               | `Done`   | 已形成 `招投标 / 商务竞标` 工作区草案                    |
-| `B10` | `phase2-presigning-pricing-margin-workspace.md`               | `Done`   | 已形成 `报价与毛利评审` 工作区草案                       |
-| `B11` | `phase2-presigning-contract-readiness-workspace.md`           | `Done`   | 已形成 `签约就绪` 工作区草案                             |
-| `B12` | `phase2-presigning-workspace-handoff-map.md`                  | `Done`   | 已形成签约前六工作区承接关系图                           |
-| `B13` | `phase2-presigning-workspace-templates.md`                    | `Done`   | 已形成签约前主线模板层统一口径                           |
-| `B14` | `phase2-execution-cost-workspace-information-architecture.md` | `Done`   | 已形成执行期成本归集工作区信息架构草案                   |
-| `B15` | `phase2-project-actual-cost-records.md`                       | `Done`   | 已形成项目级实际成本记录草案，并固定人力成本汇总归集口径 |
-| `B16` | `phase2-cost-source-to-project-record-mapping.md`             | `Done`   | 已形成四类成本来源映射进统一项目成本记录层的承接口径     |
-| `B17` | `phase2-actual-cost-accumulation-stage-view.md`               | `Done`   | 已形成实际成本累计与阶段视图草案                         |
-| `B18` | `phase2-estimated-to-actual-cost-bridge.md`                   | `Done`   | 已形成估算成本到实际成本的基线版本、映射与偏差解释口径   |
-| `B19` | `phase2-contract-to-handover-workspace.md`                    | `Done`   | 已形成合同生效后到正式移交前的承接工作区草案             |
-| `B20` | `phase2-project-handover-gate-workspace.md`                   | `Done`   | 已形成项目移交强节点草案                                 |
-| `B21` | `phase2-commission-freeze-at-handover.md`                     | `Done`   | 已形成提成角色与权重冻结绑定移交草案                     |
-| `B22` | `phase2-handover-closure-rules.md`                            | `Done`   | 已形成签约到执行收口的统一口径                           |
-| `B23` | `phase2-project-business-outcome-overview.md`                 | `Done`   | 已形成项目经营结果总览草案                               |
-| `B24` | `phase2-project-unified-accounting-view-caliber.md`           | `Done`   | 已形成项目统一核算视图口径草案                           |
-| `B25` | `phase2-project-variance-risk-explanation.md`                 | `Done`   | 已形成项目偏差与风险解释草案                             |
-| `B26` | `phase2-business-accounting-feedback-rules.md`                | `Done`   | 已形成经营核算反哺规则草案                               |
-| `B27` | `phase2-commission-stage-gate-overview-workspace.md`          | `Done`   | 已形成提成阶段总览与 gate 解释工作区草案                 |
-| `B28` | `phase2-commission-staged-payout-adjustment-paths.md`         | `Done`   | 已形成提成分阶段发放与异常调整路径草案                   |
-| `B29` | `phase2-commission-retention-final-settlement.md`             | `Done`   | 已形成提成质保金与最终结算收口草案                       |
-| `B30` | `phase2-commission-rule-explanation-language.md`              | `Done`   | 已形成提成规则可解释表达草案                             |
-| `B31` | `phase2-detailed-design-index-map.md`                         | `Done`   | 已形成第二阶段详细设计索引与主线地图                     |
+| 编号  | 产物                                                          | 当前状态 | 说明                                                        |
+| ----- | ------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
+| `B1`  | `phase2-user-task-map.md`                                     | `Done`   | 已形成用户画像、生命周期任务链与体验断点基线                |
+| `B2`  | `phase2-experience-gap-priority-matrix.md`                    | `Done`   | 已形成 `P0/P1` 断点优先级判断                               |
+| `B3`  | `phase2-lifecycle-experience-blueprint.md`                    | `Done`   | 已形成生命周期体验蓝图                                      |
+| `B4`  | `phase2-experience-optimization-roadmap.md`                   | `Done`   | 已形成第二阶段主线和切片路线图                              |
+| `B5`  | `phase2-presigning-workspace-information-architecture.md`     | `Done`   | 已形成签约前统一工作区信息架构草案                          |
+| `B6`  | `phase2-presigning-workspace-information-architecture.md`     | `Done`   | `立项与推进` 当前由该文档中的对应章节承接，暂未单拆独立文件 |
+| `B7`  | `phase2-presigning-project-overview-workspace.md`             | `Done`   | 已形成 `项目总览` 工作区草案                                |
+| `B8`  | `phase2-presigning-technical-cost-workspace.md`               | `Done`   | 已形成 `技术与成本` 工作区草案，并补入税务成本显式表达      |
+| `B9`  | `phase2-presigning-bid-commercial-workspace.md`               | `Done`   | 已形成 `招投标 / 商务竞标` 工作区草案                       |
+| `B10` | `phase2-presigning-pricing-margin-workspace.md`               | `Done`   | 已形成 `报价与毛利评审` 工作区草案                          |
+| `B11` | `phase2-presigning-contract-readiness-workspace.md`           | `Done`   | 已形成 `签约就绪` 工作区草案                                |
+| `B12` | `phase2-presigning-workspace-handoff-map.md`                  | `Done`   | 已形成签约前六工作区承接关系图                              |
+| `B13` | `phase2-presigning-workspace-templates.md`                    | `Done`   | 已形成签约前主线模板层统一口径                              |
+| `B14` | `phase2-execution-cost-workspace-information-architecture.md` | `Done`   | 已形成执行期成本归集工作区信息架构草案                      |
+| `B15` | `phase2-project-actual-cost-records.md`                       | `Done`   | 已形成项目级实际成本记录草案，并固定人力成本汇总归集口径    |
+| `B16` | `phase2-cost-source-to-project-record-mapping.md`             | `Done`   | 已形成四类成本来源映射进统一项目成本记录层的承接口径        |
+| `B17` | `phase2-actual-cost-accumulation-stage-view.md`               | `Done`   | 已形成实际成本累计与阶段视图草案                            |
+| `B18` | `phase2-estimated-to-actual-cost-bridge.md`                   | `Done`   | 已形成估算成本到实际成本的基线版本、映射与偏差解释口径      |
+| `B19` | `phase2-contract-to-handover-workspace.md`                    | `Done`   | 已形成合同生效后到正式移交前的承接工作区草案                |
+| `B20` | `phase2-project-handover-gate-workspace.md`                   | `Done`   | 已形成项目移交强节点草案                                    |
+| `B21` | `phase2-commission-freeze-at-handover.md`                     | `Done`   | 已形成提成角色与权重冻结绑定移交草案                        |
+| `B22` | `phase2-handover-closure-rules.md`                            | `Done`   | 已形成签约到执行收口的统一口径                              |
+| `B23` | `phase2-project-business-outcome-overview.md`                 | `Done`   | 已形成项目经营结果总览草案                                  |
+| `B24` | `phase2-project-unified-accounting-view-caliber.md`           | `Done`   | 已形成项目统一核算视图口径草案                              |
+| `B25` | `phase2-project-variance-risk-explanation.md`                 | `Done`   | 已形成项目偏差与风险解释草案                                |
+| `B26` | `phase2-business-accounting-feedback-rules.md`                | `Done`   | 已形成经营核算反哺规则草案                                  |
+| `B27` | `phase2-commission-stage-gate-overview-workspace.md`          | `Done`   | 已形成提成阶段总览与 gate 解释工作区草案                    |
+| `B28` | `phase2-commission-staged-payout-adjustment-paths.md`         | `Done`   | 已形成提成分阶段发放与异常调整路径草案                      |
+| `B29` | `phase2-commission-retention-final-settlement.md`             | `Done`   | 已形成提成质保金与最终结算收口草案                          |
+| `B30` | `phase2-commission-rule-explanation-language.md`              | `Done`   | 已形成提成规则可解释表达草案                                |
+| `B31` | `phase2-detailed-design-index-map.md`                         | `Done`   | 已形成第二阶段详细设计索引与主线地图                        |
 
 ### 6.1 `L1` 签约前统一工作区
 
-| 编号     | 任务                                  | 当前状态 | 备注                                                           |
-| -------- | ------------------------------------- | -------- | -------------------------------------------------------------- |
-| `L1-T01` | 补 `立项与推进` 工作区详细草案        | `Done`   | 已产出 `phase2-presigning-initiation-advancement-workspace.md` |
-| `L1-T02` | 补 `招投标 / 商务竞标` 工作区详细草案 | `Done`   | 已产出 `phase2-presigning-bid-commercial-workspace.md`         |
-| `L1-T03` | 补 `报价与毛利评审` 工作区详细草案    | `Done`   | 已产出 `phase2-presigning-pricing-margin-workspace.md`         |
-| `L1-T04` | 补 `签约就绪` 工作区详细草案          | `Done`   | 已产出 `phase2-presigning-contract-readiness-workspace.md`     |
-| `L1-T05` | 回看并统一六个工作区承接关系          | `Done`   | 已产出 `phase2-presigning-workspace-handoff-map.md`            |
-| `L1-T06` | 补模板类文档                          | `Done`   | 已产出 `phase2-presigning-workspace-templates.md`              |
+| 编号     | 任务                                  | 当前状态 | 备注                                                                                        |
+| -------- | ------------------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `L1-T01` | 补 `立项与推进` 工作区详细草案        | `Done`   | 当前由 `phase2-presigning-workspace-information-architecture.md` 中的 `立项与推进` 章节承接 |
+| `L1-T02` | 补 `招投标 / 商务竞标` 工作区详细草案 | `Done`   | 已产出 `phase2-presigning-bid-commercial-workspace.md`                                      |
+| `L1-T03` | 补 `报价与毛利评审` 工作区详细草案    | `Done`   | 已产出 `phase2-presigning-pricing-margin-workspace.md`                                      |
+| `L1-T04` | 补 `签约就绪` 工作区详细草案          | `Done`   | 已产出 `phase2-presigning-contract-readiness-workspace.md`                                  |
+| `L1-T05` | 回看并统一六个工作区承接关系          | `Done`   | 已产出 `phase2-presigning-workspace-handoff-map.md`                                         |
+| `L1-T06` | 补模板类文档                          | `Done`   | 已产出 `phase2-presigning-workspace-templates.md`                                           |
 
 ### 6.2 `L2` 执行期成本归集主线
 
@@ -385,12 +385,12 @@
 
 ### 6.6 全局收口
 
-| 编号     | 任务                                                   | 当前状态 | 备注                                                                                                                                                                     |
-| -------- | ------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `LX-T01` | 回收成统一“第二阶段详细设计索引 / 主线地图”            | `Done`   | 已产出 `phase2-detailed-design-index-map.md`                                                                                                                             |
-| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `phase2-review-checklist.md`                                                                                     |
-| `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与 `phase2-first-batch-scope.md` |
-| `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Done`   | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；已完成统一开发判断并给出 Go 结论，旧的首批受控实现排期判断继续保留为归档输入                           |
+| 编号     | 任务                                                   | 当前状态 | 备注                                                                                                                                                                                            |
+| -------- | ------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LX-T01` | 回收成统一“第二阶段详细设计索引 / 主线地图”            | `Done`   | 已产出 `phase2-detailed-design-index-map.md`                                                                                                                                                    |
+| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `phase2-review-checklist.md`                                                                                                            |
+| `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` |
+| `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Done`   | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；已完成统一开发判断并给出 Go 结论，旧的首批受控实现排期判断继续保留为归档输入                                                  |
 
 ### 6.7 当前明确不展开的方向
 

@@ -9,10 +9,10 @@
   - `poms-requirements-spec.md`
   - `poms-hld.md`
   - `poms-design-progress.md`
-  - `design-review-follow-up-summary.md`
-  - `phase2-first-batch-implementation-mapping.md`
-  - `phase2-second-batch-implementation-mapping.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/reviews/design-review-follow-up-summary.md`
+  - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `interface-command-design.md`
   - `project-lifecycle-design.md`

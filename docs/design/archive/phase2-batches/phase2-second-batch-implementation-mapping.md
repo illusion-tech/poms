@@ -1,24 +1,24 @@
 # POMS 第二阶段第二批实现映射准备
 
-**文档状态**: Active
-**最后更新**: 2026-04-02
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段第二批七个经营与成本可信源专题完成主规则回写后，进入与第一批同等深度实现设计前的映射准备
 **关联文档**:
 
 - 上游设计:
-  - `phase2-review-checklist.md`
-  - `phase2-review-comprehensive-assessment.md`
-  - `phase2-review-follow-up-plan.md`
+  - `../../phase2-review-checklist.md`
+  - `../../phase2-review-comprehensive-assessment.md`
+  - `../../phase2-review-follow-up-plan.md`
   - `phase2-second-batch-scope.md`
-  - `phase2-mainline-implementation-design-matrix.md`
+  - `../../phase2-mainline-implementation-design-matrix.md`
 - 同级设计:
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `query-view-boundary-design.md`
-  - `data-model-prerequisites.md`
-  - `table-structure-freeze-design.md`
-  - `schema-ddl-design.md`
-  - `implementation-delivery-guide.md`
+  - `../../interface-command-design.md`
+  - `../../interface-openapi-dto-design.md`
+  - `../../query-view-boundary-design.md`
+  - `../../data-model-prerequisites.md`
+  - `../../table-structure-freeze-design.md`
+  - `../../schema-ddl-design.md`
+  - `../../implementation-delivery-guide.md`
 
 ---
 
@@ -159,7 +159,7 @@
 
 #### 读侧建议
 
-- `phase2-actual-cost-accumulation-stage-view.md` 对应读模型至少应返回：
+- `../../phase2-actual-cost-accumulation-stage-view.md` 对应读模型至少应返回：
   - 当前阶段归属
   - 锁定来源
   - 派生优先级
@@ -334,16 +334,16 @@
 
 截至 2026-04-02，第二批桥接映射已经完成首轮写回，不再只停留在桥接层描述。当前已完成以下总文档补点：
 
-1. `interface-command-design.md`
+1. `../../interface-command-design.md`
   已补第二批专用命令边界，覆盖共享分摊、阶段归属、税务处理、经营基线切换、期末冻结 / 重述与 gate 复核。
 
-2. `interface-openapi-dto-design.md`
+2. `../../interface-openapi-dto-design.md`
   已补第二批命令 DTO 草案，覆盖分摊依据 / 项目份额、阶段归属 / 重分类、税务处理、时点快照 / 期末 / 重述与 gate 绑定字段边界。
 
-3. `query-view-boundary-design.md`
+3. `../../query-view-boundary-design.md`
   已补第二批查询视图，覆盖共享分摊详情、阶段归属历史、`ProjectOperatingAsOfView`、经营信号解释与 gate 绑定历史视图。
 
-4. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`
+4. `../../data-model-prerequisites.md`、`../../table-structure-freeze-design.md`、`../../schema-ddl-design.md`
   已补第二批涉及的分摊依据、阶段归属快照、税务处理快照、经营基线包、期末快照、重述记录、经营信号结果和 gate 复核记录。
 
 ---
@@ -367,7 +367,7 @@
 更合理的下一步是：
 
 1. 继续校验 `L2 / L4 / L5` 在 command、query、DTO、数据模型、表结构和 DDL 层的口径一致性。
-2. 把第二批补点从“总文档已写回”推进到“主线文档可稳定消费”的收敛状态；当前 `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-variance-risk-explanation.md`、`phase2-business-accounting-feedback-rules.md` 与 `phase2-commission-stage-gate-overview-workspace.md` 已显式补齐税务影响、基线版本、动作等级与时点快照的消费 / 传递，`phase2-commission-freeze-at-handover.md` 也已补齐与移交前有效基线的联合追溯。
+2. 把第二批补点从“总文档已写回”推进到“主线文档可稳定消费”的收敛状态；当前 `../../phase2-project-actual-cost-records.md`、`../../phase2-actual-cost-accumulation-stage-view.md`、`../../phase2-project-business-outcome-overview.md`、`../../phase2-project-variance-risk-explanation.md`、`../../phase2-business-accounting-feedback-rules.md` 与 `../../phase2-commission-stage-gate-overview-workspace.md` 已显式补齐税务影响、基线版本、动作等级与时点快照的消费 / 传递，`../../phase2-commission-freeze-at-handover.md` 也已补齐与移交前有效基线的联合追溯。
 3. 在不反向推翻第一批和第二批主事实的前提下，继续并行推进仍属于当前范围的第三批专题实现设计。
 
 换句话说：

@@ -6,10 +6,10 @@
 **关联文档**:
 
 - `phase2-review-checklist.md`
-- `phase2-review-record-round1.md`
-- `phase2-review-record-round2.md`
-- `phase2-review-record-round3.md`
-- `phase2-review-record-round4.md`
+- `archive/reviews/phase2-review-record-round1.md`
+- `archive/reviews/phase2-review-record-round2.md`
+- `archive/reviews/phase2-review-record-round3.md`
+- `archive/reviews/phase2-review-record-round4.md`
 - `contract-finance-design.md`
 - `phase2-commission-freeze-at-handover.md`
 - `phase2-project-unified-accounting-view-caliber.md`

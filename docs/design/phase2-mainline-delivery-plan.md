@@ -17,12 +17,12 @@
   - `phase2-review-comprehensive-assessment.md`
   - `phase2-review-follow-up-plan.md`
   - `phase2-mainline-task-tracker.md`
-  - `phase2-first-batch-scope.md`
-  - `phase2-first-batch-implementation-mapping.md`
-  - `phase2-second-batch-scope.md`
-  - `phase2-second-batch-implementation-mapping.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-first-batch-scope.md`
+  - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-second-batch-scope.md`
+  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 实现设计:
   - `phase2-mainline-implementation-design-matrix.md`
   - `interface-command-design.md`
@@ -150,7 +150,7 @@
 
 这一阶段的成果包括：
 
-- `phase2-review-record-round1.md` 到 `phase2-review-record-round4.md`
+- `archive/reviews/phase2-review-record-round1.md` 到 `archive/reviews/phase2-review-record-round4.md`
 - `phase2-review-checklist.md`
 
 ### 4.3 问题综合评估与批次划分
@@ -161,7 +161,7 @@
 
 - `phase2-review-comprehensive-assessment.md`
 - `phase2-review-follow-up-plan.md`
-- `phase2-first-batch-scope.md`
+- `archive/phase2-batches/phase2-first-batch-scope.md`
 
 这里要补一个关键原则：
 

@@ -11,7 +11,6 @@
   - `phase2-experience-optimization-roadmap.md`
   - `phase2-lifecycle-experience-blueprint.md`
 - 同级设计:
-  - `phase2-presigning-initiation-advancement-workspace.md`
   - `phase2-presigning-project-overview-workspace.md`
   - `phase2-presigning-technical-cost-workspace.md`
   - `phase2-presigning-bid-commercial-workspace.md`

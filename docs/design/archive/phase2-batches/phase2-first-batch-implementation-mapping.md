@@ -1,24 +1,24 @@
 # POMS 第二阶段第一批实现映射准备
 
-**文档状态**: Active
-**最后更新**: 2026-04-01
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段第一批六个前置专题完成主规则回写与交叉复核后，作为全主线实现设计先行输入的实现映射准备
 **关联文档**:
 
 - 上游设计:
-  - `phase2-review-checklist.md`
-  - `phase2-review-comprehensive-assessment.md`
-  - `phase2-review-follow-up-plan.md`
+  - `../../phase2-review-checklist.md`
+  - `../../phase2-review-comprehensive-assessment.md`
+  - `../../phase2-review-follow-up-plan.md`
   - `phase2-first-batch-scope.md`
-  - `phase2-data-permission-and-sensitive-visibility-design.md`
+  - `../../phase2-data-permission-and-sensitive-visibility-design.md`
 - 同级设计:
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `query-view-boundary-design.md`
-  - `data-model-prerequisites.md`
-  - `table-structure-freeze-design.md`
-  - `schema-ddl-design.md`
-  - `implementation-delivery-guide.md`
+  - `../../interface-command-design.md`
+  - `../../interface-openapi-dto-design.md`
+  - `../../query-view-boundary-design.md`
+  - `../../data-model-prerequisites.md`
+  - `../../table-structure-freeze-design.md`
+  - `../../schema-ddl-design.md`
+  - `../../implementation-delivery-guide.md`
 
 ---
 
@@ -263,7 +263,7 @@
   - 发布成本率版本
   - 归集 `LABOR` 成本记录
   - 必要时创建替代记录 / 重算候选
-- 这些动作当前还未在 `interface-command-design.md` 中显式列出，是实现映射阶段必须补的缺口。
+- 这些动作当前还未在 `../../interface-command-design.md` 中显式列出，是实现映射阶段必须补的缺口。
 
 #### 读侧建议
 
@@ -334,27 +334,27 @@
 
 第一批继续作为全主线实现设计输入前，建议至少把以下补点写回实现设计总文档：
 
-1. `interface-command-design.md`
+1. `../../interface-command-design.md`
    补第二阶段第一批专用命令，尤其是：
    - 商业放行基线复核
    - 承接包初始化
    - 成本率版本发布 / 替代
 
-2. `interface-openapi-dto-design.md`
+2. `../../interface-openapi-dto-design.md`
    补第二阶段第一批 DTO 边界，尤其是：
    - 差异校验 / 复核 DTO
    - `AcceptanceRecord` 引用 DTO
    - `LABOR` 记录与成本率版本 DTO
    - 字段可见等级投影规则
 
-3. `query-view-boundary-design.md`
+3. `../../query-view-boundary-design.md`
    补第二阶段第一批查询视图，尤其是：
    - `PricingReviewDetailView`
    - `ContractReadinessDetailView`
    - `ProjectOperatingView` 的敏感字段投影规则
    - `CommissionStageGateView`
 
-4. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`
+4. `../../data-model-prerequisites.md`、`../../table-structure-freeze-design.md`、`../../schema-ddl-design.md`
    补第一批涉及的版本、快照、差异结果、冻结记录、证据链、成本率版本和导出审计对象。
 
 ---

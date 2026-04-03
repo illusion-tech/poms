@@ -10,10 +10,9 @@
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-experience-optimization-roadmap.md`
   - `phase2-experience-gap-priority-matrix.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 同级设计:
-  - `phase2-presigning-initiation-advancement-workspace.md`
   - `phase2-presigning-project-overview-workspace.md`
   - `phase2-presigning-technical-cost-workspace.md`
   - `phase2-presigning-bid-commercial-workspace.md`

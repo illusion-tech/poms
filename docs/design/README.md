@@ -39,8 +39,7 @@
 - `phase2-experience-gap-priority-matrix.md`：第二阶段体验断点与优先级矩阵，负责明确先优化什么、为什么
 - `phase2-lifecycle-experience-blueprint.md`：第二阶段项目全生命周期体验蓝图，负责明确主体验主线、阶段承接点与系统连续工作方式
 - `phase2-experience-optimization-roadmap.md`：第二阶段体验优化路线图，负责把主体验主线拆成切片、推进顺序与完成标准
-- `phase2-presigning-workspace-information-architecture.md`：第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系
-- `phase2-presigning-initiation-advancement-workspace.md`：第二阶段签约前立项与推进工作区草案，负责细化立项输入、审批摘要、条件项、整改清单与进入下一阶段提示
+- `phase2-presigning-workspace-information-architecture.md`：第二阶段签约前统一工作区信息架构草案，负责细化 `L1-S1 ~ L1-S3` 的顶层入口、工作区结构与承接关系；其中当前也承接 `立项与推进` 章节的细化说明
 - `phase2-presigning-project-overview-workspace.md`：第二阶段签约前项目总览工作区草案，负责细化签约前驾驶舱的摘要、阻断、行动与协作结构
 - `phase2-presigning-technical-cost-workspace.md`：第二阶段签约前技术与成本工作区草案，负责细化技术判断、范围快照、风险和前期成本估算结构
 - `phase2-presigning-bid-commercial-workspace.md`：第二阶段签约前招投标与商务竞标工作区草案，负责细化多形态竞标的统一骨架、协作过程、版本与结果流转
@@ -102,13 +101,15 @@
 
 当前文档包括：
 
-- `design-convergence-review-checklist.md`：设计收口与评审前一致性清单
-- `design-review-execution-checklist.md`：详细设计评审执行清单
-- `design-review-follow-up-summary.md`：首轮正式评审后的 follow-up 归并与实现前补齐边界
+- `phase2-review-comprehensive-assessment.md`：第二阶段正式审阅综合评估，负责把四轮问题收敛为优先级判断与统一结论
+- `phase2-review-follow-up-plan.md`：第二阶段正式审阅 follow-up 清单，负责承接专题拆分、跨文档收口与已完成项归并
 - `phase2-review-checklist.md`：第二阶段正式审阅清单，负责收敛 phase2 基线文档的审阅范围、审阅维度、问题记录与结论入口
+- `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划，负责统一主线目标、阶段状态与当前实施入口
+- `phase2-mainline-implementation-design-matrix.md`：第二阶段主线实现设计证明矩阵，负责证明各主线已具备进入开发的设计闭环
+- `phase2-mainline-task-tracker.md`：第二阶段主线任务收口记录，负责保留 `L1 ~ L5` 与 `LX-01 / LX-T04` 的完成轨迹
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出是否进入开发的正式结论
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
-- `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，聚焦远期目标、中期里程碑与近期实施重点
+- `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 ## 命名规则
@@ -239,47 +240,32 @@
 2. 再回看相关 ADR
 3. 最后结合评审清单与授权矩阵进行收口检查
 
+如果读者的目标是参与当前第二阶段工程实现，则建议改为：
+
+1. 先读 `README.md`
+2. 再读 `poms-design-progress.md`
+3. 再读 `phase2-lx-t04-full-mainline-development-decision.md`
+4. 再读 `phase2-mainline-delivery-plan.md`
+5. 再读 `phase2-detailed-design-index-map.md`
+6. 再读 `implementation-delivery-guide.md`
+7. 最后按业务域主文档与六份实现设计总文档进入具体实现
+8. 仅在需要过程回溯时，再进入 `archive/README.md`
+
 ## 当前目录索引
 
-### 基线设计
+当前目录已经按“当前正式输入优先、历史过程资产归档”完成第一轮整理。
+
+### 当前正式输入
+
+#### 基线与导航入口
 
 - `poms-requirements-spec.md`
 - `poms-hld.md`
 - `poms-design-progress.md`
-- `poms-phase1-delivery-roadmap.md`
-- `phase2-user-task-map.md`
-- `phase2-experience-gap-priority-matrix.md`
-- `phase2-lifecycle-experience-blueprint.md`
 - `phase2-experience-optimization-roadmap.md`
-- `phase2-presigning-workspace-information-architecture.md`
-- `phase2-presigning-initiation-advancement-workspace.md`
-- `phase2-presigning-project-overview-workspace.md`
-- `phase2-presigning-technical-cost-workspace.md`
-- `phase2-presigning-bid-commercial-workspace.md`
-- `phase2-presigning-pricing-margin-workspace.md`
-- `phase2-presigning-contract-readiness-workspace.md`
-- `phase2-presigning-workspace-handoff-map.md`
-- `phase2-presigning-workspace-templates.md`
-- `phase2-execution-cost-workspace-information-architecture.md`
-- `phase2-project-actual-cost-records.md`
-- `phase2-cost-source-to-project-record-mapping.md`
-- `phase2-actual-cost-accumulation-stage-view.md`
-- `phase2-estimated-to-actual-cost-bridge.md`
-- `phase2-contract-to-handover-workspace.md`
-- `phase2-project-handover-gate-workspace.md`
-- `phase2-commission-freeze-at-handover.md`
-- `phase2-handover-closure-rules.md`
-- `phase2-project-business-outcome-overview.md`
-- `phase2-project-unified-accounting-view-caliber.md`
-- `phase2-project-variance-risk-explanation.md`
-- `phase2-business-accounting-feedback-rules.md`
-- `phase2-commission-stage-gate-overview-workspace.md`
-- `phase2-commission-staged-payout-adjustment-paths.md`
-- `phase2-commission-retention-final-settlement.md`
-- `phase2-commission-rule-explanation-language.md`
 - `phase2-detailed-design-index-map.md`
 
-### 业务域设计
+#### 业务域与实现设计
 
 - `project-lifecycle-design.md`
 - `contract-finance-design.md`
@@ -292,49 +278,46 @@
 - `table-structure-freeze-design.md`
 - `schema-ddl-design.md`
 
-### 治理与横切设计
+#### 治理与横切
 
 - `business-authorization-matrix.md`
 - `phase2-data-permission-and-sensitive-visibility-design.md`
+- `runtime-audit-and-security-event-design.md`
 - `platform-governance/README.md`
 
-### 评审与治理文档
+#### 控制与实施入口
 
-- `design-convergence-review-checklist.md`
-- `design-review-execution-checklist.md`
-- `design-review-follow-up-summary.md`
+- `phase2-review-comprehensive-assessment.md`
+- `phase2-review-follow-up-plan.md`
 - `phase2-review-checklist.md`
+- `phase2-mainline-delivery-plan.md`
+- `phase2-mainline-implementation-design-matrix.md`
+- `phase2-mainline-task-tracker.md`
+- `phase2-lx-t04-full-mainline-development-decision.md`
 - `implementation-delivery-guide.md`
-- `poms-phase1-delivery-roadmap.md`
 
-### 治理与横切设计
+### 已归档过程资产
 
-- `business-authorization-matrix.md`
-- `platform-governance/README.md`
-
-### 评审与治理文档
-
-- `design-convergence-review-checklist.md`
-- `design-review-execution-checklist.md`
-- `design-review-follow-up-summary.md`
-- `phase2-review-checklist.md`
+- `archive/README.md`
+- `archive/reviews/`：已完成使命的评审清单、评审摘要、分轮审阅记录与已撤销历史判断
+- `archive/phase2-batches/`：第一批、第二批、第三批范围说明与实现映射桥接文档
 
 ## 后续演进建议
 
-当前阶段先不调整现有文件路径，仅统一目录治理约定。
+当前阶段已经建立 `archive/` 子目录，把高噪声过程文档移出根目录。
 
 后续若文档继续扩张，可按需要逐步演进为显式子目录，例如：
 
 - `foundation/`
 - `domains/`
 - `governance/`
-- `reviews/`
+- `controls/`
 
 但在目录迁移之前，应先保证：
 
-- 文档分类口径已经稳定
-- 现有文档之间的引用关系已清楚
-- README 已能承担稳定索引作用
+- 当前正式输入集合已经稳定
+- 归档与当前输入的边界已经清楚
+- README 与进度板都能承担稳定索引作用
 
 ## 维护约定
 

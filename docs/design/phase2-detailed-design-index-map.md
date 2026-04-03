@@ -1,8 +1,8 @@
 # POMS 第二阶段详细设计索引与主线地图
 
-**文档状态**: Ready for Review
-**最后更新**: 2026-04-03
-**适用范围**: `POMS` 第二阶段 `LX-T01` 全局收口草案，聚焦详细设计索引、主线地图与当前基线完成状态
+**文档状态**: Active
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第二阶段当前正式索引入口，聚焦详细设计索引、主线地图、归档入口与当前正式输入
 **关联文档**:
 
 - 上游设计:
@@ -10,10 +10,10 @@
   - `phase2-mainline-delivery-plan.md`
   - `phase2-mainline-implementation-design-matrix.md`
   - `phase2-lx-t04-full-mainline-development-decision.md`
-  - `phase2-second-batch-scope.md`
-  - `phase2-second-batch-implementation-mapping.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-second-batch-scope.md`
+  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-user-task-map.md`
   - `phase2-experience-gap-priority-matrix.md`
@@ -84,7 +84,7 @@
 ### 4.2 当前文档清单
 
 - [phase2-presigning-workspace-information-architecture.md](/e:/projects/poms/docs/design/phase2-presigning-workspace-information-architecture.md)
-- [phase2-presigning-initiation-advancement-workspace.md](/e:/projects/poms/docs/design/phase2-presigning-initiation-advancement-workspace.md)
+- [phase2-presigning-workspace-information-architecture.md（含立项与推进章节）](/e:/projects/poms/docs/design/phase2-presigning-workspace-information-architecture.md)
 - [phase2-presigning-project-overview-workspace.md](/e:/projects/poms/docs/design/phase2-presigning-project-overview-workspace.md)
 - [phase2-presigning-technical-cost-workspace.md](/e:/projects/poms/docs/design/phase2-presigning-technical-cost-workspace.md)
 - [phase2-presigning-bid-commercial-workspace.md](/e:/projects/poms/docs/design/phase2-presigning-bid-commercial-workspace.md)
@@ -250,8 +250,8 @@
 1. 以综合评估、follow-up 清单和第一批范围说明为依据，继续回写 `P0 / P1` 正式规则和实现设计输入
 2. 保留第一批六个前置专题作为实现设计先行输入，继续扩展第二批经营与成本可信源专题，并在 `L1` 受控回退结果链、`L3` 再基线化结果链与审批公共链已补入主文档 / 联动文档的基础上，继续推进第三批流程健壮性与审批增强专题的跨文档一致性复核
 3. `LX-T04` 判断当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
-4. 第二批经营与成本可信源专题当前范围统一见 `phase2-second-batch-scope.md`，实现映射桥接入口统一见 `phase2-second-batch-implementation-mapping.md`
-5. 第三批流程健壮性与审批增强专题当前范围统一见 `phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回、关键业务主文档首轮写回，以及审批摘要 / 例外授权 / 冻结争议公共链等关键联动补点统一见 `phase2-third-batch-implementation-mapping.md`
+4. 第二批经营与成本可信源专题当前范围统一见 `archive/phase2-batches/phase2-second-batch-scope.md`，实现映射桥接入口统一见 `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+5. 第三批流程健壮性与审批增强专题当前范围统一见 `archive/phase2-batches/phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回、关键业务主文档首轮写回，以及审批摘要 / 例外授权 / 冻结争议公共链等关键联动补点统一见 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 6. 当前已完成 `L1 ~ L5` 全主线在当前范围内的实现设计，并已统一决定进入开发
 
 在这个基础上，第二阶段才能从“设计已经很多”推进到“设计已经可执行”。

@@ -1,16 +1,16 @@
 # POMS 第二阶段第一批硬前置专题范围说明
 
-**文档状态**: Active
-**最后更新**: 2026-04-01
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段正式审阅回写后，为降低全主线实现设计返工而先行冻结的第一批硬前置专题范围、边界与出入场条件说明
 **关联文档**:
 
-- `phase2-review-checklist.md`
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
+- `../../phase2-review-checklist.md`
+- `../../phase2-review-comprehensive-assessment.md`
+- `../../phase2-review-follow-up-plan.md`
 - `phase2-first-batch-implementation-mapping.md`
 - `phase2-second-batch-scope.md`
-- `phase2-experience-optimization-roadmap.md`
+- `../../phase2-experience-optimization-roadmap.md`
 
 ---
 
@@ -44,12 +44,12 @@
 
 | 包                                                                  | 覆盖问题 | 范围说明                                                           | 最小交付物                                                                                                                                                                                                                              | 出口判定                                                        |
 | ------------------------------------------------------------------- | -------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `B1` 多合同项目主假设与冻结模式                                     | `R4-005` | 固定项目汇总、合同拆解、回款判断模式冻结以及 `L3/L4/L5` 展示一致性 | 回写 `contract-finance-design.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-commission-stage-gate-overview-workspace.md` | 项目级汇总与合同级钻取不冲突，冻结模式在关键页面可解释          |
-| `B2` `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | 固定签约就绪输出哪些结构化字段，如何初始化合同条款快照和应收计划   | 回写 `phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                                                                  | 从签约前放行到合同 / 应收计划生成存在明确对象链                 |
-| `B3` 商业放行基线与合同差异校验                                     | `R4-001` | 固定已放行商业结论与最终合同条款之间的比对字段、阈值和重审触发     | 回写 `phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`                                                                                                                               | 已能回答哪些偏差仅提示、哪些需复核、哪些必须重审                |
-| `B4` 第二阶段验收 / 阶段成果确认对象                                | `R2-004` | 固定第二阶段提成 `gate` 所依赖的对象、确认动作、证据链与审批留痕   | 回写 `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已明确复用 `AcceptanceRecord`，第二阶段发放判断不再依赖口头解释 |
-| `B5` `internalCostRate` 治理基线                                    | `R3-002` | 固定人力成本率的来源、版本、生效时间和历史处理口径                 | 回写 `phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已具备可追溯、可回放、可解释的人力成本可信基础                  |
-| `B6` 敏感数据主边界与最小可见集                                     | `R1-006` | 已固定跨角色敏感字段边界、遮罩规则和审批最小可见基线               | 回写 `phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 非财务 / 非销售负责人不会因首批落地而获取不应暴露的经营敏感信息 |
+| `B1` 多合同项目主假设与冻结模式                                     | `R4-005` | 固定项目汇总、合同拆解、回款判断模式冻结以及 `L3/L4/L5` 展示一致性 | 回写 `../../contract-finance-design.md`、`../../phase2-contract-to-handover-workspace.md`、`../../phase2-project-business-outcome-overview.md`、`../../phase2-project-unified-accounting-view-caliber.md`、`../../phase2-commission-stage-gate-overview-workspace.md` | 项目级汇总与合同级钻取不冲突，冻结模式在关键页面可解释          |
+| `B2` `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | 固定签约就绪输出哪些结构化字段，如何初始化合同条款快照和应收计划   | 回写 `../../phase2-presigning-contract-readiness-workspace.md`、`../../contract-finance-design.md`                                                                                                                                                  | 从签约前放行到合同 / 应收计划生成存在明确对象链                 |
+| `B3` 商业放行基线与合同差异校验                                     | `R4-001` | 固定已放行商业结论与最终合同条款之间的比对字段、阈值和重审触发     | 回写 `../../phase2-presigning-pricing-margin-workspace.md`、`../../phase2-presigning-contract-readiness-workspace.md`                                                                                                                               | 已能回答哪些偏差仅提示、哪些需复核、哪些必须重审                |
+| `B4` 第二阶段验收 / 阶段成果确认对象                                | `R2-004` | 固定第二阶段提成 `gate` 所依赖的对象、确认动作、证据链与审批留痕   | 回写 `../../phase2-commission-stage-gate-overview-workspace.md`、`../../phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已明确复用 `AcceptanceRecord`，第二阶段发放判断不再依赖口头解释 |
+| `B5` `internalCostRate` 治理基线                                    | `R3-002` | 固定人力成本率的来源、版本、生效时间和历史处理口径                 | 回写 `../../phase2-project-actual-cost-records.md`、`../../phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已具备可追溯、可回放、可解释的人力成本可信基础                  |
+| `B6` 敏感数据主边界与最小可见集                                     | `R1-006` | 已固定跨角色敏感字段边界、遮罩规则和审批最小可见基线               | 回写 `../../phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 非财务 / 非销售负责人不会因首批落地而获取不应暴露的经营敏感信息 |
 
 第一批当前定位：
 
@@ -93,7 +93,7 @@
 
 第一批开始前应满足：
 
-1. `phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与本文件口径一致。
+1. `../../phase2-review-comprehensive-assessment.md`、`../../phase2-review-follow-up-plan.md` 与本文件口径一致。
 2. 多合同、交易链条最小覆盖范围和回款判断模式冻结三项业务前提不再反复摇摆。
 3. 第一批六个专题的主回写文档已明确。
 4. 第一批实现映射入口已明确，并可继续回写到接口、查询与表结构设计。
@@ -103,8 +103,8 @@
 第一批完成后至少应满足：
 
 1. 六个专题均已形成正式规则回写并完成交叉复核。
-2. `phase2-review-checklist.md` 已同步综合状态与批次判断。
-3. `poms-design-progress.md` 已同步真实阶段状态。
+2. `../../phase2-review-checklist.md` 已同步综合状态与批次判断。
+3. `../../poms-design-progress.md` 已同步真实阶段状态。
 4. 不再存在阻断第一批继续作为实现设计输入的方向级未决策问题。
 5. `phase2-first-batch-implementation-mapping.md` 中的关键补点已完成“是否足以继续支撑全主线实现设计”的判断。
 

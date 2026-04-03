@@ -8,8 +8,8 @@
 - 上游设计:
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-experience-optimization-roadmap.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
   - `phase2-presigning-contract-readiness-workspace.md`
   - `phase2-presigning-workspace-handoff-map.md`
   - `phase2-estimated-to-actual-cost-bridge.md`

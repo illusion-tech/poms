@@ -12,10 +12,10 @@
 - 审阅与收口:
   - `phase2-review-comprehensive-assessment.md`
   - `phase2-review-follow-up-plan.md`
-  - `phase2-first-batch-scope.md`
-  - `phase2-first-batch-implementation-mapping.md`
-  - `phase2-second-batch-scope.md`
-  - `phase2-second-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-first-batch-scope.md`
+  - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-second-batch-scope.md`
+  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
 - 实现设计总文档:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -121,7 +121,7 @@
 `L1` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-presigning-initiation-advancement-workspace.md`
+   - `phase2-presigning-workspace-information-architecture.md`（其中包含 `立项与推进` 章节）
    - `phase2-presigning-project-overview-workspace.md`
    - `phase2-presigning-technical-cost-workspace.md`
    - `phase2-presigning-bid-commercial-workspace.md`

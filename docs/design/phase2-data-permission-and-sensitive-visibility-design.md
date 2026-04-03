@@ -9,8 +9,8 @@
   - `phase2-user-task-map.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-experience-optimization-roadmap.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
   - `business-authorization-matrix.md`
   - `poms-design-progress.md`
   - `../销售规范流程制度（试行）.md`

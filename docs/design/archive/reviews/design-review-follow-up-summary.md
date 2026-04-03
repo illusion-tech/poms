@@ -1,21 +1,21 @@
 # POMS 详细设计评审后续项摘要
 
-**文档状态**: Active
-**最后更新**: 2026-03-19
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第一阶段首轮详细设计正式评审后的后续项归并与 schema / DDL 级细化前边界补齐
 **关联文档**:
 
 - 上游设计:
   - `design-review-execution-checklist.md`
-  - `poms-design-progress.md`
-  - `poms-requirements-spec.md`
-  - `poms-hld.md`
+  - `../../poms-design-progress.md`
+  - `../../poms-requirements-spec.md`
+  - `../../poms-hld.md`
 - 同级设计:
-  - `project-lifecycle-design.md`
-  - `contract-finance-design.md`
-  - `commission-settlement-design.md`
-  - `workflow-and-approval-design.md`
-  - `business-authorization-matrix.md`
+  - `../../project-lifecycle-design.md`
+  - `../../contract-finance-design.md`
+  - `../../commission-settlement-design.md`
+  - `../../workflow-and-approval-design.md`
+  - `../../business-authorization-matrix.md`
 
 ---
 
@@ -46,10 +46,10 @@
 以下事项建议在进入真正的 schema / DDL 级细化前明确：
 
 1. 明确字段级全量矩阵是否继续下钻到页面 / DTO 级别，还是以当前字段包基线作为实现约束。
-2. 明确命令型动作接口的最小集合，至少覆盖生效、冻结、关闭、作废、冲销、重算、审批、确认等高敏感动作。当前已形成 `interface-command-design.md` 与 `interface-openapi-dto-design.md` 两层基线，后续进入真正 OpenAPI 文件层时不得再回退接口形态边界。
+2. 明确命令型动作接口的最小集合，至少覆盖生效、冻结、关闭、作废、冲销、重算、审批、确认等高敏感动作。当前已形成 `../../interface-command-design.md` 与 `../../interface-openapi-dto-design.md` 两层基线，后续进入真正 OpenAPI 文件层时不得再回退接口形态边界。
 3. 明确对象状态迁移与审批实例状态的映射边界，避免接口设计时再次混用业务状态与审批状态。
-4. 明确读侧查询视图边界，避免表结构冻结只围绕写侧对象展开。当前已形成 `query-view-boundary-design.md` 首版基线，开始把列表、详情、经营看板和统一待办的读侧约束转为稳定输入。
-5. 明确哪些 follow-up 只影响实现约束，不再反向改动已通过评审的业务边界。当前已形成 `data-model-prerequisites.md`、`table-structure-freeze-design.md` 与 `schema-ddl-design.md` 三层基线，开始把接口合同与查询视图边界继续映射到真实建表前输入物。
+4. 明确读侧查询视图边界，避免表结构冻结只围绕写侧对象展开。当前已形成 `../../query-view-boundary-design.md` 首版基线，开始把列表、详情、经营看板和统一待办的读侧约束转为稳定输入。
+5. 明确哪些 follow-up 只影响实现约束，不再反向改动已通过评审的业务边界。当前已形成 `../../data-model-prerequisites.md`、`../../table-structure-freeze-design.md` 与 `../../schema-ddl-design.md` 三层基线，开始把接口合同与查询视图边界继续映射到真实建表前输入物。
 
 ---
 
@@ -68,7 +68,7 @@
 
 以下事项不构成设计阻塞，但应在后续持续同步：
 
-1. `README.md`、`poms-design-progress.md` 与评审类文档的阅读路径提示保持一致。
+1. `../../README.md`、`../../poms-design-progress.md` 与评审类文档的阅读路径提示保持一致。
 2. 历史评审摘要继续明确“历史结论”与“当前状态源”的边界。
 3. 后续若新增评审摘要或冻结类文档，应同步补入目录索引与进度板。
 

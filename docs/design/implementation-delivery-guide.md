@@ -8,7 +8,7 @@
 - 上游设计:
   - `poms-design-progress.md`
   - `poms-hld.md`
-  - `design-review-follow-up-summary.md`
+  - `archive/reviews/design-review-follow-up-summary.md`
 - 同级设计:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -61,7 +61,7 @@
 5. `interface-command-design.md` 与 `interface-openapi-dto-design.md`，确认写侧动作和接口合同边界。
 6. `query-view-boundary-design.md`，确认列表、详情、看板和待办等读侧边界。
 7. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认落表、迁移与约束实现方式。
-8. `design-review-follow-up-summary.md`，确认哪些议题只是 follow-up，不应在当前切片内擅自放大。
+8. `archive/reviews/design-review-follow-up-summary.md`，确认哪些议题只是 follow-up，不应在当前切片内擅自放大。
 
 如果是参与平台治理域相关切片，应在第 4 步后补读 `platform-governance/` 下对应子设计。
 

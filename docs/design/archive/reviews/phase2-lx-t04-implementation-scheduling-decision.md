@@ -1,15 +1,15 @@
 # POMS 第二阶段 LX-T04 首批受控实现排期判断（已归档）
 
 **文档状态**: Archived
-**最后更新**: 2026-04-01
+**最后更新**: 2026-04-04
 **适用范围**: 保留 2026-04-01 曾经形成、但随后被明确撤销的“第一批做实后先行进入首批受控开发排期”历史判断
 **关联文档**:
 
-- `phase2-lx-t04-full-mainline-development-decision.md`
-- `phase2-mainline-delivery-plan.md`
-- `phase2-review-follow-up-plan.md`
-- `phase2-first-batch-scope.md`
-- `phase2-first-batch-implementation-mapping.md`
+- `../../phase2-lx-t04-full-mainline-development-decision.md`
+- `../../phase2-mainline-delivery-plan.md`
+- `../../phase2-review-follow-up-plan.md`
+- `../phase2-batches/phase2-first-batch-scope.md`
+- `../phase2-batches/phase2-first-batch-implementation-mapping.md`
 
 ---
 
@@ -33,7 +33,7 @@
 
 本文档已被以下文档替代：
 
-- `phase2-lx-t04-full-mainline-development-decision.md`
+- `../../phase2-lx-t04-full-mainline-development-decision.md`
 
 当前凡涉及 `LX-T04` 的有效判断，应统一以替代文档为准，而不是以本文档为准。
 

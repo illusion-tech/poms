@@ -14,8 +14,8 @@
 - 同级设计:
   - `business-authorization-matrix.md`
   - `phase2-data-permission-and-sensitive-visibility-design.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 相关 ADR:
   - `../adr/005-approval-flow-implementation-strategy.md`
 

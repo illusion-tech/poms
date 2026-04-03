@@ -16,7 +16,7 @@
   - `navigation-design.md`
   - `navigation-route-mapping.md`
 
-> 阅读提示：本文档是平台治理域当轮评审的历史摘要，保留评审当时的状态判断与推进建议，用于审计和过程回溯；若要查看当前全局状态、当前阅读路径和业务授权矩阵的最新成熟度，应以 `../README.md`、`../poms-design-progress.md`、`../design-convergence-review-checklist.md` 和 `../business-authorization-matrix.md` 为准。
+> 阅读提示：本文档是平台治理域当轮评审的历史摘要，保留评审当时的状态判断与推进建议，用于审计和过程回溯；若要查看当前全局状态、当前阅读路径和业务授权矩阵的最新成熟度，应以 `../README.md`、`../poms-design-progress.md`、`../archive/reviews/design-convergence-review-checklist.md` 和 `../business-authorization-matrix.md` 为准。
 
 ---
 

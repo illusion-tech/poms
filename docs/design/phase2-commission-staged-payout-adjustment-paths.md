@@ -11,8 +11,8 @@
   - `phase2-project-variance-risk-explanation.md`
   - `phase2-commission-freeze-at-handover.md`
   - `phase2-handover-closure-rules.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `commission-settlement-design.md`
   - `phase2-data-permission-and-sensitive-visibility-design.md`

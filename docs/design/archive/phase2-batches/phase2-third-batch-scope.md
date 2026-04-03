@@ -1,16 +1,16 @@
 # POMS 第二阶段流程健壮性与审批增强的第三批范围说明
 
-**文档状态**: Active
-**最后更新**: 2026-04-02
+**文档状态**: Archived
+**最后更新**: 2026-04-04
 **适用范围**: `POMS` 第二阶段在第一批主事实与第二批经营可信源基本稳定后，对第三批流程健壮性与审批增强专题的范围、边界与收口判定说明
 **关联文档**:
 
-- `phase2-review-checklist.md`
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
+- `../../phase2-review-checklist.md`
+- `../../phase2-review-comprehensive-assessment.md`
+- `../../phase2-review-follow-up-plan.md`
 - `phase2-second-batch-scope.md`
 - `phase2-third-batch-implementation-mapping.md`
-- `phase2-lx-t04-full-mainline-development-decision.md`
+- `../../phase2-lx-t04-full-mainline-development-decision.md`
 
 ---
 
@@ -44,11 +44,11 @@
 
 | 包                             | 覆盖问题 | 范围说明                                                                 | 最小交付物                                                                                                     | 出口判定                                                       |
 | ------------------------------ | -------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `B14` 合同变更再基线化         | `R1-003` | 固定合同生效后到移交前发生正式变更时，如何重建基线并同步承接 / 移交链路  | 回写 `phase2-contract-to-handover-workspace.md`，必要时联动 `phase2-estimated-to-actual-cost-bridge.md`        | 合同变更不再通过线下解释吸收，移交前基线可重建且影响范围可追溯 |
-| `B15` 签约前受控回退与负路径   | `R3-001` | 固定签约前六工作区的否决、重估、范围变更与回退重开路径                   | 回写 `phase2-presigning-workspace-handoff-map.md`                                                              | 报价否决、范围变更、重估返工等路径不再掉出系统外               |
-| `B16` 例外查看与短时揭示       | `R2-005` | 固定敏感字段临时申请查看、短时揭示、到期失效与强审计路径                 | 回写 `phase2-data-permission-and-sensitive-visibility-design.md`                                               | 协作效率与审计闭环不再二选一，敏感字段短时揭示具备正式入口     |
-| `B17` 审批摘要字段包           | `R4-004` | 固定报价评审、移交确认、提成发放和异常调整等审批场景的最小摘要字段集     | 回写 `phase2-data-permission-and-sensitive-visibility-design.md`，必要时联动 `workflow-and-approval-design.md` | 审批页不再在“信息不足”和“越权暴露”之间摇摆                     |
-| `B18` 冻结后受控变更与争议处理 | `R3-006` | 固定冻结后发起条件、审批角色、争议记录、仲裁和对已生效提成结果的回溯影响 | 回写 `phase2-commission-freeze-at-handover.md`、`phase2-commission-staged-payout-adjustment-paths.md`          | 冻结后错误修正与争议处理不再退回线下，变更与回溯影响可追溯     |
+| `B14` 合同变更再基线化         | `R1-003` | 固定合同生效后到移交前发生正式变更时，如何重建基线并同步承接 / 移交链路  | 回写 `../../phase2-contract-to-handover-workspace.md`，必要时联动 `../../phase2-estimated-to-actual-cost-bridge.md`        | 合同变更不再通过线下解释吸收，移交前基线可重建且影响范围可追溯 |
+| `B15` 签约前受控回退与负路径   | `R3-001` | 固定签约前六工作区的否决、重估、范围变更与回退重开路径                   | 回写 `../../phase2-presigning-workspace-handoff-map.md`                                                              | 报价否决、范围变更、重估返工等路径不再掉出系统外               |
+| `B16` 例外查看与短时揭示       | `R2-005` | 固定敏感字段临时申请查看、短时揭示、到期失效与强审计路径                 | 回写 `../../phase2-data-permission-and-sensitive-visibility-design.md`                                               | 协作效率与审计闭环不再二选一，敏感字段短时揭示具备正式入口     |
+| `B17` 审批摘要字段包           | `R4-004` | 固定报价评审、移交确认、提成发放和异常调整等审批场景的最小摘要字段集     | 回写 `../../phase2-data-permission-and-sensitive-visibility-design.md`，必要时联动 `../../workflow-and-approval-design.md` | 审批页不再在“信息不足”和“越权暴露”之间摇摆                     |
+| `B18` 冻结后受控变更与争议处理 | `R3-006` | 固定冻结后发起条件、审批角色、争议记录、仲裁和对已生效提成结果的回溯影响 | 回写 `../../phase2-commission-freeze-at-handover.md`、`../../phase2-commission-staged-payout-adjustment-paths.md`          | 冻结后错误修正与争议处理不再退回线下，变更与回溯影响可追溯     |
 
 第三批当前定位：
 
@@ -92,7 +92,7 @@
 
 1. 第一批六个专题不存在方向级未决策问题。
 2. 第二批六份实现设计总文档写回已完成，不再只停留在桥接层。
-3. `phase2-review-follow-up-plan.md` 与本文件对第三批专题范围保持一致。
+3. `../../phase2-review-follow-up-plan.md` 与本文件对第三批专题范围保持一致。
 4. 第三批主回写文档已明确，不再继续拆散成临时讨论结论。
 
 ### 5.2 出场条件
@@ -100,13 +100,13 @@
 第三批完成后至少应满足：
 
 1. 五个专题均已形成正式规则回写并落到主文档。
-2. `phase2-review-follow-up-plan.md` 已同步真实状态。
-3. `poms-design-progress.md` 已同步第三批当前阶段判断。
-4. `phase2-detailed-design-index-map.md` 已提供第三批范围入口。
+2. `../../phase2-review-follow-up-plan.md` 已同步真实状态。
+3. `../../poms-design-progress.md` 已同步第三批当前阶段判断。
+4. `../../phase2-detailed-design-index-map.md` 已提供第三批范围入口。
 5. 第三批实现映射桥接入口已固定为 `phase2-third-batch-implementation-mapping.md`，不再重新定义第三批专题。
 6. 六份实现设计总文档已完成第三批首轮写回，不再只停留在范围说明和桥接入口层。
-7. `phase2-contract-to-handover-workspace.md`、`phase2-presigning-workspace-handoff-map.md`、`phase2-data-permission-and-sensitive-visibility-design.md`、`phase2-commission-freeze-at-handover.md`、`phase2-commission-staged-payout-adjustment-paths.md` 与 `workflow-and-approval-design.md` 已完成第三批首轮写回。
-8. `phase2-project-handover-gate-workspace.md`、`phase2-commission-stage-gate-overview-workspace.md` 与 `phase2-estimated-to-actual-cost-bridge.md` 已完成第三批必要联动补点。
+7. `../../phase2-contract-to-handover-workspace.md`、`../../phase2-presigning-workspace-handoff-map.md`、`../../phase2-data-permission-and-sensitive-visibility-design.md`、`../../phase2-commission-freeze-at-handover.md`、`../../phase2-commission-staged-payout-adjustment-paths.md` 与 `../../workflow-and-approval-design.md` 已完成第三批首轮写回。
+8. `../../phase2-project-handover-gate-workspace.md`、`../../phase2-commission-stage-gate-overview-workspace.md` 与 `../../phase2-estimated-to-actual-cost-bridge.md` 已完成第三批必要联动补点。
 
 ---
 

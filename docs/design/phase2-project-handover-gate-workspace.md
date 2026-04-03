@@ -9,8 +9,8 @@
   - `phase2-contract-to-handover-workspace.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-experience-optimization-roadmap.md`
-  - `phase2-third-batch-scope.md`
-  - `phase2-third-batch-implementation-mapping.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 同级设计:
   - `project-lifecycle-design.md`
   - `commission-settlement-design.md`
