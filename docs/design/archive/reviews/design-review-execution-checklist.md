@@ -8,15 +8,15 @@
 - 上游设计:
   - `design-convergence-review-checklist.md`
   - `design-review-follow-up-summary.md`
-  - `../../../../poms-design-progress.md`
-  - `../../../../poms-requirements-spec.md`
-  - `../../../../poms-hld.md`
+  - `../../poms-design-progress.md`
+  - `../../poms-requirements-spec.md`
+  - `../../poms-hld.md`
 - 同级设计:
-  - `../../../../project-lifecycle-design.md`
-  - `../../../../contract-finance-design.md`
-  - `../../../../commission-settlement-design.md`
-  - `../../../../workflow-and-approval-design.md`
-  - `../../../../business-authorization-matrix.md`
+  - `../../project-lifecycle-design.md`
+  - `../../contract-finance-design.md`
+  - `../../commission-settlement-design.md`
+  - `../../workflow-and-approval-design.md`
+  - `../../business-authorization-matrix.md`
 
 ---
 
@@ -30,13 +30,13 @@
 
 本轮评审覆盖以下文档：
 
-- `../../../../poms-requirements-spec.md`
-- `../../../../poms-hld.md`
-- `../../../../project-lifecycle-design.md`
-- `../../../../contract-finance-design.md`
-- `../../../../commission-settlement-design.md`
-- `../../../../workflow-and-approval-design.md`
-- `../../../../business-authorization-matrix.md`
+- `../../poms-requirements-spec.md`
+- `../../poms-hld.md`
+- `../../project-lifecycle-design.md`
+- `../../contract-finance-design.md`
+- `../../commission-settlement-design.md`
+- `../../workflow-and-approval-design.md`
+- `../../business-authorization-matrix.md`
 
 说明：
 
@@ -57,49 +57,49 @@
 
 ## 4. 逐文档评审清单
 
-### 4.1 `../../../../poms-requirements-spec.md`
+### 4.1 `../../poms-requirements-spec.md`
 
 - [x] 第一阶段范围、最小闭环和非范围项表达清晰
 - [x] 核心对象清单与后续详细设计对象命名一致
 - [x] `Project` / `BidProcess` 分层口径与生命周期设计一致
 - [x] 合同资金域、提成治理域、横切支撑域的范围边界无歧义
 
-### 4.2 `../../../../poms-hld.md`
+### 4.2 `../../poms-hld.md`
 
 - [x] 领域划分与需求说明一致
 - [x] 核心实体草图与详细设计对象一致
 - [x] 数据可信源与版本化约束与域设计一致
 - [x] 模块边界没有反向覆盖需求边界
 
-### 4.3 `../../../../project-lifecycle-design.md`
+### 4.3 `../../project-lifecycle-design.md`
 
 - [x] 主阶段链路完整且无冲突
 - [x] `BidProcess`、`QuotationReview`、`ExecutiveEscalationRequest` 的附属流程定位清晰
 - [x] 关键闸口、阻断条件与动作矩阵一致
 - [x] 关闭语义 `closed-lost` / `closed-terminated` 明确且可审计
 
-### 4.4 `../../../../contract-finance-design.md`
+### 4.4 `../../contract-finance-design.md`
 
 - [x] 合同、回款、成本、发票对象边界清晰
 - [x] 生效口径、可信源与阻断规则清晰
 - [x] 审核、生效、确认、冲销、关闭动作与授权矩阵一致
 - [x] 对提成治理域的输出稳定且可追溯
 
-### 4.5 `../../../../commission-settlement-design.md`
+### 4.5 `../../commission-settlement-design.md`
 
 - [x] 角色冻结、计算、生效、发放、异常调整与重算链路完整
 - [x] 提成计算口径与合同资金域输入一致
 - [x] 发放阶段规则、低首付款规则、质保金规则无歧义
 - [x] 审批与授权动作口径与矩阵一致
 
-### 4.6 `../../../../workflow-and-approval-design.md`
+### 4.6 `../../workflow-and-approval-design.md`
 
 - [x] 模块内审批流 + 统一待办聚合策略表达稳定
 - [x] 公共对象 `ApprovalRecord` / `ConfirmationRecord` / `TodoItem` / `NotificationRecord` 职责清晰
 - [x] `放行方式` 口径与业务矩阵一致
 - [x] 风控闸口与业务对象状态迁移关系清晰
 
-### 4.7 `../../../../business-authorization-matrix.md`
+### 4.7 `../../business-authorization-matrix.md`
 
 - [x] 平台权限与业务对象动作授权边界清晰
 - [x] 首批稳定对象动作已覆盖销售、合同资金、提成与横切审批域
