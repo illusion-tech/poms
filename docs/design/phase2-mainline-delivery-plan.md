@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-04-04
-**适用范围**: `POMS` 第二阶段从主线设计、正式审阅、follow-up 收口到实现设计与实现排期的整体推进说明
+**适用范围**: `POMS` 第二阶段从主线设计、正式审阅结果吸收到实现设计与实现排期的整体推进说明
 **关联文档**:
 
 - 上游设计:
@@ -12,11 +12,12 @@
   - `phase2-mainline-implementation-design-matrix.md`
   - `phase2-detailed-design-index-map.md`
   - `poms-design-progress.md`
-- 执行控制:
-  - `phase2-review-checklist.md`
-  - `phase2-review-comprehensive-assessment.md`
-  - `phase2-review-follow-up-plan.md`
+- 当前控制:
   - `phase2-mainline-task-tracker.md`
+- 历史审阅依据:
+  - `archive/reviews/phase2-review-checklist.md`
+  - `archive/reviews/phase2-review-comprehensive-assessment.md`
+  - `archive/reviews/phase2-review-follow-up-plan.md`
   - `archive/phase2-batches/phase2-first-batch-scope.md`
   - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
   - `archive/phase2-batches/phase2-second-batch-scope.md`
@@ -151,7 +152,7 @@
 这一阶段的成果包括：
 
 - `archive/reviews/phase2-review-record-round1.md` 到 `archive/reviews/phase2-review-record-round4.md`
-- `phase2-review-checklist.md`
+- `archive/reviews/phase2-review-checklist.md`
 
 ### 4.3 问题综合评估与批次划分
 
@@ -159,8 +160,8 @@
 
 这一阶段的成果包括：
 
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
+- `archive/reviews/phase2-review-comprehensive-assessment.md`
+- `archive/reviews/phase2-review-follow-up-plan.md`
 - `archive/phase2-batches/phase2-first-batch-scope.md`
 
 这里要补一个关键原则：

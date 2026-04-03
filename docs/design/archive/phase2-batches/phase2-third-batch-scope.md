@@ -5,9 +5,9 @@
 **适用范围**: `POMS` 第二阶段在第一批主事实与第二批经营可信源基本稳定后，对第三批流程健壮性与审批增强专题的范围、边界与收口判定说明
 **关联文档**:
 
-- `../../phase2-review-checklist.md`
-- `../../phase2-review-comprehensive-assessment.md`
-- `../../phase2-review-follow-up-plan.md`
+- `../reviews/phase2-review-checklist.md`
+- `../reviews/phase2-review-comprehensive-assessment.md`
+- `../reviews/phase2-review-follow-up-plan.md`
 - `phase2-second-batch-scope.md`
 - `phase2-third-batch-implementation-mapping.md`
 - `../../phase2-lx-t04-full-mainline-development-decision.md`
@@ -92,7 +92,7 @@
 
 1. 第一批六个专题不存在方向级未决策问题。
 2. 第二批六份实现设计总文档写回已完成，不再只停留在桥接层。
-3. `../../phase2-review-follow-up-plan.md` 与本文件对第三批专题范围保持一致。
+3. `../reviews/phase2-review-follow-up-plan.md` 与本文件对第三批专题范围保持一致。
 4. 第三批主回写文档已明确，不再继续拆散成临时讨论结论。
 
 ### 5.2 出场条件
@@ -100,7 +100,7 @@
 第三批完成后至少应满足：
 
 1. 五个专题均已形成正式规则回写并落到主文档。
-2. `../../phase2-review-follow-up-plan.md` 已同步真实状态。
+2. `../reviews/phase2-review-follow-up-plan.md` 已同步真实状态。
 3. `../../poms-design-progress.md` 已同步第三批当前阶段判断。
 4. `../../phase2-detailed-design-index-map.md` 已提供第三批范围入口。
 5. 第三批实现映射桥接入口已固定为 `phase2-third-batch-implementation-mapping.md`，不再重新定义第三批专题。

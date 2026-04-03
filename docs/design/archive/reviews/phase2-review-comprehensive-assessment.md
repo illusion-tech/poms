@@ -1,25 +1,27 @@
 # POMS 第二阶段正式审阅综合评估
 
-**文档状态**: Active
-**最后更新**: 2026-04-01
-**适用范围**: `POMS` 第二阶段 `LX-T03` 四轮正式审阅问题的综合评估、优先级判断与进入实现排期前的收口建议
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第二阶段 `LX-T03` 四轮正式审阅问题的历史综合评估结果与优先级判断留痕
 **关联文档**:
 
 - `phase2-review-checklist.md`
-- `archive/reviews/phase2-review-record-round1.md`
-- `archive/reviews/phase2-review-record-round2.md`
-- `archive/reviews/phase2-review-record-round3.md`
-- `archive/reviews/phase2-review-record-round4.md`
-- `contract-finance-design.md`
-- `phase2-commission-freeze-at-handover.md`
-- `phase2-project-unified-accounting-view-caliber.md`
-- `phase2-lx-t04-full-mainline-development-decision.md`
+- `phase2-review-record-round1.md`
+- `phase2-review-record-round2.md`
+- `phase2-review-record-round3.md`
+- `phase2-review-record-round4.md`
+- `../../contract-finance-design.md`
+- `../../phase2-commission-freeze-at-handover.md`
+- `../../phase2-project-unified-accounting-view-caliber.md`
+- `../../phase2-lx-t04-full-mainline-development-decision.md`
 
 ---
 
 ## 1. 文档目标
 
-本文档用于把四轮正式审阅发现的 22 个问题，从“已记录”推进到“已形成可执行的综合判断”。
+本文档用于保留四轮正式审阅发现的 22 个问题从“已记录”推进到“已形成可执行综合判断”时的正式评估结果。
+
+2026-04-04 起，本文档转入 `archive/reviews/`。其综合评估结论已被 `../../phase2-mainline-delivery-plan.md`、`../../phase2-mainline-implementation-design-matrix.md`、`../../phase2-lx-t04-full-mainline-development-decision.md` 与 `../../poms-design-progress.md` 吸收，当前不再作为默认开发入口。
 
 本文档重点回答以下问题：
 
@@ -295,6 +297,6 @@
 
 - 第一批、第二批与当前范围内第三批专题已完成实现设计收口并进入统一主线闭环
 - `LX-01` 最终一致性复核已确认当前范围内未发现阻断 `LX-T04` 的跨文档冲突
-- `LX-T04` 的当前正式判断口径统一见 `phase2-lx-t04-full-mainline-development-decision.md`，且本轮结论已切换为 Go
+- `LX-T04` 的当前正式判断口径统一见 `../../phase2-lx-t04-full-mainline-development-decision.md`，且本轮结论已切换为 Go
 
 因此，本文件当前继续作为第二阶段正式审阅后的优先级判断底稿；其角色不再是证明“尚不能进入开发”，而是证明当前统一开发判断所依赖的阻断项已完成收口或显式后置。

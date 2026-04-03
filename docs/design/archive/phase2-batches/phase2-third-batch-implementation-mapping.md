@@ -6,9 +6,9 @@
 **关联文档**:
 
 - 上游设计:
-  - `../../phase2-review-checklist.md`
-  - `../../phase2-review-comprehensive-assessment.md`
-  - `../../phase2-review-follow-up-plan.md`
+  - `../reviews/phase2-review-checklist.md`
+  - `../reviews/phase2-review-comprehensive-assessment.md`
+  - `../reviews/phase2-review-follow-up-plan.md`
   - `phase2-third-batch-scope.md`
   - `../../phase2-mainline-implementation-design-matrix.md`
 - 同级设计:

@@ -5,9 +5,9 @@
 **适用范围**: `POMS` 第二阶段在第一批主事实稳定后，对第二批经营与成本可信源专题的范围、边界与收口判定说明
 **关联文档**:
 
-- `../../phase2-review-checklist.md`
-- `../../phase2-review-comprehensive-assessment.md`
-- `../../phase2-review-follow-up-plan.md`
+- `../reviews/phase2-review-checklist.md`
+- `../reviews/phase2-review-comprehensive-assessment.md`
+- `../reviews/phase2-review-follow-up-plan.md`
 - `phase2-first-batch-scope.md`
 - `phase2-second-batch-implementation-mapping.md`
 - `../../phase2-experience-optimization-roadmap.md`
@@ -97,7 +97,7 @@
 
 1. 第一批六个专题不存在方向级未决策问题。
 2. 第一批七层实现映射已补到可稳定支撑第二批继续下钻的程度。
-3. `../../phase2-review-follow-up-plan.md` 与本文件对第二批专题范围保持一致。
+3. `../reviews/phase2-review-follow-up-plan.md` 与本文件对第二批专题范围保持一致。
 4. 第二批主回写文档已明确，不再继续拆散成临时讨论结论。
 
 ### 5.2 出场条件
@@ -105,7 +105,7 @@
 第二批完成后至少应满足：
 
 1. 七个专题均已形成正式规则回写并落到主文档。
-2. `../../phase2-review-follow-up-plan.md` 已同步真实状态。
+2. `../reviews/phase2-review-follow-up-plan.md` 已同步真实状态。
 3. `../../poms-design-progress.md` 已同步第一批与第二批的当前阶段判断。
 4. `../../phase2-detailed-design-index-map.md` 已提供第二批范围入口。
 5. 第二批实现映射桥接入口已固定为 `phase2-second-batch-implementation-mapping.md`，且六份实现设计总文档已完成首轮写回，不再停留在桥接层重复定义第二批专题。

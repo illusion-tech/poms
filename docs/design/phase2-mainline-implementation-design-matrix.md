@@ -10,8 +10,8 @@
   - `phase2-experience-optimization-roadmap.md`
   - `phase2-detailed-design-index-map.md`
 - 审阅与收口:
-  - `phase2-review-comprehensive-assessment.md`
-  - `phase2-review-follow-up-plan.md`
+  - `archive/reviews/phase2-review-comprehensive-assessment.md`
+  - `archive/reviews/phase2-review-follow-up-plan.md`
   - `archive/phase2-batches/phase2-first-batch-scope.md`
   - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
   - `archive/phase2-batches/phase2-second-batch-scope.md`

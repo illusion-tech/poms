@@ -7,8 +7,8 @@
 
 - `phase2-mainline-delivery-plan.md`
 - `phase2-mainline-implementation-design-matrix.md`
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
+- `archive/reviews/phase2-review-comprehensive-assessment.md`
+- `archive/reviews/phase2-review-follow-up-plan.md`
 - `archive/phase2-batches/phase2-first-batch-scope.md`
 - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
 - `phase2-detailed-design-index-map.md`
@@ -49,7 +49,7 @@
 1. `L1 ~ L5` 当前范围内的主线能力已完成实现设计下钻，覆盖 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard`。
 2. 第一批、第二批及仍属于当前范围的第三批专题，已经完成与其所在主线相匹配的实现设计收口，不再留下会反向改写主对象、主事实、可信源或敏感边界的未决项。
 3. 第四批专题若继续后置，必须已经被明确写成范围限制或未来扩展，且不会反向阻断当前主线进入开发判断。
-4. `phase2-mainline-delivery-plan.md`、`phase2-review-follow-up-plan.md`、`phase2-review-comprehensive-assessment.md`、`phase2-detailed-design-index-map.md` 与 `poms-design-progress.md` 的状态口径一致。
+4. `phase2-mainline-delivery-plan.md`、`phase2-detailed-design-index-map.md` 与 `poms-design-progress.md` 的当前阶段状态口径一致，且 `archive/reviews/phase2-review-follow-up-plan.md`、`archive/reviews/phase2-review-comprehensive-assessment.md` 的结论已被这些当前控制文档吸收。
 
 ---
 
@@ -64,7 +64,7 @@
 1. `L1 ~ L5` 当前范围内主线能力已完成实现设计下钻，覆盖 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard`，且 `phase2-mainline-task-tracker.md` 已完成到 `LX-01`。
 2. 第一批、第二批与当前范围内第三批专题，已经完成与所在主线匹配的实现设计收口；`LX-01` 最终一致性复核已确认未发现阻断统一开发判断的跨文档冲突。
 3. 第四批剩余项已被明确写成范围限制、表达增强或未来扩展，不反向改变当前主对象、主事实、可信源、主链路或关键敏感边界。
-4. `phase2-mainline-delivery-plan.md`、`phase2-mainline-implementation-design-matrix.md`、`phase2-review-follow-up-plan.md`、`phase2-review-comprehensive-assessment.md`、`phase2-detailed-design-index-map.md` 与 `poms-design-progress.md` 的主线完成口径现已可以统一收敛到 `LX-T04` 的开发判断。
+4. `phase2-mainline-delivery-plan.md`、`phase2-mainline-implementation-design-matrix.md`、`phase2-detailed-design-index-map.md` 与 `poms-design-progress.md` 已吸收 `archive/reviews/phase2-review-follow-up-plan.md`、`archive/reviews/phase2-review-comprehensive-assessment.md` 的收口结论，当前主线完成口径现已可以统一收敛到 `LX-T04` 的开发判断。
 
 因此，当前可以把第二阶段表述为：
 

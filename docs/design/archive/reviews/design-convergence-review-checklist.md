@@ -6,16 +6,16 @@
 **关联文档**:
 
 - 上游设计:
-  - `../../poms-design-progress.md`
-  - `../../poms-requirements-spec.md`
-  - `../../poms-hld.md`
+  - `../../../../poms-design-progress.md`
+  - `../../../../poms-requirements-spec.md`
+  - `../../../../poms-hld.md`
 - 同级设计:
-  - `../../project-lifecycle-design.md`
-  - `../../contract-finance-design.md`
-  - `../../commission-settlement-design.md`
-  - `../../workflow-and-approval-design.md`
-  - `../../business-authorization-matrix.md`
-  - `../../platform-governance/platform-governance-review-summary.md`
+  - `../../../../project-lifecycle-design.md`
+  - `../../../../contract-finance-design.md`
+  - `../../../../commission-settlement-design.md`
+  - `../../../../workflow-and-approval-design.md`
+  - `../../../../business-authorization-matrix.md`
+  - `../../../../platform-governance/platform-governance-review-summary.md`
 
 ---
 
@@ -44,12 +44,12 @@
 
 | 编号 | 严重度 | 涉及文档                                                                      | 问题描述                                                                                      | 建议动作                                                       |
 | ---- | ------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| C1   | 已关闭 | `../../poms-design-progress.md`                                                     | 进度板已切换为跨文档收口阶段，并已同步核心设计资产与下一步治理动作                            | 后续继续把已关闭收口项同步回进度板                             |
-| C2   | 已关闭 | `../../README.md`、`../../business-authorization-matrix.md`                               | 矩阵成熟度表述已统一到“首版基线 / 首批稳定对象动作矩阵基线”                                   | 后续新增索引或摘要文档时保持同一表述                           |
-| C3   | 已关闭 | `../../workflow-and-approval-design.md`、`../../business-authorization-matrix.md`         | 审批与确认的矩阵表达已统一收敛为 `放行方式`，并支持 `审批`、`确认`、`复核`、`多方确认` 等口径 | 后续新增矩阵时继续复用同一列口径                               |
-| C4   | 已关闭 | `../../poms-requirements-spec.md`、`../../poms-hld.md`、`../../commission-settlement-design.md` | 上游文档中的规则对象命名已统一到 `CommissionRuleVersion`                                      | 后续若引入跨域通用规则对象，再通过新 ADR 单独提升抽象层级      |
+| C1   | 已关闭 | `../../../../poms-design-progress.md`                                                     | 进度板已切换为跨文档收口阶段，并已同步核心设计资产与下一步治理动作                            | 后续继续把已关闭收口项同步回进度板                             |
+| C2   | 已关闭 | `../../../../README.md`、`../../../../business-authorization-matrix.md`                               | 矩阵成熟度表述已统一到“首版基线 / 首批稳定对象动作矩阵基线”                                   | 后续新增索引或摘要文档时保持同一表述                           |
+| C3   | 已关闭 | `../../../../workflow-and-approval-design.md`、`../../../../business-authorization-matrix.md`         | 审批与确认的矩阵表达已统一收敛为 `放行方式`，并支持 `审批`、`确认`、`复核`、`多方确认` 等口径 | 后续新增矩阵时继续复用同一列口径                               |
+| C4   | 已关闭 | `../../../../poms-requirements-spec.md`、`../../../../poms-hld.md`、`../../../../commission-settlement-design.md` | 上游文档中的规则对象命名已统一到 `CommissionRuleVersion`                                      | 后续若引入跨域通用规则对象，再通过新 ADR 单独提升抽象层级      |
 | C5   | 已关闭 | 各详细设计文档                                                                | 本轮修订涉及的详细设计文档已同步更新时间，可区分是否已纳入本轮一致性收口                      | 后续新增收口修改时继续同步更新时间                             |
-| C6   | 已关闭 | `../../platform-governance/platform-governance-review-summary.md`                   | 已补充历史摘要阅读提示，避免将评审当时的矩阵状态与下一步建议误读为当前状态源                  | 后续新增评审摘要时沿用相同提示口径                             |
+| C6   | 已关闭 | `../../../../platform-governance/platform-governance-review-summary.md`                   | 已补充历史摘要阅读提示，避免将评审当时的矩阵状态与下一步建议误读为当前状态源                  | 后续新增评审摘要时沿用相同提示口径                             |
 
 ---
 
@@ -62,7 +62,7 @@
 
 ### 4.2 第二优先级
 
-- 将评审结论回写到 `../../poms-design-progress.md`、`../../README.md` 与相关治理文档
+- 将评审结论回写到 `../../../../poms-design-progress.md`、`../../../../README.md` 与相关治理文档
 - 在 follow-up 边界稳定后进入接口命令与数据模型冻结准备
 
 ---
@@ -71,10 +71,10 @@
 
 ### 5.1 状态与治理
 
-- [x] `../../poms-design-progress.md` 的“当前阶段判断”与实际文档成熟度一致
-- [x] `../../poms-design-progress.md` 的“未完成输出物”不再保留已完成或已创建的项目
-- [x] `../../poms-design-progress.md` 的“下一步建议”与当前收口重点一致
-- [x] `../../README.md` 中各文档描述与实际成熟度一致
+- [x] `../../../../poms-design-progress.md` 的“当前阶段判断”与实际文档成熟度一致
+- [x] `../../../../poms-design-progress.md` 的“未完成输出物”不再保留已完成或已创建的项目
+- [x] `../../../../poms-design-progress.md` 的“下一步建议”与当前收口重点一致
+- [x] `../../../../README.md` 中各文档描述与实际成熟度一致
 
 ### 5.2 术语与对象命名
 
@@ -101,14 +101,14 @@
 
 当前建议采用以下状态口径：
 
-- `../../poms-requirements-spec.md`: 保持 `Accepted (Phase 1 Baseline)`
-- `../../poms-hld.md`: 保持 `Accepted (Phase 1 Baseline)`
+- `../../../../poms-requirements-spec.md`: 保持 `Accepted (Phase 1 Baseline)`
+- `../../../../poms-hld.md`: 保持 `Accepted (Phase 1 Baseline)`
 - 平台治理域总设计与四个子设计：保持 `Review`
-- `../../project-lifecycle-design.md`: 保持 `Draft (Baseline)`
-- `../../contract-finance-design.md`: 保持 `Draft (Baseline)`
-- `../../commission-settlement-design.md`: 保持 `Draft (Baseline)`
-- `../../workflow-and-approval-design.md`: 保持 `Draft (Baseline)`
-- `../../business-authorization-matrix.md`: 保持 `Draft (Baseline)`
+- `../../../../project-lifecycle-design.md`: 保持 `Draft (Baseline)`
+- `../../../../contract-finance-design.md`: 保持 `Draft (Baseline)`
+- `../../../../commission-settlement-design.md`: 保持 `Draft (Baseline)`
+- `../../../../workflow-and-approval-design.md`: 保持 `Draft (Baseline)`
+- `../../../../business-authorization-matrix.md`: 保持 `Draft (Baseline)`
 - 本文档：`Active`
 
 不建议当前立即把销售流程域、合同资金域、提成治理域、横切支撑域整体提升到 `Review`。原因不是内容缺失，而是跨文档一致性仍需完成最后一轮收口。
@@ -118,7 +118,7 @@
 ## 7. 下一步执行顺序建议
 
 1. 基于 `design-review-follow-up-summary.md` 固化首轮正式评审的后续项边界
-2. 将评审结论持续回写到 `../../poms-design-progress.md` 与相关治理文档
+2. 将评审结论持续回写到 `../../../../poms-design-progress.md` 与相关治理文档
 3. 在 follow-up 边界稳定后进入接口命令与数据模型冻结准备
 
 ---

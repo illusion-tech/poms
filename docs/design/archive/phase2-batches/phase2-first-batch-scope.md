@@ -5,9 +5,9 @@
 **适用范围**: `POMS` 第二阶段正式审阅回写后，为降低全主线实现设计返工而先行冻结的第一批硬前置专题范围、边界与出入场条件说明
 **关联文档**:
 
-- `../../phase2-review-checklist.md`
-- `../../phase2-review-comprehensive-assessment.md`
-- `../../phase2-review-follow-up-plan.md`
+- `../reviews/phase2-review-checklist.md`
+- `../reviews/phase2-review-comprehensive-assessment.md`
+- `../reviews/phase2-review-follow-up-plan.md`
 - `phase2-first-batch-implementation-mapping.md`
 - `phase2-second-batch-scope.md`
 - `../../phase2-experience-optimization-roadmap.md`
@@ -93,7 +93,7 @@
 
 第一批开始前应满足：
 
-1. `../../phase2-review-comprehensive-assessment.md`、`../../phase2-review-follow-up-plan.md` 与本文件口径一致。
+1. `../reviews/phase2-review-comprehensive-assessment.md`、`../reviews/phase2-review-follow-up-plan.md` 与本文件口径一致。
 2. 多合同、交易链条最小覆盖范围和回款判断模式冻结三项业务前提不再反复摇摆。
 3. 第一批六个专题的主回写文档已明确。
 4. 第一批实现映射入口已明确，并可继续回写到接口、查询与表结构设计。
@@ -103,7 +103,7 @@
 第一批完成后至少应满足：
 
 1. 六个专题均已形成正式规则回写并完成交叉复核。
-2. `../../phase2-review-checklist.md` 已同步综合状态与批次判断。
+2. `../reviews/phase2-review-checklist.md` 已同步综合状态与批次判断。
 3. `../../poms-design-progress.md` 已同步真实阶段状态。
 4. 不再存在阻断第一批继续作为实现设计输入的方向级未决策问题。
 5. `phase2-first-batch-implementation-mapping.md` 中的关键补点已完成“是否足以继续支撑全主线实现设计”的判断。

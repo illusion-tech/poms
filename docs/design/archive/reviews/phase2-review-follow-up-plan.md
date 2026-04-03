@@ -1,29 +1,31 @@
 # POMS 第二阶段正式审阅 follow-up 清单
 
-**文档状态**: Active
-**最后更新**: 2026-04-03
-**适用范围**: `POMS` 第二阶段 `LX-T03` 四轮正式审阅后的 follow-up 归并、专题拆分与进入统一开发判断前的收口跟踪
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第二阶段 `LX-T03` 四轮正式审阅后的历史 follow-up 分批、专题拆分与收口轨迹留痕
 **关联文档**:
 
 - `phase2-review-checklist.md`
 - `phase2-review-comprehensive-assessment.md`
-- `archive/phase2-batches/phase2-first-batch-scope.md`
-- `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
-- `archive/phase2-batches/phase2-second-batch-scope.md`
-- `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
-- `archive/phase2-batches/phase2-third-batch-scope.md`
-- `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
-- `phase2-lx-t04-full-mainline-development-decision.md`
-- `contract-finance-design.md`
-- `phase2-project-unified-accounting-view-caliber.md`
-- `phase2-commission-stage-gate-overview-workspace.md`
-- `phase2-data-permission-and-sensitive-visibility-design.md`
+- `../phase2-batches/phase2-first-batch-scope.md`
+- `../phase2-batches/phase2-first-batch-implementation-mapping.md`
+- `../phase2-batches/phase2-second-batch-scope.md`
+- `../phase2-batches/phase2-second-batch-implementation-mapping.md`
+- `../phase2-batches/phase2-third-batch-scope.md`
+- `../phase2-batches/phase2-third-batch-implementation-mapping.md`
+- `../../phase2-lx-t04-full-mainline-development-decision.md`
+- `../../contract-finance-design.md`
+- `../../phase2-project-unified-accounting-view-caliber.md`
+- `../../phase2-commission-stage-gate-overview-workspace.md`
+- `../../phase2-data-permission-and-sensitive-visibility-design.md`
 
 ---
 
 ## 1. 文档目标
 
-本文档用于把四轮正式审阅的 22 个问题，从“已完成综合评估”继续推进到“已拆成可执行的 follow-up 专题”。
+本文档用于保留四轮正式审阅的 22 个问题从“已完成综合评估”继续推进到“已拆成可执行 follow-up 专题”时的正式分批结果。
+
+2026-04-04 起，本文档转入 `archive/reviews/`。其 follow-up 分批与收口结论已被 `../../phase2-mainline-delivery-plan.md`、`../../phase2-lx-t04-full-mainline-development-decision.md`、`../../poms-design-progress.md` 与 `../phase2-batches/` 下的批次资产吸收，当前不再作为默认开发入口。
 
 本文档重点回答以下问题：
 
@@ -78,20 +80,20 @@
 
 | 专题                                                           | 覆盖问题 | 主要回写文档                                                                                                                                                                                                                       | 当前收口目标                                             |
 | -------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| 多合同项目主假设与冻结模式                                     | `R4-005` | `contract-finance-design.md`、`phase2-contract-to-handover-workspace.md`、`phase2-project-business-outcome-overview.md`、`phase2-project-unified-accounting-view-caliber.md`、`phase2-commission-stage-gate-overview-workspace.md` | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
-| `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | `phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                                                                  | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
-| 商业放行基线与最终合同差异校验                                 | `R4-001` | `phase2-presigning-pricing-margin-workspace.md`、`phase2-presigning-contract-readiness-workspace.md`、`contract-finance-design.md`                                                                                                 | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
-| 第二阶段验收 / 阶段成果确认对象与证据链                        | `R2-004` | `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
-| `internalCostRate` 治理基线                                    | `R3-002` | `phase2-project-actual-cost-records.md`、`phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
-| 敏感数据主边界与最小可见集                                     | `R1-006` | `phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 多合同项目主假设与冻结模式                                     | `R4-005` | `../../contract-finance-design.md`、`../../phase2-contract-to-handover-workspace.md`、`../../phase2-project-business-outcome-overview.md`、`../../phase2-project-unified-accounting-view-caliber.md`、`../../phase2-commission-stage-gate-overview-workspace.md` | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| `签约就绪 -> ContractTermSnapshot / ReceivablePlan` 结构化承接 | `R2-001` | `../../phase2-presigning-contract-readiness-workspace.md`、`../../contract-finance-design.md`                                                                                                                                                  | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 商业放行基线与最终合同差异校验                                 | `R4-001` | `../../phase2-presigning-pricing-margin-workspace.md`、`../../phase2-presigning-contract-readiness-workspace.md`、`../../contract-finance-design.md`                                                                                                 | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 第二阶段验收 / 阶段成果确认对象与证据链                        | `R2-004` | `../../phase2-commission-stage-gate-overview-workspace.md`、`../../phase2-commission-staged-payout-adjustment-paths.md`                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| `internalCostRate` 治理基线                                    | `R3-002` | `../../phase2-project-actual-cost-records.md`、`../../phase2-cost-source-to-project-record-mapping.md`                                                                                                                                         | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
+| 敏感数据主边界与最小可见集                                     | `R1-006` | `../../phase2-data-permission-and-sensitive-visibility-design.md`                                                                                                                                                                        | 已完成主规则回写、一轮跨文档一致性复核与七层实现映射回写 |
 
 第一批当前判断：
 
 - 若第一批未完成正式回写，不应继续推进全主线实现设计
 - 第一批的目标不是一次性写完全部规则，而是先冻结主事实和主边界
 - 截至 2026-04-01，`R4-005`、`R2-001`、`R4-001`、`R2-004`、`R3-002`、`R1-006` 已完成首轮主规则回写、一轮跨文档一致性复核，以及 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard` 七层实现映射回写；当前应作为全主线实现设计的先行输入
-- 第一批进入后续全主线实现设计前的实现映射桥接入口，统一见 `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
-- 第一批范围与出入场条件，统一见 `archive/phase2-batches/phase2-first-batch-scope.md`
+- 第一批进入后续全主线实现设计前的实现映射桥接入口，统一见 `../phase2-batches/phase2-first-batch-implementation-mapping.md`
+- 第一批范围与出入场条件，统一见 `../phase2-batches/phase2-first-batch-scope.md`
 
 ---
 
@@ -117,17 +119,17 @@
 - 已完成第一批 6 个专题的七层实现映射回写
 - 已完成第二批 7 个专题、当前范围内第三批专题以及六份实现设计总文档的正式写回与关键联动文档补点
 - 已完成 `L1 ~ L5` 全主线最终一致性复核，当前范围内未发现阻断统一开发判断的跨文档冲突
-- `LX-T04` 当前正式口径统一见 `phase2-lx-t04-full-mainline-development-decision.md`，本轮已正式给出 Go 结论，并明确统一开发范围与工程切片顺序
+- `LX-T04` 当前正式口径统一见 `../../phase2-lx-t04-full-mainline-development-decision.md`，本轮已正式给出 Go 结论，并明确统一开发范围与工程切片顺序
 
 | 专题                               | 覆盖问题 | 主要回写文档                                                                                                                                                                                                                                                     | 当前收口目标                                                                                                                 |
 | ---------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| 分摊成本与项目共享事实             | `R1-002` | `phase2-cost-source-to-project-record-mapping.md`、`phase2-estimated-to-actual-cost-bridge.md`                                                                                                                                                                   | 固定分摊依据、共享事实与项目级聚合规则                                                                                       |
-| 执行阶段归属与历史稳定派生         | `R2-002` | `phase2-project-actual-cost-records.md`、`phase2-actual-cost-accumulation-stage-view.md`                                                                                                                                                                         | 固定阶段归属字段或派生规则，避免历史解释漂移                                                                                 |
-| 税务影响与财务核算口径             | `R1-004` | `phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定进项税等税务影响在经营口径中的处理方式                                                                                   |
-| 执行中合同变更基线与变更包基线     | `R4-002` | `phase2-estimated-to-actual-cost-bridge.md`、`phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                 | 区分原始基线与变更包基线，并定义汇总与重算规则                                                                               |
-| 时点快照、期末冻结与补录重述       | `R2-003` | `phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定月末、关账、补录后的历史回看口径                                                                                         |
-| 经营公式边界与数据成熟度联动       | `R3-004` | `phase2-project-unified-accounting-view-caliber.md`、`phase2-business-accounting-feedback-rules.md`                                                                                                                                                              | 统一低回款比例、极端值和成熟度解释规则                                                                                       |
-| `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | `phase2-business-accounting-feedback-rules.md`、`phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md`、`phase2-commission-rule-explanation-language.md` | 固定税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级与审批留痕口径，并统一 `L5` 的 gate / 发放 / 结算 / 解释消费链 |
+| 分摊成本与项目共享事实             | `R1-002` | `../../phase2-cost-source-to-project-record-mapping.md`、`../../phase2-estimated-to-actual-cost-bridge.md`                                                                                                                                                                   | 固定分摊依据、共享事实与项目级聚合规则                                                                                       |
+| 执行阶段归属与历史稳定派生         | `R2-002` | `../../phase2-project-actual-cost-records.md`、`../../phase2-actual-cost-accumulation-stage-view.md`                                                                                                                                                                         | 固定阶段归属字段或派生规则，避免历史解释漂移                                                                                 |
+| 税务影响与财务核算口径             | `R1-004` | `../../phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定进项税等税务影响在经营口径中的处理方式                                                                                   |
+| 执行中合同变更基线与变更包基线     | `R4-002` | `../../phase2-estimated-to-actual-cost-bridge.md`、`../../phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                 | 区分原始基线与变更包基线，并定义汇总与重算规则                                                                               |
+| 时点快照、期末冻结与补录重述       | `R2-003` | `../../phase2-project-unified-accounting-view-caliber.md`                                                                                                                                                                                                              | 固定月末、关账、补录后的历史回看口径                                                                                         |
+| 经营公式边界与数据成熟度联动       | `R3-004` | `../../phase2-project-unified-accounting-view-caliber.md`、`../../phase2-business-accounting-feedback-rules.md`                                                                                                                                                              | 统一低回款比例、极端值和成熟度解释规则                                                                                       |
+| `L4` 经营信号到 `L5 gate` 绑定矩阵 | `R4-003` | `../../phase2-business-accounting-feedback-rules.md`、`../../phase2-commission-stage-gate-overview-workspace.md`、`../../phase2-commission-staged-payout-adjustment-paths.md`、`../../phase2-commission-retention-final-settlement.md`、`../../phase2-commission-rule-explanation-language.md` | 固定税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级与审批留痕口径，并统一 `L5` 的 gate / 发放 / 结算 / 解释消费链 |
 
 第二批当前判断：
 
@@ -142,17 +144,17 @@
 
 | 专题                     | 覆盖问题 | 主要回写文档                                                                                   | 当前收口目标                                                 |
 | ------------------------ | -------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 合同变更再基线化         | `R1-003` | `phase2-contract-to-handover-workspace.md`                                                     | 固定合同生效后到移交前的再基线化触发、待切换生效状态与结果链 |
-| 签约前受控回退与负路径   | `R3-001` | `phase2-presigning-workspace-handoff-map.md`                                                   | 固定否决、重估、范围变更等负路径处理与受控回退结果链         |
-| 例外查看与短时揭示       | `R2-005` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定申请、审批、揭示、到期失效、审计留痕与短时授权链         |
-| 审批摘要字段包           | `R4-004` | `phase2-data-permission-and-sensitive-visibility-design.md`、`workflow-and-approval-design.md` | 固定审批场景最小字段集、投影级别、导出策略与摘要快照口径     |
-| 冻结后受控变更与争议处理 | `R3-006` | `phase2-commission-freeze-at-handover.md`、`workflow-and-approval-design.md`                   | 固定发起条件、审批角色、争议仲裁、替代冻结版本与重算影响链   |
+| 合同变更再基线化         | `R1-003` | `../../phase2-contract-to-handover-workspace.md`                                                     | 固定合同生效后到移交前的再基线化触发、待切换生效状态与结果链 |
+| 签约前受控回退与负路径   | `R3-001` | `../../phase2-presigning-workspace-handoff-map.md`                                                   | 固定否决、重估、范围变更等负路径处理与受控回退结果链         |
+| 例外查看与短时揭示       | `R2-005` | `../../phase2-data-permission-and-sensitive-visibility-design.md`、`../../workflow-and-approval-design.md` | 固定申请、审批、揭示、到期失效、审计留痕与短时授权链         |
+| 审批摘要字段包           | `R4-004` | `../../phase2-data-permission-and-sensitive-visibility-design.md`、`../../workflow-and-approval-design.md` | 固定审批场景最小字段集、投影级别、导出策略与摘要快照口径     |
+| 冻结后受控变更与争议处理 | `R3-006` | `../../phase2-commission-freeze-at-handover.md`、`../../workflow-and-approval-design.md`                   | 固定发起条件、审批角色、争议仲裁、替代冻结版本与重算影响链   |
 
 第三批当前判断：
 
 - 第三批可并行，但不应反向改写第一批和第二批已冻结的主事实
-- 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `archive/phase2-batches/phase2-third-batch-scope.md` 与 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
-- 截至当前，`L1` 受控回退结果链、`L3` 再基线化结果链，以及审批摘要 / 例外授权 / 冻结争议公共链已分别补入对应主文档与 `workflow-and-approval-design.md`，第三批跨文档一致性复核与全主线最终一致性复核也已完成，当前进入 `LX-T04` 的统一开发判断与工程启动准备
+- 截至 2026-04-02，第三批已完成正式范围锁定、实现映射桥接、六份实现设计总文档的首轮写回、关键业务主文档的首轮写回，以及剩余关键联动文档的必要补点，统一见 `../phase2-batches/phase2-third-batch-scope.md` 与 `../phase2-batches/phase2-third-batch-implementation-mapping.md`
+- 截至当前，`L1` 受控回退结果链、`L3` 再基线化结果链，以及审批摘要 / 例外授权 / 冻结争议公共链已分别补入对应主文档与 `../../workflow-and-approval-design.md`，第三批跨文档一致性复核与全主线最终一致性复核也已完成，当前进入 `LX-T04` 的统一开发判断与工程启动准备
 
 ---
 
@@ -173,8 +175,8 @@
 
 当前更稳妥的推进顺序如下：
 
-1. 先以 `archive/phase2-batches/phase2-second-batch-implementation-mapping.md` 为桥接入口完成六份实现设计总文档写回；当前该步已完成，下一步转入一致性校验并打开第三批专题实现设计。
-2. 再以 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md` 为桥接入口，在六份实现设计总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续推进第三批跨文档一致性复核。
+1. 先以 `../phase2-batches/phase2-second-batch-implementation-mapping.md` 为桥接入口完成六份实现设计总文档写回；当前该步已完成，下一步转入一致性校验并打开第三批专题实现设计。
+2. 再以 `../phase2-batches/phase2-third-batch-implementation-mapping.md` 为桥接入口，在六份实现设计总文档、关键业务主文档与剩余关键联动文档补点已落地的基础上，继续推进第三批跨文档一致性复核。
 3. 第四批始终以范围限制或 follow-up 方式显式记录，不得默默丢失。
 4. 当前已完成 `L1 ~ L5` 全主线在当前范围内的实现设计与统一开发判断，后续转入按统一范围与切片顺序推进工程实现。
 
@@ -182,10 +184,10 @@
 
 - `phase2-review-checklist.md`
 - `phase2-review-comprehensive-assessment.md`
-- `archive/phase2-batches/phase2-first-batch-scope.md`
-- `poms-design-progress.md`
-- `phase2-experience-optimization-roadmap.md`
-- `phase2-detailed-design-index-map.md`
+- `../phase2-batches/phase2-first-batch-scope.md`
+- `../../poms-design-progress.md`
+- `../../phase2-experience-optimization-roadmap.md`
+- `../../phase2-detailed-design-index-map.md`
 
 ---
 

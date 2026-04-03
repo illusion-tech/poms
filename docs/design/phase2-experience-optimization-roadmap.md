@@ -388,8 +388,8 @@
 | 编号     | 任务                                                   | 当前状态 | 备注                                                                                                                                                                                            |
 | -------- | ------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `LX-T01` | 回收成统一“第二阶段详细设计索引 / 主线地图”            | `Done`   | 已产出 `phase2-detailed-design-index-map.md`                                                                                                                                                    |
-| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `phase2-review-checklist.md`                                                                                                            |
-| `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `phase2-review-checklist.md`、`phase2-review-comprehensive-assessment.md`、`phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` |
+| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `archive/reviews/phase2-review-checklist.md`                                                                                                            |
+| `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` |
 | `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Done`   | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；已完成统一开发判断并给出 Go 结论，旧的首批受控实现排期判断继续保留为归档输入                                                  |
 
 ### 6.7 当前明确不展开的方向

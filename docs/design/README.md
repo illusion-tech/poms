@@ -97,13 +97,10 @@
 
 ### 4. 评审与治理文档（Reviews）
 
-用于承载设计收口、评审检查、评审摘要等过程性资产，回答“当前设计成熟度如何、还差什么”。
+用于承载当前主线控制、统一开发判断，以及已完成评审治理结果的索引入口，回答“当前设计成熟度如何、工程应从哪里进入”。
 
 当前文档包括：
 
-- `phase2-review-comprehensive-assessment.md`：第二阶段正式审阅综合评估，负责把四轮问题收敛为优先级判断与统一结论
-- `phase2-review-follow-up-plan.md`：第二阶段正式审阅 follow-up 清单，负责承接专题拆分、跨文档收口与已完成项归并
-- `phase2-review-checklist.md`：第二阶段正式审阅清单，负责收敛 phase2 基线文档的审阅范围、审阅维度、问题记录与结论入口
 - `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划，负责统一主线目标、阶段状态与当前实施入口
 - `phase2-mainline-implementation-design-matrix.md`：第二阶段主线实现设计证明矩阵，负责证明各主线已具备进入开发的设计闭环
 - `phase2-mainline-task-tracker.md`：第二阶段主线任务收口记录，负责保留 `L1 ~ L5` 与 `LX-01 / LX-T04` 的完成轨迹
@@ -111,6 +108,8 @@
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
+
+第二阶段正式审阅三件套 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 已在第二轮治理中转入归档，作为历史审阅依据保留，不再作为当前默认开发入口。
 
 ## 命名规则
 
@@ -287,9 +286,6 @@
 
 #### 控制与实施入口
 
-- `phase2-review-comprehensive-assessment.md`
-- `phase2-review-follow-up-plan.md`
-- `phase2-review-checklist.md`
 - `phase2-mainline-delivery-plan.md`
 - `phase2-mainline-implementation-design-matrix.md`
 - `phase2-mainline-task-tracker.md`
@@ -299,7 +295,7 @@
 ### 已归档过程资产
 
 - `archive/README.md`
-- `archive/reviews/`：已完成使命的评审清单、评审摘要、分轮审阅记录与已撤销历史判断
+- `archive/reviews/`：已完成使命的正式审阅清单、综合评估、follow-up 清单、评审摘要、分轮审阅记录与已撤销历史判断
 - `archive/phase2-batches/`：第一批、第二批、第三批范围说明与实现映射桥接文档
 
 ## 后续演进建议
