@@ -1,4 +1,14 @@
-import type { NavigationItem, NavigationSyncSummary, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList } from '@poms/shared-contracts';
+import type {
+    MoveOrgUnitRequest,
+    NavigationItem,
+    NavigationSyncSummary,
+    PlatformOrgUnitDetail,
+    PlatformOrgUnitSummary,
+    PlatformOrgUnitTree,
+    PlatformRoleSummary,
+    PlatformUserList,
+    UpdateOrgUnitActivationRequest
+} from '@poms/shared-contracts';
 import type { UserPayload } from '@poms/shared-contracts';
 import {
     AssignRolePermissionsRequestDto,
@@ -7,14 +17,18 @@ import {
     CreateOrgUnitRequestDto,
     CreatePlatformUserRequestDto,
     CreateRoleRequestDto,
+    MoveOrgUnitRequestDto,
     NavigationListDto,
     NavigationSyncSummaryDto,
+    PlatformOrgUnitDetailDto,
     PlatformOrgUnitListDto,
     PlatformOrgUnitSummaryDto,
+    PlatformOrgUnitTreeDto,
     PlatformRoleListDto,
     PlatformRoleSummaryDto,
     PlatformUserListDto,
     SanitizedUserWithOrgUnitsDto,
+    UpdateOrgUnitActivationRequestDto,
     UpdateOrgUnitRequestDto,
     UpdatePlatformUserActivationRequestDto
 } from '@poms/api-contracts';
@@ -119,6 +133,22 @@ export class PlatformController {
         return this.platformService.listOrgUnits();
     }
 
+    @Get('org-units/tree')
+    @HasPermissions('platform:org-units:manage')
+    @ApiOperation({ summary: '获取平台组织树' })
+    @ApiOkResponse({ type: PlatformOrgUnitTreeDto })
+    async listOrgUnitTree(): Promise<PlatformOrgUnitTree> {
+        return this.platformService.listOrgUnitTree();
+    }
+
+    @Get('org-units/:id')
+    @HasPermissions('platform:org-units:manage')
+    @ApiOperation({ summary: '获取组织单元详情' })
+    @ApiOkResponse({ type: PlatformOrgUnitDetailDto })
+    getOrgUnit(@Param('id') id: string): Promise<PlatformOrgUnitDetail> {
+        return this.platformService.getOrgUnit(id);
+    }
+
     @Post('org-units')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '创建组织单元' })
@@ -133,6 +163,41 @@ export class PlatformController {
     @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
     updateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
         return this.platformService.updateOrgUnit(id, body, req.user.sub);
+    }
+
+    @Post('org-units/:id/activate')
+    @HasPermissions('platform:org-units:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '启用组织单元' })
+    @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
+    activateOrgUnit(
+        @Param('id') id: string,
+        @Body() body: UpdateOrgUnitActivationRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<PlatformOrgUnitSummary> {
+        return this.platformService.activateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
+    }
+
+    @Post('org-units/:id/deactivate')
+    @HasPermissions('platform:org-units:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '停用组织单元' })
+    @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
+    deactivateOrgUnit(
+        @Param('id') id: string,
+        @Body() body: UpdateOrgUnitActivationRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<PlatformOrgUnitSummary> {
+        return this.platformService.deactivateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
+    }
+
+    @Post('org-units/:id/move')
+    @HasPermissions('platform:org-units:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '移动组织单元并调整排序' })
+    @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
+    moveOrgUnit(@Param('id') id: string, @Body() body: MoveOrgUnitRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
+        return this.platformService.moveOrgUnit(id, body as MoveOrgUnitRequest, req.user.sub);
     }
 
     @Get('navigation')

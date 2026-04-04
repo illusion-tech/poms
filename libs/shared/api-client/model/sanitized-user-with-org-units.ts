@@ -35,6 +35,7 @@ export enum SanitizedUserWithOrgUnitsPermissionsEnum {
     CommissionCalculationsManage = 'commission:calculations:manage',
     CommissionPayoutsManage = 'commission:payouts:manage',
     CommissionAdjustmentsManage = 'commission:adjustments:manage',
+    ContractFinanceManage = 'contract:finance:manage',
     ProjectRead = 'project:read',
     ProjectWrite = 'project:write',
     ProjectDelete = 'project:delete',

@@ -9,10 +9,10 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
+export interface MoveOrgUnitRequest { 
+    parentId?: string | null;
     displayOrder?: number;
+    reason?: string;
+    expectedVersion?: number;
 }
 

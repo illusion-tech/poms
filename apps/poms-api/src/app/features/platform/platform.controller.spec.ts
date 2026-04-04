@@ -14,6 +14,8 @@ describe('PlatformController', () => {
             getSanitizedUserProfile: jest.fn(),
             listRoles: jest.fn(),
             listOrgUnits: jest.fn(),
+            listOrgUnitTree: jest.fn(),
+            getOrgUnit: jest.fn(),
             createUser: jest.fn(),
             activateUser: jest.fn(),
             deactivateUser: jest.fn(),
@@ -22,7 +24,10 @@ describe('PlatformController', () => {
             createRole: jest.fn(),
             assignRolePermissions: jest.fn(),
             createOrgUnit: jest.fn(),
-            updateOrgUnit: jest.fn()
+            updateOrgUnit: jest.fn(),
+            activateOrgUnit: jest.fn(),
+            deactivateOrgUnit: jest.fn(),
+            moveOrgUnit: jest.fn()
         } as unknown as jest.Mocked<PlatformService>;
 
         navigationService = {
@@ -72,6 +77,24 @@ describe('PlatformController', () => {
 
         expect(service.listOrgUnits).toHaveBeenCalled();
         expect(result).toHaveLength(1);
+    });
+
+    it('returns org unit tree from service', async () => {
+        service.listOrgUnitTree.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', children: [] } as never]);
+
+        const result = await controller.listOrgUnitTree();
+
+        expect(service.listOrgUnitTree).toHaveBeenCalled();
+        expect(result).toHaveLength(1);
+    });
+
+    it('returns org unit detail from service', async () => {
+        service.getOrgUnit.mockResolvedValue({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心' } as never);
+
+        const result = await controller.getOrgUnit('10000000-0000-4000-8000-000000000001');
+
+        expect(service.getOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001');
+        expect(result.id).toBe('10000000-0000-4000-8000-000000000001');
     });
 
     it('delegates createUser to service with request body', async () => {
@@ -168,6 +191,39 @@ describe('PlatformController', () => {
         const result = await controller.updateOrgUnit('10000000-0000-4000-8000-000000000001', body as never, request as never);
 
         expect(service.updateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body, 'operator-id');
+        expect(result).toBe(updated);
+    });
+
+    it('delegates activateOrgUnit to service with id and body', async () => {
+        const body = { reason: 're-enable' };
+        const updated = { id: '10000000-0000-4000-8000-000000000001', isActive: true };
+        service.activateOrgUnit.mockResolvedValue(updated as never);
+
+        const result = await controller.activateOrgUnit('10000000-0000-4000-8000-000000000001', body as never, request as never);
+
+        expect(service.activateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body, 'operator-id');
+        expect(result).toBe(updated);
+    });
+
+    it('delegates deactivateOrgUnit to service with id and body', async () => {
+        const body = { reason: 'retire' };
+        const updated = { id: '10000000-0000-4000-8000-000000000001', isActive: false };
+        service.deactivateOrgUnit.mockResolvedValue(updated as never);
+
+        const result = await controller.deactivateOrgUnit('10000000-0000-4000-8000-000000000001', body as never, request as never);
+
+        expect(service.deactivateOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body, 'operator-id');
+        expect(result).toBe(updated);
+    });
+
+    it('delegates moveOrgUnit to service with id and body', async () => {
+        const body = { parentId: null, displayOrder: 3 };
+        const updated = { id: '10000000-0000-4000-8000-000000000001', displayOrder: 3 };
+        service.moveOrgUnit.mockResolvedValue(updated as never);
+
+        const result = await controller.moveOrgUnit('10000000-0000-4000-8000-000000000001', body as never, request as never);
+
+        expect(service.moveOrgUnit).toHaveBeenCalledWith('10000000-0000-4000-8000-000000000001', body, 'operator-id');
         expect(result).toBe(updated);
     });
 

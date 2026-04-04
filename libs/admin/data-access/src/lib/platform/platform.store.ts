@@ -6,9 +6,11 @@ import type {
     CreateOrgUnitRequest,
     CreatePlatformUserRequest,
     CreateRoleRequest,
+    MoveOrgUnitRequest,
     PlatformOrgUnitSummary,
     PlatformRoleSummary,
     PlatformUserSummary,
+    UpdateOrgUnitActivationRequest,
     UpdateOrgUnitRequest
 } from '@poms/shared-api-client';
 import { PlatformApi } from '@poms/shared-api-client';
@@ -177,6 +179,39 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerUpdateOrgUnit({ id, updateOrgUnitRequest: body }));
+            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            return updated;
+        } finally {
+            this.#savingOrgUnit.set(false);
+        }
+    }
+
+    async activateOrgUnit(id: string, body: UpdateOrgUnitActivationRequest = {}) {
+        this.#savingOrgUnit.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerActivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
+            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            return updated;
+        } finally {
+            this.#savingOrgUnit.set(false);
+        }
+    }
+
+    async deactivateOrgUnit(id: string, body: UpdateOrgUnitActivationRequest = {}) {
+        this.#savingOrgUnit.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerDeactivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
+            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            return updated;
+        } finally {
+            this.#savingOrgUnit.set(false);
+        }
+    }
+
+    async moveOrgUnit(id: string, body: MoveOrgUnitRequest) {
+        this.#savingOrgUnit.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerMoveOrgUnit({ id, moveOrgUnitRequest: body }));
             this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
             return updated;
         } finally {

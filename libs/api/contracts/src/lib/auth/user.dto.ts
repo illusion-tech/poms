@@ -9,14 +9,19 @@ import {
     LoginResponseSchema,
     NavigationItemSchema,
     NavigationSyncSummarySchema,
+    MoveOrgUnitRequestSchema,
+    OrgUnitTreeNodeSchema,
+    PlatformOrgUnitDetailSchema,
     PlatformOrgUnitListSchema,
     PlatformOrgUnitSummarySchema,
+    PlatformOrgUnitTreeSchema,
     PlatformRoleListSchema,
     PlatformRoleSummarySchema,
     PlatformUserListSchema,
     PlatformUserSummarySchema,
     SanitizedUserSchema,
     SanitizedUserWithOrgUnitsSchema,
+    UpdateOrgUnitActivationRequestSchema,
     UpdateOrgUnitRequestSchema,
     UpdatePlatformUserActivationRequestSchema,
     UserPayloadSchema,
@@ -54,6 +59,12 @@ export class PlatformOrgUnitSummaryDto extends createZodDto(PlatformOrgUnitSumma
 
 export class PlatformOrgUnitListDto extends createZodDto(PlatformOrgUnitListSchema) {}
 
+export class PlatformOrgUnitDetailDto extends createZodDto(PlatformOrgUnitDetailSchema) {}
+
+export class OrgUnitTreeNodeDto extends createZodDto(OrgUnitTreeNodeSchema) {}
+
+export class PlatformOrgUnitTreeDto extends createZodDto(PlatformOrgUnitTreeSchema) {}
+
 export class CreatePlatformUserRequestDto extends createZodDto(CreatePlatformUserRequestSchema) {}
 
 export class UpdatePlatformUserActivationRequestDto extends createZodDto(UpdatePlatformUserActivationRequestSchema) {}
@@ -69,3 +80,7 @@ export class AssignRolePermissionsRequestDto extends createZodDto(AssignRolePerm
 export class CreateOrgUnitRequestDto extends createZodDto(CreateOrgUnitRequestSchema) {}
 
 export class UpdateOrgUnitRequestDto extends createZodDto(UpdateOrgUnitRequestSchema) {}
+
+export class UpdateOrgUnitActivationRequestDto extends createZodDto(UpdateOrgUnitActivationRequestSchema) {}
+
+export class MoveOrgUnitRequestDto extends createZodDto(MoveOrgUnitRequestSchema) {}

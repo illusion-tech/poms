@@ -9,10 +9,12 @@
  */
 
 
-export interface AssignRolePermissionsRequest { 
-    permissionKeys: Array<AssignRolePermissionsRequestPermissionKeysEnum>;
+export interface RecordRouteDeniedSecurityEventRequest { 
+    path: string;
+    returnUrl?: string | null;
+    requiredPermissions: Array<RecordRouteDeniedSecurityEventRequestRequiredPermissionsEnum>;
 }
-export enum AssignRolePermissionsRequestPermissionKeysEnum {
+export enum RecordRouteDeniedSecurityEventRequestRequiredPermissionsEnum {
     PlatformUsersManage = 'platform:users:manage',
     PlatformRolesManage = 'platform:roles:manage',
     PlatformNavigationManage = 'platform:navigation:manage',

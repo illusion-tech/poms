@@ -9,10 +9,14 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export enum PaymentRecordStatus {
+
+    Draft = 'draft',
+
+    Recorded = 'recorded',
+
+    Confirmed = 'confirmed',
+
+    Void = 'void'
 }
 

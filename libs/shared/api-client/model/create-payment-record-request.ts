@@ -9,10 +9,11 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface CreatePaymentRecordRequest { 
+    contractId?: string | null;
+    paymentAmount: string;
+    paymentDate: string;
+    costCategory: string;
+    sourceType?: string;
 }
 

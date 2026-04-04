@@ -9,10 +9,12 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export enum SecurityEventSeverity {
+
+    Info = 'info',
+
+    Warning = 'warning',
+
+    High = 'high'
 }
 

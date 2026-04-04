@@ -9,10 +9,12 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export enum AuditLogResult {
+
+    Success = 'success',
+
+    Rejected = 'rejected',
+
+    Failed = 'failed'
 }
 

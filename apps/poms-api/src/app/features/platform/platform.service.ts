@@ -1,4 +1,25 @@
-import type { AssignRolePermissionsRequest, AssignUserOrgMembershipsRequest, AssignUserRolesRequest, CreateOrgUnitRequest, CreatePlatformUserRequest, CreateRoleRequest, NavigationSyncSummary, PermissionKey, PlatformOrgUnitSummary, PlatformRoleSummary, PlatformUserList, PlatformUserSummary, SanitizedUserWithOrgUnits, UpdateOrgUnitRequest, UpdatePlatformUserActivationRequest } from '@poms/shared-contracts';
+import type {
+    AssignRolePermissionsRequest,
+    AssignUserOrgMembershipsRequest,
+    AssignUserRolesRequest,
+    CreateOrgUnitRequest,
+    CreatePlatformUserRequest,
+    CreateRoleRequest,
+    MoveOrgUnitRequest,
+    NavigationSyncSummary,
+    OrgUnitTreeNode,
+    PermissionKey,
+    PlatformOrgUnitDetail,
+    PlatformOrgUnitSummary,
+    PlatformOrgUnitTree,
+    PlatformRoleSummary,
+    PlatformUserList,
+    PlatformUserSummary,
+    SanitizedUserWithOrgUnits,
+    UpdateOrgUnitActivationRequest,
+    UpdateOrgUnitRequest,
+    UpdatePlatformUserActivationRequest
+} from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
@@ -198,9 +219,36 @@ export class PlatformService {
         return orgUnits.map((orgUnit) => this.#toOrgUnitSummary(orgUnit));
     }
 
+    async listOrgUnitTree(): Promise<PlatformOrgUnitTree> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const membershipCountsByOrgUnitId = await this.#getActiveMembershipCountsByOrgUnitId();
+
+        return this.#buildOrgUnitTree(orgUnits, membershipCountsByOrgUnitId);
+    }
+
+    async getOrgUnit(id: string): Promise<PlatformOrgUnitDetail> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const orgUnit = orgUnits.find((candidate) => candidate.id === id);
+        if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
+
+        const children = orgUnits.filter((candidate) => candidate.parentId === id);
+        const activeMembershipCount = (await this.#getActiveMembershipCountsByOrgUnitId()).get(id) ?? 0;
+
+        return {
+            ...this.#toOrgUnitSummary(orgUnit),
+            childCount: children.length,
+            activeMembershipCount,
+            canDelete: children.length === 0 && activeMembershipCount === 0
+        };
+    }
+
     async createOrgUnit(request: CreateOrgUnitRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
         const existing = await this.platformRepository.findOrgUnitByCode(request.code);
         if (existing) throw new ConflictException(`OrgUnit code ${request.code} already exists`);
+
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const parent = this.#resolveRequestedParent(orgUnits, request.parentId);
+        this.#assertSiblingNameAvailable(orgUnits, parent?.id ?? null, request.name);
 
         const orgUnit = this.platformRepository.createOrgUnit({
             name: request.name,
@@ -208,7 +256,7 @@ export class PlatformService {
             description: request.description ?? null,
             parentId: request.parentId ?? null,
             isActive: true,
-            displayOrder: request.displayOrder ?? 0,
+            displayOrder: this.#resolveDisplayOrder(orgUnits, parent?.id ?? null, request.displayOrder),
             createdBy: null,
             updatedBy: null
         });
@@ -231,15 +279,25 @@ export class PlatformService {
     }
 
     async updateOrgUnit(id: string, request: UpdateOrgUnitRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
         const orgUnit = await this.platformRepository.findOrgUnitById(id);
         if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
         const beforeSnapshot = {
             name: orgUnit.name,
+            code: orgUnit.code,
             description: orgUnit.description,
             displayOrder: orgUnit.displayOrder
         };
 
-        if (request.name !== undefined) orgUnit.name = request.name;
+        if (request.code !== undefined && request.code !== orgUnit.code) {
+            const existing = await this.platformRepository.findOrgUnitByCode(request.code);
+            if (existing && existing.id !== orgUnit.id) throw new ConflictException(`OrgUnit code ${request.code} already exists`);
+            orgUnit.code = request.code;
+        }
+        if (request.name !== undefined && request.name !== orgUnit.name) {
+            this.#assertSiblingNameAvailable(orgUnits, orgUnit.parentId ?? null, request.name, orgUnit.id);
+            orgUnit.name = request.name;
+        }
         if (request.description !== undefined) orgUnit.description = request.description ?? null;
         if (request.displayOrder !== undefined) orgUnit.displayOrder = request.displayOrder;
 
@@ -253,8 +311,147 @@ export class PlatformService {
             beforeSnapshot,
             afterSnapshot: {
                 name: orgUnit.name,
+                code: orgUnit.code,
                 description: orgUnit.description,
                 displayOrder: orgUnit.displayOrder
+            }
+        });
+        return this.#toOrgUnitSummary(orgUnit);
+    }
+
+    async activateOrgUnit(id: string, request: UpdateOrgUnitActivationRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const orgUnit = orgUnits.find((candidate) => candidate.id === id);
+        if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
+
+        const parent = orgUnit.parentId ? orgUnits.find((candidate) => candidate.id === orgUnit.parentId) ?? null : null;
+        if (parent && !parent.isActive) {
+            await this.runtimeAuditService.recordAuditLog({
+                eventType: 'platform.org-unit.activate.rejected',
+                targetType: 'OrgUnit',
+                targetId: orgUnit.id,
+                operatorId: operatorId ?? null,
+                result: 'rejected',
+                reason: 'inactive-parent',
+                beforeSnapshot: { isActive: orgUnit.isActive, parentId: orgUnit.parentId },
+                metadata: { request }
+            });
+            throw new ConflictException(`OrgUnit ${id} cannot be activated under an inactive parent`);
+        }
+
+        const beforeSnapshot = { isActive: orgUnit.isActive };
+        orgUnit.isActive = true;
+        await this.platformRepository.saveAll([orgUnit]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.org-unit.activated',
+            targetType: 'OrgUnit',
+            targetId: orgUnit.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: { isActive: orgUnit.isActive }
+        });
+        return this.#toOrgUnitSummary(orgUnit);
+    }
+
+    async deactivateOrgUnit(id: string, request: UpdateOrgUnitActivationRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const orgUnit = orgUnits.find((candidate) => candidate.id === id);
+        if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
+
+        const descendantIds = this.#collectDescendantIds(orgUnits, id);
+        const affectedOrgUnits = orgUnits.filter((candidate) => candidate.id === id || descendantIds.has(candidate.id));
+        const beforeSnapshot = affectedOrgUnits.map((candidate) => ({ id: candidate.id, isActive: candidate.isActive }));
+        for (const candidate of affectedOrgUnits) {
+            candidate.isActive = false;
+        }
+
+        await this.platformRepository.saveAll(affectedOrgUnits);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.org-unit.deactivated',
+            targetType: 'OrgUnit',
+            targetId: orgUnit.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot: {
+                orgUnits: beforeSnapshot
+            },
+            afterSnapshot: {
+                orgUnits: affectedOrgUnits.map((candidate) => ({ id: candidate.id, isActive: candidate.isActive }))
+            },
+            metadata: {
+                request,
+                cascadedCount: Math.max(affectedOrgUnits.length - 1, 0)
+            }
+        });
+        return this.#toOrgUnitSummary(orgUnit);
+    }
+
+    async moveOrgUnit(id: string, request: MoveOrgUnitRequest, operatorId?: string | null): Promise<PlatformOrgUnitSummary> {
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const orgUnit = orgUnits.find((candidate) => candidate.id === id);
+        if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
+
+        const nextParentId = request.parentId !== undefined ? request.parentId : orgUnit.parentId ?? null;
+        const nextParent = this.#resolveRequestedParent(orgUnits, nextParentId);
+
+        if (nextParent && !nextParent.isActive) {
+            await this.runtimeAuditService.recordAuditLog({
+                eventType: 'platform.org-unit.move.rejected',
+                targetType: 'OrgUnit',
+                targetId: orgUnit.id,
+                operatorId: operatorId ?? null,
+                result: 'rejected',
+                reason: 'inactive-parent',
+                beforeSnapshot: { parentId: orgUnit.parentId, displayOrder: orgUnit.displayOrder },
+                metadata: { request }
+            });
+            throw new ConflictException(`OrgUnit ${id} cannot move under an inactive parent`);
+        }
+
+        const descendantIds = this.#collectDescendantIds(orgUnits, id);
+        if (nextParent && descendantIds.has(nextParent.id)) {
+            await this.runtimeAuditService.recordAuditLog({
+                eventType: 'platform.org-unit.move.rejected',
+                targetType: 'OrgUnit',
+                targetId: orgUnit.id,
+                operatorId: operatorId ?? null,
+                result: 'rejected',
+                reason: 'cycle-detected',
+                beforeSnapshot: { parentId: orgUnit.parentId, displayOrder: orgUnit.displayOrder },
+                metadata: { request }
+            });
+            throw new ConflictException(`OrgUnit ${id} cannot move under its own descendant`);
+        }
+
+        this.#assertSiblingNameAvailable(orgUnits, nextParent?.id ?? null, orgUnit.name, orgUnit.id);
+
+        const beforeSnapshot = {
+            parentId: orgUnit.parentId,
+            displayOrder: orgUnit.displayOrder
+        };
+
+        orgUnit.parentId = nextParent?.id ?? null;
+        orgUnit.displayOrder = this.#resolveDisplayOrder(
+            orgUnits.filter((candidate) => candidate.id !== orgUnit.id),
+            orgUnit.parentId ?? null,
+            request.displayOrder ?? orgUnit.displayOrder
+        );
+
+        await this.platformRepository.saveAll([orgUnit]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.org-unit.moved',
+            targetType: 'OrgUnit',
+            targetId: orgUnit.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: {
+                parentId: orgUnit.parentId,
+                displayOrder: orgUnit.displayOrder
+            },
+            metadata: {
+                request
             }
         });
         return this.#toOrgUnitSummary(orgUnit);
@@ -266,6 +463,10 @@ export class PlatformService {
             throw new ConflictException(`Platform user ${request.username} already exists`);
         }
 
+        if (request.primaryOrgUnitId) {
+            await this.#assertOrgUnitIdsAreActive([request.primaryOrgUnitId]);
+        }
+ 
         const user = this.platformRepository.createUser({
             username: request.username,
             displayName: request.displayName,
@@ -392,6 +593,11 @@ export class PlatformService {
     async assignUserOrgMemberships(userId: string, request: AssignUserOrgMembershipsRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+        const uniqueTargetIds = new Set([request.primaryOrgUnitId, ...request.secondaryOrgUnitIds]);
+        if (uniqueTargetIds.size !== request.secondaryOrgUnitIds.length + 1) {
+            throw new ConflictException('Duplicate org unit assignments are not allowed');
+        }
+        await this.#assertOrgUnitIdsAreActive([...uniqueTargetIds]);
         const previousMemberships = (await this.platformRepository.findActiveUserOrgMemberships())
             .filter((membership) => membership.userId === userId)
             .map((membership) => ({
@@ -485,6 +691,114 @@ export class PlatformService {
         }
 
         return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId };
+    }
+
+    async #assertOrgUnitIdsAreActive(orgUnitIds: string[]): Promise<void> {
+        const uniqueOrgUnitIds = [...new Set(orgUnitIds)];
+        if (uniqueOrgUnitIds.length === 0) return;
+
+        const orgUnits = await this.platformRepository.findAllOrgUnits();
+        const orgUnitMap = new Map(orgUnits.map((orgUnit) => [orgUnit.id, orgUnit]));
+
+        for (const orgUnitId of uniqueOrgUnitIds) {
+            const orgUnit = orgUnitMap.get(orgUnitId);
+            if (!orgUnit) throw new NotFoundException(`OrgUnit ${orgUnitId} not found`);
+            if (!orgUnit.isActive) throw new ConflictException(`OrgUnit ${orgUnitId} is inactive`);
+        }
+    }
+
+    async #getActiveMembershipCountsByOrgUnitId(): Promise<Map<string, number>> {
+        const counts = new Map<string, number>();
+        for (const membership of await this.platformRepository.findActiveUserOrgMemberships()) {
+            counts.set(membership.orgUnitId, (counts.get(membership.orgUnitId) ?? 0) + 1);
+        }
+        return counts;
+    }
+
+    #resolveRequestedParent(orgUnits: OrgUnit[], parentId: string | null | undefined): OrgUnit | null {
+        if (!parentId) return null;
+        const parent = orgUnits.find((candidate) => candidate.id === parentId);
+        if (!parent) throw new NotFoundException(`OrgUnit ${parentId} not found`);
+        if (!parent.isActive) throw new ConflictException(`OrgUnit ${parentId} is inactive`);
+        return parent;
+    }
+
+    #assertSiblingNameAvailable(orgUnits: OrgUnit[], parentId: string | null, name: string, excludedOrgUnitId?: string): void {
+        const normalizedName = name.trim().toLocaleLowerCase();
+        const conflict = orgUnits.find(
+            (candidate) =>
+                candidate.id !== excludedOrgUnitId &&
+                (candidate.parentId ?? null) === parentId &&
+                candidate.name.trim().toLocaleLowerCase() === normalizedName
+        );
+
+        if (conflict) {
+            throw new ConflictException(`OrgUnit name ${name} already exists under the same parent`);
+        }
+    }
+
+    #resolveDisplayOrder(orgUnits: OrgUnit[], parentId: string | null, requestedDisplayOrder: number | undefined): number {
+        if (requestedDisplayOrder !== undefined) return requestedDisplayOrder;
+
+        const siblingDisplayOrders = orgUnits
+            .filter((candidate) => (candidate.parentId ?? null) === parentId)
+            .map((candidate) => candidate.displayOrder);
+
+        return siblingDisplayOrders.length === 0 ? 0 : Math.max(...siblingDisplayOrders) + 1;
+    }
+
+    #collectDescendantIds(orgUnits: OrgUnit[], rootId: string): Set<string> {
+        const descendants = new Set<string>();
+        const queue = [rootId];
+
+        while (queue.length > 0) {
+            const currentId = queue.shift();
+            if (!currentId) continue;
+
+            for (const candidate of orgUnits) {
+                if (candidate.parentId !== currentId || descendants.has(candidate.id)) continue;
+                descendants.add(candidate.id);
+                queue.push(candidate.id);
+            }
+        }
+
+        return descendants;
+    }
+
+    #buildOrgUnitTree(orgUnits: OrgUnit[], membershipCountsByOrgUnitId: Map<string, number>): PlatformOrgUnitTree {
+        const sortedOrgUnits = [...orgUnits].sort((left, right) => this.#compareOrgUnits(left, right));
+        const childrenByParentId = new Map<string | null, OrgUnit[]>();
+
+        for (const orgUnit of sortedOrgUnits) {
+            const parentId = orgUnit.parentId ?? null;
+            const siblings = childrenByParentId.get(parentId) ?? [];
+            siblings.push(orgUnit);
+            childrenByParentId.set(parentId, siblings);
+        }
+
+        const buildNode = (orgUnit: OrgUnit): OrgUnitTreeNode => {
+            const children = (childrenByParentId.get(orgUnit.id) ?? []).map(buildNode);
+            const activeMembershipCount = membershipCountsByOrgUnitId.get(orgUnit.id) ?? 0;
+
+            return {
+                ...this.#toOrgUnitSummary(orgUnit),
+                childCount: children.length,
+                activeMembershipCount,
+                canDelete: children.length === 0 && activeMembershipCount === 0,
+                children
+            };
+        };
+
+        return (childrenByParentId.get(null) ?? []).map(buildNode);
+    }
+
+    #compareOrgUnits(left: OrgUnit, right: OrgUnit): number {
+        return (
+            left.displayOrder - right.displayOrder ||
+            left.createdAt.getTime() - right.createdAt.getTime() ||
+            left.name.localeCompare(right.name, 'zh-CN') ||
+            left.id.localeCompare(right.id)
+        );
     }
 
     #toRoleSummary(role: PlatformRole): PlatformRoleSummary {

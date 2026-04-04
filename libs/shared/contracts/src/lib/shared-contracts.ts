@@ -177,6 +177,34 @@ export const PlatformOrgUnitListSchema = z.array(PlatformOrgUnitSummarySchema).m
 
 export type PlatformOrgUnitList = z.infer<typeof PlatformOrgUnitListSchema>;
 
+export const PlatformOrgUnitDetailSchema = PlatformOrgUnitSummarySchema.extend({
+    childCount: z.number().int().nonnegative(),
+    activeMembershipCount: z.number().int().nonnegative(),
+    canDelete: z.boolean()
+}).meta({ id: 'PlatformOrgUnitDetail' });
+
+export type PlatformOrgUnitDetail = z.infer<typeof PlatformOrgUnitDetailSchema>;
+
+export interface OrgUnitTreeNode extends PlatformOrgUnitSummary {
+    childCount: number;
+    activeMembershipCount: number;
+    canDelete: boolean;
+    children: OrgUnitTreeNode[];
+}
+
+export const OrgUnitTreeNodeSchema: z.ZodType<OrgUnitTreeNode> = z.lazy(() =>
+    PlatformOrgUnitSummarySchema.extend({
+        childCount: z.number().int().nonnegative(),
+        activeMembershipCount: z.number().int().nonnegative(),
+        canDelete: z.boolean(),
+        children: z.array(OrgUnitTreeNodeSchema)
+    }).meta({ id: 'OrgUnitTreeNode' })
+);
+
+export const PlatformOrgUnitTreeSchema = z.array(OrgUnitTreeNodeSchema).meta({ id: 'PlatformOrgUnitTree' });
+
+export type PlatformOrgUnitTree = z.infer<typeof PlatformOrgUnitTreeSchema>;
+
 export const CreatePlatformUserRequestSchema = z
     .object({
         username: z.string().min(1).max(64),
@@ -255,15 +283,40 @@ export type CreateOrgUnitRequest = z.infer<typeof CreateOrgUnitRequestSchema>;
 export const UpdateOrgUnitRequestSchema = z
     .object({
         name: z.string().trim().min(1).max(128).optional(),
+        code: z.string().trim().min(1).max(64).optional(),
         description: z.string().max(1000).nullable().optional(),
         displayOrder: z.number().int().min(0).optional()
     })
-    .refine((v) => v.name !== undefined || v.description !== undefined || v.displayOrder !== undefined, {
+    .refine((v) => v.name !== undefined || v.code !== undefined || v.description !== undefined || v.displayOrder !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateOrgUnitRequest' });
 
 export type UpdateOrgUnitRequest = z.infer<typeof UpdateOrgUnitRequestSchema>;
+
+export const UpdateOrgUnitActivationRequestSchema = z
+    .object({
+        reason: z.string().max(1000).optional(),
+        comment: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'UpdateOrgUnitActivationRequest' });
+
+export type UpdateOrgUnitActivationRequest = z.infer<typeof UpdateOrgUnitActivationRequestSchema>;
+
+export const MoveOrgUnitRequestSchema = z
+    .object({
+        parentId: z.uuid().nullable().optional(),
+        displayOrder: z.number().int().min(0).optional(),
+        reason: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine((value) => value.parentId !== undefined || value.displayOrder !== undefined, {
+        message: 'At least one field is required for move'
+    })
+    .meta({ id: 'MoveOrgUnitRequest' });
+
+export type MoveOrgUnitRequest = z.infer<typeof MoveOrgUnitRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // JWT UserPayload（JWT 解码后注入到 Request.user 的结构）

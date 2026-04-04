@@ -74,13 +74,15 @@
 - ADR 已明确组织单元应演进为树结构正式模型
 - 当前共享契约中的 `UnitOrg` 仅包含 `id/name/code/description`
 - 当前 `SanitizedUserWithOrgUnits` 中的 `orgUnits` 仍基于轻量 `UnitOrg` 输出
-- 当前真实组织树、启停、排序、父子关系管理尚未进入正式实现
+- 当前已具备 `OrgUnit` 正式实体、基础 migration、repository 与平台管理模块
+- 当前已具备组织列表、组织树、详情、创建、更新、启用、停用、移动等真实 API
+- 当前 `UserOrgMembership` 已作为真实持久化关系模型落地，且组织绑定已拒绝停用组织
 
 当前缺口判断：
 
-- 尚无 `OrgUnit` 正式实体、migration、repository 与管理模块
-- 尚无组织树查询、详情、创建、更新、启停、移动等真实 API
-- 尚无 `UserOrgMembership` 的真实持久化关系模型
+- 管理端当前仍以列表管理为主，尚未演进为完整树形管理视图
+- 第一阶段仍以“停用优先于删除”为主，删除链路保持受控
+- 组织范围权限、按子树授权等复杂治理能力仍未纳入当前实现
 
 这意味着第一阶段组织单元设计需要明确：
 

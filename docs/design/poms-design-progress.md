@@ -142,6 +142,7 @@
 | `docs/design/phase2-mainline-delivery-plan.md`                            | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口 | 是                 |
 | `docs/design/phase2-lx-t04-full-mainline-development-decision.md`         | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束 | 是                 |
 | `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                 | 是                 |
+| `docs/design/phase2-development-execution-tracker.md`                     | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                   | 是                 |
 
 ### 4.6 已归档过程资产
 
@@ -239,6 +240,7 @@
 - 已完成设计目录第三轮归档治理：已建立 `docs/design/archive/mainline-closure/`，并把 `phase2-mainline-task-tracker.md` 转为主线收口历史轨迹文档，根目录当前输入不再把已完成任务跟踪视作默认入口
 - 已完成设计目录第四轮归档治理：已把 `phase2-mainline-implementation-design-matrix.md` 转为主线证明历史材料，根目录当前输入不再把主线完整性证明文档视作默认入口
 - 已完成设计目录第六轮归档治理：已建立 `docs/design/archive/control-history/`，并把两份 phase2 当前控制文档的长篇论证版本转入归档；根目录同名文档当前只保留正式入口、正式结论与当前执行口径
+- 已形成 `phase2-development-execution-tracker.md`，开始把第二阶段统一开发范围进一步拆成可分配、可追踪、可回写的执行层任务板
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---
@@ -249,8 +251,9 @@
 
 1. 按 `phase2-lx-t04-full-mainline-development-decision.md` 固定的统一开发范围推进工程切片实施
 2. 按 `phase2-mainline-delivery-plan.md` 与 `implementation-delivery-guide.md` 的要求，把实现结果持续回写到设计文档与进度板
-3. 将已显式后置的第四批未来扩展、表达增强与范围外主题继续维持为历史限制，不静默混入当前开发承诺
-4. 若后续需要回溯第一阶段正式收口证据，统一回看 `archive/phase1-closure/README.md` 与同目录下的验收材料
+3. 按 `phase2-development-execution-tracker.md` 维护当前任务状态、负责人、依赖与阻塞项
+4. 将已显式后置的第四批未来扩展、表达增强与范围外主题继续维持为历史限制，不静默混入当前开发承诺
+5. 若后续需要回溯第一阶段正式收口证据，统一回看 `archive/phase1-closure/README.md` 与同目录下的验收材料
 
 ---
 
@@ -295,7 +298,7 @@
 
 1. 当前统一工程顺序仍是：平台治理补齐切片 -> `L1 / L2` 可信源与快照基础切片 -> `L3` 收口链切片 -> 提成治理主机制切片 -> `L4 / L5` 联动链。
 2. 当前历史回溯入口固定为：`archive/control-history/`、`archive/mainline-closure/`、`archive/phase2-batches/`。
-3. 当前主线导航入口固定为：`phase2-mainline-delivery-plan.md`、`phase2-lx-t04-full-mainline-development-decision.md`、`phase2-detailed-design-index-map.md` 与 `implementation-delivery-guide.md`。
+3. 当前主线导航入口固定为：`phase2-mainline-delivery-plan.md`、`phase2-lx-t04-full-mainline-development-decision.md`、`phase2-detailed-design-index-map.md`、`implementation-delivery-guide.md` 与 `phase2-development-execution-tracker.md`。
 
 ---
 

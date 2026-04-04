@@ -9,10 +9,16 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export enum ReceiptRecordStatus {
+
+    Draft = 'draft',
+
+    PendingConfirmation = 'pending-confirmation',
+
+    Confirmed = 'confirmed',
+
+    Reversed = 'reversed',
+
+    Void = 'void'
 }
 

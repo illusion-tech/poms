@@ -9,10 +9,9 @@
  */
 
 
-export interface UpdateOrgUnitRequest { 
-    name?: string;
-    code?: string;
-    description?: string | null;
-    displayOrder?: number;
+export interface CreateReceiptRecordRequest { 
+    receiptAmount: string;
+    receiptDate: string;
+    sourceType?: string;
 }
 

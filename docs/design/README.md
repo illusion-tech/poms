@@ -103,6 +103,7 @@
 - `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划的当前精简入口，负责统一主线目标、当前阶段状态、默认阅读路径与工程进入顺序
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责固定是否进入开发、统一开发范围、切片顺序与启动约束
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
+- `phase2-development-execution-tracker.md`：第二阶段开发执行追踪板，负责承接当前统一开发范围下的任务拆解、状态跟踪与执行回写
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
 
 第二阶段正式审阅三件套 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 已在第二轮治理中转入归档，作为历史审阅依据保留，不再作为当前默认开发入口。
@@ -253,8 +254,9 @@
 4. 再读 `phase2-mainline-delivery-plan.md`
 5. 再读 `phase2-detailed-design-index-map.md`
 6. 再读 `implementation-delivery-guide.md`
-7. 最后按业务域主文档与六份实现设计总文档进入具体实现
-8. 仅在需要过程回溯时，再进入 `archive/README.md`
+7. 再读 `phase2-development-execution-tracker.md`
+8. 最后按业务域主文档与六份实现设计总文档进入具体实现
+9. 仅在需要过程回溯时，再进入 `archive/README.md`
 
 ## 当前目录索引
 
@@ -295,6 +297,7 @@
 - `phase2-mainline-delivery-plan.md`
 - `phase2-lx-t04-full-mainline-development-decision.md`
 - `implementation-delivery-guide.md`
+- `phase2-development-execution-tracker.md`
 
 ### 已归档过程资产
 

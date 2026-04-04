@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { PlatformOrgUnitSummary } from '@poms/admin-data-access';
 import { PlatformStore } from '@poms/admin-data-access';
@@ -12,11 +12,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-org-unit-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule],
     providers: [MessageService],
     template: `
         <p-toast />
@@ -55,8 +56,13 @@ import { ToastModule } from 'primeng/toast';
                             <th pSortableColumn="code">
                                 <span class="flex items-center gap-2">组织编码 <p-sortIcon field="code" /></span>
                             </th>
+                            <th>上级组织</th>
+                            <th pSortableColumn="displayOrder">
+                                <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
+                            </th>
+                            <th>状态</th>
                             <th>描述</th>
-                            <th style="width: 6rem">操作</th>
+                            <th style="width: 12rem">操作</th>
                         </tr>
                     </ng-template>
                     <ng-template #body let-unit>
@@ -68,16 +74,44 @@ import { ToastModule } from 'primeng/toast';
                                 <span class="text-surface-400 text-xs font-mono">{{ unit.code ?? '—' }}</span>
                             </td>
                             <td>
+                                <span class="text-surface-500 text-sm">{{ getParentName(unit.parentId) }}</span>
+                            </td>
+                            <td>
+                                <span class="text-surface-500 text-sm">{{ unit.displayOrder }}</span>
+                            </td>
+                            <td>
+                                <span
+                                    class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
+                                    [class]="unit.isActive ? 'bg-green-100 text-green-700' : 'bg-surface-200 text-surface-700'"
+                                >
+                                    {{ unit.isActive ? '启用' : '停用' }}
+                                </span>
+                            </td>
+                            <td>
                                 <span class="text-surface-500 text-sm">{{ unit.description ?? '—' }}</span>
                             </td>
                             <td>
-                                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" />
+                                <div class="flex items-center gap-1">
+                                    <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" />
+                                    <p-button icon="pi pi-share-alt" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="移动" tooltipPosition="top" (onClick)="openMoveDialog(unit)" class="cursor-pointer" />
+                                    <p-button
+                                        [icon]="unit.isActive ? 'pi pi-ban' : 'pi pi-check'"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        [severity]="unit.isActive ? 'danger' : 'success'"
+                                        [pTooltip]="unit.isActive ? '停用' : '启用'"
+                                        tooltipPosition="top"
+                                        (onClick)="toggleOrgUnit(unit)"
+                                        class="cursor-pointer"
+                                    />
+                                </div>
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template #emptymessage>
                         <tr>
-                            <td colspan="4" class="text-center py-8 text-surface-400">{{ platformStore.loadingOrgUnits() ? '加载中...' : '暂无组织' }}</td>
+                            <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingOrgUnits() ? '加载中...' : '暂无组织' }}</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -98,6 +132,19 @@ import { ToastModule } from 'primeng/toast';
                         <label class="font-medium">描述</label>
                         <textarea pTextarea [(ngModel)]="createForm.description" rows="3" placeholder="组织简介（可选）" class="w-full"></textarea>
                     </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">上级组织</label>
+                        <select [(ngModel)]="createForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2">
+                            <option [ngValue]="null">作为根节点</option>
+                            @for (unit of selectableParents(); track unit.id) {
+                                <option [ngValue]="unit.id">{{ unit.name }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="createForm.displayOrder" class="w-full" />
+                    </div>
                 </div>
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
@@ -116,12 +163,15 @@ import { ToastModule } from 'primeng/toast';
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织编码</label>
-                        <input pInputText [(ngModel)]="editForm.code" class="w-full" [readonly]="true" />
-                        <small class="text-surface-500">组织编码创建后暂不支持修改</small>
+                        <input pInputText [(ngModel)]="editForm.code" class="w-full" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">描述</label>
                         <textarea pTextarea [(ngModel)]="editForm.description" rows="3" class="w-full"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" />
                     </div>
                 </div>
                 <ng-template #footer>
@@ -131,12 +181,37 @@ import { ToastModule } from 'primeng/toast';
                     </div>
                 </ng-template>
             </p-dialog>
+
+            <p-dialog [(visible)]="moveDialogVisible" [modal]="true" header="移动组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">上级组织</label>
+                        <select [(ngModel)]="moveForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2">
+                            <option [ngValue]="null">移动到根节点</option>
+                            @for (unit of selectableParents(movingId()); track unit.id) {
+                                <option [ngValue]="unit.id">{{ unit.name }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="moveForm.displayOrder" class="w-full" />
+                    </div>
+                </div>
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="moveDialogVisible = false" />
+                        <p-button label="保存位置" [loading]="platformStore.savingOrgUnit()" (onClick)="moveOrgUnit()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
         </div>
     `
 })
 export class OrgUnitList {
     readonly platformStore = inject(PlatformStore);
     private readonly messageService = inject(MessageService);
+    readonly orgUnitsById = computed(() => new Map(this.platformStore.orgUnits().map((unit) => [unit.id, unit])));
 
     @ViewChild('dt') dt!: Table;
 
@@ -145,10 +220,10 @@ export class OrgUnitList {
     // ── Create ─────────────────────────────────────────────────────────────
 
     createDialogVisible = false;
-    createForm = { name: '', code: '', description: '' };
+    createForm = { name: '', code: '', description: '', parentId: null as string | null, displayOrder: 0 };
 
     openCreateDialog() {
-        this.createForm = { name: '', code: '', description: '' };
+        this.createForm = { name: '', code: '', description: '', parentId: null, displayOrder: 0 };
         this.createDialogVisible = true;
     }
 
@@ -161,7 +236,9 @@ export class OrgUnitList {
             await this.platformStore.createOrgUnit({
                 name: this.createForm.name.trim(),
                 code: this.createForm.code.trim(),
-                description: this.createForm.description.trim() || null
+                description: this.createForm.description.trim() || null,
+                parentId: this.createForm.parentId,
+                displayOrder: Number(this.createForm.displayOrder ?? 0)
             });
             this.createDialogVisible = false;
             this.messageService.add({ severity: 'success', summary: '创建成功', detail: `组织 ${this.createForm.name} 已创建` });
@@ -174,21 +251,23 @@ export class OrgUnitList {
 
     editDialogVisible = false;
     editingId = signal('');
-    editForm = { name: '', code: '', description: '' };
+    editForm = { name: '', code: '', description: '', displayOrder: 0 };
 
     openEditDialog(unit: PlatformOrgUnitSummary) {
         this.editingId.set(unit.id);
-        this.editForm = { name: unit.name, code: unit.code ?? '', description: unit.description ?? '' };
+        this.editForm = { name: unit.name, code: unit.code ?? '', description: unit.description ?? '', displayOrder: unit.displayOrder ?? 0 };
         this.editDialogVisible = true;
     }
 
     async saveOrgUnit() {
         const id = this.editingId();
-        if (!id || !this.editForm.name.trim()) return;
+        if (!id || !this.editForm.name.trim() || !this.editForm.code.trim()) return;
         try {
             await this.platformStore.updateOrgUnit(id, {
                 name: this.editForm.name.trim(),
-                description: this.editForm.description.trim() || null
+                code: this.editForm.code.trim(),
+                description: this.editForm.description.trim() || null,
+                displayOrder: Number(this.editForm.displayOrder ?? 0)
             });
             this.editDialogVisible = false;
             this.messageService.add({ severity: 'success', summary: '保存成功', detail: '组织信息已更新' });
@@ -197,10 +276,66 @@ export class OrgUnitList {
         }
     }
 
+    // ── Move / Activation ───────────────────────────────────────────────────
+
+    moveDialogVisible = false;
+    movingId = signal('');
+    moveForm = { parentId: null as string | null, displayOrder: 0 };
+
+    openMoveDialog(unit: PlatformOrgUnitSummary) {
+        this.movingId.set(unit.id);
+        this.moveForm = {
+            parentId: unit.parentId ?? null,
+            displayOrder: unit.displayOrder ?? 0
+        };
+        this.moveDialogVisible = true;
+    }
+
+    async moveOrgUnit() {
+        const id = this.movingId();
+        if (!id) return;
+        try {
+            await this.platformStore.moveOrgUnit(id, {
+                parentId: this.moveForm.parentId,
+                displayOrder: Number(this.moveForm.displayOrder ?? 0)
+            });
+            this.moveDialogVisible = false;
+            this.messageService.add({ severity: 'success', summary: '移动成功', detail: '组织位置已更新' });
+        } catch {
+            this.messageService.add({ severity: 'error', summary: '移动失败', detail: '请检查目标父级和排序设置' });
+        }
+    }
+
+    async toggleOrgUnit(unit: PlatformOrgUnitSummary) {
+        try {
+            if (unit.isActive) {
+                await this.platformStore.deactivateOrgUnit(unit.id, {});
+            } else {
+                await this.platformStore.activateOrgUnit(unit.id, {});
+            }
+            this.messageService.add({
+                severity: 'success',
+                summary: '状态已更新',
+                detail: `组织 ${unit.name} 已${unit.isActive ? '停用' : '启用'}`
+            });
+        } catch {
+            this.messageService.add({ severity: 'error', summary: '状态更新失败', detail: '请检查组织层级状态后重试' });
+        }
+    }
+
     // ── Helpers ────────────────────────────────────────────────────────────
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    getParentName(parentId: string | null): string {
+        if (!parentId) return '—';
+        return this.orgUnitsById().get(parentId)?.name ?? '—';
+    }
+
+    selectableParents(excludedId?: string): PlatformOrgUnitSummary[] {
+        return this.platformStore.orgUnits().filter((unit) => unit.id !== excludedId);
     }
 
     constructor() {

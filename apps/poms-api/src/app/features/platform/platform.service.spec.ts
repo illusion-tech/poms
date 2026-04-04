@@ -171,6 +171,7 @@ describe('PlatformService', () => {
     describe('createUser', () => {
         it('creates user with role assignments and primary org membership', async () => {
             repository.findUserByUsername.mockResolvedValue(null);
+            repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', isActive: true })]);
             const createdUser = createUser({ id: '00000000-0000-4000-8000-000000000002', username: 'newuser', displayName: '新用户' });
             repository.createUser.mockReturnValue(createdUser);
             repository.createUserRoleAssignment.mockReturnValue({});
@@ -319,7 +320,10 @@ describe('PlatformService', () => {
             repository.createUserOrgMembership.mockReturnValue({});
             repository.findAllUsers.mockResolvedValue([]);
             repository.findAllRoles.mockResolvedValue([]);
-            repository.findAllOrgUnits.mockResolvedValue([]);
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', isActive: true }),
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000002', code: 'SALES-EAST', isActive: true })
+            ]);
             repository.findActiveUserRoleAssignments.mockResolvedValue([]);
             repository.findActiveUserOrgMemberships.mockResolvedValue([]);
 
@@ -354,6 +358,18 @@ describe('PlatformService', () => {
                     secondaryOrgUnitIds: []
                 })
             ).rejects.toThrow(NotFoundException);
+        });
+
+        it('rejects inactive org units when replacing memberships', async () => {
+            repository.findUserById.mockResolvedValue(createUser());
+            repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', isActive: false })]);
+
+            await expect(
+                service.assignUserOrgMemberships('00000000-0000-4000-8000-000000000001', {
+                    primaryOrgUnitId: '10000000-0000-4000-8000-000000000001',
+                    secondaryOrgUnitIds: []
+                })
+            ).rejects.toThrow(ConflictException);
         });
     });
 
@@ -537,6 +553,7 @@ describe('PlatformService', () => {
     describe('createOrgUnit', () => {
         it('creates org unit when code does not exist', async () => {
             repository.findOrgUnitByCode.mockResolvedValue(null);
+            repository.findAllOrgUnits.mockResolvedValue([]);
             const created = createOrgUnit({ id: '10000000-0000-4000-8000-000000000003', name: '华北销售部', code: 'SALES-NORTH' });
             repository.createOrgUnit.mockReturnValue(created);
 
@@ -568,12 +585,20 @@ describe('PlatformService', () => {
                 service.createOrgUnit({ name: '重复销售中心', code: 'SALES-HQ' })
             ).rejects.toThrow(ConflictException);
         });
+
+        it('rejects duplicate sibling names under the same parent', async () => {
+            repository.findOrgUnitByCode.mockResolvedValue(null);
+            repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: '10000000-0000-4000-8000-000000000010', name: '销售中心', parentId: null })]);
+
+            await expect(service.createOrgUnit({ name: '销售中心', code: 'SALES-NORTH' })).rejects.toThrow(ConflictException);
+        });
     });
 
     describe('updateOrgUnit', () => {
         it('updates org unit fields and saves', async () => {
             const orgUnit = createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', displayOrder: 0 });
             repository.findOrgUnitById.mockResolvedValue(orgUnit);
+            repository.findAllOrgUnits.mockResolvedValue([orgUnit]);
 
             const result = await service.updateOrgUnit('10000000-0000-4000-8000-000000000001', {
                 name: '销售总部',
@@ -594,11 +619,136 @@ describe('PlatformService', () => {
         });
 
         it('throws NotFoundException when org unit does not exist', async () => {
+            repository.findAllOrgUnits.mockResolvedValue([]);
             repository.findOrgUnitById.mockResolvedValue(null);
 
             await expect(
                 service.updateOrgUnit('10000000-0000-4000-8000-000000000099', { name: '不存在' })
             ).rejects.toThrow(NotFoundException);
+        });
+    });
+
+    describe('listOrgUnitTree', () => {
+        it('returns nested org units with derived metadata', async () => {
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '总部', parentId: null }),
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000002', name: '华北', parentId: '10000000-0000-4000-8000-000000000001' })
+            ]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([
+                { userId: 'u1', orgUnitId: '10000000-0000-4000-8000-000000000002', membershipType: 'primary' }
+            ]);
+
+            const result = await service.listOrgUnitTree();
+
+            expect(result).toEqual([
+                expect.objectContaining({
+                    id: '10000000-0000-4000-8000-000000000001',
+                    childCount: 1,
+                    children: [
+                        expect.objectContaining({
+                            id: '10000000-0000-4000-8000-000000000002',
+                            activeMembershipCount: 1,
+                            canDelete: false
+                        })
+                    ]
+                })
+            ]);
+        });
+    });
+
+    describe('getOrgUnit', () => {
+        it('returns org unit detail with counts', async () => {
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '总部' }),
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000002', parentId: '10000000-0000-4000-8000-000000000001', name: '华北' })
+            ]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([
+                { userId: 'u1', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
+            ]);
+
+            const result = await service.getOrgUnit('10000000-0000-4000-8000-000000000001');
+
+            expect(result).toEqual(
+                expect.objectContaining({
+                    id: '10000000-0000-4000-8000-000000000001',
+                    childCount: 1,
+                    activeMembershipCount: 1,
+                    canDelete: false
+                })
+            );
+        });
+    });
+
+    describe('activateOrgUnit', () => {
+        it('rejects activation when parent is inactive', async () => {
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: 'parent', isActive: false }),
+                createOrgUnit({ id: 'child', parentId: 'parent', isActive: false })
+            ]);
+
+            await expect(service.activateOrgUnit('child', {})).rejects.toThrow(ConflictException);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.activate.rejected',
+                    targetId: 'child',
+                    result: 'rejected'
+                })
+            );
+        });
+    });
+
+    describe('deactivateOrgUnit', () => {
+        it('cascades deactivation to descendants', async () => {
+            const parent = createOrgUnit({ id: 'parent', isActive: true });
+            const child = createOrgUnit({ id: 'child', parentId: 'parent', isActive: true });
+            repository.findAllOrgUnits.mockResolvedValue([parent, child]);
+
+            const result = await service.deactivateOrgUnit('parent', {});
+
+            expect(result.isActive).toBe(false);
+            expect(child.isActive).toBe(false);
+            expect(repository.saveAll).toHaveBeenCalledWith([parent, child]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.deactivated',
+                    targetId: 'parent'
+                })
+            );
+        });
+    });
+
+    describe('moveOrgUnit', () => {
+        it('moves an org unit under a different parent', async () => {
+            const parent = createOrgUnit({ id: 'parent' });
+            const child = createOrgUnit({ id: 'child', parentId: null, displayOrder: 0 });
+            repository.findAllOrgUnits.mockResolvedValue([parent, child]);
+
+            const result = await service.moveOrgUnit('child', { parentId: 'parent', displayOrder: 2 });
+
+            expect(result.parentId).toBe('parent');
+            expect(result.displayOrder).toBe(2);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.moved',
+                    targetId: 'child'
+                })
+            );
+        });
+
+        it('rejects moving an org unit under its own descendant', async () => {
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: 'parent' }),
+                createOrgUnit({ id: 'child', parentId: 'parent' })
+            ]);
+
+            await expect(service.moveOrgUnit('parent', { parentId: 'child' })).rejects.toThrow(ConflictException);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.org-unit.move.rejected',
+                    targetId: 'parent',
+                    result: 'rejected'
+                })
+            );
         });
     });
 
