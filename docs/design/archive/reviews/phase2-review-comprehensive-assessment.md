@@ -21,7 +21,7 @@
 
 本文档用于保留四轮正式审阅发现的 22 个问题从“已记录”推进到“已形成可执行综合判断”时的正式评估结果。
 
-2026-04-04 起，本文档转入 `archive/reviews/`。其综合评估结论已被 `../../phase2-mainline-delivery-plan.md`、`../../phase2-mainline-implementation-design-matrix.md`、`../../phase2-lx-t04-full-mainline-development-decision.md` 与 `../../poms-design-progress.md` 吸收，当前不再作为默认开发入口。
+2026-04-04 起，本文档转入 `archive/reviews/`。其综合评估结论已被 `../../phase2-mainline-delivery-plan.md`、`../mainline-closure/phase2-mainline-implementation-design-matrix.md`、`../../phase2-lx-t04-full-mainline-development-decision.md` 与 `../../poms-design-progress.md` 吸收，当前不再作为默认开发入口。
 
 本文档重点回答以下问题：
 

@@ -8,8 +8,8 @@
 - 上游设计:
   - `phase2-experience-optimization-roadmap.md`
   - `phase2-mainline-delivery-plan.md`
-  - `phase2-mainline-implementation-design-matrix.md`
   - `phase2-lx-t04-full-mainline-development-decision.md`
+  - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
   - `archive/phase2-batches/phase2-second-batch-scope.md`
   - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
   - `archive/phase2-batches/phase2-third-batch-scope.md`
@@ -41,7 +41,7 @@
 
 若需要先理解“第二阶段整体到底在做什么、当前真实处于哪一步、审阅问题与实现设计是什么关系”，应先阅读 `phase2-mainline-delivery-plan.md`。
 
-若需要进一步确认 `L1 ~ L5` 五条主线是否都存在从基线到实现设计的完整推进路径，以及哪些第四批内容不会阻断当前主线继续下钻，应继续阅读 `phase2-mainline-implementation-design-matrix.md`。
+若需要回溯 `L1 ~ L5` 五条主线是如何被证明具备从基线到实现设计的完整推进路径，以及哪些第四批内容不会阻断当前主线继续下钻，应继续阅读 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`。
 
 ---
 

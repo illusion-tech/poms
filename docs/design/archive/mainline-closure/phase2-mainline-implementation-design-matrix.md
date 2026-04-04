@@ -1,32 +1,36 @@
 # POMS 第二阶段主线实现设计覆盖矩阵
 
-**文档状态**: Active
+**文档状态**: Archived
 **最后更新**: 2026-04-04
-**适用范围**: `POMS` 第二阶段 `L1 ~ L5` 五条主线从业务基线进入实现设计层的覆盖证明、阻断判断与推进矩阵
+**适用范围**: `POMS` 第二阶段 `L1 ~ L5` 五条主线从业务基线进入实现设计层的历史覆盖证明、阻断判断与推进矩阵留痕
 **关联文档**:
 
 - 主线与路线:
-  - `phase2-mainline-delivery-plan.md`
-  - `phase2-experience-optimization-roadmap.md`
-  - `phase2-detailed-design-index-map.md`
+   - `../../phase2-mainline-delivery-plan.md`
+   - `../../phase2-experience-optimization-roadmap.md`
+   - `../../phase2-detailed-design-index-map.md`
 - 审阅与收口:
-  - `archive/reviews/phase2-review-comprehensive-assessment.md`
-  - `archive/reviews/phase2-review-follow-up-plan.md`
-  - `archive/phase2-batches/phase2-first-batch-scope.md`
-  - `archive/phase2-batches/phase2-first-batch-implementation-mapping.md`
-  - `archive/phase2-batches/phase2-second-batch-scope.md`
-  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
+   - `../reviews/phase2-review-comprehensive-assessment.md`
+   - `../reviews/phase2-review-follow-up-plan.md`
+   - `../phase2-batches/phase2-first-batch-scope.md`
+   - `../phase2-batches/phase2-first-batch-implementation-mapping.md`
+   - `../phase2-batches/phase2-second-batch-scope.md`
+   - `../phase2-batches/phase2-second-batch-implementation-mapping.md`
 - 实现设计总文档:
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `query-view-boundary-design.md`
-  - `data-model-prerequisites.md`
-  - `table-structure-freeze-design.md`
-  - `schema-ddl-design.md`
+   - `../../interface-command-design.md`
+   - `../../interface-openapi-dto-design.md`
+   - `../../query-view-boundary-design.md`
+   - `../../data-model-prerequisites.md`
+   - `../../table-structure-freeze-design.md`
+   - `../../schema-ddl-design.md`
 
 ---
 
 ## 1. 文档目标
+
+本文档原用于证明第二阶段主线实现设计已经具备完整推进路径。
+
+2026-04-04 起，本文档转入 `archive/mainline-closure/`。其证明性结论已被 `../../phase2-mainline-delivery-plan.md`、`../../phase2-detailed-design-index-map.md`、`../../phase2-lx-t04-full-mainline-development-decision.md` 与 `../../poms-design-progress.md` 吸收，当前不再作为默认开发入口。
 
 本文档不再回答“22 个审阅问题如何分批处理”这一单点问题，而是直接回答一个更关键的问题：
 
@@ -121,12 +125,12 @@
 `L1` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-presigning-workspace-information-architecture.md`（其中包含 `立项与推进` 章节）
-   - `phase2-presigning-project-overview-workspace.md`
-   - `phase2-presigning-technical-cost-workspace.md`
-   - `phase2-presigning-bid-commercial-workspace.md`
-   - `phase2-presigning-pricing-margin-workspace.md`
-   - `phase2-presigning-contract-readiness-workspace.md`
+   - `../../phase2-presigning-workspace-information-architecture.md`（其中包含 `立项与推进` 章节）
+   - `../../phase2-presigning-project-overview-workspace.md`
+   - `../../phase2-presigning-technical-cost-workspace.md`
+   - `../../phase2-presigning-bid-commercial-workspace.md`
+   - `../../phase2-presigning-pricing-margin-workspace.md`
+   - `../../phase2-presigning-contract-readiness-workspace.md`
 2. 第一批已把 `R2-001` 与 `R4-001` 纳入实现设计前置，因此 `签约就绪` 承接与商业放行差异复核已有正式下钻入口。
 3. 第三批的 `R3-001` 与审批摘要快照规则已继续固定到 `command / query / DTO / guard`，说明负路径增强已经具备正式接口边界，而不是只停留在业务主文档。
 4. 第四批的多币种扩展已显式后置，不阻断单币种主线继续下钻。
@@ -148,10 +152,10 @@
 `L2` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-project-actual-cost-records.md`
-   - `phase2-cost-source-to-project-record-mapping.md`
-   - `phase2-actual-cost-accumulation-stage-view.md`
-   - `phase2-estimated-to-actual-cost-bridge.md`
+   - `../../phase2-project-actual-cost-records.md`
+   - `../../phase2-cost-source-to-project-record-mapping.md`
+   - `../../phase2-actual-cost-accumulation-stage-view.md`
+   - `../../phase2-estimated-to-actual-cost-bridge.md`
 2. 第一批已把 `R3-002` 纳入实现设计前置，因此人力成本可信源已有正式实现入口。
 3. 第二批的 `R1-002`、`R2-002`、`R1-004`、`R2-003` 是在 `L2` 主链上继续补可信源、历史回看和核算稳定性的必经步骤，而不是另起一条新主线。
 4. 这意味着 `L2` 不是“能不能做完”，而是必须先完成第一批，再继续做第二批。
@@ -165,12 +169,12 @@
 `L3` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-contract-to-handover-workspace.md`
-   - `phase2-project-handover-gate-workspace.md`
-   - `phase2-commission-freeze-at-handover.md`
-   - `phase2-handover-closure-rules.md`
+   - `../../phase2-contract-to-handover-workspace.md`
+   - `../../phase2-project-handover-gate-workspace.md`
+   - `../../phase2-commission-freeze-at-handover.md`
+   - `../../phase2-handover-closure-rules.md`
 2. 第一批已把 `R4-005` 纳入实现设计前置，因此多合同、冻结模式和移交流程的主事实已进入实现设计入口。
-3. 当前 `phase2-handover-closure-rules.md` 已进一步把当前有效合同集合、移交前有效基线快照、移交记录和冻结版本收成统一收口结果；本轮又把 `handoverRebaselineRecordId`、`contractSummarySnapshotId`、`handoverSummarySnapshotId`、`effectiveHandoverBaselineSnapshotId` 与 `supersedesId` 继续固定到实现层总文档，确保后续 `L4 / L5` 不再各自引用不同依据或替代链断点。
+3. 当前 `../../phase2-handover-closure-rules.md` 已进一步把当前有效合同集合、移交前有效基线快照、移交记录和冻结版本收成统一收口结果；本轮又把 `handoverRebaselineRecordId`、`contractSummarySnapshotId`、`handoverSummarySnapshotId`、`effectiveHandoverBaselineSnapshotId` 与 `supersedesId` 继续固定到实现层总文档，确保后续 `L4 / L5` 不再各自引用不同依据或替代链断点。
 4. 第三批的 `R1-003` 属于签后变更再基线化；第四批的 `R3-003` 属于分期移交扩展。两者都建立在 `L3` 主链已经存在的前提下。
 5. 也就是说，`L3` 的主链实现设计不会因为第四批不做而失效，只会失去未来扩展能力。
 
@@ -188,10 +192,10 @@
 `L4` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-project-business-outcome-overview.md`
-   - `phase2-project-unified-accounting-view-caliber.md`
-   - `phase2-project-variance-risk-explanation.md`
-   - `phase2-business-accounting-feedback-rules.md`
+   - `../../phase2-project-business-outcome-overview.md`
+   - `../../phase2-project-unified-accounting-view-caliber.md`
+   - `../../phase2-project-variance-risk-explanation.md`
+   - `../../phase2-business-accounting-feedback-rules.md`
 2. `L4` 的实现设计天然依赖 `L1`、`L2`、`L3` 输出的可信输入，这一点已在路线图和主线地图中明确。
 3. 第一批只是补齐多合同口径前提和敏感投影边界；真正让 `L4` 完整进入实现设计的，是第二批的税务影响摘要、分摊稳定性提示、未映射成本提示、成本数据成熟度状态、成本侧动作建议、时点快照、公式边界、变更包基线和 `L4 -> L5` 绑定矩阵，这些补点当前已被 `L4-T01 / T02 / T03 / T04` 稳定消费，并进一步写成 `command / query / DTO / guard` 正式输入包向下传递。
 4. 这不是阻止 `L4` 最终完成，而是说明 `L4` 的完成路径明确依赖第二批收口。
@@ -211,12 +215,12 @@
 `L5` 已具备完整实现设计路径，原因如下：
 
 1. 业务基线已经齐备：
-   - `phase2-commission-stage-gate-overview-workspace.md`
-   - `phase2-commission-staged-payout-adjustment-paths.md`
-   - `phase2-commission-retention-final-settlement.md`
-   - `phase2-commission-rule-explanation-language.md`
+   - `../../phase2-commission-stage-gate-overview-workspace.md`
+   - `../../phase2-commission-staged-payout-adjustment-paths.md`
+   - `../../phase2-commission-retention-final-settlement.md`
+   - `../../phase2-commission-rule-explanation-language.md`
 2. 第一批已把 `R2-004`、`R1-006`、`R4-005` 纳入实现设计前置，因此阶段 gate、第二阶段发放前置、敏感边界和多合同前提已进入实现设计入口。
-3. 当前 `phase2-commission-stage-gate-overview-workspace.md`、`phase2-commission-staged-payout-adjustment-paths.md`、`phase2-commission-retention-final-settlement.md` 与 `phase2-commission-rule-explanation-language.md` 已进一步把冻结版本、经营基线版本、税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级和经营快照版本贯穿到 gate、分阶段发放、异常调整、最终结算与统一表达链路。
+3. 当前 `../../phase2-commission-stage-gate-overview-workspace.md`、`../../phase2-commission-staged-payout-adjustment-paths.md`、`../../phase2-commission-retention-final-settlement.md` 与 `../../phase2-commission-rule-explanation-language.md` 已进一步把冻结版本、经营基线版本、税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级和经营快照版本贯穿到 gate、分阶段发放、异常调整、最终结算与统一表达链路。
 4. 第二批的 `R4-003` 已不再停留在抽象 gate 绑定，而是把税务影响摘要、待闭合税务影响、成本数据成熟度状态、成本侧动作建议、动作等级、基线选择来源与引用基线 / 快照版本固定成 `L5-T01 / T02 / T03` 直接消费的正式输入，并继续写成 gate、分阶段发放、最终结算 / 质保金结算与统一规则解释共同消费的 `command / query / DTO / guard` 稳定依据；第三批的 `R3-006`、`R4-004` 则继续承接争议处理和审批摘要公共链。
 5. 当前 `reviewCommissionGateBinding`、`submitCommissionPayoutApproval`、`registerCommissionPayout`、`executeCommissionAdjustment` 以及 `CommissionStageGateView`、`CommissionFinalSettlementView`、`CommissionRuleExplanationView` 已共同锁定 `summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 这组场景摘要快照引用，保证 gate、发放、最终结算 / 质保金结算与规则解释不再各自拼装依据链。
 6. 第四批中的异常摘要增强和细粒度通知，即使不做，也不阻断 `L5` 主链进入实现设计。

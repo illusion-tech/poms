@@ -9,13 +9,13 @@
   - `phase2-user-task-map.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-experience-optimization-roadmap.md`
-  - `phase2-mainline-implementation-design-matrix.md`
   - `phase2-detailed-design-index-map.md`
   - `poms-design-progress.md`
 - 当前控制:
   - `phase2-lx-t04-full-mainline-development-decision.md`
 - 历史审阅依据:
   - `archive/mainline-closure/phase2-mainline-task-tracker.md`
+  - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
   - `archive/reviews/phase2-review-checklist.md`
   - `archive/reviews/phase2-review-comprehensive-assessment.md`
   - `archive/reviews/phase2-review-follow-up-plan.md`
@@ -26,7 +26,7 @@
   - `archive/phase2-batches/phase2-third-batch-scope.md`
   - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
 - 实现设计:
-  - `phase2-mainline-implementation-design-matrix.md`
+  - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
   - `query-view-boundary-design.md`
@@ -48,7 +48,7 @@
 - 每一阶段的成果分别是什么
 - 当前工作内容是否偏向了“审阅问题收口”，如果是，应如何重新归位
 
-如需直接判断 `L1 ~ L5` 五条主线是否都具备完整实现设计路径，以及四个批次与主线推进之间的关系，应同时阅读 `phase2-mainline-implementation-design-matrix.md`。
+如需回溯当时如何判断 `L1 ~ L5` 五条主线都具备完整实现设计路径，以及四个批次与主线推进之间的关系，应阅读 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`。
 
 如需回溯主线已完成的任务拆解、完成标准与推进日志，统一见 `archive/mainline-closure/phase2-mainline-task-tracker.md`。
 

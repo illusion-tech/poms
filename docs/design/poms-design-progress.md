@@ -144,7 +144,6 @@
 | 文档                                                                      | 当前状态 | 作用                                                                           | 是否可作为下游输入 |
 | ------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------ | ------------------ |
 | `docs/design/phase2-mainline-delivery-plan.md`                            | Active   | 第二阶段主线交付计划，统一说明主线目标、阶段状态与当前实施入口                 | 是                 |
-| `docs/design/phase2-mainline-implementation-design-matrix.md`             | Active   | 第二阶段主线实现设计证明矩阵，证明各主线已具备进入开发的设计闭环               | 是                 |
 | `docs/design/phase2-lx-t04-full-mainline-development-decision.md`         | Active   | 第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出正式开发判断 | 是                 |
 | `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                 | 是                 |
 | `docs/design/platform-governance/platform-governance-review-checklist.md` | Active   | 平台治理域评审清单，收敛评审门槛、阻塞项、收口动作与通过标准                   | 是                 |
@@ -156,6 +155,7 @@
 | --------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------- | ------------------ |
 | `docs/design/archive/README.md`                                                                                 | Active   | 归档入口，负责区分当前正式输入与历史过程资产                            | 否                 |
 | `docs/design/archive/mainline-closure/phase2-mainline-task-tracker.md`                                          | Archived | 第二阶段主线任务收口记录，保留 `L1 ~ L5` 与 `LX-01 / LX-T04` 的完成轨迹 | 否                 |
+| `docs/design/archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`                          | Archived | 第二阶段主线实现设计证明矩阵，保留主线完整实现路径与阻断判断的证明材料  | 否                 |
 | `docs/design/archive/reviews/phase2-review-checklist.md`                                                        | Archived | 第二阶段正式审阅清单，保留审阅范围、维度、问题记录与结论回写留痕        | 否                 |
 | `docs/design/archive/reviews/phase2-review-comprehensive-assessment.md`                                         | Archived | 第二阶段正式审阅综合评估，保留四轮问题优先级判断与统一结论留痕          | 否                 |
 | `docs/design/archive/reviews/phase2-review-follow-up-plan.md`                                                   | Archived | 第二阶段正式审阅 follow-up 清单，保留分批收口、专题拆分与完成轨迹       | 否                 |
@@ -233,6 +233,7 @@
 - 已形成 `archive/reviews/phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md`，开始把第二阶段 `P0 / P1` 问题转为正式 follow-up 专题与第一批范围说明；其中正式审阅 follow-up 清单已在第二轮目录治理后转入归档
 - 已完成设计目录第一轮归档治理：已建立 `docs/design/archive/`，并把分轮审阅记录、旧的首批排期判断、第一批 / 第二批 / 第三批范围与桥接文档移出根目录，降低当前正式输入噪声
 - 已完成设计目录第三轮归档治理：已建立 `docs/design/archive/mainline-closure/`，并把 `phase2-mainline-task-tracker.md` 转为主线收口历史轨迹文档，根目录当前输入不再把已完成任务跟踪视作默认入口
+- 已完成设计目录第四轮归档治理：已把 `phase2-mainline-implementation-design-matrix.md` 转为主线证明历史材料，根目录当前输入不再把主线完整性证明文档视作默认入口
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---
@@ -287,7 +288,7 @@
 
 1. **提成与合同资金主干已完成**：`P1-S10 / P1-S11 / P1-S12` 与 `contract-finance` 最小事实模型已具备真实实现，当前后端为 20 suite / 174 tests、`poms-api-e2e` 为 7 suite / 34 tests 全绿
 2. **平台治理主体功能已跑通**：平台治理域 API e2e、权限路由守卫、浏览器层 smoke 与导航治理入口已验证通过；`P1-T27` 已补齐 `audit_log` / `security_event` 持久化模型、writer 服务与 migration，`P1-T28` / `P1-T29` 已补齐导航同步审计、前端路由拒绝、最小 `GET /audit-logs`、`GET /security-events` 查询出口与域级 / 浏览器层验收证据
-3. **已执行四轮审阅并完成执行层回写基线**：`LX-T03` 已完成四轮独立审阅，相关分轮记录与正式审阅三件套现统一归档到 `archive/reviews/`；其结论已被 `phase2-mainline-delivery-plan.md`、`phase2-mainline-implementation-design-matrix.md`、`phase2-lx-t04-full-mainline-development-decision.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` 吸收，22 个正式问题已完成多维度评估、批次判断和第一批范围说明。
+3. **已执行四轮审阅并完成执行层回写基线**：`LX-T03` 已完成四轮独立审阅，相关分轮记录与正式审阅三件套现统一归档到 `archive/reviews/`；其结论已被 `phase2-mainline-delivery-plan.md`、`archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`、`phase2-lx-t04-full-mainline-development-decision.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` 吸收，22 个正式问题已完成多维度评估、批次判断和第一批范围说明。
 4. **下一步**：主线任务收口与完成轨迹现统一保留于 `archive/mainline-closure/phase2-mainline-task-tracker.md`，其中已完成 `L1-01`、`L1-02`、`L2-01`、`L2-02`、`L2-03`、`L3-01`、`L3-02`、`L4-01`、`L4-02`、`L5-01`、`L5-02`、`LX-01` 与 `LX-T04`；其中 `L1` 已把签约前六工作区到 `ContractReadinessPackage / CommercialReleaseBaseline` 的承接链继续写入 `data model / table freeze / schema / guard`，并把受控回退结果链与审批摘要快照继续写入 `command / query / DTO / guard`，`L2` 已把稳定输出包以及历史回看 / 重述 / 再基线选择规则继续写入 `command / query / DTO / data model / table freeze / schema / DDL`，`L3` 已把合同承接摘要、移交确认摘要与冻结版本的统一收口链，以及签后再基线化 / 替代冻结版本 / 联合追溯规则继续写入 `command / query / DTO / data model / table freeze / schema / guard`，`L4` 已把四个工作区直连 `L2` 正式输入包的边界继续写入 `command / query / DTO / guard`，并进一步把经营核算、历史回看、信号评价与反馈规则对应的 `AccountingTaxTreatmentSnapshot`、`ProjectOperatingSnapshot / PeriodClosingSnapshot`、`OperatingSignalEvaluationResult / OperatingSignalReviewRecord`、`DataMaturityEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 继续写入 `data model / table freeze / schema / DDL`，`L5` 已把阶段 gate、分阶段发放、最终结算 / 质保金结算与规则解释的 `baselineSelectionSource / taxImpactPendingAmount / summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 继续写入 `command / query / DTO / guard` 闭环，并进一步把 `SensitiveFieldRevealRequest / Grant / Audit`、`ApprovalSummaryPackageDefinition / Snapshot / Projection` 与 `CommissionFreezeDisputeRecord / CommissionFreezeChangeRequest` 继续写入 `data model / table freeze / schema / DDL` 公共链；当前已完成全主线最终一致性复核并已正式完成 `LX-T04` 统一开发判断，下一步转入按统一开发范围与工程切片顺序推进实现；更完整的应付 / 开票 / 外部对账链仍作为后续阶段候选主线的一部分继续评估
 
 ### 第二阶段受控待办
@@ -317,6 +318,7 @@
 7. 第三批 5 个专题的正式范围说明与实现映射桥接已完成，其过程文档现归档于 `archive/phase2-batches/phase2-third-batch-scope.md` 与 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`；关键结论已写回六份实现设计总文档、关键业务主文档与剩余关键联动文档。
 8. 主线任务收口与完成轨迹现归档于 `archive/mainline-closure/phase2-mainline-task-tracker.md`；其中已完成 `L1-01`、`L1-02`、`L2-01`、`L2-02`、`L2-03`、`L3-01`、`L3-02`、`L4-01`、`L4-02`、`L5-01`、`L5-02`、`LX-01` 与 `LX-T04`；其中 `L1` 已把签约前六工作区到 `ContractReadinessPackage / CommercialReleaseBaseline` 的承接链继续写入 `data model / table freeze / schema / guard`，并把受控回退结果链与审批摘要快照继续写入 `command / query / DTO / guard`，`L2` 已把稳定输出包以及历史回看 / 重述 / 再基线选择规则继续写入 `command / query / DTO / data model / table freeze / schema / DDL`，`L3` 已把合同承接摘要、移交确认摘要与冻结版本的统一收口链，以及 `handoverRebaselineRecordId / sourceHandoverRebaselineRecordId / supersedesId` 这组稳定引用继续写入 `command / query / DTO / data model / table freeze / schema / guard`，`L4` 已把 `taxImpactSummary / allocationStabilitySummary / unmappedCostSummary / dataMaturityLevel / costActionRecommendation / currentActionLevel / referencedBaselineVersion / referencedSnapshotVersion` 这组稳定输入继续写入 `L4-T01 / T02 / T03 / T04` 的 `command / query / DTO / guard` 边界，并进一步把 `AccountingTaxTreatmentSnapshot`、`ProjectOperatingSnapshot / PeriodClosingSnapshot`、`OperatingSignalEvaluationResult / OperatingSignalReviewRecord`、`DataMaturityEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 继续写入 `data model / table freeze / schema / DDL`，`L5` 已把阶段 gate、分阶段发放、最终结算 / 质保金结算与规则解释共同承接的 `baselineSelectionSource / taxImpactPendingAmount / summaryPackageKey / summarySnapshotId / projectionLevel / exportPolicy` 这组场景稳定依据继续写入 `command / query / DTO / guard` 闭环，并进一步把 `SensitiveFieldRevealRequest / Grant / Audit`、`ApprovalSummaryPackageDefinition / Snapshot / Projection` 与 `CommissionFreezeDisputeRecord / CommissionFreezeChangeRequest` 写入 `data model / table freeze / schema / DDL` 公共链；全主线最终一致性复核与 `LX-T04` 统一开发判断均已完成，后续转入统一范围下的工程切片实施。
 9. `LX-T04` 已完成最终统一开发判断，并已确认第二阶段当前范围进入开发；旧的“首批实现排期只纳入第一批六个前置专题”结论继续作为归档保留。
+10. 主线完整性证明现归档于 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`；其结论已被当前主线控制文档、详细索引入口与 `LX-T04` 判断吸收，不再作为当前默认入口。
 
 因此，当前真实阶段应理解为：
 

@@ -10,7 +10,7 @@
   - `../reviews/phase2-review-comprehensive-assessment.md`
   - `../reviews/phase2-review-follow-up-plan.md`
   - `phase2-second-batch-scope.md`
-  - `../../phase2-mainline-implementation-design-matrix.md`
+  - `../mainline-closure/phase2-mainline-implementation-design-matrix.md`
 - 同级设计:
   - `../../interface-command-design.md`
   - `../../interface-openapi-dto-design.md`

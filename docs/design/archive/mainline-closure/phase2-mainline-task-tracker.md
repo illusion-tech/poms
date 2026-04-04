@@ -7,7 +7,7 @@
 
 - 主线控制:
   - `../../phase2-mainline-delivery-plan.md`
-  - `../../phase2-mainline-implementation-design-matrix.md`
+  - `phase2-mainline-implementation-design-matrix.md`
   - `../../poms-design-progress.md`
   - `../../phase2-lx-t04-full-mainline-development-decision.md`
 - 实现设计总文档:
