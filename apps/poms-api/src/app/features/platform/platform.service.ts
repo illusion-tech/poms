@@ -299,7 +299,19 @@ export class PlatformService {
         const previousPermissionKeys = activeAssignments.map((assignment) => assignment.permissionKey as PermissionKey);
         const nextPermissionKeys = [...new Set(request.permissionKeys)];
 
-        this.#assertSystemRolePermissionBaseline(role, nextPermissionKeys);
+        const baselineViolations = this.#getSystemRoleBaselineViolations(role, nextPermissionKeys);
+        if (baselineViolations.length > 0) {
+            await this.runtimeAuditService.recordAuditLog({
+                eventType: 'platform.role.permissions.baseline.rejected',
+                targetType: 'PlatformRole',
+                targetId: roleId,
+                operatorId: operatorId ?? null,
+                result: 'rejected',
+                reason: 'system-role-baseline-violation',
+                metadata: { missingPermissionKeys: baselineViolations }
+            });
+            throw new ConflictException(`System role ${role.roleKey} must retain baseline permissions: ${baselineViolations.join(', ')}`);
+        }
 
         const nextPermissionKeySet = new Set(nextPermissionKeys);
         const activeAssignmentByPermissionKey = new Map(activeAssignments.map((assignment) => [assignment.permissionKey as PermissionKey, assignment]));
@@ -953,16 +965,12 @@ export class PlatformService {
         );
     }
 
-    #assertSystemRolePermissionBaseline(role: PlatformRole, permissionKeys: PermissionKey[]): void {
-        if (!role.isSystemRole) return;
+    #getSystemRoleBaselineViolations(role: PlatformRole, permissionKeys: PermissionKey[]): PermissionKey[] {
+        if (!role.isSystemRole) return [];
 
         const minimumPermissionKeys = SYSTEM_ROLE_MINIMUM_PERMISSION_KEYS[role.roleKey] ?? [];
         const nextPermissionKeySet = new Set(permissionKeys);
-        const missingPermissionKeys = minimumPermissionKeys.filter((permissionKey) => !nextPermissionKeySet.has(permissionKey));
-
-        if (missingPermissionKeys.length > 0) {
-            throw new ConflictException(`System role ${role.roleKey} must retain baseline permissions: ${missingPermissionKeys.join(', ')}`);
-        }
+        return minimumPermissionKeys.filter((permissionKey) => !nextPermissionKeySet.has(permissionKey));
     }
 
     #toPermissionSummary(key: PermissionKey): PlatformPermissionSummary {
