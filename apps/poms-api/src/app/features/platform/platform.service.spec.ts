@@ -1,10 +1,3 @@
-jest.mock('@mikro-orm/core', () => ({
-    QueryOrder: {
-        ASC: 'ASC',
-        DESC: 'DESC'
-    }
-}));
-
 jest.mock('bcryptjs', () => ({
     compare: jest.fn()
 }));
@@ -703,13 +696,22 @@ describe('PlatformService', () => {
             ).rejects.toThrow(NotFoundException);
         });
 
-        it('rejects dropping the minimum baseline of a system role', async () => {
+        it('rejects dropping the minimum baseline of a system role and writes a rejected audit log', async () => {
             repository.findRoleById.mockResolvedValue(createRole({ isSystemRole: true, roleKey: 'project-viewer' }));
             repository.findRolePermissionAssignmentsByRoleId.mockResolvedValue([]);
 
             await expect(
                 service.assignRolePermissions('30000000-0000-4000-8000-000000000001', { permissionKeys: ['project:read'] })
             ).rejects.toThrow(ConflictException);
+
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.permissions.baseline.rejected',
+                    targetId: '30000000-0000-4000-8000-000000000001',
+                    result: 'rejected',
+                    reason: 'system-role-baseline-violation'
+                })
+            );
         });
     });
 

@@ -1,16 +1,3 @@
-jest.mock('@mikro-orm/core', () => {
-    const makeChain = () => {
-        const chain: Record<string, unknown> = {};
-        ['primary', 'nullable', 'length', 'defaultRaw', 'unique', 'fieldName', 'version', 'default', 'onCreate', 'onUpdate'].forEach((m) => {
-            chain[m] = () => chain;
-        });
-        return chain;
-    };
-    const defineEntity = (_config: unknown) => ({ class: class {}, setClass: () => {} });
-    defineEntity.properties = new Proxy({} as Record<string, unknown>, { get: () => makeChain });
-    return { QueryOrder: { ASC: 'ASC', DESC: 'DESC' }, defineEntity };
-});
-
 import { NotFoundException } from '@nestjs/common';
 import { ProjectController } from './project.controller';
 import { Project } from './project.entity';

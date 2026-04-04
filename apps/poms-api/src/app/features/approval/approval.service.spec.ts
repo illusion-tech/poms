@@ -8,13 +8,6 @@ jest.mock('node:crypto', () => ({
         .mockReturnValue('generated-uuid')
 }));
 
-jest.mock('@mikro-orm/core', () => ({
-    QueryOrder: {
-        ASC: 'ASC',
-        DESC: 'DESC'
-    }
-}));
-
 jest.mock('@mikro-orm/nestjs', () => ({
     InjectRepository: () => () => undefined
 }));
