@@ -137,6 +137,25 @@ export const PlatformUserListSchema = z.array(PlatformUserSummarySchema).meta({ 
 
 export type PlatformUserList = z.infer<typeof PlatformUserListSchema>;
 
+export const PlatformPermissionSummarySchema = z
+    .object({
+        key: z.enum(PERMISSION_KEYS),
+        name: z.string(),
+        description: z.string(),
+        group: z.string(),
+        status: z.enum(['active', 'inactive', 'deprecated']),
+        isSystemPermission: z.boolean(),
+        sourceType: z.enum(['system-seeded']),
+        deprecatedBy: z.enum(PERMISSION_KEYS).nullable()
+    })
+    .meta({ id: 'PlatformPermissionSummary' });
+
+export type PlatformPermissionSummary = z.infer<typeof PlatformPermissionSummarySchema>;
+
+export const PlatformPermissionListSchema = z.array(PlatformPermissionSummarySchema).meta({ id: 'PlatformPermissionList' });
+
+export type PlatformPermissionList = z.infer<typeof PlatformPermissionListSchema>;
+
 export const PlatformRoleSummarySchema = z
     .object({
         id: z.uuid(),
@@ -156,6 +175,13 @@ export type PlatformRoleSummary = z.infer<typeof PlatformRoleSummarySchema>;
 export const PlatformRoleListSchema = z.array(PlatformRoleSummarySchema).meta({ id: 'PlatformRoleList' });
 
 export type PlatformRoleList = z.infer<typeof PlatformRoleListSchema>;
+
+export const PlatformRoleDetailSchema = PlatformRoleSummarySchema.extend({
+    permissionKeys: z.array(z.enum(PERMISSION_KEYS)),
+    assignedUserCount: z.number().int().nonnegative()
+}).meta({ id: 'PlatformRoleDetail' });
+
+export type PlatformRoleDetail = z.infer<typeof PlatformRoleDetailSchema>;
 
 export const PlatformOrgUnitSummarySchema = z
     .object({
@@ -259,6 +285,29 @@ export const CreateRoleRequestSchema = z
     .meta({ id: 'CreateRoleRequest' });
 
 export type CreateRoleRequest = z.infer<typeof CreateRoleRequestSchema>;
+
+export const UpdateRoleRequestSchema = z
+    .object({
+        name: z.string().trim().min(1).max(128).optional(),
+        description: z.string().max(1000).nullable().optional(),
+        displayOrder: z.number().int().min(0).optional()
+    })
+    .refine((value) => value.name !== undefined || value.description !== undefined || value.displayOrder !== undefined, {
+        message: 'At least one field is required for update'
+    })
+    .meta({ id: 'UpdateRoleRequest' });
+
+export type UpdateRoleRequest = z.infer<typeof UpdateRoleRequestSchema>;
+
+export const UpdateRoleActivationRequestSchema = z
+    .object({
+        reason: z.string().max(1000).optional(),
+        comment: z.string().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'UpdateRoleActivationRequest' });
+
+export type UpdateRoleActivationRequest = z.infer<typeof UpdateRoleActivationRequestSchema>;
 
 export const AssignRolePermissionsRequestSchema = z
     .object({

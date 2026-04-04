@@ -66,21 +66,21 @@
 
 ## 4. 当前代码现状
 
-结合当前仓库代码，角色与权限模块已有以下基础：
+结合当前仓库代码，角色与权限模块当前已具备以下基础：
 
-- 共享契约已经集中定义 `PERMISSION_KEYS` 和 `PermissionsMeta`
-- 当前权限 key 已区分平台管理、项目、导航三类语义前缀
-- `Role` 在共享契约中仍是轻量模型，仅包含 `id/name`
-- 当前用户对象已可返回 `roles` 和 `permissions`
+- 共享契约已经集中定义 `PERMISSION_KEYS` 和 `PermissionsMeta`，并提供权限字典只读返回结构
+- `Role`、`RolePermissionAssignment`、`UserRoleAssignment` 已具备真实持久化模型
+- 已提供 `GET /platform/permissions`、`GET /platform/roles`、`GET /platform/roles/:id`、`POST /platform/roles`、`PATCH /platform/roles/:id`、`POST /platform/roles/:id/activate`、`POST /platform/roles/:id/deactivate`、`POST /platform/roles/:id/permissions`
+- 管理端已具备角色列表、创建、编辑、启停、权限分组展示与权限绑定闭环
+- 当前用户对象已返回真实 `roles` 和按有效关系计算的 `permissions`
 
-当前缺口判断：
+当前仍保留的边界：
 
-- `Permission` 目前主要是共享常量与守卫消费对象，尚无正式治理接口
-- `Role` 尚无真实持久化模型、管理接口与管理页
-- `RolePermissionAssignment` 尚未落为结构化关系实体
-- 提成治理域所需的 `commission:*` 权限尚未正式进入代码主干权限字典
+- 第一阶段 `Permission` 仍采用“共享契约 + 后端受控种子”模式，不开放任意新增权限 key
+- `inactive / deprecated` 权限生命周期治理仍以设计口径为主，当前重点先保证角色停用与关系撤销后的授权收敛
+- 数据范围授权、组织范围授权与更细粒度按钮级元数据仍不在第一阶段范围
 
-这意味着第一阶段设计重点不是从零定义权限体系，而是把现有“轻量骨架”收敛成正式可治理模型。
+这意味着当前第一阶段重点已从“补齐正式管理闭环”转为“以稳定字典和真实关系结果支撑后续 `User` 与导航治理切片”。
 
 ---
 
@@ -278,12 +278,13 @@ flowchart LR
 - `PATCH /platform/roles/:id`
 - `POST /platform/roles/:id/activate`
 - `POST /platform/roles/:id/deactivate`
-- `PUT /platform/roles/:id/permissions`
+- `POST /platform/roles/:id/permissions`
 
 说明：
 
 - 权限字典第一阶段建议只读，不开放任意新增权限 key
 - 角色启停与权限分配应使用命令接口，避免混入普通更新
+- 当前实现已补齐角色详情、权限字典、权限替换式分配与系统角色最小权限基线校验
 
 ### 8.2 `UserRoleAssignment`
 
@@ -334,6 +335,7 @@ flowchart LR
 - token 中的权限上下文仅用于轻量传递与基础体验优化
 - 接口鉴权和导航过滤都应以服务端当前有效关系为准
 - 用户停用、角色停用、角色剥权后，下一次请求必须体现新授权结果
+- 当前实现已经验证：停用角色后，已有会话的导航与受保护接口权限会在下一次请求中即时收敛
 
 ### 9.3 与导航的关系
 

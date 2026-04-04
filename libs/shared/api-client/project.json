@@ -11,7 +11,7 @@
       "options": {
         "commands": [
           "powershell -NoProfile -Command \"if (Test-Path 'libs/shared/api-client') { Get-ChildItem 'libs/shared/api-client' -Force | Where-Object { $_.Name -notin @('project.json') } | Remove-Item -Recurse -Force }\"",
-          "pnpm exec openapi-generator-cli generate -c tools/openapi/typescript-angular.config.json --skip-validate-spec"
+          "corepack pnpm exec openapi-generator-cli generate -c tools/openapi/typescript-angular.config.json --skip-validate-spec"
         ],
         "parallel": false
       },
@@ -26,4 +26,3 @@
     }
   }
 }
-

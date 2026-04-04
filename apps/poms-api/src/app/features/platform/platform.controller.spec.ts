@@ -13,6 +13,8 @@ describe('PlatformController', () => {
             listUsers: jest.fn(),
             getSanitizedUserProfile: jest.fn(),
             listRoles: jest.fn(),
+            listPermissions: jest.fn(),
+            getRole: jest.fn(),
             listOrgUnits: jest.fn(),
             listOrgUnitTree: jest.fn(),
             getOrgUnit: jest.fn(),
@@ -22,6 +24,9 @@ describe('PlatformController', () => {
             assignUserRoles: jest.fn(),
             assignUserOrgMemberships: jest.fn(),
             createRole: jest.fn(),
+            updateRole: jest.fn(),
+            activateRole: jest.fn(),
+            deactivateRole: jest.fn(),
             assignRolePermissions: jest.fn(),
             createOrgUnit: jest.fn(),
             updateOrgUnit: jest.fn(),
@@ -68,6 +73,24 @@ describe('PlatformController', () => {
 
         expect(service.listRoles).toHaveBeenCalled();
         expect(result).toHaveLength(1);
+    });
+
+    it('returns platform permissions from service', () => {
+        service.listPermissions.mockReturnValue([{ key: 'platform:roles:manage', name: 'platform:roles:manage' }] as never);
+
+        const result = controller.listPermissions();
+
+        expect(service.listPermissions).toHaveBeenCalled();
+        expect(result).toHaveLength(1);
+    });
+
+    it('returns role detail from service', async () => {
+        service.getRole.mockResolvedValue({ id: '30000000-0000-4000-8000-000000000001', permissionKeys: ['project:read'] } as never);
+
+        const result = await controller.getRole('30000000-0000-4000-8000-000000000001');
+
+        expect(service.getRole).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001');
+        expect(result.permissionKeys).toEqual(['project:read']);
     });
 
     it('returns org units from service', async () => {
@@ -159,6 +182,39 @@ describe('PlatformController', () => {
 
         expect(service.createRole).toHaveBeenCalledWith(body, 'operator-id');
         expect(result).toBe(created);
+    });
+
+    it('delegates updateRole to service with id and body', async () => {
+        const body = { name: '销售经理-更新' };
+        const updated = { id: '30000000-0000-4000-8000-000000000002', name: '销售经理-更新' };
+        service.updateRole.mockResolvedValue(updated as never);
+
+        const result = await controller.updateRole('30000000-0000-4000-8000-000000000002', body as never, request as never);
+
+        expect(service.updateRole).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000002', body, 'operator-id');
+        expect(result).toBe(updated);
+    });
+
+    it('delegates activateRole to service with id and body', async () => {
+        const body = { reason: 're-enable' };
+        const updated = { id: '30000000-0000-4000-8000-000000000001', isActive: true };
+        service.activateRole.mockResolvedValue(updated as never);
+
+        const result = await controller.activateRole('30000000-0000-4000-8000-000000000001', body as never, request as never);
+
+        expect(service.activateRole).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001', body, 'operator-id');
+        expect(result).toBe(updated);
+    });
+
+    it('delegates deactivateRole to service with id and body', async () => {
+        const body = { reason: 'pause' };
+        const updated = { id: '30000000-0000-4000-8000-000000000001', isActive: false };
+        service.deactivateRole.mockResolvedValue(updated as never);
+
+        const result = await controller.deactivateRole('30000000-0000-4000-8000-000000000001', body as never, request as never);
+
+        expect(service.deactivateRole).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001', body, 'operator-id');
+        expect(result).toBe(updated);
     });
 
     it('delegates assignRolePermissions to service with id and body', async () => {

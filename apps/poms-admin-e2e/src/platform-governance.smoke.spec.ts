@@ -97,6 +97,51 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(editedRow).toContainText('启用');
     });
 
+    test('admin can create edit assign and toggle a role from the real page', async ({ page }) => {
+        const unique = Date.now().toString(36).toUpperCase();
+        const roleKey = `e2e-role-${unique.toLowerCase()}`;
+        const roleName = `E2E 角色 ${unique}`;
+        const editedRoleName = `${roleName}-已编辑`;
+
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+        await page.goto('/platform/roles');
+        await expect(page).toHaveURL(/\/platform\/roles$/);
+
+        await page.getByRole('button', { name: '新建角色' }).click();
+        await page.locator('#create-role-key').fill(roleKey);
+        await page.locator('#create-role-name').fill(roleName);
+        await page.locator('#create-role-description').fill('用于验证角色管理闭环');
+        await page.getByRole('button', { name: '创建' }).click();
+
+        await expect(page.getByText('创建成功')).toBeVisible();
+        await page.getByPlaceholder('搜索角色').fill(roleKey);
+        const roleRow = page.locator('tr').filter({ hasText: roleKey }).first();
+        await expect(roleRow).toBeVisible();
+
+        await roleRow.getByRole('button', { name: `编辑角色 ${roleName}` }).click();
+        await page.locator('#edit-role-name').fill(editedRoleName);
+        await page.locator('#edit-role-description').fill('编辑后的角色说明');
+        await page.locator('#edit-role-order').fill('6');
+        await page.getByRole('button', { name: '保存' }).click();
+        await expect(page.getByText('保存成功')).toBeVisible();
+        await expect(roleRow).toContainText(editedRoleName);
+        await expect(roleRow).toContainText('6');
+
+        await roleRow.getByRole('button', { name: `分配权限 ${editedRoleName}` }).click();
+        await page.getByText('platform:roles:manage').click();
+        await page.getByRole('button', { name: '保存' }).click();
+        await expect(page.getByText('保存成功')).toBeVisible();
+
+        await roleRow.getByRole('button', { name: `停用角色 ${editedRoleName}` }).click();
+        await expect(page.getByText('状态已更新')).toBeVisible();
+        await expect(roleRow).toContainText('停用');
+
+        await roleRow.getByRole('button', { name: `启用角色 ${editedRoleName}` }).click();
+        await expect(page.getByText('状态已更新')).toBeVisible();
+        await expect(roleRow).toContainText('启用');
+    });
+
     test('admin can reach the platform governance pages', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);

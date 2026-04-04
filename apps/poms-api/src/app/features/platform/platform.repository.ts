@@ -53,6 +53,11 @@ export class PlatformRepository {
         return this.roleRepository.findOne({ id });
     }
 
+    async findRolesByIds(ids: string[]): Promise<PlatformRole[]> {
+        if (ids.length === 0) return [];
+        return this.roleRepository.find({ id: { $in: ids } });
+    }
+
     async findRoleByKey(roleKey: string): Promise<PlatformRole | null> {
         return this.roleRepository.findOne({ roleKey });
     }
@@ -65,8 +70,8 @@ export class PlatformRepository {
         return this.rolePermissionAssignmentRepository.create(input);
     }
 
-    async deleteRolePermissionAssignments(roleId: string): Promise<void> {
-        await this.rolePermissionAssignmentRepository.nativeDelete({ roleId });
+    async findRolePermissionAssignmentsByRoleId(roleId: string): Promise<RolePermissionAssignment[]> {
+        return this.rolePermissionAssignmentRepository.find({ roleId }, { orderBy: { assignedAt: QueryOrder.ASC, createdAt: QueryOrder.ASC } });
     }
 
     async findAllOrgUnits(): Promise<OrgUnit[]> {

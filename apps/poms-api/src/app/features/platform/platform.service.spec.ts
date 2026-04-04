@@ -23,6 +23,7 @@ describe('PlatformService', () => {
         findUserByUsername: jest.Mock;
         findActiveUserByUsername: jest.Mock;
         findAllRoles: jest.Mock;
+        findRolesByIds: jest.Mock;
         findAllOrgUnits: jest.Mock;
         findActiveUserRoleAssignments: jest.Mock;
         findActiveUserOrgMemberships: jest.Mock;
@@ -37,7 +38,7 @@ describe('PlatformService', () => {
         findRoleByKey: jest.Mock;
         createRole: jest.Mock;
         createRolePermissionAssignment: jest.Mock;
-        deleteRolePermissionAssignments: jest.Mock;
+        findRolePermissionAssignmentsByRoleId: jest.Mock;
         findOrgUnitById: jest.Mock;
         findOrgUnitByCode: jest.Mock;
         createOrgUnit: jest.Mock;
@@ -56,6 +57,7 @@ describe('PlatformService', () => {
             findUserByUsername: jest.fn(),
             findActiveUserByUsername: jest.fn(),
             findAllRoles: jest.fn(),
+            findRolesByIds: jest.fn().mockResolvedValue([]),
             findAllOrgUnits: jest.fn(),
             findActiveUserRoleAssignments: jest.fn(),
             findActiveUserOrgMemberships: jest.fn(),
@@ -70,7 +72,7 @@ describe('PlatformService', () => {
             findRoleByKey: jest.fn(),
             createRole: jest.fn(),
             createRolePermissionAssignment: jest.fn(),
-            deleteRolePermissionAssignments: jest.fn().mockResolvedValue(undefined),
+            findRolePermissionAssignmentsByRoleId: jest.fn(),
             findOrgUnitById: jest.fn(),
             findOrgUnitByCode: jest.fn(),
             createOrgUnit: jest.fn()
@@ -280,6 +282,7 @@ describe('PlatformService', () => {
         it('deletes existing assignments and saves new role assignments', async () => {
             const user = createUser({ id: '00000000-0000-4000-8000-000000000001' });
             repository.findUserById.mockResolvedValue(user);
+            repository.findRolesByIds.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true })]);
             repository.createUserRoleAssignment.mockReturnValue({});
             repository.findAllUsers.mockResolvedValue([]);
             repository.findAllRoles.mockResolvedValue([]);
@@ -310,6 +313,17 @@ describe('PlatformService', () => {
             await expect(
                 service.assignUserRoles('00000000-0000-0000-0000-000000000099', { roleIds: [] })
             ).rejects.toThrow(NotFoundException);
+        });
+
+        it('rejects assigning an inactive role', async () => {
+            repository.findUserById.mockResolvedValue(createUser({ id: '00000000-0000-4000-8000-000000000001' }));
+            repository.findRolesByIds.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: false })]);
+
+            await expect(
+                service.assignUserRoles('00000000-0000-4000-8000-000000000001', {
+                    roleIds: ['30000000-0000-4000-8000-000000000001']
+                })
+            ).rejects.toThrow(ConflictException);
         });
     });
 
@@ -381,6 +395,7 @@ describe('PlatformService', () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([
                 { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
             ]);
+            repository.findRolesByIds.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true })]);
             repository.findActiveRolePermissionAssignments.mockResolvedValue([
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:write' }
@@ -429,6 +444,10 @@ describe('PlatformService', () => {
                 { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' },
                 { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000002' }
             ]);
+            repository.findRolesByIds.mockResolvedValue([
+                createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true }),
+                createRole({ id: '30000000-0000-4000-8000-000000000002', roleKey: 'project-viewer', isActive: true })
+            ]);
             repository.findActiveRolePermissionAssignments.mockResolvedValue([
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:write' },
@@ -448,6 +467,25 @@ describe('PlatformService', () => {
 
             expect(result).toEqual([]);
         });
+
+        it('ignores inactive roles when resolving live permissions', async () => {
+            repository.findActiveUserRoleAssignments.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' },
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000002' }
+            ]);
+            repository.findRolesByIds.mockResolvedValue([
+                createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true }),
+                createRole({ id: '30000000-0000-4000-8000-000000000002', roleKey: 'project-viewer', isActive: false })
+            ]);
+            repository.findActiveRolePermissionAssignments.mockResolvedValue([
+                { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
+                { roleId: '30000000-0000-4000-8000-000000000002', permissionKey: 'platform:roles:manage' }
+            ]);
+
+            const result = await service.getPermissionsForUser('00000000-0000-4000-8000-000000000001');
+
+            expect(result).toEqual(['project:read']);
+        });
     });
 
     describe('resolveActiveAuthUser', () => {
@@ -458,6 +496,7 @@ describe('PlatformService', () => {
             repository.findActiveUserRoleAssignments.mockResolvedValue([
                 { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
             ]);
+            repository.findRolesByIds.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true })]);
             repository.findActiveRolePermissionAssignments.mockResolvedValue([
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read' },
                 { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'platform:roles:manage' }
@@ -519,19 +558,134 @@ describe('PlatformService', () => {
         });
     });
 
+    describe('listPermissions', () => {
+        it('returns the static permission dictionary as a read model', () => {
+            const result = service.listPermissions();
+
+            expect(result).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        key: 'platform:roles:manage',
+                        group: '平台管理',
+                        status: 'active',
+                        sourceType: 'system-seeded'
+                    })
+                ])
+            );
+        });
+    });
+
+    describe('getRole', () => {
+        it('returns role detail with active permissions and assigned user count', async () => {
+            repository.findRoleById.mockResolvedValue(createRole({ id: '30000000-0000-4000-8000-000000000001' }));
+            repository.findRolePermissionAssignmentsByRoleId.mockResolvedValue([
+                { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:write', status: 'revoked' },
+                { roleId: '30000000-0000-4000-8000-000000000001', permissionKey: 'project:read', status: 'active' }
+            ]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+            ]);
+
+            const result = await service.getRole('30000000-0000-4000-8000-000000000001');
+
+            expect(result).toEqual(
+                expect.objectContaining({
+                    id: '30000000-0000-4000-8000-000000000001',
+                    permissionKeys: ['project:read'],
+                    assignedUserCount: 1
+                })
+            );
+        });
+    });
+
+    describe('updateRole', () => {
+        it('updates editable role fields and audits the change', async () => {
+            const role = createRole({ id: '30000000-0000-4000-8000-000000000001', name: '旧名称', description: '旧描述', displayOrder: 1 });
+            repository.findRoleById.mockResolvedValue(role);
+
+            const result = await service.updateRole('30000000-0000-4000-8000-000000000001', {
+                name: '新名称',
+                description: '新描述',
+                displayOrder: 5
+            });
+
+            expect(result).toEqual(expect.objectContaining({ name: '新名称', description: '新描述', displayOrder: 5 }));
+            expect(repository.saveAll).toHaveBeenCalledWith([role]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.updated',
+                    beforeSnapshot: expect.objectContaining({ name: '旧名称' }),
+                    afterSnapshot: expect.objectContaining({ name: '新名称' })
+                })
+            );
+        });
+    });
+
+    describe('activateRole', () => {
+        it('sets role isActive to true and saves', async () => {
+            const role = createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: false });
+            repository.findRoleById.mockResolvedValue(role);
+
+            const result = await service.activateRole('30000000-0000-4000-8000-000000000001', {});
+
+            expect(result.isActive).toBe(true);
+            expect(repository.saveAll).toHaveBeenCalledWith([role]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.activated',
+                    targetId: role.id
+                })
+            );
+        });
+    });
+
+    describe('deactivateRole', () => {
+        it('sets role isActive to false and saves', async () => {
+            const role = createRole({ id: '30000000-0000-4000-8000-000000000001', isActive: true });
+            repository.findRoleById.mockResolvedValue(role);
+
+            const result = await service.deactivateRole('30000000-0000-4000-8000-000000000001', {});
+
+            expect(result.isActive).toBe(false);
+            expect(repository.saveAll).toHaveBeenCalledWith([role]);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.role.deactivated',
+                    targetId: role.id
+                })
+            );
+        });
+    });
+
     describe('assignRolePermissions', () => {
-        it('replaces role permission assignments', async () => {
+        it('replaces role permission assignments with revoke history preserved', async () => {
             const role = createRole({ id: '30000000-0000-4000-8000-000000000001' });
             repository.findRoleById.mockResolvedValue(role);
-            repository.findActiveRolePermissionAssignments.mockResolvedValue([]);
+            repository.findRolePermissionAssignmentsByRoleId.mockResolvedValue([
+                {
+                    id: '60000000-0000-4000-8000-000000000001',
+                    roleId: '30000000-0000-4000-8000-000000000001',
+                    permissionKey: 'project:delete',
+                    status: 'active',
+                    revokedAt: null,
+                    revokedBy: null
+                },
+                {
+                    id: '60000000-0000-4000-8000-000000000002',
+                    roleId: '30000000-0000-4000-8000-000000000001',
+                    permissionKey: 'project:read',
+                    status: 'active',
+                    revokedAt: null,
+                    revokedBy: null
+                }
+            ]);
             repository.createRolePermissionAssignment.mockReturnValue({});
 
             await service.assignRolePermissions('30000000-0000-4000-8000-000000000001', {
                 permissionKeys: ['project:read', 'project:write']
             });
 
-            expect(repository.deleteRolePermissionAssignments).toHaveBeenCalledWith('30000000-0000-4000-8000-000000000001');
-            expect(repository.createRolePermissionAssignment).toHaveBeenCalledTimes(2);
+            expect(repository.createRolePermissionAssignment).toHaveBeenCalledTimes(1);
             expect(repository.saveAll).toHaveBeenCalled();
             expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -547,6 +701,15 @@ describe('PlatformService', () => {
             await expect(
                 service.assignRolePermissions('30000000-0000-4000-8000-000000000099', { permissionKeys: [] })
             ).rejects.toThrow(NotFoundException);
+        });
+
+        it('rejects dropping the minimum baseline of a system role', async () => {
+            repository.findRoleById.mockResolvedValue(createRole({ isSystemRole: true, roleKey: 'project-viewer' }));
+            repository.findRolePermissionAssignmentsByRoleId.mockResolvedValue([]);
+
+            await expect(
+                service.assignRolePermissions('30000000-0000-4000-8000-000000000001', { permissionKeys: ['project:read'] })
+            ).rejects.toThrow(ConflictException);
         });
     });
 

@@ -15,6 +15,9 @@ import {
     PlatformOrgUnitListSchema,
     PlatformOrgUnitSummarySchema,
     PlatformOrgUnitTreeSchema,
+    PlatformPermissionListSchema,
+    PlatformPermissionSummarySchema,
+    PlatformRoleDetailSchema,
     PlatformRoleListSchema,
     PlatformRoleSummarySchema,
     PlatformUserListSchema,
@@ -23,6 +26,8 @@ import {
     SanitizedUserWithOrgUnitsSchema,
     UpdateOrgUnitActivationRequestSchema,
     UpdateOrgUnitRequestSchema,
+    UpdateRoleActivationRequestSchema,
+    UpdateRoleRequestSchema,
     UpdatePlatformUserActivationRequestSchema,
     UserPayloadSchema,
 } from '@poms/shared-contracts';
@@ -51,9 +56,15 @@ export class PlatformUserSummaryDto extends createZodDto(PlatformUserSummarySche
 
 export class PlatformUserListDto extends createZodDto(PlatformUserListSchema) {}
 
+export class PlatformPermissionSummaryDto extends createZodDto(PlatformPermissionSummarySchema) {}
+
+export class PlatformPermissionListDto extends createZodDto(PlatformPermissionListSchema) {}
+
 export class PlatformRoleSummaryDto extends createZodDto(PlatformRoleSummarySchema) {}
 
 export class PlatformRoleListDto extends createZodDto(PlatformRoleListSchema) {}
+
+export class PlatformRoleDetailDto extends createZodDto(PlatformRoleDetailSchema) {}
 
 export class PlatformOrgUnitSummaryDto extends createZodDto(PlatformOrgUnitSummarySchema) {}
 
@@ -74,6 +85,10 @@ export class AssignUserRolesRequestDto extends createZodDto(AssignUserRolesReque
 export class AssignUserOrgMembershipsRequestDto extends createZodDto(AssignUserOrgMembershipsRequestSchema) {}
 
 export class CreateRoleRequestDto extends createZodDto(CreateRoleRequestSchema) {}
+
+export class UpdateRoleRequestDto extends createZodDto(UpdateRoleRequestSchema) {}
+
+export class UpdateRoleActivationRequestDto extends createZodDto(UpdateRoleActivationRequestSchema) {}
 
 export class AssignRolePermissionsRequestDto extends createZodDto(AssignRolePermissionsRequestSchema) {}
 

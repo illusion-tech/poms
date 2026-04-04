@@ -634,6 +634,205 @@
         ]
       }
     },
+    "/api/platform/permissions": {
+      "get": {
+        "operationId": "PlatformController_listPermissions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformPermissionListDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取权限字典（只读）",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/roles/{id}": {
+      "get": {
+        "operationId": "PlatformController_getRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformRoleDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取平台角色详情",
+        "tags": [
+          "Platform"
+        ]
+      },
+      "patch": {
+        "operationId": "PlatformController_updateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformRoleSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "更新平台角色基本信息",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/roles/{id}/activate": {
+      "post": {
+        "operationId": "PlatformController_activateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleActivationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformRoleSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "启用平台角色",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/roles/{id}/deactivate": {
+      "post": {
+        "operationId": "PlatformController_deactivateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleActivationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformRoleSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "停用平台角色",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
     "/api/platform/roles/{id}/permissions": {
       "post": {
         "operationId": "PlatformController_assignRolePermissions",
@@ -3606,6 +3805,188 @@
         },
         "id": "PlatformRoleList"
       },
+      "PlatformPermissionSummary": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:platform:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive",
+              "deprecated"
+            ]
+          },
+          "isSystemPermission": {
+            "type": "boolean"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "system-seeded"
+            ]
+          },
+          "deprecatedBy": {
+            "type": "string",
+            "enum": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:platform:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "nullable": true
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "description",
+          "group",
+          "status",
+          "isSystemPermission",
+          "sourceType",
+          "deprecatedBy"
+        ],
+        "id": "PlatformPermissionSummary"
+      },
+      "PlatformPermissionListDto": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PlatformPermissionSummary"
+        },
+        "id": "PlatformPermissionList"
+      },
+      "PlatformRoleDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "roleKey": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isSystemRole": {
+            "type": "boolean"
+          },
+          "displayOrder": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "permissionKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "platform:users:manage",
+                "platform:roles:manage",
+                "platform:navigation:manage",
+                "platform:org-units:manage",
+                "commission:rule-versions:manage",
+                "commission:assignments:manage",
+                "commission:calculations:manage",
+                "commission:payouts:manage",
+                "commission:adjustments:manage",
+                "contract:finance:manage",
+                "project:read",
+                "project:write",
+                "project:delete",
+                "nav:dashboard:view",
+                "nav:platform:view",
+                "nav:projects:view",
+                "nav:contracts:view",
+                "nav:profile:view"
+              ]
+            }
+          },
+          "assignedUserCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "roleKey",
+          "name",
+          "description",
+          "isActive",
+          "isSystemRole",
+          "displayOrder",
+          "createdAt",
+          "updatedAt",
+          "permissionKeys",
+          "assignedUserCount"
+        ],
+        "id": "PlatformRoleDetail"
+      },
       "CreateRoleRequest": {
         "type": "object",
         "properties": {
@@ -3635,6 +4016,46 @@
           "name"
         ],
         "id": "CreateRoleRequest"
+      },
+      "UpdateRoleRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "displayOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "id": "UpdateRoleRequest"
+      },
+      "UpdateRoleActivationRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "id": "UpdateRoleActivationRequest"
       },
       "AssignRolePermissionsRequest": {
         "type": "object",

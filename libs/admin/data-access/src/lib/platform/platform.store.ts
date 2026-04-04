@@ -7,11 +7,15 @@ import type {
     CreatePlatformUserRequest,
     CreateRoleRequest,
     MoveOrgUnitRequest,
+    PlatformPermissionSummary,
     PlatformOrgUnitSummary,
+    PlatformRoleDetail,
     PlatformRoleSummary,
     PlatformUserSummary,
     UpdateOrgUnitActivationRequest,
-    UpdateOrgUnitRequest
+    UpdateOrgUnitRequest,
+    UpdateRoleActivationRequest,
+    UpdateRoleRequest
 } from '@poms/shared-api-client';
 import { PlatformApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
@@ -99,11 +103,15 @@ export class PlatformStore {
     // ── Roles ──────────────────────────────────────────────────────────────
 
     readonly #roles = signal<PlatformRoleSummary[]>([]);
+    readonly #permissions = signal<PlatformPermissionSummary[]>([]);
+    readonly #activeRoleDetail = signal<PlatformRoleDetail | null>(null);
     readonly #loadingRoles = signal(false);
     readonly #loadedRoles = signal(false);
     readonly #savingRole = signal(false);
 
     readonly roles = this.#roles.asReadonly();
+    readonly permissions = this.#permissions.asReadonly();
+    readonly activeRoleDetail = this.#activeRoleDetail.asReadonly();
     readonly loadingRoles = this.#loadingRoles.asReadonly();
     readonly loadedRoles = this.#loadedRoles.asReadonly();
     readonly savingRole = this.#savingRole.asReadonly();
@@ -124,8 +132,60 @@ export class PlatformStore {
         this.#savingRole.set(true);
         try {
             const created = await firstValueFrom(this.#platformApi.platformControllerCreateRole({ createRoleRequest: body }));
-            this.#roles.update((list) => [...list, created]);
+            await this.loadRoles();
             return created;
+        } finally {
+            this.#savingRole.set(false);
+        }
+    }
+
+    async loadPermissions() {
+        const permissions = await firstValueFrom(this.#platformApi.platformControllerListPermissions());
+        this.#permissions.set(permissions ?? []);
+        return permissions;
+    }
+
+    async loadRoleDetail(id: string) {
+        const role = await firstValueFrom(this.#platformApi.platformControllerGetRole({ id }));
+        this.#activeRoleDetail.set(role);
+        return role;
+    }
+
+    clearActiveRoleDetail() {
+        this.#activeRoleDetail.set(null);
+    }
+
+    async updateRole(id: string, body: UpdateRoleRequest) {
+        this.#savingRole.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerUpdateRole({ id, updateRoleRequest: body }));
+            await this.loadRoles();
+            this.#activeRoleDetail.update((current) => (current && current.id === id ? { ...current, ...updated } : current));
+            return updated;
+        } finally {
+            this.#savingRole.set(false);
+        }
+    }
+
+    async activateRole(id: string, body: UpdateRoleActivationRequest = {}) {
+        this.#savingRole.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerActivateRole({ id, updateRoleActivationRequest: body }));
+            await this.loadRoles();
+            this.#activeRoleDetail.update((current) => (current && current.id === id ? { ...current, ...updated } : current));
+            return updated;
+        } finally {
+            this.#savingRole.set(false);
+        }
+    }
+
+    async deactivateRole(id: string, body: UpdateRoleActivationRequest = {}) {
+        this.#savingRole.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerDeactivateRole({ id, updateRoleActivationRequest: body }));
+            await this.loadRoles();
+            this.#activeRoleDetail.update((current) => (current && current.id === id ? { ...current, ...updated } : current));
+            return updated;
         } finally {
             this.#savingRole.set(false);
         }
@@ -135,6 +195,8 @@ export class PlatformStore {
         this.#savingRole.set(true);
         try {
             await firstValueFrom(this.#platformApi.platformControllerAssignRolePermissions({ id, assignRolePermissionsRequest: body }));
+            await this.loadRoles();
+            await this.loadRoleDetail(id);
         } finally {
             this.#savingRole.set(false);
         }
@@ -168,7 +230,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const created = await firstValueFrom(this.#platformApi.platformControllerCreateOrgUnit({ createOrgUnitRequest: body }));
-            this.#orgUnits.update((list) => [...list, created]);
+            await this.loadOrgUnits();
             return created;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -179,7 +241,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerUpdateOrgUnit({ id, updateOrgUnitRequest: body }));
-            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            await this.loadOrgUnits();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -190,7 +252,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerActivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
-            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            await this.loadOrgUnits();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -201,7 +263,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerDeactivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
-            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            await this.loadOrgUnits();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -212,7 +274,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerMoveOrgUnit({ id, moveOrgUnitRequest: body }));
-            this.#orgUnits.update((list) => list.map((u) => (u.id === id ? updated : u)));
+            await this.loadOrgUnits();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);

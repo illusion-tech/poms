@@ -9,17 +9,23 @@ import type {
     NavigationSyncSummary,
     OrgUnitTreeNode,
     PermissionKey,
+    PlatformPermissionList,
+    PlatformPermissionSummary,
     PlatformOrgUnitDetail,
     PlatformOrgUnitSummary,
     PlatformOrgUnitTree,
+    PlatformRoleDetail,
     PlatformRoleSummary,
     PlatformUserList,
     PlatformUserSummary,
+    UpdateRoleActivationRequest,
+    UpdateRoleRequest,
     SanitizedUserWithOrgUnits,
     UpdateOrgUnitActivationRequest,
     UpdateOrgUnitRequest,
     UpdatePlatformUserActivationRequest
 } from '@poms/shared-contracts';
+import { PERMISSION_KEYS, PermissionsMeta } from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
@@ -27,6 +33,11 @@ import { NavigationService } from '../navigation/navigation.service';
 import { OrgUnit } from './org-unit.entity';
 import { PlatformRepository } from './platform.repository';
 import { PlatformRole } from './role.entity';
+
+const SYSTEM_ROLE_MINIMUM_PERMISSION_KEYS: Partial<Record<string, PermissionKey[]>> = {
+    'platform-admin': [...PERMISSION_KEYS],
+    'project-viewer': ['project:read', 'nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view']
+};
 
 @Injectable()
 export class PlatformService {
@@ -69,7 +80,12 @@ export class PlatformService {
 
     async getPermissionsForUser(userId: string): Promise<PermissionKey[]> {
         const userRoleAssignments = await this.platformRepository.findActiveUserRoleAssignments();
-        const roleIds = userRoleAssignments.filter((a) => a.userId === userId).map((a) => a.roleId);
+        const assignedRoleIds = userRoleAssignments.filter((a) => a.userId === userId).map((a) => a.roleId);
+        if (assignedRoleIds.length === 0) return [];
+
+        const activeRoles = await this.platformRepository.findRolesByIds([...new Set(assignedRoleIds)]);
+        const activeRoleIds = new Set(activeRoles.filter((role) => role.isActive).map((role) => role.id));
+        const roleIds = assignedRoleIds.filter((roleId) => activeRoleIds.has(roleId));
         if (roleIds.length === 0) return [];
 
         const rolePermissionAssignments = await this.platformRepository.findActiveRolePermissionAssignments();
@@ -145,6 +161,32 @@ export class PlatformService {
         return roles.map((role) => this.#toRoleSummary(role));
     }
 
+    listPermissions(): PlatformPermissionList {
+        return PERMISSION_KEYS.map((key) => this.#toPermissionSummary(key));
+    }
+
+    async getRole(id: string): Promise<PlatformRoleDetail> {
+        const [role, rolePermissionAssignments, userRoleAssignments] = await Promise.all([
+            this.platformRepository.findRoleById(id),
+            this.platformRepository.findRolePermissionAssignmentsByRoleId(id),
+            this.platformRepository.findActiveUserRoleAssignments()
+        ]);
+        if (!role) throw new NotFoundException(`Role ${id} not found`);
+
+        const permissionKeys = rolePermissionAssignments
+            .filter((assignment) => assignment.status === 'active')
+            .map((assignment) => assignment.permissionKey as PermissionKey)
+            .sort((left, right) => left.localeCompare(right));
+
+        const assignedUserCount = userRoleAssignments.filter((assignment) => assignment.roleId === id).length;
+
+        return {
+            ...this.#toRoleSummary(role),
+            permissionKeys,
+            assignedUserCount
+        };
+    }
+
     async createRole(request: CreateRoleRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
         const existing = await this.platformRepository.findRoleByKey(request.roleKey);
         if (existing) throw new ConflictException(`Role key ${request.roleKey} already exists`);
@@ -177,27 +219,122 @@ export class PlatformService {
         return this.#toRoleSummary(role);
     }
 
+    async updateRole(roleId: string, request: UpdateRoleRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
+        const role = await this.platformRepository.findRoleById(roleId);
+        if (!role) throw new NotFoundException(`Role ${roleId} not found`);
+
+        const beforeSnapshot = {
+            name: role.name,
+            description: role.description,
+            displayOrder: role.displayOrder
+        };
+
+        if (request.name !== undefined) role.name = request.name;
+        if (request.description !== undefined) role.description = request.description ?? null;
+        if (request.displayOrder !== undefined) role.displayOrder = request.displayOrder;
+
+        await this.platformRepository.saveAll([role]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.role.updated',
+            targetType: 'PlatformRole',
+            targetId: role.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: {
+                name: role.name,
+                description: role.description,
+                displayOrder: role.displayOrder
+            }
+        });
+
+        return this.#toRoleSummary(role);
+    }
+
+    async activateRole(roleId: string, _request: UpdateRoleActivationRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
+        const role = await this.platformRepository.findRoleById(roleId);
+        if (!role) throw new NotFoundException(`Role ${roleId} not found`);
+
+        const beforeSnapshot = { isActive: role.isActive };
+        role.isActive = true;
+        await this.platformRepository.saveAll([role]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.role.activated',
+            targetType: 'PlatformRole',
+            targetId: role.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: { isActive: role.isActive }
+        });
+
+        return this.#toRoleSummary(role);
+    }
+
+    async deactivateRole(roleId: string, _request: UpdateRoleActivationRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
+        const role = await this.platformRepository.findRoleById(roleId);
+        if (!role) throw new NotFoundException(`Role ${roleId} not found`);
+
+        const beforeSnapshot = { isActive: role.isActive };
+        role.isActive = false;
+        await this.platformRepository.saveAll([role]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.role.deactivated',
+            targetType: 'PlatformRole',
+            targetId: role.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: { isActive: role.isActive }
+        });
+
+        return this.#toRoleSummary(role);
+    }
+
     async assignRolePermissions(roleId: string, request: AssignRolePermissionsRequest, operatorId?: string | null): Promise<PlatformRoleSummary> {
         const role = await this.platformRepository.findRoleById(roleId);
         if (!role) throw new NotFoundException(`Role ${roleId} not found`);
-        const previousPermissionKeys = (await this.platformRepository.findActiveRolePermissionAssignments())
-            .filter((assignment) => assignment.roleId === roleId)
-            .map((assignment) => assignment.permissionKey);
+        const existingAssignments = await this.platformRepository.findRolePermissionAssignmentsByRoleId(roleId);
+        const activeAssignments = existingAssignments.filter((assignment) => assignment.status === 'active');
+        const previousPermissionKeys = activeAssignments.map((assignment) => assignment.permissionKey as PermissionKey);
+        const nextPermissionKeys = [...new Set(request.permissionKeys)];
 
-        await this.platformRepository.deleteRolePermissionAssignments(roleId);
-        const assignments = request.permissionKeys.map((permissionKey) =>
-            this.platformRepository.createRolePermissionAssignment({
-                roleId,
-                permissionKey,
-                status: 'active',
-                assignedBy: null,
-                revokedAt: null,
-                revokedBy: null,
-                changeReason: null,
-                createdBy: null
-            })
-        );
-        await this.platformRepository.saveAll(assignments);
+        this.#assertSystemRolePermissionBaseline(role, nextPermissionKeys);
+
+        const nextPermissionKeySet = new Set(nextPermissionKeys);
+        const activeAssignmentByPermissionKey = new Map(activeAssignments.map((assignment) => [assignment.permissionKey as PermissionKey, assignment]));
+        const entitiesToSave: object[] = [];
+
+        for (const assignment of activeAssignments) {
+            const permissionKey = assignment.permissionKey as PermissionKey;
+            if (nextPermissionKeySet.has(permissionKey)) continue;
+
+            assignment.status = 'revoked';
+            assignment.revokedAt = new Date();
+            assignment.revokedBy = operatorId ?? null;
+            entitiesToSave.push(assignment);
+        }
+
+        for (const permissionKey of nextPermissionKeys) {
+            if (activeAssignmentByPermissionKey.has(permissionKey)) continue;
+
+            entitiesToSave.push(
+                this.platformRepository.createRolePermissionAssignment({
+                    roleId,
+                    permissionKey,
+                    status: 'active',
+                    assignedBy: operatorId ?? null,
+                    revokedAt: null,
+                    revokedBy: null,
+                    changeReason: null,
+                    createdBy: operatorId ?? null
+                })
+            );
+        }
+
+        if (entitiesToSave.length > 0) {
+            await this.platformRepository.saveAll(entitiesToSave);
+        }
         await this.runtimeAuditService.recordAuditLog({
             eventType: 'platform.role.permissions.replaced',
             targetType: 'PlatformRole',
@@ -208,7 +345,7 @@ export class PlatformService {
                 permissionKeys: previousPermissionKeys
             },
             afterSnapshot: {
-                permissionKeys: request.permissionKeys
+                permissionKeys: nextPermissionKeys
             }
         });
         return this.#toRoleSummary(role);
@@ -560,6 +697,7 @@ export class PlatformService {
     async assignUserRoles(userId: string, request: AssignUserRolesRequest, operatorId?: string | null) {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+        await this.#assertRoleIdsAreActive(request.roleIds);
         const previousRoleIds = (await this.platformRepository.findActiveUserRoleAssignments())
             .filter((assignment) => assignment.userId === userId)
             .map((assignment) => assignment.roleId);
@@ -676,11 +814,11 @@ export class PlatformService {
 
         const roleNamesByUserId = new Map<string, string[]>();
         for (const assignment of userRoleAssignments) {
-            const roleName = roleMap.get(assignment.roleId)?.name;
-            if (!roleName) continue;
+            const role = roleMap.get(assignment.roleId);
+            if (!role?.isActive) continue;
 
             const current = roleNamesByUserId.get(assignment.userId) ?? [];
-            current.push(roleName);
+            current.push(role.name);
             roleNamesByUserId.set(assignment.userId, current);
         }
 
@@ -691,6 +829,20 @@ export class PlatformService {
         }
 
         return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId };
+    }
+
+    async #assertRoleIdsAreActive(roleIds: string[]): Promise<void> {
+        const uniqueRoleIds = [...new Set(roleIds)];
+        if (uniqueRoleIds.length === 0) return;
+
+        const roles = await this.platformRepository.findRolesByIds(uniqueRoleIds);
+        const roleMap = new Map(roles.map((role) => [role.id, role]));
+
+        for (const roleId of uniqueRoleIds) {
+            const role = roleMap.get(roleId);
+            if (!role) throw new NotFoundException(`Role ${roleId} not found`);
+            if (!role.isActive) throw new ConflictException(`Role ${roleId} is inactive`);
+        }
     }
 
     async #assertOrgUnitIdsAreActive(orgUnitIds: string[]): Promise<void> {
@@ -799,6 +951,31 @@ export class PlatformService {
             left.name.localeCompare(right.name, 'zh-CN') ||
             left.id.localeCompare(right.id)
         );
+    }
+
+    #assertSystemRolePermissionBaseline(role: PlatformRole, permissionKeys: PermissionKey[]): void {
+        if (!role.isSystemRole) return;
+
+        const minimumPermissionKeys = SYSTEM_ROLE_MINIMUM_PERMISSION_KEYS[role.roleKey] ?? [];
+        const nextPermissionKeySet = new Set(permissionKeys);
+        const missingPermissionKeys = minimumPermissionKeys.filter((permissionKey) => !nextPermissionKeySet.has(permissionKey));
+
+        if (missingPermissionKeys.length > 0) {
+            throw new ConflictException(`System role ${role.roleKey} must retain baseline permissions: ${missingPermissionKeys.join(', ')}`);
+        }
+    }
+
+    #toPermissionSummary(key: PermissionKey): PlatformPermissionSummary {
+        return {
+            key,
+            name: key,
+            description: PermissionsMeta[key].description,
+            group: PermissionsMeta[key].group,
+            status: 'active',
+            isSystemPermission: true,
+            sourceType: 'system-seeded',
+            deprecatedBy: null
+        };
     }
 
     #toRoleSummary(role: PlatformRole): PlatformRoleSummary {

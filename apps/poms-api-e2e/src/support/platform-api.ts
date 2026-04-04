@@ -10,6 +10,8 @@ import type {
     NavigationItem,
     NavigationSyncSummary,
     OrgUnitTreeNode,
+    PlatformPermissionList,
+    PlatformRoleDetail,
     PlatformOrgUnitDetail,
     PlatformOrgUnitSummary,
     PlatformRoleSummary,
@@ -17,6 +19,8 @@ import type {
     PlatformUserSummary,
     SanitizedUserWithOrgUnits,
     UpdateOrgUnitActivationRequest,
+    UpdateRoleActivationRequest,
+    UpdateRoleRequest,
     UpdatePlatformUserActivationRequest
 } from './types';
 
@@ -30,12 +34,49 @@ export async function listPlatformRoles(client: AxiosInstance): Promise<Platform
     return expectStatus(response, 200);
 }
 
+export async function listPlatformPermissions(client: AxiosInstance): Promise<PlatformPermissionList> {
+    const response = await client.get<PlatformPermissionList>('/platform/permissions');
+    return expectStatus(response, 200);
+}
+
+export async function getPlatformRole(client: AxiosInstance, roleId: string): Promise<PlatformRoleDetail> {
+    const response = await client.get<PlatformRoleDetail>(`/platform/roles/${roleId}`);
+    return expectStatus(response, 200);
+}
+
 export async function createRole(
     client: AxiosInstance,
     input: CreateRoleRequest
 ): Promise<PlatformRoleSummary> {
     const response = await client.post<PlatformRoleSummary>('/platform/roles', input);
     return expectStatus(response, 201);
+}
+
+export async function updateRole(
+    client: AxiosInstance,
+    roleId: string,
+    input: UpdateRoleRequest
+): Promise<PlatformRoleSummary> {
+    const response = await client.patch<PlatformRoleSummary>(`/platform/roles/${roleId}`, input);
+    return expectStatus(response, 200);
+}
+
+export async function activateRole(
+    client: AxiosInstance,
+    roleId: string,
+    input: UpdateRoleActivationRequest = {}
+): Promise<PlatformRoleSummary> {
+    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}/activate`, input);
+    return expectStatus(response, 200);
+}
+
+export async function deactivateRole(
+    client: AxiosInstance,
+    roleId: string,
+    input: UpdateRoleActivationRequest = {}
+): Promise<PlatformRoleSummary> {
+    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}/deactivate`, input);
+    return expectStatus(response, 200);
 }
 
 export async function assignRolePermissions(

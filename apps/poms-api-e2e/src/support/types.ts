@@ -25,7 +25,10 @@ export type {
     ContractSummary,
     CreateRoleRequest,
     PermissionKey,
+    PlatformPermissionList,
+    PlatformPermissionSummary,
     PlatformOrgUnitSummary,
+    PlatformRoleDetail,
     PlatformRoleSummary,
     PlatformUserList,
     PlatformUserSummary,
@@ -48,5 +51,7 @@ export type {
     MoveOrgUnitRequest,
     OrgUnitTreeNode,
     PlatformOrgUnitDetail,
-    UpdateOrgUnitActivationRequest
+    UpdateOrgUnitActivationRequest,
+    UpdateRoleActivationRequest,
+    UpdateRoleRequest
 } from '@poms/shared-contracts';

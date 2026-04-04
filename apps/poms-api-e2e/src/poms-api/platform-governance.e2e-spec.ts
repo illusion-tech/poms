@@ -2,6 +2,7 @@ import { createApiClient, loginAsAdmin, loginAsViewer, VIEWER_CREDENTIALS } from
 import { expectErrorStatus, expectStatus } from '../support/http';
 import {
     activateOrgUnit,
+    activateRole,
     activatePlatformUser,
     assignRolePermissions,
     assignUserOrgMemberships,
@@ -9,12 +10,15 @@ import {
     createOrgUnit,
     createRole,
     deactivateOrgUnit,
+    deactivateRole,
     deactivatePlatformUser,
     findPlatformOrgUnitByCode,
     findPlatformRoleByKey,
     findPlatformUserByUsername,
     getPlatformOrgUnit,
+    getPlatformRole,
     getMyNavigation,
+    listPlatformPermissions,
     listPlatformOrgUnitTree,
     listPlatformRoles,
     moveOrgUnit,
@@ -115,6 +119,55 @@ describe('poms-api platform governance e2e', () => {
             await assignUserRoles(adminClient, viewer.id, {
                 roleIds: [projectViewerRole.id]
             });
+        }
+    });
+
+    it('returns permission dictionary and role detail, and stops authorization when a role is deactivated', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
+        const projectViewerRole = await findPlatformRoleByKey(adminClient, 'project-viewer');
+        const unique = makeUniqueSuffix('role-detail');
+        const tempRole = await createRole(adminClient, {
+            roleKey: `e2e-role-detail-${Date.now().toString(36)}`,
+            name: `E2E 角色详情 ${unique}`,
+            description: '用于验证角色详情、权限字典与停用后授权收敛',
+            displayOrder: 98
+        });
+
+        try {
+            const permissions = await listPlatformPermissions(adminClient);
+            expect(permissions.some((permission) => permission.key === 'platform:roles:manage')).toBe(true);
+
+            await assignRolePermissions(adminClient, tempRole.id, {
+                permissionKeys: ['platform:roles:manage']
+            });
+
+            const detailAfterAssign = await getPlatformRole(adminClient, tempRole.id);
+            expect(detailAfterAssign.permissionKeys).toEqual(['platform:roles:manage']);
+            expect(detailAfterAssign.assignedUserCount).toBe(0);
+
+            await assignUserRoles(adminClient, viewer.id, {
+                roleIds: [projectViewerRole.id, tempRole.id]
+            });
+
+            const viewerSession = await loginAsViewer();
+            const rolesAfterGrant = await viewerSession.client.get('/platform/roles');
+            expectStatus(rolesAfterGrant, 200);
+
+            await deactivateRole(adminClient, tempRole.id);
+
+            const rolesAfterDeactivate = await viewerSession.client.get('/platform/roles');
+            expectErrorStatus(rolesAfterDeactivate, 403);
+
+            await activateRole(adminClient, tempRole.id);
+
+            const rolesAfterReactivate = await viewerSession.client.get('/platform/roles');
+            expectStatus(rolesAfterReactivate, 200);
+        } finally {
+            await assignUserRoles(adminClient, viewer.id, {
+                roleIds: [projectViewerRole.id]
+            });
+            await activateRole(adminClient, tempRole.id);
         }
     });
 

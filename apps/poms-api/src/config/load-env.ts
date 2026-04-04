@@ -1,13 +1,34 @@
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { isAbsolute, resolve } from 'node:path';
 import { config } from 'dotenv';
 import { ZodError } from 'zod';
 import { type EnvironmentVariables, environmentSchema } from './environment.schema';
 
 let cachedEnv: EnvironmentVariables | undefined;
 
-function resolveEnvPath(): string | undefined {
-    const candidates = [resolve(process.cwd(), 'apps/poms-api/.env'), resolve(process.cwd(), '.env')];
+export const ENV_PATH_VARIABLE_NAME = 'POMS_ENV_FILE';
+
+function normalizeCandidatePath(cwd: string, candidate: string | undefined): string | undefined {
+    const trimmedCandidate = candidate?.trim();
+    if (!trimmedCandidate) {
+        return undefined;
+    }
+
+    return isAbsolute(trimmedCandidate) ? trimmedCandidate : resolve(cwd, trimmedCandidate);
+}
+
+export function resolveEnvPath({
+    cwd = process.cwd(),
+    env = process.env
+}: {
+    cwd?: string;
+    env?: NodeJS.ProcessEnv;
+} = {}): string | undefined {
+    const candidates = [
+        normalizeCandidatePath(cwd, env[ENV_PATH_VARIABLE_NAME]),
+        resolve(cwd, '.env'),
+        resolve(cwd, 'apps/poms-api/.env')
+    ].filter((candidate): candidate is string => candidate !== undefined);
 
     return candidates.find((candidate) => existsSync(candidate));
 }

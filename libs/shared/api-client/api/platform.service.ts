@@ -41,6 +41,10 @@ import { PlatformOrgUnitDetail } from '../model/platform-org-unit-detail';
 // @ts-ignore
 import { PlatformOrgUnitSummary } from '../model/platform-org-unit-summary';
 // @ts-ignore
+import { PlatformPermissionSummary } from '../model/platform-permission-summary';
+// @ts-ignore
+import { PlatformRoleDetail } from '../model/platform-role-detail';
+// @ts-ignore
 import { PlatformRoleSummary } from '../model/platform-role-summary';
 // @ts-ignore
 import { PlatformUserSummary } from '../model/platform-user-summary';
@@ -52,6 +56,10 @@ import { UpdateOrgUnitActivationRequest } from '../model/update-org-unit-activat
 import { UpdateOrgUnitRequest } from '../model/update-org-unit-request';
 // @ts-ignore
 import { UpdatePlatformUserActivationRequest } from '../model/update-platform-user-activation-request';
+// @ts-ignore
+import { UpdateRoleActivationRequest } from '../model/update-role-activation-request';
+// @ts-ignore
+import { UpdateRoleRequest } from '../model/update-role-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -62,6 +70,11 @@ import { BaseService } from '../api.base.service';
 export interface PlatformControllerActivateOrgUnitRequestParams {
     id: string;
     updateOrgUnitActivationRequest: UpdateOrgUnitActivationRequest;
+}
+
+export interface PlatformControllerActivateRoleRequestParams {
+    id: string;
+    updateRoleActivationRequest: UpdateRoleActivationRequest;
 }
 
 export interface PlatformControllerActivateUserRequestParams {
@@ -101,12 +114,21 @@ export interface PlatformControllerDeactivateOrgUnitRequestParams {
     updateOrgUnitActivationRequest: UpdateOrgUnitActivationRequest;
 }
 
+export interface PlatformControllerDeactivateRoleRequestParams {
+    id: string;
+    updateRoleActivationRequest: UpdateRoleActivationRequest;
+}
+
 export interface PlatformControllerDeactivateUserRequestParams {
     id: string;
     updatePlatformUserActivationRequest: UpdatePlatformUserActivationRequest;
 }
 
 export interface PlatformControllerGetOrgUnitRequestParams {
+    id: string;
+}
+
+export interface PlatformControllerGetRoleRequestParams {
     id: string;
 }
 
@@ -118,6 +140,11 @@ export interface PlatformControllerMoveOrgUnitRequestParams {
 export interface PlatformControllerUpdateOrgUnitRequestParams {
     id: string;
     updateOrgUnitRequest: UpdateOrgUnitRequest;
+}
+
+export interface PlatformControllerUpdateRoleRequestParams {
+    id: string;
+    updateRoleRequest: UpdateRoleRequest;
 }
 
 
@@ -194,6 +221,80 @@ export class PlatformApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: updateOrgUnitActivationRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 启用平台角色
+     * @endpoint post /api/platform/roles/{id}/activate
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerActivateRole(requestParameters: PlatformControllerActivateRoleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformRoleSummary>;
+    public platformControllerActivateRole(requestParameters: PlatformControllerActivateRoleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformRoleSummary>>;
+    public platformControllerActivateRole(requestParameters: PlatformControllerActivateRoleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformRoleSummary>>;
+    public platformControllerActivateRole(requestParameters: PlatformControllerActivateRoleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerActivateRole.');
+        }
+        const updateRoleActivationRequest = requestParameters?.updateRoleActivationRequest;
+        if (updateRoleActivationRequest === null || updateRoleActivationRequest === undefined) {
+            throw new Error('Required parameter updateRoleActivationRequest was null or undefined when calling platformControllerActivateRole.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/activate`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformRoleSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updateRoleActivationRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -785,6 +886,80 @@ export class PlatformApi extends BaseService {
     }
 
     /**
+     * 停用平台角色
+     * @endpoint post /api/platform/roles/{id}/deactivate
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerDeactivateRole(requestParameters: PlatformControllerDeactivateRoleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformRoleSummary>;
+    public platformControllerDeactivateRole(requestParameters: PlatformControllerDeactivateRoleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformRoleSummary>>;
+    public platformControllerDeactivateRole(requestParameters: PlatformControllerDeactivateRoleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformRoleSummary>>;
+    public platformControllerDeactivateRole(requestParameters: PlatformControllerDeactivateRoleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerDeactivateRole.');
+        }
+        const updateRoleActivationRequest = requestParameters?.updateRoleActivationRequest;
+        if (updateRoleActivationRequest === null || updateRoleActivationRequest === undefined) {
+            throw new Error('Required parameter updateRoleActivationRequest was null or undefined when calling platformControllerDeactivateRole.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/deactivate`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformRoleSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updateRoleActivationRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 停用平台用户
      * @endpoint post /api/platform/users/{id}/deactivate
      * @param requestParameters
@@ -974,6 +1149,66 @@ export class PlatformApi extends BaseService {
     }
 
     /**
+     * 获取平台角色详情
+     * @endpoint get /api/platform/roles/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerGetRole(requestParameters: PlatformControllerGetRoleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformRoleDetail>;
+    public platformControllerGetRole(requestParameters: PlatformControllerGetRoleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformRoleDetail>>;
+    public platformControllerGetRole(requestParameters: PlatformControllerGetRoleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformRoleDetail>>;
+    public platformControllerGetRole(requestParameters: PlatformControllerGetRoleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerGetRole.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformRoleDetail>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取平台组织树
      * @endpoint get /api/platform/org-units/tree
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1071,6 +1306,61 @@ export class PlatformApi extends BaseService {
         let localVarPath = `/api/platform/org-units`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<PlatformOrgUnitSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取权限字典（只读）
+     * @endpoint get /api/platform/permissions
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerListPermissions(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<PlatformPermissionSummary>>;
+    public platformControllerListPermissions(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<PlatformPermissionSummary>>>;
+    public platformControllerListPermissions(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<PlatformPermissionSummary>>>;
+    public platformControllerListPermissions(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/permissions`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<PlatformPermissionSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1386,6 +1676,80 @@ export class PlatformApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: updateOrgUnitRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 更新平台角色基本信息
+     * @endpoint patch /api/platform/roles/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerUpdateRole(requestParameters: PlatformControllerUpdateRoleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformRoleSummary>;
+    public platformControllerUpdateRole(requestParameters: PlatformControllerUpdateRoleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformRoleSummary>>;
+    public platformControllerUpdateRole(requestParameters: PlatformControllerUpdateRoleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformRoleSummary>>;
+    public platformControllerUpdateRole(requestParameters: PlatformControllerUpdateRoleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerUpdateRole.');
+        }
+        const updateRoleRequest = requestParameters?.updateRoleRequest;
+        if (updateRoleRequest === null || updateRoleRequest === undefined) {
+            throw new Error('Required parameter updateRoleRequest was null or undefined when calling platformControllerUpdateRole.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformRoleSummary>('patch', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updateRoleRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

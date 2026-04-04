@@ -2,11 +2,14 @@ import type {
     MoveOrgUnitRequest,
     NavigationItem,
     NavigationSyncSummary,
+    PlatformPermissionList,
     PlatformOrgUnitDetail,
     PlatformOrgUnitSummary,
     PlatformOrgUnitTree,
+    PlatformRoleDetail,
     PlatformRoleSummary,
     PlatformUserList,
+    UpdateRoleActivationRequest,
     UpdateOrgUnitActivationRequest
 } from '@poms/shared-contracts';
 import type { UserPayload } from '@poms/shared-contracts';
@@ -20,15 +23,19 @@ import {
     MoveOrgUnitRequestDto,
     NavigationListDto,
     NavigationSyncSummaryDto,
+    PlatformPermissionListDto,
     PlatformOrgUnitDetailDto,
     PlatformOrgUnitListDto,
     PlatformOrgUnitSummaryDto,
     PlatformOrgUnitTreeDto,
+    PlatformRoleDetailDto,
     PlatformRoleListDto,
     PlatformRoleSummaryDto,
     PlatformUserListDto,
     SanitizedUserWithOrgUnitsDto,
     UpdateOrgUnitActivationRequestDto,
+    UpdateRoleActivationRequestDto,
+    UpdateRoleRequestDto,
     UpdateOrgUnitRequestDto,
     UpdatePlatformUserActivationRequestDto
 } from '@poms/api-contracts';
@@ -108,12 +115,62 @@ export class PlatformController {
         return this.platformService.listRoles();
     }
 
+    @Get('permissions')
+    @HasPermissions('platform:roles:manage')
+    @ApiOperation({ summary: '获取权限字典（只读）' })
+    @ApiOkResponse({ type: PlatformPermissionListDto })
+    listPermissions(): PlatformPermissionList {
+        return this.platformService.listPermissions();
+    }
+
+    @Get('roles/:id')
+    @HasPermissions('platform:roles:manage')
+    @ApiOperation({ summary: '获取平台角色详情' })
+    @ApiOkResponse({ type: PlatformRoleDetailDto })
+    getRole(@Param('id') id: string): Promise<PlatformRoleDetail> {
+        return this.platformService.getRole(id);
+    }
+
     @Post('roles')
     @HasPermissions('platform:roles:manage')
     @ApiOperation({ summary: '创建平台角色' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
     createRole(@Body() body: CreateRoleRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
         return this.platformService.createRole(body, req.user.sub);
+    }
+
+    @Patch('roles/:id')
+    @HasPermissions('platform:roles:manage')
+    @ApiOperation({ summary: '更新平台角色基本信息' })
+    @ApiOkResponse({ type: PlatformRoleSummaryDto })
+    updateRole(@Param('id') id: string, @Body() body: UpdateRoleRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
+        return this.platformService.updateRole(id, body, req.user.sub);
+    }
+
+    @Post('roles/:id/activate')
+    @HasPermissions('platform:roles:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '启用平台角色' })
+    @ApiOkResponse({ type: PlatformRoleSummaryDto })
+    activateRole(
+        @Param('id') id: string,
+        @Body() body: UpdateRoleActivationRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<PlatformRoleSummary> {
+        return this.platformService.activateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
+    }
+
+    @Post('roles/:id/deactivate')
+    @HasPermissions('platform:roles:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '停用平台角色' })
+    @ApiOkResponse({ type: PlatformRoleSummaryDto })
+    deactivateRole(
+        @Param('id') id: string,
+        @Body() body: UpdateRoleActivationRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<PlatformRoleSummary> {
+        return this.platformService.deactivateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
     }
 
     @Post('roles/:id/permissions')
