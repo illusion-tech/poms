@@ -203,6 +203,7 @@
 - 条件唯一索引与部分索引在设计层可以正式采用 `PostgreSQL` 语义表达
 - `poms-design-progress.md` 中应改为“数据库、migration 路线与 ORM 已定，准备进入工程接入与迁移脚本落地”
 - 后续若编写 ORM entity，必须服从已接受的 DDL 设计，而不是反向驱动 DDL
+- `SQL-first migration` 不等于允许 ORM metadata 长期漂移；entity / mapping 仍需维持到可解释、可校验的一致程度
 
 ---
 
@@ -217,7 +218,9 @@
   - 禁止自动 schema 同步
   - migration 不由 ORM 自动推断数据库权威结构
   - 禁止生产环境自动 schema 修改
-5. 复杂查询场景优先使用 query builder 或受控原生 SQL，不强求所有查询都通过实体关系加载完成。
+5. 每个涉及持久化结构的切片都应执行 metadata / DDL 一致性检查；若存在 schema diff，必须区分是真实遗漏、可接受的数据库特性差异，还是低价值工具噪声，而不是直接忽略。
+6. 当前仓库若存在全局历史 drift，应单独建立基线治理任务清理；在基线清理完成前，`migration-check` 至少是必跑诊断项，在基线稳定后应升级为 CI 门禁。
+7. 复杂查询场景优先使用 query builder 或受控原生 SQL，不强求所有查询都通过实体关系加载完成。
 
 ---
 
@@ -230,6 +233,7 @@
 3. 明确 `MikroORM` 的 entity 组织方式、request context 和事务边界约定
 4. 优先为 `project`、`contract`、`approval_record`、`todo_item` 等核心表编写第一批 migration
 5. 最后按 `MikroORM` 逐步补实体映射与 repository
+6. 在第一轮工程切片后尽快完成一次全局 drift 基线治理，把历史 migration、entity metadata 与 `migration-check` 校验口径对齐
 
 ---
 

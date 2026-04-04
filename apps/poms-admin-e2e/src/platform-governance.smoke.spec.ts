@@ -36,6 +36,67 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByText(code)).toBeVisible();
     });
 
+    test('admin can edit move and toggle an org unit from the real page', async ({ page }) => {
+        const unique = Date.now().toString(36).toUpperCase();
+        const sourceName = `E2E 源组织 ${unique}`;
+        const sourceCode = `E2ESRC${unique}`;
+        const targetName = `E2E 目标组织 ${unique}`;
+        const targetCode = `E2ETGT${unique}`;
+
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+        await page.goto('/platform/org-units');
+        await expect(page).toHaveURL(/\/platform\/org-units$/);
+
+        await page.getByRole('button', { name: '新建组织' }).click();
+        await page.getByLabel('新建组织名称').fill(sourceName);
+        await page.getByLabel('新建组织编码').fill(sourceCode);
+        await page.getByLabel('新建组织描述').fill('用于验证编辑、移动与启停');
+        await page.getByRole('button', { name: '创建' }).click();
+        await expect(page.getByText('创建成功')).toBeVisible();
+
+        await page.getByRole('button', { name: '新建组织' }).click();
+        await page.getByLabel('新建组织名称').fill(targetName);
+        await page.getByLabel('新建组织编码').fill(targetCode);
+        await page.getByLabel('新建组织描述').fill('用于验证移动目标');
+        await page.getByRole('button', { name: '创建' }).click();
+        await expect(page.getByText('创建成功')).toBeVisible();
+
+        await page.getByPlaceholder('搜索组织').fill(sourceCode);
+        const sourceRow = page.locator('tr').filter({ hasText: sourceCode }).first();
+        await expect(sourceRow).toBeVisible();
+
+        await sourceRow.getByRole('button', { name: '编辑组织' }).click();
+        await expect(page.getByRole('dialog', { name: '编辑组织' })).toBeVisible();
+        await page.getByLabel('编辑组织名称').fill(`${sourceName}-已编辑`);
+        await page.getByLabel('编辑组织编码').fill(`${sourceCode}X`);
+        await page.getByLabel('编辑组织排序').fill('5');
+        await page.getByRole('button', { name: '保存' }).click();
+        await expect(page.getByText('保存成功')).toBeVisible();
+
+        await page.getByPlaceholder('搜索组织').fill(`${sourceCode}X`);
+        const editedRow = page.locator('tr').filter({ hasText: `${sourceCode}X` }).first();
+        await expect(editedRow).toContainText(`${sourceName}-已编辑`);
+        await expect(editedRow).toContainText('5');
+
+        await editedRow.getByRole('button', { name: '移动组织' }).click();
+        await expect(page.getByRole('dialog', { name: '移动组织' })).toBeVisible();
+        await page.getByLabel('移动组织上级组织').selectOption({ label: targetName });
+        await page.getByLabel('移动组织排序').fill('7');
+        await page.getByRole('button', { name: '保存位置' }).click();
+        await expect(page.getByText('移动成功')).toBeVisible();
+        await expect(editedRow).toContainText(targetName);
+        await expect(editedRow).toContainText('7');
+
+        await editedRow.getByRole('button', { name: '停用组织' }).click();
+        await expect(page.getByText('状态已更新')).toBeVisible();
+        await expect(editedRow).toContainText('停用');
+
+        await editedRow.getByRole('button', { name: '启用组织' }).click();
+        await expect(page.getByText('状态已更新')).toBeVisible();
+        await expect(editedRow).toContainText('启用');
+    });
+
     test('admin can reach the platform governance pages', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);

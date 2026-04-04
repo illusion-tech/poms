@@ -92,8 +92,8 @@ import { TooltipModule } from 'primeng/tooltip';
                             </td>
                             <td>
                                 <div class="flex items-center gap-1">
-                                    <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" />
-                                    <p-button icon="pi pi-share-alt" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="移动" tooltipPosition="top" (onClick)="openMoveDialog(unit)" class="cursor-pointer" />
+                                    <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" ariaLabel="编辑组织" />
+                                    <p-button icon="pi pi-share-alt" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="移动" tooltipPosition="top" (onClick)="openMoveDialog(unit)" class="cursor-pointer" ariaLabel="移动组织" />
                                     <p-button
                                         [icon]="unit.isActive ? 'pi pi-ban' : 'pi pi-check'"
                                         [rounded]="true"
@@ -104,6 +104,7 @@ import { TooltipModule } from 'primeng/tooltip';
                                         tooltipPosition="top"
                                         (onClick)="toggleOrgUnit(unit)"
                                         class="cursor-pointer"
+                                        [ariaLabel]="unit.isActive ? '停用组织' : '启用组织'"
                                     />
                                 </div>
                             </td>
@@ -122,19 +123,19 @@ import { TooltipModule } from 'primeng/tooltip';
                 <div class="flex flex-col gap-4 py-4">
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织名称 *</label>
-                        <input pInputText [(ngModel)]="createForm.name" placeholder="如 华北销售部" class="w-full" />
+                        <input pInputText [(ngModel)]="createForm.name" placeholder="如 华北销售部" class="w-full" aria-label="新建组织名称" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织编码 *</label>
-                        <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH" class="w-full" />
+                        <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH" class="w-full" aria-label="新建组织编码" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">描述</label>
-                        <textarea pTextarea [(ngModel)]="createForm.description" rows="3" placeholder="组织简介（可选）" class="w-full"></textarea>
+                        <textarea pTextarea [(ngModel)]="createForm.description" rows="3" placeholder="组织简介（可选）" class="w-full" aria-label="新建组织描述"></textarea>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">上级组织</label>
-                        <select [(ngModel)]="createForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2">
+                        <select [(ngModel)]="createForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="新建组织上级组织">
                             <option [ngValue]="null">作为根节点</option>
                             @for (unit of selectableParents(); track unit.id) {
                                 <option [ngValue]="unit.id">{{ unit.name }}</option>
@@ -143,7 +144,7 @@ import { TooltipModule } from 'primeng/tooltip';
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">排序</label>
-                        <input pInputText type="number" [(ngModel)]="createForm.displayOrder" class="w-full" />
+                        <input pInputText type="number" [(ngModel)]="createForm.displayOrder" class="w-full" aria-label="新建组织排序" />
                     </div>
                 </div>
                 <ng-template #footer>
@@ -159,19 +160,19 @@ import { TooltipModule } from 'primeng/tooltip';
                 <div class="flex flex-col gap-4 py-4">
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织名称 *</label>
-                        <input pInputText [(ngModel)]="editForm.name" class="w-full" />
+                        <input pInputText [(ngModel)]="editForm.name" class="w-full" aria-label="编辑组织名称" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">组织编码</label>
-                        <input pInputText [(ngModel)]="editForm.code" class="w-full" />
+                        <input pInputText [(ngModel)]="editForm.code" class="w-full" aria-label="编辑组织编码" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">描述</label>
-                        <textarea pTextarea [(ngModel)]="editForm.description" rows="3" class="w-full"></textarea>
+                        <textarea pTextarea [(ngModel)]="editForm.description" rows="3" class="w-full" aria-label="编辑组织描述"></textarea>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">排序</label>
-                        <input pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" />
+                        <input pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" aria-label="编辑组织排序" />
                     </div>
                 </div>
                 <ng-template #footer>
@@ -186,7 +187,7 @@ import { TooltipModule } from 'primeng/tooltip';
                 <div class="flex flex-col gap-4 py-4">
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">上级组织</label>
-                        <select [(ngModel)]="moveForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2">
+                        <select [(ngModel)]="moveForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="移动组织上级组织">
                             <option [ngValue]="null">移动到根节点</option>
                             @for (unit of selectableParents(movingId()); track unit.id) {
                                 <option [ngValue]="unit.id">{{ unit.name }}</option>
@@ -195,7 +196,7 @@ import { TooltipModule } from 'primeng/tooltip';
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">排序</label>
-                        <input pInputText type="number" [(ngModel)]="moveForm.displayOrder" class="w-full" />
+                        <input pInputText type="number" [(ngModel)]="moveForm.displayOrder" class="w-full" aria-label="移动组织排序" />
                     </div>
                 </div>
                 <ng-template #footer>

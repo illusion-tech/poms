@@ -71,7 +71,7 @@
         "migration-check": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm migration:check",
+                "command": "corepack pnpm exec mikro-orm migration:check",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
@@ -82,7 +82,7 @@
         "migration-create": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm migration:create",
+                "command": "corepack pnpm exec mikro-orm migration:create",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
@@ -93,7 +93,7 @@
         "migration-up": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm migration:up",
+                "command": "corepack pnpm exec mikro-orm migration:up",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
@@ -104,7 +104,7 @@
         "migration-down": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm migration:down",
+                "command": "corepack pnpm exec mikro-orm migration:down",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
@@ -115,7 +115,7 @@
         "migration-list": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm migration:list",
+                "command": "corepack pnpm exec mikro-orm migration:list",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
@@ -126,7 +126,7 @@
         "seeder-run": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec mikro-orm seeder:run",
+                "command": "corepack pnpm exec mikro-orm seeder:run",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
                     "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"

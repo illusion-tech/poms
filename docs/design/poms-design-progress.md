@@ -107,19 +107,19 @@
 
 ### 4.3 业务域设计
 
-| 文档                                               | 当前状态         | 作用                                                                                                             | 是否可作为下游输入 |
-| -------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `docs/design/project-lifecycle-design.md`          | Draft (Baseline) | 项目生命周期、状态机、阻断规则、阶段矩阵，已按 `BidProcess` 口径回写                                             | 是                 |
-| `docs/design/contract-finance-design.md`           | Draft (Baseline) | 合同、回款、成本、发票的详细设计，已形成合同资金域对象与生效口径基线                                             | 是                 |
-| `docs/design/commission-settlement-design.md`      | Active           | 提成计算、发放、异常调整与重算设计，已补第一阶段实现缺口、接口建议与切片映射                                     | 是                 |
-| `docs/design/workflow-and-approval-design.md`      | Draft (Baseline) | 审批流、待办聚合、风控闸口设计，已形成统一审批模型与公共能力基线                                                 | 是                 |
-| `docs/design/interface-command-design.md`          | Active           | 接口命令设计，已补平台治理域命令集合、提成治理域补齐切片映射，并回写第二阶段第一批、第二批命令补点               | 是                 |
-| `docs/design/interface-openapi-dto-design.md`      | Active           | 接口 OpenAPI 与 DTO 边界设计，已补平台治理域 DTO 边界、提成治理域切片映射，并回写第二阶段第一批、第二批 DTO 补点 | 是                 |
-| `docs/design/query-view-boundary-design.md`        | Active           | 查询视图边界设计，已补平台治理域管理查询视图、提成治理域读侧闭环要求，并回写第二阶段第一批、第二批查询补点       | 是                 |
-| `docs/design/phase2-mainline-delivery-plan.md`     | Active           | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态、默认阅读路径与工程进入顺序                    | 是                 |
-| `docs/design/data-model-prerequisites.md`          | Active           | 数据模型冻结前提，已补平台治理域主数据对象、关系对象与提成治理域补齐前提，并回写第二阶段第二批对象链             | 是                 |
-| `docs/design/table-structure-freeze-design.md`     | Active           | 表结构冻结设计，已补平台治理域与提成治理域逻辑表、关系表与关键字段组，并回写第二阶段第二批逻辑表补点             | 是                 |
-| `docs/design/schema-ddl-design.md`                 | Active           | Schema 与 DDL 细化设计，已补平台治理域与提成治理域核心表、约束与索引基线，并回写第二阶段第二批 DDL 补点          | 是                 |
+| 文档                                           | 当前状态         | 作用                                                                                                             | 是否可作为下游输入 |
+| ---------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `docs/design/project-lifecycle-design.md`      | Draft (Baseline) | 项目生命周期、状态机、阻断规则、阶段矩阵，已按 `BidProcess` 口径回写                                             | 是                 |
+| `docs/design/contract-finance-design.md`       | Draft (Baseline) | 合同、回款、成本、发票的详细设计，已形成合同资金域对象与生效口径基线                                             | 是                 |
+| `docs/design/commission-settlement-design.md`  | Active           | 提成计算、发放、异常调整与重算设计，已补第一阶段实现缺口、接口建议与切片映射                                     | 是                 |
+| `docs/design/workflow-and-approval-design.md`  | Draft (Baseline) | 审批流、待办聚合、风控闸口设计，已形成统一审批模型与公共能力基线                                                 | 是                 |
+| `docs/design/interface-command-design.md`      | Active           | 接口命令设计，已补平台治理域命令集合、提成治理域补齐切片映射，并回写第二阶段第一批、第二批命令补点               | 是                 |
+| `docs/design/interface-openapi-dto-design.md`  | Active           | 接口 OpenAPI 与 DTO 边界设计，已补平台治理域 DTO 边界、提成治理域切片映射，并回写第二阶段第一批、第二批 DTO 补点 | 是                 |
+| `docs/design/query-view-boundary-design.md`    | Active           | 查询视图边界设计，已补平台治理域管理查询视图、提成治理域读侧闭环要求，并回写第二阶段第一批、第二批查询补点       | 是                 |
+| `docs/design/phase2-mainline-delivery-plan.md` | Active           | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态、默认阅读路径与工程进入顺序                   | 是                 |
+| `docs/design/data-model-prerequisites.md`      | Active           | 数据模型冻结前提，已补平台治理域主数据对象、关系对象与提成治理域补齐前提，并回写第二阶段第二批对象链             | 是                 |
+| `docs/design/table-structure-freeze-design.md` | Active           | 表结构冻结设计，已补平台治理域与提成治理域逻辑表、关系表与关键字段组，并回写第二阶段第二批逻辑表补点             | 是                 |
+| `docs/design/schema-ddl-design.md`             | Active           | Schema 与 DDL 细化设计，已补平台治理域与提成治理域核心表、约束与索引基线，并回写第二阶段第二批 DDL 补点          | 是                 |
 
 ### 4.4 治理与横切设计
 
@@ -137,12 +137,12 @@
 
 ### 4.5 当前控制与实施入口
 
-| 文档                                                                      | 当前状态 | 作用                                                                           | 是否可作为下游输入 |
-| ------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------ | ------------------ |
-| `docs/design/phase2-mainline-delivery-plan.md`                            | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口 | 是                 |
-| `docs/design/phase2-lx-t04-full-mainline-development-decision.md`         | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束 | 是                 |
-| `docs/design/implementation-delivery-guide.md`                            | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                 | 是                 |
-| `docs/design/phase2-development-execution-tracker.md`                     | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                   | 是                 |
+| 文档                                                              | 当前状态 | 作用                                                                                 | 是否可作为下游输入 |
+| ----------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------ | ------------------ |
+| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口     | 是                 |
+| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束 | 是                 |
+| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                       | 是                 |
+| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                         | 是                 |
 
 ### 4.6 已归档过程资产
 
@@ -150,16 +150,16 @@
 | --------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------- | ------------------ |
 | `docs/design/archive/README.md`                                                                                 | Active   | 归档入口，负责区分当前正式输入与历史过程资产                            | 否                 |
 | `docs/design/archive/phase1-closure/README.md`                                                                  | Active   | 第一阶段收口归档入口，负责聚合第一阶段历史路线、验收与探活材料          | 否                 |
-| `docs/design/archive/phase1-closure/poms-phase1-delivery-roadmap.md`                                           | Archived | 第一阶段交付路线图，保留阶段路线、切片规划与收口过程留痕                | 否                 |
-| `docs/design/archive/phase1-closure/poms-phase1-gap-closure-plan.md`                                           | Archived | 第一阶段缺口补齐计划，保留补齐顺序、通过条件与回写要求                  | 否                 |
-| `docs/design/archive/phase1-closure/poms-phase1-gap-closure-checklist.md`                                      | Archived | 第一阶段缺口补齐验收清单，保留硬门槛、验收证据与签收口径                | 否                 |
-| `docs/design/archive/phase1-closure/poms-phase1-acceptance-gap-matrix.md`                                      | Archived | 第一阶段承诺-实现-验证缺口矩阵，保留阶段验收证据与缺口判断              | 否                 |
-| `docs/design/archive/phase1-closure/poms-phase1-final-acceptance-snapshot.md`                                  | Archived | 第一阶段最终验收快照，保留最终探活命令、结果与通过结论                  | 否                 |
+| `docs/design/archive/phase1-closure/poms-phase1-delivery-roadmap.md`                                            | Archived | 第一阶段交付路线图，保留阶段路线、切片规划与收口过程留痕                | 否                 |
+| `docs/design/archive/phase1-closure/poms-phase1-gap-closure-plan.md`                                            | Archived | 第一阶段缺口补齐计划，保留补齐顺序、通过条件与回写要求                  | 否                 |
+| `docs/design/archive/phase1-closure/poms-phase1-gap-closure-checklist.md`                                       | Archived | 第一阶段缺口补齐验收清单，保留硬门槛、验收证据与签收口径                | 否                 |
+| `docs/design/archive/phase1-closure/poms-phase1-acceptance-gap-matrix.md`                                       | Archived | 第一阶段承诺-实现-验证缺口矩阵，保留阶段验收证据与缺口判断              | 否                 |
+| `docs/design/archive/phase1-closure/poms-phase1-final-acceptance-snapshot.md`                                   | Archived | 第一阶段最终验收快照，保留最终探活命令、结果与通过结论                  | 否                 |
 | `docs/design/archive/mainline-closure/phase2-mainline-task-tracker.md`                                          | Archived | 第二阶段主线任务收口记录，保留 `L1 ~ L5` 与 `LX-01 / LX-T04` 的完成轨迹 | 否                 |
 | `docs/design/archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`                          | Archived | 第二阶段主线实现设计证明矩阵，保留主线完整实现路径与阻断判断的证明材料  | 否                 |
 | `docs/design/archive/reviews/platform-governance-review-checklist.md`                                           | Archived | 平台治理域评审清单，保留历史评审门槛、阻塞项与通过标准                  | 否                 |
 | `docs/design/archive/reviews/platform-governance-review-summary.md`                                             | Archived | 平台治理域评审结论摘要，保留历史评审结论、已关闭阻塞项与后续动作        | 否                 |
-| `docs/design/archive/control-history/phase2-mainline-delivery-plan.md`                                           | Archived | 第二阶段主线交付计划长文版，保留治理论证、阶段分层与历史过程叙事        | 否                 |
+| `docs/design/archive/control-history/phase2-mainline-delivery-plan.md`                                          | Archived | 第二阶段主线交付计划长文版，保留治理论证、阶段分层与历史过程叙事        | 否                 |
 | `docs/design/archive/control-history/phase2-lx-t04-full-mainline-development-decision.md`                       | Archived | 第二阶段 `LX-T04` 判断长文版，保留判断依据、过程上下文与历史口径替换    | 否                 |
 | `docs/design/archive/reviews/phase2-review-checklist.md`                                                        | Archived | 第二阶段正式审阅清单，保留审阅范围、维度、问题记录与结论回写留痕        | 否                 |
 | `docs/design/archive/reviews/phase2-review-comprehensive-assessment.md`                                         | Archived | 第二阶段正式审阅综合评估，保留四轮问题优先级判断与统一结论留痕          | 否                 |
@@ -195,13 +195,13 @@
 
 ## 5. 各业务域进度
 
-| 业务域     | 需求边界   | HLD 边界   | 关键决策                             | 详细设计 | 当前判断                                                                                |
-| ---------- | ---------- | ---------- | ------------------------------------ | -------- | --------------------------------------------------------------------------------------- |
-| 平台治理域 | 已基本明确 | 已基本明确 | ADR-001、ADR-002、ADR-003 已固定     | Review   | 总文档与四个子设计已进入 Review，阻塞项已由 ADR-008/009/010 收口                        |
-| 销售流程域 | 已基本明确 | 已基本明确 | `Project` 主对象命名、ADR-011 已固定 | Draft    | 生命周期主链路已稳定，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认           |
-| 合同资金域 | 已基本明确 | 已基本明确 | ADR-004、ADR-007 已固定              | Draft    | 对象边界与生效口径已稳定，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认       |
-| 提成治理域 | 已基本明确 | 已基本明确 | ADR-005、ADR-006、ADR-007 已固定     | Draft    | 计算、发放、异常调整基线已形成，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认 |
-| 横切支撑域 | 已基本明确 | 已基本明确 | 审批、审计、附件、通知方向已稳定     | Draft    | 已有统一审批与待办基线，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认         |
+| 业务域     | 需求边界   | HLD 边界   | 关键决策                             | 详细设计 | 当前判断                                                                                                                      |
+| ---------- | ---------- | ---------- | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 平台治理域 | 已基本明确 | 已基本明确 | ADR-001、ADR-002、ADR-003 已固定     | Review   | 总文档与四个子设计已进入 Review，阻塞项已由 ADR-008/009/010 收口，`OrgUnit` 首个执行切片 `EX-01` 已完成并通过 API / Admin E2E |
+| 销售流程域 | 已基本明确 | 已基本明确 | `Project` 主对象命名、ADR-011 已固定 | Draft    | 生命周期主链路已稳定，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认                                                 |
+| 合同资金域 | 已基本明确 | 已基本明确 | ADR-004、ADR-007 已固定              | Draft    | 对象边界与生效口径已稳定，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认                                             |
+| 提成治理域 | 已基本明确 | 已基本明确 | ADR-005、ADR-006、ADR-007 已固定     | Draft    | 计算、发放、异常调整基线已形成，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认                                       |
+| 横切支撑域 | 已基本明确 | 已基本明确 | 审批、审计、附件、通知方向已稳定     | Draft    | 已有统一审批与待办基线，已补齐查询视图与表结构冻结首版边界，准备进入 DDL 前确认                                               |
 
 ---
 
@@ -241,6 +241,7 @@
 - 已完成设计目录第四轮归档治理：已把 `phase2-mainline-implementation-design-matrix.md` 转为主线证明历史材料，根目录当前输入不再把主线完整性证明文档视作默认入口
 - 已完成设计目录第六轮归档治理：已建立 `docs/design/archive/control-history/`，并把两份 phase2 当前控制文档的长篇论证版本转入归档；根目录同名文档当前只保留正式入口、正式结论与当前执行口径
 - 已形成 `phase2-development-execution-tracker.md`，开始把第二阶段统一开发范围进一步拆成可分配、可追踪、可回写的执行层任务板
+- 已完成平台治理域 `OrgUnit` 首个执行切片 `EX-01`：补齐 migration / 索引约束、树查询 / 详情 / 启停 / 移动 API、管理端最小闭环，并通过 API / Admin E2E 验证
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---

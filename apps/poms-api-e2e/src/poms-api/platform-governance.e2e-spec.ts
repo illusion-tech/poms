@@ -1,17 +1,23 @@
 import { createApiClient, loginAsAdmin, loginAsViewer, VIEWER_CREDENTIALS } from '../support/api-client';
 import { expectErrorStatus, expectStatus } from '../support/http';
 import {
+    activateOrgUnit,
     activatePlatformUser,
     assignRolePermissions,
     assignUserOrgMemberships,
     assignUserRoles,
     createOrgUnit,
     createRole,
+    deactivateOrgUnit,
     deactivatePlatformUser,
+    findPlatformOrgUnitByCode,
     findPlatformRoleByKey,
     findPlatformUserByUsername,
+    getPlatformOrgUnit,
     getMyNavigation,
+    listPlatformOrgUnitTree,
     listPlatformRoles,
+    moveOrgUnit,
     syncPlatformNavigation
 } from '../support/platform-api';
 import { listAuditLogs, listSecurityEvents } from '../support/runtime-audit-api';
@@ -146,6 +152,91 @@ describe('poms-api platform governance e2e', () => {
                 secondaryOrgUnitIds: []
             });
         }
+    });
+
+    it('returns org tree/detail and supports activate deactivate move lifecycle', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const unique = Date.now().toString(36).toUpperCase();
+
+        const parent = await createOrgUnit(adminClient, {
+            name: `E2E 根组织 ${unique}`,
+            code: `E2EROOT${unique}`,
+            description: '用于验证组织树、详情与生命周期命令',
+            displayOrder: 200
+        });
+        const child = await createOrgUnit(adminClient, {
+            name: `E2E 子组织 ${unique}`,
+            code: `E2ECHILD${unique}`,
+            description: '用于验证组织移动与停启',
+            parentId: parent.id,
+            displayOrder: 201
+        });
+        const target = await createOrgUnit(adminClient, {
+            name: `E2E 目标组织 ${unique}`,
+            code: `E2ETARGET${unique}`,
+            description: '用于验证组织移动目标',
+            displayOrder: 202
+        });
+
+        const tree = await listPlatformOrgUnitTree(adminClient);
+        const parentNode = tree.find((node) => node.id === parent.id);
+        expect(parentNode).toBeDefined();
+        expect(parentNode?.children.some((node) => node.id === child.id)).toBe(true);
+
+        const childDetail = await getPlatformOrgUnit(adminClient, child.id);
+        expect(childDetail.parentId).toBe(parent.id);
+        expect(childDetail.childCount).toBe(0);
+        expect(childDetail.activeMembershipCount).toBe(0);
+        expect(childDetail.canDelete).toBe(true);
+
+        await deactivateOrgUnit(adminClient, parent.id);
+
+        const deactivatedParent = await findPlatformOrgUnitByCode(adminClient, parent.code);
+        const deactivatedChild = await findPlatformOrgUnitByCode(adminClient, child.code);
+        expect(deactivatedParent.isActive).toBe(false);
+        expect(deactivatedChild.isActive).toBe(false);
+
+        const activateChildResponse = await adminClient.post(`/platform/org-units/${child.id}/activate`, {});
+        expectErrorStatus(activateChildResponse, 409);
+
+        await activateOrgUnit(adminClient, parent.id);
+        await activateOrgUnit(adminClient, child.id);
+
+        const movedChild = await moveOrgUnit(adminClient, child.id, {
+            parentId: target.id,
+            displayOrder: 7
+        });
+        expect(movedChild.parentId).toBe(target.id);
+        expect(movedChild.displayOrder).toBe(7);
+
+        const refreshedTarget = await getPlatformOrgUnit(adminClient, target.id);
+        expect(refreshedTarget.childCount).toBe(1);
+    });
+
+    it('rejects assigning users to inactive org units', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
+        const originalPrimaryOrgUnitId = viewer.primaryOrgUnitId;
+        expect(originalPrimaryOrgUnitId).toBeTruthy();
+
+        const unique = Date.now().toString(36).toUpperCase();
+        const inactiveOrg = await createOrgUnit(adminClient, {
+            name: `E2E 停用组织 ${unique}`,
+            code: `E2EDISABLED${unique}`,
+            description: '用于验证停用组织拒绝绑定',
+            displayOrder: 203
+        });
+
+        await deactivateOrgUnit(adminClient, inactiveOrg.id);
+
+        const assignResponse = await adminClient.post(`/platform/users/${viewer.id}/org-memberships`, {
+            primaryOrgUnitId: inactiveOrg.id,
+            secondaryOrgUnitIds: []
+        });
+        expectErrorStatus(assignResponse, 409);
+
+        const refreshedViewer = await findPlatformUserByUsername(adminClient, 'viewer');
+        expect(refreshedViewer.primaryOrgUnitId).toBe(originalPrimaryOrgUnitId);
     });
 
     it('exposes persisted audit logs and security events through the minimal query endpoints', async () => {

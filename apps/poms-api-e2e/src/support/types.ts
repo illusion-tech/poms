@@ -44,5 +44,9 @@ export type {
     UpdatePlatformUserActivationRequest,
     NavigationItem,
     NavigationSyncSummary,
-    CreateOrgUnitRequest
+    CreateOrgUnitRequest,
+    MoveOrgUnitRequest,
+    OrgUnitTreeNode,
+    PlatformOrgUnitDetail,
+    UpdateOrgUnitActivationRequest
 } from '@poms/shared-contracts';

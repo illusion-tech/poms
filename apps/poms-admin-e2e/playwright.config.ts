@@ -36,7 +36,7 @@ const webServers = [];
 
 if (!useExternalApiServer) {
     webServers.push({
-        command: `powershell -NoProfile -Command "$env:PORT='${apiPort}'; pnpm nx serve poms-api"`,
+        command: `powershell -NoProfile -Command "$env:PORT='${apiPort}'; corepack pnpm nx serve poms-api"`,
         url: `${apiBaseUrl}/api`,
         reuseExistingServer: false,
         timeout: 180_000
@@ -45,7 +45,7 @@ if (!useExternalApiServer) {
 
 if (!useExternalAdminServer) {
     webServers.push({
-        command: `powershell -NoProfile -Command "$env:POMS_API_PROXY_TARGET='${apiBaseUrl}'; pnpm nx serve poms-admin --port=${adminPort} --host=127.0.0.1"`,
+        command: `powershell -NoProfile -Command "$env:POMS_API_PROXY_TARGET='${apiBaseUrl}'; corepack pnpm nx serve poms-admin --port=${adminPort} --host=127.0.0.1"`,
         url: `${adminBaseUrl}/auth/login`,
         reuseExistingServer: false,
         timeout: 180_000
