@@ -13,8 +13,9 @@
   - `phase2-detailed-design-index-map.md`
   - `poms-design-progress.md`
 - 当前控制:
-  - `phase2-mainline-task-tracker.md`
+  - `phase2-lx-t04-full-mainline-development-decision.md`
 - 历史审阅依据:
+  - `archive/mainline-closure/phase2-mainline-task-tracker.md`
   - `archive/reviews/phase2-review-checklist.md`
   - `archive/reviews/phase2-review-comprehensive-assessment.md`
   - `archive/reviews/phase2-review-follow-up-plan.md`
@@ -49,7 +50,7 @@
 
 如需直接判断 `L1 ~ L5` 五条主线是否都具备完整实现设计路径，以及四个批次与主线推进之间的关系，应同时阅读 `phase2-mainline-implementation-design-matrix.md`。
 
-如需直接查看“主线还剩什么没做”、详细任务拆解、完成标准与推进日志，统一见 `phase2-mainline-task-tracker.md`。
+如需回溯主线已完成的任务拆解、完成标准与推进日志，统一见 `archive/mainline-closure/phase2-mainline-task-tracker.md`。
 
 ---
 
@@ -307,7 +308,7 @@
 5. 第一批 6 个专题已完成 `command -> query -> DTO -> data model -> table freeze -> schema / DDL -> guard` 七层实现设计回写。
 6. 第二批 7 个专题已完成主规则回写、桥接映射与六份实现设计总文档的首轮写回，但尚未完成与第一批同等深度的主线稳定消费闭环。
 7. 第三批 5 个专题已完成正式范围锁定、实现映射桥接、六份实现设计总文档写回、关键业务主文档首轮写回与剩余关键联动文档补点，但尚未整体完成与第一批同等深度的跨文档稳定消费闭环。
-8. 已新增 `phase2-mainline-task-tracker.md` 作为主线剩余任务跟踪入口，并已完成 `L1-01`、`L1-02`、`L2-01`、`L2-02`、`L2-03`、`L3-01`、`L3-02`、`L4-01`；其中 `L1` 已把签约前六工作区到 `ContractReadinessPackage / CommercialReleaseBaseline` 的承接链继续写入 `data model / table freeze / schema / guard`，并把受控回退结果链与审批摘要快照继续写入 `command / query / DTO / guard`，`L2` 已把稳定输出包以及历史回看 / 重述 / 再基线选择规则继续写入 `command / query / DTO / data model / table freeze / schema / DDL`，`L3` 已把合同承接摘要、移交确认摘要与冻结版本的统一收口链，以及签后再基线化 / 替代冻结版本 / 联合追溯约束继续写入 `command / query / DTO / data model / table freeze / schema / guard`，`L4` 已把四个工作区直连 `L2` 稳定输出包的 command / query / DTO / guard 边界继续写入实现设计总文档。
+8. 主线任务收口与完成轨迹现统一保留在 `archive/mainline-closure/phase2-mainline-task-tracker.md`；其中已完成 `L1-01`、`L1-02`、`L2-01`、`L2-02`、`L2-03`、`L3-01`、`L3-02`、`L4-01`；其中 `L1` 已把签约前六工作区到 `ContractReadinessPackage / CommercialReleaseBaseline` 的承接链继续写入 `data model / table freeze / schema / guard`，并把受控回退结果链与审批摘要快照继续写入 `command / query / DTO / guard`，`L2` 已把稳定输出包以及历史回看 / 重述 / 再基线选择规则继续写入 `command / query / DTO / data model / table freeze / schema / DDL`，`L3` 已把合同承接摘要、移交确认摘要与冻结版本的统一收口链，以及签后再基线化 / 替代冻结版本 / 联合追溯约束继续写入 `command / query / DTO / data model / table freeze / schema / guard`，`L4` 已把四个工作区直连 `L2` 稳定输出包的 command / query / DTO / guard 边界继续写入实现设计总文档。
 9. 第二阶段整体已进入 `LX-T04` 的最终统一开发判断，并已形成当前范围进入开发的 Go 结论；正式工程实现应按统一范围与统一切片顺序启动。
 
 ### 6.1 主线实现设计推进矩阵

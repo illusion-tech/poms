@@ -103,13 +103,14 @@
 
 - `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划，负责统一主线目标、阶段状态与当前实施入口
 - `phase2-mainline-implementation-design-matrix.md`：第二阶段主线实现设计证明矩阵，负责证明各主线已具备进入开发的设计闭环
-- `phase2-mainline-task-tracker.md`：第二阶段主线任务收口记录，负责保留 `L1 ~ L5` 与 `LX-01 / LX-T04` 的完成轨迹
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出是否进入开发的正式结论
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
 - `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 第二阶段正式审阅三件套 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 已在第二轮治理中转入归档，作为历史审阅依据保留，不再作为当前默认开发入口。
+
+第二阶段主线任务收口记录 `archive/mainline-closure/phase2-mainline-task-tracker.md` 已在第三轮治理中转入归档，作为历史完成轨迹保留，不再作为当前默认开发入口。
 
 ## 命名规则
 
@@ -288,7 +289,6 @@
 
 - `phase2-mainline-delivery-plan.md`
 - `phase2-mainline-implementation-design-matrix.md`
-- `phase2-mainline-task-tracker.md`
 - `phase2-lx-t04-full-mainline-development-decision.md`
 - `implementation-delivery-guide.md`
 
@@ -296,6 +296,7 @@
 
 - `archive/README.md`
 - `archive/reviews/`：已完成使命的正式审阅清单、综合评估、follow-up 清单、评审摘要、分轮审阅记录与已撤销历史判断
+- `archive/mainline-closure/`：已完成使命的主线任务收口记录与完成轨迹文档
 - `archive/phase2-batches/`：第一批、第二批、第三批范围说明与实现映射桥接文档
 
 ## 后续演进建议
