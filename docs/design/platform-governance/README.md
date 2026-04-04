@@ -16,13 +16,13 @@
 - 上承 `poms-requirements-spec.md` 与 `poms-hld.md` 的全局基线
 - 落实 `ADR-001`、`ADR-002`、`ADR-003`、`ADR-008`、`ADR-009`、`ADR-010` 的决策约束
 - 下接用户、角色权限、组织、导航等平台治理子专题设计
-- 配套维护本域评审清单与评审结论摘要
+- 历史评审资产统一转入 `../archive/reviews/`
 
 因此，本目录不是新的总纲文档目录，也不是实现层文档目录，而是“平台治理域详细设计”的聚合入口。
 
 ## 文档分类
 
-本目录下的文档建议按以下三类理解：
+本目录下的文档建议按以下两类理解：
 
 ### 1. 域总设计
 
@@ -36,10 +36,7 @@
 - `navigation-design.md`：导航菜单详细设计，负责收敛导航契约、权限过滤、前端适配和路由对照规则
 - `navigation-route-mapping.md`：导航-路由对照表，负责收敛导航启用、路由迁移和前端收敛基线
 
-### 3. 评审与治理文档
-
-- `platform-governance-review-checklist.md`：平台治理域评审清单，负责收敛评审门槛、阻塞项、非阻塞后续项和通过标准
-- `platform-governance-review-summary.md`：平台治理域评审结论摘要，负责记录本轮评审结论、已关闭阻塞项和后续动作
+平台治理域历史评审清单与评审摘要已统一转入 `../archive/reviews/platform-governance-review-checklist.md` 与 `../archive/reviews/platform-governance-review-summary.md`，作为过程资产保留，不再作为本目录默认阅读路径。
 
 ## 上游输入
 
@@ -65,10 +62,10 @@
 4. `org-unit-design.md`
 5. `navigation-design.md`
 6. `navigation-route-mapping.md`
-7. `platform-governance-review-checklist.md`
-8. `platform-governance-review-summary.md`
 
 如果读者只关心导航或路由收敛，可直接从 `navigation-design.md` 和 `navigation-route-mapping.md` 进入，但仍建议回看域总设计与相关 ADR。
+
+如果需要回溯平台治理域当轮评审门槛、阻塞项和历史结论，再进入 `../archive/reviews/platform-governance-review-checklist.md` 与 `../archive/reviews/platform-governance-review-summary.md`。
 
 ## 命名与状态约定
 

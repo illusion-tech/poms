@@ -1,13 +1,14 @@
 # POMS 第一阶段最终验收快照
 
-**文档状态**: Active
-**最后更新**: 2026-03-28
-**适用范围**: `POMS` 第一阶段阶段级最终探活与验收结论
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段阶段级最终探活、验收结论与历史留痕
 **关联文档**:
 
+- `README.md`
 - `poms-phase1-delivery-roadmap.md`
 - `poms-phase1-acceptance-gap-matrix.md`
-- `poms-design-progress.md`
+- `../../poms-design-progress.md`
 
 ---
 

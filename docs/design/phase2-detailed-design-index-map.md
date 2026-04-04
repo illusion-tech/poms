@@ -9,17 +9,17 @@
   - `phase2-experience-optimization-roadmap.md`
   - `phase2-mainline-delivery-plan.md`
   - `phase2-lx-t04-full-mainline-development-decision.md`
-  - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
-  - `archive/phase2-batches/phase2-second-batch-scope.md`
-  - `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
-  - `archive/phase2-batches/phase2-third-batch-scope.md`
-  - `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
   - `phase2-lifecycle-experience-blueprint.md`
   - `phase2-user-task-map.md`
   - `phase2-experience-gap-priority-matrix.md`
 - 同级设计:
   - `README.md`
   - `poms-design-progress.md`
+- 历史回溯:
+  - `archive/control-history/phase2-mainline-delivery-plan.md`
+  - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
+  - `archive/phase2-batches/phase2-second-batch-scope.md`
+  - `archive/phase2-batches/phase2-third-batch-scope.md`
 - 相关 ADR:
   - `../adr/006-project-as-primary-domain-object.md`
   - `../adr/011-bid-process-under-project-lifecycle.md`
@@ -28,20 +28,21 @@
 
 ## 1. 文档目标
 
-本文档用于把第二阶段已经形成的详细设计草案统一收成一个总入口。
+本文档用于把第二阶段当前仍有效的详细设计文档统一收成一个总入口。
 
 它重点回答：
 
 - 第二阶段当前到底形成了哪些主线
 - 每条主线下有哪些核心工作区或规则文档
 - 它们之间的承接关系是什么
-- 当前哪些已经形成第一轮基线，哪些仍待后续收口
+- 当前哪些已经形成正式阅读入口
+- 当前应如何从索引进入工程实现
 
-本文档不是替代各专题设计，而是为后续评审、实现设计收口、统一开发判断和跨文档检索提供统一导航。
+本文档不是替代各专题设计，而是为当前实现入口、跨文档检索和历史回溯提供统一导航。
 
 若需要先理解“第二阶段整体到底在做什么、当前真实处于哪一步、审阅问题与实现设计是什么关系”，应先阅读 `phase2-mainline-delivery-plan.md`。
 
-若需要回溯 `L1 ~ L5` 五条主线是如何被证明具备从基线到实现设计的完整推进路径，以及哪些第四批内容不会阻断当前主线继续下钻，应继续阅读 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`。
+若需要回溯 `L1 ~ L5` 五条主线是如何从基线设计走到统一开发判断，应继续阅读 `archive/control-history/phase2-mainline-delivery-plan.md` 与 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`。
 
 ---
 
@@ -57,9 +58,9 @@
 
 当前判断：
 
-- `L1 ~ L5` 均已形成第一轮基线
-- 当前所有主线文档均已形成第一轮基线，真实状态应理解为 `Ready for Review`
-- 当前下一步已从正式审阅转入 follow-up 收口与第一批实现设计前置，而不是继续新增主线
+- `L1 ~ L5` 当前范围内的主线设计已形成正式阅读入口
+- 当前主线相关实现设计已下钻到可进入工程实现的层次
+- 当前下一步是按统一范围与统一切片顺序推进实现，而不是继续新增主线或继续展开批次过程叙事
 
 ---
 
@@ -96,7 +97,7 @@
 ### 4.3 当前状态
 
 - 已完成第一轮基线
-- 已完成六工作区、承接关系图与模板层三层收口，并补入第三批受控回退结果链
+- 已形成当前正式阅读入口
 
 ---
 
@@ -117,7 +118,7 @@
 ### 5.3 当前状态
 
 - 已完成第一轮基线
-- 已形成成本对象、来源映射、累计视图与估算桥接四层口径
+- 已形成当前正式阅读入口
 
 ---
 
@@ -137,7 +138,7 @@
 ### 6.3 当前状态
 
 - 已完成第一轮基线
-- 已形成合同承接、项目移交 gate、提成冻结绑定、收口规则与第三批再基线化结果链
+- 已形成当前正式阅读入口
 
 ---
 
@@ -157,7 +158,7 @@
 ### 7.3 当前状态
 
 - 已完成第一轮基线
-- 已形成总览、统一口径、偏差解释和反哺规则四层收口
+- 已形成当前正式阅读入口
 
 ---
 
@@ -177,8 +178,7 @@
 ### 8.3 当前状态
 
 - 已完成第一轮基线
-- 已形成阶段总览、发放与异常路径、最终结算 / 质保金收口、统一表达规则四层收口
-- 已把 `L4` 输出的税务影响摘要、成本数据成熟度状态、成本侧动作建议、动作等级与引用基线 / 快照版本固定为 `L5-T01 / T02 / T03` 直接消费依据，并由 `L5-T04` 统一解释表达
+- 已形成当前正式阅读入口
 
 ---
 
@@ -214,8 +214,8 @@
 
 1. `LX-T01`：已收口
 2. `LX-T02`：已收口
-3. `LX-T03`：已完成四轮正式审阅，并形成综合评估、follow-up 清单与第一批范围说明
-4. `LX-T04`：当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；`L1 ~ L5` 全主线当前范围内的实现设计与 `LX-01` 最终一致性复核已完成，正式口径已切换为“进入统一开发判断，并按统一范围与切片顺序启动开发”
+3. `LX-T03`：历史正式审阅与批次收口过程已归档
+4. `LX-T04`：当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
 
 本文件完成后，`LX-T01` 可视为收口。
 
@@ -230,7 +230,7 @@
 3. [phase2-experience-optimization-roadmap.md](/e:/projects/poms/docs/design/phase2-experience-optimization-roadmap.md)
 4. 本文档
 5. 再按 `L1 -> L2 -> L3 -> L4 -> L5` 进入各主线专题文档
-6. 若进入第三批跨切面补点，再补读 `workflow-and-approval-design.md` 与 `phase2-data-permission-and-sensitive-visibility-design.md`
+6. 若涉及横切约束，再补读 `workflow-and-approval-design.md` 与 `phase2-data-permission-and-sensitive-visibility-design.md`
 
 如果目标是进入提成专题，可直接跳到：
 
@@ -243,15 +243,14 @@
 
 ## 12. 当前结论
 
-第二阶段当前已经不缺主线级设计基线，也已完成全局收口、全主线实现设计完成度确认与统一开发判断。
+第二阶段当前已经具备可执行的主线级设计入口，且统一开发判断已经完成。
 
-所以本阶段下一步不应再继续发散新增主线，而应：
+因此，本文件当前只承担三个职责：
 
-1. 以综合评估、follow-up 清单和第一批范围说明为依据，继续回写 `P0 / P1` 正式规则和实现设计输入
-2. 保留第一批六个前置专题作为实现设计先行输入，继续扩展第二批经营与成本可信源专题，并在 `L1` 受控回退结果链、`L3` 再基线化结果链与审批公共链已补入主文档 / 联动文档的基础上，继续推进第三批流程健壮性与审批增强专题的跨文档一致性复核
-3. `LX-T04` 判断当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`
-4. 第二批经营与成本可信源专题当前范围统一见 `archive/phase2-batches/phase2-second-batch-scope.md`，实现映射桥接入口统一见 `archive/phase2-batches/phase2-second-batch-implementation-mapping.md`
-5. 第三批流程健壮性与审批增强专题当前范围统一见 `archive/phase2-batches/phase2-third-batch-scope.md`，实现映射桥接、六份实现设计总文档写回、关键业务主文档首轮写回，以及审批摘要 / 例外授权 / 冻结争议公共链等关键联动补点统一见 `archive/phase2-batches/phase2-third-batch-implementation-mapping.md`
-6. 当前已完成 `L1 ~ L5` 全主线在当前范围内的实现设计，并已统一决定进入开发
+1. 给出 `L1 ~ L5` 的正式索引入口。
+2. 给出当前默认阅读路径。
+3. 把历史批次、历史审阅和历史长文入口明确下沉到归档目录。
 
-在这个基础上，第二阶段才能从“设计已经很多”推进到“设计已经可执行”。
+如果当前目标是参与实现，应以本文件作为导航页，并进一步进入 `phase2-mainline-delivery-plan.md`、`phase2-lx-t04-full-mainline-development-decision.md`、`implementation-delivery-guide.md` 与具体主线文档。
+
+如果当前目标是回溯过程，再进入 `archive/control-history/`、`archive/mainline-closure/` 与 `archive/phase2-batches/`。

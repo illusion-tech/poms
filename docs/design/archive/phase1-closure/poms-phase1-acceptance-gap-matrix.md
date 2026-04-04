@@ -1,8 +1,13 @@
 # POMS 第一阶段承诺-实现-验证缺口矩阵
 
-**文档状态**: Active
-**最后更新**: 2026-03-28
-**适用范围**: `POMS` 第一阶段收口评估，优先覆盖平台治理域、平台导航治理与统一运行时审计基线
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段收口评估、验收证据与历史缺口回溯
+**关联文档**:
+
+- `README.md`
+- `poms-phase1-delivery-roadmap.md`
+- `poms-phase1-final-acceptance-snapshot.md`
 
 ---
 

@@ -41,7 +41,20 @@
 
 ## 3. 当前结构
 
-### 3.1 `reviews/`
+### 3.1 `phase1-closure/`
+
+用于存放第一阶段正式收口后已完成使命的路线图、补齐计划、验收清单、缺口矩阵与最终探活快照，包括：
+
+- 第一阶段收口归档入口
+- 第一阶段交付路线图
+- 第一阶段缺口补齐计划
+- 第一阶段缺口补齐验收清单
+- 第一阶段承诺-实现-验证缺口矩阵
+- 第一阶段最终验收快照
+
+这些文档用于回答“第一阶段当时如何完成补齐、验收和正式收口”，但不再作为当前默认工程入口。
+
+### 3.2 `reviews/`
 
 用于存放已完成使命的评审过程资产，包括：
 
@@ -52,7 +65,7 @@
 - 分轮评审记录
 - 已撤销的历史判断文档
 
-### 3.2 `phase2-batches/`
+### 3.3 `phase2-batches/`
 
 用于存放第二阶段批次化推进过程中形成的范围说明和桥接映射文档，包括：
 
@@ -61,7 +74,7 @@
 
 这些文档的结论已经被吸收到当前主线控制文档、统一开发判断文档和六份实现设计总文档中，因此转为历史过程资产保留。
 
-### 3.3 `mainline-closure/`
+### 3.4 `mainline-closure/`
 
 用于存放第二阶段主线实现设计完成后的收口记录与完成轨迹文档，包括：
 
@@ -69,6 +82,15 @@
 - 主线实现设计覆盖证明矩阵
 
 这些文档用于回答“当时是如何从主线跟踪走到统一开发判断”的问题，但不再承担当前默认实施入口职责。
+
+### 3.5 `control-history/`
+
+用于存放当前仍保留在根目录的控制文档之历史长文版本，包括：
+
+- `phase2-mainline-delivery-plan.md` 的长篇治理论证版本
+- `phase2-lx-t04-full-mainline-development-decision.md` 的长篇判断依据版本
+
+这些文档用于回答“为什么当前根目录只保留短版入口、完整论证放在哪里”，但不再承担当前默认入口职责。
 
 ---
 
@@ -86,9 +108,13 @@
 
 若需要回溯 `LX-T03` 的正式审阅执行、综合评估与 follow-up 分批依据，再回看 `reviews/` 下的三份第二阶段审阅结果文档与分轮记录。
 
+若需要回溯第一阶段如何从缺口补齐走到正式验收快照，再回看 `phase1-closure/README.md`、`phase1-closure/poms-phase1-final-acceptance-snapshot.md` 与同目录下的路线图、清单、矩阵文档。
+
 若需要回溯 `L1 ~ L5` 主线任务如何逐项完成、何时完成以及当时的完成标准，再回看 `mainline-closure/phase2-mainline-task-tracker.md`。
 
 若需要回溯当时如何证明 `L1 ~ L5` 已具备完整实现设计路径，以及哪些后置项不会阻断统一开发判断，再回看 `mainline-closure/phase2-mainline-implementation-design-matrix.md`。
+
+若需要回溯当前两份 phase2 控制文档在瘦身前的完整论证、历史分层与过程叙事，再回看 `control-history/phase2-mainline-delivery-plan.md` 与 `control-history/phase2-lx-t04-full-mainline-development-decision.md`。
 
 ---
 

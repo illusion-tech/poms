@@ -1,22 +1,22 @@
 # POMS 平台治理域评审结论摘要
 
-**文档状态**: Active
-**最后更新**: 2026-03-10
-**适用范围**: `POMS` 第一阶段平台治理域本轮设计评审结论
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段平台治理域本轮设计评审结论与历史摘要
 **关联文档**:
 
 - 上游设计:
   - `platform-governance-review-checklist.md`
-  - `platform-governance-design.md`
-  - `../business-authorization-matrix.md`
+  - `../../platform-governance/platform-governance-design.md`
+  - `../../business-authorization-matrix.md`
 - 同级设计:
-  - `user-management-design.md`
-  - `role-permission-design.md`
-  - `org-unit-design.md`
-  - `navigation-design.md`
-  - `navigation-route-mapping.md`
+  - `../../platform-governance/user-management-design.md`
+  - `../../platform-governance/role-permission-design.md`
+  - `../../platform-governance/org-unit-design.md`
+  - `../../platform-governance/navigation-design.md`
+  - `../../platform-governance/navigation-route-mapping.md`
 
-> 阅读提示：本文档是平台治理域当轮评审的历史摘要，保留评审当时的状态判断与推进建议，用于审计和过程回溯；若要查看当前全局状态、当前阅读路径和业务授权矩阵的最新成熟度，应以 `../README.md`、`../poms-design-progress.md`、`../archive/reviews/design-convergence-review-checklist.md` 和 `../business-authorization-matrix.md` 为准。
+> 阅读提示：本文档是平台治理域当轮评审的历史摘要，保留评审当时的状态判断与推进建议，用于审计和过程回溯；若要查看当前全局状态、当前阅读路径和业务授权矩阵的最新成熟度，应以 `../../README.md`、`../../poms-design-progress.md`、`design-convergence-review-checklist.md` 和 `../../business-authorization-matrix.md` 为准。
 
 ---
 

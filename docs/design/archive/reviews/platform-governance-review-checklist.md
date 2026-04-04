@@ -1,19 +1,20 @@
 # POMS 平台治理域评审清单
 
-**文档状态**: Active
-**最后更新**: 2026-03-10
-**适用范围**: `POMS` 第一阶段平台治理域设计收口与评审准备
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段平台治理域设计收口与历史评审准备回溯
 **关联文档**:
 
 - 上游设计:
-  - `../poms-design-progress.md`
-  - `platform-governance-design.md`
+  - `../../poms-design-progress.md`
+  - `../../platform-governance/platform-governance-design.md`
 - 同级设计:
-  - `user-management-design.md`
-  - `role-permission-design.md`
-  - `org-unit-design.md`
-  - `navigation-design.md`
-  - `navigation-route-mapping.md`
+  - `platform-governance-review-summary.md`
+  - `../../platform-governance/user-management-design.md`
+  - `../../platform-governance/role-permission-design.md`
+  - `../../platform-governance/org-unit-design.md`
+  - `../../platform-governance/navigation-design.md`
+  - `../../platform-governance/navigation-route-mapping.md`
 
 ---
 

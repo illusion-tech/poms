@@ -1,21 +1,22 @@
 # POMS 第一阶段缺口补齐计划
 
-**文档状态**: Active
-**最后更新**: 2026-03-25
-**适用范围**: `POMS` 第一阶段未完成承诺项的补齐计划、切片拆解、验收标准与文档回写要求
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段缺口补齐计划与历史实施回溯
 **关联文档**:
 
 - 上游设计:
-  - `poms-design-progress.md`
+  - `../../poms-design-progress.md`
+  - `README.md`
   - `poms-phase1-delivery-roadmap.md`
-  - `implementation-delivery-guide.md`
+  - `../../implementation-delivery-guide.md`
 - 业务域设计:
-  - `platform-governance/platform-governance-design.md`
-  - `platform-governance/navigation-design.md`
-  - `commission-settlement-design.md`
+  - `../../platform-governance/platform-governance-design.md`
+  - `../../platform-governance/navigation-design.md`
+  - `../../commission-settlement-design.md`
 - 相关 ADR:
-  - `../adr/003-navigation-single-source-of-truth.md`
-  - `../adr/012-data-persistence-technology-selection.md`
+  - `../../../adr/003-navigation-single-source-of-truth.md`
+  - `../../../adr/012-data-persistence-technology-selection.md`
 
 ---
 
@@ -313,7 +314,7 @@ DoD：
 ### 8.1 必须同步更新的文档
 
 - `docs/design/poms-design-progress.md`
-- `docs/design/poms-phase1-delivery-roadmap.md`
+- `docs/design/archive/phase1-closure/poms-phase1-delivery-roadmap.md`
 - `docs/design/implementation-delivery-guide.md`
 
 ### 8.2 按切片同步更新的文档

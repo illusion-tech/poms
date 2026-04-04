@@ -1,25 +1,26 @@
 # POMS 第一阶段缺口补齐验收清单
 
-**文档状态**: Active
-**最后更新**: 2026-03-28
-**适用范围**: `POMS` 第一阶段平台治理域与提成治理域补齐后的验收、复盘、收口评估与通过判断
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段补齐后的验收、复盘与历史签收依据
 **关联文档**:
 
 - 上游治理文档:
+  - `README.md`
   - `poms-phase1-gap-closure-plan.md`
   - `poms-phase1-delivery-roadmap.md`
-  - `poms-design-progress.md`
-  - `implementation-delivery-guide.md`
+  - `../../poms-design-progress.md`
+  - `../../implementation-delivery-guide.md`
 - 业务域设计:
-  - `platform-governance/platform-governance-design.md`
-  - `commission-settlement-design.md`
+  - `../../platform-governance/platform-governance-design.md`
+  - `../../commission-settlement-design.md`
 - 实现前输入:
-  - `business-authorization-matrix.md`
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `data-model-prerequisites.md`
-  - `table-structure-freeze-design.md`
-  - `schema-ddl-design.md`
+  - `../../business-authorization-matrix.md`
+  - `../../interface-command-design.md`
+  - `../../interface-openapi-dto-design.md`
+  - `../../data-model-prerequisites.md`
+  - `../../table-structure-freeze-design.md`
+  - `../../schema-ddl-design.md`
 
 ---
 

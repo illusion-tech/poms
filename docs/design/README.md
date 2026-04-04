@@ -34,7 +34,6 @@
 - `poms-requirements-spec.md`：系统需求说明，负责把制度条款翻译成系统规则
 - `poms-hld.md`：高层设计，负责给出系统蓝图、模块关系和核心边界
 - `poms-design-progress.md`：设计进度跟踪，负责管理设计资产状态、依赖关系和下一步产出
-- `poms-phase1-delivery-roadmap.md`：第一阶段交付路线图，负责统一终局目标、里程碑顺序与近期切片
 - `phase2-user-task-map.md`：第二阶段用户画像与任务地图，负责把范围规划拉回真实用户、真实任务与生命周期体验断点
 - `phase2-experience-gap-priority-matrix.md`：第二阶段体验断点与优先级矩阵，负责明确先优化什么、为什么
 - `phase2-lifecycle-experience-blueprint.md`：第二阶段项目全生命周期体验蓝图，负责明确主体验主线、阶段承接点与系统连续工作方式
@@ -101,17 +100,22 @@
 
 当前文档包括：
 
-- `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划，负责统一主线目标、阶段状态与当前实施入口
-- `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断文档，负责在全主线实现设计完成后给出是否进入开发的正式结论
+- `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划的当前精简入口，负责统一主线目标、当前阶段状态、默认阅读路径与工程进入顺序
+- `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责固定是否进入开发、统一开发范围、切片顺序与启动约束
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
-- `platform-governance/` 子目录下的评审清单与评审摘要文档
 
 第二阶段正式审阅三件套 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 已在第二轮治理中转入归档，作为历史审阅依据保留，不再作为当前默认开发入口。
 
 第二阶段主线任务收口记录 `archive/mainline-closure/phase2-mainline-task-tracker.md` 已在第三轮治理中转入归档，作为历史完成轨迹保留，不再作为当前默认开发入口。
 
 第二阶段主线实现设计证明矩阵 `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md` 已在第四轮治理中转入归档，作为历史证明材料保留，不再作为当前默认开发入口。
+
+第一阶段收口与验收包 `archive/phase1-closure/README.md`、`archive/phase1-closure/poms-phase1-delivery-roadmap.md`、`archive/phase1-closure/poms-phase1-gap-closure-plan.md`、`archive/phase1-closure/poms-phase1-gap-closure-checklist.md`、`archive/phase1-closure/poms-phase1-acceptance-gap-matrix.md`、`archive/phase1-closure/poms-phase1-final-acceptance-snapshot.md` 已在第五轮治理中转入归档，作为第一阶段历史收口与验收留痕保留，不再作为当前默认入口。
+
+平台治理域评审清单与评审摘要 `archive/reviews/platform-governance-review-checklist.md`、`archive/reviews/platform-governance-review-summary.md` 已在第五轮治理中转入归档，作为平台治理域历史评审资产保留，不再作为当前默认设计输入。
+
+第二阶段两份当前控制文档的长篇论证版本 `archive/control-history/phase2-mainline-delivery-plan.md` 与 `archive/control-history/phase2-lx-t04-full-mainline-development-decision.md` 已在第六轮治理中转入归档；根目录同名文档当前仅保留正式入口、正式结论与当前执行口径。
 
 ## 命名规则
 
@@ -230,10 +234,10 @@
 3. `docs/adr/` 下已接受的 ADR
 4. `poms-hld.md`
 5. `poms-design-progress.md`
-6. `poms-phase1-delivery-roadmap.md`
-7. 具体业务域设计文档
-8. 平台治理域设计文档
-9. 评审与治理文档
+6. 具体业务域设计文档
+7. 平台治理域设计文档
+8. 评审与治理文档
+9. 仅在需要第一阶段收口与验收回溯时，再进入 `archive/phase1-closure/README.md`
 
 如果读者的目标是参与某一专项设计评审，则建议改为：
 
@@ -254,7 +258,7 @@
 
 ## 当前目录索引
 
-当前目录已经按“当前正式输入优先、历史过程资产归档”完成第一轮整理。
+当前目录已经按“当前正式输入优先、历史过程资产归档”完成多轮整理。
 
 ### 当前正式输入
 
@@ -295,8 +299,10 @@
 ### 已归档过程资产
 
 - `archive/README.md`
+- `archive/phase1-closure/`：第一阶段收口摘要、路线图、补齐计划、验收清单、缺口矩阵与最终验收快照
 - `archive/reviews/`：已完成使命的正式审阅清单、综合评估、follow-up 清单、评审摘要、分轮审阅记录与已撤销历史判断
 - `archive/mainline-closure/`：已完成使命的主线任务收口记录与完成轨迹文档
+- `archive/control-history/`：当前仍在根目录保留的 phase2 控制文档之历史长文版本
 - `archive/phase2-batches/`：第一批、第二批、第三批范围说明与实现映射桥接文档
 
 ## 后续演进建议

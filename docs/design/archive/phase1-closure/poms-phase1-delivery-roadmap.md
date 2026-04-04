@@ -1,25 +1,27 @@
 # POMS 第一阶段交付路线图
 
-**文档状态**: Active
-**最后更新**: 2026-03-28
-**适用范围**: `POMS` 第一阶段交付目标、阶段路线图、近期实施重点与回写约束
+**文档状态**: Archived
+**最后更新**: 2026-04-04
+**适用范围**: `POMS` 第一阶段交付目标、阶段路线图与收口历史回溯
 **关联文档**:
 
 - 上游设计:
-  - `poms-requirements-spec.md`
-  - `poms-hld.md`
-  - `poms-design-progress.md`
+  - `../../poms-requirements-spec.md`
+  - `../../poms-hld.md`
+  - `../../poms-design-progress.md`
 - 同级设计:
-  - `implementation-delivery-guide.md`
-  - `interface-command-design.md`
-  - `interface-openapi-dto-design.md`
-  - `workflow-and-approval-design.md`
+  - `README.md`
+  - `poms-phase1-final-acceptance-snapshot.md`
+  - `../../implementation-delivery-guide.md`
+  - `../../interface-command-design.md`
+  - `../../interface-openapi-dto-design.md`
+  - `../../workflow-and-approval-design.md`
 - 相关 ADR:
-  - `../adr/004-contract-finance-domain-module-boundary.md`
-  - `../adr/005-approval-flow-implementation-strategy.md`
-  - `../adr/006-project-as-primary-domain-object.md`
-  - `../adr/007-phase1-finance-integration-and-recording-boundary.md`
-  - `../adr/012-data-persistence-technology-selection.md`
+  - `../../../adr/004-contract-finance-domain-module-boundary.md`
+  - `../../../adr/005-approval-flow-implementation-strategy.md`
+  - `../../../adr/006-project-as-primary-domain-object.md`
+  - `../../../adr/007-phase1-finance-integration-and-recording-boundary.md`
+  - `../../../adr/012-data-persistence-technology-selection.md`
 
 ---
 

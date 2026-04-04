@@ -15,7 +15,7 @@
   - `../../commission-settlement-design.md`
   - `../../workflow-and-approval-design.md`
   - `../../business-authorization-matrix.md`
-  - `../../platform-governance/platform-governance-review-summary.md`
+  - `platform-governance-review-summary.md`
 
 ---
 
@@ -49,7 +49,7 @@
 | C3   | 已关闭 | `../../workflow-and-approval-design.md`、`../../business-authorization-matrix.md`               | 审批与确认的矩阵表达已统一收敛为 `放行方式`，并支持 `审批`、`确认`、`复核`、`多方确认` 等口径 | 后续新增矩阵时继续复用同一列口径                          |
 | C4   | 已关闭 | `../../poms-requirements-spec.md`、`../../poms-hld.md`、`../../commission-settlement-design.md` | 上游文档中的规则对象命名已统一到 `CommissionRuleVersion`                                      | 后续若引入跨域通用规则对象，再通过新 ADR 单独提升抽象层级 |
 | C5   | 已关闭 | 各详细设计文档                                                                                  | 本轮修订涉及的详细设计文档已同步更新时间，可区分是否已纳入本轮一致性收口                      | 后续新增收口修改时继续同步更新时间                        |
-| C6   | 已关闭 | `../../platform-governance/platform-governance-review-summary.md`                               | 已补充历史摘要阅读提示，避免将评审当时的矩阵状态与下一步建议误读为当前状态源                  | 后续新增评审摘要时沿用相同提示口径                        |
+| C6   | 已关闭 | `platform-governance-review-summary.md`                                                         | 已补充历史摘要阅读提示，避免将评审当时的矩阵状态与下一步建议误读为当前状态源                  | 后续新增评审摘要时沿用相同提示口径                        |
 
 ---
 

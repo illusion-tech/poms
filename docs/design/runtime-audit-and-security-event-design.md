@@ -10,8 +10,8 @@
 - `interface-command-design.md`
 - `query-view-boundary-design.md`
 - `table-structure-freeze-design.md`
-- `poms-phase1-delivery-roadmap.md`
-- `poms-phase1-gap-closure-checklist.md`
+- `archive/phase1-closure/poms-phase1-delivery-roadmap.md`
+- `archive/phase1-closure/poms-phase1-gap-closure-checklist.md`
 
 ---
 

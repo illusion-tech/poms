@@ -16,7 +16,7 @@
   - `contract-finance-design.md`
   - `commission-settlement-design.md`
   - `workflow-and-approval-design.md`
-  - `poms-phase1-final-acceptance-snapshot.md`
+  - `archive/phase1-closure/poms-phase1-final-acceptance-snapshot.md`
 - 相关 ADR:
   - `../adr/005-approval-flow-implementation-strategy.md`
   - `../adr/006-project-as-primary-domain-object.md`
