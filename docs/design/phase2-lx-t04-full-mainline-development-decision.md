@@ -6,7 +6,7 @@
 **关联文档**:
 
 - `phase2-mainline-delivery-plan.md`
- - `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
+- `archive/mainline-closure/phase2-mainline-implementation-design-matrix.md`
 - `archive/mainline-closure/phase2-mainline-task-tracker.md`
 - `archive/reviews/phase2-review-comprehensive-assessment.md`
 - `archive/reviews/phase2-review-follow-up-plan.md`
