@@ -6,22 +6,49 @@ export const OrgUnitSchema = defineEntity({
     name: 'OrgUnit',
     tableName: 'org_unit',
     schema: 'poms',
+    indexes: [
+        { name: 'idx_org_unit_parent_id', properties: ['parentId'] },
+        { name: 'idx_org_unit_is_active', properties: ['isActive'] },
+        {
+            name: 'idx_org_unit_parent_display_order',
+            expression: (columns, table, indexName) =>
+                `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.parentId}", "${columns.displayOrder}", "created_at")`
+        }
+    ],
+    uniques: [
+        {
+            name: 'uq_org_unit_parent_name_ci',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" (coalesce("${columns.parentId}", '00000000-0000-0000-0000-000000000000'::uuid), lower("${columns.name}"))`
+        }
+    ],
+    checks: [{ name: 'chk_org_unit_parent_not_self', expression: '("parent_id" is null or "parent_id" <> "id")' }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         name: p.string().length(128),
         code: p.string().length(64).unique(),
         description: p.text().nullable(),
-        parentId: p.uuid().nullable().fieldName('parent_id'),
+        parentId: () =>
+            p
+                .manyToOne(OrgUnit)
+                .mapToPk()
+                .nullable()
+                .fieldName('parent_id')
+                .foreignKeyName('org_unit_parent_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null'),
         isActive: p.boolean().default(true).fieldName('is_active'),
         displayOrder: p.integer().default(0).fieldName('display_order'),
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
         createdAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .fieldName('created_at'),
         createdBy: p.uuid().nullable().fieldName('created_by'),
         updatedAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .onUpdate(() => new Date())
             .fieldName('updated_at'),

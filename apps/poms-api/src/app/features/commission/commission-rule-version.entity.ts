@@ -12,6 +12,11 @@ export const CommissionRuleVersionSchema = defineEntity({
     name: 'CommissionRuleVersion',
     tableName: 'commission_rule_version',
     schema: 'poms',
+    indexes: [
+        { name: 'idx_commission_rule_version_status', properties: ['status'] },
+        { name: 'idx_commission_rule_version_effective_from', properties: ['effectiveFrom'] }
+    ],
+    uniques: [{ name: 'commission_rule_version_code_version_unique', properties: ['ruleCode', 'version'] }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         ruleCode: p.string().length(64).fieldName('rule_code'),
@@ -25,9 +30,9 @@ export const CommissionRuleVersionSchema = defineEntity({
         exceptionRuleJson: p.json<Record<string, unknown>>().nullable().fieldName('exception_rule_json'),
         effectiveFrom: p.datetime().nullable().fieldName('effective_from'),
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
-        createdAt: p.datetime().onCreate(() => new Date()).fieldName('created_at'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
         createdBy: p.uuid().nullable().fieldName('created_by'),
-        updatedAt: p.datetime().onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
         updatedBy: p.uuid().nullable().fieldName('updated_by')
     }
 });

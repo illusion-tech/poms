@@ -6,6 +6,7 @@ export const RoleSchema = defineEntity({
     name: 'PlatformRole',
     tableName: 'role',
     schema: 'poms',
+    indexes: [{ name: 'idx_role_is_active', properties: ['isActive'] }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         roleKey: p.string().length(64).unique().fieldName('role_key'),
@@ -17,11 +18,13 @@ export const RoleSchema = defineEntity({
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
         createdAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .fieldName('created_at'),
         createdBy: p.uuid().nullable().fieldName('created_by'),
         updatedAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .onUpdate(() => new Date())
             .fieldName('updated_at'),

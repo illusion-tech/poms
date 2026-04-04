@@ -8,6 +8,12 @@ export const AuditLogSchema = defineEntity({
     name: 'AuditLog',
     tableName: 'audit_log',
     schema: 'poms',
+    indexes: [
+        { name: 'idx_audit_log_occurred_at', properties: ['occurredAt'] },
+        { name: 'idx_audit_log_target', properties: ['targetType', 'targetId', 'occurredAt'] },
+        { name: 'idx_audit_log_event_type', properties: ['eventType', 'occurredAt'] },
+        { name: 'idx_audit_log_operator_id', properties: ['operatorId', 'occurredAt'] }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         eventType: p.string().length(128).fieldName('event_type'),
@@ -20,7 +26,7 @@ export const AuditLogSchema = defineEntity({
         beforeSnapshot: p.json<AuditSnapshot>().nullable().fieldName('before_snapshot'),
         afterSnapshot: p.json<AuditSnapshot>().nullable().fieldName('after_snapshot'),
         metadata: p.json<AuditSnapshot>().nullable(),
-        occurredAt: p.datetime().onCreate(() => new Date()).fieldName('occurred_at')
+        occurredAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('occurred_at')
     }
 });
 

@@ -6,6 +6,12 @@ export const ApprovalRecordSchema = defineEntity({
     name: 'ApprovalRecord',
     tableName: 'approval_record',
     schema: 'poms',
+    comment: 'POMS 第一阶段统一审批记录表',
+    indexes: [
+        { name: 'idx_approval_record_target', properties: ['targetObjectType', 'targetObjectId'] },
+        { name: 'idx_approval_record_status', properties: ['currentStatus'] },
+        { name: 'idx_approval_record_approver', properties: ['currentApproverUserId'] }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         approvalType: p.string().length(64).fieldName('approval_type'),
@@ -25,10 +31,12 @@ export const ApprovalRecordSchema = defineEntity({
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
         createdAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .fieldName('created_at'),
         updatedAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .onUpdate(() => new Date())
             .fieldName('updated_at')

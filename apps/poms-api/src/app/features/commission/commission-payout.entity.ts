@@ -1,4 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
+import { Project } from '../project/project.entity';
+import { CommissionCalculation } from './commission-calculation.entity';
 
 export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'suspended' | 'reversed';
 export type CommissionPayoutStage = 'first' | 'second' | 'final';
@@ -10,10 +12,28 @@ export const CommissionPayoutSchema = defineEntity({
     name: 'CommissionPayout',
     tableName: 'commission_payout',
     schema: 'poms',
+    indexes: [
+        { name: 'idx_commission_payout_project_status', properties: ['projectId', 'status'] },
+        { name: 'idx_commission_payout_calculation_id', properties: ['calculationId'] }
+    ],
+    uniques: [{ name: 'commission_payout_project_calc_stage_unique', properties: ['projectId', 'calculationId', 'stageType'] }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
-        projectId: p.uuid().fieldName('project_id'),
-        calculationId: p.uuid().fieldName('calculation_id'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('commission_payout_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade'),
+        calculationId: () =>
+            p
+                .manyToOne(CommissionCalculation)
+                .mapToPk()
+                .fieldName('calculation_id')
+                .foreignKeyName('commission_payout_calculation_id_foreign')
+                .updateRule('cascade'),
         stageType: p.string().$type<CommissionPayoutStage>().length(32).fieldName('stage_type'),
         selectedTier: p.string().$type<CommissionPayoutTier>().length(32).default('basic').fieldName('selected_tier'),
         theoreticalCapAmount: p.decimal().precision(18).scale(2).fieldName('theoretical_cap_amount'),
@@ -24,11 +44,19 @@ export const CommissionPayoutSchema = defineEntity({
         approvedBy: p.uuid().nullable().fieldName('approved_by'),
         handledAt: p.datetime().nullable().fieldName('handled_at'),
         handledBy: p.uuid().nullable().fieldName('handled_by'),
-        reversedFromId: p.uuid().nullable().fieldName('reversed_from_id'),
+        reversedFromId: () =>
+            p
+                .manyToOne(CommissionPayout)
+                .mapToPk()
+                .nullable()
+                .fieldName('reversed_from_id')
+                .foreignKeyName('commission_payout_reversed_from_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null'),
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
-        createdAt: p.datetime().onCreate(() => new Date()).fieldName('created_at'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
         createdBy: p.uuid().nullable().fieldName('created_by'),
-        updatedAt: p.datetime().onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
         updatedBy: p.uuid().nullable().fieldName('updated_by')
     }
 });

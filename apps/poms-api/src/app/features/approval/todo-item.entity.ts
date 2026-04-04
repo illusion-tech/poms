@@ -6,6 +6,18 @@ export const TodoItemSchema = defineEntity({
     name: 'TodoItem',
     tableName: 'todo_item',
     schema: 'poms',
+    comment: 'POMS 第一阶段统一待办表',
+    indexes: [
+        { name: 'idx_todo_item_assignee_status', properties: ['assigneeUserId', 'status'] },
+        { name: 'idx_todo_item_target', properties: ['targetObjectType', 'targetObjectId'] }
+    ],
+    uniques: [
+        {
+            name: 'uq_todo_item_open_source',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}", "${columns.assigneeUserId}") where "${columns.status}" in ('open', 'processing')`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         sourceType: p.string().length(64).fieldName('source_type'),
@@ -25,10 +37,12 @@ export const TodoItemSchema = defineEntity({
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
         createdAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .fieldName('created_at'),
         updatedAt: p
             .datetime()
+            .defaultRaw('now()')
             .onCreate(() => new Date())
             .onUpdate(() => new Date())
             .fieldName('updated_at')

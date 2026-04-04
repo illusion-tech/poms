@@ -8,6 +8,12 @@ export const SecurityEventSchema = defineEntity({
     name: 'SecurityEvent',
     tableName: 'security_event',
     schema: 'poms',
+    indexes: [
+        { name: 'idx_security_event_occurred_at', properties: ['occurredAt'] },
+        { name: 'idx_security_event_event_type', properties: ['eventType', 'occurredAt'] },
+        { name: 'idx_security_event_actor_id', properties: ['actorId', 'occurredAt'] },
+        { name: 'idx_security_event_path', properties: ['path', 'occurredAt'] }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         eventType: p.string().length(128).fieldName('event_type'),
@@ -22,7 +28,7 @@ export const SecurityEventSchema = defineEntity({
         ip: p.string().length(64).nullable(),
         userAgent: p.string().length(512).nullable().fieldName('user_agent'),
         details: p.json<SecurityEventDetails>().nullable(),
-        occurredAt: p.datetime().onCreate(() => new Date()).fieldName('occurred_at')
+        occurredAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('occurred_at')
     }
 });
 
