@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import type { CommandResult } from '@poms/shared-contracts';
+import type { CommandResult, PublishInternalCostRateVersionRequest, RegisterLaborCostRecordRequest, ReplaceLaborCostRecordRequest } from '@poms/shared-contracts';
 import { InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
 
 @Injectable()
@@ -9,12 +9,12 @@ export class ProjectCostService {
         private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository
     ) {}
 
-    async publishInternalCostRateVersion(input: any, userId: string): Promise<CommandResult> {
+    async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
         const active = await this.internalCostRateVersionRepository.findActiveVersion(
             input.rateScopeType,
             new Date(input.effectiveFrom),
-            input.personId,
-            input.roleCode
+            input.personId ?? undefined,
+            input.roleCode ?? undefined
         );
 
         if (active) {
@@ -30,7 +30,7 @@ export class ProjectCostService {
             currency: input.currency,
             effectiveFrom: new Date(input.effectiveFrom),
             changeReason: input.changeReason ?? null,
-            supersedesRateVersion: input.supersedesRateVersionId ?? null,
+            supersedesRateVersionId: input.supersedesRateVersionId ?? null,
             publishedAt: new Date(),
             publishedBy: userId,
             createdBy: userId,
@@ -50,14 +50,14 @@ export class ProjectCostService {
         };
     }
 
-    async registerLaborCostRecord(input: any, userId: string): Promise<CommandResult> {
+    async registerLaborCostRecord(input: RegisterLaborCostRecordRequest, userId: string): Promise<CommandResult> {
         const rateVersion = await this.internalCostRateVersionRepository.findById(input.rateVersionId);
         if (!rateVersion) {
             throw new NotFoundException(`Rate version ${input.rateVersionId} not found`);
         }
 
         const entity = this.projectActualCostRecordRepository.create({
-            project: input.projectId,
+            projectId: input.projectId,
             recordNo: `LABOR-${Date.now()}`,
             costType: 'LABOR',
             costSubtype: null,
@@ -99,7 +99,7 @@ export class ProjectCostService {
         };
     }
 
-    async replaceLaborCostRecord(input: any, userId: string): Promise<CommandResult> {
+    async replaceLaborCostRecord(input: ReplaceLaborCostRecordRequest, userId: string): Promise<CommandResult> {
         const originalRecord = await this.projectActualCostRecordRepository.findById(input.replacementOfRecordId);
         if (!originalRecord) {
             throw new NotFoundException(`Record ${input.replacementOfRecordId} not found`);
@@ -118,7 +118,7 @@ export class ProjectCostService {
         await this.projectActualCostRecordRepository.save(originalRecord);
 
         const newEntity = this.projectActualCostRecordRepository.create({
-            project: originalRecord.project,
+            projectId: originalRecord.projectId,
             recordNo: `LABOR-${Date.now()}`,
             costType: 'LABOR',
             costSubtype: originalRecord.costSubtype,

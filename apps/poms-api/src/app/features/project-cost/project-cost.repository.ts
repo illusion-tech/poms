@@ -33,10 +33,6 @@ export class InternalCostRateVersionRepository {
         return this.repository.findOne({ id });
     }
 
-    async findById(id: string): Promise<InternalCostRateVersion | null> {
-        return this.repository.findOne({ id });
-    }
-
     create(input: ConstructorParameters<typeof InternalCostRateVersion>[0]): InternalCostRateVersion {
         return this.repository.create(input);
     }
@@ -54,7 +50,7 @@ export class ProjectActualCostRecordRepository {
     ) {}
 
     async findByProjectId(projectId: string): Promise<ProjectActualCostRecord[]> {
-        return this.repository.find({ project: projectId }, {
+        return this.repository.find({ projectId }, {
             orderBy: { occurredOn: QueryOrder.DESC, createdAt: QueryOrder.DESC }
         });
     }

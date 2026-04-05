@@ -11,14 +11,14 @@ export const ProjectActualCostRecordSchema = defineEntity({
     schema: 'poms',
     comment: 'POMS 项目级实际成本记录',
     indexes: [
-        { name: 'idx_cost_record_project', properties: ['project'] },
+        { name: 'idx_cost_record_project', properties: ['projectId'] },
         { name: 'idx_cost_record_status', properties: ['recordStatus'] },
         { name: 'idx_cost_record_stage', properties: ['executionStageCode'] },
         { name: 'idx_cost_record_type', properties: ['costType'] }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
-        project: () => p.manyToOne(() => Project).fieldName('project_id').comment('关联项目'),
+        projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
         recordNo: p.string().length(64).nullable().fieldName('record_no').comment('记录编号'),
         costType: p.string().length(32).fieldName('cost_type').comment('成本类型：PROCUREMENT/INVOICE/EXPENSE/PAYMENT_FACT/LABOR'),
         costSubtype: p.string().length(64).nullable().fieldName('cost_subtype').comment('成本子类型'),
@@ -51,7 +51,7 @@ export const ProjectActualCostRecordSchema = defineEntity({
         costDescription: p.text().nullable().fieldName('cost_description').comment('成本说明'),
         taxImpactSummary: p.text().nullable().fieldName('tax_impact_summary').comment('税务影响说明'),
         riskNote: p.text().nullable().fieldName('risk_note').comment('风险提示'),
-        supersedesRecord: () => p.manyToOne(() => ProjectActualCostRecord).nullable().fieldName('supersedes_record_id').comment('替代的旧记录'),
+        supersedesRecordId: () => p.manyToOne(ProjectActualCostRecord).mapToPk().nullable().fieldName('supersedes_record_id').comment('替代的旧记录'),
         voidReason: p.text().nullable().fieldName('void_reason').comment('作废原因'),
 
         // 人力成本 (LABOR) 特有字段
@@ -66,7 +66,7 @@ export const ProjectActualCostRecordSchema = defineEntity({
         laborAmount: p.decimal().precision(15).scale(4).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),
         workSummary: p.text().nullable().fieldName('work_summary').comment('人力成本-工作摘要'),
         deliveryStage: p.string().length(64).nullable().fieldName('delivery_stage').comment('人力成本-交付阶段'),
-        rateVersion: () => p.manyToOne(() => InternalCostRateVersion).nullable().fieldName('rate_version_id').comment('人力成本-对应成本率版本'),
+        rateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('rate_version_id').comment('人力成本-对应成本率版本'),
 
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
         createdAt: p
@@ -88,9 +88,6 @@ export const ProjectActualCostRecordSchema = defineEntity({
 });
 
 export class ProjectActualCostRecord extends ProjectActualCostRecordSchema.class {
-    override project!: Ref<Project>;
-    override supersedesRecord!: Ref<ProjectActualCostRecord> | null;
-    override rateVersion!: Ref<InternalCostRateVersion> | null;
 }
 
 ProjectActualCostRecordSchema.setClass(ProjectActualCostRecord);

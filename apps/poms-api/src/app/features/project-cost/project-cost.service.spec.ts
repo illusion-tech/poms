@@ -38,23 +38,12 @@ describe('ProjectCostService', () => {
             })
         };
 
-        const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                ProjectCostService,
-                {
-                    provide: InternalCostRateVersionRepository,
-                    useValue: mockInternalCostRateVersionRepository,
-                },
-                {
-                    provide: ProjectActualCostRecordRepository,
-                    useValue: mockProjectActualCostRecordRepository,
-                },
-            ],
-        }).compile();
-
-        service = module.get<ProjectCostService>(ProjectCostService);
-        internalCostRateVersionRepository = module.get<InternalCostRateVersionRepository>(InternalCostRateVersionRepository) as any;
-        projectActualCostRecordRepository = module.get<ProjectActualCostRecordRepository>(ProjectActualCostRecordRepository) as any;
+        internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
+        projectActualCostRecordRepository = mockProjectActualCostRecordRepository as unknown as jest.Mocked<ProjectActualCostRecordRepository>;
+        service = new ProjectCostService(
+            internalCostRateVersionRepository,
+            projectActualCostRecordRepository
+        );
     });
 
     it('should be defined', () => {
@@ -74,7 +63,7 @@ describe('ProjectCostService', () => {
             
             internalCostRateVersionRepository.findActiveVersion.mockResolvedValue(null);
             const entity = { id: 'rate-1', ...input };
-            internalCostRateVersionRepository.create.mockReturnValue(entity as any);
+            internalCostRateVersionRepository.create.mockReturnValue(entity as unknown as any);
 
             const result = await service.publishInternalCostRateVersion(input, userId);
 
@@ -94,7 +83,7 @@ describe('ProjectCostService', () => {
             };
             const userId = 'user-123';
             
-            internalCostRateVersionRepository.findActiveVersion.mockResolvedValue({ id: 'existing-rate' } as any);
+            internalCostRateVersionRepository.findActiveVersion.mockResolvedValue({ id: 'existing-rate' } as unknown as any);
 
             await expect(service.publishInternalCostRateVersion(input, userId)).rejects.toThrow(ConflictException);
         });
@@ -111,9 +100,9 @@ describe('ProjectCostService', () => {
             };
             const userId = 'user-123';
 
-            internalCostRateVersionRepository.findById.mockResolvedValue({ id: 'rate-1' } as any);
+            internalCostRateVersionRepository.findById.mockResolvedValue({ id: 'rate-1' } as unknown as any);
             const entity = { id: 'record-1', ...input, costType: 'LABOR' };
-            projectActualCostRecordRepository.create.mockReturnValue(entity as any);
+            projectActualCostRecordRepository.create.mockReturnValue(entity as unknown as any);
 
             const result = await service.registerLaborCostRecord(input, userId);
 
@@ -147,14 +136,14 @@ describe('ProjectCostService', () => {
 
         it('should throw ConflictException if optimistic locking fails', async () => {
             const input = { replacementOfRecordId: 'record-1', expectedVersion: 2 };
-            projectActualCostRecordRepository.findById.mockResolvedValue({ id: 'record-1', rowVersion: 1 } as any);
+            projectActualCostRecordRepository.findById.mockResolvedValue({ id: 'record-1', rowVersion: 1 } as unknown as any);
 
             await expect(service.replaceLaborCostRecord(input, 'user-1')).rejects.toThrow(ConflictException);
         });
 
         it('should throw ConflictException if record is already included in project cost', async () => {
             const input = { replacementOfRecordId: 'record-1' };
-            projectActualCostRecordRepository.findById.mockResolvedValue({ id: 'record-1', isIncludedInProjectCost: true } as any);
+            projectActualCostRecordRepository.findById.mockResolvedValue({ id: 'record-1', isIncludedInProjectCost: true } as unknown as any);
 
             await expect(service.replaceLaborCostRecord(input, 'user-1')).rejects.toThrow(ConflictException);
         });
@@ -178,8 +167,8 @@ describe('ProjectCostService', () => {
             const userId = 'user-1';
 
             originalRecordInstance = originalRecord;
-            projectActualCostRecordRepository.findById.mockResolvedValue(originalRecord as any);
-            projectActualCostRecordRepository.create.mockReturnValue({ id: 'new-record-1', supersedesRecord: 'record-1' } as any);
+            projectActualCostRecordRepository.findById.mockResolvedValue(originalRecord as unknown as any);
+            projectActualCostRecordRepository.create.mockReturnValue({ id: 'new-record-1', supersedesRecord: 'record-1' } as unknown as any);
 
             const result = await service.replaceLaborCostRecord(input, userId);
 

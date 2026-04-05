@@ -24,7 +24,7 @@ export const InternalCostRateVersionSchema = defineEntity({
         effectiveTo: p.date().nullable().fieldName('effective_to').comment('生效结束日期'),
         publishedAt: p.datetime().nullable().fieldName('published_at').comment('发布时间'),
         publishedBy: p.uuid().nullable().fieldName('published_by').comment('发布人'),
-        supersedesRateVersion: () => p.manyToOne(() => InternalCostRateVersion).nullable().fieldName('supersedes_rate_version_id').comment('替代的旧版本'),
+        supersedesRateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('supersedes_rate_version_id').comment('替代的旧版本'),
         changeReason: p.text().nullable().fieldName('change_reason').comment('变更原因'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
         createdAt: p
@@ -46,7 +46,6 @@ export const InternalCostRateVersionSchema = defineEntity({
 });
 
 export class InternalCostRateVersion extends InternalCostRateVersionSchema.class {
-    override supersedesRateVersion!: Ref<InternalCostRateVersion> | null;
 }
 
 InternalCostRateVersionSchema.setClass(InternalCostRateVersion);
