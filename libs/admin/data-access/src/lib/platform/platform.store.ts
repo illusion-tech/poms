@@ -11,9 +11,11 @@ import type {
     PlatformOrgUnitSummary,
     PlatformRoleDetail,
     PlatformRoleSummary,
+    PlatformUserDetail,
     PlatformUserSummary,
     UpdateOrgUnitActivationRequest,
     UpdateOrgUnitRequest,
+    UpdatePlatformUserRequest,
     UpdateRoleActivationRequest,
     UpdateRoleRequest
 } from '@poms/shared-api-client';
@@ -30,11 +32,17 @@ export class PlatformStore {
     readonly #loadingUsers = signal(false);
     readonly #loadedUsers = signal(false);
     readonly #savingUser = signal(false);
+    readonly #activeUserDetail = signal<PlatformUserDetail | null>(null);
+    readonly #loadingUserDetail = signal(false);
+    readonly #savingUserDetail = signal(false);
 
     readonly users = this.#users.asReadonly();
     readonly loadingUsers = this.#loadingUsers.asReadonly();
     readonly loadedUsers = this.#loadedUsers.asReadonly();
     readonly savingUser = this.#savingUser.asReadonly();
+    readonly activeUserDetail = this.#activeUserDetail.asReadonly();
+    readonly loadingUserDetail = this.#loadingUserDetail.asReadonly();
+    readonly savingUserDetail = this.#savingUserDetail.asReadonly();
     readonly activeUsersCount = computed(() => this.#users().filter((user) => user.isActive).length);
 
     async loadUsers() {
@@ -97,6 +105,35 @@ export class PlatformStore {
             await this.loadUsers();
         } finally {
             this.#savingUser.set(false);
+        }
+    }
+
+    async loadUserDetail(id: string): Promise<PlatformUserDetail> {
+        this.#loadingUserDetail.set(true);
+        try {
+            const user = await firstValueFrom(this.#platformApi.platformControllerGetUser({ id }));
+            this.#activeUserDetail.set(user);
+            return user;
+        } finally {
+            this.#loadingUserDetail.set(false);
+        }
+    }
+
+    clearActiveUserDetail() {
+        this.#activeUserDetail.set(null);
+    }
+
+    async updateUser(id: string, body: UpdatePlatformUserRequest): Promise<PlatformUserDetail> {
+        this.#savingUserDetail.set(true);
+        try {
+            const updated = await firstValueFrom(this.#platformApi.platformControllerUpdateUser({ id, updatePlatformUserRequest: body }));
+            this.#activeUserDetail.set(updated);
+            this.#users.update((list) =>
+                list.map((u) => (u.id === id ? { ...u, displayName: updated.displayName, email: updated.email, phone: updated.phone } : u))
+            );
+            return updated;
+        } finally {
+            this.#savingUserDetail.set(false);
         }
     }
 

@@ -229,11 +229,18 @@ export class DatabaseSeeder extends Seeder {
             ('30000000-0000-4000-8000-000000000002', 'project-viewer', '项目只读角色', '开发环境默认项目只读角色', true);
         `);
 
-        // password_hash values are bcrypt(cost=10) hashes of dev passwords: admin=admin123, viewer=viewer123
         await connection.execute(`
-            insert into "${schema}"."platform_user" ("id", "username", "password_hash", "display_name", "primary_org_unit_id") values
-            ('00000000-0000-4000-8000-000000000001', 'admin', '$2b$10$7RUdPn9mRzZHu8aQWDT5Zu0wrexzWNsIMcib8BtFqaM9SDz4.0LhW', '超级管理员', '10000000-0000-4000-8000-000000000001'),
-            ('00000000-0000-4000-8000-000000000002', 'viewer', '$2b$10$F7jcXHdsWWNU..qTlkkcB.k9/4efsaoJmTI4.TMyCKfIsNJfq..cm', '只读用户', '10000000-0000-4000-8000-000000000002');
+            insert into "${schema}"."platform_user" ("id", "username", "display_name", "primary_org_unit_id") values
+            ('00000000-0000-4000-8000-000000000001', 'admin', '超级管理员', '10000000-0000-4000-8000-000000000001'),
+            ('00000000-0000-4000-8000-000000000002', 'viewer', '只读用户', '10000000-0000-4000-8000-000000000002');
+        `);
+
+        // password_hash values are bcrypt(cost=10) hashes of dev passwords: admin=admin123, viewer=viewer123
+        // local_credential.user_id has ON DELETE CASCADE, so delete from platform_user cleans these up automatically
+        await connection.execute(`
+            insert into "${schema}"."local_credential" ("id", "user_id", "password_hash") values
+            ('70000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000001', '$2b$10$7RUdPn9mRzZHu8aQWDT5Zu0wrexzWNsIMcib8BtFqaM9SDz4.0LhW'),
+            ('70000000-0000-4000-8000-000000000002', '00000000-0000-4000-8000-000000000002', '$2b$10$F7jcXHdsWWNU..qTlkkcB.k9/4efsaoJmTI4.TMyCKfIsNJfq..cm');
         `);
 
         await connection.execute(`
@@ -315,7 +322,7 @@ export class DatabaseSeeder extends Seeder {
         }
 
         console.log(`Seeded ${DEV_PROJECT_SEEDS.length} projects, ${DEV_CONTRACT_SEEDS.length} contracts and ${DEV_USERS.length} platform users in schema "${schema}".`);
-        console.log(`Login now uses real platform data (bcrypt password_hash). Dev fixture fallback remains for transition. Users: ${DEV_USERS.map((u) => u.username).join(', ')}.`);
+        console.log(`Credentials stored in local_credential (separate from platform_user). Users: ${DEV_USERS.map((u) => u.username).join(', ')}.`);
     }
 }
 
