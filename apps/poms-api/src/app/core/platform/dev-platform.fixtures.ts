@@ -1,4 +1,9 @@
-import type { PermissionKey, UnitOrg } from '@poms/shared-contracts';
+import type { PermissionKey, UnitOrg, UserOrgUnitSummary } from '@poms/shared-contracts';
+
+export const DEV_ORG_UNITS: UnitOrg[] = [
+    { id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ', description: '开发环境默认平台组织单元' },
+    { id: '10000000-0000-4000-8000-000000000002', name: '华南销售一部', code: 'SALES-SOUTH-1', description: '开发环境默认业务组织单元' }
+];
 
 export interface DevUserFixture {
     id: string;
@@ -7,23 +12,8 @@ export interface DevUserFixture {
     displayName: string;
     roles: string[];
     permissions: PermissionKey[];
-    orgUnits: UnitOrg[];
+    orgUnits: UserOrgUnitSummary[];
 }
-
-export const DEV_ORG_UNITS: UnitOrg[] = [
-    {
-        id: '10000000-0000-4000-8000-000000000001',
-        name: '销售管理中心',
-        code: 'SALES-HQ',
-        description: '开发环境默认平台组织单元'
-    },
-    {
-        id: '10000000-0000-4000-8000-000000000002',
-        name: '华南销售一部',
-        code: 'SALES-SOUTH-1',
-        description: '开发环境默认业务组织单元'
-    }
-];
 
 export const DEV_USERS: DevUserFixture[] = [
     {
@@ -51,7 +41,9 @@ export const DEV_USERS: DevUserFixture[] = [
             'nav:contracts:view',
             'nav:profile:view'
         ],
-        orgUnits: DEV_ORG_UNITS
+        orgUnits: [
+            { id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ', description: '开发环境默认平台组织单元', membershipType: 'primary' }
+        ]
     },
     {
         id: '00000000-0000-4000-8000-000000000002',
@@ -60,7 +52,9 @@ export const DEV_USERS: DevUserFixture[] = [
         displayName: '只读用户',
         roles: ['project-viewer'],
         permissions: ['project:read', 'nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'],
-        orgUnits: [DEV_ORG_UNITS[1]]
+        orgUnits: [
+            { id: '10000000-0000-4000-8000-000000000002', name: '华南销售一部', code: 'SALES-SOUTH-1', description: '开发环境默认业务组织单元', membershipType: 'primary' }
+        ]
     }
 ];
 

@@ -3,7 +3,14 @@
     "allow": [
       "Bash(find e:/projects/poms/apps -name *role* -o -name *Role*)",
       "Bash(find e:/projects/poms/libs -name *role* -o -name *Role*)",
-      "Bash(npx nx:*)"
+      "Bash(npx nx:*)",
+      "Bash(grep -r \"getProfile\\\\|currentUser\\\\|SanitizedUserWithOrgUnits\" /e/projects/poms/apps --include=*.ts --include=*.tsx)",
+      "Bash(/dev/null -i)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r \"\\\\.orgUnits\\\\|\\\\.membershipType\\\\|UserOrgUnitSummary\" /e/projects/poms/apps --include=*.ts --include=*.tsx)",
+      "Bash(grep -A 5 @Patch.*users/:id /e/projects/poms/apps/poms-api/src/app/features/platform/platform.controller.ts)",
+      "Bash(java:*)",
+      "Bash(export PATH=\"/c/Program Files/Zulu/zulu-17/bin:$PATH\")"
     ]
   }
 }

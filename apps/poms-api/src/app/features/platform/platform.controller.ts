@@ -8,6 +8,7 @@ import type {
     PlatformOrgUnitTree,
     PlatformRoleDetail,
     PlatformRoleSummary,
+    PlatformUserDetail,
     PlatformUserList,
     UpdateRoleActivationRequest,
     UpdateOrgUnitActivationRequest
@@ -31,13 +32,15 @@ import {
     PlatformRoleDetailDto,
     PlatformRoleListDto,
     PlatformRoleSummaryDto,
+    PlatformUserDetailDto,
     PlatformUserListDto,
     SanitizedUserWithOrgUnitsDto,
     UpdateOrgUnitActivationRequestDto,
     UpdateRoleActivationRequestDto,
     UpdateRoleRequestDto,
     UpdateOrgUnitRequestDto,
-    UpdatePlatformUserActivationRequestDto
+    UpdatePlatformUserActivationRequestDto,
+    UpdatePlatformUserRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -61,6 +64,22 @@ export class PlatformController {
     @ApiOkResponse({ type: PlatformUserListDto })
     listUsers(): Promise<PlatformUserList> {
         return this.platformService.listUsers();
+    }
+
+    @Get('users/:id')
+    @HasPermissions('platform:users:manage')
+    @ApiOperation({ summary: '获取平台用户详情' })
+    @ApiOkResponse({ type: PlatformUserDetailDto })
+    getUser(@Param('id') id: string): Promise<PlatformUserDetail> {
+        return this.platformService.getUser(id);
+    }
+
+    @Patch('users/:id')
+    @HasPermissions('platform:users:manage')
+    @ApiOperation({ summary: '更新平台用户基本信息' })
+    @ApiOkResponse({ type: PlatformUserDetailDto })
+    updateUser(@Param('id') id: string, @Body() body: UpdatePlatformUserRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformUserDetail> {
+        return this.platformService.updateUser(id, body, req.user.sub);
     }
 
     @Post('users')

@@ -15,6 +15,7 @@ describe('PlatformService', () => {
         findUserById: jest.Mock;
         findUserByUsername: jest.Mock;
         findActiveUserByUsername: jest.Mock;
+        findCredentialByUserId: jest.Mock;
         findAllRoles: jest.Mock;
         findRolesByIds: jest.Mock;
         findAllOrgUnits: jest.Mock;
@@ -49,6 +50,7 @@ describe('PlatformService', () => {
             findUserById: jest.fn(),
             findUserByUsername: jest.fn(),
             findActiveUserByUsername: jest.fn(),
+            findCredentialByUserId: jest.fn(),
             findAllRoles: jest.fn(),
             findRolesByIds: jest.fn().mockResolvedValue([]),
             findAllOrgUnits: jest.fn(),
@@ -382,8 +384,9 @@ describe('PlatformService', () => {
 
     describe('verifyCredentials', () => {
         it('returns userId, username and permissions when credentials are valid', async () => {
-            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', passwordHash: '$2b$10$hash', isActive: true });
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', username: 'admin', isActive: true });
             repository.findActiveUserByUsername.mockResolvedValue(user);
+            repository.findCredentialByUserId.mockResolvedValue({ passwordHash: '$2b$10$hash' });
             mockCompare.mockResolvedValue(true as never);
             repository.findActiveUserRoleAssignments.mockResolvedValue([
                 { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
@@ -411,9 +414,10 @@ describe('PlatformService', () => {
             expect(result).toBeNull();
         });
 
-        it('returns null when user has no passwordHash', async () => {
-            const user = createUser({ username: 'admin', passwordHash: null });
+        it('returns null when user has no local credential', async () => {
+            const user = createUser({ username: 'admin' });
             repository.findActiveUserByUsername.mockResolvedValue(user);
+            repository.findCredentialByUserId.mockResolvedValue(null);
 
             const result = await service.verifyCredentials('admin', 'admin123');
 
@@ -421,13 +425,81 @@ describe('PlatformService', () => {
         });
 
         it('returns null when password does not match', async () => {
-            const user = createUser({ username: 'admin', passwordHash: '$2b$10$hash' });
+            const user = createUser({ username: 'admin' });
             repository.findActiveUserByUsername.mockResolvedValue(user);
+            repository.findCredentialByUserId.mockResolvedValue({ passwordHash: '$2b$10$hash' });
             mockCompare.mockResolvedValue(false as never);
 
             const result = await service.verifyCredentials('admin', 'wrongpassword');
 
             expect(result).toBeNull();
+        });
+    });
+
+    describe('getUser', () => {
+        it('returns user detail with all org memberships including membershipType', async () => {
+            repository.findUserById.mockResolvedValue(
+                createUser({ id: '00000000-0000-4000-8000-000000000001', primaryOrgUnitId: '10000000-0000-4000-8000-000000000001', emailVerified: true })
+            );
+            repository.findAllUsers.mockResolvedValue([createUser({ id: '00000000-0000-4000-8000-000000000001' })]);
+            repository.findAllRoles.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000001', name: '平台管理员' })]);
+            repository.findAllOrgUnits.mockResolvedValue([
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ' }),
+                createOrgUnit({ id: '10000000-0000-4000-8000-000000000002', name: '技术支持部', code: 'TECH' })
+            ]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+            ]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' },
+                { userId: '00000000-0000-4000-8000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000002', membershipType: 'secondary' }
+            ]);
+
+            const result = await service.getUser('00000000-0000-4000-8000-000000000001');
+
+            expect(result.orgUnits).toHaveLength(2);
+            expect(result.orgUnits).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({ id: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }),
+                    expect.objectContaining({ id: '10000000-0000-4000-8000-000000000002', membershipType: 'secondary' })
+                ])
+            );
+            expect(result.emailVerified).toBe(true);
+        });
+
+        it('throws NotFoundException when user is not found', async () => {
+            repository.findUserById.mockResolvedValue(null);
+
+            await expect(service.getUser('00000000-0000-4000-8000-000000000001')).rejects.toThrow(NotFoundException);
+        });
+    });
+
+    describe('updateUser', () => {
+        it('updates displayName and writes audit log', async () => {
+            const user = createUser({ id: '00000000-0000-4000-8000-000000000001', displayName: '旧名称' });
+            repository.findUserById.mockResolvedValue(user);
+            repository.findAllUsers.mockResolvedValue([user]);
+            repository.findAllRoles.mockResolvedValue([]);
+            repository.findAllOrgUnits.mockResolvedValue([]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([]);
+
+            const result = await service.updateUser('00000000-0000-4000-8000-000000000001', { displayName: '新名称' }, '00000000-0000-4000-8000-000000000099');
+
+            expect(result.displayName).toBe('新名称');
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.updated',
+                    targetId: '00000000-0000-4000-8000-000000000001',
+                    result: 'success'
+                })
+            );
+        });
+
+        it('throws NotFoundException when user is not found', async () => {
+            repository.findUserById.mockResolvedValue(null);
+
+            await expect(service.updateUser('00000000-0000-4000-8000-000000000001', { displayName: '新名称' })).rejects.toThrow(NotFoundException);
         });
     });
 
@@ -955,7 +1027,9 @@ function createUser(overrides: Record<string, unknown> = {}) {
         username: 'admin',
         displayName: '超级管理员',
         email: null,
+        emailVerified: false,
         phone: null,
+        phoneVerified: false,
         avatarUrl: null,
         isActive: true,
         primaryOrgUnitId: null,

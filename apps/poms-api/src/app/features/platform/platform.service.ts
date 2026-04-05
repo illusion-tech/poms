@@ -16,6 +16,7 @@ import type {
     PlatformOrgUnitTree,
     PlatformRoleDetail,
     PlatformRoleSummary,
+    PlatformUserDetail,
     PlatformUserList,
     PlatformUserSummary,
     UpdateRoleActivationRequest,
@@ -23,7 +24,9 @@ import type {
     SanitizedUserWithOrgUnits,
     UpdateOrgUnitActivationRequest,
     UpdateOrgUnitRequest,
-    UpdatePlatformUserActivationRequest
+    UpdatePlatformUserActivationRequest,
+    UpdatePlatformUserRequest,
+    UserOrgUnitSummary
 } from '@poms/shared-contracts';
 import { PERMISSION_KEYS, PermissionsMeta } from '@poms/shared-contracts';
 import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
@@ -49,9 +52,12 @@ export class PlatformService {
 
     async verifyCredentials(username: string, password: string): Promise<{ userId: string; username: string; permissions: PermissionKey[] } | null> {
         const user = await this.platformRepository.findActiveUserByUsername(username);
-        if (!user || !user.passwordHash) return null;
+        if (!user) return null;
 
-        const isValid = await compare(password, user.passwordHash);
+        const credential = await this.platformRepository.findCredentialByUserId(user.id);
+        if (!credential) return null;
+
+        const isValid = await compare(password, credential.passwordHash);
         if (!isValid) return null;
 
         const permissions = await this.getPermissionsForUser(user.id);
@@ -121,23 +127,13 @@ export class PlatformService {
             permissions: PermissionKey[];
         }
     ): Promise<SanitizedUserWithOrgUnits | null> {
-        const { orgUnitMap, roleNamesByUserId, primaryOrgByUserId } = await this.#loadUserAggregationContext();
+        const { orgUnitMap, roleNamesByUserId, userOrgMemberships } = await this.#loadUserAggregationContext();
         const user = await this.platformRepository.findUserById(userId);
         if (!user) {
             return null;
         }
 
-        const primaryOrgId = primaryOrgByUserId.get(user.id) ?? user.primaryOrgUnitId ?? null;
-        const orgUnits = primaryOrgId
-            ? [orgUnitMap.get(primaryOrgId)]
-                  .filter((orgUnit): orgUnit is NonNullable<typeof orgUnit> => orgUnit !== undefined)
-                  .map((orgUnit) => ({
-                      id: orgUnit.id,
-                      name: orgUnit.name,
-                      code: orgUnit.code,
-                      description: orgUnit.description ?? null
-                  }))
-            : [];
+        const orgUnits = this.#buildUserOrgUnits(user.id, userOrgMemberships, orgUnitMap);
 
         return {
             id: user.id,
@@ -149,11 +145,45 @@ export class PlatformService {
             avatarUrl: user.avatarUrl ?? null,
             isActive: user.isActive,
             lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
-            emailVerified: false,
-            phoneVerified: false,
+            emailVerified: user.emailVerified,
+            phoneVerified: user.phoneVerified,
             phone: user.phone ?? null,
             orgUnits
         };
+    }
+
+    async getUser(userId: string): Promise<PlatformUserDetail> {
+        const user = await this.platformRepository.findUserById(userId);
+        if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+
+        const { orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships } = await this.#loadUserAggregationContext();
+        return this.#toPlatformUserDetail(user, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships);
+    }
+
+    async updateUser(userId: string, request: UpdatePlatformUserRequest, operatorId?: string | null): Promise<PlatformUserDetail> {
+        const user = await this.platformRepository.findUserById(userId);
+        if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+
+        const beforeSnapshot = { displayName: user.displayName, email: user.email, phone: user.phone, avatarUrl: user.avatarUrl };
+
+        if (request.displayName !== undefined) user.displayName = request.displayName;
+        if (request.email !== undefined) user.email = request.email ?? null;
+        if (request.phone !== undefined) user.phone = request.phone ?? null;
+        if (request.avatarUrl !== undefined) user.avatarUrl = request.avatarUrl ?? null;
+
+        await this.platformRepository.saveAll([user]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.updated',
+            targetType: 'PlatformUser',
+            targetId: user.id,
+            operatorId: operatorId ?? null,
+            result: 'success',
+            beforeSnapshot,
+            afterSnapshot: { displayName: user.displayName, email: user.email, phone: user.phone, avatarUrl: user.avatarUrl }
+        });
+
+        const { orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships } = await this.#loadUserAggregationContext();
+        return this.#toPlatformUserDetail(user, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships);
     }
 
     async listRoles(): Promise<PlatformRoleSummary[]> {
@@ -840,7 +870,55 @@ export class PlatformService {
             primaryOrgByUserId.set(membership.userId, membership.orgUnitId);
         }
 
-        return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId };
+        return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships };
+    }
+
+    #buildUserOrgUnits(
+        userId: string,
+        userOrgMemberships: { userId: string; orgUnitId: string; membershipType: string }[],
+        orgUnitMap: Map<string, OrgUnit>
+    ): UserOrgUnitSummary[] {
+        return userOrgMemberships
+            .filter((m) => m.userId === userId && orgUnitMap.has(m.orgUnitId))
+            .map((m) => {
+                const orgUnit = orgUnitMap.get(m.orgUnitId)!;
+                return {
+                    id: orgUnit.id,
+                    name: orgUnit.name,
+                    code: orgUnit.code,
+                    description: orgUnit.description ?? null,
+                    membershipType: m.membershipType as 'primary' | 'secondary'
+                };
+            });
+    }
+
+    #toPlatformUserDetail(
+        user: { id: string; username: string; displayName: string; email?: string | null; phone?: string | null; avatarUrl?: string | null; isActive: boolean; primaryOrgUnitId?: string | null; emailVerified: boolean; phoneVerified: boolean; lastLoginAt?: Date | null; createdAt: Date; updatedAt: Date },
+        orgUnitMap: Map<string, OrgUnit>,
+        roleNamesByUserId: Map<string, string[]>,
+        primaryOrgByUserId: Map<string, string>,
+        userOrgMemberships: { userId: string; orgUnitId: string; membershipType: string }[]
+    ): PlatformUserDetail {
+        const primaryOrgUnitId = primaryOrgByUserId.get(user.id) ?? user.primaryOrgUnitId ?? null;
+        const primaryOrgUnitName = primaryOrgUnitId ? (orgUnitMap.get(primaryOrgUnitId)?.name ?? null) : null;
+        return {
+            id: user.id,
+            username: user.username,
+            displayName: user.displayName,
+            email: user.email ?? null,
+            phone: user.phone ?? null,
+            avatarUrl: user.avatarUrl ?? null,
+            isActive: user.isActive,
+            primaryOrgUnitId,
+            primaryOrgUnitName,
+            roleNames: roleNamesByUserId.get(user.id) ?? [],
+            createdAt: user.createdAt.toISOString(),
+            updatedAt: user.updatedAt.toISOString(),
+            lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
+            emailVerified: user.emailVerified,
+            phoneVerified: user.phoneVerified,
+            orgUnits: this.#buildUserOrgUnits(user.id, userOrgMemberships, orgUnitMap)
+        };
     }
 
     async #assertRoleIdsAreActive(roleIds: string[]): Promise<void> {

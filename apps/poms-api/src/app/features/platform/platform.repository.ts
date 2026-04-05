@@ -1,6 +1,7 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { LocalCredential } from './local-credential.entity';
 import { OrgUnit } from './org-unit.entity';
 import { PlatformRole } from './role.entity';
 import { PlatformUser } from './platform-user.entity';
@@ -22,7 +23,9 @@ export class PlatformRepository {
         @InjectRepository(UserOrgMembership)
         private readonly userOrgMembershipRepository: EntityRepository<UserOrgMembership>,
         @InjectRepository(RolePermissionAssignment)
-        private readonly rolePermissionAssignmentRepository: EntityRepository<RolePermissionAssignment>
+        private readonly rolePermissionAssignmentRepository: EntityRepository<RolePermissionAssignment>,
+        @InjectRepository(LocalCredential)
+        private readonly localCredentialRepository: EntityRepository<LocalCredential>
     ) {}
 
     async findAllUsers(): Promise<PlatformUser[]> {
@@ -114,6 +117,14 @@ export class PlatformRepository {
 
     createUserOrgMembership(input: ConstructorParameters<typeof UserOrgMembership>[0]): UserOrgMembership {
         return this.userOrgMembershipRepository.create(input);
+    }
+
+    async findCredentialByUserId(userId: string): Promise<LocalCredential | null> {
+        return this.localCredentialRepository.findOne({ userId });
+    }
+
+    createCredential(input: ConstructorParameters<typeof LocalCredential>[0]): LocalCredential {
+        return this.localCredentialRepository.create(input);
     }
 
     async saveAll(entities: object[]): Promise<void> {
