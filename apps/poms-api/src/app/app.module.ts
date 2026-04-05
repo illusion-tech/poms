@@ -14,6 +14,7 @@ import { ContractFinanceModule } from './features/contract-finance/contract-fina
 import { NavigationModule } from './features/navigation/navigation.module';
 import { PlatformModule } from './features/platform/platform.module';
 import { ProjectModule } from './features/project/project.module';
+import { ProjectCostModule } from './features/project-cost/project-cost.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { ProjectModule } from './features/project/project.module';
         NavigationModule,
         PlatformModule,
         ProjectModule,
+        ProjectCostModule,
         ApprovalModule,
         ContractReadinessModule,
         ContractModule,

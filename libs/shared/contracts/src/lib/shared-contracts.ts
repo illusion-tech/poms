@@ -1541,3 +1541,145 @@ export const RecalculateCommissionRequestSchema = z
     .meta({ id: 'RecalculateCommissionRequest' });
 
 export type RecalculateCommissionRequest = z.infer<typeof RecalculateCommissionRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Project Cost
+// ---------------------------------------------------------------------------
+
+export const InternalCostRateVersionSummarySchema = z
+    .object({
+        id: z.uuid(),
+        rateScopeType: z.enum(['PERSON', 'ROLE']),
+        personId: z.uuid().nullable(),
+        roleCode: z.string().nullable(),
+        rateUnit: z.enum(['HOUR', 'DAY']),
+        rateValue: z.string(),
+        currency: z.string(),
+        effectiveFrom: z.iso.datetime(),
+        effectiveTo: z.iso.datetime().nullable(),
+        publishedAt: z.iso.datetime(),
+        publishedBy: z.uuid(),
+        supersedesRateVersionId: z.uuid().nullable(),
+        changeReason: z.string().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'InternalCostRateVersionSummary' });
+
+export type InternalCostRateVersionSummary = z.infer<typeof InternalCostRateVersionSummarySchema>;
+
+export const PublishInternalCostRateVersionRequestSchema = z
+    .object({
+        rateScopeType: z.enum(['PERSON', 'ROLE']),
+        personId: z.uuid().nullable().optional(),
+        roleCode: z.string().nullable().optional(),
+        rateUnit: z.enum(['HOUR', 'DAY']),
+        rateValue: z.string().trim().min(1).max(64),
+        currency: z.string().trim().min(1).max(16),
+        effectiveFrom: z.iso.datetime(),
+        changeReason: z.string().nullable().optional(),
+        supersedesRateVersionId: z.uuid().nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'PublishInternalCostRateVersionRequest' });
+
+export type PublishInternalCostRateVersionRequest = z.infer<typeof PublishInternalCostRateVersionRequestSchema>;
+
+export const ProjectActualCostRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        recordNo: z.string(),
+        costType: z.enum(['PROCUREMENT', 'INVOICE', 'EXPENSE', 'PAYMENT_FACT', 'LABOR']),
+        costSubtype: z.string().nullable(),
+        occurredOn: z.iso.datetime(),
+        accountingPeriod: z.string().nullable(),
+        registeredAt: z.iso.datetime().nullable(),
+        confirmedAt: z.iso.datetime().nullable(),
+        includedAt: z.iso.datetime().nullable(),
+        executionStageCode: z.string().nullable(),
+        stageDerivedFromType: z.string().nullable(),
+        stageDerivedFromId: z.uuid().nullable(),
+        stageDerivedAt: z.iso.datetime().nullable(),
+        stageLockedAt: z.iso.datetime().nullable(),
+        currency: z.string(),
+        amountExcludingTax: z.string(),
+        taxCostAmount: z.string(),
+        amountIncludingTax: z.string(),
+        recordStatus: z.enum(['DRAFT', 'REGISTERED', 'CONFIRMED', 'INCLUDED', 'VOIDED', 'REPLACED']),
+        isIncludedInProjectCost: z.boolean(),
+        isHighRisk: z.boolean(),
+        sourceType: z.string().nullable(),
+        sourceId: z.uuid().nullable(),
+        sourceRefNo: z.string().nullable(),
+        evidenceSummary: z.string().nullable(),
+        attachmentCount: z.number().int().nonnegative(),
+        registeredBy: z.uuid().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        includedBy: z.uuid().nullable(),
+        ownerRole: z.string().nullable(),
+        costDescription: z.string().nullable(),
+        taxImpactSummary: z.string().nullable(),
+        riskNote: z.string().nullable(),
+        replacementOfRecordId: z.uuid().nullable(),
+        voidReason: z.string().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectActualCostRecordSummary' });
+
+export type ProjectActualCostRecordSummary = z.infer<typeof ProjectActualCostRecordSummarySchema>;
+
+export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSummarySchema.extend({
+    laborPersonId: z.uuid().nullable(),
+    laborRole: z.string().nullable(),
+    laborPeriodType: z.enum(['WEEK', 'MONTH']).nullable(),
+    laborPeriodStart: z.iso.datetime().nullable(),
+    laborPeriodEnd: z.iso.datetime().nullable(),
+    actualHours: z.string().nullable(),
+    actualPersonDays: z.string().nullable(),
+    internalCostRate: z.string().nullable(),
+    rateVersionId: z.uuid().nullable(),
+    laborAmount: z.string().nullable(),
+    workSummary: z.string().nullable(),
+    deliveryStage: z.string().nullable()
+}).meta({ id: 'ProjectActualCostRecordDetailView' });
+
+export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
+
+export const RegisterLaborCostRecordRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        laborPersonId: z.uuid().nullable().optional(),
+        laborRole: z.string().nullable().optional(),
+        laborPeriodType: z.enum(['WEEK', 'MONTH']),
+        laborPeriodStart: z.iso.datetime(),
+        laborPeriodEnd: z.iso.datetime(),
+        actualHours: z.string().trim().min(1).max(64).nullable().optional(),
+        actualPersonDays: z.string().trim().min(1).max(64).nullable().optional(),
+        workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        rateVersionId: z.uuid(),
+        costDescription: z.string().nullable().optional(),
+        attachmentIds: z.array(z.uuid()).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RegisterLaborCostRecordRequest' });
+
+export type RegisterLaborCostRecordRequest = z.infer<typeof RegisterLaborCostRecordRequestSchema>;
+
+export const ReplaceLaborCostRecordRequestSchema = z
+    .object({
+        replacementOfRecordId: z.uuid(),
+        laborPeriodStart: z.iso.datetime(),
+        laborPeriodEnd: z.iso.datetime(),
+        actualHours: z.string().trim().min(1).max(64).nullable().optional(),
+        actualPersonDays: z.string().trim().min(1).max(64).nullable().optional(),
+        workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        rateVersionId: z.uuid(),
+        replaceReason: z.string().trim().min(1).max(256),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReplaceLaborCostRecordRequest' });
+
+export type ReplaceLaborCostRecordRequest = z.infer<typeof ReplaceLaborCostRecordRequestSchema>;
