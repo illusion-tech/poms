@@ -20,15 +20,17 @@ import {
     PlatformRoleDetailSchema,
     PlatformRoleListSchema,
     PlatformRoleSummarySchema,
+    PlatformUserDetailSchema,
     PlatformUserListSchema,
     PlatformUserSummarySchema,
     SanitizedUserSchema,
     SanitizedUserWithOrgUnitsSchema,
     UpdateOrgUnitActivationRequestSchema,
     UpdateOrgUnitRequestSchema,
+    UpdatePlatformUserActivationRequestSchema,
+    UpdatePlatformUserRequestSchema,
     UpdateRoleActivationRequestSchema,
     UpdateRoleRequestSchema,
-    UpdatePlatformUserActivationRequestSchema,
     UserPayloadSchema,
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
@@ -56,6 +58,8 @@ export class PlatformUserSummaryDto extends createZodDto(PlatformUserSummarySche
 
 export class PlatformUserListDto extends createZodDto(PlatformUserListSchema) {}
 
+export class PlatformUserDetailDto extends createZodDto(PlatformUserDetailSchema) {}
+
 export class PlatformPermissionSummaryDto extends createZodDto(PlatformPermissionSummarySchema) {}
 
 export class PlatformPermissionListDto extends createZodDto(PlatformPermissionListSchema) {}
@@ -79,6 +83,8 @@ export class PlatformOrgUnitTreeDto extends createZodDto(PlatformOrgUnitTreeSche
 export class CreatePlatformUserRequestDto extends createZodDto(CreatePlatformUserRequestSchema) {}
 
 export class UpdatePlatformUserActivationRequestDto extends createZodDto(UpdatePlatformUserActivationRequestSchema) {}
+
+export class UpdatePlatformUserRequestDto extends createZodDto(UpdatePlatformUserRequestSchema) {}
 
 export class AssignUserRolesRequestDto extends createZodDto(AssignUserRolesRequestSchema) {}
 
