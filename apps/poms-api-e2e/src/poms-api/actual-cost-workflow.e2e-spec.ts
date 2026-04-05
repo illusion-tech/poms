@@ -10,32 +10,36 @@ describe('Actual Cost Workflow E2E', () => {
         const { client, profile } = await loginAsAdmin();
 
         // 2. Create a new project
+        const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            name: `E2E Actual Cost Project ${Date.now()}`
+            projectCode: `E2E-AC-${unique}`,
+            projectName: `E2E Actual Cost Project ${unique}`,
+            currentStage: 'execution'
         });
         expect(project).toBeDefined();
 
         // 3. Publish an internal cost rate version
         const publishRateResult = await publishInternalCostRateVersion(client, {
-            rateScopeType: 'GLOBAL',
+            rateScopeType: 'ROLE',
+            roleCode: `dev-${unique}`,
             rateUnit: 'DAY',
             rateValue: '1000',
             currency: 'CNY',
             effectiveFrom: new Date().toISOString()
-        } as any);
+        });
         expect(publishRateResult.resultStatus).toBe('success');
         const rateVersionId = publishRateResult.targetId;
 
         // 4. Register a successful labor cost record
         const registerLaborResult = await registerLaborCostRecord(client, {
             projectId: project.id,
-            laborPeriodType: 'MONTHLY',
+            laborPeriodType: 'MONTH',
             laborPeriodStart: new Date('2023-01-01').toISOString(),
             laborPeriodEnd: new Date('2023-01-31').toISOString(),
             rateVersionId,
-            actualHours: 160,
-            actualPersonDays: 20
-        } as any);
+            actualHours: '160',
+            actualPersonDays: '20'
+        });
         expect(registerLaborResult.resultStatus).toBe('success');
         const recordId = registerLaborResult.targetId;
 
@@ -45,10 +49,10 @@ describe('Actual Cost Workflow E2E', () => {
             laborPeriodStart: new Date('2023-01-01').toISOString(),
             laborPeriodEnd: new Date('2023-01-31').toISOString(),
             rateVersionId,
-            actualHours: 180,
-            actualPersonDays: 22.5,
+            actualHours: '180',
+            actualPersonDays: '22.5',
             replaceReason: 'Corrected working hours'
-        } as any);
+        });
         expect(replaceLaborResult.resultStatus).toBe('success');
         expect(replaceLaborResult.targetId).not.toBe(recordId);
     });

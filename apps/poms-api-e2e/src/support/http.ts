@@ -8,6 +8,9 @@ export interface ApiErrorBody {
 }
 
 export function expectStatus<T>(response: AxiosResponse<T>, expectedStatus: number): T {
+    if (response.status !== expectedStatus) {
+        console.error(`Status mismatch: Expected ${expectedStatus}, but got ${response.status}. Data:`, JSON.stringify(response.data, null, 2));
+    }
     expect(response.status).toBe(expectedStatus);
     return response.data;
 }
