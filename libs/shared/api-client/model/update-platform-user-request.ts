@@ -9,10 +9,10 @@
  */
 
 
-export interface UnitOrg { 
-    id: string;
-    name: string;
-    code: string | null;
-    description: string | null;
+export interface UpdatePlatformUserRequest { 
+    displayName?: string;
+    email?: string | null;
+    phone?: string | null;
+    avatarUrl?: string | null;
 }
 

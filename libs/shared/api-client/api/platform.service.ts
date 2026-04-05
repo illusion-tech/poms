@@ -47,6 +47,8 @@ import { PlatformRoleDetail } from '../model/platform-role-detail';
 // @ts-ignore
 import { PlatformRoleSummary } from '../model/platform-role-summary';
 // @ts-ignore
+import { PlatformUserDetail } from '../model/platform-user-detail';
+// @ts-ignore
 import { PlatformUserSummary } from '../model/platform-user-summary';
 // @ts-ignore
 import { SanitizedUserWithOrgUnits } from '../model/sanitized-user-with-org-units';
@@ -56,6 +58,8 @@ import { UpdateOrgUnitActivationRequest } from '../model/update-org-unit-activat
 import { UpdateOrgUnitRequest } from '../model/update-org-unit-request';
 // @ts-ignore
 import { UpdatePlatformUserActivationRequest } from '../model/update-platform-user-activation-request';
+// @ts-ignore
+import { UpdatePlatformUserRequest } from '../model/update-platform-user-request';
 // @ts-ignore
 import { UpdateRoleActivationRequest } from '../model/update-role-activation-request';
 // @ts-ignore
@@ -132,6 +136,10 @@ export interface PlatformControllerGetRoleRequestParams {
     id: string;
 }
 
+export interface PlatformControllerGetUserRequestParams {
+    id: string;
+}
+
 export interface PlatformControllerMoveOrgUnitRequestParams {
     id: string;
     moveOrgUnitRequest: MoveOrgUnitRequest;
@@ -145,6 +153,11 @@ export interface PlatformControllerUpdateOrgUnitRequestParams {
 export interface PlatformControllerUpdateRoleRequestParams {
     id: string;
     updateRoleRequest: UpdateRoleRequest;
+}
+
+export interface PlatformControllerUpdateUserRequestParams {
+    id: string;
+    updatePlatformUserRequest: UpdatePlatformUserRequest;
 }
 
 
@@ -1209,6 +1222,66 @@ export class PlatformApi extends BaseService {
     }
 
     /**
+     * 获取平台用户详情
+     * @endpoint get /api/platform/users/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerGetUser(requestParameters: PlatformControllerGetUserRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformUserDetail>;
+    public platformControllerGetUser(requestParameters: PlatformControllerGetUserRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformUserDetail>>;
+    public platformControllerGetUser(requestParameters: PlatformControllerGetUserRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformUserDetail>>;
+    public platformControllerGetUser(requestParameters: PlatformControllerGetUserRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerGetUser.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformUserDetail>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取平台组织树
      * @endpoint get /api/platform/org-units/tree
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1750,6 +1823,80 @@ export class PlatformApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: updateRoleRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 更新平台用户基本信息
+     * @endpoint patch /api/platform/users/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public platformControllerUpdateUser(requestParameters: PlatformControllerUpdateUserRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PlatformUserDetail>;
+    public platformControllerUpdateUser(requestParameters: PlatformControllerUpdateUserRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PlatformUserDetail>>;
+    public platformControllerUpdateUser(requestParameters: PlatformControllerUpdateUserRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PlatformUserDetail>>;
+    public platformControllerUpdateUser(requestParameters: PlatformControllerUpdateUserRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling platformControllerUpdateUser.');
+        }
+        const updatePlatformUserRequest = requestParameters?.updatePlatformUserRequest;
+        if (updatePlatformUserRequest === null || updatePlatformUserRequest === undefined) {
+            throw new Error('Required parameter updatePlatformUserRequest was null or undefined when calling platformControllerUpdateUser.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PlatformUserDetail>('patch', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updatePlatformUserRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

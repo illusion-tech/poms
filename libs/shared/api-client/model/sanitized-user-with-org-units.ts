@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UnitOrg } from './unit-org';
+import { UserOrgUnitSummary } from './user-org-unit-summary';
 
 
 export interface SanitizedUserWithOrgUnits { 
@@ -23,7 +23,7 @@ export interface SanitizedUserWithOrgUnits {
     emailVerified: boolean;
     phoneVerified: boolean;
     phone: string | null;
-    orgUnits: Array<UnitOrg>;
+    orgUnits: Array<UserOrgUnitSummary>;
 }
 export enum SanitizedUserWithOrgUnitsPermissionsEnum {
     PlatformUsersManage = 'platform:users:manage',

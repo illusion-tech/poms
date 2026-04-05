@@ -109,8 +109,20 @@ export const SanitizedUserSchema = z
 
 export type SanitizedUser = z.infer<typeof SanitizedUserSchema>;
 
+export const UserOrgUnitSummarySchema = z
+    .object({
+        id: z.uuid(),
+        name: z.string(),
+        code: z.string().nullable(),
+        description: z.string().nullable(),
+        membershipType: z.enum(['primary', 'secondary'])
+    })
+    .meta({ id: 'UserOrgUnitSummary' });
+
+export type UserOrgUnitSummary = z.infer<typeof UserOrgUnitSummarySchema>;
+
 export const SanitizedUserWithOrgUnitsSchema = SanitizedUserSchema.extend({
-    orgUnits: z.array(UnitOrgSchema)
+    orgUnits: z.array(UserOrgUnitSummarySchema)
 }).meta({ id: 'SanitizedUserWithOrgUnits' });
 
 export type SanitizedUserWithOrgUnits = z.infer<typeof SanitizedUserWithOrgUnitsSchema>;
@@ -136,6 +148,27 @@ export type PlatformUserSummary = z.infer<typeof PlatformUserSummarySchema>;
 export const PlatformUserListSchema = z.array(PlatformUserSummarySchema).meta({ id: 'PlatformUserList' });
 
 export type PlatformUserList = z.infer<typeof PlatformUserListSchema>;
+
+export const PlatformUserDetailSchema = PlatformUserSummarySchema.extend({
+    avatarUrl: z.string().url().nullable(),
+    lastLoginAt: z.iso.datetime().nullable(),
+    emailVerified: z.boolean(),
+    phoneVerified: z.boolean(),
+    orgUnits: z.array(UserOrgUnitSummarySchema)
+}).meta({ id: 'PlatformUserDetail' });
+
+export type PlatformUserDetail = z.infer<typeof PlatformUserDetailSchema>;
+
+export const UpdatePlatformUserRequestSchema = z
+    .object({
+        displayName: z.string().min(1).max(128).optional(),
+        email: z.string().email().nullable().optional(),
+        phone: z.string().max(64).nullable().optional(),
+        avatarUrl: z.string().url().nullable().optional()
+    })
+    .meta({ id: 'UpdatePlatformUserRequest' });
+
+export type UpdatePlatformUserRequest = z.infer<typeof UpdatePlatformUserRequestSchema>;
 
 export const PlatformPermissionSummarySchema = z
     .object({
