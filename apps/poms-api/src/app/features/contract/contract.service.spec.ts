@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 
 jest.mock('@mikro-orm/nestjs', () => ({
@@ -28,6 +29,7 @@ describe('ContractService', () => {
         findOne: jest.Mock;
     };
     let projectService: jest.Mocked<ProjectService>;
+    let contractReadinessService: jest.Mocked<ContractReadinessService>;
 
     beforeEach(() => {
         contractRepository = {
@@ -43,8 +45,16 @@ describe('ContractService', () => {
         projectService = {
             findById: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
+        contractReadinessService = {
+            resolveActivationReadiness: jest.fn()
+        } as unknown as jest.Mocked<ContractReadinessService>;
 
-        service = new ContractService(contractRepository as never, projectService, approvalRecordRepository as never);
+        service = new ContractService(
+            contractRepository as never,
+            projectService,
+            contractReadinessService,
+            approvalRecordRepository as never
+        );
     });
 
     it('creates a contract after validating project existence and defaults', async () => {
@@ -158,6 +168,12 @@ describe('ContractService', () => {
         approvalRecordRepository.findOne
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce({ id: approvedApprovalId });
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: true,
+            reason: null,
+            sourceReadinessId: '50000000-0000-4000-8000-000000000001',
+            snapshotId: null
+        });
 
         const result = await service.activate(contractId, userId, {
             comment: '确认合同生效',
@@ -190,12 +206,69 @@ describe('ContractService', () => {
         approvalRecordRepository.findOne
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce(null);
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: true,
+            reason: null,
+            sourceReadinessId: '50000000-0000-4000-8000-000000000001',
+            snapshotId: null
+        });
 
         await expect(
             service.activate(contractId, userId, {
                 expectedVersion: 1
             })
         ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects activation when no current readiness package is available', async () => {
+        contractRepository.findById.mockResolvedValue(
+            createContractEntity({
+                status: 'pending-review'
+            })
+        );
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: '40000000-0000-4000-8000-000000000001' });
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: false,
+            reason: 'Project has no current contract readiness package',
+            sourceReadinessId: null,
+            snapshotId: null
+        });
+
+        await expect(
+            service.activate(contractId, userId, {
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('reuses readiness snapshot id when contract snapshot is not initialized yet', async () => {
+        const approvedApprovalId = '40000000-0000-4000-8000-000000000001';
+        const readinessSnapshotId = '70000000-0000-4000-8000-000000000001';
+        const contract = createContractEntity({
+            status: 'pending-review',
+            rowVersion: 4,
+            currentSnapshotId: null
+        });
+        contractRepository.findById.mockResolvedValue(contract);
+        contractRepository.save.mockResolvedValue(undefined);
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: approvedApprovalId });
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: true,
+            reason: null,
+            sourceReadinessId: '50000000-0000-4000-8000-000000000001',
+            snapshotId: readinessSnapshotId
+        });
+
+        const result = await service.activate(contractId, userId, {
+            expectedVersion: 4
+        });
+
+        expect(contract.currentSnapshotId).toBe(readinessSnapshotId);
+        expect(result.snapshotId).toBe(readinessSnapshotId);
     });
 
     function createContractEntity(overrides: Record<string, unknown> = {}) {

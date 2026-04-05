@@ -1,6 +1,6 @@
 import { approveRecord, expectNoOpenTodoForTarget, findOpenTodoForTarget, rejectRecord } from '../support/approval-api';
 import { loginAsAdmin } from '../support/api-client';
-import { activateContract, createContract, getContract, getCurrentContractApproval, submitContractReview } from '../support/contract-api';
+import { activateContract, createContract, getContract, getCurrentContractApproval, prepareContractReadinessForProject, submitContractReview } from '../support/contract-api';
 import { expectErrorStatus } from '../support/http';
 import { createProjectForProfile } from '../support/project-api';
 import { buildContractInput, makeUniqueSuffix } from '../support/test-data';
@@ -44,6 +44,8 @@ describe('poms-api contract workflow e2e', () => {
         const currentApproval = await getCurrentContractApproval(client, contract.id);
         expect(currentApproval.currentStatus).toBe('approved');
 
+        await prepareContractReadinessForProject(client, project.id, profile.id, unique);
+
         const pendingReviewContract = await getContract(client, contract.id);
         expect(pendingReviewContract.status).toBe('pending-review');
 
@@ -83,6 +85,44 @@ describe('poms-api contract workflow e2e', () => {
         });
 
         expectErrorStatus(response, 400, 'cannot be activated in status draft');
+    });
+
+    it('rejects activation after review approval when readiness package has not been prepared', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('contract-readiness-missing');
+
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-PRJ-${unique}`,
+            projectName: `E2E 承接包缺失约束 ${unique}`,
+            currentStage: 'negotiation'
+        });
+
+        const contract = await createContract(
+            client,
+            buildContractInput(project.id, profile.id, {
+                contractNo: `E2E-HT-${unique}`,
+                signedAmount: '118000.00'
+            })
+        );
+
+        await submitContractReview(client, contract.id, {
+            comment: 'e2e 缺失承接包送审',
+            expectedVersion: contract.rowVersion
+        });
+
+        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
+        await approveRecord(client, todo.sourceId, {
+            comment: 'e2e 审批通过但未准备承接包',
+            expectedVersion: 1
+        });
+
+        const pendingReviewContract = await getContract(client, contract.id);
+        const response = await client.post(`/contracts/${contract.id}/activate`, {
+            comment: 'e2e 缺失承接包激活',
+            expectedVersion: pendingReviewContract.rowVersion
+        });
+
+        expectErrorStatus(response, 400, 'has no current contract readiness package');
     });
 
     it('returns the contract to draft when review approval is rejected', async () => {
@@ -153,6 +193,8 @@ describe('poms-api contract workflow e2e', () => {
             comment: 'e2e 审批通过',
             expectedVersion: 1
         });
+
+        await prepareContractReadinessForProject(client, project.id, profile.id, unique);
 
         const pendingReviewContract = await getContract(client, contract.id);
         const response = await client.post(`/contracts/${contract.id}/activate`, {

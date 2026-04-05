@@ -1,9 +1,19 @@
 import {
     ActivateContractRequestSchema,
+    CommercialDiffReviewResultSchema,
+    CommercialReleaseBaselineSummarySchema,
+    ContractDiffReviewHistoryViewSchema,
+    ContractReadinessDetailSchema,
     ContractListQuerySchema,
     ContractListSchema,
     ContractSummarySchema,
+    CreateCommercialReleaseBaselineRequestSchema,
     CreateContractRequestSchema,
+    CreateContractReadinessPackageRequestSchema,
+    InitializeContractSnapshotFromReadinessPackageRequestSchema,
+    InitializeReceivablePlanFromReadinessPackageRequestSchema,
+    ReadinessInitializationResultSchema,
+    ReviewCommercialReleaseBaselineDiffRequestSchema,
     UpdateContractBasicInfoRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
@@ -19,3 +29,23 @@ export class CreateContractRequestDto extends createZodDto(CreateContractRequest
 export class UpdateContractBasicInfoRequestDto extends createZodDto(UpdateContractBasicInfoRequestSchema) {}
 
 export class ActivateContractRequestDto extends createZodDto(ActivateContractRequestSchema) {}
+
+export class CommercialReleaseBaselineDto extends createZodDto(CommercialReleaseBaselineSummarySchema) {}
+
+export class ContractReadinessDetailDto extends createZodDto(ContractReadinessDetailSchema) {}
+
+export class ContractDiffReviewHistoryViewDto extends createZodDto(ContractDiffReviewHistoryViewSchema) {}
+
+export class CreateCommercialReleaseBaselineRequestDto extends createZodDto(CreateCommercialReleaseBaselineRequestSchema) {}
+
+export class CreateContractReadinessPackageRequestDto extends createZodDto(CreateContractReadinessPackageRequestSchema) {}
+
+export class ReviewCommercialReleaseBaselineDiffRequestDto extends createZodDto(ReviewCommercialReleaseBaselineDiffRequestSchema) {}
+
+export class InitializeContractSnapshotFromReadinessPackageRequestDto extends createZodDto(InitializeContractSnapshotFromReadinessPackageRequestSchema) {}
+
+export class InitializeReceivablePlanFromReadinessPackageRequestDto extends createZodDto(InitializeReceivablePlanFromReadinessPackageRequestSchema) {}
+
+export class CommercialDiffReviewResultDto extends createZodDto(CommercialDiffReviewResultSchema) {}
+
+export class ReadinessInitializationResultDto extends createZodDto(ReadinessInitializationResultSchema) {}

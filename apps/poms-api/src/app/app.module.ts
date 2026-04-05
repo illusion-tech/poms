@@ -9,13 +9,26 @@ import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
 import { ApprovalModule } from './features/approval/approval.module';
 import { CommissionModule } from './features/commission/commission.module';
 import { ContractModule } from './features/contract/contract.module';
+import { ContractReadinessModule } from './features/contract-readiness/contract-readiness.module';
 import { ContractFinanceModule } from './features/contract-finance/contract-finance.module';
 import { NavigationModule } from './features/navigation/navigation.module';
 import { PlatformModule } from './features/platform/platform.module';
 import { ProjectModule } from './features/project/project.module';
 
 @Module({
-    imports: [PersistenceModule, RuntimeAuditModule, AuthModule, NavigationModule, PlatformModule, ProjectModule, ApprovalModule, ContractModule, ContractFinanceModule, CommissionModule],
+    imports: [
+        PersistenceModule,
+        RuntimeAuditModule,
+        AuthModule,
+        NavigationModule,
+        PlatformModule,
+        ProjectModule,
+        ApprovalModule,
+        ContractReadinessModule,
+        ContractModule,
+        ContractFinanceModule,
+        CommissionModule
+    ],
     controllers: [AppController],
     providers: [
         AppService,

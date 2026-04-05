@@ -5,7 +5,9 @@ import type {
     CreateCommissionPayoutRequest,
     CreateCommissionRoleAssignmentRequest,
     CreateCommissionRuleVersionRequest,
+    CreateCommercialReleaseBaselineRequest,
     CreateContractRequest,
+    CreateContractReadinessPackageRequest,
     CreateProjectRequest,
     SanitizedUserWithOrgUnits
 } from './types';
@@ -47,6 +49,63 @@ export function buildContractInput(
         signedAt: overrides.signedAt,
         createdBy: overrides.createdBy ?? actorUserId,
         updatedBy: overrides.updatedBy ?? actorUserId
+    };
+}
+
+export function buildCommercialReleaseBaselineInput(
+    projectId: string,
+    actorUserId: string,
+    unique: string,
+    overrides?: Partial<CreateCommercialReleaseBaselineRequest>
+): CreateCommercialReleaseBaselineRequest {
+    const defaultBaselineCode = `BL-${unique}`.slice(0, 64);
+
+    return {
+        projectId,
+        baselineCode: overrides?.baselineCode ?? defaultBaselineCode,
+        quotationReviewId: overrides?.quotationReviewId ?? null,
+        grossMarginSummary: overrides?.grossMarginSummary ?? '毛利结论已放行',
+        paymentTermsSummary: overrides?.paymentTermsSummary ?? '首付款 30%，分两期回款',
+        diffLevel: overrides?.diffLevel ?? 'review-required',
+        diffSummary: overrides?.diffSummary ?? '首付款比例与回款节点存在差异',
+        diffItems: overrides?.diffItems ?? [
+            {
+                fieldKey: 'downPaymentRate',
+                fieldLabel: '首付款比例',
+                diffLevel: overrides?.diffLevel ?? 'review-required'
+            }
+        ],
+        createdBy: overrides?.createdBy ?? actorUserId,
+        updatedBy: overrides?.updatedBy ?? actorUserId
+    };
+}
+
+export function buildContractReadinessPackageInput(
+    projectId: string,
+    actorUserId: string,
+    sourceBaselineId: string,
+    latestDiffResultId: string,
+    overrides?: Partial<CreateContractReadinessPackageRequest>
+): CreateContractReadinessPackageRequest {
+    return {
+        projectId,
+        sourceBaselineId,
+        latestDiffResultId,
+        packageStatus: overrides?.packageStatus ?? 'ready',
+        guardDecision: overrides?.guardDecision ?? 'allowed',
+        currentEffectiveDecisionSummary: overrides?.currentEffectiveDecisionSummary ?? '前置事项已收口，可进入合同主链',
+        blockingReasonSummary: overrides?.blockingReasonSummary ?? null,
+        missingPrerequisiteCount: overrides?.missingPrerequisiteCount ?? 0,
+        items: overrides?.items ?? [
+            {
+                itemType: 'checklist',
+                itemKey: 'quotation-approved',
+                label: '报价与毛利评审已放行',
+                status: 'ready'
+            }
+        ],
+        createdBy: overrides?.createdBy ?? actorUserId,
+        updatedBy: overrides?.updatedBy ?? actorUserId
     };
 }
 

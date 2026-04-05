@@ -4,6 +4,7 @@ import type { CommandResult, ContractStatus } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
+import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
 import { ContractRepository } from './contract.repository';
@@ -47,6 +48,7 @@ export class ContractService {
     constructor(
         private readonly contractRepository: ContractRepository,
         private readonly projectService: ProjectService,
+        private readonly contractReadinessService: ContractReadinessService,
         @InjectRepository(ApprovalRecord)
         private readonly approvalRecordRepository: EntityRepository<ApprovalRecord>
     ) {}
@@ -158,7 +160,14 @@ export class ContractService {
             throw new BadRequestException(`Contract ${id} cannot be activated without an approved review record`);
         }
 
-        const snapshotId = contract.currentSnapshotId ?? randomUUID();
+        const activationReadiness = await this.contractReadinessService.resolveActivationReadiness(contract.projectId);
+        if (!activationReadiness.allowed) {
+            throw new BadRequestException(
+                activationReadiness.reason ?? `Contract ${id} cannot be activated before contract readiness is completed`
+            );
+        }
+
+        const snapshotId = contract.currentSnapshotId ?? activationReadiness.snapshotId ?? randomUUID();
         contract.status = 'active';
         contract.currentSnapshotId = snapshotId;
         contract.updatedBy = actorUserId;

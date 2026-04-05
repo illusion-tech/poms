@@ -1,6 +1,7 @@
 export default {
     displayName: 'poms-api-e2e',
     preset: '../../jest.preset.js',
+    roots: ['<rootDir>/src'],
     globalSetup: '<rootDir>/src/support/global-setup.ts',
     globalTeardown: '<rootDir>/src/support/global-teardown.ts',
     setupFiles: ['<rootDir>/src/support/test-setup.ts'],
@@ -13,7 +14,7 @@ export default {
             }
         ]
     },
-    testMatch: ['<rootDir>/src/**/*.e2e-spec.ts'],
+    testMatch: ['**/*.e2e-spec.ts'],
     moduleFileExtensions: ['ts', 'js', 'html'],
     coverageDirectory: '../../coverage/poms-api-e2e'
 };

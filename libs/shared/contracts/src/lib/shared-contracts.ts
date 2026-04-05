@@ -760,6 +760,297 @@ export const ActivateContractRequestSchema = z
 
 export type ActivateContractRequest = z.infer<typeof ActivateContractRequestSchema>;
 
+export const COMMERCIAL_DIFF_LEVELS = ['prompt', 'review-required', 'reapproval-required'] as const;
+
+export const CommercialDiffLevelSchema = z.enum(COMMERCIAL_DIFF_LEVELS).meta({ id: 'CommercialDiffLevel' });
+
+export type CommercialDiffLevel = z.infer<typeof CommercialDiffLevelSchema>;
+
+export const COMMERCIAL_DIFF_REVIEW_STATUSES = ['not-required', 'pending-review', 'approved', 'rejected'] as const;
+
+export const CommercialDiffReviewStatusSchema = z
+    .enum(COMMERCIAL_DIFF_REVIEW_STATUSES)
+    .meta({ id: 'CommercialDiffReviewStatus' });
+
+export type CommercialDiffReviewStatus = z.infer<typeof CommercialDiffReviewStatusSchema>;
+
+export const COMMERCIAL_BASELINE_REVIEW_DECISIONS = ['approved', 'rejected'] as const;
+
+export const CommercialBaselineReviewDecisionSchema = z
+    .enum(COMMERCIAL_BASELINE_REVIEW_DECISIONS)
+    .meta({ id: 'CommercialBaselineReviewDecision' });
+
+export type CommercialBaselineReviewDecision = z.infer<typeof CommercialBaselineReviewDecisionSchema>;
+
+export const CONTRACT_READINESS_STATUSES = ['ready', 'conditional', 'blocked'] as const;
+
+export const ContractReadinessStatusSchema = z.enum(CONTRACT_READINESS_STATUSES).meta({ id: 'ContractReadinessStatus' });
+
+export type ContractReadinessStatus = z.infer<typeof ContractReadinessStatusSchema>;
+
+export const CONTRACT_READINESS_GUARD_DECISIONS = ['allowed', 'review-required', 'blocked'] as const;
+
+export const ContractReadinessGuardDecisionSchema = z
+    .enum(CONTRACT_READINESS_GUARD_DECISIONS)
+    .meta({ id: 'ContractReadinessGuardDecision' });
+
+export type ContractReadinessGuardDecision = z.infer<typeof ContractReadinessGuardDecisionSchema>;
+
+export const CONTRACT_READINESS_ITEM_TYPES = ['checklist', 'reusable-fact', 'blocking-reason', 'receivable-seed'] as const;
+
+export const ContractReadinessItemTypeSchema = z
+    .enum(CONTRACT_READINESS_ITEM_TYPES)
+    .meta({ id: 'ContractReadinessItemType' });
+
+export type ContractReadinessItemType = z.infer<typeof ContractReadinessItemTypeSchema>;
+
+export const CONTRACT_READINESS_ITEM_STATUSES = ['ready', 'conditional', 'blocked', 'not-applicable'] as const;
+
+export const ContractReadinessItemStatusSchema = z
+    .enum(CONTRACT_READINESS_ITEM_STATUSES)
+    .meta({ id: 'ContractReadinessItemStatus' });
+
+export type ContractReadinessItemStatus = z.infer<typeof ContractReadinessItemStatusSchema>;
+
+export const CommercialBaselineDiffItemSchema = z
+    .object({
+        id: z.uuid(),
+        fieldKey: z.string(),
+        fieldLabel: z.string(),
+        oldValueSummary: z.string().nullable(),
+        newValueSummary: z.string().nullable(),
+        diffLevel: CommercialDiffLevelSchema,
+        isBlocking: z.boolean(),
+        sortOrder: z.number().int().nonnegative()
+    })
+    .meta({ id: 'CommercialBaselineDiffItem' });
+
+export type CommercialBaselineDiffItem = z.infer<typeof CommercialBaselineDiffItemSchema>;
+
+export const CommercialBaselineReviewRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        baselineId: z.uuid(),
+        diffResultId: z.uuid(),
+        projectId: z.uuid(),
+        decision: CommercialBaselineReviewDecisionSchema,
+        reviewedFieldKeys: z.array(z.string()),
+        comment: z.string().nullable(),
+        reviewerUserId: z.uuid(),
+        createdAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommercialBaselineReviewRecordSummary' });
+
+export type CommercialBaselineReviewRecordSummary = z.infer<typeof CommercialBaselineReviewRecordSummarySchema>;
+
+export const CommercialBaselineReviewHistorySchema = z
+    .array(CommercialBaselineReviewRecordSummarySchema)
+    .meta({ id: 'CommercialBaselineReviewHistory' });
+
+export type CommercialBaselineReviewHistory = z.infer<typeof CommercialBaselineReviewHistorySchema>;
+
+export const CommercialReleaseBaselineSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        baselineCode: z.string(),
+        quotationReviewId: z.uuid().nullable(),
+        baselineStatus: z.enum(['draft', 'effective', 'superseded']),
+        isCurrent: z.boolean(),
+        grossMarginSummary: z.string().nullable(),
+        paymentTermsSummary: z.string().nullable(),
+        latestDiffResultId: z.uuid(),
+        diffLevel: CommercialDiffLevelSchema,
+        reviewStatus: CommercialDiffReviewStatusSchema,
+        diffSummary: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'CommercialReleaseBaselineSummary' });
+
+export type CommercialReleaseBaselineSummary = z.infer<typeof CommercialReleaseBaselineSummarySchema>;
+
+export const ContractDiffReviewHistoryViewSchema = z
+    .object({
+        baseline: CommercialReleaseBaselineSummarySchema,
+        diffItems: z.array(CommercialBaselineDiffItemSchema),
+        reviewHistory: CommercialBaselineReviewHistorySchema
+    })
+    .meta({ id: 'ContractDiffReviewHistoryView' });
+
+export type ContractDiffReviewHistoryView = z.infer<typeof ContractDiffReviewHistoryViewSchema>;
+
+export const ContractReadinessItemSchema = z
+    .object({
+        id: z.uuid(),
+        itemType: ContractReadinessItemTypeSchema,
+        itemKey: z.string(),
+        label: z.string(),
+        summary: z.string().nullable(),
+        status: ContractReadinessItemStatusSchema,
+        responsibleRole: z.string().nullable(),
+        navigationHint: z.string().nullable(),
+        sortOrder: z.number().int().nonnegative()
+    })
+    .meta({ id: 'ContractReadinessItem' });
+
+export type ContractReadinessItem = z.infer<typeof ContractReadinessItemSchema>;
+
+export const ContractReadinessDetailSchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        sourceBaselineId: z.uuid(),
+        commercialReleaseBaselineId: z.uuid(),
+        latestDiffResultId: z.uuid(),
+        diffLevel: CommercialDiffLevelSchema,
+        reviewStatus: CommercialDiffReviewStatusSchema,
+        packageStatus: ContractReadinessStatusSchema,
+        guardDecision: ContractReadinessGuardDecisionSchema,
+        currentEffectiveDecisionSummary: z.string().nullable(),
+        blockingReasonSummary: z.string().nullable(),
+        missingPrerequisiteCount: z.number().int().nonnegative(),
+        initializedContractSnapshotId: z.uuid().nullable(),
+        initializedReceivablePlanVersionId: z.uuid().nullable(),
+        contractSnapshotInitializedAt: z.iso.datetime().nullable(),
+        receivablePlanInitializedAt: z.iso.datetime().nullable(),
+        isCurrent: z.boolean(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        allowedActions: z.array(z.string()),
+        items: z.array(ContractReadinessItemSchema)
+    })
+    .meta({ id: 'ContractReadinessDetail' });
+
+export type ContractReadinessDetail = z.infer<typeof ContractReadinessDetailSchema>;
+
+export const CreateCommercialBaselineDiffItemInputSchema = z
+    .object({
+        fieldKey: z.string().trim().min(1).max(128),
+        fieldLabel: z.string().trim().min(1).max(128),
+        oldValueSummary: z.string().max(1000).nullable().optional(),
+        newValueSummary: z.string().max(1000).nullable().optional(),
+        diffLevel: CommercialDiffLevelSchema,
+        isBlocking: z.boolean().optional(),
+        sortOrder: z.number().int().min(0).optional()
+    })
+    .meta({ id: 'CreateCommercialBaselineDiffItemInput' });
+
+export type CreateCommercialBaselineDiffItemInput = z.infer<typeof CreateCommercialBaselineDiffItemInputSchema>;
+
+export const CreateCommercialReleaseBaselineRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        baselineCode: z.string().trim().min(1).max(64),
+        quotationReviewId: z.uuid().nullable().optional(),
+        grossMarginSummary: z.string().max(1000).nullable().optional(),
+        paymentTermsSummary: z.string().max(1000).nullable().optional(),
+        diffLevel: CommercialDiffLevelSchema,
+        diffSummary: z.string().max(1000).nullable().optional(),
+        diffItems: z.array(CreateCommercialBaselineDiffItemInputSchema).default([]),
+        createdBy: z.uuid().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
+    })
+    .meta({ id: 'CreateCommercialReleaseBaselineRequest' });
+
+export type CreateCommercialReleaseBaselineRequest = z.infer<typeof CreateCommercialReleaseBaselineRequestSchema>;
+
+export const ReviewCommercialReleaseBaselineDiffRequestSchema = z
+    .object({
+        diffDecision: CommercialBaselineReviewDecisionSchema,
+        reviewedFieldKeys: z.array(z.string()).default([]),
+        comment: z.string().trim().max(1000).optional(),
+        attachmentIds: z.array(z.string()).default([]),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReviewCommercialReleaseBaselineDiffRequest' });
+
+export type ReviewCommercialReleaseBaselineDiffRequest = z.infer<typeof ReviewCommercialReleaseBaselineDiffRequestSchema>;
+
+export const ContractReadinessPackageItemInputSchema = z
+    .object({
+        itemType: ContractReadinessItemTypeSchema,
+        itemKey: z.string().trim().min(1).max(128),
+        label: z.string().trim().min(1).max(128),
+        summary: z.string().max(1000).nullable().optional(),
+        status: ContractReadinessItemStatusSchema,
+        responsibleRole: z.string().max(128).nullable().optional(),
+        navigationHint: z.string().max(255).nullable().optional(),
+        sortOrder: z.number().int().min(0).optional()
+    })
+    .meta({ id: 'ContractReadinessPackageItemInput' });
+
+export type ContractReadinessPackageItemInput = z.infer<typeof ContractReadinessPackageItemInputSchema>;
+
+export const CreateContractReadinessPackageRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        sourceBaselineId: z.uuid(),
+        latestDiffResultId: z.uuid(),
+        packageStatus: ContractReadinessStatusSchema,
+        guardDecision: ContractReadinessGuardDecisionSchema,
+        currentEffectiveDecisionSummary: z.string().max(1000).nullable().optional(),
+        blockingReasonSummary: z.string().max(1000).nullable().optional(),
+        missingPrerequisiteCount: z.number().int().min(0).optional(),
+        items: z.array(ContractReadinessPackageItemInputSchema).default([]),
+        createdBy: z.uuid().nullable().optional(),
+        updatedBy: z.uuid().nullable().optional()
+    })
+    .meta({ id: 'CreateContractReadinessPackageRequest' });
+
+export type CreateContractReadinessPackageRequest = z.infer<typeof CreateContractReadinessPackageRequestSchema>;
+
+export const InitializeContractSnapshotFromReadinessPackageRequestSchema = z
+    .object({
+        contractReadinessPackageId: z.uuid().optional(),
+        comment: z.string().trim().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'InitializeContractSnapshotFromReadinessPackageRequest' });
+
+export type InitializeContractSnapshotFromReadinessPackageRequest = z.infer<typeof InitializeContractSnapshotFromReadinessPackageRequestSchema>;
+
+export const InitializeReceivablePlanFromReadinessPackageRequestSchema = z
+    .object({
+        contractReadinessPackageId: z.uuid().optional(),
+        comment: z.string().trim().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'InitializeReceivablePlanFromReadinessPackageRequest' });
+
+export type InitializeReceivablePlanFromReadinessPackageRequest = z.infer<typeof InitializeReceivablePlanFromReadinessPackageRequestSchema>;
+
+export const CommercialDiffReviewResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        diffResultId: z.uuid(),
+        baselineReviewDecision: CommercialBaselineReviewDecisionSchema,
+        resultStatus: z.string()
+    })
+    .meta({ id: 'CommercialDiffReviewResult' });
+
+export type CommercialDiffReviewResult = z.infer<typeof CommercialDiffReviewResultSchema>;
+
+export const ReadinessInitializationResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        targetType: z.string(),
+        sourceReadinessId: z.uuid(),
+        resultStatus: z.string(),
+        businessStatusAfter: z.string(),
+        snapshotId: z.uuid().nullable().optional(),
+        newVersionId: z.uuid().nullable().optional()
+    })
+    .meta({ id: 'ReadinessInitializationResult' });
+
+export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializationResultSchema>;
+
 export const RECEIPT_RECORD_STATUSES = [
     'draft',
     'pending-confirmation',

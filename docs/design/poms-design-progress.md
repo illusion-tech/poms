@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-04
+**最后更新**: 2026-04-06
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -243,6 +243,7 @@
 - 已形成 `phase2-development-execution-tracker.md`，开始把第二阶段统一开发范围进一步拆成可分配、可追踪、可回写的执行层任务板
 - 已完成平台治理域 `OrgUnit` 首个执行切片 `EX-01`：补齐 migration / 索引约束、树查询 / 详情 / 启停 / 移动 API、管理端最小闭环，并通过 API / Admin E2E 验证
 - 已完成平台治理域 `Role / Permission` 执行切片 `EX-02`：回看既有 migration / DDL，补齐权限字典、角色列表 / 详情 / 启停 / 绑定接口、系统角色最小权限基线、停用角色后的授权收敛与管理端闭环，并通过 API / Admin E2E 验证
+- 已完成 `L1/L2` 起点执行切片 `EX-05`：落地 `ContractReadinessPackage / CommercialReleaseBaseline`、差异复核、签约就绪初始化命令与合同激活 guard，并通过 `poms-api` build、API 单测与 44 条 API E2E 验证
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---

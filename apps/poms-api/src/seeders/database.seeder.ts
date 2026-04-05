@@ -1,5 +1,6 @@
 import type { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
+import { hashSync } from 'bcryptjs';
 import { DEV_USERS } from '../app/core/platform/dev-platform.fixtures';
 import { loadValidatedEnv } from '../config/load-env';
 import { DEV_CONTRACT_SEEDS, DEV_PROJECT_SEEDS } from './dev-seed-data';
@@ -10,6 +11,11 @@ export class DatabaseSeeder extends Seeder {
         const connection = em.getConnection();
         const seededPlatformUsernames = DEV_USERS.map((user) => sqlValue(user.username)).join(', ');
         const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectCode)).join(', ');
+        const localCredentialValues = DEV_USERS.map((user, index) => {
+            const credentialId = `70000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`;
+            const passwordHash = hashSync(user.password, 10);
+            return `(${sqlValue(credentialId)}, ${sqlValue(user.id)}, ${sqlValue(passwordHash)})`;
+        }).join(',\n            ');
 
         await connection.execute(`
             delete from "${schema}"."role_permission_assignment"
@@ -230,17 +236,15 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
-            insert into "${schema}"."platform_user" ("id", "username", "display_name", "primary_org_unit_id") values
-            ('00000000-0000-4000-8000-000000000001', 'admin', '超级管理员', '10000000-0000-4000-8000-000000000001'),
-            ('00000000-0000-4000-8000-000000000002', 'viewer', '只读用户', '10000000-0000-4000-8000-000000000002');
+            insert into "${schema}"."platform_user" ("id", "username", "display_name", "is_active", "primary_org_unit_id") values
+            ('00000000-0000-4000-8000-000000000001', 'admin', '超级管理员', true, '10000000-0000-4000-8000-000000000001'),
+            ('00000000-0000-4000-8000-000000000002', 'viewer', '只读用户', true, '10000000-0000-4000-8000-000000000002');
         `);
 
-        // password_hash values are bcrypt(cost=10) hashes of dev passwords: admin=admin123, viewer=viewer123
         // local_credential.user_id has ON DELETE CASCADE, so delete from platform_user cleans these up automatically
         await connection.execute(`
             insert into "${schema}"."local_credential" ("id", "user_id", "password_hash") values
-            ('70000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000001', '$2b$10$7RUdPn9mRzZHu8aQWDT5Zu0wrexzWNsIMcib8BtFqaM9SDz4.0LhW'),
-            ('70000000-0000-4000-8000-000000000002', '00000000-0000-4000-8000-000000000002', '$2b$10$F7jcXHdsWWNU..qTlkkcB.k9/4efsaoJmTI4.TMyCKfIsNJfq..cm');
+            ${localCredentialValues};
         `);
 
         await connection.execute(`

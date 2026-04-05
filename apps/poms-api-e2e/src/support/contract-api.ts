@@ -2,12 +2,26 @@ import type { AxiosInstance } from 'axios';
 import { approveRecord, findOpenTodoForTarget } from './approval-api';
 import { confirmPayment, confirmReceipt, createPayment, createReceipt } from './contract-finance-api';
 import { expectStatus } from './http';
-import { buildContractInput } from './test-data';
+import {
+    buildCommercialReleaseBaselineInput,
+    buildContractInput,
+    buildContractReadinessPackageInput
+} from './test-data';
 import type {
     ApprovalRecordSummary,
+    CommercialDiffReviewResult,
+    CommercialReleaseBaselineSummary,
     CommandResult,
+    ContractDiffReviewHistoryView,
+    ContractReadinessDetail,
     ContractSummary,
+    CreateCommercialReleaseBaselineRequest,
     CreateContractRequest,
+    CreateContractReadinessPackageRequest,
+    InitializeContractSnapshotFromReadinessPackageRequest,
+    InitializeReceivablePlanFromReadinessPackageRequest,
+    ReadinessInitializationResult,
+    ReviewCommercialReleaseBaselineDiffRequest,
     SubmitContractReviewRequest
 } from './types';
 
@@ -58,6 +72,112 @@ export async function activateContract(
     return expectStatus(response, 200);
 }
 
+export async function createCommercialReleaseBaseline(
+    client: AxiosInstance,
+    input: CreateCommercialReleaseBaselineRequest
+): Promise<CommercialReleaseBaselineSummary> {
+    const response = await client.post<CommercialReleaseBaselineSummary>('/commercial-release-baselines', input);
+    return expectStatus(response, 201);
+}
+
+export async function getCommercialReleaseBaseline(
+    client: AxiosInstance,
+    baselineId: string
+): Promise<CommercialReleaseBaselineSummary> {
+    const response = await client.get<CommercialReleaseBaselineSummary>(`/commercial-release-baselines/${baselineId}`);
+    return expectStatus(response, 200);
+}
+
+export async function getCommercialDiffHistory(
+    client: AxiosInstance,
+    baselineId: string
+): Promise<ContractDiffReviewHistoryView> {
+    const response = await client.get<ContractDiffReviewHistoryView>(`/commercial-release-baselines/${baselineId}/diff-history`);
+    return expectStatus(response, 200);
+}
+
+export async function reviewCommercialReleaseBaselineDiff(
+    client: AxiosInstance,
+    baselineId: string,
+    input: ReviewCommercialReleaseBaselineDiffRequest
+): Promise<CommercialDiffReviewResult> {
+    const response = await client.post<CommercialDiffReviewResult>(
+        `/commercial-release-baselines/${baselineId}/review-diff`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function createContractReadinessPackage(
+    client: AxiosInstance,
+    input: CreateContractReadinessPackageRequest
+): Promise<ContractReadinessDetail> {
+    const response = await client.post<ContractReadinessDetail>('/contract-readiness-packages', input);
+    return expectStatus(response, 201);
+}
+
+export async function getCurrentContractReadiness(
+    client: AxiosInstance,
+    projectId: string
+): Promise<ContractReadinessDetail> {
+    const response = await client.get<ContractReadinessDetail>(`/projects/${projectId}/contract-readiness/current`);
+    return expectStatus(response, 200);
+}
+
+export async function initializeContractSnapshotFromReadiness(
+    client: AxiosInstance,
+    readinessPackageId: string,
+    input: InitializeContractSnapshotFromReadinessPackageRequest = {}
+): Promise<ReadinessInitializationResult> {
+    const response = await client.post<ReadinessInitializationResult>(
+        `/contract-readiness-packages/${readinessPackageId}/initialize-contract-snapshot`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function initializeReceivablePlanFromReadiness(
+    client: AxiosInstance,
+    readinessPackageId: string,
+    input: InitializeReceivablePlanFromReadinessPackageRequest = {}
+): Promise<ReadinessInitializationResult> {
+    const response = await client.post<ReadinessInitializationResult>(
+        `/contract-readiness-packages/${readinessPackageId}/initialize-receivable-plan`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function prepareContractReadinessForProject(
+    client: AxiosInstance,
+    projectId: string,
+    actorUserId: string,
+    unique: string
+): Promise<ContractReadinessDetail> {
+    const baseline = await createCommercialReleaseBaseline(
+        client,
+        buildCommercialReleaseBaselineInput(projectId, actorUserId, unique)
+    );
+
+    await reviewCommercialReleaseBaselineDiff(client, baseline.id, {
+        diffDecision: 'approved',
+        reviewedFieldKeys: ['downPaymentRate'],
+        expectedVersion: baseline.rowVersion
+    });
+
+    const refreshedBaseline = await getCommercialReleaseBaseline(client, baseline.id);
+    const readinessPackage = await createContractReadinessPackage(
+        client,
+        buildContractReadinessPackageInput(projectId, actorUserId, refreshedBaseline.id, refreshedBaseline.latestDiffResultId)
+    );
+
+    await initializeContractSnapshotFromReadiness(client, readinessPackage.id, {
+        expectedVersion: readinessPackage.rowVersion
+    });
+
+    return getCurrentContractReadiness(client, projectId);
+}
+
 export async function createActiveContractForProject(
     client: AxiosInstance,
     projectId: string,
@@ -82,6 +202,8 @@ export async function createActiveContractForProject(
         comment: 'e2e 提成前置合同审批通过',
         expectedVersion: 1
     });
+
+    await prepareContractReadinessForProject(client, projectId, actorUserId, input.contractNo);
 
     const pendingReviewContract = await getContract(client, contract.id);
     await activateContract(client, contract.id, {

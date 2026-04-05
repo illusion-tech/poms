@@ -2,7 +2,7 @@ import { approveRecord, findOpenTodoForTarget } from '../support/approval-api';
 import { loginAsAdmin } from '../support/api-client';
 import { createPayment, createReceipt, listPayments, listReceipts, confirmPayment, confirmReceipt } from '../support/contract-finance-api';
 import { expectErrorStatus } from '../support/http';
-import { activateContract, createContract, getContract, submitContractReview } from '../support/contract-api';
+import { activateContract, createContract, getContract, prepareContractReadinessForProject, submitContractReview } from '../support/contract-api';
 import { createProjectForProfile } from '../support/project-api';
 import { buildContractInput, makeUniqueSuffix } from '../support/test-data';
 
@@ -37,6 +37,8 @@ describe('poms-api contract-finance workflow e2e', () => {
             comment: 'e2e 合同资金前置审批通过',
             expectedVersion: 1
         });
+
+        await prepareContractReadinessForProject(client, project.id, profile.id, unique);
 
         const pendingReviewContract = await getContract(client, contract.id);
         await activateContract(client, contract.id, {
@@ -138,6 +140,8 @@ describe('poms-api contract-finance workflow e2e', () => {
             comment: 'e2e 合同资金版本冲突审批通过',
             expectedVersion: 1
         });
+
+        await prepareContractReadinessForProject(client, project.id, profile.id, unique);
 
         const pendingReviewContract = await getContract(client, contract.id);
         await activateContract(client, contract.id, {
