@@ -15,17 +15,33 @@ import type {
     PlatformOrgUnitDetail,
     PlatformOrgUnitSummary,
     PlatformRoleSummary,
+    PlatformUserDetail,
     PlatformUserList,
     PlatformUserSummary,
     SanitizedUserWithOrgUnits,
     UpdateOrgUnitActivationRequest,
+    UpdatePlatformUserActivationRequest,
+    UpdatePlatformUserRequest,
     UpdateRoleActivationRequest,
-    UpdateRoleRequest,
-    UpdatePlatformUserActivationRequest
+    UpdateRoleRequest
 } from './types';
 
 export async function listPlatformUsers(client: AxiosInstance): Promise<PlatformUserList> {
     const response = await client.get<PlatformUserList>('/platform/users');
+    return expectStatus(response, 200);
+}
+
+export async function getPlatformUser(client: AxiosInstance, userId: string): Promise<PlatformUserDetail> {
+    const response = await client.get<PlatformUserDetail>(`/platform/users/${userId}`);
+    return expectStatus(response, 200);
+}
+
+export async function updatePlatformUser(
+    client: AxiosInstance,
+    userId: string,
+    input: UpdatePlatformUserRequest
+): Promise<PlatformUserDetail> {
+    const response = await client.patch<PlatformUserDetail>(`/platform/users/${userId}`, input);
     return expectStatus(response, 200);
 }
 

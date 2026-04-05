@@ -17,12 +17,14 @@ import {
     findPlatformUserByUsername,
     getPlatformOrgUnit,
     getPlatformRole,
+    getPlatformUser,
     getMyNavigation,
     listPlatformPermissions,
     listPlatformOrgUnitTree,
     listPlatformRoles,
     moveOrgUnit,
-    syncPlatformNavigation
+    syncPlatformNavigation,
+    updatePlatformUser
 } from '../support/platform-api';
 import { listAuditLogs, listSecurityEvents } from '../support/runtime-audit-api';
 import { makeUniqueSuffix } from '../support/test-data';
@@ -199,6 +201,88 @@ describe('poms-api platform governance e2e', () => {
             const refreshedViewer = await findPlatformUserByUsername(adminClient, 'viewer');
             expect(refreshedViewer.primaryOrgUnitId).toBe(newOrg.id);
             expect(refreshedViewer.primaryOrgUnitName).toBe(newOrg.name);
+        } finally {
+            await assignUserOrgMemberships(adminClient, viewer.id, {
+                primaryOrgUnitId: viewer.primaryOrgUnitId!,
+                secondaryOrgUnitIds: []
+            });
+        }
+    });
+
+    it('returns user detail with org memberships including membershipType', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
+
+        const detail = await getPlatformUser(adminClient, viewer.id);
+
+        expect(detail.id).toBe(viewer.id);
+        expect(detail.username).toBe(viewer.username);
+        expect(typeof detail.emailVerified).toBe('boolean');
+        expect(typeof detail.phoneVerified).toBe('boolean');
+        expect(Array.isArray(detail.orgUnits)).toBe(true);
+
+        if (detail.orgUnits.length > 0) {
+            const orgUnit = detail.orgUnits[0];
+            expect(['primary', 'secondary']).toContain(orgUnit.membershipType);
+            expect(typeof orgUnit.id).toBe('string');
+            expect(typeof orgUnit.name).toBe('string');
+        }
+    });
+
+    it('updates user basic info and reflects changes in subsequent GET', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
+        const originalDisplayName = viewer.displayName;
+        const unique = makeUniqueSuffix();
+
+        try {
+            const updated = await updatePlatformUser(adminClient, viewer.id, {
+                displayName: `更新后名称 ${unique}`
+            });
+
+            expect(updated.id).toBe(viewer.id);
+            expect(updated.displayName).toBe(`更新后名称 ${unique}`);
+
+            const fetched = await getPlatformUser(adminClient, viewer.id);
+            expect(fetched.displayName).toBe(`更新后名称 ${unique}`);
+        } finally {
+            await updatePlatformUser(adminClient, viewer.id, { displayName: originalDisplayName });
+        }
+    });
+
+    it('returns 404 from GET /platform/users/:id when user does not exist', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const response = await adminClient.get('/platform/users/00000000-0000-4000-8000-999999999999');
+        expectErrorStatus(response, 404);
+    });
+
+    it('profile orgUnits include membershipType after org membership assignment', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
+        const unique = makeUniqueSuffix();
+
+        const newOrg = await createOrgUnit(adminClient, {
+            name: `E2E 组织 ${unique}`,
+            code: `E2EORG${unique}`,
+            description: '验证 orgUnits membershipType',
+            displayOrder: 99
+        });
+
+        const viewerSession = await loginAsViewer();
+
+        try {
+            await assignUserOrgMemberships(adminClient, viewer.id, {
+                primaryOrgUnitId: newOrg.id,
+                secondaryOrgUnitIds: []
+            });
+
+            const profileResponse = await viewerSession.client.get('/auth/profile');
+            const profile = expectStatus(profileResponse, 200);
+
+            expect(profile.orgUnits.length).toBeGreaterThan(0);
+            const primaryOrg = profile.orgUnits.find((o: { membershipType: string }) => o.membershipType === 'primary');
+            expect(primaryOrg).toBeDefined();
+            expect(primaryOrg.id).toBe(newOrg.id);
         } finally {
             await assignUserOrgMemberships(adminClient, viewer.id, {
                 primaryOrgUnitId: viewer.primaryOrgUnitId!,
