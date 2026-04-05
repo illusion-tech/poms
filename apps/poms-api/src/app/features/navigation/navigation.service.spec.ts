@@ -81,4 +81,32 @@ describe('NavigationService', () => {
         const orders = result.map((item) => item.displayOrder);
         expect(orders).toEqual([...orders].sort((a, b) => a - b));
     });
+
+    describe('getNavigationAuditSnapshot', () => {
+        it('returns a valid snapshot structure with a 64-char SHA256 checksum', () => {
+            const snapshot = service.getNavigationAuditSnapshot();
+
+            expect(snapshot.targetId).toBe('platform-navigation');
+            expect(typeof snapshot.treeChecksum).toBe('string');
+            expect(snapshot.treeChecksum).toHaveLength(64);
+            expect(snapshot.nodeCount).toBeGreaterThan(0);
+            expect(snapshot.routeCount).toBeGreaterThan(0);
+            expect(Array.isArray(snapshot.navigationKeys)).toBe(true);
+            expect(Array.isArray(snapshot.routeLinks)).toBe(true);
+            expect(snapshot.navigationKeys.length).toBe(snapshot.nodeCount);
+        });
+
+        it('is deterministic: two calls on the same tree return the same checksum', () => {
+            const a = service.getNavigationAuditSnapshot();
+            const b = service.getNavigationAuditSnapshot();
+            expect(a.treeChecksum).toBe(b.treeChecksum);
+        });
+
+        it('includes all leaf route links from the tree', () => {
+            const snapshot = service.getNavigationAuditSnapshot();
+            expect(snapshot.routeLinks).toContain('/dashboard');
+            expect(snapshot.routeLinks).toContain('/projects');
+            expect(snapshot.routeLinks).toContain('/platform/users');
+        });
+    });
 });

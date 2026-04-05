@@ -485,4 +485,19 @@ describe('poms-api platform governance e2e', () => {
             )
         ).toBe(true);
     });
+
+    it('viewer initial navigation contains business keys and excludes platform management keys', async () => {
+        const viewerSession = await loginAsViewer();
+        const nav = await getMyNavigation(viewerSession.client);
+
+        expect(hasNavigationKey(nav, 'dashboard')).toBe(true);
+        expect(hasNavigationKey(nav, 'projects')).toBe(true);
+        expect(hasNavigationKey(nav, 'contracts')).toBe(true);
+        expect(hasNavigationKey(nav, 'my_profile')).toBe(true);
+
+        expect(hasNavigationKey(nav, 'platform.users')).toBe(false);
+        expect(hasNavigationKey(nav, 'platform.roles')).toBe(false);
+        expect(hasNavigationKey(nav, 'platform.org-units')).toBe(false);
+        expect(hasNavigationKey(nav, 'platform.navigation')).toBe(false);
+    });
 });
