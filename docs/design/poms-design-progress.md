@@ -142,6 +142,7 @@
 | `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口     | 是                 |
 | `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束 | 是                 |
 | `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                       | 是                 |
+| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                 | 是                 |
 | `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                         | 是                 |
 
 ### 4.6 已归档过程资产
@@ -190,6 +191,7 @@
 | `ADR-011` 招投标与 Project 生命周期的建模关系 | 已接受 (Accepted) | 采用 `Project` 主生命周期 + `BidProcess` 第一类受控子流程的分层建模口径     |
 | `ADR-012` 数据持久层技术选型                  | 已接受 (Accepted) | 第一阶段采用 `PostgreSQL + SQL-first migration + MikroORM` 作为持久层路线   |
 | `ADR-013` 平台治理域物理 Schema 边界          | 已接受 (Accepted) | 第一阶段平台治理域继续使用 `poms` schema，不单独拆出 `core` schema          |
+| `ADR-014` 设计-执行状态模型与治理闸口         | 提议中 (Proposed) | 提议统一文档状态、任务状态与 gate 状态三层模型，并以正式迁移替代长期映射    |
 
 ---
 
@@ -313,4 +315,3 @@
 - 每次某文档从 `Draft` 进入 `Review` 或 `Accepted` 时，更新状态
 - 每次 `docs/design/README.md` 的分类或命名约定发生调整时，应回看本文件是否需要同步修正
 - 若后续阶段推翻当前 ADR 结论，应新增后续 ADR，并同步更新本文件，而不是静默改写历史状态
-

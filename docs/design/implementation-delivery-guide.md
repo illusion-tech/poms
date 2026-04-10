@@ -12,6 +12,7 @@
   - `phase2-lx-t04-full-mainline-development-decision.md`
   - `phase2-detailed-design-index-map.md`
 - 同级设计:
+  - `implementation-governance-gates.md`
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
   - `query-view-boundary-design.md`
@@ -70,6 +71,7 @@
 6. 与当前切片直接相关的业务主文档。
 7. `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`，确认实现边界。
 8. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
+9. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
 
 如果当前切片涉及历史争议、批次收口或长篇论证，再补读 `archive/control-history/`、`archive/mainline-closure/` 或 `archive/phase2-batches/`，但这些文档不应反向替代当前正式入口。
 

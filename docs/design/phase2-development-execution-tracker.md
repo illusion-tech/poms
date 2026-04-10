@@ -11,6 +11,7 @@
   - `phase2-lx-t04-full-mainline-development-decision.md`
   - `phase2-detailed-design-index-map.md`
   - `implementation-delivery-guide.md`
+  - `implementation-governance-gates.md`
 - 同级设计:
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
@@ -59,6 +60,7 @@
 5. 若任务涉及持久化结构，进入 `Done` 前还必须完成 SQL migration 与 ORM metadata 的一致性校验；若 `migration-check` 仍受全局历史 drift 影响，应在备注中明确说明“本切片是否引入新增 drift”与“失败是否属于既有基线问题”。
 6. 若任务执行中发现范围变化，应先回写上位控制文档，再调整本板。
 7. 子任务进入 `Done` 不等于父任务自动 `Done`；父任务仍需在全部子任务完成且完成定义满足后再关闭。
+8. 若任务适用 `implementation-governance-gates.md`，则 `G1` 通过结论、`G3` 关键证据、例外项与 grandfathering 结果应至少在实施基线包、PR checklist 或本板 `备注 / 阻塞` 中留痕。
 
 ### 2.3 推荐字段
 

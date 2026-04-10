@@ -103,6 +103,7 @@
 - `phase2-mainline-delivery-plan.md`：第二阶段主线交付计划的当前精简入口，负责统一主线目标、当前阶段状态、默认阅读路径与工程进入顺序
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责固定是否进入开发、统一开发范围、切片顺序与启动约束
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
+- `implementation-governance-gates.md`：设计到实现治理闸口，聚焦冻结闸口、合并闸口、子切片治理、例外留痕、风险分层证据与过渡规则
 - `phase2-development-execution-tracker.md`：第二阶段开发执行追踪板，负责承接当前统一开发范围下的任务拆解、状态跟踪与执行回写
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
 
