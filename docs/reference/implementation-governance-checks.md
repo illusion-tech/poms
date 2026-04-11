@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-04-11
-**适用范围**: `POMS` PR 评审、实施基线包和本地验证中的最小自动化 / 半自动化校验
+**适用范围**: `POMS` PR 评审、local checkpoint、实施基线包和本地验证中的最小自动化 / 半自动化校验
 **关联文档**:
 
 - 上游设计:
@@ -20,7 +20,7 @@
 
 本文档把 `G3` 合并闸口中的“应检查什么”收敛为可执行的最小校验矩阵。
 
-它不要求所有 PR 都跑同一组重命令。它要求每个 PR 按切片类型说明：
+它不要求所有 PR 或 local checkpoint 都跑同一组重命令。它要求每次变更按切片类型说明：
 
 - 哪些校验必须跑
 - 哪些校验不适用
@@ -49,7 +49,7 @@
 
 | Purpose                      | Command                                         | Required When                                | Evidence                                 |
 | ---------------------------- | ----------------------------------------------- | -------------------------------------------- | ---------------------------------------- |
-| Markdown / whitespace sanity | `git diff --check`                              | 所有 PR                                      | 命令通过或列出修复结果                   |
+| Markdown / whitespace sanity | `git diff --check`                              | 所有变更                                    | 命令通过或列出修复结果                   |
 | API build                    | `corepack pnpm nx build poms-api`               | 后端代码变更                                 | 命令结果                                 |
 | Admin build                  | `corepack pnpm nx build poms-admin`             | 前端或 generated client 影响前端             | 命令结果                                 |
 | API unit / integration tests | `corepack pnpm nx test poms-api`                | API / command / persistence 变更             | 命令结果与覆盖范围                       |
@@ -65,8 +65,8 @@
 
 当 `migration-check`、OpenAPI diff 或 contract 对照发现差异时，只允许归入以下类别：
 
-1. `new-real-drift`: 本 PR 引入真实漂移，必须修复后才能进入 `G3 = Pass`。
-2. `existing-baseline-drift`: 已存在的历史漂移，本 PR 未扩大；必须记录证据和后续清理任务。
+1. `new-real-drift`: 本次变更引入真实漂移，必须修复后才能进入 `G3 = Pass`。
+2. `existing-baseline-drift`: 已存在的历史漂移，本次变更未扩大；必须记录证据和后续清理任务。
 3. `accepted-db-specific-difference`: 数据库特性差异，例如 ORM 难以精确表达的索引或约束；必须写明接受范围。
 4. `tool-noise`: 工具输出噪声；必须说明为什么不影响行为或契约。
 5. `design-change-required`: 实现证明设计输入本身需要调整；必须先回写设计或新增 ADR。
@@ -94,12 +94,12 @@
 
 以下情况默认阻断 `G3 = Pass`：
 
-1. persistence PR 未给出 migration-entity-DDL-contract 对照。
-2. api / command PR 未给出 route-command-DTO 对照。
+1. persistence 变更未给出 migration-entity-DDL-contract 对照。
+2. api / command 变更未给出 route-command-DTO 对照。
 3. OpenAPI 或 generated client 发生变化但未说明是否预期。
 4. `migration-check` 失败但没有 drift 归类。
 5. 字段命名、日期类型、标识符类型、金额精度或版本链语义存在差异且未修复。
-6. PR 声称父任务完成，但证据只覆盖子切片。
+6. 变更说明声称父任务完成，但证据只覆盖子切片。
 7. 例外缺少批准人、cleanup owner 或 cleanup due。
 
 ---
@@ -108,8 +108,8 @@
 
 以下情况可以不阻断合并，但必须记录：
 
-1. docs-only PR 不运行 build 或测试。
-2. refactor-only PR 不运行 OpenAPI 或 migration-check。
-3. 因历史全局 drift 导致 `migration-check` 失败，但本 PR 未新增 drift。
+1. docs-only 变更不运行 build 或测试。
+2. refactor-only 变更不运行 OpenAPI 或 migration-check。
+3. 因历史全局 drift 导致 `migration-check` 失败，但本次变更未新增 drift。
 4. E2E 经风险判断不补，但已有 API / integration 测试覆盖主路径。
 5. generated client diff 只来自预期 API 变化，并已提交生成结果。

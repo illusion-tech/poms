@@ -44,6 +44,7 @@
 - `document-templates.md`
 - `implementation-baseline-package-template.md`
 - `implementation-governance-checks.md`
+- `solo-worktree-governance.md`
 - `object-naming-conventions.md`
 - `workflow-node-catalog.md`
 
@@ -56,6 +57,7 @@
 - `document-templates.md`：文档模板目录，用于统一 design、modules、reference 三类文档页头和章节建议
 - `implementation-baseline-package-template.md`：实施基线包模板，用于在 `G1` 前冻结切片输入、范围、SSOT 与一致性证据
 - `implementation-governance-checks.md`：实施治理最小校验矩阵，用于按切片类型确定 PR 需要提交的自动化 / 半自动化证据
+- `solo-worktree-governance.md`：个人开发与本地工作树治理方式，用于在不走 PR 时承载 `G1 / G3 / G4` 证据
 
 ## 命名建议
 

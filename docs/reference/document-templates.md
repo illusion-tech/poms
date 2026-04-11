@@ -30,6 +30,7 @@
 
 - `implementation-baseline-package-template.md`
 - `implementation-governance-checks.md`
+- `solo-worktree-governance.md`
 
 ---
 

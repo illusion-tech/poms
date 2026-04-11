@@ -22,6 +22,7 @@
 - 参考资料:
   - `../reference/implementation-baseline-package-template.md`
   - `../reference/implementation-governance-checks.md`
+  - `../reference/solo-worktree-governance.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
@@ -134,9 +135,20 @@
 当前记录方式统一为：
 
 1. `G1 = Pass`：任务仍可保持 `Todo` 或转入 `Doing`，但需在实施基线包中记录 gate 结论，并在追踪板备注说明通过日期。
-2. `G3 = Pass`：通过 PR checklist、评审结论或追踪板备注记录，不额外新增追踪板状态。
+2. `G3 = Pass`：通过 PR checklist、本地 worktree checkpoint、commit message、评审结论或追踪板备注记录，不额外新增追踪板状态。
 3. `G4 = Pass`：才允许把任务标记为 `Done`。
 4. 若开工后发现高影响未决设计或关键漂移，任务状态应转回 `Blocked`，而不是继续“带病实现”。
+
+### 3.4 治理载体
+
+Gate 规则与协作载体分离。
+
+当前支持两种执行模式：
+
+1. `PR mode`：适用于多人协作、需要 review thread 或 CI 集中展示时；使用 `.github/pull_request_template.md` 承载 `G3` 证据。
+2. `solo worktree mode`：适用于个人开发、单 `main` 分支或本地 worktree；使用 `../reference/solo-worktree-governance.md` 定义的 local checkpoint、commit message、实施基线包或 tracker 备注承载同一组 gate 证据。
+
+不要求个人开发为了形式创建 PR；但不允许因为没有 PR 就跳过 `G1 / G3 / G4` 判断。
 
 ---
 
@@ -217,7 +229,7 @@
 
 ### G3 合并闸口
 
-目标：确认本次 PR 没有把漂移带入主干。
+目标：确认本次变更没有把漂移带入主干。
 
 G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 
@@ -338,7 +350,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 
 ### 6.3 部分交付规则
 
-若 PR 只覆盖部分能力，必须同时满足：
+若一次变更只覆盖部分能力，必须同时满足：
 
 1. 标题或说明明确写出“本次只覆盖哪些子边界”。
 2. 文档回写中明确“哪些能力尚未实现”。
@@ -589,18 +601,20 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 当前统一采用以下最小衔接规则：
 
 1. 不新增 `ADR-014` 之外的追踪板状态值。
-2. `G1`、`G3`、例外与 grandfathering 结果，统一记录在实施基线包、PR checklist 和追踪板备注中。
+2. `G1`、`G3`、例外与 grandfathering 结果，统一记录在实施基线包、PR checklist / local checkpoint、commit message 或追踪板备注中。
 3. 任务只有在满足 `G4` 时才能标记为 `Done`。
 
 ---
 
-## 11. 建议接入 CI / PR Checklist 的门禁项
+## 11. 建议接入 CI / PR Checklist / Local Checkpoint 的门禁项
 
 当前已经新增仓库级 PR 模板 `.github/pull_request_template.md`，并以 `../reference/implementation-governance-checks.md` 作为最小校验矩阵。
 
-### 11.1 立即可执行的 PR checklist
+个人开发或单 `main` 分支模式下，使用 `../reference/solo-worktree-governance.md` 的 local checkpoint 承载同等证据。
 
-每个 PR 至少必须填写：
+### 11.1 立即可执行的 G3 checklist
+
+每个 PR 或 local checkpoint 至少必须填写：
 
 1. 切片类型、范围、实施基线包或正式输入链接，以及本次明确不做范围。
 2. 通用 `G3` 证据：正式输入、测试覆盖、例外和风险。
@@ -615,7 +629,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 2. OpenAPI / generated client 生成与 diff 校验
 3. 命名一致性 lint
 4. 关键 schema smoke test
-5. 追踪板状态与 PR 标签一致性检查
+5. 追踪板状态与 PR 标签 / local checkpoint 一致性检查
 
 当前命令、适用切片类型与 drift 归类规则以 `../reference/implementation-governance-checks.md` 为准。
 
@@ -631,7 +645,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 4. 只做了一部分能力，却继续使用父任务标题。
 5. 以“后面再统一收口”为由合入关键漂移。
 6. 用“单测通过”替代“契约、DDL、实体一致”。
-7. 先合并代码，再补 tracker、文档和例外说明。
+7. 先提交 / 合并代码，再补 tracker、文档和例外说明。
 
 ---
 
@@ -642,7 +656,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 1. 从 2026-04-11 之后的新切片开始强制执行 `G0 / G1 / G3 / G4`。
 2. 对生效前已开工切片，按 grandfathering 规则逐步纳入，不做一刀切追溯。
 3. 为每个新切片强制补“实施基线包”。
-4. 按 `.github/pull_request_template.md` 执行风险分层后的最小对照清单。
+4. 按 `.github/pull_request_template.md` 或 `../reference/solo-worktree-governance.md` 执行风险分层后的最小对照清单。
 5. 将 `migration-check`、OpenAPI / generated client diff 等逐步升级为 CI 门禁。
 6. 等流程稳定后，再决定是否把 gate 结果结构化进追踪板字段，而不是先引入双轨状态。
 

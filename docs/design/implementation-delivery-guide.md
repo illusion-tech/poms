@@ -22,6 +22,7 @@
 - 参考资料:
   - `../reference/implementation-baseline-package-template.md`
   - `../reference/implementation-governance-checks.md`
+  - `../reference/solo-worktree-governance.md`
 - 历史回溯:
   - `archive/control-history/phase2-mainline-delivery-plan.md`
   - `archive/control-history/phase2-lx-t04-full-mainline-development-decision.md`
@@ -75,7 +76,7 @@
 7. `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`，确认实现边界。
 8. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
 9. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
-10. `../reference/implementation-baseline-package-template.md` 与 `../reference/implementation-governance-checks.md`，复制实施基线包模板并确认本切片最小校验矩阵。
+10. `../reference/implementation-baseline-package-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`，复制实施基线包模板并确认本切片最小校验矩阵和当前治理载体。
 
 如果当前切片涉及历史争议、批次收口或长篇论证，再补读 `archive/control-history/`、`archive/mainline-closure/` 或 `archive/phase2-batches/`，但这些文档不应反向替代当前正式入口。
 
@@ -123,7 +124,7 @@
 - 必要的 DTO、view model 或 contract 代码
 - 最小自动化验证
 - metadata / DDL 一致性检查结果
-- PR checklist 中按切片类型要求的对照证据
+- PR checklist 或 local checkpoint 中按切片类型要求的对照证据
 - 文档回写记录
 
 ### 5.3 切片完成定义
@@ -213,7 +214,7 @@ flowchart TD
     L --> M[实现 API / guard / 事务边界]
     M --> N[按风险分层补测试]
     N --> O[回写设计文档与进度板]
-    O --> P[按 PR 模板提交 G3 证据]
+    O --> P[按 PR 模板或 local checkpoint 提交 G3 证据]
     P --> Q[进入评审或合并]
 ```
 
@@ -223,7 +224,7 @@ flowchart TD
 - 先形成实施基线包，再进入 `Doing`
 - 先落实真实数据结构，再补应用层映射
 - 先确认 migration 与 mapping 没有新增 drift，再进入完成判断
-- 先在 PR checklist 中提交风险分层证据，再进入 `G3`
+- 先在 PR checklist 或 local checkpoint 中提交风险分层证据，再进入 `G3`
 - 先回写当前入口，再考虑历史留痕
 
 ---

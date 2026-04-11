@@ -144,7 +144,8 @@
 | `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                       | 是                 |
 | `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                 | 是                 |
 | `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                        | 是                 |
-| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR 按切片类型提交的自动化 / 半自动化证据                  | 是                 |
+| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据 | 是                 |
+| `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕 | 是                 |
 | `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                         | 是                 |
 
 ### 4.6 已归档过程资产
@@ -237,7 +238,7 @@
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已完成提成治理域 `decimal` / 状态字段实体建模纠偏，并重新打通 OpenAPI 导出、共享 API Client 生成与前端平台管理页构建
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
-- 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md` 与 `docs/reference/implementation-governance-checks.md`，把实施基线包、PR 风险分层证据和最小校验矩阵落成可复用入口
+- 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把实施基线包、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
 - 已完成第五轮目录治理：第一阶段收口与验收包已统一转入 `archive/phase1-closure/`，平台治理域评审清单与评审摘要已统一转入 `archive/reviews/`，当前正式输入进一步收敛到第二阶段主线控制与实施入口
 - 已形成 `archive/reviews/phase2-review-comprehensive-assessment.md`，把第二阶段四轮正式审阅的 22 个问题收敛为多维度评估、依赖链与实施批次判断；第二轮目录治理后已转入归档，当前正式结论以主线控制文档与 `LX-T04` 判断为准
 - 已形成 `archive/reviews/phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md`，开始把第二阶段 `P0 / P1` 问题转为正式 follow-up 专题与第一批范围说明；其中正式审阅 follow-up 清单已在第二轮目录治理后转入归档

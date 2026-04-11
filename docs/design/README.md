@@ -243,7 +243,7 @@
 说明：
 
 - 任务状态只用于执行任务、追踪板或项目看板。
-- 治理闸口状态只用于实施基线包、PR checklist、例外记录或未来结构化门禁。
+- 治理闸口状态只用于实施基线包、PR checklist / local checkpoint、例外记录或未来结构化门禁。
 - `Frozen for Build` 是 `G1 = Pass` 的展示语义，不是新的设计文档状态。
 
 ## 阅读顺序建议
@@ -276,7 +276,7 @@
 6. 再读 `implementation-delivery-guide.md`
 7. 再读 `implementation-governance-gates.md`
 8. 再读 `phase2-development-execution-tracker.md`
-9. 再读 `../reference/implementation-baseline-package-template.md` 与 `../reference/implementation-governance-checks.md`
+9. 再读 `../reference/implementation-baseline-package-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`
 10. 最后按业务域主文档与六份实现设计总文档进入具体实现
 11. 仅在需要过程回溯时，再进入 `archive/README.md`
 
