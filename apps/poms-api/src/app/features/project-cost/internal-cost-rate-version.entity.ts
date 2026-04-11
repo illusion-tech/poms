@@ -1,5 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { Ref } from '@mikro-orm/core';
+
+export type InternalCostRateVersionStatus = 'active' | 'superseded' | 'retired';
 
 const p = defineEntity.properties;
 
@@ -9,11 +10,18 @@ export const InternalCostRateVersionSchema = defineEntity({
     schema: 'poms',
     comment: 'POMS 内部成本率版本',
     indexes: [
+        { name: 'idx_cost_rate_key_current', properties: ['rateKey', 'isCurrent'] },
         { name: 'idx_cost_rate_scope', properties: ['rateScopeType'] },
+        { name: 'idx_cost_rate_status', properties: ['status'] },
         { name: 'idx_cost_rate_effective', properties: ['effectiveFrom', 'effectiveTo'] }
     ],
+    uniques: [{ name: 'internal_cost_rate_version_rate_key_version_unique', properties: ['rateKey', 'version'] }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+        rateKey: p.string().length(128).fieldName('rate_key').comment('成本率唯一键：scope + identity + unit'),
+        version: p.integer().comment('成本率版本号'),
+        status: p.string().$type<InternalCostRateVersionStatus>().length(32).default('active').comment('版本状态：active/superseded/retired'),
+        isCurrent: p.boolean().default(true).fieldName('is_current').comment('是否当前版本链头'),
         rateScopeType: p.string().length(32).fieldName('rate_scope_type').comment('生效范围类型：PERSON / ROLE'),
         personId: p.uuid().nullable().fieldName('person_id').comment('人员标识'),
         roleCode: p.string().length(64).nullable().fieldName('role_code').comment('角色编码'),

@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
@@ -11,9 +11,59 @@ export class InternalCostRateVersionRepository {
         private readonly repository: EntityRepository<InternalCostRateVersion>
     ) {}
 
-    async findActiveVersion(rateScopeType: string, date: Date, personId?: string, roleCode?: string): Promise<InternalCostRateVersion | null> {
+    async findActiveVersionByRateKey(rateKey: string, date: string): Promise<InternalCostRateVersion | null> {
+        return this.repository.findOne(
+            {
+                rateKey,
+                status: 'active',
+                effectiveFrom: { $lte: date },
+                $or: [{ effectiveTo: null }, { effectiveTo: { $gte: date } }]
+            },
+            {
+                orderBy: { effectiveFrom: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findOverlappingActiveVersion(
+        rateKey: string,
+        effectiveFrom: string,
+        effectiveTo: string | null,
+        excludeId?: string
+    ): Promise<InternalCostRateVersion | null> {
+        const effectiveUpperBound = effectiveTo ?? '9999-12-31';
+        const where: any = {
+            rateKey,
+            status: 'active',
+            effectiveFrom: { $lte: effectiveUpperBound },
+            $or: [{ effectiveTo: null }, { effectiveTo: { $gte: effectiveFrom } }]
+        };
+
+        if (excludeId) {
+            where.id = { $ne: excludeId };
+        }
+
+        return this.repository.findOne(where, {
+            orderBy: { effectiveFrom: QueryOrder.DESC }
+        });
+    }
+
+    async findCurrentByRateKey(rateKey: string): Promise<InternalCostRateVersion | null> {
+        return this.repository.findOne(
+            {
+                rateKey,
+                isCurrent: true
+            },
+            {
+                orderBy: { version: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findActiveVersion(rateScopeType: string, date: string, personId?: string, roleCode?: string, rateUnit?: string): Promise<InternalCostRateVersion | null> {
         const where: any = {
             rateScopeType,
+            status: 'active',
             effectiveFrom: { $lte: date },
             $or: [{ effectiveTo: null }, { effectiveTo: { $gte: date } }]
         };
@@ -22,6 +72,9 @@ export class InternalCostRateVersionRepository {
             where.personId = personId;
         } else if (roleCode) {
             where.roleCode = roleCode;
+        }
+        if (rateUnit) {
+            where.rateUnit = rateUnit;
         }
 
         return this.repository.findOne(where, {
@@ -39,6 +92,10 @@ export class InternalCostRateVersionRepository {
 
     async save(entity: InternalCostRateVersion): Promise<void> {
         await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: InternalCostRateVersion[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
     }
 }
 
@@ -65,5 +122,9 @@ export class ProjectActualCostRecordRepository {
 
     async save(entity: ProjectActualCostRecord): Promise<void> {
         await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: ProjectActualCostRecord[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
     }
 }

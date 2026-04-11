@@ -25,7 +25,7 @@ describe('Actual Cost Workflow E2E', () => {
             rateUnit: 'DAY',
             rateValue: '1000',
             currency: 'CNY',
-            effectiveFrom: new Date().toISOString()
+            effectiveFrom: '2023-01-01'
         });
         expect(publishRateResult.resultStatus).toBe('success');
         const rateVersionId = publishRateResult.targetId;
@@ -34,10 +34,10 @@ describe('Actual Cost Workflow E2E', () => {
         const registerLaborResult = await registerLaborCostRecord(client, {
             projectId: project.id,
             laborPeriodType: 'MONTH',
-            laborPeriodStart: new Date('2023-01-01').toISOString(),
-            laborPeriodEnd: new Date('2023-01-31').toISOString(),
+            laborPeriodStart: '2023-01-01',
+            laborPeriodEnd: '2023-01-31',
+            laborRole: `dev-${unique}`,
             rateVersionId,
-            actualHours: '160',
             actualPersonDays: '20'
         });
         expect(registerLaborResult.resultStatus).toBe('success');
@@ -45,11 +45,10 @@ describe('Actual Cost Workflow E2E', () => {
 
         // 5. Replace the labor cost record
         const replaceLaborResult = await replaceLaborCostRecord(client, {
-            replacementOfRecordId: recordId,
-            laborPeriodStart: new Date('2023-01-01').toISOString(),
-            laborPeriodEnd: new Date('2023-01-31').toISOString(),
+            supersedesRecordId: recordId,
+            laborPeriodStart: '2023-01-01',
+            laborPeriodEnd: '2023-01-31',
             rateVersionId,
-            actualHours: '180',
             actualPersonDays: '22.5',
             replaceReason: 'Corrected working hours'
         });
