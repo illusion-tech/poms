@@ -1,12 +1,12 @@
-# EX-06 PAYMENT_FACT 映射与读侧实施基线包
+# EX-06B1 PAYMENT_FACT 映射与读侧实施基线包
 
 - Gate Status: `Pass`
-- Parent: `EX-06`
+- Parent: `EX-06B`
 - Owner: `Codex`
 - Slice Type: `api-command + query + persistence`
 - G1 Reviewer: `Solo worktree checkpoint`
 - G1 Date: `2026-04-12`
-- Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06`
+- Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06B1`
 
 ---
 

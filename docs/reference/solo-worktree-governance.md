@@ -1,7 +1,7 @@
 # POMS 个人开发与本地工作树治理
 
 **文档状态**: Active
-**最后更新**: 2026-04-11
+**最后更新**: 2026-04-12
 **适用范围**: `POMS` 个人开发、单 `main` 分支、本地 worktree 或不通过 PR 的实现推进
 **关联文档**:
 
@@ -57,11 +57,12 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 推荐流程：
 
 1. 选择切片，确认 tracker 当前状态。
-2. 若是工程实现切片，先形成最小实施基线包或在 tracker 备注中记录 `G1 = Pass`。
-3. 在本地直接修改 `main` 工作树。
-4. 提交前执行本文件第 4 节的 local checkpoint。
-5. commit message 中记录 `G3` 结论摘要。
-6. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。
+2. 若实施基线包把父任务进一步收敛为新的可执行子切片，先补 tracker 行与 `Task ID / Subtask ID`，再开始编码。
+3. 若是工程实现切片，先形成最小实施基线包或在 tracker 备注中记录 `G1 = Pass`。
+4. 在本地直接修改 `main` 工作树。
+5. 提交前执行本文件第 4 节的 local checkpoint。
+6. commit message 中记录 `G3` 结论摘要。
+7. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。
 
 适用边界：
 
@@ -75,10 +76,11 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 推荐流程：
 
 1. 为切片创建独立 worktree 或独立本地分支。
-2. 在 worktree 内按 `G1 -> G2 -> G3` 推进。
-3. 每个关键 checkpoint 使用本文件第 4 节模板记录。
-4. 回到 `main` 前，先确认没有未解释的 diff、未提交生成物或未回写文档。
-5. 将通过 checkpoint 的提交合入 `main`，再更新 tracker。
+2. 若实施基线包把父任务进一步拆成新的可执行子切片，先补 tracker 行与对应子任务 ID。
+3. 在 worktree 内按 `G1 -> G2 -> G3` 推进。
+4. 每个关键 checkpoint 使用本文件第 4 节模板记录。
+5. 回到 `main` 前，先确认没有未解释的 diff、未提交生成物或未回写文档。
+6. 将通过 checkpoint 的提交合入 `main`，再更新 tracker。
 
 适用边界：
 
@@ -104,6 +106,7 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 Local Gate Checkpoint
 
 - Slice:
+- Tracker Row:
 - Slice Type:
 - Gate: `G3 = Pending` / `Pass` / `Block` / `Waived`
 - Formal Inputs:
