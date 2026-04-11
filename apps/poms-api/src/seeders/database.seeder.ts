@@ -112,6 +112,14 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."project_actual_cost_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."contract"
             where "project_id" in (
                 select "id" from "${schema}"."project"
@@ -127,6 +135,12 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."commission_rule_version"
             where "rule_code" like '000-E2E-%';
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."internal_cost_rate_version"
+            where "role_code" like 'dev-%'
+                or "rate_key" like 'ROLE:dev-%';
         `);
 
         // 级联清理所有引用种子项目的数据（不仅限于种子合同，避免测试期间 API 创建的数据阻塞删除）
@@ -165,6 +179,14 @@ export class DatabaseSeeder extends Seeder {
                     select "id" from "${schema}"."project"
                     where "project_code" in (${seededProjectCodes})
                 )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."project_actual_cost_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
             );
         `);
 

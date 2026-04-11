@@ -13,9 +13,21 @@ export const InternalCostRateVersionSchema = defineEntity({
         { name: 'idx_cost_rate_key_current', properties: ['rateKey', 'isCurrent'] },
         { name: 'idx_cost_rate_scope', properties: ['rateScopeType'] },
         { name: 'idx_cost_rate_status', properties: ['status'] },
-        { name: 'idx_cost_rate_effective', properties: ['effectiveFrom', 'effectiveTo'] }
+        { name: 'idx_cost_rate_effective', properties: ['effectiveFrom', 'effectiveTo'] },
+        {
+            name: 'internal_cost_rate_version_active_range_excl',
+            expression: (_columns, table, indexName) =>
+                `alter table "${table.schema}"."${table.name}" add constraint "${indexName}" exclude using gist ("rate_key" with =, daterange("effective_from", coalesce("effective_to", 'infinity'::date), '[]') with &&) where ("status" = 'active')`
+        }
     ],
-    uniques: [{ name: 'internal_cost_rate_version_rate_key_version_unique', properties: ['rateKey', 'version'] }],
+    uniques: [
+        { name: 'internal_cost_rate_version_rate_key_version_unique', properties: ['rateKey', 'version'] },
+        {
+            name: 'internal_cost_rate_version_current_unique',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.rateKey}") where "${columns.isCurrent}" = true`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         rateKey: p.string().length(128).fieldName('rate_key').comment('成本率唯一键：scope + identity + unit'),
