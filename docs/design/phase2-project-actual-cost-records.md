@@ -155,7 +155,7 @@
 - `costDescription`
 - `taxImpactSummary`
 - `riskNote`
-- `replacementOfRecordId`
+- `supersedesRecordId`
 - `voidReason`
 
 ---
