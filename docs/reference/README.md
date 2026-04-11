@@ -42,6 +42,8 @@
 - `permission-catalog.md`
 - `role-catalog.md`
 - `document-templates.md`
+- `implementation-baseline-package-template.md`
+- `implementation-governance-checks.md`
 - `object-naming-conventions.md`
 - `workflow-node-catalog.md`
 
@@ -52,6 +54,8 @@
 - `permission-catalog.md`：权限命名与分层目录，用于统一权限前缀、命名规则和使用边界
 - `role-catalog.md`：跨文档角色目录，用于统一平台角色、业务职责角色和审批角色口径
 - `document-templates.md`：文档模板目录，用于统一 design、modules、reference 三类文档页头和章节建议
+- `implementation-baseline-package-template.md`：实施基线包模板，用于在 `G1` 前冻结切片输入、范围、SSOT 与一致性证据
+- `implementation-governance-checks.md`：实施治理最小校验矩阵，用于按切片类型确定 PR 需要提交的自动化 / 半自动化证据
 
 ## 命名建议
 

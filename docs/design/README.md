@@ -274,9 +274,11 @@
 4. 再读 `phase2-mainline-delivery-plan.md`
 5. 再读 `phase2-detailed-design-index-map.md`
 6. 再读 `implementation-delivery-guide.md`
-7. 再读 `phase2-development-execution-tracker.md`
-8. 最后按业务域主文档与六份实现设计总文档进入具体实现
-9. 仅在需要过程回溯时，再进入 `archive/README.md`
+7. 再读 `implementation-governance-gates.md`
+8. 再读 `phase2-development-execution-tracker.md`
+9. 再读 `../reference/implementation-baseline-package-template.md` 与 `../reference/implementation-governance-checks.md`
+10. 最后按业务域主文档与六份实现设计总文档进入具体实现
+11. 仅在需要过程回溯时，再进入 `archive/README.md`
 
 ## 当前目录索引
 
@@ -317,6 +319,7 @@
 - `phase2-mainline-delivery-plan.md`
 - `phase2-lx-t04-full-mainline-development-decision.md`
 - `implementation-delivery-guide.md`
+- `implementation-governance-gates.md`
 - `phase2-development-execution-tracker.md`
 
 ### 已归档过程资产

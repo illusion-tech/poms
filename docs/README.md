@@ -85,3 +85,4 @@ docs/
 - `docs/design/README.md`：设计资产分类、命名规则、状态规则和阅读路径
 - `docs/design/poms-design-progress.md`：当前设计成熟度、文档状态和下一步治理动作
 - `docs/adr/README.md`：已接受 ADR 索引和 ADR 使用约定
+- `docs/reference/README.md`：术语、状态、角色、模板与实施治理参考资料入口

@@ -298,6 +298,8 @@
 4. 回写 `docs/design/implementation-governance-gates.md`，去掉过渡性映射说明，直接采用新正式模型
 5. 新增 PR checklist 模板与实施基线包模板
 
+截至 2026-04-11，前五项已经完成；PR checklist 落在 `.github/pull_request_template.md`，实施基线包模板落在 `docs/reference/implementation-baseline-package-template.md`，最小校验矩阵落在 `docs/reference/implementation-governance-checks.md`。CI 自动门禁仍属于后续增强。
+
 ---
 
 ## 10. 当前结论

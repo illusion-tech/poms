@@ -19,8 +19,12 @@
   - `data-model-prerequisites.md`
   - `table-structure-freeze-design.md`
   - `schema-ddl-design.md`
+- 参考资料:
+  - `../reference/implementation-baseline-package-template.md`
+  - `../reference/implementation-governance-checks.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
+  - `../adr/014-design-execution-state-model-and-governance-gates.md`
 
 ---
 
@@ -288,45 +292,18 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 
 ## 5. 实施基线包模板
 
-每个进入 `G1` 的切片都应至少形成如下模板。
+每个进入 `G1` 的切片都应使用 `../reference/implementation-baseline-package-template.md`。
 
-```md
-# <Slice Name> 实施基线包
+最低要求：
 
-- 主线 / Parent:
-- Owner:
-- 本次目标:
-- 本次明确不做:
+1. 记录 `Gate Status`、owner、切片类型、正式输入与本次明确不做范围。
+2. 记录本次 SSOT，至少覆盖业务语义、接口命名、持久化命名、日期 / 时间、标识符、金额和状态机。
+3. 涉及 `api / command` 时，必须填写 route / command / DTO / contract 对照。
+4. 涉及 `persistence` 时，必须填写 table / migration / entity / DDL 对照，以及字段 / 类型 / contract 对照。
+5. 若某项不适用，应写 `N/A` 和原因；不得删除章节来规避判断。
+6. 若存在差异，必须归类为已修复、可接受、既有 drift、阻断项或已批准例外。
 
-## 正式输入
-- 业务主文档:
-- command 边界:
-- DTO / OpenAPI 边界:
-- query 边界:
-- data model / freeze:
-- schema / DDL:
-- ADR:
-
-## 本次 SSOT
-- 业务语义:
-- 接口命名:
-- 持久化命名:
-- 状态机:
-
-## 最小交付
-- migration:
-- entity / repository:
-- command:
-- query:
-- guard:
-- tests:
-- docs write-back:
-
-## 例外与风险
-- 已接受例外:
-- 不接受例外:
-- 后续依赖:
-```
+EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-package-template.md` 第 3 节为准。
 
 ---
 
@@ -619,23 +596,28 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 
 ## 11. 建议接入 CI / PR Checklist 的门禁项
 
-当前建议至少逐步接入以下门禁。
+当前已经新增仓库级 PR 模板 `.github/pull_request_template.md`，并以 `../reference/implementation-governance-checks.md` 作为最小校验矩阵。
 
 ### 11.1 立即可执行的 PR checklist
 
-1. 已附实施基线包链接
-2. 已附文档到代码对照表
-3. 已附 migration / entity / contract 对照表
-4. 已说明本次明确不做范围
-5. 已说明测试覆盖与未覆盖项
+每个 PR 至少必须填写：
+
+1. 切片类型、范围、实施基线包或正式输入链接，以及本次明确不做范围。
+2. 通用 `G3` 证据：正式输入、测试覆盖、例外和风险。
+3. 按切片类型追加的证据；不适用项必须写 `N/A` 与原因。
+4. 涉及 persistence 时的 migration / entity / DDL / contract 对照与 drift 归类。
+5. 涉及 api / command 时的 route / command / DTO / contract 对照。
+6. 自动化命令结果；未运行的必需命令必须写明原因。
 
 ### 11.2 中期建议自动化
 
 1. `migration-check`
-2. OpenAPI / contract 生成与 diff 校验
+2. OpenAPI / generated client 生成与 diff 校验
 3. 命名一致性 lint
 4. 关键 schema smoke test
 5. 追踪板状态与 PR 标签一致性检查
+
+当前命令、适用切片类型与 drift 归类规则以 `../reference/implementation-governance-checks.md` 为准。
 
 ---
 
@@ -660,8 +642,8 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 1. 从 2026-04-11 之后的新切片开始强制执行 `G0 / G1 / G3 / G4`。
 2. 对生效前已开工切片，按 grandfathering 规则逐步纳入，不做一刀切追溯。
 3. 为每个新切片强制补“实施基线包”。
-4. 在 PR 模板中加入风险分层后的最小对照清单。
-5. 将 `migration-check`、契约 diff 等逐步升级为 CI 门禁。
+4. 按 `.github/pull_request_template.md` 执行风险分层后的最小对照清单。
+5. 将 `migration-check`、OpenAPI / generated client diff 等逐步升级为 CI 门禁。
 6. 等流程稳定后，再决定是否把 gate 结果结构化进追踪板字段，而不是先引入双轨状态。
 
 ---

@@ -1,7 +1,7 @@
 # POMS 文档模板
 
 **文档状态**: Active
-**最后更新**: 2026-03-16
+**最后更新**: 2026-04-11
 **适用范围**: `POMS` 文档编写模板与页头约定
 **关联文档**:
 
@@ -25,6 +25,11 @@
 - `docs/design/` 下的设计文档
 - `docs/modules/` 下的模块设计文档
 - `docs/reference/` 下的参考资料文档
+
+实施基线包模板与实施治理校验矩阵已单独沉淀到：
+
+- `implementation-baseline-package-template.md`
+- `implementation-governance-checks.md`
 
 ---
 
@@ -151,7 +156,7 @@
 
 说明：
 
-- 模块设计通常优先使用 `Draft`、`Draft (Baseline)`、`Review`、`Accepted`、`Archived`
+- 模块设计通常优先使用 `Draft`、`Review`、`Accepted`、`Archived`
 - 一般不建议把模块设计文档标记为 `Active`
 
 ---

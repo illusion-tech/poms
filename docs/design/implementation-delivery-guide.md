@@ -19,6 +19,9 @@
   - `data-model-prerequisites.md`
   - `table-structure-freeze-design.md`
   - `schema-ddl-design.md`
+- 参考资料:
+  - `../reference/implementation-baseline-package-template.md`
+  - `../reference/implementation-governance-checks.md`
 - 历史回溯:
   - `archive/control-history/phase2-mainline-delivery-plan.md`
   - `archive/control-history/phase2-lx-t04-full-mainline-development-decision.md`
@@ -45,7 +48,7 @@
 
 ## 2. 当前实施判断
 
-截至 2026-04-04，`POMS` 当前已满足第二阶段统一开发范围下的实施条件。
+截至 2026-04-11，`POMS` 当前已满足第二阶段统一开发范围下的实施条件。
 
 原因不是所有设计文档都进入了 `Accepted`，而是：
 
@@ -72,6 +75,7 @@
 7. `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`，确认实现边界。
 8. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
 9. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
+10. `../reference/implementation-baseline-package-template.md` 与 `../reference/implementation-governance-checks.md`，复制实施基线包模板并确认本切片最小校验矩阵。
 
 如果当前切片涉及历史争议、批次收口或长篇论证，再补读 `archive/control-history/`、`archive/mainline-closure/` 或 `archive/phase2-batches/`，但这些文档不应反向替代当前正式入口。
 
@@ -106,6 +110,7 @@
 - 关联 ADR 与上游设计结论
 - 需要实现的 `command` / `query` / `DTO` / `data model` / `guard` 边界
 - 本切片是否触及敏感字段、审批公共链或跨主线承接点
+- 若适用，是否已按 `implementation-baseline-package-template.md` 形成实施基线包并取得 `G1 = Pass`
 
 ### 5.2 切片输出
 
@@ -118,6 +123,7 @@
 - 必要的 DTO、view model 或 contract 代码
 - 最小自动化验证
 - metadata / DDL 一致性检查结果
+- PR checklist 中按切片类型要求的对照证据
 - 文档回写记录
 
 ### 5.3 切片完成定义
@@ -196,22 +202,28 @@ flowchart TD
     B --> C[确认上游设计与 ADR]
     C --> D{是否涉及高影响未决策}
     D -- 是 --> E[先回写设计或新增 ADR]
-    D -- 否 --> F[确定 command / query / DTO / data model / guard 边界]
-    F --> G[确定 migration 与表结构范围]
-    G --> H[编写 SQL migration]
-    H --> I[补齐 entity 与 data access]
-    I --> J[执行 metadata 与 DDL 一致性校验]
-    J --> K[实现 API / guard / 事务边界]
-    K --> L[按风险分层补测试]
-    L --> M[回写设计文档与进度板]
-    M --> N[进入评审或合并]
+    D -- 否 --> F[形成实施基线包]
+    F --> G{G1 是否通过}
+    G -- 否 --> E
+    G -- 是 --> H[确定 command / query / DTO / data model / guard 边界]
+    H --> I[确定 migration 与表结构范围]
+    I --> J[编写 SQL migration]
+    J --> K[补齐 entity 与 data access]
+    K --> L[执行 metadata 与 DDL 一致性校验]
+    L --> M[实现 API / guard / 事务边界]
+    M --> N[按风险分层补测试]
+    N --> O[回写设计文档与进度板]
+    O --> P[按 PR 模板提交 G3 证据]
+    P --> Q[进入评审或合并]
 ```
 
-这个流程强调三件事：
+这个流程强调六件事：
 
 - 先确认边界，再动代码
+- 先形成实施基线包，再进入 `Doing`
 - 先落实真实数据结构，再补应用层映射
 - 先确认 migration 与 mapping 没有新增 drift，再进入完成判断
+- 先在 PR checklist 中提交风险分层证据，再进入 `G3`
 - 先回写当前入口，再考虑历史留痕
 
 ---
