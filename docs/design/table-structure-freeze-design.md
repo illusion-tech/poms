@@ -260,6 +260,12 @@
 | `internal_cost_rate_version`      | 版本表         | `id`、`rate_key`、`version`、`status`、`effective_from`、`effective_to`、`supersedes_id` | 被 `project_actual_cost_record` 引用 | 人力成本率版本链         |
 | `project_actual_cost_record` 补点 | 主体主表补字段 | `rate_version_id`、`supersedes_record_id`、`labor_period_start`、`labor_period_end`      | 外键到成本率版本 / 自引用            | `LABOR` 成本追溯与替代链 |
 
+补充冻结约束：
+
+- `project_actual_cost_record` 应允许以 `source_type + source_id` 稳定回挂来源事实。
+- 若来源事实属于单记录映射场景，例如当前已落地的 `PAYMENT_FACT <- PaymentRecord`，同一来源事实同一时刻只允许存在一条当前有效映射记录。
+- 该约束应优先通过条件唯一索引或等价 DDL 表达，而不是只依赖应用层“先查再写”守卫。
+
 ### 7.6 敏感导出与守卫补点
 
 | 逻辑表                          | 表角色     | 最小字段组                                                                                      | 关键关系                 | 说明                |

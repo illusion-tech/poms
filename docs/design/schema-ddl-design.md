@@ -486,6 +486,12 @@
 3. `project_actual_cost_record.supersedes_record_id`
   - 自引用外键：`supersedes_record_id -> project_actual_cost_record.id`
 
+4. `project_actual_cost_record.source_type + source_id`
+  - 索引建议：`source_type + source_id`
+  - 条件唯一建议：对“单来源事实 -> 单当前有效记录”的来源类型，至少应支持一条当前有效映射
+  - 当前第一批明确适用场景：`cost_type = 'PAYMENT_FACT'` 且 `source_type = 'PAYMENT_RECORD'`
+  - 约束目标：同一 `PaymentRecord` 同一时刻只允许一条 `record_status in ('CONFIRMED', 'INCLUDED')` 的当前有效成本记录
+
 ### 8.6 敏感导出与审计 DDL 补点
 
 建议补充以下表：
