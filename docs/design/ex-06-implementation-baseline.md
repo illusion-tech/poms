@@ -81,11 +81,18 @@
 | Admin build            | `corepack pnpm nx build poms-admin`               | Pass                                              |
 | OpenAPI generation     | `corepack pnpm nx run poms-api:openapi`           | Pass                                              |
 | API client generation  | `corepack pnpm nx run shared-api-client:generate` | Pass                                              |
+| API E2E                | `corepack pnpm nx run poms-api-e2e:e2e`           | Pass                                              |
 | Diff whitespace check  | `git diff --check`                                | Pass, with CRLF warning on generated `FILES`      |
-| Migration schema check | `corepack pnpm nx run poms-api:migration-check`   | Blocked by local PostgreSQL password auth failure |
+| Migration schema check | `corepack pnpm nx run poms-api:migration-check`   | Pass                                              |
+
+本次 checkpoint 结论：
+
+1. 第一批真实偏差修复已完成并完成真实数据库环境校验，可作为独立 corrective slice 收口。
+2. `migration-check` 已通过，说明本轮 migration、DDL 与 ORM metadata 已重新对齐；本批不再存在新增 schema drift。
+3. `poms-api-e2e` 已通过，说明第一批修复未破坏当前 API 主路径、seed 初始化与合同到成本记录的现有最小闭环。
+4. EX-06 父任务仍不得进入 `Done` / `G4`；后续必须另行补齐非 LABOR 来源映射与实际成本读侧追溯。
 
 仍阻断 `G3 = Pass` 的事项：
 
 1. 采购 / 发票 / 费用 / 付款事实的来源映射命令仍未实现。
 2. 项目实际成本读侧追溯接口仍未实现。
-3. 需要在可连接的 PostgreSQL 环境中重跑 migration-check，并验证新增排他约束可应用。
