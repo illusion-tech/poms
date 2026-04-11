@@ -1,7 +1,7 @@
 # ADR-014: 设计-执行状态模型与治理闸口
 
-**状态**: 提议中 (Proposed)
-**日期**: 2026-04-06
+**状态**: 已接受 (Accepted)
+**日期**: 2026-04-11
 
 ---
 
@@ -216,7 +216,7 @@
 
 ## 7. 迁移方案 (Migration Plan)
 
-本 ADR 若被接受，建议按以下顺序迁移。
+本 ADR 已被接受，建议按以下顺序迁移。
 
 ### Phase 1: 状态模型正式切换
 
@@ -290,7 +290,7 @@
 
 ## 9. 后续行动 (Follow-up Actions)
 
-若本 ADR 被接受，建议立即跟进以下动作：
+本 ADR 被接受后，建议立即跟进以下动作：
 
 1. 回写 `docs/design/README.md` 的正式状态定义
 2. 回写 `docs/design/poms-design-progress.md` 的文档状态表
@@ -309,7 +309,7 @@
 3. 明确哪些是 gate 结论
 4. 用一次正式迁移替代长期补丁式映射
 
-因此，本 ADR 提议采用：
+因此，本 ADR 正式采用：
 
 - `Document Status`: `Draft / Review / Accepted / Active / Archived`
 - `Task Status`: `Todo / Doing / Blocked / Done`

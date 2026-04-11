@@ -1,7 +1,7 @@
 # POMS 第二阶段体验优化路线图
 
 **文档状态**: Active
-**最后更新**: 2026-04-04
+**最后更新**: 2026-04-11
 **适用范围**: `POMS` 第二阶段范围规划、主线切片顺序、统一开发判断结果与开发前后状态回写
 **关联文档**:
 
@@ -292,8 +292,8 @@
 
 ### 6.0 状态口径
 
-- `Not Started`：尚未正式开始
-- `In Progress`：已开始，但未收口
+- `Todo`：尚未正式开始
+- `Doing`：已开始，但未收口
 - `Done`：已形成正式产物并完成必要回写
 - `Blocked`：因关键前置未满足而暂停
 
@@ -388,7 +388,7 @@
 | 编号     | 任务                                                   | 当前状态 | 备注                                                                                                                                                                                            |
 | -------- | ------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `LX-T01` | 回收成统一“第二阶段详细设计索引 / 主线地图”            | `Done`   | 已产出 `phase2-detailed-design-index-map.md`                                                                                                                                                    |
-| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已统一纠正为 `Ready for Review`，并新增 `archive/reviews/phase2-review-checklist.md`                                                                                                            |
+| `LX-T02` | 统一回写第二阶段基线文档状态，并建立正式审阅入口       | `Done`   | 第二阶段基线文档已完成审阅入口统一；ADR-014 Phase 1 已迁移为 `Review`，并保留 `archive/reviews/phase2-review-checklist.md` 作为历史评审入口                                                                       |
 | `LX-T03` | 执行第二阶段正式审阅，形成问题清单、审阅记录与结论摘要 | `Done`   | 已完成四轮独立审阅，并形成 `archive/reviews/phase2-review-checklist.md`、`archive/reviews/phase2-review-comprehensive-assessment.md`、`archive/reviews/phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md` |
 | `LX-T04` | 在全主线实现设计完成后统一决定是否进入开发             | `Done`   | 当前统一见 `phase2-lx-t04-full-mainline-development-decision.md`；已完成统一开发判断并给出 Go 结论，旧的首批受控实现排期判断继续保留为归档输入                                                  |
 

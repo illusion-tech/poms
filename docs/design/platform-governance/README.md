@@ -80,11 +80,12 @@
 状态建议与 `docs/design/README.md` 保持一致：
 
 - `Draft`
-- `Draft (Baseline)`
 - `Review`
 - `Accepted`
 - `Active`
 - `Archived`
+
+如需表达“已形成首版基线”或“准备进入评审”，应写入说明或备注，不应扩展状态集合。
 
 ## 维护约定
 
