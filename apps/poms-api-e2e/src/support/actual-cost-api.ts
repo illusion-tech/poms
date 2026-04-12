@@ -14,6 +14,7 @@ import {
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
+    RegisterExpenseCostRecordRequestDto,
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
@@ -32,6 +33,11 @@ export async function registerPaymentFactCostRecord(client: AxiosInstance, input
 
 export async function registerInvoiceCostRecord(client: AxiosInstance, input: RegisterInvoiceCostRecordRequestDto): Promise<CommandResult> {
     const response = await client.post<CommandResult>('/project-actual-cost-records/register-invoice', input);
+    return expectStatus(response, 201);
+}
+
+export async function registerExpenseCostRecord(client: AxiosInstance, input: RegisterExpenseCostRecordRequestDto): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-actual-cost-records/register-expense', input);
     return expectStatus(response, 201);
 }
 

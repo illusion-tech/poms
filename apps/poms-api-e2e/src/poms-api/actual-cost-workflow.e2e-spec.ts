@@ -6,6 +6,7 @@ import {
     listExpenseRecords,
     listProjectActualCostRecords,
     publishInternalCostRateVersion,
+    registerExpenseCostRecord,
     updateExpenseRecord,
     voidExpenseRecord,
     registerInvoiceCostRecord,
@@ -238,5 +239,63 @@ describe('Actual Cost Workflow E2E', () => {
         expect(voidedDetail.status).toBe('voided');
         expect(voidedDetail.voidReason).toBe('duplicate: re-entered from approved claim');
         expect(voidedDetail.allowedActions).toEqual([]);
+    });
+
+    it('should map confirmed expense into EXPENSE and expose list/detail query views', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-EXP-MAP-${unique}`,
+            projectName: `E2E Expense Mapping Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const createdExpense = await createExpenseRecord(client, project.id, {
+            expenseCategory: 'travel',
+            expenseDescription: `Taxi reimbursement ${unique}`,
+            expenseDate: '2023-05-10',
+            amountIncludingTax: '1234.56',
+            taxAmount: '123.45',
+            amountExcludingTax: '1111.11',
+            sourceType: 'manual',
+            evidenceSummary: 'receipt attached',
+            attachmentCount: 2
+        });
+
+        const confirmedExpense = await confirmExpenseRecord(client, createdExpense.id, {
+            expectedVersion: createdExpense.rowVersion
+        });
+        expect(confirmedExpense.status).toBe('confirmed');
+
+        const registerExpenseResult = await registerExpenseCostRecord(client, {
+            expenseRecordId: createdExpense.id,
+            projectId: project.id,
+            costDescription: 'mapped from confirmed expense',
+            evidenceSummary: 'receipt archived',
+            taxImpactSummary: 'manual expense pending tax review',
+            expectedVersion: confirmedExpense.rowVersion
+        });
+        expect(registerExpenseResult.resultStatus).toBe('success');
+
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'EXPENSE_RECORD' });
+        expect(listView).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: registerExpenseResult.targetId,
+                    costType: 'EXPENSE',
+                    sourceType: 'EXPENSE_RECORD',
+                    sourceId: createdExpense.id,
+                    sourceRefNo: createdExpense.id
+                })
+            ])
+        );
+
+        const detailView = await getProjectActualCostRecordDetail(client, registerExpenseResult.targetId);
+        expect(detailView.costType).toBe('EXPENSE');
+        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.sourceStatusSummary).toContain('ExpenseRecord:confirmed');
+        expect(detailView.measurementBasisSummary).toContain('1234.5600');
+        expect(detailView.allowedActions).toEqual([]);
     });
 });
