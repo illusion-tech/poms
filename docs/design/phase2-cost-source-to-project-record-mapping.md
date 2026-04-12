@@ -1,7 +1,7 @@
 # POMS 第二阶段项目成本来源映射口径草案
 
 **文档状态**: Review
-**最后更新**: 2026-04-01
+**最后更新**: 2026-04-13
 **适用范围**: `POMS` 第二阶段 `L2-T03` 详细设计草案，聚焦采购合同、采购发票、费用与必要付款事实如何映射进统一项目成本记录层
 **关联文档**:
 
@@ -564,20 +564,20 @@
 
 ### 11.1 当前工程冻结边界
 
-按当前仓库现实，`L2-T03` 的设计范围和“当前已完成的实现范围”现在已经基本对齐，但 procurement/payment 的金额税额语义仍需通过 `EX-06D` 收口；累计口径与阶段视图仍必须与 `L2-T04` 分开治理。
+按当前仓库现实，`L2-T03` 的设计范围和“当前已完成的实现范围”现在已经对齐；累计口径与阶段视图仍必须与 `L2-T04` 分开治理。
 
 当前应明确区分：
 
 1. 设计范围仍包含 `PROCUREMENT / INVOICE / EXPENSE / PAYMENT_FACT` 四类来源。
 2. 当前仓库中，`PAYMENT_FACT <- PaymentRecord`、`INVOICE <- InvoiceRecord`、`EXPENSE <- ExpenseRecord`、`PROCUREMENT <- PayableRecord` 已分别形成正式上游事实对象与映射切片。
 3. 当前 `PROCUREMENT` 的正式上游事实主对象固定为 `PayableRecord`，且 `PayableRecord -> ProjectActualCostRecord` 映射、来源回看与同源当前有效去重约束已正式落地。
-4. `PayableRecord` / `PaymentRecord` 的金额语义尚未最终冻结为显式未税 / 税额 / 含税三层，需由 `EX-06D` 完成收口后，`EX-06` 才能最终关闭。
+4. `PayableRecord` / `PaymentRecord` 的金额语义已由 `EX-06D` 冻结为显式未税 / 税额 / 含税三层，`EX-06` 已可正式关闭。
 
 因此，当前工程冻结口径应更新为：
 
 - 已完成切片可正式宣称为：`PAYMENT_FACT / INVOICE / EXPENSE / PROCUREMENT` 四类来源映射全部进入统一成本层。
 - `PayableRecord` 现在既是 `PROCUREMENT` 的正式上游事实对象，也是 `PAYMENT_FACT` 来源链的上游承诺锚点；后续不得再重复建设平行采购承诺对象。
-- procurement/payment 金额字段在 `EX-06D` 完成前仍处于“映射闭环已形成、金额语义待最终冻结”的状态；此阶段不得把 `amountIncludingTax` 视为已稳定的含税总额口径。
+- procurement/payment 金额字段已由 `EX-06D` 收口为稳定的 `amountExcludingTax / taxCostAmount / amountIncludingTax` 三层语义；后续实现不得再回退到模糊单金额口径。
 - 当前仍不得把“统一成本累计、分摊、税务吸收与阶段视图”宣称为已由 `EX-06` 覆盖，因为这些能力属于 `L2-T04 / EX-07`。
 
 对 `PROCUREMENT` 当前进一步固定以下实现结论：

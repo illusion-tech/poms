@@ -1,16 +1,20 @@
 # EX-06 执行期成本记录第一批纠偏 Checkpoint
 
-- Checkpoint Status: `Block`
+- Checkpoint Status: `Closed`
 - Parent: `EX-06`
 - Owner: `Codex`
 - Slice Type: `persistence + api-command + contract`
 - G3 Reviewer: `Solo worktree checkpoint`
 - Checkpoint Date: `2026-04-11`
+- Closed Date: `2026-04-13`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06`
 
 ---
 
 ## 1. 触发背景与范围
+
+> 2026-04-13 close-out note:
+> 本 checkpoint 记录的是 `2026-04-11` 时点的真实阻断判断。其列出的第一批 drift 已由后续 `EX-06B1 ~ EX-06B4` 与 `EX-06D` 收口完成。本文档现仅作为历史纠偏留痕，不再作为当前 `EX-06` 的活动阻断输入；当前正式状态以 `phase2-development-execution-tracker.md`、`poms-design-progress.md` 与 `ex-06d-payable-payment-tax-semantics-baseline.md` 为准。
 
 - 触发原因: EX-06 已开工后，发现已实现代码与冻结表 / DDL / 契约之间存在第一批真实 drift，无法直接进入 `G3 = Pass`。
 - 本次目标: 修复 EX-06 第一批高风险真实偏差，并把剩余未交付范围从父任务中拆清。
@@ -51,16 +55,16 @@
 
 ---
 
-## 4. 当前阻断结论
+## 4. 历史阻断结论
 
-当前 `G3 = Block`，原因如下：
+`2026-04-11` 时点的 `G3 = Block` 原因如下：
 
 1. 非 LABOR 来源映射命令和读侧追溯仍未实现。
 2. 修复前的成本率版本链缺少 `rate_key`、`version`、`status` 和当前有效约束。
 3. 修复前的共享契约把多个 `date` / `varchar(64)` 字段表达成了 `datetime` / `uuid`。
 4. 修复前的 LABOR 写侧没有校验费率覆盖期间，也没有计算金额和正确落替代链字段。
 
-本 checkpoint 只允许第一批修复进入验证，不允许据此关闭 EX-06 父任务。
+该历史结论在当时有效，但已不再代表当前仓库状态。
 
 ---
 
@@ -100,7 +104,7 @@
 
 ---
 
-## 7. 残余阻断与后续切片
+## 7. 历史残余阻断与后续切片
 
 已解除的阻断：
 
@@ -108,7 +112,7 @@
 2. `migration-check` 已通过，说明本轮 migration、DDL 与 ORM metadata 已重新对齐；本批不再存在新增 schema drift。
 3. `poms-api-e2e` 已通过，说明第一批修复未破坏当前 API 主路径、seed 初始化与合同到成本记录的现有最小闭环。
 
-仍存在的阻断：
+当时仍存在的阻断：
 
 1. 采购 / 发票 / 费用 / 付款事实的来源映射命令仍未实现。
 2. 项目实际成本读侧追溯接口仍未实现。
@@ -128,12 +132,15 @@
 
 ---
 
-## 9. G3 Checkpoint 结论
+## 9. Checkpoint 收口结论
 
-- Checkpoint Status: `Block`
-- Approved By: `Solo worktree checkpoint`
-- Approved At: `2026-04-11`
+- Historical G3 Decision: `Block`
+- Historical Approved By: `Solo worktree checkpoint`
+- Historical Approved At: `2026-04-11`
+- Current Checkpoint Status: `Closed`
+- Closed By: `Codex`
+- Closed At: `2026-04-13`
 - Conditions:
-  1. 第一批 corrective slice 已收口，且 migration / entity / contract / LABOR 写侧已重新对齐。
-  2. EX-06 父任务不得据此进入 `Done` / `G4`。
-  3. 后续来源映射与统一读侧追溯必须拆为独立可执行子切片继续推进。
+  1. 第一批 corrective slice 的原始问题已保持历史可追溯，不再需要继续作为活动阻断单独维持。
+  2. `EX-06B1 ~ EX-06B4` 已补齐非 `LABOR` 来源映射与最小读侧闭环。
+  3. `EX-06D` 已完成 procurement / payment 金额税额语义重基线，`EX-06` 不再受本 checkpoint 阻断。

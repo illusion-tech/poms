@@ -7,8 +7,8 @@
 - Parent: `EX-06`
 - Owner: `Codex`
 - Slice Type: `persistence + api-command + query + contract`
-- Gate Status: `G1 Pass`
-- Gate Date: `2026-04-12`
+- Gate Status: `G4 Pass`
+- Gate Date: `2026-04-13`
 - Tracker Row: `EX-06D`
 
 ## 2. 问题陈述
@@ -99,13 +99,35 @@ EX-06 已完成 `PROCUREMENT / INVOICE / EXPENSE / PAYMENT_FACT` 四类来源映
 
 ## 7. 依赖关系
 
-- `EX-06` 因本切片重开为 `Doing`，在 EX-06D 完成前不得进入最终关闭。
-- `EX-07` 依赖 EX-06D 完成后的冻结金额口径，不得提前消费 procurement/payment 的模糊单金额语义。
+- `EX-06` 已因本切片完成而恢复 `Done`，后续不再允许绕开本切片重新引入 procurement/payment 的模糊单金额语义。
+- `EX-07` 现在必须基于本切片冻结后的金额口径推进，不得重新解释 procurement/payment 的金额字段语义。
 
-## 8. G1 结论
+## 8. 实施结果
 
-本切片满足进入实现的前提，结论为 `G1 Pass`：
+本切片已按方案 C 完成收口，结果如下：
 
-1. 问题边界清楚，只收 procurement/payment 的金额税额语义。
-2. 上游设计与下游实现的冲突点已经明确，可直接用单一事实源改写。
-3. 该切片先于 EX-07 落地，能够阻止错误金额口径继续扩散。
+1. `payable_record` / `payment_record` 已切换为显式 `amountExcludingTax / taxAmount / amountIncludingTax` 金额模型，并删除 `registeredAmount` / `paymentAmount` 旧字段。
+2. `PayableRecord.paidAmount` 已从 canonical 持久化模型中移除，支付进度改为由关联确认态 `PaymentRecord` 聚合派生。
+3. procurement / payment 到 `ProjectActualCostRecord` 的映射已改为稳定写入 `amountExcludingTax / taxCostAmount / amountIncludingTax` 三层金额语义。
+4. shared contracts、DTO、OpenAPI、generated client、entity、migration、service 与测试已同步回写。
+5. 历史 procurement/payment 单金额误写入统一成本 `amountIncludingTax` 的数据已在 migration 中执行纠偏。
+
+## 9. 验证证据
+
+| Check            | Command / Evidence                                                                                                                                | Result | Notes                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------- |
+| Unit tests       | `corepack pnpm nx test poms-api --runInBand`                                                                                                      | Pass   | `24` suites / `268` tests                                                             |
+| Build            | `corepack pnpm nx build poms-api`                                                                                                                 | Pass   | `poms-api` 构建通过                                                                   |
+| OpenAPI          | `corepack pnpm nx run poms-api:openapi`                                                                                                           | Pass   | 契约导出通过                                                                          |
+| Generated client | `corepack pnpm nx run shared-api-client:generate`                                                                                                 | Pass   | client 已按新契约重生成                                                               |
+| API E2E          | `corepack pnpm nx run poms-api-e2e:e2e --runInBand`                                                                                               | Pass   | `9` suites / `51` tests；真实 DB migration-up 通过                                    |
+| Migration check  | `corepack pnpm nx run poms-api:migration-check`                                                                                                   | Pass   | schema 与 ORM metadata 对齐                                                           |
+| Diff hygiene     | `git diff --check -- apps/poms-api/src apps/poms-api-e2e/src libs/shared/contracts/src libs/api/contracts/src libs/shared/api-client docs/design` | Pass   | 仅 `libs/shared/api-client/.openapi-generator/FILES` 存在 CRLF warning，无 diff error |
+
+## 10. G4 结论
+
+本切片已满足 `G4 Pass`：
+
+1. procurement / payment 金额口径已回到单一事实源，不再把模糊单金额继续扩散到统一成本层。
+2. DDL、entity、contract、OpenAPI、generated client 与测试证据已对齐。
+3. `EX-07` 现在可以基于明确的未税 / 税额 / 含税语义继续推进累计、分摊与阶段视图设计和实现。
