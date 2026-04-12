@@ -1,6 +1,7 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 
@@ -96,6 +97,33 @@ export class InternalCostRateVersionRepository {
 
     async saveAll(entities: InternalCostRateVersion[]): Promise<void> {
         await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class ExpenseRecordRepository {
+    constructor(
+        @InjectRepository(ExpenseRecord)
+        private readonly repository: EntityRepository<ExpenseRecord>
+    ) {}
+
+    async findByProjectId(projectId: string): Promise<ExpenseRecord[]> {
+        return this.repository.find(
+            { projectId },
+            { orderBy: { expenseDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findById(id: string): Promise<ExpenseRecord | null> {
+        return this.repository.findOne({ id });
+    }
+
+    create(input: ConstructorParameters<typeof ExpenseRecord>[0]): ExpenseRecord {
+        return this.repository.create(input);
+    }
+
+    async save(entity: ExpenseRecord): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
     }
 }
 

@@ -1,16 +1,26 @@
-import { Body, Controller, Get, Param, Post, Query, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+    ConfirmExpenseRecordRequestDto,
+    CreateExpenseRecordRequestDto,
+    ExpenseRecordDetailViewDto,
+    ExpenseRecordListDto,
+    ExpenseRecordDto,
     ProjectActualCostRecordDetailViewDto,
     ProjectActualCostRecordListViewDto,
     PublishInternalCostRateVersionRequestDto,
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
-    ReplaceLaborCostRecordRequestDto
+    ReplaceLaborCostRecordRequestDto,
+    UpdateExpenseRecordRequestDto,
+    VoidExpenseRecordRequestDto
 } from '@poms/api-contracts';
 import type {
     CommandResult,
+    ExpenseRecordDetailView,
+    ExpenseRecordList,
+    ExpenseRecordSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView
 } from '@poms/shared-contracts';
@@ -69,6 +79,72 @@ export class ProjectCostController {
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.registerInvoiceCostRecord(body, userId);
+    }
+
+    @Get('projects/:projectId/expense-records')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目费用记录列表' })
+    @ApiOkResponse({ type: ExpenseRecordListDto })
+    async listExpenseRecords(@Param('projectId') projectId: string): Promise<ExpenseRecordList> {
+        return this.projectCostService.listExpenseRecords(projectId);
+    }
+
+    @Get('expense-records/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取费用记录详情' })
+    @ApiOkResponse({ type: ExpenseRecordDetailViewDto })
+    async getExpenseRecordDetail(@Param('id') id: string): Promise<ExpenseRecordDetailView> {
+        return this.projectCostService.getExpenseRecordDetail(id);
+    }
+
+    @Post('projects/:projectId/expense-records')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '创建费用记录' })
+    @ApiCreatedResponse({ type: ExpenseRecordDto })
+    async createExpenseRecord(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateExpenseRecordRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ExpenseRecordSummary> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.createExpenseRecord(projectId, body, userId);
+    }
+
+    @Patch('expense-records/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '更新费用记录' })
+    @ApiOkResponse({ type: ExpenseRecordDto })
+    async updateExpenseRecord(
+        @Param('id') id: string,
+        @Body() body: UpdateExpenseRecordRequestDto
+    ): Promise<ExpenseRecordSummary> {
+        return this.projectCostService.updateExpenseRecord(id, body);
+    }
+
+    @Post('expense-records/:id/confirm')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '确认费用记录' })
+    @ApiOkResponse({ type: ExpenseRecordDto })
+    @HttpCode(HttpStatus.OK)
+    async confirmExpenseRecord(
+        @Param('id') id: string,
+        @Body() body: ConfirmExpenseRecordRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ExpenseRecordSummary> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.confirmExpenseRecord(id, userId, body);
+    }
+
+    @Post('expense-records/:id/void')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '作废费用记录' })
+    @ApiOkResponse({ type: ExpenseRecordDto })
+    @HttpCode(HttpStatus.OK)
+    async voidExpenseRecord(
+        @Param('id') id: string,
+        @Body() body: VoidExpenseRecordRequestDto
+    ): Promise<ExpenseRecordSummary> {
+        return this.projectCostService.voidExpenseRecord(id, body);
     }
 
     @Get('projects/:projectId/actual-cost-records')

@@ -1,6 +1,6 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
-import { InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+import { ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
 
 jest.mock('@mikro-orm/nestjs', () => ({
     InjectRepository: () => () => undefined
@@ -15,6 +15,8 @@ const RECORD_ID = '44444444-4444-4444-8444-444444444444';
 const PAYMENT_RECORD_ID = '55555555-5555-4555-8555-555555555555';
 const REPLACEMENT_RECORD_ID = '66666666-6666-4666-8666-666666666666';
 const INVOICE_RECORD_ID = '77777777-7777-4777-8777-777777777777';
+const EXPENSE_RECORD_ID = '88888888-8888-4888-8888-888888888888';
+const CONTRACT_ID = '99999999-9999-4999-8999-999999999999';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -69,13 +71,68 @@ function makeInvoiceRecord(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makeProject(overrides: Record<string, unknown> = {}) {
+    return {
+        id: PROJECT_ID,
+        ...overrides
+    };
+}
+
+function makeContract(overrides: Record<string, unknown> = {}) {
+    return {
+        id: CONTRACT_ID,
+        projectId: PROJECT_ID,
+        ...overrides
+    };
+}
+
+function makeExpenseRecord(overrides: Record<string, unknown> = {}) {
+    return {
+        id: EXPENSE_RECORD_ID,
+        projectId: PROJECT_ID,
+        contractId: CONTRACT_ID,
+        expenseCategory: 'travel',
+        expenseDescription: 'Taxi reimbursement',
+        expenseDate: '2023-05-10',
+        currency: 'CNY',
+        amountIncludingTax: '1234.5600',
+        taxAmount: '123.4500',
+        amountExcludingTax: '1111.1100',
+        sourceType: 'manual',
+        status: 'recorded',
+        evidenceSummary: 'receipt attached',
+        attachmentCount: 2,
+        confirmedAt: null,
+        confirmedBy: null,
+        voidedAt: null,
+        voidReason: null,
+        rowVersion: 1,
+        createdAt: new Date('2023-05-10T09:00:00.000Z'),
+        updatedAt: new Date('2023-05-10T09:00:00.000Z'),
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
+    let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
     let internalCostRateVersionRepository: jest.Mocked<InternalCostRateVersionRepository>;
     let projectActualCostRecordRepository: jest.Mocked<ProjectActualCostRecordRepository>;
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
 
     beforeEach(() => {
+        const mockExpenseRecordRepository = {
+            create: jest.fn((input) => ({
+                ...makeExpenseRecord(),
+                id: EXPENSE_RECORD_ID,
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            findByProjectId: jest.fn(),
+            findById: jest.fn()
+        };
+
         const mockInternalCostRateVersionRepository = {
             create: jest.fn((input) => ({ id: RATE_VERSION_ID, ...input })),
             save: jest.fn(),
@@ -98,14 +155,22 @@ describe('ProjectCostService', () => {
         };
 
         const mockContractFinanceRepository = {
+            findProjectById: jest.fn(),
+            findContractById: jest.fn(),
             findPaymentById: jest.fn(),
             findInvoiceById: jest.fn()
         };
 
+        expenseRecordRepository = mockExpenseRecordRepository as unknown as jest.Mocked<ExpenseRecordRepository>;
         internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
         projectActualCostRecordRepository = mockProjectActualCostRecordRepository as unknown as jest.Mocked<ProjectActualCostRecordRepository>;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
-        service = new ProjectCostService(internalCostRateVersionRepository, projectActualCostRecordRepository, contractFinanceRepository);
+        service = new ProjectCostService(
+            expenseRecordRepository,
+            internalCostRateVersionRepository,
+            projectActualCostRecordRepository,
+            contractFinanceRepository
+        );
     });
 
     describe('publishInternalCostRateVersion', () => {
@@ -287,6 +352,120 @@ describe('ProjectCostService', () => {
                     USER_ID
                 )
             ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('expense records', () => {
+        it('creates an expense record after validating project and contract ownership', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            contractFinanceRepository.findContractById.mockResolvedValue(makeContract() as never);
+
+            const result = await service.createExpenseRecord(
+                PROJECT_ID,
+                {
+                    contractId: CONTRACT_ID,
+                    expenseCategory: 'travel',
+                    expenseDescription: ' Taxi reimbursement ',
+                    expenseDate: '2023-05-10',
+                    amountIncludingTax: '1234.56',
+                    taxAmount: '123.45',
+                    amountExcludingTax: '1111.11',
+                    evidenceSummary: 'receipt attached',
+                    attachmentCount: 2
+                },
+                USER_ID
+            );
+
+            expect(expenseRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    contractId: CONTRACT_ID,
+                    expenseCategory: 'travel',
+                    expenseDescription: 'Taxi reimbursement',
+                    expenseDate: '2023-05-10',
+                    amountIncludingTax: '1234.56',
+                    taxAmount: '123.45',
+                    amountExcludingTax: '1111.11',
+                    sourceType: 'manual',
+                    status: 'recorded'
+                })
+            );
+            expect(expenseRecordRepository.save).toHaveBeenCalled();
+            expect(result.status).toBe('recorded');
+            expect(result.contractId).toBe(CONTRACT_ID);
+        });
+
+        it('rejects inconsistent expense amount split', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+
+            await expect(
+                service.createExpenseRecord(
+                    PROJECT_ID,
+                    {
+                        expenseCategory: 'travel',
+                        expenseDescription: 'Taxi reimbursement',
+                        expenseDate: '2023-05-10',
+                        amountIncludingTax: '1234.56',
+                        taxAmount: '100.00',
+                        amountExcludingTax: '1000.00'
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('updates a recorded expense record', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord() as never);
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+
+            const result = await service.updateExpenseRecord(EXPENSE_RECORD_ID, {
+                expenseDescription: 'Updated taxi reimbursement',
+                attachmentCount: 3,
+                expectedVersion: 1
+            });
+
+            expect(expenseRecordRepository.save).toHaveBeenCalled();
+            expect(result.expenseDescription).toBe('Updated taxi reimbursement');
+            expect(result.attachmentCount).toBe(3);
+        });
+
+        it('confirms a recorded expense record', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord() as never);
+
+            const result = await service.confirmExpenseRecord(EXPENSE_RECORD_ID, USER_ID, {
+                expectedVersion: 1
+            });
+
+            expect(expenseRecordRepository.save).toHaveBeenCalled();
+            expect(result.status).toBe('confirmed');
+            expect(result.confirmedBy).toBe(USER_ID);
+        });
+
+        it('blocks updating a confirmed expense record', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed' }) as never);
+
+            await expect(
+                service.updateExpenseRecord(EXPENSE_RECORD_ID, {
+                    expenseDescription: 'cannot edit',
+                    expectedVersion: 1
+                })
+            ).rejects.toThrow('can no longer be updated');
+        });
+
+        it('voids an expense record with appended reason/comment', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
+            );
+
+            const result = await service.voidExpenseRecord(EXPENSE_RECORD_ID, {
+                reason: 'duplicate',
+                comment: 're-entered from approved claim',
+                expectedVersion: 1
+            });
+
+            expect(expenseRecordRepository.save).toHaveBeenCalled();
+            expect(result.status).toBe('voided');
+            expect(result.voidReason).toBe('duplicate: re-entered from approved claim');
         });
     });
 

@@ -1,20 +1,27 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import type {
     CommandResult,
+    ConfirmExpenseRecordRequest,
+    CreateExpenseRecordRequest,
+    ExpenseRecordDetailView,
+    ExpenseRecordSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordSummary,
     RegisterInvoiceCostRecordRequest,
     PublishInternalCostRateVersionRequest,
     RegisterLaborCostRecordRequest,
     RegisterPaymentFactCostRecordRequest,
-    ReplaceLaborCostRecordRequest
+    ReplaceLaborCostRecordRequest,
+    UpdateExpenseRecordRequest,
+    VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import type { InvoiceRecord } from '../contract-finance/invoice-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
+import type { ExpenseRecord } from './expense-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
-import { InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+import { ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
 
 interface ProjectActualCostRecordFilters {
     costType?: string;
@@ -25,6 +32,7 @@ interface ProjectActualCostRecordFilters {
 @Injectable()
 export class ProjectCostService {
     constructor(
+        private readonly expenseRecordRepository: ExpenseRecordRepository,
         private readonly internalCostRateVersionRepository: InternalCostRateVersionRepository,
         private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository,
         private readonly contractFinanceRepository: ContractFinanceRepository
@@ -241,6 +249,148 @@ export class ProjectCostService {
             confirmationRecordId: null,
             todoItemIds: []
         };
+    }
+
+    async listExpenseRecords(projectId: string): Promise<ExpenseRecordSummary[]> {
+        const records = await this.expenseRecordRepository.findByProjectId(projectId);
+        return records.map((record) => this.toExpenseRecordSummary(record));
+    }
+
+    async getExpenseRecordDetail(id: string): Promise<ExpenseRecordDetailView> {
+        const record = await this.expenseRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`ExpenseRecord ${id} not found`);
+        }
+
+        return {
+            ...this.toExpenseRecordSummary(record),
+            allowedActions: this.buildExpenseAllowedActions(record)
+        };
+    }
+
+    async createExpenseRecord(
+        projectId: string,
+        input: CreateExpenseRecordRequest,
+        userId: string
+    ): Promise<ExpenseRecordSummary> {
+        await this.assertExpenseProjectAndContract(projectId, input.contractId ?? null);
+        this.assertExpenseAmountsConsistent(input.amountIncludingTax, input.taxAmount, input.amountExcludingTax);
+
+        const entity = this.expenseRecordRepository.create({
+            projectId,
+            contractId: input.contractId ?? null,
+            expenseCategory: input.expenseCategory,
+            expenseDescription: input.expenseDescription.trim(),
+            expenseDate: input.expenseDate,
+            currency: input.currency?.trim() ?? 'CNY',
+            amountIncludingTax: input.amountIncludingTax,
+            taxAmount: input.taxAmount ?? null,
+            amountExcludingTax: input.amountExcludingTax ?? null,
+            sourceType: input.sourceType ?? 'manual',
+            status: 'recorded',
+            evidenceSummary: input.evidenceSummary ?? null,
+            attachmentCount: input.attachmentCount ?? 0,
+            confirmedAt: null,
+            confirmedBy: null,
+            voidedAt: null,
+            voidReason: null
+        });
+
+        await this.expenseRecordRepository.save(entity);
+        return this.toExpenseRecordSummary(entity);
+    }
+
+    async updateExpenseRecord(id: string, input: UpdateExpenseRecordRequest): Promise<ExpenseRecordSummary> {
+        const record = await this.expenseRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`ExpenseRecord ${id} not found`);
+        }
+
+        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
+        if (record.status === 'confirmed' || record.status === 'voided') {
+            throw new UnprocessableEntityException(`ExpenseRecord ${id} can no longer be updated in status ${record.status}`);
+        }
+
+        if (input.contractId !== undefined) {
+            await this.assertExpenseProjectAndContract(record.projectId, input.contractId);
+            record.contractId = input.contractId;
+        }
+        if (input.expenseCategory !== undefined) {
+            record.expenseCategory = input.expenseCategory;
+        }
+        if (input.expenseDescription !== undefined) {
+            record.expenseDescription = input.expenseDescription.trim();
+        }
+        if (input.expenseDate !== undefined) {
+            record.expenseDate = input.expenseDate;
+        }
+        if (input.currency !== undefined) {
+            record.currency = input.currency.trim();
+        }
+        if (input.amountIncludingTax !== undefined) {
+            record.amountIncludingTax = input.amountIncludingTax;
+        }
+        if (input.taxAmount !== undefined) {
+            record.taxAmount = input.taxAmount;
+        }
+        if (input.amountExcludingTax !== undefined) {
+            record.amountExcludingTax = input.amountExcludingTax;
+        }
+        if (input.sourceType !== undefined) {
+            record.sourceType = input.sourceType;
+        }
+        if (input.evidenceSummary !== undefined) {
+            record.evidenceSummary = input.evidenceSummary;
+        }
+        if (input.attachmentCount !== undefined) {
+            record.attachmentCount = input.attachmentCount;
+        }
+
+        this.assertExpenseAmountsConsistent(record.amountIncludingTax, record.taxAmount, record.amountExcludingTax);
+        await this.expenseRecordRepository.save(record);
+        return this.toExpenseRecordSummary(record);
+    }
+
+    async confirmExpenseRecord(
+        id: string,
+        userId: string,
+        input: ConfirmExpenseRecordRequest
+    ): Promise<ExpenseRecordSummary> {
+        const record = await this.expenseRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`ExpenseRecord ${id} not found`);
+        }
+
+        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
+        if (record.status !== 'recorded') {
+            throw new UnprocessableEntityException(
+                `Only recorded expense records can be confirmed, current status: ${record.status}`
+            );
+        }
+
+        record.status = 'confirmed';
+        record.confirmedAt = new Date();
+        record.confirmedBy = userId;
+        await this.expenseRecordRepository.save(record);
+        return this.toExpenseRecordSummary(record);
+    }
+
+    async voidExpenseRecord(id: string, input: VoidExpenseRecordRequest): Promise<ExpenseRecordSummary> {
+        const record = await this.expenseRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`ExpenseRecord ${id} not found`);
+        }
+
+        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
+        if (record.status === 'voided') {
+            throw new UnprocessableEntityException(`ExpenseRecord ${id} is already voided`);
+        }
+
+        record.status = 'voided';
+        record.voidedAt = new Date();
+        record.voidReason = this.appendComment(input.reason.trim(), input.comment);
+        await this.expenseRecordRepository.save(record);
+        return this.toExpenseRecordSummary(record);
     }
 
     async listProjectActualCostRecords(projectId: string, filters: ProjectActualCostRecordFilters = {}): Promise<ProjectActualCostRecordSummary[]> {
@@ -471,6 +621,38 @@ export class ProjectCostService {
         }
     }
 
+    private async assertExpenseProjectAndContract(projectId: string, contractId: string | null | undefined): Promise<void> {
+        const project = await this.contractFinanceRepository.findProjectById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        if (!contractId) {
+            return;
+        }
+
+        const contract = await this.contractFinanceRepository.findContractById(contractId);
+        if (!contract || contract.projectId !== projectId) {
+            throw new NotFoundException(`Contract ${contractId} not found for project ${projectId}`);
+        }
+    }
+
+    private assertExpenseAmountsConsistent(
+        amountIncludingTax: string | number,
+        taxAmount: string | number | null | undefined,
+        amountExcludingTax: string | number | null | undefined
+    ): void {
+        const total = this.parsePositiveDecimal(amountIncludingTax, 'amountIncludingTax');
+        const tax = taxAmount == null ? null : this.parseNonNegativeDecimal(taxAmount, 'taxAmount');
+        const excluding = amountExcludingTax == null ? null : this.parseNonNegativeDecimal(amountExcludingTax, 'amountExcludingTax');
+
+        if (tax !== null && excluding !== null && Math.abs(total - (tax + excluding)) > 0.0001) {
+            throw new UnprocessableEntityException(
+                'amountIncludingTax must equal taxAmount + amountExcludingTax when both fields are provided'
+            );
+        }
+    }
+
     private assertLaborScopeMatchesRate(rateVersion: InternalCostRateVersion, laborPersonId: string | null, laborRole: string | null): void {
         if (rateVersion.rateScopeType === 'PERSON') {
             if (!rateVersion.personId) {
@@ -503,6 +685,32 @@ export class ProjectCostService {
         }
 
         throw new ConflictException(`Unsupported rate unit ${rateVersion.rateUnit}`);
+    }
+
+    private toExpenseRecordSummary(record: ExpenseRecord): ExpenseRecordSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            contractId: record.contractId ?? null,
+            expenseCategory: record.expenseCategory,
+            expenseDescription: record.expenseDescription,
+            expenseDate: this.toIsoDate(record.expenseDate),
+            currency: record.currency,
+            amountIncludingTax: this.toNullableDecimal(record.amountIncludingTax) ?? '0.0000',
+            taxAmount: this.toNullableDecimal(record.taxAmount),
+            amountExcludingTax: this.toNullableDecimal(record.amountExcludingTax),
+            sourceType: record.sourceType,
+            status: record.status,
+            evidenceSummary: record.evidenceSummary ?? null,
+            attachmentCount: record.attachmentCount,
+            confirmedAt: this.toNullableDateTime(record.confirmedAt),
+            confirmedBy: record.confirmedBy ?? null,
+            voidedAt: this.toNullableDateTime(record.voidedAt),
+            voidReason: record.voidReason ?? null,
+            rowVersion: record.rowVersion,
+            createdAt: this.toRequiredDateTime(record.createdAt),
+            updatedAt: this.toRequiredDateTime(record.updatedAt)
+        };
     }
 
     private toProjectActualCostRecordSummary(record: ProjectActualCostRecord): ProjectActualCostRecordSummary {
@@ -628,6 +836,22 @@ export class ProjectCostService {
         return [];
     }
 
+    private buildExpenseAllowedActions(record: ExpenseRecord): string[] {
+        if (record.status === 'recorded') {
+            return ['update', 'confirm', 'void'];
+        }
+        if (record.status === 'confirmed') {
+            return ['void'];
+        }
+        return [];
+    }
+
+    private assertExpectedVersion(currentVersion: number, expectedVersion: number | undefined, targetType: string): void {
+        if (expectedVersion !== undefined && currentVersion !== expectedVersion) {
+            throw new ConflictException(`Optimistic locking failed for ${targetType}`);
+        }
+    }
+
     private parseDateOnly(value: string, fieldName: string): string {
         if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
             throw new UnprocessableEntityException(`${fieldName} must use YYYY-MM-DD date format`);
@@ -658,6 +882,14 @@ export class ProjectCostService {
         const parsed = this.toNumber(value);
         if (parsed <= 0) {
             throw new UnprocessableEntityException(`${fieldName} must be greater than 0`);
+        }
+        return parsed;
+    }
+
+    private parseNonNegativeDecimal(value: string | number, fieldName: string): number {
+        const parsed = this.toNumber(value);
+        if (parsed < 0) {
+            throw new UnprocessableEntityException(`${fieldName} must be greater than or equal to 0`);
         }
         return parsed;
     }
@@ -712,5 +944,10 @@ export class ProjectCostService {
 
     private formatAmount(value: number): string {
         return value.toFixed(4);
+    }
+
+    private appendComment(value: string, comment: string | null | undefined): string {
+        const suffix = comment?.trim();
+        return suffix ? `${value}: ${suffix}` : value;
     }
 }
