@@ -15,7 +15,10 @@ export interface PaymentRecordSummary {
     projectId: string;
     contractId: string | null;
     payableRecordId: string | null;
-    paymentAmount: string;
+    currency: string;
+    amountExcludingTax: string;
+    taxAmount: string | null;
+    amountIncludingTax: string | null;
     paymentDate: string;
     costCategory: string;
     sourceType: string;

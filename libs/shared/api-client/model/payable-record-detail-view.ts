@@ -18,8 +18,10 @@ export interface PayableRecordDetailView {
     costCategory: string;
     payableDescription: string;
     currency: string;
-    registeredAmount: string;
-    paidAmount: string;
+    amountExcludingTax: string;
+    taxAmount: string | null;
+    amountIncludingTax: string | null;
+    settledAmountExcludingTax: string;
     expectedPaymentDate: string;
     status: PayableRecordStatus;
     evidenceSummary: string | null;

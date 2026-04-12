@@ -1,7 +1,6 @@
 import {
     ClosePayableRecordRequestSchema,
     CloseInvoiceRecordRequestSchema,
-    CompletePayableRecordRequestSchema,
     ConfirmPaymentRecordRequestSchema,
     ConfirmReceiptRecordRequestSchema,
     CreatePayableRecordRequestSchema,
@@ -11,7 +10,6 @@ import {
     InvoiceRecordDetailViewSchema,
     InvoiceRecordListSchema,
     InvoiceRecordSummarySchema,
-    MarkPayableRecordPartiallyPaidRequestSchema,
     MarkInvoiceExceptionRequestSchema,
     PayableRecordDetailViewSchema,
     PayableRecordListSchema,
@@ -44,10 +42,6 @@ export class PayableRecordDetailViewDto extends createZodDto(PayableRecordDetail
 export class CreatePayableRecordRequestDto extends createZodDto(CreatePayableRecordRequestSchema) {}
 
 export class UpdatePayableRecordRequestDto extends createZodDto(UpdatePayableRecordRequestSchema) {}
-
-export class MarkPayableRecordPartiallyPaidRequestDto extends createZodDto(MarkPayableRecordPartiallyPaidRequestSchema) {}
-
-export class CompletePayableRecordRequestDto extends createZodDto(CompletePayableRecordRequestSchema) {}
 
 export class ClosePayableRecordRequestDto extends createZodDto(ClosePayableRecordRequestSchema) {}
 

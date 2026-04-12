@@ -1125,8 +1125,10 @@ export const PayableRecordSummarySchema = z
         costCategory: z.string(),
         payableDescription: z.string(),
         currency: z.string(),
-        registeredAmount: z.string(),
-        paidAmount: z.string(),
+        amountExcludingTax: z.string(),
+        taxAmount: z.string().nullable(),
+        amountIncludingTax: z.string().nullable(),
+        settledAmountExcludingTax: z.string(),
         expectedPaymentDate: z.iso.date(),
         status: PayableRecordStatusSchema,
         evidenceSummary: z.string().nullable(),
@@ -1162,7 +1164,9 @@ export const CreatePayableRecordRequestSchema = z
         costCategory: z.string().trim().min(1).max(64),
         payableDescription: z.string().trim().min(1).max(2000),
         currency: z.string().trim().min(1).max(16).optional(),
-        registeredAmount: z.string().trim().min(1).max(64),
+        amountExcludingTax: z.string().trim().min(1).max(64),
+        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
+        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
         expectedPaymentDate: z.iso.date(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         attachmentCount: z.number().int().nonnegative().optional()
@@ -1178,7 +1182,9 @@ export const UpdatePayableRecordRequestSchema = z
         costCategory: z.string().trim().min(1).max(64).optional(),
         payableDescription: z.string().trim().min(1).max(2000).optional(),
         currency: z.string().trim().min(1).max(16).optional(),
-        registeredAmount: z.string().trim().min(1).max(64).optional(),
+        amountExcludingTax: z.string().trim().min(1).max(64).optional(),
+        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
+        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
         expectedPaymentDate: z.iso.date().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         attachmentCount: z.number().int().nonnegative().optional(),
@@ -1191,7 +1197,9 @@ export const UpdatePayableRecordRequestSchema = z
             value.costCategory !== undefined ||
             value.payableDescription !== undefined ||
             value.currency !== undefined ||
-            value.registeredAmount !== undefined ||
+            value.amountExcludingTax !== undefined ||
+            value.taxAmount !== undefined ||
+            value.amountIncludingTax !== undefined ||
             value.expectedPaymentDate !== undefined ||
             value.evidenceSummary !== undefined ||
             value.attachmentCount !== undefined,
@@ -1202,23 +1210,6 @@ export const UpdatePayableRecordRequestSchema = z
     .meta({ id: 'UpdatePayableRecordRequest' });
 
 export type UpdatePayableRecordRequest = z.infer<typeof UpdatePayableRecordRequestSchema>;
-
-export const MarkPayableRecordPartiallyPaidRequestSchema = z
-    .object({
-        paidAmount: z.string().trim().min(1).max(64),
-        expectedVersion: z.number().int().positive().optional()
-    })
-    .meta({ id: 'MarkPayableRecordPartiallyPaidRequest' });
-
-export type MarkPayableRecordPartiallyPaidRequest = z.infer<typeof MarkPayableRecordPartiallyPaidRequestSchema>;
-
-export const CompletePayableRecordRequestSchema = z
-    .object({
-        expectedVersion: z.number().int().positive().optional()
-    })
-    .meta({ id: 'CompletePayableRecordRequest' });
-
-export type CompletePayableRecordRequest = z.infer<typeof CompletePayableRecordRequestSchema>;
 
 export const ClosePayableRecordRequestSchema = z
     .object({
@@ -1254,7 +1245,10 @@ export const PaymentRecordSummarySchema = z
         projectId: z.uuid(),
         contractId: z.uuid().nullable(),
         payableRecordId: z.uuid().nullable(),
-        paymentAmount: z.string(),
+        currency: z.string(),
+        amountExcludingTax: z.string(),
+        taxAmount: z.string().nullable(),
+        amountIncludingTax: z.string().nullable(),
         paymentDate: z.iso.datetime(),
         costCategory: z.string(),
         sourceType: z.string(),
@@ -1279,7 +1273,10 @@ export const CreatePaymentRecordRequestSchema = z
     .object({
         contractId: z.uuid().nullable().optional(),
         payableRecordId: z.uuid().nullable().optional(),
-        paymentAmount: z.string().trim().min(1).max(64),
+        currency: z.string().trim().min(1).max(16).optional(),
+        amountExcludingTax: z.string().trim().min(1).max(64),
+        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
+        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
         paymentDate: z.iso.datetime(),
         costCategory: z.string().trim().min(1).max(64),
         sourceType: z.string().trim().min(1).max(32).optional()

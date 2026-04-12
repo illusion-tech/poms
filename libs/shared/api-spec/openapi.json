@@ -2396,98 +2396,6 @@
         ]
       }
     },
-    "/api/contract-finance/payable-records/{id}/partial": {
-      "post": {
-        "operationId": "ContractFinanceController_markPayablePartiallyPaid",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPayableRecordPartiallyPaidRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PayableRecordSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "标记采购承诺记录为部分支付",
-        "tags": [
-          "ContractFinance"
-        ]
-      }
-    },
-    "/api/contract-finance/payable-records/{id}/complete": {
-      "post": {
-        "operationId": "ContractFinanceController_completePayable",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompletePayableRecordRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PayableRecordSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "完成采购承诺记录",
-        "tags": [
-          "ContractFinance"
-        ]
-      }
-    },
     "/api/contract-finance/payable-records/{id}/close": {
       "post": {
         "operationId": "ContractFinanceController_closePayable",
@@ -8147,10 +8055,18 @@
           "currency": {
             "type": "string"
           },
-          "registeredAmount": {
+          "amountExcludingTax": {
             "type": "string"
           },
-          "paidAmount": {
+          "taxAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "nullable": true
+          },
+          "settledAmountExcludingTax": {
             "type": "string"
           },
           "expectedPaymentDate": {
@@ -8214,8 +8130,10 @@
           "costCategory",
           "payableDescription",
           "currency",
-          "registeredAmount",
-          "paidAmount",
+          "amountExcludingTax",
+          "taxAmount",
+          "amountIncludingTax",
+          "settledAmountExcludingTax",
           "expectedPaymentDate",
           "status",
           "evidenceSummary",
@@ -8280,10 +8198,18 @@
           "currency": {
             "type": "string"
           },
-          "registeredAmount": {
+          "amountExcludingTax": {
             "type": "string"
           },
-          "paidAmount": {
+          "taxAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "nullable": true
+          },
+          "settledAmountExcludingTax": {
             "type": "string"
           },
           "expectedPaymentDate": {
@@ -8353,8 +8279,10 @@
           "costCategory",
           "payableDescription",
           "currency",
-          "registeredAmount",
-          "paidAmount",
+          "amountExcludingTax",
+          "taxAmount",
+          "amountIncludingTax",
+          "settledAmountExcludingTax",
           "expectedPaymentDate",
           "status",
           "evidenceSummary",
@@ -8399,10 +8327,22 @@
             "minLength": 1,
             "maxLength": 16
           },
-          "registeredAmount": {
+          "amountExcludingTax": {
             "type": "string",
             "minLength": 1,
             "maxLength": 64
+          },
+          "taxAmount": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
           },
           "expectedPaymentDate": {
             "type": "string",
@@ -8425,7 +8365,7 @@
           "vendorName",
           "costCategory",
           "payableDescription",
-          "registeredAmount",
+          "amountExcludingTax",
           "expectedPaymentDate"
         ],
         "id": "CreatePayableRecordRequest"
@@ -8459,10 +8399,22 @@
             "minLength": 1,
             "maxLength": 16
           },
-          "registeredAmount": {
+          "amountExcludingTax": {
             "type": "string",
             "minLength": 1,
             "maxLength": 64
+          },
+          "taxAmount": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
           },
           "expectedPaymentDate": {
             "type": "string",
@@ -8487,36 +8439,6 @@
           }
         },
         "id": "UpdatePayableRecordRequest"
-      },
-      "MarkPayableRecordPartiallyPaidRequest": {
-        "type": "object",
-        "properties": {
-          "paidAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "required": [
-          "paidAmount"
-        ],
-        "id": "MarkPayableRecordPartiallyPaidRequest"
-      },
-      "CompletePayableRecordRequest": {
-        "type": "object",
-        "properties": {
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "id": "CompletePayableRecordRequest"
       },
       "ClosePayableRecordRequest": {
         "type": "object",
@@ -8976,8 +8898,19 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           },
-          "paymentAmount": {
+          "currency": {
             "type": "string"
+          },
+          "amountExcludingTax": {
+            "type": "string"
+          },
+          "taxAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "nullable": true
           },
           "paymentDate": {
             "type": "string",
@@ -9026,7 +8959,10 @@
           "projectId",
           "contractId",
           "payableRecordId",
-          "paymentAmount",
+          "currency",
+          "amountExcludingTax",
+          "taxAmount",
+          "amountIncludingTax",
           "paymentDate",
           "costCategory",
           "sourceType",
@@ -9071,10 +9007,27 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           },
-          "paymentAmount": {
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16
+          },
+          "amountExcludingTax": {
             "type": "string",
             "minLength": 1,
             "maxLength": 64
+          },
+          "taxAmount": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
           },
           "paymentDate": {
             "type": "string",
@@ -9093,7 +9046,7 @@
           }
         },
         "required": [
-          "paymentAmount",
+          "amountExcludingTax",
           "paymentDate",
           "costCategory"
         ],

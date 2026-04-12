@@ -15,7 +15,9 @@ export interface CreatePayableRecordRequest {
     costCategory: string;
     payableDescription: string;
     currency?: string;
-    registeredAmount: string;
+    amountExcludingTax: string;
+    taxAmount?: string | null;
+    amountIncludingTax?: string | null;
     expectedPaymentDate: string;
     evidenceSummary?: string | null;
     attachmentCount?: number;
