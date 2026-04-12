@@ -43,7 +43,10 @@ function makePaymentRecord(overrides: Record<string, unknown> = {}) {
     return {
         id: PAYMENT_RECORD_ID,
         projectId: PROJECT_ID,
-        paymentAmount: '8888.50',
+        currency: 'CNY',
+        amountExcludingTax: '8888.50',
+        taxAmount: null,
+        amountIncludingTax: null,
         paymentDate: new Date('2023-03-18T08:00:00.000Z'),
         costCategory: 'vendor-payment',
         sourceType: 'manual',
@@ -123,8 +126,9 @@ function makePayableRecord(overrides: Record<string, unknown> = {}) {
         costCategory: 'hardware',
         payableDescription: 'Server procurement',
         currency: 'CNY',
-        registeredAmount: '4567.8900',
-        paidAmount: '0.0000',
+        amountExcludingTax: '4567.8900',
+        taxAmount: null,
+        amountIncludingTax: null,
         expectedPaymentDate: '2023-06-15',
         status: 'recorded',
         evidenceSummary: 'quotation approved',
@@ -269,7 +273,8 @@ describe('ProjectCostService', () => {
                     costSubtype: 'vendor-payment',
                     occurredOn: '2023-03-18',
                     recordStatus: 'CONFIRMED',
-                    amountIncludingTax: '8888.5000',
+                    amountExcludingTax: '8888.5000',
+                    amountIncludingTax: null,
                     sourceType: 'PAYMENT_RECORD',
                     sourceId: PAYMENT_RECORD_ID,
                     sourceRefNo: PAYMENT_RECORD_ID,
@@ -483,7 +488,8 @@ describe('ProjectCostService', () => {
                     costSubtype: 'hardware',
                     occurredOn: '2023-06-15',
                     recordStatus: 'REGISTERED',
-                    amountIncludingTax: '4567.8900',
+                    amountExcludingTax: '4567.8900',
+                    amountIncludingTax: null,
                     sourceType: 'PAYABLE_RECORD',
                     sourceId: PAYABLE_RECORD_ID,
                     sourceRefNo: PAYABLE_RECORD_ID,
@@ -671,9 +677,9 @@ describe('ProjectCostService', () => {
                     stageDerivedAt: null,
                     stageLockedAt: null,
                     currency: 'CNY',
-                    amountExcludingTax: null,
+                    amountExcludingTax: '8888.5000',
                     taxCostAmount: null,
-                    amountIncludingTax: '8888.5000',
+                    amountIncludingTax: null,
                     recordStatus: 'CONFIRMED',
                     isIncludedInProjectCost: false,
                     isHighRisk: false,
@@ -707,7 +713,8 @@ describe('ProjectCostService', () => {
                     costType: 'PAYMENT_FACT',
                     sourceType: 'PAYMENT_RECORD',
                     sourceId: PAYMENT_RECORD_ID,
-                    amountIncludingTax: '8888.5000'
+                    amountExcludingTax: '8888.5000',
+                    amountIncludingTax: null
                 })
             );
         });
@@ -942,9 +949,9 @@ describe('ProjectCostService', () => {
                     stageDerivedAt: null,
                     stageLockedAt: null,
                     currency: 'CNY',
-                    amountExcludingTax: null,
+                    amountExcludingTax: '4567.8900',
                     taxCostAmount: null,
-                    amountIncludingTax: '4567.8900',
+                    amountIncludingTax: null,
                     recordStatus: 'REGISTERED',
                     isIncludedInProjectCost: false,
                     isHighRisk: false,
@@ -980,7 +987,7 @@ describe('ProjectCostService', () => {
                 } as never
             );
             contractFinanceRepository.findPayableById.mockResolvedValue(
-                makePayableRecord({ paidAmount: '1234.5600', status: 'partially-paid' }) as never
+                makePayableRecord({ status: 'partially-paid' }) as never
             );
             projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
 
@@ -989,7 +996,7 @@ describe('ProjectCostService', () => {
             expect(result.allowedActions).toEqual([]);
             expect(result.sourceStatusSummary).toBe('PayableRecord:partially-paid');
             expect(result.effectivePeriodSummary).toBe('2023-06-15');
-            expect(result.measurementBasisSummary).toBe('4567.8900 CNY @ 2023-06-15 (paid 1234.5600)');
+            expect(result.measurementBasisSummary).toBe('4567.8900 CNY ex-tax @ 2023-06-15');
         });
     });
 

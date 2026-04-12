@@ -84,6 +84,23 @@ export class ContractFinanceRepository {
         return this.paymentRepository.find({ projectId }, { orderBy: { paymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
     }
 
+    async findPaymentsForPayable(payableRecordId: string): Promise<PaymentRecord[]> {
+        return this.paymentRepository.find(
+            { payableRecordId },
+            { orderBy: { paymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findConfirmedPaymentsForPayableIds(payableRecordIds: string[]): Promise<PaymentRecord[]> {
+        if (payableRecordIds.length === 0) {
+            return [];
+        }
+        return this.paymentRepository.find({
+            payableRecordId: { $in: payableRecordIds },
+            status: 'confirmed'
+        });
+    }
+
     async findInvoicesForProject(projectId: string): Promise<InvoiceRecord[]> {
         return this.invoiceRepository.find({ projectId }, { orderBy: { invoiceDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
     }

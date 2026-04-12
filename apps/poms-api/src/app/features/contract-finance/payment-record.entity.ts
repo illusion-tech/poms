@@ -42,7 +42,10 @@ export const PaymentRecordSchema = defineEntity({
                 .foreignKeyName('payment_record_payable_record_id_foreign')
                 .updateRule('cascade')
                 .deleteRule('set null'),
-        paymentAmount: p.decimal().precision(18).scale(2).fieldName('payment_amount'),
+        currency: p.string().length(16).default('CNY'),
+        amountExcludingTax: p.decimal().precision(18).scale(2).fieldName('amount_excluding_tax'),
+        taxAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_amount'),
+        amountIncludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_including_tax'),
         paymentDate: p.datetime().fieldName('payment_date'),
         costCategory: p.string().length(64).fieldName('cost_category'),
         sourceType: p.string().length(32).fieldName('source_type'),

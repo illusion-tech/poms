@@ -2,7 +2,6 @@ import { ConflictException, Injectable, NotFoundException, UnprocessableEntityEx
 import type {
     ClosePayableRecordRequest,
     CloseInvoiceRecordRequest,
-    CompletePayableRecordRequest,
     ConfirmPaymentRecordRequest,
     ConfirmReceiptRecordRequest,
     CreatePayableRecordRequest,
@@ -11,7 +10,6 @@ import type {
     CreateReceiptRecordRequest,
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
-    MarkPayableRecordPartiallyPaidRequest,
     MarkInvoiceExceptionRequest,
     PayableRecordDetailView,
     PayableRecordSummary,
@@ -88,7 +86,8 @@ export class ContractFinanceService {
 
     async listPayables(projectId: string): Promise<PayableRecordSummary[]> {
         const payables = await this.repo.findPayablesForProject(projectId);
-        return payables.map(this.#toPayableSummary);
+        const settledAmounts = await this.#loadSettledAmounts(payables.map((item) => item.id));
+        return payables.map((item) => this.#toPayableSummary(item, settledAmounts.get(item.id) ?? '0.00'));
     }
 
     async getPayable(id: string): Promise<PayableRecordDetailView> {
@@ -97,9 +96,10 @@ export class ContractFinanceService {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
         const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource('PAYABLE_RECORD', id));
+        const settledAmounts = await this.#loadSettledAmounts([id]);
 
         return {
-            ...this.#toPayableSummary(payable),
+            ...this.#toPayableSummary(payable, settledAmounts.get(id) ?? '0.00'),
             allowedActions: this.#buildPayableAllowedActions(payable, hasCurrentCostMapping)
         };
     }
@@ -115,6 +115,7 @@ export class ContractFinanceService {
 
         const contractId = dto.contractId ?? null;
         await this.#assertPayableContractScope(projectId, contractId);
+        this.#assertTaxAmountsConsistent(dto.amountExcludingTax, dto.taxAmount, dto.amountIncludingTax, 'PayableRecord');
 
         const entity = this.repo.createPayable({
             projectId,
@@ -123,8 +124,9 @@ export class ContractFinanceService {
             costCategory: dto.costCategory.trim(),
             payableDescription: dto.payableDescription.trim(),
             currency: dto.currency?.trim() ?? 'CNY',
-            registeredAmount: dto.registeredAmount,
-            paidAmount: '0',
+            amountExcludingTax: dto.amountExcludingTax,
+            taxAmount: dto.taxAmount ?? null,
+            amountIncludingTax: dto.amountIncludingTax ?? null,
             expectedPaymentDate: this.#toDateValue(dto.expectedPaymentDate),
             status: 'recorded',
             evidenceSummary: dto.evidenceSummary ?? null,
@@ -135,7 +137,7 @@ export class ContractFinanceService {
             voidReason: null
         });
         await this.repo.persistAndFlushPayable(entity);
-        return this.#toPayableSummary(entity);
+        return this.#toPayableSummary(entity, '0.00');
     }
 
     async updatePayable(
@@ -150,6 +152,9 @@ export class ContractFinanceService {
 
         if (payable.status === 'completed' || payable.status === 'closed' || payable.status === 'voided') {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许再更新`);
+        }
+        if (payable.status === 'partially-paid') {
+            throw new UnprocessableEntityException('已存在付款事实的采购承诺记录不允许直接更新金额语义');
         }
         await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '更新采购承诺记录');
 
@@ -169,8 +174,14 @@ export class ContractFinanceService {
         if (dto.currency !== undefined) {
             payable.currency = dto.currency.trim();
         }
-        if (dto.registeredAmount !== undefined) {
-            payable.registeredAmount = dto.registeredAmount;
+        if (dto.amountExcludingTax !== undefined) {
+            payable.amountExcludingTax = dto.amountExcludingTax;
+        }
+        if (dto.taxAmount !== undefined) {
+            payable.taxAmount = dto.taxAmount;
+        }
+        if (dto.amountIncludingTax !== undefined) {
+            payable.amountIncludingTax = dto.amountIncludingTax;
         }
         if (dto.expectedPaymentDate !== undefined) {
             payable.expectedPaymentDate = this.#toDateValue(dto.expectedPaymentDate);
@@ -182,55 +193,14 @@ export class ContractFinanceService {
             payable.attachmentCount = dto.attachmentCount;
         }
 
-        this.#assertPaidAmountNotExceedRegisteredAmount(payable.paidAmount, payable.registeredAmount);
+        this.#assertTaxAmountsConsistent(
+            payable.amountExcludingTax,
+            payable.taxAmount ?? null,
+            payable.amountIncludingTax ?? null,
+            'PayableRecord'
+        );
         await this.repo.flushPayable();
-        return this.#toPayableSummary(payable);
-    }
-
-    async markPayablePartiallyPaid(
-        id: string,
-        dto: MarkPayableRecordPartiallyPaidRequest
-    ): Promise<PayableRecordSummary> {
-        const payable = await this.repo.findPayableById(id);
-        if (!payable) {
-            throw new NotFoundException(`PayableRecord ${id} not found`);
-        }
-        this.#assertExpectedVersion(payable.rowVersion, dto.expectedVersion, 'PayableRecord');
-
-        if (payable.status !== 'recorded' && payable.status !== 'partially-paid') {
-            throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许标记部分支付`);
-        }
-        if (Number(dto.paidAmount) <= 0) {
-            throw new UnprocessableEntityException('部分支付金额必须大于 0');
-        }
-        if (Number(dto.paidAmount) >= Number(payable.registeredAmount)) {
-            throw new UnprocessableEntityException('部分支付金额必须小于登记金额；全额请使用完成动作');
-        }
-
-        payable.paidAmount = dto.paidAmount;
-        payable.status = 'partially-paid';
-        await this.repo.flushPayable();
-        return this.#toPayableSummary(payable);
-    }
-
-    async completePayable(
-        id: string,
-        dto: CompletePayableRecordRequest
-    ): Promise<PayableRecordSummary> {
-        const payable = await this.repo.findPayableById(id);
-        if (!payable) {
-            throw new NotFoundException(`PayableRecord ${id} not found`);
-        }
-        this.#assertExpectedVersion(payable.rowVersion, dto.expectedVersion, 'PayableRecord');
-
-        if (payable.status !== 'recorded' && payable.status !== 'partially-paid') {
-            throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许完成`);
-        }
-
-        payable.paidAmount = typeof payable.registeredAmount === 'string' ? payable.registeredAmount : String(payable.registeredAmount);
-        payable.status = 'completed';
-        await this.repo.flushPayable();
-        return this.#toPayableSummary(payable);
+        return this.#toPayableSummary(payable, '0.00');
     }
 
     async closePayable(
@@ -252,7 +222,7 @@ export class ContractFinanceService {
         payable.closedAt = new Date();
         payable.closeReason = this.#appendComment(dto.reason.trim(), dto.comment);
         await this.repo.flushPayable();
-        return this.#toPayableSummary(payable);
+        return this.#toPayableSummary(payable, '0.00');
     }
 
     async voidPayable(
@@ -268,8 +238,9 @@ export class ContractFinanceService {
         if (payable.status === 'voided') {
             throw new UnprocessableEntityException('当前采购承诺记录已经作废');
         }
-        if (Number(payable.paidAmount) > 0) {
-            throw new UnprocessableEntityException('存在已登记支付金额的采购承诺记录不允许直接作废');
+        const linkedPayments = await this.repo.findPaymentsForPayable(payable.id);
+        if (linkedPayments.length > 0) {
+            throw new UnprocessableEntityException('已关联付款事实的采购承诺记录不允许直接作废');
         }
         await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '作废采购承诺记录');
 
@@ -277,7 +248,7 @@ export class ContractFinanceService {
         payable.voidedAt = new Date();
         payable.voidReason = this.#appendComment(dto.reason.trim(), dto.comment);
         await this.repo.flushPayable();
-        return this.#toPayableSummary(payable);
+        return this.#toPayableSummary(payable, '0.00');
     }
 
     async listInvoices(projectId: string): Promise<InvoiceRecordSummary[]> {
@@ -472,12 +443,20 @@ export class ContractFinanceService {
                 throw new NotFoundException(`Contract ${contractId} not found for project ${projectId}`);
             }
         }
+        const currency = dto.currency?.trim() ?? payable?.currency ?? 'CNY';
+        if (payable && currency !== payable.currency) {
+            throw new UnprocessableEntityException('关联采购承诺记录的付款币种必须与采购承诺一致');
+        }
+        this.#assertTaxAmountsConsistent(dto.amountExcludingTax, dto.taxAmount, dto.amountIncludingTax, 'PaymentRecord');
 
         const entity = this.repo.createPayment({
             projectId,
             contractId,
             payableRecordId: payable?.id ?? null,
-            paymentAmount: dto.paymentAmount,
+            currency,
+            amountExcludingTax: dto.amountExcludingTax,
+            taxAmount: dto.taxAmount ?? null,
+            amountIncludingTax: dto.amountIncludingTax ?? null,
             paymentDate: new Date(dto.paymentDate),
             costCategory: dto.costCategory.trim(),
             sourceType: dto.sourceType ?? 'manual',
@@ -503,6 +482,23 @@ export class ContractFinanceService {
 
         if (payment.status !== 'recorded') {
             throw new UnprocessableEntityException(`只有已登记状态的付款记录可以确认生效，当前状态: ${payment.status}`);
+        }
+
+        if (payment.payableRecordId) {
+            const payable = await this.repo.findPayableById(payment.payableRecordId);
+            if (!payable) {
+                throw new NotFoundException(`PayableRecord ${payment.payableRecordId} not found`);
+            }
+            if (payable.status !== 'recorded' && payable.status !== 'partially-paid') {
+                throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许继续确认付款`);
+            }
+            const confirmedPayments = await this.repo.findConfirmedPaymentsForPayableIds([payable.id]);
+            const projectedSettledAmount = this.#sumAmountExcludingTax(confirmedPayments) + this.#toNumber(payment.amountExcludingTax);
+            const commitmentAmount = this.#toNumber(payable.amountExcludingTax);
+            if (projectedSettledAmount - commitmentAmount > 0.0001) {
+                throw new UnprocessableEntityException('关联付款确认后将超过采购承诺未税金额，当前不允许确认');
+            }
+            payable.status = projectedSettledAmount + 0.0001 >= commitmentAmount ? 'completed' : 'partially-paid';
         }
 
         payment.status = 'confirmed';
@@ -557,19 +553,18 @@ export class ContractFinanceService {
     }
 
     #buildPayableAllowedActions(payable: PayableRecord, hasCurrentCostMapping: boolean): string[] {
-        if (payable.status === 'completed' || payable.status === 'closed' || payable.status === 'voided') {
+        if (
+            payable.status === 'partially-paid' ||
+            payable.status === 'completed' ||
+            payable.status === 'closed' ||
+            payable.status === 'voided'
+        ) {
             return [];
         }
         if (hasCurrentCostMapping) {
-            if (payable.status === 'partially-paid') {
-                return ['complete'];
-            }
-            return ['partial', 'complete'];
+            return [];
         }
-        if (payable.status === 'partially-paid') {
-            return ['complete', 'close'];
-        }
-        return ['update', 'partial', 'complete', 'close', 'void'];
+        return ['update', 'close', 'void'];
     }
 
     #buildInvoiceAllowedActions(invoice: InvoiceRecord, hasCurrentCostMapping: boolean): string[] {
@@ -610,9 +605,24 @@ export class ContractFinanceService {
         }
     }
 
-    #assertPaidAmountNotExceedRegisteredAmount(paidAmount: string | number, registeredAmount: string | number): void {
-        if (Number(paidAmount) > Number(registeredAmount)) {
-            throw new UnprocessableEntityException('已支付金额不得超过登记金额');
+    #assertTaxAmountsConsistent(
+        amountExcludingTax: string | number,
+        taxAmount: string | number | null | undefined,
+        amountIncludingTax: string | number | null | undefined,
+        targetType: string
+    ): void {
+        const excluding = this.#parsePositiveDecimal(amountExcludingTax, `${targetType}.amountExcludingTax`);
+        if (taxAmount == null && amountIncludingTax == null) {
+            return;
+        }
+
+        const tax = taxAmount == null ? null : this.#parseNonNegativeDecimal(taxAmount, `${targetType}.taxAmount`);
+        const including =
+            amountIncludingTax == null ? null : this.#parsePositiveDecimal(amountIncludingTax, `${targetType}.amountIncludingTax`);
+        if (tax !== null && including !== null && Math.abs(including - (excluding + tax)) > 0.0001) {
+            throw new UnprocessableEntityException(
+                `${targetType}.amountIncludingTax must equal amountExcludingTax + taxAmount when both values are provided`
+            );
         }
     }
 
@@ -631,7 +641,7 @@ export class ContractFinanceService {
         updatedAt: entity.updatedAt.toISOString()
     });
 
-    readonly #toPayableSummary = (entity: PayableRecord): PayableRecordSummary => ({
+    readonly #toPayableSummary = (entity: PayableRecord, settledAmountExcludingTax: string): PayableRecordSummary => ({
         id: entity.id,
         projectId: entity.projectId,
         contractId: entity.contractId ?? null,
@@ -639,8 +649,16 @@ export class ContractFinanceService {
         costCategory: entity.costCategory,
         payableDescription: entity.payableDescription,
         currency: entity.currency,
-        registeredAmount: typeof entity.registeredAmount === 'string' ? entity.registeredAmount : String(entity.registeredAmount),
-        paidAmount: typeof entity.paidAmount === 'string' ? entity.paidAmount : String(entity.paidAmount),
+        amountExcludingTax:
+            typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
+        taxAmount: entity.taxAmount == null ? null : typeof entity.taxAmount === 'string' ? entity.taxAmount : String(entity.taxAmount),
+        amountIncludingTax:
+            entity.amountIncludingTax == null
+                ? null
+                : typeof entity.amountIncludingTax === 'string'
+                  ? entity.amountIncludingTax
+                  : String(entity.amountIncludingTax),
+        settledAmountExcludingTax,
         expectedPaymentDate: this.#toDateOnly(entity.expectedPaymentDate),
         status: entity.status,
         evidenceSummary: entity.evidenceSummary ?? null,
@@ -678,7 +696,16 @@ export class ContractFinanceService {
         projectId: entity.projectId,
         contractId: entity.contractId ?? null,
         payableRecordId: entity.payableRecordId ?? null,
-        paymentAmount: typeof entity.paymentAmount === 'string' ? entity.paymentAmount : String(entity.paymentAmount),
+        currency: entity.currency,
+        amountExcludingTax:
+            typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
+        taxAmount: entity.taxAmount == null ? null : typeof entity.taxAmount === 'string' ? entity.taxAmount : String(entity.taxAmount),
+        amountIncludingTax:
+            entity.amountIncludingTax == null
+                ? null
+                : typeof entity.amountIncludingTax === 'string'
+                  ? entity.amountIncludingTax
+                  : String(entity.amountIncludingTax),
         paymentDate: entity.paymentDate.toISOString(),
         costCategory: entity.costCategory,
         sourceType: entity.sourceType,
@@ -689,4 +716,48 @@ export class ContractFinanceService {
         createdAt: entity.createdAt.toISOString(),
         updatedAt: entity.updatedAt.toISOString()
     });
+
+    async #loadSettledAmounts(payableIds: string[]): Promise<Map<string, string>> {
+        const totals = new Map<string, number>();
+        const confirmedPayments = await this.repo.findConfirmedPaymentsForPayableIds(payableIds);
+        for (const payment of confirmedPayments) {
+            if (!payment.payableRecordId) {
+                continue;
+            }
+            totals.set(payment.payableRecordId, (totals.get(payment.payableRecordId) ?? 0) + this.#toNumber(payment.amountExcludingTax));
+        }
+        return new Map([...totals.entries()].map(([key, value]) => [key, this.#formatAmount(value)]));
+    }
+
+    #sumAmountExcludingTax(items: PaymentRecord[]): number {
+        return items.reduce((sum, item) => sum + this.#toNumber(item.amountExcludingTax), 0);
+    }
+
+    #parsePositiveDecimal(value: string | number, fieldName: string): number {
+        const parsed = this.#toNumber(value, fieldName);
+        if (parsed <= 0) {
+            throw new UnprocessableEntityException(`${fieldName} must be greater than 0`);
+        }
+        return parsed;
+    }
+
+    #parseNonNegativeDecimal(value: string | number, fieldName: string): number {
+        const parsed = this.#toNumber(value, fieldName);
+        if (parsed < 0) {
+            throw new UnprocessableEntityException(`${fieldName} must be greater than or equal to 0`);
+        }
+        return parsed;
+    }
+
+    #toNumber(value: string | number, fieldName = 'value'): number {
+        const parsed = Number(value);
+        if (!Number.isFinite(parsed)) {
+            throw new UnprocessableEntityException(`${fieldName} must be a valid number`);
+        }
+        return parsed;
+    }
+
+    #formatAmount(value: number): string {
+        return value.toFixed(2);
+    }
 }

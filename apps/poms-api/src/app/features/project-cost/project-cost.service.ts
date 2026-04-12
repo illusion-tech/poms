@@ -163,10 +163,10 @@ export class ProjectCostService {
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: 0,
-            currency: 'CNY',
-            amountExcludingTax: null,
-            taxCostAmount: null,
-            amountIncludingTax: this.formatAmount(this.toNumber(paymentRecord.paymentAmount)),
+            currency: paymentRecord.currency,
+            amountExcludingTax: this.formatAmount(this.toNumber(paymentRecord.amountExcludingTax)),
+            taxCostAmount: this.toNullableDecimal(paymentRecord.taxAmount),
+            amountIncludingTax: this.toNullableDecimal(paymentRecord.amountIncludingTax),
             sourceType: 'PAYMENT_RECORD',
             sourceId: paymentRecord.id,
             sourceRefNo: paymentRecord.id,
@@ -355,9 +355,9 @@ export class ProjectCostService {
             isHighRisk: false,
             attachmentCount: payableRecord.attachmentCount,
             currency: payableRecord.currency,
-            amountExcludingTax: null,
-            taxCostAmount: null,
-            amountIncludingTax: this.formatAmount(this.toNumber(payableRecord.registeredAmount)),
+            amountExcludingTax: this.formatAmount(this.toNumber(payableRecord.amountExcludingTax)),
+            taxCostAmount: this.toNullableDecimal(payableRecord.taxAmount),
+            amountIncludingTax: this.toNullableDecimal(payableRecord.amountIncludingTax),
             sourceType: 'PAYABLE_RECORD',
             sourceId: payableRecord.id,
             sourceRefNo: payableRecord.id,
@@ -987,7 +987,7 @@ export class ProjectCostService {
         payableRecord: PayableRecord | null
     ): string | null {
         if (paymentRecord) {
-            return `${this.formatAmount(this.toNumber(paymentRecord.paymentAmount))} ${record.currency} @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
+            return `${this.formatAmount(this.toNumber(paymentRecord.amountExcludingTax))} ${record.currency} ex-tax @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
         }
         if (invoiceRecord) {
             return `${this.formatAmount(this.toNumber(invoiceRecord.invoiceAmount))} ${record.currency} @ ${this.toIsoDate(invoiceRecord.invoiceDate)}`;
@@ -996,7 +996,7 @@ export class ProjectCostService {
             return `${this.formatAmount(this.toNumber(expenseRecord.amountIncludingTax))} ${record.currency} @ ${this.toIsoDate(expenseRecord.expenseDate)}`;
         }
         if (payableRecord) {
-            return `${this.formatAmount(this.toNumber(payableRecord.registeredAmount))} ${record.currency} @ ${this.toIsoDate(payableRecord.expectedPaymentDate)} (paid ${this.formatAmount(this.toNumber(payableRecord.paidAmount))})`;
+            return `${this.formatAmount(this.toNumber(payableRecord.amountExcludingTax))} ${record.currency} ex-tax @ ${this.toIsoDate(payableRecord.expectedPaymentDate)}`;
         }
         if (record.actualHours && record.internalCostRate) {
             return `${this.toNullableDecimal(record.actualHours)}h x ${this.toNullableDecimal(record.internalCostRate)} ${record.currency}`;

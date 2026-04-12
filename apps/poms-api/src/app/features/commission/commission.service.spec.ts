@@ -383,7 +383,7 @@ describe('CommissionService', () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
             repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
             repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
-            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '70000.00' }] as never);
             repo.findAllRuleVersions.mockResolvedValue([makeDraftRule({ status: 'active' }) as never]);
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
             repo.findCurrentCalculation.mockResolvedValue(null);
@@ -405,7 +405,7 @@ describe('CommissionService', () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
             repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
             repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
-            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '70000.00' }] as never);
             repo.findAllRuleVersions.mockResolvedValue([]);
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
 
@@ -433,7 +433,7 @@ describe('CommissionService', () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
             repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
             repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '50000.00' }] as never);
-            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '70000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '70000.00' }] as never);
 
             await expect(
                 service.triggerCalculation(PROJECT_ID, {
@@ -447,7 +447,7 @@ describe('CommissionService', () => {
             repo.findProjectById.mockResolvedValue(makeProject() as never);
             repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
             repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
-            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ paymentAmount: '30000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '30000.00' }] as never);
 
             await expect(
                 service.triggerCalculation(PROJECT_ID, {

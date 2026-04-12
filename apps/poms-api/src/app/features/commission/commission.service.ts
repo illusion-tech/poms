@@ -595,7 +595,7 @@ export class CommissionService {
 
         const confirmedPayments = await this.repo.findConfirmedPaymentsForProject(projectId);
         const confirmedPaymentAmount = confirmedPayments.reduce(
-            (sum, item) => sum + this.#toNumber(item.paymentAmount),
+            (sum, item) => sum + this.#toNumber(item.amountExcludingTax),
             0
         );
         if (cost > 0 && confirmedPaymentAmount < cost) {

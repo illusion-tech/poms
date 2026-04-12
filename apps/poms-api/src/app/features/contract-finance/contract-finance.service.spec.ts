@@ -42,7 +42,10 @@ const makePayment = (overrides: Record<string, unknown> = {}) => ({
     projectId: PROJECT_ID,
     contractId: CONTRACT_ID,
     payableRecordId: PAYABLE_ID,
-    paymentAmount: '70000.00',
+    currency: 'CNY',
+    amountExcludingTax: '70000.00',
+    taxAmount: null,
+    amountIncludingTax: null,
     paymentDate: new Date('2026-03-27T10:00:00Z'),
     costCategory: 'implementation',
     sourceType: 'manual',
@@ -63,8 +66,9 @@ const makePayable = (overrides: Record<string, unknown> = {}) => ({
     costCategory: 'implementation',
     payableDescription: '外部实施采购',
     currency: 'CNY',
-    registeredAmount: '90000.00',
-    paidAmount: '0.00',
+    amountExcludingTax: '90000.00',
+    taxAmount: null,
+    amountIncludingTax: null,
     expectedPaymentDate: new Date('2026-03-31T00:00:00Z'),
     status: 'recorded',
     evidenceSummary: null,
@@ -118,6 +122,8 @@ describe('ContractFinanceService', () => {
             persistAndFlushPayable: jest.fn(),
             flushPayable: jest.fn(),
             findPaymentsForProject: jest.fn(),
+            findPaymentsForPayable: jest.fn(),
+            findConfirmedPaymentsForPayableIds: jest.fn(),
             findInvoicesForProject: jest.fn(),
             findInvoiceById: jest.fn(),
             createInvoice: jest.fn(),
@@ -134,6 +140,8 @@ describe('ContractFinanceService', () => {
 
         service = new ContractFinanceService(repo);
         repo.findCurrentCostMappingBySource.mockResolvedValue(null as never);
+        repo.findConfirmedPaymentsForPayableIds.mockResolvedValue([] as never);
+        repo.findPaymentsForPayable.mockResolvedValue([] as never);
     });
 
     it('creates receipt for active contract', async () => {
@@ -184,34 +192,41 @@ describe('ContractFinanceService', () => {
             vendorName: ' 示例供应商 ',
             costCategory: 'implementation',
             payableDescription: ' 外部实施采购 ',
-            registeredAmount: '90000.00',
+            amountExcludingTax: '90000.00',
             expectedPaymentDate: '2026-03-31'
         });
 
         expect(result.status).toBe('recorded');
-        expect(repo.createPayable).toHaveBeenCalledWith(expect.objectContaining({ projectId: PROJECT_ID, paidAmount: '0' }));
+        expect(repo.createPayable).toHaveBeenCalledWith(expect.objectContaining({ projectId: PROJECT_ID, amountExcludingTax: '90000.00' }));
     });
 
-    it('marks payable as partially paid and then completed', async () => {
+    it('derives payable progress from confirmed payments', async () => {
         const payable = makePayable();
+        const payment = makePayment({ amountExcludingTax: '30000.00' });
         repo.findPayableById.mockResolvedValue(payable as never);
+        repo.findPaymentById.mockResolvedValue(payment as never);
         repo.flushPayable.mockResolvedValue(undefined);
+        repo.flushPayment.mockResolvedValue(undefined);
 
-        const partial = await service.markPayablePartiallyPaid(PAYABLE_ID, {
-            paidAmount: '30000.00',
+        const partial = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, {
             expectedVersion: 1
         });
-        expect(partial.status).toBe('partially-paid');
-        expect(payable.paidAmount).toBe('30000.00');
+        expect(partial.status).toBe('confirmed');
+        expect(payable.status).toBe('partially-paid');
 
-        payable.rowVersion = 2;
-        const completed = await service.completePayable(PAYABLE_ID, { expectedVersion: 2 });
-        expect(completed.status).toBe('completed');
-        expect(payable.paidAmount).toBe('90000.00');
+        payment.rowVersion = 2;
+        payment.status = 'recorded';
+        payment.amountExcludingTax = '60000.00';
+        repo.findConfirmedPaymentsForPayableIds.mockResolvedValue([{ amountExcludingTax: '30000.00' }] as never);
+
+        const completed = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, { expectedVersion: 2 });
+        expect(completed.status).toBe('confirmed');
+        expect(payable.status).toBe('completed');
     });
 
-    it('rejects void payable when paid amount exists', async () => {
-        repo.findPayableById.mockResolvedValue(makePayable({ paidAmount: '1.00', status: 'partially-paid' }) as never);
+    it('rejects void payable when linked payment exists', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable({ status: 'partially-paid' }) as never);
+        repo.findPaymentsForPayable.mockResolvedValue([makePayment()] as never);
 
         await expect(
             service.voidPayable(PAYABLE_ID, {
@@ -233,13 +248,13 @@ describe('ContractFinanceService', () => {
         ).rejects.toThrow(UnprocessableEntityException);
     });
 
-    it('keeps only progress actions on mapped payable detail', async () => {
+    it('hides payable actions once a current project cost mapping exists', async () => {
         repo.findPayableById.mockResolvedValue(makePayable() as never);
         repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
 
         const result = await service.getPayable(PAYABLE_ID);
 
-        expect(result.allowedActions).toEqual(['partial', 'complete']);
+        expect(result.allowedActions).toEqual([]);
     });
 
     it('creates input invoice without contract', async () => {
@@ -384,7 +399,7 @@ describe('ContractFinanceService', () => {
         const result = await service.createPayment(PROJECT_ID, {
             contractId: CONTRACT_ID,
             payableRecordId: PAYABLE_ID,
-            paymentAmount: '70000.00',
+            amountExcludingTax: '70000.00',
             paymentDate: '2026-03-27T10:00:00.000Z',
             costCategory: 'implementation',
             sourceType: 'manual'
@@ -396,6 +411,7 @@ describe('ContractFinanceService', () => {
     it('confirms recorded payment', async () => {
         const payment = makePayment();
         repo.findPaymentById.mockResolvedValue(payment as never);
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
         repo.flushPayment.mockResolvedValue(undefined);
 
         const result = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, { expectedVersion: 1 });

@@ -12,7 +12,6 @@ import type {
 import {
     ClosePayableRecordRequestDto,
     CloseInvoiceRecordRequestDto,
-    CompletePayableRecordRequestDto,
     ConfirmPaymentRecordRequestDto,
     ConfirmReceiptRecordRequestDto,
     CreatePayableRecordRequestDto,
@@ -22,7 +21,6 @@ import {
     InvoiceRecordDetailViewDto,
     InvoiceRecordDto,
     InvoiceRecordListDto,
-    MarkPayableRecordPartiallyPaidRequestDto,
     MarkInvoiceExceptionRequestDto,
     PayableRecordDetailViewDto,
     PayableRecordDto,
@@ -114,30 +112,6 @@ export class ContractFinanceController {
         @Body() body: UpdatePayableRecordRequestDto
     ): Promise<PayableRecordSummary> {
         return this.contractFinanceService.updatePayable(id, body);
-    }
-
-    @Post('payable-records/:id/partial')
-    @HasPermissions('contract:finance:manage')
-    @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: '标记采购承诺记录为部分支付' })
-    @ApiOkResponse({ type: PayableRecordDto })
-    markPayablePartiallyPaid(
-        @Param('id') id: string,
-        @Body() body: MarkPayableRecordPartiallyPaidRequestDto
-    ): Promise<PayableRecordSummary> {
-        return this.contractFinanceService.markPayablePartiallyPaid(id, body);
-    }
-
-    @Post('payable-records/:id/complete')
-    @HasPermissions('contract:finance:manage')
-    @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: '完成采购承诺记录' })
-    @ApiOkResponse({ type: PayableRecordDto })
-    completePayable(
-        @Param('id') id: string,
-        @Body() body: CompletePayableRecordRequestDto
-    ): Promise<PayableRecordSummary> {
-        return this.contractFinanceService.completePayable(id, body);
     }
 
     @Post('payable-records/:id/close')
