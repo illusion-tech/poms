@@ -111,6 +111,10 @@
 | `ReceivablePlan`            | `activateReceivablePlan`                             | 初始化 / 生效      | 已存在当前有效合同条款快照                           | 确认      | 固化正式应收计划版本                           |
 | `ReceiptRecord`             | `confirmReceiptRecord`                               | 财务确认           | 已登记到账记录                                       | 确认      | 进入生效回款口径                               |
 | `ReceiptRecord`             | `reverseReceiptRecord`                               | 冲销 / 作废        | 原记录存在且允许撤回                                 | 审批/确认 | 形成冲销链路，不删除原记录                     |
+| `PayableRecord`             | `markPayableRecordPartiallyPaid`                     | 标记部分支付       | 已存在已登记的采购承诺事实                           | 确认      | 更新采购承诺支付进度并留痕                     |
+| `PayableRecord`             | `completePayableRecord`                              | 完成               | 已存在采购承诺事实且支付链路已收口                   | 确认      | 形成采购承诺完成结论                           |
+| `PayableRecord`             | `closePayableRecord`                                 | 关闭               | 采购承诺不再继续推进                                 | 确认      | 形成关闭结论与原因留痕                         |
+| `PayableRecord`             | `voidPayableRecord`                                  | 作废               | 原采购承诺事实允许撤销                               | 确认      | 形成作废留痕                                   |
 | `PaymentRecord`             | `confirmPaymentRecord`                               | 确认生效           | 已登记付款记录                                       | 确认      | 进入生效成本口径                               |
 | `PaymentRecord`             | `voidPaymentRecord`                                  | 作废               | 原付款记录允许撤销                                   | 确认      | 形成作废留痕                                   |
 | `InvoiceRecord`             | `markInvoiceException`                               | 标记异常           | 发票记录存在且出现异常                               | 审批/确认 | 形成异常留痕                                   |
@@ -122,23 +126,26 @@
 
 ### 4.3 提成治理域
 
-| 对象                       | 命令建议                         | 触发动作               | 前提摘要                                                                   | 放行方式  | 结果摘要                                            |
-| -------------------------- | -------------------------------- | ---------------------- | -------------------------------------------------------------------------- | --------- | --------------------------------------------------- |
-| `CommissionRoleAssignment` | `freezeCommissionRoleAssignment` | 提交冻结               | 项目移交已完成，当前版本未冻结；当前移交确认摘要快照与移交前有效基线已固定 | 审批/确认 | 固化角色冻结版本、冻结摘要与移交确认摘要快照引用    |
-| `CommissionRoleAssignment` | `submitCommissionRoleChange`     | 发起变更               | 已存在冻结版本                                                             | 审批      | 进入角色变更审批链                                  |
-| `CommissionCalculation`    | `approveCommissionCalculation`   | 复核生效               | 已完成计算，待复核                                                         | 复核/审批 | 形成有效计算结果                                    |
-| `CommissionCalculation`    | `recalculateCommission`          | 触发重算               | 合同、回款、成本或异常事实导致需替代旧结果                                 | 复核/审批 | 形成新的重算链路与替代关系                          |
-| `CommissionPayout`         | `submitCommissionPayoutApproval` | 提交审批 / 批准 / 结算 | 已形成有效阶段发放、最终结算或质保金结算草稿                               | 审批      | 固化当前阶段 / 结算批准结果与依据快照引用           |
-| `CommissionPayout`         | `registerCommissionPayout`       | 登记发放 / 结算        | 发放或结算审批已通过                                                       | 无        | 形成业务发放 / 结算记录与依据快照引用               |
-| `CommissionPayout`         | `suspendCommissionPayout`        | 暂停 / 受控阻断        | 已批准或已发放且出现异常、争议或 `REVIEW / BLOCK` 结论                     | 审批      | 暂停发放 / 结算链路并固化恢复前提                   |
-| `CommissionPayout`         | `reverseCommissionPayout`        | 冲销                   | 已发放记录需撤回                                                           | 审批      | 形成冲销 / 扣回留痕                                 |
-| `CommissionAdjustment`     | `submitCommissionAdjustment`     | 发起调整               | 已识别退款、坏账、违规等异常                                               | 无        | 形成调整草稿                                        |
-| `CommissionAdjustment`     | `executeCommissionAdjustment`    | 提交审批 / 执行        | 调整草稿已完整并获批准                                                     | 审批      | 执行补发、扣回、冲销、重算或恢复后续发放            |
-| `CommissionRuleVersion`    | `activateCommissionRuleVersion`  | 提交生效 / 启用        | 规则草稿已完成                                                             | 审批      | 启用新规则版本                                      |
-| `InternalCostRateVersion`  | `publishInternalCostRateVersion` | 发布成本率版本         | 版本区间完整、来源合法、已通过财务治理校验                                 | 审批/确认 | 形成新的有效成本率版本与替代关系                    |
-| `ProjectActualCostRecord`  | `registerPaymentFactCostRecord`  | 映射已确认付款事实     | 已存在 `confirmed` 的 `PaymentRecord`；同一付款事实未形成并行当前有效映射  | 确认      | 形成引用 `PaymentRecord` 的 `PAYMENT_FACT` 成本记录 |
-| `ProjectActualCostRecord`  | `registerLaborCostRecord`        | 归集人力成本           | 已存在有效成本率版本；期间与计量依据齐备                                   | 确认      | 形成引用 `rateVersionId` 的 `LABOR` 成本记录        |
-| `ProjectActualCostRecord`  | `replaceLaborCostRecord`         | 替代 / 重算候选        | 原记录允许替代；替代理由、期间与来源明确                                   | 审批/确认 | 形成替代链、重算候选与历史留痕                      |
+| 对象                       | 命令建议                         | 触发动作               | 前提摘要                                                                                         | 放行方式  | 结果摘要                                            |
+| -------------------------- | -------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------ | --------- | --------------------------------------------------- |
+| `CommissionRoleAssignment` | `freezeCommissionRoleAssignment` | 提交冻结               | 项目移交已完成，当前版本未冻结；当前移交确认摘要快照与移交前有效基线已固定                       | 审批/确认 | 固化角色冻结版本、冻结摘要与移交确认摘要快照引用    |
+| `CommissionRoleAssignment` | `submitCommissionRoleChange`     | 发起变更               | 已存在冻结版本                                                                                   | 审批      | 进入角色变更审批链                                  |
+| `CommissionCalculation`    | `approveCommissionCalculation`   | 复核生效               | 已完成计算，待复核                                                                               | 复核/审批 | 形成有效计算结果                                    |
+| `CommissionCalculation`    | `recalculateCommission`          | 触发重算               | 合同、回款、成本或异常事实导致需替代旧结果                                                       | 复核/审批 | 形成新的重算链路与替代关系                          |
+| `CommissionPayout`         | `submitCommissionPayoutApproval` | 提交审批 / 批准 / 结算 | 已形成有效阶段发放、最终结算或质保金结算草稿                                                     | 审批      | 固化当前阶段 / 结算批准结果与依据快照引用           |
+| `CommissionPayout`         | `registerCommissionPayout`       | 登记发放 / 结算        | 发放或结算审批已通过                                                                             | 无        | 形成业务发放 / 结算记录与依据快照引用               |
+| `CommissionPayout`         | `suspendCommissionPayout`        | 暂停 / 受控阻断        | 已批准或已发放且出现异常、争议或 `REVIEW / BLOCK` 结论                                           | 审批      | 暂停发放 / 结算链路并固化恢复前提                   |
+| `CommissionPayout`         | `reverseCommissionPayout`        | 冲销                   | 已发放记录需撤回                                                                                 | 审批      | 形成冲销 / 扣回留痕                                 |
+| `CommissionAdjustment`     | `submitCommissionAdjustment`     | 发起调整               | 已识别退款、坏账、违规等异常                                                                     | 无        | 形成调整草稿                                        |
+| `CommissionAdjustment`     | `executeCommissionAdjustment`    | 提交审批 / 执行        | 调整草稿已完整并获批准                                                                           | 审批      | 执行补发、扣回、冲销、重算或恢复后续发放            |
+| `CommissionRuleVersion`    | `activateCommissionRuleVersion`  | 提交生效 / 启用        | 规则草稿已完成                                                                                   | 审批      | 启用新规则版本                                      |
+| `InternalCostRateVersion`  | `publishInternalCostRateVersion` | 发布成本率版本         | 版本区间完整、来源合法、已通过财务治理校验                                                       | 审批/确认 | 形成新的有效成本率版本与替代关系                    |
+| `ProjectActualCostRecord`  | `registerPaymentFactCostRecord`  | 映射已确认付款事实     | 已存在 `confirmed` 的 `PaymentRecord`；同一付款事实未形成并行当前有效映射                        | 确认      | 形成引用 `PaymentRecord` 的 `PAYMENT_FACT` 成本记录 |
+| `ProjectActualCostRecord`  | `registerInvoiceCostRecord`      | 映射已验票成本发票     | 已存在 `input + verified` 且无 open exception 的 `InvoiceRecord`；同一发票未形成并行当前有效映射 | 确认      | 形成引用 `InvoiceRecord` 的 `INVOICE` 成本记录      |
+| `ProjectActualCostRecord`  | `registerExpenseCostRecord`      | 映射已确认费用事实     | 已存在 `confirmed` 的 `ExpenseRecord`；同一费用事实未形成并行当前有效映射                        | 确认      | 形成引用 `ExpenseRecord` 的 `EXPENSE` 成本记录      |
+| `ProjectActualCostRecord`  | `registerProcurementCostRecord`  | 映射采购承诺事实       | 已存在正式承诺态的 `PayableRecord`；同一采购承诺未形成并行当前有效映射                           | 确认      | 形成引用 `PayableRecord` 的 `PROCUREMENT` 成本记录  |
+| `ProjectActualCostRecord`  | `registerLaborCostRecord`        | 归集人力成本           | 已存在有效成本率版本；期间与计量依据齐备                                                         | 确认      | 形成引用 `rateVersionId` 的 `LABOR` 成本记录        |
+| `ProjectActualCostRecord`  | `replaceLaborCostRecord`         | 替代 / 重算候选        | 原记录允许替代；替代理由、期间与来源明确                                                         | 审批/确认 | 形成替代链、重算候选与历史留痕                      |
 
 补充对第一阶段补齐切片的映射：
 

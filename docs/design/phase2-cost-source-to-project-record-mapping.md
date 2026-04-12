@@ -549,29 +549,29 @@
 
 ### 11.1 当前工程冻结边界
 
-按当前仓库现实，`L2-T03` 的设计范围和“当前可直接编码的实现范围”不能再继续混写。
+按当前仓库现实，`L2-T03` 的设计范围和“当前已完成的实现范围”现在已经基本对齐，但累计口径与阶段视图仍必须与 `L2-T04` 分开治理。
 
 当前应明确区分：
 
 1. 设计范围仍包含 `PROCUREMENT / INVOICE / EXPENSE / PAYMENT_FACT` 四类来源。
-2. 但当前仓库中，已存在且可直接作为统一成本记录上游事实对象的，只有 `PaymentRecord`。
-3. 采购合同型成本事实、成本发票事实、费用事实当前仍停留在设计层，不构成可直接编码的上游实体 / API / migration 基线。
+2. 当前仓库中，`PAYMENT_FACT <- PaymentRecord`、`INVOICE <- InvoiceRecord`、`EXPENSE <- ExpenseRecord`、`PROCUREMENT <- PayableRecord` 已分别形成正式上游事实对象与映射切片。
+3. 当前 `PROCUREMENT` 的正式上游事实主对象固定为 `PayableRecord`，且 `PayableRecord -> ProjectActualCostRecord` 映射、来源回看与同源当前有效去重约束已正式落地。
 
-因此，当前工程冻结口径应先固定为：
+因此，当前工程冻结口径应更新为：
 
-- 下一可编码切片只覆盖 `PAYMENT_FACT` 映射落地。
-- `PAYMENT_FACT` 当前唯一正式上游事实源为已确认生效的 `PaymentRecord`。
-- `PROCUREMENT / INVOICE / EXPENSE` 继续保留为 EX-06 父任务范围，但不得在当前切片中被宣称为“已实现”。
+- 已完成切片可正式宣称为：`PAYMENT_FACT / INVOICE / EXPENSE / PROCUREMENT` 四类来源映射全部进入统一成本层。
+- `PayableRecord` 现在既是 `PROCUREMENT` 的正式上游事实对象，也是 `PAYMENT_FACT` 来源链的上游承诺锚点；后续不得再重复建设平行采购承诺对象。
+- 当前仍不得把“统一成本累计、分摊、税务吸收与阶段视图”宣称为已由 `EX-06` 覆盖，因为这些能力属于 `L2-T04 / EX-07`。
 
-对 `PAYMENT_FACT` 当前进一步固定以下实现前提：
+对 `PROCUREMENT` 当前进一步固定以下实现结论：
 
-1. 只有 `PaymentRecord.status = confirmed` 的付款事实，才允许映射为 `ProjectActualCostRecord.costType = PAYMENT_FACT`。
-2. 同一 `PaymentRecord` 在同一时刻只允许对应一条当前有效的 `PAYMENT_FACT` 成本记录，不允许重复映射成多条并行当前记录。
-3. `PAYMENT_FACT` 映射记录默认表达“已确认的实际支出事实”，因此首次映射应直接进入 `CONFIRMED`，而不是再次回落为仅登记态。
-4. `PAYMENT_FACT` 记录必须保留 `sourceType`、`sourceId`、`sourceRefNo`、来源当前状态摘要和项目上下文，以支持从统一成本记录回看付款事实。
-5. 由于当前 `PaymentRecord` 尚无独立业务编号字段，`sourceRefNo` 在本切片中暂以 `PaymentRecord.id` 作为稳定引用值；后续若补入付款业务编号，只允许新增更友好的展示引用，不得改变 `sourceId` 语义。
+1. `PROCUREMENT` 的正式上游事实对象命名固定为 `PayableRecord`，除非先通过新的 ADR / 设计决策显式改口。
+2. 只有进入正式承诺态的 `PayableRecord`，才允许成为 `ProjectActualCostRecord.costType = PROCUREMENT` 的映射候选；`draft / voided` 默认阻断。
+3. `PROCUREMENT` 映射记录默认表达采购承诺与责任边界，不自动替代 `PAYMENT_FACT` 的实际支出语义，并默认 `recordStatus = REGISTERED`、`isIncludedInProjectCost = false`。
+4. `PROCUREMENT` 记录必须保留 `sourceType`、`sourceId`、`sourceRefNo`、来源当前状态摘要和项目上下文，以支持从统一成本记录回看采购承诺事实。
+5. `PROCUREMENT / PAYMENT_FACT / INVOICE` 当前已形成“链路可并存，但默认不自动重复纳入”的最小闭环；更完整的累计、税务吸收和分摊规则继续后移到 `L2-T04 / EX-07`。
 
 这意味着：
 
-- EX-06 下一工程切片应先完成 `PAYMENT_FACT` 映射命令和 `ProjectActualCostRecord` 列表 / 详情读侧。
-- 待 `PROCUREMENT / INVOICE / EXPENSE` 上游对象真正落地后，再分别补齐剩余三类映射，而不是在当前切片中用占位 DTO 或文本说明伪装完成。
+- `EX-06` 现在可以正式宣称“统一成本来源映射最小闭环完成”，不再保留 `PROCUREMENT` 为空白来源类型。
+- `L2-T04 / EX-07` 的下一步应聚焦累计、分摊、重述、阶段视图与税务吸收规则，而不是回退重做来源映射主链。
