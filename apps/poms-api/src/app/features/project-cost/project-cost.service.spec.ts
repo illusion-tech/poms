@@ -14,6 +14,7 @@ const RATE_VERSION_ID = '33333333-3333-4333-8333-333333333333';
 const RECORD_ID = '44444444-4444-4444-8444-444444444444';
 const PAYMENT_RECORD_ID = '55555555-5555-4555-8555-555555555555';
 const REPLACEMENT_RECORD_ID = '66666666-6666-4666-8666-666666666666';
+const INVOICE_RECORD_ID = '77777777-7777-4777-8777-777777777777';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -51,6 +52,23 @@ function makePaymentRecord(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makeInvoiceRecord(overrides: Record<string, unknown> = {}) {
+    return {
+        id: INVOICE_RECORD_ID,
+        projectId: PROJECT_ID,
+        contractId: null,
+        invoiceType: 'input',
+        invoiceNumber: 'INV-2026-0001',
+        invoiceAmount: '3210.50',
+        invoiceDate: '2023-04-02',
+        status: 'verified',
+        exceptionStatus: 'none',
+        updatedAt: new Date('2023-04-03T10:00:00.000Z'),
+        rowVersion: 2,
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
     let internalCostRateVersionRepository: jest.Mocked<InternalCostRateVersionRepository>;
@@ -80,7 +98,8 @@ describe('ProjectCostService', () => {
         };
 
         const mockContractFinanceRepository = {
-            findPaymentById: jest.fn()
+            findPaymentById: jest.fn(),
+            findInvoiceById: jest.fn()
         };
 
         internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
@@ -196,6 +215,73 @@ describe('ProjectCostService', () => {
                 service.registerPaymentFactCostRecord(
                     {
                         paymentRecordId: PAYMENT_RECORD_ID,
+                        projectId: PROJECT_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('registerInvoiceCostRecord', () => {
+        it('registers a verified input invoice as an INVOICE cost record', async () => {
+            contractFinanceRepository.findInvoiceById.mockResolvedValue(makeInvoiceRecord() as never);
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            const result = await service.registerInvoiceCostRecord(
+                {
+                    invoiceRecordId: INVOICE_RECORD_ID,
+                    projectId: PROJECT_ID,
+                    costDescription: 'mapped from verified invoice',
+                    evidenceSummary: 'invoice pdf archived',
+                    taxImpactSummary: 'vat pending deduction',
+                    expectedVersion: 2
+                },
+                USER_ID
+            );
+
+            expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    costType: 'INVOICE',
+                    costSubtype: 'input',
+                    occurredOn: '2023-04-02',
+                    recordStatus: 'CONFIRMED',
+                    amountIncludingTax: '3210.5000',
+                    sourceType: 'INVOICE_RECORD',
+                    sourceId: INVOICE_RECORD_ID,
+                    sourceRefNo: 'INV-2026-0001',
+                    taxImpactSummary: 'vat pending deduction'
+                })
+            );
+            expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
+            expect(result.businessStatusAfter).toBe('CONFIRMED');
+        });
+
+        it('blocks mapping for non-verified invoice status', async () => {
+            contractFinanceRepository.findInvoiceById.mockResolvedValue(
+                makeInvoiceRecord({ status: 'received' }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            await expect(
+                service.registerInvoiceCostRecord(
+                    {
+                        invoiceRecordId: INVOICE_RECORD_ID,
+                        projectId: PROJECT_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+
+        it('blocks duplicate current INVOICE mapping for the same invoice source', async () => {
+            contractFinanceRepository.findInvoiceById.mockResolvedValue(makeInvoiceRecord() as never);
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
+
+            await expect(
+                service.registerInvoiceCostRecord(
+                    {
+                        invoiceRecordId: INVOICE_RECORD_ID,
                         projectId: PROJECT_ID
                     },
                     USER_ID
@@ -338,6 +424,73 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findById.mockResolvedValue(null);
 
             await expect(service.getProjectActualCostRecordDetail(RECORD_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('returns invoice detail with source summary', async () => {
+            projectActualCostRecordRepository.findById.mockResolvedValue(
+                {
+                    id: RECORD_ID,
+                    projectId: PROJECT_ID,
+                    recordNo: 'INVOICE-1',
+                    costType: 'INVOICE',
+                    costSubtype: 'input',
+                    occurredOn: '2023-04-02',
+                    accountingPeriod: null,
+                    registeredAt: new Date('2023-04-03T10:00:00.000Z'),
+                    confirmedAt: new Date('2023-04-03T10:00:00.000Z'),
+                    includedAt: null,
+                    executionStageCode: null,
+                    stageDerivedFromType: null,
+                    stageDerivedFromId: null,
+                    stageDerivedAt: null,
+                    stageLockedAt: null,
+                    currency: 'CNY',
+                    amountExcludingTax: null,
+                    taxCostAmount: null,
+                    amountIncludingTax: '3210.5000',
+                    recordStatus: 'CONFIRMED',
+                    isIncludedInProjectCost: false,
+                    isHighRisk: false,
+                    sourceType: 'INVOICE_RECORD',
+                    sourceId: INVOICE_RECORD_ID,
+                    sourceRefNo: 'INV-2026-0001',
+                    evidenceSummary: 'invoice pdf archived',
+                    attachmentCount: 0,
+                    registeredBy: USER_ID,
+                    confirmedBy: USER_ID,
+                    includedBy: null,
+                    ownerRole: null,
+                    costDescription: 'mapped from verified invoice',
+                    taxImpactSummary: 'vat pending deduction',
+                    riskNote: null,
+                    supersedesRecordId: null,
+                    voidReason: null,
+                    laborPersonId: null,
+                    laborRole: null,
+                    laborPeriodType: null,
+                    laborPeriodStart: null,
+                    laborPeriodEnd: null,
+                    actualHours: null,
+                    actualPersonDays: null,
+                    internalCostRate: null,
+                    laborAmount: null,
+                    workSummary: null,
+                    deliveryStage: null,
+                    rateVersionId: null,
+                    rowVersion: 1,
+                    createdAt: new Date('2023-04-03T10:00:00.000Z'),
+                    updatedAt: new Date('2023-04-03T10:00:00.000Z')
+                } as never
+            );
+            contractFinanceRepository.findInvoiceById.mockResolvedValue(makeInvoiceRecord() as never);
+            projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
+
+            const result = await service.getProjectActualCostRecordDetail(RECORD_ID);
+
+            expect(result.allowedActions).toEqual([]);
+            expect(result.sourceStatusSummary).toBe('InvoiceRecord:verified/none');
+            expect(result.effectivePeriodSummary).toBe('2023-04-02');
+            expect(result.measurementBasisSummary).toBe('3210.5000 CNY @ 2023-04-02');
         });
     });
 

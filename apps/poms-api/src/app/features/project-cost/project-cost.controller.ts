@@ -4,6 +4,7 @@ import {
     ProjectActualCostRecordDetailViewDto,
     ProjectActualCostRecordListViewDto,
     PublishInternalCostRateVersionRequestDto,
+    RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
     ReplaceLaborCostRecordRequestDto
@@ -56,6 +57,18 @@ export class ProjectCostController {
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.registerPaymentFactCostRecord(body, userId);
+    }
+
+    @Post('project-actual-cost-records/register-invoice')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '登记成本发票到统一实际成本记录' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async registerInvoiceCostRecord(
+        @Body() body: RegisterInvoiceCostRecordRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.registerInvoiceCostRecord(body, userId);
     }
 
     @Get('projects/:projectId/actual-cost-records')

@@ -21,6 +21,11 @@ export const ProjectActualCostRecordSchema = defineEntity({
             name: 'uq_project_actual_cost_record_payment_fact_source_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'PAYMENT_FACT' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+        },
+        {
+            name: 'uq_project_actual_cost_record_invoice_source_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'INVOICE' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
         }
     ],
     properties: {
