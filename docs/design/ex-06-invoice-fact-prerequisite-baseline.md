@@ -98,13 +98,13 @@
 
 ## 5. 命令与接口边界
 
-| Route / Controller                                              | Command / Service         | Request DTO / Contract                                                        | Response DTO / Contract                                | Guard / Permission        | Result  |
-| --------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------- | ------- |
-| `POST /contract-finance/projects/{projectId}/invoices`          | `createInvoiceRecord`     | `contractId?`、`invoiceType`、`invoiceNumber`、`invoiceAmount`、`invoiceDate` | `targetId`、`businessStatusAfter`                      | `contract:finance:manage` | Pending |
-| `PATCH /contract-finance/invoice-records/{id}`                  | `updateInvoiceRecord`     | 普通台账字段、`expectedVersion`                                               | `targetId`、`businessStatusAfter`                      | `contract:finance:manage` | Pending |
-| `POST /contract-finance/invoice-records/{id}/mark-exception`    | `markInvoiceException`    | `reason`、`comment`、`expectedVersion`                                        | `targetId`、`businessStatusAfter`、`approvalRecordId?` | `contract:finance:manage` | Pending |
-| `POST /contract-finance/invoice-records/{id}/resolve-exception` | `resolveInvoiceException` | `resolution`、`comment`、`expectedVersion`                                    | `targetId`、`businessStatusAfter`、`approvalRecordId?` | `contract:finance:manage` | Pending |
-| `POST /contract-finance/invoice-records/{id}/close`             | `closeInvoiceRecord`      | `reason`、`comment`、`expectedVersion`                                        | `targetId`、`businessStatusAfter`、`closedAt`          | `contract:finance:manage` | Pending |
+| Route / Controller                                              | Command / Service         | Request DTO / Contract                                                        | Response DTO / Contract | Guard / Permission        | Result |
+| --------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------- | ----------------------- | ------------------------- | ------ |
+| `POST /contract-finance/projects/{projectId}/invoices`          | `createInvoiceRecord`     | `contractId?`、`invoiceType`、`invoiceNumber`、`invoiceAmount`、`invoiceDate` | `InvoiceRecordSummary`  | `contract:finance:manage` | Pass   |
+| `PATCH /contract-finance/invoice-records/{id}`                  | `updateInvoiceRecord`     | 普通台账字段、`expectedVersion`                                               | `InvoiceRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /contract-finance/invoice-records/{id}/mark-exception`    | `markInvoiceException`    | `reason`、`comment`、`expectedVersion`                                        | `InvoiceRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /contract-finance/invoice-records/{id}/resolve-exception` | `resolveInvoiceException` | `resolution`、`comment`、`expectedVersion`                                    | `InvoiceRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /contract-finance/invoice-records/{id}/close`             | `closeInvoiceRecord`      | `reason`、`comment`、`expectedVersion`                                        | `InvoiceRecordSummary`  | `contract:finance:manage` | Pass   |
 
 补充冻结约束：
 
@@ -116,10 +116,10 @@
 
 ## 6. 读侧边界
 
-| Query / View                                          | Consumer        | Fields                                                                                                       | Filter / Sort                                         | Permission Boundary       | Result  |
-| ----------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- | ------------------------- | ------- |
-| `GET /contract-finance/projects/{projectId}/invoices` | 财务归口列表页  | `invoiceNo`、`projectName`、`contractNo`、`invoiceAmount`、`invoiceType`、`invoiceStatus`、`exceptionStatus` | `invoiceType`、`invoiceStatus`；按 `invoiceDate desc` | `contract:finance:manage` | Pending |
-| `GET /contract-finance/invoice-records/{id}`          | 财务详情 / 审计 | 主体字段组、异常摘要、关闭摘要、`allowedActions`                                                             | 按 `id` 精确查询                                      | `contract:finance:manage` | Pending |
+| Query / View                                          | Consumer        | Fields                                                                                     | Filter / Sort             | Permission Boundary       | Result |
+| ----------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------ | ------------------------- | ------------------------- | ------ |
+| `GET /contract-finance/projects/{projectId}/invoices` | 财务归口列表页  | `invoiceNumber`、`contractId`、`invoiceAmount`、`invoiceType`、`status`、`exceptionStatus` | 当前按 `invoiceDate desc` | `contract:finance:manage` | Pass   |
+| `GET /contract-finance/invoice-records/{id}`          | 财务详情 / 审计 | 主体字段组、异常摘要、关闭摘要、`allowedActions`                                           | 按 `id` 精确查询          | `contract:finance:manage` | Pass   |
 
 补充冻结约束：
 
@@ -132,19 +132,19 @@
 
 | Table            | Table Role | Minimal Fields                                                                                                                  | Constraints / Notes                                                      | Check Result |
 | ---------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------ |
-| `invoice_record` | 主体主表   | `id`、`project_id`、`contract_id`、`invoice_type`、`invoice_no`、`invoice_amount`、`invoice_date`、`status`、`exception_status` | `invoice_no` 唯一；`project_id` 非空；`contract_id` 可空；支持按项目查询 | Pending      |
+| `invoice_record` | 主体主表   | `id`、`project_id`、`contract_id`、`invoice_type`、`invoice_no`、`invoice_amount`、`invoice_date`、`status`、`exception_status` | `invoice_no` 唯一；`project_id` 非空；`contract_id` 可空；支持按项目查询 | Pass         |
 
 字段一致性冻结：
 
-| Field             | Design Meaning | DDL / Table Freeze                    | Entity / API Rule                                     | Result  |
-| ----------------- | -------------- | ------------------------------------- | ----------------------------------------------------- | ------- |
-| `invoiceType`     | 发票方向       | `invoice_record.invoice_type`         | 最小字典 `input / output`                             | Pending |
-| `invoiceNumber`   | 发票编号       | `invoice_record.invoice_no`           | 先按全局唯一                                          | Pending |
-| `invoiceAmount`   | 发票金额       | `invoice_record.invoice_amount`       | 统一 decimal 语义，不允许前端传格式化展示值           | Pending |
-| `invoiceDate`     | 发票业务日期   | `invoice_record.invoice_date`         | 固定为 date 语义，不回退到 datetime                   | Pending |
-| `status`          | 当前发票主状态 | `invoice_record.status`               | 采用本基线定义的最小状态机                            | Pending |
-| `exceptionStatus` | 异常子状态     | `invoice_record.exception_status`     | 最小字典 `none / open / resolved`                     | Pending |
-| `contractId`      | 可选合同归属   | `invoice_record.contract_id nullable` | `input` 发票允许为空；`output` 发票若已知合同必须绑定 | Pending |
+| Field             | Design Meaning | DDL / Table Freeze                    | Entity / API Rule                                     | Result |
+| ----------------- | -------------- | ------------------------------------- | ----------------------------------------------------- | ------ |
+| `invoiceType`     | 发票方向       | `invoice_record.invoice_type`         | 最小字典 `input / output`                             | Pass   |
+| `invoiceNumber`   | 发票编号       | `invoice_record.invoice_no`           | 先按全局唯一                                          | Pass   |
+| `invoiceAmount`   | 发票金额       | `invoice_record.invoice_amount`       | 统一 decimal 语义，不允许前端传格式化展示值           | Pass   |
+| `invoiceDate`     | 发票业务日期   | `invoice_record.invoice_date`         | 固定为 date 语义，不回退到 datetime                   | Pass   |
+| `status`          | 当前发票主状态 | `invoice_record.status`               | 采用本基线定义的最小状态机                            | Pass   |
+| `exceptionStatus` | 异常子状态     | `invoice_record.exception_status`     | 最小字典 `none / open / resolved`                     | Pass   |
+| `contractId`      | 可选合同归属   | `invoice_record.contract_id nullable` | `input` 发票允许为空；`output` 发票若已知合同必须绑定 | Pass   |
 
 ---
 
@@ -160,13 +160,13 @@
 
 ## 9. 测试与校验
 
-| Check                            | Required | Command / Evidence                                      | Result  | Gap / Reason |
-| -------------------------------- | -------- | ------------------------------------------------------- | ------- | ------------ |
-| Build                            | Yes      | `corepack pnpm nx build poms-api`                       | Pending |              |
-| Unit tests                       | Yes      | `corepack pnpm nx test poms-api`                        | Pending |              |
-| E2E                              | Yes      | `corepack pnpm nx run poms-api-e2e:e2e`                 | Pending |              |
-| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` + client update | Pending |              |
-| Migration / schema check         | Yes      | `corepack pnpm nx run poms-api:migration-check`         | Pending |              |
+| Check                            | Required | Command / Evidence                                      | Result | Gap / Reason |
+| -------------------------------- | -------- | ------------------------------------------------------- | ------ | ------------ |
+| Build                            | Yes      | `corepack pnpm nx build poms-api`                       | Pass   |              |
+| Unit tests                       | Yes      | `corepack pnpm nx test poms-api --runInBand`            | Pass   |              |
+| E2E                              | Yes      | `corepack pnpm nx run poms-api-e2e:e2e --runInBand`     | Pass   |              |
+| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` + client update | Pass   |              |
+| Migration / schema check         | Yes      | `mikro-orm migration:up` + `poms-api:migration-check`   | Pass   |              |
 
 ---
 

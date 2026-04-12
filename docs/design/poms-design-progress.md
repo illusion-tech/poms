@@ -250,7 +250,7 @@
 - 已完成平台治理域 `OrgUnit` 首个执行切片 `EX-01`：补齐 migration / 索引约束、树查询 / 详情 / 启停 / 移动 API、管理端最小闭环，并通过 API / Admin E2E 验证
 - 已完成平台治理域 `Role / Permission` 执行切片 `EX-02`：回看既有 migration / DDL，补齐权限字典、角色列表 / 详情 / 启停 / 绑定接口、系统角色最小权限基线、停用角色后的授权收敛与管理端闭环，并通过 API / Admin E2E 验证
 - 已完成 `L1/L2` 起点执行切片 `EX-05`：落地 `ContractReadinessPackage / CommercialReleaseBaseline`、差异复核、签约就绪初始化命令与合同激活 guard，并通过 `poms-api` build、API 单测与 44 条 API E2E 验证
-- `L1/L2` 执行期成本归集切片 `EX-06`：已补 `ex-06-implementation-baseline.md` 并完成第一批偏差修复 checkpoint 收口（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验）；随后已按 `ex-06-payment-fact-and-read-side-baseline.md` 完成 `EX-06B1`，落地 `PAYMENT_FACT <- PaymentRecord` 映射命令、finance-scoped 项目实际成本 list/detail、来源映射唯一约束，并通过 `poms-api` test/build、OpenAPI / generated client、`migration-check` 与 `poms-api-e2e`；当前又补 `ex-06-invoice-fact-prerequisite-baseline.md`，把下一前置可编码子切片正式收敛为 `EX-06B2A = InvoiceRecord` 成本发票事实主对象落地；父任务仍为 `Doing` / `G3 = Block`，`INVOICE / EXPENSE / PROCUREMENT` 映射与完整追溯仍待后续切片收口
+- `L1/L2` 执行期成本归集切片 `EX-06`：已补 `ex-06-implementation-baseline.md` 并完成第一批偏差修复 checkpoint 收口（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验）；随后已按 `ex-06-payment-fact-and-read-side-baseline.md` 完成 `EX-06B1`，落地 `PAYMENT_FACT <- PaymentRecord` 映射命令、finance-scoped 项目实际成本 list/detail、来源映射唯一约束，并通过 `poms-api` test/build、OpenAPI / generated client、`migration-check` 与 `poms-api-e2e`；现在又按 `ex-06-invoice-fact-prerequisite-baseline.md` 完成 `EX-06B2A`，已正式落地 `InvoiceRecord` 主对象、最小命令 / 查询链、共享契约、OpenAPI、generated client、migration 与 `poms-api-e2e` 闭环，`EX-06B2` 已从阻塞转为可执行，后续继续收口 `INVOICE / EXPENSE / PROCUREMENT` 映射与完整追溯
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---
