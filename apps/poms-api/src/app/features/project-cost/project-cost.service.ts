@@ -12,12 +12,14 @@ import type {
     PublishInternalCostRateVersionRequest,
     RegisterLaborCostRecordRequest,
     RegisterPaymentFactCostRecordRequest,
+    RegisterProcurementCostRecordRequest,
     ReplaceLaborCostRecordRequest,
     UpdateExpenseRecordRequest,
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import type { InvoiceRecord } from '../contract-finance/invoice-record.entity';
+import type { PayableRecord } from '../contract-finance/payable-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
 import type { ExpenseRecord } from './expense-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
@@ -315,6 +317,73 @@ export class ProjectCostService {
         };
     }
 
+    async registerProcurementCostRecord(input: RegisterProcurementCostRecordRequest, userId: string): Promise<CommandResult> {
+        const payableRecord = await this.contractFinanceRepository.findPayableById(input.payableRecordId);
+        if (!payableRecord) {
+            throw new NotFoundException(`PayableRecord ${input.payableRecordId} not found`);
+        }
+
+        if (payableRecord.projectId !== input.projectId) {
+            throw new ConflictException(`PayableRecord ${input.payableRecordId} does not belong to project ${input.projectId}`);
+        }
+
+        if (input.expectedVersion && payableRecord.rowVersion !== input.expectedVersion) {
+            throw new ConflictException(`Optimistic locking failed for payable record ${input.payableRecordId}`);
+        }
+
+        this.assertPayableEligibleForCostMapping(payableRecord);
+
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(
+            'PAYABLE_RECORD',
+            payableRecord.id,
+            ['REGISTERED', 'CONFIRMED', 'INCLUDED']
+        );
+        if (existing) {
+            throw new ConflictException(`PayableRecord ${input.payableRecordId} already has a current procurement mapping`);
+        }
+
+        const entity = this.projectActualCostRecordRepository.create({
+            projectId: input.projectId,
+            recordNo: `PROCUREMENT-${Date.now()}`,
+            costType: 'PROCUREMENT',
+            costSubtype: payableRecord.costCategory,
+            occurredOn: this.toIsoDate(payableRecord.expectedPaymentDate),
+            registeredAt: payableRecord.createdAt,
+            confirmedAt: null,
+            recordStatus: 'REGISTERED',
+            isIncludedInProjectCost: false,
+            isHighRisk: false,
+            attachmentCount: payableRecord.attachmentCount,
+            currency: payableRecord.currency,
+            amountExcludingTax: null,
+            taxCostAmount: null,
+            amountIncludingTax: this.formatAmount(this.toNumber(payableRecord.registeredAmount)),
+            sourceType: 'PAYABLE_RECORD',
+            sourceId: payableRecord.id,
+            sourceRefNo: payableRecord.id,
+            evidenceSummary: input.evidenceSummary ?? payableRecord.evidenceSummary ?? null,
+            taxImpactSummary: input.taxImpactSummary ?? null,
+            riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
+            registeredBy: userId,
+            confirmedBy: null,
+            costDescription: input.costDescription ?? payableRecord.payableDescription,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.projectActualCostRecordRepository.save(entity);
+
+        return {
+            targetId: entity.id,
+            targetType: 'ProjectActualCostRecord',
+            resultStatus: 'success',
+            businessStatusAfter: 'REGISTERED',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
     async listExpenseRecords(projectId: string): Promise<ExpenseRecordSummary[]> {
         const records = await this.expenseRecordRepository.findByProjectId(projectId);
         return records.map((record) => this.toExpenseRecordSummary(record));
@@ -468,7 +537,7 @@ export class ProjectCostService {
             throw new NotFoundException(`ProjectActualCostRecord ${id} not found`);
         }
 
-        const [paymentRecord, invoiceRecord, expenseRecord, rateVersion, replacementRecord] = await Promise.all([
+        const [paymentRecord, invoiceRecord, expenseRecord, payableRecord, rateVersion, replacementRecord] = await Promise.all([
             record.sourceType === 'PAYMENT_RECORD' && record.sourceId
                 ? this.contractFinanceRepository.findPaymentById(record.sourceId)
                 : Promise.resolve(null),
@@ -478,15 +547,18 @@ export class ProjectCostService {
             record.sourceType === 'EXPENSE_RECORD' && record.sourceId
                 ? this.expenseRecordRepository.findById(record.sourceId)
                 : Promise.resolve(null),
+            record.sourceType === 'PAYABLE_RECORD' && record.sourceId
+                ? this.contractFinanceRepository.findPayableById(record.sourceId)
+                : Promise.resolve(null),
             record.rateVersionId ? this.internalCostRateVersionRepository.findById(record.rateVersionId) : Promise.resolve(null),
             this.projectActualCostRecordRepository.findReplacementBySupersedesRecordId(record.id)
         ]);
 
         return {
             ...this.toProjectActualCostRecordSummary(record),
-            sourceStatusSummary: this.buildSourceStatusSummary(record, paymentRecord, invoiceRecord, expenseRecord, rateVersion),
-            effectivePeriodSummary: this.buildEffectivePeriodSummary(record, paymentRecord, invoiceRecord, expenseRecord, rateVersion),
-            measurementBasisSummary: this.buildMeasurementBasisSummary(record, paymentRecord, invoiceRecord, expenseRecord),
+            sourceStatusSummary: this.buildSourceStatusSummary(record, paymentRecord, invoiceRecord, expenseRecord, payableRecord, rateVersion),
+            effectivePeriodSummary: this.buildEffectivePeriodSummary(record, paymentRecord, invoiceRecord, expenseRecord, payableRecord, rateVersion),
+            measurementBasisSummary: this.buildMeasurementBasisSummary(record, paymentRecord, invoiceRecord, expenseRecord, payableRecord),
             supersedesSummary: this.buildSupersedesSummary(record, replacementRecord),
             allowedActions: this.buildAllowedActions(record),
             laborPersonId: record.laborPersonId ?? null,
@@ -694,6 +766,12 @@ export class ProjectCostService {
         }
     }
 
+    private assertPayableEligibleForCostMapping(payableRecord: PayableRecord): void {
+        if (payableRecord.status === 'draft' || payableRecord.status === 'voided') {
+            throw new ConflictException(`PayableRecord ${payableRecord.id} is not in a formal commitment state`);
+        }
+    }
+
     private async assertExpenseProjectAndContract(projectId: string, contractId: string | null | undefined): Promise<void> {
         const project = await this.contractFinanceRepository.findProjectById(projectId);
         if (!project) {
@@ -835,6 +913,7 @@ export class ProjectCostService {
         paymentRecord: PaymentRecord | null,
         invoiceRecord: InvoiceRecord | null,
         expenseRecord: ExpenseRecord | null,
+        payableRecord: PayableRecord | null,
         rateVersion: InternalCostRateVersion | null
     ): string | null {
         if (paymentRecord) {
@@ -845,6 +924,9 @@ export class ProjectCostService {
         }
         if (expenseRecord) {
             return `ExpenseRecord:${expenseRecord.status}`;
+        }
+        if (payableRecord) {
+            return `PayableRecord:${payableRecord.status}`;
         }
         if (rateVersion) {
             return `InternalCostRateVersion:${rateVersion.status}`;
@@ -860,6 +942,7 @@ export class ProjectCostService {
         paymentRecord: PaymentRecord | null,
         invoiceRecord: InvoiceRecord | null,
         expenseRecord: ExpenseRecord | null,
+        payableRecord: PayableRecord | null,
         rateVersion: InternalCostRateVersion | null
     ): string | null {
         if (paymentRecord) {
@@ -870,6 +953,9 @@ export class ProjectCostService {
         }
         if (expenseRecord) {
             return this.toIsoDate(expenseRecord.expenseDate);
+        }
+        if (payableRecord) {
+            return this.toIsoDate(payableRecord.expectedPaymentDate);
         }
         if (record.laborPeriodStart || record.laborPeriodEnd) {
             return `${this.toNullableDate(record.laborPeriodStart) ?? '-'} ~ ${this.toNullableDate(record.laborPeriodEnd) ?? '-'}`;
@@ -884,7 +970,8 @@ export class ProjectCostService {
         record: ProjectActualCostRecord,
         paymentRecord: PaymentRecord | null,
         invoiceRecord: InvoiceRecord | null,
-        expenseRecord: ExpenseRecord | null
+        expenseRecord: ExpenseRecord | null,
+        payableRecord: PayableRecord | null
     ): string | null {
         if (paymentRecord) {
             return `${this.formatAmount(this.toNumber(paymentRecord.paymentAmount))} ${record.currency} @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
@@ -894,6 +981,9 @@ export class ProjectCostService {
         }
         if (expenseRecord) {
             return `${this.formatAmount(this.toNumber(expenseRecord.amountIncludingTax))} ${record.currency} @ ${this.toIsoDate(expenseRecord.expenseDate)}`;
+        }
+        if (payableRecord) {
+            return `${this.formatAmount(this.toNumber(payableRecord.registeredAmount))} ${record.currency} @ ${this.toIsoDate(payableRecord.expectedPaymentDate)} (paid ${this.formatAmount(this.toNumber(payableRecord.paidAmount))})`;
         }
         if (record.actualHours && record.internalCostRate) {
             return `${this.toNullableDecimal(record.actualHours)}h x ${this.toNullableDecimal(record.internalCostRate)} ${record.currency}`;

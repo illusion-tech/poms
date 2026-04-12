@@ -6,6 +6,7 @@ const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 const CONTRACT_ID = '30000000-0000-4000-8000-000000000001';
 const RECEIPT_ID = '31000000-0000-4000-8000-000000000001';
 const INVOICE_ID = '31500000-0000-4000-8000-000000000001';
+const PAYABLE_ID = '31700000-0000-4000-8000-000000000001';
 const PAYMENT_ID = '32000000-0000-4000-8000-000000000001';
 const USER_ID = '00000000-0000-4000-8000-000000000001';
 
@@ -40,6 +41,7 @@ const makePayment = (overrides: Record<string, unknown> = {}) => ({
     id: PAYMENT_ID,
     projectId: PROJECT_ID,
     contractId: CONTRACT_ID,
+    payableRecordId: PAYABLE_ID,
     paymentAmount: '70000.00',
     paymentDate: new Date('2026-03-27T10:00:00Z'),
     costCategory: 'implementation',
@@ -47,6 +49,30 @@ const makePayment = (overrides: Record<string, unknown> = {}) => ({
     status: 'recorded',
     confirmedAt: null,
     confirmedBy: null,
+    rowVersion: 1,
+    createdAt: new Date('2026-03-27T10:00:00Z'),
+    updatedAt: new Date('2026-03-27T10:00:00Z'),
+    ...overrides
+});
+
+const makePayable = (overrides: Record<string, unknown> = {}) => ({
+    id: PAYABLE_ID,
+    projectId: PROJECT_ID,
+    contractId: CONTRACT_ID,
+    vendorName: '示例供应商',
+    costCategory: 'implementation',
+    payableDescription: '外部实施采购',
+    currency: 'CNY',
+    registeredAmount: '90000.00',
+    paidAmount: '0.00',
+    expectedPaymentDate: new Date('2026-03-31T00:00:00Z'),
+    status: 'recorded',
+    evidenceSummary: null,
+    attachmentCount: 0,
+    closedAt: null,
+    closeReason: null,
+    voidedAt: null,
+    voidReason: null,
     rowVersion: 1,
     createdAt: new Date('2026-03-27T10:00:00Z'),
     updatedAt: new Date('2026-03-27T10:00:00Z'),
@@ -86,6 +112,11 @@ describe('ContractFinanceService', () => {
             createReceipt: jest.fn(),
             persistAndFlushReceipt: jest.fn(),
             flushReceipt: jest.fn(),
+            findPayablesForProject: jest.fn(),
+            findPayableById: jest.fn(),
+            createPayable: jest.fn(),
+            persistAndFlushPayable: jest.fn(),
+            flushPayable: jest.fn(),
             findPaymentsForProject: jest.fn(),
             findInvoicesForProject: jest.fn(),
             findInvoiceById: jest.fn(),
@@ -138,6 +169,54 @@ describe('ContractFinanceService', () => {
 
         expect(result.status).toBe('confirmed');
         expect(receipt.confirmedBy).toBe(USER_ID);
+    });
+
+    it('creates payable for project', async () => {
+        repo.findProjectById.mockResolvedValue(makeProject() as never);
+        repo.findContractById.mockResolvedValue(makeContract() as never);
+        repo.createPayable.mockReturnValue(makePayable() as never);
+        repo.persistAndFlushPayable.mockResolvedValue(undefined);
+
+        const result = await service.createPayable(PROJECT_ID, {
+            contractId: CONTRACT_ID,
+            vendorName: ' 示例供应商 ',
+            costCategory: 'implementation',
+            payableDescription: ' 外部实施采购 ',
+            registeredAmount: '90000.00',
+            expectedPaymentDate: '2026-03-31'
+        });
+
+        expect(result.status).toBe('recorded');
+        expect(repo.createPayable).toHaveBeenCalledWith(expect.objectContaining({ projectId: PROJECT_ID, paidAmount: '0' }));
+    });
+
+    it('marks payable as partially paid and then completed', async () => {
+        const payable = makePayable();
+        repo.findPayableById.mockResolvedValue(payable as never);
+        repo.flushPayable.mockResolvedValue(undefined);
+
+        const partial = await service.markPayablePartiallyPaid(PAYABLE_ID, {
+            paidAmount: '30000.00',
+            expectedVersion: 1
+        });
+        expect(partial.status).toBe('partially-paid');
+        expect(payable.paidAmount).toBe('30000.00');
+
+        payable.rowVersion = 2;
+        const completed = await service.completePayable(PAYABLE_ID, { expectedVersion: 2 });
+        expect(completed.status).toBe('completed');
+        expect(payable.paidAmount).toBe('90000.00');
+    });
+
+    it('rejects void payable when paid amount exists', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable({ paidAmount: '1.00', status: 'partially-paid' }) as never);
+
+        await expect(
+            service.voidPayable(PAYABLE_ID, {
+                reason: 'mistaken record',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
     });
 
     it('creates input invoice without contract', async () => {
@@ -247,11 +326,13 @@ describe('ContractFinanceService', () => {
     it('creates payment for project', async () => {
         repo.findProjectById.mockResolvedValue(makeProject() as never);
         repo.findContractById.mockResolvedValue(makeContract() as never);
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
         repo.createPayment.mockReturnValue(makePayment() as never);
         repo.persistAndFlushPayment.mockResolvedValue(undefined);
 
         const result = await service.createPayment(PROJECT_ID, {
             contractId: CONTRACT_ID,
+            payableRecordId: PAYABLE_ID,
             paymentAmount: '70000.00',
             paymentDate: '2026-03-27T10:00:00.000Z',
             costCategory: 'implementation',

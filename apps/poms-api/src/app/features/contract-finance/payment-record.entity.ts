@@ -2,6 +2,7 @@ import { defineEntity } from '@mikro-orm/core';
 import type { PaymentRecordStatus } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
+import { PayableRecord } from './payable-record.entity';
 
 const p = defineEntity.properties;
 
@@ -9,7 +10,10 @@ export const PaymentRecordSchema = defineEntity({
     name: 'PaymentRecord',
     tableName: 'payment_record',
     schema: 'poms',
-    indexes: [{ name: 'payment_record_project_status_idx', properties: ['projectId', 'status'] }],
+    indexes: [
+        { name: 'payment_record_project_status_idx', properties: ['projectId', 'status'] },
+        { name: 'payment_record_payable_record_id_idx', properties: ['payableRecordId'] }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>
@@ -27,6 +31,15 @@ export const PaymentRecordSchema = defineEntity({
                 .nullable()
                 .fieldName('contract_id')
                 .foreignKeyName('payment_record_contract_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null'),
+        payableRecordId: () =>
+            p
+                .manyToOne(PayableRecord)
+                .mapToPk()
+                .nullable()
+                .fieldName('payable_record_id')
+                .foreignKeyName('payment_record_payable_record_id_foreign')
                 .updateRule('cascade')
                 .deleteRule('set null'),
         paymentAmount: p.decimal().precision(18).scale(2).fieldName('payment_amount'),

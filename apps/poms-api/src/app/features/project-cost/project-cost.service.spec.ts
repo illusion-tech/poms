@@ -17,6 +17,7 @@ const REPLACEMENT_RECORD_ID = '66666666-6666-4666-8666-666666666666';
 const INVOICE_RECORD_ID = '77777777-7777-4777-8777-777777777777';
 const EXPENSE_RECORD_ID = '88888888-8888-4888-8888-888888888888';
 const CONTRACT_ID = '99999999-9999-4999-8999-999999999999';
+const PAYABLE_RECORD_ID = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -113,6 +114,28 @@ function makeExpenseRecord(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makePayableRecord(overrides: Record<string, unknown> = {}) {
+    return {
+        id: PAYABLE_RECORD_ID,
+        projectId: PROJECT_ID,
+        contractId: CONTRACT_ID,
+        vendorName: 'Acme Supplier',
+        costCategory: 'hardware',
+        payableDescription: 'Server procurement',
+        currency: 'CNY',
+        registeredAmount: '4567.8900',
+        paidAmount: '0.0000',
+        expectedPaymentDate: '2023-06-15',
+        status: 'recorded',
+        evidenceSummary: 'quotation approved',
+        attachmentCount: 1,
+        rowVersion: 2,
+        createdAt: new Date('2023-06-01T10:00:00.000Z'),
+        updatedAt: new Date('2023-06-01T10:00:00.000Z'),
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
     let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
@@ -158,7 +181,8 @@ describe('ProjectCostService', () => {
             findProjectById: jest.fn(),
             findContractById: jest.fn(),
             findPaymentById: jest.fn(),
-            findInvoiceById: jest.fn()
+            findInvoiceById: jest.fn(),
+            findPayableById: jest.fn()
         };
 
         expenseRecordRepository = mockExpenseRecordRepository as unknown as jest.Mocked<ExpenseRecordRepository>;
@@ -423,6 +447,63 @@ describe('ProjectCostService', () => {
                 service.registerExpenseCostRecord(
                     {
                         expenseRecordId: EXPENSE_RECORD_ID,
+                        projectId: PROJECT_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('registerProcurementCostRecord', () => {
+        it('registers a formal payable as a PROCUREMENT cost record', async () => {
+            contractFinanceRepository.findPayableById.mockResolvedValue(makePayableRecord() as never);
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            const result = await service.registerProcurementCostRecord(
+                {
+                    payableRecordId: PAYABLE_RECORD_ID,
+                    projectId: PROJECT_ID,
+                    costDescription: 'mapped from approved commitment',
+                    evidenceSummary: 'quotation archived',
+                    taxImpactSummary: 'tax impact pending invoice',
+                    expectedVersion: 2
+                },
+                USER_ID
+            );
+
+            expect(projectActualCostRecordRepository.findCurrentEffectiveBySource).toHaveBeenCalledWith(
+                'PAYABLE_RECORD',
+                PAYABLE_RECORD_ID,
+                ['REGISTERED', 'CONFIRMED', 'INCLUDED']
+            );
+            expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    costType: 'PROCUREMENT',
+                    costSubtype: 'hardware',
+                    occurredOn: '2023-06-15',
+                    recordStatus: 'REGISTERED',
+                    amountIncludingTax: '4567.8900',
+                    sourceType: 'PAYABLE_RECORD',
+                    sourceId: PAYABLE_RECORD_ID,
+                    sourceRefNo: PAYABLE_RECORD_ID,
+                    evidenceSummary: 'quotation archived',
+                    taxImpactSummary: 'tax impact pending invoice'
+                })
+            );
+            expect(result.businessStatusAfter).toBe('REGISTERED');
+        });
+
+        it('blocks procurement mapping for non-formal payable states', async () => {
+            contractFinanceRepository.findPayableById.mockResolvedValue(
+                makePayableRecord({ status: 'draft' }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            await expect(
+                service.registerProcurementCostRecord(
+                    {
+                        payableRecordId: PAYABLE_RECORD_ID,
                         projectId: PROJECT_ID
                     },
                     USER_ID
@@ -815,6 +896,75 @@ describe('ProjectCostService', () => {
             expect(result.sourceStatusSummary).toBe('ExpenseRecord:confirmed');
             expect(result.effectivePeriodSummary).toBe('2023-05-10');
             expect(result.measurementBasisSummary).toBe('1234.5600 CNY @ 2023-05-10');
+        });
+
+        it('returns procurement detail with source summary', async () => {
+            projectActualCostRecordRepository.findById.mockResolvedValue(
+                {
+                    id: RECORD_ID,
+                    projectId: PROJECT_ID,
+                    recordNo: 'PROCUREMENT-1',
+                    costType: 'PROCUREMENT',
+                    costSubtype: 'hardware',
+                    occurredOn: '2023-06-15',
+                    accountingPeriod: null,
+                    registeredAt: new Date('2023-06-01T10:00:00.000Z'),
+                    confirmedAt: null,
+                    includedAt: null,
+                    executionStageCode: null,
+                    stageDerivedFromType: null,
+                    stageDerivedFromId: null,
+                    stageDerivedAt: null,
+                    stageLockedAt: null,
+                    currency: 'CNY',
+                    amountExcludingTax: null,
+                    taxCostAmount: null,
+                    amountIncludingTax: '4567.8900',
+                    recordStatus: 'REGISTERED',
+                    isIncludedInProjectCost: false,
+                    isHighRisk: false,
+                    sourceType: 'PAYABLE_RECORD',
+                    sourceId: PAYABLE_RECORD_ID,
+                    sourceRefNo: PAYABLE_RECORD_ID,
+                    evidenceSummary: 'quotation archived',
+                    attachmentCount: 1,
+                    registeredBy: USER_ID,
+                    confirmedBy: null,
+                    includedBy: null,
+                    ownerRole: null,
+                    costDescription: 'mapped from approved commitment',
+                    taxImpactSummary: 'tax impact pending invoice',
+                    riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
+                    supersedesRecordId: null,
+                    voidReason: null,
+                    laborPersonId: null,
+                    laborRole: null,
+                    laborPeriodType: null,
+                    laborPeriodStart: null,
+                    laborPeriodEnd: null,
+                    actualHours: null,
+                    actualPersonDays: null,
+                    internalCostRate: null,
+                    laborAmount: null,
+                    workSummary: null,
+                    deliveryStage: null,
+                    rateVersionId: null,
+                    rowVersion: 1,
+                    createdAt: new Date('2023-06-01T10:00:00.000Z'),
+                    updatedAt: new Date('2023-06-01T10:00:00.000Z')
+                } as never
+            );
+            contractFinanceRepository.findPayableById.mockResolvedValue(
+                makePayableRecord({ paidAmount: '1234.5600', status: 'partially-paid' }) as never
+            );
+            projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
+
+            const result = await service.getProjectActualCostRecordDetail(RECORD_ID);
+
+            expect(result.allowedActions).toEqual([]);
+            expect(result.sourceStatusSummary).toBe('PayableRecord:partially-paid');
+            expect(result.effectivePeriodSummary).toBe('2023-06-15');
+            expect(result.measurementBasisSummary).toBe('4567.8900 CNY @ 2023-06-15 (paid 1234.5600)');
         });
     });
 

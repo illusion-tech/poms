@@ -13,6 +13,7 @@ import {
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
+    RegisterProcurementCostRecordRequestDto,
     ReplaceLaborCostRecordRequestDto,
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto
@@ -92,6 +93,18 @@ export class ProjectCostController {
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.registerExpenseCostRecord(body, userId);
+    }
+
+    @Post('project-actual-cost-records/register-procurement')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '登记采购承诺事实到统一实际成本记录' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async registerProcurementCostRecord(
+        @Body() body: RegisterProcurementCostRecordRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.registerProcurementCostRecord(body, userId);
     }
 
     @Get('projects/:projectId/expense-records')

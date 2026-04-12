@@ -162,12 +162,16 @@ export class ProjectActualCostRecordRepository {
         return this.repository.findOne({ id });
     }
 
-    async findCurrentEffectiveBySource(sourceType: string, sourceId: string): Promise<ProjectActualCostRecord | null> {
+    async findCurrentEffectiveBySource(
+        sourceType: string,
+        sourceId: string,
+        activeStatuses: string[] = ['CONFIRMED', 'INCLUDED']
+    ): Promise<ProjectActualCostRecord | null> {
         return this.repository.findOne(
             {
                 sourceType,
                 sourceId,
-                recordStatus: { $in: ['CONFIRMED', 'INCLUDED'] }
+                recordStatus: { $in: activeStatuses }
             },
             {
                 orderBy: { createdAt: QueryOrder.DESC }

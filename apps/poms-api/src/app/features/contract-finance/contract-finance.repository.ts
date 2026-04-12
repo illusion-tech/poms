@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 import { InvoiceRecord } from './invoice-record.entity';
+import { PayableRecord } from './payable-record.entity';
 import { PaymentRecord } from './payment-record.entity';
 import { ReceiptRecord } from './receipt-record.entity';
 
@@ -18,6 +19,8 @@ export class ContractFinanceRepository {
         private readonly receiptRepository: EntityRepository<ReceiptRecord>,
         @InjectRepository(InvoiceRecord)
         private readonly invoiceRepository: EntityRepository<InvoiceRecord>,
+        @InjectRepository(PayableRecord)
+        private readonly payableRepository: EntityRepository<PayableRecord>,
         @InjectRepository(PaymentRecord)
         private readonly paymentRepository: EntityRepository<PaymentRecord>
     ) {}
@@ -50,6 +53,28 @@ export class ContractFinanceRepository {
 
     async flushReceipt(): Promise<void> {
         await this.receiptRepository.getEntityManager().flush();
+    }
+
+    async findPayablesForProject(projectId: string): Promise<PayableRecord[]> {
+        return this.payableRepository.find({ projectId }, { orderBy: { expectedPaymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
+    }
+
+    async findPayableById(id: string): Promise<PayableRecord | null> {
+        return this.payableRepository.findOne({ id });
+    }
+
+    createPayable(input: ConstructorParameters<typeof PayableRecord>[0]): PayableRecord {
+        return this.payableRepository.create(input);
+    }
+
+    async persistAndFlushPayable(entity: PayableRecord): Promise<void> {
+        const em = this.payableRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushPayable(): Promise<void> {
+        await this.payableRepository.getEntityManager().flush();
     }
 
     async findPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {

@@ -6,11 +6,12 @@ import { ContractFinanceController } from './contract-finance.controller';
 import { ContractFinanceRepository } from './contract-finance.repository';
 import { ContractFinanceService } from './contract-finance.service';
 import { InvoiceRecord } from './invoice-record.entity';
+import { PayableRecord } from './payable-record.entity';
 import { PaymentRecord } from './payment-record.entity';
 import { ReceiptRecord } from './receipt-record.entity';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Project, Contract, ReceiptRecord, InvoiceRecord, PaymentRecord])],
+    imports: [MikroOrmModule.forFeature([Project, Contract, ReceiptRecord, InvoiceRecord, PayableRecord, PaymentRecord])],
     controllers: [ContractFinanceController],
     providers: [ContractFinanceRepository, ContractFinanceService],
     exports: [ContractFinanceRepository, ContractFinanceService]

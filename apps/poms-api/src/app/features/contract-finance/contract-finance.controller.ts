@@ -3,27 +3,38 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags
 import type {
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
+    PayableRecordDetailView,
+    PayableRecordSummary,
     PaymentRecordSummary,
     ReceiptRecordSummary,
     UserPayload
 } from '@poms/shared-contracts';
 import {
+    ClosePayableRecordRequestDto,
     CloseInvoiceRecordRequestDto,
+    CompletePayableRecordRequestDto,
     ConfirmPaymentRecordRequestDto,
     ConfirmReceiptRecordRequestDto,
+    CreatePayableRecordRequestDto,
     CreateInvoiceRecordRequestDto,
     CreatePaymentRecordRequestDto,
     CreateReceiptRecordRequestDto,
     InvoiceRecordDetailViewDto,
     InvoiceRecordDto,
     InvoiceRecordListDto,
+    MarkPayableRecordPartiallyPaidRequestDto,
     MarkInvoiceExceptionRequestDto,
+    PayableRecordDetailViewDto,
+    PayableRecordDto,
+    PayableRecordListDto,
     PaymentRecordDto,
     PaymentRecordListDto,
     ReceiptRecordDto,
     ReceiptRecordListDto,
     ResolveInvoiceExceptionRequestDto,
-    UpdateInvoiceRecordRequestDto
+    UpdatePayableRecordRequestDto,
+    UpdateInvoiceRecordRequestDto,
+    VoidPayableRecordRequestDto
 } from '@poms/api-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ContractFinanceService } from './contract-finance.service';
@@ -65,6 +76,92 @@ export class ContractFinanceController {
         @Body() body: ConfirmReceiptRecordRequestDto
     ): Promise<ReceiptRecordSummary> {
         return this.contractFinanceService.confirmReceipt(contractId, id, req.user.sub, body);
+    }
+
+    @Get('projects/:projectId/payables')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目采购承诺记录列表' })
+    @ApiOkResponse({ type: PayableRecordListDto })
+    listPayables(@Param('projectId') projectId: string): Promise<PayableRecordSummary[]> {
+        return this.contractFinanceService.listPayables(projectId);
+    }
+
+    @Get('payable-records/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取采购承诺记录详情' })
+    @ApiOkResponse({ type: PayableRecordDetailViewDto })
+    getPayable(@Param('id') id: string): Promise<PayableRecordDetailView> {
+        return this.contractFinanceService.getPayable(id);
+    }
+
+    @Post('projects/:projectId/payables')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '登记项目采购承诺记录' })
+    @ApiCreatedResponse({ type: PayableRecordDto })
+    createPayable(
+        @Param('projectId') projectId: string,
+        @Body() body: CreatePayableRecordRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.createPayable(projectId, body);
+    }
+
+    @Patch('payable-records/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '更新采购承诺记录' })
+    @ApiOkResponse({ type: PayableRecordDto })
+    updatePayable(
+        @Param('id') id: string,
+        @Body() body: UpdatePayableRecordRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.updatePayable(id, body);
+    }
+
+    @Post('payable-records/:id/partial')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '标记采购承诺记录为部分支付' })
+    @ApiOkResponse({ type: PayableRecordDto })
+    markPayablePartiallyPaid(
+        @Param('id') id: string,
+        @Body() body: MarkPayableRecordPartiallyPaidRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.markPayablePartiallyPaid(id, body);
+    }
+
+    @Post('payable-records/:id/complete')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '完成采购承诺记录' })
+    @ApiOkResponse({ type: PayableRecordDto })
+    completePayable(
+        @Param('id') id: string,
+        @Body() body: CompletePayableRecordRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.completePayable(id, body);
+    }
+
+    @Post('payable-records/:id/close')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '关闭采购承诺记录' })
+    @ApiOkResponse({ type: PayableRecordDto })
+    closePayable(
+        @Param('id') id: string,
+        @Body() body: ClosePayableRecordRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.closePayable(id, body);
+    }
+
+    @Post('payable-records/:id/void')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '作废采购承诺记录' })
+    @ApiOkResponse({ type: PayableRecordDto })
+    voidPayable(
+        @Param('id') id: string,
+        @Body() body: VoidPayableRecordRequestDto
+    ): Promise<PayableRecordSummary> {
+        return this.contractFinanceService.voidPayable(id, body);
     }
 
     @Get('projects/:projectId/invoices')
