@@ -2,12 +2,13 @@ import {
     getProjectActualCostRecordDetail,
     listProjectActualCostRecords,
     publishInternalCostRateVersion,
+    registerInvoiceCostRecord,
     registerLaborCostRecord,
     registerPaymentFactCostRecord,
     replaceLaborCostRecord
 } from '../support/actual-cost-api';
 import { loginAsAdmin } from '../support/api-client';
-import { confirmPayment, createPayment } from '../support/contract-finance-api';
+import { confirmPayment, createInvoice, createPayment, updateInvoice } from '../support/contract-finance-api';
 import { createProjectForProfile } from '../support/project-api';
 
 jest.setTimeout(120_000);
@@ -109,6 +110,62 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.recordStatus).toBe('CONFIRMED');
         expect(detailView.sourceStatusSummary).toContain('PaymentRecord:confirmed');
         expect(detailView.measurementBasisSummary).toContain('5432.1000');
+        expect(detailView.allowedActions).toEqual([]);
+    });
+
+    it('should map verified input invoice into INVOICE and expose list/detail query views', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-INV-${unique}`,
+            projectName: `E2E Invoice Fact Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const invoice = await createInvoice(client, project.id, {
+            invoiceType: 'input',
+            contractId: null,
+            invoiceNumber: `E2E-INVOICE-${unique}`,
+            invoiceAmount: '3210.50',
+            invoiceDate: '2023-04-02'
+        });
+        expect(invoice.status).toBe('draft');
+
+        const verifiedInvoice = await updateInvoice(client, invoice.id, {
+            status: 'verified',
+            expectedVersion: invoice.rowVersion
+        });
+        expect(verifiedInvoice.status).toBe('verified');
+
+        const registerInvoiceResult = await registerInvoiceCostRecord(client, {
+            invoiceRecordId: invoice.id,
+            projectId: project.id,
+            costDescription: 'mapped from verified invoice',
+            evidenceSummary: 'invoice pdf archived',
+            taxImpactSummary: 'vat pending deduction',
+            expectedVersion: verifiedInvoice.rowVersion
+        });
+        expect(registerInvoiceResult.resultStatus).toBe('success');
+
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'INVOICE_RECORD' });
+        expect(listView).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: registerInvoiceResult.targetId,
+                    costType: 'INVOICE',
+                    sourceType: 'INVOICE_RECORD',
+                    sourceId: invoice.id,
+                    sourceRefNo: `E2E-INVOICE-${unique}`
+                })
+            ])
+        );
+
+        const detailView = await getProjectActualCostRecordDetail(client, registerInvoiceResult.targetId);
+        expect(detailView.costType).toBe('INVOICE');
+        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.sourceStatusSummary).toContain('InvoiceRecord:verified/none');
+        expect(detailView.measurementBasisSummary).toContain('3210.5000');
         expect(detailView.allowedActions).toEqual([]);
     });
 });

@@ -7,6 +7,7 @@ import type {
 } from '@poms/shared-contracts';
 import {
     PublishInternalCostRateVersionRequestDto,
+    RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
     ReplaceLaborCostRecordRequestDto
@@ -19,6 +20,11 @@ export async function publishInternalCostRateVersion(client: AxiosInstance, inpu
 
 export async function registerPaymentFactCostRecord(client: AxiosInstance, input: RegisterPaymentFactCostRecordRequestDto): Promise<CommandResult> {
     const response = await client.post<CommandResult>('/project-actual-cost-records/register-payment-fact', input);
+    return expectStatus(response, 201);
+}
+
+export async function registerInvoiceCostRecord(client: AxiosInstance, input: RegisterInvoiceCostRecordRequestDto): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-actual-cost-records/register-invoice', input);
     return expectStatus(response, 201);
 }
 
