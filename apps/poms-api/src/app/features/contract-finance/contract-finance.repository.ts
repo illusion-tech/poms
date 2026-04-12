@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
+import { InvoiceRecord } from './invoice-record.entity';
 import { PaymentRecord } from './payment-record.entity';
 import { ReceiptRecord } from './receipt-record.entity';
 
@@ -15,6 +16,8 @@ export class ContractFinanceRepository {
         private readonly contractRepository: EntityRepository<Contract>,
         @InjectRepository(ReceiptRecord)
         private readonly receiptRepository: EntityRepository<ReceiptRecord>,
+        @InjectRepository(InvoiceRecord)
+        private readonly invoiceRepository: EntityRepository<InvoiceRecord>,
         @InjectRepository(PaymentRecord)
         private readonly paymentRepository: EntityRepository<PaymentRecord>
     ) {}
@@ -51,6 +54,28 @@ export class ContractFinanceRepository {
 
     async findPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
         return this.paymentRepository.find({ projectId }, { orderBy: { paymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
+    }
+
+    async findInvoicesForProject(projectId: string): Promise<InvoiceRecord[]> {
+        return this.invoiceRepository.find({ projectId }, { orderBy: { invoiceDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
+    }
+
+    async findInvoiceById(id: string): Promise<InvoiceRecord | null> {
+        return this.invoiceRepository.findOne({ id });
+    }
+
+    createInvoice(input: ConstructorParameters<typeof InvoiceRecord>[0]): InvoiceRecord {
+        return this.invoiceRepository.create(input);
+    }
+
+    async persistAndFlushInvoice(entity: InvoiceRecord): Promise<void> {
+        const em = this.invoiceRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushInvoice(): Promise<void> {
+        await this.invoiceRepository.getEntityManager().flush();
     }
 
     async findPaymentById(id: string): Promise<PaymentRecord | null> {
