@@ -1958,6 +1958,19 @@ export const RegisterInvoiceCostRecordRequestSchema = z
 
 export type RegisterInvoiceCostRecordRequest = z.infer<typeof RegisterInvoiceCostRecordRequestSchema>;
 
+export const RegisterExpenseCostRecordRequestSchema = z
+    .object({
+        expenseRecordId: z.uuid(),
+        projectId: z.uuid(),
+        costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RegisterExpenseCostRecordRequest' });
+
+export type RegisterExpenseCostRecordRequest = z.infer<typeof RegisterExpenseCostRecordRequestSchema>;
+
 export const RegisterLaborCostRecordRequestSchema = z
     .object({
         projectId: z.uuid(),

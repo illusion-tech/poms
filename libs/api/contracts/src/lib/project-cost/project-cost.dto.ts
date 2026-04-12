@@ -8,6 +8,7 @@ import {
     ProjectActualCostRecordDetailViewSchema,
     ProjectActualCostRecordListViewSchema,
     ProjectActualCostRecordSummarySchema,
+    RegisterExpenseCostRecordRequestSchema,
     RegisterInvoiceCostRecordRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
     RegisterPaymentFactCostRecordRequestSchema,
@@ -45,6 +46,8 @@ export class ProjectActualCostRecordDetailViewDto extends createZodDto(ProjectAc
 export class RegisterPaymentFactCostRecordRequestDto extends createZodDto(RegisterPaymentFactCostRecordRequestSchema) {}
 
 export class RegisterInvoiceCostRecordRequestDto extends createZodDto(RegisterInvoiceCostRecordRequestSchema) {}
+
+export class RegisterExpenseCostRecordRequestDto extends createZodDto(RegisterExpenseCostRecordRequestSchema) {}
 
 export class RegisterLaborCostRecordRequestDto extends createZodDto(RegisterLaborCostRecordRequestSchema) {}
 
