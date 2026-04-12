@@ -1,6 +1,20 @@
 import { approveRecord, findOpenTodoForTarget } from '../support/approval-api';
 import { loginAsAdmin } from '../support/api-client';
-import { createPayment, createReceipt, listPayments, listReceipts, confirmPayment, confirmReceipt } from '../support/contract-finance-api';
+import {
+    closeInvoiceRecord,
+    confirmPayment,
+    confirmReceipt,
+    createInvoice,
+    createPayment,
+    createReceipt,
+    getInvoice,
+    listInvoices,
+    listPayments,
+    listReceipts,
+    markInvoiceException,
+    resolveInvoiceException,
+    updateInvoice
+} from '../support/contract-finance-api';
 import { expectErrorStatus } from '../support/http';
 import { activateContract, createContract, getContract, prepareContractReadinessForProject, submitContractReview } from '../support/contract-api';
 import { createProjectForProfile } from '../support/project-api';
@@ -9,7 +23,7 @@ import { buildContractInput, makeUniqueSuffix } from '../support/test-data';
 jest.setTimeout(120_000);
 
 describe('poms-api contract-finance workflow e2e', () => {
-    it('records and confirms receipt/payment facts for an active contract/project', async () => {
+    it('records invoice, receipt and payment facts for an active contract/project', async () => {
         const { client, profile } = await loginAsAdmin();
         const unique = makeUniqueSuffix('finance');
 
@@ -49,6 +63,42 @@ describe('poms-api contract-finance workflow e2e', () => {
         const activeContract = await getContract(client, contract.id);
         expect(activeContract.status).toBe('active');
 
+        const invoice = await createInvoice(client, project.id, {
+            contractId: activeContract.id,
+            invoiceType: 'output',
+            invoiceNumber: `E2E-INV-${unique}`,
+            invoiceAmount: '188000.00',
+            invoiceDate: new Date().toISOString().slice(0, 10)
+        });
+        expect(invoice.status).toBe('draft');
+
+        const issuedInvoice = await updateInvoice(client, invoice.id, {
+            status: 'issued',
+            expectedVersion: invoice.rowVersion
+        });
+        expect(issuedInvoice.status).toBe('issued');
+
+        const exceptionInvoice = await markInvoiceException(client, invoice.id, {
+            reason: 'e2e amount mismatch',
+            comment: 'e2e supplier attachment',
+            expectedVersion: issuedInvoice.rowVersion
+        });
+        expect(exceptionInvoice.exceptionStatus).toBe('open');
+
+        const resolvedInvoice = await resolveInvoiceException(client, invoice.id, {
+            resolution: 'e2e verified',
+            comment: 'e2e difference accepted',
+            expectedVersion: exceptionInvoice.rowVersion
+        });
+        expect(resolvedInvoice.exceptionStatus).toBe('resolved');
+
+        const closedInvoice = await closeInvoiceRecord(client, invoice.id, {
+            reason: 'e2e archived',
+            comment: 'e2e ready for source mapping',
+            expectedVersion: resolvedInvoice.rowVersion
+        });
+        expect(closedInvoice.status).toBe('closed');
+
         const receipt = await createReceipt(client, activeContract.id, {
             receiptAmount: '100000.00',
             receiptDate: new Date().toISOString(),
@@ -77,6 +127,12 @@ describe('poms-api contract-finance workflow e2e', () => {
 
         const receipts = await listReceipts(client, activeContract.id);
         expect(receipts.some((item) => item.id === receipt.id && item.status === 'confirmed')).toBe(true);
+
+        const invoices = await listInvoices(client, project.id);
+        expect(invoices.some((item) => item.id === invoice.id && item.status === 'closed')).toBe(true);
+
+        const invoiceDetail = await getInvoice(client, invoice.id);
+        expect(invoiceDetail.allowedActions).toEqual([]);
 
         const payments = await listPayments(client, project.id);
         expect(payments.some((item) => item.id === payment.id && item.status === 'confirmed')).toBe(true);
@@ -164,5 +220,29 @@ describe('poms-api contract-finance workflow e2e', () => {
         );
 
         expectErrorStatus(response, 409, 'ReceiptRecord version');
+    });
+
+    it('rejects output invoice creation without active contract binding', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('finance-invoice');
+
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-PRJ-${unique}`,
+            projectName: `E2E 发票合同约束 ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const response = await client.post(
+            `/contract-finance/projects/${project.id}/invoices`,
+            {
+                invoiceType: 'output',
+                contractId: null,
+                invoiceNumber: `E2E-INV-${unique}`,
+                invoiceAmount: '1000.00',
+                invoiceDate: new Date().toISOString().slice(0, 10)
+            }
+        );
+
+        expectErrorStatus(response, 422, '销项发票必须关联已生效合同');
     });
 });
