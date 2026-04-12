@@ -1,15 +1,21 @@
+import {
+    getProjectActualCostRecordDetail,
+    listProjectActualCostRecords,
+    publishInternalCostRateVersion,
+    registerLaborCostRecord,
+    registerPaymentFactCostRecord,
+    replaceLaborCostRecord
+} from '../support/actual-cost-api';
 import { loginAsAdmin } from '../support/api-client';
+import { confirmPayment, createPayment } from '../support/contract-finance-api';
 import { createProjectForProfile } from '../support/project-api';
-import { publishInternalCostRateVersion, registerLaborCostRecord, replaceLaborCostRecord } from '../support/actual-cost-api';
 
 jest.setTimeout(120_000);
 
 describe('Actual Cost Workflow E2E', () => {
     it('should complete the labor cost registry and replace workflow', async () => {
-        // 1. Admin login
         const { client, profile } = await loginAsAdmin();
 
-        // 2. Create a new project
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-AC-${unique}`,
@@ -18,7 +24,6 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(project).toBeDefined();
 
-        // 3. Publish an internal cost rate version
         const publishRateResult = await publishInternalCostRateVersion(client, {
             rateScopeType: 'ROLE',
             roleCode: `dev-${unique}`,
@@ -30,7 +35,6 @@ describe('Actual Cost Workflow E2E', () => {
         expect(publishRateResult.resultStatus).toBe('success');
         const rateVersionId = publishRateResult.targetId;
 
-        // 4. Register a successful labor cost record
         const registerLaborResult = await registerLaborCostRecord(client, {
             projectId: project.id,
             laborPeriodType: 'MONTH',
@@ -43,7 +47,6 @@ describe('Actual Cost Workflow E2E', () => {
         expect(registerLaborResult.resultStatus).toBe('success');
         const recordId = registerLaborResult.targetId;
 
-        // 5. Replace the labor cost record
         const replaceLaborResult = await replaceLaborCostRecord(client, {
             supersedesRecordId: recordId,
             laborPeriodStart: '2023-01-01',
@@ -54,5 +57,58 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(replaceLaborResult.resultStatus).toBe('success');
         expect(replaceLaborResult.targetId).not.toBe(recordId);
+    });
+
+    it('should map confirmed payment into PAYMENT_FACT and expose list/detail query views', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-PAY-${unique}`,
+            projectName: `E2E Payment Fact Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const payment = await createPayment(client, project.id, {
+            paymentAmount: '5432.10',
+            paymentDate: '2023-03-18T08:00:00.000Z',
+            costCategory: 'vendor-payment',
+            sourceType: 'manual'
+        });
+        expect(payment.status).toBe('recorded');
+
+        const confirmedPayment = await confirmPayment(client, project.id, payment.id, {
+            expectedVersion: payment.rowVersion
+        });
+        expect(confirmedPayment.status).toBe('confirmed');
+
+        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, {
+            paymentRecordId: payment.id,
+            projectId: project.id,
+            costDescription: 'mapped from payment confirmation',
+            evidenceSummary: 'bank slip attached',
+            expectedVersion: confirmedPayment.rowVersion
+        });
+        expect(registerPaymentFactResult.resultStatus).toBe('success');
+
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'PAYMENT_RECORD' });
+        expect(listView).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: registerPaymentFactResult.targetId,
+                    costType: 'PAYMENT_FACT',
+                    sourceType: 'PAYMENT_RECORD',
+                    sourceId: payment.id,
+                    sourceRefNo: payment.id
+                })
+            ])
+        );
+
+        const detailView = await getProjectActualCostRecordDetail(client, registerPaymentFactResult.targetId);
+        expect(detailView.costType).toBe('PAYMENT_FACT');
+        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.sourceStatusSummary).toContain('PaymentRecord:confirmed');
+        expect(detailView.measurementBasisSummary).toContain('5432.1000');
+        expect(detailView.allowedActions).toEqual([]);
     });
 });
