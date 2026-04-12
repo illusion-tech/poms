@@ -12,6 +12,7 @@ import {
     RegisterInvoiceCostRecordRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
     RegisterPaymentFactCostRecordRequestSchema,
+    RegisterProcurementCostRecordRequestSchema,
     RegisterLaborCostRecordRequestSchema,
     ReplaceLaborCostRecordRequestSchema,
     UpdateExpenseRecordRequestSchema,
@@ -48,6 +49,8 @@ export class RegisterPaymentFactCostRecordRequestDto extends createZodDto(Regist
 export class RegisterInvoiceCostRecordRequestDto extends createZodDto(RegisterInvoiceCostRecordRequestSchema) {}
 
 export class RegisterExpenseCostRecordRequestDto extends createZodDto(RegisterExpenseCostRecordRequestSchema) {}
+
+export class RegisterProcurementCostRecordRequestDto extends createZodDto(RegisterProcurementCostRecordRequestSchema) {}
 
 export class RegisterLaborCostRecordRequestDto extends createZodDto(RegisterLaborCostRecordRequestSchema) {}
 

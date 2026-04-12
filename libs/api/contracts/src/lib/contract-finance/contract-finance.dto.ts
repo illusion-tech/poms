@@ -1,20 +1,29 @@
 import {
+    ClosePayableRecordRequestSchema,
     CloseInvoiceRecordRequestSchema,
+    CompletePayableRecordRequestSchema,
     ConfirmPaymentRecordRequestSchema,
     ConfirmReceiptRecordRequestSchema,
+    CreatePayableRecordRequestSchema,
     CreateInvoiceRecordRequestSchema,
     CreatePaymentRecordRequestSchema,
     CreateReceiptRecordRequestSchema,
     InvoiceRecordDetailViewSchema,
     InvoiceRecordListSchema,
     InvoiceRecordSummarySchema,
+    MarkPayableRecordPartiallyPaidRequestSchema,
     MarkInvoiceExceptionRequestSchema,
+    PayableRecordDetailViewSchema,
+    PayableRecordListSchema,
+    PayableRecordSummarySchema,
     PaymentRecordListSchema,
     PaymentRecordSummarySchema,
     ResolveInvoiceExceptionRequestSchema,
     ReceiptRecordListSchema,
     ReceiptRecordSummarySchema,
-    UpdateInvoiceRecordRequestSchema
+    UpdatePayableRecordRequestSchema,
+    UpdateInvoiceRecordRequestSchema,
+    VoidPayableRecordRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
 
@@ -25,6 +34,24 @@ export class ReceiptRecordListDto extends createZodDto(ReceiptRecordListSchema) 
 export class CreateReceiptRecordRequestDto extends createZodDto(CreateReceiptRecordRequestSchema) {}
 
 export class ConfirmReceiptRecordRequestDto extends createZodDto(ConfirmReceiptRecordRequestSchema) {}
+
+export class PayableRecordDto extends createZodDto(PayableRecordSummarySchema) {}
+
+export class PayableRecordListDto extends createZodDto(PayableRecordListSchema) {}
+
+export class PayableRecordDetailViewDto extends createZodDto(PayableRecordDetailViewSchema) {}
+
+export class CreatePayableRecordRequestDto extends createZodDto(CreatePayableRecordRequestSchema) {}
+
+export class UpdatePayableRecordRequestDto extends createZodDto(UpdatePayableRecordRequestSchema) {}
+
+export class MarkPayableRecordPartiallyPaidRequestDto extends createZodDto(MarkPayableRecordPartiallyPaidRequestSchema) {}
+
+export class CompletePayableRecordRequestDto extends createZodDto(CompletePayableRecordRequestSchema) {}
+
+export class ClosePayableRecordRequestDto extends createZodDto(ClosePayableRecordRequestSchema) {}
+
+export class VoidPayableRecordRequestDto extends createZodDto(VoidPayableRecordRequestSchema) {}
 
 export class InvoiceRecordDto extends createZodDto(InvoiceRecordSummarySchema) {}
 

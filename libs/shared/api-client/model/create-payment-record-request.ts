@@ -11,6 +11,7 @@
 
 export interface CreatePaymentRecordRequest { 
     contractId?: string | null;
+    payableRecordId?: string | null;
     paymentAmount: string;
     paymentDate: string;
     costCategory: string;

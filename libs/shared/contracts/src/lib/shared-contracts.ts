@@ -1108,6 +1108,138 @@ export const ConfirmReceiptRecordRequestSchema = z
 
 export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordRequestSchema>;
 
+export const PAYABLE_RECORD_STATUSES = ['draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'] as const;
+
+export const PayableRecordStatusSchema = z
+    .enum(PAYABLE_RECORD_STATUSES)
+    .meta({ id: 'PayableRecordStatus' });
+
+export type PayableRecordStatus = z.infer<typeof PayableRecordStatusSchema>;
+
+export const PayableRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        contractId: z.uuid().nullable(),
+        vendorName: z.string(),
+        costCategory: z.string(),
+        payableDescription: z.string(),
+        currency: z.string(),
+        registeredAmount: z.string(),
+        paidAmount: z.string(),
+        expectedPaymentDate: z.iso.date(),
+        status: PayableRecordStatusSchema,
+        evidenceSummary: z.string().nullable(),
+        attachmentCount: z.number().int().nonnegative(),
+        closedAt: z.iso.datetime().nullable(),
+        closeReason: z.string().nullable(),
+        voidedAt: z.iso.datetime().nullable(),
+        voidReason: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PayableRecordSummary' });
+
+export type PayableRecordSummary = z.infer<typeof PayableRecordSummarySchema>;
+
+export const PayableRecordListSchema = z
+    .array(PayableRecordSummarySchema)
+    .meta({ id: 'PayableRecordList' });
+
+export type PayableRecordList = z.infer<typeof PayableRecordListSchema>;
+
+export const PayableRecordDetailViewSchema = PayableRecordSummarySchema.extend({
+    allowedActions: z.array(z.string())
+}).meta({ id: 'PayableRecordDetailView' });
+
+export type PayableRecordDetailView = z.infer<typeof PayableRecordDetailViewSchema>;
+
+export const CreatePayableRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        vendorName: z.string().trim().min(1).max(200),
+        costCategory: z.string().trim().min(1).max(64),
+        payableDescription: z.string().trim().min(1).max(2000),
+        currency: z.string().trim().min(1).max(16).optional(),
+        registeredAmount: z.string().trim().min(1).max(64),
+        expectedPaymentDate: z.iso.date(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        attachmentCount: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'CreatePayableRecordRequest' });
+
+export type CreatePayableRecordRequest = z.infer<typeof CreatePayableRecordRequestSchema>;
+
+export const UpdatePayableRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        vendorName: z.string().trim().min(1).max(200).optional(),
+        costCategory: z.string().trim().min(1).max(64).optional(),
+        payableDescription: z.string().trim().min(1).max(2000).optional(),
+        currency: z.string().trim().min(1).max(16).optional(),
+        registeredAmount: z.string().trim().min(1).max(64).optional(),
+        expectedPaymentDate: z.iso.date().optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        attachmentCount: z.number().int().nonnegative().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.contractId !== undefined ||
+            value.vendorName !== undefined ||
+            value.costCategory !== undefined ||
+            value.payableDescription !== undefined ||
+            value.currency !== undefined ||
+            value.registeredAmount !== undefined ||
+            value.expectedPaymentDate !== undefined ||
+            value.evidenceSummary !== undefined ||
+            value.attachmentCount !== undefined,
+        {
+            message: 'At least one updatable field is required'
+        }
+    )
+    .meta({ id: 'UpdatePayableRecordRequest' });
+
+export type UpdatePayableRecordRequest = z.infer<typeof UpdatePayableRecordRequestSchema>;
+
+export const MarkPayableRecordPartiallyPaidRequestSchema = z
+    .object({
+        paidAmount: z.string().trim().min(1).max(64),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'MarkPayableRecordPartiallyPaidRequest' });
+
+export type MarkPayableRecordPartiallyPaidRequest = z.infer<typeof MarkPayableRecordPartiallyPaidRequestSchema>;
+
+export const CompletePayableRecordRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'CompletePayableRecordRequest' });
+
+export type CompletePayableRecordRequest = z.infer<typeof CompletePayableRecordRequestSchema>;
+
+export const ClosePayableRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ClosePayableRecordRequest' });
+
+export type ClosePayableRecordRequest = z.infer<typeof ClosePayableRecordRequestSchema>;
+
+export const VoidPayableRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'VoidPayableRecordRequest' });
+
+export type VoidPayableRecordRequest = z.infer<typeof VoidPayableRecordRequestSchema>;
+
 export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'void'] as const;
 
 export const PaymentRecordStatusSchema = z
@@ -1121,6 +1253,7 @@ export const PaymentRecordSummarySchema = z
         id: z.uuid(),
         projectId: z.uuid(),
         contractId: z.uuid().nullable(),
+        payableRecordId: z.uuid().nullable(),
         paymentAmount: z.string(),
         paymentDate: z.iso.datetime(),
         costCategory: z.string(),
@@ -1145,6 +1278,7 @@ export type PaymentRecordList = z.infer<typeof PaymentRecordListSchema>;
 export const CreatePaymentRecordRequestSchema = z
     .object({
         contractId: z.uuid().nullable().optional(),
+        payableRecordId: z.uuid().nullable().optional(),
         paymentAmount: z.string().trim().min(1).max(64),
         paymentDate: z.iso.datetime(),
         costCategory: z.string().trim().min(1).max(64),
@@ -1970,6 +2104,19 @@ export const RegisterExpenseCostRecordRequestSchema = z
     .meta({ id: 'RegisterExpenseCostRecordRequest' });
 
 export type RegisterExpenseCostRecordRequest = z.infer<typeof RegisterExpenseCostRecordRequestSchema>;
+
+export const RegisterProcurementCostRecordRequestSchema = z
+    .object({
+        payableRecordId: z.uuid(),
+        projectId: z.uuid(),
+        costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RegisterProcurementCostRecordRequest' });
+
+export type RegisterProcurementCostRecordRequest = z.infer<typeof RegisterProcurementCostRecordRequestSchema>;
 
 export const RegisterLaborCostRecordRequestSchema = z
     .object({

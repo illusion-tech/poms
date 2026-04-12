@@ -14,6 +14,7 @@ export interface PaymentRecordSummary {
     id: string;
     projectId: string;
     contractId: string | null;
+    payableRecordId: string | null;
     paymentAmount: string;
     paymentDate: string;
     costCategory: string;
