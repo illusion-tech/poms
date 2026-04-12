@@ -90,6 +90,7 @@ export * from './receipt-record-status';
 export * from './receipt-record-summary';
 export * from './record-route-denied-security-event-request';
 export * from './register-commission-payout-request';
+export * from './register-invoice-cost-record-request';
 export * from './register-labor-cost-record-request';
 export * from './register-payment-fact-cost-record-request';
 export * from './reject-approval-record-request';

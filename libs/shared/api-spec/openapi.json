@@ -1628,6 +1628,36 @@
         ]
       }
     },
+    "/api/project-actual-cost-records/register-invoice": {
+      "post": {
+        "operationId": "ProjectCostController_registerInvoiceCostRecord",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterInvoiceCostRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "登记成本发票到统一实际成本记录",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
     "/api/projects/{projectId}/actual-cost-records": {
       "get": {
         "operationId": "ProjectCostController_listProjectActualCostRecords",
@@ -5979,6 +6009,49 @@
           "projectId"
         ],
         "id": "RegisterPaymentFactCostRecordRequest"
+      },
+      "RegisterInvoiceCostRecordRequest": {
+        "type": "object",
+        "properties": {
+          "invoiceRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "invoiceRecordId",
+          "projectId"
+        ],
+        "id": "RegisterInvoiceCostRecordRequest"
       },
       "ProjectActualCostRecordSummary": {
         "type": "object",
