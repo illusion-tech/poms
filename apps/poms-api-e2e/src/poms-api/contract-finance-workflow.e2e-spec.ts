@@ -1,18 +1,24 @@
 import { approveRecord, findOpenTodoForTarget } from '../support/approval-api';
 import { loginAsAdmin } from '../support/api-client';
 import {
+    completePayable,
+    createPayable,
     closeInvoiceRecord,
     confirmPayment,
     confirmReceipt,
     createInvoice,
     createPayment,
     createReceipt,
+    getPayable,
     getInvoice,
     listInvoices,
+    listPayables,
     listPayments,
     listReceipts,
+    markPayablePartiallyPaid,
     markInvoiceException,
     resolveInvoiceException,
+    updatePayable,
     updateInvoice
 } from '../support/contract-finance-api';
 import { expectErrorStatus } from '../support/http';
@@ -111,8 +117,31 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
         expect(confirmedReceipt.status).toBe('confirmed');
 
+        const payable = await createPayable(client, project.id, {
+            contractId: activeContract.id,
+            vendorName: 'E2E 供应商',
+            costCategory: 'implementation',
+            payableDescription: 'E2E 外部实施采购',
+            registeredAmount: '90000.00',
+            expectedPaymentDate: new Date().toISOString().slice(0, 10)
+        });
+        expect(payable.status).toBe('recorded');
+
+        const updatedPayable = await updatePayable(client, payable.id, {
+            evidenceSummary: 'e2e payable evidence',
+            expectedVersion: payable.rowVersion
+        });
+        expect(updatedPayable.evidenceSummary).toBe('e2e payable evidence');
+
+        const partialPayable = await markPayablePartiallyPaid(client, payable.id, {
+            paidAmount: '30000.00',
+            expectedVersion: updatedPayable.rowVersion
+        });
+        expect(partialPayable.status).toBe('partially-paid');
+
         const payment = await createPayment(client, project.id, {
             contractId: activeContract.id,
+            payableRecordId: payable.id,
             paymentAmount: '70000.00',
             paymentDate: new Date().toISOString(),
             costCategory: 'implementation',
@@ -134,8 +163,24 @@ describe('poms-api contract-finance workflow e2e', () => {
         const invoiceDetail = await getInvoice(client, invoice.id);
         expect(invoiceDetail.allowedActions).toEqual([]);
 
+        const completedPayable = await completePayable(client, payable.id, {
+            expectedVersion: partialPayable.rowVersion
+        });
+        expect(completedPayable.status).toBe('completed');
+
+        const payables = await listPayables(client, project.id);
+        expect(payables.some((item) => item.id === payable.id && item.status === 'completed')).toBe(true);
+
+        const payableDetail = await getPayable(client, payable.id);
+        expect(payableDetail.allowedActions).toEqual([]);
+        expect(payableDetail.paidAmount).toBe('90000.00');
+
         const payments = await listPayments(client, project.id);
-        expect(payments.some((item) => item.id === payment.id && item.status === 'confirmed')).toBe(true);
+        expect(
+            payments.some(
+                (item) => item.id === payment.id && item.status === 'confirmed' && item.payableRecordId === payable.id
+            )
+        ).toBe(true);
     });
 
     it('rejects receipt creation for a contract that is not active yet', async () => {

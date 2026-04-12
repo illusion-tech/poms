@@ -1,19 +1,27 @@
 import type { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import type {
+    ClosePayableRecordRequest,
     CloseInvoiceRecordRequest,
+    CompletePayableRecordRequest,
     ConfirmPaymentRecordRequest,
     ConfirmReceiptRecordRequest,
+    CreatePayableRecordRequest,
     CreateInvoiceRecordRequest,
     CreatePaymentRecordRequest,
     CreateReceiptRecordRequest,
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
+    MarkPayableRecordPartiallyPaidRequest,
     MarkInvoiceExceptionRequest,
+    PayableRecordDetailView,
+    PayableRecordSummary,
     PaymentRecordSummary,
     ReceiptRecordSummary,
     ResolveInvoiceExceptionRequest,
-    UpdateInvoiceRecordRequest
+    UpdateInvoiceRecordRequest,
+    UpdatePayableRecordRequest,
+    VoidPayableRecordRequest
 } from './types';
 
 export async function listReceipts(
@@ -46,6 +54,98 @@ export async function confirmReceipt(
 ): Promise<ReceiptRecordSummary> {
     const response = await client.post<ReceiptRecordSummary>(
         `/contract-finance/contracts/${contractId}/receipts/${receiptId}/confirm`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function listPayables(
+    client: AxiosInstance,
+    projectId: string
+): Promise<PayableRecordSummary[]> {
+    const response = await client.get<PayableRecordSummary[]>(
+        `/contract-finance/projects/${projectId}/payables`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function getPayable(
+    client: AxiosInstance,
+    payableId: string
+): Promise<PayableRecordDetailView> {
+    const response = await client.get<PayableRecordDetailView>(
+        `/contract-finance/payable-records/${payableId}`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function createPayable(
+    client: AxiosInstance,
+    projectId: string,
+    input: CreatePayableRecordRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.post<PayableRecordSummary>(
+        `/contract-finance/projects/${projectId}/payables`,
+        input
+    );
+    return expectStatus(response, 201);
+}
+
+export async function updatePayable(
+    client: AxiosInstance,
+    payableId: string,
+    input: UpdatePayableRecordRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.patch<PayableRecordSummary>(
+        `/contract-finance/payable-records/${payableId}`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function markPayablePartiallyPaid(
+    client: AxiosInstance,
+    payableId: string,
+    input: MarkPayableRecordPartiallyPaidRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.post<PayableRecordSummary>(
+        `/contract-finance/payable-records/${payableId}/partial`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function completePayable(
+    client: AxiosInstance,
+    payableId: string,
+    input: CompletePayableRecordRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.post<PayableRecordSummary>(
+        `/contract-finance/payable-records/${payableId}/complete`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function closePayable(
+    client: AxiosInstance,
+    payableId: string,
+    input: ClosePayableRecordRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.post<PayableRecordSummary>(
+        `/contract-finance/payable-records/${payableId}/close`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function voidPayable(
+    client: AxiosInstance,
+    payableId: string,
+    input: VoidPayableRecordRequest
+): Promise<PayableRecordSummary> {
+    const response = await client.post<PayableRecordSummary>(
+        `/contract-finance/payable-records/${payableId}/void`,
         input
     );
     return expectStatus(response, 200);

@@ -18,6 +18,7 @@ import {
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
+    RegisterProcurementCostRecordRequestDto,
     ReplaceLaborCostRecordRequestDto
 } from '@poms/api-contracts';
 
@@ -38,6 +39,14 @@ export async function registerInvoiceCostRecord(client: AxiosInstance, input: Re
 
 export async function registerExpenseCostRecord(client: AxiosInstance, input: RegisterExpenseCostRecordRequestDto): Promise<CommandResult> {
     const response = await client.post<CommandResult>('/project-actual-cost-records/register-expense', input);
+    return expectStatus(response, 201);
+}
+
+export async function registerProcurementCostRecord(
+    client: AxiosInstance,
+    input: RegisterProcurementCostRecordRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-actual-cost-records/register-procurement', input);
     return expectStatus(response, 201);
 }
 

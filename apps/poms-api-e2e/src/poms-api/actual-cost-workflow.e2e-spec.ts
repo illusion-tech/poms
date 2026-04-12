@@ -12,10 +12,11 @@ import {
     registerInvoiceCostRecord,
     registerLaborCostRecord,
     registerPaymentFactCostRecord,
+    registerProcurementCostRecord,
     replaceLaborCostRecord
 } from '../support/actual-cost-api';
 import { loginAsAdmin } from '../support/api-client';
-import { confirmPayment, createInvoice, createPayment, updateInvoice } from '../support/contract-finance-api';
+import { confirmPayment, createInvoice, createPayable, createPayment, updateInvoice } from '../support/contract-finance-api';
 import { createProjectForProfile } from '../support/project-api';
 
 jest.setTimeout(120_000);
@@ -297,5 +298,88 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.sourceStatusSummary).toContain('ExpenseRecord:confirmed');
         expect(detailView.measurementBasisSummary).toContain('1234.5600');
         expect(detailView.allowedActions).toEqual([]);
+    });
+
+    it('should map payable into PROCUREMENT and allow payment fact coexistence on the same source chain', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-PROC-${unique}`,
+            projectName: `E2E Procurement Mapping Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const payable = await createPayable(client, project.id, {
+            vendorName: `Supplier ${unique}`,
+            costCategory: 'hardware',
+            payableDescription: `Server procurement ${unique}`,
+            currency: 'CNY',
+            registeredAmount: '4567.89',
+            expectedPaymentDate: '2023-06-15',
+            evidenceSummary: 'quotation approved',
+            attachmentCount: 1
+        });
+        expect(payable.status).toBe('recorded');
+
+        const registerProcurementResult = await registerProcurementCostRecord(client, {
+            payableRecordId: payable.id,
+            projectId: project.id,
+            costDescription: 'mapped from approved commitment',
+            evidenceSummary: 'quotation archived',
+            taxImpactSummary: 'tax impact pending invoice',
+            expectedVersion: payable.rowVersion
+        });
+        expect(registerProcurementResult.resultStatus).toBe('success');
+
+        const procurementList = await listProjectActualCostRecords(client, project.id, { sourceType: 'PAYABLE_RECORD' });
+        expect(procurementList).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: registerProcurementResult.targetId,
+                    costType: 'PROCUREMENT',
+                    recordStatus: 'REGISTERED',
+                    sourceType: 'PAYABLE_RECORD',
+                    sourceId: payable.id,
+                    sourceRefNo: payable.id,
+                    isIncludedInProjectCost: false
+                })
+            ])
+        );
+
+        const procurementDetail = await getProjectActualCostRecordDetail(client, registerProcurementResult.targetId);
+        expect(procurementDetail.costType).toBe('PROCUREMENT');
+        expect(procurementDetail.recordStatus).toBe('REGISTERED');
+        expect(procurementDetail.sourceStatusSummary).toContain('PayableRecord:recorded');
+        expect(procurementDetail.measurementBasisSummary).toContain('4567.8900');
+        expect(procurementDetail.isIncludedInProjectCost).toBe(false);
+
+        const payment = await createPayment(client, project.id, {
+            payableRecordId: payable.id,
+            paymentAmount: '1234.56',
+            paymentDate: '2023-06-16T08:00:00.000Z',
+            costCategory: 'hardware',
+            sourceType: 'manual'
+        });
+        const confirmedPayment = await confirmPayment(client, project.id, payment.id, {
+            expectedVersion: payment.rowVersion
+        });
+
+        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, {
+            paymentRecordId: payment.id,
+            projectId: project.id,
+            costDescription: 'mapped from follow-up payment',
+            evidenceSummary: 'bank slip attached',
+            expectedVersion: confirmedPayment.rowVersion
+        });
+        expect(registerPaymentFactResult.resultStatus).toBe('success');
+
+        const allCostRecords = await listProjectActualCostRecords(client, project.id);
+        expect(allCostRecords).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ id: registerProcurementResult.targetId, costType: 'PROCUREMENT' }),
+                expect.objectContaining({ id: registerPaymentFactResult.targetId, costType: 'PAYMENT_FACT' })
+            ])
+        );
     });
 });
