@@ -121,7 +121,15 @@
 
 ---
 
-## 9. G1 结论
+## 9. 例外与风险
+
+| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                     |
+| ------------ | ----- | ----- | ----------- | ------------- | ----------- | ----------------------------------------------------------------------------------------- |
+| 无           | -     | -     | -           | -             | -           | 当前切片无额外例外；但 `EXPENSE / PROCUREMENT` 仍未实现，EX-06 父任务范围不可被本切片吸收 |
+
+---
+
+## 10. G1 结论
 
 - Gate Status: `Pass`
 - Approved By: `Solo worktree checkpoint`

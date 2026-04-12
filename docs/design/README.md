@@ -276,7 +276,7 @@
 6. 再读 `implementation-delivery-guide.md`
 7. 再读 `implementation-governance-gates.md`
 8. 再读 `phase2-development-execution-tracker.md`
-9. 再读 `../reference/implementation-baseline-package-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`
+9. 再读 `../reference/implementation-baseline-package-template.md`、`../reference/implementation-corrective-checkpoint-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`
 10. 最后按业务域主文档与六份实现设计总文档进入具体实现
 11. 仅在需要过程回溯时，再进入 `archive/README.md`
 

@@ -144,6 +144,7 @@
 | `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                          | 是                 |
 | `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                    | 是                 |
 | `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                           | 是                 |
+| `docs/reference/implementation-corrective-checkpoint-template.md` | Active   | 实施纠偏 checkpoint 模板，统一已开工后 drift 修复的 `G3` 阻断、修复范围与剩余阻断留痕   | 是                 |
 | `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据  | 是                 |
 | `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕 | 是                 |
 | `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                            | 是                 |
@@ -238,7 +239,7 @@
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已完成提成治理域 `decimal` / 状态字段实体建模纠偏，并重新打通 OpenAPI 导出、共享 API Client 生成与前端平台管理页构建
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
-- 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把实施基线包、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
+- 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-corrective-checkpoint-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把新切片 `G1` 输入冻结、已开工后纠偏 checkpoint、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
 - 已完成第五轮目录治理：第一阶段收口与验收包已统一转入 `archive/phase1-closure/`，平台治理域评审清单与评审摘要已统一转入 `archive/reviews/`，当前正式输入进一步收敛到第二阶段主线控制与实施入口
 - 已形成 `archive/reviews/phase2-review-comprehensive-assessment.md`，把第二阶段四轮正式审阅的 22 个问题收敛为多维度评估、依赖链与实施批次判断；第二轮目录治理后已转入归档，当前正式结论以主线控制文档与 `LX-T04` 判断为准
 - 已形成 `archive/reviews/phase2-review-follow-up-plan.md` 与 `archive/phase2-batches/phase2-first-batch-scope.md`，开始把第二阶段 `P0 / P1` 问题转为正式 follow-up 专题与第一批范围说明；其中正式审阅 follow-up 清单已在第二轮目录治理后转入归档
@@ -250,7 +251,7 @@
 - 已完成平台治理域 `OrgUnit` 首个执行切片 `EX-01`：补齐 migration / 索引约束、树查询 / 详情 / 启停 / 移动 API、管理端最小闭环，并通过 API / Admin E2E 验证
 - 已完成平台治理域 `Role / Permission` 执行切片 `EX-02`：回看既有 migration / DDL，补齐权限字典、角色列表 / 详情 / 启停 / 绑定接口、系统角色最小权限基线、停用角色后的授权收敛与管理端闭环，并通过 API / Admin E2E 验证
 - 已完成 `L1/L2` 起点执行切片 `EX-05`：落地 `ContractReadinessPackage / CommercialReleaseBaseline`、差异复核、签约就绪初始化命令与合同激活 guard，并通过 `poms-api` build、API 单测与 44 条 API E2E 验证
-- `L1/L2` 执行期成本归集切片 `EX-06`：已补 `ex-06-implementation-baseline.md` 并完成第一批偏差修复 checkpoint 收口（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验）；随后已按 `ex-06-payment-fact-and-read-side-baseline.md` 完成 `EX-06B1`，落地 `PAYMENT_FACT <- PaymentRecord` 映射命令、finance-scoped 项目实际成本 list/detail、来源映射唯一约束，并通过 `poms-api` test/build、OpenAPI / generated client、`migration-check` 与 `poms-api-e2e`；又按 `ex-06-invoice-fact-prerequisite-baseline.md` 完成 `EX-06B2A`，正式落地 `InvoiceRecord` 主对象、最小命令 / 查询链、共享契约、OpenAPI、generated client、migration 与 `poms-api-e2e` 闭环；再按 `ex-06-invoice-cost-mapping-baseline.md` 完成 `EX-06B2`，已落地 `InvoiceRecord -> INVOICE` 映射命令、当前有效唯一约束与统一成本详情来源回看，并通过 `poms-api` test/build/openapi/migration-check 与 `poms-api-e2e`；当前继续按治理规范补 `ex-06-expense-fact-prerequisite-baseline.md`，先把 `EX-06B3A = ExpenseRecord` 费用事实主对象正式收敛为下一可编码切片，并显式固定“默认不把费用事实继续塞进 `contract-finance`，而优先视为执行成本域对象”的最佳实践边界；后续再推进 `EXPENSE / PROCUREMENT` 映射与父任务剩余读侧追溯
+- `L1/L2` 执行期成本归集切片 `EX-06`：已按 `ex-06-corrective-checkpoint.md` 收口第一批偏差修复 checkpoint（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验），并把这类“已开工后发现 drift”的记录从 `baseline` 正式迁移为 corrective checkpoint；随后已按 `ex-06-payment-fact-and-read-side-baseline.md` 完成 `EX-06B1`，落地 `PAYMENT_FACT <- PaymentRecord` 映射命令、finance-scoped 项目实际成本 list/detail、来源映射唯一约束，并通过 `poms-api` test/build、OpenAPI / generated client、`migration-check` 与 `poms-api-e2e`；又按 `ex-06-invoice-fact-prerequisite-baseline.md` 完成 `EX-06B2A`，正式落地 `InvoiceRecord` 主对象、最小命令 / 查询链、共享契约、OpenAPI、generated client、migration 与 `poms-api-e2e` 闭环；再按 `ex-06-invoice-cost-mapping-baseline.md` 完成 `EX-06B2`，已落地 `InvoiceRecord -> INVOICE` 映射命令、当前有效唯一约束与统一成本详情来源回看，并通过 `poms-api` test/build/openapi/migration-check 与 `poms-api-e2e`；现已按 `ex-06-expense-fact-prerequisite-baseline.md` 完成 `EX-06B3A`，正式落地 `ExpenseRecord` 主对象、最小命令 / 查询链、状态机、共享契约、OpenAPI、generated client、migration、`migration-check` 与 `poms-api-e2e` 闭环，并显式固定“默认不把费用事实继续塞进 `contract-finance`，而优先视为执行成本域对象”的最佳实践边界；随后已按 `ex-06-expense-cost-mapping-baseline.md` 完成 `EX-06B3`，正式落地 `ExpenseRecord -> EXPENSE` 映射命令、`EXPENSE_RECORD` 当前有效唯一约束、统一成本 list/detail 对费用来源的回看摘要，并通过 `poms-api` test/build/openapi、generated client、`migration-check` 与 `poms-api-e2e`；当前 EX-06 主线剩余未完成范围收敛为 `PROCUREMENT` 映射与其前置采购 / 应付事实主对象
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---

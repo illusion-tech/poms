@@ -10,6 +10,7 @@
   - `../design/implementation-delivery-guide.md`
 - 同级参考:
   - `implementation-baseline-package-template.md`
+  - `implementation-corrective-checkpoint-template.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
@@ -26,6 +27,8 @@
 - 哪些校验不适用
 - 哪些校验暂时无法跑
 - 无法跑时是否需要例外
+
+若变更不是新切片开工，而是“已开工后发现 drift 的 corrective slice”，应结合 `implementation-corrective-checkpoint-template.md` 记录当前阻断、修复范围与剩余阻断，而不是只留下零散命令结果。
 
 ---
 

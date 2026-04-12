@@ -21,6 +21,7 @@
   - `schema-ddl-design.md`
 - 参考资料:
   - `../reference/implementation-baseline-package-template.md`
+  - `../reference/implementation-corrective-checkpoint-template.md`
   - `../reference/implementation-governance-checks.md`
   - `../reference/solo-worktree-governance.md`
 - 历史回溯:
@@ -76,7 +77,7 @@
 7. `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`，确认实现边界。
 8. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
 9. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
-10. `../reference/implementation-baseline-package-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`，复制实施基线包模板并确认本切片最小校验矩阵和当前治理载体。
+10. `../reference/implementation-baseline-package-template.md`、`../reference/implementation-corrective-checkpoint-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`，根据当前是“新切片开工”还是“已开工后纠偏”选择正确模板，并确认本切片最小校验矩阵和当前治理载体。
 
 如果当前切片涉及历史争议、批次收口或长篇论证，再补读 `archive/control-history/`、`archive/mainline-closure/` 或 `archive/phase2-batches/`，但这些文档不应反向替代当前正式入口。
 
@@ -111,7 +112,8 @@
 - 关联 ADR 与上游设计结论
 - 需要实现的 `command` / `query` / `DTO` / `data model` / `guard` 边界
 - 本切片是否触及敏感字段、审批公共链或跨主线承接点
-- 若适用，是否已按 `implementation-baseline-package-template.md` 形成实施基线包并取得 `G1 = Pass`
+- 若是新切片开工，是否已按 `implementation-baseline-package-template.md` 形成实施基线包并取得 `G1 = Pass`
+- 若是已开工后发现 drift，是否已按 `implementation-corrective-checkpoint-template.md` 形成 corrective checkpoint 并记录 `G3` 阻断与修复范围
 
 ### 5.2 切片输出
 

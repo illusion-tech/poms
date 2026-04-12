@@ -21,6 +21,7 @@
   - `schema-ddl-design.md`
 - 参考资料:
   - `../reference/implementation-baseline-package-template.md`
+  - `../reference/implementation-corrective-checkpoint-template.md`
   - `../reference/implementation-governance-checks.md`
   - `../reference/solo-worktree-governance.md`
 - 相关 ADR:
@@ -319,6 +320,20 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 6. 若存在差异，必须归类为已修复、可接受、既有 drift、阻断项或已批准例外。
 
 EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-package-template.md` 第 3 节为准。
+
+---
+
+## 5A. 实施纠偏 Checkpoint 模板
+
+当切片已经开工、并在 `G3` 或本地 checkpoint 中发现真实 drift 时，应使用 `../reference/implementation-corrective-checkpoint-template.md`，而不是继续伪装成新的 `G1 baseline`。
+
+最低要求：
+
+1. 明确当前 `G3` 为何被阻断，以及为什么父任务不能关闭。
+2. 明确本次 corrective slice 只修什么、不修什么。
+3. 记录 drift 清单与本次纠偏后的 SSOT。
+4. 记录已解除的阻断、仍存在的阻断与后续子切片。
+5. 若设计输入本身需要修订，必须归类为 `design-change-required`，而不是直接把实现当作新事实。
 
 ---
 

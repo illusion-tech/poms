@@ -99,12 +99,12 @@
 
 ## 5. 命令与接口边界
 
-| Route / Controller                           | Command / Service      | Request DTO / Contract                                                            | Response DTO / Contract | Guard / Permission        | Result  |
-| -------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------- | ----------------------- | ------------------------- | ------- |
-| `POST /projects/{projectId}/expense-records` | `createExpenseRecord`  | `contractId?`、`expenseCategory`、`expenseDescription`、`expenseDate`、金额字段组 | `ExpenseRecordSummary`  | `contract:finance:manage` | Pending |
-| `PATCH /expense-records/{id}`                | `updateExpenseRecord`  | 普通台账字段、`expectedVersion`                                                   | `ExpenseRecordSummary`  | `contract:finance:manage` | Pending |
-| `POST /expense-records/{id}/confirm`         | `confirmExpenseRecord` | `comment?`、`expectedVersion`                                                     | `ExpenseRecordSummary`  | `contract:finance:manage` | Pending |
-| `POST /expense-records/{id}/void`            | `voidExpenseRecord`    | `reason`、`comment?`、`expectedVersion`                                           | `ExpenseRecordSummary`  | `contract:finance:manage` | Pending |
+| Route / Controller                           | Command / Service      | Request DTO / Contract                                                            | Response DTO / Contract | Guard / Permission        | Result |
+| -------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------- | ----------------------- | ------------------------- | ------ |
+| `POST /projects/{projectId}/expense-records` | `createExpenseRecord`  | `contractId?`、`expenseCategory`、`expenseDescription`、`expenseDate`、金额字段组 | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
+| `PATCH /expense-records/{id}`                | `updateExpenseRecord`  | 普通台账字段、`expectedVersion`                                                   | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /expense-records/{id}/confirm`         | `confirmExpenseRecord` | `comment?`、`expectedVersion`                                                     | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /expense-records/{id}/void`            | `voidExpenseRecord`    | `reason`、`comment?`、`expectedVersion`                                           | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
 
 补充冻结约束：
 
@@ -116,10 +116,10 @@
 
 ## 6. 读侧边界
 
-| Query / View                                | Consumer        | Fields                                                                                                        | Filter / Sort                                      | Permission Boundary       | Result  |
-| ------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------- | ------- |
-| `GET /projects/{projectId}/expense-records` | 财务归口列表页  | `expenseCategory`、`expenseDescription`、`expenseDate`、金额字段组、`status`、`contractId`、`attachmentCount` | `expenseCategory`、`status`；按 `expenseDate desc` | `contract:finance:manage` | Pending |
-| `GET /expense-records/{id}`                 | 财务详情 / 审计 | 主体字段组、金额字段组、`status`、`sourceType`、`evidenceSummary`、`allowedActions`                           | 按 `id` 精确查询                                   | `contract:finance:manage` | Pending |
+| Query / View                                | Consumer        | Fields                                                                                                        | Filter / Sort                                      | Permission Boundary       | Result |
+| ------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------- | ------ |
+| `GET /projects/{projectId}/expense-records` | 财务归口列表页  | `expenseCategory`、`expenseDescription`、`expenseDate`、金额字段组、`status`、`contractId`、`attachmentCount` | `expenseCategory`、`status`；按 `expenseDate desc` | `contract:finance:manage` | Pass   |
+| `GET /expense-records/{id}`                 | 财务详情 / 审计 | 主体字段组、金额字段组、`status`、`sourceType`、`evidenceSummary`、`allowedActions`                           | 按 `id` 精确查询                                   | `contract:finance:manage` | Pass   |
 
 补充冻结约束：
 
@@ -132,19 +132,19 @@
 
 | Table            | Table Role | Minimal Fields                                                                                                                             | Constraints / Notes                                                            | Check Result |
 | ---------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------ |
-| `expense_record` | 主体主表   | `id`、`project_id`、`contract_id`、`expense_category`、`expense_description`、`expense_date`、`currency`、`amount_including_tax`、`status` | `project_id` 非空；`contract_id` 可空；按 `project_id + expense_date` 支持查询 | Pending      |
+| `expense_record` | 主体主表   | `id`、`project_id`、`contract_id`、`expense_category`、`expense_description`、`expense_date`、`currency`、`amount_including_tax`、`status` | `project_id` 非空；`contract_id` 可空；按 `project_id + expense_date` 支持查询 | Pass         |
 
 字段一致性冻结：
 
-| Field                | Design Meaning | DDL / Table Freeze                    | Entity / API Rule                      | Result  |
-| -------------------- | -------------- | ------------------------------------- | -------------------------------------- | ------- |
-| `expenseCategory`    | 费用类别       | `expense_record.expense_category`     | 最小字典固定，不允许自由文本替代主分类 | Pending |
-| `expenseDate`        | 费用业务日期   | `expense_record.expense_date`         | 固定为 `date` 语义                     | Pending |
-| `amountIncludingTax` | 费用总金额     | `expense_record.amount_including_tax` | 必填金额口径；后续映射默认先消费该字段 | Pending |
-| `taxAmount`          | 税额           | `expense_record.tax_amount nullable`  | 当前可空；不得用 `0` 伪装“未知税额”    | Pending |
-| `amountExcludingTax` | 不含税金额     | `expense_record.amount_excluding_tax` | 当前可空；只有有稳定依据时才写入       | Pending |
-| `status`             | 当前费用主状态 | `expense_record.status`               | 采用本基线定义的最小状态机             | Pending |
-| `contractId`         | 可选合同归属   | `expense_record.contract_id nullable` | 费用允许不绑定合同，但必须绑定项目     | Pending |
+| Field                | Design Meaning | DDL / Table Freeze                    | Entity / API Rule                      | Result |
+| -------------------- | -------------- | ------------------------------------- | -------------------------------------- | ------ |
+| `expenseCategory`    | 费用类别       | `expense_record.expense_category`     | 最小字典固定，不允许自由文本替代主分类 | Pass   |
+| `expenseDate`        | 费用业务日期   | `expense_record.expense_date`         | 固定为 `date` 语义                     | Pass   |
+| `amountIncludingTax` | 费用总金额     | `expense_record.amount_including_tax` | 必填金额口径；后续映射默认先消费该字段 | Pass   |
+| `taxAmount`          | 税额           | `expense_record.tax_amount nullable`  | 当前可空；不得用 `0` 伪装“未知税额”    | Pass   |
+| `amountExcludingTax` | 不含税金额     | `expense_record.amount_excluding_tax` | 当前可空；只有有稳定依据时才写入       | Pass   |
+| `status`             | 当前费用主状态 | `expense_record.status`               | 采用本基线定义的最小状态机             | Pass   |
+| `contractId`         | 可选合同归属   | `expense_record.contract_id nullable` | 费用允许不绑定合同，但必须绑定项目     | Pass   |
 
 ---
 
@@ -167,12 +167,33 @@
 
 ---
 
-## 10. G1 结论
+## 10. 测试与校验
+
+| Check                            | Required | Command / Evidence                                                                                                                           | Result | Gap / Reason                                                                                                        |
+| -------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------- |
+| Build                            | Yes      | `corepack pnpm nx build poms-api`                                                                                                            | Pass   |                                                                                                                     |
+| Unit tests                       | Yes      | `corepack pnpm nx test poms-api --runInBand`                                                                                                 | Pass   | `24 suites / 252 tests`；覆盖 `ProjectCostService` 的 `ExpenseRecord` 状态机与金额校验                              |
+| API / integration tests          | Yes      | `project-cost.service.spec.ts`                                                                                                               | Pass   | controller / route 级收口由 `poms-api-e2e` 覆盖                                                                     |
+| E2E                              | Yes      | `corepack pnpm nx run poms-api-e2e:e2e --runInBand`                                                                                          | Pass   | `9 suites / 49 tests`；`actual-cost-workflow.e2e-spec.ts` 覆盖 `create -> update -> confirm -> list/detail -> void` |
+| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` + `corepack pnpm nx run shared-api-client:generate`                                                  | Pass   | `expense-records` 路由、DTO 与 generated client 已同步                                                              |
+| Migration / schema check         | Yes      | `corepack pnpm exec mikro-orm migration:up --config apps/poms-api/src/mikro-orm.config.ts` + `corepack pnpm nx run poms-api:migration-check` | Pass   | 已应用 `Migration20260412193000_add_expense_record`，且 schema up-to-date                                           |
+
+---
+
+## 11. 例外与风险
+
+| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                              |
+| ------------ | ----- | ----- | ----------- | ------------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| 无           | -     | -     | -           | -             | -           | 当前切片无额外例外；但 `EX-06B3` 映射仍未开始，`ExpenseRecord` 目前只完成主对象与最小命令 / 查询链 |
+
+---
+
+## 12. G1 结论
 
 - Gate Status: `Pass`
 - Approved By: `Solo worktree checkpoint`
 - Approved At: `2026-04-12`
 - Conditions:
-  1. 先完成 `EX-06B3A` 的 `ExpenseRecord` 主对象、命令、查询、持久化闭环，再允许 `EX-06B3` 进入 `Doing`。
-  2. `EX-06B3A` 完成前，不得直接开做 `EXPENSE -> ProjectActualCostRecord` 映射。
-  3. 若决定把费用事实归属到 `contract-finance`，必须先补明确的设计修订或 ADR，而不是直接改代码。
+  1. `EX-06B3A` 已完成 `ExpenseRecord` 主对象、命令、查询、持久化、OpenAPI、generated client 与真实数据库验证闭环。
+  2. `EX-06B3` 现可进入下一阶段，用 `ExpenseRecord` 作为唯一正式上游对象推进 `EXPENSE -> ProjectActualCostRecord` 映射。
+  3. 若决定把费用事实归属到 `contract-finance`，仍必须先补明确的设计修订或 ADR，而不是直接改代码。

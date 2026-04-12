@@ -29,6 +29,7 @@
 实施基线包模板与实施治理校验矩阵已单独沉淀到：
 
 - `implementation-baseline-package-template.md`
+- `implementation-corrective-checkpoint-template.md`
 - `implementation-governance-checks.md`
 - `solo-worktree-governance.md`
 
