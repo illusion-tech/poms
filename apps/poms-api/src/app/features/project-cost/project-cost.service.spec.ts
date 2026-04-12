@@ -355,6 +355,82 @@ describe('ProjectCostService', () => {
         });
     });
 
+    describe('registerExpenseCostRecord', () => {
+        it('registers a confirmed expense as an EXPENSE cost record', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({
+                    status: 'confirmed',
+                    confirmedAt: new Date('2023-05-11T10:00:00.000Z'),
+                    confirmedBy: USER_ID
+                }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            const result = await service.registerExpenseCostRecord(
+                {
+                    expenseRecordId: EXPENSE_RECORD_ID,
+                    projectId: PROJECT_ID,
+                    costDescription: 'mapped from confirmed expense',
+                    evidenceSummary: 'receipt archived',
+                    taxImpactSummary: 'manual expense pending tax review',
+                    expectedVersion: 1
+                },
+                USER_ID
+            );
+
+            expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    costType: 'EXPENSE',
+                    costSubtype: 'travel',
+                    occurredOn: '2023-05-10',
+                    recordStatus: 'CONFIRMED',
+                    amountIncludingTax: '1234.5600',
+                    amountExcludingTax: '1111.1100',
+                    taxCostAmount: '123.4500',
+                    sourceType: 'EXPENSE_RECORD',
+                    sourceId: EXPENSE_RECORD_ID,
+                    sourceRefNo: EXPENSE_RECORD_ID,
+                    evidenceSummary: 'receipt archived',
+                    taxImpactSummary: 'manual expense pending tax review'
+                })
+            );
+            expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
+            expect(result.businessStatusAfter).toBe('CONFIRMED');
+        });
+
+        it('blocks mapping when expense source is not confirmed', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'recorded' }) as never);
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
+
+            await expect(
+                service.registerExpenseCostRecord(
+                    {
+                        expenseRecordId: EXPENSE_RECORD_ID,
+                        projectId: PROJECT_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+
+        it('blocks duplicate current EXPENSE mapping for the same expense source', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
+
+            await expect(
+                service.registerExpenseCostRecord(
+                    {
+                        expenseRecordId: EXPENSE_RECORD_ID,
+                        projectId: PROJECT_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+    });
+
     describe('expense records', () => {
         it('creates an expense record after validating project and contract ownership', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
@@ -670,6 +746,75 @@ describe('ProjectCostService', () => {
             expect(result.sourceStatusSummary).toBe('InvoiceRecord:verified/none');
             expect(result.effectivePeriodSummary).toBe('2023-04-02');
             expect(result.measurementBasisSummary).toBe('3210.5000 CNY @ 2023-04-02');
+        });
+
+        it('returns expense detail with source summary', async () => {
+            projectActualCostRecordRepository.findById.mockResolvedValue(
+                {
+                    id: RECORD_ID,
+                    projectId: PROJECT_ID,
+                    recordNo: 'EXPENSE-1',
+                    costType: 'EXPENSE',
+                    costSubtype: 'travel',
+                    occurredOn: '2023-05-10',
+                    accountingPeriod: null,
+                    registeredAt: new Date('2023-05-11T10:00:00.000Z'),
+                    confirmedAt: new Date('2023-05-11T10:00:00.000Z'),
+                    includedAt: null,
+                    executionStageCode: null,
+                    stageDerivedFromType: null,
+                    stageDerivedFromId: null,
+                    stageDerivedAt: null,
+                    stageLockedAt: null,
+                    currency: 'CNY',
+                    amountExcludingTax: '1111.1100',
+                    taxCostAmount: '123.4500',
+                    amountIncludingTax: '1234.5600',
+                    recordStatus: 'CONFIRMED',
+                    isIncludedInProjectCost: false,
+                    isHighRisk: false,
+                    sourceType: 'EXPENSE_RECORD',
+                    sourceId: EXPENSE_RECORD_ID,
+                    sourceRefNo: EXPENSE_RECORD_ID,
+                    evidenceSummary: 'receipt archived',
+                    attachmentCount: 2,
+                    registeredBy: USER_ID,
+                    confirmedBy: USER_ID,
+                    includedBy: null,
+                    ownerRole: null,
+                    costDescription: 'mapped from confirmed expense',
+                    taxImpactSummary: 'manual expense pending tax review',
+                    riskNote: null,
+                    supersedesRecordId: null,
+                    voidReason: null,
+                    laborPersonId: null,
+                    laborRole: null,
+                    laborPeriodType: null,
+                    laborPeriodStart: null,
+                    laborPeriodEnd: null,
+                    actualHours: null,
+                    actualPersonDays: null,
+                    internalCostRate: null,
+                    laborAmount: null,
+                    workSummary: null,
+                    deliveryStage: null,
+                    rateVersionId: null,
+                    rowVersion: 1,
+                    createdAt: new Date('2023-05-11T10:00:00.000Z'),
+                    updatedAt: new Date('2023-05-11T10:00:00.000Z')
+                } as never
+            );
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
+            );
+            projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
+
+            const result = await service.getProjectActualCostRecordDetail(RECORD_ID);
+
+            expect(result.allowedActions).toEqual([]);
+            expect(result.sourceStatusSummary).toBe('ExpenseRecord:confirmed');
+            expect(result.effectivePeriodSummary).toBe('2023-05-10');
+            expect(result.measurementBasisSummary).toBe('1234.5600 CNY @ 2023-05-10');
         });
     });
 

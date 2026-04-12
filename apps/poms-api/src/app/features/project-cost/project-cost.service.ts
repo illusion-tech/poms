@@ -7,6 +7,7 @@ import type {
     ExpenseRecordSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordSummary,
+    RegisterExpenseCostRecordRequest,
     RegisterInvoiceCostRecordRequest,
     PublishInternalCostRateVersionRequest,
     RegisterLaborCostRecordRequest,
@@ -251,6 +252,69 @@ export class ProjectCostService {
         };
     }
 
+    async registerExpenseCostRecord(input: RegisterExpenseCostRecordRequest, userId: string): Promise<CommandResult> {
+        const expenseRecord = await this.expenseRecordRepository.findById(input.expenseRecordId);
+        if (!expenseRecord) {
+            throw new NotFoundException(`ExpenseRecord ${input.expenseRecordId} not found`);
+        }
+
+        if (expenseRecord.projectId !== input.projectId) {
+            throw new ConflictException(`ExpenseRecord ${input.expenseRecordId} does not belong to project ${input.projectId}`);
+        }
+
+        if (input.expectedVersion && expenseRecord.rowVersion !== input.expectedVersion) {
+            throw new ConflictException(`Optimistic locking failed for expense record ${input.expenseRecordId}`);
+        }
+
+        this.assertExpenseEligibleForCostMapping(expenseRecord);
+
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', expenseRecord.id);
+        if (existing) {
+            throw new ConflictException(`ExpenseRecord ${input.expenseRecordId} already has a current expense mapping`);
+        }
+
+        const confirmedAt = expenseRecord.confirmedAt ?? new Date();
+        const entity = this.projectActualCostRecordRepository.create({
+            projectId: input.projectId,
+            recordNo: `EXPENSE-${Date.now()}`,
+            costType: 'EXPENSE',
+            costSubtype: expenseRecord.expenseCategory,
+            occurredOn: this.toIsoDate(expenseRecord.expenseDate),
+            registeredAt: confirmedAt,
+            confirmedAt,
+            recordStatus: 'CONFIRMED',
+            isIncludedInProjectCost: false,
+            isHighRisk: false,
+            attachmentCount: expenseRecord.attachmentCount,
+            currency: expenseRecord.currency,
+            amountExcludingTax: this.toNullableDecimal(expenseRecord.amountExcludingTax),
+            taxCostAmount: this.toNullableDecimal(expenseRecord.taxAmount),
+            amountIncludingTax: this.formatAmount(this.toNumber(expenseRecord.amountIncludingTax)),
+            sourceType: 'EXPENSE_RECORD',
+            sourceId: expenseRecord.id,
+            sourceRefNo: expenseRecord.id,
+            evidenceSummary: input.evidenceSummary ?? expenseRecord.evidenceSummary ?? null,
+            taxImpactSummary: input.taxImpactSummary ?? null,
+            registeredBy: userId,
+            confirmedBy: expenseRecord.confirmedBy ?? userId,
+            costDescription: input.costDescription ?? expenseRecord.expenseDescription,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.projectActualCostRecordRepository.save(entity);
+
+        return {
+            targetId: entity.id,
+            targetType: 'ProjectActualCostRecord',
+            resultStatus: 'success',
+            businessStatusAfter: 'CONFIRMED',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
     async listExpenseRecords(projectId: string): Promise<ExpenseRecordSummary[]> {
         const records = await this.expenseRecordRepository.findByProjectId(projectId);
         return records.map((record) => this.toExpenseRecordSummary(record));
@@ -404,12 +468,15 @@ export class ProjectCostService {
             throw new NotFoundException(`ProjectActualCostRecord ${id} not found`);
         }
 
-        const [paymentRecord, invoiceRecord, rateVersion, replacementRecord] = await Promise.all([
+        const [paymentRecord, invoiceRecord, expenseRecord, rateVersion, replacementRecord] = await Promise.all([
             record.sourceType === 'PAYMENT_RECORD' && record.sourceId
                 ? this.contractFinanceRepository.findPaymentById(record.sourceId)
                 : Promise.resolve(null),
             record.sourceType === 'INVOICE_RECORD' && record.sourceId
                 ? this.contractFinanceRepository.findInvoiceById(record.sourceId)
+                : Promise.resolve(null),
+            record.sourceType === 'EXPENSE_RECORD' && record.sourceId
+                ? this.expenseRecordRepository.findById(record.sourceId)
                 : Promise.resolve(null),
             record.rateVersionId ? this.internalCostRateVersionRepository.findById(record.rateVersionId) : Promise.resolve(null),
             this.projectActualCostRecordRepository.findReplacementBySupersedesRecordId(record.id)
@@ -417,9 +484,9 @@ export class ProjectCostService {
 
         return {
             ...this.toProjectActualCostRecordSummary(record),
-            sourceStatusSummary: this.buildSourceStatusSummary(record, paymentRecord, invoiceRecord, rateVersion),
-            effectivePeriodSummary: this.buildEffectivePeriodSummary(record, paymentRecord, invoiceRecord, rateVersion),
-            measurementBasisSummary: this.buildMeasurementBasisSummary(record, paymentRecord, invoiceRecord),
+            sourceStatusSummary: this.buildSourceStatusSummary(record, paymentRecord, invoiceRecord, expenseRecord, rateVersion),
+            effectivePeriodSummary: this.buildEffectivePeriodSummary(record, paymentRecord, invoiceRecord, expenseRecord, rateVersion),
+            measurementBasisSummary: this.buildMeasurementBasisSummary(record, paymentRecord, invoiceRecord, expenseRecord),
             supersedesSummary: this.buildSupersedesSummary(record, replacementRecord),
             allowedActions: this.buildAllowedActions(record),
             laborPersonId: record.laborPersonId ?? null,
@@ -621,6 +688,12 @@ export class ProjectCostService {
         }
     }
 
+    private assertExpenseEligibleForCostMapping(expenseRecord: ExpenseRecord): void {
+        if (expenseRecord.status !== 'confirmed') {
+            throw new ConflictException(`ExpenseRecord ${expenseRecord.id} is not confirmed`);
+        }
+    }
+
     private async assertExpenseProjectAndContract(projectId: string, contractId: string | null | undefined): Promise<void> {
         const project = await this.contractFinanceRepository.findProjectById(projectId);
         if (!project) {
@@ -761,6 +834,7 @@ export class ProjectCostService {
         record: ProjectActualCostRecord,
         paymentRecord: PaymentRecord | null,
         invoiceRecord: InvoiceRecord | null,
+        expenseRecord: ExpenseRecord | null,
         rateVersion: InternalCostRateVersion | null
     ): string | null {
         if (paymentRecord) {
@@ -768,6 +842,9 @@ export class ProjectCostService {
         }
         if (invoiceRecord) {
             return `InvoiceRecord:${invoiceRecord.status}/${invoiceRecord.exceptionStatus}`;
+        }
+        if (expenseRecord) {
+            return `ExpenseRecord:${expenseRecord.status}`;
         }
         if (rateVersion) {
             return `InternalCostRateVersion:${rateVersion.status}`;
@@ -782,6 +859,7 @@ export class ProjectCostService {
         record: ProjectActualCostRecord,
         paymentRecord: PaymentRecord | null,
         invoiceRecord: InvoiceRecord | null,
+        expenseRecord: ExpenseRecord | null,
         rateVersion: InternalCostRateVersion | null
     ): string | null {
         if (paymentRecord) {
@@ -789,6 +867,9 @@ export class ProjectCostService {
         }
         if (invoiceRecord) {
             return this.toIsoDate(invoiceRecord.invoiceDate);
+        }
+        if (expenseRecord) {
+            return this.toIsoDate(expenseRecord.expenseDate);
         }
         if (record.laborPeriodStart || record.laborPeriodEnd) {
             return `${this.toNullableDate(record.laborPeriodStart) ?? '-'} ~ ${this.toNullableDate(record.laborPeriodEnd) ?? '-'}`;
@@ -802,13 +883,17 @@ export class ProjectCostService {
     private buildMeasurementBasisSummary(
         record: ProjectActualCostRecord,
         paymentRecord: PaymentRecord | null,
-        invoiceRecord: InvoiceRecord | null
+        invoiceRecord: InvoiceRecord | null,
+        expenseRecord: ExpenseRecord | null
     ): string | null {
         if (paymentRecord) {
             return `${this.formatAmount(this.toNumber(paymentRecord.paymentAmount))} ${record.currency} @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
         }
         if (invoiceRecord) {
             return `${this.formatAmount(this.toNumber(invoiceRecord.invoiceAmount))} ${record.currency} @ ${this.toIsoDate(invoiceRecord.invoiceDate)}`;
+        }
+        if (expenseRecord) {
+            return `${this.formatAmount(this.toNumber(expenseRecord.amountIncludingTax))} ${record.currency} @ ${this.toIsoDate(expenseRecord.expenseDate)}`;
         }
         if (record.actualHours && record.internalCostRate) {
             return `${this.toNullableDecimal(record.actualHours)}h x ${this.toNullableDecimal(record.internalCostRate)} ${record.currency}`;
