@@ -1,4 +1,9 @@
 import {
+    ConfirmExpenseRecordRequestSchema,
+    CreateExpenseRecordRequestSchema,
+    ExpenseRecordDetailViewSchema,
+    ExpenseRecordListSchema,
+    ExpenseRecordSummarySchema,
     InternalCostRateVersionSummarySchema,
     ProjectActualCostRecordDetailViewSchema,
     ProjectActualCostRecordListViewSchema,
@@ -7,9 +12,25 @@ import {
     PublishInternalCostRateVersionRequestSchema,
     RegisterPaymentFactCostRecordRequestSchema,
     RegisterLaborCostRecordRequestSchema,
-    ReplaceLaborCostRecordRequestSchema
+    ReplaceLaborCostRecordRequestSchema,
+    UpdateExpenseRecordRequestSchema,
+    VoidExpenseRecordRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
+
+export class ExpenseRecordDto extends createZodDto(ExpenseRecordSummarySchema) {}
+
+export class ExpenseRecordListDto extends createZodDto(ExpenseRecordListSchema) {}
+
+export class ExpenseRecordDetailViewDto extends createZodDto(ExpenseRecordDetailViewSchema) {}
+
+export class CreateExpenseRecordRequestDto extends createZodDto(CreateExpenseRecordRequestSchema) {}
+
+export class UpdateExpenseRecordRequestDto extends createZodDto(UpdateExpenseRecordRequestSchema) {}
+
+export class ConfirmExpenseRecordRequestDto extends createZodDto(ConfirmExpenseRecordRequestSchema) {}
+
+export class VoidExpenseRecordRequestDto extends createZodDto(VoidExpenseRecordRequestSchema) {}
 
 export class InternalCostRateVersionSummaryDto extends createZodDto(InternalCostRateVersionSummarySchema) {}
 

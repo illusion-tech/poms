@@ -1289,6 +1289,142 @@ export const CloseInvoiceRecordRequestSchema = z
 
 export type CloseInvoiceRecordRequest = z.infer<typeof CloseInvoiceRecordRequestSchema>;
 
+export const EXPENSE_CATEGORIES = ['travel', 'onsite-service', 'deployment-logistics', 'temporary-spend', 'misc'] as const;
+
+export const ExpenseCategorySchema = z
+    .enum(EXPENSE_CATEGORIES)
+    .meta({ id: 'ExpenseCategory' });
+
+export type ExpenseCategory = z.infer<typeof ExpenseCategorySchema>;
+
+export const EXPENSE_SOURCE_TYPES = ['manual', 'reimbursement', 'import'] as const;
+
+export const ExpenseSourceTypeSchema = z
+    .enum(EXPENSE_SOURCE_TYPES)
+    .meta({ id: 'ExpenseSourceType' });
+
+export type ExpenseSourceType = z.infer<typeof ExpenseSourceTypeSchema>;
+
+export const EXPENSE_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
+
+export const ExpenseRecordStatusSchema = z
+    .enum(EXPENSE_RECORD_STATUSES)
+    .meta({ id: 'ExpenseRecordStatus' });
+
+export type ExpenseRecordStatus = z.infer<typeof ExpenseRecordStatusSchema>;
+
+export const ExpenseRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        contractId: z.uuid().nullable(),
+        expenseCategory: ExpenseCategorySchema,
+        expenseDescription: z.string(),
+        expenseDate: z.iso.date(),
+        currency: z.string(),
+        amountIncludingTax: z.string(),
+        taxAmount: z.string().nullable(),
+        amountExcludingTax: z.string().nullable(),
+        sourceType: ExpenseSourceTypeSchema,
+        status: ExpenseRecordStatusSchema,
+        evidenceSummary: z.string().nullable(),
+        attachmentCount: z.number().int().nonnegative(),
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        voidedAt: z.iso.datetime().nullable(),
+        voidReason: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ExpenseRecordSummary' });
+
+export type ExpenseRecordSummary = z.infer<typeof ExpenseRecordSummarySchema>;
+
+export const ExpenseRecordListSchema = z
+    .array(ExpenseRecordSummarySchema)
+    .meta({ id: 'ExpenseRecordList' });
+
+export type ExpenseRecordList = z.infer<typeof ExpenseRecordListSchema>;
+
+export const ExpenseRecordDetailViewSchema = ExpenseRecordSummarySchema.extend({
+    allowedActions: z.array(z.string())
+}).meta({ id: 'ExpenseRecordDetailView' });
+
+export type ExpenseRecordDetailView = z.infer<typeof ExpenseRecordDetailViewSchema>;
+
+export const CreateExpenseRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        expenseCategory: ExpenseCategorySchema,
+        expenseDescription: z.string().trim().min(1).max(2000),
+        expenseDate: z.iso.date(),
+        currency: z.string().trim().min(1).max(16).optional(),
+        amountIncludingTax: z.string().trim().min(1).max(64),
+        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
+        amountExcludingTax: z.string().trim().min(1).max(64).nullable().optional(),
+        sourceType: ExpenseSourceTypeSchema.optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        attachmentCount: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'CreateExpenseRecordRequest' });
+
+export type CreateExpenseRecordRequest = z.infer<typeof CreateExpenseRecordRequestSchema>;
+
+export const UpdateExpenseRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        expenseCategory: ExpenseCategorySchema.optional(),
+        expenseDescription: z.string().trim().min(1).max(2000).optional(),
+        expenseDate: z.iso.date().optional(),
+        currency: z.string().trim().min(1).max(16).optional(),
+        amountIncludingTax: z.string().trim().min(1).max(64).optional(),
+        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
+        amountExcludingTax: z.string().trim().min(1).max(64).nullable().optional(),
+        sourceType: ExpenseSourceTypeSchema.optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        attachmentCount: z.number().int().nonnegative().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.contractId !== undefined ||
+            value.expenseCategory !== undefined ||
+            value.expenseDescription !== undefined ||
+            value.expenseDate !== undefined ||
+            value.currency !== undefined ||
+            value.amountIncludingTax !== undefined ||
+            value.taxAmount !== undefined ||
+            value.amountExcludingTax !== undefined ||
+            value.sourceType !== undefined ||
+            value.evidenceSummary !== undefined ||
+            value.attachmentCount !== undefined,
+        {
+            message: 'At least one updatable field is required'
+        }
+    )
+    .meta({ id: 'UpdateExpenseRecordRequest' });
+
+export type UpdateExpenseRecordRequest = z.infer<typeof UpdateExpenseRecordRequestSchema>;
+
+export const ConfirmExpenseRecordRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmExpenseRecordRequest' });
+
+export type ConfirmExpenseRecordRequest = z.infer<typeof ConfirmExpenseRecordRequestSchema>;
+
+export const VoidExpenseRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'VoidExpenseRecordRequest' });
+
+export type VoidExpenseRecordRequest = z.infer<typeof VoidExpenseRecordRequestSchema>;
+
 // ---------------------------------------------------------------------------
 // Approval / Todo
 // ---------------------------------------------------------------------------
