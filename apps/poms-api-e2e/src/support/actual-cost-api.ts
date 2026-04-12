@@ -2,10 +2,17 @@ import { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import type {
     CommandResult,
+    ExpenseRecordDetailView,
+    ExpenseRecordList,
+    ExpenseRecordSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView
 } from '@poms/shared-contracts';
 import {
+    ConfirmExpenseRecordRequestDto,
+    CreateExpenseRecordRequestDto,
+    UpdateExpenseRecordRequestDto,
+    VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
@@ -26,6 +33,52 @@ export async function registerPaymentFactCostRecord(client: AxiosInstance, input
 export async function registerInvoiceCostRecord(client: AxiosInstance, input: RegisterInvoiceCostRecordRequestDto): Promise<CommandResult> {
     const response = await client.post<CommandResult>('/project-actual-cost-records/register-invoice', input);
     return expectStatus(response, 201);
+}
+
+export async function listExpenseRecords(client: AxiosInstance, projectId: string): Promise<ExpenseRecordList> {
+    const response = await client.get<ExpenseRecordList>(`/projects/${projectId}/expense-records`);
+    return expectStatus(response, 200);
+}
+
+export async function getExpenseRecordDetail(client: AxiosInstance, id: string): Promise<ExpenseRecordDetailView> {
+    const response = await client.get<ExpenseRecordDetailView>(`/expense-records/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function createExpenseRecord(
+    client: AxiosInstance,
+    projectId: string,
+    input: CreateExpenseRecordRequestDto
+): Promise<ExpenseRecordSummary> {
+    const response = await client.post<ExpenseRecordSummary>(`/projects/${projectId}/expense-records`, input);
+    return expectStatus(response, 201);
+}
+
+export async function updateExpenseRecord(
+    client: AxiosInstance,
+    id: string,
+    input: UpdateExpenseRecordRequestDto
+): Promise<ExpenseRecordSummary> {
+    const response = await client.patch<ExpenseRecordSummary>(`/expense-records/${id}`, input);
+    return expectStatus(response, 200);
+}
+
+export async function confirmExpenseRecord(
+    client: AxiosInstance,
+    id: string,
+    input: ConfirmExpenseRecordRequestDto
+): Promise<ExpenseRecordSummary> {
+    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}/confirm`, input);
+    return expectStatus(response, 200);
+}
+
+export async function voidExpenseRecord(
+    client: AxiosInstance,
+    id: string,
+    input: VoidExpenseRecordRequestDto
+): Promise<ExpenseRecordSummary> {
+    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}/void`, input);
+    return expectStatus(response, 200);
 }
 
 export async function listProjectActualCostRecords(

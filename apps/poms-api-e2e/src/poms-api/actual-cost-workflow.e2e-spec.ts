@@ -1,7 +1,13 @@
 import {
+    confirmExpenseRecord,
+    createExpenseRecord,
+    getExpenseRecordDetail,
     getProjectActualCostRecordDetail,
+    listExpenseRecords,
     listProjectActualCostRecords,
     publishInternalCostRateVersion,
+    updateExpenseRecord,
+    voidExpenseRecord,
     registerInvoiceCostRecord,
     registerLaborCostRecord,
     registerPaymentFactCostRecord,
@@ -167,5 +173,70 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.sourceStatusSummary).toContain('InvoiceRecord:verified/none');
         expect(detailView.measurementBasisSummary).toContain('3210.5000');
         expect(detailView.allowedActions).toEqual([]);
+    });
+
+    it('should manage ExpenseRecord lifecycle through create update confirm list detail and void', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-EXP-${unique}`,
+            projectName: `E2E Expense Record Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const createdExpense = await createExpenseRecord(client, project.id, {
+            expenseCategory: 'travel',
+            expenseDescription: `Taxi reimbursement ${unique}`,
+            expenseDate: '2023-05-10',
+            amountIncludingTax: '1234.56',
+            taxAmount: '123.45',
+            amountExcludingTax: '1111.11',
+            sourceType: 'manual',
+            evidenceSummary: 'receipt attached',
+            attachmentCount: 2
+        });
+        expect(createdExpense.status).toBe('recorded');
+
+        const updatedExpense = await updateExpenseRecord(client, createdExpense.id, {
+            expenseDescription: `Taxi reimbursement updated ${unique}`,
+            attachmentCount: 3,
+            expectedVersion: createdExpense.rowVersion
+        });
+        expect(updatedExpense.expenseDescription).toContain('updated');
+        expect(updatedExpense.attachmentCount).toBe(3);
+
+        const confirmedExpense = await confirmExpenseRecord(client, createdExpense.id, {
+            expectedVersion: updatedExpense.rowVersion
+        });
+        expect(confirmedExpense.status).toBe('confirmed');
+
+        const listView = await listExpenseRecords(client, project.id);
+        expect(listView).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: createdExpense.id,
+                    expenseCategory: 'travel',
+                    status: 'confirmed',
+                    amountIncludingTax: '1234.5600'
+                })
+            ])
+        );
+
+        const confirmedDetail = await getExpenseRecordDetail(client, createdExpense.id);
+        expect(confirmedDetail.status).toBe('confirmed');
+        expect(confirmedDetail.allowedActions).toEqual(['void']);
+
+        const voidedExpense = await voidExpenseRecord(client, createdExpense.id, {
+            reason: 'duplicate',
+            comment: 're-entered from approved claim',
+            expectedVersion: confirmedExpense.rowVersion
+        });
+        expect(voidedExpense.status).toBe('voided');
+
+        const voidedDetail = await getExpenseRecordDetail(client, createdExpense.id);
+        expect(voidedDetail.status).toBe('voided');
+        expect(voidedDetail.voidReason).toBe('duplicate: re-entered from approved claim');
+        expect(voidedDetail.allowedActions).toEqual([]);
     });
 });
