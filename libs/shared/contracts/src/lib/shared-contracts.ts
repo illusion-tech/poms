@@ -1162,6 +1162,133 @@ export const ConfirmPaymentRecordRequestSchema = z
 
 export type ConfirmPaymentRecordRequest = z.infer<typeof ConfirmPaymentRecordRequestSchema>;
 
+export const INVOICE_RECORD_TYPES = ['input', 'output'] as const;
+
+export const InvoiceRecordTypeSchema = z
+    .enum(INVOICE_RECORD_TYPES)
+    .meta({ id: 'InvoiceRecordType' });
+
+export type InvoiceRecordType = z.infer<typeof InvoiceRecordTypeSchema>;
+
+export const INVOICE_RECORD_STATUSES = ['draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'] as const;
+
+export const InvoiceRecordStatusSchema = z
+    .enum(INVOICE_RECORD_STATUSES)
+    .meta({ id: 'InvoiceRecordStatus' });
+
+export type InvoiceRecordStatus = z.infer<typeof InvoiceRecordStatusSchema>;
+
+export const INVOICE_RECORD_EXCEPTION_STATUSES = ['none', 'open', 'resolved'] as const;
+
+export const InvoiceRecordExceptionStatusSchema = z
+    .enum(INVOICE_RECORD_EXCEPTION_STATUSES)
+    .meta({ id: 'InvoiceRecordExceptionStatus' });
+
+export type InvoiceRecordExceptionStatus = z.infer<typeof InvoiceRecordExceptionStatusSchema>;
+
+export const InvoiceRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        contractId: z.uuid().nullable(),
+        invoiceType: InvoiceRecordTypeSchema,
+        invoiceNumber: z.string(),
+        invoiceAmount: z.string(),
+        invoiceDate: z.iso.date(),
+        status: InvoiceRecordStatusSchema,
+        exceptionStatus: InvoiceRecordExceptionStatusSchema,
+        exceptionReason: z.string().nullable(),
+        exceptionResolution: z.string().nullable(),
+        closedAt: z.iso.datetime().nullable(),
+        closeReason: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'InvoiceRecordSummary' });
+
+export type InvoiceRecordSummary = z.infer<typeof InvoiceRecordSummarySchema>;
+
+export const InvoiceRecordListSchema = z
+    .array(InvoiceRecordSummarySchema)
+    .meta({ id: 'InvoiceRecordList' });
+
+export type InvoiceRecordList = z.infer<typeof InvoiceRecordListSchema>;
+
+export const InvoiceRecordDetailViewSchema = InvoiceRecordSummarySchema.extend({
+    allowedActions: z.array(z.string())
+}).meta({ id: 'InvoiceRecordDetailView' });
+
+export type InvoiceRecordDetailView = z.infer<typeof InvoiceRecordDetailViewSchema>;
+
+export const CreateInvoiceRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        invoiceType: InvoiceRecordTypeSchema,
+        invoiceNumber: z.string().trim().min(1).max(128),
+        invoiceAmount: z.string().trim().min(1).max(64),
+        invoiceDate: z.iso.date()
+    })
+    .meta({ id: 'CreateInvoiceRecordRequest' });
+
+export type CreateInvoiceRecordRequest = z.infer<typeof CreateInvoiceRecordRequestSchema>;
+
+const InvoiceRecordPatchableStatusSchema = z.enum(['draft', 'pending-issue', 'issued', 'received', 'verified']);
+
+export const UpdateInvoiceRecordRequestSchema = z
+    .object({
+        contractId: z.uuid().nullable().optional(),
+        invoiceNumber: z.string().trim().min(1).max(128).optional(),
+        invoiceAmount: z.string().trim().min(1).max(64).optional(),
+        invoiceDate: z.iso.date().optional(),
+        status: InvoiceRecordPatchableStatusSchema.optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.contractId !== undefined ||
+            value.invoiceNumber !== undefined ||
+            value.invoiceAmount !== undefined ||
+            value.invoiceDate !== undefined ||
+            value.status !== undefined,
+        {
+            message: 'At least one updatable field is required'
+        }
+    )
+    .meta({ id: 'UpdateInvoiceRecordRequest' });
+
+export type UpdateInvoiceRecordRequest = z.infer<typeof UpdateInvoiceRecordRequestSchema>;
+
+export const MarkInvoiceExceptionRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'MarkInvoiceExceptionRequest' });
+
+export type MarkInvoiceExceptionRequest = z.infer<typeof MarkInvoiceExceptionRequestSchema>;
+
+export const ResolveInvoiceExceptionRequestSchema = z
+    .object({
+        resolution: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ResolveInvoiceExceptionRequest' });
+
+export type ResolveInvoiceExceptionRequest = z.infer<typeof ResolveInvoiceExceptionRequestSchema>;
+
+export const CloseInvoiceRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'CloseInvoiceRecordRequest' });
+
+export type CloseInvoiceRecordRequest = z.infer<typeof CloseInvoiceRecordRequestSchema>;
+
 // ---------------------------------------------------------------------------
 // Approval / Todo
 // ---------------------------------------------------------------------------

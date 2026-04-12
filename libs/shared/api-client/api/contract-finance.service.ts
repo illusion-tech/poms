@@ -17,23 +17,42 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { CloseInvoiceRecordRequest } from '../model/close-invoice-record-request';
+// @ts-ignore
 import { ConfirmPaymentRecordRequest } from '../model/confirm-payment-record-request';
 // @ts-ignore
 import { ConfirmReceiptRecordRequest } from '../model/confirm-receipt-record-request';
+// @ts-ignore
+import { CreateInvoiceRecordRequest } from '../model/create-invoice-record-request';
 // @ts-ignore
 import { CreatePaymentRecordRequest } from '../model/create-payment-record-request';
 // @ts-ignore
 import { CreateReceiptRecordRequest } from '../model/create-receipt-record-request';
 // @ts-ignore
+import { InvoiceRecordDetailView } from '../model/invoice-record-detail-view';
+// @ts-ignore
+import { InvoiceRecordSummary } from '../model/invoice-record-summary';
+// @ts-ignore
+import { MarkInvoiceExceptionRequest } from '../model/mark-invoice-exception-request';
+// @ts-ignore
 import { PaymentRecordSummary } from '../model/payment-record-summary';
 // @ts-ignore
 import { ReceiptRecordSummary } from '../model/receipt-record-summary';
+// @ts-ignore
+import { ResolveInvoiceExceptionRequest } from '../model/resolve-invoice-exception-request';
+// @ts-ignore
+import { UpdateInvoiceRecordRequest } from '../model/update-invoice-record-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { PomsApiConfiguration }                                     from '../configuration';
 import { BaseService } from '../api.base.service';
 
+
+export interface ContractFinanceControllerCloseInvoiceRecordRequestParams {
+    id: string;
+    closeInvoiceRecordRequest: CloseInvoiceRecordRequest;
+}
 
 export interface ContractFinanceControllerConfirmPaymentRequestParams {
     projectId: string;
@@ -47,6 +66,11 @@ export interface ContractFinanceControllerConfirmReceiptRequestParams {
     confirmReceiptRecordRequest: ConfirmReceiptRecordRequest;
 }
 
+export interface ContractFinanceControllerCreateInvoiceRequestParams {
+    projectId: string;
+    createInvoiceRecordRequest: CreateInvoiceRecordRequest;
+}
+
 export interface ContractFinanceControllerCreatePaymentRequestParams {
     projectId: string;
     createPaymentRecordRequest: CreatePaymentRecordRequest;
@@ -57,12 +81,35 @@ export interface ContractFinanceControllerCreateReceiptRequestParams {
     createReceiptRecordRequest: CreateReceiptRecordRequest;
 }
 
+export interface ContractFinanceControllerGetInvoiceRequestParams {
+    id: string;
+}
+
+export interface ContractFinanceControllerListInvoicesRequestParams {
+    projectId: string;
+}
+
 export interface ContractFinanceControllerListPaymentsRequestParams {
     projectId: string;
 }
 
 export interface ContractFinanceControllerListReceiptsRequestParams {
     contractId: string;
+}
+
+export interface ContractFinanceControllerMarkInvoiceExceptionRequestParams {
+    id: string;
+    markInvoiceExceptionRequest: MarkInvoiceExceptionRequest;
+}
+
+export interface ContractFinanceControllerResolveInvoiceExceptionRequestParams {
+    id: string;
+    resolveInvoiceExceptionRequest: ResolveInvoiceExceptionRequest;
+}
+
+export interface ContractFinanceControllerUpdateInvoiceRequestParams {
+    id: string;
+    updateInvoiceRecordRequest: UpdateInvoiceRecordRequest;
 }
 
 
@@ -73,6 +120,80 @@ export class ContractFinanceApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 关闭发票记录
+     * @endpoint post /api/contract-finance/invoice-records/{id}/close
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerCloseInvoiceRecord(requestParameters: ContractFinanceControllerCloseInvoiceRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordSummary>;
+    public contractFinanceControllerCloseInvoiceRecord(requestParameters: ContractFinanceControllerCloseInvoiceRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordSummary>>;
+    public contractFinanceControllerCloseInvoiceRecord(requestParameters: ContractFinanceControllerCloseInvoiceRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordSummary>>;
+    public contractFinanceControllerCloseInvoiceRecord(requestParameters: ContractFinanceControllerCloseInvoiceRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerCloseInvoiceRecord.');
+        }
+        const closeInvoiceRecordRequest = requestParameters?.closeInvoiceRecordRequest;
+        if (closeInvoiceRecordRequest === null || closeInvoiceRecordRequest === undefined) {
+            throw new Error('Required parameter closeInvoiceRecordRequest was null or undefined when calling contractFinanceControllerCloseInvoiceRecord.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/close`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: closeInvoiceRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -232,6 +353,80 @@ export class ContractFinanceApi extends BaseService {
     }
 
     /**
+     * 登记项目发票记录
+     * @endpoint post /api/contract-finance/projects/{projectId}/invoices
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerCreateInvoice(requestParameters: ContractFinanceControllerCreateInvoiceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordSummary>;
+    public contractFinanceControllerCreateInvoice(requestParameters: ContractFinanceControllerCreateInvoiceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordSummary>>;
+    public contractFinanceControllerCreateInvoice(requestParameters: ContractFinanceControllerCreateInvoiceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordSummary>>;
+    public contractFinanceControllerCreateInvoice(requestParameters: ContractFinanceControllerCreateInvoiceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling contractFinanceControllerCreateInvoice.');
+        }
+        const createInvoiceRecordRequest = requestParameters?.createInvoiceRecordRequest;
+        if (createInvoiceRecordRequest === null || createInvoiceRecordRequest === undefined) {
+            throw new Error('Required parameter createInvoiceRecordRequest was null or undefined when calling contractFinanceControllerCreateInvoice.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoices`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createInvoiceRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 登记项目付款记录
      * @endpoint post /api/contract-finance/projects/{projectId}/payments
      * @param requestParameters
@@ -380,6 +575,126 @@ export class ContractFinanceApi extends BaseService {
     }
 
     /**
+     * 获取发票记录详情
+     * @endpoint get /api/contract-finance/invoice-records/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerGetInvoice(requestParameters: ContractFinanceControllerGetInvoiceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordDetailView>;
+    public contractFinanceControllerGetInvoice(requestParameters: ContractFinanceControllerGetInvoiceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordDetailView>>;
+    public contractFinanceControllerGetInvoice(requestParameters: ContractFinanceControllerGetInvoiceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordDetailView>>;
+    public contractFinanceControllerGetInvoice(requestParameters: ContractFinanceControllerGetInvoiceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerGetInvoice.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目发票记录列表
+     * @endpoint get /api/contract-finance/projects/{projectId}/invoices
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerListInvoices(requestParameters: ContractFinanceControllerListInvoicesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<InvoiceRecordSummary>>;
+    public contractFinanceControllerListInvoices(requestParameters: ContractFinanceControllerListInvoicesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<InvoiceRecordSummary>>>;
+    public contractFinanceControllerListInvoices(requestParameters: ContractFinanceControllerListInvoicesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<InvoiceRecordSummary>>>;
+    public contractFinanceControllerListInvoices(requestParameters: ContractFinanceControllerListInvoicesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling contractFinanceControllerListInvoices.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoices`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<InvoiceRecordSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取项目付款记录列表
      * @endpoint get /api/contract-finance/projects/{projectId}/payments
      * @param requestParameters
@@ -489,6 +804,228 @@ export class ContractFinanceApi extends BaseService {
         return this.httpClient.request<Array<ReceiptRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 标记发票异常
+     * @endpoint post /api/contract-finance/invoice-records/{id}/mark-exception
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerMarkInvoiceException(requestParameters: ContractFinanceControllerMarkInvoiceExceptionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordSummary>;
+    public contractFinanceControllerMarkInvoiceException(requestParameters: ContractFinanceControllerMarkInvoiceExceptionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordSummary>>;
+    public contractFinanceControllerMarkInvoiceException(requestParameters: ContractFinanceControllerMarkInvoiceExceptionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordSummary>>;
+    public contractFinanceControllerMarkInvoiceException(requestParameters: ContractFinanceControllerMarkInvoiceExceptionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerMarkInvoiceException.');
+        }
+        const markInvoiceExceptionRequest = requestParameters?.markInvoiceExceptionRequest;
+        if (markInvoiceExceptionRequest === null || markInvoiceExceptionRequest === undefined) {
+            throw new Error('Required parameter markInvoiceExceptionRequest was null or undefined when calling contractFinanceControllerMarkInvoiceException.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mark-exception`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: markInvoiceExceptionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 解决发票异常
+     * @endpoint post /api/contract-finance/invoice-records/{id}/resolve-exception
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerResolveInvoiceException(requestParameters: ContractFinanceControllerResolveInvoiceExceptionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordSummary>;
+    public contractFinanceControllerResolveInvoiceException(requestParameters: ContractFinanceControllerResolveInvoiceExceptionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordSummary>>;
+    public contractFinanceControllerResolveInvoiceException(requestParameters: ContractFinanceControllerResolveInvoiceExceptionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordSummary>>;
+    public contractFinanceControllerResolveInvoiceException(requestParameters: ContractFinanceControllerResolveInvoiceExceptionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerResolveInvoiceException.');
+        }
+        const resolveInvoiceExceptionRequest = requestParameters?.resolveInvoiceExceptionRequest;
+        if (resolveInvoiceExceptionRequest === null || resolveInvoiceExceptionRequest === undefined) {
+            throw new Error('Required parameter resolveInvoiceExceptionRequest was null or undefined when calling contractFinanceControllerResolveInvoiceException.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/resolve-exception`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: resolveInvoiceExceptionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 更新发票记录
+     * @endpoint patch /api/contract-finance/invoice-records/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public contractFinanceControllerUpdateInvoice(requestParameters: ContractFinanceControllerUpdateInvoiceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<InvoiceRecordSummary>;
+    public contractFinanceControllerUpdateInvoice(requestParameters: ContractFinanceControllerUpdateInvoiceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<InvoiceRecordSummary>>;
+    public contractFinanceControllerUpdateInvoice(requestParameters: ContractFinanceControllerUpdateInvoiceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<InvoiceRecordSummary>>;
+    public contractFinanceControllerUpdateInvoice(requestParameters: ContractFinanceControllerUpdateInvoiceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerUpdateInvoice.');
+        }
+        const updateInvoiceRecordRequest = requestParameters?.updateInvoiceRecordRequest;
+        if (updateInvoiceRecordRequest === null || updateInvoiceRecordRequest === undefined) {
+            throw new Error('Required parameter updateInvoiceRecordRequest was null or undefined when calling contractFinanceControllerUpdateInvoice.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<InvoiceRecordSummary>('patch', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updateInvoiceRecordRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
