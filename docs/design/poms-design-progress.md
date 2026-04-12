@@ -137,16 +137,16 @@
 
 ### 4.5 当前控制与实施入口
 
-| 文档                                                              | 当前状态 | 作用                                                                                 | 是否可作为下游输入 |
-| ----------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------ | ------------------ |
-| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口     | 是                 |
-| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束 | 是                 |
-| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                       | 是                 |
-| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                 | 是                 |
-| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                        | 是                 |
-| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据 | 是                 |
+| 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
+| ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
+| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口        | 是                 |
+| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束    | 是                 |
+| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                          | 是                 |
+| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                    | 是                 |
+| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                           | 是                 |
+| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据  | 是                 |
 | `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕 | 是                 |
-| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                         | 是                 |
+| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                            | 是                 |
 
 ### 4.6 已归档过程资产
 
@@ -250,7 +250,7 @@
 - 已完成平台治理域 `OrgUnit` 首个执行切片 `EX-01`：补齐 migration / 索引约束、树查询 / 详情 / 启停 / 移动 API、管理端最小闭环，并通过 API / Admin E2E 验证
 - 已完成平台治理域 `Role / Permission` 执行切片 `EX-02`：回看既有 migration / DDL，补齐权限字典、角色列表 / 详情 / 启停 / 绑定接口、系统角色最小权限基线、停用角色后的授权收敛与管理端闭环，并通过 API / Admin E2E 验证
 - 已完成 `L1/L2` 起点执行切片 `EX-05`：落地 `ContractReadinessPackage / CommercialReleaseBaseline`、差异复核、签约就绪初始化命令与合同激活 guard，并通过 `poms-api` build、API 单测与 44 条 API E2E 验证
-- `L1/L2` 执行期成本归集切片 `EX-06`：已补 `ex-06-implementation-baseline.md` 并完成第一批偏差修复 checkpoint 收口（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验）；`migration-check`、API 单测、API / Admin build、OpenAPI / client 生成与 `poms-api-e2e` 已通过；当前又补 `ex-06-payment-fact-and-read-side-baseline.md`，把下一可编码子切片收敛为 `PAYMENT_FACT <- PaymentRecord` 映射与 finance-scoped 实际成本读侧；追踪板仍为 `Doing` / `G3 = Block`，`PROCUREMENT / INVOICE / EXPENSE` 来源映射与父任务完整读侧追溯仍需后续收口
+- `L1/L2` 执行期成本归集切片 `EX-06`：已补 `ex-06-implementation-baseline.md` 并完成第一批偏差修复 checkpoint 收口（成本率版本链、共享契约 date / source ID / 替代链、LABOR 金额与期间校验）；随后已按 `ex-06-payment-fact-and-read-side-baseline.md` 完成 `EX-06B1`，落地 `PAYMENT_FACT <- PaymentRecord` 映射命令、finance-scoped 项目实际成本 list/detail、来源映射唯一约束，并通过 `poms-api` test/build、OpenAPI / generated client、`migration-check` 与 `poms-api-e2e`；当前又补 `ex-06-invoice-fact-prerequisite-baseline.md`，把下一前置可编码子切片正式收敛为 `EX-06B2A = InvoiceRecord` 成本发票事实主对象落地；父任务仍为 `Doing` / `G3 = Block`，`INVOICE / EXPENSE / PROCUREMENT` 映射与完整追溯仍待后续切片收口
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---

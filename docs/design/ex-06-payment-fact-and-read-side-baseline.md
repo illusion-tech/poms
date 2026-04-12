@@ -54,9 +54,9 @@
 
 ## 4. 命令与接口边界
 
-| Route / Controller                                      | Command / Service               | Request DTO / Contract                                                                  | Response DTO / Contract                                              | Guard / Permission        | Design Source | Result  |
-| ------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------- | ------------- | ------- |
-| `POST /project-actual-cost-records:registerPaymentFact` | `registerPaymentFactCostRecord` | `paymentRecordId`、`projectId`、`costDescription`、`evidenceSummary`、`expectedVersion` | `targetId`、`paymentRecordId`、`businessStatusAfter`、`resultStatus` | `contract:finance:manage` | command + DTO | Pending |
+| Route / Controller                                        | Command / Service               | Request DTO / Contract                                                                  | Response DTO / Contract                                              | Guard / Permission        | Design Source | Result |
+| --------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------- | ------------- | ------ |
+| `POST /project-actual-cost-records/register-payment-fact` | `registerPaymentFactCostRecord` | `paymentRecordId`、`projectId`、`costDescription`、`evidenceSummary`、`expectedVersion` | `targetId`、`paymentRecordId`、`businessStatusAfter`、`resultStatus` | `contract:finance:manage` | command + DTO | Pass   |
 
 补充冻结约束：
 
@@ -68,10 +68,10 @@
 
 ## 5. 读侧边界
 
-| Query / View                                                                        | Consumer                  | Fields                                                                                                                                                                                                 | Filter / Sort                                                           | Permission Boundary       | Design Source | Result  |
-| ----------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ------------------------- | ------------- | ------- |
-| `GET /projects/{projectId}/actual-cost-records` / `ProjectActualCostRecordListView` | 财务归口列表页            | `costType`、`occurredOn`、`executionStageCode`、`amountIncludingTax`、`recordStatus`、`isIncludedInProjectCost`、`sourceType`、`sourceRefNo`、`evidenceSummary`                                        | `costType`、`recordStatus`、`sourceType`；按 `occurredOn desc` 默认排序 | `contract:finance:manage` | query         | Pending |
-| `GET /project-actual-cost-records/{id}` / `ProjectActualCostRecordDetailView`       | 财务归口详情页 / 审计回看 | `costType`、`sourceType`、`sourceId`、`sourceRefNo`、来源当前状态摘要、`occurredOn`、`amountIncludingTax`、`taxImpactSummary`、`rateVersionId`、生效区间、计量依据摘要、替代关系摘要、`allowedActions` | 按 `id` 精确查询                                                        | `contract:finance:manage` | query         | Pending |
+| Query / View                                                                        | Consumer                  | Fields                                                                                                                                                                                                 | Filter / Sort                                                           | Permission Boundary       | Design Source | Result |
+| ----------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ------------------------- | ------------- | ------ |
+| `GET /projects/{projectId}/actual-cost-records` / `ProjectActualCostRecordListView` | 财务归口列表页            | `costType`、`occurredOn`、`executionStageCode`、`amountIncludingTax`、`recordStatus`、`isIncludedInProjectCost`、`sourceType`、`sourceRefNo`、`evidenceSummary`                                        | `costType`、`recordStatus`、`sourceType`；按 `occurredOn desc` 默认排序 | `contract:finance:manage` | query         | Pass   |
+| `GET /project-actual-cost-records/{id}` / `ProjectActualCostRecordDetailView`       | 财务归口详情页 / 审计回看 | `costType`、`sourceType`、`sourceId`、`sourceRefNo`、来源当前状态摘要、`occurredOn`、`amountIncludingTax`、`taxImpactSummary`、`rateVersionId`、生效区间、计量依据摘要、替代关系摘要、`allowedActions` | 按 `id` 精确查询                                                        | `contract:finance:manage` | query         | Pass   |
 
 补充冻结约束：
 
@@ -82,21 +82,21 @@
 
 ## 6. 持久化边界
 
-| Table                        | Migration                                                       | Entity / Repository                                             | DDL / Freeze Source                     | Check Result |
-| ---------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------- | ------------ |
-| `project_actual_cost_record` | 可能需要新增 `source_type + source_id` 当前有效映射条件唯一约束 | `ProjectActualCostRecord` / `ProjectActualCostRecordRepository` | `table-structure-freeze` / `schema-ddl` | Pending      |
-| `payment_record`             | 复用既有表结构，无新增字段                                      | `PaymentRecord` / `ContractFinanceRepository`                   | `contract-finance` + `L2-T03`           | Pending      |
+| Table                        | Migration                                                 | Entity / Repository                                             | DDL / Freeze Source                     | Check Result |
+| ---------------------------- | --------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------- | ------------ |
+| `project_actual_cost_record` | 已新增 `source_type + source_id` 当前有效映射条件唯一约束 | `ProjectActualCostRecord` / `ProjectActualCostRecordRepository` | `table-structure-freeze` / `schema-ddl` | Pass         |
+| `payment_record`             | 复用既有表结构，无新增字段                                | `PaymentRecord` / `ContractFinanceRepository`                   | `contract-finance` + `L2-T03`           | Pass         |
 
-| Field / Rule                           | Design Type / Meaning                | Migration / DDL                                               | Entity / Source Fact                                      | Shared Contract / OpenAPI                           | Result  |
-| -------------------------------------- | ------------------------------------ | ------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- | ------- |
-| `costType`                             | `PAYMENT_FACT`                       | `project_actual_cost_record.cost_type`                        | `ProjectActualCostRecord.costType`                        | `ProjectActualCostRecordSummary.costType`           | Pending |
-| `sourceType`                           | `PAYMENT_RECORD`                     | `project_actual_cost_record.source_type`                      | `ProjectActualCostRecord.sourceType`                      | `ProjectActualCostRecordSummary.sourceType`         | Pending |
-| `sourceId`                             | 上游付款事实主键引用                 | `project_actual_cost_record.source_id varchar(64)`            | `PaymentRecord.id -> ProjectActualCostRecord.sourceId`    | `ProjectActualCostRecordSummary.sourceId`           | Pending |
-| `sourceRefNo`                          | 当前稳定来源引用号                   | `project_actual_cost_record.source_ref_no varchar(128)`       | `PaymentRecord.id -> ProjectActualCostRecord.sourceRefNo` | `ProjectActualCostRecordSummary.sourceRefNo`        | Pending |
-| `occurredOn`                           | 付款发生业务日期                     | `project_actual_cost_record.occurred_on date`                 | `PaymentRecord.paymentDate(datetime)`                     | `ProjectActualCostRecordSummary.occurredOn`         | Pending |
-| `amountIncludingTax`                   | 当前唯一稳定支付金额口径             | `project_actual_cost_record.amount_including_tax numeric`     | `PaymentRecord.paymentAmount(decimal)`                    | `ProjectActualCostRecordSummary.amountIncludingTax` | Pending |
-| `recordStatus`                         | 已确认付款映射后直接进入 `CONFIRMED` | `project_actual_cost_record.record_status`                    | `PaymentRecord.status = confirmed`                        | `ProjectActualCostRecordSummary.recordStatus`       | Pending |
-| `current-effective mapping per source` | 同一付款事实仅一条当前有效成本映射   | 条件唯一：`source_type + source_id` on active/current records | repository guard + unique constraint                      | 不直接暴露，作为行为约束                            | Pending |
+| Field / Rule                           | Design Type / Meaning                | Migration / DDL                                               | Entity / Source Fact                                      | Shared Contract / OpenAPI                           | Result |
+| -------------------------------------- | ------------------------------------ | ------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- | ------ |
+| `costType`                             | `PAYMENT_FACT`                       | `project_actual_cost_record.cost_type`                        | `ProjectActualCostRecord.costType`                        | `ProjectActualCostRecordSummary.costType`           | Pass   |
+| `sourceType`                           | `PAYMENT_RECORD`                     | `project_actual_cost_record.source_type`                      | `ProjectActualCostRecord.sourceType`                      | `ProjectActualCostRecordSummary.sourceType`         | Pass   |
+| `sourceId`                             | 上游付款事实主键引用                 | `project_actual_cost_record.source_id varchar(64)`            | `PaymentRecord.id -> ProjectActualCostRecord.sourceId`    | `ProjectActualCostRecordSummary.sourceId`           | Pass   |
+| `sourceRefNo`                          | 当前稳定来源引用号                   | `project_actual_cost_record.source_ref_no varchar(128)`       | `PaymentRecord.id -> ProjectActualCostRecord.sourceRefNo` | `ProjectActualCostRecordSummary.sourceRefNo`        | Pass   |
+| `occurredOn`                           | 付款发生业务日期                     | `project_actual_cost_record.occurred_on date`                 | `PaymentRecord.paymentDate(datetime)`                     | `ProjectActualCostRecordSummary.occurredOn`         | Pass   |
+| `amountIncludingTax`                   | 当前唯一稳定支付金额口径             | `project_actual_cost_record.amount_including_tax numeric`     | `PaymentRecord.paymentAmount(decimal)`                    | `ProjectActualCostRecordSummary.amountIncludingTax` | Pass   |
+| `recordStatus`                         | 已确认付款映射后直接进入 `CONFIRMED` | `project_actual_cost_record.record_status`                    | `PaymentRecord.status = confirmed`                        | `ProjectActualCostRecordSummary.recordStatus`       | Pass   |
+| `current-effective mapping per source` | 同一付款事实仅一条当前有效成本映射   | 条件唯一：`source_type + source_id` on active/current records | repository guard + unique constraint                      | 不直接暴露，作为行为约束                            | Pass   |
 
 ---
 
@@ -114,14 +114,14 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence                                      | Result  | Gap / Reason |
-| -------------------------------- | -------- | ------------------------------------------------------- | ------- | ------------ |
-| Build                            | Yes      | `corepack pnpm nx build poms-api`                       | Pending |              |
-| Unit tests                       | Yes      | `corepack pnpm nx test poms-api`                        | Pending |              |
-| API / integration tests          | Yes      | `project-cost.service.spec.ts` + controller tests       | Pending |              |
-| E2E                              | Yes      | `corepack pnpm nx run poms-api-e2e:e2e`                 | Pending |              |
-| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` + client update | Pending |              |
-| Migration / schema check         | Yes      | `corepack pnpm nx run poms-api:migration-check`         | Pending |              |
+| Check                            | Required | Command / Evidence                                      | Result | Gap / Reason                          |
+| -------------------------------- | -------- | ------------------------------------------------------- | ------ | ------------------------------------- |
+| Build                            | Yes      | `corepack pnpm nx build poms-api`                       | Pass   |                                       |
+| Unit tests                       | Yes      | `corepack pnpm nx test poms-api`                        | Pass   |                                       |
+| API / integration tests          | Yes      | `project-cost.service.spec.ts`                          | Pass   | controller 覆盖由 `poms-api-e2e` 收口 |
+| E2E                              | Yes      | `corepack pnpm nx run poms-api-e2e:e2e`                 | Pass   |                                       |
+| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` + client update | Pass   | `shared-api-client:generate` 已执行   |
+| Migration / schema check         | Yes      | `corepack pnpm nx run poms-api:migration-check`         | Pass   |                                       |
 
 ---
 
