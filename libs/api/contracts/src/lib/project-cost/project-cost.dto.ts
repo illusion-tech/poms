@@ -1,8 +1,10 @@
 import {
     InternalCostRateVersionSummarySchema,
     ProjectActualCostRecordDetailViewSchema,
+    ProjectActualCostRecordListViewSchema,
     ProjectActualCostRecordSummarySchema,
     PublishInternalCostRateVersionRequestSchema,
+    RegisterPaymentFactCostRecordRequestSchema,
     RegisterLaborCostRecordRequestSchema,
     ReplaceLaborCostRecordRequestSchema
 } from '@poms/shared-contracts';
@@ -14,7 +16,11 @@ export class PublishInternalCostRateVersionRequestDto extends createZodDto(Publi
 
 export class ProjectActualCostRecordSummaryDto extends createZodDto(ProjectActualCostRecordSummarySchema) {}
 
+export class ProjectActualCostRecordListViewDto extends createZodDto(ProjectActualCostRecordListViewSchema) {}
+
 export class ProjectActualCostRecordDetailViewDto extends createZodDto(ProjectActualCostRecordDetailViewSchema) {}
+
+export class RegisterPaymentFactCostRecordRequestDto extends createZodDto(RegisterPaymentFactCostRecordRequestSchema) {}
 
 export class RegisterLaborCostRecordRequestDto extends createZodDto(RegisterLaborCostRecordRequestSchema) {}
 

@@ -1642,7 +1642,18 @@ export const ProjectActualCostRecordSummarySchema = z
 
 export type ProjectActualCostRecordSummary = z.infer<typeof ProjectActualCostRecordSummarySchema>;
 
+export const ProjectActualCostRecordListViewSchema = z
+    .array(ProjectActualCostRecordSummarySchema)
+    .meta({ id: 'ProjectActualCostRecordListView' });
+
+export type ProjectActualCostRecordListView = z.infer<typeof ProjectActualCostRecordListViewSchema>;
+
 export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSummarySchema.extend({
+    sourceStatusSummary: z.string().nullable(),
+    effectivePeriodSummary: z.string().nullable(),
+    measurementBasisSummary: z.string().nullable(),
+    supersedesSummary: z.string().nullable(),
+    allowedActions: z.array(z.string()),
     laborPersonId: z.uuid().nullable(),
     laborRole: z.string().nullable(),
     laborPeriodType: z.enum(['WEEK', 'MONTH']).nullable(),
@@ -1658,6 +1669,18 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 }).meta({ id: 'ProjectActualCostRecordDetailView' });
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
+
+export const RegisterPaymentFactCostRecordRequestSchema = z
+    .object({
+        paymentRecordId: z.uuid(),
+        projectId: z.uuid(),
+        costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RegisterPaymentFactCostRecordRequest' });
+
+export type RegisterPaymentFactCostRecordRequest = z.infer<typeof RegisterPaymentFactCostRecordRequestSchema>;
 
 export const RegisterLaborCostRecordRequestSchema = z
     .object({

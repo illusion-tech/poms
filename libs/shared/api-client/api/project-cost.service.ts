@@ -17,9 +17,15 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ProjectActualCostRecordDetailView } from '../model/project-actual-cost-record-detail-view';
+// @ts-ignore
+import { ProjectActualCostRecordSummary } from '../model/project-actual-cost-record-summary';
+// @ts-ignore
 import { PublishInternalCostRateVersionRequest } from '../model/publish-internal-cost-rate-version-request';
 // @ts-ignore
 import { RegisterLaborCostRecordRequest } from '../model/register-labor-cost-record-request';
+// @ts-ignore
+import { RegisterPaymentFactCostRecordRequest } from '../model/register-payment-fact-cost-record-request';
 // @ts-ignore
 import { ReplaceLaborCostRecordRequest } from '../model/replace-labor-cost-record-request';
 
@@ -29,12 +35,24 @@ import { PomsApiConfiguration }                                     from '../con
 import { BaseService } from '../api.base.service';
 
 
+export interface ProjectCostControllerGetProjectActualCostRecordDetailRequestParams {
+    id: string;
+}
+
+export interface ProjectCostControllerListProjectActualCostRecordsRequestParams {
+    projectId: string;
+}
+
 export interface ProjectCostControllerPublishInternalCostRateVersionRequestParams {
     publishInternalCostRateVersionRequest: PublishInternalCostRateVersionRequest;
 }
 
 export interface ProjectCostControllerRegisterLaborCostRecordRequestParams {
     registerLaborCostRecordRequest: RegisterLaborCostRecordRequest;
+}
+
+export interface ProjectCostControllerRegisterPaymentFactCostRecordRequestParams {
+    registerPaymentFactCostRecordRequest: RegisterPaymentFactCostRecordRequest;
 }
 
 export interface ProjectCostControllerReplaceLaborCostRecordRequestParams {
@@ -49,6 +67,126 @@ export class ProjectCostApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 获取项目实际成本记录详情
+     * @endpoint get /api/project-actual-cost-records/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetProjectActualCostRecordDetail(requestParameters: ProjectCostControllerGetProjectActualCostRecordDetailRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectActualCostRecordDetailView>;
+    public projectCostControllerGetProjectActualCostRecordDetail(requestParameters: ProjectCostControllerGetProjectActualCostRecordDetailRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectActualCostRecordDetailView>>;
+    public projectCostControllerGetProjectActualCostRecordDetail(requestParameters: ProjectCostControllerGetProjectActualCostRecordDetailRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectActualCostRecordDetailView>>;
+    public projectCostControllerGetProjectActualCostRecordDetail(requestParameters: ProjectCostControllerGetProjectActualCostRecordDetailRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetProjectActualCostRecordDetail.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-actual-cost-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectActualCostRecordDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目实际成本记录列表
+     * @endpoint get /api/projects/{projectId}/actual-cost-records
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerListProjectActualCostRecords(requestParameters: ProjectCostControllerListProjectActualCostRecordsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectActualCostRecordSummary>>;
+    public projectCostControllerListProjectActualCostRecords(requestParameters: ProjectCostControllerListProjectActualCostRecordsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectActualCostRecordSummary>>>;
+    public projectCostControllerListProjectActualCostRecords(requestParameters: ProjectCostControllerListProjectActualCostRecordsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectActualCostRecordSummary>>>;
+    public projectCostControllerListProjectActualCostRecords(requestParameters: ProjectCostControllerListProjectActualCostRecordsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerListProjectActualCostRecords.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/actual-cost-records`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ProjectActualCostRecordSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -179,6 +317,75 @@ export class ProjectCostApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: registerLaborCostRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 登记付款事实到统一实际成本记录
+     * @endpoint post /api/project-actual-cost-records/register-payment-fact
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerRegisterPaymentFactCostRecord(requestParameters: ProjectCostControllerRegisterPaymentFactCostRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerRegisterPaymentFactCostRecord(requestParameters: ProjectCostControllerRegisterPaymentFactCostRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerRegisterPaymentFactCostRecord(requestParameters: ProjectCostControllerRegisterPaymentFactCostRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerRegisterPaymentFactCostRecord(requestParameters: ProjectCostControllerRegisterPaymentFactCostRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const registerPaymentFactCostRecordRequest = requestParameters?.registerPaymentFactCostRecordRequest;
+        if (registerPaymentFactCostRecordRequest === null || registerPaymentFactCostRecordRequest === undefined) {
+            throw new Error('Required parameter registerPaymentFactCostRecordRequest was null or undefined when calling projectCostControllerRegisterPaymentFactCostRecord.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-actual-cost-records/register-payment-fact`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: registerPaymentFactCostRecordRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
