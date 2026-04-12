@@ -1,13 +1,31 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import type { CommandResult, PublishInternalCostRateVersionRequest, RegisterLaborCostRecordRequest, ReplaceLaborCostRecordRequest } from '@poms/shared-contracts';
+import type {
+    CommandResult,
+    ProjectActualCostRecordDetailView,
+    ProjectActualCostRecordSummary,
+    PublishInternalCostRateVersionRequest,
+    RegisterLaborCostRecordRequest,
+    RegisterPaymentFactCostRecordRequest,
+    ReplaceLaborCostRecordRequest
+} from '@poms/shared-contracts';
+import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
+import type { PaymentRecord } from '../contract-finance/payment-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
+import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+
+interface ProjectActualCostRecordFilters {
+    costType?: string;
+    recordStatus?: string;
+    sourceType?: string;
+}
 
 @Injectable()
 export class ProjectCostService {
     constructor(
         private readonly internalCostRateVersionRepository: InternalCostRateVersionRepository,
-        private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository
+        private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository,
+        private readonly contractFinanceRepository: ContractFinanceRepository
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -93,6 +111,111 @@ export class ProjectCostService {
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
+        };
+    }
+
+    async registerPaymentFactCostRecord(input: RegisterPaymentFactCostRecordRequest, userId: string): Promise<CommandResult> {
+        const paymentRecord = await this.contractFinanceRepository.findPaymentById(input.paymentRecordId);
+        if (!paymentRecord) {
+            throw new NotFoundException(`PaymentRecord ${input.paymentRecordId} not found`);
+        }
+
+        if (paymentRecord.projectId !== input.projectId) {
+            throw new ConflictException(`PaymentRecord ${input.paymentRecordId} does not belong to project ${input.projectId}`);
+        }
+
+        if (input.expectedVersion && paymentRecord.rowVersion !== input.expectedVersion) {
+            throw new ConflictException(`Optimistic locking failed for payment record ${input.paymentRecordId}`);
+        }
+
+        if (paymentRecord.status !== 'confirmed') {
+            throw new ConflictException(`PaymentRecord ${input.paymentRecordId} is not confirmed`);
+        }
+
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('PAYMENT_RECORD', paymentRecord.id);
+        if (existing) {
+            throw new ConflictException(`PaymentRecord ${input.paymentRecordId} already has a current payment fact mapping`);
+        }
+
+        const confirmedAt = paymentRecord.confirmedAt ?? new Date();
+        const entity = this.projectActualCostRecordRepository.create({
+            projectId: input.projectId,
+            recordNo: `PAYMENT-${Date.now()}`,
+            costType: 'PAYMENT_FACT',
+            costSubtype: paymentRecord.costCategory,
+            occurredOn: this.toIsoDate(paymentRecord.paymentDate),
+            registeredAt: confirmedAt,
+            confirmedAt,
+            recordStatus: 'CONFIRMED',
+            isIncludedInProjectCost: false,
+            isHighRisk: false,
+            attachmentCount: 0,
+            currency: 'CNY',
+            amountExcludingTax: null,
+            taxCostAmount: null,
+            amountIncludingTax: this.formatAmount(this.toNumber(paymentRecord.paymentAmount)),
+            sourceType: 'PAYMENT_RECORD',
+            sourceId: paymentRecord.id,
+            sourceRefNo: paymentRecord.id,
+            evidenceSummary: input.evidenceSummary ?? null,
+            registeredBy: userId,
+            confirmedBy: paymentRecord.confirmedBy ?? userId,
+            costDescription: input.costDescription ?? null,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.projectActualCostRecordRepository.save(entity);
+
+        return {
+            targetId: entity.id,
+            targetType: 'ProjectActualCostRecord',
+            resultStatus: 'success',
+            businessStatusAfter: 'CONFIRMED',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async listProjectActualCostRecords(projectId: string, filters: ProjectActualCostRecordFilters = {}): Promise<ProjectActualCostRecordSummary[]> {
+        const records = await this.projectActualCostRecordRepository.findByProjectId(projectId, filters);
+        return records.map((record) => this.toProjectActualCostRecordSummary(record));
+    }
+
+    async getProjectActualCostRecordDetail(id: string): Promise<ProjectActualCostRecordDetailView> {
+        const record = await this.projectActualCostRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`ProjectActualCostRecord ${id} not found`);
+        }
+
+        const [paymentRecord, rateVersion, replacementRecord] = await Promise.all([
+            record.sourceType === 'PAYMENT_RECORD' && record.sourceId
+                ? this.contractFinanceRepository.findPaymentById(record.sourceId)
+                : Promise.resolve(null),
+            record.rateVersionId ? this.internalCostRateVersionRepository.findById(record.rateVersionId) : Promise.resolve(null),
+            this.projectActualCostRecordRepository.findReplacementBySupersedesRecordId(record.id)
+        ]);
+
+        return {
+            ...this.toProjectActualCostRecordSummary(record),
+            sourceStatusSummary: this.buildSourceStatusSummary(record, paymentRecord, rateVersion),
+            effectivePeriodSummary: this.buildEffectivePeriodSummary(record, paymentRecord, rateVersion),
+            measurementBasisSummary: this.buildMeasurementBasisSummary(record, paymentRecord),
+            supersedesSummary: this.buildSupersedesSummary(record, replacementRecord),
+            allowedActions: this.buildAllowedActions(record),
+            laborPersonId: record.laborPersonId ?? null,
+            laborRole: record.laborRole ?? null,
+            laborPeriodType: this.toLaborPeriodType(record.laborPeriodType),
+            laborPeriodStart: this.toNullableDate(record.laborPeriodStart),
+            laborPeriodEnd: this.toNullableDate(record.laborPeriodEnd),
+            actualHours: this.toNullableDecimal(record.actualHours),
+            actualPersonDays: this.toNullableDecimal(record.actualPersonDays),
+            internalCostRate: this.toNullableDecimal(record.internalCostRate),
+            rateVersionId: record.rateVersionId ?? null,
+            laborAmount: this.toNullableDecimal(record.laborAmount),
+            workSummary: record.workSummary ?? null,
+            deliveryStage: record.deliveryStage ?? null
         };
     }
 
@@ -302,6 +425,114 @@ export class ProjectCostService {
         throw new ConflictException(`Unsupported rate unit ${rateVersion.rateUnit}`);
     }
 
+    private toProjectActualCostRecordSummary(record: ProjectActualCostRecord): ProjectActualCostRecordSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            recordNo: record.recordNo ?? null,
+            costType: record.costType as ProjectActualCostRecordSummary['costType'],
+            costSubtype: record.costSubtype ?? null,
+            occurredOn: this.toNullableDate(record.occurredOn),
+            accountingPeriod: record.accountingPeriod ?? null,
+            registeredAt: this.toNullableDateTime(record.registeredAt),
+            confirmedAt: this.toNullableDateTime(record.confirmedAt),
+            includedAt: this.toNullableDateTime(record.includedAt),
+            executionStageCode: record.executionStageCode ?? null,
+            stageDerivedFromType: record.stageDerivedFromType ?? null,
+            stageDerivedFromId: record.stageDerivedFromId ?? null,
+            stageDerivedAt: this.toNullableDateTime(record.stageDerivedAt),
+            stageLockedAt: this.toNullableDateTime(record.stageLockedAt),
+            currency: record.currency,
+            amountExcludingTax: this.toNullableDecimal(record.amountExcludingTax),
+            taxCostAmount: this.toNullableDecimal(record.taxCostAmount),
+            amountIncludingTax: this.toNullableDecimal(record.amountIncludingTax),
+            recordStatus: record.recordStatus as ProjectActualCostRecordSummary['recordStatus'],
+            isIncludedInProjectCost: record.isIncludedInProjectCost,
+            isHighRisk: record.isHighRisk,
+            sourceType: record.sourceType ?? null,
+            sourceId: record.sourceId ?? null,
+            sourceRefNo: record.sourceRefNo ?? null,
+            evidenceSummary: record.evidenceSummary ?? null,
+            attachmentCount: record.attachmentCount,
+            registeredBy: record.registeredBy ?? null,
+            confirmedBy: record.confirmedBy ?? null,
+            includedBy: record.includedBy ?? null,
+            ownerRole: record.ownerRole ?? null,
+            costDescription: record.costDescription ?? null,
+            taxImpactSummary: record.taxImpactSummary ?? null,
+            riskNote: record.riskNote ?? null,
+            supersedesRecordId: record.supersedesRecordId ?? null,
+            voidReason: record.voidReason ?? null,
+            rowVersion: record.rowVersion,
+            createdAt: this.toRequiredDateTime(record.createdAt),
+            updatedAt: this.toRequiredDateTime(record.updatedAt)
+        };
+    }
+
+    private buildSourceStatusSummary(
+        record: ProjectActualCostRecord,
+        paymentRecord: PaymentRecord | null,
+        rateVersion: InternalCostRateVersion | null
+    ): string | null {
+        if (paymentRecord) {
+            return `PaymentRecord:${paymentRecord.status}`;
+        }
+        if (rateVersion) {
+            return `InternalCostRateVersion:${rateVersion.status}`;
+        }
+        if (record.sourceType) {
+            return `${record.sourceType}:${record.recordStatus}`;
+        }
+        return null;
+    }
+
+    private buildEffectivePeriodSummary(
+        record: ProjectActualCostRecord,
+        paymentRecord: PaymentRecord | null,
+        rateVersion: InternalCostRateVersion | null
+    ): string | null {
+        if (paymentRecord) {
+            return this.toIsoDate(paymentRecord.paymentDate);
+        }
+        if (record.laborPeriodStart || record.laborPeriodEnd) {
+            return `${this.toNullableDate(record.laborPeriodStart) ?? '-'} ~ ${this.toNullableDate(record.laborPeriodEnd) ?? '-'}`;
+        }
+        if (rateVersion) {
+            return `${this.toIsoDate(rateVersion.effectiveFrom)} ~ ${this.toNullableDate(rateVersion.effectiveTo) ?? 'open'}`;
+        }
+        return null;
+    }
+
+    private buildMeasurementBasisSummary(record: ProjectActualCostRecord, paymentRecord: PaymentRecord | null): string | null {
+        if (paymentRecord) {
+            return `${this.formatAmount(this.toNumber(paymentRecord.paymentAmount))} ${record.currency} @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
+        }
+        if (record.actualHours && record.internalCostRate) {
+            return `${this.toNullableDecimal(record.actualHours)}h x ${this.toNullableDecimal(record.internalCostRate)} ${record.currency}`;
+        }
+        if (record.actualPersonDays && record.internalCostRate) {
+            return `${this.toNullableDecimal(record.actualPersonDays)}d x ${this.toNullableDecimal(record.internalCostRate)} ${record.currency}`;
+        }
+        return null;
+    }
+
+    private buildSupersedesSummary(record: ProjectActualCostRecord, replacementRecord: ProjectActualCostRecord | null): string | null {
+        if (record.supersedesRecordId) {
+            return `Supersedes ${record.supersedesRecordId}`;
+        }
+        if (replacementRecord) {
+            return `Replaced by ${replacementRecord.id}`;
+        }
+        return null;
+    }
+
+    private buildAllowedActions(record: ProjectActualCostRecord): string[] {
+        if (record.costType === 'LABOR' && !record.isIncludedInProjectCost && record.recordStatus !== 'REPLACED') {
+            return ['replace'];
+        }
+        return [];
+    }
+
     private parseDateOnly(value: string, fieldName: string): string {
         if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
             throw new UnprocessableEntityException(`${fieldName} must use YYYY-MM-DD date format`);
@@ -346,6 +577,42 @@ export class ProjectCostService {
 
     private toDate(value: Date | string): Date {
         return value instanceof Date ? value : new Date(value);
+    }
+
+    private toIsoDate(value: Date | string): string {
+        if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return value;
+        }
+        return this.toDate(value).toISOString().slice(0, 10);
+    }
+
+    private toNullableDate(value: Date | string | null | undefined): string | null {
+        if (!value) {
+            return null;
+        }
+        return this.toIsoDate(value);
+    }
+
+    private toRequiredDateTime(value: Date | string): string {
+        return this.toDate(value).toISOString();
+    }
+
+    private toNullableDateTime(value: Date | string | null | undefined): string | null {
+        if (!value) {
+            return null;
+        }
+        return this.toRequiredDateTime(value);
+    }
+
+    private toNullableDecimal(value: string | number | null | undefined): string | null {
+        if (value === null || value === undefined) {
+            return null;
+        }
+        return typeof value === 'string' ? value : String(value);
+    }
+
+    private toLaborPeriodType(value: string | null | undefined): 'WEEK' | 'MONTH' | null {
+        return value === 'WEEK' || value === 'MONTH' ? value : null;
     }
 
     private formatAmount(value: number): string {

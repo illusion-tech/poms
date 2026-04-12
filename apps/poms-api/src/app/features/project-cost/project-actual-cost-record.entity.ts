@@ -16,6 +16,13 @@ export const ProjectActualCostRecordSchema = defineEntity({
         { name: 'idx_cost_record_stage', properties: ['executionStageCode'] },
         { name: 'idx_cost_record_type', properties: ['costType'] }
     ],
+    uniques: [
+        {
+            name: 'uq_project_actual_cost_record_payment_fact_source_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'PAYMENT_FACT' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),

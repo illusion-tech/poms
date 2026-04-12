@@ -106,14 +106,52 @@ export class ProjectActualCostRecordRepository {
         private readonly repository: EntityRepository<ProjectActualCostRecord>
     ) {}
 
-    async findByProjectId(projectId: string): Promise<ProjectActualCostRecord[]> {
-        return this.repository.find({ projectId }, {
+    async findByProjectId(
+        projectId: string,
+        filters?: {
+            costType?: string;
+            recordStatus?: string;
+            sourceType?: string;
+        }
+    ): Promise<ProjectActualCostRecord[]> {
+        const where: Record<string, unknown> = { projectId };
+        if (filters?.costType) {
+            where['costType'] = filters.costType;
+        }
+        if (filters?.recordStatus) {
+            where['recordStatus'] = filters.recordStatus;
+        }
+        if (filters?.sourceType) {
+            where['sourceType'] = filters.sourceType;
+        }
+
+        return this.repository.find(where, {
             orderBy: { occurredOn: QueryOrder.DESC, createdAt: QueryOrder.DESC }
         });
     }
 
     async findById(id: string): Promise<ProjectActualCostRecord | null> {
         return this.repository.findOne({ id });
+    }
+
+    async findCurrentEffectiveBySource(sourceType: string, sourceId: string): Promise<ProjectActualCostRecord | null> {
+        return this.repository.findOne(
+            {
+                sourceType,
+                sourceId,
+                recordStatus: { $in: ['CONFIRMED', 'INCLUDED'] }
+            },
+            {
+                orderBy: { createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findReplacementBySupersedesRecordId(supersedesRecordId: string): Promise<ProjectActualCostRecord | null> {
+        return this.repository.findOne(
+            { supersedesRecordId },
+            { orderBy: { createdAt: QueryOrder.DESC } }
+        );
     }
 
     create(input: ConstructorParameters<typeof ProjectActualCostRecord>[0]): ProjectActualCostRecord {
