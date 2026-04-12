@@ -8,6 +8,11 @@
 - G1 Date: `2026-04-12`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06B4`
 
+> 2026-04-13 supersession note:
+> 本文档中“`PayableRecord.registeredAmount -> ProjectActualCostRecord.amountIncludingTax`”的金额语义已被 `EX-06D` 明确覆盖。
+> 当前正式方向是删除 `registeredAmount`，并按显式未税 / 税额 / 含税金额层重新映射 procurement。
+> 本文档仍保留历史实施留痕，但不得再作为当前金额口径输入。
+
 ---
 
 ## 1. 范围

@@ -232,14 +232,16 @@ flowchart LR
 ### 8.4 `PayableRecord`
 
 - 状态：草稿、已登记、部分支付、已完成、已关闭、已作废
-- 关键动作：登记、更新金额、标记部分支付、完成、关闭、作废
+- 关键动作：登记、更新未税金额 / 税额 / 含税金额、标记部分支付、完成、关闭、作废
 - 回退规则：已纳入毛利计算的记录不得直接删除，应通过调整记录修正
+- 金额语义：应显式区分未税金额、税额与含税金额；若税额未知，税额与含税金额允许为空，但不得再用单金额字段同时承担两种语义
 
 ### 8.5 `PaymentRecord`
 
 - 状态：草稿、已登记、已确认、已作废
 - 关键动作：登记付款、确认、作废
 - 回退规则：已确认付款不可直接删除，应留痕作废原因或冲回关系
+- 金额语义：应显式区分未税金额、税额与含税金额；付款事实作为统一成本来源时必须把三个金额层分别输出
 
 ### 8.6 `InvoiceRecord`
 
@@ -253,15 +255,15 @@ flowchart LR
 
 第一阶段建议固定以下可信源规则：
 
-| 业务事实     | 当前可信源                        | 生效口径                     |
-| ------------ | --------------------------------- | ---------------------------- |
-| 合同主体信息 | `Contract`                        | 已生效合同为当前主体事实     |
-| 合同关键条款 | `ContractTermSnapshot`            | 当前有效快照为跨域计算口径   |
-| 合同变更     | `ContractAmendment`               | 经接受的变更驱动新快照替代   |
-| 应收计划     | `ReceivablePlan`                  | 已生效计划作为待收款跟踪依据 |
-| 实际回款     | `ReceiptRecord`                   | 已确认记录才作为生效回款事实 |
-| 成本口径     | `PayableRecord` / `PaymentRecord` | 按不含税口径进入毛利核算     |
-| 发票状态     | `InvoiceRecord`                   | 当前最新有效状态为展示口径   |
+| 业务事实     | 当前可信源                        | 生效口径                                             |
+| ------------ | --------------------------------- | ---------------------------------------------------- |
+| 合同主体信息 | `Contract`                        | 已生效合同为当前主体事实                             |
+| 合同关键条款 | `ContractTermSnapshot`            | 当前有效快照为跨域计算口径                           |
+| 合同变更     | `ContractAmendment`               | 经接受的变更驱动新快照替代                           |
+| 应收计划     | `ReceivablePlan`                  | 已生效计划作为待收款跟踪依据                         |
+| 实际回款     | `ReceiptRecord`                   | 已确认记录才作为生效回款事实                         |
+| 成本口径     | `PayableRecord` / `PaymentRecord` | 以显式未税 / 税额 / 含税金额层进入统一成本与毛利核算 |
+| 发票状态     | `InvoiceRecord`                   | 当前最新有效状态为展示口径                           |
 
 说明：
 
@@ -370,10 +372,19 @@ flowchart LR
 - `contractId`
 - `vendorName`
 - `costCategory`
-- `amountTaxExclusive`
+- `amountExcludingTax`
+- `taxAmount`
+- `amountIncludingTax`
 - `status`
-- `paidAmount`
 - `paymentDate`
+
+补充冻结规则：
+
+- `amountExcludingTax` 是成本主体金额。
+- `taxAmount` 未知时为 `null`，仅确认无税时为 `0`。
+- `amountIncludingTax` 仅在可确定时填写，通常为未税金额与税额之和。
+- `registeredAmount`、`paymentAmount` 不再作为设计允许字段；EX-06D 直接删除旧字段，不走兼容别名过渡。
+- `PayableRecord` 的已支付进度若需展示，应由关联 `PaymentRecord` 聚合得出；`paidAmount` 不再作为新的 canonical 设计字段继续扩散。
 
 ### 12.5 `InvoiceRecord`
 
@@ -403,7 +414,7 @@ flowchart LR
 - `ReceivablePlan` 应收计划包：计划节点、计划金额、计划日期、质保金节点标识
 - `ReceiptRecord` 到账事实包：`receiptAmount`、`receiptDate`、`sourceType`
 - `ReceiptRecord` 确认结论包：`confirmedAt`、`confirmedBy`、`status`、冲销原因
-- `PaymentRecord` 付款事实包：`paidAmount`、`paymentDate`、`status`
+- `PaymentRecord` 付款事实包：`amountExcludingTax`、`taxAmount`、`amountIncludingTax`、`paymentDate`、`status`
 - `InvoiceRecord` 发票状态包：`invoiceType`、`invoiceNumber`、`invoiceAmount`、`invoiceDate`、`status`
 - `InvoiceRecord` 异常处理包：`exceptionReason`、异常处理结论、关闭时间
 

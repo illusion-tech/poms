@@ -8,6 +8,11 @@
 - G1 Date: `2026-04-12`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06B1`
 
+> 2026-04-13 supersession note:
+> 本文档中“`PaymentRecord.paymentAmount` 作为唯一稳定金额口径”的结论已被 `EX-06D` 覆盖。
+> 当前正式方向是删除 `paymentAmount`，并按显式未税 / 税额 / 含税金额层重建 payment fact 语义与映射。
+> 本文档仍保留历史实施留痕，但不得再作为当前金额口径输入。
+
 ---
 
 ## 1. 范围

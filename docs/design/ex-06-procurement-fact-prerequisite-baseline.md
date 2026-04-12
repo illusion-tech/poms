@@ -8,6 +8,11 @@
 - Gate Date: `2026-04-12`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-06B4A`
 
+> 2026-04-13 supersession note:
+> 本文档中 `registeredAmount` / `paidAmount` 的金额语义仅代表 EX-06B4A 当时的最小冻结结果。
+> 自 `EX-06D` 起，procurement/payment 金额模型改为显式 `amountExcludingTax / taxAmount / amountIncludingTax`，且不再保留旧字段兼容。
+> 本文档仍保留历史实施留痕，但不得再作为当前金额字段设计输入。
+
 ---
 
 ## 1. 范围
