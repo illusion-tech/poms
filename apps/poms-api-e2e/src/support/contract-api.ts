@@ -182,7 +182,7 @@ export async function createActiveContractForProject(
     client: AxiosInstance,
     projectId: string,
     actorUserId: string,
-    input: { contractNo: string; signedAmount?: string; receiptAmount?: string; paymentAmount?: string }
+    input: { contractNo: string; signedAmount?: string; receiptAmount?: string; paymentAmountExcludingTax?: string }
 ): Promise<ContractSummary> {
     const contract = await createContract(
         client,
@@ -224,7 +224,7 @@ export async function createActiveContractForProject(
 
     const payment = await createPayment(client, projectId, {
         contractId: activeContract.id,
-        paymentAmount: input.paymentAmount ?? '70000.00',
+        amountExcludingTax: input.paymentAmountExcludingTax ?? '70000.00',
         paymentDate: new Date().toISOString(),
         costCategory: 'implementation',
         sourceType: 'manual'

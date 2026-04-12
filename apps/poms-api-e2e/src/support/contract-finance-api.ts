@@ -3,7 +3,6 @@ import { expectStatus } from './http';
 import type {
     ClosePayableRecordRequest,
     CloseInvoiceRecordRequest,
-    CompletePayableRecordRequest,
     ConfirmPaymentRecordRequest,
     ConfirmReceiptRecordRequest,
     CreatePayableRecordRequest,
@@ -12,7 +11,6 @@ import type {
     CreateReceiptRecordRequest,
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
-    MarkPayableRecordPartiallyPaidRequest,
     MarkInvoiceExceptionRequest,
     PayableRecordDetailView,
     PayableRecordSummary,
@@ -98,30 +96,6 @@ export async function updatePayable(
 ): Promise<PayableRecordSummary> {
     const response = await client.patch<PayableRecordSummary>(
         `/contract-finance/payable-records/${payableId}`,
-        input
-    );
-    return expectStatus(response, 200);
-}
-
-export async function markPayablePartiallyPaid(
-    client: AxiosInstance,
-    payableId: string,
-    input: MarkPayableRecordPartiallyPaidRequest
-): Promise<PayableRecordSummary> {
-    const response = await client.post<PayableRecordSummary>(
-        `/contract-finance/payable-records/${payableId}/partial`,
-        input
-    );
-    return expectStatus(response, 200);
-}
-
-export async function completePayable(
-    client: AxiosInstance,
-    payableId: string,
-    input: CompletePayableRecordRequest
-): Promise<PayableRecordSummary> {
-    const response = await client.post<PayableRecordSummary>(
-        `/contract-finance/payable-records/${payableId}/complete`,
         input
     );
     return expectStatus(response, 200);

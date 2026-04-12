@@ -449,7 +449,7 @@ describe('poms-api commission workflow e2e', () => {
             contractNo: `E2E-CMS-HT-${unique}`,
             signedAmount: '188000.00',
             receiptAmount: '50000.00',
-            paymentAmount: '70000.00'
+            paymentAmountExcludingTax: '70000.00'
         });
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
@@ -483,7 +483,7 @@ describe('poms-api commission workflow e2e', () => {
             contractNo: `E2E-CMS-HT-${unique}`,
             signedAmount: '188000.00',
             receiptAmount: '100000.00',
-            paymentAmount: '30000.00'
+            paymentAmountExcludingTax: '30000.00'
         });
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));

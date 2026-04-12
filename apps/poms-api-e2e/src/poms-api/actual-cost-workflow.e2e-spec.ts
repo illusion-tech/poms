@@ -79,7 +79,7 @@ describe('Actual Cost Workflow E2E', () => {
         });
 
         const payment = await createPayment(client, project.id, {
-            paymentAmount: '5432.10',
+            amountExcludingTax: '5432.10',
             paymentDate: '2023-03-18T08:00:00.000Z',
             costCategory: 'vendor-payment',
             sourceType: 'manual'
@@ -315,7 +315,7 @@ describe('Actual Cost Workflow E2E', () => {
             costCategory: 'hardware',
             payableDescription: `Server procurement ${unique}`,
             currency: 'CNY',
-            registeredAmount: '4567.89',
+            amountExcludingTax: '4567.89',
             expectedPaymentDate: '2023-06-15',
             evidenceSummary: 'quotation approved',
             attachmentCount: 1
@@ -356,7 +356,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const payment = await createPayment(client, project.id, {
             payableRecordId: payable.id,
-            paymentAmount: '1234.56',
+            amountExcludingTax: '1234.56',
             paymentDate: '2023-06-16T08:00:00.000Z',
             costCategory: 'hardware',
             sourceType: 'manual'

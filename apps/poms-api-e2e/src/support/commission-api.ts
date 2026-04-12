@@ -265,7 +265,7 @@ export async function setupEffectiveCalculationScenario(
         contractNo: `E2E-CMS-HT-${unique}`,
         signedAmount: '188000.00',
         receiptAmount: '100000.00',
-        paymentAmount: '70000.00'
+        paymentAmountExcludingTax: '70000.00'
     });
 
     const ruleVersion = await createRuleVersion(

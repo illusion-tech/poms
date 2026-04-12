@@ -1,7 +1,6 @@
 import { approveRecord, findOpenTodoForTarget } from '../support/approval-api';
 import { loginAsAdmin } from '../support/api-client';
 import {
-    completePayable,
     createPayable,
     closeInvoiceRecord,
     confirmPayment,
@@ -15,7 +14,6 @@ import {
     listPayables,
     listPayments,
     listReceipts,
-    markPayablePartiallyPaid,
     markInvoiceException,
     resolveInvoiceException,
     updatePayable,
@@ -122,7 +120,7 @@ describe('poms-api contract-finance workflow e2e', () => {
             vendorName: 'E2E 供应商',
             costCategory: 'implementation',
             payableDescription: 'E2E 外部实施采购',
-            registeredAmount: '90000.00',
+            amountExcludingTax: '90000.00',
             expectedPaymentDate: new Date().toISOString().slice(0, 10)
         });
         expect(payable.status).toBe('recorded');
@@ -133,16 +131,10 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
         expect(updatedPayable.evidenceSummary).toBe('e2e payable evidence');
 
-        const partialPayable = await markPayablePartiallyPaid(client, payable.id, {
-            paidAmount: '30000.00',
-            expectedVersion: updatedPayable.rowVersion
-        });
-        expect(partialPayable.status).toBe('partially-paid');
-
         const payment = await createPayment(client, project.id, {
             contractId: activeContract.id,
             payableRecordId: payable.id,
-            paymentAmount: '70000.00',
+            amountExcludingTax: '70000.00',
             paymentDate: new Date().toISOString(),
             costCategory: 'implementation',
             sourceType: 'manual'
@@ -163,17 +155,12 @@ describe('poms-api contract-finance workflow e2e', () => {
         const invoiceDetail = await getInvoice(client, invoice.id);
         expect(invoiceDetail.allowedActions).toEqual([]);
 
-        const completedPayable = await completePayable(client, payable.id, {
-            expectedVersion: partialPayable.rowVersion
-        });
-        expect(completedPayable.status).toBe('completed');
-
         const payables = await listPayables(client, project.id);
-        expect(payables.some((item) => item.id === payable.id && item.status === 'completed')).toBe(true);
+        expect(payables.some((item) => item.id === payable.id && item.status === 'partially-paid')).toBe(true);
 
         const payableDetail = await getPayable(client, payable.id);
         expect(payableDetail.allowedActions).toEqual([]);
-        expect(payableDetail.paidAmount).toBe('90000.00');
+        expect(payableDetail.settledAmountExcludingTax).toBe('70000.00');
 
         const payments = await listPayments(client, project.id);
         expect(
