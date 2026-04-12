@@ -624,6 +624,31 @@ describe('ProjectCostService', () => {
             expect(result.status).toBe('voided');
             expect(result.voidReason).toBe('duplicate: re-entered from approved claim');
         });
+
+        it('blocks voiding a mapped expense record', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
+
+            await expect(
+                service.voidExpenseRecord(EXPENSE_RECORD_ID, {
+                    reason: 'duplicate',
+                    expectedVersion: 1
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('hides expense actions once a current project cost mapping exists', async () => {
+            expenseRecordRepository.findById.mockResolvedValue(
+                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
+            );
+            projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
+
+            const result = await service.getExpenseRecordDetail(EXPENSE_RECORD_ID);
+
+            expect(result.allowedActions).toEqual([]);
+        });
     });
 
     describe('listProjectActualCostRecords', () => {

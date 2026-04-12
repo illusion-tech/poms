@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
+import { ProjectActualCostRecord } from '../project-cost/project-actual-cost-record.entity';
 import { InvoiceRecord } from './invoice-record.entity';
 import { PayableRecord } from './payable-record.entity';
 import { PaymentRecord } from './payment-record.entity';
@@ -22,7 +23,9 @@ export class ContractFinanceRepository {
         @InjectRepository(PayableRecord)
         private readonly payableRepository: EntityRepository<PayableRecord>,
         @InjectRepository(PaymentRecord)
-        private readonly paymentRepository: EntityRepository<PaymentRecord>
+        private readonly paymentRepository: EntityRepository<PaymentRecord>,
+        @InjectRepository(ProjectActualCostRecord)
+        private readonly projectActualCostRecordRepository: EntityRepository<ProjectActualCostRecord>
     ) {}
 
     async findProjectById(id: string): Promise<Project | null> {
@@ -127,5 +130,22 @@ export class ContractFinanceRepository {
 
     async findConfirmedPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
         return this.paymentRepository.find({ projectId, status: 'confirmed' });
+    }
+
+    async findCurrentCostMappingBySource(
+        sourceType: string,
+        sourceId: string,
+        activeStatuses: string[] = ['REGISTERED', 'CONFIRMED', 'INCLUDED']
+    ): Promise<ProjectActualCostRecord | null> {
+        return this.projectActualCostRecordRepository.findOne(
+            {
+                sourceType,
+                sourceId,
+                recordStatus: { $in: activeStatuses }
+            },
+            {
+                orderBy: { createdAt: QueryOrder.DESC }
+            }
+        );
     }
 }

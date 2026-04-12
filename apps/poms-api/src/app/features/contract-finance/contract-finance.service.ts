@@ -96,10 +96,11 @@ export class ContractFinanceService {
         if (!payable) {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
+        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource('PAYABLE_RECORD', id));
 
         return {
             ...this.#toPayableSummary(payable),
-            allowedActions: this.#buildPayableAllowedActions(payable)
+            allowedActions: this.#buildPayableAllowedActions(payable, hasCurrentCostMapping)
         };
     }
 
@@ -150,6 +151,7 @@ export class ContractFinanceService {
         if (payable.status === 'completed' || payable.status === 'closed' || payable.status === 'voided') {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许再更新`);
         }
+        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '更新采购承诺记录');
 
         if (dto.contractId !== undefined) {
             await this.#assertPayableContractScope(payable.projectId, dto.contractId);
@@ -244,6 +246,7 @@ export class ContractFinanceService {
         if (payable.status === 'closed' || payable.status === 'voided') {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许关闭`);
         }
+        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '关闭采购承诺记录');
 
         payable.status = 'closed';
         payable.closedAt = new Date();
@@ -268,6 +271,7 @@ export class ContractFinanceService {
         if (Number(payable.paidAmount) > 0) {
             throw new UnprocessableEntityException('存在已登记支付金额的采购承诺记录不允许直接作废');
         }
+        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '作废采购承诺记录');
 
         payable.status = 'voided';
         payable.voidedAt = new Date();
@@ -286,10 +290,11 @@ export class ContractFinanceService {
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
+        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource('INVOICE_RECORD', id));
 
         return {
             ...this.#toInvoiceSummary(invoice),
-            allowedActions: this.#buildInvoiceAllowedActions(invoice)
+            allowedActions: this.#buildInvoiceAllowedActions(invoice, hasCurrentCostMapping)
         };
     }
 
@@ -339,6 +344,7 @@ export class ContractFinanceService {
         if (invoice.status === 'exception' && invoice.exceptionStatus === 'open') {
             throw new UnprocessableEntityException('异常处理中发票记录不允许直接更新，请先解决异常');
         }
+        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '更新发票记录');
 
         if (dto.contractId !== undefined) {
             await this.#assertInvoiceContractScope(invoice.projectId, dto.contractId, invoice.invoiceType);
@@ -378,6 +384,7 @@ export class ContractFinanceService {
         if (invoice.exceptionStatus === 'open') {
             throw new UnprocessableEntityException('当前发票记录已处于异常处理中');
         }
+        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '标记发票异常');
 
         invoice.status = 'exception';
         invoice.exceptionStatus = 'open';
@@ -401,6 +408,7 @@ export class ContractFinanceService {
         if (invoice.status !== 'exception' || invoice.exceptionStatus !== 'open') {
             throw new UnprocessableEntityException('只有异常处理中发票记录可以执行异常解决');
         }
+        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '解决发票异常');
 
         invoice.exceptionStatus = 'resolved';
         invoice.exceptionResolution = this.#appendComment(dto.resolution.trim(), dto.comment);
@@ -425,6 +433,7 @@ export class ContractFinanceService {
         if (invoice.status === 'exception' && invoice.exceptionStatus === 'open') {
             throw new UnprocessableEntityException('异常处理中发票记录不允许关闭，请先解决异常');
         }
+        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '关闭发票记录');
 
         invoice.status = 'closed';
         invoice.closedAt = new Date();
@@ -538,9 +547,24 @@ export class ContractFinanceService {
         }
     }
 
-    #buildPayableAllowedActions(payable: PayableRecord): string[] {
+    async #assertSourceFactNotMapped(sourceType: string, sourceId: string, actionLabel: string): Promise<void> {
+        const currentMapping = await this.repo.findCurrentCostMappingBySource(sourceType, sourceId);
+        if (currentMapping) {
+            throw new UnprocessableEntityException(
+                `${sourceType} ${sourceId} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续${actionLabel}；如需调整请走替代/作废链`
+            );
+        }
+    }
+
+    #buildPayableAllowedActions(payable: PayableRecord, hasCurrentCostMapping: boolean): string[] {
         if (payable.status === 'completed' || payable.status === 'closed' || payable.status === 'voided') {
             return [];
+        }
+        if (hasCurrentCostMapping) {
+            if (payable.status === 'partially-paid') {
+                return ['complete'];
+            }
+            return ['partial', 'complete'];
         }
         if (payable.status === 'partially-paid') {
             return ['complete', 'close'];
@@ -548,7 +572,10 @@ export class ContractFinanceService {
         return ['update', 'partial', 'complete', 'close', 'void'];
     }
 
-    #buildInvoiceAllowedActions(invoice: InvoiceRecord): string[] {
+    #buildInvoiceAllowedActions(invoice: InvoiceRecord, hasCurrentCostMapping: boolean): string[] {
+        if (hasCurrentCostMapping) {
+            return [];
+        }
         if (invoice.status === 'closed') {
             return [];
         }

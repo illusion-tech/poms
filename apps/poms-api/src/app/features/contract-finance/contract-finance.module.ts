@@ -2,6 +2,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
+import { ProjectActualCostRecord } from '../project-cost/project-actual-cost-record.entity';
 import { ContractFinanceController } from './contract-finance.controller';
 import { ContractFinanceRepository } from './contract-finance.repository';
 import { ContractFinanceService } from './contract-finance.service';
@@ -11,7 +12,7 @@ import { PaymentRecord } from './payment-record.entity';
 import { ReceiptRecord } from './receipt-record.entity';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Project, Contract, ReceiptRecord, InvoiceRecord, PayableRecord, PaymentRecord])],
+    imports: [MikroOrmModule.forFeature([Project, Contract, ReceiptRecord, InvoiceRecord, PayableRecord, PaymentRecord, ProjectActualCostRecord])],
     controllers: [ContractFinanceController],
     providers: [ContractFinanceRepository, ContractFinanceService],
     exports: [ContractFinanceRepository, ContractFinanceService]

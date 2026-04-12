@@ -394,10 +394,14 @@ export class ProjectCostService {
         if (!record) {
             throw new NotFoundException(`ExpenseRecord ${id} not found`);
         }
+        const hasCurrentCostMapping =
+            record.status === 'confirmed'
+                ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id))
+                : false;
 
         return {
             ...this.toExpenseRecordSummary(record),
-            allowedActions: this.buildExpenseAllowedActions(record)
+            allowedActions: this.buildExpenseAllowedActions(record, hasCurrentCostMapping)
         };
     }
 
@@ -517,6 +521,15 @@ export class ProjectCostService {
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
         if (record.status === 'voided') {
             throw new UnprocessableEntityException(`ExpenseRecord ${id} is already voided`);
+        }
+        const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(
+            'EXPENSE_RECORD',
+            record.id
+        );
+        if (currentMapping) {
+            throw new UnprocessableEntityException(
+                `EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`
+            );
         }
 
         record.status = 'voided';
@@ -1011,7 +1024,10 @@ export class ProjectCostService {
         return [];
     }
 
-    private buildExpenseAllowedActions(record: ExpenseRecord): string[] {
+    private buildExpenseAllowedActions(record: ExpenseRecord, hasCurrentCostMapping: boolean): string[] {
+        if (hasCurrentCostMapping) {
+            return [];
+        }
         if (record.status === 'recorded') {
             return ['update', 'confirm', 'void'];
         }

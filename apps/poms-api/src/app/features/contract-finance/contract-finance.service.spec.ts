@@ -128,10 +128,12 @@ describe('ContractFinanceService', () => {
             persistAndFlushPayment: jest.fn(),
             flushPayment: jest.fn(),
             findConfirmedReceiptsForProject: jest.fn(),
-            findConfirmedPaymentsForProject: jest.fn()
+            findConfirmedPaymentsForProject: jest.fn(),
+            findCurrentCostMappingBySource: jest.fn()
         } as unknown as jest.Mocked<ContractFinanceRepository>;
 
         service = new ContractFinanceService(repo);
+        repo.findCurrentCostMappingBySource.mockResolvedValue(null as never);
     });
 
     it('creates receipt for active contract', async () => {
@@ -217,6 +219,27 @@ describe('ContractFinanceService', () => {
                 expectedVersion: 1
             })
         ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('blocks payable update once a current project cost mapping exists', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
+
+        await expect(
+            service.updatePayable(PAYABLE_ID, {
+                payableDescription: 'updated desc',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('keeps only progress actions on mapped payable detail', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
+
+        const result = await service.getPayable(PAYABLE_ID);
+
+        expect(result.allowedActions).toEqual(['partial', 'complete']);
     });
 
     it('creates input invoice without contract', async () => {
@@ -321,6 +344,34 @@ describe('ContractFinanceService', () => {
                 expectedVersion: 2
             })
         ).rejects.toThrow(ConflictException);
+    });
+
+    it('blocks invoice mutation once a current project cost mapping exists', async () => {
+        repo.findInvoiceById.mockResolvedValue(makeInvoice({ status: 'verified' }) as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-2' } as never);
+
+        await expect(
+            service.updateInvoice(INVOICE_ID, {
+                invoiceAmount: '199000.00',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+
+        await expect(
+            service.markInvoiceException(INVOICE_ID, {
+                reason: 'amount mismatch',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('hides invoice actions once a current project cost mapping exists', async () => {
+        repo.findInvoiceById.mockResolvedValue(makeInvoice({ status: 'verified' }) as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-2' } as never);
+
+        const result = await service.getInvoice(INVOICE_ID);
+
+        expect(result.allowedActions).toEqual([]);
     });
 
     it('creates payment for project', async () => {
