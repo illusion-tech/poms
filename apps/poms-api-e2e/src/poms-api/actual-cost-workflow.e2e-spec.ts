@@ -16,7 +16,8 @@ import {
     replaceLaborCostRecord
 } from '../support/actual-cost-api';
 import { loginAsAdmin } from '../support/api-client';
-import { confirmPayment, createInvoice, createPayable, createPayment, updateInvoice } from '../support/contract-finance-api';
+import { confirmPayment, createInvoice, createPayable, createPayment, getInvoice, getPayable, updateInvoice } from '../support/contract-finance-api';
+import { expectErrorStatus } from '../support/http';
 import { createProjectForProfile } from '../support/project-api';
 
 jest.setTimeout(120_000);
@@ -175,6 +176,21 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.sourceStatusSummary).toContain('InvoiceRecord:verified/none');
         expect(detailView.measurementBasisSummary).toContain('3210.5000');
         expect(detailView.allowedActions).toEqual([]);
+
+        const invoiceDetail = await getInvoice(client, invoice.id);
+        expect(invoiceDetail.allowedActions).toEqual([]);
+
+        const updateAfterMapping = await client.patch(`/contract-finance/invoice-records/${invoice.id}`, {
+            invoiceAmount: '3999.99',
+            expectedVersion: verifiedInvoice.rowVersion
+        });
+        expectErrorStatus(updateAfterMapping, 422, '已存在统一成本映射');
+
+        const markExceptionAfterMapping = await client.post(`/contract-finance/invoice-records/${invoice.id}/mark-exception`, {
+            reason: 'should fail after mapping',
+            expectedVersion: verifiedInvoice.rowVersion
+        });
+        expectErrorStatus(markExceptionAfterMapping, 422, '已存在统一成本映射');
     });
 
     it('should manage ExpenseRecord lifecycle through create update confirm list detail and void', async () => {
@@ -298,6 +314,12 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.sourceStatusSummary).toContain('ExpenseRecord:confirmed');
         expect(detailView.measurementBasisSummary).toContain('1234.5600');
         expect(detailView.allowedActions).toEqual([]);
+
+        const voidAfterMapping = await client.post(`/expense-records/${createdExpense.id}/void`, {
+            reason: 'should fail after mapping',
+            expectedVersion: confirmedExpense.rowVersion
+        });
+        expectErrorStatus(voidAfterMapping, 422, '已存在统一成本映射');
     });
 
     it('should map payable into PROCUREMENT and allow payment fact coexistence on the same source chain', async () => {
@@ -353,6 +375,27 @@ describe('Actual Cost Workflow E2E', () => {
         expect(procurementDetail.sourceStatusSummary).toContain('PayableRecord:recorded');
         expect(procurementDetail.measurementBasisSummary).toContain('4567.8900');
         expect(procurementDetail.isIncludedInProjectCost).toBe(false);
+
+        const payableDetail = await getPayable(client, payable.id);
+        expect(payableDetail.allowedActions).toEqual([]);
+
+        const updatePayableAfterMapping = await client.patch(`/contract-finance/payable-records/${payable.id}`, {
+            evidenceSummary: 'should fail after mapping',
+            expectedVersion: payable.rowVersion
+        });
+        expectErrorStatus(updatePayableAfterMapping, 422, '已存在统一成本映射');
+
+        const closePayableAfterMapping = await client.post(`/contract-finance/payable-records/${payable.id}/close`, {
+            reason: 'should fail after mapping',
+            expectedVersion: payable.rowVersion
+        });
+        expectErrorStatus(closePayableAfterMapping, 422, '已存在统一成本映射');
+
+        const voidPayableAfterMapping = await client.post(`/contract-finance/payable-records/${payable.id}/void`, {
+            reason: 'should fail after mapping',
+            expectedVersion: payable.rowVersion
+        });
+        expectErrorStatus(voidPayableAfterMapping, 422, '已存在统一成本映射');
 
         const payment = await createPayment(client, project.id, {
             payableRecordId: payable.id,
