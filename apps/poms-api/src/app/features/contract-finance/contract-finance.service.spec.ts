@@ -248,6 +248,31 @@ describe('ContractFinanceService', () => {
         ).rejects.toThrow(UnprocessableEntityException);
     });
 
+    it('blocks payable close once a current project cost mapping exists', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
+
+        await expect(
+            service.closePayable(PAYABLE_ID, {
+                reason: 'archived after mapping',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('blocks payable void once a current project cost mapping exists', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable() as never);
+        repo.findPaymentsForPayable.mockResolvedValue([] as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
+
+        await expect(
+            service.voidPayable(PAYABLE_ID, {
+                reason: 'duplicate after mapping',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
     it('hides payable actions once a current project cost mapping exists', async () => {
         repo.findPayableById.mockResolvedValue(makePayable() as never);
         repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-1' } as never);
@@ -375,6 +400,32 @@ describe('ContractFinanceService', () => {
         await expect(
             service.markInvoiceException(INVOICE_ID, {
                 reason: 'amount mismatch',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('blocks invoice resolve-exception once a current project cost mapping exists', async () => {
+        repo.findInvoiceById.mockResolvedValue(
+            makeInvoice({ status: 'exception', exceptionStatus: 'open' }) as never
+        );
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-2' } as never);
+
+        await expect(
+            service.resolveInvoiceException(INVOICE_ID, {
+                resolution: 'verified but immutable after mapping',
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('blocks invoice close once a current project cost mapping exists', async () => {
+        repo.findInvoiceById.mockResolvedValue(makeInvoice({ status: 'verified' }) as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue({ id: 'cost-record-2' } as never);
+
+        await expect(
+            service.closeInvoiceRecord(INVOICE_ID, {
+                reason: 'archived after mapping',
                 expectedVersion: 1
             })
         ).rejects.toThrow(UnprocessableEntityException);
