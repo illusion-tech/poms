@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { ContractHandoverRebaselineRecord } from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
@@ -18,7 +19,8 @@ export const OperatingRestatementRecordSchema = defineEntity({
         },
         { name: 'idx_orr_period_snapshot', properties: ['periodEndSnapshotId'] },
         { name: 'idx_orr_restates_snapshot', properties: ['restatesSnapshotId'] },
-        { name: 'idx_orr_restated_snapshot', properties: ['restatedSnapshotId'] }
+        { name: 'idx_orr_restated_snapshot', properties: ['restatedSnapshotId'] },
+        { name: 'idx_orr_handover_rebaseline', properties: ['handoverRebaselineRecordId'] }
     ],
     uniques: [
         {
@@ -38,6 +40,16 @@ export const OperatingRestatementRecordSchema = defineEntity({
         periodEndSnapshotId: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().fieldName('period_end_snapshot_id').comment('关联期末冻结快照'),
         restatesSnapshotId: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().fieldName('restates_snapshot_id').comment('被重述 / 被替代的经营快照'),
         restatedSnapshotId: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().fieldName('restated_snapshot_id').comment('新生成的重述经营快照'),
+        handoverRebaselineRecordId: () =>
+            p
+                .manyToOne(ContractHandoverRebaselineRecord)
+                .mapToPk()
+                .nullable()
+                .fieldName('handover_rebaseline_record_id')
+                .foreignKeyName('operating_restatement_record_handover_rebaseline_record_id_fore')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('移交前再基线化记录 ID'),
         restatementReason: p.string().length(256).fieldName('restatement_reason').comment('重述原因'),
         restatementSummary: p.text().fieldName('restatement_summary').comment('重述摘要'),
         status: p.string().length(32).default('active').comment('状态：active/superseded/voided'),

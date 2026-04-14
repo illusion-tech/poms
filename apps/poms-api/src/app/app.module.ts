@@ -15,6 +15,7 @@ import { NavigationModule } from './features/navigation/navigation.module';
 import { PlatformModule } from './features/platform/platform.module';
 import { ProjectModule } from './features/project/project.module';
 import { ProjectCostModule } from './features/project-cost/project-cost.module';
+import { ProjectHandoverModule } from './features/project-handover/project-handover.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { ProjectCostModule } from './features/project-cost/project-cost.module';
         PlatformModule,
         ProjectModule,
         ProjectCostModule,
+        ProjectHandoverModule,
         ApprovalModule,
         ContractReadinessModule,
         ContractModule,

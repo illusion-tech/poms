@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { ContractHandoverRebaselineRecord } from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
@@ -15,7 +16,8 @@ export const PeriodClosingSnapshotSchema = defineEntity({
             expression: (columns, table, indexName) =>
                 `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.snapshotAt}" desc)`
         },
-        { name: 'idx_pcs_project_baseline', properties: ['projectId', 'referencedBaselineVersion'] }
+        { name: 'idx_pcs_project_baseline', properties: ['projectId', 'referencedBaselineVersion'] },
+        { name: 'idx_pcs_handover_rebaseline', properties: ['handoverRebaselineRecordId'] }
     ],
     uniques: [
         {
@@ -44,8 +46,16 @@ export const PeriodClosingSnapshotSchema = defineEntity({
         currentActionLevel: p.string().length(32).fieldName('current_action_level').comment('当前动作等级：PROMPT/REVIEW/BLOCK'),
         referencedBaselineVersion: p.string().length(64).fieldName('referenced_baseline_version').comment('引用基线版本标识'),
         baselineSelectionSource: p.string().length(32).fieldName('baseline_selection_source').comment('基线选择来源：original/handover_rebaseline'),
-        // 注意：handover_rebaseline_record_id FK 约束延迟到 EX-08（例外 EX-07A-E01）
-        handoverRebaselineRecordId: p.uuid().nullable().fieldName('handover_rebaseline_record_id').comment('移交前再基线化记录 ID（FK 待 EX-08 补加）'),
+        handoverRebaselineRecordId: () =>
+            p
+                .manyToOne(ContractHandoverRebaselineRecord)
+                .mapToPk()
+                .nullable()
+                .fieldName('handover_rebaseline_record_id')
+                .foreignKeyName('period_closing_snapshot_handover_rebaseline_record_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('移交前再基线化记录 ID'),
         status: p.string().length(32).default('active').comment('状态：active/superseded/voided'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),

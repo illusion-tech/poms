@@ -112,6 +112,14 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."project_handover"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."operating_restatement_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
@@ -251,6 +259,14 @@ export class DatabaseSeeder extends Seeder {
                     select "id" from "${schema}"."project"
                     where "project_code" in (${seededProjectCodes})
                 )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."project_handover"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
             );
         `);
 
