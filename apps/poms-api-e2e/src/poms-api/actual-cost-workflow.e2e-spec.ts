@@ -1,20 +1,30 @@
 import {
     activateOperatingBaselinePackage,
     confirmExpenseRecord,
+    confirmAccountingTaxTreatment,
+    confirmCostStageAttribution,
+    confirmSharedCostAllocationBasis,
     createOperatingRestatement,
     createExpenseRecord,
     createPeriodClosingSnapshot,
     createProjectOperatingSnapshot,
+    getAccountingTaxTreatment,
+    getCostStageAttribution,
     getExpenseRecordDetail,
     getCurrentOperatingBaselinePackage,
     getOperatingRestatement,
     getPeriodClosingSnapshot,
     getProjectActualCostRecordDetail,
     getProjectOperatingSnapshot,
+    getSharedCostAllocationBasis,
+    listAccountingTaxTreatments,
+    listCostStageAttributions,
     listExpenseRecords,
     listOperatingRestatements,
     listProjectActualCostRecords,
+    listSharedCostAllocationResults,
     publishInternalCostRateVersion,
+    reclassifyCostStageAttribution,
     registerExpenseCostRecord,
     updateExpenseRecord,
     voidExpenseRecord,
@@ -22,6 +32,7 @@ import {
     registerLaborCostRecord,
     registerPaymentFactCostRecord,
     registerProcurementCostRecord,
+    replaceSharedCostAllocationResult,
     replaceLaborCostRecord
 } from '../support/actual-cost-api';
 import { loginAsAdmin } from '../support/api-client';
@@ -32,6 +43,133 @@ import { createProjectForProfile } from '../support/project-api';
 jest.setTimeout(120_000);
 
 describe('Actual Cost Workflow E2E', () => {
+    it('should confirm allocation, stage attribution, and tax treatment snapshots', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-EX07C-${unique}`,
+            projectName: `E2E EX07C Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const publishRateResult = await publishInternalCostRateVersion(client, {
+            rateScopeType: 'ROLE',
+            roleCode: `qa-${unique}`,
+            rateUnit: 'DAY',
+            rateValue: '800',
+            currency: 'CNY',
+            effectiveFrom: '2023-08-01'
+        });
+        const rateVersionId = publishRateResult.targetId;
+
+        const registerLaborResult = await registerLaborCostRecord(client, {
+            projectId: project.id,
+            laborPeriodType: 'MONTH',
+            laborPeriodStart: '2023-08-01',
+            laborPeriodEnd: '2023-08-31',
+            laborRole: `qa-${unique}`,
+            rateVersionId,
+            actualPersonDays: '10'
+        });
+        const costRecord = await getProjectActualCostRecordDetail(client, registerLaborResult.targetId);
+
+        const allocationResult = await confirmSharedCostAllocationBasis(client, {
+            basisType: 'labor-shared',
+            sourceCostRecordIds: [costRecord.id],
+            allocationMethod: 'direct',
+            basisSummary: 'Shared QA labor basis',
+            projectShareItems: [
+                {
+                    projectId: project.id,
+                    allocatedAmount: '8000',
+                    allocationRatio: '1',
+                    allocationSummary: 'Full allocation to current project'
+                }
+            ]
+        });
+        expect(allocationResult.resultStatus).toBe('success');
+
+        const allocationBasis = await getSharedCostAllocationBasis(client, allocationResult.targetId);
+        expect(allocationBasis.results).toHaveLength(1);
+        expect(allocationBasis.results[0].allocatedAmount).toBe('8000.00');
+
+        const allocationResults = await listSharedCostAllocationResults(client, allocationBasis.id);
+        const firstAllocationResult = allocationResults[0];
+        const replacementAllocationResult = await replaceSharedCostAllocationResult(client, {
+            supersededAllocationResultId: firstAllocationResult.id,
+            allocatedAmount: '8200',
+            allocationRatio: '1',
+            replacementReason: 'Rounded actual shared labor amount',
+            expectedVersion: firstAllocationResult.rowVersion
+        });
+        expect(replacementAllocationResult.resultStatus).toBe('success');
+
+        const stageResult = await confirmCostStageAttribution(client, {
+            costRecordId: costRecord.id,
+            stageAttributionMode: 'manual',
+            attributedStage: 'delivery',
+            attributionSummary: 'QA labor belongs to delivery',
+            expectedVersion: costRecord.rowVersion
+        });
+        expect(stageResult.resultStatus).toBe('success');
+
+        const stageSnapshot = await getCostStageAttribution(client, stageResult.targetId);
+        expect(stageSnapshot.attributedStage).toBe('delivery');
+
+        const reclassifiedStageResult = await reclassifyCostStageAttribution(client, {
+            supersededAttributionId: stageSnapshot.id,
+            newAttributedStage: 'acceptance',
+            reclassifyReason: 'QA evidence accepted after delivery',
+            expectedVersion: stageSnapshot.rowVersion
+        });
+        expect(reclassifiedStageResult.resultStatus).toBe('success');
+
+        const stageHistory = await listCostStageAttributions(client, costRecord.id);
+        expect(stageHistory).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ id: stageSnapshot.id, status: 'superseded' }),
+                expect.objectContaining({ id: reclassifiedStageResult.targetId, status: 'active', attributedStage: 'acceptance' })
+            ])
+        );
+
+        const taxResult = await confirmAccountingTaxTreatment(client, {
+            projectId: project.id,
+            taxTreatmentType: 'input-vat',
+            deductibilityStatus: 'pending',
+            taxImpactAmount: '800',
+            taxImpactSummary: 'Input VAT pending invoice verification',
+            taxPendingFlag: true,
+            taxImpactPendingAmount: '800',
+            basisSummary: 'Labor cost tax impact pending'
+        });
+        expect(taxResult.resultStatus).toBe('success');
+
+        const taxSnapshot = await getAccountingTaxTreatment(client, taxResult.targetId);
+        expect(taxSnapshot.taxImpactPendingAmount).toBe('800.00');
+
+        const replacementTaxResult = await confirmAccountingTaxTreatment(client, {
+            projectId: project.id,
+            taxTreatmentType: 'input-vat',
+            deductibilityStatus: 'deductible',
+            taxImpactAmount: '0',
+            taxImpactSummary: 'Input VAT cleared',
+            taxPendingFlag: false,
+            taxImpactPendingAmount: '0',
+            supersedesTaxTreatmentSnapshotId: taxSnapshot.id,
+            expectedVersion: taxSnapshot.rowVersion
+        });
+        expect(replacementTaxResult.resultStatus).toBe('success');
+
+        const taxSnapshots = await listAccountingTaxTreatments(client, project.id);
+        expect(taxSnapshots).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ id: taxSnapshot.id, status: 'superseded' }),
+                expect.objectContaining({ id: replacementTaxResult.targetId, status: 'active', deductibilityStatus: 'deductible' })
+            ])
+        );
+    });
+
     it('should activate baseline, freeze period snapshot, and create an operating restatement chain', async () => {
         const { client, profile } = await loginAsAdmin();
 

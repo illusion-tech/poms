@@ -1,7 +1,11 @@
 import { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import type {
+    AccountingTaxTreatmentListView,
+    AccountingTaxTreatmentSnapshotSummary,
     CommandResult,
+    CostStageAttributionHistoryView,
+    CostStageAttributionSnapshotSummary,
     ExpenseRecordDetailView,
     ExpenseRecordList,
     ExpenseRecordSummary,
@@ -11,11 +15,16 @@ import type {
     PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView,
-    ProjectOperatingSnapshotSummary
+    ProjectOperatingSnapshotSummary,
+    SharedCostAllocationBasisSummary,
+    SharedCostAllocationResultListView
 } from '@poms/shared-contracts';
 import {
     ActivateOperatingBaselinePackageRequestDto,
+    ConfirmAccountingTaxTreatmentRequestDto,
+    ConfirmCostStageAttributionRequestDto,
     ConfirmExpenseRecordRequestDto,
+    ConfirmSharedCostAllocationBasisRequestDto,
     CreateExpenseRecordRequestDto,
     CreateOperatingRestatementRequestDto,
     CreatePeriodClosingSnapshotRequestDto,
@@ -23,11 +32,13 @@ import {
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
+    ReclassifyCostStageAttributionRequestDto,
     RegisterExpenseCostRecordRequestDto,
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
     RegisterProcurementCostRecordRequestDto,
+    ReplaceSharedCostAllocationResultRequestDto,
     ReplaceLaborCostRecordRequestDto
 } from '@poms/api-contracts';
 
@@ -116,6 +127,85 @@ export async function listOperatingRestatements(client: AxiosInstance, projectId
 
 export async function getOperatingRestatement(client: AxiosInstance, id: string): Promise<OperatingRestatementSummary> {
     const response = await client.get<OperatingRestatementSummary>(`/operating-restatements/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function confirmSharedCostAllocationBasis(
+    client: AxiosInstance,
+    input: ConfirmSharedCostAllocationBasisRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/confirm-shared-cost-allocation-basis', input);
+    return expectStatus(response, 201);
+}
+
+export async function getSharedCostAllocationBasis(
+    client: AxiosInstance,
+    id: string
+): Promise<SharedCostAllocationBasisSummary> {
+    const response = await client.get<SharedCostAllocationBasisSummary>(`/shared-cost-allocation-bases/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function listSharedCostAllocationResults(
+    client: AxiosInstance,
+    basisId: string
+): Promise<SharedCostAllocationResultListView> {
+    const response = await client.get<SharedCostAllocationResultListView>(`/shared-cost-allocation-bases/${basisId}/results`);
+    return expectStatus(response, 200);
+}
+
+export async function replaceSharedCostAllocationResult(
+    client: AxiosInstance,
+    input: ReplaceSharedCostAllocationResultRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/replace-shared-cost-allocation-result', input);
+    return expectStatus(response, 201);
+}
+
+export async function confirmCostStageAttribution(
+    client: AxiosInstance,
+    input: ConfirmCostStageAttributionRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/confirm-cost-stage-attribution', input);
+    return expectStatus(response, 201);
+}
+
+export async function reclassifyCostStageAttribution(
+    client: AxiosInstance,
+    input: ReclassifyCostStageAttributionRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/reclassify-cost-stage-attribution', input);
+    return expectStatus(response, 201);
+}
+
+export async function listCostStageAttributions(
+    client: AxiosInstance,
+    costRecordId: string
+): Promise<CostStageAttributionHistoryView> {
+    const response = await client.get<CostStageAttributionHistoryView>(`/project-actual-cost-records/${costRecordId}/stage-attributions`);
+    return expectStatus(response, 200);
+}
+
+export async function getCostStageAttribution(client: AxiosInstance, id: string): Promise<CostStageAttributionSnapshotSummary> {
+    const response = await client.get<CostStageAttributionSnapshotSummary>(`/cost-stage-attributions/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function confirmAccountingTaxTreatment(
+    client: AxiosInstance,
+    input: ConfirmAccountingTaxTreatmentRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/confirm-accounting-tax-treatment', input);
+    return expectStatus(response, 201);
+}
+
+export async function listAccountingTaxTreatments(client: AxiosInstance, projectId: string): Promise<AccountingTaxTreatmentListView> {
+    const response = await client.get<AccountingTaxTreatmentListView>(`/projects/${projectId}/accounting-tax-treatments`);
+    return expectStatus(response, 200);
+}
+
+export async function getAccountingTaxTreatment(client: AxiosInstance, id: string): Promise<AccountingTaxTreatmentSnapshotSummary> {
+    const response = await client.get<AccountingTaxTreatmentSnapshotSummary>(`/accounting-tax-treatments/${id}`);
     return expectStatus(response, 200);
 }
 
