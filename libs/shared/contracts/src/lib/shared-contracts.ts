@@ -2064,6 +2064,202 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
 
+export const BaselineSelectionSourceSchema = z
+    .enum(['original', 'handover_rebaseline'])
+    .meta({ id: 'BaselineSelectionSource' });
+
+export type BaselineSelectionSource = z.infer<typeof BaselineSelectionSourceSchema>;
+
+export const OperatingSnapshotActionLevelSchema = z
+    .enum(['PROMPT', 'REVIEW', 'BLOCK'])
+    .meta({ id: 'OperatingSnapshotActionLevel' });
+
+export type OperatingSnapshotActionLevel = z.infer<typeof OperatingSnapshotActionLevelSchema>;
+
+export const ChangePackageBaselineInputSchema = z.object({
+    changePackageId: z.uuid(),
+    changeAmount: z.string().trim().min(1).max(64),
+    changeSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+    effectiveAt: z.iso.datetime().nullable().optional()
+});
+
+export const ActivateOperatingBaselinePackageRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        originalBaselineCost: z.string().trim().min(1).max(64),
+        baselineSelectionSource: BaselineSelectionSourceSchema.default('original'),
+        effectiveOperatingBaselineId: z.uuid().nullable().optional(),
+        baselineSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        changePackages: z.array(ChangePackageBaselineInputSchema).default([]),
+        expectedCurrentPackageVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ActivateOperatingBaselinePackageRequest' });
+
+export type ActivateOperatingBaselinePackageRequest = z.infer<typeof ActivateOperatingBaselinePackageRequestSchema>;
+
+export const OperatingBaselinePackageSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        originalBaselineCost: z.string(),
+        changePackageTotal: z.string(),
+        currentEffectiveBaselineCost: z.string(),
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        effectiveOperatingBaselineId: z.uuid().nullable(),
+        baselineSummary: z.string().nullable(),
+        isCurrent: z.boolean(),
+        status: z.enum(['draft', 'active', 'superseded']),
+        effectiveAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'OperatingBaselinePackageSummary' });
+
+export type OperatingBaselinePackageSummary = z.infer<typeof OperatingBaselinePackageSummarySchema>;
+
+const OperatingSnapshotAmountInputSchema = z.object({
+    effectiveContractTotal: z.string().trim().min(1).max(64),
+    receivableConfirmedTotal: z.string().trim().min(1).max(64),
+    includedCostTotal: z.string().trim().min(1).max(64),
+    originalBaselineCost: z.string().trim().min(1).max(64),
+    currentEffectiveBaselineCost: z.string().trim().min(1).max(64),
+    taxImpactSummary: z.string().trim().min(1).max(2000),
+    taxImpactPendingAmount: z.string().trim().min(1).max(64).default('0'),
+    allocationStabilitySummary: z.string().trim().min(1).max(2000).nullable().optional(),
+    unmappedCostSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+    currentActionLevel: OperatingSnapshotActionLevelSchema,
+    referencedBaselineVersion: z.string().trim().min(1).max(64),
+    baselineSelectionSource: BaselineSelectionSourceSchema,
+    handoverRebaselineRecordId: z.uuid().nullable().optional()
+});
+
+export const CreateProjectOperatingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
+    projectId: z.uuid(),
+    snapshotMode: z.enum(['realtime', 'period-end']),
+    sourceWindowStart: z.iso.date().nullable().optional(),
+    sourceWindowEnd: z.iso.date().nullable().optional()
+}).meta({ id: 'CreateProjectOperatingSnapshotRequest' });
+
+export type CreateProjectOperatingSnapshotRequest = z.infer<typeof CreateProjectOperatingSnapshotRequestSchema>;
+
+export const ProjectOperatingSnapshotSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        snapshotMode: z.enum(['realtime', 'period-end', 'restated']),
+        snapshotAt: z.iso.datetime(),
+        sourceWindowStart: z.iso.date().nullable(),
+        sourceWindowEnd: z.iso.date().nullable(),
+        effectiveContractTotal: z.string(),
+        receivableConfirmedTotal: z.string(),
+        includedCostTotal: z.string(),
+        originalBaselineCost: z.string(),
+        currentEffectiveBaselineCost: z.string(),
+        grossMarginAmount: z.string(),
+        grossMarginRate: z.string().nullable(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        handoverRebaselineRecordId: z.uuid().nullable(),
+        status: z.enum(['active', 'superseded', 'voided']),
+        supersedesId: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectOperatingSnapshotSummary' });
+
+export type ProjectOperatingSnapshotSummary = z.infer<typeof ProjectOperatingSnapshotSummarySchema>;
+
+export const CreatePeriodClosingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
+    projectId: z.uuid(),
+    periodKey: z.string().trim().min(1).max(32),
+    expectedCurrentSnapshotVersion: z.number().int().positive().optional()
+}).meta({ id: 'CreatePeriodClosingSnapshotRequest' });
+
+export type CreatePeriodClosingSnapshotRequest = z.infer<typeof CreatePeriodClosingSnapshotRequestSchema>;
+
+export const PeriodClosingSnapshotSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        periodKey: z.string(),
+        snapshotMode: z.literal('period-end'),
+        snapshotAt: z.iso.datetime(),
+        effectiveContractTotal: z.string(),
+        receivableConfirmedTotal: z.string(),
+        includedCostTotal: z.string(),
+        originalBaselineCost: z.string(),
+        currentEffectiveBaselineCost: z.string(),
+        grossMarginAmount: z.string(),
+        grossMarginRate: z.string().nullable(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        handoverRebaselineRecordId: z.uuid().nullable(),
+        status: z.enum(['active', 'superseded', 'voided']),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'PeriodClosingSnapshotSummary' });
+
+export type PeriodClosingSnapshotSummary = z.infer<typeof PeriodClosingSnapshotSummarySchema>;
+
+const OperatingRestatementOverrideSchema = OperatingSnapshotAmountInputSchema.partial().extend({
+    sourceWindowStart: z.iso.date().nullable().optional(),
+    sourceWindowEnd: z.iso.date().nullable().optional()
+});
+
+export const CreateOperatingRestatementRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        periodEndSnapshotId: z.uuid(),
+        restatesSnapshotId: z.uuid(),
+        restatementReason: z.string().trim().min(1).max(256),
+        restatementSummary: z.string().trim().min(1).max(2000),
+        restatedValues: OperatingRestatementOverrideSchema,
+        expectedRestatesSnapshotVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'CreateOperatingRestatementRequest' });
+
+export type CreateOperatingRestatementRequest = z.infer<typeof CreateOperatingRestatementRequestSchema>;
+
+export const OperatingRestatementSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        periodEndSnapshotId: z.uuid(),
+        restatesSnapshotId: z.uuid(),
+        restatedSnapshotId: z.uuid(),
+        restatementReason: z.string(),
+        restatementSummary: z.string(),
+        status: z.enum(['active', 'superseded', 'voided']),
+        handledAt: z.iso.datetime(),
+        handledBy: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'OperatingRestatementSummary' });
+
+export type OperatingRestatementSummary = z.infer<typeof OperatingRestatementSummarySchema>;
+
+export const OperatingRestatementListViewSchema = z
+    .array(OperatingRestatementSummarySchema)
+    .meta({ id: 'OperatingRestatementListView' });
+
+export type OperatingRestatementListView = z.infer<typeof OperatingRestatementListViewSchema>;
+
 export const RegisterPaymentFactCostRecordRequestSchema = z
     .object({
         paymentRecordId: z.uuid(),
