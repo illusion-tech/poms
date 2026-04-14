@@ -1,13 +1,22 @@
 import {
+    ActivateOperatingBaselinePackageRequestSchema,
     ConfirmExpenseRecordRequestSchema,
     CreateExpenseRecordRequestSchema,
+    CreateOperatingRestatementRequestSchema,
+    CreatePeriodClosingSnapshotRequestSchema,
+    CreateProjectOperatingSnapshotRequestSchema,
     ExpenseRecordDetailViewSchema,
     ExpenseRecordListSchema,
     ExpenseRecordSummarySchema,
     InternalCostRateVersionSummarySchema,
+    OperatingBaselinePackageSummarySchema,
+    OperatingRestatementListViewSchema,
+    OperatingRestatementSummarySchema,
+    PeriodClosingSnapshotSummarySchema,
     ProjectActualCostRecordDetailViewSchema,
     ProjectActualCostRecordListViewSchema,
     ProjectActualCostRecordSummarySchema,
+    ProjectOperatingSnapshotSummarySchema,
     RegisterExpenseCostRecordRequestSchema,
     RegisterInvoiceCostRecordRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
@@ -37,6 +46,24 @@ export class VoidExpenseRecordRequestDto extends createZodDto(VoidExpenseRecordR
 export class InternalCostRateVersionSummaryDto extends createZodDto(InternalCostRateVersionSummarySchema) {}
 
 export class PublishInternalCostRateVersionRequestDto extends createZodDto(PublishInternalCostRateVersionRequestSchema) {}
+
+export class OperatingBaselinePackageSummaryDto extends createZodDto(OperatingBaselinePackageSummarySchema) {}
+
+export class ActivateOperatingBaselinePackageRequestDto extends createZodDto(ActivateOperatingBaselinePackageRequestSchema) {}
+
+export class PeriodClosingSnapshotSummaryDto extends createZodDto(PeriodClosingSnapshotSummarySchema) {}
+
+export class ProjectOperatingSnapshotSummaryDto extends createZodDto(ProjectOperatingSnapshotSummarySchema) {}
+
+export class CreateProjectOperatingSnapshotRequestDto extends createZodDto(CreateProjectOperatingSnapshotRequestSchema) {}
+
+export class CreatePeriodClosingSnapshotRequestDto extends createZodDto(CreatePeriodClosingSnapshotRequestSchema) {}
+
+export class OperatingRestatementSummaryDto extends createZodDto(OperatingRestatementSummarySchema) {}
+
+export class OperatingRestatementListViewDto extends createZodDto(OperatingRestatementListViewSchema) {}
+
+export class CreateOperatingRestatementRequestDto extends createZodDto(CreateOperatingRestatementRequestSchema) {}
 
 export class ProjectActualCostRecordSummaryDto extends createZodDto(ProjectActualCostRecordSummarySchema) {}
 
