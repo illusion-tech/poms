@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { Project } from '../project/project.entity';
 
 export type ProjectHandoverStatus = 'draft' | 'confirmed' | 'superseded' | 'voided';
@@ -69,6 +70,7 @@ export const ProjectHandoverSchema = defineEntity({
             expression: (columns, table, indexName) =>
                 `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.confirmedAt}" desc)`
         },
+        { name: 'idx_project_handover_contract_summary_snapshot', properties: ['contractSummarySnapshotId'] },
         { name: 'idx_project_handover_summary_snapshot', properties: ['summarySnapshotId'] },
         { name: 'idx_project_handover_rebaseline', properties: ['handoverRebaselineRecordId'] }
     ],
@@ -83,9 +85,25 @@ export const ProjectHandoverSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('restrict')
                 .comment('关联项目'),
-        contractSummarySnapshotId: p.uuid().fieldName('contract_summary_snapshot_id').comment('合同承接摘要快照 ID（EX-08A2 补齐 FK）'),
+        contractSummarySnapshotId: () =>
+            p
+                .manyToOne(ApprovalSummarySnapshot)
+                .mapToPk()
+                .fieldName('contract_summary_snapshot_id')
+                .foreignKeyName('project_handover_contract_summary_snapshot_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('合同承接摘要快照 ID'),
         effectiveHandoverBaselineSnapshotId: p.uuid().fieldName('effective_handover_baseline_snapshot_id').comment('移交前有效基线快照 ID'),
-        summarySnapshotId: p.uuid().fieldName('summary_snapshot_id').comment('移交确认摘要快照 ID（EX-08A2 补齐 FK）'),
+        summarySnapshotId: () =>
+            p
+                .manyToOne(ApprovalSummarySnapshot)
+                .mapToPk()
+                .fieldName('summary_snapshot_id')
+                .foreignKeyName('project_handover_summary_snapshot_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('移交确认摘要快照 ID'),
         handoverRebaselineRecordId: () =>
             p
                 .manyToOne(ContractHandoverRebaselineRecord)

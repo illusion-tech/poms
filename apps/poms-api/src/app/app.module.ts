@@ -7,6 +7,7 @@ import { AuthModule } from './core/auth/auth.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
 import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
 import { ApprovalModule } from './features/approval/approval.module';
+import { ApprovalSummaryModule } from './features/approval-summary/approval-summary.module';
 import { CommissionModule } from './features/commission/commission.module';
 import { ContractModule } from './features/contract/contract.module';
 import { ContractReadinessModule } from './features/contract-readiness/contract-readiness.module';
@@ -28,6 +29,7 @@ import { ProjectHandoverModule } from './features/project-handover/project-hando
         ProjectCostModule,
         ProjectHandoverModule,
         ApprovalModule,
+        ApprovalSummaryModule,
         ContractReadinessModule,
         ContractModule,
         ContractFinanceModule,
