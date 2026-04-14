@@ -1,6 +1,13 @@
 import {
     ActivateOperatingBaselinePackageRequestSchema,
+    AccountingTaxTreatmentListViewSchema,
+    AccountingTaxTreatmentSnapshotSummarySchema,
     ConfirmExpenseRecordRequestSchema,
+    ConfirmAccountingTaxTreatmentRequestSchema,
+    ConfirmCostStageAttributionRequestSchema,
+    ConfirmSharedCostAllocationBasisRequestSchema,
+    CostStageAttributionHistoryViewSchema,
+    CostStageAttributionSnapshotSummarySchema,
     CreateExpenseRecordRequestSchema,
     CreateOperatingRestatementRequestSchema,
     CreatePeriodClosingSnapshotRequestSchema,
@@ -17,13 +24,18 @@ import {
     ProjectActualCostRecordListViewSchema,
     ProjectActualCostRecordSummarySchema,
     ProjectOperatingSnapshotSummarySchema,
+    ReclassifyCostStageAttributionRequestSchema,
     RegisterExpenseCostRecordRequestSchema,
     RegisterInvoiceCostRecordRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
     RegisterPaymentFactCostRecordRequestSchema,
     RegisterProcurementCostRecordRequestSchema,
     RegisterLaborCostRecordRequestSchema,
+    ReplaceSharedCostAllocationResultRequestSchema,
     ReplaceLaborCostRecordRequestSchema,
+    SharedCostAllocationBasisSummarySchema,
+    SharedCostAllocationResultListViewSchema,
+    SharedCostAllocationResultSummarySchema,
     UpdateExpenseRecordRequestSchema,
     VoidExpenseRecordRequestSchema
 } from '@poms/shared-contracts';
@@ -64,6 +76,30 @@ export class OperatingRestatementSummaryDto extends createZodDto(OperatingRestat
 export class OperatingRestatementListViewDto extends createZodDto(OperatingRestatementListViewSchema) {}
 
 export class CreateOperatingRestatementRequestDto extends createZodDto(CreateOperatingRestatementRequestSchema) {}
+
+export class ConfirmSharedCostAllocationBasisRequestDto extends createZodDto(ConfirmSharedCostAllocationBasisRequestSchema) {}
+
+export class ReplaceSharedCostAllocationResultRequestDto extends createZodDto(ReplaceSharedCostAllocationResultRequestSchema) {}
+
+export class SharedCostAllocationBasisSummaryDto extends createZodDto(SharedCostAllocationBasisSummarySchema) {}
+
+export class SharedCostAllocationResultSummaryDto extends createZodDto(SharedCostAllocationResultSummarySchema) {}
+
+export class SharedCostAllocationResultListViewDto extends createZodDto(SharedCostAllocationResultListViewSchema) {}
+
+export class ConfirmCostStageAttributionRequestDto extends createZodDto(ConfirmCostStageAttributionRequestSchema) {}
+
+export class ReclassifyCostStageAttributionRequestDto extends createZodDto(ReclassifyCostStageAttributionRequestSchema) {}
+
+export class CostStageAttributionSnapshotSummaryDto extends createZodDto(CostStageAttributionSnapshotSummarySchema) {}
+
+export class CostStageAttributionHistoryViewDto extends createZodDto(CostStageAttributionHistoryViewSchema) {}
+
+export class ConfirmAccountingTaxTreatmentRequestDto extends createZodDto(ConfirmAccountingTaxTreatmentRequestSchema) {}
+
+export class AccountingTaxTreatmentSnapshotSummaryDto extends createZodDto(AccountingTaxTreatmentSnapshotSummarySchema) {}
+
+export class AccountingTaxTreatmentListViewDto extends createZodDto(AccountingTaxTreatmentListViewSchema) {}
 
 export class ProjectActualCostRecordSummaryDto extends createZodDto(ProjectActualCostRecordSummarySchema) {}
 

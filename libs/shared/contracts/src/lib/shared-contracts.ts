@@ -2260,6 +2260,185 @@ export const OperatingRestatementListViewSchema = z
 
 export type OperatingRestatementListView = z.infer<typeof OperatingRestatementListViewSchema>;
 
+export const SharedCostAllocationShareItemSchema = z.object({
+    projectId: z.uuid(),
+    allocatedAmount: z.string().trim().min(1).max(64),
+    allocationRatio: z.string().trim().min(1).max(64).nullable().optional(),
+    allocationSummary: z.string().trim().min(1).max(1000).nullable().optional()
+});
+
+export const ConfirmSharedCostAllocationBasisRequestSchema = z
+    .object({
+        basisType: z.string().trim().min(1).max(64),
+        sourceCostRecordIds: z.array(z.uuid()).min(1),
+        allocationMethod: z.string().trim().min(1).max(64),
+        projectShareItems: z.array(SharedCostAllocationShareItemSchema).min(1),
+        basisSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmSharedCostAllocationBasisRequest' });
+
+export type ConfirmSharedCostAllocationBasisRequest = z.infer<typeof ConfirmSharedCostAllocationBasisRequestSchema>;
+
+export const ReplaceSharedCostAllocationResultRequestSchema = z
+    .object({
+        supersededAllocationResultId: z.uuid(),
+        allocatedAmount: z.string().trim().min(1).max(64),
+        allocationRatio: z.string().trim().min(1).max(64).nullable().optional(),
+        allocationSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        replacementReason: z.string().trim().min(1).max(256),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReplaceSharedCostAllocationResultRequest' });
+
+export type ReplaceSharedCostAllocationResultRequest = z.infer<typeof ReplaceSharedCostAllocationResultRequestSchema>;
+
+export const SharedCostAllocationResultSummarySchema = z
+    .object({
+        id: z.uuid(),
+        basisId: z.uuid(),
+        projectId: z.uuid(),
+        allocatedAmount: z.string(),
+        allocationRatio: z.string().nullable(),
+        allocationSummary: z.string().nullable(),
+        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        effectiveAt: z.iso.datetime().nullable(),
+        supersedesId: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'SharedCostAllocationResultSummary' });
+
+export type SharedCostAllocationResultSummary = z.infer<typeof SharedCostAllocationResultSummarySchema>;
+
+export const SharedCostAllocationBasisSummarySchema = z
+    .object({
+        id: z.uuid(),
+        sourceCostScopeKey: z.string(),
+        basisType: z.string(),
+        allocationMethod: z.string(),
+        basisSummary: z.string().nullable(),
+        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        effectiveAt: z.iso.datetime().nullable(),
+        effectiveBy: z.uuid().nullable(),
+        supersedesId: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime(),
+        results: z.array(SharedCostAllocationResultSummarySchema)
+    })
+    .meta({ id: 'SharedCostAllocationBasisSummary' });
+
+export type SharedCostAllocationBasisSummary = z.infer<typeof SharedCostAllocationBasisSummarySchema>;
+
+export const SharedCostAllocationResultListViewSchema = z
+    .array(SharedCostAllocationResultSummarySchema)
+    .meta({ id: 'SharedCostAllocationResultListView' });
+
+export type SharedCostAllocationResultListView = z.infer<typeof SharedCostAllocationResultListViewSchema>;
+
+export const ConfirmCostStageAttributionRequestSchema = z
+    .object({
+        costRecordId: z.uuid(),
+        stageAttributionMode: z.enum(['auto', 'manual']),
+        attributedStage: z.string().trim().min(1).max(64),
+        lockedBySnapshotId: z.uuid().nullable().optional(),
+        attributionSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmCostStageAttributionRequest' });
+
+export type ConfirmCostStageAttributionRequest = z.infer<typeof ConfirmCostStageAttributionRequestSchema>;
+
+export const ReclassifyCostStageAttributionRequestSchema = z
+    .object({
+        supersededAttributionId: z.uuid(),
+        newAttributedStage: z.string().trim().min(1).max(64),
+        lockedBySnapshotId: z.uuid().nullable().optional(),
+        reclassifyReason: z.string().trim().min(1).max(256),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReclassifyCostStageAttributionRequest' });
+
+export type ReclassifyCostStageAttributionRequest = z.infer<typeof ReclassifyCostStageAttributionRequestSchema>;
+
+export const CostStageAttributionSnapshotSummarySchema = z
+    .object({
+        id: z.uuid(),
+        costRecordId: z.uuid(),
+        attributedStage: z.string(),
+        attributionMode: z.enum(['auto', 'manual', 'reclassified']),
+        lockedBySnapshotId: z.uuid().nullable(),
+        attributionSummary: z.string().nullable(),
+        status: z.enum(['active', 'superseded', 'voided']),
+        supersedesId: z.uuid().nullable(),
+        handledAt: z.iso.datetime().nullable(),
+        handledBy: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CostStageAttributionSnapshotSummary' });
+
+export type CostStageAttributionSnapshotSummary = z.infer<typeof CostStageAttributionSnapshotSummarySchema>;
+
+export const CostStageAttributionHistoryViewSchema = z
+    .array(CostStageAttributionSnapshotSummarySchema)
+    .meta({ id: 'CostStageAttributionHistoryView' });
+
+export type CostStageAttributionHistoryView = z.infer<typeof CostStageAttributionHistoryViewSchema>;
+
+export const ConfirmAccountingTaxTreatmentRequestSchema = z
+    .object({
+        projectId: z.uuid(),
+        taxTreatmentType: z.string().trim().min(1).max(64),
+        deductibilityStatus: z.string().trim().min(1).max(32),
+        taxImpactAmount: z.string().trim().min(1).max(64),
+        taxImpactSummary: z.string().trim().min(1).max(2000),
+        taxPendingFlag: z.boolean().default(false),
+        taxImpactPendingAmount: z.string().trim().min(1).max(64).default('0'),
+        basisSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        supersedesTaxTreatmentSnapshotId: z.uuid().nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmAccountingTaxTreatmentRequest' });
+
+export type ConfirmAccountingTaxTreatmentRequest = z.infer<typeof ConfirmAccountingTaxTreatmentRequestSchema>;
+
+export const AccountingTaxTreatmentSnapshotSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        taxTreatmentType: z.string(),
+        deductibilityStatus: z.string(),
+        taxImpactAmount: z.string(),
+        taxPendingFlag: z.boolean(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        basisSummary: z.string().nullable(),
+        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        supersedesId: z.uuid().nullable(),
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'AccountingTaxTreatmentSnapshotSummary' });
+
+export type AccountingTaxTreatmentSnapshotSummary = z.infer<typeof AccountingTaxTreatmentSnapshotSummarySchema>;
+
+export const AccountingTaxTreatmentListViewSchema = z
+    .array(AccountingTaxTreatmentSnapshotSummarySchema)
+    .meta({ id: 'AccountingTaxTreatmentListView' });
+
+export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatmentListViewSchema>;
+
 export const RegisterPaymentFactCostRecordRequestSchema = z
     .object({
         paymentRecordId: z.uuid(),

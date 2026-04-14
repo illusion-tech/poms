@@ -17,9 +17,19 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { AccountingTaxTreatmentSnapshotSummary } from '../model/accounting-tax-treatment-snapshot-summary';
+// @ts-ignore
 import { ActivateOperatingBaselinePackageRequest } from '../model/activate-operating-baseline-package-request';
 // @ts-ignore
+import { ConfirmAccountingTaxTreatmentRequest } from '../model/confirm-accounting-tax-treatment-request';
+// @ts-ignore
+import { ConfirmCostStageAttributionRequest } from '../model/confirm-cost-stage-attribution-request';
+// @ts-ignore
 import { ConfirmExpenseRecordRequest } from '../model/confirm-expense-record-request';
+// @ts-ignore
+import { ConfirmSharedCostAllocationBasisRequest } from '../model/confirm-shared-cost-allocation-basis-request';
+// @ts-ignore
+import { CostStageAttributionSnapshotSummary } from '../model/cost-stage-attribution-snapshot-summary';
 // @ts-ignore
 import { CreateExpenseRecordRequest } from '../model/create-expense-record-request';
 // @ts-ignore
@@ -47,6 +57,8 @@ import { ProjectOperatingSnapshotSummary } from '../model/project-operating-snap
 // @ts-ignore
 import { PublishInternalCostRateVersionRequest } from '../model/publish-internal-cost-rate-version-request';
 // @ts-ignore
+import { ReclassifyCostStageAttributionRequest } from '../model/reclassify-cost-stage-attribution-request';
+// @ts-ignore
 import { RegisterExpenseCostRecordRequest } from '../model/register-expense-cost-record-request';
 // @ts-ignore
 import { RegisterInvoiceCostRecordRequest } from '../model/register-invoice-cost-record-request';
@@ -58,6 +70,12 @@ import { RegisterPaymentFactCostRecordRequest } from '../model/register-payment-
 import { RegisterProcurementCostRecordRequest } from '../model/register-procurement-cost-record-request';
 // @ts-ignore
 import { ReplaceLaborCostRecordRequest } from '../model/replace-labor-cost-record-request';
+// @ts-ignore
+import { ReplaceSharedCostAllocationResultRequest } from '../model/replace-shared-cost-allocation-result-request';
+// @ts-ignore
+import { SharedCostAllocationBasisSummary } from '../model/shared-cost-allocation-basis-summary';
+// @ts-ignore
+import { SharedCostAllocationResultSummary } from '../model/shared-cost-allocation-result-summary';
 // @ts-ignore
 import { UpdateExpenseRecordRequest } from '../model/update-expense-record-request';
 // @ts-ignore
@@ -73,9 +91,21 @@ export interface ProjectCostControllerActivateOperatingBaselinePackageRequestPar
     activateOperatingBaselinePackageRequest: ActivateOperatingBaselinePackageRequest;
 }
 
+export interface ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams {
+    confirmAccountingTaxTreatmentRequest: ConfirmAccountingTaxTreatmentRequest;
+}
+
+export interface ProjectCostControllerConfirmCostStageAttributionRequestParams {
+    confirmCostStageAttributionRequest: ConfirmCostStageAttributionRequest;
+}
+
 export interface ProjectCostControllerConfirmExpenseRecordRequestParams {
     id: string;
     confirmExpenseRecordRequest: ConfirmExpenseRecordRequest;
+}
+
+export interface ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams {
+    confirmSharedCostAllocationBasisRequest: ConfirmSharedCostAllocationBasisRequest;
 }
 
 export interface ProjectCostControllerCreateExpenseRecordRequestParams {
@@ -93,6 +123,14 @@ export interface ProjectCostControllerCreatePeriodClosingSnapshotRequestParams {
 
 export interface ProjectCostControllerCreateProjectOperatingSnapshotRequestParams {
     createProjectOperatingSnapshotRequest: CreateProjectOperatingSnapshotRequest;
+}
+
+export interface ProjectCostControllerGetAccountingTaxTreatmentRequestParams {
+    id: string;
+}
+
+export interface ProjectCostControllerGetCostStageAttributionRequestParams {
+    id: string;
 }
 
 export interface ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams {
@@ -119,6 +157,18 @@ export interface ProjectCostControllerGetProjectOperatingSnapshotRequestParams {
     id: string;
 }
 
+export interface ProjectCostControllerGetSharedCostAllocationBasisRequestParams {
+    id: string;
+}
+
+export interface ProjectCostControllerListAccountingTaxTreatmentsRequestParams {
+    projectId: string;
+}
+
+export interface ProjectCostControllerListCostStageAttributionsRequestParams {
+    costRecordId: string;
+}
+
 export interface ProjectCostControllerListExpenseRecordsRequestParams {
     projectId: string;
 }
@@ -131,8 +181,16 @@ export interface ProjectCostControllerListProjectActualCostRecordsRequestParams 
     projectId: string;
 }
 
+export interface ProjectCostControllerListSharedCostAllocationResultsRequestParams {
+    id: string;
+}
+
 export interface ProjectCostControllerPublishInternalCostRateVersionRequestParams {
     publishInternalCostRateVersionRequest: PublishInternalCostRateVersionRequest;
+}
+
+export interface ProjectCostControllerReclassifyCostStageAttributionRequestParams {
+    reclassifyCostStageAttributionRequest: ReclassifyCostStageAttributionRequest;
 }
 
 export interface ProjectCostControllerRegisterExpenseCostRecordRequestParams {
@@ -157,6 +215,10 @@ export interface ProjectCostControllerRegisterProcurementCostRecordRequestParams
 
 export interface ProjectCostControllerReplaceLaborCostRecordRequestParams {
     replaceLaborCostRecordRequest: ReplaceLaborCostRecordRequest;
+}
+
+export interface ProjectCostControllerReplaceSharedCostAllocationResultRequestParams {
+    replaceSharedCostAllocationResultRequest: ReplaceSharedCostAllocationResultRequest;
 }
 
 export interface ProjectCostControllerUpdateExpenseRecordRequestParams {
@@ -249,6 +311,144 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
+     * 确认项目税务处理快照
+     * @endpoint post /api/project-cost/confirm-accounting-tax-treatment
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const confirmAccountingTaxTreatmentRequest = requestParameters?.confirmAccountingTaxTreatmentRequest;
+        if (confirmAccountingTaxTreatmentRequest === null || confirmAccountingTaxTreatmentRequest === undefined) {
+            throw new Error('Required parameter confirmAccountingTaxTreatmentRequest was null or undefined when calling projectCostControllerConfirmAccountingTaxTreatment.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/confirm-accounting-tax-treatment`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: confirmAccountingTaxTreatmentRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 确认成本阶段归属快照
+     * @endpoint post /api/project-cost/confirm-cost-stage-attribution
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const confirmCostStageAttributionRequest = requestParameters?.confirmCostStageAttributionRequest;
+        if (confirmCostStageAttributionRequest === null || confirmCostStageAttributionRequest === undefined) {
+            throw new Error('Required parameter confirmCostStageAttributionRequest was null or undefined when calling projectCostControllerConfirmCostStageAttribution.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/confirm-cost-stage-attribution`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: confirmCostStageAttributionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 确认费用记录
      * @endpoint post /api/expense-records/{id}/confirm
      * @param requestParameters
@@ -312,6 +512,75 @@ export class ProjectCostApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: confirmExpenseRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 确认共享成本分摊依据与项目分摊结果
+     * @endpoint post /api/project-cost/confirm-shared-cost-allocation-basis
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const confirmSharedCostAllocationBasisRequest = requestParameters?.confirmSharedCostAllocationBasisRequest;
+        if (confirmSharedCostAllocationBasisRequest === null || confirmSharedCostAllocationBasisRequest === undefined) {
+            throw new Error('Required parameter confirmSharedCostAllocationBasisRequest was null or undefined when calling projectCostControllerConfirmSharedCostAllocationBasis.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/confirm-shared-cost-allocation-basis`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: confirmSharedCostAllocationBasisRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -593,6 +862,126 @@ export class ProjectCostApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: createProjectOperatingSnapshotRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取税务处理快照详情
+     * @endpoint get /api/accounting-tax-treatments/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetAccountingTaxTreatment(requestParameters: ProjectCostControllerGetAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountingTaxTreatmentSnapshotSummary>;
+    public projectCostControllerGetAccountingTaxTreatment(requestParameters: ProjectCostControllerGetAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountingTaxTreatmentSnapshotSummary>>;
+    public projectCostControllerGetAccountingTaxTreatment(requestParameters: ProjectCostControllerGetAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountingTaxTreatmentSnapshotSummary>>;
+    public projectCostControllerGetAccountingTaxTreatment(requestParameters: ProjectCostControllerGetAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetAccountingTaxTreatment.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/accounting-tax-treatments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<AccountingTaxTreatmentSnapshotSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取成本阶段归属快照详情
+     * @endpoint get /api/cost-stage-attributions/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetCostStageAttribution(requestParameters: ProjectCostControllerGetCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CostStageAttributionSnapshotSummary>;
+    public projectCostControllerGetCostStageAttribution(requestParameters: ProjectCostControllerGetCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CostStageAttributionSnapshotSummary>>;
+    public projectCostControllerGetCostStageAttribution(requestParameters: ProjectCostControllerGetCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CostStageAttributionSnapshotSummary>>;
+    public projectCostControllerGetCostStageAttribution(requestParameters: ProjectCostControllerGetCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetCostStageAttribution.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/cost-stage-attributions/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CostStageAttributionSnapshotSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -964,6 +1353,186 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
+     * 获取共享成本分摊依据详情
+     * @endpoint get /api/shared-cost-allocation-bases/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetSharedCostAllocationBasis(requestParameters: ProjectCostControllerGetSharedCostAllocationBasisRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SharedCostAllocationBasisSummary>;
+    public projectCostControllerGetSharedCostAllocationBasis(requestParameters: ProjectCostControllerGetSharedCostAllocationBasisRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SharedCostAllocationBasisSummary>>;
+    public projectCostControllerGetSharedCostAllocationBasis(requestParameters: ProjectCostControllerGetSharedCostAllocationBasisRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SharedCostAllocationBasisSummary>>;
+    public projectCostControllerGetSharedCostAllocationBasis(requestParameters: ProjectCostControllerGetSharedCostAllocationBasisRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetSharedCostAllocationBasis.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/shared-cost-allocation-bases/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<SharedCostAllocationBasisSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目税务处理快照列表
+     * @endpoint get /api/projects/{projectId}/accounting-tax-treatments
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerListAccountingTaxTreatments(requestParameters: ProjectCostControllerListAccountingTaxTreatmentsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<AccountingTaxTreatmentSnapshotSummary>>;
+    public projectCostControllerListAccountingTaxTreatments(requestParameters: ProjectCostControllerListAccountingTaxTreatmentsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<AccountingTaxTreatmentSnapshotSummary>>>;
+    public projectCostControllerListAccountingTaxTreatments(requestParameters: ProjectCostControllerListAccountingTaxTreatmentsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<AccountingTaxTreatmentSnapshotSummary>>>;
+    public projectCostControllerListAccountingTaxTreatments(requestParameters: ProjectCostControllerListAccountingTaxTreatmentsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerListAccountingTaxTreatments.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/accounting-tax-treatments`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<AccountingTaxTreatmentSnapshotSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取成本阶段归属历史
+     * @endpoint get /api/project-actual-cost-records/{costRecordId}/stage-attributions
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerListCostStageAttributions(requestParameters: ProjectCostControllerListCostStageAttributionsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CostStageAttributionSnapshotSummary>>;
+    public projectCostControllerListCostStageAttributions(requestParameters: ProjectCostControllerListCostStageAttributionsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CostStageAttributionSnapshotSummary>>>;
+    public projectCostControllerListCostStageAttributions(requestParameters: ProjectCostControllerListCostStageAttributionsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CostStageAttributionSnapshotSummary>>>;
+    public projectCostControllerListCostStageAttributions(requestParameters: ProjectCostControllerListCostStageAttributionsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const costRecordId = requestParameters?.costRecordId;
+        if (costRecordId === null || costRecordId === undefined) {
+            throw new Error('Required parameter costRecordId was null or undefined when calling projectCostControllerListCostStageAttributions.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-actual-cost-records/${this.configuration.encodeParam({name: "costRecordId", value: costRecordId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/stage-attributions`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<CostStageAttributionSnapshotSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取项目费用记录列表
      * @endpoint get /api/projects/{projectId}/expense-records
      * @param requestParameters
@@ -1144,6 +1713,66 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
+     * 获取共享成本分摊结果列表
+     * @endpoint get /api/shared-cost-allocation-bases/{id}/results
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerListSharedCostAllocationResults(requestParameters: ProjectCostControllerListSharedCostAllocationResultsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<SharedCostAllocationResultSummary>>;
+    public projectCostControllerListSharedCostAllocationResults(requestParameters: ProjectCostControllerListSharedCostAllocationResultsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<SharedCostAllocationResultSummary>>>;
+    public projectCostControllerListSharedCostAllocationResults(requestParameters: ProjectCostControllerListSharedCostAllocationResultsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<SharedCostAllocationResultSummary>>>;
+    public projectCostControllerListSharedCostAllocationResults(requestParameters: ProjectCostControllerListSharedCostAllocationResultsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerListSharedCostAllocationResults.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/shared-cost-allocation-bases/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/results`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<SharedCostAllocationResultSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 发布内部成本率版本
      * @endpoint post /api/project-cost/publish-internal-cost-rate-version
      * @param requestParameters
@@ -1202,6 +1831,75 @@ export class ProjectCostApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: publishInternalCostRateVersionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 重分类成本阶段归属快照
+     * @endpoint post /api/project-cost/reclassify-cost-stage-attribution
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const reclassifyCostStageAttributionRequest = requestParameters?.reclassifyCostStageAttributionRequest;
+        if (reclassifyCostStageAttributionRequest === null || reclassifyCostStageAttributionRequest === undefined) {
+            throw new Error('Required parameter reclassifyCostStageAttributionRequest was null or undefined when calling projectCostControllerReclassifyCostStageAttribution.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/reclassify-cost-stage-attribution`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: reclassifyCostStageAttributionRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -1616,6 +2314,75 @@ export class ProjectCostApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: replaceLaborCostRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 替代共享成本分摊结果
+     * @endpoint post /api/project-cost/replace-shared-cost-allocation-result
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const replaceSharedCostAllocationResultRequest = requestParameters?.replaceSharedCostAllocationResultRequest;
+        if (replaceSharedCostAllocationResultRequest === null || replaceSharedCostAllocationResultRequest === undefined) {
+            throw new Error('Required parameter replaceSharedCostAllocationResultRequest was null or undefined when calling projectCostControllerReplaceSharedCostAllocationResult.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/replace-shared-cost-allocation-result`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: replaceSharedCostAllocationResultRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
