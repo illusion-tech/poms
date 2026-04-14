@@ -17,17 +17,33 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ActivateOperatingBaselinePackageRequest } from '../model/activate-operating-baseline-package-request';
+// @ts-ignore
 import { ConfirmExpenseRecordRequest } from '../model/confirm-expense-record-request';
 // @ts-ignore
 import { CreateExpenseRecordRequest } from '../model/create-expense-record-request';
+// @ts-ignore
+import { CreateOperatingRestatementRequest } from '../model/create-operating-restatement-request';
+// @ts-ignore
+import { CreatePeriodClosingSnapshotRequest } from '../model/create-period-closing-snapshot-request';
+// @ts-ignore
+import { CreateProjectOperatingSnapshotRequest } from '../model/create-project-operating-snapshot-request';
 // @ts-ignore
 import { ExpenseRecordDetailView } from '../model/expense-record-detail-view';
 // @ts-ignore
 import { ExpenseRecordSummary } from '../model/expense-record-summary';
 // @ts-ignore
+import { OperatingBaselinePackageSummary } from '../model/operating-baseline-package-summary';
+// @ts-ignore
+import { OperatingRestatementSummary } from '../model/operating-restatement-summary';
+// @ts-ignore
+import { PeriodClosingSnapshotSummary } from '../model/period-closing-snapshot-summary';
+// @ts-ignore
 import { ProjectActualCostRecordDetailView } from '../model/project-actual-cost-record-detail-view';
 // @ts-ignore
 import { ProjectActualCostRecordSummary } from '../model/project-actual-cost-record-summary';
+// @ts-ignore
+import { ProjectOperatingSnapshotSummary } from '../model/project-operating-snapshot-summary';
 // @ts-ignore
 import { PublishInternalCostRateVersionRequest } from '../model/publish-internal-cost-rate-version-request';
 // @ts-ignore
@@ -53,6 +69,10 @@ import { PomsApiConfiguration }                                     from '../con
 import { BaseService } from '../api.base.service';
 
 
+export interface ProjectCostControllerActivateOperatingBaselinePackageRequestParams {
+    activateOperatingBaselinePackageRequest: ActivateOperatingBaselinePackageRequest;
+}
+
 export interface ProjectCostControllerConfirmExpenseRecordRequestParams {
     id: string;
     confirmExpenseRecordRequest: ConfirmExpenseRecordRequest;
@@ -63,7 +83,31 @@ export interface ProjectCostControllerCreateExpenseRecordRequestParams {
     createExpenseRecordRequest: CreateExpenseRecordRequest;
 }
 
+export interface ProjectCostControllerCreateOperatingRestatementRequestParams {
+    createOperatingRestatementRequest: CreateOperatingRestatementRequest;
+}
+
+export interface ProjectCostControllerCreatePeriodClosingSnapshotRequestParams {
+    createPeriodClosingSnapshotRequest: CreatePeriodClosingSnapshotRequest;
+}
+
+export interface ProjectCostControllerCreateProjectOperatingSnapshotRequestParams {
+    createProjectOperatingSnapshotRequest: CreateProjectOperatingSnapshotRequest;
+}
+
+export interface ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams {
+    projectId: string;
+}
+
 export interface ProjectCostControllerGetExpenseRecordDetailRequestParams {
+    id: string;
+}
+
+export interface ProjectCostControllerGetOperatingRestatementRequestParams {
+    id: string;
+}
+
+export interface ProjectCostControllerGetPeriodClosingSnapshotRequestParams {
     id: string;
 }
 
@@ -71,7 +115,15 @@ export interface ProjectCostControllerGetProjectActualCostRecordDetailRequestPar
     id: string;
 }
 
+export interface ProjectCostControllerGetProjectOperatingSnapshotRequestParams {
+    id: string;
+}
+
 export interface ProjectCostControllerListExpenseRecordsRequestParams {
+    projectId: string;
+}
+
+export interface ProjectCostControllerListOperatingRestatementsRequestParams {
     projectId: string;
 }
 
@@ -125,6 +177,75 @@ export class ProjectCostApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 生效项目经营基线包
+     * @endpoint post /api/project-cost/activate-operating-baseline-package
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const activateOperatingBaselinePackageRequest = requestParameters?.activateOperatingBaselinePackageRequest;
+        if (activateOperatingBaselinePackageRequest === null || activateOperatingBaselinePackageRequest === undefined) {
+            throw new Error('Required parameter activateOperatingBaselinePackageRequest was null or undefined when calling projectCostControllerActivateOperatingBaselinePackage.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/activate-operating-baseline-package`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: activateOperatingBaselinePackageRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -276,6 +397,273 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
+     * 创建经营快照重述记录
+     * @endpoint post /api/project-cost/create-operating-restatement
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const createOperatingRestatementRequest = requestParameters?.createOperatingRestatementRequest;
+        if (createOperatingRestatementRequest === null || createOperatingRestatementRequest === undefined) {
+            throw new Error('Required parameter createOperatingRestatementRequest was null or undefined when calling projectCostControllerCreateOperatingRestatement.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/create-operating-restatement`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createOperatingRestatementRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建期末冻结经营快照
+     * @endpoint post /api/project-cost/create-period-closing-snapshot
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const createPeriodClosingSnapshotRequest = requestParameters?.createPeriodClosingSnapshotRequest;
+        if (createPeriodClosingSnapshotRequest === null || createPeriodClosingSnapshotRequest === undefined) {
+            throw new Error('Required parameter createPeriodClosingSnapshotRequest was null or undefined when calling projectCostControllerCreatePeriodClosingSnapshot.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/create-period-closing-snapshot`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createPeriodClosingSnapshotRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建项目经营快照
+     * @endpoint post /api/project-cost/create-project-operating-snapshot
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const createProjectOperatingSnapshotRequest = requestParameters?.createProjectOperatingSnapshotRequest;
+        if (createProjectOperatingSnapshotRequest === null || createProjectOperatingSnapshotRequest === undefined) {
+            throw new Error('Required parameter createProjectOperatingSnapshotRequest was null or undefined when calling projectCostControllerCreateProjectOperatingSnapshot.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-cost/create-project-operating-snapshot`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createProjectOperatingSnapshotRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取当前项目经营基线包
+     * @endpoint get /api/projects/{projectId}/operating-baseline-package/current
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetCurrentOperatingBaselinePackage(requestParameters: ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingBaselinePackageSummary>;
+    public projectCostControllerGetCurrentOperatingBaselinePackage(requestParameters: ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingBaselinePackageSummary>>;
+    public projectCostControllerGetCurrentOperatingBaselinePackage(requestParameters: ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingBaselinePackageSummary>>;
+    public projectCostControllerGetCurrentOperatingBaselinePackage(requestParameters: ProjectCostControllerGetCurrentOperatingBaselinePackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerGetCurrentOperatingBaselinePackage.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/operating-baseline-package/current`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<OperatingBaselinePackageSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取费用记录详情
      * @endpoint get /api/expense-records/{id}
      * @param requestParameters
@@ -323,6 +711,126 @@ export class ProjectCostApi extends BaseService {
         let localVarPath = `/api/expense-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ExpenseRecordDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取经营重述记录详情
+     * @endpoint get /api/operating-restatements/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetOperatingRestatement(requestParameters: ProjectCostControllerGetOperatingRestatementRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingRestatementSummary>;
+    public projectCostControllerGetOperatingRestatement(requestParameters: ProjectCostControllerGetOperatingRestatementRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingRestatementSummary>>;
+    public projectCostControllerGetOperatingRestatement(requestParameters: ProjectCostControllerGetOperatingRestatementRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingRestatementSummary>>;
+    public projectCostControllerGetOperatingRestatement(requestParameters: ProjectCostControllerGetOperatingRestatementRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetOperatingRestatement.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/operating-restatements/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<OperatingRestatementSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取期末冻结经营快照
+     * @endpoint get /api/period-closing-snapshots/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetPeriodClosingSnapshot(requestParameters: ProjectCostControllerGetPeriodClosingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PeriodClosingSnapshotSummary>;
+    public projectCostControllerGetPeriodClosingSnapshot(requestParameters: ProjectCostControllerGetPeriodClosingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PeriodClosingSnapshotSummary>>;
+    public projectCostControllerGetPeriodClosingSnapshot(requestParameters: ProjectCostControllerGetPeriodClosingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PeriodClosingSnapshotSummary>>;
+    public projectCostControllerGetPeriodClosingSnapshot(requestParameters: ProjectCostControllerGetPeriodClosingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetPeriodClosingSnapshot.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/period-closing-snapshots/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<PeriodClosingSnapshotSummary>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -396,6 +904,66 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
+     * 获取项目经营快照
+     * @endpoint get /api/project-operating-snapshots/{id}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerGetProjectOperatingSnapshot(requestParameters: ProjectCostControllerGetProjectOperatingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectOperatingSnapshotSummary>;
+    public projectCostControllerGetProjectOperatingSnapshot(requestParameters: ProjectCostControllerGetProjectOperatingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectOperatingSnapshotSummary>>;
+    public projectCostControllerGetProjectOperatingSnapshot(requestParameters: ProjectCostControllerGetProjectOperatingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectOperatingSnapshotSummary>>;
+    public projectCostControllerGetProjectOperatingSnapshot(requestParameters: ProjectCostControllerGetProjectOperatingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerGetProjectOperatingSnapshot.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-operating-snapshots/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectOperatingSnapshotSummary>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取项目费用记录列表
      * @endpoint get /api/projects/{projectId}/expense-records
      * @param requestParameters
@@ -443,6 +1011,66 @@ export class ProjectCostApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/expense-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<ExpenseRecordSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目经营重述记录列表
+     * @endpoint get /api/projects/{projectId}/operating-restatements
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerListOperatingRestatements(requestParameters: ProjectCostControllerListOperatingRestatementsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<OperatingRestatementSummary>>;
+    public projectCostControllerListOperatingRestatements(requestParameters: ProjectCostControllerListOperatingRestatementsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<OperatingRestatementSummary>>>;
+    public projectCostControllerListOperatingRestatements(requestParameters: ProjectCostControllerListOperatingRestatementsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<OperatingRestatementSummary>>>;
+    public projectCostControllerListOperatingRestatements(requestParameters: ProjectCostControllerListOperatingRestatementsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerListOperatingRestatements.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/operating-restatements`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<OperatingRestatementSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

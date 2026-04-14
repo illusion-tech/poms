@@ -1718,6 +1718,306 @@
         ]
       }
     },
+    "/api/project-cost/activate-operating-baseline-package": {
+      "post": {
+        "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateOperatingBaselinePackageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "生效项目经营基线包",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/operating-baseline-package/current": {
+      "get": {
+        "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingBaselinePackageSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取当前项目经营基线包",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/project-cost/create-project-operating-snapshot": {
+      "post": {
+        "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectOperatingSnapshotRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建项目经营快照",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/project-operating-snapshots/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectOperatingSnapshotSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目经营快照",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/project-cost/create-period-closing-snapshot": {
+      "post": {
+        "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePeriodClosingSnapshotRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建期末冻结经营快照",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/period-closing-snapshots/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeriodClosingSnapshotSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取期末冻结经营快照",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/project-cost/create-operating-restatement": {
+      "post": {
+        "operationId": "ProjectCostController_createOperatingRestatement",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOperatingRestatementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建经营快照重述记录",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/operating-restatements": {
+      "get": {
+        "operationId": "ProjectCostController_listOperatingRestatements",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingRestatementListViewDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目经营重述记录列表",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/operating-restatements/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getOperatingRestatement",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingRestatementSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取经营重述记录详情",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
     "/api/projects/{projectId}/expense-records": {
       "get": {
         "operationId": "ProjectCostController_listExpenseRecords",
@@ -6702,6 +7002,890 @@
           "projectId"
         ],
         "id": "RegisterProcurementCostRecordRequest"
+      },
+      "BaselineSelectionSource": {
+        "type": "string",
+        "enum": [
+          "original",
+          "handover_rebaseline"
+        ],
+        "id": "BaselineSelectionSource"
+      },
+      "ActivateOperatingBaselinePackageRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "default": "original",
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "effectiveOperatingBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "baselineSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "changePackages": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "changePackageId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "changeAmount": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                "changeSummary": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "nullable": true
+                },
+                "effectiveAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "changePackageId",
+                "changeAmount"
+              ]
+            }
+          },
+          "expectedCurrentPackageVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "projectId",
+          "originalBaselineCost"
+        ],
+        "id": "ActivateOperatingBaselinePackageRequest"
+      },
+      "OperatingBaselinePackageSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "changePackageTotal": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "effectiveOperatingBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "baselineSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "superseded"
+            ]
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "originalBaselineCost",
+          "changePackageTotal",
+          "currentEffectiveBaselineCost",
+          "baselineSelectionSource",
+          "effectiveOperatingBaselineId",
+          "baselineSummary",
+          "isCurrent",
+          "status",
+          "effectiveAt",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "id": "OperatingBaselinePackageSummary"
+      },
+      "OperatingSnapshotActionLevel": {
+        "type": "string",
+        "enum": [
+          "PROMPT",
+          "REVIEW",
+          "BLOCK"
+        ],
+        "id": "OperatingSnapshotActionLevel"
+      },
+      "CreateProjectOperatingSnapshotRequest": {
+        "type": "object",
+        "properties": {
+          "effectiveContractTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "receivableConfirmedTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "includedCostTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxImpactPendingAmount": {
+            "default": "0",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotMode": {
+            "type": "string",
+            "enum": [
+              "realtime",
+              "period-end"
+            ]
+          },
+          "sourceWindowStart": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "sourceWindowEnd": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "taxImpactSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "projectId",
+          "snapshotMode"
+        ],
+        "id": "CreateProjectOperatingSnapshotRequest"
+      },
+      "ProjectOperatingSnapshotSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotMode": {
+            "type": "string",
+            "enum": [
+              "realtime",
+              "period-end",
+              "restated"
+            ]
+          },
+          "snapshotAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "sourceWindowStart": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "sourceWindowEnd": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "effectiveContractTotal": {
+            "type": "string"
+          },
+          "receivableConfirmedTotal": {
+            "type": "string"
+          },
+          "includedCostTotal": {
+            "type": "string"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "grossMarginAmount": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "superseded",
+              "voided"
+            ]
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "snapshotMode",
+          "snapshotAt",
+          "sourceWindowStart",
+          "sourceWindowEnd",
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "grossMarginAmount",
+          "grossMarginRate",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "handoverRebaselineRecordId",
+          "status",
+          "supersedesId",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "id": "ProjectOperatingSnapshotSummary"
+      },
+      "CreatePeriodClosingSnapshotRequest": {
+        "type": "object",
+        "properties": {
+          "effectiveContractTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "receivableConfirmedTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "includedCostTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxImpactPendingAmount": {
+            "default": "0",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "expectedCurrentSnapshotVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "taxImpactSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "projectId",
+          "periodKey"
+        ],
+        "id": "CreatePeriodClosingSnapshotRequest"
+      },
+      "PeriodClosingSnapshotSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodKey": {
+            "type": "string"
+          },
+          "snapshotMode": {
+            "type": "string",
+            "enum": [
+              "period-end"
+            ]
+          },
+          "snapshotAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "effectiveContractTotal": {
+            "type": "string"
+          },
+          "receivableConfirmedTotal": {
+            "type": "string"
+          },
+          "includedCostTotal": {
+            "type": "string"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "grossMarginAmount": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "superseded",
+              "voided"
+            ]
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "periodKey",
+          "snapshotMode",
+          "snapshotAt",
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "grossMarginAmount",
+          "grossMarginRate",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "handoverRebaselineRecordId",
+          "status",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "id": "PeriodClosingSnapshotSummary"
+      },
+      "CreateOperatingRestatementRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodEndSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatesSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "restatementSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "restatedValues": {
+            "type": "object",
+            "properties": {
+              "effectiveContractTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "receivableConfirmedTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "includedCostTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "originalBaselineCost": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "currentEffectiveBaselineCost": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "taxImpactSummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "taxImpactPendingAmount": {
+                "default": "0",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "allocationStabilitySummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "nullable": true
+              },
+              "unmappedCostSummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "nullable": true
+              },
+              "currentActionLevel": {
+                "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+              },
+              "referencedBaselineVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "baselineSelectionSource": {
+                "$ref": "#/components/schemas/BaselineSelectionSource"
+              },
+              "handoverRebaselineRecordId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                "nullable": true
+              },
+              "sourceWindowStart": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                "nullable": true
+              },
+              "sourceWindowEnd": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                "nullable": true
+              }
+            }
+          },
+          "expectedRestatesSnapshotVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "projectId",
+          "periodEndSnapshotId",
+          "restatesSnapshotId",
+          "restatementReason",
+          "restatementSummary",
+          "restatedValues"
+        ],
+        "id": "CreateOperatingRestatementRequest"
+      },
+      "OperatingRestatementSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodEndSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatesSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatedSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatementReason": {
+            "type": "string"
+          },
+          "restatementSummary": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "superseded",
+              "voided"
+            ]
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "handledBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "periodEndSnapshotId",
+          "restatesSnapshotId",
+          "restatedSnapshotId",
+          "restatementReason",
+          "restatementSummary",
+          "status",
+          "handledAt",
+          "handledBy",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "id": "OperatingRestatementSummary"
+      },
+      "OperatingRestatementListViewDto": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OperatingRestatementSummary"
+        },
+        "id": "OperatingRestatementListView"
       },
       "ExpenseRecordSummary": {
         "type": "object",
