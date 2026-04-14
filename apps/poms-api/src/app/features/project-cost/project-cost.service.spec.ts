@@ -1,6 +1,15 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
-import { ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+import {
+    ChangePackageBaselineRepository,
+    ExpenseRecordRepository,
+    InternalCostRateVersionRepository,
+    OperatingBaselinePackageRepository,
+    OperatingRestatementRecordRepository,
+    PeriodClosingSnapshotRepository,
+    ProjectActualCostRecordRepository,
+    ProjectOperatingSnapshotRepository
+} from './project-cost.repository';
 
 jest.mock('@mikro-orm/nestjs', () => ({
     InjectRepository: () => () => undefined
@@ -18,6 +27,12 @@ const INVOICE_RECORD_ID = '77777777-7777-4777-8777-777777777777';
 const EXPENSE_RECORD_ID = '88888888-8888-4888-8888-888888888888';
 const CONTRACT_ID = '99999999-9999-4999-8999-999999999999';
 const PAYABLE_RECORD_ID = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+const BASELINE_PACKAGE_ID = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+const CHANGE_PACKAGE_ID = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+const PERIOD_SNAPSHOT_ID = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+const OPERATING_SNAPSHOT_ID = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
+const RESTATED_SNAPSHOT_ID = 'ffffffff-ffff-4fff-8fff-ffffffffffff';
+const RESTATEMENT_ID = '12121212-1212-4121-8121-121212121212';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -140,11 +155,98 @@ function makePayableRecord(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makeOperatingBaselinePackage(overrides: Record<string, unknown> = {}) {
+    return {
+        id: BASELINE_PACKAGE_ID,
+        projectId: PROJECT_ID,
+        originalBaselineCost: '100000.0000',
+        changePackageTotal: '5000.0000',
+        currentEffectiveBaselineCost: '105000.0000',
+        baselineSelectionSource: 'original',
+        effectiveOperatingBaselineId: null,
+        baselineSummary: 'baseline',
+        isCurrent: true,
+        status: 'active',
+        effectiveAt: new Date('2023-07-01T00:00:00.000Z'),
+        rowVersion: 1,
+        createdAt: new Date('2023-07-01T00:00:00.000Z'),
+        updatedAt: new Date('2023-07-01T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeProjectOperatingSnapshot(overrides: Record<string, unknown> = {}) {
+    return {
+        id: OPERATING_SNAPSHOT_ID,
+        projectId: PROJECT_ID,
+        snapshotMode: 'period-end',
+        snapshotAt: new Date('2023-07-31T16:00:00.000Z'),
+        sourceWindowStart: '2023-07-01',
+        sourceWindowEnd: '2023-07-31',
+        effectiveContractTotal: '200000.0000',
+        receivableConfirmedTotal: '80000.0000',
+        includedCostTotal: '120000.0000',
+        originalBaselineCost: '100000.0000',
+        currentEffectiveBaselineCost: '105000.0000',
+        grossMarginAmount: '80000.0000',
+        grossMarginRate: '0.400000',
+        taxImpactSummary: 'input tax pending',
+        taxImpactPendingAmount: '3000.0000',
+        allocationStabilitySummary: 'stable',
+        unmappedCostSummary: null,
+        currentActionLevel: 'REVIEW',
+        referencedBaselineVersion: BASELINE_PACKAGE_ID,
+        baselineSelectionSource: 'original',
+        handoverRebaselineRecordId: null,
+        status: 'active',
+        supersedesId: null,
+        rowVersion: 1,
+        createdAt: new Date('2023-07-31T16:00:00.000Z'),
+        updatedAt: new Date('2023-07-31T16:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makePeriodClosingSnapshot(overrides: Record<string, unknown> = {}) {
+    return {
+        id: PERIOD_SNAPSHOT_ID,
+        projectId: PROJECT_ID,
+        periodKey: '2023-07',
+        snapshotMode: 'period-end',
+        snapshotAt: new Date('2023-07-31T16:00:00.000Z'),
+        effectiveContractTotal: '200000.0000',
+        receivableConfirmedTotal: '80000.0000',
+        includedCostTotal: '120000.0000',
+        originalBaselineCost: '100000.0000',
+        currentEffectiveBaselineCost: '105000.0000',
+        grossMarginAmount: '80000.0000',
+        grossMarginRate: '0.400000',
+        taxImpactSummary: 'input tax pending',
+        taxImpactPendingAmount: '3000.0000',
+        allocationStabilitySummary: 'stable',
+        unmappedCostSummary: null,
+        currentActionLevel: 'REVIEW',
+        referencedBaselineVersion: BASELINE_PACKAGE_ID,
+        baselineSelectionSource: 'original',
+        handoverRebaselineRecordId: null,
+        status: 'active',
+        rowVersion: 1,
+        createdAt: new Date('2023-07-31T16:00:00.000Z'),
+        updatedAt: new Date('2023-07-31T16:00:00.000Z'),
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
     let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
     let internalCostRateVersionRepository: jest.Mocked<InternalCostRateVersionRepository>;
     let projectActualCostRecordRepository: jest.Mocked<ProjectActualCostRecordRepository>;
+    let operatingBaselinePackageRepository: jest.Mocked<OperatingBaselinePackageRepository>;
+    let changePackageBaselineRepository: jest.Mocked<ChangePackageBaselineRepository>;
+    let projectOperatingSnapshotRepository: jest.Mocked<ProjectOperatingSnapshotRepository>;
+    let periodClosingSnapshotRepository: jest.Mocked<PeriodClosingSnapshotRepository>;
+    let operatingRestatementRecordRepository: jest.Mocked<OperatingRestatementRecordRepository>;
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
 
     beforeEach(() => {
@@ -181,6 +283,41 @@ describe('ProjectCostService', () => {
             findReplacementBySupersedesRecordId: jest.fn()
         };
 
+        const mockOperatingBaselinePackageRepository = {
+            create: jest.fn((input) => ({ id: BASELINE_PACKAGE_ID, rowVersion: 1, createdAt: new Date('2023-07-01T00:00:00.000Z'), updatedAt: new Date('2023-07-01T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findCurrentByProjectId: jest.fn(),
+            findById: jest.fn()
+        };
+
+        const mockChangePackageBaselineRepository = {
+            create: jest.fn((input) => ({ id: CHANGE_PACKAGE_ID, ...input })),
+            saveAll: jest.fn()
+        };
+
+        const mockProjectOperatingSnapshotRepository = {
+            create: jest.fn((input) => ({ id: RESTATED_SNAPSHOT_ID, rowVersion: 1, createdAt: new Date('2023-07-01T00:00:00.000Z'), updatedAt: new Date('2023-07-01T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn()
+        };
+
+        const mockPeriodClosingSnapshotRepository = {
+            create: jest.fn((input) => ({ id: PERIOD_SNAPSHOT_ID, rowVersion: 1, createdAt: new Date('2023-07-01T00:00:00.000Z'), updatedAt: new Date('2023-07-01T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            findById: jest.fn(),
+            findActiveByProjectAndPeriod: jest.fn()
+        };
+
+        const mockOperatingRestatementRecordRepository = {
+            create: jest.fn((input) => ({ id: RESTATEMENT_ID, rowVersion: 1, createdAt: new Date('2023-07-01T00:00:00.000Z'), updatedAt: new Date('2023-07-01T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            findById: jest.fn(),
+            findByProjectId: jest.fn(),
+            findActiveByRestatesSnapshotId: jest.fn()
+        };
+
         const mockContractFinanceRepository = {
             findProjectById: jest.fn(),
             findContractById: jest.fn(),
@@ -192,12 +329,22 @@ describe('ProjectCostService', () => {
         expenseRecordRepository = mockExpenseRecordRepository as unknown as jest.Mocked<ExpenseRecordRepository>;
         internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
         projectActualCostRecordRepository = mockProjectActualCostRecordRepository as unknown as jest.Mocked<ProjectActualCostRecordRepository>;
+        operatingBaselinePackageRepository = mockOperatingBaselinePackageRepository as unknown as jest.Mocked<OperatingBaselinePackageRepository>;
+        changePackageBaselineRepository = mockChangePackageBaselineRepository as unknown as jest.Mocked<ChangePackageBaselineRepository>;
+        projectOperatingSnapshotRepository = mockProjectOperatingSnapshotRepository as unknown as jest.Mocked<ProjectOperatingSnapshotRepository>;
+        periodClosingSnapshotRepository = mockPeriodClosingSnapshotRepository as unknown as jest.Mocked<PeriodClosingSnapshotRepository>;
+        operatingRestatementRecordRepository = mockOperatingRestatementRecordRepository as unknown as jest.Mocked<OperatingRestatementRecordRepository>;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
             expenseRecordRepository,
             internalCostRateVersionRepository,
             projectActualCostRecordRepository,
-            contractFinanceRepository
+            contractFinanceRepository,
+            operatingBaselinePackageRepository,
+            changePackageBaselineRepository,
+            projectOperatingSnapshotRepository,
+            periodClosingSnapshotRepository,
+            operatingRestatementRecordRepository
         );
     });
 
@@ -997,6 +1144,218 @@ describe('ProjectCostService', () => {
             expect(result.sourceStatusSummary).toBe('PayableRecord:partially-paid');
             expect(result.effectivePeriodSummary).toBe('2023-06-15');
             expect(result.measurementBasisSummary).toBe('4567.8900 CNY ex-tax @ 2023-06-15');
+        });
+    });
+
+    describe('EX-07B operating baseline and restatement chain', () => {
+        it('activates an operating baseline package and supersedes the previous current package', async () => {
+            const currentPackage = makeOperatingBaselinePackage({ rowVersion: 2 });
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            operatingBaselinePackageRepository.findCurrentByProjectId.mockResolvedValue(currentPackage as never);
+
+            const result = await service.activateOperatingBaselinePackage(
+                {
+                    projectId: PROJECT_ID,
+                    originalBaselineCost: '100000',
+                    baselineSelectionSource: 'original',
+                    baselineSummary: 'July baseline',
+                    expectedCurrentPackageVersion: 2,
+                    changePackages: [
+                        {
+                            changePackageId: CHANGE_PACKAGE_ID,
+                            changeAmount: '5000',
+                            changeSummary: 'approved scope change'
+                        }
+                    ]
+                },
+                USER_ID
+            );
+
+            expect(currentPackage.isCurrent).toBe(false);
+            expect(currentPackage.status).toBe('superseded');
+            expect(operatingBaselinePackageRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    originalBaselineCost: '100000.0000',
+                    changePackageTotal: '5000.0000',
+                    currentEffectiveBaselineCost: '105000.0000',
+                    isCurrent: true,
+                    status: 'active'
+                })
+            );
+            expect(changePackageBaselineRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    changePackageId: CHANGE_PACKAGE_ID,
+                    changeAmount: '5000.0000',
+                    status: 'active'
+                })
+            );
+            expect(operatingBaselinePackageRepository.saveAll).toHaveBeenCalled();
+            expect(changePackageBaselineRepository.saveAll).toHaveBeenCalled();
+            expect(result.targetType).toBe('OperatingBaselinePackage');
+        });
+
+        it('requires a stable handover baseline reference when selecting handover_rebaseline', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+
+            await expect(
+                service.activateOperatingBaselinePackage(
+                    {
+                        projectId: PROJECT_ID,
+                        originalBaselineCost: '100000',
+                        baselineSelectionSource: 'handover_rebaseline',
+                        changePackages: []
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('creates one active period closing snapshot per project period', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            periodClosingSnapshotRepository.findActiveByProjectAndPeriod.mockResolvedValue(null);
+
+            const result = await service.createPeriodClosingSnapshot(
+                {
+                    projectId: PROJECT_ID,
+                    periodKey: '2023-07',
+                    effectiveContractTotal: '200000',
+                    receivableConfirmedTotal: '80000',
+                    includedCostTotal: '120000',
+                    originalBaselineCost: '100000',
+                    currentEffectiveBaselineCost: '105000',
+                    taxImpactSummary: 'input tax pending',
+                    taxImpactPendingAmount: '3000',
+                    currentActionLevel: 'REVIEW',
+                    referencedBaselineVersion: BASELINE_PACKAGE_ID,
+                    baselineSelectionSource: 'original'
+                },
+                USER_ID
+            );
+
+            expect(periodClosingSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    periodKey: '2023-07',
+                    effectiveContractTotal: '200000.0000',
+                    includedCostTotal: '120000.0000',
+                    grossMarginAmount: '80000.0000',
+                    grossMarginRate: '0.400000',
+                    status: 'active'
+                })
+            );
+            expect(periodClosingSnapshotRepository.save).toHaveBeenCalled();
+            expect(result.targetType).toBe('PeriodClosingSnapshot');
+        });
+
+        it('creates a project operating snapshot with stable baseline and action metadata', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+
+            const result = await service.createProjectOperatingSnapshot(
+                {
+                    projectId: PROJECT_ID,
+                    snapshotMode: 'period-end',
+                    sourceWindowStart: '2023-07-01',
+                    sourceWindowEnd: '2023-07-31',
+                    effectiveContractTotal: '200000',
+                    receivableConfirmedTotal: '80000',
+                    includedCostTotal: '120000',
+                    originalBaselineCost: '100000',
+                    currentEffectiveBaselineCost: '105000',
+                    taxImpactSummary: 'input tax pending',
+                    taxImpactPendingAmount: '3000',
+                    allocationStabilitySummary: 'stable',
+                    currentActionLevel: 'REVIEW',
+                    referencedBaselineVersion: BASELINE_PACKAGE_ID,
+                    baselineSelectionSource: 'original'
+                },
+                USER_ID
+            );
+
+            expect(projectOperatingSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    snapshotMode: 'period-end',
+                    sourceWindowStart: '2023-07-01',
+                    sourceWindowEnd: '2023-07-31',
+                    grossMarginAmount: '80000.0000',
+                    grossMarginRate: '0.400000',
+                    referencedBaselineVersion: BASELINE_PACKAGE_ID,
+                    status: 'active'
+                })
+            );
+            expect(projectOperatingSnapshotRepository.save).toHaveBeenCalled();
+            expect(result.targetType).toBe('ProjectOperatingSnapshot');
+        });
+
+        it('creates an append-only operating restatement and supersedes the old operating snapshot', async () => {
+            const periodSnapshot = makePeriodClosingSnapshot();
+            const restatesSnapshot = makeProjectOperatingSnapshot({ rowVersion: 3 });
+            periodClosingSnapshotRepository.findById.mockResolvedValue(periodSnapshot as never);
+            projectOperatingSnapshotRepository.findById.mockResolvedValue(restatesSnapshot as never);
+            operatingRestatementRecordRepository.findActiveByRestatesSnapshotId.mockResolvedValue(null);
+
+            const result = await service.createOperatingRestatement(
+                {
+                    projectId: PROJECT_ID,
+                    periodEndSnapshotId: PERIOD_SNAPSHOT_ID,
+                    restatesSnapshotId: OPERATING_SNAPSHOT_ID,
+                    expectedRestatesSnapshotVersion: 3,
+                    restatementReason: 'late invoice inclusion',
+                    restatementSummary: 'Included late verified invoice into July view',
+                    restatedValues: {
+                        includedCostTotal: '125000',
+                        taxImpactPendingAmount: '3500',
+                        currentActionLevel: 'BLOCK'
+                    }
+                },
+                USER_ID
+            );
+
+            expect(restatesSnapshot.status).toBe('superseded');
+            expect(projectOperatingSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    snapshotMode: 'restated',
+                    includedCostTotal: '125000.0000',
+                    grossMarginAmount: '75000.0000',
+                    grossMarginRate: '0.375000',
+                    currentActionLevel: 'BLOCK',
+                    supersedesId: OPERATING_SNAPSHOT_ID
+                })
+            );
+            expect(operatingRestatementRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    periodEndSnapshotId: PERIOD_SNAPSHOT_ID,
+                    restatesSnapshotId: OPERATING_SNAPSHOT_ID,
+                    restatementReason: 'late invoice inclusion',
+                    status: 'active'
+                })
+            );
+            expect(projectOperatingSnapshotRepository.saveAll).toHaveBeenCalled();
+            expect(operatingRestatementRecordRepository.save).toHaveBeenCalled();
+            expect(result.targetType).toBe('OperatingRestatementRecord');
+        });
+
+        it('blocks duplicate active restatement for the same operating snapshot', async () => {
+            periodClosingSnapshotRepository.findById.mockResolvedValue(makePeriodClosingSnapshot() as never);
+            projectOperatingSnapshotRepository.findById.mockResolvedValue(makeProjectOperatingSnapshot() as never);
+            operatingRestatementRecordRepository.findActiveByRestatesSnapshotId.mockResolvedValue({ id: RESTATEMENT_ID } as never);
+
+            await expect(
+                service.createOperatingRestatement(
+                    {
+                        projectId: PROJECT_ID,
+                        periodEndSnapshotId: PERIOD_SNAPSHOT_ID,
+                        restatesSnapshotId: OPERATING_SNAPSHOT_ID,
+                        restatementReason: 'duplicate',
+                        restatementSummary: 'duplicate',
+                        restatedValues: {}
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
         });
     });
 

@@ -7,12 +7,22 @@ import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.
 import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
+import { OperatingRestatementRecord } from './operating-restatement-record.entity';
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
-import { ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+import {
+    ChangePackageBaselineRepository,
+    ExpenseRecordRepository,
+    InternalCostRateVersionRepository,
+    OperatingBaselinePackageRepository,
+    OperatingRestatementRecordRepository,
+    PeriodClosingSnapshotRepository,
+    ProjectActualCostRecordRepository,
+    ProjectOperatingSnapshotRepository
+} from './project-cost.repository';
 import { ProjectCostService } from './project-cost.service';
 import { ProjectCostController } from './project-cost.controller';
 
@@ -25,6 +35,7 @@ import { ProjectCostController } from './project-cost.controller';
             ExpenseRecord,
             InternalCostRateVersion,
             OperatingBaselinePackage,
+            OperatingRestatementRecord,
             PeriodClosingSnapshot,
             ProjectActualCostRecord,
             ProjectOperatingSnapshot,
@@ -34,7 +45,27 @@ import { ProjectCostController } from './project-cost.controller';
         ContractFinanceModule,
     ],
     controllers: [ProjectCostController],
-    providers: [ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository, ProjectCostService],
-    exports: [ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository, ProjectCostService],
+    providers: [
+        ChangePackageBaselineRepository,
+        ExpenseRecordRepository,
+        InternalCostRateVersionRepository,
+        OperatingBaselinePackageRepository,
+        OperatingRestatementRecordRepository,
+        PeriodClosingSnapshotRepository,
+        ProjectActualCostRecordRepository,
+        ProjectOperatingSnapshotRepository,
+        ProjectCostService
+    ],
+    exports: [
+        ChangePackageBaselineRepository,
+        ExpenseRecordRepository,
+        InternalCostRateVersionRepository,
+        OperatingBaselinePackageRepository,
+        OperatingRestatementRecordRepository,
+        PeriodClosingSnapshotRepository,
+        ProjectActualCostRecordRepository,
+        ProjectOperatingSnapshotRepository,
+        ProjectCostService
+    ],
 })
 export class ProjectCostModule {}

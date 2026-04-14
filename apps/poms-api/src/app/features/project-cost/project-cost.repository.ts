@@ -1,9 +1,14 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { ChangePackageBaseline } from './change-package-baseline.entity';
 import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
+import { OperatingBaselinePackage } from './operating-baseline-package.entity';
+import { OperatingRestatementRecord } from './operating-restatement-record.entity';
+import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
+import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 
 @Injectable()
 export class InternalCostRateVersionRepository {
@@ -196,5 +201,134 @@ export class ProjectActualCostRecordRepository {
 
     async saveAll(entities: ProjectActualCostRecord[]): Promise<void> {
         await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class OperatingBaselinePackageRepository {
+    constructor(
+        @InjectRepository(OperatingBaselinePackage)
+        private readonly repository: EntityRepository<OperatingBaselinePackage>
+    ) {}
+
+    async findCurrentByProjectId(projectId: string): Promise<OperatingBaselinePackage | null> {
+        return this.repository.findOne(
+            { projectId, isCurrent: true },
+            { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findById(id: string): Promise<OperatingBaselinePackage | null> {
+        return this.repository.findOne({ id });
+    }
+
+    create(input: ConstructorParameters<typeof OperatingBaselinePackage>[0]): OperatingBaselinePackage {
+        return this.repository.create(input);
+    }
+
+    async save(entity: OperatingBaselinePackage): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: OperatingBaselinePackage[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class ChangePackageBaselineRepository {
+    constructor(
+        @InjectRepository(ChangePackageBaseline)
+        private readonly repository: EntityRepository<ChangePackageBaseline>
+    ) {}
+
+    create(input: ConstructorParameters<typeof ChangePackageBaseline>[0]): ChangePackageBaseline {
+        return this.repository.create(input);
+    }
+
+    async saveAll(entities: ChangePackageBaseline[]): Promise<void> {
+        if (entities.length === 0) {
+            return;
+        }
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class ProjectOperatingSnapshotRepository {
+    constructor(
+        @InjectRepository(ProjectOperatingSnapshot)
+        private readonly repository: EntityRepository<ProjectOperatingSnapshot>
+    ) {}
+
+    async findById(id: string): Promise<ProjectOperatingSnapshot | null> {
+        return this.repository.findOne({ id });
+    }
+
+    create(input: ConstructorParameters<typeof ProjectOperatingSnapshot>[0]): ProjectOperatingSnapshot {
+        return this.repository.create(input);
+    }
+
+    async save(entity: ProjectOperatingSnapshot): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: ProjectOperatingSnapshot[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class PeriodClosingSnapshotRepository {
+    constructor(
+        @InjectRepository(PeriodClosingSnapshot)
+        private readonly repository: EntityRepository<PeriodClosingSnapshot>
+    ) {}
+
+    async findById(id: string): Promise<PeriodClosingSnapshot | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveByProjectAndPeriod(projectId: string, periodKey: string): Promise<PeriodClosingSnapshot | null> {
+        return this.repository.findOne({ projectId, periodKey, snapshotMode: 'period-end', status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof PeriodClosingSnapshot>[0]): PeriodClosingSnapshot {
+        return this.repository.create(input);
+    }
+
+    async save(entity: PeriodClosingSnapshot): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+}
+
+@Injectable()
+export class OperatingRestatementRecordRepository {
+    constructor(
+        @InjectRepository(OperatingRestatementRecord)
+        private readonly repository: EntityRepository<OperatingRestatementRecord>
+    ) {}
+
+    async findById(id: string): Promise<OperatingRestatementRecord | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findByProjectId(projectId: string): Promise<OperatingRestatementRecord[]> {
+        return this.repository.find(
+            { projectId },
+            { orderBy: { handledAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findActiveByRestatesSnapshotId(restatesSnapshotId: string): Promise<OperatingRestatementRecord | null> {
+        return this.repository.findOne({ restatesSnapshotId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof OperatingRestatementRecord>[0]): OperatingRestatementRecord {
+        return this.repository.create(input);
+    }
+
+    async save(entity: OperatingRestatementRecord): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
     }
 }

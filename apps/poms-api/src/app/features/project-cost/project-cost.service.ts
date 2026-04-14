@@ -1,12 +1,21 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import type {
+    ActivateOperatingBaselinePackageRequest,
     CommandResult,
     ConfirmExpenseRecordRequest,
     CreateExpenseRecordRequest,
+    CreateOperatingRestatementRequest,
+    CreatePeriodClosingSnapshotRequest,
+    CreateProjectOperatingSnapshotRequest,
     ExpenseRecordDetailView,
     ExpenseRecordSummary,
+    OperatingBaselinePackageSummary,
+    OperatingRestatementSummary,
+    PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordSummary,
+    ProjectOperatingSnapshotSummary,
     RegisterExpenseCostRecordRequest,
     RegisterInvoiceCostRecordRequest,
     PublishInternalCostRateVersionRequest,
@@ -23,8 +32,21 @@ import type { PayableRecord } from '../contract-finance/payable-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
 import type { ExpenseRecord } from './expense-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
+import type { OperatingBaselinePackage } from './operating-baseline-package.entity';
+import type { OperatingRestatementRecord } from './operating-restatement-record.entity';
+import type { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
-import { ExpenseRecordRepository, InternalCostRateVersionRepository, ProjectActualCostRecordRepository } from './project-cost.repository';
+import type { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
+import {
+    ChangePackageBaselineRepository,
+    ExpenseRecordRepository,
+    InternalCostRateVersionRepository,
+    OperatingBaselinePackageRepository,
+    OperatingRestatementRecordRepository,
+    PeriodClosingSnapshotRepository,
+    ProjectActualCostRecordRepository,
+    ProjectOperatingSnapshotRepository
+} from './project-cost.repository';
 
 interface ProjectActualCostRecordFilters {
     costType?: string;
@@ -38,7 +60,12 @@ export class ProjectCostService {
         private readonly expenseRecordRepository: ExpenseRecordRepository,
         private readonly internalCostRateVersionRepository: InternalCostRateVersionRepository,
         private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository,
-        private readonly contractFinanceRepository: ContractFinanceRepository
+        private readonly contractFinanceRepository: ContractFinanceRepository,
+        private readonly operatingBaselinePackageRepository: OperatingBaselinePackageRepository,
+        private readonly changePackageBaselineRepository: ChangePackageBaselineRepository,
+        private readonly projectOperatingSnapshotRepository: ProjectOperatingSnapshotRepository,
+        private readonly periodClosingSnapshotRepository: PeriodClosingSnapshotRepository,
+        private readonly operatingRestatementRecordRepository: OperatingRestatementRecordRepository
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -589,6 +616,302 @@ export class ProjectCostService {
         };
     }
 
+    async activateOperatingBaselinePackage(input: ActivateOperatingBaselinePackageRequest, userId: string): Promise<CommandResult> {
+        const project = await this.contractFinanceRepository.findProjectById(input.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${input.projectId} not found`);
+        }
+
+        if (input.baselineSelectionSource === 'handover_rebaseline' && !input.effectiveOperatingBaselineId) {
+            throw new UnprocessableEntityException('effectiveOperatingBaselineId is required for handover_rebaseline baseline selection');
+        }
+
+        const current = await this.operatingBaselinePackageRepository.findCurrentByProjectId(input.projectId);
+        if (input.expectedCurrentPackageVersion !== undefined && !current) {
+            throw new ConflictException(`No current operating baseline package exists for project ${input.projectId}`);
+        }
+        if (current) {
+            this.assertExpectedVersion(current.rowVersion, input.expectedCurrentPackageVersion, 'OperatingBaselinePackage');
+        }
+
+        const originalBaselineCost = this.parseNonNegativeDecimal(input.originalBaselineCost, 'originalBaselineCost');
+        const changePackageTotal = (input.changePackages ?? []).reduce(
+            (sum, item, index) => sum + this.parseDecimal(item.changeAmount, `changePackages[${index}].changeAmount`),
+            0
+        );
+        const currentEffectiveBaselineCost = originalBaselineCost + changePackageTotal;
+        if (currentEffectiveBaselineCost < 0) {
+            throw new UnprocessableEntityException('currentEffectiveBaselineCost must be greater than or equal to 0');
+        }
+
+        const now = new Date();
+        const baselinePackageId = randomUUID();
+        const baselinePackage = this.operatingBaselinePackageRepository.create({
+            id: baselinePackageId,
+            projectId: input.projectId,
+            originalBaselineCost: this.formatAmount(originalBaselineCost),
+            changePackageTotal: this.formatAmount(changePackageTotal),
+            currentEffectiveBaselineCost: this.formatAmount(currentEffectiveBaselineCost),
+            baselineSelectionSource: input.baselineSelectionSource,
+            effectiveOperatingBaselineId: input.effectiveOperatingBaselineId ?? null,
+            baselineSummary: input.baselineSummary ?? null,
+            isCurrent: true,
+            status: 'active',
+            effectiveAt: now,
+            effectiveBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        if (current) {
+            current.isCurrent = false;
+            current.status = 'superseded';
+            current.updatedBy = userId;
+            await this.operatingBaselinePackageRepository.saveAll([current, baselinePackage]);
+        } else {
+            await this.operatingBaselinePackageRepository.save(baselinePackage);
+        }
+
+        const changeBaselines = (input.changePackages ?? []).map((item) =>
+            this.changePackageBaselineRepository.create({
+                id: randomUUID(),
+                baselinePackageId,
+                changePackageId: item.changePackageId,
+                changeAmount: this.formatAmount(this.parseDecimal(item.changeAmount, 'changeAmount')),
+                changeSummary: item.changeSummary ?? null,
+                status: 'active',
+                effectiveAt: item.effectiveAt ? new Date(item.effectiveAt) : now,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        await this.changePackageBaselineRepository.saveAll(changeBaselines);
+
+        return {
+            targetId: baselinePackage.id,
+            targetType: 'OperatingBaselinePackage',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async getCurrentOperatingBaselinePackage(projectId: string): Promise<OperatingBaselinePackageSummary> {
+        const current = await this.operatingBaselinePackageRepository.findCurrentByProjectId(projectId);
+        if (!current) {
+            throw new NotFoundException(`Current operating baseline package for project ${projectId} not found`);
+        }
+        return this.toOperatingBaselinePackageSummary(current);
+    }
+
+    async createProjectOperatingSnapshot(input: CreateProjectOperatingSnapshotRequest, userId: string): Promise<CommandResult> {
+        const project = await this.contractFinanceRepository.findProjectById(input.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${input.projectId} not found`);
+        }
+        this.assertNullableDateRange(input.sourceWindowStart ?? null, input.sourceWindowEnd ?? null, 'sourceWindowStart', 'sourceWindowEnd');
+
+        const calculated = this.calculateOperatingSnapshotAmounts(input);
+        const entity = this.projectOperatingSnapshotRepository.create({
+            id: randomUUID(),
+            projectId: input.projectId,
+            snapshotMode: input.snapshotMode,
+            snapshotAt: new Date(),
+            sourceWindowStart: input.sourceWindowStart ?? null,
+            sourceWindowEnd: input.sourceWindowEnd ?? null,
+            ...calculated,
+            taxImpactSummary: input.taxImpactSummary,
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
+            allocationStabilitySummary: input.allocationStabilitySummary ?? null,
+            unmappedCostSummary: input.unmappedCostSummary ?? null,
+            currentActionLevel: input.currentActionLevel,
+            referencedBaselineVersion: input.referencedBaselineVersion,
+            baselineSelectionSource: input.baselineSelectionSource,
+            handoverRebaselineRecordId: input.handoverRebaselineRecordId ?? null,
+            status: 'active',
+            supersedesId: null,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.projectOperatingSnapshotRepository.save(entity);
+
+        return {
+            targetId: entity.id,
+            targetType: 'ProjectOperatingSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async getProjectOperatingSnapshot(id: string): Promise<ProjectOperatingSnapshotSummary> {
+        const snapshot = await this.projectOperatingSnapshotRepository.findById(id);
+        if (!snapshot) {
+            throw new NotFoundException(`ProjectOperatingSnapshot ${id} not found`);
+        }
+        return this.toProjectOperatingSnapshotSummary(snapshot);
+    }
+
+    async createPeriodClosingSnapshot(input: CreatePeriodClosingSnapshotRequest, userId: string): Promise<CommandResult> {
+        const project = await this.contractFinanceRepository.findProjectById(input.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${input.projectId} not found`);
+        }
+
+        const current = await this.periodClosingSnapshotRepository.findActiveByProjectAndPeriod(input.projectId, input.periodKey);
+        if (current) {
+            this.assertExpectedVersion(current.rowVersion, input.expectedCurrentSnapshotVersion, 'PeriodClosingSnapshot');
+            throw new ConflictException(`Project ${input.projectId} already has an active period closing snapshot for ${input.periodKey}`);
+        }
+
+        const calculated = this.calculateOperatingSnapshotAmounts(input);
+        const entity = this.periodClosingSnapshotRepository.create({
+            id: randomUUID(),
+            projectId: input.projectId,
+            periodKey: input.periodKey,
+            snapshotMode: 'period-end',
+            snapshotAt: new Date(),
+            ...calculated,
+            taxImpactSummary: input.taxImpactSummary,
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
+            allocationStabilitySummary: input.allocationStabilitySummary ?? null,
+            unmappedCostSummary: input.unmappedCostSummary ?? null,
+            currentActionLevel: input.currentActionLevel,
+            referencedBaselineVersion: input.referencedBaselineVersion,
+            baselineSelectionSource: input.baselineSelectionSource,
+            handoverRebaselineRecordId: input.handoverRebaselineRecordId ?? null,
+            status: 'active',
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.periodClosingSnapshotRepository.save(entity);
+
+        return {
+            targetId: entity.id,
+            targetType: 'PeriodClosingSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async createOperatingRestatement(input: CreateOperatingRestatementRequest, userId: string): Promise<CommandResult> {
+        const [periodEndSnapshot, restatesSnapshot, existingRestatement] = await Promise.all([
+            this.periodClosingSnapshotRepository.findById(input.periodEndSnapshotId),
+            this.projectOperatingSnapshotRepository.findById(input.restatesSnapshotId),
+            this.operatingRestatementRecordRepository.findActiveByRestatesSnapshotId(input.restatesSnapshotId)
+        ]);
+
+        if (!periodEndSnapshot) {
+            throw new NotFoundException(`PeriodClosingSnapshot ${input.periodEndSnapshotId} not found`);
+        }
+        if (!restatesSnapshot) {
+            throw new NotFoundException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} not found`);
+        }
+        if (periodEndSnapshot.projectId !== input.projectId || restatesSnapshot.projectId !== input.projectId) {
+            throw new ConflictException(`Restatement snapshots do not belong to project ${input.projectId}`);
+        }
+        if (periodEndSnapshot.status !== 'active') {
+            throw new ConflictException(`PeriodClosingSnapshot ${input.periodEndSnapshotId} is not active`);
+        }
+        if (restatesSnapshot.status !== 'active') {
+            throw new ConflictException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} is not active`);
+        }
+        this.assertExpectedVersion(restatesSnapshot.rowVersion, input.expectedRestatesSnapshotVersion, 'ProjectOperatingSnapshot');
+        if (existingRestatement) {
+            throw new ConflictException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} already has an active restatement`);
+        }
+
+        const restatedSnapshotId = randomUUID();
+        const restatedValues = this.mergeRestatedSnapshotValues(restatesSnapshot, input.restatedValues);
+        const restatedSnapshot = this.projectOperatingSnapshotRepository.create({
+            id: restatedSnapshotId,
+            projectId: input.projectId,
+            snapshotMode: 'restated',
+            snapshotAt: new Date(),
+            sourceWindowStart: restatedValues.sourceWindowStart,
+            sourceWindowEnd: restatedValues.sourceWindowEnd,
+            effectiveContractTotal: restatedValues.effectiveContractTotal,
+            receivableConfirmedTotal: restatedValues.receivableConfirmedTotal,
+            includedCostTotal: restatedValues.includedCostTotal,
+            originalBaselineCost: restatedValues.originalBaselineCost,
+            currentEffectiveBaselineCost: restatedValues.currentEffectiveBaselineCost,
+            grossMarginAmount: restatedValues.grossMarginAmount,
+            grossMarginRate: restatedValues.grossMarginRate,
+            taxImpactSummary: restatedValues.taxImpactSummary,
+            taxImpactPendingAmount: restatedValues.taxImpactPendingAmount,
+            allocationStabilitySummary: restatedValues.allocationStabilitySummary,
+            unmappedCostSummary: restatedValues.unmappedCostSummary,
+            currentActionLevel: restatedValues.currentActionLevel,
+            referencedBaselineVersion: restatedValues.referencedBaselineVersion,
+            baselineSelectionSource: restatedValues.baselineSelectionSource,
+            handoverRebaselineRecordId: restatedValues.handoverRebaselineRecordId,
+            status: 'active',
+            supersedesId: restatesSnapshot.id,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        restatesSnapshot.status = 'superseded';
+        restatesSnapshot.updatedBy = userId;
+        await this.projectOperatingSnapshotRepository.saveAll([restatesSnapshot, restatedSnapshot]);
+
+        const restatementRecord = this.operatingRestatementRecordRepository.create({
+            id: randomUUID(),
+            projectId: input.projectId,
+            periodEndSnapshotId: periodEndSnapshot.id,
+            restatesSnapshotId: restatesSnapshot.id,
+            restatedSnapshotId,
+            restatementReason: input.restatementReason,
+            restatementSummary: input.restatementSummary,
+            status: 'active',
+            handledAt: new Date(),
+            handledBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+        await this.operatingRestatementRecordRepository.save(restatementRecord);
+
+        return {
+            targetId: restatementRecord.id,
+            targetType: 'OperatingRestatementRecord',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async listOperatingRestatements(projectId: string): Promise<OperatingRestatementSummary[]> {
+        const records = await this.operatingRestatementRecordRepository.findByProjectId(projectId);
+        return records.map((record) => this.toOperatingRestatementSummary(record));
+    }
+
+    async getPeriodClosingSnapshot(id: string): Promise<PeriodClosingSnapshotSummary> {
+        const snapshot = await this.periodClosingSnapshotRepository.findById(id);
+        if (!snapshot) {
+            throw new NotFoundException(`PeriodClosingSnapshot ${id} not found`);
+        }
+        return this.toPeriodClosingSnapshotSummary(snapshot);
+    }
+
+    async getOperatingRestatement(id: string): Promise<OperatingRestatementSummary> {
+        const record = await this.operatingRestatementRecordRepository.findById(id);
+        if (!record) {
+            throw new NotFoundException(`OperatingRestatementRecord ${id} not found`);
+        }
+        return this.toOperatingRestatementSummary(record);
+    }
+
     async registerLaborCostRecord(input: RegisterLaborCostRecordRequest, userId: string): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
@@ -921,6 +1244,202 @@ export class ProjectCostService {
         };
     }
 
+    private toOperatingBaselinePackageSummary(entity: OperatingBaselinePackage): OperatingBaselinePackageSummary {
+        return {
+            id: entity.id,
+            projectId: entity.projectId,
+            originalBaselineCost: this.toNullableDecimal(entity.originalBaselineCost) ?? '0.0000',
+            changePackageTotal: this.toNullableDecimal(entity.changePackageTotal) ?? '0.0000',
+            currentEffectiveBaselineCost: this.toNullableDecimal(entity.currentEffectiveBaselineCost) ?? '0.0000',
+            baselineSelectionSource: entity.baselineSelectionSource as OperatingBaselinePackageSummary['baselineSelectionSource'],
+            effectiveOperatingBaselineId: entity.effectiveOperatingBaselineId ?? null,
+            baselineSummary: entity.baselineSummary ?? null,
+            isCurrent: entity.isCurrent,
+            status: entity.status as OperatingBaselinePackageSummary['status'],
+            effectiveAt: this.toNullableDateTime(entity.effectiveAt),
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private toProjectOperatingSnapshotSummary(entity: ProjectOperatingSnapshot): ProjectOperatingSnapshotSummary {
+        return {
+            id: entity.id,
+            projectId: entity.projectId,
+            snapshotMode: entity.snapshotMode as ProjectOperatingSnapshotSummary['snapshotMode'],
+            snapshotAt: this.toRequiredDateTime(entity.snapshotAt),
+            sourceWindowStart: this.toNullableDate(entity.sourceWindowStart),
+            sourceWindowEnd: this.toNullableDate(entity.sourceWindowEnd),
+            effectiveContractTotal: this.toNullableDecimal(entity.effectiveContractTotal) ?? '0.0000',
+            receivableConfirmedTotal: this.toNullableDecimal(entity.receivableConfirmedTotal) ?? '0.0000',
+            includedCostTotal: this.toNullableDecimal(entity.includedCostTotal) ?? '0.0000',
+            originalBaselineCost: this.toNullableDecimal(entity.originalBaselineCost) ?? '0.0000',
+            currentEffectiveBaselineCost: this.toNullableDecimal(entity.currentEffectiveBaselineCost) ?? '0.0000',
+            grossMarginAmount: this.toNullableDecimal(entity.grossMarginAmount) ?? '0.0000',
+            grossMarginRate: this.toNullableDecimal(entity.grossMarginRate),
+            taxImpactSummary: entity.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? '0.0000',
+            allocationStabilitySummary: entity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: entity.unmappedCostSummary ?? null,
+            currentActionLevel: entity.currentActionLevel as ProjectOperatingSnapshotSummary['currentActionLevel'],
+            referencedBaselineVersion: entity.referencedBaselineVersion,
+            baselineSelectionSource: entity.baselineSelectionSource as ProjectOperatingSnapshotSummary['baselineSelectionSource'],
+            handoverRebaselineRecordId: entity.handoverRebaselineRecordId ?? null,
+            status: entity.status as ProjectOperatingSnapshotSummary['status'],
+            supersedesId: entity.supersedesId ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private toPeriodClosingSnapshotSummary(entity: PeriodClosingSnapshot): PeriodClosingSnapshotSummary {
+        return {
+            id: entity.id,
+            projectId: entity.projectId,
+            periodKey: entity.periodKey,
+            snapshotMode: 'period-end',
+            snapshotAt: this.toRequiredDateTime(entity.snapshotAt),
+            effectiveContractTotal: this.toNullableDecimal(entity.effectiveContractTotal) ?? '0.0000',
+            receivableConfirmedTotal: this.toNullableDecimal(entity.receivableConfirmedTotal) ?? '0.0000',
+            includedCostTotal: this.toNullableDecimal(entity.includedCostTotal) ?? '0.0000',
+            originalBaselineCost: this.toNullableDecimal(entity.originalBaselineCost) ?? '0.0000',
+            currentEffectiveBaselineCost: this.toNullableDecimal(entity.currentEffectiveBaselineCost) ?? '0.0000',
+            grossMarginAmount: this.toNullableDecimal(entity.grossMarginAmount) ?? '0.0000',
+            grossMarginRate: this.toNullableDecimal(entity.grossMarginRate),
+            taxImpactSummary: entity.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? '0.0000',
+            allocationStabilitySummary: entity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: entity.unmappedCostSummary ?? null,
+            currentActionLevel: entity.currentActionLevel as PeriodClosingSnapshotSummary['currentActionLevel'],
+            referencedBaselineVersion: entity.referencedBaselineVersion,
+            baselineSelectionSource: entity.baselineSelectionSource as PeriodClosingSnapshotSummary['baselineSelectionSource'],
+            handoverRebaselineRecordId: entity.handoverRebaselineRecordId ?? null,
+            status: entity.status as PeriodClosingSnapshotSummary['status'],
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private toOperatingRestatementSummary(entity: OperatingRestatementRecord): OperatingRestatementSummary {
+        return {
+            id: entity.id,
+            projectId: entity.projectId,
+            periodEndSnapshotId: entity.periodEndSnapshotId,
+            restatesSnapshotId: entity.restatesSnapshotId,
+            restatedSnapshotId: entity.restatedSnapshotId,
+            restatementReason: entity.restatementReason,
+            restatementSummary: entity.restatementSummary,
+            status: entity.status as OperatingRestatementSummary['status'],
+            handledAt: this.toRequiredDateTime(entity.handledAt),
+            handledBy: entity.handledBy ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private calculateOperatingSnapshotAmounts(input: {
+        effectiveContractTotal: string;
+        receivableConfirmedTotal: string;
+        includedCostTotal: string;
+        originalBaselineCost: string;
+        currentEffectiveBaselineCost: string;
+    }): {
+        effectiveContractTotal: string;
+        receivableConfirmedTotal: string;
+        includedCostTotal: string;
+        originalBaselineCost: string;
+        currentEffectiveBaselineCost: string;
+        grossMarginAmount: string;
+        grossMarginRate: string | null;
+    } {
+        const effectiveContractTotal = this.parseNonNegativeDecimal(input.effectiveContractTotal, 'effectiveContractTotal');
+        const receivableConfirmedTotal = this.parseNonNegativeDecimal(input.receivableConfirmedTotal, 'receivableConfirmedTotal');
+        const includedCostTotal = this.parseNonNegativeDecimal(input.includedCostTotal, 'includedCostTotal');
+        const originalBaselineCost = this.parseNonNegativeDecimal(input.originalBaselineCost, 'originalBaselineCost');
+        const currentEffectiveBaselineCost = this.parseNonNegativeDecimal(input.currentEffectiveBaselineCost, 'currentEffectiveBaselineCost');
+        const grossMarginAmount = effectiveContractTotal - includedCostTotal;
+
+        return {
+            effectiveContractTotal: this.formatAmount(effectiveContractTotal),
+            receivableConfirmedTotal: this.formatAmount(receivableConfirmedTotal),
+            includedCostTotal: this.formatAmount(includedCostTotal),
+            originalBaselineCost: this.formatAmount(originalBaselineCost),
+            currentEffectiveBaselineCost: this.formatAmount(currentEffectiveBaselineCost),
+            grossMarginAmount: this.formatAmount(grossMarginAmount),
+            grossMarginRate: effectiveContractTotal === 0 ? null : this.formatRate(grossMarginAmount / effectiveContractTotal)
+        };
+    }
+
+    private mergeRestatedSnapshotValues(
+        current: ProjectOperatingSnapshot,
+        overrides: CreateOperatingRestatementRequest['restatedValues']
+    ): {
+        sourceWindowStart: string | null;
+        sourceWindowEnd: string | null;
+        effectiveContractTotal: string;
+        receivableConfirmedTotal: string;
+        includedCostTotal: string;
+        originalBaselineCost: string;
+        currentEffectiveBaselineCost: string;
+        grossMarginAmount: string;
+        grossMarginRate: string | null;
+        taxImpactSummary: string;
+        taxImpactPendingAmount: string;
+        allocationStabilitySummary: string | null;
+        unmappedCostSummary: string | null;
+        currentActionLevel: string;
+        referencedBaselineVersion: string;
+        baselineSelectionSource: string;
+        handoverRebaselineRecordId: string | null;
+    } {
+        const amountInput = {
+            effectiveContractTotal: overrides.effectiveContractTotal ?? this.toNullableDecimal(current.effectiveContractTotal) ?? '0',
+            receivableConfirmedTotal: overrides.receivableConfirmedTotal ?? this.toNullableDecimal(current.receivableConfirmedTotal) ?? '0',
+            includedCostTotal: overrides.includedCostTotal ?? this.toNullableDecimal(current.includedCostTotal) ?? '0',
+            originalBaselineCost: overrides.originalBaselineCost ?? this.toNullableDecimal(current.originalBaselineCost) ?? '0',
+            currentEffectiveBaselineCost: overrides.currentEffectiveBaselineCost ?? this.toNullableDecimal(current.currentEffectiveBaselineCost) ?? '0'
+        };
+        const calculated = this.calculateOperatingSnapshotAmounts(amountInput);
+
+        return {
+            ...calculated,
+            sourceWindowStart:
+                overrides.sourceWindowStart === undefined
+                    ? this.toNullableDate(current.sourceWindowStart)
+                    : overrides.sourceWindowStart,
+            sourceWindowEnd:
+                overrides.sourceWindowEnd === undefined
+                    ? this.toNullableDate(current.sourceWindowEnd)
+                    : overrides.sourceWindowEnd,
+            taxImpactSummary: overrides.taxImpactSummary ?? current.taxImpactSummary,
+            taxImpactPendingAmount: this.formatAmount(
+                this.parseNonNegativeDecimal(
+                    overrides.taxImpactPendingAmount ?? this.toNullableDecimal(current.taxImpactPendingAmount) ?? '0',
+                    'taxImpactPendingAmount'
+                )
+            ),
+            allocationStabilitySummary:
+                overrides.allocationStabilitySummary === undefined
+                    ? current.allocationStabilitySummary ?? null
+                    : overrides.allocationStabilitySummary,
+            unmappedCostSummary:
+                overrides.unmappedCostSummary === undefined
+                    ? current.unmappedCostSummary ?? null
+                    : overrides.unmappedCostSummary,
+            currentActionLevel: overrides.currentActionLevel ?? current.currentActionLevel,
+            referencedBaselineVersion: overrides.referencedBaselineVersion ?? current.referencedBaselineVersion,
+            baselineSelectionSource: overrides.baselineSelectionSource ?? current.baselineSelectionSource,
+            handoverRebaselineRecordId:
+                overrides.handoverRebaselineRecordId === undefined
+                    ? current.handoverRebaselineRecordId ?? null
+                    : overrides.handoverRebaselineRecordId
+        };
+    }
+
     private buildSourceStatusSummary(
         record: ProjectActualCostRecord,
         paymentRecord: PaymentRecord | null,
@@ -1060,6 +1579,15 @@ export class ProjectCostService {
         }
     }
 
+    private assertNullableDateRange(start: string | null, end: string | null, startField: string, endField: string): void {
+        if (!start || !end) {
+            return;
+        }
+        const parsedStart = this.parseDateOnly(start, startField);
+        const parsedEnd = this.parseDateOnly(end, endField);
+        this.assertDateRange(parsedStart, parsedEnd, startField, endField);
+    }
+
     private dayBefore(date: string): string {
         const result = this.toDate(date);
         result.setUTCDate(result.getUTCDate() - 1);
@@ -1081,6 +1609,14 @@ export class ProjectCostService {
         const parsed = this.toNumber(value);
         if (parsed < 0) {
             throw new UnprocessableEntityException(`${fieldName} must be greater than or equal to 0`);
+        }
+        return parsed;
+    }
+
+    private parseDecimal(value: string | number, fieldName: string): number {
+        const parsed = this.toNumber(value);
+        if (!Number.isFinite(parsed)) {
+            throw new UnprocessableEntityException(`${fieldName} must be a valid number`);
         }
         return parsed;
     }
@@ -1135,6 +1671,10 @@ export class ProjectCostService {
 
     private formatAmount(value: number): string {
         return value.toFixed(4);
+    }
+
+    private formatRate(value: number): string {
+        return value.toFixed(6);
     }
 
     private appendComment(value: string, comment: string | null | undefined): string {

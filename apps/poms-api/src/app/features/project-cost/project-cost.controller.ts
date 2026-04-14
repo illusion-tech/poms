@@ -1,13 +1,22 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+    ActivateOperatingBaselinePackageRequestDto,
     ConfirmExpenseRecordRequestDto,
+    CreateOperatingRestatementRequestDto,
     CreateExpenseRecordRequestDto,
+    CreatePeriodClosingSnapshotRequestDto,
+    CreateProjectOperatingSnapshotRequestDto,
     ExpenseRecordDetailViewDto,
     ExpenseRecordListDto,
     ExpenseRecordDto,
+    OperatingBaselinePackageSummaryDto,
+    OperatingRestatementListViewDto,
+    OperatingRestatementSummaryDto,
+    PeriodClosingSnapshotSummaryDto,
     ProjectActualCostRecordDetailViewDto,
     ProjectActualCostRecordListViewDto,
+    ProjectOperatingSnapshotSummaryDto,
     PublishInternalCostRateVersionRequestDto,
     RegisterExpenseCostRecordRequestDto,
     RegisterInvoiceCostRecordRequestDto,
@@ -23,8 +32,13 @@ import type {
     ExpenseRecordDetailView,
     ExpenseRecordList,
     ExpenseRecordSummary,
+    OperatingBaselinePackageSummary,
+    OperatingRestatementListView,
+    OperatingRestatementSummary,
+    PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
-    ProjectActualCostRecordListView
+    ProjectActualCostRecordListView,
+    ProjectOperatingSnapshotSummary
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ProjectCostService } from './project-cost.service';
@@ -105,6 +119,94 @@ export class ProjectCostController {
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.registerProcurementCostRecord(body, userId);
+    }
+
+    @Post('project-cost/activate-operating-baseline-package')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '生效项目经营基线包' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async activateOperatingBaselinePackage(
+        @Body() body: ActivateOperatingBaselinePackageRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.activateOperatingBaselinePackage(body, userId);
+    }
+
+    @Get('projects/:projectId/operating-baseline-package/current')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取当前项目经营基线包' })
+    @ApiOkResponse({ type: OperatingBaselinePackageSummaryDto })
+    async getCurrentOperatingBaselinePackage(@Param('projectId') projectId: string): Promise<OperatingBaselinePackageSummary> {
+        return this.projectCostService.getCurrentOperatingBaselinePackage(projectId);
+    }
+
+    @Post('project-cost/create-project-operating-snapshot')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '创建项目经营快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async createProjectOperatingSnapshot(
+        @Body() body: CreateProjectOperatingSnapshotRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.createProjectOperatingSnapshot(body, userId);
+    }
+
+    @Get('project-operating-snapshots/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目经营快照' })
+    @ApiOkResponse({ type: ProjectOperatingSnapshotSummaryDto })
+    async getProjectOperatingSnapshot(@Param('id') id: string): Promise<ProjectOperatingSnapshotSummary> {
+        return this.projectCostService.getProjectOperatingSnapshot(id);
+    }
+
+    @Post('project-cost/create-period-closing-snapshot')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '创建期末冻结经营快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async createPeriodClosingSnapshot(
+        @Body() body: CreatePeriodClosingSnapshotRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.createPeriodClosingSnapshot(body, userId);
+    }
+
+    @Get('period-closing-snapshots/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取期末冻结经营快照' })
+    @ApiOkResponse({ type: PeriodClosingSnapshotSummaryDto })
+    async getPeriodClosingSnapshot(@Param('id') id: string): Promise<PeriodClosingSnapshotSummary> {
+        return this.projectCostService.getPeriodClosingSnapshot(id);
+    }
+
+    @Post('project-cost/create-operating-restatement')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '创建经营快照重述记录' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async createOperatingRestatement(
+        @Body() body: CreateOperatingRestatementRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.createOperatingRestatement(body, userId);
+    }
+
+    @Get('projects/:projectId/operating-restatements')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目经营重述记录列表' })
+    @ApiOkResponse({ type: OperatingRestatementListViewDto })
+    async listOperatingRestatements(@Param('projectId') projectId: string): Promise<OperatingRestatementListView> {
+        return this.projectCostService.listOperatingRestatements(projectId);
+    }
+
+    @Get('operating-restatements/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取经营重述记录详情' })
+    @ApiOkResponse({ type: OperatingRestatementSummaryDto })
+    async getOperatingRestatement(@Param('id') id: string): Promise<OperatingRestatementSummary> {
+        return this.projectCostService.getOperatingRestatement(id);
     }
 
     @Get('projects/:projectId/expense-records')
