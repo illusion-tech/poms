@@ -22,10 +22,10 @@
   - `operating_restatement_record`
 - **本次明确不做**:
   - 共享成本分摊、税务影响、阶段归属的完整计算引擎，继续留给 EX-07C / 后续专用切片收口。
-  - `contract_handover_rebaseline_record` 主表与 `handover_rebaseline_record_id` 外键，继续留给 EX-08 后补。
+  - `contract_handover_rebaseline_record` 主表与 `handover_rebaseline_record_id` 外键，本切片延迟，已由 EX-08A1 补齐。
   - `operating_signal_evaluation_result`、`data_maturity_evaluation_result`、`operating_signal_gate_binding`，继续留给 EX-13。
 - **下游可依赖的交付边界**: 可创建当前有效经营基线包，可冻结项目经营快照与期末快照，可登记 append-only 经营重述记录并生成替代经营快照，可通过 API 查询当前基线包、快照与重述历史。
-- **不允许下游依赖的留白**: 不把本切片输出解释为最终分摊 / 税务 / 经营信号评价结果；`handover_rebaseline_record_id` 仍是稳定字段但外键未生效。
+- **不允许下游依赖的留白**: 不把本切片输出解释为最终分摊 / 税务 / 经营信号评价结果；`handover_rebaseline_record_id` 已在 EX-08A1 补齐 FK。
 
 ---
 
@@ -117,9 +117,9 @@
 
 ## 9. 例外与风险
 
-| Exception ID | Level | Scope                                | Approved By | Cleanup Owner | Cleanup Due  | Notes                                                                             |
-| ------------ | ----- | ------------------------------------ | ----------- | ------------- | ------------ | --------------------------------------------------------------------------------- |
-| EX-07B-E01   | E2    | `handover_rebaseline_record_id` 外键 | Codex       | EX-08 owner   | EX-08 完成后 | 沿用 EX-07A-E01；字段保留，FK 等 `contract_handover_rebaseline_record` 落地后补加 |
+| Exception ID | Level  | Scope                                | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                                  |
+| ------------ | ------ | ------------------------------------ | ----------- | ------------- | ----------- | ------------------------------------------------------------------------------------------------------ |
+| EX-07B-E01   | Closed | `handover_rebaseline_record_id` 外键 | Codex       | Codex         | 2026-04-15  | 已由 EX-08A1 新增字段并补齐到 `contract_handover_rebaseline_record.id` 的 FK，且通过 `migration-check` |
 
 ---
 
