@@ -14,14 +14,18 @@ import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
 import {
+    AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CostStageAttributionSnapshotRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
-    ProjectOperatingSnapshotRepository
+    ProjectOperatingSnapshotRepository,
+    SharedCostAllocationBasisRepository,
+    SharedCostAllocationResultRepository
 } from './project-cost.repository';
 import { ProjectCostService } from './project-cost.service';
 import { ProjectCostController } from './project-cost.controller';
@@ -40,13 +44,15 @@ import { ProjectCostController } from './project-cost.controller';
             ProjectActualCostRecord,
             ProjectOperatingSnapshot,
             SharedCostAllocationBasis,
-            SharedCostAllocationResult,
+            SharedCostAllocationResult
         ]),
-        ContractFinanceModule,
+        ContractFinanceModule
     ],
     controllers: [ProjectCostController],
     providers: [
+        AccountingTaxTreatmentSnapshotRepository,
         ChangePackageBaselineRepository,
+        CostStageAttributionSnapshotRepository,
         ExpenseRecordRepository,
         InternalCostRateVersionRepository,
         OperatingBaselinePackageRepository,
@@ -54,10 +60,14 @@ import { ProjectCostController } from './project-cost.controller';
         PeriodClosingSnapshotRepository,
         ProjectActualCostRecordRepository,
         ProjectOperatingSnapshotRepository,
+        SharedCostAllocationBasisRepository,
+        SharedCostAllocationResultRepository,
         ProjectCostService
     ],
     exports: [
+        AccountingTaxTreatmentSnapshotRepository,
         ChangePackageBaselineRepository,
+        CostStageAttributionSnapshotRepository,
         ExpenseRecordRepository,
         InternalCostRateVersionRepository,
         OperatingBaselinePackageRepository,
@@ -65,7 +75,9 @@ import { ProjectCostController } from './project-cost.controller';
         PeriodClosingSnapshotRepository,
         ProjectActualCostRecordRepository,
         ProjectOperatingSnapshotRepository,
+        SharedCostAllocationBasisRepository,
+        SharedCostAllocationResultRepository,
         ProjectCostService
-    ],
+    ]
 })
 export class ProjectCostModule {}

@@ -1,7 +1,9 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import { ChangePackageBaseline } from './change-package-baseline.entity';
+import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
 import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
@@ -9,6 +11,8 @@ import { OperatingRestatementRecord } from './operating-restatement-record.entit
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
+import { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
+import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
 
 @Injectable()
 export class InternalCostRateVersionRepository {
@@ -330,5 +334,132 @@ export class OperatingRestatementRecordRepository {
 
     async save(entity: OperatingRestatementRecord): Promise<void> {
         await this.repository.getEntityManager().persist(entity).flush();
+    }
+}
+
+@Injectable()
+export class SharedCostAllocationBasisRepository {
+    constructor(
+        @InjectRepository(SharedCostAllocationBasis)
+        private readonly repository: EntityRepository<SharedCostAllocationBasis>
+    ) {}
+
+    async findById(id: string): Promise<SharedCostAllocationBasis | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveByScopeKey(sourceCostScopeKey: string): Promise<SharedCostAllocationBasis | null> {
+        return this.repository.findOne(
+            { sourceCostScopeKey, status: 'active' },
+            { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    create(input: ConstructorParameters<typeof SharedCostAllocationBasis>[0]): SharedCostAllocationBasis {
+        return this.repository.create(input);
+    }
+
+    async save(entity: SharedCostAllocationBasis): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+}
+
+@Injectable()
+export class SharedCostAllocationResultRepository {
+    constructor(
+        @InjectRepository(SharedCostAllocationResult)
+        private readonly repository: EntityRepository<SharedCostAllocationResult>
+    ) {}
+
+    async findById(id: string): Promise<SharedCostAllocationResult | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findByBasisId(basisId: string): Promise<SharedCostAllocationResult[]> {
+        return this.repository.find(
+            { basisId },
+            { orderBy: { status: QueryOrder.ASC, createdAt: QueryOrder.ASC } }
+        );
+    }
+
+    async findActiveByBasisAndProject(basisId: string, projectId: string): Promise<SharedCostAllocationResult | null> {
+        return this.repository.findOne({ basisId, projectId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof SharedCostAllocationResult>[0]): SharedCostAllocationResult {
+        return this.repository.create(input);
+    }
+
+    async saveAll(entities: SharedCostAllocationResult[]): Promise<void> {
+        if (entities.length === 0) {
+            return;
+        }
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class CostStageAttributionSnapshotRepository {
+    constructor(
+        @InjectRepository(CostStageAttributionSnapshot)
+        private readonly repository: EntityRepository<CostStageAttributionSnapshot>
+    ) {}
+
+    async findById(id: string): Promise<CostStageAttributionSnapshot | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findByCostRecordId(costRecordId: string): Promise<CostStageAttributionSnapshot[]> {
+        return this.repository.find(
+            { costRecordId },
+            { orderBy: { handledAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findActiveByCostRecordId(costRecordId: string): Promise<CostStageAttributionSnapshot | null> {
+        return this.repository.findOne({ costRecordId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof CostStageAttributionSnapshot>[0]): CostStageAttributionSnapshot {
+        return this.repository.create(input);
+    }
+
+    async save(entity: CostStageAttributionSnapshot): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: CostStageAttributionSnapshot[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class AccountingTaxTreatmentSnapshotRepository {
+    constructor(
+        @InjectRepository(AccountingTaxTreatmentSnapshot)
+        private readonly repository: EntityRepository<AccountingTaxTreatmentSnapshot>
+    ) {}
+
+    async findById(id: string): Promise<AccountingTaxTreatmentSnapshot | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findByProjectId(projectId: string): Promise<AccountingTaxTreatmentSnapshot[]> {
+        return this.repository.find(
+            { projectId },
+            { orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    create(input: ConstructorParameters<typeof AccountingTaxTreatmentSnapshot>[0]): AccountingTaxTreatmentSnapshot {
+        return this.repository.create(input);
+    }
+
+    async save(entity: AccountingTaxTreatmentSnapshot): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: AccountingTaxTreatmentSnapshot[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
     }
 }

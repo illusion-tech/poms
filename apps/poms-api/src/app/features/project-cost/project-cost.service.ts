@@ -1,9 +1,16 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import type {
     ActivateOperatingBaselinePackageRequest,
+    AccountingTaxTreatmentListView,
+    AccountingTaxTreatmentSnapshotSummary,
     CommandResult,
+    ConfirmAccountingTaxTreatmentRequest,
+    ConfirmCostStageAttributionRequest,
     ConfirmExpenseRecordRequest,
+    ConfirmSharedCostAllocationBasisRequest,
+    CostStageAttributionHistoryView,
+    CostStageAttributionSnapshotSummary,
     CreateExpenseRecordRequest,
     CreateOperatingRestatementRequest,
     CreatePeriodClosingSnapshotRequest,
@@ -16,17 +23,24 @@ import type {
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordSummary,
     ProjectOperatingSnapshotSummary,
+    ReclassifyCostStageAttributionRequest,
     RegisterExpenseCostRecordRequest,
     RegisterInvoiceCostRecordRequest,
     PublishInternalCostRateVersionRequest,
     RegisterLaborCostRecordRequest,
     RegisterPaymentFactCostRecordRequest,
     RegisterProcurementCostRecordRequest,
+    ReplaceSharedCostAllocationResultRequest,
     ReplaceLaborCostRecordRequest,
+    SharedCostAllocationBasisSummary,
+    SharedCostAllocationResultListView,
+    SharedCostAllocationResultSummary,
     UpdateExpenseRecordRequest,
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
+import type { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
+import type { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
 import type { InvoiceRecord } from '../contract-finance/invoice-record.entity';
 import type { PayableRecord } from '../contract-finance/payable-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
@@ -37,15 +51,21 @@ import type { OperatingRestatementRecord } from './operating-restatement-record.
 import type { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import type { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
+import type { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
+import type { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
 import {
+    AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CostStageAttributionSnapshotRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
-    ProjectOperatingSnapshotRepository
+    ProjectOperatingSnapshotRepository,
+    SharedCostAllocationBasisRepository,
+    SharedCostAllocationResultRepository
 } from './project-cost.repository';
 
 interface ProjectActualCostRecordFilters {
@@ -65,7 +85,11 @@ export class ProjectCostService {
         private readonly changePackageBaselineRepository: ChangePackageBaselineRepository,
         private readonly projectOperatingSnapshotRepository: ProjectOperatingSnapshotRepository,
         private readonly periodClosingSnapshotRepository: PeriodClosingSnapshotRepository,
-        private readonly operatingRestatementRecordRepository: OperatingRestatementRecordRepository
+        private readonly operatingRestatementRecordRepository: OperatingRestatementRecordRepository,
+        private readonly sharedCostAllocationBasisRepository: SharedCostAllocationBasisRepository,
+        private readonly sharedCostAllocationResultRepository: SharedCostAllocationResultRepository,
+        private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
+        private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -912,6 +936,355 @@ export class ProjectCostService {
         return this.toOperatingRestatementSummary(record);
     }
 
+    async confirmSharedCostAllocationBasis(
+        input: ConfirmSharedCostAllocationBasisRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const uniqueSourceCostRecordIds = [...new Set(input.sourceCostRecordIds)].sort();
+        if (uniqueSourceCostRecordIds.length !== input.sourceCostRecordIds.length) {
+            throw new UnprocessableEntityException('sourceCostRecordIds must not contain duplicates');
+        }
+
+        const sourceRecords = await Promise.all(
+            uniqueSourceCostRecordIds.map((id) => this.projectActualCostRecordRepository.findById(id))
+        );
+        const missingRecordId = uniqueSourceCostRecordIds[sourceRecords.findIndex((record) => !record)];
+        if (missingRecordId) {
+            throw new NotFoundException(`ProjectActualCostRecord ${missingRecordId} not found`);
+        }
+
+        const sourceCostScopeKey = this.buildSourceCostScopeKey(uniqueSourceCostRecordIds);
+        const activeBasis = await this.sharedCostAllocationBasisRepository.findActiveByScopeKey(sourceCostScopeKey);
+        if (activeBasis) {
+            this.assertExpectedVersion(activeBasis.rowVersion, input.expectedVersion, 'SharedCostAllocationBasis');
+            throw new ConflictException(`Source cost scope already has an active allocation basis`);
+        }
+
+        const projectIds = new Set(input.projectShareItems.map((item) => item.projectId));
+        if (projectIds.size !== input.projectShareItems.length) {
+            throw new UnprocessableEntityException('projectShareItems must contain unique projectId values');
+        }
+        for (const item of input.projectShareItems) {
+            const project = await this.contractFinanceRepository.findProjectById(item.projectId);
+            if (!project) {
+                throw new NotFoundException(`Project ${item.projectId} not found`);
+            }
+        }
+
+        const now = new Date();
+        const basisId = randomUUID();
+        const basis = this.sharedCostAllocationBasisRepository.create({
+            id: basisId,
+            sourceCostScopeKey,
+            basisType: input.basisType,
+            allocationMethod: input.allocationMethod,
+            basisSummary: this.appendComment(input.basisSummary ?? `Source cost records: ${uniqueSourceCostRecordIds.length}`, input.comment),
+            status: 'active',
+            effectiveAt: now,
+            effectiveBy: userId,
+            supersedesId: null,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.sharedCostAllocationBasisRepository.save(basis);
+
+        const results = input.projectShareItems.map((item) =>
+            this.sharedCostAllocationResultRepository.create({
+                id: randomUUID(),
+                basisId,
+                projectId: item.projectId,
+                allocatedAmount: this.formatAmount(this.parseNonNegativeDecimal(item.allocatedAmount, 'allocatedAmount')),
+                allocationRatio: this.parseNullableRatio(item.allocationRatio ?? null, 'allocationRatio'),
+                allocationSummary: item.allocationSummary ?? null,
+                status: 'active',
+                effectiveAt: now,
+                supersedesId: null,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        await this.sharedCostAllocationResultRepository.saveAll(results);
+
+        return {
+            targetId: basis.id,
+            targetType: 'SharedCostAllocationBasis',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async getSharedCostAllocationBasis(id: string): Promise<SharedCostAllocationBasisSummary> {
+        const basis = await this.sharedCostAllocationBasisRepository.findById(id);
+        if (!basis) {
+            throw new NotFoundException(`SharedCostAllocationBasis ${id} not found`);
+        }
+        const results = await this.sharedCostAllocationResultRepository.findByBasisId(id);
+        return this.toSharedCostAllocationBasisSummary(basis, results);
+    }
+
+    async listSharedCostAllocationResults(basisId: string): Promise<SharedCostAllocationResultListView> {
+        const basis = await this.sharedCostAllocationBasisRepository.findById(basisId);
+        if (!basis) {
+            throw new NotFoundException(`SharedCostAllocationBasis ${basisId} not found`);
+        }
+        const results = await this.sharedCostAllocationResultRepository.findByBasisId(basisId);
+        return results.map((result) => this.toSharedCostAllocationResultSummary(result));
+    }
+
+    async replaceSharedCostAllocationResult(
+        input: ReplaceSharedCostAllocationResultRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const superseded = await this.sharedCostAllocationResultRepository.findById(input.supersededAllocationResultId);
+        if (!superseded) {
+            throw new NotFoundException(`SharedCostAllocationResult ${input.supersededAllocationResultId} not found`);
+        }
+        if (superseded.status !== 'active') {
+            throw new ConflictException(`Only active allocation result can be replaced`);
+        }
+        this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'SharedCostAllocationResult');
+
+        const active = await this.sharedCostAllocationResultRepository.findActiveByBasisAndProject(
+            superseded.basisId,
+            superseded.projectId
+        );
+        if (active && active.id !== superseded.id) {
+            throw new ConflictException(`Another active allocation result already exists for the same basis and project`);
+        }
+
+        superseded.status = 'superseded';
+        superseded.updatedBy = userId;
+        await this.sharedCostAllocationResultRepository.saveAll([superseded]);
+
+        const replacement = this.sharedCostAllocationResultRepository.create({
+            id: randomUUID(),
+            basisId: superseded.basisId,
+            projectId: superseded.projectId,
+            allocatedAmount: this.formatAmount(this.parseNonNegativeDecimal(input.allocatedAmount, 'allocatedAmount')),
+            allocationRatio: this.parseNullableRatio(input.allocationRatio ?? null, 'allocationRatio'),
+            allocationSummary: this.appendComment(input.allocationSummary ?? input.replacementReason, input.comment),
+            status: 'active',
+            effectiveAt: new Date(),
+            supersedesId: superseded.id,
+            createdBy: userId,
+            updatedBy: userId
+        });
+        await this.sharedCostAllocationResultRepository.saveAll([replacement]);
+
+        return {
+            targetId: replacement.id,
+            targetType: 'SharedCostAllocationResult',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async confirmCostStageAttribution(input: ConfirmCostStageAttributionRequest, userId: string): Promise<CommandResult> {
+        const costRecord = await this.projectActualCostRecordRepository.findById(input.costRecordId);
+        if (!costRecord) {
+            throw new NotFoundException(`ProjectActualCostRecord ${input.costRecordId} not found`);
+        }
+        this.assertExpectedVersion(costRecord.rowVersion, input.expectedVersion, 'ProjectActualCostRecord');
+        const active = await this.costStageAttributionSnapshotRepository.findActiveByCostRecordId(input.costRecordId);
+        if (active) {
+            throw new ConflictException(`ProjectActualCostRecord ${input.costRecordId} already has an active stage attribution`);
+        }
+
+        const now = new Date();
+        const snapshot = this.costStageAttributionSnapshotRepository.create({
+            id: randomUUID(),
+            costRecordId: input.costRecordId,
+            attributedStage: input.attributedStage,
+            attributionMode: input.stageAttributionMode,
+            lockedBySnapshotId: input.lockedBySnapshotId ?? null,
+            attributionSummary: this.appendComment(input.attributionSummary ?? `Stage attributed to ${input.attributedStage}`, input.comment),
+            status: 'active',
+            supersedesId: null,
+            handledAt: now,
+            handledBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        costRecord.executionStageCode = input.attributedStage;
+        costRecord.stageDerivedFromType = 'CostStageAttributionSnapshot';
+        costRecord.stageDerivedFromId = snapshot.id;
+        costRecord.stageDerivedAt = now;
+        costRecord.stageLockedAt = input.lockedBySnapshotId ? now : null;
+        costRecord.updatedBy = userId;
+        await this.costStageAttributionSnapshotRepository.save(snapshot);
+        await this.projectActualCostRecordRepository.save(costRecord);
+
+        return {
+            targetId: snapshot.id,
+            targetType: 'CostStageAttributionSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async reclassifyCostStageAttribution(
+        input: ReclassifyCostStageAttributionRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const superseded = await this.costStageAttributionSnapshotRepository.findById(input.supersededAttributionId);
+        if (!superseded) {
+            throw new NotFoundException(`CostStageAttributionSnapshot ${input.supersededAttributionId} not found`);
+        }
+        if (superseded.status !== 'active') {
+            throw new ConflictException(`Only active cost stage attribution can be reclassified`);
+        }
+        this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'CostStageAttributionSnapshot');
+
+        const costRecord = await this.projectActualCostRecordRepository.findById(superseded.costRecordId);
+        if (!costRecord) {
+            throw new NotFoundException(`ProjectActualCostRecord ${superseded.costRecordId} not found`);
+        }
+
+        superseded.status = 'superseded';
+        superseded.updatedBy = userId;
+        await this.costStageAttributionSnapshotRepository.saveAll([superseded]);
+
+        const now = new Date();
+        const replacement = this.costStageAttributionSnapshotRepository.create({
+            id: randomUUID(),
+            costRecordId: superseded.costRecordId,
+            attributedStage: input.newAttributedStage,
+            attributionMode: 'reclassified',
+            lockedBySnapshotId: input.lockedBySnapshotId ?? superseded.lockedBySnapshotId ?? null,
+            attributionSummary: this.appendComment(input.reclassifyReason, input.comment),
+            status: 'active',
+            supersedesId: superseded.id,
+            handledAt: now,
+            handledBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+        costRecord.executionStageCode = input.newAttributedStage;
+        costRecord.stageDerivedFromType = 'CostStageAttributionSnapshot';
+        costRecord.stageDerivedFromId = replacement.id;
+        costRecord.stageDerivedAt = now;
+        costRecord.stageLockedAt = replacement.lockedBySnapshotId ? now : null;
+        costRecord.updatedBy = userId;
+        await this.costStageAttributionSnapshotRepository.saveAll([replacement]);
+        await this.projectActualCostRecordRepository.save(costRecord);
+
+        return {
+            targetId: replacement.id,
+            targetType: 'CostStageAttributionSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async listCostStageAttributions(costRecordId: string): Promise<CostStageAttributionHistoryView> {
+        const costRecord = await this.projectActualCostRecordRepository.findById(costRecordId);
+        if (!costRecord) {
+            throw new NotFoundException(`ProjectActualCostRecord ${costRecordId} not found`);
+        }
+        const snapshots = await this.costStageAttributionSnapshotRepository.findByCostRecordId(costRecordId);
+        return snapshots.map((snapshot) => this.toCostStageAttributionSnapshotSummary(snapshot));
+    }
+
+    async getCostStageAttribution(id: string): Promise<CostStageAttributionSnapshotSummary> {
+        const snapshot = await this.costStageAttributionSnapshotRepository.findById(id);
+        if (!snapshot) {
+            throw new NotFoundException(`CostStageAttributionSnapshot ${id} not found`);
+        }
+        return this.toCostStageAttributionSnapshotSummary(snapshot);
+    }
+
+    async confirmAccountingTaxTreatment(
+        input: ConfirmAccountingTaxTreatmentRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const project = await this.contractFinanceRepository.findProjectById(input.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${input.projectId} not found`);
+        }
+
+        let superseded: AccountingTaxTreatmentSnapshot | null = null;
+        if (input.supersedesTaxTreatmentSnapshotId) {
+            superseded = await this.accountingTaxTreatmentSnapshotRepository.findById(input.supersedesTaxTreatmentSnapshotId);
+            if (!superseded) {
+                throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${input.supersedesTaxTreatmentSnapshotId} not found`);
+            }
+            if (superseded.projectId !== input.projectId) {
+                throw new ConflictException(`Superseded tax treatment snapshot does not belong to project ${input.projectId}`);
+            }
+            if (superseded.status !== 'active') {
+                throw new ConflictException(`Only active tax treatment snapshot can be superseded`);
+            }
+            this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
+        }
+
+        const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
+            id: randomUUID(),
+            projectId: input.projectId,
+            taxTreatmentType: input.taxTreatmentType,
+            deductibilityStatus: input.deductibilityStatus,
+            taxImpactAmount: this.formatAmount(this.parseDecimal(input.taxImpactAmount, 'taxImpactAmount')),
+            taxPendingFlag: input.taxPendingFlag,
+            taxImpactSummary: input.taxImpactSummary,
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
+            basisSummary: input.basisSummary ?? null,
+            status: 'active',
+            supersedesId: superseded?.id ?? null,
+            confirmedAt: new Date(),
+            confirmedBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        if (superseded) {
+            superseded.status = 'superseded';
+            superseded.updatedBy = userId;
+            await this.accountingTaxTreatmentSnapshotRepository.saveAll([superseded, snapshot]);
+        } else {
+            await this.accountingTaxTreatmentSnapshotRepository.save(snapshot);
+        }
+
+        return {
+            targetId: snapshot.id,
+            targetType: 'AccountingTaxTreatmentSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async listAccountingTaxTreatments(projectId: string): Promise<AccountingTaxTreatmentListView> {
+        const project = await this.contractFinanceRepository.findProjectById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+        const snapshots = await this.accountingTaxTreatmentSnapshotRepository.findByProjectId(projectId);
+        return snapshots.map((snapshot) => this.toAccountingTaxTreatmentSnapshotSummary(snapshot));
+    }
+
+    async getAccountingTaxTreatment(id: string): Promise<AccountingTaxTreatmentSnapshotSummary> {
+        const snapshot = await this.accountingTaxTreatmentSnapshotRepository.findById(id);
+        if (!snapshot) {
+            throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${id} not found`);
+        }
+        return this.toAccountingTaxTreatmentSnapshotSummary(snapshot);
+    }
+
     async registerLaborCostRecord(input: RegisterLaborCostRecordRequest, userId: string): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
@@ -1341,6 +1714,85 @@ export class ProjectCostService {
         };
     }
 
+    private toSharedCostAllocationBasisSummary(
+        entity: SharedCostAllocationBasis,
+        results: SharedCostAllocationResult[]
+    ): SharedCostAllocationBasisSummary {
+        return {
+            id: entity.id,
+            sourceCostScopeKey: entity.sourceCostScopeKey,
+            basisType: entity.basisType,
+            allocationMethod: entity.allocationMethod,
+            basisSummary: entity.basisSummary ?? null,
+            status: entity.status as SharedCostAllocationBasisSummary['status'],
+            effectiveAt: this.toNullableDateTime(entity.effectiveAt),
+            effectiveBy: entity.effectiveBy ?? null,
+            supersedesId: entity.supersedesId ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt),
+            results: results.map((result) => this.toSharedCostAllocationResultSummary(result))
+        };
+    }
+
+    private toSharedCostAllocationResultSummary(entity: SharedCostAllocationResult): SharedCostAllocationResultSummary {
+        return {
+            id: entity.id,
+            basisId: entity.basisId,
+            projectId: entity.projectId,
+            allocatedAmount: this.toNullableDecimal(entity.allocatedAmount) ?? '0.0000',
+            allocationRatio: this.toNullableDecimal(entity.allocationRatio),
+            allocationSummary: entity.allocationSummary ?? null,
+            status: entity.status as SharedCostAllocationResultSummary['status'],
+            effectiveAt: this.toNullableDateTime(entity.effectiveAt),
+            supersedesId: entity.supersedesId ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private toCostStageAttributionSnapshotSummary(entity: CostStageAttributionSnapshot): CostStageAttributionSnapshotSummary {
+        return {
+            id: entity.id,
+            costRecordId: entity.costRecordId,
+            attributedStage: entity.attributedStage,
+            attributionMode: entity.attributionMode as CostStageAttributionSnapshotSummary['attributionMode'],
+            lockedBySnapshotId: entity.lockedBySnapshotId ?? null,
+            attributionSummary: entity.attributionSummary ?? null,
+            status: entity.status as CostStageAttributionSnapshotSummary['status'],
+            supersedesId: entity.supersedesId ?? null,
+            handledAt: this.toNullableDateTime(entity.handledAt),
+            handledBy: entity.handledBy ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
+    private toAccountingTaxTreatmentSnapshotSummary(
+        entity: AccountingTaxTreatmentSnapshot
+    ): AccountingTaxTreatmentSnapshotSummary {
+        return {
+            id: entity.id,
+            projectId: entity.projectId,
+            taxTreatmentType: entity.taxTreatmentType,
+            deductibilityStatus: entity.deductibilityStatus,
+            taxImpactAmount: this.toNullableDecimal(entity.taxImpactAmount) ?? '0.0000',
+            taxPendingFlag: entity.taxPendingFlag,
+            taxImpactSummary: entity.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? '0.0000',
+            basisSummary: entity.basisSummary ?? null,
+            status: entity.status as AccountingTaxTreatmentSnapshotSummary['status'],
+            supersedesId: entity.supersedesId ?? null,
+            confirmedAt: this.toNullableDateTime(entity.confirmedAt),
+            confirmedBy: entity.confirmedBy ?? null,
+            rowVersion: entity.rowVersion,
+            createdAt: this.toRequiredDateTime(entity.createdAt),
+            updatedAt: this.toRequiredDateTime(entity.updatedAt)
+        };
+    }
+
     private calculateOperatingSnapshotAmounts(input: {
         effectiveContractTotal: string;
         receivableConfirmedTotal: string;
@@ -1619,6 +2071,22 @@ export class ProjectCostService {
             throw new UnprocessableEntityException(`${fieldName} must be a valid number`);
         }
         return parsed;
+    }
+
+    private parseNullableRatio(value: string | null, fieldName: string): string | null {
+        if (value === null || value === '') {
+            return null;
+        }
+        const parsed = this.parseNonNegativeDecimal(value, fieldName);
+        if (parsed > 1) {
+            throw new UnprocessableEntityException(`${fieldName} must be between 0 and 1`);
+        }
+        return this.formatRate(parsed);
+    }
+
+    private buildSourceCostScopeKey(sourceCostRecordIds: string[]): string {
+        const hash = createHash('sha256').update(sourceCostRecordIds.join('|')).digest('hex');
+        return `cost-scope:${hash}`;
     }
 
     private toNumber(value: string | number): number {

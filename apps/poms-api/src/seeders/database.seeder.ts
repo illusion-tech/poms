@@ -112,6 +112,76 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."operating_restatement_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."project_operating_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."period_closing_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."change_package_baseline"
+            where "baseline_package_id" in (
+                select "id" from "${schema}"."operating_baseline_package"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_baseline_package"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."shared_cost_allocation_result"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."accounting_tax_treatment_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."cost_stage_attribution_snapshot"
+            where "cost_record_id" in (
+                select "id" from "${schema}"."project_actual_cost_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."project_actual_cost_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
@@ -140,7 +210,9 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."internal_cost_rate_version"
             where "role_code" like 'dev-%'
-                or "rate_key" like 'ROLE:dev-%';
+                or "role_code" like 'qa-%'
+                or "rate_key" like 'ROLE:dev-%'
+                or "rate_key" like 'ROLE:qa-%';
         `);
 
         // 级联清理所有引用种子项目的数据（不仅限于种子合同，避免测试期间 API 创建的数据阻塞删除）
@@ -175,6 +247,76 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."approval_record"
             where "target_object_id" in (
                 select "id" from "${schema}"."contract"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_restatement_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."project_operating_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."period_closing_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."change_package_baseline"
+            where "baseline_package_id" in (
+                select "id" from "${schema}"."operating_baseline_package"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_baseline_package"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."shared_cost_allocation_result"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."accounting_tax_treatment_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."cost_stage_attribution_snapshot"
+            where "cost_record_id" in (
+                select "id" from "${schema}"."project_actual_cost_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
                     where "project_code" in (${seededProjectCodes})

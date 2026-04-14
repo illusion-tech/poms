@@ -2,7 +2,14 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query,
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ActivateOperatingBaselinePackageRequestDto,
+    AccountingTaxTreatmentListViewDto,
+    AccountingTaxTreatmentSnapshotSummaryDto,
+    ConfirmAccountingTaxTreatmentRequestDto,
+    ConfirmCostStageAttributionRequestDto,
     ConfirmExpenseRecordRequestDto,
+    ConfirmSharedCostAllocationBasisRequestDto,
+    CostStageAttributionHistoryViewDto,
+    CostStageAttributionSnapshotSummaryDto,
     CreateOperatingRestatementRequestDto,
     CreateExpenseRecordRequestDto,
     CreatePeriodClosingSnapshotRequestDto,
@@ -18,17 +25,25 @@ import {
     ProjectActualCostRecordListViewDto,
     ProjectOperatingSnapshotSummaryDto,
     PublishInternalCostRateVersionRequestDto,
+    ReclassifyCostStageAttributionRequestDto,
     RegisterExpenseCostRecordRequestDto,
     RegisterInvoiceCostRecordRequestDto,
     RegisterLaborCostRecordRequestDto,
     RegisterPaymentFactCostRecordRequestDto,
     RegisterProcurementCostRecordRequestDto,
+    ReplaceSharedCostAllocationResultRequestDto,
     ReplaceLaborCostRecordRequestDto,
+    SharedCostAllocationBasisSummaryDto,
+    SharedCostAllocationResultListViewDto,
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto
 } from '@poms/api-contracts';
 import type {
+    AccountingTaxTreatmentListView,
+    AccountingTaxTreatmentSnapshotSummary,
     CommandResult,
+    CostStageAttributionHistoryView,
+    CostStageAttributionSnapshotSummary,
     ExpenseRecordDetailView,
     ExpenseRecordList,
     ExpenseRecordSummary,
@@ -38,7 +53,9 @@ import type {
     PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView,
-    ProjectOperatingSnapshotSummary
+    ProjectOperatingSnapshotSummary,
+    SharedCostAllocationBasisSummary,
+    SharedCostAllocationResultListView
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ProjectCostService } from './project-cost.service';
@@ -207,6 +224,114 @@ export class ProjectCostController {
     @ApiOkResponse({ type: OperatingRestatementSummaryDto })
     async getOperatingRestatement(@Param('id') id: string): Promise<OperatingRestatementSummary> {
         return this.projectCostService.getOperatingRestatement(id);
+    }
+
+    @Post('project-cost/confirm-shared-cost-allocation-basis')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '确认共享成本分摊依据与项目分摊结果' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async confirmSharedCostAllocationBasis(
+        @Body() body: ConfirmSharedCostAllocationBasisRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.confirmSharedCostAllocationBasis(body, userId);
+    }
+
+    @Get('shared-cost-allocation-bases/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取共享成本分摊依据详情' })
+    @ApiOkResponse({ type: SharedCostAllocationBasisSummaryDto })
+    async getSharedCostAllocationBasis(@Param('id') id: string): Promise<SharedCostAllocationBasisSummary> {
+        return this.projectCostService.getSharedCostAllocationBasis(id);
+    }
+
+    @Get('shared-cost-allocation-bases/:id/results')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取共享成本分摊结果列表' })
+    @ApiOkResponse({ type: SharedCostAllocationResultListViewDto })
+    async listSharedCostAllocationResults(@Param('id') id: string): Promise<SharedCostAllocationResultListView> {
+        return this.projectCostService.listSharedCostAllocationResults(id);
+    }
+
+    @Post('project-cost/replace-shared-cost-allocation-result')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '替代共享成本分摊结果' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async replaceSharedCostAllocationResult(
+        @Body() body: ReplaceSharedCostAllocationResultRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.replaceSharedCostAllocationResult(body, userId);
+    }
+
+    @Post('project-cost/confirm-cost-stage-attribution')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '确认成本阶段归属快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async confirmCostStageAttribution(
+        @Body() body: ConfirmCostStageAttributionRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.confirmCostStageAttribution(body, userId);
+    }
+
+    @Post('project-cost/reclassify-cost-stage-attribution')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '重分类成本阶段归属快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async reclassifyCostStageAttribution(
+        @Body() body: ReclassifyCostStageAttributionRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.reclassifyCostStageAttribution(body, userId);
+    }
+
+    @Get('project-actual-cost-records/:costRecordId/stage-attributions')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取成本阶段归属历史' })
+    @ApiOkResponse({ type: CostStageAttributionHistoryViewDto })
+    async listCostStageAttributions(@Param('costRecordId') costRecordId: string): Promise<CostStageAttributionHistoryView> {
+        return this.projectCostService.listCostStageAttributions(costRecordId);
+    }
+
+    @Get('cost-stage-attributions/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取成本阶段归属快照详情' })
+    @ApiOkResponse({ type: CostStageAttributionSnapshotSummaryDto })
+    async getCostStageAttribution(@Param('id') id: string): Promise<CostStageAttributionSnapshotSummary> {
+        return this.projectCostService.getCostStageAttribution(id);
+    }
+
+    @Post('project-cost/confirm-accounting-tax-treatment')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '确认项目税务处理快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async confirmAccountingTaxTreatment(
+        @Body() body: ConfirmAccountingTaxTreatmentRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.confirmAccountingTaxTreatment(body, userId);
+    }
+
+    @Get('projects/:projectId/accounting-tax-treatments')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目税务处理快照列表' })
+    @ApiOkResponse({ type: AccountingTaxTreatmentListViewDto })
+    async listAccountingTaxTreatments(@Param('projectId') projectId: string): Promise<AccountingTaxTreatmentListView> {
+        return this.projectCostService.listAccountingTaxTreatments(projectId);
+    }
+
+    @Get('accounting-tax-treatments/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取税务处理快照详情' })
+    @ApiOkResponse({ type: AccountingTaxTreatmentSnapshotSummaryDto })
+    async getAccountingTaxTreatment(@Param('id') id: string): Promise<AccountingTaxTreatmentSnapshotSummary> {
+        return this.projectCostService.getAccountingTaxTreatment(id);
     }
 
     @Get('projects/:projectId/expense-records')

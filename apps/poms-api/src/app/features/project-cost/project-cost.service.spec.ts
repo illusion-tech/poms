@@ -1,14 +1,18 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import {
+    AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CostStageAttributionSnapshotRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
-    ProjectOperatingSnapshotRepository
+    ProjectOperatingSnapshotRepository,
+    SharedCostAllocationBasisRepository,
+    SharedCostAllocationResultRepository
 } from './project-cost.repository';
 
 jest.mock('@mikro-orm/nestjs', () => ({
@@ -33,6 +37,13 @@ const PERIOD_SNAPSHOT_ID = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
 const OPERATING_SNAPSHOT_ID = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
 const RESTATED_SNAPSHOT_ID = 'ffffffff-ffff-4fff-8fff-ffffffffffff';
 const RESTATEMENT_ID = '12121212-1212-4121-8121-121212121212';
+const SHARED_COST_BASIS_ID = '13131313-1313-4131-8131-131313131313';
+const SHARED_COST_RESULT_ID = '14141414-1414-4141-8141-141414141414';
+const REPLACEMENT_SHARED_COST_RESULT_ID = '15151515-1515-4151-8151-151515151515';
+const STAGE_ATTRIBUTION_ID = '16161616-1616-4161-8161-161616161616';
+const RECLASSIFIED_STAGE_ATTRIBUTION_ID = '17171717-1717-4171-8171-171717171717';
+const TAX_TREATMENT_ID = '18181818-1818-4181-8181-181818181818';
+const REPLACEMENT_TAX_TREATMENT_ID = '19191919-1919-4191-8191-191919191919';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -237,6 +248,83 @@ function makePeriodClosingSnapshot(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makeSharedCostAllocationBasis(overrides: Record<string, unknown> = {}) {
+    return {
+        id: SHARED_COST_BASIS_ID,
+        sourceCostScopeKey: 'cost-scope:abc',
+        basisType: 'vendor-shared',
+        allocationMethod: 'ratio',
+        basisSummary: 'Shared vendor cost',
+        status: 'active',
+        effectiveAt: new Date('2023-08-01T00:00:00.000Z'),
+        effectiveBy: USER_ID,
+        supersedesId: null,
+        rowVersion: 1,
+        createdAt: new Date('2023-08-01T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-01T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeSharedCostAllocationResult(overrides: Record<string, unknown> = {}) {
+    return {
+        id: SHARED_COST_RESULT_ID,
+        basisId: SHARED_COST_BASIS_ID,
+        projectId: PROJECT_ID,
+        allocatedAmount: '3000.0000',
+        allocationRatio: '0.300000',
+        allocationSummary: 'Initial share',
+        status: 'active',
+        effectiveAt: new Date('2023-08-01T00:00:00.000Z'),
+        supersedesId: null,
+        rowVersion: 1,
+        createdAt: new Date('2023-08-01T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-01T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeCostStageAttribution(overrides: Record<string, unknown> = {}) {
+    return {
+        id: STAGE_ATTRIBUTION_ID,
+        costRecordId: RECORD_ID,
+        attributedStage: 'delivery',
+        attributionMode: 'manual',
+        lockedBySnapshotId: null,
+        attributionSummary: 'Manual attribution',
+        status: 'active',
+        supersedesId: null,
+        handledAt: new Date('2023-08-02T00:00:00.000Z'),
+        handledBy: USER_ID,
+        rowVersion: 1,
+        createdAt: new Date('2023-08-02T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-02T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeAccountingTaxTreatment(overrides: Record<string, unknown> = {}) {
+    return {
+        id: TAX_TREATMENT_ID,
+        projectId: PROJECT_ID,
+        taxTreatmentType: 'input-vat',
+        deductibilityStatus: 'pending',
+        taxImpactAmount: '1200.0000',
+        taxPendingFlag: true,
+        taxImpactSummary: 'VAT pending deduction',
+        taxImpactPendingAmount: '1200.0000',
+        basisSummary: 'Invoice not yet verified',
+        status: 'active',
+        supersedesId: null,
+        confirmedAt: new Date('2023-08-03T00:00:00.000Z'),
+        confirmedBy: USER_ID,
+        rowVersion: 1,
+        createdAt: new Date('2023-08-03T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-03T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
     let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
@@ -247,6 +335,10 @@ describe('ProjectCostService', () => {
     let projectOperatingSnapshotRepository: jest.Mocked<ProjectOperatingSnapshotRepository>;
     let periodClosingSnapshotRepository: jest.Mocked<PeriodClosingSnapshotRepository>;
     let operatingRestatementRecordRepository: jest.Mocked<OperatingRestatementRecordRepository>;
+    let sharedCostAllocationBasisRepository: jest.Mocked<SharedCostAllocationBasisRepository>;
+    let sharedCostAllocationResultRepository: jest.Mocked<SharedCostAllocationResultRepository>;
+    let costStageAttributionSnapshotRepository: jest.Mocked<CostStageAttributionSnapshotRepository>;
+    let accountingTaxTreatmentSnapshotRepository: jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
 
     beforeEach(() => {
@@ -318,6 +410,38 @@ describe('ProjectCostService', () => {
             findActiveByRestatesSnapshotId: jest.fn()
         };
 
+        const mockSharedCostAllocationBasisRepository = {
+            create: jest.fn((input) => ({ id: SHARED_COST_BASIS_ID, rowVersion: 1, createdAt: new Date('2023-08-01T00:00:00.000Z'), updatedAt: new Date('2023-08-01T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            findById: jest.fn(),
+            findActiveByScopeKey: jest.fn()
+        };
+
+        const mockSharedCostAllocationResultRepository = {
+            create: jest.fn((input) => ({ id: SHARED_COST_RESULT_ID, rowVersion: 1, createdAt: new Date('2023-08-01T00:00:00.000Z'), updatedAt: new Date('2023-08-01T00:00:00.000Z'), ...input })),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findByBasisId: jest.fn(),
+            findActiveByBasisAndProject: jest.fn()
+        };
+
+        const mockCostStageAttributionSnapshotRepository = {
+            create: jest.fn((input) => ({ id: STAGE_ATTRIBUTION_ID, rowVersion: 1, createdAt: new Date('2023-08-02T00:00:00.000Z'), updatedAt: new Date('2023-08-02T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findByCostRecordId: jest.fn(),
+            findActiveByCostRecordId: jest.fn()
+        };
+
+        const mockAccountingTaxTreatmentSnapshotRepository = {
+            create: jest.fn((input) => ({ id: TAX_TREATMENT_ID, rowVersion: 1, createdAt: new Date('2023-08-03T00:00:00.000Z'), updatedAt: new Date('2023-08-03T00:00:00.000Z'), ...input })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findByProjectId: jest.fn()
+        };
+
         const mockContractFinanceRepository = {
             findProjectById: jest.fn(),
             findContractById: jest.fn(),
@@ -334,6 +458,10 @@ describe('ProjectCostService', () => {
         projectOperatingSnapshotRepository = mockProjectOperatingSnapshotRepository as unknown as jest.Mocked<ProjectOperatingSnapshotRepository>;
         periodClosingSnapshotRepository = mockPeriodClosingSnapshotRepository as unknown as jest.Mocked<PeriodClosingSnapshotRepository>;
         operatingRestatementRecordRepository = mockOperatingRestatementRecordRepository as unknown as jest.Mocked<OperatingRestatementRecordRepository>;
+        sharedCostAllocationBasisRepository = mockSharedCostAllocationBasisRepository as unknown as jest.Mocked<SharedCostAllocationBasisRepository>;
+        sharedCostAllocationResultRepository = mockSharedCostAllocationResultRepository as unknown as jest.Mocked<SharedCostAllocationResultRepository>;
+        costStageAttributionSnapshotRepository = mockCostStageAttributionSnapshotRepository as unknown as jest.Mocked<CostStageAttributionSnapshotRepository>;
+        accountingTaxTreatmentSnapshotRepository = mockAccountingTaxTreatmentSnapshotRepository as unknown as jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
             expenseRecordRepository,
@@ -344,7 +472,11 @@ describe('ProjectCostService', () => {
             changePackageBaselineRepository,
             projectOperatingSnapshotRepository,
             periodClosingSnapshotRepository,
-            operatingRestatementRecordRepository
+            operatingRestatementRecordRepository,
+            sharedCostAllocationBasisRepository,
+            sharedCostAllocationResultRepository,
+            costStageAttributionSnapshotRepository,
+            accountingTaxTreatmentSnapshotRepository
         );
     });
 
@@ -1356,6 +1488,237 @@ describe('ProjectCostService', () => {
                     USER_ID
                 )
             ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('EX-07C allocation, stage attribution, and tax treatment chain', () => {
+        it('confirms a shared cost allocation basis and project allocation results', async () => {
+            projectActualCostRecordRepository.findById.mockResolvedValue({ id: RECORD_ID } as never);
+            sharedCostAllocationBasisRepository.findActiveByScopeKey.mockResolvedValue(null);
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+
+            const result = await service.confirmSharedCostAllocationBasis(
+                {
+                    basisType: 'vendor-shared',
+                    sourceCostRecordIds: [RECORD_ID],
+                    allocationMethod: 'ratio',
+                    basisSummary: 'Shared vendor cost',
+                    projectShareItems: [
+                        {
+                            projectId: PROJECT_ID,
+                            allocatedAmount: '3000',
+                            allocationRatio: '0.3',
+                            allocationSummary: '30 percent share'
+                        }
+                    ]
+                },
+                USER_ID
+            );
+
+            expect(sharedCostAllocationBasisRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    basisType: 'vendor-shared',
+                    allocationMethod: 'ratio',
+                    status: 'active',
+                    effectiveBy: USER_ID
+                })
+            );
+            expect(sharedCostAllocationResultRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    allocatedAmount: '3000.0000',
+                    allocationRatio: '0.300000',
+                    status: 'active'
+                })
+            );
+            expect(sharedCostAllocationBasisRepository.save).toHaveBeenCalled();
+            expect(sharedCostAllocationResultRepository.saveAll).toHaveBeenCalled();
+            expect(result.targetType).toBe('SharedCostAllocationBasis');
+        });
+
+        it('blocks duplicate active shared cost allocation basis for the same source scope', async () => {
+            projectActualCostRecordRepository.findById.mockResolvedValue({ id: RECORD_ID } as never);
+            sharedCostAllocationBasisRepository.findActiveByScopeKey.mockResolvedValue(makeSharedCostAllocationBasis() as never);
+
+            await expect(
+                service.confirmSharedCostAllocationBasis(
+                    {
+                        basisType: 'vendor-shared',
+                        sourceCostRecordIds: [RECORD_ID],
+                        allocationMethod: 'ratio',
+                        projectShareItems: [{ projectId: PROJECT_ID, allocatedAmount: '3000' }]
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+
+        it('replaces a shared cost allocation result through a supersedes chain', async () => {
+            const superseded = makeSharedCostAllocationResult({ rowVersion: 2 });
+            sharedCostAllocationResultRepository.findById.mockResolvedValue(superseded as never);
+            sharedCostAllocationResultRepository.findActiveByBasisAndProject.mockResolvedValue(superseded as never);
+            sharedCostAllocationResultRepository.create.mockImplementation((input) => ({
+                id: REPLACEMENT_SHARED_COST_RESULT_ID,
+                rowVersion: 1,
+                createdAt: new Date('2023-08-04T00:00:00.000Z'),
+                updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+                ...input
+            }) as never);
+
+            const result = await service.replaceSharedCostAllocationResult(
+                {
+                    supersededAllocationResultId: SHARED_COST_RESULT_ID,
+                    allocatedAmount: '3500',
+                    allocationRatio: '0.35',
+                    replacementReason: 'Updated delivery usage',
+                    expectedVersion: 2
+                },
+                USER_ID
+            );
+
+            expect(superseded.status).toBe('superseded');
+            expect(sharedCostAllocationResultRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    id: expect.any(String),
+                    basisId: SHARED_COST_BASIS_ID,
+                    projectId: PROJECT_ID,
+                    allocatedAmount: '3500.0000',
+                    allocationRatio: '0.350000',
+                    supersedesId: SHARED_COST_RESULT_ID
+                })
+            );
+            expect(sharedCostAllocationResultRepository.saveAll).toHaveBeenCalled();
+            expect(result.targetType).toBe('SharedCostAllocationResult');
+            expect(result.targetId).toEqual(expect.any(String));
+        });
+
+        it('confirms cost stage attribution and updates the cost record stage lock fields', async () => {
+            const costRecord = {
+                id: RECORD_ID,
+                rowVersion: 4,
+                executionStageCode: null,
+                stageDerivedFromType: null,
+                stageDerivedFromId: null,
+                stageDerivedAt: null,
+                stageLockedAt: null,
+                updatedBy: null
+            };
+            projectActualCostRecordRepository.findById.mockResolvedValue(costRecord as never);
+            costStageAttributionSnapshotRepository.findActiveByCostRecordId.mockResolvedValue(null);
+
+            const result = await service.confirmCostStageAttribution(
+                {
+                    costRecordId: RECORD_ID,
+                    stageAttributionMode: 'manual',
+                    attributedStage: 'delivery',
+                    attributionSummary: 'Confirmed from delivery log',
+                    expectedVersion: 4
+                },
+                USER_ID
+            );
+
+            expect(costStageAttributionSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    costRecordId: RECORD_ID,
+                    attributedStage: 'delivery',
+                    attributionMode: 'manual',
+                    status: 'active'
+                })
+            );
+            expect(costRecord.executionStageCode).toBe('delivery');
+            expect(costRecord.stageDerivedFromType).toBe('CostStageAttributionSnapshot');
+            expect(projectActualCostRecordRepository.save).toHaveBeenCalledWith(costRecord);
+            expect(result.targetType).toBe('CostStageAttributionSnapshot');
+        });
+
+        it('reclassifies active cost stage attribution without overwriting history', async () => {
+            const superseded = makeCostStageAttribution({ rowVersion: 2 });
+            const costRecord = {
+                id: RECORD_ID,
+                rowVersion: 5,
+                executionStageCode: 'delivery',
+                stageDerivedFromType: 'CostStageAttributionSnapshot',
+                stageDerivedFromId: STAGE_ATTRIBUTION_ID,
+                stageDerivedAt: new Date('2023-08-02T00:00:00.000Z'),
+                stageLockedAt: null,
+                updatedBy: null
+            };
+            costStageAttributionSnapshotRepository.findById.mockResolvedValue(superseded as never);
+            projectActualCostRecordRepository.findById.mockResolvedValue(costRecord as never);
+            costStageAttributionSnapshotRepository.create.mockImplementation((input) => ({
+                id: RECLASSIFIED_STAGE_ATTRIBUTION_ID,
+                rowVersion: 1,
+                createdAt: new Date('2023-08-04T00:00:00.000Z'),
+                updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+                ...input
+            }) as never);
+
+            const result = await service.reclassifyCostStageAttribution(
+                {
+                    supersededAttributionId: STAGE_ATTRIBUTION_ID,
+                    newAttributedStage: 'acceptance',
+                    reclassifyReason: 'Moved to acceptance stage',
+                    expectedVersion: 2
+                },
+                USER_ID
+            );
+
+            expect(superseded.status).toBe('superseded');
+            expect(costStageAttributionSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    attributedStage: 'acceptance',
+                    attributionMode: 'reclassified',
+                    supersedesId: STAGE_ATTRIBUTION_ID
+                })
+            );
+            expect(costRecord.executionStageCode).toBe('acceptance');
+            expect(costRecord.stageDerivedFromId).toBe(result.targetId);
+            expect(result.targetType).toBe('CostStageAttributionSnapshot');
+        });
+
+        it('confirms accounting tax treatment and supersedes the previous active snapshot when requested', async () => {
+            const superseded = makeAccountingTaxTreatment({ rowVersion: 3 });
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            accountingTaxTreatmentSnapshotRepository.findById.mockResolvedValue(superseded as never);
+            accountingTaxTreatmentSnapshotRepository.create.mockImplementation((input) => ({
+                id: REPLACEMENT_TAX_TREATMENT_ID,
+                rowVersion: 1,
+                createdAt: new Date('2023-08-05T00:00:00.000Z'),
+                updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+                ...input
+            }) as never);
+
+            const result = await service.confirmAccountingTaxTreatment(
+                {
+                    projectId: PROJECT_ID,
+                    taxTreatmentType: 'input-vat',
+                    deductibilityStatus: 'deductible',
+                    taxImpactAmount: '900',
+                    taxImpactSummary: 'Input VAT can be deducted',
+                    taxPendingFlag: false,
+                    taxImpactPendingAmount: '0',
+                    basisSummary: 'Verified invoice',
+                    supersedesTaxTreatmentSnapshotId: TAX_TREATMENT_ID,
+                    expectedVersion: 3
+                },
+                USER_ID
+            );
+
+            expect(superseded.status).toBe('superseded');
+            expect(accountingTaxTreatmentSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    taxTreatmentType: 'input-vat',
+                    deductibilityStatus: 'deductible',
+                    taxImpactAmount: '900.0000',
+                    taxImpactPendingAmount: '0.0000',
+                    supersedesId: TAX_TREATMENT_ID,
+                    status: 'active'
+                })
+            );
+            expect(accountingTaxTreatmentSnapshotRepository.saveAll).toHaveBeenCalled();
+            expect(result.targetType).toBe('AccountingTaxTreatmentSnapshot');
+            expect(result.targetId).toEqual(expect.any(String));
         });
     });
 
