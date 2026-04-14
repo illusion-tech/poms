@@ -5,12 +5,21 @@ import type {
     ExpenseRecordDetailView,
     ExpenseRecordList,
     ExpenseRecordSummary,
+    OperatingBaselinePackageSummary,
+    OperatingRestatementListView,
+    OperatingRestatementSummary,
+    PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
-    ProjectActualCostRecordListView
+    ProjectActualCostRecordListView,
+    ProjectOperatingSnapshotSummary
 } from '@poms/shared-contracts';
 import {
+    ActivateOperatingBaselinePackageRequestDto,
     ConfirmExpenseRecordRequestDto,
     CreateExpenseRecordRequestDto,
+    CreateOperatingRestatementRequestDto,
+    CreatePeriodClosingSnapshotRequestDto,
+    CreateProjectOperatingSnapshotRequestDto,
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
@@ -48,6 +57,66 @@ export async function registerProcurementCostRecord(
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>('/project-actual-cost-records/register-procurement', input);
     return expectStatus(response, 201);
+}
+
+export async function activateOperatingBaselinePackage(
+    client: AxiosInstance,
+    input: ActivateOperatingBaselinePackageRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/activate-operating-baseline-package', input);
+    return expectStatus(response, 201);
+}
+
+export async function getCurrentOperatingBaselinePackage(
+    client: AxiosInstance,
+    projectId: string
+): Promise<OperatingBaselinePackageSummary> {
+    const response = await client.get<OperatingBaselinePackageSummary>(`/projects/${projectId}/operating-baseline-package/current`);
+    return expectStatus(response, 200);
+}
+
+export async function createProjectOperatingSnapshot(
+    client: AxiosInstance,
+    input: CreateProjectOperatingSnapshotRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/create-project-operating-snapshot', input);
+    return expectStatus(response, 201);
+}
+
+export async function getProjectOperatingSnapshot(client: AxiosInstance, id: string): Promise<ProjectOperatingSnapshotSummary> {
+    const response = await client.get<ProjectOperatingSnapshotSummary>(`/project-operating-snapshots/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function createPeriodClosingSnapshot(
+    client: AxiosInstance,
+    input: CreatePeriodClosingSnapshotRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/create-period-closing-snapshot', input);
+    return expectStatus(response, 201);
+}
+
+export async function getPeriodClosingSnapshot(client: AxiosInstance, id: string): Promise<PeriodClosingSnapshotSummary> {
+    const response = await client.get<PeriodClosingSnapshotSummary>(`/period-closing-snapshots/${id}`);
+    return expectStatus(response, 200);
+}
+
+export async function createOperatingRestatement(
+    client: AxiosInstance,
+    input: CreateOperatingRestatementRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>('/project-cost/create-operating-restatement', input);
+    return expectStatus(response, 201);
+}
+
+export async function listOperatingRestatements(client: AxiosInstance, projectId: string): Promise<OperatingRestatementListView> {
+    const response = await client.get<OperatingRestatementListView>(`/projects/${projectId}/operating-restatements`);
+    return expectStatus(response, 200);
+}
+
+export async function getOperatingRestatement(client: AxiosInstance, id: string): Promise<OperatingRestatementSummary> {
+    const response = await client.get<OperatingRestatementSummary>(`/operating-restatements/${id}`);
+    return expectStatus(response, 200);
 }
 
 export async function listExpenseRecords(client: AxiosInstance, projectId: string): Promise<ExpenseRecordList> {

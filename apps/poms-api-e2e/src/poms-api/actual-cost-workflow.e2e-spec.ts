@@ -1,9 +1,18 @@
 import {
+    activateOperatingBaselinePackage,
     confirmExpenseRecord,
+    createOperatingRestatement,
     createExpenseRecord,
+    createPeriodClosingSnapshot,
+    createProjectOperatingSnapshot,
     getExpenseRecordDetail,
+    getCurrentOperatingBaselinePackage,
+    getOperatingRestatement,
+    getPeriodClosingSnapshot,
     getProjectActualCostRecordDetail,
+    getProjectOperatingSnapshot,
     listExpenseRecords,
+    listOperatingRestatements,
     listProjectActualCostRecords,
     publishInternalCostRateVersion,
     registerExpenseCostRecord,
@@ -23,6 +32,108 @@ import { createProjectForProfile } from '../support/project-api';
 jest.setTimeout(120_000);
 
 describe('Actual Cost Workflow E2E', () => {
+    it('should activate baseline, freeze period snapshot, and create an operating restatement chain', async () => {
+        const { client, profile } = await loginAsAdmin();
+
+        const unique = Date.now();
+        const project = await createProjectForProfile(client, profile, {
+            projectCode: `E2E-OR-${unique}`,
+            projectName: `E2E Operating Restatement Project ${unique}`,
+            currentStage: 'execution'
+        });
+
+        const baselineResult = await activateOperatingBaselinePackage(client, {
+            projectId: project.id,
+            originalBaselineCost: '100000',
+            baselineSelectionSource: 'original',
+            baselineSummary: 'Original execution baseline',
+            changePackages: [
+                {
+                    changePackageId: '11111111-2222-4333-8444-555555555555',
+                    changeAmount: '5000',
+                    changeSummary: 'Approved scope change'
+                }
+            ]
+        });
+        expect(baselineResult.resultStatus).toBe('success');
+
+        const baseline = await getCurrentOperatingBaselinePackage(client, project.id);
+        expect(baseline.id).toBe(baselineResult.targetId);
+        expect(baseline.currentEffectiveBaselineCost).toBe('105000.00');
+
+        const operatingSnapshotResult = await createProjectOperatingSnapshot(client, {
+            projectId: project.id,
+            snapshotMode: 'period-end',
+            sourceWindowStart: '2023-07-01',
+            sourceWindowEnd: '2023-07-31',
+            effectiveContractTotal: '200000',
+            receivableConfirmedTotal: '80000',
+            includedCostTotal: '120000',
+            originalBaselineCost: '100000',
+            currentEffectiveBaselineCost: '105000',
+            taxImpactSummary: 'Input tax pending',
+            taxImpactPendingAmount: '3000',
+            allocationStabilitySummary: 'Stable allocation basis',
+            currentActionLevel: 'REVIEW',
+            referencedBaselineVersion: baseline.id,
+            baselineSelectionSource: 'original'
+        });
+        expect(operatingSnapshotResult.resultStatus).toBe('success');
+
+        const operatingSnapshot = await getProjectOperatingSnapshot(client, operatingSnapshotResult.targetId);
+        expect(operatingSnapshot.snapshotMode).toBe('period-end');
+        expect(operatingSnapshot.grossMarginAmount).toBe('80000.00');
+
+        const periodSnapshotResult = await createPeriodClosingSnapshot(client, {
+            projectId: project.id,
+            periodKey: `2023-07-${unique}`,
+            effectiveContractTotal: '200000',
+            receivableConfirmedTotal: '80000',
+            includedCostTotal: '120000',
+            originalBaselineCost: '100000',
+            currentEffectiveBaselineCost: '105000',
+            taxImpactSummary: 'Input tax pending',
+            taxImpactPendingAmount: '3000',
+            allocationStabilitySummary: 'Stable allocation basis',
+            currentActionLevel: 'REVIEW',
+            referencedBaselineVersion: baseline.id,
+            baselineSelectionSource: 'original'
+        });
+        expect(periodSnapshotResult.resultStatus).toBe('success');
+
+        const periodSnapshot = await getPeriodClosingSnapshot(client, periodSnapshotResult.targetId);
+        expect(periodSnapshot.periodKey).toBe(`2023-07-${unique}`);
+
+        const restatementResult = await createOperatingRestatement(client, {
+            projectId: project.id,
+            periodEndSnapshotId: periodSnapshot.id,
+            restatesSnapshotId: operatingSnapshot.id,
+            expectedRestatesSnapshotVersion: operatingSnapshot.rowVersion,
+            restatementReason: 'late invoice inclusion',
+            restatementSummary: 'Included late verified invoice into July operating view',
+            restatedValues: {
+                includedCostTotal: '125000',
+                taxImpactPendingAmount: '3500',
+                currentActionLevel: 'BLOCK'
+            }
+        });
+        expect(restatementResult.resultStatus).toBe('success');
+
+        const restatement = await getOperatingRestatement(client, restatementResult.targetId);
+        expect(restatement.restatesSnapshotId).toBe(operatingSnapshot.id);
+        expect(restatement.restatedSnapshotId).not.toBe(operatingSnapshot.id);
+
+        const restatements = await listOperatingRestatements(client, project.id);
+        expect(restatements).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: restatementResult.targetId,
+                    restatesSnapshotId: operatingSnapshot.id
+                })
+            ])
+        );
+    });
+
     it('should complete the labor cost registry and replace workflow', async () => {
         const { client, profile } = await loginAsAdmin();
 
