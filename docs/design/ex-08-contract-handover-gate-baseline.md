@@ -80,23 +80,23 @@
 
 ## 4. 子任务边界
 
-| Subtask ID  | Scope                    | Completion Boundary                                                                                                             | Notes                                 |
-| ----------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `EX-08A0`   | 基线冻结                 | 本文件完成并回写 tracker                                                                                                        | `G1 = Pass` 后才能进入 DDL            |
-| `EX-08A1`   | 核心 DDL                 | `project_handover`、`contract_handover_rebaseline_record`、`handover_baseline_impact_item` migration / entity / repository 完成 | 同步补回 EX-07 延迟 FK                |
-| `EX-08A2`   | 摘要快照最小承接         | 摘要包定义、摘要快照、字段投影最小模型或受控替代实现完成                                                                        | 若不做完整横切能力，必须记录例外      |
-| `EX-08A3`   | 多方确认最小承接         | `ConfirmationRecord` / participant 最小模型、进度与返回链完成                                                                   | 必须能返回 `confirmationRecordId`     |
-| `EX-08B1`   | 合同承接摘要 query       | `ContractHandoverSummaryView` 可用                                                                                              | 不允许前端临时拼装摘要                |
-| `EX-08B2`   | 移交详情 query           | `ProjectHandoverDetailView` 可用                                                                                                | 输出 `allowedActions`、阻断项与摘要链 |
-| `EX-08B3`   | 移交确认 command / guard | `confirmProjectHandover` 成功路径与关键阻断路径完成                                                                             | B3A/B3B/B3C 已完成，父任务可关闭      |
-| `EX-08B3A`  | 确认命令可闭环部分       | `confirmProjectHandover` 请求 / 响应契约、写侧 guard、状态推进、版本校验与单测完成                                              | 不关闭 E05/E06/E07                    |
-| `EX-08B3B`  | 再基线化命令与最近记录链 | `rebaselineContractHandover`、项目级最近记录选择、影响历史与阻断解释完成                                                        | 关闭或替代 E06                        |
-| `EX-08B3B0` | 合同变更最小持久化前置   | `contract_amendment` 最小版本表、实体、仓储与 `contract_handover_rebaseline_record.contract_amendment_id` FK 完成               | 不实现合同变更审批命令                |
-| `EX-08B3B1` | 再基线化命令实现         | `rebaselineContractHandover` DTO / route / service、项目级最近记录链、影响项落地与 guard 单测完成                               | 关闭或替代 E06                        |
-| `EX-08B3C`  | 快照 / 回款冻结来源收口  | `contract_term_snapshot` 正式来源、`receiptJudgmentMode` 正式冻结来源完成                                                       | 已关闭 E05/E07                        |
-| `EX-08C1`   | OpenAPI / shared client  | OpenAPI、shared contracts、generated client 同步                                                                                | 必须清理 generated client whitespace  |
-| `EX-08C2`   | 自动化测试               | 单测、migration-check、API E2E 覆盖主路径和关键失败路径                                                                         | 默认需要 E2E                          |
-| `EX-08C3`   | 文档回写                 | 设计文档、执行板、进度板、G3/G4 证据回写                                                                                        | 全部完成后父任务 `EX-08` 才可关闭     |
+| Subtask ID  | Scope                    | Completion Boundary                                                                                                             | Notes                                                        |
+| ----------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `EX-08A0`   | 基线冻结                 | 本文件完成并回写 tracker                                                                                                        | `G1 = Pass` 后才能进入 DDL                                   |
+| `EX-08A1`   | 核心 DDL                 | `project_handover`、`contract_handover_rebaseline_record`、`handover_baseline_impact_item` migration / entity / repository 完成 | 同步补回 EX-07 延迟 FK                                       |
+| `EX-08A2`   | 摘要快照最小承接         | 摘要包定义、摘要快照、字段投影最小模型或受控替代实现完成                                                                        | 若不做完整横切能力，必须记录例外                             |
+| `EX-08A3`   | 多方确认最小承接         | `ConfirmationRecord` / participant 最小模型、进度与返回链完成                                                                   | 必须能返回 `confirmationRecordId`                            |
+| `EX-08B1`   | 合同承接摘要 query       | `ContractHandoverSummaryView` 可用                                                                                              | 不允许前端临时拼装摘要                                       |
+| `EX-08B2`   | 移交详情 query           | `ProjectHandoverDetailView` 可用                                                                                                | 输出 `allowedActions`、阻断项与摘要链                        |
+| `EX-08B3`   | 移交确认 command / guard | `confirmProjectHandover` 成功路径与关键阻断路径完成                                                                             | B3A/B3B/B3C 已完成，父任务可关闭                             |
+| `EX-08B3A`  | 确认命令可闭环部分       | `confirmProjectHandover` 请求 / 响应契约、写侧 guard、状态推进、版本校验与单测完成                                              | 不关闭 E05/E06/E07                                           |
+| `EX-08B3B`  | 再基线化命令与最近记录链 | `rebaselineContractHandover`、项目级最近记录选择、影响历史与阻断解释完成                                                        | 关闭或替代 E06                                               |
+| `EX-08B3B0` | 合同变更最小持久化前置   | `contract_amendment` 最小版本表、实体、仓储与 `contract_handover_rebaseline_record.contract_amendment_id` FK 完成               | 不实现合同变更审批命令                                       |
+| `EX-08B3B1` | 再基线化命令实现         | `rebaselineContractHandover` DTO / route / service、项目级最近记录链、影响项落地与 guard 单测完成                               | 关闭或替代 E06                                               |
+| `EX-08B3C`  | 快照 / 回款冻结来源收口  | `contract_term_snapshot` 正式来源、`receiptJudgmentMode` 正式冻结来源完成                                                       | 已关闭 E05/E07                                               |
+| `EX-08C1`   | OpenAPI / shared client  | OpenAPI、shared contracts、generated client 同步                                                                                | 已完成；generated client whitespace 阻断已清理               |
+| `EX-08C2`   | 自动化测试               | 单测、migration-check、API E2E 覆盖主路径和关键失败路径                                                                         | 已完成；E2E 使用 seeder 固定数据，不在 api-e2e 直接依赖 `pg` |
+| `EX-08C3`   | 文档回写                 | 设计文档、执行板、进度板、G3/G4 证据回写                                                                                        | 全部完成后父任务 `EX-08` 才可关闭                            |
 
 ---
 
@@ -158,39 +158,39 @@
 
 - Document -> code: 本基线冻结正式输入；后续实现不得绕过四条核心引用链直接拼装移交依据。
 - Migration -> entity: EX-08A1 / EX-08A2 / EX-08A3 / EX-08B3B0 / EX-08B3B1 / EX-08B3C 已通过 `migration-check`。
-- Entity -> contract: EX-08B1 已新增 `ContractHandoverSummaryView` shared contract 与 API DTO，EX-08B2 已新增 `ProjectHandoverDetailView` shared contract 与 API DTO，EX-08B3A 已新增 `ConfirmProjectHandoverRequest/Result` shared contract 与 API DTO，EX-08B3B1 已新增 `RebaselineContractHandoverRequest/Result` shared contract 与 API DTO，EX-08B3C 已为确认结果补 `receiptJudgmentFreezeId` 并接入 `receiptJudgmentModeSummary` 冻结来源；OpenAPI 与 generated client 仍待 EX-08C1 统一回写。
+- Entity -> contract: EX-08B1 已新增 `ContractHandoverSummaryView` shared contract 与 API DTO，EX-08B2 已新增 `ProjectHandoverDetailView` shared contract 与 API DTO，EX-08B3A 已新增 `ConfirmProjectHandoverRequest/Result` shared contract 与 API DTO，EX-08B3B1 已新增 `RebaselineContractHandoverRequest/Result` shared contract 与 API DTO，EX-08B3C 已为确认结果补 `receiptJudgmentFreezeId` 并接入 `receiptJudgmentModeSummary` 冻结来源；OpenAPI 与 generated client 已由 EX-08C1 统一回写。
 - Route -> command: `confirmProjectHandover` 已由 EX-08B3A 落为 `POST /project-handovers/:handoverId/confirm`；`rebaselineContractHandover` 已由 EX-08B3B1 落为 `POST /contract-handover-rebaselines`；摘要复核入口后续仍必须是命令型接口，不得退化为普通 PATCH。
 - Query -> view: `ContractHandoverSummaryView` 已由 EX-08B1 落地为 `GET /projects/:projectId/contract-handover-summary`，并由 EX-08B3B1 改为优先按 `contract_handover_rebaseline_record.project_id + handled_at` 选择项目级最近再基线化记录；`ProjectHandoverDetailView` 已由 EX-08B2 落地为 `GET /projects/:projectId/project-handover-detail` 与 `GET /project-handovers/:handoverId/detail`，并由 EX-08B3C 改为从 `project_receipt_judgment_freeze` 输出当前冻结模式，前端不得临时拼装。
-- Guard / permission: EX-08B3A 已在写侧 guard 中复用 B2 detail 覆盖合同状态、摘要快照、多方确认、执行负责人、再基线化状态与并发版本；EX-08B3B1 已消费 B3B0 的 `ContractAmendment` 生效状态、`contractId -> projectId` 归属、最新已确认移交、项目级处理中 / 待生效再基线化、影响项唯一性与并发版本 guard；EX-08B3C 已由 DB FK 与 command guard 约束合同条款快照来源，并由 `confirmProjectHandover` 固化可选回款判断模式。
-- OpenAPI / generated client: EX-08C1 必须生成并检查；当前仓库已有 generated client whitespace 问题，进入 G3 前必须清理。
+- Guard / permission: EX-08B3A 已在写侧 guard 中复用 B2 detail 覆盖合同状态、摘要快照、多方确认、执行负责人、再基线化状态与并发版本；EX-08B3B1 已消费 B3B0 的 `ContractAmendment` 生效状态、`contractId -> projectId` 归属、最新已确认移交、项目级处理中 / 待生效再基线化、影响项唯一性与并发版本 guard；EX-08B3C 已由 DB FK 与 command guard 约束合同条款快照来源，并由 `confirmProjectHandover` 固化可选回款判断模式；EX-08C2 已用 seeded HTTP E2E 覆盖摘要缺失、主路径确认、并发版本错误、参与人缺失与再基线化处理中阻断。
+- OpenAPI / generated client: EX-08C1 已生成并检查；`ProjectHandoverApi`、EX-08 request/result/view models、`api.ts` / `models.ts` 导出清单与 OpenAPI spec 已同步，`git diff --check` 通过，仅保留 `.openapi-generator/FILES` 的 CRLF normalization warning。
 
 ---
 
 ## 9. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                       | Result                   | Gap / Reason                                                                                                       |
-| -------------------------------- | -------- | ------------------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| Build                            | Yes      | `pnpm nx build poms-api`                                                 | EX-08B3C Pass 2026-04-15 | 后端 persistence/API 切片必跑                                                                                      |
-| Unit tests                       | Yes      | `pnpm nx test poms-api --runInBand`                                      | EX-08B3C Pass 2026-04-15 | 已新增回款判断冻结、冻结摘要 query 与再基线化正式快照 guard 单测                                                   |
-| API / integration tests          | Yes      | service / controller specs                                               | EX-08B3C Partial         | 已接通 `ProjectHandoverController` 再基线化与确认冻结命令链；端到端主路径仍按 EX-08C2 补充                         |
-| E2E                              | Yes      | `pnpm nx run poms-api-e2e:e2e --runInBand`                               | EX-08B3C Pass 2026-04-15 | 既有 E2E 已覆盖 migration-up、seeder 与模块启动；EX-08 命令主路径仍待 EX-08C2 补充                                 |
-| OpenAPI generation / client diff | Yes      | `pnpm nx run poms-api:openapi`; `pnpm nx run shared-api-client:generate` | 待 EX-08C1               | generated client whitespace 必须清理                                                                               |
-| Migration / schema check         | Yes      | `pnpm nx run poms-api:migration-check`                                   | EX-08B3C Pass 2026-04-15 | 已确认 `contract_term_snapshot`、`project_receipt_judgment_freeze` 与 handover / rebaseline FK 无新增 schema drift |
-| Whitespace                       | Yes      | `git diff --check`                                                       | EX-08B3C Pass 2026-04-15 | 当前工作区差异通过 whitespace 检查；generated client 正式回写仍待 EX-08C1                                          |
+| Check                            | Required | Command / Evidence                                                       | Result                  | Gap / Reason                                                                                                                |
+| -------------------------------- | -------- | ------------------------------------------------------------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Build                            | Yes      | `pnpm nx build poms-api`; `pnpm nx build poms-admin`                     | EX-08C1 Pass 2026-04-15 | 后端 API 与 generated Angular client 编译通过                                                                               |
+| Unit tests                       | Yes      | `pnpm nx test poms-api --runInBand`                                      | EX-08C2 Pass 2026-04-16 | 29 suites / 320 tests passed；新增 `ProjectHandoverController` route delegation 与 actor/body 传递单测                      |
+| API / integration tests          | Yes      | service / controller specs                                               | EX-08C2 Pass 2026-04-16 | service / controller 单测已覆盖确认、再基线化、冻结来源与路由边界；关键 HTTP 行为由 E2E 覆盖                                |
+| E2E                              | Yes      | `pnpm nx run poms-api-e2e:e2e --runInBand`                               | EX-08C2 Pass 2026-04-16 | 10 suites / 58 tests passed；`project-handover-workflow.e2e-spec.ts` 使用 `DatabaseSeeder` 固定数据后只通过 public API 验证 |
+| OpenAPI generation / client diff | Yes      | `pnpm nx run poms-api:openapi`; `pnpm nx run shared-api-client:generate` | EX-08C1 Pass 2026-04-15 | 已生成 `ProjectHandoverApi` 与 EX-08 request/result/view models；generator schema warning 归类为既有 tool-noise             |
+| Migration / schema check         | Yes      | `pnpm nx run poms-api:migration-check`                                   | EX-08C2 Pass 2026-04-16 | No changes required，schema is up-to-date                                                                                   |
+| Whitespace                       | Yes      | `git diff --check`                                                       | EX-08C2 Pass 2026-04-16 | 退出码为 0；仅 `.openapi-generator/FILES` 有 CRLF normalization warning，不构成尾随空白阻断                                 |
 
 ---
 
 ## 10. 例外与风险
 
-| Exception ID | Level  | Scope                                                         | Approved By | Cleanup Owner | Cleanup Due    | Notes                                                                                                                                                                                                                                           |
-| ------------ | ------ | ------------------------------------------------------------- | ----------- | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| EX-08-E01    | Closed | `EX-07` 已存在 `handover_rebaseline_record_id` 字段但 FK 延迟 | Codex       | Codex         | 2026-04-15     | 已由 EX-08A1 关闭：`contract_handover_rebaseline_record` 已落地，三张 EX-07 表已补齐 FK 并通过 `migration-check`                                                                                                                                |
-| EX-08-E02    | Closed | 摘要快照横切能力只做最小承接                                  | Codex       | Codex         | 2026-04-15     | 已由 EX-08A2 关闭：`approval_summary_*` 三张表、project_handover 摘要 FK 与 `ApprovalSummaryService.createSummarySnapshot` 最小生成入口已落地                                                                                                   |
-| EX-08-E03    | Closed | 多方确认横切能力只做移交所需最小承接                          | Codex       | Codex         | 2026-04-15     | 已由 EX-08A3 关闭：新增 `confirmation_record` / `confirmation_participant`，并通过 `ConfirmationService` 稳定输出 `confirmationRecordId`、参与人进度、关闭语义和 todo 留痕                                                                      |
-| EX-08-E04    | E1     | generated client whitespace 已存在                            | Codex       | EX-08C1 owner | EX-08C1 完成前 | 当前 `git diff --check origin/main...HEAD` 已因 generated client 尾随空白失败，EX-08C1 必须清理后再提交 G3                                                                                                                                      |
-| EX-08-E05    | Closed | `contract_term_snapshot` 物理表当前未落地                     | Codex       | Codex         | 2026-04-15     | 已由 EX-08B3C 关闭：新增 `contract_term_snapshot`、active 条件唯一、`ContractTermSnapshotRepository`，并补齐 `project_handover.effective_handover_baseline_snapshot_id` 与 `contract_handover_rebaseline_record.effective_baseline_after_id` FK |
-| EX-08-E06    | Closed | 最近再基线化项目级查询链尚未具备独立 project 归属索引         | Codex       | Codex         | 2026-04-15     | 已由 EX-08B3B1 关闭：`contract_handover_rebaseline_record.project_id`、项目级 handled_at / status 索引、repository `findLatestByProjectId` 与 `ContractHandoverSummaryView` 项目级最近记录选择已落地                                            |
-| EX-08-E07    | Closed | `receiptJudgmentModeSummary` 当前仅能输出未冻结摘要           | Codex       | Codex         | 2026-04-15     | 已由 EX-08B3C 关闭：新增 `project_receipt_judgment_freeze`、当前有效唯一、同链来源字段，并让 `confirmProjectHandover` 可固化 `receiptJudgmentMode`、`ProjectHandoverDetailView` 可输出冻结来源                                                  |
+| Exception ID | Level  | Scope                                                         | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                                                                                                                                                                           |
+| ------------ | ------ | ------------------------------------------------------------- | ----------- | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| EX-08-E01    | Closed | `EX-07` 已存在 `handover_rebaseline_record_id` 字段但 FK 延迟 | Codex       | Codex         | 2026-04-15  | 已由 EX-08A1 关闭：`contract_handover_rebaseline_record` 已落地，三张 EX-07 表已补齐 FK 并通过 `migration-check`                                                                                                                                |
+| EX-08-E02    | Closed | 摘要快照横切能力只做最小承接                                  | Codex       | Codex         | 2026-04-15  | 已由 EX-08A2 关闭：`approval_summary_*` 三张表、project_handover 摘要 FK 与 `ApprovalSummaryService.createSummarySnapshot` 最小生成入口已落地                                                                                                   |
+| EX-08-E03    | Closed | 多方确认横切能力只做移交所需最小承接                          | Codex       | Codex         | 2026-04-15  | 已由 EX-08A3 关闭：新增 `confirmation_record` / `confirmation_participant`，并通过 `ConfirmationService` 稳定输出 `confirmationRecordId`、参与人进度、关闭语义和 todo 留痕                                                                      |
+| EX-08-E04    | Closed | generated client whitespace 已存在                            | Codex       | Codex         | 2026-04-15  | 已由 EX-08C1 关闭：重新生成 OpenAPI / shared API client 后 `git diff --check` 通过；剩余 `.openapi-generator/FILES` CRLF normalization warning 归类为 tool-noise                                                                                |
+| EX-08-E05    | Closed | `contract_term_snapshot` 物理表当前未落地                     | Codex       | Codex         | 2026-04-15  | 已由 EX-08B3C 关闭：新增 `contract_term_snapshot`、active 条件唯一、`ContractTermSnapshotRepository`，并补齐 `project_handover.effective_handover_baseline_snapshot_id` 与 `contract_handover_rebaseline_record.effective_baseline_after_id` FK |
+| EX-08-E06    | Closed | 最近再基线化项目级查询链尚未具备独立 project 归属索引         | Codex       | Codex         | 2026-04-15  | 已由 EX-08B3B1 关闭：`contract_handover_rebaseline_record.project_id`、项目级 handled_at / status 索引、repository `findLatestByProjectId` 与 `ContractHandoverSummaryView` 项目级最近记录选择已落地                                            |
+| EX-08-E07    | Closed | `receiptJudgmentModeSummary` 当前仅能输出未冻结摘要           | Codex       | Codex         | 2026-04-15  | 已由 EX-08B3C 关闭：新增 `project_receipt_judgment_freeze`、当前有效唯一、同链来源字段，并让 `confirmProjectHandover` 可固化 `receiptJudgmentMode`、`ProjectHandoverDetailView` 可输出冻结来源                                                  |
 
 ---
 
@@ -201,7 +201,7 @@
 - Approved At: 2026-04-14
 - Conditions:
   - `EX-08A0` 仅完成实施基线冻结，不代表 `EX-08` 可关闭。
-  - `EX-08B1`、`EX-08B2`、`EX-08B3A`、`EX-08B3B0`、`EX-08B3B1` 与 `EX-08B3C` 已完成，后续进入 `EX-08C1 -> EX-08C2 -> EX-08C3`。
+  - `EX-08B1`、`EX-08B2`、`EX-08B3A`、`EX-08B3B0`、`EX-08B3B1`、`EX-08B3C`、`EX-08C1` 与 `EX-08C2` 已完成，后续进入 `EX-08C3`。
   - `EX-08A1` 已清理 `EX-07` 延迟 FK 例外，`EX-08A2` 已清理摘要快照最小承接例外，`EX-08A3` 已清理多方确认最小承接例外，`EX-08B3B1` 已清理项目级最近再基线化链例外，`EX-08B3C` 已清理物理快照与回款判断冻结来源例外；`EX-08B3` 已完成。
-  - `EX-08C1` 必须清理 generated client whitespace，避免 `git diff --check` 阻断 `G3`。
+  - `EX-08C1` 已清理 generated client whitespace 阻断并关闭 `EX-08-E04`；`EX-08C2` 已补齐 seeded HTTP E2E 与 controller 单测。
   - 父任务 `EX-08` 只有在所有子任务完成、验证通过并完成文档回写后才允许进入 `Done`。
