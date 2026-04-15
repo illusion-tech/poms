@@ -3,6 +3,7 @@ import {
     CommercialDiffReviewResultSchema,
     CommercialReleaseBaselineSummarySchema,
     ContractDiffReviewHistoryViewSchema,
+    ContractHandoverSummaryViewSchema,
     ContractReadinessDetailSchema,
     ContractListQuerySchema,
     ContractListSchema,
@@ -35,6 +36,8 @@ export class CommercialReleaseBaselineDto extends createZodDto(CommercialRelease
 export class ContractReadinessDetailDto extends createZodDto(ContractReadinessDetailSchema) {}
 
 export class ContractDiffReviewHistoryViewDto extends createZodDto(ContractDiffReviewHistoryViewSchema) {}
+
+export class ContractHandoverSummaryViewDto extends createZodDto(ContractHandoverSummaryViewSchema) {}
 
 export class CreateCommercialReleaseBaselineRequestDto extends createZodDto(CreateCommercialReleaseBaselineRequestSchema) {}
 

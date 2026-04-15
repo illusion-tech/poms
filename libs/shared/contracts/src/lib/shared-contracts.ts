@@ -930,6 +930,112 @@ export const ContractReadinessDetailSchema = z
 
 export type ContractReadinessDetail = z.infer<typeof ContractReadinessDetailSchema>;
 
+export const ContractHandoverContractItemSummarySchema = z
+    .object({
+        id: z.uuid(),
+        contractNo: z.string(),
+        status: ContractStatusSchema,
+        signedAmount: z.string(),
+        currencyCode: z.string(),
+        currentSnapshotId: z.uuid().nullable(),
+        signedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ContractHandoverContractItemSummary' });
+
+export type ContractHandoverContractItemSummary = z.infer<typeof ContractHandoverContractItemSummarySchema>;
+
+export const ContractHandoverEffectiveContractSetSummarySchema = z
+    .object({
+        activeContractCount: z.number().int().nonnegative(),
+        activeContractIds: z.array(z.uuid()),
+        contractNos: z.array(z.string()),
+        totalSignedAmount: z.string(),
+        currencyCodes: z.array(z.string()),
+        earliestSignedAt: z.iso.datetime().nullable(),
+        latestSignedAt: z.iso.datetime().nullable(),
+        contracts: z.array(ContractHandoverContractItemSummarySchema)
+    })
+    .meta({ id: 'ContractHandoverEffectiveContractSetSummary' });
+
+export type ContractHandoverEffectiveContractSetSummary = z.infer<typeof ContractHandoverEffectiveContractSetSummarySchema>;
+
+export const ContractHandoverBaselineValidationSummarySchema = z
+    .object({
+        status: z.enum(['ready', 'blocked', 'missing']),
+        readinessPackageId: z.uuid().nullable(),
+        sourceBaselineId: z.uuid().nullable(),
+        latestDiffResultId: z.uuid().nullable(),
+        diffLevel: CommercialDiffLevelSchema.nullable(),
+        reviewStatus: CommercialDiffReviewStatusSchema.nullable(),
+        packageStatus: ContractReadinessStatusSchema.nullable(),
+        guardDecision: ContractReadinessGuardDecisionSchema.nullable(),
+        initializedContractSnapshotId: z.uuid().nullable(),
+        contractSnapshotInitializedAt: z.iso.datetime().nullable(),
+        blockingReasonSummary: z.string().nullable(),
+        missingPrerequisiteCount: z.number().int().nonnegative()
+    })
+    .meta({ id: 'ContractHandoverBaselineValidationSummary' });
+
+export type ContractHandoverBaselineValidationSummary = z.infer<typeof ContractHandoverBaselineValidationSummarySchema>;
+
+export const ContractHandoverCurrentBaselineSummarySchema = z
+    .object({
+        status: z.enum(['available', 'missing']),
+        baselineSnapshotId: z.uuid().nullable(),
+        sourceType: z.enum(['contract-readiness', 'project-handover', 'handover-rebaseline', 'none']),
+        sourceId: z.uuid().nullable(),
+        summary: z.string()
+    })
+    .meta({ id: 'ContractHandoverCurrentBaselineSummary' });
+
+export type ContractHandoverCurrentBaselineSummary = z.infer<typeof ContractHandoverCurrentBaselineSummarySchema>;
+
+export const ContractHandoverLatestRebaselineSummarySchema = z
+    .object({
+        status: z.enum(['none', 'processing', 'pending_effective', 'effective', 'superseded', 'voided']),
+        rebaselineRecordId: z.uuid().nullable(),
+        effectiveBaselineAfterId: z.uuid().nullable(),
+        handledAt: z.iso.datetime().nullable(),
+        blockingStatus: z.enum(['none', 'blocking', 'effective']),
+        impactItemCount: z.number().int().nonnegative(),
+        impactSummary: z.string().nullable()
+    })
+    .meta({ id: 'ContractHandoverLatestRebaselineSummary' });
+
+export type ContractHandoverLatestRebaselineSummary = z.infer<typeof ContractHandoverLatestRebaselineSummarySchema>;
+
+export const ContractHandoverReceivablePlanInitSummarySchema = z
+    .object({
+        status: z.enum(['initialized', 'missing', 'blocked']),
+        initializedReceivablePlanVersionId: z.uuid().nullable(),
+        receivablePlanInitializedAt: z.iso.datetime().nullable(),
+        summary: z.string()
+    })
+    .meta({ id: 'ContractHandoverReceivablePlanInitSummary' });
+
+export type ContractHandoverReceivablePlanInitSummary = z.infer<typeof ContractHandoverReceivablePlanInitSummarySchema>;
+
+export const ContractHandoverSummaryViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        projectCode: z.string(),
+        projectName: z.string(),
+        effectiveContractSetSummary: ContractHandoverEffectiveContractSetSummarySchema,
+        contractBaselineValidationSummary: ContractHandoverBaselineValidationSummarySchema,
+        currentHandoverBaselineSummary: ContractHandoverCurrentBaselineSummarySchema,
+        latestHandoverRebaselineSummary: ContractHandoverLatestRebaselineSummarySchema,
+        receivablePlanInitSummary: ContractHandoverReceivablePlanInitSummarySchema,
+        contractSummarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        allowedActions: z.array(z.string()),
+        blockingReasons: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ContractHandoverSummaryView' });
+
+export type ContractHandoverSummaryView = z.infer<typeof ContractHandoverSummaryViewSchema>;
+
 export const CreateCommercialBaselineDiffItemInputSchema = z
     .object({
         fieldKey: z.string().trim().min(1).max(128),
