@@ -1123,6 +1123,7 @@ export const ConfirmProjectHandoverRequestSchema = z
     .object({
         comment: z.string().trim().max(1000).optional(),
         participantConfirmations: z.array(ConfirmProjectHandoverParticipantConfirmationInputSchema).min(1),
+        receiptJudgmentMode: z.string().trim().min(1).max(64).optional(),
         contractSummarySnapshotId: z.uuid(),
         expectedVersion: z.number().int().positive().optional()
     })
@@ -1135,6 +1136,7 @@ export const ConfirmProjectHandoverResultSchema = z
         targetId: z.uuid(),
         businessStatusAfter: z.literal('confirmed'),
         confirmationRecordId: z.uuid(),
+        receiptJudgmentFreezeId: z.uuid().nullable(),
         contractSummarySnapshotId: z.uuid(),
         effectiveHandoverBaselineSnapshotId: z.uuid(),
         summarySnapshotId: z.uuid(),
