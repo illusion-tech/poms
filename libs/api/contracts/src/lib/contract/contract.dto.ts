@@ -17,6 +17,8 @@ import {
     InitializeReceivablePlanFromReadinessPackageRequestSchema,
     ProjectHandoverDetailViewSchema,
     ReadinessInitializationResultSchema,
+    RebaselineContractHandoverRequestSchema,
+    RebaselineContractHandoverResultSchema,
     ReviewCommercialReleaseBaselineDiffRequestSchema,
     UpdateContractBasicInfoRequestSchema
 } from '@poms/shared-contracts';
@@ -47,6 +49,10 @@ export class ProjectHandoverDetailViewDto extends createZodDto(ProjectHandoverDe
 export class ConfirmProjectHandoverRequestDto extends createZodDto(ConfirmProjectHandoverRequestSchema) {}
 
 export class ConfirmProjectHandoverResultDto extends createZodDto(ConfirmProjectHandoverResultSchema) {}
+
+export class RebaselineContractHandoverRequestDto extends createZodDto(RebaselineContractHandoverRequestSchema) {}
+
+export class RebaselineContractHandoverResultDto extends createZodDto(RebaselineContractHandoverResultSchema) {}
 
 export class CreateCommercialReleaseBaselineRequestDto extends createZodDto(CreateCommercialReleaseBaselineRequestSchema) {}
 

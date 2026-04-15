@@ -1145,6 +1145,29 @@ export const ConfirmProjectHandoverResultSchema = z
 
 export type ConfirmProjectHandoverResult = z.infer<typeof ConfirmProjectHandoverResultSchema>;
 
+export const RebaselineContractHandoverRequestSchema = z
+    .object({
+        contractAmendmentId: z.uuid(),
+        rebaselineReason: z.string().trim().min(1).max(1000),
+        affectedHandoverItemIds: z.array(z.uuid()).min(1),
+        effectiveBaselineAfterId: z.uuid(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'RebaselineContractHandoverRequest' });
+
+export type RebaselineContractHandoverRequest = z.infer<typeof RebaselineContractHandoverRequestSchema>;
+
+export const RebaselineContractHandoverResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        rebaselineRecordId: z.uuid(),
+        effectiveBaselineAfterId: z.uuid(),
+        resultStatus: z.literal('effective')
+    })
+    .meta({ id: 'RebaselineContractHandoverResult' });
+
+export type RebaselineContractHandoverResult = z.infer<typeof RebaselineContractHandoverResultSchema>;
+
 export const CreateCommercialBaselineDiffItemInputSchema = z
     .object({
         fieldKey: z.string().trim().min(1).max(128),
