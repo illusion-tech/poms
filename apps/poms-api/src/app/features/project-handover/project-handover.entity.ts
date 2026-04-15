@@ -1,5 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
+import { ContractAmendment } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 
 export type ProjectHandoverStatus = 'draft' | 'confirmed' | 'superseded' | 'voided';
@@ -31,7 +32,15 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
-        contractAmendmentId: p.uuid().fieldName('contract_amendment_id').comment('合同变更版本 ID（FK 待合同变更表落地后补齐）'),
+        contractAmendmentId: () =>
+            p
+                .manyToOne(ContractAmendment)
+                .mapToPk()
+                .fieldName('contract_amendment_id')
+                .foreignKeyName('contract_handover_rebaseline_record_contract_amendment_id_forei')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('合同变更版本 ID'),
         rebaselineReason: p.text().fieldName('rebaseline_reason').comment('再基线化原因'),
         effectiveBaselineAfterId: p.uuid().fieldName('effective_baseline_after_id').comment('再基线化后生效基线快照 ID'),
         status: p.string().length(32).default('processing').$type<ContractHandoverRebaselineStatus>().comment('状态：processing/pending_effective/effective/superseded/voided'),

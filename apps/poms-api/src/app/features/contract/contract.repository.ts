@@ -2,7 +2,7 @@ import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { ContractStatus } from '@poms/shared-contracts';
-import { Contract } from './contract.entity';
+import { Contract, ContractAmendment } from './contract.entity';
 
 @Injectable()
 export class ContractRepository {
@@ -45,5 +45,41 @@ export class ContractRepository {
 
     async save(contract: Contract): Promise<void> {
         await this.contractRepository.getEntityManager().persist(contract).flush();
+    }
+}
+
+@Injectable()
+export class ContractAmendmentRepository {
+    constructor(
+        @InjectRepository(ContractAmendment)
+        private readonly contractAmendmentRepository: EntityRepository<ContractAmendment>
+    ) {}
+
+    async findById(id: string): Promise<ContractAmendment | null> {
+        return this.contractAmendmentRepository.findOne({ id });
+    }
+
+    async findEffectiveById(id: string): Promise<ContractAmendment | null> {
+        return this.contractAmendmentRepository.findOne({
+            id,
+            status: 'effective',
+            isCurrent: true
+        });
+    }
+
+    async findCurrentByContractId(contractId: string): Promise<ContractAmendment | null> {
+        return this.contractAmendmentRepository.findOne({
+            contractId,
+            status: 'effective',
+            isCurrent: true
+        });
+    }
+
+    create(input: ConstructorParameters<typeof ContractAmendment>[0]): ContractAmendment {
+        return this.contractAmendmentRepository.create(input);
+    }
+
+    async save(contractAmendment: ContractAmendment): Promise<void> {
+        await this.contractAmendmentRepository.getEntityManager().persist(contractAmendment).flush();
     }
 }

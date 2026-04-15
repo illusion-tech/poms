@@ -4,6 +4,8 @@ import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
 
+export type ContractAmendmentStatus = 'draft' | 'submitted' | 'approved' | 'effective' | 'superseded' | 'voided';
+
 export const ContractSchema = defineEntity({
     name: 'Contract',
     tableName: 'contract',
@@ -52,3 +54,68 @@ export const ContractSchema = defineEntity({
 export class Contract extends ContractSchema.class {}
 
 ContractSchema.setClass(Contract);
+
+export const ContractAmendmentSchema = defineEntity({
+    name: 'ContractAmendment',
+    tableName: 'contract_amendment',
+    schema: 'poms',
+    comment: '合同变更版本表',
+    indexes: [
+        { name: 'idx_contract_amendment_contract', properties: ['contractId'] },
+        { name: 'idx_contract_amendment_status', properties: ['status'] },
+        { name: 'idx_contract_amendment_supersedes', properties: ['supersedesId'] }
+    ],
+    uniques: [
+        { name: 'uq_contract_amendment_contract_version', properties: ['contractId', 'version'] },
+        {
+            name: 'uq_contract_amendment_contract_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+        contractId: () =>
+            p
+                .manyToOne(Contract)
+                .mapToPk()
+                .fieldName('contract_id')
+                .foreignKeyName('contract_amendment_contract_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('所属合同 ID'),
+        version: p.integer().comment('合同变更版本号'),
+        isCurrent: p.boolean().default(false).fieldName('is_current').comment('是否当前有效变更版本'),
+        supersedesId: () =>
+            p
+                .manyToOne(ContractAmendment)
+                .mapToPk()
+                .nullable()
+                .fieldName('supersedes_id')
+                .foreignKeyName('contract_amendment_supersedes_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null')
+                .comment('被替代的合同变更版本'),
+        status: p.string().length(32).default('draft').$type<ContractAmendmentStatus>().comment('状态：draft/submitted/approved/effective/superseded/voided'),
+        createdAt: p
+            .datetime()
+            .defaultRaw('now()')
+            .onCreate(() => new Date())
+            .fieldName('created_at')
+            .comment('创建时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        updatedAt: p
+            .datetime()
+            .defaultRaw('now()')
+            .onCreate(() => new Date())
+            .onUpdate(() => new Date())
+            .fieldName('updated_at')
+            .comment('最后更新时间'),
+        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    }
+});
+
+export class ContractAmendment extends ContractAmendmentSchema.class {}
+
+ContractAmendmentSchema.setClass(ContractAmendment);
