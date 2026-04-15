@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { ContractHandoverSummaryView, ContractReadinessDetail } from '@poms/shared-contracts';
+import type { ContractHandoverSummaryView, ContractReadinessDetail, ProjectHandoverDetailView } from '@poms/shared-contracts';
+import { ConfirmationService, type ConfirmationProgress } from '../approval/confirmation.service';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { Contract } from '../contract/contract.entity';
@@ -15,6 +16,8 @@ import {
 
 const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = 'handover-confirmation';
 const CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL = 'handover-confirmation';
+const PROJECT_HANDOVER_TARGET_TYPE = 'ProjectHandover';
+const PROJECT_HANDOVER_CONFIRMATION_TYPE = 'project-handover';
 
 @Injectable()
 export class ProjectHandoverQueryService {
@@ -22,6 +25,7 @@ export class ProjectHandoverQueryService {
         private readonly projectService: ProjectService,
         private readonly contractService: ContractService,
         private readonly contractReadinessService: ContractReadinessService,
+        private readonly confirmationService: ConfirmationService,
         private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
         private readonly projectHandoverRepository: ProjectHandoverRepository,
         private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
@@ -29,11 +33,32 @@ export class ProjectHandoverQueryService {
     ) {}
 
     async getContractHandoverSummary(projectId: string): Promise<ContractHandoverSummaryView> {
-        const project = await this.projectService.findById(projectId);
-        if (!project) {
-            throw new NotFoundException(`Project ${projectId} not found`);
+        const project = await this.findProjectOrThrow(projectId);
+        const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
+
+        return this.buildContractHandoverSummary(project, latestHandover);
+    }
+
+    async getProjectHandoverDetailByProjectId(projectId: string): Promise<ProjectHandoverDetailView> {
+        const project = await this.findProjectOrThrow(projectId);
+        const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
+
+        return this.buildProjectHandoverDetail(project, latestHandover);
+    }
+
+    async getProjectHandoverDetailByHandoverId(handoverId: string): Promise<ProjectHandoverDetailView> {
+        const handover = await this.projectHandoverRepository.findById(handoverId);
+        if (!handover) {
+            throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
         }
 
+        const project = await this.findProjectOrThrow(handover.projectId);
+
+        return this.buildProjectHandoverDetail(project, handover);
+    }
+
+    private async buildContractHandoverSummary(project: Project, latestHandover: ProjectHandover | null): Promise<ContractHandoverSummaryView> {
+        const projectId = project.id;
         const [activeContracts, readiness, contractSummarySnapshot, handovers] = await Promise.all([
             this.contractService.findMany({ projectId, status: 'active' }),
             this.findCurrentContractReadiness(projectId),
@@ -43,11 +68,11 @@ export class ProjectHandoverQueryService {
                 CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY,
                 CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL
             ),
-            this.projectHandoverRepository.findByProjectId(projectId)
+            latestHandover ? Promise.resolve([latestHandover]) : this.projectHandoverRepository.findByProjectId(projectId)
         ]);
 
-        const latestHandover = handovers[0] ?? null;
-        const latestRebaseline = await this.findLatestLinkedRebaseline(latestHandover);
+        const selectedHandover = latestHandover ?? handovers[0] ?? null;
+        const latestRebaseline = await this.findLatestLinkedRebaseline(selectedHandover);
         const impactItems = latestRebaseline
             ? await this.handoverBaselineImpactItemRepository.findByRebaselineRecordId(latestRebaseline.id)
             : [];
@@ -56,7 +81,7 @@ export class ProjectHandoverQueryService {
         const effectiveContractSetSummary = this.buildEffectiveContractSetSummary(activeContracts);
         const contractBaselineValidationSummary = this.buildBaselineValidationSummary(readiness);
         const latestHandoverRebaselineSummary = this.buildLatestRebaselineSummary(latestRebaseline, impactItems);
-        const currentHandoverBaselineSummary = this.buildCurrentHandoverBaselineSummary(readiness, latestHandover, latestRebaseline);
+        const currentHandoverBaselineSummary = this.buildCurrentHandoverBaselineSummary(readiness, selectedHandover, latestRebaseline);
         const receivablePlanInitSummary = this.buildReceivablePlanInitSummary(readiness);
 
         return {
@@ -75,6 +100,172 @@ export class ProjectHandoverQueryService {
             blockingReasons,
             generatedAt: new Date().toISOString()
         };
+    }
+
+    private async buildProjectHandoverDetail(project: Project, handover: ProjectHandover | null): Promise<ProjectHandoverDetailView> {
+        const [contractHandoverSummary, handoverSummarySnapshot, confirmationProgress] = await Promise.all([
+            this.buildContractHandoverSummary(project, handover),
+            handover?.summarySnapshotId ? this.approvalSummarySnapshotRepository.findById(handover.summarySnapshotId) : Promise.resolve(null),
+            handover
+                ? this.confirmationService.findLatestConfirmationProgressByTarget(
+                      PROJECT_HANDOVER_TARGET_TYPE,
+                      handover.id,
+                      PROJECT_HANDOVER_CONFIRMATION_TYPE
+                  )
+                : Promise.resolve(null)
+        ]);
+
+        const participantConfirmationSummary = this.buildParticipantConfirmationSummary(confirmationProgress);
+        const receiptJudgmentModeSummary = this.buildReceiptJudgmentModeSummary();
+        const blockingReasons = this.buildProjectHandoverBlockingReasons(
+            handover,
+            contractHandoverSummary.blockingReasons,
+            handoverSummarySnapshot,
+            participantConfirmationSummary
+        );
+
+        return {
+            handoverId: handover?.id ?? null,
+            projectId: project.id,
+            projectCode: project.projectCode,
+            projectName: project.projectName,
+            handoverStatus: handover?.status ?? 'not_started',
+            confirmedAt: handover?.confirmedAt?.toISOString() ?? null,
+            confirmedBy: handover?.confirmedBy ?? null,
+            comment: handover?.comment ?? null,
+            rowVersion: handover?.rowVersion ?? null,
+            effectiveContractSetSummary: contractHandoverSummary.effectiveContractSetSummary,
+            contractSummarySnapshotId: handover?.contractSummarySnapshotId ?? contractHandoverSummary.contractSummarySnapshotId,
+            currentHandoverBaselineSummary: contractHandoverSummary.currentHandoverBaselineSummary,
+            participantConfirmationSummary,
+            receiptJudgmentModeSummary,
+            summaryPackageKey: handoverSummarySnapshot?.summaryPackageKey ?? null,
+            summarySnapshotId: handoverSummarySnapshot?.id ?? handover?.summarySnapshotId ?? null,
+            projectionLevel: handoverSummarySnapshot?.projectionLevel ?? null,
+            exportPolicy: handoverSummarySnapshot?.exportPolicy ?? null,
+            allowedActions: this.buildProjectHandoverAllowedActions(handover, blockingReasons, contractHandoverSummary.allowedActions, handoverSummarySnapshot),
+            blockingReasons,
+            generatedAt: new Date().toISOString()
+        };
+    }
+
+    private async findProjectOrThrow(projectId: string): Promise<Project> {
+        const project = await this.projectService.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        return project;
+    }
+
+    private async findLatestProjectHandoverByProjectId(projectId: string): Promise<ProjectHandover | null> {
+        const handovers = await this.projectHandoverRepository.findByProjectId(projectId);
+        return handovers[0] ?? null;
+    }
+
+    private buildParticipantConfirmationSummary(
+        confirmationProgress: ConfirmationProgress | null
+    ): ProjectHandoverDetailView['participantConfirmationSummary'] {
+        if (!confirmationProgress) {
+            return {
+                status: 'not_started',
+                confirmationRecordId: null,
+                requiredCount: 0,
+                confirmedCount: 0,
+                pendingCount: 0,
+                closedCount: 0,
+                submittedAt: null,
+                confirmedAt: null,
+                closedAt: null,
+                rowVersion: null,
+                participants: []
+            };
+        }
+
+        const pendingCount = confirmationProgress.participants.filter((participant) => participant.participantStatus === 'pending').length;
+        const closedCount = confirmationProgress.participants.filter((participant) => participant.participantStatus === 'closed').length;
+
+        return {
+            status: this.mapParticipantConfirmationStatus(confirmationProgress.status),
+            confirmationRecordId: confirmationProgress.id,
+            requiredCount: confirmationProgress.requiredCount,
+            confirmedCount: confirmationProgress.confirmedCount,
+            pendingCount,
+            closedCount,
+            submittedAt: confirmationProgress.submittedAt,
+            confirmedAt: confirmationProgress.confirmedAt,
+            closedAt: confirmationProgress.closedAt,
+            rowVersion: confirmationProgress.rowVersion,
+            participants: confirmationProgress.participants
+        };
+    }
+
+    private mapParticipantConfirmationStatus(status: string): ProjectHandoverDetailView['participantConfirmationSummary']['status'] {
+        if (status === 'confirmed' || status === 'closed') {
+            return status;
+        }
+
+        return 'pending';
+    }
+
+    private buildReceiptJudgmentModeSummary(): ProjectHandoverDetailView['receiptJudgmentModeSummary'] {
+        return {
+            status: 'not_frozen',
+            receiptJudgmentMode: null,
+            sourceType: 'none',
+            sourceId: null,
+            summary: 'Receipt judgment mode is frozen by confirmProjectHandover or the downstream receipt judgment freeze chain'
+        };
+    }
+
+    private buildProjectHandoverBlockingReasons(
+        handover: ProjectHandover | null,
+        contractBlockingReasons: string[],
+        handoverSummarySnapshot: { id: string } | null,
+        participantConfirmationSummary: ProjectHandoverDetailView['participantConfirmationSummary']
+    ): string[] {
+        const reasons = [...contractBlockingReasons];
+
+        if (!handover) {
+            reasons.push('Project handover record is not prepared');
+        } else {
+            if (!handoverSummarySnapshot) {
+                reasons.push('Project handover summary snapshot is not generated');
+            }
+
+            if (participantConfirmationSummary.status === 'not_started') {
+                reasons.push('Project handover participant confirmation is not started');
+            } else if (participantConfirmationSummary.status === 'pending') {
+                reasons.push('Project handover participant confirmation is not complete');
+            } else if (participantConfirmationSummary.status === 'closed') {
+                reasons.push('Project handover participant confirmation is closed');
+            }
+        }
+
+        return [...new Set(reasons)];
+    }
+
+    private buildProjectHandoverAllowedActions(
+        handover: ProjectHandover | null,
+        blockingReasons: string[],
+        contractAllowedActions: string[],
+        handoverSummarySnapshot: { id: string } | null
+    ): string[] {
+        const actions = new Set(contractAllowedActions.filter((action) => action !== 'confirm-project-handover'));
+
+        if (handover && !handoverSummarySnapshot) {
+            actions.add('generate-project-handover-summary-snapshot');
+        }
+
+        if (handover && blockingReasons.length === 0 && handover.status === 'draft') {
+            actions.add('confirm-project-handover');
+        }
+
+        if (!handover && contractAllowedActions.includes('confirm-project-handover')) {
+            actions.add('prepare-project-handover');
+        }
+
+        return [...actions];
     }
 
     private async findCurrentContractReadiness(projectId: string): Promise<ContractReadinessDetail | null> {

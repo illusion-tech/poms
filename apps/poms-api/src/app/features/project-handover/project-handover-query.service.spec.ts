@@ -13,8 +13,9 @@ describe('ProjectHandoverQueryService', () => {
     let projectService: { findById: jest.Mock };
     let contractService: { findMany: jest.Mock };
     let contractReadinessService: { findCurrentContractReadinessByProjectId: jest.Mock };
-    let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
-    let projectHandoverRepository: { findByProjectId: jest.Mock };
+    let confirmationService: { findLatestConfirmationProgressByTarget: jest.Mock };
+    let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock; findById: jest.Mock };
+    let projectHandoverRepository: { findById: jest.Mock; findByProjectId: jest.Mock };
     let contractHandoverRebaselineRecordRepository: { findById: jest.Mock };
     let handoverBaselineImpactItemRepository: { findByRebaselineRecordId: jest.Mock };
 
@@ -22,8 +23,9 @@ describe('ProjectHandoverQueryService', () => {
         projectService = { findById: jest.fn() };
         contractService = { findMany: jest.fn() };
         contractReadinessService = { findCurrentContractReadinessByProjectId: jest.fn() };
-        approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
-        projectHandoverRepository = { findByProjectId: jest.fn() };
+        confirmationService = { findLatestConfirmationProgressByTarget: jest.fn() };
+        approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn(), findById: jest.fn() };
+        projectHandoverRepository = { findById: jest.fn(), findByProjectId: jest.fn() };
         contractHandoverRebaselineRecordRepository = { findById: jest.fn() };
         handoverBaselineImpactItemRepository = { findByRebaselineRecordId: jest.fn() };
 
@@ -31,6 +33,7 @@ describe('ProjectHandoverQueryService', () => {
             projectService as never,
             contractService as never,
             contractReadinessService as never,
+            confirmationService as never,
             approvalSummarySnapshotRepository as never,
             projectHandoverRepository as never,
             contractHandoverRebaselineRecordRepository as never,
@@ -41,9 +44,11 @@ describe('ProjectHandoverQueryService', () => {
         contractService.findMany.mockResolvedValue([makeContract()]);
         contractReadinessService.findCurrentContractReadinessByProjectId.mockResolvedValue(makeReadiness());
         approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue(makeSnapshot());
+        approvalSummarySnapshotRepository.findById.mockResolvedValue(makeHandoverSummarySnapshot());
         projectHandoverRepository.findByProjectId.mockResolvedValue([]);
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
         handoverBaselineImpactItemRepository.findByRebaselineRecordId.mockResolvedValue([]);
+        confirmationService.findLatestConfirmationProgressByTarget.mockResolvedValue(makeConfirmationProgress());
     });
 
     it('returns a ready contract handover summary view for an initialized project', async () => {
@@ -110,6 +115,45 @@ describe('ProjectHandoverQueryService', () => {
         expect(result.blockingReasons).toContain(`Handover rebaseline record ${rebaselineId} is still processing`);
     });
 
+    it('returns the latest project handover detail with summary and participant confirmation chains', async () => {
+        projectHandoverRepository.findByProjectId.mockResolvedValue([makeHandover()]);
+
+        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+
+        expect(approvalSummarySnapshotRepository.findById).toHaveBeenCalledWith('60000000-0000-4000-8000-000000000201');
+        expect(confirmationService.findLatestConfirmationProgressByTarget).toHaveBeenCalledWith(
+            'ProjectHandover',
+            handoverId,
+            'project-handover'
+        );
+        expect(result.handoverId).toBe(handoverId);
+        expect(result.handoverStatus).toBe('draft');
+        expect(result.contractSummarySnapshotId).toBe(snapshotId);
+        expect(result.summarySnapshotId).toBe('60000000-0000-4000-8000-000000000201');
+        expect(result.summaryPackageKey).toBe('project-handover-confirmation');
+        expect(result.participantConfirmationSummary.status).toBe('confirmed');
+        expect(result.receiptJudgmentModeSummary.status).toBe('not_frozen');
+        expect(result.allowedActions).toEqual(['confirm-project-handover']);
+        expect(result.blockingReasons).toEqual([]);
+    });
+
+    it('returns a controlled project handover placeholder when no handover record exists', async () => {
+        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+
+        expect(result.handoverId).toBeNull();
+        expect(result.handoverStatus).toBe('not_started');
+        expect(result.participantConfirmationSummary.status).toBe('not_started');
+        expect(result.summarySnapshotId).toBeNull();
+        expect(result.allowedActions).toEqual(['prepare-project-handover']);
+        expect(result.blockingReasons).toContain('Project handover record is not prepared');
+    });
+
+    it('throws when the requested handover does not exist', async () => {
+        projectHandoverRepository.findById.mockResolvedValue(null);
+
+        await expect(service.getProjectHandoverDetailByHandoverId(handoverId)).rejects.toThrow(NotFoundException);
+    });
+
     function makeProject() {
         return {
             id: projectId,
@@ -165,6 +209,59 @@ describe('ProjectHandoverQueryService', () => {
             id: snapshotId,
             projectionLevel: 'handover-confirmation',
             exportPolicy: 'handover-controlled'
+        };
+    }
+
+    function makeHandoverSummarySnapshot() {
+        return {
+            id: '60000000-0000-4000-8000-000000000201',
+            summaryPackageKey: 'project-handover-confirmation',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'handover-controlled'
+        };
+    }
+
+    function makeHandover() {
+        return {
+            id: handoverId,
+            projectId,
+            contractSummarySnapshotId: snapshotId,
+            effectiveHandoverBaselineSnapshotId: '50000000-0000-4000-8000-000000000101',
+            summarySnapshotId: '60000000-0000-4000-8000-000000000201',
+            handoverRebaselineRecordId: null,
+            status: 'draft',
+            confirmedAt: null,
+            confirmedBy: null,
+            comment: null,
+            rowVersion: 1
+        };
+    }
+
+    function makeConfirmationProgress() {
+        return {
+            id: '40000000-0000-4000-8000-000000000101',
+            confirmationType: 'project-handover',
+            businessDomain: 'project-handover',
+            targetType: 'ProjectHandover',
+            targetId: handoverId,
+            projectId,
+            status: 'confirmed',
+            requiredCount: 1,
+            confirmedCount: 1,
+            submittedAt: '2026-04-15T00:00:00.000Z',
+            confirmedAt: '2026-04-15T00:10:00.000Z',
+            closedAt: null,
+            rowVersion: 2,
+            participants: [
+                {
+                    participantId: '00000000-0000-4000-8000-000000000011',
+                    participantRoleKey: 'sales-owner',
+                    participantDisplayName: '销售负责人',
+                    participantStatus: 'confirmed',
+                    confirmedAt: '2026-04-15T00:10:00.000Z',
+                    confirmedComment: '已确认'
+                }
+            ]
         };
     }
 });

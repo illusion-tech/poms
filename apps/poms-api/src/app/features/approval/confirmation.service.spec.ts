@@ -193,6 +193,31 @@ describe('ConfirmationService', () => {
         expect(result.resultStatus).toBe('closed');
         expect(result.todoItemIds).toEqual([todo.id]);
     });
+
+    it('finds the latest confirmation progress by target', async () => {
+        const record = { ...makeConfirmationRecord(), status: 'confirmed', confirmedCount: 1, confirmedAt: new Date('2026-04-15T00:10:00.000Z') };
+        confirmationRecordRepository.findOne.mockResolvedValue(record);
+        confirmationParticipantRepository.find.mockResolvedValue([
+            {
+                participantId: participantUserId,
+                participantRoleKey: 'sales-owner',
+                participantDisplayName: '销售负责人',
+                participantStatus: 'confirmed',
+                confirmedAt: new Date('2026-04-15T00:10:00.000Z'),
+                confirmedComment: '已确认'
+            }
+        ]);
+
+        const result = await service.findLatestConfirmationProgressByTarget('ProjectHandover', targetId, 'project-handover');
+
+        expect(confirmationRecordRepository.findOne).toHaveBeenCalledWith(
+            { targetType: 'ProjectHandover', targetId, confirmationType: 'project-handover' },
+            { orderBy: { submittedAt: 'DESC', createdAt: 'DESC' } }
+        );
+        expect(result?.status).toBe('confirmed');
+        expect(result?.participants).toHaveLength(1);
+        expect(result?.participants[0].participantStatus).toBe('confirmed');
+    });
 });
 
 function makeConfirmationRecord() {

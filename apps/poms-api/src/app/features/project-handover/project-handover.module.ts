@@ -1,5 +1,6 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
+import { ApprovalModule } from '../approval/approval.module';
 import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';
 import { ContractReadinessModule } from '../contract-readiness/contract-readiness.module';
 import { ContractModule } from '../contract/contract.module';
@@ -16,6 +17,7 @@ import {
 @Module({
     imports: [
         MikroOrmModule.forFeature([ProjectHandover, ContractHandoverRebaselineRecord, HandoverBaselineImpactItem]),
+        ApprovalModule,
         ProjectModule,
         ContractModule,
         ContractReadinessModule,

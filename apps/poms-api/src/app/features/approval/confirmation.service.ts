@@ -302,7 +302,26 @@ export class ConfirmationService {
             return null;
         }
 
-        const participants = await this.confirmationParticipantRepository.find({ confirmationRecordId }, { orderBy: { createdAt: 'ASC' } });
+        return this.buildConfirmationProgress(confirmationRecord);
+    }
+
+    async findLatestConfirmationProgressByTarget(targetType: string, targetId: string, confirmationType?: string): Promise<ConfirmationProgress | null> {
+        const where = confirmationType ? { targetType, targetId, confirmationType } : { targetType, targetId };
+        const confirmationRecord = await this.confirmationRecordRepository.findOne(where, {
+            orderBy: { submittedAt: 'DESC', createdAt: 'DESC' }
+        });
+        if (!confirmationRecord) {
+            return null;
+        }
+
+        return this.buildConfirmationProgress(confirmationRecord);
+    }
+
+    private async buildConfirmationProgress(confirmationRecord: ConfirmationRecord): Promise<ConfirmationProgress> {
+        const participants = await this.confirmationParticipantRepository.find(
+            { confirmationRecordId: confirmationRecord.id },
+            { orderBy: { createdAt: 'ASC' } }
+        );
 
         return {
             id: confirmationRecord.id,
