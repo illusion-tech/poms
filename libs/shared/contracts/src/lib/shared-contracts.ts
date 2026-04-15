@@ -1107,6 +1107,44 @@ export const ProjectHandoverDetailViewSchema = z
 
 export type ProjectHandoverDetailView = z.infer<typeof ProjectHandoverDetailViewSchema>;
 
+export const ConfirmProjectHandoverParticipantConfirmationInputSchema = z
+    .object({
+        participantId: z.uuid(),
+        participantRoleKey: z.string().trim().min(1).max(64),
+        participantStatus: z.literal('confirmed')
+    })
+    .meta({ id: 'ConfirmProjectHandoverParticipantConfirmationInput' });
+
+export type ConfirmProjectHandoverParticipantConfirmationInput = z.infer<
+    typeof ConfirmProjectHandoverParticipantConfirmationInputSchema
+>;
+
+export const ConfirmProjectHandoverRequestSchema = z
+    .object({
+        comment: z.string().trim().max(1000).optional(),
+        participantConfirmations: z.array(ConfirmProjectHandoverParticipantConfirmationInputSchema).min(1),
+        contractSummarySnapshotId: z.uuid(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ConfirmProjectHandoverRequest' });
+
+export type ConfirmProjectHandoverRequest = z.infer<typeof ConfirmProjectHandoverRequestSchema>;
+
+export const ConfirmProjectHandoverResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        businessStatusAfter: z.literal('confirmed'),
+        confirmationRecordId: z.uuid(),
+        contractSummarySnapshotId: z.uuid(),
+        effectiveHandoverBaselineSnapshotId: z.uuid(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string()
+    })
+    .meta({ id: 'ConfirmProjectHandoverResult' });
+
+export type ConfirmProjectHandoverResult = z.infer<typeof ConfirmProjectHandoverResultSchema>;
+
 export const CreateCommercialBaselineDiffItemInputSchema = z
     .object({
         fieldKey: z.string().trim().min(1).max(128),

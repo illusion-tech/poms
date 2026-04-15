@@ -1,6 +1,8 @@
 import {
     ActivateContractRequestSchema,
     CommercialDiffReviewResultSchema,
+    ConfirmProjectHandoverRequestSchema,
+    ConfirmProjectHandoverResultSchema,
     CommercialReleaseBaselineSummarySchema,
     ContractDiffReviewHistoryViewSchema,
     ContractHandoverSummaryViewSchema,
@@ -41,6 +43,10 @@ export class ContractDiffReviewHistoryViewDto extends createZodDto(ContractDiffR
 export class ContractHandoverSummaryViewDto extends createZodDto(ContractHandoverSummaryViewSchema) {}
 
 export class ProjectHandoverDetailViewDto extends createZodDto(ProjectHandoverDetailViewSchema) {}
+
+export class ConfirmProjectHandoverRequestDto extends createZodDto(ConfirmProjectHandoverRequestSchema) {}
+
+export class ConfirmProjectHandoverResultDto extends createZodDto(ConfirmProjectHandoverResultSchema) {}
 
 export class CreateCommercialReleaseBaselineRequestDto extends createZodDto(CreateCommercialReleaseBaselineRequestSchema) {}
 
