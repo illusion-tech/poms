@@ -110,9 +110,9 @@
 | Query / View                            | Consumer                             | Fields                                                                                                                                                                                                                                                      | Filter / Sort                                            | Permission Boundary                                       | Design Source                         | Result                                                 |
 | --------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------ |
 | `ContractHandoverSummaryView`           | 合同承接页、移交确认页、项目总览摘要 | `effectiveContractSetSummary`、`contractBaselineValidationSummary`、`currentHandoverBaselineSummary`、`latestHandoverRebaselineSummary`、`receivablePlanInitSummary`、`contractSummarySnapshotId`、`projectionLevel`、`exportPolicy`、`allowedActions`      | by `projectId`; 最新当前有效摘要                         | 按合同 / 项目可见性与摘要投影输出，不默认暴露完整合同详情 | `query-view-boundary-design.md` §5.2  | EX-08B1 已实现                                         |
-| `ProjectHandoverDetailView`             | 移交确认页、移交追溯页、后续冻结页   | `effectiveContractSetSummary`、`contractSummarySnapshotId`、`currentHandoverBaselineSummary`、`participantConfirmationSummary`、`receiptJudgmentModeSummary`、`summaryPackageKey`、`summarySnapshotId`、`projectionLevel`、`exportPolicy`、`allowedActions` | by `handoverId` / `projectId`; 时间倒序                  | 参与角色确认区、通知、打印材料与审计摘要共享同一摘要快照  | `query-view-boundary-design.md` §5.1  | 待 EX-08B2 实现                                        |
-| `ContractHandoverRebaselineHistoryView` | 合同承接页、移交 gate、冻结链        | `contractAmendmentSummary`、`rebaselineReason`、`affectedHandoverItemSummary`、`effectiveBaselineAfterSummary`、`handledAt`                                                                                                                                 | by `projectId` / `contractAmendmentId`; `handledAt desc` | 不把再基线化影响压平成单一当前基线                        | `query-view-boundary-design.md` §5.3C | 待 EX-08B2 / B3 实现；EX-08B1 仅输出已链接最近记录摘要 |
-| `HandoverBaselineImpactView`            | 移交阻断解释、再基线化影响说明       | `originalBaselineSummary`、`changeImpactSummary`、`currentEffectiveBaselineSummary`、`riskFlags`                                                                                                                                                            | by `rebaselineRecordId`                                  | 仅输出摘要和风险标记，敏感字段走摘要投影                  | `query-view-boundary-design.md` §5.3C | 待 EX-08B2 / B3 实现；EX-08B1 仅聚合已链接影响摘要     |
+| `ProjectHandoverDetailView`             | 移交确认页、移交追溯页、后续冻结页   | `effectiveContractSetSummary`、`contractSummarySnapshotId`、`currentHandoverBaselineSummary`、`participantConfirmationSummary`、`receiptJudgmentModeSummary`、`summaryPackageKey`、`summarySnapshotId`、`projectionLevel`、`exportPolicy`、`allowedActions` | by `handoverId` / `projectId`; 时间倒序                  | 参与角色确认区、通知、打印材料与审计摘要共享同一摘要快照  | `query-view-boundary-design.md` §5.1  | EX-08B2 已实现                                         |
+| `ContractHandoverRebaselineHistoryView` | 合同承接页、移交 gate、冻结链        | `contractAmendmentSummary`、`rebaselineReason`、`affectedHandoverItemSummary`、`effectiveBaselineAfterSummary`、`handledAt`                                                                                                                                 | by `projectId` / `contractAmendmentId`; `handledAt desc` | 不把再基线化影响压平成单一当前基线                        | `query-view-boundary-design.md` §5.3C | 待 EX-08B3 实现；EX-08B1 / B2 仅输出已链接最近记录摘要 |
+| `HandoverBaselineImpactView`            | 移交阻断解释、再基线化影响说明       | `originalBaselineSummary`、`changeImpactSummary`、`currentEffectiveBaselineSummary`、`riskFlags`                                                                                                                                                            | by `rebaselineRecordId`                                  | 仅输出摘要和风险标记，敏感字段走摘要投影                  | `query-view-boundary-design.md` §5.3C | 待 EX-08B3 实现；EX-08B1 / B2 仅聚合已链接影响摘要     |
 
 ---
 
@@ -146,9 +146,9 @@
 
 - Document -> code: 本基线冻结正式输入；后续实现不得绕过四条核心引用链直接拼装移交依据。
 - Migration -> entity: EX-08A1 / EX-08A2 / EX-08A3 已通过 `migration-check`。
-- Entity -> contract: EX-08B1 已新增 `ContractHandoverSummaryView` shared contract 与 API DTO；OpenAPI 与 generated client 仍待 EX-08C1 统一回写。
+- Entity -> contract: EX-08B1 已新增 `ContractHandoverSummaryView` shared contract 与 API DTO，EX-08B2 已新增 `ProjectHandoverDetailView` shared contract 与 API DTO；OpenAPI 与 generated client 仍待 EX-08C1 统一回写。
 - Route -> command: `confirmProjectHandover`、`rebaselineContractHandover` 与摘要复核入口必须是命令型接口，不得退化为普通 PATCH。
-- Query -> view: `ContractHandoverSummaryView` 已由 EX-08B1 落地为 `GET /projects/:projectId/contract-handover-summary`；`ProjectHandoverDetailView` 仍待 EX-08B2，实现侧不得让前端从多个详情接口临时拼装。
+- Query -> view: `ContractHandoverSummaryView` 已由 EX-08B1 落地为 `GET /projects/:projectId/contract-handover-summary`；`ProjectHandoverDetailView` 已由 EX-08B2 落地为 `GET /projects/:projectId/project-handover-detail` 与 `GET /project-handovers/:handoverId/detail`，实现侧不得让前端从多个详情接口临时拼装。
 - Guard / permission: EX-08B3 必须在写侧 guard 中覆盖合同状态、摘要快照、多方确认、执行负责人、再基线化状态与并发版本。
 - OpenAPI / generated client: EX-08C1 必须生成并检查；当前仓库已有 generated client whitespace 问题，进入 G3 前必须清理。
 
@@ -156,15 +156,15 @@
 
 ## 9. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                       | Result                  | Gap / Reason                                                                                  |
-| -------------------------------- | -------- | ------------------------------------------------------------------------ | ----------------------- | --------------------------------------------------------------------------------------------- |
-| Build                            | Yes      | `pnpm nx build poms-api`                                                 | EX-08B1 Pass 2026-04-15 | 后端 query/API 切片必跑                                                                       |
-| Unit tests                       | Yes      | `pnpm nx test poms-api --runInBand`                                      | EX-08B1 Pass 2026-04-15 | 已新增 `ProjectHandoverQueryService` 单测覆盖 ready、摘要缺失只读、项目缺失、再基线化阻断路径 |
-| API / integration tests          | Yes      | service / controller specs                                               | EX-08B1 Partial         | 已接通 `ProjectHandoverController`；EX-08 command/controller 全链路场景仍待 EX-08C2           |
-| E2E                              | Yes      | `pnpm nx run poms-api-e2e:e2e --runInBand`                               | EX-08B1 Pass 2026-04-15 | 既有 E2E 已覆盖 migration-up、seeder 与模块启动；EX-08 命令主路径仍待 EX-08C2 补充            |
-| OpenAPI generation / client diff | Yes      | `pnpm nx run poms-api:openapi`; `pnpm nx run shared-api-client:generate` | 待 EX-08C1              | generated client whitespace 必须清理                                                          |
-| Migration / schema check         | Yes      | `pnpm nx run poms-api:migration-check`                                   | EX-08B1 Pass 2026-04-15 | EX-08B1 不新增 migration，但仍确认无新增 schema drift                                         |
-| Whitespace                       | Yes      | `git diff --check`                                                       | EX-08B1 Pass 2026-04-15 | 当前工作区差异通过 whitespace 检查；generated client 正式回写仍待 EX-08C1                     |
+| Check                            | Required | Command / Evidence                                                       | Result                  | Gap / Reason                                                                                       |
+| -------------------------------- | -------- | ------------------------------------------------------------------------ | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| Build                            | Yes      | `pnpm nx build poms-api`                                                 | EX-08B2 Pass 2026-04-15 | 后端 query/API 切片必跑                                                                            |
+| Unit tests                       | Yes      | `pnpm nx test poms-api --runInBand`                                      | EX-08B2 Pass 2026-04-15 | 已新增 `ProjectHandoverDetailView` 单测覆盖最新移交详情、无移交占位、指定移交缺失与确认进度读取    |
+| API / integration tests          | Yes      | service / controller specs                                               | EX-08B2 Partial         | 已接通 `ProjectHandoverController` 两条详情读接口；EX-08 command/controller 全链路场景仍待 EX-08C2 |
+| E2E                              | Yes      | `pnpm nx run poms-api-e2e:e2e --runInBand`                               | EX-08B2 Pass 2026-04-15 | 既有 E2E 已覆盖 migration-up、seeder 与模块启动；EX-08 命令主路径仍待 EX-08C2 补充                 |
+| OpenAPI generation / client diff | Yes      | `pnpm nx run poms-api:openapi`; `pnpm nx run shared-api-client:generate` | 待 EX-08C1              | generated client whitespace 必须清理                                                               |
+| Migration / schema check         | Yes      | `pnpm nx run poms-api:migration-check`                                   | EX-08B2 Pass 2026-04-15 | EX-08B2 不新增 migration，但仍确认无新增 schema drift                                              |
+| Whitespace                       | Yes      | `git diff --check`                                                       | EX-08B2 Pass 2026-04-15 | 当前工作区差异通过 whitespace 检查；generated client 正式回写仍待 EX-08C1                          |
 
 ---
 
@@ -178,6 +178,7 @@
 | EX-08-E04    | E1     | generated client whitespace 已存在                            | Codex       | EX-08C1 owner | EX-08C1 完成前 | 当前 `git diff --check origin/main...HEAD` 已因 generated client 尾随空白失败，EX-08C1 必须清理后再提交 G3                                                                                             |
 | EX-08-E05    | E2     | `contract_term_snapshot` 物理表当前未落地                     | Codex       | EX-08B3 owner | EX-08B3 完成前 | EX-08A1 先保留 `effective_handover_baseline_snapshot_id` / `effective_baseline_after_id` 为稳定 UUID；命令 guard 消费前必须补正式 FK 或登记替代来源                                                    |
 | EX-08-E06    | E2     | 最近再基线化项目级查询链尚未具备独立 project 归属索引         | Codex       | EX-08B3 owner | EX-08B3 完成前 | EX-08B1 的 `latestHandoverRebaselineSummary` 仅基于已链接的 `project_handover.handover_rebaseline_record_id` 与影响项输出；`rebaselineContractHandover` 落地时必须补齐项目级最近记录选择或等价稳定链路 |
+| EX-08-E07    | E2     | `receiptJudgmentModeSummary` 当前仅能输出未冻结摘要           | Codex       | EX-08B3 owner | EX-08B3 完成前 | EX-08B2 不新增 `project_receipt_judgment_freeze` 持久化链；`ProjectHandoverDetailView` 返回 `not_frozen` 受控摘要，`confirmProjectHandover` 或紧邻冻结链路落地时必须补齐正式来源                       |
 
 ---
 
@@ -188,7 +189,7 @@
 - Approved At: 2026-04-14
 - Conditions:
   - `EX-08A0` 仅完成实施基线冻结，不代表 `EX-08` 可关闭。
-  - `EX-08B1` 已完成，后续必须按 `EX-08B2 -> EX-08B3 -> EX-08C1 -> EX-08C2 -> EX-08C3` 顺序推进。
-  - `EX-08A1` 已清理 `EX-07` 延迟 FK 例外，`EX-08A2` 已清理摘要快照最小承接例外，`EX-08A3` 已清理多方确认最小承接例外；`EX-08B3` 消费移交前有效基线前必须处理 `EX-08-E05`，并关闭最近再基线化查询链例外 `EX-08-E06`。
+  - `EX-08B1` 与 `EX-08B2` 已完成，后续必须按 `EX-08B3 -> EX-08C1 -> EX-08C2 -> EX-08C3` 顺序推进。
+  - `EX-08A1` 已清理 `EX-07` 延迟 FK 例外，`EX-08A2` 已清理摘要快照最小承接例外，`EX-08A3` 已清理多方确认最小承接例外；`EX-08B3` 消费移交前有效基线前必须处理 `EX-08-E05`，并关闭最近再基线化查询链例外 `EX-08-E06` 与回款判断模式冻结来源例外 `EX-08-E07`。
   - `EX-08C1` 必须清理 generated client whitespace，避免 `git diff --check` 阻断 `G3`。
   - 父任务 `EX-08` 只有在所有子任务完成、验证通过并完成文档回写后才允许进入 `Done`。
