@@ -112,10 +112,101 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."project_receipt_judgment_freeze"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."confirmation_participant"
+            where "confirmation_record_id" in (
+                select "id" from "${schema}"."confirmation_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+                or (
+                    "target_type" = 'ProjectHandover'
+                    and "target_id" in (
+                        select "id" from "${schema}"."project_handover"
+                        where "project_id" in (
+                            select "id" from "${schema}"."project"
+                            where "project_code" like 'E2E-%'
+                        )
+                    )
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."confirmation_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            )
+            or (
+                "target_type" = 'ProjectHandover'
+                and "target_id" in (
+                    select "id" from "${schema}"."project_handover"
+                    where "project_id" in (
+                        select "id" from "${schema}"."project"
+                        where "project_code" like 'E2E-%'
+                    )
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."handover_baseline_impact_item"
+            where "rebaseline_record_id" in (
+                select "id" from "${schema}"."contract_handover_rebaseline_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."project_handover"
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."approval_summary_field_projection"
+            where "summary_snapshot_id" in (
+                select "id" from "${schema}"."approval_summary_snapshot"
+                where (
+                    "target_type" = 'Project'
+                    and "target_id" in (
+                        select "id" from "${schema}"."project"
+                        where "project_code" like 'E2E-%'
+                    )
+                )
+                or (
+                    "target_type" = 'ProjectHandover'
+                    and "summary_package_key" = 'project-handover-confirmation'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."approval_summary_snapshot"
+            where (
+                "target_type" = 'Project'
+                and "target_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            )
+            or (
+                "target_type" = 'ProjectHandover'
+                and "summary_package_key" = 'project-handover-confirmation'
             );
         `);
 
@@ -194,6 +285,36 @@ export class DatabaseSeeder extends Seeder {
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_handover_rebaseline_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_amendment"
+            where "contract_id" in (
+                select "id" from "${schema}"."contract"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_term_snapshot"
+            where "contract_id" in (
+                select "id" from "${schema}"."contract"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
             );
         `);
 
@@ -263,10 +384,101 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."project_receipt_judgment_freeze"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."confirmation_participant"
+            where "confirmation_record_id" in (
+                select "id" from "${schema}"."confirmation_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+                or (
+                    "target_type" = 'ProjectHandover'
+                    and "target_id" in (
+                        select "id" from "${schema}"."project_handover"
+                        where "project_id" in (
+                            select "id" from "${schema}"."project"
+                            where "project_code" in (${seededProjectCodes})
+                        )
+                    )
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."confirmation_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            )
+            or (
+                "target_type" = 'ProjectHandover'
+                and "target_id" in (
+                    select "id" from "${schema}"."project_handover"
+                    where "project_id" in (
+                        select "id" from "${schema}"."project"
+                        where "project_code" in (${seededProjectCodes})
+                    )
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."handover_baseline_impact_item"
+            where "rebaseline_record_id" in (
+                select "id" from "${schema}"."contract_handover_rebaseline_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."project_handover"
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."approval_summary_field_projection"
+            where "summary_snapshot_id" in (
+                select "id" from "${schema}"."approval_summary_snapshot"
+                where (
+                    "target_type" = 'Project'
+                    and "target_id" in (
+                        select "id" from "${schema}"."project"
+                        where "project_code" in (${seededProjectCodes})
+                    )
+                )
+                or (
+                    "target_type" = 'ProjectHandover'
+                    and "summary_package_key" = 'project-handover-confirmation'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."approval_summary_snapshot"
+            where (
+                "target_type" = 'Project'
+                and "target_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            )
+            or (
+                "target_type" = 'ProjectHandover'
+                and "summary_package_key" = 'project-handover-confirmation'
             );
         `);
 
@@ -345,6 +557,36 @@ export class DatabaseSeeder extends Seeder {
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_handover_rebaseline_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_amendment"
+            where "contract_id" in (
+                select "id" from "${schema}"."contract"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."contract_term_snapshot"
+            where "contract_id" in (
+                select "id" from "${schema}"."contract"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
             );
         `);
 
@@ -505,9 +747,446 @@ export class DatabaseSeeder extends Seeder {
             `);
         }
 
+        await seedProjectHandoverE2EFixtures(connection, schema);
+
         console.log(`Seeded ${DEV_PROJECT_SEEDS.length} projects, ${DEV_CONTRACT_SEEDS.length} contracts and ${DEV_USERS.length} platform users in schema "${schema}".`);
         console.log(`Credentials stored in local_credential (separate from platform_user). Users: ${DEV_USERS.map((u) => u.username).join(', ')}.`);
     }
+}
+
+interface HandoverE2EFixture {
+    key: string;
+    projectId: string;
+    projectCode: string;
+    projectName: string;
+    contractId: string;
+    contractNo: string;
+    contractSnapshotId: string;
+    baselineId: string;
+    diffResultId: string;
+    readinessPackageId: string;
+    receivablePlanVersionId: string;
+    contractSummarySnapshotId?: string;
+    handoverSummarySnapshotId?: string;
+    handoverId?: string;
+    confirmationRecordId?: string;
+    processingRebaselineRecordId?: string;
+    amendmentId?: string;
+}
+
+const E2E_ACTOR_ID = '00000000-0000-4000-8000-000000000001';
+const E2E_VIEWER_ID = '00000000-0000-4000-8000-000000000002';
+const CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID = '68000000-0000-4000-8000-000000000001';
+const PROJECT_HANDOVER_SUMMARY_PACKAGE_ID = '68000000-0000-4000-8000-000000000002';
+
+const HANDOVER_E2E_FIXTURES: HandoverE2EFixture[] = [
+    makeHandoverE2EFixture(1, 'summary-missing', false),
+    makeHandoverE2EFixture(2, 'main', true),
+    makeHandoverE2EFixture(3, 'stale-version', true),
+    makeHandoverE2EFixture(4, 'missing-participant', true),
+    makeHandoverE2EFixture(5, 'processing-rebaseline', true, true)
+];
+
+async function seedProjectHandoverE2EFixtures(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."approval_summary_package_definition" (
+            "id",
+            "approval_scenario_key",
+            "summary_package_key",
+            "projection_level",
+            "export_policy",
+            "field_rule_version",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values
+            (${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'handover-confirmation', 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'e2e-v1', 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover', 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'e2e-v1', 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)})
+        on conflict ("id") do update
+        set
+            "status" = excluded."status",
+            "updated_by" = excluded."updated_by",
+            "updated_at" = now();
+    `);
+
+    for (const fixture of HANDOVER_E2E_FIXTURES) {
+        await seedProjectHandoverE2EFixture(connection, schema, fixture);
+    }
+}
+
+async function seedProjectHandoverE2EFixture(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string,
+    fixture: HandoverE2EFixture
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."project" (
+            "id",
+            "project_code",
+            "project_name",
+            "customer_id",
+            "status",
+            "current_stage",
+            "owner_org_id",
+            "owner_user_id",
+            "planned_sign_at",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.projectCode)},
+            ${sqlValue(fixture.projectName)},
+            null,
+            'active',
+            'handover',
+            ${sqlUuid('10000000-0000-4000-8000-000000000001')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            null,
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."contract" (
+            "id",
+            "project_id",
+            "contract_no",
+            "status",
+            "signed_amount",
+            "currency_code",
+            "current_snapshot_id",
+            "signed_at",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.contractId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.contractNo)},
+            'active',
+            '188000.00',
+            'CNY',
+            ${sqlUuid(fixture.contractSnapshotId)},
+            ${sqlTimestamp('2026-04-15T00:00:00.000Z')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."contract_term_snapshot" (
+            "id",
+            "contract_id",
+            "effective_by",
+            "snapshot_status",
+            "created_by"
+        )
+        values (
+            ${sqlValue(fixture.contractSnapshotId)},
+            ${sqlValue(fixture.contractId)},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."commercial_release_baseline" (
+            "id",
+            "project_id",
+            "baseline_code",
+            "quotation_review_id",
+            "baseline_status",
+            "is_current",
+            "gross_margin_summary",
+            "payment_terms_summary",
+            "latest_diff_result_id",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.baselineId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(`BL-EX08-${fixture.key}`.slice(0, 64))},
+            null,
+            'effective',
+            true,
+            'e2e 毛利结论已放行',
+            'e2e 回款条款已初始化',
+            null,
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."commercial_baseline_diff_result" (
+            "id",
+            "baseline_id",
+            "project_id",
+            "diff_level",
+            "review_status",
+            "diff_summary",
+            "current_review_decision",
+            "reviewed_at"
+        )
+        values (
+            ${sqlValue(fixture.diffResultId)},
+            ${sqlValue(fixture.baselineId)},
+            ${sqlValue(fixture.projectId)},
+            'prompt',
+            'not-required',
+            'e2e 无阻断差异',
+            'approved',
+            ${sqlTimestamp('2026-04-15T00:00:00.000Z')}
+        );
+    `);
+
+    await connection.execute(`
+        update "${schema}"."commercial_release_baseline"
+        set "latest_diff_result_id" = ${sqlValue(fixture.diffResultId)}
+        where "id" = ${sqlValue(fixture.baselineId)};
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."contract_readiness_package" (
+            "id",
+            "project_id",
+            "source_baseline_id",
+            "latest_diff_result_id",
+            "package_status",
+            "guard_decision",
+            "current_effective_decision_summary",
+            "blocking_reason_summary",
+            "missing_prerequisite_count",
+            "initialized_contract_snapshot_id",
+            "initialized_receivable_plan_version_id",
+            "contract_snapshot_initialized_at",
+            "receivable_plan_initialized_at",
+            "is_current",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.readinessPackageId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.baselineId)},
+            ${sqlValue(fixture.diffResultId)},
+            'ready',
+            'allowed',
+            'e2e 前置事项已收口',
+            null,
+            0,
+            ${sqlUuid(fixture.contractSnapshotId)},
+            ${sqlUuid(fixture.receivablePlanVersionId)},
+            ${sqlTimestamp('2026-04-15T00:00:00.000Z')},
+            ${sqlTimestamp('2026-04-15T00:05:00.000Z')},
+            true,
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    if (!fixture.handoverId || !fixture.contractSummarySnapshotId || !fixture.handoverSummarySnapshotId || !fixture.confirmationRecordId) {
+        return;
+    }
+
+    await seedProjectHandoverPreparedState(connection, schema, fixture);
+}
+
+async function seedProjectHandoverPreparedState(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string,
+    fixture: HandoverE2EFixture
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."approval_summary_snapshot" (
+            "id",
+            "target_type",
+            "target_id",
+            "approval_scenario_key",
+            "summary_package_id",
+            "summary_package_key",
+            "projection_level",
+            "export_policy",
+            "business_status_at_snapshot",
+            "generated_at",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values
+            (${sqlValue(fixture.contractSummarySnapshotId!)}, 'Project', ${sqlValue(fixture.projectId)}, 'handover-confirmation', ${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'ready-for-handover', ${sqlTimestamp('2026-04-15T00:10:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(fixture.handoverSummarySnapshotId!)}, 'ProjectHandover', ${sqlValue(fixture.handoverId!)}, 'project-handover', ${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'draft', ${sqlTimestamp('2026-04-15T00:11:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."project_handover" (
+            "id",
+            "project_id",
+            "contract_summary_snapshot_id",
+            "effective_handover_baseline_snapshot_id",
+            "summary_snapshot_id",
+            "handover_rebaseline_record_id",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.handoverId!)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.contractSummarySnapshotId!)},
+            ${sqlValue(fixture.contractSnapshotId)},
+            ${sqlValue(fixture.handoverSummarySnapshotId!)},
+            null,
+            'draft',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."confirmation_record" (
+            "id",
+            "confirmation_type",
+            "business_domain",
+            "target_type",
+            "target_id",
+            "project_id",
+            "status",
+            "required_count",
+            "confirmed_count",
+            "confirmation_comment",
+            "submitted_at",
+            "confirmed_at",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.confirmationRecordId!)},
+            'project-handover',
+            'project-handover',
+            'ProjectHandover',
+            ${sqlValue(fixture.handoverId!)},
+            ${sqlValue(fixture.projectId)},
+            'confirmed',
+            2,
+            2,
+            'e2e 项目移交确认准备',
+            ${sqlTimestamp('2026-04-15T00:12:00.000Z')},
+            ${sqlTimestamp('2026-04-15T00:13:00.000Z')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."confirmation_participant" (
+            "id",
+            "confirmation_record_id",
+            "participant_id",
+            "participant_role_key",
+            "participant_display_name",
+            "participant_status",
+            "confirmed_at",
+            "confirmed_comment",
+            "created_by",
+            "updated_by"
+        )
+        values
+            (${sqlValue(handoverParticipantId(fixture, 1))}, ${sqlValue(fixture.confirmationRecordId!)}, ${sqlUuid(E2E_ACTOR_ID)}, 'execution-owner', '执行负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认执行责任', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(handoverParticipantId(fixture, 2))}, ${sqlValue(fixture.confirmationRecordId!)}, ${sqlUuid(E2E_VIEWER_ID)}, 'sales-owner', '销售负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认商务移交', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
+    `);
+
+    if (fixture.processingRebaselineRecordId && fixture.amendmentId) {
+        await seedProcessingRebaseline(connection, schema, fixture);
+    }
+}
+
+async function seedProcessingRebaseline(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string,
+    fixture: HandoverE2EFixture
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."contract_amendment" (
+            "id",
+            "contract_id",
+            "version",
+            "is_current",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.amendmentId!)},
+            ${sqlValue(fixture.contractId)},
+            1,
+            true,
+            'effective',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."contract_handover_rebaseline_record" (
+            "id",
+            "contract_amendment_id",
+            "project_id",
+            "rebaseline_reason",
+            "effective_baseline_after_id",
+            "status",
+            "handled_by",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.processingRebaselineRecordId!)},
+            ${sqlValue(fixture.amendmentId!)},
+            ${sqlValue(fixture.projectId)},
+            'e2e 未收口再基线化',
+            ${sqlValue(fixture.contractSnapshotId)},
+            'processing',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+}
+
+function makeHandoverE2EFixture(index: number, key: string, withHandover: boolean, withProcessingRebaseline = false): HandoverE2EFixture {
+    const suffix = String(index).padStart(12, '0');
+
+    return {
+        key,
+        projectId: `21000000-0000-4000-8000-${suffix}`,
+        projectCode: `E2E-HO-${key.toUpperCase()}`,
+        projectName: `E2E 项目移交 ${key}`,
+        contractId: `31000000-0000-4000-8000-${suffix}`,
+        contractNo: `E2E-HO-HT-${key.toUpperCase()}`,
+        contractSnapshotId: `51000000-0000-4000-8000-${suffix}`,
+        baselineId: `52000000-0000-4000-8000-${suffix}`,
+        diffResultId: `53000000-0000-4000-8000-${suffix}`,
+        readinessPackageId: `54000000-0000-4000-8000-${suffix}`,
+        receivablePlanVersionId: `55000000-0000-4000-8000-${suffix}`,
+        contractSummarySnapshotId: withHandover ? `61000000-0000-4000-8000-${suffix}` : undefined,
+        handoverSummarySnapshotId: withHandover ? `62000000-0000-4000-8000-${suffix}` : undefined,
+        handoverId: withHandover ? `71000000-0000-4000-8000-${suffix}` : undefined,
+        confirmationRecordId: withHandover ? `41000000-0000-4000-8000-${suffix}` : undefined,
+        processingRebaselineRecordId: withProcessingRebaseline ? `72000000-0000-4000-8000-${suffix}` : undefined,
+        amendmentId: withProcessingRebaseline ? `73000000-0000-4000-8000-${suffix}` : undefined
+    };
+}
+
+function handoverParticipantId(fixture: HandoverE2EFixture, sequence: number): string {
+    return `71000000-0000-4000-8000-000000${fixture.projectId.slice(-3)}80${sequence}`;
 }
 
 function sqlValue(value: string): string {
