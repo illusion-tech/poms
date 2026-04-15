@@ -6,18 +6,29 @@ import { ContractReadinessModule } from '../contract-readiness/contract-readines
 import { ContractModule } from '../contract/contract.module';
 import { ProjectModule } from '../project/project.module';
 import { ProjectHandoverController } from './project-handover.controller';
-import { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from './project-handover.entity';
+import {
+    ContractHandoverRebaselineRecord,
+    HandoverBaselineImpactItem,
+    ProjectHandover,
+    ProjectReceiptJudgmentFreeze
+} from './project-handover.entity';
 import { ProjectHandoverCommandService } from './project-handover-command.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 import {
     ContractHandoverRebaselineRecordRepository,
     HandoverBaselineImpactItemRepository,
-    ProjectHandoverRepository
+    ProjectHandoverRepository,
+    ProjectReceiptJudgmentFreezeRepository
 } from './project-handover.repository';
 
 @Module({
     imports: [
-        MikroOrmModule.forFeature([ProjectHandover, ContractHandoverRebaselineRecord, HandoverBaselineImpactItem]),
+        MikroOrmModule.forFeature([
+            ProjectHandover,
+            ContractHandoverRebaselineRecord,
+            HandoverBaselineImpactItem,
+            ProjectReceiptJudgmentFreeze
+        ]),
         ApprovalModule,
         ProjectModule,
         ContractModule,
@@ -29,6 +40,7 @@ import {
         ProjectHandoverRepository,
         ContractHandoverRebaselineRecordRepository,
         HandoverBaselineImpactItemRepository,
+        ProjectReceiptJudgmentFreezeRepository,
         ProjectHandoverCommandService,
         ProjectHandoverQueryService
     ],
@@ -36,6 +48,7 @@ import {
         ProjectHandoverRepository,
         ContractHandoverRebaselineRecordRepository,
         HandoverBaselineImpactItemRepository,
+        ProjectReceiptJudgmentFreezeRepository,
         ProjectHandoverCommandService,
         ProjectHandoverQueryService
     ]

@@ -5,14 +5,19 @@ import { ApprovalModule } from '../approval/approval.module';
 import { ContractReadinessModule } from '../contract-readiness/contract-readiness.module';
 import { ProjectModule } from '../project/project.module';
 import { ContractController } from './contract.controller';
-import { Contract, ContractAmendment } from './contract.entity';
-import { ContractAmendmentRepository, ContractRepository } from './contract.repository';
+import { Contract, ContractAmendment, ContractTermSnapshot } from './contract.entity';
+import { ContractAmendmentRepository, ContractRepository, ContractTermSnapshotRepository } from './contract.repository';
 import { ContractService } from './contract.service';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Contract, ContractAmendment, ApprovalRecord]), ProjectModule, ApprovalModule, ContractReadinessModule],
+    imports: [
+        MikroOrmModule.forFeature([Contract, ContractTermSnapshot, ContractAmendment, ApprovalRecord]),
+        ProjectModule,
+        ApprovalModule,
+        ContractReadinessModule
+    ],
     controllers: [ContractController],
-    providers: [ContractRepository, ContractAmendmentRepository, ContractService],
-    exports: [ContractService, ContractRepository, ContractAmendmentRepository]
+    providers: [ContractRepository, ContractTermSnapshotRepository, ContractAmendmentRepository, ContractService],
+    exports: [ContractService, ContractRepository, ContractTermSnapshotRepository, ContractAmendmentRepository]
 })
 export class ContractModule {}

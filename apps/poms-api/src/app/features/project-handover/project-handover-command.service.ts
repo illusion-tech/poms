@@ -9,13 +9,14 @@ import type {
     RebaselineContractHandoverResult
 } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
-import { ContractAmendmentRepository } from '../contract/contract.repository';
+import { ContractAmendmentRepository, ContractTermSnapshotRepository } from '../contract/contract.repository';
 import { ContractService } from '../contract/contract.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 import {
     ContractHandoverRebaselineRecordRepository,
     HandoverBaselineImpactItemRepository,
-    ProjectHandoverRepository
+    ProjectHandoverRepository,
+    ProjectReceiptJudgmentFreezeRepository
 } from './project-handover.repository';
 
 const CONFIRM_PROJECT_HANDOVER_ACTION = 'confirm-project-handover';
@@ -29,8 +30,10 @@ export class ProjectHandoverCommandService {
         private readonly projectHandoverQueryService: ProjectHandoverQueryService,
         private readonly contractAmendmentRepository: ContractAmendmentRepository,
         private readonly contractService: ContractService,
+        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
         private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
-        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository
+        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
+        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository
     ) {}
 
     async confirmProjectHandover(
@@ -67,12 +70,24 @@ export class ProjectHandoverCommandService {
         handover.comment = input.comment?.trim() || null;
         handover.updatedBy = actorUserId;
 
-        await this.projectHandoverRepository.save(handover);
+        const receiptJudgmentFreeze = input.receiptJudgmentMode
+            ? await this.prepareReceiptJudgmentFreeze(handover, actorUserId, input.receiptJudgmentMode)
+            : null;
+
+        if (receiptJudgmentFreeze) {
+            await this.projectReceiptJudgmentFreezeRepository.saveWithHandover({
+                handover,
+                receiptJudgmentFreeze
+            });
+        } else {
+            await this.projectHandoverRepository.save(handover);
+        }
 
         return {
             targetId: handover.id,
             businessStatusAfter: 'confirmed',
             confirmationRecordId: detail.participantConfirmationSummary.confirmationRecordId,
+            receiptJudgmentFreezeId: receiptJudgmentFreeze?.id ?? null,
             contractSummarySnapshotId: handover.contractSummarySnapshotId,
             effectiveHandoverBaselineSnapshotId: handover.effectiveHandoverBaselineSnapshotId,
             summarySnapshotId: handover.summarySnapshotId,
@@ -131,6 +146,11 @@ export class ProjectHandoverCommandService {
             throw new BadRequestException('Effective baseline after rebaseline must differ from the current handover baseline');
         }
 
+        const baselineAfter = await this.contractTermSnapshotRepository.findById(input.effectiveBaselineAfterId);
+        if (!baselineAfter || baselineAfter.snapshotStatus !== 'active' || baselineAfter.contractId !== contract.id) {
+            throw new BadRequestException('Effective baseline after rebaseline must be an active contract term snapshot for the amendment contract');
+        }
+
         const now = new Date();
         const rebaselineRecordId = randomUUID();
         const rebaselineRecord = this.contractHandoverRebaselineRecordRepository.create({
@@ -179,6 +199,38 @@ export class ProjectHandoverCommandService {
             effectiveBaselineAfterId: rebaselineRecord.effectiveBaselineAfterId,
             resultStatus: 'effective'
         };
+    }
+
+    private async prepareReceiptJudgmentFreeze(
+        handover: {
+            id: string;
+            projectId: string;
+            summarySnapshotId: string;
+            handoverRebaselineRecordId?: string | null;
+        },
+        actorUserId: string,
+        receiptJudgmentMode: string
+    ) {
+        const existingFreeze = await this.projectReceiptJudgmentFreezeRepository.findCurrentByProjectId(handover.projectId);
+        if (existingFreeze) {
+            throw new ConflictException(`Project ${handover.projectId} already has a current receipt judgment freeze`);
+        }
+
+        return this.projectReceiptJudgmentFreezeRepository.create({
+            projectId: handover.projectId,
+            receiptJudgmentMode: receiptJudgmentMode.trim(),
+            sourceType: 'project-handover',
+            sourceId: handover.id,
+            sourceHandoverId: handover.id,
+            sourceHandoverSummarySnapshotId: handover.summarySnapshotId,
+            sourceHandoverRebaselineRecordId: handover.handoverRebaselineRecordId ?? null,
+            isCurrent: true,
+            frozenAt: new Date(),
+            frozenBy: actorUserId,
+            supersedesId: null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
     }
 
     private assertConfirmableDetail(

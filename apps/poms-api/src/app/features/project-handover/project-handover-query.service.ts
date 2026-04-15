@@ -11,7 +11,8 @@ import type { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, Proj
 import {
     ContractHandoverRebaselineRecordRepository,
     HandoverBaselineImpactItemRepository,
-    ProjectHandoverRepository
+    ProjectHandoverRepository,
+    ProjectReceiptJudgmentFreezeRepository
 } from './project-handover.repository';
 
 const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = 'handover-confirmation';
@@ -29,7 +30,8 @@ export class ProjectHandoverQueryService {
         private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
         private readonly projectHandoverRepository: ProjectHandoverRepository,
         private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
-        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository
+        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
+        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository
     ) {}
 
     async getContractHandoverSummary(projectId: string): Promise<ContractHandoverSummaryView> {
@@ -116,7 +118,7 @@ export class ProjectHandoverQueryService {
         ]);
 
         const participantConfirmationSummary = this.buildParticipantConfirmationSummary(confirmationProgress);
-        const receiptJudgmentModeSummary = this.buildReceiptJudgmentModeSummary();
+        const receiptJudgmentModeSummary = await this.buildReceiptJudgmentModeSummary(project.id);
         const blockingReasons = this.buildProjectHandoverBlockingReasons(
             handover,
             contractHandoverSummary.blockingReasons,
@@ -208,7 +210,18 @@ export class ProjectHandoverQueryService {
         return 'pending';
     }
 
-    private buildReceiptJudgmentModeSummary(): ProjectHandoverDetailView['receiptJudgmentModeSummary'] {
+    private async buildReceiptJudgmentModeSummary(projectId: string): Promise<ProjectHandoverDetailView['receiptJudgmentModeSummary']> {
+        const currentFreeze = await this.projectReceiptJudgmentFreezeRepository.findCurrentByProjectId(projectId);
+        if (currentFreeze) {
+            return {
+                status: 'frozen',
+                receiptJudgmentMode: currentFreeze.receiptJudgmentMode,
+                sourceType: currentFreeze.sourceType,
+                sourceId: currentFreeze.sourceId,
+                summary: `Receipt judgment mode is frozen from ${currentFreeze.sourceType} ${currentFreeze.sourceId}`
+            };
+        }
+
         return {
             status: 'not_frozen',
             receiptJudgmentMode: null,

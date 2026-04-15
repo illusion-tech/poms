@@ -1,10 +1,11 @@
 import { defineEntity } from '@mikro-orm/core';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
-import { ContractAmendment } from '../contract/contract.entity';
+import { ContractAmendment, ContractTermSnapshot } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 
 export type ProjectHandoverStatus = 'draft' | 'confirmed' | 'superseded' | 'voided';
 export type ContractHandoverRebaselineStatus = 'processing' | 'pending_effective' | 'effective' | 'superseded' | 'voided';
+export type ProjectReceiptJudgmentFreezeSourceType = 'project-handover' | 'project-receipt-judgment-freeze';
 
 const p = defineEntity.properties;
 
@@ -57,7 +58,15 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
                 .deleteRule('restrict')
                 .comment('项目 ID'),
         rebaselineReason: p.text().fieldName('rebaseline_reason').comment('再基线化原因'),
-        effectiveBaselineAfterId: p.uuid().fieldName('effective_baseline_after_id').comment('再基线化后生效基线快照 ID'),
+        effectiveBaselineAfterId: () =>
+            p
+                .manyToOne(ContractTermSnapshot)
+                .mapToPk()
+                .fieldName('effective_baseline_after_id')
+                .foreignKeyName('contract_handover_rebaseline_record_effective_baseline_after_id')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('再基线化后生效基线快照 ID'),
         status: p.string().length(32).default('processing').$type<ContractHandoverRebaselineStatus>().comment('状态：processing/pending_effective/effective/superseded/voided'),
         handledAt: p.datetime().defaultRaw('now()').fieldName('handled_at').comment('处理时间'),
         handledBy: p.uuid().nullable().fieldName('handled_by').comment('处理人'),
@@ -118,7 +127,15 @@ export const ProjectHandoverSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('restrict')
                 .comment('合同承接摘要快照 ID'),
-        effectiveHandoverBaselineSnapshotId: p.uuid().fieldName('effective_handover_baseline_snapshot_id').comment('移交前有效基线快照 ID'),
+        effectiveHandoverBaselineSnapshotId: () =>
+            p
+                .manyToOne(ContractTermSnapshot)
+                .mapToPk()
+                .fieldName('effective_handover_baseline_snapshot_id')
+                .foreignKeyName('project_handover_effective_handover_baseline_snapshot_id_foreig')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('移交前有效基线快照 ID'),
         summarySnapshotId: () =>
             p
                 .manyToOne(ApprovalSummarySnapshot)
@@ -186,3 +203,93 @@ export const HandoverBaselineImpactItemSchema = defineEntity({
 export class HandoverBaselineImpactItem extends HandoverBaselineImpactItemSchema.class {}
 
 HandoverBaselineImpactItemSchema.setClass(HandoverBaselineImpactItem);
+
+export const ProjectReceiptJudgmentFreezeSchema = defineEntity({
+    name: 'ProjectReceiptJudgmentFreeze',
+    tableName: 'project_receipt_judgment_freeze',
+    schema: 'poms',
+    comment: '项目回款判断模式冻结记录',
+    indexes: [
+        {
+            name: 'idx_prjf_project_frozen',
+            expression: (columns, table, indexName) =>
+                `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.frozenAt}" desc)`
+        },
+        { name: 'idx_prjf_source_handover', properties: ['sourceHandoverId'] },
+        { name: 'idx_prjf_handover_summary', properties: ['sourceHandoverSummarySnapshotId'] },
+        { name: 'idx_prjf_handover_rebaseline', properties: ['sourceHandoverRebaselineRecordId'] },
+        { name: 'idx_prjf_supersedes', properties: ['supersedesId'] }
+    ],
+    uniques: [
+        {
+            name: 'uq_prjf_project_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('project_receipt_judgment_freeze_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('项目 ID'),
+        receiptJudgmentMode: p.string().length(64).fieldName('receipt_judgment_mode').comment('回款判断模式'),
+        sourceType: p.string().length(64).fieldName('source_type').$type<ProjectReceiptJudgmentFreezeSourceType>().comment('来源类型'),
+        sourceId: p.uuid().fieldName('source_id').comment('来源记录 ID'),
+        sourceHandoverId: () =>
+            p
+                .manyToOne(ProjectHandover)
+                .mapToPk()
+                .fieldName('source_handover_id')
+                .foreignKeyName('project_receipt_judgment_freeze_source_handover_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('来源移交记录 ID'),
+        sourceHandoverSummarySnapshotId: () =>
+            p
+                .manyToOne(ApprovalSummarySnapshot)
+                .mapToPk()
+                .fieldName('source_handover_summary_snapshot_id')
+                .foreignKeyName('project_receipt_judgment_freeze_source_handover_summary_snapsh')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('来源移交确认摘要快照 ID'),
+        sourceHandoverRebaselineRecordId: () =>
+            p
+                .manyToOne(ContractHandoverRebaselineRecord)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_handover_rebaseline_record_id')
+                .foreignKeyName('project_receipt_judgment_freeze_source_handover_rebaseline_')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('来源移交前再基线化记录 ID'),
+        isCurrent: p.boolean().default(true).fieldName('is_current').comment('是否当前有效冻结'),
+        frozenAt: p.datetime().defaultRaw('now()').fieldName('frozen_at').comment('冻结时间'),
+        frozenBy: p.uuid().nullable().fieldName('frozen_by').comment('冻结操作人'),
+        supersedesId: () =>
+            p
+                .manyToOne(ProjectReceiptJudgmentFreeze)
+                .mapToPk()
+                .nullable()
+                .fieldName('supersedes_id')
+                .foreignKeyName('project_receipt_judgment_freeze_supersedes_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null')
+                .comment('被替代冻结记录 ID'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    }
+});
+
+export class ProjectReceiptJudgmentFreeze extends ProjectReceiptJudgmentFreezeSchema.class {}
+
+ProjectReceiptJudgmentFreezeSchema.setClass(ProjectReceiptJudgmentFreeze);

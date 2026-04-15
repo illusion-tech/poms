@@ -18,6 +18,7 @@ describe('ProjectHandoverQueryService', () => {
     let projectHandoverRepository: { findById: jest.Mock; findByProjectId: jest.Mock };
     let contractHandoverRebaselineRecordRepository: { findById: jest.Mock; findLatestByProjectId: jest.Mock };
     let handoverBaselineImpactItemRepository: { findByRebaselineRecordId: jest.Mock };
+    let projectReceiptJudgmentFreezeRepository: { findCurrentByProjectId: jest.Mock };
 
     beforeEach(() => {
         projectService = { findById: jest.fn() };
@@ -28,6 +29,7 @@ describe('ProjectHandoverQueryService', () => {
         projectHandoverRepository = { findById: jest.fn(), findByProjectId: jest.fn() };
         contractHandoverRebaselineRecordRepository = { findById: jest.fn(), findLatestByProjectId: jest.fn() };
         handoverBaselineImpactItemRepository = { findByRebaselineRecordId: jest.fn() };
+        projectReceiptJudgmentFreezeRepository = { findCurrentByProjectId: jest.fn() };
 
         service = new ProjectHandoverQueryService(
             projectService as never,
@@ -37,7 +39,8 @@ describe('ProjectHandoverQueryService', () => {
             approvalSummarySnapshotRepository as never,
             projectHandoverRepository as never,
             contractHandoverRebaselineRecordRepository as never,
-            handoverBaselineImpactItemRepository as never
+            handoverBaselineImpactItemRepository as never,
+            projectReceiptJudgmentFreezeRepository as never
         );
 
         projectService.findById.mockResolvedValue(makeProject());
@@ -49,6 +52,7 @@ describe('ProjectHandoverQueryService', () => {
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
         contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue(null);
         handoverBaselineImpactItemRepository.findByRebaselineRecordId.mockResolvedValue([]);
+        projectReceiptJudgmentFreezeRepository.findCurrentByProjectId.mockResolvedValue(null);
         confirmationService.findLatestConfirmationProgressByTarget.mockResolvedValue(makeConfirmationProgress());
     });
 
@@ -136,6 +140,27 @@ describe('ProjectHandoverQueryService', () => {
         expect(result.receiptJudgmentModeSummary.status).toBe('not_frozen');
         expect(result.allowedActions).toEqual(['confirm-project-handover']);
         expect(result.blockingReasons).toEqual([]);
+    });
+
+    it('returns frozen receipt judgment mode from the current project freeze record', async () => {
+        projectHandoverRepository.findByProjectId.mockResolvedValue([makeHandover()]);
+        projectReceiptJudgmentFreezeRepository.findCurrentByProjectId.mockResolvedValue({
+            id: '73000000-0000-4000-8000-000000000001',
+            projectId,
+            receiptJudgmentMode: 'milestone-receipt',
+            sourceType: 'project-handover',
+            sourceId: handoverId
+        });
+
+        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+
+        expect(result.receiptJudgmentModeSummary).toEqual({
+            status: 'frozen',
+            receiptJudgmentMode: 'milestone-receipt',
+            sourceType: 'project-handover',
+            sourceId: handoverId,
+            summary: `Receipt judgment mode is frozen from project-handover ${handoverId}`
+        });
     });
 
     it('returns a controlled project handover placeholder when no handover record exists', async () => {

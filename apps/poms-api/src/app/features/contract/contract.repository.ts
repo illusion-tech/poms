@@ -2,7 +2,7 @@ import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { ContractStatus } from '@poms/shared-contracts';
-import { Contract, ContractAmendment } from './contract.entity';
+import { Contract, ContractAmendment, ContractTermSnapshot } from './contract.entity';
 
 @Injectable()
 export class ContractRepository {
@@ -45,6 +45,57 @@ export class ContractRepository {
 
     async save(contract: Contract): Promise<void> {
         await this.contractRepository.getEntityManager().persist(contract).flush();
+    }
+}
+
+@Injectable()
+export class ContractTermSnapshotRepository {
+    constructor(
+        @InjectRepository(ContractTermSnapshot)
+        private readonly contractTermSnapshotRepository: EntityRepository<ContractTermSnapshot>
+    ) {}
+
+    async findById(id: string): Promise<ContractTermSnapshot | null> {
+        return this.contractTermSnapshotRepository.findOne({ id });
+    }
+
+    async findActiveByContractId(contractId: string): Promise<ContractTermSnapshot | null> {
+        return this.contractTermSnapshotRepository.findOne(
+            { contractId, snapshotStatus: 'active' },
+            { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    create(input: ConstructorParameters<typeof ContractTermSnapshot>[0]): ContractTermSnapshot {
+        return this.contractTermSnapshotRepository.create(input);
+    }
+
+    async ensureActiveSnapshot(input: {
+        id: string;
+        contractId: string;
+        effectiveBy?: string | null;
+        createdBy?: string | null;
+    }): Promise<ContractTermSnapshot> {
+        const existing = await this.findById(input.id);
+        if (existing) {
+            return existing;
+        }
+
+        const snapshot = this.create({
+            id: input.id,
+            contractId: input.contractId,
+            snapshotStatus: 'active',
+            effectiveAt: new Date(),
+            effectiveBy: input.effectiveBy ?? null,
+            createdBy: input.createdBy ?? null
+        });
+        await this.save(snapshot);
+
+        return snapshot;
+    }
+
+    async save(contractTermSnapshot: ContractTermSnapshot): Promise<void> {
+        await this.contractTermSnapshotRepository.getEntityManager().persist(contractTermSnapshot).flush();
     }
 }
 

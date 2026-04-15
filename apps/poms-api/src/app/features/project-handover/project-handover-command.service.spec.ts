@@ -21,6 +21,7 @@ describe('ProjectHandoverCommandService', () => {
     let projectHandoverQueryService: { getProjectHandoverDetailByHandoverId: jest.Mock };
     let contractAmendmentRepository: { findEffectiveById: jest.Mock };
     let contractService: { findById: jest.Mock };
+    let contractTermSnapshotRepository: { findById: jest.Mock };
     let contractHandoverRebaselineRecordRepository: {
         findEffectiveByContractAmendmentId: jest.Mock;
         findLatestByProjectId: jest.Mock;
@@ -28,6 +29,11 @@ describe('ProjectHandoverCommandService', () => {
         saveWithImpactsAndHandover: jest.Mock;
     };
     let handoverBaselineImpactItemRepository: { create: jest.Mock };
+    let projectReceiptJudgmentFreezeRepository: {
+        findCurrentByProjectId: jest.Mock;
+        create: jest.Mock;
+        saveWithHandover: jest.Mock;
+    };
 
     beforeEach(() => {
         projectHandoverRepository = {
@@ -44,6 +50,9 @@ describe('ProjectHandoverCommandService', () => {
         contractService = {
             findById: jest.fn()
         };
+        contractTermSnapshotRepository = {
+            findById: jest.fn()
+        };
         contractHandoverRebaselineRecordRepository = {
             findEffectiveByContractAmendmentId: jest.fn(),
             findLatestByProjectId: jest.fn(),
@@ -53,14 +62,21 @@ describe('ProjectHandoverCommandService', () => {
         handoverBaselineImpactItemRepository = {
             create: jest.fn()
         };
+        projectReceiptJudgmentFreezeRepository = {
+            findCurrentByProjectId: jest.fn(),
+            create: jest.fn(),
+            saveWithHandover: jest.fn()
+        };
 
         service = new ProjectHandoverCommandService(
             projectHandoverRepository as never,
             projectHandoverQueryService as never,
             contractAmendmentRepository as never,
             contractService as never,
+            contractTermSnapshotRepository as never,
             contractHandoverRebaselineRecordRepository as never,
-            handoverBaselineImpactItemRepository as never
+            handoverBaselineImpactItemRepository as never,
+            projectReceiptJudgmentFreezeRepository as never
         );
 
         projectHandoverRepository.findById.mockResolvedValue(makeHandover());
@@ -69,11 +85,15 @@ describe('ProjectHandoverCommandService', () => {
         projectHandoverQueryService.getProjectHandoverDetailByHandoverId.mockResolvedValue(makeDetail());
         contractAmendmentRepository.findEffectiveById.mockResolvedValue(makeContractAmendment());
         contractService.findById.mockResolvedValue(makeContract());
+        contractTermSnapshotRepository.findById.mockResolvedValue(makeContractTermSnapshot());
         contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId.mockResolvedValue(null);
         contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue(null);
         contractHandoverRebaselineRecordRepository.create.mockImplementation((input) => ({ rowVersion: 1, ...input }));
         contractHandoverRebaselineRecordRepository.saveWithImpactsAndHandover.mockResolvedValue(undefined);
         handoverBaselineImpactItemRepository.create.mockImplementation((input) => ({ id: `impact-${input.affectedHandoverItemId}`, ...input }));
+        projectReceiptJudgmentFreezeRepository.findCurrentByProjectId.mockResolvedValue(null);
+        projectReceiptJudgmentFreezeRepository.create.mockImplementation((input) => ({ id: '73000000-0000-4000-8000-000000000001', ...input }));
+        projectReceiptJudgmentFreezeRepository.saveWithHandover.mockResolvedValue(undefined);
     });
 
     it('confirms a draft handover when guard chains are ready', async () => {
@@ -93,12 +113,50 @@ describe('ProjectHandoverCommandService', () => {
             targetId: handoverId,
             businessStatusAfter: 'confirmed',
             confirmationRecordId,
+            receiptJudgmentFreezeId: null,
             contractSummarySnapshotId,
             effectiveHandoverBaselineSnapshotId: effectiveBaselineSnapshotId,
             summarySnapshotId: handoverSummarySnapshotId,
             projectionLevel: 'handover-confirmation',
             exportPolicy: 'handover-controlled'
         });
+    });
+
+    it('freezes receipt judgment mode from the project handover confirmation when provided', async () => {
+        const handover = makeHandover({ handoverRebaselineRecordId: '72000000-0000-4000-8000-000000000001' });
+        projectHandoverRepository.findById.mockResolvedValue(handover);
+
+        const result = await service.confirmProjectHandover(
+            handoverId,
+            actorUserId,
+            makeInput({ receiptJudgmentMode: 'milestone-receipt' })
+        );
+
+        expect(projectHandoverRepository.save).not.toHaveBeenCalled();
+        expect(projectReceiptJudgmentFreezeRepository.findCurrentByProjectId).toHaveBeenCalledWith(projectId);
+        expect(projectReceiptJudgmentFreezeRepository.create).toHaveBeenCalledWith({
+            projectId,
+            receiptJudgmentMode: 'milestone-receipt',
+            sourceType: 'project-handover',
+            sourceId: handoverId,
+            sourceHandoverId: handoverId,
+            sourceHandoverSummarySnapshotId: handoverSummarySnapshotId,
+            sourceHandoverRebaselineRecordId: '72000000-0000-4000-8000-000000000001',
+            isCurrent: true,
+            frozenAt: expect.any(Date),
+            frozenBy: actorUserId,
+            supersedesId: null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+        expect(projectReceiptJudgmentFreezeRepository.saveWithHandover).toHaveBeenCalledWith({
+            handover,
+            receiptJudgmentFreeze: expect.objectContaining({
+                id: '73000000-0000-4000-8000-000000000001',
+                receiptJudgmentMode: 'milestone-receipt'
+            })
+        });
+        expect(result.receiptJudgmentFreezeId).toBe('73000000-0000-4000-8000-000000000001');
     });
 
     it('throws NotFoundException when the handover does not exist', async () => {
@@ -193,6 +251,7 @@ describe('ProjectHandoverCommandService', () => {
         expect(contractAmendmentRepository.findEffectiveById).toHaveBeenCalledWith(contractAmendmentId);
         expect(contractService.findById).toHaveBeenCalledWith(contractId);
         expect(projectHandoverRepository.findLatestConfirmedByProjectId).toHaveBeenCalledWith(projectId);
+        expect(contractTermSnapshotRepository.findById).toHaveBeenCalledWith(effectiveBaselineAfterId);
         expect(saved.rebaselineRecord).toMatchObject({
             contractAmendmentId,
             projectId,
@@ -243,6 +302,12 @@ describe('ProjectHandoverCommandService', () => {
             id: '72000000-0000-4000-8000-000000000002',
             status: 'processing'
         });
+
+        await expect(service.rebaselineContractHandover(actorUserId, makeRebaselineInput())).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws BadRequestException when effective baseline after is not an active snapshot of the amendment contract', async () => {
+        contractTermSnapshotRepository.findById.mockResolvedValue(makeContractTermSnapshot({ contractId: '30000000-0000-4000-8000-000000000099' }));
 
         await expect(service.rebaselineContractHandover(actorUserId, makeRebaselineInput())).rejects.toThrow(BadRequestException);
     });
@@ -313,6 +378,15 @@ describe('ProjectHandoverCommandService', () => {
             projectId,
             status: 'active',
             rowVersion: 1,
+            ...overrides
+        };
+    }
+
+    function makeContractTermSnapshot(overrides: Record<string, unknown> = {}) {
+        return {
+            id: effectiveBaselineAfterId,
+            contractId,
+            snapshotStatus: 'active',
             ...overrides
         };
     }

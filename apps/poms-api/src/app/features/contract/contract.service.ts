@@ -7,7 +7,7 @@ import { ApprovalRecord } from '../approval/approval-record.entity';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
-import { ContractRepository } from './contract.repository';
+import { ContractRepository, ContractTermSnapshotRepository } from './contract.repository';
 
 export interface FindContractsQuery {
     projectId?: string;
@@ -49,6 +49,7 @@ export class ContractService {
         private readonly contractRepository: ContractRepository,
         private readonly projectService: ProjectService,
         private readonly contractReadinessService: ContractReadinessService,
+        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
         @InjectRepository(ApprovalRecord)
         private readonly approvalRecordRepository: EntityRepository<ApprovalRecord>
     ) {}
@@ -168,6 +169,12 @@ export class ContractService {
         }
 
         const snapshotId = contract.currentSnapshotId ?? activationReadiness.snapshotId ?? randomUUID();
+        await this.contractTermSnapshotRepository.ensureActiveSnapshot({
+            id: snapshotId,
+            contractId: contract.id,
+            effectiveBy: actorUserId,
+            createdBy: actorUserId
+        });
         contract.status = 'active';
         contract.currentSnapshotId = snapshotId;
         contract.updatedBy = actorUserId;

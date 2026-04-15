@@ -30,6 +30,9 @@ describe('ContractService', () => {
     };
     let projectService: jest.Mocked<ProjectService>;
     let contractReadinessService: jest.Mocked<ContractReadinessService>;
+    let contractTermSnapshotRepository: {
+        ensureActiveSnapshot: jest.Mock;
+    };
 
     beforeEach(() => {
         contractRepository = {
@@ -48,11 +51,15 @@ describe('ContractService', () => {
         contractReadinessService = {
             resolveActivationReadiness: jest.fn()
         } as unknown as jest.Mocked<ContractReadinessService>;
+        contractTermSnapshotRepository = {
+            ensureActiveSnapshot: jest.fn()
+        };
 
         service = new ContractService(
             contractRepository as never,
             projectService,
             contractReadinessService,
+            contractTermSnapshotRepository as never,
             approvalRecordRepository as never
         );
     });
@@ -268,6 +275,12 @@ describe('ContractService', () => {
         });
 
         expect(contract.currentSnapshotId).toBe(readinessSnapshotId);
+        expect(contractTermSnapshotRepository.ensureActiveSnapshot).toHaveBeenCalledWith({
+            id: readinessSnapshotId,
+            contractId,
+            effectiveBy: userId,
+            createdBy: userId
+        });
         expect(result.snapshotId).toBe(readinessSnapshotId);
     });
 

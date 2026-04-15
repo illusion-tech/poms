@@ -1,7 +1,12 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from './project-handover.entity';
+import {
+    ContractHandoverRebaselineRecord,
+    HandoverBaselineImpactItem,
+    ProjectHandover,
+    ProjectReceiptJudgmentFreeze
+} from './project-handover.entity';
 
 @Injectable()
 export class ProjectHandoverRepository {
@@ -118,5 +123,34 @@ export class HandoverBaselineImpactItemRepository {
             return;
         }
         await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class ProjectReceiptJudgmentFreezeRepository {
+    constructor(
+        @InjectRepository(ProjectReceiptJudgmentFreeze)
+        private readonly repository: EntityRepository<ProjectReceiptJudgmentFreeze>
+    ) {}
+
+    async findCurrentByProjectId(projectId: string): Promise<ProjectReceiptJudgmentFreeze | null> {
+        return this.repository.findOne(
+            { projectId, isCurrent: true },
+            { orderBy: { frozenAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    create(input: ConstructorParameters<typeof ProjectReceiptJudgmentFreeze>[0]): ProjectReceiptJudgmentFreeze {
+        return this.repository.create(input);
+    }
+
+    async saveWithHandover(input: {
+        handover: ProjectHandover;
+        receiptJudgmentFreeze: ProjectReceiptJudgmentFreeze;
+    }): Promise<void> {
+        await this.repository
+            .getEntityManager()
+            .persist([input.handover, input.receiptJudgmentFreeze])
+            .flush();
     }
 }

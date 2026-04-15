@@ -5,6 +5,7 @@ import { Project } from '../project/project.entity';
 const p = defineEntity.properties;
 
 export type ContractAmendmentStatus = 'draft' | 'submitted' | 'approved' | 'effective' | 'superseded' | 'voided';
+export type ContractTermSnapshotStatus = 'active' | 'superseded' | 'voided';
 
 export const ContractSchema = defineEntity({
     name: 'Contract',
@@ -54,6 +55,50 @@ export const ContractSchema = defineEntity({
 export class Contract extends ContractSchema.class {}
 
 ContractSchema.setClass(Contract);
+
+export const ContractTermSnapshotSchema = defineEntity({
+    name: 'ContractTermSnapshot',
+    tableName: 'contract_term_snapshot',
+    schema: 'poms',
+    comment: '合同条款生效快照',
+    indexes: [
+        {
+            name: 'idx_contract_term_snapshot_contract_effective',
+            expression: (columns, table, indexName) =>
+                `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.effectiveAt}" desc)`
+        },
+        { name: 'idx_contract_term_snapshot_status', properties: ['snapshotStatus'] }
+    ],
+    uniques: [
+        {
+            name: 'uq_contract_term_snapshot_contract_active',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.snapshotStatus}" = 'active'`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+        contractId: () =>
+            p
+                .manyToOne(Contract)
+                .mapToPk()
+                .fieldName('contract_id')
+                .foreignKeyName('contract_term_snapshot_contract_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('所属合同 ID'),
+        effectiveAt: p.datetime().defaultRaw('now()').fieldName('effective_at').comment('生效时间'),
+        effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
+        snapshotStatus: p.string().length(32).default('active').fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    }
+});
+
+export class ContractTermSnapshot extends ContractTermSnapshotSchema.class {}
+
+ContractTermSnapshotSchema.setClass(ContractTermSnapshot);
 
 export const ContractAmendmentSchema = defineEntity({
     name: 'ContractAmendment',
