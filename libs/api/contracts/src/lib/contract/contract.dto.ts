@@ -13,6 +13,7 @@ import {
     CreateContractReadinessPackageRequestSchema,
     InitializeContractSnapshotFromReadinessPackageRequestSchema,
     InitializeReceivablePlanFromReadinessPackageRequestSchema,
+    ProjectHandoverDetailViewSchema,
     ReadinessInitializationResultSchema,
     ReviewCommercialReleaseBaselineDiffRequestSchema,
     UpdateContractBasicInfoRequestSchema
@@ -38,6 +39,8 @@ export class ContractReadinessDetailDto extends createZodDto(ContractReadinessDe
 export class ContractDiffReviewHistoryViewDto extends createZodDto(ContractDiffReviewHistoryViewSchema) {}
 
 export class ContractHandoverSummaryViewDto extends createZodDto(ContractHandoverSummaryViewSchema) {}
+
+export class ProjectHandoverDetailViewDto extends createZodDto(ProjectHandoverDetailViewSchema) {}
 
 export class CreateCommercialReleaseBaselineRequestDto extends createZodDto(CreateCommercialReleaseBaselineRequestSchema) {}
 

@@ -1036,6 +1036,77 @@ export const ContractHandoverSummaryViewSchema = z
 
 export type ContractHandoverSummaryView = z.infer<typeof ContractHandoverSummaryViewSchema>;
 
+export const ProjectHandoverParticipantConfirmationItemSchema = z
+    .object({
+        participantId: z.uuid(),
+        participantRoleKey: z.string(),
+        participantDisplayName: z.string().nullable(),
+        participantStatus: z.enum(['pending', 'confirmed', 'closed']),
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedComment: z.string().nullable()
+    })
+    .meta({ id: 'ProjectHandoverParticipantConfirmationItem' });
+
+export type ProjectHandoverParticipantConfirmationItem = z.infer<typeof ProjectHandoverParticipantConfirmationItemSchema>;
+
+export const ProjectHandoverParticipantConfirmationSummarySchema = z
+    .object({
+        status: z.enum(['not_started', 'pending', 'confirmed', 'closed']),
+        confirmationRecordId: z.uuid().nullable(),
+        requiredCount: z.number().int().nonnegative(),
+        confirmedCount: z.number().int().nonnegative(),
+        pendingCount: z.number().int().nonnegative(),
+        closedCount: z.number().int().nonnegative(),
+        submittedAt: z.iso.datetime().nullable(),
+        confirmedAt: z.iso.datetime().nullable(),
+        closedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int().nullable(),
+        participants: z.array(ProjectHandoverParticipantConfirmationItemSchema)
+    })
+    .meta({ id: 'ProjectHandoverParticipantConfirmationSummary' });
+
+export type ProjectHandoverParticipantConfirmationSummary = z.infer<typeof ProjectHandoverParticipantConfirmationSummarySchema>;
+
+export const ProjectHandoverReceiptJudgmentModeSummarySchema = z
+    .object({
+        status: z.enum(['not_frozen', 'frozen']),
+        receiptJudgmentMode: z.string().nullable(),
+        sourceType: z.enum(['project-handover', 'project-receipt-judgment-freeze', 'none']),
+        sourceId: z.uuid().nullable(),
+        summary: z.string()
+    })
+    .meta({ id: 'ProjectHandoverReceiptJudgmentModeSummary' });
+
+export type ProjectHandoverReceiptJudgmentModeSummary = z.infer<typeof ProjectHandoverReceiptJudgmentModeSummarySchema>;
+
+export const ProjectHandoverDetailViewSchema = z
+    .object({
+        handoverId: z.uuid().nullable(),
+        projectId: z.uuid(),
+        projectCode: z.string(),
+        projectName: z.string(),
+        handoverStatus: z.enum(['not_started', 'draft', 'confirmed', 'superseded', 'voided']),
+        confirmedAt: z.iso.datetime().nullable(),
+        confirmedBy: z.uuid().nullable(),
+        comment: z.string().nullable(),
+        rowVersion: z.number().int().nullable(),
+        effectiveContractSetSummary: ContractHandoverEffectiveContractSetSummarySchema,
+        contractSummarySnapshotId: z.uuid().nullable(),
+        currentHandoverBaselineSummary: ContractHandoverCurrentBaselineSummarySchema,
+        participantConfirmationSummary: ProjectHandoverParticipantConfirmationSummarySchema,
+        receiptJudgmentModeSummary: ProjectHandoverReceiptJudgmentModeSummarySchema,
+        summaryPackageKey: z.string().nullable(),
+        summarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        allowedActions: z.array(z.string()),
+        blockingReasons: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectHandoverDetailView' });
+
+export type ProjectHandoverDetailView = z.infer<typeof ProjectHandoverDetailViewSchema>;
+
 export const CreateCommercialBaselineDiffItemInputSchema = z
     .object({
         fieldKey: z.string().trim().min(1).max(128),
