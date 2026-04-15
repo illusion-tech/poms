@@ -4,12 +4,15 @@ import {
     ConfirmProjectHandoverRequestDto,
     ConfirmProjectHandoverResultDto,
     ContractHandoverSummaryViewDto,
-    ProjectHandoverDetailViewDto
+    ProjectHandoverDetailViewDto,
+    RebaselineContractHandoverRequestDto,
+    RebaselineContractHandoverResultDto
 } from '@poms/api-contracts';
 import type {
     ConfirmProjectHandoverResult,
     ContractHandoverSummaryView,
     ProjectHandoverDetailView,
+    RebaselineContractHandoverResult,
     UserPayload
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
@@ -60,5 +63,17 @@ export class ProjectHandoverController {
         @Body() body: ConfirmProjectHandoverRequestDto
     ): Promise<ConfirmProjectHandoverResult> {
         return this.projectHandoverCommandService.confirmProjectHandover(handoverId, req.user.sub, body);
+    }
+
+    @Post('contract-handover-rebaselines')
+    @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '发起合同移交前再基线化' })
+    @ApiOkResponse({ type: RebaselineContractHandoverResultDto })
+    rebaselineContractHandover(
+        @Request() req: { user: UserPayload },
+        @Body() body: RebaselineContractHandoverRequestDto
+    ): Promise<RebaselineContractHandoverResult> {
+        return this.projectHandoverCommandService.rebaselineContractHandover(req.user.sub, body);
     }
 }

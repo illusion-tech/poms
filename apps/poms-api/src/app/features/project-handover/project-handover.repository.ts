@@ -62,12 +62,36 @@ export class ContractHandoverRebaselineRecordRepository {
         );
     }
 
+    async findLatestByProjectId(projectId: string): Promise<ContractHandoverRebaselineRecord | null> {
+        return this.repository.findOne(
+            { projectId },
+            { orderBy: { handledAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
     create(input: ConstructorParameters<typeof ContractHandoverRebaselineRecord>[0]): ContractHandoverRebaselineRecord {
         return this.repository.create(input);
     }
 
     async save(entity: ContractHandoverRebaselineRecord): Promise<void> {
         await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveWithImpactsAndHandover(input: {
+        rebaselineRecord: ContractHandoverRebaselineRecord;
+        impactItems: HandoverBaselineImpactItem[];
+        handover: ProjectHandover;
+        supersededRecord?: ContractHandoverRebaselineRecord | null;
+    }): Promise<void> {
+        await this.repository
+            .getEntityManager()
+            .persist([
+                input.rebaselineRecord,
+                ...input.impactItems,
+                input.handover,
+                ...(input.supersededRecord ? [input.supersededRecord] : [])
+            ])
+            .flush();
     }
 }
 

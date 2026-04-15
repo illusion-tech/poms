@@ -4,19 +4,33 @@ import type {
     ConfirmProjectHandoverRequest,
     ConfirmProjectHandoverResult,
     ProjectHandoverDetailView,
-    ProjectHandoverParticipantConfirmationItem
+    ProjectHandoverParticipantConfirmationItem,
+    RebaselineContractHandoverRequest,
+    RebaselineContractHandoverResult
 } from '@poms/shared-contracts';
+import { randomUUID } from 'node:crypto';
+import { ContractAmendmentRepository } from '../contract/contract.repository';
+import { ContractService } from '../contract/contract.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
-import { ProjectHandoverRepository } from './project-handover.repository';
+import {
+    ContractHandoverRebaselineRecordRepository,
+    HandoverBaselineImpactItemRepository,
+    ProjectHandoverRepository
+} from './project-handover.repository';
 
 const CONFIRM_PROJECT_HANDOVER_ACTION = 'confirm-project-handover';
 const EXECUTION_OWNER_ROLE_KEY = 'execution-owner';
+const REBASELINE_IMPACT_TYPE = 'handover-item';
 
 @Injectable()
 export class ProjectHandoverCommandService {
     constructor(
         private readonly projectHandoverRepository: ProjectHandoverRepository,
-        private readonly projectHandoverQueryService: ProjectHandoverQueryService
+        private readonly projectHandoverQueryService: ProjectHandoverQueryService,
+        private readonly contractAmendmentRepository: ContractAmendmentRepository,
+        private readonly contractService: ContractService,
+        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository
     ) {}
 
     async confirmProjectHandover(
@@ -64,6 +78,106 @@ export class ProjectHandoverCommandService {
             summarySnapshotId: handover.summarySnapshotId,
             projectionLevel: detail.projectionLevel,
             exportPolicy: detail.exportPolicy
+        };
+    }
+
+    async rebaselineContractHandover(
+        actorUserId: string,
+        input: RebaselineContractHandoverRequest
+    ): Promise<RebaselineContractHandoverResult> {
+        this.assertUniqueAffectedHandoverItems(input.affectedHandoverItemIds);
+
+        const amendment = await this.contractAmendmentRepository.findEffectiveById(input.contractAmendmentId);
+        if (!amendment) {
+            throw new BadRequestException(`ContractAmendment ${input.contractAmendmentId} is not effective`);
+        }
+
+        const contract = await this.contractService.findById(amendment.contractId);
+        if (!contract) {
+            throw new NotFoundException(`Contract ${amendment.contractId} not found`);
+        }
+
+        if (contract.status !== 'active') {
+            throw new BadRequestException(`Contract ${contract.id} is not active`);
+        }
+
+        const handover = await this.projectHandoverRepository.findLatestConfirmedByProjectId(contract.projectId);
+        if (!handover) {
+            throw new BadRequestException(`Project ${contract.projectId} has no confirmed project handover`);
+        }
+
+        this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'ProjectHandover');
+
+        const existingEffectiveRecord = await this.contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId(
+            input.contractAmendmentId
+        );
+        if (existingEffectiveRecord) {
+            throw new ConflictException(`ContractAmendment ${input.contractAmendmentId} already has an effective handover rebaseline`);
+        }
+
+        const latestProjectRebaseline = await this.contractHandoverRebaselineRecordRepository.findLatestByProjectId(contract.projectId);
+        if (latestProjectRebaseline && ['processing', 'pending_effective'].includes(latestProjectRebaseline.status)) {
+            throw new BadRequestException(
+                `Handover rebaseline record ${latestProjectRebaseline.id} is still ${latestProjectRebaseline.status}`
+            );
+        }
+
+        const currentBaselineId =
+            latestProjectRebaseline?.status === 'effective'
+                ? latestProjectRebaseline.effectiveBaselineAfterId
+                : handover.effectiveHandoverBaselineSnapshotId;
+
+        if (currentBaselineId === input.effectiveBaselineAfterId) {
+            throw new BadRequestException('Effective baseline after rebaseline must differ from the current handover baseline');
+        }
+
+        const now = new Date();
+        const rebaselineRecordId = randomUUID();
+        const rebaselineRecord = this.contractHandoverRebaselineRecordRepository.create({
+            id: rebaselineRecordId,
+            contractAmendmentId: input.contractAmendmentId,
+            projectId: contract.projectId,
+            rebaselineReason: input.rebaselineReason.trim(),
+            effectiveBaselineAfterId: input.effectiveBaselineAfterId,
+            status: 'effective',
+            handledAt: now,
+            handledBy: actorUserId,
+            supersedesId: latestProjectRebaseline?.status === 'effective' ? latestProjectRebaseline.id : null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+
+        const impactItems = input.affectedHandoverItemIds.map((affectedHandoverItemId) =>
+            this.handoverBaselineImpactItemRepository.create({
+                rebaselineRecordId: rebaselineRecord.id,
+                affectedHandoverItemId,
+                impactType: REBASELINE_IMPACT_TYPE,
+                impactSummary: input.rebaselineReason.trim(),
+                supersedesBaselineId: currentBaselineId,
+                createdBy: actorUserId
+            })
+        );
+
+        if (latestProjectRebaseline?.status === 'effective') {
+            latestProjectRebaseline.status = 'superseded';
+            latestProjectRebaseline.updatedBy = actorUserId;
+        }
+
+        handover.handoverRebaselineRecordId = rebaselineRecord.id;
+        handover.updatedBy = actorUserId;
+
+        await this.contractHandoverRebaselineRecordRepository.saveWithImpactsAndHandover({
+            rebaselineRecord,
+            impactItems,
+            handover,
+            supersededRecord: latestProjectRebaseline?.status === 'superseded' ? latestProjectRebaseline : null
+        });
+
+        return {
+            targetId: rebaselineRecord.id,
+            rebaselineRecordId: rebaselineRecord.id,
+            effectiveBaselineAfterId: rebaselineRecord.effectiveBaselineAfterId,
+            resultStatus: 'effective'
         };
     }
 
@@ -165,6 +279,13 @@ export class ProjectHandoverCommandService {
         participantRoleKey: string;
     }): string {
         return `${participant.participantId}:${participant.participantRoleKey}`;
+    }
+
+    private assertUniqueAffectedHandoverItems(affectedHandoverItemIds: string[]): void {
+        const uniqueIds = new Set(affectedHandoverItemIds);
+        if (uniqueIds.size !== affectedHandoverItemIds.length) {
+            throw new BadRequestException('Affected handover item IDs must be unique');
+        }
     }
 
     private assertExpectedVersion(actualVersion: number, expectedVersion: number | undefined, resourceType: string): void {

@@ -8,31 +8,72 @@ describe('ProjectHandoverCommandService', () => {
     const contractSummarySnapshotId = '60000000-0000-4000-8000-000000000001';
     const handoverSummarySnapshotId = '60000000-0000-4000-8000-000000000201';
     const effectiveBaselineSnapshotId = '50000000-0000-4000-8000-000000000101';
+    const effectiveBaselineAfterId = '50000000-0000-4000-8000-000000000202';
     const confirmationRecordId = '40000000-0000-4000-8000-000000000101';
+    const contractId = '30000000-0000-4000-8000-000000000001';
+    const contractAmendmentId = '31000000-0000-4000-8000-000000000001';
+    const affectedHandoverItemId = '71000000-0000-4000-8000-000000000001';
     const executionOwnerId = '00000000-0000-4000-8000-000000000011';
     const salesOwnerId = '00000000-0000-4000-8000-000000000012';
 
     let service: ProjectHandoverCommandService;
-    let projectHandoverRepository: { findById: jest.Mock; save: jest.Mock };
+    let projectHandoverRepository: { findById: jest.Mock; findLatestConfirmedByProjectId: jest.Mock; save: jest.Mock };
     let projectHandoverQueryService: { getProjectHandoverDetailByHandoverId: jest.Mock };
+    let contractAmendmentRepository: { findEffectiveById: jest.Mock };
+    let contractService: { findById: jest.Mock };
+    let contractHandoverRebaselineRecordRepository: {
+        findEffectiveByContractAmendmentId: jest.Mock;
+        findLatestByProjectId: jest.Mock;
+        create: jest.Mock;
+        saveWithImpactsAndHandover: jest.Mock;
+    };
+    let handoverBaselineImpactItemRepository: { create: jest.Mock };
 
     beforeEach(() => {
         projectHandoverRepository = {
             findById: jest.fn(),
+            findLatestConfirmedByProjectId: jest.fn(),
             save: jest.fn()
         };
         projectHandoverQueryService = {
             getProjectHandoverDetailByHandoverId: jest.fn()
         };
+        contractAmendmentRepository = {
+            findEffectiveById: jest.fn()
+        };
+        contractService = {
+            findById: jest.fn()
+        };
+        contractHandoverRebaselineRecordRepository = {
+            findEffectiveByContractAmendmentId: jest.fn(),
+            findLatestByProjectId: jest.fn(),
+            create: jest.fn(),
+            saveWithImpactsAndHandover: jest.fn()
+        };
+        handoverBaselineImpactItemRepository = {
+            create: jest.fn()
+        };
 
         service = new ProjectHandoverCommandService(
             projectHandoverRepository as never,
-            projectHandoverQueryService as never
+            projectHandoverQueryService as never,
+            contractAmendmentRepository as never,
+            contractService as never,
+            contractHandoverRebaselineRecordRepository as never,
+            handoverBaselineImpactItemRepository as never
         );
 
         projectHandoverRepository.findById.mockResolvedValue(makeHandover());
+        projectHandoverRepository.findLatestConfirmedByProjectId.mockResolvedValue(makeHandover({ status: 'confirmed', rowVersion: 4 }));
         projectHandoverRepository.save.mockResolvedValue(undefined);
         projectHandoverQueryService.getProjectHandoverDetailByHandoverId.mockResolvedValue(makeDetail());
+        contractAmendmentRepository.findEffectiveById.mockResolvedValue(makeContractAmendment());
+        contractService.findById.mockResolvedValue(makeContract());
+        contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId.mockResolvedValue(null);
+        contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue(null);
+        contractHandoverRebaselineRecordRepository.create.mockImplementation((input) => ({ rowVersion: 1, ...input }));
+        contractHandoverRebaselineRecordRepository.saveWithImpactsAndHandover.mockResolvedValue(undefined);
+        handoverBaselineImpactItemRepository.create.mockImplementation((input) => ({ id: `impact-${input.affectedHandoverItemId}`, ...input }));
     });
 
     it('confirms a draft handover when guard chains are ready', async () => {
@@ -131,6 +172,98 @@ describe('ProjectHandoverCommandService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
+    it('creates an effective handover rebaseline and links it to the latest confirmed handover', async () => {
+        const handover = makeHandover({ status: 'confirmed', rowVersion: 4 });
+        const previousRebaseline = {
+            id: '72000000-0000-4000-8000-000000000001',
+            projectId,
+            contractAmendmentId: '31000000-0000-4000-8000-000000000000',
+            effectiveBaselineAfterId: effectiveBaselineSnapshotId,
+            status: 'effective',
+            handledAt: new Date('2026-04-15T00:00:00.000Z'),
+            createdAt: new Date('2026-04-15T00:00:00.000Z'),
+            updatedBy: null
+        };
+        projectHandoverRepository.findLatestConfirmedByProjectId.mockResolvedValue(handover);
+        contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue(previousRebaseline);
+
+        const result = await service.rebaselineContractHandover(actorUserId, makeRebaselineInput());
+
+        const saved = contractHandoverRebaselineRecordRepository.saveWithImpactsAndHandover.mock.calls[0][0];
+        expect(contractAmendmentRepository.findEffectiveById).toHaveBeenCalledWith(contractAmendmentId);
+        expect(contractService.findById).toHaveBeenCalledWith(contractId);
+        expect(projectHandoverRepository.findLatestConfirmedByProjectId).toHaveBeenCalledWith(projectId);
+        expect(saved.rebaselineRecord).toMatchObject({
+            contractAmendmentId,
+            projectId,
+            rebaselineReason: '合同变更后调整移交基线',
+            effectiveBaselineAfterId,
+            status: 'effective',
+            handledBy: actorUserId,
+            supersedesId: previousRebaseline.id,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+        expect(saved.impactItems).toEqual([
+            expect.objectContaining({
+                rebaselineRecordId: saved.rebaselineRecord.id,
+                affectedHandoverItemId,
+                impactType: 'handover-item',
+                impactSummary: '合同变更后调整移交基线',
+                supersedesBaselineId: effectiveBaselineSnapshotId,
+                createdBy: actorUserId
+            })
+        ]);
+        expect(saved.handover).toBe(handover);
+        expect(handover.handoverRebaselineRecordId).toBe(saved.rebaselineRecord.id);
+        expect(previousRebaseline.status).toBe('superseded');
+        expect(previousRebaseline.updatedBy).toBe(actorUserId);
+        expect(result).toEqual({
+            targetId: saved.rebaselineRecord.id,
+            rebaselineRecordId: saved.rebaselineRecord.id,
+            effectiveBaselineAfterId,
+            resultStatus: 'effective'
+        });
+    });
+
+    it('throws BadRequestException when the contract amendment is not effective', async () => {
+        contractAmendmentRepository.findEffectiveById.mockResolvedValue(null);
+
+        await expect(service.rebaselineContractHandover(actorUserId, makeRebaselineInput())).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws BadRequestException when no confirmed handover exists', async () => {
+        projectHandoverRepository.findLatestConfirmedByProjectId.mockResolvedValue(null);
+
+        await expect(service.rebaselineContractHandover(actorUserId, makeRebaselineInput())).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws BadRequestException when the latest project rebaseline is still processing', async () => {
+        contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue({
+            id: '72000000-0000-4000-8000-000000000002',
+            status: 'processing'
+        });
+
+        await expect(service.rebaselineContractHandover(actorUserId, makeRebaselineInput())).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws ConflictException when rebaseline expectedVersion does not match the latest handover', async () => {
+        projectHandoverRepository.findLatestConfirmedByProjectId.mockResolvedValue(makeHandover({ status: 'confirmed', rowVersion: 5 }));
+
+        await expect(
+            service.rebaselineContractHandover(actorUserId, makeRebaselineInput({ expectedVersion: 4 }))
+        ).rejects.toThrow(ConflictException);
+    });
+
+    it('throws BadRequestException when affected handover item IDs are duplicated', async () => {
+        await expect(
+            service.rebaselineContractHandover(
+                actorUserId,
+                makeRebaselineInput({ affectedHandoverItemIds: [affectedHandoverItemId, affectedHandoverItemId] })
+            )
+        ).rejects.toThrow(BadRequestException);
+    });
+
     function makeInput(overrides: Record<string, unknown> = {}) {
         return {
             comment: ' 同意移交 ',
@@ -148,6 +281,38 @@ describe('ProjectHandoverCommandService', () => {
             ],
             contractSummarySnapshotId,
             expectedVersion: 2,
+            ...overrides
+        };
+    }
+
+    function makeRebaselineInput(overrides: Record<string, unknown> = {}) {
+        return {
+            contractAmendmentId,
+            rebaselineReason: ' 合同变更后调整移交基线 ',
+            affectedHandoverItemIds: [affectedHandoverItemId],
+            effectiveBaselineAfterId,
+            expectedVersion: 4,
+            ...overrides
+        };
+    }
+
+    function makeContractAmendment(overrides: Record<string, unknown> = {}) {
+        return {
+            id: contractAmendmentId,
+            contractId,
+            status: 'effective',
+            isCurrent: true,
+            rowVersion: 1,
+            ...overrides
+        };
+    }
+
+    function makeContract(overrides: Record<string, unknown> = {}) {
+        return {
+            id: contractId,
+            projectId,
+            status: 'active',
+            rowVersion: 1,
             ...overrides
         };
     }

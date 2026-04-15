@@ -19,7 +19,13 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
             expression: (columns, table, indexName) =>
                 `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractAmendmentId}", "${columns.handledAt}" desc)`
         },
+        {
+            name: 'idx_chrr_project_handled',
+            expression: (columns, table, indexName) =>
+                `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.handledAt}" desc)`
+        },
         { name: 'idx_chrr_amendment_status', properties: ['contractAmendmentId', 'status'] },
+        { name: 'idx_chrr_project_status', properties: ['projectId', 'status'] },
         { name: 'idx_chrr_effective_baseline_after', properties: ['effectiveBaselineAfterId'] },
         { name: 'idx_chrr_supersedes', properties: ['supersedesId'] }
     ],
@@ -41,6 +47,15 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('restrict')
                 .comment('合同变更版本 ID'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('contract_handover_rebaseline_record_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('项目 ID'),
         rebaselineReason: p.text().fieldName('rebaseline_reason').comment('再基线化原因'),
         effectiveBaselineAfterId: p.uuid().fieldName('effective_baseline_after_id').comment('再基线化后生效基线快照 ID'),
         status: p.string().length(32).default('processing').$type<ContractHandoverRebaselineStatus>().comment('状态：processing/pending_effective/effective/superseded/voided'),

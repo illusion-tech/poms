@@ -16,7 +16,7 @@ describe('ProjectHandoverQueryService', () => {
     let confirmationService: { findLatestConfirmationProgressByTarget: jest.Mock };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock; findById: jest.Mock };
     let projectHandoverRepository: { findById: jest.Mock; findByProjectId: jest.Mock };
-    let contractHandoverRebaselineRecordRepository: { findById: jest.Mock };
+    let contractHandoverRebaselineRecordRepository: { findById: jest.Mock; findLatestByProjectId: jest.Mock };
     let handoverBaselineImpactItemRepository: { findByRebaselineRecordId: jest.Mock };
 
     beforeEach(() => {
@@ -26,7 +26,7 @@ describe('ProjectHandoverQueryService', () => {
         confirmationService = { findLatestConfirmationProgressByTarget: jest.fn() };
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn(), findById: jest.fn() };
         projectHandoverRepository = { findById: jest.fn(), findByProjectId: jest.fn() };
-        contractHandoverRebaselineRecordRepository = { findById: jest.fn() };
+        contractHandoverRebaselineRecordRepository = { findById: jest.fn(), findLatestByProjectId: jest.fn() };
         handoverBaselineImpactItemRepository = { findByRebaselineRecordId: jest.fn() };
 
         service = new ProjectHandoverQueryService(
@@ -47,6 +47,7 @@ describe('ProjectHandoverQueryService', () => {
         approvalSummarySnapshotRepository.findById.mockResolvedValue(makeHandoverSummarySnapshot());
         projectHandoverRepository.findByProjectId.mockResolvedValue([]);
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
+        contractHandoverRebaselineRecordRepository.findLatestByProjectId.mockResolvedValue(null);
         handoverBaselineImpactItemRepository.findByRebaselineRecordId.mockResolvedValue([]);
         confirmationService.findLatestConfirmationProgressByTarget.mockResolvedValue(makeConfirmationProgress());
     });

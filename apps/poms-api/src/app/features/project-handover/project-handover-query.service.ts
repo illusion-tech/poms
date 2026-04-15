@@ -72,7 +72,7 @@ export class ProjectHandoverQueryService {
         ]);
 
         const selectedHandover = latestHandover ?? handovers[0] ?? null;
-        const latestRebaseline = await this.findLatestLinkedRebaseline(selectedHandover);
+        const latestRebaseline = await this.findLatestProjectRebaseline(projectId, selectedHandover);
         const impactItems = latestRebaseline
             ? await this.handoverBaselineImpactItemRepository.findByRebaselineRecordId(latestRebaseline.id)
             : [];
@@ -279,12 +279,18 @@ export class ProjectHandoverQueryService {
         }
     }
 
-    private async findLatestLinkedRebaseline(handover: ProjectHandover | null): Promise<ContractHandoverRebaselineRecord | null> {
-        if (!handover?.handoverRebaselineRecordId) {
-            return null;
+    private async findLatestProjectRebaseline(
+        projectId: string,
+        handover: ProjectHandover | null
+    ): Promise<ContractHandoverRebaselineRecord | null> {
+        const latestProjectRebaseline = await this.contractHandoverRebaselineRecordRepository.findLatestByProjectId(projectId);
+        if (latestProjectRebaseline) {
+            return latestProjectRebaseline;
         }
 
-        return this.contractHandoverRebaselineRecordRepository.findById(handover.handoverRebaselineRecordId);
+        return handover?.handoverRebaselineRecordId
+            ? this.contractHandoverRebaselineRecordRepository.findById(handover.handoverRebaselineRecordId)
+            : null;
     }
 
     private buildEffectiveContractSetSummary(activeContracts: Contract[]): ContractHandoverSummaryView['effectiveContractSetSummary'] {
