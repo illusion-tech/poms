@@ -1,15 +1,29 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ContractHandoverSummaryViewDto, ProjectHandoverDetailViewDto } from '@poms/api-contracts';
-import type { ContractHandoverSummaryView, ProjectHandoverDetailView } from '@poms/shared-contracts';
+import {
+    ConfirmProjectHandoverRequestDto,
+    ConfirmProjectHandoverResultDto,
+    ContractHandoverSummaryViewDto,
+    ProjectHandoverDetailViewDto
+} from '@poms/api-contracts';
+import type {
+    ConfirmProjectHandoverResult,
+    ContractHandoverSummaryView,
+    ProjectHandoverDetailView,
+    UserPayload
+} from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { ProjectHandoverCommandService } from './project-handover-command.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 
 @ApiTags('Project Handover')
 @ApiBearerAuth()
 @Controller()
 export class ProjectHandoverController {
-    constructor(private readonly projectHandoverQueryService: ProjectHandoverQueryService) {}
+    constructor(
+        private readonly projectHandoverQueryService: ProjectHandoverQueryService,
+        private readonly projectHandoverCommandService: ProjectHandoverCommandService
+    ) {}
 
     @Get('projects/:projectId/contract-handover-summary')
     @HasPermissions('project:read')
@@ -33,5 +47,18 @@ export class ProjectHandoverController {
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
     getProjectHandoverDetailByHandover(@Param('handoverId') handoverId: string): Promise<ProjectHandoverDetailView> {
         return this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(handoverId);
+    }
+
+    @Post('project-handovers/:handoverId/confirm')
+    @HasPermissions('project:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '确认项目移交' })
+    @ApiOkResponse({ type: ConfirmProjectHandoverResultDto })
+    confirmProjectHandover(
+        @Param('handoverId') handoverId: string,
+        @Request() req: { user: UserPayload },
+        @Body() body: ConfirmProjectHandoverRequestDto
+    ): Promise<ConfirmProjectHandoverResult> {
+        return this.projectHandoverCommandService.confirmProjectHandover(handoverId, req.user.sub, body);
     }
 }

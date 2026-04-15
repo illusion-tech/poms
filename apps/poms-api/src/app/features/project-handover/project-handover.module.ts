@@ -7,6 +7,7 @@ import { ContractModule } from '../contract/contract.module';
 import { ProjectModule } from '../project/project.module';
 import { ProjectHandoverController } from './project-handover.controller';
 import { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from './project-handover.entity';
+import { ProjectHandoverCommandService } from './project-handover-command.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 import {
     ContractHandoverRebaselineRecordRepository,
@@ -28,12 +29,14 @@ import {
         ProjectHandoverRepository,
         ContractHandoverRebaselineRecordRepository,
         HandoverBaselineImpactItemRepository,
+        ProjectHandoverCommandService,
         ProjectHandoverQueryService
     ],
     exports: [
         ProjectHandoverRepository,
         ContractHandoverRebaselineRecordRepository,
         HandoverBaselineImpactItemRepository,
+        ProjectHandoverCommandService,
         ProjectHandoverQueryService
     ]
 })
