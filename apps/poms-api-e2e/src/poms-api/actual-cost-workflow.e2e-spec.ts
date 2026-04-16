@@ -32,6 +32,7 @@ import {
     registerLaborCostRecord,
     registerPaymentFactCostRecord,
     registerProcurementCostRecord,
+    replaceAccountingTaxTreatment,
     replaceSharedCostAllocationResult,
     replaceLaborCostRecord
 } from '../support/actual-cost-api';
@@ -95,8 +96,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const allocationResults = await listSharedCostAllocationResults(client, allocationBasis.id);
         const firstAllocationResult = allocationResults[0];
-        const replacementAllocationResult = await replaceSharedCostAllocationResult(client, {
-            supersededAllocationResultId: firstAllocationResult.id,
+        const replacementAllocationResult = await replaceSharedCostAllocationResult(client, firstAllocationResult.id, {
             allocatedAmount: '8200',
             allocationRatio: '1',
             replacementReason: 'Rounded actual shared labor amount',
@@ -104,8 +104,7 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(replacementAllocationResult.resultStatus).toBe('success');
 
-        const stageResult = await confirmCostStageAttribution(client, {
-            costRecordId: costRecord.id,
+        const stageResult = await confirmCostStageAttribution(client, costRecord.id, {
             stageAttributionMode: 'manual',
             attributedStage: 'delivery',
             attributionSummary: 'QA labor belongs to delivery',
@@ -116,8 +115,7 @@ describe('Actual Cost Workflow E2E', () => {
         const stageSnapshot = await getCostStageAttribution(client, stageResult.targetId);
         expect(stageSnapshot.attributedStage).toBe('delivery');
 
-        const reclassifiedStageResult = await reclassifyCostStageAttribution(client, {
-            supersededAttributionId: stageSnapshot.id,
+        const reclassifiedStageResult = await reclassifyCostStageAttribution(client, stageSnapshot.id, {
             newAttributedStage: 'acceptance',
             reclassifyReason: 'QA evidence accepted after delivery',
             expectedVersion: stageSnapshot.rowVersion
@@ -132,8 +130,7 @@ describe('Actual Cost Workflow E2E', () => {
             ])
         );
 
-        const taxResult = await confirmAccountingTaxTreatment(client, {
-            projectId: project.id,
+        const taxResult = await confirmAccountingTaxTreatment(client, project.id, {
             taxTreatmentType: 'input-vat',
             deductibilityStatus: 'pending',
             taxImpactAmount: '800',
@@ -147,15 +144,13 @@ describe('Actual Cost Workflow E2E', () => {
         const taxSnapshot = await getAccountingTaxTreatment(client, taxResult.targetId);
         expect(taxSnapshot.taxImpactPendingAmount).toBe('800.00');
 
-        const replacementTaxResult = await confirmAccountingTaxTreatment(client, {
-            projectId: project.id,
+        const replacementTaxResult = await replaceAccountingTaxTreatment(client, taxSnapshot.id, {
             taxTreatmentType: 'input-vat',
             deductibilityStatus: 'deductible',
             taxImpactAmount: '0',
             taxImpactSummary: 'Input VAT cleared',
             taxPendingFlag: false,
             taxImpactPendingAmount: '0',
-            supersedesTaxTreatmentSnapshotId: taxSnapshot.id,
             expectedVersion: taxSnapshot.rowVersion
         });
         expect(replacementTaxResult.resultStatus).toBe('success');

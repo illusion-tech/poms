@@ -39,6 +39,7 @@ import {
     VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
     ReclassifyCostStageAttributionRequestDto,
+    ReplaceAccountingTaxTreatmentRequestDto,
     ReplaceSharedCostAllocationResultRequestDto
 } from '@poms/api-contracts';
 
@@ -159,7 +160,7 @@ export async function confirmSharedCostAllocationBasis(
     client: AxiosInstance,
     input: ConfirmSharedCostAllocationBasisRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/confirm-shared-cost-allocation-basis', input);
+    const response = await client.post<CommandResult>('/shared-cost-allocation-bases', input);
     return expectStatus(response, 201);
 }
 
@@ -181,25 +182,31 @@ export async function listSharedCostAllocationResults(
 
 export async function replaceSharedCostAllocationResult(
     client: AxiosInstance,
+    supersededAllocationResultId: string,
     input: ReplaceSharedCostAllocationResultRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/replace-shared-cost-allocation-result', input);
+    const response = await client.post<CommandResult>(
+        `/shared-cost-allocation-results/${supersededAllocationResultId}:replace`,
+        input
+    );
     return expectStatus(response, 201);
 }
 
 export async function confirmCostStageAttribution(
     client: AxiosInstance,
+    costRecordId: string,
     input: ConfirmCostStageAttributionRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/confirm-cost-stage-attribution', input);
+    const response = await client.post<CommandResult>(`/project-actual-cost-records/${costRecordId}/stage-attributions`, input);
     return expectStatus(response, 201);
 }
 
 export async function reclassifyCostStageAttribution(
     client: AxiosInstance,
+    supersededAttributionId: string,
     input: ReclassifyCostStageAttributionRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/reclassify-cost-stage-attribution', input);
+    const response = await client.post<CommandResult>(`/cost-stage-attributions/${supersededAttributionId}:reclassify`, input);
     return expectStatus(response, 201);
 }
 
@@ -218,9 +225,22 @@ export async function getCostStageAttribution(client: AxiosInstance, id: string)
 
 export async function confirmAccountingTaxTreatment(
     client: AxiosInstance,
+    projectId: string,
     input: ConfirmAccountingTaxTreatmentRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/confirm-accounting-tax-treatment', input);
+    const response = await client.post<CommandResult>(`/projects/${projectId}/accounting-tax-treatments`, input);
+    return expectStatus(response, 201);
+}
+
+export async function replaceAccountingTaxTreatment(
+    client: AxiosInstance,
+    supersededTaxTreatmentSnapshotId: string,
+    input: ReplaceAccountingTaxTreatmentRequestDto
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(
+        `/accounting-tax-treatments/${supersededTaxTreatmentSnapshotId}:replace`,
+        input
+    );
     return expectStatus(response, 201);
 }
 
