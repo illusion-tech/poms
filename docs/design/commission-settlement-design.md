@@ -537,7 +537,8 @@ flowchart LR
 - `POST /commission/rule-versions/:id/stop`
 - `GET /commission/projects/:projectId/role-assignment`
 - `POST /commission/projects/:projectId/role-assignment`
-- `POST /commission/projects/:projectId/role-assignment/:id/freeze`
+- `GET /commission-role-assignments/:id`
+- `POST /commission-role-assignments/:id:freeze`
 - `GET /commission/projects/:projectId/calculations`
 - `POST /commission/projects/:projectId/calculations/trigger`
 - `POST /commission/projects/:projectId/calculations/:id/effective`
