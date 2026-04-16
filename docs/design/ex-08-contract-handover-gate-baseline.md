@@ -6,6 +6,8 @@
 - Slice Type: `cross-layer-high-risk`
 - G1 Reviewer: `Codex`
 - G1 Date: 2026-04-14
+- G4 Reviewer: `Codex`
+- G4 Date: 2026-04-16
 - Tracker Link / Row: `phase2-development-execution-tracker.md` EX-08 / EX-08A0
 
 ---
@@ -96,7 +98,7 @@
 | `EX-08B3C`  | 快照 / 回款冻结来源收口  | `contract_term_snapshot` 正式来源、`receiptJudgmentMode` 正式冻结来源完成                                                       | 已关闭 E05/E07                                               |
 | `EX-08C1`   | OpenAPI / shared client  | OpenAPI、shared contracts、generated client 同步                                                                                | 已完成；generated client whitespace 阻断已清理               |
 | `EX-08C2`   | 自动化测试               | 单测、migration-check、API E2E 覆盖主路径和关键失败路径                                                                         | 已完成；E2E 使用 seeder 固定数据，不在 api-e2e 直接依赖 `pg` |
-| `EX-08C3`   | 文档回写                 | 设计文档、执行板、进度板、G3/G4 证据回写                                                                                        | 全部完成后父任务 `EX-08` 才可关闭                            |
+| `EX-08C3`   | 文档回写                 | 设计文档、执行板、进度板、G3/G4 证据回写                                                                                        | 已完成；父任务 `EX-08` 已关闭                                |
 
 ---
 
@@ -177,6 +179,7 @@
 | OpenAPI generation / client diff | Yes      | `pnpm nx run poms-api:openapi`; `pnpm nx run shared-api-client:generate` | EX-08C1 Pass 2026-04-15 | 已生成 `ProjectHandoverApi` 与 EX-08 request/result/view models；generator schema warning 归类为既有 tool-noise             |
 | Migration / schema check         | Yes      | `pnpm nx run poms-api:migration-check`                                   | EX-08C2 Pass 2026-04-16 | No changes required，schema is up-to-date                                                                                   |
 | Whitespace                       | Yes      | `git diff --check`                                                       | EX-08C2 Pass 2026-04-16 | 退出码为 0；仅 `.openapi-generator/FILES` 有 CRLF normalization warning，不构成尾随空白阻断                                 |
+| Documentation writeback          | Yes      | tracker / baseline / progress docs                                       | EX-08C3 Pass 2026-04-16 | 已回写 `phase2-development-execution-tracker.md`、`ex-08-contract-handover-gate-baseline.md` 与 `poms-design-progress.md`   |
 
 ---
 
@@ -200,8 +203,31 @@
 - Approved By: `Codex`
 - Approved At: 2026-04-14
 - Conditions:
-  - `EX-08A0` 仅完成实施基线冻结，不代表 `EX-08` 可关闭。
-  - `EX-08B1`、`EX-08B2`、`EX-08B3A`、`EX-08B3B0`、`EX-08B3B1`、`EX-08B3C`、`EX-08C1` 与 `EX-08C2` 已完成，后续进入 `EX-08C3`。
+  - `EX-08A0` 仅完成实施基线冻结，不代表 `EX-08` 可关闭；父任务关闭条件由 `EX-08C3` 统一判定。
+  - `EX-08B1`、`EX-08B2`、`EX-08B3A`、`EX-08B3B0`、`EX-08B3B1`、`EX-08B3C`、`EX-08C1`、`EX-08C2` 与 `EX-08C3` 已完成。
   - `EX-08A1` 已清理 `EX-07` 延迟 FK 例外，`EX-08A2` 已清理摘要快照最小承接例外，`EX-08A3` 已清理多方确认最小承接例外，`EX-08B3B1` 已清理项目级最近再基线化链例外，`EX-08B3C` 已清理物理快照与回款判断冻结来源例外；`EX-08B3` 已完成。
-  - `EX-08C1` 已清理 generated client whitespace 阻断并关闭 `EX-08-E04`；`EX-08C2` 已补齐 seeded HTTP E2E 与 controller 单测。
-  - 父任务 `EX-08` 只有在所有子任务完成、验证通过并完成文档回写后才允许进入 `Done`。
+  - `EX-08C1` 已清理 generated client whitespace 阻断并关闭 `EX-08-E04`；`EX-08C2` 已补齐 seeded HTTP E2E 与 controller 单测；`EX-08C3` 已完成最终文档回写。
+  - 父任务 `EX-08` 已于 2026-04-16 进入 `Done`；`EX-09` 可基于当前交付边界继续推进，但不得把 `EX-08` 输出解释为提成冻结已完成。
+
+---
+
+## 12. G4 结论
+
+- Gate Status: `Pass`
+- Approved By: `Codex`
+- Approved At: 2026-04-16
+- Slice Type: `cross-layer-high-risk`
+- Delivered Boundary:
+  - 已落地 `project_handover`、`contract_handover_rebaseline_record`、`handover_baseline_impact_item`、`approval_summary_*`、`confirmation_*`、`contract_amendment`、`contract_term_snapshot` 与 `project_receipt_judgment_freeze` 的持久化 / entity / repository 承接。
+  - 已落地 `GET /projects/:projectId/contract-handover-summary`、`GET /projects/:projectId/project-handover-detail`、`GET /project-handovers/:handoverId/detail`、`POST /project-handovers/:handoverId/confirm` 与 `POST /contract-handover-rebaselines`。
+  - 已同步 shared contracts、OpenAPI 与 generated client，并补齐 seeded HTTP E2E 覆盖主路径和关键失败路径。
+- Validation Evidence:
+  - `pnpm nx build poms-api` passed.
+  - `pnpm nx build poms-admin` passed.
+  - `pnpm nx test poms-api --runInBand` passed: 29 suites / 320 tests.
+  - `pnpm nx run poms-api-e2e:e2e --runInBand` passed: 10 suites / 58 tests.
+  - `pnpm nx run poms-api:migration-check` passed: No changes required.
+  - `git diff --check` passed; `.openapi-generator/FILES` CRLF normalization warning is classified as `tool-noise`.
+- Downstream Boundary:
+  - `EX-09` 可稳定引用 `sourceHandoverId`、`contractSummarySnapshotId`、`handoverSummarySnapshotId`、`effectiveHandoverBaselineSnapshotId`、`sourceHandoverRebaselineRecordId` 与 `receiptJudgmentFreezeId`。
+  - `EX-08` 不包含提成冻结版本、替代冻结版本链、最终结算或经营 gate 完成语义。
