@@ -11,7 +11,8 @@
       "options": {
         "commands": [
           "powershell -NoProfile -Command \"if (Test-Path 'libs/shared/api-client') { Get-ChildItem 'libs/shared/api-client' -Force | Where-Object { $_.Name -notin @('project.json') } | Remove-Item -Recurse -Force }\"",
-          "corepack pnpm exec openapi-generator-cli generate -c tools/openapi/typescript-angular.config.json --skip-validate-spec"
+          "corepack pnpm exec openapi-generator-cli generate -c tools/openapi/typescript-angular.config.json --skip-validate-spec",
+          "powershell -NoProfile -File tools/openapi/normalize-line-endings.ps1 libs/shared/api-client"
         ],
         "parallel": false
       },
@@ -19,9 +20,9 @@
     },
     "check": {
       "executor": "nx:run-commands",
-      "dependsOn": ["generate"],
+      "dependsOn": ["poms-api:openapi"],
       "options": {
-        "command": "git diff --exit-code -- libs/shared/api-client"
+        "command": "powershell -NoProfile -File tools/openapi/check-shared-api-client.ps1"
       }
     }
   }

@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -6,6 +7,8 @@ api/api.ts
 api/app.service.ts
 api/approval.service.ts
 api/auth.service.ts
+api/commission-freeze-change-requests.service.ts
+api/commission-freeze-disputes.service.ts
 api/commission-role-assignments.service.ts
 api/commission.service.ts
 api/contract-finance.service.ts
@@ -28,6 +31,8 @@ model/activate-operating-baseline-package-request.ts
 model/approval-record-summary.ts
 model/approve-commission-payout-request.ts
 model/approve-record-request.ts
+model/arbitrate-commission-freeze-dispute-request.ts
+model/arbitrate-commission-freeze-dispute-result.ts
 model/assign-role-permissions-request.ts
 model/assign-user-org-memberships-request.ts
 model/assign-user-roles-request.ts
@@ -47,6 +52,9 @@ model/commercial-release-baseline-summary.ts
 model/commission-adjustment-summary.ts
 model/commission-adjustment-type.ts
 model/commission-calculation-summary.ts
+model/commission-freeze-change-request-detail-view.ts
+model/commission-freeze-dispute-arbitration-status.ts
+model/commission-freeze-dispute-detail-view.ts
 model/commission-payout-stage.ts
 model/commission-payout-summary.ts
 model/commission-payout-tier.ts
@@ -172,6 +180,7 @@ model/register-procurement-cost-record-request.ts
 model/reject-approval-record-request.ts
 model/replace-labor-cost-record-request.ts
 model/replace-shared-cost-allocation-result-request.ts
+model/replacement-commission-role-assignment-payload.ts
 model/resolve-invoice-exception-request.ts
 model/review-commercial-release-baseline-diff-request.ts
 model/sanitized-user-with-org-units.ts
@@ -181,6 +190,8 @@ model/security-event-summary.ts
 model/shared-cost-allocation-basis-summary.ts
 model/shared-cost-allocation-result-summary.ts
 model/submit-commission-adjustment-approval-request.ts
+model/submit-commission-freeze-dispute-request.ts
+model/submit-commission-freeze-dispute-result.ts
 model/submit-commission-payout-approval-request.ts
 model/submit-contract-review-request.ts
 model/todo-item-summary.ts

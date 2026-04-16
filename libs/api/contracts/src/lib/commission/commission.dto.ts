@@ -1,7 +1,11 @@
 import {
+    ArbitrateCommissionFreezeDisputeRequestSchema,
+    ArbitrateCommissionFreezeDisputeResultSchema,
     ApproveCommissionPayoutRequestSchema,
     CommissionAdjustmentSummarySchema,
     CommissionCalculationSummarySchema,
+    CommissionFreezeChangeRequestDetailViewSchema,
+    CommissionFreezeDisputeDetailViewSchema,
     CommissionRoleAssignmentDetailViewSchema,
     CommissionPayoutSummarySchema,
     CommissionRoleAssignmentSummarySchema,
@@ -17,6 +21,8 @@ import {
     FreezeCommissionRoleAssignmentResultSchema,
     RecalculateCommissionRequestSchema,
     RegisterCommissionPayoutRequestSchema,
+    SubmitCommissionFreezeDisputeRequestSchema,
+    SubmitCommissionFreezeDisputeResultSchema,
     SubmitCommissionAdjustmentApprovalRequestSchema,
     SubmitCommissionPayoutApprovalRequestSchema
 } from '@poms/shared-contracts';
@@ -40,6 +46,18 @@ export class FreezeCommissionRoleAssignmentRequestDto extends createZodDto(Freez
 export class FreezeCommissionRoleAssignmentResultDto extends createZodDto(FreezeCommissionRoleAssignmentResultSchema) {}
 
 export class CommissionRoleAssignmentDetailViewDto extends createZodDto(CommissionRoleAssignmentDetailViewSchema) {}
+
+export class SubmitCommissionFreezeDisputeRequestDto extends createZodDto(SubmitCommissionFreezeDisputeRequestSchema) {}
+
+export class SubmitCommissionFreezeDisputeResultDto extends createZodDto(SubmitCommissionFreezeDisputeResultSchema) {}
+
+export class CommissionFreezeDisputeDetailViewDto extends createZodDto(CommissionFreezeDisputeDetailViewSchema) {}
+
+export class ArbitrateCommissionFreezeDisputeRequestDto extends createZodDto(ArbitrateCommissionFreezeDisputeRequestSchema) {}
+
+export class ArbitrateCommissionFreezeDisputeResultDto extends createZodDto(ArbitrateCommissionFreezeDisputeResultSchema) {}
+
+export class CommissionFreezeChangeRequestDetailViewDto extends createZodDto(CommissionFreezeChangeRequestDetailViewSchema) {}
 
 export class CommissionCalculationSummaryDto extends createZodDto(CommissionCalculationSummarySchema) {}
 

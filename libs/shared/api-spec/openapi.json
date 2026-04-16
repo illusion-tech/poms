@@ -5540,6 +5540,161 @@
           "Commission Role Assignments"
         ]
       }
+    },
+    "/api/commission-freeze-disputes": {
+      "post": {
+        "operationId": "CommissionFreezeDisputeController_submitCommissionFreezeDispute",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitCommissionFreezeDisputeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitCommissionFreezeDisputeResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "提交提成冻结后争议",
+        "tags": [
+          "Commission Freeze Disputes"
+        ]
+      }
+    },
+    "/api/commission-freeze-disputes/{id}": {
+      "get": {
+        "operationId": "CommissionFreezeDisputeController_getCommissionFreezeDispute",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionFreezeDisputeDetailView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取提成冻结争议详情",
+        "tags": [
+          "Commission Freeze Disputes"
+        ]
+      }
+    },
+    "/api/commission-freeze-disputes/{id}:arbitrate": {
+      "post": {
+        "operationId": "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArbitrateCommissionFreezeDisputeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArbitrateCommissionFreezeDisputeResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "仲裁提成冻结争议并生成受控变更链",
+        "tags": [
+          "Commission Freeze Disputes"
+        ]
+      }
+    },
+    "/api/commission-freeze-change-requests/{id}": {
+      "get": {
+        "operationId": "CommissionFreezeChangeRequestController_getCommissionFreezeChangeRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionFreezeChangeRequestDetailView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取提成冻结受控变更详情",
+        "tags": [
+          "Commission Freeze Change Requests"
+        ]
+      }
     }
   },
   "info": {
@@ -14931,6 +15086,422 @@
           "exportPolicy"
         ],
         "id": "FreezeCommissionRoleAssignmentResult"
+      },
+      "SubmitCommissionFreezeDisputeRequest": {
+        "type": "object",
+        "properties": {
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputeReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "affectedAssignmentIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "recalculationImpactMode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "freezeVersionId",
+          "disputeReason",
+          "affectedAssignmentIds",
+          "recalculationImpactMode"
+        ],
+        "id": "SubmitCommissionFreezeDisputeRequest"
+      },
+      "SubmitCommissionFreezeDisputeResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputeRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "disputeRecordId",
+          "freezeVersionId",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "businessStatusAfter"
+        ],
+        "id": "SubmitCommissionFreezeDisputeResult"
+      },
+      "CommissionFreezeDisputeArbitrationStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "arbitrated"
+        ],
+        "id": "CommissionFreezeDisputeArbitrationStatus"
+      },
+      "CommissionFreezeDisputeDetailView": {
+        "type": "object",
+        "properties": {
+          "disputeRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "disputeReason": {
+            "type": "string"
+          },
+          "affectedAssignmentSummary": {
+            "type": "string"
+          },
+          "arbitrationStatus": {
+            "$ref": "#/components/schemas/CommissionFreezeDisputeArbitrationStatus"
+          },
+          "recalculationImpactMode": {
+            "type": "string"
+          },
+          "impactAssessmentSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "disputeRecordId",
+          "projectId",
+          "freezeVersionId",
+          "rowVersion",
+          "disputeReason",
+          "affectedAssignmentSummary",
+          "arbitrationStatus",
+          "recalculationImpactMode",
+          "impactAssessmentSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "status",
+          "handledAt",
+          "allowedActions",
+          "generatedAt"
+        ],
+        "id": "CommissionFreezeDisputeDetailView"
+      },
+      "ReplacementCommissionRoleAssignmentPayload": {
+        "type": "object",
+        "properties": {
+          "participants": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "displayName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "roleType": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "userId",
+                "displayName",
+                "roleType",
+                "weight"
+              ]
+            }
+          }
+        },
+        "required": [
+          "participants"
+        ],
+        "id": "ReplacementCommissionRoleAssignmentPayload"
+      },
+      "ArbitrateCommissionFreezeDisputeRequest": {
+        "type": "object",
+        "properties": {
+          "arbitrationDecision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "replacementAssignmentPayload": {
+            "$ref": "#/components/schemas/ReplacementCommissionRoleAssignmentPayload",
+            "nullable": true
+          },
+          "recalculationImpactMode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "arbitrationDecision",
+          "recalculationImpactMode"
+        ],
+        "id": "ArbitrateCommissionFreezeDisputeRequest"
+      },
+      "ArbitrateCommissionFreezeDisputeResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputeRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "changeRequestId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersededFreezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "replacementFreezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "affectedCalculationSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedPayoutSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "riskFlagSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatus": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "disputeRecordId",
+          "changeRequestId",
+          "supersededFreezeVersionId",
+          "replacementFreezeVersionId",
+          "affectedCalculationSummary",
+          "affectedPayoutSummary",
+          "riskFlagSummary",
+          "resultStatus"
+        ],
+        "id": "ArbitrateCommissionFreezeDisputeResult"
+      },
+      "CommissionFreezeChangeRequestDetailView": {
+        "type": "object",
+        "properties": {
+          "changeRequestId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputeRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersededFreezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "replacementFreezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "arbitrationDecision": {
+            "type": "string"
+          },
+          "recalculationImpactMode": {
+            "type": "string"
+          },
+          "affectedCalculationSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedPayoutSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "riskFlagSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "changeRequestId",
+          "disputeRecordId",
+          "supersededFreezeVersionId",
+          "replacementFreezeVersionId",
+          "arbitrationDecision",
+          "recalculationImpactMode",
+          "affectedCalculationSummary",
+          "affectedPayoutSummary",
+          "riskFlagSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "status",
+          "handledAt",
+          "generatedAt"
+        ],
+        "id": "CommissionFreezeChangeRequestDetailView"
       }
     }
   }

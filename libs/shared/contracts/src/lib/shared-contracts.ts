@@ -2050,6 +2050,122 @@ export const CommissionRoleAssignmentDetailViewSchema = z
 
 export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
+export const CommissionFreezeDisputeArbitrationStatusSchema = z
+    .enum(['pending', 'arbitrated'])
+    .meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
+
+export type CommissionFreezeDisputeArbitrationStatus = z.infer<typeof CommissionFreezeDisputeArbitrationStatusSchema>;
+
+export const ReplacementCommissionRoleAssignmentPayloadSchema = z
+    .object({
+        participants: z.array(CommissionParticipantSchema).min(1)
+    })
+    .meta({ id: 'ReplacementCommissionRoleAssignmentPayload' });
+
+export type ReplacementCommissionRoleAssignmentPayload = z.infer<typeof ReplacementCommissionRoleAssignmentPayloadSchema>;
+
+export const SubmitCommissionFreezeDisputeRequestSchema = z
+    .object({
+        freezeVersionId: z.uuid(),
+        disputeReason: z.string().trim().min(1).max(1000),
+        affectedAssignmentIds: z.array(z.uuid()).min(1),
+        recalculationImpactMode: z.string().trim().min(1).max(64),
+        comment: z.string().trim().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'SubmitCommissionFreezeDisputeRequest' });
+
+export type SubmitCommissionFreezeDisputeRequest = z.infer<typeof SubmitCommissionFreezeDisputeRequestSchema>;
+
+export const SubmitCommissionFreezeDisputeResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        disputeRecordId: z.uuid(),
+        freezeVersionId: z.uuid(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string(),
+        businessStatusAfter: z.string().min(1)
+    })
+    .meta({ id: 'SubmitCommissionFreezeDisputeResult' });
+
+export type SubmitCommissionFreezeDisputeResult = z.infer<typeof SubmitCommissionFreezeDisputeResultSchema>;
+
+export const CommissionFreezeDisputeDetailViewSchema = z
+    .object({
+        disputeRecordId: z.uuid(),
+        projectId: z.uuid(),
+        freezeVersionId: z.uuid(),
+        rowVersion: z.number().int().positive(),
+        disputeReason: z.string(),
+        affectedAssignmentSummary: z.string(),
+        arbitrationStatus: CommissionFreezeDisputeArbitrationStatusSchema,
+        recalculationImpactMode: z.string(),
+        impactAssessmentSummary: z.string().nullable(),
+        summaryPackageKey: z.string(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string(),
+        status: z.string(),
+        handledAt: z.iso.datetime(),
+        allowedActions: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionFreezeDisputeDetailView' });
+
+export type CommissionFreezeDisputeDetailView = z.infer<typeof CommissionFreezeDisputeDetailViewSchema>;
+
+export const ArbitrateCommissionFreezeDisputeRequestSchema = z
+    .object({
+        arbitrationDecision: z.string().trim().min(1).max(64),
+        replacementAssignmentPayload: ReplacementCommissionRoleAssignmentPayloadSchema.nullable().optional(),
+        recalculationImpactMode: z.string().trim().min(1).max(64),
+        comment: z.string().trim().max(1000).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ArbitrateCommissionFreezeDisputeRequest' });
+
+export type ArbitrateCommissionFreezeDisputeRequest = z.infer<typeof ArbitrateCommissionFreezeDisputeRequestSchema>;
+
+export const ArbitrateCommissionFreezeDisputeResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        disputeRecordId: z.uuid(),
+        changeRequestId: z.uuid(),
+        supersededFreezeVersionId: z.uuid(),
+        replacementFreezeVersionId: z.uuid().nullable(),
+        affectedCalculationSummary: z.string().nullable(),
+        affectedPayoutSummary: z.string().nullable(),
+        riskFlagSummary: z.string().nullable(),
+        resultStatus: z.string().min(1)
+    })
+    .meta({ id: 'ArbitrateCommissionFreezeDisputeResult' });
+
+export type ArbitrateCommissionFreezeDisputeResult = z.infer<typeof ArbitrateCommissionFreezeDisputeResultSchema>;
+
+export const CommissionFreezeChangeRequestDetailViewSchema = z
+    .object({
+        changeRequestId: z.uuid(),
+        disputeRecordId: z.uuid(),
+        supersededFreezeVersionId: z.uuid(),
+        replacementFreezeVersionId: z.uuid().nullable(),
+        arbitrationDecision: z.string(),
+        recalculationImpactMode: z.string(),
+        affectedCalculationSummary: z.string().nullable(),
+        affectedPayoutSummary: z.string().nullable(),
+        riskFlagSummary: z.string().nullable(),
+        summaryPackageKey: z.string(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string(),
+        status: z.string(),
+        handledAt: z.iso.datetime(),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionFreezeChangeRequestDetailView' });
+
+export type CommissionFreezeChangeRequestDetailView = z.infer<typeof CommissionFreezeChangeRequestDetailViewSchema>;
+
 // ---------------------------------------------------------------------------
 // Commission — Calculation
 // ---------------------------------------------------------------------------
