@@ -68,7 +68,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 确认项目移交
-     * @endpoint post /api/project-handovers/{handoverId}/confirm
+     * @endpoint post /api/project-handovers/{handoverId}:confirm
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -124,7 +124,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/confirm`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ConfirmProjectHandoverResult>('post', `${basePath}${localVarPath}`,
             {
@@ -142,7 +142,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 获取项目合同承接摘要
-     * @endpoint get /api/projects/{projectId}/contract-handover-summary
+     * @endpoint get /api/projects/{projectId}/contract-handover
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -185,7 +185,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/contract-handover-summary`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/contract-handover`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ContractHandoverSummaryView>('get', `${basePath}${localVarPath}`,
             {
@@ -202,7 +202,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 获取指定移交详情
-     * @endpoint get /api/project-handovers/{handoverId}/detail
+     * @endpoint get /api/project-handovers/{handoverId}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -245,7 +245,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/detail`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectHandoverDetailView>('get', `${basePath}${localVarPath}`,
             {
@@ -262,7 +262,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 获取项目最新移交详情
-     * @endpoint get /api/projects/{projectId}/project-handover-detail
+     * @endpoint get /api/projects/{projectId}/project-handover
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -305,7 +305,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/project-handover-detail`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/project-handover`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectHandoverDetailView>('get', `${basePath}${localVarPath}`,
             {

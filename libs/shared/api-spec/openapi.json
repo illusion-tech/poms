@@ -3586,7 +3586,7 @@
         ]
       }
     },
-    "/api/projects/{projectId}/contract-handover-summary": {
+    "/api/projects/{projectId}/contract-handover": {
       "get": {
         "operationId": "ProjectHandoverController_getContractHandoverSummary",
         "parameters": [
@@ -3622,7 +3622,7 @@
         ]
       }
     },
-    "/api/projects/{projectId}/project-handover-detail": {
+    "/api/projects/{projectId}/project-handover": {
       "get": {
         "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
         "parameters": [
@@ -3658,7 +3658,7 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}/detail": {
+    "/api/project-handovers/{handoverId}": {
       "get": {
         "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
         "parameters": [
@@ -3694,7 +3694,7 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}/confirm": {
+    "/api/project-handovers/{handoverId}:confirm": {
       "post": {
         "operationId": "ProjectHandoverController_confirmProjectHandover",
         "parameters": [
