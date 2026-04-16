@@ -5,6 +5,11 @@ import type {
     AccountingTaxTreatmentSnapshotSummary,
     CommandResult,
     CostStageAttributionHistoryView,
+    CreateExpenseProjectActualCostRecordRequest,
+    CreateInvoiceProjectActualCostRecordRequest,
+    CreateLaborProjectActualCostRecordRequest,
+    CreatePaymentFactProjectActualCostRecordRequest,
+    CreateProcurementProjectActualCostRecordRequest,
     CostStageAttributionSnapshotSummary,
     ExpenseRecordDetailView,
     ExpenseRecordList,
@@ -16,6 +21,7 @@ import type {
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView,
     ProjectOperatingSnapshotSummary,
+    ReplaceLaborCostRecordRequest,
     SharedCostAllocationBasisSummary,
     SharedCostAllocationResultListView
 } from '@poms/shared-contracts';
@@ -33,13 +39,7 @@ import {
     VoidExpenseRecordRequestDto,
     PublishInternalCostRateVersionRequestDto,
     ReclassifyCostStageAttributionRequestDto,
-    RegisterExpenseCostRecordRequestDto,
-    RegisterInvoiceCostRecordRequestDto,
-    RegisterLaborCostRecordRequestDto,
-    RegisterPaymentFactCostRecordRequestDto,
-    RegisterProcurementCostRecordRequestDto,
-    ReplaceSharedCostAllocationResultRequestDto,
-    ReplaceLaborCostRecordRequestDto
+    ReplaceSharedCostAllocationResultRequestDto
 } from '@poms/api-contracts';
 
 export async function publishInternalCostRateVersion(client: AxiosInstance, input: PublishInternalCostRateVersionRequestDto): Promise<CommandResult> {
@@ -47,26 +47,51 @@ export async function publishInternalCostRateVersion(client: AxiosInstance, inpu
     return expectStatus(response, 201);
 }
 
-export async function registerPaymentFactCostRecord(client: AxiosInstance, input: RegisterPaymentFactCostRecordRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-actual-cost-records/register-payment-fact', input);
+export async function registerPaymentFactCostRecord(
+    client: AxiosInstance,
+    projectId: string,
+    input: Omit<CreatePaymentFactProjectActualCostRecordRequest, 'costType'>
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
+        costType: 'PAYMENT_FACT',
+        ...input
+    });
     return expectStatus(response, 201);
 }
 
-export async function registerInvoiceCostRecord(client: AxiosInstance, input: RegisterInvoiceCostRecordRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-actual-cost-records/register-invoice', input);
+export async function registerInvoiceCostRecord(
+    client: AxiosInstance,
+    projectId: string,
+    input: Omit<CreateInvoiceProjectActualCostRecordRequest, 'costType'>
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
+        costType: 'INVOICE',
+        ...input
+    });
     return expectStatus(response, 201);
 }
 
-export async function registerExpenseCostRecord(client: AxiosInstance, input: RegisterExpenseCostRecordRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-actual-cost-records/register-expense', input);
+export async function registerExpenseCostRecord(
+    client: AxiosInstance,
+    projectId: string,
+    input: Omit<CreateExpenseProjectActualCostRecordRequest, 'costType'>
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
+        costType: 'EXPENSE',
+        ...input
+    });
     return expectStatus(response, 201);
 }
 
 export async function registerProcurementCostRecord(
     client: AxiosInstance,
-    input: RegisterProcurementCostRecordRequestDto
+    projectId: string,
+    input: Omit<CreateProcurementProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-actual-cost-records/register-procurement', input);
+    const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
+        costType: 'PROCUREMENT',
+        ...input
+    });
     return expectStatus(response, 201);
 }
 
@@ -273,12 +298,23 @@ export async function getProjectActualCostRecordDetail(client: AxiosInstance, id
     return expectStatus(response, 200);
 }
 
-export async function registerLaborCostRecord(client: AxiosInstance, input: RegisterLaborCostRecordRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/register-labor-cost-record', input);
+export async function registerLaborCostRecord(
+    client: AxiosInstance,
+    projectId: string,
+    input: Omit<CreateLaborProjectActualCostRecordRequest, 'costType'>
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
+        costType: 'LABOR',
+        ...input
+    });
     return expectStatus(response, 201);
 }
 
-export async function replaceLaborCostRecord(client: AxiosInstance, input: ReplaceLaborCostRecordRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/replace-labor-cost-record', input);
+export async function replaceLaborCostRecord(
+    client: AxiosInstance,
+    id: string,
+    input: ReplaceLaborCostRecordRequest
+): Promise<CommandResult> {
+    const response = await client.post<CommandResult>(`/project-actual-cost-records/${id}:replace`, input);
     return expectStatus(response, 201);
 }

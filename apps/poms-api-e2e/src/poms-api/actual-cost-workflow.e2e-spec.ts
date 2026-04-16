@@ -63,8 +63,7 @@ describe('Actual Cost Workflow E2E', () => {
         });
         const rateVersionId = publishRateResult.targetId;
 
-        const registerLaborResult = await registerLaborCostRecord(client, {
-            projectId: project.id,
+        const registerLaborResult = await registerLaborCostRecord(client, project.id, {
             laborPeriodType: 'MONTH',
             laborPeriodStart: '2023-08-01',
             laborPeriodEnd: '2023-08-31',
@@ -294,8 +293,7 @@ describe('Actual Cost Workflow E2E', () => {
         expect(publishRateResult.resultStatus).toBe('success');
         const rateVersionId = publishRateResult.targetId;
 
-        const registerLaborResult = await registerLaborCostRecord(client, {
-            projectId: project.id,
+        const registerLaborResult = await registerLaborCostRecord(client, project.id, {
             laborPeriodType: 'MONTH',
             laborPeriodStart: '2023-01-01',
             laborPeriodEnd: '2023-01-31',
@@ -306,8 +304,7 @@ describe('Actual Cost Workflow E2E', () => {
         expect(registerLaborResult.resultStatus).toBe('success');
         const recordId = registerLaborResult.targetId;
 
-        const replaceLaborResult = await replaceLaborCostRecord(client, {
-            supersedesRecordId: recordId,
+        const replaceLaborResult = await replaceLaborCostRecord(client, recordId, {
             laborPeriodStart: '2023-01-01',
             laborPeriodEnd: '2023-01-31',
             rateVersionId,
@@ -341,12 +338,11 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(confirmedPayment.status).toBe('confirmed');
 
-        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, {
+        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, project.id, {
             paymentRecordId: payment.id,
-            projectId: project.id,
             costDescription: 'mapped from payment confirmation',
             evidenceSummary: 'bank slip attached',
-            expectedVersion: confirmedPayment.rowVersion
+            expectedSourceVersion: confirmedPayment.rowVersion
         });
         expect(registerPaymentFactResult.resultStatus).toBe('success');
 
@@ -396,13 +392,12 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(verifiedInvoice.status).toBe('verified');
 
-        const registerInvoiceResult = await registerInvoiceCostRecord(client, {
+        const registerInvoiceResult = await registerInvoiceCostRecord(client, project.id, {
             invoiceRecordId: invoice.id,
-            projectId: project.id,
             costDescription: 'mapped from verified invoice',
             evidenceSummary: 'invoice pdf archived',
             taxImpactSummary: 'vat pending deduction',
-            expectedVersion: verifiedInvoice.rowVersion
+            expectedSourceVersion: verifiedInvoice.rowVersion
         });
         expect(registerInvoiceResult.resultStatus).toBe('success');
 
@@ -534,13 +529,12 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(confirmedExpense.status).toBe('confirmed');
 
-        const registerExpenseResult = await registerExpenseCostRecord(client, {
+        const registerExpenseResult = await registerExpenseCostRecord(client, project.id, {
             expenseRecordId: createdExpense.id,
-            projectId: project.id,
             costDescription: 'mapped from confirmed expense',
             evidenceSummary: 'receipt archived',
             taxImpactSummary: 'manual expense pending tax review',
-            expectedVersion: confirmedExpense.rowVersion
+            expectedSourceVersion: confirmedExpense.rowVersion
         });
         expect(registerExpenseResult.resultStatus).toBe('success');
 
@@ -593,13 +587,12 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(payable.status).toBe('recorded');
 
-        const registerProcurementResult = await registerProcurementCostRecord(client, {
+        const registerProcurementResult = await registerProcurementCostRecord(client, project.id, {
             payableRecordId: payable.id,
-            projectId: project.id,
             costDescription: 'mapped from approved commitment',
             evidenceSummary: 'quotation archived',
             taxImpactSummary: 'tax impact pending invoice',
-            expectedVersion: payable.rowVersion
+            expectedSourceVersion: payable.rowVersion
         });
         expect(registerProcurementResult.resultStatus).toBe('success');
 
@@ -657,12 +650,11 @@ describe('Actual Cost Workflow E2E', () => {
             expectedVersion: payment.rowVersion
         });
 
-        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, {
+        const registerPaymentFactResult = await registerPaymentFactCostRecord(client, project.id, {
             paymentRecordId: payment.id,
-            projectId: project.id,
             costDescription: 'mapped from follow-up payment',
             evidenceSummary: 'bank slip attached',
-            expectedVersion: confirmedPayment.rowVersion
+            expectedSourceVersion: confirmedPayment.rowVersion
         });
         expect(registerPaymentFactResult.resultStatus).toBe('success');
 
