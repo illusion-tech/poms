@@ -1,4 +1,4 @@
-import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionService } from './commission.service';
 import type { CommissionRepository } from './commission.repository';
 
@@ -8,6 +8,11 @@ const CALCULATION_ID = '52000000-0000-4000-8000-000000000001';
 const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
 const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
+const HANDOVER_ID = '61000000-0000-4000-8000-000000000001';
+const HANDOVER_SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
+const CONTRACT_SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000002';
+const EFFECTIVE_BASELINE_SNAPSHOT_ID = '63000000-0000-4000-8000-000000000001';
+const HANDOVER_REBASELINE_RECORD_ID = '64000000-0000-4000-8000-000000000001';
 
 const makeDraftRule = (overrides: Record<string, unknown> = {}) => ({
     id: RULE_VERSION_ID,
@@ -30,6 +35,7 @@ const makeDraftAssignment = (overrides: Record<string, unknown> = {}) => ({
     id: ASSIGNMENT_ID,
     projectId: PROJECT_ID,
     version: 1,
+    rowVersion: 1,
     isCurrent: true,
     status: 'draft',
     participantsJson: [{ userId: '00000000-0000-4000-8000-000000000010', displayName: '张三', roleType: 'PM', weight: 1.0 }],
@@ -43,6 +49,61 @@ const makeDraftAssignment = (overrides: Record<string, unknown> = {}) => ({
     supersedesId: null,
     createdAt: new Date('2026-03-25T10:00:00Z'),
     updatedAt: new Date('2026-03-25T10:00:00Z'),
+    ...overrides
+});
+
+const makeConfirmedHandover = (overrides: Record<string, unknown> = {}) => ({
+    id: HANDOVER_ID,
+    projectId: PROJECT_ID,
+    contractSummarySnapshotId: CONTRACT_SUMMARY_SNAPSHOT_ID,
+    effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID,
+    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
+    status: 'confirmed',
+    confirmedAt: new Date('2026-03-25T10:00:00Z'),
+    confirmedBy: 'user-1',
+    comment: 'handover confirmed',
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    updatedAt: new Date('2026-03-25T10:00:00Z'),
+    ...overrides
+});
+
+const makeApprovalSummarySnapshot = (overrides: Record<string, unknown> = {}) => ({
+    id: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    targetType: 'ProjectHandover',
+    targetId: HANDOVER_ID,
+    approvalScenarioKey: 'project-handover-confirmation',
+    summaryPackageKey: 'project-handover-confirmation',
+    projectionLevel: 'handover-confirmation',
+    exportPolicy: 'handover-controlled',
+    status: 'active',
+    supersedesId: null,
+    snapshotJson: { sections: [] },
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    createdBy: 'user-1',
+    updatedAt: new Date('2026-03-25T10:00:00Z'),
+    updatedBy: 'user-1',
+    rowVersion: 1,
+    ...overrides
+});
+
+const makeReceiptJudgmentFreeze = (overrides: Record<string, unknown> = {}) => ({
+    id: '65000000-0000-4000-8000-000000000001',
+    projectId: PROJECT_ID,
+    receiptJudgmentMode: 'net-receipt',
+    sourceType: 'project-handover',
+    sourceId: HANDOVER_ID,
+    sourceHandoverId: HANDOVER_ID,
+    sourceHandoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    sourceHandoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
+    isCurrent: true,
+    frozenAt: new Date('2026-03-25T10:00:00Z'),
+    frozenBy: 'user-1',
+    supersedesId: null,
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    updatedAt: new Date('2026-03-25T10:00:00Z'),
+    rowVersion: 1,
     ...overrides
 });
 
@@ -131,6 +192,9 @@ describe('CommissionService', () => {
             findActiveContractsForProject: jest.fn(),
             findConfirmedReceiptsForProject: jest.fn(),
             findConfirmedPaymentsForProject: jest.fn(),
+            findProjectHandoverById: jest.fn(),
+            findCurrentReceiptJudgmentFreeze: jest.fn(),
+            findApprovalSummarySnapshotById: jest.fn(),
             findAllRuleVersions: jest.fn(),
             findRuleVersionById: jest.fn(),
             findRuleVersionByCodeAndVersion: jest.fn(),
@@ -299,6 +363,37 @@ describe('CommissionService', () => {
         });
     });
 
+    describe('getRoleAssignmentDetail', () => {
+        it('returns detail view with traceability fields', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({
+                    status: 'frozen',
+                    sourceHandoverId: HANDOVER_ID,
+                    sourceHandoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
+                    contractSummarySnapshotId: CONTRACT_SUMMARY_SNAPSHOT_ID,
+                    handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+                    effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID,
+                    frozenAt: new Date('2026-03-25T10:00:00Z')
+                }) as never
+            );
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(makeReceiptJudgmentFreeze() as never);
+
+            const result = await service.getRoleAssignmentDetail(ASSIGNMENT_ID);
+
+            expect(result.roleAssignmentId).toBe(ASSIGNMENT_ID);
+            expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
+            expect(result.effectiveHandoverBaselineSummary.status).toBe('available');
+            expect(result.allowedActions).toEqual(['submit-commission-role-change']);
+        });
+
+        it('throws NotFoundException when role assignment detail target is missing', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(null);
+
+            await expect(service.getRoleAssignmentDetail(ASSIGNMENT_ID)).rejects.toThrow(NotFoundException);
+        });
+    });
+
     describe('createRoleAssignment', () => {
         it('creates first assignment at version 1', async () => {
             repo.findCurrentRoleAssignment.mockResolvedValue(null);
@@ -369,6 +464,63 @@ describe('CommissionService', () => {
             repo.findProjectById.mockResolvedValue(makeProject({ currentStage: 'negotiation' }) as never);
 
             await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
+        });
+    });
+
+    describe('freezeCommissionRoleAssignment', () => {
+        it('freezes assignment against confirmed handover chain', async () => {
+            const assignment = makeDraftAssignment();
+            const handover = makeConfirmedHandover();
+            const summarySnapshot = makeApprovalSummarySnapshot();
+            const receiptFreeze = makeReceiptJudgmentFreeze();
+
+            repo.findRoleAssignmentById.mockResolvedValue(assignment as never);
+            repo.findProjectHandoverById.mockResolvedValue(handover as never);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(summarySnapshot as never);
+            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(receiptFreeze as never);
+            repo.flushRoleAssignment.mockResolvedValue();
+
+            const result = await service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
+                sourceHandoverId: HANDOVER_ID,
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+                expectedVersion: 1
+            });
+
+            expect(assignment.status).toBe('frozen');
+            expect(assignment.sourceHandoverId).toBe(HANDOVER_ID);
+            expect(assignment.contractSummarySnapshotId).toBe(CONTRACT_SUMMARY_SNAPSHOT_ID);
+            expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
+            expect(result.businessStatusAfter).toBe('frozen');
+        });
+
+        it('rejects freeze when handover summary snapshot mismatches the requested chain', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
+            repo.findProjectHandoverById.mockResolvedValue(
+                makeConfirmedHandover({ summarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never
+            );
+
+            await expect(
+                service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
+                    sourceHandoverId: HANDOVER_ID,
+                    handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(BadRequestException);
+        });
+
+        it('rejects freeze when current receipt judgment freeze does not align with handover chain', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
+            repo.findProjectHandoverById.mockResolvedValue(makeConfirmedHandover() as never);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(
+                makeReceiptJudgmentFreeze({ sourceHandoverSummarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never
+            );
+
+            await expect(
+                service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
+                    sourceHandoverId: HANDOVER_ID,
+                    handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(BadRequestException);
         });
     });
 

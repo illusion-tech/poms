@@ -3,6 +3,7 @@ import type {
     CommissionAdjustmentSummary,
     CommissionAdjustmentType,
     CommissionCalculationSummary,
+    CommissionRoleAssignmentDetailView,
     CommissionPayoutStage,
     CommissionPayoutSummary,
     CommissionPayoutTier,
@@ -15,11 +16,13 @@ import type {
     CreateCommissionRoleAssignmentRequest,
     CreateCommissionRuleVersionRequest,
     ExecuteCommissionAdjustmentRequest,
+    FreezeCommissionRoleAssignmentRequest,
+    FreezeCommissionRoleAssignmentResult,
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
     SubmitCommissionPayoutApprovalRequest
 } from '@poms/shared-contracts';
-import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 import { CommissionPayout } from './commission-payout.entity';
@@ -34,6 +37,8 @@ const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTie
 };
 
 const ROLE_FREEZE_ALLOWED_STAGES = new Set(['handover', 'execution', 'acceptance', 'completed']);
+const FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION = 'freeze-commission-role-assignment';
+const SUBMIT_COMMISSION_ROLE_CHANGE_ACTION = 'submit-commission-role-change';
 
 @Injectable()
 export class CommissionService {
@@ -109,6 +114,37 @@ export class CommissionService {
         return entity ? this.#toRoleAssignmentSummary(entity) : null;
     }
 
+    async getRoleAssignmentDetail(id: string): Promise<CommissionRoleAssignmentDetailView> {
+        const entity = await this.repo.findRoleAssignmentById(id);
+        if (!entity) {
+            throw new NotFoundException(`CommissionRoleAssignment ${id} not found`);
+        }
+
+        const [handoverSummarySnapshot, receiptJudgmentFreeze] = await Promise.all([
+            entity.handoverSummarySnapshotId
+                ? this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
+                : Promise.resolve(null),
+            this.repo.findCurrentReceiptJudgmentFreeze(entity.projectId)
+        ]);
+
+        return {
+            roleAssignmentId: entity.id,
+            projectId: entity.projectId,
+            freezeVersionSummary: this.#toRoleAssignmentSummary(entity),
+            sourceHandoverId: entity.sourceHandoverId ?? null,
+            contractSummarySnapshotId: entity.contractSummarySnapshotId ?? null,
+            handoverSummarySnapshotId: entity.handoverSummarySnapshotId ?? null,
+            effectiveHandoverBaselineSummary: this.#buildEffectiveHandoverBaselineSummary(entity),
+            receiptJudgmentModeSummary: this.#buildReceiptJudgmentModeSummary(receiptJudgmentFreeze),
+            summaryPackageKey: handoverSummarySnapshot?.summaryPackageKey ?? null,
+            summarySnapshotId: handoverSummarySnapshot?.id ?? entity.handoverSummarySnapshotId ?? null,
+            projectionLevel: handoverSummarySnapshot?.projectionLevel ?? null,
+            exportPolicy: handoverSummarySnapshot?.exportPolicy ?? null,
+            allowedActions: this.#buildRoleAssignmentAllowedActions(entity),
+            generatedAt: new Date().toISOString()
+        };
+    }
+
     async createRoleAssignment(projectId: string, dto: CreateCommissionRoleAssignmentRequest): Promise<CommissionRoleAssignmentSummary> {
         // Mark existing current assignment as no longer current
         const existing = await this.repo.findCurrentRoleAssignment(projectId);
@@ -158,6 +194,71 @@ export class CommissionService {
         entity.frozenAt = new Date();
         await this.repo.flushRoleAssignment();
         return this.#toRoleAssignmentSummary(entity);
+    }
+
+    async freezeCommissionRoleAssignment(
+        id: string,
+        actorUserId: string,
+        dto: FreezeCommissionRoleAssignmentRequest
+    ): Promise<FreezeCommissionRoleAssignmentResult> {
+        const entity = await this.repo.findRoleAssignmentById(id);
+        if (!entity) {
+            throw new NotFoundException(`CommissionRoleAssignment ${id} not found`);
+        }
+
+        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionRoleAssignment');
+        this.#assertRoleAssignmentDraft(entity);
+
+        const handover = await this.repo.findProjectHandoverById(dto.sourceHandoverId);
+        if (!handover) {
+            throw new NotFoundException(`ProjectHandover ${dto.sourceHandoverId} not found`);
+        }
+        if (handover.projectId !== entity.projectId) {
+            throw new BadRequestException('Source project handover does not belong to the same project');
+        }
+        if (handover.status !== 'confirmed') {
+            throw new BadRequestException(`ProjectHandover ${handover.id} is not confirmed`);
+        }
+        if (handover.summarySnapshotId !== dto.handoverSummarySnapshotId) {
+            throw new BadRequestException('Handover summary snapshot does not match the project handover record');
+        }
+
+        const handoverSummarySnapshot = await this.repo.findApprovalSummarySnapshotById(handover.summarySnapshotId);
+        if (!handoverSummarySnapshot || handoverSummarySnapshot.status !== 'active') {
+            throw new BadRequestException('Project handover summary snapshot is not available');
+        }
+
+        const receiptJudgmentFreeze = await this.repo.findCurrentReceiptJudgmentFreeze(entity.projectId);
+        if (!receiptJudgmentFreeze) {
+            throw new BadRequestException('Current receipt judgment freeze is not available for commission freeze');
+        }
+
+        this.#assertReceiptJudgmentFreezeMatchesHandover(receiptJudgmentFreeze, handover);
+
+        entity.sourceHandoverId = handover.id;
+        entity.sourceHandoverRebaselineRecordId = handover.handoverRebaselineRecordId ?? null;
+        entity.contractSummarySnapshotId = handover.contractSummarySnapshotId;
+        entity.handoverSummarySnapshotId = handover.summarySnapshotId;
+        entity.effectiveHandoverBaselineSnapshotId = handover.effectiveHandoverBaselineSnapshotId;
+        entity.status = 'frozen';
+        entity.frozenAt = new Date();
+        entity.frozenBy = actorUserId;
+        entity.updatedBy = actorUserId;
+
+        await this.repo.flushRoleAssignment();
+
+        return {
+            targetId: entity.id,
+            businessStatusAfter: 'frozen',
+            newVersionId: entity.id,
+            sourceHandoverId: handover.id,
+            contractSummarySnapshotId: handover.contractSummarySnapshotId,
+            handoverSummarySnapshotId: handover.summarySnapshotId,
+            effectiveHandoverBaselineSnapshotId: handover.effectiveHandoverBaselineSnapshotId,
+            summarySnapshotId: handoverSummarySnapshot.id,
+            projectionLevel: handoverSummarySnapshot.projectionLevel,
+            exportPolicy: handoverSummarySnapshot.exportPolicy
+        };
     }
 
     // ── Calculations ────────────────────────────────────────────────────────
@@ -504,9 +605,15 @@ export class CommissionService {
         id: e.id,
         projectId: e.projectId,
         version: e.version,
+        rowVersion: e.rowVersion,
         isCurrent: e.isCurrent,
         status: e.status as CommissionRoleAssignmentSummary['status'],
         participantsJson: e.participantsJson ?? [],
+        sourceHandoverId: e.sourceHandoverId ?? null,
+        sourceHandoverRebaselineRecordId: e.sourceHandoverRebaselineRecordId ?? null,
+        contractSummarySnapshotId: e.contractSummarySnapshotId ?? null,
+        handoverSummarySnapshotId: e.handoverSummarySnapshotId ?? null,
+        effectiveHandoverBaselineSnapshotId: e.effectiveHandoverBaselineSnapshotId ?? null,
         frozenAt: e.frozenAt ? e.frozenAt.toISOString() : null,
         createdAt: e.createdAt.toISOString(),
         updatedAt: e.updatedAt.toISOString()
@@ -579,6 +686,115 @@ export class CommissionService {
         if (!ROLE_FREEZE_ALLOWED_STAGES.has(project.currentStage)) {
             throw new UnprocessableEntityException(`项目当前阶段 ${project.currentStage} 尚未完成移交，不能冻结提成角色分配`);
         }
+    }
+
+    #assertRoleAssignmentDraft(entity: CommissionRoleAssignment): void {
+        if (entity.status !== 'draft') {
+            throw new UnprocessableEntityException(`只有草稿状态的角色分配可以冻结，当前状态: ${entity.status}`);
+        }
+        if (!entity.participantsJson || entity.participantsJson.length === 0) {
+            throw new UnprocessableEntityException('角色分配必须至少包含一名参与者才能冻结');
+        }
+    }
+
+    #assertReceiptJudgmentFreezeMatchesHandover(
+        freeze: {
+            sourceHandoverId: string;
+            sourceHandoverSummarySnapshotId: string;
+            sourceHandoverRebaselineRecordId?: string | null;
+        },
+        handover: {
+            id: string;
+            summarySnapshotId: string;
+            handoverRebaselineRecordId?: string | null;
+        }
+    ): void {
+        if (freeze.sourceHandoverId !== handover.id) {
+            throw new BadRequestException('Current receipt judgment freeze is not sourced from the requested project handover');
+        }
+        if (freeze.sourceHandoverSummarySnapshotId !== handover.summarySnapshotId) {
+            throw new BadRequestException('Current receipt judgment freeze does not match the requested handover summary snapshot');
+        }
+        if ((freeze.sourceHandoverRebaselineRecordId ?? null) !== (handover.handoverRebaselineRecordId ?? null)) {
+            throw new BadRequestException('Current receipt judgment freeze does not match the requested handover rebaseline reference');
+        }
+    }
+
+    #buildEffectiveHandoverBaselineSummary(
+        entity: CommissionRoleAssignment
+    ): CommissionRoleAssignmentDetailView['effectiveHandoverBaselineSummary'] {
+        if (!entity.effectiveHandoverBaselineSnapshotId) {
+            return {
+                status: 'missing',
+                baselineSnapshotId: null,
+                sourceType: 'none',
+                sourceId: null,
+                summary: 'Effective handover baseline snapshot is not frozen yet'
+            };
+        }
+
+        const sourceId = entity.sourceHandoverRebaselineRecordId ?? entity.sourceHandoverId ?? null;
+        const sourceType =
+            entity.sourceHandoverRebaselineRecordId
+                ? 'handover-rebaseline'
+                : entity.sourceHandoverId
+                    ? 'project-handover'
+                    : 'none';
+
+        return {
+            status: 'available',
+            baselineSnapshotId: entity.effectiveHandoverBaselineSnapshotId,
+            sourceType,
+            sourceId,
+            summary:
+                sourceType === 'handover-rebaseline'
+                    ? `Effective handover baseline is frozen from rebaseline ${entity.sourceHandoverRebaselineRecordId}`
+                    : `Effective handover baseline is frozen from project handover ${entity.sourceHandoverId}`
+        };
+    }
+
+    #buildReceiptJudgmentModeSummary(
+        freeze:
+            | {
+                  receiptJudgmentMode: string;
+                  sourceType: 'project-handover' | 'project-receipt-judgment-freeze';
+                  sourceId: string;
+              }
+            | null
+    ): CommissionRoleAssignmentDetailView['receiptJudgmentModeSummary'] {
+        if (!freeze) {
+            return {
+                status: 'not_frozen',
+                receiptJudgmentMode: null,
+                sourceType: 'none',
+                sourceId: null,
+                summary: 'Receipt judgment mode is not frozen yet'
+            };
+        }
+
+        return {
+            status: 'frozen',
+            receiptJudgmentMode: freeze.receiptJudgmentMode,
+            sourceType: freeze.sourceType,
+            sourceId: freeze.sourceId,
+            summary: `Receipt judgment mode is frozen from ${freeze.sourceType} ${freeze.sourceId}`
+        };
+    }
+
+    #buildRoleAssignmentAllowedActions(entity: CommissionRoleAssignment): string[] {
+        if (!entity.isCurrent || entity.status === 'superseded') {
+            return [];
+        }
+
+        if (entity.status === 'draft' && (entity.participantsJson?.length ?? 0) > 0) {
+            return [FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION];
+        }
+
+        if (entity.status === 'frozen') {
+            return [SUBMIT_COMMISSION_ROLE_CHANGE_ACTION];
+        }
+
+        return [];
     }
 
     async #assertEffectiveContractFacts(projectId: string, revenue: number, cost: number): Promise<void> {

@@ -1,9 +1,11 @@
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { Contract } from '../contract/contract.entity';
 import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
+import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -22,6 +24,12 @@ export class CommissionRepository {
         private readonly receiptRepository: EntityRepository<ReceiptRecord>,
         @InjectRepository(PaymentRecord)
         private readonly paymentRepository: EntityRepository<PaymentRecord>,
+        @InjectRepository(ProjectHandover)
+        private readonly projectHandoverRepository: EntityRepository<ProjectHandover>,
+        @InjectRepository(ProjectReceiptJudgmentFreeze)
+        private readonly receiptJudgmentFreezeRepository: EntityRepository<ProjectReceiptJudgmentFreeze>,
+        @InjectRepository(ApprovalSummarySnapshot)
+        private readonly approvalSummarySnapshotRepository: EntityRepository<ApprovalSummarySnapshot>,
         @InjectRepository(CommissionRuleVersion)
         private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
         @InjectRepository(CommissionRoleAssignment)
@@ -52,6 +60,21 @@ export class CommissionRepository {
 
     async findConfirmedPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
         return this.paymentRepository.find({ projectId, status: 'confirmed' });
+    }
+
+    async findProjectHandoverById(id: string): Promise<ProjectHandover | null> {
+        return this.projectHandoverRepository.findOne({ id });
+    }
+
+    async findCurrentReceiptJudgmentFreeze(projectId: string): Promise<ProjectReceiptJudgmentFreeze | null> {
+        return this.receiptJudgmentFreezeRepository.findOne(
+            { projectId, isCurrent: true },
+            { orderBy: { frozenAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findApprovalSummarySnapshotById(id: string): Promise<ApprovalSummarySnapshot | null> {
+        return this.approvalSummarySnapshotRepository.findOne({ id });
     }
 
     // ── Rule Versions ────────────────────────────────────────────────────────
