@@ -119,7 +119,12 @@ export class CommissionService {
             version: nextVersion,
             isCurrent: true,
             status: 'draft',
-            participantsJson: dto.participants
+            participantsJson: dto.participants,
+            sourceHandoverId: null,
+            sourceHandoverRebaselineRecordId: null,
+            contractSummarySnapshotId: null,
+            handoverSummarySnapshotId: null,
+            effectiveHandoverBaselineSnapshotId: null
         });
 
         if (existing) {

@@ -1,4 +1,10 @@
 import { defineEntity } from '@mikro-orm/core';
+import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
+import { ContractTermSnapshot } from '../contract/contract.entity';
+import {
+    ContractHandoverRebaselineRecord,
+    ProjectHandover
+} from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
 
 export type CommissionRoleAssignmentStatus = 'draft' | 'frozen' | 'superseded';
@@ -18,7 +24,11 @@ export const CommissionRoleAssignmentSchema = defineEntity({
     schema: 'poms',
     indexes: [
         { name: 'idx_commission_role_assignment_project_current', properties: ['projectId', 'isCurrent'] },
-        { name: 'idx_commission_role_assignment_status', properties: ['status'] }
+        { name: 'idx_commission_role_assignment_status', properties: ['status'] },
+        { name: 'idx_cra_source_handover', properties: ['sourceHandoverId'] },
+        { name: 'idx_cra_source_handover_rebaseline', properties: ['sourceHandoverRebaselineRecordId'] },
+        { name: 'idx_cra_handover_summary_snapshot', properties: ['handoverSummarySnapshotId'] },
+        { name: 'idx_cra_supersedes', properties: ['supersedesId'] }
     ],
     uniques: [{ name: 'commission_role_assignment_project_version_unique', properties: ['projectId', 'version'] }],
     properties: {
@@ -35,6 +45,51 @@ export const CommissionRoleAssignmentSchema = defineEntity({
         isCurrent: p.boolean().default(true).fieldName('is_current'),
         status: p.string().$type<CommissionRoleAssignmentStatus>().length(32).default('draft'),
         participantsJson: p.json<CommissionParticipant[]>().default([]).fieldName('participants_json'),
+        sourceHandoverId: () =>
+            p
+                .manyToOne(ProjectHandover)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_handover_id')
+                .foreignKeyName('cra_source_handover_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict'),
+        sourceHandoverRebaselineRecordId: () =>
+            p
+                .manyToOne(ContractHandoverRebaselineRecord)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_handover_rebaseline_record_id')
+                .foreignKeyName('cra_source_handover_rebaseline_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict'),
+        contractSummarySnapshotId: () =>
+            p
+                .manyToOne(ApprovalSummarySnapshot)
+                .mapToPk()
+                .nullable()
+                .fieldName('contract_summary_snapshot_id')
+                .foreignKeyName('cra_contract_summary_snapshot_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict'),
+        handoverSummarySnapshotId: () =>
+            p
+                .manyToOne(ApprovalSummarySnapshot)
+                .mapToPk()
+                .nullable()
+                .fieldName('handover_summary_snapshot_id')
+                .foreignKeyName('cra_handover_summary_snapshot_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict'),
+        effectiveHandoverBaselineSnapshotId: () =>
+            p
+                .manyToOne(ContractTermSnapshot)
+                .mapToPk()
+                .nullable()
+                .fieldName('effective_handover_baseline_snapshot_id')
+                .foreignKeyName('cra_effective_handover_baseline_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict'),
         frozenAt: p.datetime().nullable().fieldName('frozen_at'),
         frozenBy: p.uuid().nullable().fieldName('frozen_by'),
         supersedesId: () =>
