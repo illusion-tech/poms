@@ -43,7 +43,7 @@ import {
 } from '@poms/api-contracts';
 
 export async function publishInternalCostRateVersion(client: AxiosInstance, input: PublishInternalCostRateVersionRequestDto): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/publish-internal-cost-rate-version', input);
+    const response = await client.post<CommandResult>('/internal-cost-rate-versions', input);
     return expectStatus(response, 201);
 }
 
@@ -74,7 +74,7 @@ export async function activateOperatingBaselinePackage(
     client: AxiosInstance,
     input: ActivateOperatingBaselinePackageRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/activate-operating-baseline-package', input);
+    const response = await client.post<CommandResult>('/operating-baseline-packages', input);
     return expectStatus(response, 201);
 }
 
@@ -82,7 +82,7 @@ export async function getCurrentOperatingBaselinePackage(
     client: AxiosInstance,
     projectId: string
 ): Promise<OperatingBaselinePackageSummary> {
-    const response = await client.get<OperatingBaselinePackageSummary>(`/projects/${projectId}/operating-baseline-package/current`);
+    const response = await client.get<OperatingBaselinePackageSummary>(`/projects/${projectId}/operating-baseline-package`);
     return expectStatus(response, 200);
 }
 
@@ -90,7 +90,7 @@ export async function createProjectOperatingSnapshot(
     client: AxiosInstance,
     input: CreateProjectOperatingSnapshotRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/create-project-operating-snapshot', input);
+    const response = await client.post<CommandResult>('/project-operating-snapshots', input);
     return expectStatus(response, 201);
 }
 
@@ -103,7 +103,7 @@ export async function createPeriodClosingSnapshot(
     client: AxiosInstance,
     input: CreatePeriodClosingSnapshotRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/create-period-closing-snapshot', input);
+    const response = await client.post<CommandResult>('/period-closing-snapshots', input);
     return expectStatus(response, 201);
 }
 
@@ -116,7 +116,7 @@ export async function createOperatingRestatement(
     client: AxiosInstance,
     input: CreateOperatingRestatementRequestDto
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>('/project-cost/create-operating-restatement', input);
+    const response = await client.post<CommandResult>('/operating-restatements', input);
     return expectStatus(response, 201);
 }
 
@@ -242,7 +242,7 @@ export async function confirmExpenseRecord(
     id: string,
     input: ConfirmExpenseRecordRequestDto
 ): Promise<ExpenseRecordSummary> {
-    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}/confirm`, input);
+    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}:confirm`, input);
     return expectStatus(response, 200);
 }
 
@@ -251,7 +251,7 @@ export async function voidExpenseRecord(
     id: string,
     input: VoidExpenseRecordRequestDto
 ): Promise<ExpenseRecordSummary> {
-    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}/void`, input);
+    const response = await client.post<ExpenseRecordSummary>(`/expense-records/${id}:void`, input);
     return expectStatus(response, 200);
 }
 

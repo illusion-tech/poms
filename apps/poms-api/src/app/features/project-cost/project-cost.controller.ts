@@ -78,7 +78,7 @@ interface ProjectActualCostRecordListQuery {
 export class ProjectCostController {
     constructor(private readonly projectCostService: ProjectCostService) {}
 
-    @Post('project-cost/publish-internal-cost-rate-version')
+    @Post('internal-cost-rate-versions')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '发布内部成本率版本' })
     @ApiCreatedResponse({ description: 'The command result' })
@@ -138,7 +138,7 @@ export class ProjectCostController {
         return this.projectCostService.registerProcurementCostRecord(body, userId);
     }
 
-    @Post('project-cost/activate-operating-baseline-package')
+    @Post('operating-baseline-packages')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '生效项目经营基线包' })
     @ApiCreatedResponse({ description: 'The command result' })
@@ -150,7 +150,7 @@ export class ProjectCostController {
         return this.projectCostService.activateOperatingBaselinePackage(body, userId);
     }
 
-    @Get('projects/:projectId/operating-baseline-package/current')
+    @Get('projects/:projectId/operating-baseline-package')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取当前项目经营基线包' })
     @ApiOkResponse({ type: OperatingBaselinePackageSummaryDto })
@@ -158,7 +158,7 @@ export class ProjectCostController {
         return this.projectCostService.getCurrentOperatingBaselinePackage(projectId);
     }
 
-    @Post('project-cost/create-project-operating-snapshot')
+    @Post('project-operating-snapshots')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建项目经营快照' })
     @ApiCreatedResponse({ description: 'The command result' })
@@ -178,7 +178,7 @@ export class ProjectCostController {
         return this.projectCostService.getProjectOperatingSnapshot(id);
     }
 
-    @Post('project-cost/create-period-closing-snapshot')
+    @Post('period-closing-snapshots')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建期末冻结经营快照' })
     @ApiCreatedResponse({ description: 'The command result' })
@@ -198,7 +198,7 @@ export class ProjectCostController {
         return this.projectCostService.getPeriodClosingSnapshot(id);
     }
 
-    @Post('project-cost/create-operating-restatement')
+    @Post('operating-restatements')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建经营快照重述记录' })
     @ApiCreatedResponse({ description: 'The command result' })
@@ -374,7 +374,7 @@ export class ProjectCostController {
         return this.projectCostService.updateExpenseRecord(id, body);
     }
 
-    @Post('expense-records/:id/confirm')
+    @Post('expense-records/:id\\:confirm')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '确认费用记录' })
     @ApiOkResponse({ type: ExpenseRecordDto })
@@ -388,7 +388,7 @@ export class ProjectCostController {
         return this.projectCostService.confirmExpenseRecord(id, userId, body);
     }
 
-    @Post('expense-records/:id/void')
+    @Post('expense-records/:id\\:void')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '作废费用记录' })
     @ApiOkResponse({ type: ExpenseRecordDto })

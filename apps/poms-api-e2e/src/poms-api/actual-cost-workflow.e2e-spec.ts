@@ -564,7 +564,7 @@ describe('Actual Cost Workflow E2E', () => {
         expect(detailView.measurementBasisSummary).toContain('1234.5600');
         expect(detailView.allowedActions).toEqual([]);
 
-        const voidAfterMapping = await client.post(`/expense-records/${createdExpense.id}/void`, {
+        const voidAfterMapping = await client.post(`/expense-records/${createdExpense.id}:void`, {
             reason: 'should fail after mapping',
             expectedVersion: confirmedExpense.rowVersion
         });
