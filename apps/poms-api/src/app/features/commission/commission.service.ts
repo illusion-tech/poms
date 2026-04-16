@@ -36,7 +36,6 @@ const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTie
     final: { basic: 1, mid: 1, premium: 1 }
 };
 
-const ROLE_FREEZE_ALLOWED_STAGES = new Set(['handover', 'execution', 'acceptance', 'completed']);
 const FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION = 'freeze-commission-role-assignment';
 const SUBMIT_COMMISSION_ROLE_CHANGE_ACTION = 'submit-commission-role-change';
 
@@ -173,26 +172,6 @@ export class CommissionService {
         }
 
         await this.repo.persistAndFlushRoleAssignment(entity);
-        return this.#toRoleAssignmentSummary(entity);
-    }
-
-    async freezeRoleAssignment(projectId: string, id: string): Promise<CommissionRoleAssignmentSummary> {
-        const entity = await this.repo.findRoleAssignmentById(id);
-        if (!entity || entity.projectId !== projectId) {
-            throw new NotFoundException(`项目 ${projectId} 的角色分配 ${id} 不存在`);
-        }
-        if (entity.status !== 'draft') {
-            throw new UnprocessableEntityException(`只有草稿状态的角色分配可以冻结，当前状态: ${entity.status}`);
-        }
-        if (!entity.participantsJson || entity.participantsJson.length === 0) {
-            throw new UnprocessableEntityException('角色分配必须至少包含一名参与者才能冻结');
-        }
-
-        await this.#assertProjectReadyForRoleFreeze(projectId);
-
-        entity.status = 'frozen';
-        entity.frozenAt = new Date();
-        await this.repo.flushRoleAssignment();
         return this.#toRoleAssignmentSummary(entity);
     }
 
@@ -674,17 +653,6 @@ export class CommissionService {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`项目 ${projectId} 不存在`);
-        }
-    }
-
-    async #assertProjectReadyForRoleFreeze(projectId: string): Promise<void> {
-        const project = await this.repo.findProjectById(projectId);
-        if (!project) {
-            throw new NotFoundException(`项目 ${projectId} 不存在`);
-        }
-
-        if (!ROLE_FREEZE_ALLOWED_STAGES.has(project.currentStage)) {
-            throw new UnprocessableEntityException(`项目当前阶段 ${project.currentStage} 尚未完成移交，不能冻结提成角色分配`);
         }
     }
 

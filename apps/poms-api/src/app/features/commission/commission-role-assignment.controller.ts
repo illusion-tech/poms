@@ -19,7 +19,7 @@ import { CommissionService } from './commission.service';
 export class CommissionRoleAssignmentController {
     constructor(private readonly commissionService: CommissionService) {}
 
-    @Get(':id/detail')
+    @Get(':id')
     @HasPermissions('commission:assignments:manage')
     @ApiOperation({ summary: '获取提成角色冻结详情视图' })
     @ApiOkResponse({ type: CommissionRoleAssignmentDetailViewDto })
@@ -27,7 +27,7 @@ export class CommissionRoleAssignmentController {
         return this.commissionService.getRoleAssignmentDetail(id);
     }
 
-    @Post(':id/freeze')
+    @Post(':id\\:freeze')
     @HasPermissions('commission:assignments:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '冻结提成角色分配并绑定移交收口链' })

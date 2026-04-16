@@ -426,47 +426,6 @@ describe('CommissionService', () => {
         });
     });
 
-    describe('freezeRoleAssignment', () => {
-        it('freezes a draft assignment', async () => {
-            const assignment = makeDraftAssignment();
-            repo.findRoleAssignmentById.mockResolvedValue(assignment as never);
-            repo.findProjectById.mockResolvedValue(makeProject() as never);
-            repo.flushRoleAssignment.mockResolvedValue();
-
-            const result = await service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID);
-
-            expect(assignment.status).toBe('frozen');
-            expect(result.status).toBe('frozen');
-        });
-
-        it('throws NotFoundException if assignment not found', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(null);
-            await expect(service.freezeRoleAssignment(PROJECT_ID, 'nonexistent')).rejects.toThrow(NotFoundException);
-        });
-
-        it('throws NotFoundException if assignment belongs to different project', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ projectId: 'other-project' }) as never);
-            await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(NotFoundException);
-        });
-
-        it('throws UnprocessableEntityException if not draft', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
-            await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
-        });
-
-        it('throws UnprocessableEntityException if participants is empty', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ participantsJson: [] }) as never);
-            await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
-        });
-
-        it('throws UnprocessableEntityException if project has not reached handover stage', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
-            repo.findProjectById.mockResolvedValue(makeProject({ currentStage: 'negotiation' }) as never);
-
-            await expect(service.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID)).rejects.toThrow(UnprocessableEntityException);
-        });
-    });
-
     describe('freezeCommissionRoleAssignment', () => {
         it('freezes assignment against confirmed handover chain', async () => {
             const assignment = makeDraftAssignment();

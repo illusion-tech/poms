@@ -772,6 +772,22 @@ interface HandoverE2EFixture {
     confirmationRecordId?: string;
     processingRebaselineRecordId?: string;
     amendmentId?: string;
+    contractStatus?: string;
+    confirmedReceiptAmount?: string;
+    confirmedPaymentAmountExcludingTax?: string;
+    receiptRecordId?: string;
+    paymentRecordId?: string;
+    handoverStatus?: 'draft' | 'confirmed';
+    receiptJudgmentFreezeId?: string;
+    receiptJudgmentMode?: string;
+}
+
+interface HandoverE2EFixtureOptions {
+    contractStatus?: string;
+    confirmedReceiptAmount?: string;
+    confirmedPaymentAmountExcludingTax?: string;
+    handoverStatus?: 'draft' | 'confirmed';
+    receiptJudgmentMode?: string;
 }
 
 const E2E_ACTOR_ID = '00000000-0000-4000-8000-000000000001';
@@ -785,6 +801,30 @@ const HANDOVER_E2E_FIXTURES: HandoverE2EFixture[] = [
     makeHandoverE2EFixture(3, 'stale-version', true),
     makeHandoverE2EFixture(4, 'missing-participant', true),
     makeHandoverE2EFixture(5, 'processing-rebaseline', true, true)
+];
+
+const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
+    {
+        ...makeHandoverE2EFixture(101, 'commission-main', true, false, {
+            confirmedReceiptAmount: '100000.00',
+            confirmedPaymentAmountExcludingTax: '70000.00',
+            handoverStatus: 'confirmed',
+            receiptJudgmentMode: 'net-receipt'
+        }),
+        projectCode: 'E2E-CMS-FXT-MAIN',
+        projectName: 'E2E 提成正式冻结 main',
+        contractNo: 'E2E-CMS-HT-MAIN'
+    },
+    {
+        ...makeHandoverE2EFixture(102, 'commission-no-active-contract', true, false, {
+            contractStatus: 'pending-review',
+            handoverStatus: 'confirmed',
+            receiptJudgmentMode: 'net-receipt'
+        }),
+        projectCode: 'E2E-CMS-FXT-NO-ACTIVE-CONTRACT',
+        projectName: 'E2E 提成正式冻结 no-active-contract',
+        contractNo: 'E2E-CMS-HT-NO-ACTIVE-CONTRACT'
+    }
 ];
 
 async function seedProjectHandoverE2EFixtures(
@@ -813,7 +853,7 @@ async function seedProjectHandoverE2EFixtures(
             "updated_at" = now();
     `);
 
-    for (const fixture of HANDOVER_E2E_FIXTURES) {
+    for (const fixture of [...HANDOVER_E2E_FIXTURES, ...COMMISSION_E2E_FIXTURES]) {
         await seedProjectHandoverE2EFixture(connection, schema, fixture);
     }
 }
@@ -869,7 +909,7 @@ async function seedProjectHandoverE2EFixture(
             ${sqlValue(fixture.contractId)},
             ${sqlValue(fixture.projectId)},
             ${sqlValue(fixture.contractNo)},
-            'active',
+            ${sqlValue(fixture.contractStatus ?? 'active')},
             '188000.00',
             'CNY',
             ${sqlUuid(fixture.contractSnapshotId)},
@@ -895,6 +935,70 @@ async function seedProjectHandoverE2EFixture(
             ${sqlUuid(E2E_ACTOR_ID)}
         );
     `);
+
+    if (fixture.confirmedReceiptAmount && fixture.receiptRecordId) {
+        await connection.execute(`
+            insert into "${schema}"."receipt_record" (
+                "id",
+                "contract_id",
+                "project_id",
+                "receipt_amount",
+                "receipt_date",
+                "source_type",
+                "status",
+                "confirmed_at",
+                "confirmed_by"
+            )
+            values (
+                ${sqlValue(fixture.receiptRecordId)},
+                ${sqlValue(fixture.contractId)},
+                ${sqlValue(fixture.projectId)},
+                ${sqlValue(fixture.confirmedReceiptAmount)},
+                ${sqlTimestamp('2026-04-15T00:20:00.000Z')},
+                'manual',
+                'confirmed',
+                ${sqlTimestamp('2026-04-15T00:21:00.000Z')},
+                ${sqlUuid(E2E_ACTOR_ID)}
+            );
+        `);
+    }
+
+    if (fixture.confirmedPaymentAmountExcludingTax && fixture.paymentRecordId) {
+        await connection.execute(`
+            insert into "${schema}"."payment_record" (
+                "id",
+                "project_id",
+                "contract_id",
+                "payable_record_id",
+                "currency",
+                "amount_excluding_tax",
+                "tax_amount",
+                "amount_including_tax",
+                "payment_date",
+                "cost_category",
+                "source_type",
+                "status",
+                "confirmed_at",
+                "confirmed_by"
+            )
+            values (
+                ${sqlValue(fixture.paymentRecordId)},
+                ${sqlValue(fixture.projectId)},
+                ${sqlValue(fixture.contractId)},
+                null,
+                'CNY',
+                ${sqlValue(fixture.confirmedPaymentAmountExcludingTax)},
+                null,
+                null,
+                ${sqlTimestamp('2026-04-15T00:22:00.000Z')},
+                'implementation',
+                'manual',
+                'confirmed',
+                ${sqlTimestamp('2026-04-15T00:23:00.000Z')},
+                ${sqlUuid(E2E_ACTOR_ID)}
+            );
+        `);
+    }
 
     await connection.execute(`
         insert into "${schema}"."commercial_release_baseline" (
@@ -1035,6 +1139,9 @@ async function seedProjectHandoverPreparedState(
             "summary_snapshot_id",
             "handover_rebaseline_record_id",
             "status",
+            "confirmed_at",
+            "confirmed_by",
+            "comment",
             "created_by",
             "updated_by"
         )
@@ -1045,7 +1152,10 @@ async function seedProjectHandoverPreparedState(
             ${sqlValue(fixture.contractSnapshotId)},
             ${sqlValue(fixture.handoverSummarySnapshotId!)},
             null,
-            'draft',
+            ${sqlValue(fixture.handoverStatus ?? 'draft')},
+            ${sqlTimestamp((fixture.handoverStatus ?? 'draft') === 'confirmed' ? '2026-04-15T00:14:00.000Z' : null)},
+            ${sqlUuid((fixture.handoverStatus ?? 'draft') === 'confirmed' ? E2E_ACTOR_ID : null)},
+            ${sqlText((fixture.handoverStatus ?? 'draft') === 'confirmed' ? 'e2e 项目移交已确认' : null)},
             ${sqlUuid(E2E_ACTOR_ID)},
             ${sqlUuid(E2E_ACTOR_ID)}
         );
@@ -1107,6 +1217,43 @@ async function seedProjectHandoverPreparedState(
     if (fixture.processingRebaselineRecordId && fixture.amendmentId) {
         await seedProcessingRebaseline(connection, schema, fixture);
     }
+
+    if (fixture.receiptJudgmentFreezeId && fixture.receiptJudgmentMode) {
+        await connection.execute(`
+            insert into "${schema}"."project_receipt_judgment_freeze" (
+                "id",
+                "project_id",
+                "receipt_judgment_mode",
+                "source_type",
+                "source_id",
+                "source_handover_id",
+                "source_handover_summary_snapshot_id",
+                "source_handover_rebaseline_record_id",
+                "is_current",
+                "frozen_at",
+                "frozen_by",
+                "supersedes_id",
+                "created_by",
+                "updated_by"
+            )
+            values (
+                ${sqlValue(fixture.receiptJudgmentFreezeId)},
+                ${sqlValue(fixture.projectId)},
+                ${sqlValue(fixture.receiptJudgmentMode)},
+                'project-handover',
+                ${sqlValue(fixture.handoverId!)},
+                ${sqlValue(fixture.handoverId!)},
+                ${sqlValue(fixture.handoverSummarySnapshotId!)},
+                ${sqlUuid(fixture.processingRebaselineRecordId ?? null)},
+                true,
+                ${sqlTimestamp('2026-04-15T00:15:00.000Z')},
+                ${sqlUuid(E2E_ACTOR_ID)},
+                null,
+                ${sqlUuid(E2E_ACTOR_ID)},
+                ${sqlUuid(E2E_ACTOR_ID)}
+            );
+        `);
+    }
 }
 
 async function seedProcessingRebaseline(
@@ -1161,7 +1308,13 @@ async function seedProcessingRebaseline(
     `);
 }
 
-function makeHandoverE2EFixture(index: number, key: string, withHandover: boolean, withProcessingRebaseline = false): HandoverE2EFixture {
+function makeHandoverE2EFixture(
+    index: number,
+    key: string,
+    withHandover: boolean,
+    withProcessingRebaseline = false,
+    options: HandoverE2EFixtureOptions = {}
+): HandoverE2EFixture {
     const suffix = String(index).padStart(12, '0');
 
     return {
@@ -1181,7 +1334,15 @@ function makeHandoverE2EFixture(index: number, key: string, withHandover: boolea
         handoverId: withHandover ? `71000000-0000-4000-8000-${suffix}` : undefined,
         confirmationRecordId: withHandover ? `41000000-0000-4000-8000-${suffix}` : undefined,
         processingRebaselineRecordId: withProcessingRebaseline ? `72000000-0000-4000-8000-${suffix}` : undefined,
-        amendmentId: withProcessingRebaseline ? `73000000-0000-4000-8000-${suffix}` : undefined
+        amendmentId: withProcessingRebaseline ? `73000000-0000-4000-8000-${suffix}` : undefined,
+        contractStatus: options.contractStatus ?? 'active',
+        confirmedReceiptAmount: options.confirmedReceiptAmount,
+        confirmedPaymentAmountExcludingTax: options.confirmedPaymentAmountExcludingTax,
+        receiptRecordId: options.confirmedReceiptAmount ? `81000000-0000-4000-8000-${suffix}` : undefined,
+        paymentRecordId: options.confirmedPaymentAmountExcludingTax ? `82000000-0000-4000-8000-${suffix}` : undefined,
+        handoverStatus: withHandover ? options.handoverStatus ?? 'draft' : undefined,
+        receiptJudgmentFreezeId: withHandover && options.receiptJudgmentMode ? `83000000-0000-4000-8000-${suffix}` : undefined,
+        receiptJudgmentMode: options.receiptJudgmentMode
     };
 }
 
@@ -1199,4 +1360,8 @@ function sqlUuid(value: string | null): string {
 
 function sqlTimestamp(value: string | null): string {
     return value === null ? 'null' : `${sqlValue(value)}::timestamptz`;
+}
+
+function sqlText(value: string | null): string {
+    return value === null ? 'null' : sqlValue(value);
 }

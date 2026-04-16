@@ -103,7 +103,6 @@ describe('CommissionController', () => {
             getCurrentRoleAssignment: jest.fn(),
             getRoleAssignmentDetail: jest.fn(),
             createRoleAssignment: jest.fn(),
-            freezeRoleAssignment: jest.fn(),
             freezeCommissionRoleAssignment: jest.fn(),
             listCalculations: jest.fn(),
             triggerCalculation: jest.fn(),
@@ -168,13 +167,6 @@ describe('CommissionController', () => {
         const result = await controller.createRoleAssignment(PROJECT_ID, body as never);
         expect(service.createRoleAssignment).toHaveBeenCalledWith(PROJECT_ID, body);
         expect(result).toBe(stubAssignment);
-    });
-
-    it('delegates freezeRoleAssignment to service', async () => {
-        service.freezeRoleAssignment.mockResolvedValue({ ...stubAssignment, status: 'frozen', frozenAt: '2026-03-25T10:00:00.000Z' });
-        const result = await controller.freezeRoleAssignment(PROJECT_ID, ASSIGNMENT_ID);
-        expect(service.freezeRoleAssignment).toHaveBeenCalledWith(PROJECT_ID, ASSIGNMENT_ID);
-        expect(result.status).toBe('frozen');
     });
 
     it('returns calculation list from service', async () => {

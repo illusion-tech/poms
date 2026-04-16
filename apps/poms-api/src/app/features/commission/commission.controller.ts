@@ -101,18 +101,6 @@ export class CommissionController {
         return this.commissionService.createRoleAssignment(projectId, body);
     }
 
-    @Post('projects/:projectId/role-assignment/:id/freeze')
-    @HasPermissions('commission:assignments:manage')
-    @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: '冻结项目提成角色分配（草稿→冻结）' })
-    @ApiOkResponse({ type: CommissionRoleAssignmentSummaryDto })
-    freezeRoleAssignment(
-        @Param('projectId') projectId: string,
-        @Param('id') id: string
-    ): Promise<CommissionRoleAssignmentSummary> {
-        return this.commissionService.freezeRoleAssignment(projectId, id);
-    }
-
     // ── Calculations ────────────────────────────────────────────────────────
 
     @Get('projects/:projectId/calculations')
