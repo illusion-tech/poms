@@ -2951,64 +2951,13 @@ export const CreateLaborProjectActualCostRecordRequestSchema = z
 export type CreateLaborProjectActualCostRecordRequest = z.infer<typeof CreateLaborProjectActualCostRecordRequestSchema>;
 
 export const CreateProjectActualCostRecordRequestSchema = z
-    .object({
-        costType: z.enum(['PAYMENT_FACT', 'INVOICE', 'EXPENSE', 'PROCUREMENT', 'LABOR']),
-        paymentRecordId: z.uuid().optional(),
-        invoiceRecordId: z.uuid().optional(),
-        expenseRecordId: z.uuid().optional(),
-        payableRecordId: z.uuid().optional(),
-        costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
-        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        expectedSourceVersion: z.number().int().positive().optional(),
-        laborPersonId: z.uuid().nullable().optional(),
-        laborRole: z.string().nullable().optional(),
-        laborPeriodType: z.enum(['WEEK', 'MONTH']).optional(),
-        laborPeriodStart: z.iso.date().optional(),
-        laborPeriodEnd: z.iso.date().optional(),
-        actualHours: z.string().trim().min(1).max(64).nullable().optional(),
-        actualPersonDays: z.string().trim().min(1).max(64).nullable().optional(),
-        workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
-        rateVersionId: z.uuid().optional(),
-        attachmentIds: z.array(z.uuid()).optional()
-    })
-    .strict()
-    .superRefine((value, ctx) => {
-        let result:
-            | ReturnType<typeof CreatePaymentFactProjectActualCostRecordRequestSchema.safeParse>
-            | ReturnType<typeof CreateInvoiceProjectActualCostRecordRequestSchema.safeParse>
-            | ReturnType<typeof CreateExpenseProjectActualCostRecordRequestSchema.safeParse>
-            | ReturnType<typeof CreateProcurementProjectActualCostRecordRequestSchema.safeParse>
-            | ReturnType<typeof CreateLaborProjectActualCostRecordRequestSchema.safeParse>;
-
-        switch (value.costType) {
-            case 'PAYMENT_FACT':
-                result = CreatePaymentFactProjectActualCostRecordRequestSchema.safeParse(value);
-                break;
-            case 'INVOICE':
-                result = CreateInvoiceProjectActualCostRecordRequestSchema.safeParse(value);
-                break;
-            case 'EXPENSE':
-                result = CreateExpenseProjectActualCostRecordRequestSchema.safeParse(value);
-                break;
-            case 'PROCUREMENT':
-                result = CreateProcurementProjectActualCostRecordRequestSchema.safeParse(value);
-                break;
-            case 'LABOR':
-                result = CreateLaborProjectActualCostRecordRequestSchema.safeParse(value);
-                break;
-        }
-
-        if (!result.success) {
-            for (const issue of result.error.issues) {
-                ctx.addIssue({
-                    code: 'custom',
-                    message: issue.message,
-                    path: issue.path
-                });
-            }
-        }
-    })
+    .discriminatedUnion('costType', [
+        CreatePaymentFactProjectActualCostRecordRequestSchema,
+        CreateInvoiceProjectActualCostRecordRequestSchema,
+        CreateExpenseProjectActualCostRecordRequestSchema,
+        CreateProcurementProjectActualCostRecordRequestSchema,
+        CreateLaborProjectActualCostRecordRequestSchema
+    ])
     .meta({ id: 'CreateProjectActualCostRecordRequest' });
 
 export type CreateProjectActualCostRecordRequest = z.infer<typeof CreateProjectActualCostRecordRequestSchema>;

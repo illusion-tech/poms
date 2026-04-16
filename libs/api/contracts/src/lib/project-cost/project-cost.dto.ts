@@ -8,9 +8,13 @@ import {
     ConfirmSharedCostAllocationBasisRequestSchema,
     CostStageAttributionHistoryViewSchema,
     CostStageAttributionSnapshotSummarySchema,
-    CreateProjectActualCostRecordRequestSchema,
+    CreateExpenseProjectActualCostRecordRequestSchema,
     CreateExpenseRecordRequestSchema,
+    CreateInvoiceProjectActualCostRecordRequestSchema,
+    CreateLaborProjectActualCostRecordRequestSchema,
     CreateOperatingRestatementRequestSchema,
+    CreatePaymentFactProjectActualCostRecordRequestSchema,
+    CreateProcurementProjectActualCostRecordRequestSchema,
     CreatePeriodClosingSnapshotRequestSchema,
     CreateProjectOperatingSnapshotRequestSchema,
     ExpenseRecordDetailViewSchema,
@@ -103,6 +107,24 @@ export class ProjectActualCostRecordListViewDto extends createZodDto(ProjectActu
 
 export class ProjectActualCostRecordDetailViewDto extends createZodDto(ProjectActualCostRecordDetailViewSchema) {}
 
-export class CreateProjectActualCostRecordRequestDto extends createZodDto(CreateProjectActualCostRecordRequestSchema) {}
+export class CreatePaymentFactProjectActualCostRecordRequestDto extends createZodDto(
+    CreatePaymentFactProjectActualCostRecordRequestSchema
+) {}
+
+export class CreateInvoiceProjectActualCostRecordRequestDto extends createZodDto(
+    CreateInvoiceProjectActualCostRecordRequestSchema
+) {}
+
+export class CreateExpenseProjectActualCostRecordRequestDto extends createZodDto(
+    CreateExpenseProjectActualCostRecordRequestSchema
+) {}
+
+export class CreateProcurementProjectActualCostRecordRequestDto extends createZodDto(
+    CreateProcurementProjectActualCostRecordRequestSchema
+) {}
+
+export class CreateLaborProjectActualCostRecordRequestDto extends createZodDto(
+    CreateLaborProjectActualCostRecordRequestSchema
+) {}
 
 export class ReplaceLaborCostRecordRequestDto extends createZodDto(ReplaceLaborCostRecordRequestSchema) {}

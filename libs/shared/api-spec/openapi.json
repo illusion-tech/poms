@@ -1616,7 +1616,34 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProjectActualCostRecordRequest"
+                "title": "CreateProjectActualCostRecordRequest",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "costType",
+                  "mapping": {
+                    "PAYMENT_FACT": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest",
+                    "INVOICE": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest",
+                    "EXPENSE": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest",
+                    "PROCUREMENT": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest",
+                    "LABOR": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+                  }
+                }
               }
             }
           }
@@ -7483,17 +7510,13 @@
         ],
         "id": "PublishInternalCostRateVersionRequest"
       },
-      "CreateProjectActualCostRecordRequest": {
+      "CreatePaymentFactProjectActualCostRecordRequest": {
         "type": "object",
         "properties": {
           "costType": {
             "type": "string",
             "enum": [
-              "PAYMENT_FACT",
-              "INVOICE",
-              "EXPENSE",
-              "PROCUREMENT",
-              "LABOR"
+              "PAYMENT_FACT"
             ]
           },
           "paymentRecordId": {
@@ -7501,15 +7524,129 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "expectedSourceVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costType",
+          "paymentRecordId"
+        ],
+        "id": "CreatePaymentFactProjectActualCostRecordRequest",
+        "additionalProperties": false
+      },
+      "CreateInvoiceProjectActualCostRecordRequest": {
+        "type": "object",
+        "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "INVOICE"
+            ]
+          },
           "invoiceRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "expectedSourceVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costType",
+          "invoiceRecordId"
+        ],
+        "id": "CreateInvoiceProjectActualCostRecordRequest",
+        "additionalProperties": false
+      },
+      "CreateExpenseProjectActualCostRecordRequest": {
+        "type": "object",
+        "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "EXPENSE"
+            ]
+          },
           "expenseRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "expectedSourceVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costType",
+          "expenseRecordId"
+        ],
+        "id": "CreateExpenseProjectActualCostRecordRequest",
+        "additionalProperties": false
+      },
+      "CreateProcurementProjectActualCostRecordRequest": {
+        "type": "object",
+        "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "PROCUREMENT"
+            ]
           },
           "payableRecordId": {
             "type": "string",
@@ -7538,6 +7675,23 @@
             "type": "integer",
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costType",
+          "payableRecordId"
+        ],
+        "id": "CreateProcurementProjectActualCostRecordRequest",
+        "additionalProperties": false
+      },
+      "CreateLaborProjectActualCostRecordRequest": {
+        "type": "object",
+        "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "LABOR"
+            ]
           },
           "laborPersonId": {
             "type": "string",
@@ -7589,6 +7743,10 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "costDescription": {
+            "type": "string",
+            "nullable": true
+          },
           "attachmentIds": {
             "type": "array",
             "items": {
@@ -7599,9 +7757,13 @@
           }
         },
         "required": [
-          "costType"
+          "costType",
+          "laborPeriodType",
+          "laborPeriodStart",
+          "laborPeriodEnd",
+          "rateVersionId"
         ],
-        "id": "CreateProjectActualCostRecordRequest",
+        "id": "CreateLaborProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "BaselineSelectionSource": {

@@ -7,40 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CreateExpenseProjectActualCostRecordRequest } from './create-expense-project-actual-cost-record-request';
+import { CreateLaborProjectActualCostRecordRequest } from './create-labor-project-actual-cost-record-request';
+import { CreatePaymentFactProjectActualCostRecordRequest } from './create-payment-fact-project-actual-cost-record-request';
+import { CreateInvoiceProjectActualCostRecordRequest } from './create-invoice-project-actual-cost-record-request';
+import { CreateProcurementProjectActualCostRecordRequest } from './create-procurement-project-actual-cost-record-request';
 
 
-export interface CreateProjectActualCostRecordRequest { 
-    costType: CreateProjectActualCostRecordRequestCostTypeEnum;
-    paymentRecordId?: string;
-    invoiceRecordId?: string;
-    expenseRecordId?: string;
-    payableRecordId?: string;
-    costDescription?: string | null;
-    evidenceSummary?: string | null;
-    taxImpactSummary?: string | null;
-    expectedSourceVersion?: number;
-    laborPersonId?: string | null;
-    laborRole?: string | null;
-    laborPeriodType?: CreateProjectActualCostRecordRequestLaborPeriodTypeEnum;
-    laborPeriodStart?: string;
-    laborPeriodEnd?: string;
-    actualHours?: string | null;
-    actualPersonDays?: string | null;
-    workSummary?: string | null;
-    rateVersionId?: string;
-    attachmentIds?: Array<string>;
-}
-export enum CreateProjectActualCostRecordRequestCostTypeEnum {
-    PaymentFact = 'PAYMENT_FACT',
-    Invoice = 'INVOICE',
-    Expense = 'EXPENSE',
-    Procurement = 'PROCUREMENT',
-    Labor = 'LABOR'
-};
-export enum CreateProjectActualCostRecordRequestLaborPeriodTypeEnum {
-    Week = 'WEEK',
-    Month = 'MONTH'
-};
-
-
+/**
+ * @type CreateProjectActualCostRecordRequest
+ * @export
+ */
+export type CreateProjectActualCostRecordRequest = CreateExpenseProjectActualCostRecordRequest | CreateInvoiceProjectActualCostRecordRequest | CreateLaborProjectActualCostRecordRequest | CreatePaymentFactProjectActualCostRecordRequest | CreateProcurementProjectActualCostRecordRequest;
 
