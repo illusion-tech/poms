@@ -55,7 +55,7 @@ export class ContractReadinessController {
         return this.contractReadinessService.findDiffHistoryByBaselineId(id);
     }
 
-    @Post('commercial-release-baselines/:id/review-diff')
+    @Post('commercial-release-baselines/:id\\:reviewDiff')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '复核商业放行差异结果' })
@@ -84,7 +84,7 @@ export class ContractReadinessController {
         return this.contractReadinessService.findContractReadinessById(id);
     }
 
-    @Get('projects/:projectId/contract-readiness/current')
+    @Get('projects/:projectId/contract-readiness')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目当前签约就绪承接包' })
     @ApiOkResponse({ type: ContractReadinessDetailDto })
@@ -92,7 +92,7 @@ export class ContractReadinessController {
         return this.contractReadinessService.findCurrentContractReadinessByProjectId(projectId);
     }
 
-    @Post('contract-readiness-packages/:id/initialize-contract-snapshot')
+    @Post('contract-readiness-packages/:id\\:initializeContractSnapshot')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '基于承接包初始化合同条款快照引用' })
@@ -105,7 +105,7 @@ export class ContractReadinessController {
         return this.contractReadinessService.initializeContractSnapshot(id, req.user.sub, body.expectedVersion);
     }
 
-    @Post('contract-readiness-packages/:id/initialize-receivable-plan')
+    @Post('contract-readiness-packages/:id\\:initializeReceivablePlan')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '基于承接包初始化应收计划引用' })

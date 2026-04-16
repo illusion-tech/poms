@@ -31,7 +31,7 @@ export class ApprovalController {
         return record;
     }
 
-    @Post('approval-records/:id/approve')
+    @Post('approval-records/:id\\:approve')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批通过' })
@@ -44,7 +44,7 @@ export class ApprovalController {
         return this.approvalService.approveRecord(id, req.user.sub, body);
     }
 
-    @Post('approval-records/:id/reject')
+    @Post('approval-records/:id\\:reject')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批驳回' })
