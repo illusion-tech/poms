@@ -243,7 +243,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 生效项目经营基线包
-     * @endpoint post /api/project-cost/activate-operating-baseline-package
+     * @endpoint post /api/operating-baseline-packages
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -294,7 +294,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/activate-operating-baseline-package`;
+        let localVarPath = `/api/operating-baseline-packages`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -450,7 +450,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 确认费用记录
-     * @endpoint post /api/expense-records/{id}/confirm
+     * @endpoint post /api/expense-records/{id}:confirm
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -506,7 +506,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/expense-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/confirm`;
+        let localVarPath = `/api/expense-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ExpenseRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -667,7 +667,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 创建经营快照重述记录
-     * @endpoint post /api/project-cost/create-operating-restatement
+     * @endpoint post /api/operating-restatements
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -718,7 +718,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/create-operating-restatement`;
+        let localVarPath = `/api/operating-restatements`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -736,7 +736,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 创建期末冻结经营快照
-     * @endpoint post /api/project-cost/create-period-closing-snapshot
+     * @endpoint post /api/period-closing-snapshots
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -787,7 +787,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/create-period-closing-snapshot`;
+        let localVarPath = `/api/period-closing-snapshots`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -805,7 +805,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 创建项目经营快照
-     * @endpoint post /api/project-cost/create-project-operating-snapshot
+     * @endpoint post /api/project-operating-snapshots
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -856,7 +856,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/create-project-operating-snapshot`;
+        let localVarPath = `/api/project-operating-snapshots`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -994,7 +994,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 获取当前项目经营基线包
-     * @endpoint get /api/projects/{projectId}/operating-baseline-package/current
+     * @endpoint get /api/projects/{projectId}/operating-baseline-package
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1037,7 +1037,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/operating-baseline-package/current`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/operating-baseline-package`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<OperatingBaselinePackageSummary>('get', `${basePath}${localVarPath}`,
             {
@@ -1774,7 +1774,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 发布内部成本率版本
-     * @endpoint post /api/project-cost/publish-internal-cost-rate-version
+     * @endpoint post /api/internal-cost-rate-versions
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1825,7 +1825,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/publish-internal-cost-rate-version`;
+        let localVarPath = `/api/internal-cost-rate-versions`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -2469,7 +2469,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 作废费用记录
-     * @endpoint post /api/expense-records/{id}/void
+     * @endpoint post /api/expense-records/{id}:void
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -2525,7 +2525,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/expense-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/void`;
+        let localVarPath = `/api/expense-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:void`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ExpenseRecordSummary>('post', `${basePath}${localVarPath}`,
             {

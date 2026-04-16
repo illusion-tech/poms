@@ -1568,7 +1568,7 @@
         ]
       }
     },
-    "/api/project-cost/publish-internal-cost-rate-version": {
+    "/api/internal-cost-rate-versions": {
       "post": {
         "operationId": "ProjectCostController_publishInternalCostRateVersion",
         "parameters": [],
@@ -1718,7 +1718,7 @@
         ]
       }
     },
-    "/api/project-cost/activate-operating-baseline-package": {
+    "/api/operating-baseline-packages": {
       "post": {
         "operationId": "ProjectCostController_activateOperatingBaselinePackage",
         "parameters": [],
@@ -1748,7 +1748,7 @@
         ]
       }
     },
-    "/api/projects/{projectId}/operating-baseline-package/current": {
+    "/api/projects/{projectId}/operating-baseline-package": {
       "get": {
         "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
         "parameters": [
@@ -1784,7 +1784,7 @@
         ]
       }
     },
-    "/api/project-cost/create-project-operating-snapshot": {
+    "/api/project-operating-snapshots": {
       "post": {
         "operationId": "ProjectCostController_createProjectOperatingSnapshot",
         "parameters": [],
@@ -1850,7 +1850,7 @@
         ]
       }
     },
-    "/api/project-cost/create-period-closing-snapshot": {
+    "/api/period-closing-snapshots": {
       "post": {
         "operationId": "ProjectCostController_createPeriodClosingSnapshot",
         "parameters": [],
@@ -1916,7 +1916,7 @@
         ]
       }
     },
-    "/api/project-cost/create-operating-restatement": {
+    "/api/operating-restatements": {
       "post": {
         "operationId": "ProjectCostController_createOperatingRestatement",
         "parameters": [],
@@ -2544,7 +2544,7 @@
         ]
       }
     },
-    "/api/expense-records/{id}/confirm": {
+    "/api/expense-records/{id}:confirm": {
       "post": {
         "operationId": "ProjectCostController_confirmExpenseRecord",
         "parameters": [
@@ -2590,7 +2590,7 @@
         ]
       }
     },
-    "/api/expense-records/{id}/void": {
+    "/api/expense-records/{id}:void": {
       "post": {
         "operationId": "ProjectCostController_voidExpenseRecord",
         "parameters": [
