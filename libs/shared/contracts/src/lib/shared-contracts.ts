@@ -1976,9 +1976,15 @@ export const CommissionRoleAssignmentSummarySchema = z
         id: z.uuid(),
         projectId: z.uuid(),
         version: z.number().int(),
+        rowVersion: z.number().int().positive(),
         isCurrent: z.boolean(),
         status: z.enum(['draft', 'frozen', 'superseded']),
         participantsJson: z.array(CommissionParticipantSchema),
+        sourceHandoverId: z.uuid().nullable(),
+        sourceHandoverRebaselineRecordId: z.uuid().nullable(),
+        contractSummarySnapshotId: z.uuid().nullable(),
+        handoverSummarySnapshotId: z.uuid().nullable(),
+        effectiveHandoverBaselineSnapshotId: z.uuid().nullable(),
         frozenAt: z.iso.datetime().nullable(),
         createdAt: z.iso.datetime(),
         updatedAt: z.iso.datetime()
@@ -1994,6 +2000,55 @@ export const CreateCommissionRoleAssignmentRequestSchema = z
     .meta({ id: 'CreateCommissionRoleAssignmentRequest' });
 
 export type CreateCommissionRoleAssignmentRequest = z.infer<typeof CreateCommissionRoleAssignmentRequestSchema>;
+
+export const FreezeCommissionRoleAssignmentRequestSchema = z
+    .object({
+        comment: z.string().trim().max(1000).optional(),
+        sourceHandoverId: z.uuid(),
+        handoverSummarySnapshotId: z.uuid(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'FreezeCommissionRoleAssignmentRequest' });
+
+export type FreezeCommissionRoleAssignmentRequest = z.infer<typeof FreezeCommissionRoleAssignmentRequestSchema>;
+
+export const FreezeCommissionRoleAssignmentResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        businessStatusAfter: z.literal('frozen'),
+        newVersionId: z.uuid(),
+        sourceHandoverId: z.uuid(),
+        contractSummarySnapshotId: z.uuid(),
+        handoverSummarySnapshotId: z.uuid(),
+        effectiveHandoverBaselineSnapshotId: z.uuid(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string()
+    })
+    .meta({ id: 'FreezeCommissionRoleAssignmentResult' });
+
+export type FreezeCommissionRoleAssignmentResult = z.infer<typeof FreezeCommissionRoleAssignmentResultSchema>;
+
+export const CommissionRoleAssignmentDetailViewSchema = z
+    .object({
+        roleAssignmentId: z.uuid(),
+        projectId: z.uuid(),
+        freezeVersionSummary: CommissionRoleAssignmentSummarySchema,
+        sourceHandoverId: z.uuid().nullable(),
+        contractSummarySnapshotId: z.uuid().nullable(),
+        handoverSummarySnapshotId: z.uuid().nullable(),
+        effectiveHandoverBaselineSummary: ContractHandoverCurrentBaselineSummarySchema,
+        receiptJudgmentModeSummary: ProjectHandoverReceiptJudgmentModeSummarySchema,
+        summaryPackageKey: z.string().nullable(),
+        summarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        allowedActions: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionRoleAssignmentDetailView' });
+
+export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
 // ---------------------------------------------------------------------------
 // Commission — Calculation

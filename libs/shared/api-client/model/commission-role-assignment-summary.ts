@@ -14,9 +14,15 @@ export interface CommissionRoleAssignmentSummary {
     id: string;
     projectId: string;
     version: number;
+    rowVersion: number;
     isCurrent: boolean;
     status: CommissionRoleAssignmentSummaryStatusEnum;
     participantsJson: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
+    sourceHandoverId: string | null;
+    sourceHandoverRebaselineRecordId: string | null;
+    contractSummarySnapshotId: string | null;
+    handoverSummarySnapshotId: string | null;
+    effectiveHandoverBaselineSnapshotId: string | null;
     frozenAt: string | null;
     createdAt: string;
     updatedAt: string;
