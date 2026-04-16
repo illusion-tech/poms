@@ -90,6 +90,7 @@
 
 - `business-authorization-matrix.md`：业务对象动作授权矩阵，用于沉淀跨域授权基线
 - `phase2-data-permission-and-sensitive-visibility-design.md`：第二阶段业务数据权限与敏感信息可见性设计，用于补齐数据范围权限、敏感字段控制与提成敏感信息约束
+- `api-route-canonical-inventory.md`：API 路由 canonical inventory，用于固定 canonical route、盘点 drift 并驱动批量整改执行
 - `runtime-audit-and-security-event-design.md`：统一运行时审计与安全事件设计，用于冻结第一阶段最小审计落库与安全事件结构化留痕基线
 - `platform-governance/README.md`：平台治理域设计入口，聚合总设计、子设计与配套输出物
 - `platform-governance/` 子目录下的用户、角色权限、组织、导航等详细设计

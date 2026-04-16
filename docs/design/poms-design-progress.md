@@ -180,22 +180,23 @@
 
 ### 4.7 ADR 清单
 
-| ADR                                           | 当前状态          | 结论摘要                                                                    |
-| --------------------------------------------- | ----------------- | --------------------------------------------------------------------------- |
-| `ADR-001` 平台权限模型与授权边界              | 已接受 (Accepted) | 第一版以平台级 RBAC 为主，后端为授权单一可信源                              |
-| `ADR-002` 组织单元建模与授权关系              | 已接受 (Accepted) | 第一版组织单元采用树结构，授权仍以平台级 RBAC 为主                          |
-| `ADR-003` 导航菜单单一可信源策略              | 已接受 (Accepted) | 后端导航为单一可信源，前端忠实渲染                                          |
-| `ADR-004` 合同资金域后端模块边界              | 已接受 (Accepted) | 后端一期独立拆出 `contract-finance` 模块                                    |
-| `ADR-005` 一期审批流实现策略                  | 已接受 (Accepted) | 模块内审批流 + 统一待办聚合                                                 |
-| `ADR-006` 第一阶段主对象正式命名为 Project    | 已接受 (Accepted) | 主对象统一命名为 `Project`                                                  |
-| `ADR-007` 第一期财务联动与业务登记边界        | 已接受 (Accepted) | 一期只做业务登记与确认，不做强财务联动                                      |
-| `ADR-008` 当前用户资料输出契约                | 已接受 (Accepted) | 当前用户资料保留 `orgUnits[]`，并采用专用关系化轻量类型表达组织归属         |
-| `ADR-009` 平台导航父组可见性规则              | 已接受 (Accepted) | `group` 类型父组默认由可见子项派生可见性，平台父组不再要求独立导航权限      |
-| `ADR-010` 平台用户管理路由桥接状态            | 已接受 (Accepted) | `platform.users` 在真实页面承载未就位前维持 `planned`，不提前记为 `bridged` |
-| `ADR-011` 招投标与 Project 生命周期的建模关系 | 已接受 (Accepted) | 采用 `Project` 主生命周期 + `BidProcess` 第一类受控子流程的分层建模口径     |
-| `ADR-012` 数据持久层技术选型                  | 已接受 (Accepted) | 第一阶段采用 `PostgreSQL + SQL-first migration + MikroORM` 作为持久层路线   |
-| `ADR-013` 平台治理域物理 Schema 边界          | 已接受 (Accepted) | 第一阶段平台治理域继续使用 `poms` schema，不单独拆出 `core` schema          |
-| `ADR-014` 设计-执行状态模型与治理闸口         | 已接受 (Accepted) | 统一文档状态、任务状态与 gate 状态三层模型，并以正式迁移替代长期映射        |
+| ADR                                           | 当前状态          | 结论摘要                                                                     |
+| --------------------------------------------- | ----------------- | ---------------------------------------------------------------------------- |
+| `ADR-001` 平台权限模型与授权边界              | 已接受 (Accepted) | 第一版以平台级 RBAC 为主，后端为授权单一可信源                               |
+| `ADR-002` 组织单元建模与授权关系              | 已接受 (Accepted) | 第一版组织单元采用树结构，授权仍以平台级 RBAC 为主                           |
+| `ADR-003` 导航菜单单一可信源策略              | 已接受 (Accepted) | 后端导航为单一可信源，前端忠实渲染                                           |
+| `ADR-004` 合同资金域后端模块边界              | 已接受 (Accepted) | 后端一期独立拆出 `contract-finance` 模块                                     |
+| `ADR-005` 一期审批流实现策略                  | 已接受 (Accepted) | 模块内审批流 + 统一待办聚合                                                  |
+| `ADR-006` 第一阶段主对象正式命名为 Project    | 已接受 (Accepted) | 主对象统一命名为 `Project`                                                   |
+| `ADR-007` 第一期财务联动与业务登记边界        | 已接受 (Accepted) | 一期只做业务登记与确认，不做强财务联动                                       |
+| `ADR-008` 当前用户资料输出契约                | 已接受 (Accepted) | 当前用户资料保留 `orgUnits[]`，并采用专用关系化轻量类型表达组织归属          |
+| `ADR-009` 平台导航父组可见性规则              | 已接受 (Accepted) | `group` 类型父组默认由可见子项派生可见性，平台父组不再要求独立导航权限       |
+| `ADR-010` 平台用户管理路由桥接状态            | 已接受 (Accepted) | `platform.users` 在真实页面承载未就位前维持 `planned`，不提前记为 `bridged`  |
+| `ADR-011` 招投标与 Project 生命周期的建模关系 | 已接受 (Accepted) | 采用 `Project` 主生命周期 + `BidProcess` 第一类受控子流程的分层建模口径      |
+| `ADR-012` 数据持久层技术选型                  | 已接受 (Accepted) | 第一阶段采用 `PostgreSQL + SQL-first migration + MikroORM` 作为持久层路线    |
+| `ADR-013` 平台治理域物理 Schema 边界          | 已接受 (Accepted) | 第一阶段平台治理域继续使用 `poms` schema，不单独拆出 `core` schema           |
+| `ADR-014` 设计-执行状态模型与治理闸口         | 已接受 (Accepted) | 统一文档状态、任务状态与 gate 状态三层模型，并以正式迁移替代长期映射         |
+| `ADR-015` API 路由 canonical grammar          | 已接受 (Accepted) | 已固定 `resource-first + colon-action`、稳定名词型子资源与“默认直接切换”原则 |
 
 ---
 
@@ -255,6 +256,7 @@
 - `L1/L2` 经营快照与重述链切片 `EX-07`：`EX-07A` 已建立分摊、税务影响、项目经营快照、期末冻结快照与经营基线包的基础持久化模型；`EX-07B` 已按 `ex-07b-operating-restatement-rebaseline-baseline.md` 完成经营基线包激活、项目经营快照、期末冻结快照、经营重述 append-only 替代链、最小查询接口、OpenAPI / generated client、migration-check、API 单测与 `poms-api-e2e`；`EX-07C` 已按 `ex-07c-allocation-tax-stage-query-baseline.md` 完成共享成本分摊依据 / 结果确认与替代、成本阶段归属确认 / 重分类、项目税务处理快照替代链、剩余 query / guard、OpenAPI / generated client、API 单测、`migration-check` 与 `poms-api-e2e`。2026-04-16 基于事实审阅发现的审后 drift 已通过 `ex-07-ex-08-review-corrective-checkpoint.md` 完成 close-out：`EX-07D1 ~ EX-07D3` 已补齐 `handover_rebaseline` 引用校验、共享契约约束、事务性聚合提交、税务 active 唯一约束与 duplicate guard，并通过 `test/build/migration-check/e2e/diff-check`；历史 `G4 = Pass 2026-04-14` 继续保留为历史留痕。
 - `L3` 第一切片 `EX-08`：已完成 `EX-08A0` 实施准备、`EX-08A1` 核心 DDL、`EX-08A2` 摘要快照最小承接、`EX-08A3` 多方确认最小承接、`EX-08B1` 合同承接摘要 query、`EX-08B2` 移交详情 query、`EX-08B3A` 移交确认 command / guard、`EX-08B3B0` 合同变更最小持久化前置、`EX-08B3B1` 再基线化命令 / 项目级最近记录链、`EX-08B3C` 物理快照 / 回款冻结来源收口、`EX-08C1` OpenAPI / shared client 回写、`EX-08C2` 自动化测试补齐与 `EX-08C3` 文档 / 执行板最终回写；新增 `project_handover`、`contract_handover_rebaseline_record`、`handover_baseline_impact_item`、`approval_summary_package_definition`、`approval_summary_snapshot`、`approval_summary_field_projection`、`confirmation_record`、`confirmation_participant`、`contract_amendment`、`contract_term_snapshot` 与 `project_receipt_judgment_freeze` 的 migration / entity / service 承接，并新增 `contract_handover_rebaseline_record.project_id` 项目归属索引、`POST /contract-handover-rebaselines`、`GET /projects/:projectId/contract-handover-summary`、`GET /projects/:projectId/project-handover-detail`、`GET /project-handovers/:handoverId/detail`、`POST /project-handovers/:handoverId/confirm`、`ProjectHandoverApi` generated client 与共享 `ContractHandoverSummaryView` / `ProjectHandoverDetailView` / `ConfirmProjectHandoverRequest` / `ConfirmProjectHandoverResult` / `RebaselineContractHandoverRequest` / `RebaselineContractHandoverResult` 契约；`EX-08C2` 已补 `ProjectHandoverController` 单测与 seeded HTTP E2E，覆盖摘要缺失、主路径确认、并发版本错误、参与人缺失与再基线化处理中阻断。2026-04-16 审后 corrective slice 已完成 close-out：`EX-08D1` 已补齐项目级 effective 再基线 DB 唯一约束、命令 supersede 顺序与解释链，`EX-09A` 现可依赖 single-effective 语义继续推进。
 - `L3` 第二切片 `EX-09`：`EX-09A` 已按 `ex-09a-commission-freeze-version-baseline.md` 完成冻结版本主表升级，把现有 `commission_role_assignment` 从第一阶段简化版本提升为 `L3` 冻结版本主表，补齐 `source_handover_id`、`source_handover_rebaseline_record_id`、`contract_summary_snapshot_id`、`handover_summary_snapshot_id`、`effective_handover_baseline_snapshot_id` 五个联合追溯引用字段及对应 FK / 索引，并通过 `poms-api` test/build、`migration-check` 与 `poms-api-e2e`。`EX-09B` / `EX-09C` 已于 2026-04-16 完成：新增 `ex-09b-commission-freeze-command-query-baseline.md`、`CommissionRoleAssignmentController`、`POST /commission-role-assignments/:id/freeze`、`GET /commission-role-assignments/:id/detail`、联合追溯 guard、OpenAPI 与 shared generated client 回写，并通过 `poms-api` test/build、`migration-check`、`poms-api-e2e` 与 `git diff --check`；`shared-api-client:check` 已执行并按预期因生成 diff 返回非零。当前 `EX-09` 继续保持 `Doing`，下一步进入 `EX-09D`，补 `submitCommissionRoleChange` 与替代冻结版本命令 / 审批链。
+- API route canonical governance：`ADR-015` 已于 2026-04-16 接受，正式固定 `resource-first + colon-action`、稳定名词型子资源与“默认直接切换”原则；`api-route-canonical-inventory.md` 已建立 authoritative inventory，并在执行板新增 `EX-15` 作为跨文档 / 实现整改锚点。当前 `EX-15A` 已完成，`EX-15B` 正在回写 `EX-08 / EX-09 / interface-openapi-dto-design.md` 的 authoritative route，后续 `EX-15C / EX-15D` 将分别收口 `EX-08` 与 `EX-09` 的 Batch 1 route cutover 与 `CommissionRoleChangeRequest` 资源化。
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
 
 ---
