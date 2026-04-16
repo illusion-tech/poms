@@ -31,6 +31,7 @@ import type {
     ProjectOperatingSnapshotSummary,
     ReclassifyCostStageAttributionRequest,
     PublishInternalCostRateVersionRequest,
+    ReplaceAccountingTaxTreatmentRequest,
     ReplaceSharedCostAllocationResultRequest,
     ReplaceLaborCostRecordRequest,
     SharedCostAllocationBasisSummary,
@@ -1011,7 +1012,6 @@ export class ProjectCostService {
         const sourceCostScopeKey = this.buildSourceCostScopeKey(uniqueSourceCostRecordIds);
         const activeBasis = await this.sharedCostAllocationBasisRepository.findActiveByScopeKey(sourceCostScopeKey);
         if (activeBasis) {
-            this.assertExpectedVersion(activeBasis.rowVersion, input.expectedVersion, 'SharedCostAllocationBasis');
             throw new ConflictException(`Source cost scope already has an active allocation basis`);
         }
 
@@ -1091,12 +1091,13 @@ export class ProjectCostService {
     }
 
     async replaceSharedCostAllocationResult(
+        supersededAllocationResultId: string,
         input: ReplaceSharedCostAllocationResultRequest,
         userId: string
     ): Promise<CommandResult> {
-        const superseded = await this.sharedCostAllocationResultRepository.findById(input.supersededAllocationResultId);
+        const superseded = await this.sharedCostAllocationResultRepository.findById(supersededAllocationResultId);
         if (!superseded) {
-            throw new NotFoundException(`SharedCostAllocationResult ${input.supersededAllocationResultId} not found`);
+            throw new NotFoundException(`SharedCostAllocationResult ${supersededAllocationResultId} not found`);
         }
         if (superseded.status !== 'active') {
             throw new ConflictException(`Only active allocation result can be replaced`);
@@ -1146,21 +1147,25 @@ export class ProjectCostService {
         };
     }
 
-    async confirmCostStageAttribution(input: ConfirmCostStageAttributionRequest, userId: string): Promise<CommandResult> {
-        const costRecord = await this.projectActualCostRecordRepository.findById(input.costRecordId);
+    async confirmCostStageAttribution(
+        costRecordId: string,
+        input: ConfirmCostStageAttributionRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const costRecord = await this.projectActualCostRecordRepository.findById(costRecordId);
         if (!costRecord) {
-            throw new NotFoundException(`ProjectActualCostRecord ${input.costRecordId} not found`);
+            throw new NotFoundException(`ProjectActualCostRecord ${costRecordId} not found`);
         }
         this.assertExpectedVersion(costRecord.rowVersion, input.expectedVersion, 'ProjectActualCostRecord');
-        const active = await this.costStageAttributionSnapshotRepository.findActiveByCostRecordId(input.costRecordId);
+        const active = await this.costStageAttributionSnapshotRepository.findActiveByCostRecordId(costRecordId);
         if (active) {
-            throw new ConflictException(`ProjectActualCostRecord ${input.costRecordId} already has an active stage attribution`);
+            throw new ConflictException(`ProjectActualCostRecord ${costRecordId} already has an active stage attribution`);
         }
 
         const now = new Date();
         const snapshot = this.costStageAttributionSnapshotRepository.create({
             id: randomUUID(),
-            costRecordId: input.costRecordId,
+            costRecordId,
             attributedStage: input.attributedStage,
             attributionMode: input.stageAttributionMode,
             lockedBySnapshotId: input.lockedBySnapshotId ?? null,
@@ -1195,12 +1200,13 @@ export class ProjectCostService {
     }
 
     async reclassifyCostStageAttribution(
+        supersededAttributionId: string,
         input: ReclassifyCostStageAttributionRequest,
         userId: string
     ): Promise<CommandResult> {
-        const superseded = await this.costStageAttributionSnapshotRepository.findById(input.supersededAttributionId);
+        const superseded = await this.costStageAttributionSnapshotRepository.findById(supersededAttributionId);
         if (!superseded) {
-            throw new NotFoundException(`CostStageAttributionSnapshot ${input.supersededAttributionId} not found`);
+            throw new NotFoundException(`CostStageAttributionSnapshot ${supersededAttributionId} not found`);
         }
         if (superseded.status !== 'active') {
             throw new ConflictException(`Only active cost stage attribution can be reclassified`);
@@ -1273,43 +1279,28 @@ export class ProjectCostService {
     }
 
     async confirmAccountingTaxTreatment(
+        projectId: string,
         input: ConfirmAccountingTaxTreatmentRequest,
         userId: string
     ): Promise<CommandResult> {
-        const project = await this.contractFinanceRepository.findProjectById(input.projectId);
+        const project = await this.contractFinanceRepository.findProjectById(projectId);
         if (!project) {
-            throw new NotFoundException(`Project ${input.projectId} not found`);
+            throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        let superseded: AccountingTaxTreatmentSnapshot | null = null;
-        if (input.supersedesTaxTreatmentSnapshotId) {
-            superseded = await this.accountingTaxTreatmentSnapshotRepository.findById(input.supersedesTaxTreatmentSnapshotId);
-            if (!superseded) {
-                throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${input.supersedesTaxTreatmentSnapshotId} not found`);
-            }
-            if (superseded.projectId !== input.projectId) {
-                throw new ConflictException(`Superseded tax treatment snapshot does not belong to project ${input.projectId}`);
-            }
-            if (superseded.status !== 'active') {
-                throw new ConflictException(`Only active tax treatment snapshot can be superseded`);
-            }
-            this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
-        } else {
-            const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
-                input.projectId,
-                input.taxTreatmentType
+        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
+            projectId,
+            input.taxTreatmentType
+        );
+        if (activeSnapshot) {
+            throw new ConflictException(
+                `Project ${projectId} already has an active tax treatment snapshot for ${input.taxTreatmentType}; replace it instead`
             );
-            if (activeSnapshot) {
-                this.assertExpectedVersion(activeSnapshot.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
-                throw new ConflictException(
-                    `Project ${input.projectId} already has an active tax treatment snapshot for ${input.taxTreatmentType}; supersede it instead`
-                );
-            }
         }
 
         const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
             id: randomUUID(),
-            projectId: input.projectId,
+            projectId,
             taxTreatmentType: input.taxTreatmentType,
             deductibilityStatus: input.deductibilityStatus,
             taxImpactAmount: this.formatAmount(this.parseDecimal(input.taxImpactAmount, 'taxImpactAmount')),
@@ -1318,27 +1309,83 @@ export class ProjectCostService {
             taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
             basisSummary: input.basisSummary ?? null,
             status: 'active',
-            supersedesId: superseded?.id ?? null,
+            supersedesId: null,
             confirmedAt: new Date(),
             confirmedBy: userId,
             createdBy: userId,
             updatedBy: userId
         });
 
-        if (superseded) {
-            await this.projectActualCostRecordRepository.transactional(async (em) => {
-                await em.nativeUpdate(
-                    AccountingTaxTreatmentSnapshot,
-                    { id: superseded!.id },
-                    { status: 'superseded', updatedBy: userId }
-                );
-                await em.persist(snapshot).flush();
-            });
-            superseded.status = 'superseded';
-            superseded.updatedBy = userId;
-        } else {
-            await this.accountingTaxTreatmentSnapshotRepository.save(snapshot);
+        await this.accountingTaxTreatmentSnapshotRepository.save(snapshot);
+
+        return {
+            targetId: snapshot.id,
+            targetType: 'AccountingTaxTreatmentSnapshot',
+            resultStatus: 'success',
+            businessStatusAfter: 'active',
+            approvalRecordId: null,
+            confirmationRecordId: null,
+            todoItemIds: []
+        };
+    }
+
+    async replaceAccountingTaxTreatment(
+        supersededTaxTreatmentSnapshotId: string,
+        input: ReplaceAccountingTaxTreatmentRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        const superseded = await this.accountingTaxTreatmentSnapshotRepository.findById(supersededTaxTreatmentSnapshotId);
+        if (!superseded) {
+            throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${supersededTaxTreatmentSnapshotId} not found`);
         }
+        if (superseded.status !== 'active') {
+            throw new ConflictException(`Only active tax treatment snapshot can be replaced`);
+        }
+        this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
+
+        const project = await this.contractFinanceRepository.findProjectById(superseded.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${superseded.projectId} not found`);
+        }
+
+        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
+            superseded.projectId,
+            input.taxTreatmentType
+        );
+        if (activeSnapshot && activeSnapshot.id !== superseded.id) {
+            throw new ConflictException(
+                `Project ${superseded.projectId} already has another active tax treatment snapshot for ${input.taxTreatmentType}`
+            );
+        }
+
+        const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
+            id: randomUUID(),
+            projectId: superseded.projectId,
+            taxTreatmentType: input.taxTreatmentType,
+            deductibilityStatus: input.deductibilityStatus,
+            taxImpactAmount: this.formatAmount(this.parseDecimal(input.taxImpactAmount, 'taxImpactAmount')),
+            taxPendingFlag: input.taxPendingFlag,
+            taxImpactSummary: input.taxImpactSummary,
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
+            basisSummary: input.basisSummary ?? null,
+            status: 'active',
+            supersedesId: superseded.id,
+            confirmedAt: new Date(),
+            confirmedBy: userId,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.nativeUpdate(
+                AccountingTaxTreatmentSnapshot,
+                { id: superseded.id },
+                { status: 'superseded', updatedBy: userId }
+            );
+            await em.persist(snapshot).flush();
+        });
+        superseded.status = 'superseded';
+        superseded.updatedBy = userId;
 
         return {
             targetId: snapshot.id,

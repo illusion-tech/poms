@@ -1665,8 +1665,8 @@ describe('ProjectCostService', () => {
             }) as never);
 
             const result = await service.replaceSharedCostAllocationResult(
+                SHARED_COST_RESULT_ID,
                 {
-                    supersededAllocationResultId: SHARED_COST_RESULT_ID,
                     allocatedAmount: '3500',
                     allocationRatio: '0.35',
                     replacementReason: 'Updated delivery usage',
@@ -1711,8 +1711,8 @@ describe('ProjectCostService', () => {
             costStageAttributionSnapshotRepository.findActiveByCostRecordId.mockResolvedValue(null);
 
             const result = await service.confirmCostStageAttribution(
+                RECORD_ID,
                 {
-                    costRecordId: RECORD_ID,
                     stageAttributionMode: 'manual',
                     attributedStage: 'delivery',
                     attributionSummary: 'Confirmed from delivery log',
@@ -1758,8 +1758,8 @@ describe('ProjectCostService', () => {
             }) as never);
 
             const result = await service.reclassifyCostStageAttribution(
+                STAGE_ATTRIBUTION_ID,
                 {
-                    supersededAttributionId: STAGE_ATTRIBUTION_ID,
                     newAttributedStage: 'acceptance',
                     reclassifyReason: 'Moved to acceptance stage',
                     expectedVersion: 2
@@ -1786,10 +1786,44 @@ describe('ProjectCostService', () => {
             expect(result.targetType).toBe('CostStageAttributionSnapshot');
         });
 
-        it('confirms accounting tax treatment and supersedes the previous active snapshot when requested', async () => {
+        it('confirms accounting tax treatment for a project', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType.mockResolvedValue(null);
+
+            const result = await service.confirmAccountingTaxTreatment(
+                PROJECT_ID,
+                {
+                    taxTreatmentType: 'input-vat',
+                    deductibilityStatus: 'pending',
+                    taxImpactAmount: '800',
+                    taxImpactSummary: 'Input VAT pending invoice verification',
+                    taxPendingFlag: true,
+                    taxImpactPendingAmount: '800',
+                    basisSummary: 'Labor cost tax impact pending'
+                },
+                USER_ID
+            );
+
+            expect(accountingTaxTreatmentSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    taxTreatmentType: 'input-vat',
+                    deductibilityStatus: 'pending',
+                    taxImpactAmount: '800.0000',
+                    taxImpactPendingAmount: '800.0000',
+                    supersedesId: null,
+                    status: 'active'
+                })
+            );
+            expect(accountingTaxTreatmentSnapshotRepository.save).toHaveBeenCalled();
+            expect(result.targetType).toBe('AccountingTaxTreatmentSnapshot');
+        });
+
+        it('replaces the previous active accounting tax treatment snapshot through a supersedes chain', async () => {
             const superseded = makeAccountingTaxTreatment({ rowVersion: 3 });
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
             accountingTaxTreatmentSnapshotRepository.findById.mockResolvedValue(superseded as never);
+            accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType.mockResolvedValue(superseded as never);
             accountingTaxTreatmentSnapshotRepository.create.mockImplementation((input) => ({
                 id: REPLACEMENT_TAX_TREATMENT_ID,
                 rowVersion: 1,
@@ -1798,9 +1832,9 @@ describe('ProjectCostService', () => {
                 ...input
             }) as never);
 
-            const result = await service.confirmAccountingTaxTreatment(
+            const result = await service.replaceAccountingTaxTreatment(
+                TAX_TREATMENT_ID,
                 {
-                    projectId: PROJECT_ID,
                     taxTreatmentType: 'input-vat',
                     deductibilityStatus: 'deductible',
                     taxImpactAmount: '900',
@@ -1808,7 +1842,6 @@ describe('ProjectCostService', () => {
                     taxPendingFlag: false,
                     taxImpactPendingAmount: '0',
                     basisSummary: 'Verified invoice',
-                    supersedesTaxTreatmentSnapshotId: TAX_TREATMENT_ID,
                     expectedVersion: 3
                 },
                 USER_ID
@@ -1843,8 +1876,8 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.confirmAccountingTaxTreatment(
+                    PROJECT_ID,
                     {
-                        projectId: PROJECT_ID,
                         taxTreatmentType: 'input-vat',
                         deductibilityStatus: 'deductible',
                         taxImpactAmount: '0',

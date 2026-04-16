@@ -39,6 +39,7 @@ import {
     ProjectOperatingSnapshotSummaryDto,
     PublishInternalCostRateVersionRequestDto,
     ReclassifyCostStageAttributionRequestDto,
+    ReplaceAccountingTaxTreatmentRequestDto,
     ReplaceSharedCostAllocationResultRequestDto,
     ReplaceLaborCostRecordRequestDto,
     SharedCostAllocationBasisSummaryDto,
@@ -233,9 +234,9 @@ export class ProjectCostController {
         return this.projectCostService.getOperatingRestatement(id);
     }
 
-    @Post('project-cost/confirm-shared-cost-allocation-basis')
+    @Post('shared-cost-allocation-bases')
     @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '确认共享成本分摊依据与项目分摊结果' })
+    @ApiOperation({ summary: '创建共享成本分摊依据与项目分摊结果' })
     @ApiCreatedResponse({ description: 'The command result' })
     async confirmSharedCostAllocationBasis(
         @Body() body: ConfirmSharedCostAllocationBasisRequestDto,
@@ -261,40 +262,43 @@ export class ProjectCostController {
         return this.projectCostService.listSharedCostAllocationResults(id);
     }
 
-    @Post('project-cost/replace-shared-cost-allocation-result')
+    @Post('shared-cost-allocation-results/:id\\:replace')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '替代共享成本分摊结果' })
     @ApiCreatedResponse({ description: 'The command result' })
     async replaceSharedCostAllocationResult(
+        @Param('id') supersededAllocationResultId: string,
         @Body() body: ReplaceSharedCostAllocationResultRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.replaceSharedCostAllocationResult(body, userId);
+        return this.projectCostService.replaceSharedCostAllocationResult(supersededAllocationResultId, body, userId);
     }
 
-    @Post('project-cost/confirm-cost-stage-attribution')
+    @Post('project-actual-cost-records/:id/stage-attributions')
     @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '确认成本阶段归属快照' })
+    @ApiOperation({ summary: '创建成本阶段归属快照' })
     @ApiCreatedResponse({ description: 'The command result' })
     async confirmCostStageAttribution(
+        @Param('id') costRecordId: string,
         @Body() body: ConfirmCostStageAttributionRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.confirmCostStageAttribution(body, userId);
+        return this.projectCostService.confirmCostStageAttribution(costRecordId, body, userId);
     }
 
-    @Post('project-cost/reclassify-cost-stage-attribution')
+    @Post('cost-stage-attributions/:id\\:reclassify')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '重分类成本阶段归属快照' })
     @ApiCreatedResponse({ description: 'The command result' })
     async reclassifyCostStageAttribution(
+        @Param('id') supersededAttributionId: string,
         @Body() body: ReclassifyCostStageAttributionRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.reclassifyCostStageAttribution(body, userId);
+        return this.projectCostService.reclassifyCostStageAttribution(supersededAttributionId, body, userId);
     }
 
     @Get('project-actual-cost-records/:costRecordId/stage-attributions')
@@ -313,16 +317,30 @@ export class ProjectCostController {
         return this.projectCostService.getCostStageAttribution(id);
     }
 
-    @Post('project-cost/confirm-accounting-tax-treatment')
+    @Post('projects/:projectId/accounting-tax-treatments')
     @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '确认项目税务处理快照' })
+    @ApiOperation({ summary: '创建项目税务处理快照' })
     @ApiCreatedResponse({ description: 'The command result' })
     async confirmAccountingTaxTreatment(
+        @Param('projectId') projectId: string,
         @Body() body: ConfirmAccountingTaxTreatmentRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.confirmAccountingTaxTreatment(body, userId);
+        return this.projectCostService.confirmAccountingTaxTreatment(projectId, body, userId);
+    }
+
+    @Post('accounting-tax-treatments/:id\\:replace')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '替代项目税务处理快照' })
+    @ApiCreatedResponse({ description: 'The command result' })
+    async replaceAccountingTaxTreatment(
+        @Param('id') supersededTaxTreatmentSnapshotId: string,
+        @Body() body: ReplaceAccountingTaxTreatmentRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommandResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.replaceAccountingTaxTreatment(supersededTaxTreatmentSnapshotId, body, userId);
     }
 
     @Get('projects/:projectId/accounting-tax-treatments')
