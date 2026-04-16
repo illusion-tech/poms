@@ -61,6 +61,8 @@ import { PublishInternalCostRateVersionRequest } from '../model/publish-internal
 // @ts-ignore
 import { ReclassifyCostStageAttributionRequest } from '../model/reclassify-cost-stage-attribution-request';
 // @ts-ignore
+import { ReplaceAccountingTaxTreatmentRequest } from '../model/replace-accounting-tax-treatment-request';
+// @ts-ignore
 import { ReplaceLaborCostRecordRequest } from '../model/replace-labor-cost-record-request';
 // @ts-ignore
 import { ReplaceSharedCostAllocationResultRequest } from '../model/replace-shared-cost-allocation-result-request';
@@ -84,10 +86,12 @@ export interface ProjectCostControllerActivateOperatingBaselinePackageRequestPar
 }
 
 export interface ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams {
+    projectId: string;
     confirmAccountingTaxTreatmentRequest: ConfirmAccountingTaxTreatmentRequest;
 }
 
 export interface ProjectCostControllerConfirmCostStageAttributionRequestParams {
+    id: string;
     confirmCostStageAttributionRequest: ConfirmCostStageAttributionRequest;
 }
 
@@ -187,7 +191,13 @@ export interface ProjectCostControllerPublishInternalCostRateVersionRequestParam
 }
 
 export interface ProjectCostControllerReclassifyCostStageAttributionRequestParams {
+    id: string;
     reclassifyCostStageAttributionRequest: ReclassifyCostStageAttributionRequest;
+}
+
+export interface ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams {
+    id: string;
+    replaceAccountingTaxTreatmentRequest: ReplaceAccountingTaxTreatmentRequest;
 }
 
 export interface ProjectCostControllerReplaceLaborCostRecordRequestParams {
@@ -196,6 +206,7 @@ export interface ProjectCostControllerReplaceLaborCostRecordRequestParams {
 }
 
 export interface ProjectCostControllerReplaceSharedCostAllocationResultRequestParams {
+    id: string;
     replaceSharedCostAllocationResultRequest: ReplaceSharedCostAllocationResultRequest;
 }
 
@@ -289,8 +300,8 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
-     * 确认项目税务处理快照
-     * @endpoint post /api/project-cost/confirm-accounting-tax-treatment
+     * 创建项目税务处理快照
+     * @endpoint post /api/projects/{projectId}/accounting-tax-treatments
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -300,6 +311,10 @@ export class ProjectCostApi extends BaseService {
     public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
     public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerConfirmAccountingTaxTreatment.');
+        }
         const confirmAccountingTaxTreatmentRequest = requestParameters?.confirmAccountingTaxTreatmentRequest;
         if (confirmAccountingTaxTreatmentRequest === null || confirmAccountingTaxTreatmentRequest === undefined) {
             throw new Error('Required parameter confirmAccountingTaxTreatmentRequest was null or undefined when calling projectCostControllerConfirmAccountingTaxTreatment.');
@@ -341,7 +356,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/confirm-accounting-tax-treatment`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/accounting-tax-treatments`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -358,8 +373,8 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
-     * 确认成本阶段归属快照
-     * @endpoint post /api/project-cost/confirm-cost-stage-attribution
+     * 创建成本阶段归属快照
+     * @endpoint post /api/project-actual-cost-records/{id}/stage-attributions
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -369,6 +384,10 @@ export class ProjectCostApi extends BaseService {
     public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
     public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerConfirmCostStageAttribution.');
+        }
         const confirmCostStageAttributionRequest = requestParameters?.confirmCostStageAttributionRequest;
         if (confirmCostStageAttributionRequest === null || confirmCostStageAttributionRequest === undefined) {
             throw new Error('Required parameter confirmCostStageAttributionRequest was null or undefined when calling projectCostControllerConfirmCostStageAttribution.');
@@ -410,7 +429,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/confirm-cost-stage-attribution`;
+        let localVarPath = `/api/project-actual-cost-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/stage-attributions`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -501,8 +520,8 @@ export class ProjectCostApi extends BaseService {
     }
 
     /**
-     * 确认共享成本分摊依据与项目分摊结果
-     * @endpoint post /api/project-cost/confirm-shared-cost-allocation-basis
+     * 创建共享成本分摊依据与项目分摊结果
+     * @endpoint post /api/shared-cost-allocation-bases
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -553,7 +572,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/confirm-shared-cost-allocation-basis`;
+        let localVarPath = `/api/shared-cost-allocation-bases`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -1894,7 +1913,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 重分类成本阶段归属快照
-     * @endpoint post /api/project-cost/reclassify-cost-stage-attribution
+     * @endpoint post /api/cost-stage-attributions/{id}:reclassify
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1904,6 +1923,10 @@ export class ProjectCostApi extends BaseService {
     public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
     public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerReclassifyCostStageAttribution.');
+        }
         const reclassifyCostStageAttributionRequest = requestParameters?.reclassifyCostStageAttributionRequest;
         if (reclassifyCostStageAttributionRequest === null || reclassifyCostStageAttributionRequest === undefined) {
             throw new Error('Required parameter reclassifyCostStageAttributionRequest was null or undefined when calling projectCostControllerReclassifyCostStageAttribution.');
@@ -1945,12 +1968,85 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/reclassify-cost-stage-attribution`;
+        let localVarPath = `/api/cost-stage-attributions/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:reclassify`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: reclassifyCostStageAttributionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 替代项目税务处理快照
+     * @endpoint post /api/accounting-tax-treatments/{id}:replace
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerReplaceAccountingTaxTreatment.');
+        }
+        const replaceAccountingTaxTreatmentRequest = requestParameters?.replaceAccountingTaxTreatmentRequest;
+        if (replaceAccountingTaxTreatmentRequest === null || replaceAccountingTaxTreatmentRequest === undefined) {
+            throw new Error('Required parameter replaceAccountingTaxTreatmentRequest was null or undefined when calling projectCostControllerReplaceAccountingTaxTreatment.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/accounting-tax-treatments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: replaceAccountingTaxTreatmentRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -2036,7 +2132,7 @@ export class ProjectCostApi extends BaseService {
 
     /**
      * 替代共享成本分摊结果
-     * @endpoint post /api/project-cost/replace-shared-cost-allocation-result
+     * @endpoint post /api/shared-cost-allocation-results/{id}:replace
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -2046,6 +2142,10 @@ export class ProjectCostApi extends BaseService {
     public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
     public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCostControllerReplaceSharedCostAllocationResult.');
+        }
         const replaceSharedCostAllocationResultRequest = requestParameters?.replaceSharedCostAllocationResultRequest;
         if (replaceSharedCostAllocationResultRequest === null || replaceSharedCostAllocationResultRequest === undefined) {
             throw new Error('Required parameter replaceSharedCostAllocationResultRequest was null or undefined when calling projectCostControllerReplaceSharedCostAllocationResult.');
@@ -2087,7 +2187,7 @@ export class ProjectCostApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-cost/replace-shared-cost-allocation-result`;
+        let localVarPath = `/api/shared-cost-allocation-results/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {

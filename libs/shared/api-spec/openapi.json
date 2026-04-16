@@ -1998,7 +1998,7 @@
         ]
       }
     },
-    "/api/project-cost/confirm-shared-cost-allocation-basis": {
+    "/api/shared-cost-allocation-bases": {
       "post": {
         "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
         "parameters": [],
@@ -2022,7 +2022,7 @@
             "bearer": []
           }
         ],
-        "summary": "确认共享成本分摊依据与项目分摊结果",
+        "summary": "创建共享成本分摊依据与项目分摊结果",
         "tags": [
           "Project Cost"
         ]
@@ -2100,10 +2100,19 @@
         ]
       }
     },
-    "/api/project-cost/replace-shared-cost-allocation-result": {
+    "/api/shared-cost-allocation-results/{id}:replace": {
       "post": {
         "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2130,10 +2139,19 @@
         ]
       }
     },
-    "/api/project-cost/confirm-cost-stage-attribution": {
+    "/api/project-actual-cost-records/{id}/stage-attributions": {
       "post": {
         "operationId": "ProjectCostController_confirmCostStageAttribution",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2154,16 +2172,25 @@
             "bearer": []
           }
         ],
-        "summary": "确认成本阶段归属快照",
+        "summary": "创建成本阶段归属快照",
         "tags": [
           "Project Cost"
         ]
       }
     },
-    "/api/project-cost/reclassify-cost-stage-attribution": {
+    "/api/cost-stage-attributions/{id}:reclassify": {
       "post": {
         "operationId": "ProjectCostController_reclassifyCostStageAttribution",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2262,10 +2289,19 @@
         ]
       }
     },
-    "/api/project-cost/confirm-accounting-tax-treatment": {
+    "/api/projects/{projectId}/accounting-tax-treatments": {
       "post": {
         "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2286,13 +2322,11 @@
             "bearer": []
           }
         ],
-        "summary": "确认项目税务处理快照",
+        "summary": "创建项目税务处理快照",
         "tags": [
           "Project Cost"
         ]
-      }
-    },
-    "/api/projects/{projectId}/accounting-tax-treatments": {
+      },
       "get": {
         "operationId": "ProjectCostController_listAccountingTaxTreatments",
         "parameters": [
@@ -2323,6 +2357,45 @@
           }
         ],
         "summary": "获取项目税务处理快照列表",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/accounting-tax-treatments/{id}:replace": {
+      "post": {
+        "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceAccountingTaxTreatmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The command result"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "替代项目税务处理快照",
         "tags": [
           "Project Cost"
         ]
@@ -8718,11 +8791,6 @@
             "minLength": 1,
             "maxLength": 1000,
             "nullable": true
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -8912,11 +8980,6 @@
       "ReplaceSharedCostAllocationResultRequest": {
         "type": "object",
         "properties": {
-          "supersededAllocationResultId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
           "allocatedAmount": {
             "type": "string",
             "minLength": 1,
@@ -8952,7 +9015,6 @@
           }
         },
         "required": [
-          "supersededAllocationResultId",
           "allocatedAmount",
           "replacementReason"
         ],
@@ -8961,11 +9023,6 @@
       "ConfirmCostStageAttributionRequest": {
         "type": "object",
         "properties": {
-          "costRecordId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
           "stageAttributionMode": {
             "type": "string",
             "enum": [
@@ -9003,7 +9060,6 @@
           }
         },
         "required": [
-          "costRecordId",
           "stageAttributionMode",
           "attributedStage"
         ],
@@ -9012,11 +9068,6 @@
       "ReclassifyCostStageAttributionRequest": {
         "type": "object",
         "properties": {
-          "supersededAttributionId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
           "newAttributedStage": {
             "type": "string",
             "minLength": 1,
@@ -9046,7 +9097,6 @@
           }
         },
         "required": [
-          "supersededAttributionId",
           "newAttributedStage",
           "reclassifyReason"
         ],
@@ -9155,11 +9205,54 @@
       "ConfirmAccountingTaxTreatmentRequest": {
         "type": "object",
         "properties": {
-          "projectId": {
+          "taxTreatmentType": {
             "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            "minLength": 1,
+            "maxLength": 64
           },
+          "deductibilityStatus": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "taxImpactAmount": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxPendingFlag": {
+            "default": false,
+            "type": "boolean"
+          },
+          "taxImpactPendingAmount": {
+            "default": "0",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "basisSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "taxTreatmentType",
+          "deductibilityStatus",
+          "taxImpactAmount",
+          "taxImpactSummary"
+        ],
+        "id": "ConfirmAccountingTaxTreatmentRequest"
+      },
+      "ReplaceAccountingTaxTreatmentRequest": {
+        "type": "object",
+        "properties": {
           "taxTreatmentType": {
             "type": "string",
             "minLength": 1,
@@ -9196,12 +9289,6 @@
             "maxLength": 2000,
             "nullable": true
           },
-          "supersedesTaxTreatmentSnapshotId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
           "expectedVersion": {
             "type": "integer",
             "exclusiveMinimum": 0,
@@ -9209,13 +9296,12 @@
           }
         },
         "required": [
-          "projectId",
           "taxTreatmentType",
           "deductibilityStatus",
           "taxImpactAmount",
           "taxImpactSummary"
         ],
-        "id": "ConfirmAccountingTaxTreatmentRequest"
+        "id": "ReplaceAccountingTaxTreatmentRequest"
       },
       "AccountingTaxTreatmentSnapshotSummary": {
         "type": "object",

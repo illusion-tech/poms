@@ -2710,8 +2710,7 @@ export const ConfirmSharedCostAllocationBasisRequestSchema = z
         allocationMethod: z.string().trim().min(1).max(64),
         projectShareItems: z.array(SharedCostAllocationShareItemSchema).min(1),
         basisSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        comment: z.string().trim().min(1).max(1000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional()
+        comment: z.string().trim().min(1).max(1000).nullable().optional()
     })
     .meta({ id: 'ConfirmSharedCostAllocationBasisRequest' });
 
@@ -2719,7 +2718,6 @@ export type ConfirmSharedCostAllocationBasisRequest = z.infer<typeof ConfirmShar
 
 export const ReplaceSharedCostAllocationResultRequestSchema = z
     .object({
-        supersededAllocationResultId: z.uuid(),
         allocatedAmount: z.string().trim().min(1).max(64),
         allocationRatio: z.string().trim().min(1).max(64).nullable().optional(),
         allocationSummary: z.string().trim().min(1).max(1000).nullable().optional(),
@@ -2778,7 +2776,6 @@ export type SharedCostAllocationResultListView = z.infer<typeof SharedCostAlloca
 
 export const ConfirmCostStageAttributionRequestSchema = z
     .object({
-        costRecordId: z.uuid(),
         stageAttributionMode: z.enum(['auto', 'manual']),
         attributedStage: z.string().trim().min(1).max(64),
         lockedBySnapshotId: z.uuid().nullable().optional(),
@@ -2792,7 +2789,6 @@ export type ConfirmCostStageAttributionRequest = z.infer<typeof ConfirmCostStage
 
 export const ReclassifyCostStageAttributionRequestSchema = z
     .object({
-        supersededAttributionId: z.uuid(),
         newAttributedStage: z.string().trim().min(1).max(64),
         lockedBySnapshotId: z.uuid().nullable().optional(),
         reclassifyReason: z.string().trim().min(1).max(256),
@@ -2831,7 +2827,20 @@ export type CostStageAttributionHistoryView = z.infer<typeof CostStageAttributio
 
 export const ConfirmAccountingTaxTreatmentRequestSchema = z
     .object({
-        projectId: z.uuid(),
+        taxTreatmentType: z.string().trim().min(1).max(64),
+        deductibilityStatus: z.string().trim().min(1).max(32),
+        taxImpactAmount: z.string().trim().min(1).max(64),
+        taxImpactSummary: z.string().trim().min(1).max(2000),
+        taxPendingFlag: z.boolean().default(false),
+        taxImpactPendingAmount: z.string().trim().min(1).max(64).default('0'),
+        basisSummary: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .meta({ id: 'ConfirmAccountingTaxTreatmentRequest' });
+
+export type ConfirmAccountingTaxTreatmentRequest = z.infer<typeof ConfirmAccountingTaxTreatmentRequestSchema>;
+
+export const ReplaceAccountingTaxTreatmentRequestSchema = z
+    .object({
         taxTreatmentType: z.string().trim().min(1).max(64),
         deductibilityStatus: z.string().trim().min(1).max(32),
         taxImpactAmount: z.string().trim().min(1).max(64),
@@ -2839,12 +2848,11 @@ export const ConfirmAccountingTaxTreatmentRequestSchema = z
         taxPendingFlag: z.boolean().default(false),
         taxImpactPendingAmount: z.string().trim().min(1).max(64).default('0'),
         basisSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        supersedesTaxTreatmentSnapshotId: z.uuid().nullable().optional(),
         expectedVersion: z.number().int().positive().optional()
     })
-    .meta({ id: 'ConfirmAccountingTaxTreatmentRequest' });
+    .meta({ id: 'ReplaceAccountingTaxTreatmentRequest' });
 
-export type ConfirmAccountingTaxTreatmentRequest = z.infer<typeof ConfirmAccountingTaxTreatmentRequestSchema>;
+export type ReplaceAccountingTaxTreatmentRequest = z.infer<typeof ReplaceAccountingTaxTreatmentRequestSchema>;
 
 export const AccountingTaxTreatmentSnapshotSummarySchema = z
     .object({

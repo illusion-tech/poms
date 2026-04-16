@@ -152,6 +152,7 @@ export * from './reclassify-cost-stage-attribution-request';
 export * from './record-route-denied-security-event-request';
 export * from './register-commission-payout-request';
 export * from './reject-approval-record-request';
+export * from './replace-accounting-tax-treatment-request';
 export * from './replace-labor-cost-record-request';
 export * from './replace-shared-cost-allocation-result-request';
 export * from './replacement-commission-role-assignment-payload';

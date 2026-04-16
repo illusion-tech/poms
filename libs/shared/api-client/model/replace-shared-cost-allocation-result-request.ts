@@ -10,7 +10,6 @@
 
 
 export interface ReplaceSharedCostAllocationResultRequest { 
-    supersededAllocationResultId: string;
     allocatedAmount: string;
     allocationRatio?: string | null;
     allocationSummary?: string | null;

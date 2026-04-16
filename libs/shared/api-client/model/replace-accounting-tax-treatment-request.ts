@@ -9,7 +9,7 @@
  */
 
 
-export interface ConfirmAccountingTaxTreatmentRequest { 
+export interface ReplaceAccountingTaxTreatmentRequest { 
     taxTreatmentType: string;
     deductibilityStatus: string;
     taxImpactAmount: string;
@@ -17,5 +17,6 @@ export interface ConfirmAccountingTaxTreatmentRequest {
     taxPendingFlag?: boolean;
     taxImpactPendingAmount?: string;
     basisSummary?: string | null;
+    expectedVersion?: number;
 }
 

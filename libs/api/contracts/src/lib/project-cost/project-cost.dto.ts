@@ -32,6 +32,7 @@ import {
     ReclassifyCostStageAttributionRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
     ReplaceSharedCostAllocationResultRequestSchema,
+    ReplaceAccountingTaxTreatmentRequestSchema,
     ReplaceLaborCostRecordRequestSchema,
     SharedCostAllocationBasisSummarySchema,
     SharedCostAllocationResultListViewSchema,
@@ -96,6 +97,8 @@ export class CostStageAttributionSnapshotSummaryDto extends createZodDto(CostSta
 export class CostStageAttributionHistoryViewDto extends createZodDto(CostStageAttributionHistoryViewSchema) {}
 
 export class ConfirmAccountingTaxTreatmentRequestDto extends createZodDto(ConfirmAccountingTaxTreatmentRequestSchema) {}
+
+export class ReplaceAccountingTaxTreatmentRequestDto extends createZodDto(ReplaceAccountingTaxTreatmentRequestSchema) {}
 
 export class AccountingTaxTreatmentSnapshotSummaryDto extends createZodDto(AccountingTaxTreatmentSnapshotSummarySchema) {}
 

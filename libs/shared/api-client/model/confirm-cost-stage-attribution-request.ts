@@ -10,7 +10,6 @@
 
 
 export interface ConfirmCostStageAttributionRequest { 
-    costRecordId: string;
     stageAttributionMode: ConfirmCostStageAttributionRequestStageAttributionModeEnum;
     attributedStage: string;
     lockedBySnapshotId?: string | null;

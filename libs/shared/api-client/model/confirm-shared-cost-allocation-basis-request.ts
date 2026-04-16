@@ -17,6 +17,5 @@ export interface ConfirmSharedCostAllocationBasisRequest {
     projectShareItems: Array<ConfirmSharedCostAllocationBasisRequestProjectShareItemsInner>;
     basisSummary?: string | null;
     comment?: string | null;
-    expectedVersion?: number;
 }
 

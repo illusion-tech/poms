@@ -10,7 +10,6 @@
 
 
 export interface ReclassifyCostStageAttributionRequest { 
-    supersededAttributionId: string;
     newAttributedStage: string;
     lockedBySnapshotId?: string | null;
     reclassifyReason: string;
