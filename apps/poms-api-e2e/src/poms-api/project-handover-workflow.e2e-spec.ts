@@ -80,7 +80,7 @@ describe('poms-api project handover workflow e2e', () => {
         const fixture = PROJECT_HANDOVER_E2E_FIXTURES.staleVersion;
         const detail = await getProjectHandoverDetailByHandover(client, fixture.handoverId);
 
-        const response = await client.post(`/project-handovers/${fixture.handoverId}/confirm`, {
+        const response = await client.post(`/project-handovers/${fixture.handoverId}:confirm`, {
             participantConfirmations: [
                 {
                     participantId: PROJECT_HANDOVER_E2E_USERS.adminId,
@@ -105,7 +105,7 @@ describe('poms-api project handover workflow e2e', () => {
         const fixture = PROJECT_HANDOVER_E2E_FIXTURES.missingParticipant;
         const detail = await getProjectHandoverDetailByHandover(client, fixture.handoverId);
 
-        const response = await client.post(`/project-handovers/${fixture.handoverId}/confirm`, {
+        const response = await client.post(`/project-handovers/${fixture.handoverId}:confirm`, {
             participantConfirmations: [
                 {
                     participantId: PROJECT_HANDOVER_E2E_USERS.adminId,
@@ -134,7 +134,7 @@ describe('poms-api project handover workflow e2e', () => {
             `Handover rebaseline record ${fixture.processingRebaselineRecordId} is still processing`
         );
 
-        const response = await client.post(`/project-handovers/${fixture.handoverId}/confirm`, {
+        const response = await client.post(`/project-handovers/${fixture.handoverId}:confirm`, {
             participantConfirmations: [
                 {
                     participantId: PROJECT_HANDOVER_E2E_USERS.adminId,
