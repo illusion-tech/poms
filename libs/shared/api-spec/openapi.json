@@ -4839,50 +4839,6 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/role-assignment/{id}/freeze": {
-      "post": {
-        "operationId": "CommissionController_freezeRoleAssignment",
-        "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "冻结项目提成角色分配（草稿→冻结）",
-        "tags": [
-          "Commission"
-        ]
-      }
-    },
     "/api/commission/projects/{projectId}/calculations": {
       "get": {
         "operationId": "CommissionController_listCalculations",
@@ -5503,7 +5459,7 @@
         ]
       }
     },
-    "/api/commission-role-assignments/{id}/detail": {
+    "/api/commission-role-assignments/{id}": {
       "get": {
         "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
         "parameters": [
@@ -5539,7 +5495,7 @@
         ]
       }
     },
-    "/api/commission-role-assignments/{id}/freeze": {
+    "/api/commission-role-assignments/{id}:freeze": {
       "post": {
         "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
         "parameters": [

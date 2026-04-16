@@ -50,7 +50,7 @@ export class CommissionRoleAssignmentsApi extends BaseService {
 
     /**
      * 冻结提成角色分配并绑定移交收口链
-     * @endpoint post /api/commission-role-assignments/{id}/freeze
+     * @endpoint post /api/commission-role-assignments/{id}:freeze
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -106,7 +106,7 @@ export class CommissionRoleAssignmentsApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/commission-role-assignments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/freeze`;
+        let localVarPath = `/api/commission-role-assignments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:freeze`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<FreezeCommissionRoleAssignmentResult>('post', `${basePath}${localVarPath}`,
             {
@@ -124,7 +124,7 @@ export class CommissionRoleAssignmentsApi extends BaseService {
 
     /**
      * 获取提成角色冻结详情视图
-     * @endpoint get /api/commission-role-assignments/{id}/detail
+     * @endpoint get /api/commission-role-assignments/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -167,7 +167,7 @@ export class CommissionRoleAssignmentsApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/commission-role-assignments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/detail`;
+        let localVarPath = `/api/commission-role-assignments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommissionRoleAssignmentDetailView>('get', `${basePath}${localVarPath}`,
             {
