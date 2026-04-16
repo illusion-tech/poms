@@ -57,7 +57,7 @@ describe('poms-api approval workflow e2e', () => {
             });
 
             const viewerSession = await loginAsViewer();
-            const response = await viewerSession.client.post(`/approval-records/${todo.sourceId}/approve`, {
+            const response = await viewerSession.client.post(`/approval-records/${todo.sourceId}:approve`, {
                 comment: 'e2e 非当前处理人尝试审批',
                 expectedVersion: 1
             });
@@ -100,7 +100,7 @@ describe('poms-api approval workflow e2e', () => {
         });
 
         const closedApproval = await getApprovalRecord(client, todo.sourceId);
-        const response = await client.post(`/approval-records/${todo.sourceId}/approve`, {
+        const response = await client.post(`/approval-records/${todo.sourceId}:approve`, {
             comment: 'e2e 二次审批通过',
             expectedVersion: closedApproval.rowVersion
         });
@@ -139,7 +139,7 @@ describe('poms-api approval workflow e2e', () => {
         });
 
         const closedApproval = await getApprovalRecord(client, todo.sourceId);
-        const response = await client.post(`/approval-records/${todo.sourceId}/reject`, {
+        const response = await client.post(`/approval-records/${todo.sourceId}:reject`, {
             reason: '二次驳回',
             comment: 'e2e 重复驳回',
             expectedVersion: closedApproval.rowVersion

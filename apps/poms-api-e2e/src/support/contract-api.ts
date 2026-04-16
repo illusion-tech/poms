@@ -102,7 +102,7 @@ export async function reviewCommercialReleaseBaselineDiff(
     input: ReviewCommercialReleaseBaselineDiffRequest
 ): Promise<CommercialDiffReviewResult> {
     const response = await client.post<CommercialDiffReviewResult>(
-        `/commercial-release-baselines/${baselineId}/review-diff`,
+        `/commercial-release-baselines/${baselineId}:reviewDiff`,
         input
     );
     return expectStatus(response, 200);
@@ -120,7 +120,7 @@ export async function getCurrentContractReadiness(
     client: AxiosInstance,
     projectId: string
 ): Promise<ContractReadinessDetail> {
-    const response = await client.get<ContractReadinessDetail>(`/projects/${projectId}/contract-readiness/current`);
+    const response = await client.get<ContractReadinessDetail>(`/projects/${projectId}/contract-readiness`);
     return expectStatus(response, 200);
 }
 
@@ -130,7 +130,7 @@ export async function initializeContractSnapshotFromReadiness(
     input: InitializeContractSnapshotFromReadinessPackageRequest = {}
 ): Promise<ReadinessInitializationResult> {
     const response = await client.post<ReadinessInitializationResult>(
-        `/contract-readiness-packages/${readinessPackageId}/initialize-contract-snapshot`,
+        `/contract-readiness-packages/${readinessPackageId}:initializeContractSnapshot`,
         input
     );
     return expectStatus(response, 200);
@@ -142,7 +142,7 @@ export async function initializeReceivablePlanFromReadiness(
     input: InitializeReceivablePlanFromReadinessPackageRequest = {}
 ): Promise<ReadinessInitializationResult> {
     const response = await client.post<ReadinessInitializationResult>(
-        `/contract-readiness-packages/${readinessPackageId}/initialize-receivable-plan`,
+        `/contract-readiness-packages/${readinessPackageId}:initializeReceivablePlan`,
         input
     );
     return expectStatus(response, 200);

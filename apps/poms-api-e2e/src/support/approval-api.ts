@@ -62,7 +62,7 @@ export async function approveRecord(
     input: ApproveRecordRequest
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(
-        `/approval-records/${approvalRecordId}/approve`,
+        `/approval-records/${approvalRecordId}:approve`,
         input
     );
     return expectStatus(response, 200);
@@ -74,7 +74,7 @@ export async function rejectRecord(
     input: RejectApprovalRecordRequest
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(
-        `/approval-records/${approvalRecordId}/reject`,
+        `/approval-records/${approvalRecordId}:reject`,
         input
     );
     return expectStatus(response, 200);

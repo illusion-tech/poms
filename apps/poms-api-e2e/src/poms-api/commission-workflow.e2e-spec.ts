@@ -332,7 +332,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
-        const response = await client.post(`/approval-records/${payoutApproval.id}/approve`, {
+        const response = await client.post(`/approval-records/${payoutApproval.id}:approve`, {
             comment: 'e2e 审批记录版本冲突',
             expectedVersion: payoutApproval.rowVersion + 1
         });
