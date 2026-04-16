@@ -3813,7 +3813,7 @@
         ]
       }
     },
-    "/api/approval-records/{id}/approve": {
+    "/api/approval-records/{id}:approve": {
       "post": {
         "operationId": "ApprovalController_approveRecord",
         "parameters": [
@@ -3859,7 +3859,7 @@
         ]
       }
     },
-    "/api/approval-records/{id}/reject": {
+    "/api/approval-records/{id}:reject": {
       "post": {
         "operationId": "ApprovalController_rejectRecord",
         "parameters": [
@@ -4378,7 +4378,7 @@
         ]
       }
     },
-    "/api/commercial-release-baselines/{id}/review-diff": {
+    "/api/commercial-release-baselines/{id}:reviewDiff": {
       "post": {
         "operationId": "ContractReadinessController_reviewDiff",
         "parameters": [
@@ -4497,7 +4497,7 @@
         ]
       }
     },
-    "/api/projects/{projectId}/contract-readiness/current": {
+    "/api/projects/{projectId}/contract-readiness": {
       "get": {
         "operationId": "ContractReadinessController_getCurrentContractReadiness",
         "parameters": [
@@ -4533,7 +4533,7 @@
         ]
       }
     },
-    "/api/contract-readiness-packages/{id}/initialize-contract-snapshot": {
+    "/api/contract-readiness-packages/{id}:initializeContractSnapshot": {
       "post": {
         "operationId": "ContractReadinessController_initializeContractSnapshot",
         "parameters": [
@@ -4579,7 +4579,7 @@
         ]
       }
     },
-    "/api/contract-readiness-packages/{id}/initialize-receivable-plan": {
+    "/api/contract-readiness-packages/{id}:initializeReceivablePlan": {
       "post": {
         "operationId": "ContractReadinessController_initializeReceivablePlan",
         "parameters": [

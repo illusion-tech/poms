@@ -354,7 +354,7 @@ export class ContractReadinessApi extends BaseService {
 
     /**
      * 获取项目当前签约就绪承接包
-     * @endpoint get /api/projects/{projectId}/contract-readiness/current
+     * @endpoint get /api/projects/{projectId}/contract-readiness
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -397,7 +397,7 @@ export class ContractReadinessApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/contract-readiness/current`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/contract-readiness`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ContractReadinessDetail>('get', `${basePath}${localVarPath}`,
             {
@@ -474,7 +474,7 @@ export class ContractReadinessApi extends BaseService {
 
     /**
      * 基于承接包初始化合同条款快照引用
-     * @endpoint post /api/contract-readiness-packages/{id}/initialize-contract-snapshot
+     * @endpoint post /api/contract-readiness-packages/{id}:initializeContractSnapshot
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -530,7 +530,7 @@ export class ContractReadinessApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-readiness-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/initialize-contract-snapshot`;
+        let localVarPath = `/api/contract-readiness-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:initializeContractSnapshot`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ReadinessInitializationResult>('post', `${basePath}${localVarPath}`,
             {
@@ -548,7 +548,7 @@ export class ContractReadinessApi extends BaseService {
 
     /**
      * 基于承接包初始化应收计划引用
-     * @endpoint post /api/contract-readiness-packages/{id}/initialize-receivable-plan
+     * @endpoint post /api/contract-readiness-packages/{id}:initializeReceivablePlan
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -604,7 +604,7 @@ export class ContractReadinessApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-readiness-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/initialize-receivable-plan`;
+        let localVarPath = `/api/contract-readiness-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:initializeReceivablePlan`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ReadinessInitializationResult>('post', `${basePath}${localVarPath}`,
             {
@@ -622,7 +622,7 @@ export class ContractReadinessApi extends BaseService {
 
     /**
      * 复核商业放行差异结果
-     * @endpoint post /api/commercial-release-baselines/{id}/review-diff
+     * @endpoint post /api/commercial-release-baselines/{id}:reviewDiff
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -678,7 +678,7 @@ export class ContractReadinessApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/commercial-release-baselines/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/review-diff`;
+        let localVarPath = `/api/commercial-release-baselines/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:reviewDiff`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommercialDiffReviewResult>('post', `${basePath}${localVarPath}`,
             {

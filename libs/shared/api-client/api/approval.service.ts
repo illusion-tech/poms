@@ -59,7 +59,7 @@ export class ApprovalApi extends BaseService {
 
     /**
      * 审批通过
-     * @endpoint post /api/approval-records/{id}/approve
+     * @endpoint post /api/approval-records/{id}:approve
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -115,7 +115,7 @@ export class ApprovalApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/approval-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/approve`;
+        let localVarPath = `/api/approval-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:approve`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
@@ -248,7 +248,7 @@ export class ApprovalApi extends BaseService {
 
     /**
      * 审批驳回
-     * @endpoint post /api/approval-records/{id}/reject
+     * @endpoint post /api/approval-records/{id}:reject
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -304,7 +304,7 @@ export class ApprovalApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/approval-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reject`;
+        let localVarPath = `/api/approval-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:reject`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
