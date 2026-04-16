@@ -2875,60 +2875,64 @@ export const AccountingTaxTreatmentListViewSchema = z
 
 export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatmentListViewSchema>;
 
-export const RegisterPaymentFactCostRecordRequestSchema = z
+export const CreatePaymentFactProjectActualCostRecordRequestSchema = z
     .object({
+        costType: z.literal('PAYMENT_FACT'),
         paymentRecordId: z.uuid(),
-        projectId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional()
+        expectedSourceVersion: z.number().int().positive().optional()
     })
-    .meta({ id: 'RegisterPaymentFactCostRecordRequest' });
+    .strict()
+    .meta({ id: 'CreatePaymentFactProjectActualCostRecordRequest' });
 
-export type RegisterPaymentFactCostRecordRequest = z.infer<typeof RegisterPaymentFactCostRecordRequestSchema>;
+export type CreatePaymentFactProjectActualCostRecordRequest = z.infer<typeof CreatePaymentFactProjectActualCostRecordRequestSchema>;
 
-export const RegisterInvoiceCostRecordRequestSchema = z
+export const CreateInvoiceProjectActualCostRecordRequestSchema = z
     .object({
+        costType: z.literal('INVOICE'),
         invoiceRecordId: z.uuid(),
-        projectId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional()
+        expectedSourceVersion: z.number().int().positive().optional()
     })
-    .meta({ id: 'RegisterInvoiceCostRecordRequest' });
+    .strict()
+    .meta({ id: 'CreateInvoiceProjectActualCostRecordRequest' });
 
-export type RegisterInvoiceCostRecordRequest = z.infer<typeof RegisterInvoiceCostRecordRequestSchema>;
+export type CreateInvoiceProjectActualCostRecordRequest = z.infer<typeof CreateInvoiceProjectActualCostRecordRequestSchema>;
 
-export const RegisterExpenseCostRecordRequestSchema = z
+export const CreateExpenseProjectActualCostRecordRequestSchema = z
     .object({
+        costType: z.literal('EXPENSE'),
         expenseRecordId: z.uuid(),
-        projectId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional()
+        expectedSourceVersion: z.number().int().positive().optional()
     })
-    .meta({ id: 'RegisterExpenseCostRecordRequest' });
+    .strict()
+    .meta({ id: 'CreateExpenseProjectActualCostRecordRequest' });
 
-export type RegisterExpenseCostRecordRequest = z.infer<typeof RegisterExpenseCostRecordRequestSchema>;
+export type CreateExpenseProjectActualCostRecordRequest = z.infer<typeof CreateExpenseProjectActualCostRecordRequestSchema>;
 
-export const RegisterProcurementCostRecordRequestSchema = z
+export const CreateProcurementProjectActualCostRecordRequestSchema = z
     .object({
+        costType: z.literal('PROCUREMENT'),
         payableRecordId: z.uuid(),
-        projectId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional()
+        expectedSourceVersion: z.number().int().positive().optional()
     })
-    .meta({ id: 'RegisterProcurementCostRecordRequest' });
+    .strict()
+    .meta({ id: 'CreateProcurementProjectActualCostRecordRequest' });
 
-export type RegisterProcurementCostRecordRequest = z.infer<typeof RegisterProcurementCostRecordRequestSchema>;
+export type CreateProcurementProjectActualCostRecordRequest = z.infer<typeof CreateProcurementProjectActualCostRecordRequestSchema>;
 
-export const RegisterLaborCostRecordRequestSchema = z
+export const CreateLaborProjectActualCostRecordRequestSchema = z
     .object({
-        projectId: z.uuid(),
+        costType: z.literal('LABOR'),
         laborPersonId: z.uuid().nullable().optional(),
         laborRole: z.string().nullable().optional(),
         laborPeriodType: z.enum(['WEEK', 'MONTH']),
@@ -2939,16 +2943,78 @@ export const RegisterLaborCostRecordRequestSchema = z
         workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
         rateVersionId: z.uuid(),
         costDescription: z.string().nullable().optional(),
-        attachmentIds: z.array(z.uuid()).optional(),
-        expectedVersion: z.number().int().positive().optional()
+        attachmentIds: z.array(z.uuid()).optional()
     })
-    .meta({ id: 'RegisterLaborCostRecordRequest' });
+    .strict()
+    .meta({ id: 'CreateLaborProjectActualCostRecordRequest' });
 
-export type RegisterLaborCostRecordRequest = z.infer<typeof RegisterLaborCostRecordRequestSchema>;
+export type CreateLaborProjectActualCostRecordRequest = z.infer<typeof CreateLaborProjectActualCostRecordRequestSchema>;
+
+export const CreateProjectActualCostRecordRequestSchema = z
+    .object({
+        costType: z.enum(['PAYMENT_FACT', 'INVOICE', 'EXPENSE', 'PROCUREMENT', 'LABOR']),
+        paymentRecordId: z.uuid().optional(),
+        invoiceRecordId: z.uuid().optional(),
+        expenseRecordId: z.uuid().optional(),
+        payableRecordId: z.uuid().optional(),
+        costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
+        evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        taxImpactSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        expectedSourceVersion: z.number().int().positive().optional(),
+        laborPersonId: z.uuid().nullable().optional(),
+        laborRole: z.string().nullable().optional(),
+        laborPeriodType: z.enum(['WEEK', 'MONTH']).optional(),
+        laborPeriodStart: z.iso.date().optional(),
+        laborPeriodEnd: z.iso.date().optional(),
+        actualHours: z.string().trim().min(1).max(64).nullable().optional(),
+        actualPersonDays: z.string().trim().min(1).max(64).nullable().optional(),
+        workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        rateVersionId: z.uuid().optional(),
+        attachmentIds: z.array(z.uuid()).optional()
+    })
+    .strict()
+    .superRefine((value, ctx) => {
+        let result:
+            | ReturnType<typeof CreatePaymentFactProjectActualCostRecordRequestSchema.safeParse>
+            | ReturnType<typeof CreateInvoiceProjectActualCostRecordRequestSchema.safeParse>
+            | ReturnType<typeof CreateExpenseProjectActualCostRecordRequestSchema.safeParse>
+            | ReturnType<typeof CreateProcurementProjectActualCostRecordRequestSchema.safeParse>
+            | ReturnType<typeof CreateLaborProjectActualCostRecordRequestSchema.safeParse>;
+
+        switch (value.costType) {
+            case 'PAYMENT_FACT':
+                result = CreatePaymentFactProjectActualCostRecordRequestSchema.safeParse(value);
+                break;
+            case 'INVOICE':
+                result = CreateInvoiceProjectActualCostRecordRequestSchema.safeParse(value);
+                break;
+            case 'EXPENSE':
+                result = CreateExpenseProjectActualCostRecordRequestSchema.safeParse(value);
+                break;
+            case 'PROCUREMENT':
+                result = CreateProcurementProjectActualCostRecordRequestSchema.safeParse(value);
+                break;
+            case 'LABOR':
+                result = CreateLaborProjectActualCostRecordRequestSchema.safeParse(value);
+                break;
+        }
+
+        if (!result.success) {
+            for (const issue of result.error.issues) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: issue.message,
+                    path: issue.path
+                });
+            }
+        }
+    })
+    .meta({ id: 'CreateProjectActualCostRecordRequest' });
+
+export type CreateProjectActualCostRecordRequest = z.infer<typeof CreateProjectActualCostRecordRequestSchema>;
 
 export const ReplaceLaborCostRecordRequestSchema = z
     .object({
-        supersedesRecordId: z.uuid(),
         laborPeriodStart: z.iso.date(),
         laborPeriodEnd: z.iso.date(),
         actualHours: z.string().trim().min(1).max(64).nullable().optional(),
@@ -2956,7 +3022,7 @@ export const ReplaceLaborCostRecordRequestSchema = z
         workSummary: z.string().trim().min(1).max(1000).nullable().optional(),
         rateVersionId: z.uuid(),
         replaceReason: z.string().trim().min(1).max(256),
-        expectedVersion: z.number().int().positive().optional()
+        expectedSupersededRecordVersion: z.number().int().positive().optional()
     })
     .meta({ id: 'ReplaceLaborCostRecordRequest' });
 

@@ -1598,16 +1598,25 @@
         ]
       }
     },
-    "/api/project-actual-cost-records/register-payment-fact": {
+    "/api/projects/{projectId}/actual-cost-records": {
       "post": {
-        "operationId": "ProjectCostController_registerPaymentFactCostRecord",
-        "parameters": [],
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterPaymentFactCostRecordRequest"
+                "$ref": "#/components/schemas/CreateProjectActualCostRecordRequest"
               }
             }
           }
@@ -1622,29 +1631,33 @@
             "bearer": []
           }
         ],
-        "summary": "登记付款事实到统一实际成本记录",
+        "summary": "创建项目统一实际成本记录",
         "tags": [
           "Project Cost"
         ]
-      }
-    },
-    "/api/project-actual-cost-records/register-invoice": {
-      "post": {
-        "operationId": "ProjectCostController_registerInvoiceCostRecord",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterInvoiceCostRecordRequest"
-              }
+      },
+      "get": {
+        "operationId": "ProjectCostController_listProjectActualCostRecords",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
-          "201": {
-            "description": "The command result"
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectActualCostRecordListViewDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1652,67 +1665,7 @@
             "bearer": []
           }
         ],
-        "summary": "登记成本发票到统一实际成本记录",
-        "tags": [
-          "Project Cost"
-        ]
-      }
-    },
-    "/api/project-actual-cost-records/register-expense": {
-      "post": {
-        "operationId": "ProjectCostController_registerExpenseCostRecord",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterExpenseCostRecordRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "The command result"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "登记费用事实到统一实际成本记录",
-        "tags": [
-          "Project Cost"
-        ]
-      }
-    },
-    "/api/project-actual-cost-records/register-procurement": {
-      "post": {
-        "operationId": "ProjectCostController_registerProcurementCostRecord",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterProcurementCostRecordRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "The command result"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "登记采购承诺事实到统一实际成本记录",
+        "summary": "获取项目实际成本记录列表",
         "tags": [
           "Project Cost"
         ]
@@ -2636,42 +2589,6 @@
         ]
       }
     },
-    "/api/projects/{projectId}/actual-cost-records": {
-      "get": {
-        "operationId": "ProjectCostController_listProjectActualCostRecords",
-        "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProjectActualCostRecordListViewDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "获取项目实际成本记录列表",
-        "tags": [
-          "Project Cost"
-        ]
-      }
-    },
     "/api/project-actual-cost-records/{id}": {
       "get": {
         "operationId": "ProjectCostController_getProjectActualCostRecordDetail",
@@ -2708,40 +2625,19 @@
         ]
       }
     },
-    "/api/project-cost/register-labor-cost-record": {
-      "post": {
-        "operationId": "ProjectCostController_registerLaborCostRecord",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterLaborCostRecordRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "The command result"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "归集人力成本记录",
-        "tags": [
-          "Project Cost"
-        ]
-      }
-    },
-    "/api/project-cost/replace-labor-cost-record": {
+    "/api/project-actual-cost-records/{id}:replace": {
       "post": {
         "operationId": "ProjectCostController_replaceLaborCostRecord",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -7587,142 +7483,39 @@
         ],
         "id": "PublishInternalCostRateVersionRequest"
       },
-      "RegisterPaymentFactCostRecordRequest": {
+      "CreateProjectActualCostRecordRequest": {
         "type": "object",
         "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "PAYMENT_FACT",
+              "INVOICE",
+              "EXPENSE",
+              "PROCUREMENT",
+              "LABOR"
+            ]
+          },
           "paymentRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "costDescription": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1000,
-            "nullable": true
-          },
-          "evidenceSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2000,
-            "nullable": true
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "required": [
-          "paymentRecordId",
-          "projectId"
-        ],
-        "id": "RegisterPaymentFactCostRecordRequest"
-      },
-      "RegisterInvoiceCostRecordRequest": {
-        "type": "object",
-        "properties": {
           "invoiceRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "costDescription": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1000,
-            "nullable": true
-          },
-          "evidenceSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2000,
-            "nullable": true
-          },
-          "taxImpactSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2000,
-            "nullable": true
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "required": [
-          "invoiceRecordId",
-          "projectId"
-        ],
-        "id": "RegisterInvoiceCostRecordRequest"
-      },
-      "RegisterExpenseCostRecordRequest": {
-        "type": "object",
-        "properties": {
           "expenseRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "costDescription": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1000,
-            "nullable": true
-          },
-          "evidenceSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2000,
-            "nullable": true
-          },
-          "taxImpactSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2000,
-            "nullable": true
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "required": [
-          "expenseRecordId",
-          "projectId"
-        ],
-        "id": "RegisterExpenseCostRecordRequest"
-      },
-      "RegisterProcurementCostRecordRequest": {
-        "type": "object",
-        "properties": {
           "payableRecordId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
           "costDescription": {
             "type": "string",
             "minLength": 1,
@@ -7741,17 +7534,75 @@
             "maxLength": 2000,
             "nullable": true
           },
-          "expectedVersion": {
+          "expectedSourceVersion": {
             "type": "integer",
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
+          },
+          "laborPersonId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "laborRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "laborPeriodType": {
+            "type": "string",
+            "enum": [
+              "WEEK",
+              "MONTH"
+            ]
+          },
+          "laborPeriodStart": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "laborPeriodEnd": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "actualHours": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "actualPersonDays": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "workSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "rateVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "attachmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
           }
         },
         "required": [
-          "payableRecordId",
-          "projectId"
+          "costType"
         ],
-        "id": "RegisterProcurementCostRecordRequest"
+        "id": "CreateProjectActualCostRecordRequest",
+        "additionalProperties": false
       },
       "BaselineSelectionSource": {
         "type": "string",
@@ -10354,99 +10205,9 @@
         ],
         "id": "ProjectActualCostRecordDetailView"
       },
-      "RegisterLaborCostRecordRequest": {
-        "type": "object",
-        "properties": {
-          "projectId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "laborPersonId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "laborRole": {
-            "type": "string",
-            "nullable": true
-          },
-          "laborPeriodType": {
-            "type": "string",
-            "enum": [
-              "WEEK",
-              "MONTH"
-            ]
-          },
-          "laborPeriodStart": {
-            "type": "string",
-            "format": "date",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
-          },
-          "laborPeriodEnd": {
-            "type": "string",
-            "format": "date",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
-          },
-          "actualHours": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
-            "nullable": true
-          },
-          "actualPersonDays": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
-            "nullable": true
-          },
-          "workSummary": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1000,
-            "nullable": true
-          },
-          "rateVersionId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "costDescription": {
-            "type": "string",
-            "nullable": true
-          },
-          "attachmentIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-            }
-          },
-          "expectedVersion": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
-          }
-        },
-        "required": [
-          "projectId",
-          "laborPeriodType",
-          "laborPeriodStart",
-          "laborPeriodEnd",
-          "rateVersionId"
-        ],
-        "id": "RegisterLaborCostRecordRequest"
-      },
       "ReplaceLaborCostRecordRequest": {
         "type": "object",
         "properties": {
-          "supersedesRecordId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
           "laborPeriodStart": {
             "type": "string",
             "format": "date",
@@ -10485,14 +10246,13 @@
             "minLength": 1,
             "maxLength": 256
           },
-          "expectedVersion": {
+          "expectedSupersededRecordVersion": {
             "type": "integer",
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
         },
         "required": [
-          "supersedesRecordId",
           "laborPeriodStart",
           "laborPeriodEnd",
           "rateVersionId",

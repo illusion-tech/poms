@@ -10,7 +10,6 @@
 
 
 export interface ReplaceLaborCostRecordRequest { 
-    supersedesRecordId: string;
     laborPeriodStart: string;
     laborPeriodEnd: string;
     actualHours?: string | null;
@@ -18,6 +17,6 @@ export interface ReplaceLaborCostRecordRequest {
     workSummary?: string | null;
     rateVersionId: string;
     replaceReason: string;
-    expectedVersion?: number;
+    expectedSupersededRecordVersion?: number;
 }
 
