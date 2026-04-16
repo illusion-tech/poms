@@ -58,6 +58,7 @@
 7. 系统派生接口默认不作为前台公开接口；如需后台触发，应使用受控后台路径或内部服务接口。
 8. 一个命令只表达一个业务动作，不在同一次命令里混合“改草稿字段 + 推进状态”。
 9. 命令响应优先返回动作结果与关键引用，不默认返回整份聚合对象全量视图。
+10. 当请求体本身是 union / `oneOf` 语义时，正式 contract 直接采用 schema-first 建模；controller 用显式 schema pipe 做校验，OpenAPI 必须输出 `oneOf + discriminator`，不得因 DTO 工具边界把业务 contract 压平为字段大并集 object。
 
 ---
 
@@ -240,6 +241,8 @@
 2. path `{projectId}` 是创建归属 SSOT；source-driven variant 不再在 body 中重复传 `projectId`。
 3. `RegisterLaborCostRecordRequest.expectedVersion` 当前未被 runtime 消费，正式设计不再保留该语义不明字段。
 4. `replaceLaborCostRecord` 的 path `{id}` 就是 superseded record identity，request body 不再重复携带 `supersedesRecordId`。
+5. `ADR-016` 已于 2026-04-16 基于 `EX-15F / EX-15E2B` PoC 接受：`CreateProjectActualCostRecordRequest` 正式采用 schema-first discriminated union，controller 用 `ZodValidationPipe(CreateProjectActualCostRecordRequestSchema)` 校验，OpenAPI 输出带 `title` 的 `oneOf + discriminator`，shared generated client 产出同名 union type。
+6. `createZodDto` 在该场景中只继续承担各个 variant object schema 的 OpenAPI component carrier；不再要求直接承载 union request body 本身。
 
 ### 5.5A 第二阶段第二批补充命令 DTO 草案
 

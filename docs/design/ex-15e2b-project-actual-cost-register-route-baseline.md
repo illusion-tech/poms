@@ -129,6 +129,7 @@
 
 - path `{projectId}` 是项目归属 SSOT，source-driven variant 不再在 body 中重复传 `projectId`
 - `RegisterLaborCostRecordRequest.expectedVersion` 在当前 service 中未被消费，本轮裁决删除；若后续确有 rate-version optimistic locking 需要，必须显式新增 `expectedRateVersion?`，不得复用语义不清的 `expectedVersion`
+- `EX-15F` 已于 2026-04-16 在本 slice 上完成 schema-first union PoC：shared contract 直接使用 discriminated union，controller 用 `ZodValidationPipe(CreateProjectActualCostRecordRequestSchema)` 校验，OpenAPI / generated client 也按正式 `oneOf + discriminator` 输出
 
 ### 4.3 替代命令 route 与 request
 
