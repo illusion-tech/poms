@@ -11,6 +11,7 @@ import {
     CostStageAttributionHistoryViewDto,
     CostStageAttributionSnapshotSummaryDto,
     CreateOperatingRestatementRequestDto,
+    CreateProjectActualCostRecordRequestDto,
     CreateExpenseRecordRequestDto,
     CreatePeriodClosingSnapshotRequestDto,
     CreateProjectOperatingSnapshotRequestDto,
@@ -26,11 +27,6 @@ import {
     ProjectOperatingSnapshotSummaryDto,
     PublishInternalCostRateVersionRequestDto,
     ReclassifyCostStageAttributionRequestDto,
-    RegisterExpenseCostRecordRequestDto,
-    RegisterInvoiceCostRecordRequestDto,
-    RegisterLaborCostRecordRequestDto,
-    RegisterPaymentFactCostRecordRequestDto,
-    RegisterProcurementCostRecordRequestDto,
     ReplaceSharedCostAllocationResultRequestDto,
     ReplaceLaborCostRecordRequestDto,
     SharedCostAllocationBasisSummaryDto,
@@ -90,52 +86,17 @@ export class ProjectCostController {
         return this.projectCostService.publishInternalCostRateVersion(body, userId);
     }
 
-    @Post('project-actual-cost-records/register-payment-fact')
+    @Post('projects/:projectId/actual-cost-records')
     @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '登记付款事实到统一实际成本记录' })
+    @ApiOperation({ summary: '创建项目统一实际成本记录' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async registerPaymentFactCostRecord(
-        @Body() body: RegisterPaymentFactCostRecordRequestDto,
+    async createProjectActualCostRecord(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateProjectActualCostRecordRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.registerPaymentFactCostRecord(body, userId);
-    }
-
-    @Post('project-actual-cost-records/register-invoice')
-    @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '登记成本发票到统一实际成本记录' })
-    @ApiCreatedResponse({ description: 'The command result' })
-    async registerInvoiceCostRecord(
-        @Body() body: RegisterInvoiceCostRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
-        const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.registerInvoiceCostRecord(body, userId);
-    }
-
-    @Post('project-actual-cost-records/register-expense')
-    @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '登记费用事实到统一实际成本记录' })
-    @ApiCreatedResponse({ description: 'The command result' })
-    async registerExpenseCostRecord(
-        @Body() body: RegisterExpenseCostRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
-        const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.registerExpenseCostRecord(body, userId);
-    }
-
-    @Post('project-actual-cost-records/register-procurement')
-    @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '登记采购承诺事实到统一实际成本记录' })
-    @ApiCreatedResponse({ description: 'The command result' })
-    async registerProcurementCostRecord(
-        @Body() body: RegisterProcurementCostRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
-        const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.registerProcurementCostRecord(body, userId);
+        return this.projectCostService.createProjectActualCostRecord(projectId, body, userId);
     }
 
     @Post('operating-baseline-packages')
@@ -419,27 +380,16 @@ export class ProjectCostController {
         return this.projectCostService.getProjectActualCostRecordDetail(id);
     }
 
-    @Post('project-cost/register-labor-cost-record')
-    @HasPermissions('contract:finance:manage')
-    @ApiOperation({ summary: '归集人力成本记录' })
-    @ApiCreatedResponse({ description: 'The command result' })
-    async registerLaborCostRecord(
-        @Body() body: RegisterLaborCostRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
-        const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.registerLaborCostRecord(body, userId);
-    }
-
-    @Post('project-cost/replace-labor-cost-record')
+    @Post('project-actual-cost-records/:id\\:replace')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '替代/重算人力成本记录候选' })
     @ApiCreatedResponse({ description: 'The command result' })
     async replaceLaborCostRecord(
+        @Param('id') id: string,
         @Body() body: ReplaceLaborCostRecordRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.replaceLaborCostRecord(body, userId);
+        return this.projectCostService.replaceLaborCostRecord(id, body, userId);
     }
 }

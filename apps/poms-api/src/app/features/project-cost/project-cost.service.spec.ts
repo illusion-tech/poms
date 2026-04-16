@@ -560,12 +560,13 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             const result = await service.registerPaymentFactCostRecord(
+                PROJECT_ID,
                 {
                     paymentRecordId: PAYMENT_RECORD_ID,
-                    projectId: PROJECT_ID,
                     costDescription: 'confirmed vendor payment',
                     evidenceSummary: 'bank slip attached',
-                    expectedVersion: 3
+                    expectedSourceVersion: 3,
+                    costType: 'PAYMENT_FACT'
                 },
                 USER_ID
             );
@@ -595,9 +596,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerPaymentFactCostRecord(
+                    PROJECT_ID,
                     {
                         paymentRecordId: PAYMENT_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'PAYMENT_FACT'
                     },
                     USER_ID
                 )
@@ -610,9 +612,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerPaymentFactCostRecord(
+                    PROJECT_ID,
                     {
                         paymentRecordId: PAYMENT_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'PAYMENT_FACT'
                     },
                     USER_ID
                 )
@@ -626,13 +629,14 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             const result = await service.registerInvoiceCostRecord(
+                PROJECT_ID,
                 {
                     invoiceRecordId: INVOICE_RECORD_ID,
-                    projectId: PROJECT_ID,
                     costDescription: 'mapped from verified invoice',
                     evidenceSummary: 'invoice pdf archived',
                     taxImpactSummary: 'vat pending deduction',
-                    expectedVersion: 2
+                    expectedSourceVersion: 2,
+                    costType: 'INVOICE'
                 },
                 USER_ID
             );
@@ -662,9 +666,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerInvoiceCostRecord(
+                    PROJECT_ID,
                     {
                         invoiceRecordId: INVOICE_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'INVOICE'
                     },
                     USER_ID
                 )
@@ -677,9 +682,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerInvoiceCostRecord(
+                    PROJECT_ID,
                     {
                         invoiceRecordId: INVOICE_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'INVOICE'
                     },
                     USER_ID
                 )
@@ -699,13 +705,14 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             const result = await service.registerExpenseCostRecord(
+                PROJECT_ID,
                 {
                     expenseRecordId: EXPENSE_RECORD_ID,
-                    projectId: PROJECT_ID,
                     costDescription: 'mapped from confirmed expense',
                     evidenceSummary: 'receipt archived',
                     taxImpactSummary: 'manual expense pending tax review',
-                    expectedVersion: 1
+                    expectedSourceVersion: 1,
+                    costType: 'EXPENSE'
                 },
                 USER_ID
             );
@@ -736,9 +743,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerExpenseCostRecord(
+                    PROJECT_ID,
                     {
                         expenseRecordId: EXPENSE_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'EXPENSE'
                     },
                     USER_ID
                 )
@@ -753,9 +761,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerExpenseCostRecord(
+                    PROJECT_ID,
                     {
                         expenseRecordId: EXPENSE_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'EXPENSE'
                     },
                     USER_ID
                 )
@@ -769,13 +778,14 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             const result = await service.registerProcurementCostRecord(
+                PROJECT_ID,
                 {
                     payableRecordId: PAYABLE_RECORD_ID,
-                    projectId: PROJECT_ID,
                     costDescription: 'mapped from approved commitment',
                     evidenceSummary: 'quotation archived',
                     taxImpactSummary: 'tax impact pending invoice',
-                    expectedVersion: 2
+                    expectedSourceVersion: 2,
+                    costType: 'PROCUREMENT'
                 },
                 USER_ID
             );
@@ -811,9 +821,10 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerProcurementCostRecord(
+                    PROJECT_ID,
                     {
                         payableRecordId: PAYABLE_RECORD_ID,
-                        projectId: PROJECT_ID
+                        costType: 'PROCUREMENT'
                     },
                     USER_ID
                 )
@@ -1852,14 +1863,15 @@ describe('ProjectCostService', () => {
             internalCostRateVersionRepository.findById.mockResolvedValue(makeRateVersion() as never);
 
             const result = await service.registerLaborCostRecord(
+                PROJECT_ID,
                 {
-                    projectId: PROJECT_ID,
                     laborRole: 'dev',
                     laborPeriodType: 'MONTH',
                     laborPeriodStart: '2023-01-01',
                     laborPeriodEnd: '2023-01-31',
                     rateVersionId: RATE_VERSION_ID,
-                    actualPersonDays: '20'
+                    actualPersonDays: '20',
+                    costType: 'LABOR'
                 },
                 USER_ID
             );
@@ -1887,13 +1899,14 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerLaborCostRecord(
+                    PROJECT_ID,
                     {
-                        projectId: PROJECT_ID,
                         laborPeriodType: 'MONTH',
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
-                        actualPersonDays: '20'
+                        actualPersonDays: '20',
+                        costType: 'LABOR'
                     },
                     USER_ID
                 )
@@ -1907,14 +1920,15 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.registerLaborCostRecord(
+                    PROJECT_ID,
                     {
-                        projectId: PROJECT_ID,
                         laborRole: 'dev',
                         laborPeriodType: 'MONTH',
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
-                        actualPersonDays: '20'
+                        actualPersonDays: '20',
+                        costType: 'LABOR'
                     },
                     USER_ID
                 )
@@ -1928,8 +1942,8 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.replaceLaborCostRecord(
+                    RECORD_ID,
                     {
-                        supersedesRecordId: RECORD_ID,
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
@@ -1946,14 +1960,14 @@ describe('ProjectCostService', () => {
 
             await expect(
                 service.replaceLaborCostRecord(
+                    RECORD_ID,
                     {
-                        supersedesRecordId: RECORD_ID,
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
                         actualPersonDays: '20',
                         replaceReason: 'Correction',
-                        expectedVersion: 2
+                        expectedSupersededRecordVersion: 2
                     },
                     USER_ID
                 )
@@ -1977,8 +1991,8 @@ describe('ProjectCostService', () => {
             internalCostRateVersionRepository.findById.mockResolvedValue(makeRateVersion() as never);
 
             const result = await service.replaceLaborCostRecord(
+                RECORD_ID,
                 {
-                    supersedesRecordId: RECORD_ID,
                     laborPeriodStart: '2023-01-01',
                     laborPeriodEnd: '2023-01-31',
                     rateVersionId: RATE_VERSION_ID,

@@ -11,9 +11,15 @@ import type {
     ConfirmSharedCostAllocationBasisRequest,
     CostStageAttributionHistoryView,
     CostStageAttributionSnapshotSummary,
+    CreateExpenseProjectActualCostRecordRequest,
     CreateExpenseRecordRequest,
+    CreateInvoiceProjectActualCostRecordRequest,
+    CreateLaborProjectActualCostRecordRequest,
     CreateOperatingRestatementRequest,
     CreatePeriodClosingSnapshotRequest,
+    CreatePaymentFactProjectActualCostRecordRequest,
+    CreateProcurementProjectActualCostRecordRequest,
+    CreateProjectActualCostRecordRequest,
     CreateProjectOperatingSnapshotRequest,
     ExpenseRecordDetailView,
     ExpenseRecordSummary,
@@ -24,12 +30,7 @@ import type {
     ProjectActualCostRecordSummary,
     ProjectOperatingSnapshotSummary,
     ReclassifyCostStageAttributionRequest,
-    RegisterExpenseCostRecordRequest,
-    RegisterInvoiceCostRecordRequest,
     PublishInternalCostRateVersionRequest,
-    RegisterLaborCostRecordRequest,
-    RegisterPaymentFactCostRecordRequest,
-    RegisterProcurementCostRecordRequest,
     ReplaceSharedCostAllocationResultRequest,
     ReplaceLaborCostRecordRequest,
     SharedCostAllocationBasisSummary,
@@ -37,6 +38,13 @@ import type {
     SharedCostAllocationResultSummary,
     UpdateExpenseRecordRequest,
     VoidExpenseRecordRequest
+} from '@poms/shared-contracts';
+import {
+    CreateExpenseProjectActualCostRecordRequestSchema,
+    CreateInvoiceProjectActualCostRecordRequestSchema,
+    CreateLaborProjectActualCostRecordRequestSchema,
+    CreatePaymentFactProjectActualCostRecordRequestSchema,
+    CreateProcurementProjectActualCostRecordRequestSchema
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
@@ -180,17 +188,60 @@ export class ProjectCostService {
         };
     }
 
-    async registerPaymentFactCostRecord(input: RegisterPaymentFactCostRecordRequest, userId: string): Promise<CommandResult> {
+    async createProjectActualCostRecord(
+        projectId: string,
+        input: CreateProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
+        switch (input.costType) {
+            case 'PAYMENT_FACT':
+                return this.registerPaymentFactCostRecord(
+                    projectId,
+                    CreatePaymentFactProjectActualCostRecordRequestSchema.parse(input),
+                    userId
+                );
+            case 'INVOICE':
+                return this.registerInvoiceCostRecord(
+                    projectId,
+                    CreateInvoiceProjectActualCostRecordRequestSchema.parse(input),
+                    userId
+                );
+            case 'EXPENSE':
+                return this.registerExpenseCostRecord(
+                    projectId,
+                    CreateExpenseProjectActualCostRecordRequestSchema.parse(input),
+                    userId
+                );
+            case 'PROCUREMENT':
+                return this.registerProcurementCostRecord(
+                    projectId,
+                    CreateProcurementProjectActualCostRecordRequestSchema.parse(input),
+                    userId
+                );
+            case 'LABOR':
+                return this.registerLaborCostRecord(
+                    projectId,
+                    CreateLaborProjectActualCostRecordRequestSchema.parse(input),
+                    userId
+                );
+        }
+    }
+
+    async registerPaymentFactCostRecord(
+        projectId: string,
+        input: CreatePaymentFactProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const paymentRecord = await this.contractFinanceRepository.findPaymentById(input.paymentRecordId);
         if (!paymentRecord) {
             throw new NotFoundException(`PaymentRecord ${input.paymentRecordId} not found`);
         }
 
-        if (paymentRecord.projectId !== input.projectId) {
-            throw new ConflictException(`PaymentRecord ${input.paymentRecordId} does not belong to project ${input.projectId}`);
+        if (paymentRecord.projectId !== projectId) {
+            throw new ConflictException(`PaymentRecord ${input.paymentRecordId} does not belong to project ${projectId}`);
         }
 
-        if (input.expectedVersion && paymentRecord.rowVersion !== input.expectedVersion) {
+        if (input.expectedSourceVersion && paymentRecord.rowVersion !== input.expectedSourceVersion) {
             throw new ConflictException(`Optimistic locking failed for payment record ${input.paymentRecordId}`);
         }
 
@@ -205,7 +256,7 @@ export class ProjectCostService {
 
         const confirmedAt = paymentRecord.confirmedAt ?? new Date();
         const entity = this.projectActualCostRecordRepository.create({
-            projectId: input.projectId,
+            projectId,
             recordNo: `PAYMENT-${Date.now()}`,
             costType: 'PAYMENT_FACT',
             costSubtype: paymentRecord.costCategory,
@@ -244,17 +295,21 @@ export class ProjectCostService {
         };
     }
 
-    async registerInvoiceCostRecord(input: RegisterInvoiceCostRecordRequest, userId: string): Promise<CommandResult> {
+    async registerInvoiceCostRecord(
+        projectId: string,
+        input: CreateInvoiceProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const invoiceRecord = await this.contractFinanceRepository.findInvoiceById(input.invoiceRecordId);
         if (!invoiceRecord) {
             throw new NotFoundException(`InvoiceRecord ${input.invoiceRecordId} not found`);
         }
 
-        if (invoiceRecord.projectId !== input.projectId) {
-            throw new ConflictException(`InvoiceRecord ${input.invoiceRecordId} does not belong to project ${input.projectId}`);
+        if (invoiceRecord.projectId !== projectId) {
+            throw new ConflictException(`InvoiceRecord ${input.invoiceRecordId} does not belong to project ${projectId}`);
         }
 
-        if (input.expectedVersion && invoiceRecord.rowVersion !== input.expectedVersion) {
+        if (input.expectedSourceVersion && invoiceRecord.rowVersion !== input.expectedSourceVersion) {
             throw new ConflictException(`Optimistic locking failed for invoice record ${input.invoiceRecordId}`);
         }
 
@@ -267,7 +322,7 @@ export class ProjectCostService {
 
         const confirmedAt = invoiceRecord.updatedAt;
         const entity = this.projectActualCostRecordRepository.create({
-            projectId: input.projectId,
+            projectId,
             recordNo: `INVOICE-${Date.now()}`,
             costType: 'INVOICE',
             costSubtype: invoiceRecord.invoiceType,
@@ -307,17 +362,21 @@ export class ProjectCostService {
         };
     }
 
-    async registerExpenseCostRecord(input: RegisterExpenseCostRecordRequest, userId: string): Promise<CommandResult> {
+    async registerExpenseCostRecord(
+        projectId: string,
+        input: CreateExpenseProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const expenseRecord = await this.expenseRecordRepository.findById(input.expenseRecordId);
         if (!expenseRecord) {
             throw new NotFoundException(`ExpenseRecord ${input.expenseRecordId} not found`);
         }
 
-        if (expenseRecord.projectId !== input.projectId) {
-            throw new ConflictException(`ExpenseRecord ${input.expenseRecordId} does not belong to project ${input.projectId}`);
+        if (expenseRecord.projectId !== projectId) {
+            throw new ConflictException(`ExpenseRecord ${input.expenseRecordId} does not belong to project ${projectId}`);
         }
 
-        if (input.expectedVersion && expenseRecord.rowVersion !== input.expectedVersion) {
+        if (input.expectedSourceVersion && expenseRecord.rowVersion !== input.expectedSourceVersion) {
             throw new ConflictException(`Optimistic locking failed for expense record ${input.expenseRecordId}`);
         }
 
@@ -330,7 +389,7 @@ export class ProjectCostService {
 
         const confirmedAt = expenseRecord.confirmedAt ?? new Date();
         const entity = this.projectActualCostRecordRepository.create({
-            projectId: input.projectId,
+            projectId,
             recordNo: `EXPENSE-${Date.now()}`,
             costType: 'EXPENSE',
             costSubtype: expenseRecord.expenseCategory,
@@ -370,17 +429,21 @@ export class ProjectCostService {
         };
     }
 
-    async registerProcurementCostRecord(input: RegisterProcurementCostRecordRequest, userId: string): Promise<CommandResult> {
+    async registerProcurementCostRecord(
+        projectId: string,
+        input: CreateProcurementProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const payableRecord = await this.contractFinanceRepository.findPayableById(input.payableRecordId);
         if (!payableRecord) {
             throw new NotFoundException(`PayableRecord ${input.payableRecordId} not found`);
         }
 
-        if (payableRecord.projectId !== input.projectId) {
-            throw new ConflictException(`PayableRecord ${input.payableRecordId} does not belong to project ${input.projectId}`);
+        if (payableRecord.projectId !== projectId) {
+            throw new ConflictException(`PayableRecord ${input.payableRecordId} does not belong to project ${projectId}`);
         }
 
-        if (input.expectedVersion && payableRecord.rowVersion !== input.expectedVersion) {
+        if (input.expectedSourceVersion && payableRecord.rowVersion !== input.expectedSourceVersion) {
             throw new ConflictException(`Optimistic locking failed for payable record ${input.payableRecordId}`);
         }
 
@@ -396,7 +459,7 @@ export class ProjectCostService {
         }
 
         const entity = this.projectActualCostRecordRepository.create({
-            projectId: input.projectId,
+            projectId,
             recordNo: `PROCUREMENT-${Date.now()}`,
             costType: 'PROCUREMENT',
             costSubtype: payableRecord.costCategory,
@@ -1332,7 +1395,11 @@ export class ProjectCostService {
         return this.toAccountingTaxTreatmentSnapshotSummary(snapshot);
     }
 
-    async registerLaborCostRecord(input: RegisterLaborCostRecordRequest, userId: string): Promise<CommandResult> {
+    async registerLaborCostRecord(
+        projectId: string,
+        input: CreateLaborProjectActualCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
         this.assertDateRange(laborPeriodStart, laborPeriodEnd, 'laborPeriodStart', 'laborPeriodEnd');
@@ -1347,7 +1414,7 @@ export class ProjectCostService {
         const laborAmount = this.calculateLaborAmount(rateVersion, input.actualHours ?? null, input.actualPersonDays ?? null);
 
         const entity = this.projectActualCostRecordRepository.create({
-            projectId: input.projectId,
+            projectId,
             recordNo: `LABOR-${Date.now()}`,
             costType: 'LABOR',
             costSubtype: null,
@@ -1394,22 +1461,26 @@ export class ProjectCostService {
         };
     }
 
-    async replaceLaborCostRecord(input: ReplaceLaborCostRecordRequest, userId: string): Promise<CommandResult> {
+    async replaceLaborCostRecord(
+        supersededRecordId: string,
+        input: ReplaceLaborCostRecordRequest,
+        userId: string
+    ): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
         this.assertDateRange(laborPeriodStart, laborPeriodEnd, 'laborPeriodStart', 'laborPeriodEnd');
 
-        const originalRecord = await this.projectActualCostRecordRepository.findById(input.supersedesRecordId);
+        const originalRecord = await this.projectActualCostRecordRepository.findById(supersededRecordId);
         if (!originalRecord) {
-            throw new NotFoundException(`Record ${input.supersedesRecordId} not found`);
+            throw new NotFoundException(`Record ${supersededRecordId} not found`);
         }
 
-        if (input.expectedVersion && originalRecord.rowVersion !== input.expectedVersion) {
-            throw new ConflictException(`Optimistic locking failed for record ${input.supersedesRecordId}`);
+        if (input.expectedSupersededRecordVersion && originalRecord.rowVersion !== input.expectedSupersededRecordVersion) {
+            throw new ConflictException(`Optimistic locking failed for record ${supersededRecordId}`);
         }
 
         if (originalRecord.isIncludedInProjectCost) {
-            throw new ConflictException(`Record ${input.supersedesRecordId} is already included in project cost`);
+            throw new ConflictException(`Record ${supersededRecordId} is already included in project cost`);
         }
 
         if (originalRecord.costType !== 'LABOR') {
