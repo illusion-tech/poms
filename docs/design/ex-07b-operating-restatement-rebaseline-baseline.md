@@ -57,24 +57,24 @@
 
 ## 4. 命令与接口边界
 
-| Capability       | Route                                                        | Service Method                     | Result                                                                                             |
-| ---------------- | ------------------------------------------------------------ | ---------------------------------- | -------------------------------------------------------------------------------------------------- |
-| 激活经营基线包   | `POST /api/project-cost/activate-operating-baseline-package` | `activateOperatingBaselinePackage` | 生成当前有效 `operating_baseline_package` 与 `change_package_baseline` 明细，并 supersede 旧当前包 |
-| 创建项目经营快照 | `POST /api/project-cost/create-project-operating-snapshot`   | `createProjectOperatingSnapshot`   | 生成 `project_operating_snapshot`                                                                  |
-| 创建期末冻结快照 | `POST /api/project-cost/create-period-closing-snapshot`      | `createPeriodClosingSnapshot`      | 生成 `period_closing_snapshot`，同项目同期间当前有效唯一                                           |
-| 创建经营重述     | `POST /api/project-cost/create-operating-restatement`        | `createOperatingRestatement`       | 新建重述快照、supersede 被重述快照、登记 `operating_restatement_record`                            |
+| Capability       | Route                               | Service Method                     | Result                                                                                             |
+| ---------------- | ----------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 激活经营基线包   | `POST /operating-baseline-packages` | `activateOperatingBaselinePackage` | 生成当前有效 `operating_baseline_package` 与 `change_package_baseline` 明细，并 supersede 旧当前包 |
+| 创建项目经营快照 | `POST /project-operating-snapshots` | `createProjectOperatingSnapshot`   | 生成 `project_operating_snapshot`                                                                  |
+| 创建期末冻结快照 | `POST /period-closing-snapshots`    | `createPeriodClosingSnapshot`      | 生成 `period_closing_snapshot`，同项目同期间当前有效唯一                                           |
+| 创建经营重述     | `POST /operating-restatements`      | `createOperatingRestatement`       | 新建重述快照、supersede 被重述快照、登记 `operating_restatement_record`                            |
 
 ---
 
 ## 5. 读侧边界
 
-| View / Query     | Route                                                             | Notes                          |
-| ---------------- | ----------------------------------------------------------------- | ------------------------------ |
-| 当前经营基线包   | `GET /api/projects/:projectId/operating-baseline-package/current` | 返回当前有效基线包与变更包明细 |
-| 项目经营快照详情 | `GET /api/project-operating-snapshots/:id`                        | 返回经营快照固定口径           |
-| 期末冻结快照详情 | `GET /api/period-closing-snapshots/:id`                           | 返回期末快照固定口径           |
-| 项目经营重述列表 | `GET /api/projects/:projectId/operating-restatements`             | 按处理时间倒序返回重述历史     |
-| 经营重述详情     | `GET /api/operating-restatements/:id`                             | 返回被重述 / 重述后快照引用    |
+| View / Query     | Route                                                  | Notes                          |
+| ---------------- | ------------------------------------------------------ | ------------------------------ |
+| 当前经营基线包   | `GET /projects/{projectId}/operating-baseline-package` | 返回当前有效基线包与变更包明细 |
+| 项目经营快照详情 | `GET /project-operating-snapshots/{id}`                | 返回经营快照固定口径           |
+| 期末冻结快照详情 | `GET /period-closing-snapshots/{id}`                   | 返回期末快照固定口径           |
+| 项目经营重述列表 | `GET /projects/{projectId}/operating-restatements`     | 按处理时间倒序返回重述历史     |
+| 经营重述详情     | `GET /operating-restatements/{id}`                     | 返回被重述 / 重述后快照引用    |
 
 ---
 

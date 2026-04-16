@@ -103,8 +103,8 @@
 | -------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------- | ----------------------- | ------------------------- | ------ |
 | `POST /projects/{projectId}/expense-records` | `createExpenseRecord`  | `contractId?`、`expenseCategory`、`expenseDescription`、`expenseDate`、金额字段组 | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
 | `PATCH /expense-records/{id}`                | `updateExpenseRecord`  | 普通台账字段、`expectedVersion`                                                   | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
-| `POST /expense-records/{id}/confirm`         | `confirmExpenseRecord` | `comment?`、`expectedVersion`                                                     | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
-| `POST /expense-records/{id}/void`            | `voidExpenseRecord`    | `reason`、`comment?`、`expectedVersion`                                           | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /expense-records/{id}:confirm`         | `confirmExpenseRecord` | `comment?`、`expectedVersion`                                                     | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
+| `POST /expense-records/{id}:void`            | `voidExpenseRecord`    | `reason`、`comment?`、`expectedVersion`                                           | `ExpenseRecordSummary`  | `contract:finance:manage` | Pass   |
 
 补充冻结约束：
 
