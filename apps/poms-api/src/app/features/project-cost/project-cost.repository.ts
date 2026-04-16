@@ -1,4 +1,4 @@
-import { EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
@@ -205,6 +205,10 @@ export class ProjectActualCostRecordRepository {
 
     async saveAll(entities: ProjectActualCostRecord[]): Promise<void> {
         await this.repository.getEntityManager().persist(entities).flush();
+    }
+
+    async transactional<T>(work: (em: EntityManager) => Promise<T>): Promise<T> {
+        return this.repository.getEntityManager().transactional(work);
     }
 }
 
@@ -447,6 +451,16 @@ export class AccountingTaxTreatmentSnapshotRepository {
     async findByProjectId(projectId: string): Promise<AccountingTaxTreatmentSnapshot[]> {
         return this.repository.find(
             { projectId },
+            { orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    async findActiveByProjectAndTaxTreatmentType(
+        projectId: string,
+        taxTreatmentType: string
+    ): Promise<AccountingTaxTreatmentSnapshot | null> {
+        return this.repository.findOne(
+            { projectId, taxTreatmentType, status: 'active' },
             { orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
         );
     }

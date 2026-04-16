@@ -35,6 +35,11 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
             name: 'uq_chrr_amendment_effective',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractAmendmentId}") where "${columns.status}" = 'effective'`
+        },
+        {
+            name: 'uq_chrr_project_effective',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.status}" = 'effective'`
         }
     ],
     properties: {

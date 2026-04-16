@@ -39,20 +39,21 @@ import type {
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
-import type { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
-import type { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
+import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
+import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
+import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
 import type { InvoiceRecord } from '../contract-finance/invoice-record.entity';
 import type { PayableRecord } from '../contract-finance/payable-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
 import type { ExpenseRecord } from './expense-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
-import type { OperatingBaselinePackage } from './operating-baseline-package.entity';
+import { OperatingBaselinePackage } from './operating-baseline-package.entity';
 import type { OperatingRestatementRecord } from './operating-restatement-record.entity';
 import type { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import type { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import type { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
-import type { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
+import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
@@ -89,7 +90,8 @@ export class ProjectCostService {
         private readonly sharedCostAllocationBasisRepository: SharedCostAllocationBasisRepository,
         private readonly sharedCostAllocationResultRepository: SharedCostAllocationResultRepository,
         private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
-        private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository
+        private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository,
+        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -687,15 +689,6 @@ export class ProjectCostService {
             updatedBy: userId
         });
 
-        if (current) {
-            current.isCurrent = false;
-            current.status = 'superseded';
-            current.updatedBy = userId;
-            await this.operatingBaselinePackageRepository.saveAll([current, baselinePackage]);
-        } else {
-            await this.operatingBaselinePackageRepository.save(baselinePackage);
-        }
-
         const changeBaselines = (input.changePackages ?? []).map((item) =>
             this.changePackageBaselineRepository.create({
                 id: randomUUID(),
@@ -709,7 +702,22 @@ export class ProjectCostService {
                 updatedBy: userId
             })
         );
-        await this.changePackageBaselineRepository.saveAll(changeBaselines);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            if (current) {
+                await em.nativeUpdate(
+                    OperatingBaselinePackage,
+                    { id: current.id },
+                    { isCurrent: false, status: 'superseded', updatedBy: userId }
+                );
+            }
+
+            await em.persist([baselinePackage, ...changeBaselines]).flush();
+        });
+        if (current) {
+            current.isCurrent = false;
+            current.status = 'superseded';
+            current.updatedBy = userId;
+        }
 
         return {
             targetId: baselinePackage.id,
@@ -736,6 +744,11 @@ export class ProjectCostService {
             throw new NotFoundException(`Project ${input.projectId} not found`);
         }
         this.assertNullableDateRange(input.sourceWindowStart ?? null, input.sourceWindowEnd ?? null, 'sourceWindowStart', 'sourceWindowEnd');
+        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(
+            input.projectId,
+            input.baselineSelectionSource,
+            input.handoverRebaselineRecordId ?? null
+        );
 
         const calculated = this.calculateOperatingSnapshotAmounts(input);
         const entity = this.projectOperatingSnapshotRepository.create({
@@ -753,7 +766,7 @@ export class ProjectCostService {
             currentActionLevel: input.currentActionLevel,
             referencedBaselineVersion: input.referencedBaselineVersion,
             baselineSelectionSource: input.baselineSelectionSource,
-            handoverRebaselineRecordId: input.handoverRebaselineRecordId ?? null,
+            handoverRebaselineRecordId,
             status: 'active',
             supersedesId: null,
             createdBy: userId,
@@ -792,6 +805,11 @@ export class ProjectCostService {
             this.assertExpectedVersion(current.rowVersion, input.expectedCurrentSnapshotVersion, 'PeriodClosingSnapshot');
             throw new ConflictException(`Project ${input.projectId} already has an active period closing snapshot for ${input.periodKey}`);
         }
+        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(
+            input.projectId,
+            input.baselineSelectionSource,
+            input.handoverRebaselineRecordId ?? null
+        );
 
         const calculated = this.calculateOperatingSnapshotAmounts(input);
         const entity = this.periodClosingSnapshotRepository.create({
@@ -808,7 +826,7 @@ export class ProjectCostService {
             currentActionLevel: input.currentActionLevel,
             referencedBaselineVersion: input.referencedBaselineVersion,
             baselineSelectionSource: input.baselineSelectionSource,
-            handoverRebaselineRecordId: input.handoverRebaselineRecordId ?? null,
+            handoverRebaselineRecordId,
             status: 'active',
             createdBy: userId,
             updatedBy: userId
@@ -886,7 +904,6 @@ export class ProjectCostService {
 
         restatesSnapshot.status = 'superseded';
         restatesSnapshot.updatedBy = userId;
-        await this.projectOperatingSnapshotRepository.saveAll([restatesSnapshot, restatedSnapshot]);
 
         const restatementRecord = this.operatingRestatementRecordRepository.create({
             id: randomUUID(),
@@ -902,7 +919,9 @@ export class ProjectCostService {
             createdBy: userId,
             updatedBy: userId
         });
-        await this.operatingRestatementRecordRepository.save(restatementRecord);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.persist([restatesSnapshot, restatedSnapshot, restatementRecord]).flush();
+        });
 
         return {
             targetId: restatementRecord.id,
@@ -987,8 +1006,6 @@ export class ProjectCostService {
             updatedBy: userId
         });
 
-        await this.sharedCostAllocationBasisRepository.save(basis);
-
         const results = input.projectShareItems.map((item) =>
             this.sharedCostAllocationResultRepository.create({
                 id: randomUUID(),
@@ -1004,7 +1021,9 @@ export class ProjectCostService {
                 updatedBy: userId
             })
         );
-        await this.sharedCostAllocationResultRepository.saveAll(results);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.persist([basis, ...results]).flush();
+        });
 
         return {
             targetId: basis.id,
@@ -1056,10 +1075,6 @@ export class ProjectCostService {
             throw new ConflictException(`Another active allocation result already exists for the same basis and project`);
         }
 
-        superseded.status = 'superseded';
-        superseded.updatedBy = userId;
-        await this.sharedCostAllocationResultRepository.saveAll([superseded]);
-
         const replacement = this.sharedCostAllocationResultRepository.create({
             id: randomUUID(),
             basisId: superseded.basisId,
@@ -1073,7 +1088,16 @@ export class ProjectCostService {
             createdBy: userId,
             updatedBy: userId
         });
-        await this.sharedCostAllocationResultRepository.saveAll([replacement]);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.nativeUpdate(
+                SharedCostAllocationResult,
+                { id: superseded.id },
+                { status: 'superseded', updatedBy: userId }
+            );
+            await em.persist(replacement).flush();
+        });
+        superseded.status = 'superseded';
+        superseded.updatedBy = userId;
 
         return {
             targetId: replacement.id,
@@ -1119,8 +1143,9 @@ export class ProjectCostService {
         costRecord.stageDerivedAt = now;
         costRecord.stageLockedAt = input.lockedBySnapshotId ? now : null;
         costRecord.updatedBy = userId;
-        await this.costStageAttributionSnapshotRepository.save(snapshot);
-        await this.projectActualCostRecordRepository.save(costRecord);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.persist([snapshot, costRecord]).flush();
+        });
 
         return {
             targetId: snapshot.id,
@@ -1151,10 +1176,6 @@ export class ProjectCostService {
             throw new NotFoundException(`ProjectActualCostRecord ${superseded.costRecordId} not found`);
         }
 
-        superseded.status = 'superseded';
-        superseded.updatedBy = userId;
-        await this.costStageAttributionSnapshotRepository.saveAll([superseded]);
-
         const now = new Date();
         const replacement = this.costStageAttributionSnapshotRepository.create({
             id: randomUUID(),
@@ -1176,8 +1197,16 @@ export class ProjectCostService {
         costRecord.stageDerivedAt = now;
         costRecord.stageLockedAt = replacement.lockedBySnapshotId ? now : null;
         costRecord.updatedBy = userId;
-        await this.costStageAttributionSnapshotRepository.saveAll([replacement]);
-        await this.projectActualCostRecordRepository.save(costRecord);
+        await this.projectActualCostRecordRepository.transactional(async (em) => {
+            await em.nativeUpdate(
+                CostStageAttributionSnapshot,
+                { id: superseded.id },
+                { status: 'superseded', updatedBy: userId }
+            );
+            await em.persist([replacement, costRecord]).flush();
+        });
+        superseded.status = 'superseded';
+        superseded.updatedBy = userId;
 
         return {
             targetId: replacement.id,
@@ -1229,6 +1258,17 @@ export class ProjectCostService {
                 throw new ConflictException(`Only active tax treatment snapshot can be superseded`);
             }
             this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
+        } else {
+            const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
+                input.projectId,
+                input.taxTreatmentType
+            );
+            if (activeSnapshot) {
+                this.assertExpectedVersion(activeSnapshot.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
+                throw new ConflictException(
+                    `Project ${input.projectId} already has an active tax treatment snapshot for ${input.taxTreatmentType}; supersede it instead`
+                );
+            }
         }
 
         const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
@@ -1250,9 +1290,16 @@ export class ProjectCostService {
         });
 
         if (superseded) {
+            await this.projectActualCostRecordRepository.transactional(async (em) => {
+                await em.nativeUpdate(
+                    AccountingTaxTreatmentSnapshot,
+                    { id: superseded!.id },
+                    { status: 'superseded', updatedBy: userId }
+                );
+                await em.persist(snapshot).flush();
+            });
             superseded.status = 'superseded';
             superseded.updatedBy = userId;
-            await this.accountingTaxTreatmentSnapshotRepository.saveAll([superseded, snapshot]);
         } else {
             await this.accountingTaxTreatmentSnapshotRepository.save(snapshot);
         }
@@ -2006,6 +2053,48 @@ export class ProjectCostService {
             return ['void'];
         }
         return [];
+    }
+
+    private async assertValidHandoverRebaselineReference(
+        projectId: string,
+        baselineSelectionSource: string,
+        handoverRebaselineRecordId: string | null
+    ): Promise<string | null> {
+        if (baselineSelectionSource === 'original') {
+            if (handoverRebaselineRecordId) {
+                throw new UnprocessableEntityException(
+                    'handoverRebaselineRecordId must be null when baselineSelectionSource is original'
+                );
+            }
+            return null;
+        }
+
+        if (baselineSelectionSource !== 'handover_rebaseline') {
+            return handoverRebaselineRecordId;
+        }
+
+        if (!handoverRebaselineRecordId) {
+            throw new UnprocessableEntityException(
+                'handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline'
+            );
+        }
+
+        const record = await this.contractHandoverRebaselineRecordRepository.findById(handoverRebaselineRecordId);
+        if (!record) {
+            throw new NotFoundException(`ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} not found`);
+        }
+        if (record.projectId !== projectId) {
+            throw new ConflictException(
+                `ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} does not belong to project ${projectId}`
+            );
+        }
+        if (record.status !== 'effective') {
+            throw new ConflictException(
+                `ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} is not effective`
+            );
+        }
+
+        return record.id;
     }
 
     private assertExpectedVersion(currentVersion: number, expectedVersion: number | undefined, targetType: string): void {

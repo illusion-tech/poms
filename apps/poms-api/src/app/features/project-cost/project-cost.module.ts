@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ContractFinanceModule } from '../contract-finance/contract-finance.module';
+import { ProjectHandoverModule } from '../project-handover/project-handover.module';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import { ChangePackageBaseline } from './change-package-baseline.entity';
 import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
@@ -46,7 +47,8 @@ import { ProjectCostController } from './project-cost.controller';
             SharedCostAllocationBasis,
             SharedCostAllocationResult
         ]),
-        ContractFinanceModule
+        ContractFinanceModule,
+        ProjectHandoverModule
     ],
     controllers: [ProjectCostController],
     providers: [

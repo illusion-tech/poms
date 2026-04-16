@@ -1,5 +1,6 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
+import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
@@ -44,6 +45,7 @@ const STAGE_ATTRIBUTION_ID = '16161616-1616-4161-8161-161616161616';
 const RECLASSIFIED_STAGE_ATTRIBUTION_ID = '17171717-1717-4171-8171-171717171717';
 const TAX_TREATMENT_ID = '18181818-1818-4181-8181-181818181818';
 const REPLACEMENT_TAX_TREATMENT_ID = '19191919-1919-4191-8191-191919191919';
+const HANDOVER_REBASELINE_RECORD_ID = '20202020-2020-4020-8020-202020202020';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -339,9 +341,21 @@ describe('ProjectCostService', () => {
     let sharedCostAllocationResultRepository: jest.Mocked<SharedCostAllocationResultRepository>;
     let costStageAttributionSnapshotRepository: jest.Mocked<CostStageAttributionSnapshotRepository>;
     let accountingTaxTreatmentSnapshotRepository: jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
+    let contractHandoverRebaselineRecordRepository: jest.Mocked<ContractHandoverRebaselineRecordRepository>;
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
+    let transactionalEntityManager: {
+        nativeUpdate: jest.Mock;
+        persist: jest.Mock;
+        flush: jest.Mock;
+    };
 
     beforeEach(() => {
+        transactionalEntityManager = {
+            nativeUpdate: jest.fn(),
+            persist: jest.fn().mockReturnThis(),
+            flush: jest.fn()
+        };
+
         const mockExpenseRecordRepository = {
             create: jest.fn((input) => ({
                 ...makeExpenseRecord(),
@@ -372,7 +386,8 @@ describe('ProjectCostService', () => {
             findById: jest.fn(),
             findByProjectId: jest.fn(),
             findCurrentEffectiveBySource: jest.fn(),
-            findReplacementBySupersedesRecordId: jest.fn()
+            findReplacementBySupersedesRecordId: jest.fn(),
+            transactional: jest.fn(async (work) => work(transactionalEntityManager))
         };
 
         const mockOperatingBaselinePackageRepository = {
@@ -439,7 +454,12 @@ describe('ProjectCostService', () => {
             save: jest.fn(),
             saveAll: jest.fn(),
             findById: jest.fn(),
-            findByProjectId: jest.fn()
+            findByProjectId: jest.fn(),
+            findActiveByProjectAndTaxTreatmentType: jest.fn()
+        };
+
+        const mockContractHandoverRebaselineRecordRepository = {
+            findById: jest.fn()
         };
 
         const mockContractFinanceRepository = {
@@ -462,6 +482,8 @@ describe('ProjectCostService', () => {
         sharedCostAllocationResultRepository = mockSharedCostAllocationResultRepository as unknown as jest.Mocked<SharedCostAllocationResultRepository>;
         costStageAttributionSnapshotRepository = mockCostStageAttributionSnapshotRepository as unknown as jest.Mocked<CostStageAttributionSnapshotRepository>;
         accountingTaxTreatmentSnapshotRepository = mockAccountingTaxTreatmentSnapshotRepository as unknown as jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
+        contractHandoverRebaselineRecordRepository =
+            mockContractHandoverRebaselineRecordRepository as unknown as jest.Mocked<ContractHandoverRebaselineRecordRepository>;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
             expenseRecordRepository,
@@ -476,8 +498,10 @@ describe('ProjectCostService', () => {
             sharedCostAllocationBasisRepository,
             sharedCostAllocationResultRepository,
             costStageAttributionSnapshotRepository,
-            accountingTaxTreatmentSnapshotRepository
+            accountingTaxTreatmentSnapshotRepository,
+            contractHandoverRebaselineRecordRepository
         );
+        contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
     });
 
     describe('publishInternalCostRateVersion', () => {
@@ -1322,8 +1346,7 @@ describe('ProjectCostService', () => {
                     status: 'active'
                 })
             );
-            expect(operatingBaselinePackageRepository.saveAll).toHaveBeenCalled();
-            expect(changePackageBaselineRepository.saveAll).toHaveBeenCalled();
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
             expect(result.targetType).toBe('OperatingBaselinePackage');
         });
 
@@ -1380,6 +1403,42 @@ describe('ProjectCostService', () => {
             expect(result.targetType).toBe('PeriodClosingSnapshot');
         });
 
+        it('requires an effective project-owned handover rebaseline record for period closing snapshots', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            periodClosingSnapshotRepository.findActiveByProjectAndPeriod.mockResolvedValue(null);
+            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(
+                { id: HANDOVER_REBASELINE_RECORD_ID, projectId: PROJECT_ID, status: 'effective' } as never
+            );
+
+            const result = await service.createPeriodClosingSnapshot(
+                {
+                    projectId: PROJECT_ID,
+                    periodKey: '2023-07',
+                    effectiveContractTotal: '200000',
+                    receivableConfirmedTotal: '80000',
+                    includedCostTotal: '120000',
+                    originalBaselineCost: '100000',
+                    currentEffectiveBaselineCost: '105000',
+                    taxImpactSummary: 'input tax pending',
+                    taxImpactPendingAmount: '3000',
+                    currentActionLevel: 'REVIEW',
+                    referencedBaselineVersion: BASELINE_PACKAGE_ID,
+                    baselineSelectionSource: 'handover_rebaseline',
+                    handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID
+                },
+                USER_ID
+            );
+
+            expect(contractHandoverRebaselineRecordRepository.findById).toHaveBeenCalledWith(HANDOVER_REBASELINE_RECORD_ID);
+            expect(periodClosingSnapshotRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
+                    baselineSelectionSource: 'handover_rebaseline'
+                })
+            );
+            expect(result.targetType).toBe('PeriodClosingSnapshot');
+        });
+
         it('creates a project operating snapshot with stable baseline and action metadata', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
 
@@ -1418,6 +1477,37 @@ describe('ProjectCostService', () => {
             );
             expect(projectOperatingSnapshotRepository.save).toHaveBeenCalled();
             expect(result.targetType).toBe('ProjectOperatingSnapshot');
+        });
+
+        it('rejects handover rebaseline snapshot creation when the record belongs to another project', async () => {
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(
+                { id: HANDOVER_REBASELINE_RECORD_ID, projectId: '99999999-0000-4000-8000-000000000000', status: 'effective' } as never
+            );
+
+            await expect(
+                service.createProjectOperatingSnapshot(
+                    {
+                        projectId: PROJECT_ID,
+                        snapshotMode: 'period-end',
+                        sourceWindowStart: '2023-07-01',
+                        sourceWindowEnd: '2023-07-31',
+                        effectiveContractTotal: '200000',
+                        receivableConfirmedTotal: '80000',
+                        includedCostTotal: '120000',
+                        originalBaselineCost: '100000',
+                        currentEffectiveBaselineCost: '105000',
+                        taxImpactSummary: 'input tax pending',
+                        taxImpactPendingAmount: '3000',
+                        allocationStabilitySummary: 'stable',
+                        currentActionLevel: 'REVIEW',
+                        referencedBaselineVersion: BASELINE_PACKAGE_ID,
+                        baselineSelectionSource: 'handover_rebaseline',
+                        handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
         });
 
         it('creates an append-only operating restatement and supersedes the old operating snapshot', async () => {
@@ -1465,8 +1555,7 @@ describe('ProjectCostService', () => {
                     status: 'active'
                 })
             );
-            expect(projectOperatingSnapshotRepository.saveAll).toHaveBeenCalled();
-            expect(operatingRestatementRecordRepository.save).toHaveBeenCalled();
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
             expect(result.targetType).toBe('OperatingRestatementRecord');
         });
 
@@ -1531,8 +1620,7 @@ describe('ProjectCostService', () => {
                     status: 'active'
                 })
             );
-            expect(sharedCostAllocationBasisRepository.save).toHaveBeenCalled();
-            expect(sharedCostAllocationResultRepository.saveAll).toHaveBeenCalled();
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
             expect(result.targetType).toBe('SharedCostAllocationBasis');
         });
 
@@ -1587,7 +1675,12 @@ describe('ProjectCostService', () => {
                     supersedesId: SHARED_COST_RESULT_ID
                 })
             );
-            expect(sharedCostAllocationResultRepository.saveAll).toHaveBeenCalled();
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
+                expect.any(Function),
+                { id: SHARED_COST_RESULT_ID },
+                { status: 'superseded', updatedBy: USER_ID }
+            );
             expect(result.targetType).toBe('SharedCostAllocationResult');
             expect(result.targetId).toEqual(expect.any(String));
         });
@@ -1627,7 +1720,7 @@ describe('ProjectCostService', () => {
             );
             expect(costRecord.executionStageCode).toBe('delivery');
             expect(costRecord.stageDerivedFromType).toBe('CostStageAttributionSnapshot');
-            expect(projectActualCostRecordRepository.save).toHaveBeenCalledWith(costRecord);
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
             expect(result.targetType).toBe('CostStageAttributionSnapshot');
         });
 
@@ -1673,6 +1766,12 @@ describe('ProjectCostService', () => {
             );
             expect(costRecord.executionStageCode).toBe('acceptance');
             expect(costRecord.stageDerivedFromId).toBe(result.targetId);
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
+                expect.any(Function),
+                { id: STAGE_ATTRIBUTION_ID },
+                { status: 'superseded', updatedBy: USER_ID }
+            );
             expect(result.targetType).toBe('CostStageAttributionSnapshot');
         });
 
@@ -1716,9 +1815,35 @@ describe('ProjectCostService', () => {
                     status: 'active'
                 })
             );
-            expect(accountingTaxTreatmentSnapshotRepository.saveAll).toHaveBeenCalled();
+            expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
+                expect.any(Function),
+                { id: TAX_TREATMENT_ID },
+                { status: 'superseded', updatedBy: USER_ID }
+            );
             expect(result.targetType).toBe('AccountingTaxTreatmentSnapshot');
             expect(result.targetId).toEqual(expect.any(String));
+        });
+
+        it('blocks creating a duplicate active accounting tax treatment snapshot without superseding the current one', async () => {
+            const activeSnapshot = makeAccountingTaxTreatment({ rowVersion: 2 });
+            contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
+            accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType.mockResolvedValue(activeSnapshot as never);
+
+            await expect(
+                service.confirmAccountingTaxTreatment(
+                    {
+                        projectId: PROJECT_ID,
+                        taxTreatmentType: 'input-vat',
+                        deductibilityStatus: 'deductible',
+                        taxImpactAmount: '0',
+                        taxImpactSummary: 'Input VAT cleared',
+                        taxPendingFlag: false,
+                        taxImpactPendingAmount: '0'
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
         });
     });
 

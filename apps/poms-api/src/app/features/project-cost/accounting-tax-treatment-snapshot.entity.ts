@@ -12,6 +12,13 @@ export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
         { name: 'idx_atts_project_status', properties: ['projectId', 'status'] },
         { name: 'idx_atts_type_deductibility', properties: ['taxTreatmentType', 'deductibilityStatus'] }
     ],
+    uniques: [
+        {
+            name: 'uq_atts_project_type_active',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.taxTreatmentType}") where "${columns.status}" = 'active'`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),

@@ -74,6 +74,13 @@ export class ContractHandoverRebaselineRecordRepository {
         );
     }
 
+    async findEffectiveByProjectId(projectId: string): Promise<ContractHandoverRebaselineRecord | null> {
+        return this.repository.findOne(
+            { projectId, status: 'effective' },
+            { orderBy: { handledAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
     create(input: ConstructorParameters<typeof ContractHandoverRebaselineRecord>[0]): ContractHandoverRebaselineRecord {
         return this.repository.create(input);
     }
@@ -88,13 +95,21 @@ export class ContractHandoverRebaselineRecordRepository {
         handover: ProjectHandover;
         supersededRecord?: ContractHandoverRebaselineRecord | null;
     }): Promise<void> {
-        await this.repository
-            .getEntityManager()
+        const em = this.repository.getEntityManager();
+
+        if (input.supersededRecord) {
+            await em.nativeUpdate(
+                ContractHandoverRebaselineRecord,
+                { id: input.supersededRecord.id },
+                { status: 'superseded', updatedBy: input.supersededRecord.updatedBy }
+            );
+        }
+
+        await em
             .persist([
                 input.rebaselineRecord,
                 ...input.impactItems,
-                input.handover,
-                ...(input.supersededRecord ? [input.supersededRecord] : [])
+                input.handover
             ])
             .flush();
     }
