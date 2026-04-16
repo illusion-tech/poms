@@ -28,7 +28,7 @@ export class ProjectHandoverController {
         private readonly projectHandoverCommandService: ProjectHandoverCommandService
     ) {}
 
-    @Get('projects/:projectId/contract-handover-summary')
+    @Get('projects/:projectId/contract-handover')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目合同承接摘要' })
     @ApiOkResponse({ type: ContractHandoverSummaryViewDto })
@@ -36,7 +36,7 @@ export class ProjectHandoverController {
         return this.projectHandoverQueryService.getContractHandoverSummary(projectId);
     }
 
-    @Get('projects/:projectId/project-handover-detail')
+    @Get('projects/:projectId/project-handover')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目最新移交详情' })
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
@@ -44,7 +44,7 @@ export class ProjectHandoverController {
         return this.projectHandoverQueryService.getProjectHandoverDetailByProjectId(projectId);
     }
 
-    @Get('project-handovers/:handoverId/detail')
+    @Get('project-handovers/:handoverId')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取指定移交详情' })
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
@@ -52,7 +52,7 @@ export class ProjectHandoverController {
         return this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(handoverId);
     }
 
-    @Post('project-handovers/:handoverId/confirm')
+    @Post('project-handovers/:handoverId\\:confirm')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认项目移交' })
