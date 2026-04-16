@@ -1,5 +1,13 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiBody,
+    ApiCreatedResponse,
+    ApiExtraModels,
+    ApiOkResponse,
+    ApiOperation,
+    ApiTags
+} from '@nestjs/swagger';
 import {
     ActivateOperatingBaselinePackageRequestDto,
     AccountingTaxTreatmentListViewDto,
@@ -10,9 +18,13 @@ import {
     ConfirmSharedCostAllocationBasisRequestDto,
     CostStageAttributionHistoryViewDto,
     CostStageAttributionSnapshotSummaryDto,
+    CreateExpenseProjectActualCostRecordRequestDto,
     CreateOperatingRestatementRequestDto,
-    CreateProjectActualCostRecordRequestDto,
     CreateExpenseRecordRequestDto,
+    CreateInvoiceProjectActualCostRecordRequestDto,
+    CreateLaborProjectActualCostRecordRequestDto,
+    CreatePaymentFactProjectActualCostRecordRequestDto,
+    CreateProcurementProjectActualCostRecordRequestDto,
     CreatePeriodClosingSnapshotRequestDto,
     CreateProjectOperatingSnapshotRequestDto,
     ExpenseRecordDetailViewDto,
@@ -34,10 +46,14 @@ import {
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto
 } from '@poms/api-contracts';
+import {
+    CreateProjectActualCostRecordRequestSchema
+} from '@poms/shared-contracts';
 import type {
     AccountingTaxTreatmentListView,
     AccountingTaxTreatmentSnapshotSummary,
     CommandResult,
+    CreateProjectActualCostRecordRequest,
     CostStageAttributionHistoryView,
     CostStageAttributionSnapshotSummary,
     ExpenseRecordDetailView,
@@ -54,6 +70,7 @@ import type {
     SharedCostAllocationResultListView
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { ProjectCostService } from './project-cost.service';
 
 interface AuthenticatedRequest extends Request {
@@ -89,10 +106,39 @@ export class ProjectCostController {
     @Post('projects/:projectId/actual-cost-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建项目统一实际成本记录' })
+    @ApiExtraModels(
+        CreatePaymentFactProjectActualCostRecordRequestDto,
+        CreateInvoiceProjectActualCostRecordRequestDto,
+        CreateExpenseProjectActualCostRecordRequestDto,
+        CreateProcurementProjectActualCostRecordRequestDto,
+        CreateLaborProjectActualCostRecordRequestDto
+    )
+    @ApiBody({
+        schema: {
+            title: 'CreateProjectActualCostRecordRequest',
+            oneOf: [
+                { $ref: '#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest' },
+                { $ref: '#/components/schemas/CreateInvoiceProjectActualCostRecordRequest' },
+                { $ref: '#/components/schemas/CreateExpenseProjectActualCostRecordRequest' },
+                { $ref: '#/components/schemas/CreateProcurementProjectActualCostRecordRequest' },
+                { $ref: '#/components/schemas/CreateLaborProjectActualCostRecordRequest' }
+            ],
+            discriminator: {
+                propertyName: 'costType',
+                mapping: {
+                    PAYMENT_FACT: '#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest',
+                    INVOICE: '#/components/schemas/CreateInvoiceProjectActualCostRecordRequest',
+                    EXPENSE: '#/components/schemas/CreateExpenseProjectActualCostRecordRequest',
+                    PROCUREMENT: '#/components/schemas/CreateProcurementProjectActualCostRecordRequest',
+                    LABOR: '#/components/schemas/CreateLaborProjectActualCostRecordRequest'
+                }
+            }
+        }
+    })
     @ApiCreatedResponse({ description: 'The command result' })
     async createProjectActualCostRecord(
         @Param('projectId') projectId: string,
-        @Body() body: CreateProjectActualCostRecordRequestDto,
+        @Body(new ZodValidationPipe(CreateProjectActualCostRecordRequestSchema)) body: CreateProjectActualCostRecordRequest,
         @Request() req: AuthenticatedRequest
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';

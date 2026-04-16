@@ -39,13 +39,6 @@ import type {
     UpdateExpenseRecordRequest,
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
-import {
-    CreateExpenseProjectActualCostRecordRequestSchema,
-    CreateInvoiceProjectActualCostRecordRequestSchema,
-    CreateLaborProjectActualCostRecordRequestSchema,
-    CreatePaymentFactProjectActualCostRecordRequestSchema,
-    CreateProcurementProjectActualCostRecordRequestSchema
-} from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
@@ -195,35 +188,15 @@ export class ProjectCostService {
     ): Promise<CommandResult> {
         switch (input.costType) {
             case 'PAYMENT_FACT':
-                return this.registerPaymentFactCostRecord(
-                    projectId,
-                    CreatePaymentFactProjectActualCostRecordRequestSchema.parse(input),
-                    userId
-                );
+                return this.registerPaymentFactCostRecord(projectId, input, userId);
             case 'INVOICE':
-                return this.registerInvoiceCostRecord(
-                    projectId,
-                    CreateInvoiceProjectActualCostRecordRequestSchema.parse(input),
-                    userId
-                );
+                return this.registerInvoiceCostRecord(projectId, input, userId);
             case 'EXPENSE':
-                return this.registerExpenseCostRecord(
-                    projectId,
-                    CreateExpenseProjectActualCostRecordRequestSchema.parse(input),
-                    userId
-                );
+                return this.registerExpenseCostRecord(projectId, input, userId);
             case 'PROCUREMENT':
-                return this.registerProcurementCostRecord(
-                    projectId,
-                    CreateProcurementProjectActualCostRecordRequestSchema.parse(input),
-                    userId
-                );
+                return this.registerProcurementCostRecord(projectId, input, userId);
             case 'LABOR':
-                return this.registerLaborCostRecord(
-                    projectId,
-                    CreateLaborProjectActualCostRecordRequestSchema.parse(input),
-                    userId
-                );
+                return this.registerLaborCostRecord(projectId, input, userId);
         }
     }
 
