@@ -2374,12 +2374,35 @@ const OperatingSnapshotAmountInputSchema = z.object({
     handoverRebaselineRecordId: z.uuid().nullable().optional()
 });
 
+function assertOperatingSnapshotBaselineSelection(
+    input: { baselineSelectionSource: 'original' | 'handover_rebaseline'; handoverRebaselineRecordId?: string | null },
+    ctx: z.RefinementCtx
+) {
+    if (input.baselineSelectionSource === 'handover_rebaseline' && !input.handoverRebaselineRecordId) {
+        ctx.addIssue({
+            code: 'custom',
+            path: ['handoverRebaselineRecordId'],
+            message: 'handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline'
+        });
+    }
+
+    if (input.baselineSelectionSource === 'original' && input.handoverRebaselineRecordId) {
+        ctx.addIssue({
+            code: 'custom',
+            path: ['handoverRebaselineRecordId'],
+            message: 'handoverRebaselineRecordId must be null when baselineSelectionSource is original'
+        });
+    }
+}
+
 export const CreateProjectOperatingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
     projectId: z.uuid(),
     snapshotMode: z.enum(['realtime', 'period-end']),
     sourceWindowStart: z.iso.date().nullable().optional(),
     sourceWindowEnd: z.iso.date().nullable().optional()
-}).meta({ id: 'CreateProjectOperatingSnapshotRequest' });
+})
+    .superRefine(assertOperatingSnapshotBaselineSelection)
+    .meta({ id: 'CreateProjectOperatingSnapshotRequest' });
 
 export type CreateProjectOperatingSnapshotRequest = z.infer<typeof CreateProjectOperatingSnapshotRequestSchema>;
 
@@ -2420,7 +2443,9 @@ export const CreatePeriodClosingSnapshotRequestSchema = OperatingSnapshotAmountI
     projectId: z.uuid(),
     periodKey: z.string().trim().min(1).max(32),
     expectedCurrentSnapshotVersion: z.number().int().positive().optional()
-}).meta({ id: 'CreatePeriodClosingSnapshotRequest' });
+})
+    .superRefine(assertOperatingSnapshotBaselineSelection)
+    .meta({ id: 'CreatePeriodClosingSnapshotRequest' });
 
 export type CreatePeriodClosingSnapshotRequest = z.infer<typeof CreatePeriodClosingSnapshotRequestSchema>;
 
