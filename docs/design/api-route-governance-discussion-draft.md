@@ -205,12 +205,14 @@ EX-09 已经把 `CommissionRoleAssignment` 顶层化，这是正确方向；但�
 
 更进一步，`submitCommissionRoleChange` 不建议继续作为长期 canonical 的 `:submitChange` 保留。
 
-基于当前业务判断，它会产生稳定审批链、替代链、审计对象和后续查询需求，因此从正式最佳实践角度，应直接提升为一等资源：
+后续正式裁决已进一步确认：`EX-09` 不应落 direct `CommissionRoleChangeRequest`，而应按 dispute-first 拆为两个稳定资源：
 
-- `POST /commission-role-change-requests`
-- `GET /commission-role-change-requests/{id}`
+- `POST /commission-freeze-disputes`
+- `GET /commission-freeze-disputes/{id}`
+- `POST /commission-freeze-disputes/{id}:arbitrate`
+- `GET /commission-freeze-change-requests/{id}`
 
-而不是继续在 assignment 上叠加更多动作后缀。
+也就是先形成 `CommissionFreezeDisputeRecord`，再由仲裁产出 `CommissionFreezeChangeRequest`，而不是继续在 assignment 上叠加更多动作后缀。
 
 ## 7. 建议的实施顺序
 

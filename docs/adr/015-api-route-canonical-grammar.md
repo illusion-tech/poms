@@ -249,10 +249,12 @@
 
 - `GET /commission-role-assignments/{id}`
 - `POST /commission-role-assignments/{id}:freeze`
-- `POST /commission-role-change-requests`
-- `GET /commission-role-change-requests/{id}`
+- `POST /commission-freeze-disputes`
+- `GET /commission-freeze-disputes/{id}`
+- `POST /commission-freeze-disputes/{id}:arbitrate`
+- `GET /commission-freeze-change-requests/{id}`
 
-`submitCommissionRoleChange` 不再建议作为长期 canonical 的 `POST /commission-role-assignments/{id}:submitChange` 保留。基于当前业务判断，它会形成稳定审批链、状态机、审计链与替代冻结版本的后续查询需求，应直接提升为独立资源 `CommissionRoleChangeRequest`。
+`submitCommissionRoleChange` 不再建议作为长期 canonical 的 `POST /commission-role-assignments/{id}:submitChange` 保留。`ADR-015` 保留“应提升为独立资源”的原则，但 `EX-09D` 已进一步基于 `phase2-commission-freeze-at-handover.md`、`table-structure-freeze-design.md` 与 `schema-ddl-design.md` 裁决：`EX-09` 的正式资源拆分不是 direct `CommissionRoleChangeRequest`，而是 `CommissionFreezeDisputeRecord -> CommissionFreezeChangeRequest` 的 dispute-first 链。
 
 ### 6.4 对实现层的影响
 

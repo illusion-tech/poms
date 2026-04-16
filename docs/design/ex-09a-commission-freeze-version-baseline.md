@@ -15,9 +15,9 @@
   2. 补齐冻结版本与移交收口链之间的稳定引用字段、索引与外键。
   3. 保留 `supersedes_id` 替代链，使后续 `EX-09B` 可以在不改表结构的前提下落冻结、再基线化与替代版本命令。
 - 本次明确不做:
-  1. 不实现 `freezeCommissionRoleAssignment` / `submitCommissionRoleChange` 命令。
+  1. 不实现 `freezeCommissionRoleAssignment` 与冻结后争议 / 受控变更命令链。
   2. 不实现 `CommissionRoleAssignmentDetailView`、`CommissionStageGateView` 等读侧。
-  3. 不落地冻结后争议 / 仲裁 / 替代申请主链；该部分留给 `EX-12`。
+  3. 不落地冻结后争议 / 仲裁 / 替代申请主链；该部分留给后续 `EX-09D` / `EX-12`。
   4. 不在本切片回写 OpenAPI / generated client。
 - 下游可依赖的交付边界:
   1. `commission_role_assignment` 已具备冻结版本链所需的稳定引用字段与外键锚点。
@@ -45,7 +45,7 @@
 | Concern                   | SSOT                                                                                                                                                                    | Implementation Rule                                                                              |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | Business semantics        | 冻结版本必须绑定同一条 `合同承接摘要 -> 移交确认摘要 -> 当前移交前有效基线 -> 可选再基线` 收口链                                                                        | 本切片先补稳定引用字段，不在 service 中伪造或推断这些引用                                        |
-| Route / command naming    | `freezeCommissionRoleAssignment`、`submitCommissionRoleChange`                                                                                                          | 本切片不新增 route / command                                                                     |
+| Route / command naming    | `freezeCommissionRoleAssignment`、冻结后争议 / 受控变更命令链                                                                                                           | 本切片不新增 route / command                                                                     |
 | DTO / contract naming     | 现有 `CommissionRoleAssignmentSummary` 暂不扩展                                                                                                                         | 本切片不改 shared contracts / OpenAPI                                                            |
 | Table / column naming     | `source_handover_id`、`source_handover_rebaseline_record_id`、`contract_summary_snapshot_id`、`handover_summary_snapshot_id`、`effective_handover_baseline_snapshot_id` | 与 `schema-ddl-design.md` / `table-structure-freeze-design.md` 保持同名                          |
 | Date / time semantics     | `frozen_at` 为 `timestamptz`；引用字段无日期语义                                                                                                                        | 不新增 `date` 字段                                                                               |
