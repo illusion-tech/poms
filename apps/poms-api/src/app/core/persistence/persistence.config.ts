@@ -56,7 +56,12 @@ export function createBaseMikroOrmOptions(overrides: MikroOrmConfigOverrides = {
 
 export function createNestMikroOrmOptions(): MikroOrmModuleOptions {
     return {
-        ...createBaseMikroOrmOptions(),
+        ...createBaseMikroOrmOptions({
+            // Nest runtime relies on MikroOrmModule.forFeature(...) registrations.
+            // Avoid source-file discovery so bundled JS startup does not attempt to import TS entities.
+            entities: [],
+            entitiesTs: []
+        }),
         registerRequestContext: true,
         autoLoadEntities: true
     } as unknown as MikroOrmModuleOptions;

@@ -80,6 +80,25 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."commission_freeze_change_request"
+            where "dispute_record_id" in (
+                select "id" from "${schema}"."commission_freeze_dispute_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_freeze_dispute_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."commission_adjustment"
             where "project_id" in (
                 select "id" from "${schema}"."project"
@@ -108,6 +127,57 @@ export class DatabaseSeeder extends Seeder {
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_freeze_change_request"
+            where "dispute_record_id" in (
+                select "id" from "${schema}"."commission_freeze_dispute_record"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_freeze_dispute_record"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_adjustment"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_payout"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_calculation"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_role_assignment"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
             );
         `);
 

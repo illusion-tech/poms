@@ -9,6 +9,10 @@ import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handov
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionFreezeChangeRequestController } from './commission-freeze-change-request.controller';
+import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
+import { CommissionFreezeDisputeController } from './commission-freeze-dispute.controller';
+import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionRoleAssignmentController } from './commission-role-assignment.controller';
 import { CommissionPayout } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
@@ -29,13 +33,20 @@ import { CommissionService } from './commission.service';
             ApprovalSummarySnapshot,
             CommissionRuleVersion,
             CommissionRoleAssignment,
+            CommissionFreezeDisputeRecord,
+            CommissionFreezeChangeRequest,
             CommissionCalculation,
             CommissionPayout,
             CommissionAdjustment
         ]),
         ApprovalModule
     ],
-    controllers: [CommissionController, CommissionRoleAssignmentController],
+    controllers: [
+        CommissionController,
+        CommissionRoleAssignmentController,
+        CommissionFreezeDisputeController,
+        CommissionFreezeChangeRequestController
+    ],
     providers: [CommissionRepository, CommissionService],
     exports: [CommissionService]
 })

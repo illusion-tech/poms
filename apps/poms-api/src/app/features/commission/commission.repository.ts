@@ -9,6 +9,8 @@ import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handov
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
+import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionPayout, type CommissionPayoutStage } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
@@ -34,6 +36,10 @@ export class CommissionRepository {
         private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
         @InjectRepository(CommissionRoleAssignment)
         private readonly roleAssignmentRepository: EntityRepository<CommissionRoleAssignment>,
+        @InjectRepository(CommissionFreezeDisputeRecord)
+        private readonly freezeDisputeRepository: EntityRepository<CommissionFreezeDisputeRecord>,
+        @InjectRepository(CommissionFreezeChangeRequest)
+        private readonly freezeChangeRequestRepository: EntityRepository<CommissionFreezeChangeRequest>,
         @InjectRepository(CommissionCalculation)
         private readonly calculationRepository: EntityRepository<CommissionCalculation>,
         @InjectRepository(CommissionPayout)
@@ -140,6 +146,52 @@ export class CommissionRepository {
 
     async flushRoleAssignment(): Promise<void> {
         await this.roleAssignmentRepository.getEntityManager().flush();
+    }
+
+    // ── Freeze Disputes / Change Requests ───────────────────────────────────
+
+    async findOpenFreezeDisputeByFreezeVersionId(freezeVersionId: string): Promise<CommissionFreezeDisputeRecord | null> {
+        return this.freezeDisputeRepository.findOne({ freezeVersionId, status: 'submitted' });
+    }
+
+    async findFreezeDisputeById(id: string): Promise<CommissionFreezeDisputeRecord | null> {
+        return this.freezeDisputeRepository.findOne({ id });
+    }
+
+    createFreezeDisputeRecord(
+        input: ConstructorParameters<typeof CommissionFreezeDisputeRecord>[0]
+    ): CommissionFreezeDisputeRecord {
+        return this.freezeDisputeRepository.create(input);
+    }
+
+    async persistAndFlushFreezeDisputeRecord(entity: CommissionFreezeDisputeRecord): Promise<void> {
+        const em = this.freezeDisputeRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushFreezeDisputeRecord(): Promise<void> {
+        await this.freezeDisputeRepository.getEntityManager().flush();
+    }
+
+    async findFreezeChangeRequestById(id: string): Promise<CommissionFreezeChangeRequest | null> {
+        return this.freezeChangeRequestRepository.findOne({ id });
+    }
+
+    createFreezeChangeRequest(
+        input: ConstructorParameters<typeof CommissionFreezeChangeRequest>[0]
+    ): CommissionFreezeChangeRequest {
+        return this.freezeChangeRequestRepository.create(input);
+    }
+
+    async persistAndFlushFreezeChangeRequest(entity: CommissionFreezeChangeRequest): Promise<void> {
+        const em = this.freezeChangeRequestRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushFreezeChangeRequest(): Promise<void> {
+        await this.freezeChangeRequestRepository.getEntityManager().flush();
     }
 
     // ── Calculations ─────────────────────────────────────────────────────────

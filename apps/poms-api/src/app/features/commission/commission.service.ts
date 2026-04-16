@@ -1,5 +1,10 @@
+import { randomUUID } from 'node:crypto';
 import type {
+    ArbitrateCommissionFreezeDisputeRequest,
+    ArbitrateCommissionFreezeDisputeResult,
     ApproveCommissionPayoutRequest,
+    CommissionFreezeChangeRequestDetailView,
+    CommissionFreezeDisputeDetailView,
     CommissionAdjustmentSummary,
     CommissionAdjustmentType,
     CommissionCalculationSummary,
@@ -20,13 +25,17 @@ import type {
     FreezeCommissionRoleAssignmentResult,
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
+    SubmitCommissionFreezeDisputeRequest,
+    SubmitCommissionFreezeDisputeResult,
     SubmitCommissionPayoutApprovalRequest
 } from '@poms/shared-contracts';
 import { BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
+import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionPayout } from './commission-payout.entity';
-import type { CommissionRoleAssignment } from './commission-role-assignment.entity';
+import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionRepository } from './commission.repository';
 
@@ -37,7 +46,8 @@ const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTie
 };
 
 const FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION = 'freeze-commission-role-assignment';
-const SUBMIT_COMMISSION_ROLE_CHANGE_ACTION = 'submit-commission-role-change';
+const SUBMIT_COMMISSION_FREEZE_DISPUTE_ACTION = 'submit-commission-freeze-dispute';
+const ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION = 'arbitrate-commission-freeze-dispute';
 
 @Injectable()
 export class CommissionService {
@@ -119,11 +129,14 @@ export class CommissionService {
             throw new NotFoundException(`CommissionRoleAssignment ${id} not found`);
         }
 
-        const [handoverSummarySnapshot, receiptJudgmentFreeze] = await Promise.all([
+        const [handoverSummarySnapshot, receiptJudgmentFreeze, openDispute] = await Promise.all([
             entity.handoverSummarySnapshotId
                 ? this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
                 : Promise.resolve(null),
-            this.repo.findCurrentReceiptJudgmentFreeze(entity.projectId)
+            this.repo.findCurrentReceiptJudgmentFreeze(entity.projectId),
+            entity.status === 'frozen' && entity.isCurrent
+                ? this.repo.findOpenFreezeDisputeByFreezeVersionId(entity.id)
+                : Promise.resolve(null)
         ]);
 
         return {
@@ -139,7 +152,7 @@ export class CommissionService {
             summarySnapshotId: handoverSummarySnapshot?.id ?? entity.handoverSummarySnapshotId ?? null,
             projectionLevel: handoverSummarySnapshot?.projectionLevel ?? null,
             exportPolicy: handoverSummarySnapshot?.exportPolicy ?? null,
-            allowedActions: this.#buildRoleAssignmentAllowedActions(entity),
+            allowedActions: this.#buildRoleAssignmentAllowedActions(entity, Boolean(openDispute)),
             generatedAt: new Date().toISOString()
         };
     }
@@ -237,6 +250,229 @@ export class CommissionService {
             summarySnapshotId: handoverSummarySnapshot.id,
             projectionLevel: handoverSummarySnapshot.projectionLevel,
             exportPolicy: handoverSummarySnapshot.exportPolicy
+        };
+    }
+
+    async submitCommissionFreezeDispute(
+        actorUserId: string,
+        dto: SubmitCommissionFreezeDisputeRequest
+    ): Promise<SubmitCommissionFreezeDisputeResult> {
+        const freezeVersion = await this.repo.findRoleAssignmentById(dto.freezeVersionId);
+        if (!freezeVersion) {
+            throw new NotFoundException(`CommissionRoleAssignment ${dto.freezeVersionId} not found`);
+        }
+
+        this.#assertExpectedVersion(freezeVersion.rowVersion, dto.expectedVersion, 'CommissionRoleAssignment');
+        this.#assertRoleAssignmentEligibleForDispute(freezeVersion);
+
+        const openDispute = await this.repo.findOpenFreezeDisputeByFreezeVersionId(freezeVersion.id);
+        if (openDispute) {
+            throw new ConflictException(`冻结版本 ${freezeVersion.id} 已存在未收口争议记录 ${openDispute.id}`);
+        }
+
+        const summarySnapshot = await this.#findFreezeSummarySnapshot(freezeVersion);
+        const affectedAssignmentSummary = this.#buildAffectedAssignmentSummary(
+            freezeVersion,
+            dto.affectedAssignmentIds
+        );
+        const impactSummaries = await this.#buildFreezeImpactSummaries(
+            freezeVersion.projectId,
+            dto.recalculationImpactMode
+        );
+
+        const disputeRecord = this.repo.createFreezeDisputeRecord({
+            projectId: freezeVersion.projectId,
+            freezeVersionId: freezeVersion.id,
+            summaryPackageKey: summarySnapshot.summaryPackageKey,
+            summarySnapshotId: summarySnapshot.id,
+            projectionLevel: summarySnapshot.projectionLevel,
+            exportPolicy: summarySnapshot.exportPolicy,
+            disputeReason: dto.disputeReason.trim(),
+            affectedAssignmentSummary,
+            arbitrationStatus: 'pending',
+            recalculationImpactMode: dto.recalculationImpactMode.trim(),
+            impactAssessmentSummary: impactSummaries.impactAssessmentSummary,
+            status: 'submitted',
+            handledAt: new Date(),
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+
+        await this.repo.persistAndFlushFreezeDisputeRecord(disputeRecord);
+
+        return {
+            targetId: disputeRecord.id,
+            disputeRecordId: disputeRecord.id,
+            freezeVersionId: freezeVersion.id,
+            summarySnapshotId: summarySnapshot.id,
+            projectionLevel: summarySnapshot.projectionLevel,
+            exportPolicy: summarySnapshot.exportPolicy,
+            businessStatusAfter: 'dispute-submitted'
+        };
+    }
+
+    async getCommissionFreezeDispute(id: string): Promise<CommissionFreezeDisputeDetailView> {
+        const disputeRecord = await this.repo.findFreezeDisputeById(id);
+        if (!disputeRecord) {
+            throw new NotFoundException(`CommissionFreezeDisputeRecord ${id} not found`);
+        }
+
+        return {
+            disputeRecordId: disputeRecord.id,
+            projectId: disputeRecord.projectId,
+            freezeVersionId: disputeRecord.freezeVersionId,
+            rowVersion: disputeRecord.rowVersion,
+            disputeReason: disputeRecord.disputeReason,
+            affectedAssignmentSummary: disputeRecord.affectedAssignmentSummary,
+            arbitrationStatus: disputeRecord.arbitrationStatus,
+            recalculationImpactMode: disputeRecord.recalculationImpactMode,
+            impactAssessmentSummary: disputeRecord.impactAssessmentSummary ?? null,
+            summaryPackageKey: disputeRecord.summaryPackageKey,
+            summarySnapshotId: disputeRecord.summarySnapshotId,
+            projectionLevel: disputeRecord.projectionLevel,
+            exportPolicy: disputeRecord.exportPolicy,
+            status: disputeRecord.status,
+            handledAt: disputeRecord.handledAt.toISOString(),
+            allowedActions:
+                disputeRecord.status === 'submitted' && disputeRecord.arbitrationStatus === 'pending'
+                    ? [ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION]
+                    : [],
+            generatedAt: new Date().toISOString()
+        };
+    }
+
+    async arbitrateCommissionFreezeDispute(
+        id: string,
+        actorUserId: string,
+        dto: ArbitrateCommissionFreezeDisputeRequest
+    ): Promise<ArbitrateCommissionFreezeDisputeResult> {
+        return this.repo.transactional(async (em) => {
+            const disputeRecord = await em.findOne(CommissionFreezeDisputeRecord, { id });
+            if (!disputeRecord) {
+                throw new NotFoundException(`CommissionFreezeDisputeRecord ${id} not found`);
+            }
+
+            this.#assertExpectedVersion(disputeRecord.rowVersion, dto.expectedVersion, 'CommissionFreezeDisputeRecord');
+            this.#assertDisputeRecordPending(disputeRecord);
+
+            const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: disputeRecord.freezeVersionId });
+            if (!freezeVersion) {
+                throw new NotFoundException(`CommissionRoleAssignment ${disputeRecord.freezeVersionId} not found`);
+            }
+
+            const currentCalculation = await em.findOne(CommissionCalculation, {
+                projectId: disputeRecord.projectId,
+                isCurrent: true
+            });
+            const payouts = await em.find(CommissionPayout, { projectId: disputeRecord.projectId });
+            const impactSummaries = this.#buildFreezeImpactSummariesFromState(
+                currentCalculation,
+                payouts,
+                dto.recalculationImpactMode
+            );
+
+            let replacementFreezeVersion: CommissionRoleAssignment | null = null;
+            if (dto.replacementAssignmentPayload) {
+                const currentFreezeVersion = await em.findOne(CommissionRoleAssignment, {
+                    projectId: disputeRecord.projectId,
+                    isCurrent: true
+                });
+                if (!currentFreezeVersion || currentFreezeVersion.id !== freezeVersion.id) {
+                    throw new UnprocessableEntityException('只有当前有效冻结版本才能生成替代冻结版本');
+                }
+
+                const nextVersion = currentFreezeVersion.version + 1;
+                replacementFreezeVersion = em.create(CommissionRoleAssignment, {
+                    id: randomUUID(),
+                    projectId: freezeVersion.projectId,
+                    version: nextVersion,
+                    isCurrent: true,
+                    status: 'frozen',
+                    participantsJson: dto.replacementAssignmentPayload.participants,
+                    sourceHandoverId: freezeVersion.sourceHandoverId,
+                    sourceHandoverRebaselineRecordId: freezeVersion.sourceHandoverRebaselineRecordId,
+                    contractSummarySnapshotId: freezeVersion.contractSummarySnapshotId,
+                    handoverSummarySnapshotId: freezeVersion.handoverSummarySnapshotId,
+                    effectiveHandoverBaselineSnapshotId: freezeVersion.effectiveHandoverBaselineSnapshotId,
+                    frozenAt: new Date(),
+                    frozenBy: actorUserId,
+                    supersedesId: freezeVersion.id,
+                    createdBy: actorUserId,
+                    updatedBy: actorUserId
+                });
+
+                freezeVersion.isCurrent = false;
+                freezeVersion.status = 'superseded';
+                freezeVersion.updatedBy = actorUserId;
+            }
+
+            disputeRecord.arbitrationStatus = 'arbitrated';
+            disputeRecord.recalculationImpactMode = dto.recalculationImpactMode.trim();
+            disputeRecord.impactAssessmentSummary = impactSummaries.impactAssessmentSummary;
+            disputeRecord.status = 'closed';
+            disputeRecord.handledAt = new Date();
+            disputeRecord.updatedBy = actorUserId;
+
+            const changeRequest = em.create(CommissionFreezeChangeRequest, {
+                id: randomUUID(),
+                disputeRecordId: disputeRecord.id,
+                supersededFreezeVersionId: freezeVersion.id,
+                replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
+                summaryPackageKey: disputeRecord.summaryPackageKey,
+                summarySnapshotId: disputeRecord.summarySnapshotId,
+                projectionLevel: disputeRecord.projectionLevel,
+                exportPolicy: disputeRecord.exportPolicy,
+                arbitrationDecision: dto.arbitrationDecision.trim(),
+                recalculationImpactMode: dto.recalculationImpactMode.trim(),
+                affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
+                affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
+                riskFlagSummary: impactSummaries.riskFlagSummary,
+                status: replacementFreezeVersion ? 'effective' : 'closed',
+                handledAt: new Date(),
+                createdBy: actorUserId,
+                updatedBy: actorUserId
+            });
+
+            em.persist([disputeRecord, changeRequest, freezeVersion, ...(replacementFreezeVersion ? [replacementFreezeVersion] : [])]);
+            await em.flush();
+
+            return {
+                targetId: disputeRecord.id,
+                disputeRecordId: disputeRecord.id,
+                changeRequestId: changeRequest.id,
+                supersededFreezeVersionId: freezeVersion.id,
+                replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
+                affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
+                affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
+                riskFlagSummary: impactSummaries.riskFlagSummary,
+                resultStatus: replacementFreezeVersion ? 'replacement-created' : 'resolved-without-replacement'
+            };
+        });
+    }
+
+    async getCommissionFreezeChangeRequest(id: string): Promise<CommissionFreezeChangeRequestDetailView> {
+        const changeRequest = await this.repo.findFreezeChangeRequestById(id);
+        if (!changeRequest) {
+            throw new NotFoundException(`CommissionFreezeChangeRequest ${id} not found`);
+        }
+
+        return {
+            changeRequestId: changeRequest.id,
+            disputeRecordId: changeRequest.disputeRecordId,
+            supersededFreezeVersionId: changeRequest.supersededFreezeVersionId,
+            replacementFreezeVersionId: changeRequest.replacementFreezeVersionId ?? null,
+            arbitrationDecision: changeRequest.arbitrationDecision,
+            recalculationImpactMode: changeRequest.recalculationImpactMode,
+            affectedCalculationSummary: changeRequest.affectedCalculationSummary ?? null,
+            affectedPayoutSummary: changeRequest.affectedPayoutSummary ?? null,
+            riskFlagSummary: changeRequest.riskFlagSummary ?? null,
+            summaryPackageKey: changeRequest.summaryPackageKey,
+            summarySnapshotId: changeRequest.summarySnapshotId,
+            projectionLevel: changeRequest.projectionLevel,
+            exportPolicy: changeRequest.exportPolicy,
+            status: changeRequest.status,
+            handledAt: changeRequest.handledAt.toISOString(),
+            generatedAt: new Date().toISOString()
         };
     }
 
@@ -749,7 +985,7 @@ export class CommissionService {
         };
     }
 
-    #buildRoleAssignmentAllowedActions(entity: CommissionRoleAssignment): string[] {
+    #buildRoleAssignmentAllowedActions(entity: CommissionRoleAssignment, hasOpenDispute = false): string[] {
         if (!entity.isCurrent || entity.status === 'superseded') {
             return [];
         }
@@ -758,11 +994,114 @@ export class CommissionService {
             return [FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION];
         }
 
-        if (entity.status === 'frozen') {
-            return [SUBMIT_COMMISSION_ROLE_CHANGE_ACTION];
+        if (entity.status === 'frozen' && !hasOpenDispute) {
+            return [SUBMIT_COMMISSION_FREEZE_DISPUTE_ACTION];
         }
 
         return [];
+    }
+
+    #assertRoleAssignmentEligibleForDispute(entity: CommissionRoleAssignment): void {
+        if (!entity.isCurrent || entity.status !== 'frozen') {
+            throw new UnprocessableEntityException(`只有当前有效且已冻结的角色分配可以发起争议，当前状态: ${entity.status}`);
+        }
+        if (!entity.handoverSummarySnapshotId) {
+            throw new BadRequestException('当前冻结版本缺少移交确认摘要快照，无法进入争议链');
+        }
+    }
+
+    async #findFreezeSummarySnapshot(entity: CommissionRoleAssignment) {
+        const summarySnapshot = entity.handoverSummarySnapshotId
+            ? await this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
+            : null;
+        if (!summarySnapshot || summarySnapshot.status !== 'active') {
+            throw new BadRequestException('当前冻结版本缺少有效摘要快照，无法进入争议链');
+        }
+        return summarySnapshot;
+    }
+
+    #buildAffectedAssignmentSummary(entity: CommissionRoleAssignment, affectedAssignmentIds: string[]): string {
+        const affectedIdSet = new Set(affectedAssignmentIds);
+        const affectedParticipants = (entity.participantsJson ?? []).filter((participant) =>
+            affectedIdSet.has(participant.userId)
+        );
+
+        if (affectedParticipants.length !== affectedIdSet.size) {
+            throw new BadRequestException('affectedAssignmentIds 必须全部命中当前冻结版本中的参与角色');
+        }
+
+        return affectedParticipants
+            .map(
+                (participant) =>
+                    `${participant.displayName}(${participant.roleType}, weight=${participant.weight})`
+            )
+            .join('; ');
+    }
+
+    async #buildFreezeImpactSummaries(projectId: string, recalculationImpactMode: string) {
+        const [currentCalculation, payouts] = await Promise.all([
+            this.repo.findCurrentCalculation(projectId),
+            this.repo.findPayoutsForProject(projectId)
+        ]);
+
+        return this.#buildFreezeImpactSummariesFromState(
+            currentCalculation,
+            payouts,
+            recalculationImpactMode
+        );
+    }
+
+    #buildFreezeImpactSummariesFromState(
+        currentCalculation: CommissionCalculation | null,
+        payouts: CommissionPayout[],
+        recalculationImpactMode: string
+    ): {
+        impactAssessmentSummary: string;
+        affectedCalculationSummary: string | null;
+        affectedPayoutSummary: string | null;
+        riskFlagSummary: string | null;
+    } {
+        const affectedCalculationSummary = currentCalculation
+            ? `Current calculation ${currentCalculation.id} (${currentCalculation.status}) may require ${recalculationImpactMode}`
+            : null;
+        const affectedPayoutSummary =
+            payouts.length > 0
+                ? `Payout count=${payouts.length}; statuses=${payouts.map((item) => item.status).join(',')}`
+                : null;
+
+        const riskFlags: string[] = [];
+        if (currentCalculation?.status === 'effective') {
+            riskFlags.push('effective-calculation-present');
+        }
+        if (payouts.some((item) => ['approved', 'paid', 'suspended'].includes(item.status))) {
+            riskFlags.push('downstream-payout-chain-present');
+        }
+        if (payouts.some((item) => item.status === 'paid')) {
+            riskFlags.push('paid-payout-requires-controlled-follow-up');
+        }
+
+        const riskFlagSummary = riskFlags.length > 0 ? riskFlags.join(', ') : 'no-downstream-risk-detected';
+        const impactAssessmentSummary = [
+            `recalculationImpactMode=${recalculationImpactMode}`,
+            affectedCalculationSummary ?? 'no-current-calculation',
+            affectedPayoutSummary ?? 'no-payout-records',
+            `riskFlags=${riskFlagSummary}`
+        ].join('; ');
+
+        return {
+            impactAssessmentSummary,
+            affectedCalculationSummary,
+            affectedPayoutSummary,
+            riskFlagSummary
+        };
+    }
+
+    #assertDisputeRecordPending(disputeRecord: CommissionFreezeDisputeRecord): void {
+        if (disputeRecord.status !== 'submitted' || disputeRecord.arbitrationStatus !== 'pending') {
+            throw new UnprocessableEntityException(
+                `只有待仲裁争议记录可以执行仲裁，当前状态: ${disputeRecord.status}/${disputeRecord.arbitrationStatus}`
+            );
+        }
     }
 
     async #assertEffectiveContractFacts(projectId: string, revenue: number, cost: number): Promise<void> {

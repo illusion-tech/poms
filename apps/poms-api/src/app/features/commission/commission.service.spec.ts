@@ -7,6 +7,8 @@ const ASSIGNMENT_ID = '51000000-0000-4000-8000-000000000001';
 const CALCULATION_ID = '52000000-0000-4000-8000-000000000001';
 const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
 const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
+const DISPUTE_ID = '55000000-0000-4000-8000-000000000001';
+const CHANGE_REQUEST_ID = '56000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 const HANDOVER_ID = '61000000-0000-4000-8000-000000000001';
 const HANDOVER_SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
@@ -104,6 +106,49 @@ const makeReceiptJudgmentFreeze = (overrides: Record<string, unknown> = {}) => (
     createdAt: new Date('2026-03-25T10:00:00Z'),
     updatedAt: new Date('2026-03-25T10:00:00Z'),
     rowVersion: 1,
+    ...overrides
+});
+
+const makeFreezeDisputeRecord = (overrides: Record<string, unknown> = {}) => ({
+    id: DISPUTE_ID,
+    projectId: PROJECT_ID,
+    freezeVersionId: ASSIGNMENT_ID,
+    summaryPackageKey: 'project-handover-confirmation',
+    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'handover-confirmation',
+    exportPolicy: 'handover-controlled',
+    disputeReason: '角色权重需要调整',
+    affectedAssignmentSummary: '张三(sales-owner, weight=1)',
+    arbitrationStatus: 'pending',
+    recalculationImpactMode: 'recalculate-and-adjust',
+    impactAssessmentSummary: 'recalculationImpactMode=recalculate-and-adjust; no-current-calculation; no-payout-records; riskFlags=no-downstream-risk-detected',
+    status: 'submitted',
+    handledAt: new Date('2026-03-25T10:10:00Z'),
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:10:00Z'),
+    updatedAt: new Date('2026-03-25T10:10:00Z'),
+    ...overrides
+});
+
+const makeFreezeChangeRequest = (overrides: Record<string, unknown> = {}) => ({
+    id: CHANGE_REQUEST_ID,
+    disputeRecordId: DISPUTE_ID,
+    supersededFreezeVersionId: ASSIGNMENT_ID,
+    replacementFreezeVersionId: '51000000-0000-4000-8000-000000000099',
+    summaryPackageKey: 'project-handover-confirmation',
+    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'handover-confirmation',
+    exportPolicy: 'handover-controlled',
+    arbitrationDecision: 'replace-freeze-version',
+    recalculationImpactMode: 'recalculate-and-adjust',
+    affectedCalculationSummary: 'Current calculation 52000000-0000-4000-8000-000000000001 (effective) may require recalculate-and-adjust',
+    affectedPayoutSummary: 'Payout count=1; statuses=paid',
+    riskFlagSummary: 'effective-calculation-present, downstream-payout-chain-present',
+    status: 'effective',
+    handledAt: new Date('2026-03-25T10:20:00Z'),
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:20:00Z'),
+    updatedAt: new Date('2026-03-25T10:20:00Z'),
     ...overrides
 });
 
@@ -208,6 +253,15 @@ describe('CommissionService', () => {
             createRoleAssignment: jest.fn(),
             persistAndFlushRoleAssignment: jest.fn(),
             flushRoleAssignment: jest.fn(),
+            findOpenFreezeDisputeByFreezeVersionId: jest.fn(),
+            findFreezeDisputeById: jest.fn(),
+            createFreezeDisputeRecord: jest.fn(),
+            persistAndFlushFreezeDisputeRecord: jest.fn(),
+            flushFreezeDisputeRecord: jest.fn(),
+            findFreezeChangeRequestById: jest.fn(),
+            createFreezeChangeRequest: jest.fn(),
+            persistAndFlushFreezeChangeRequest: jest.fn(),
+            flushFreezeChangeRequest: jest.fn(),
             findCurrentCalculation: jest.fn(),
             findCalculationById: jest.fn(),
             findCalculationsForProject: jest.fn(),
@@ -219,8 +273,7 @@ describe('CommissionService', () => {
             findPayoutByProjectCalculationStage: jest.fn(),
             createPayout: jest.fn(),
             persistAndFlushPayout: jest.fn(),
-            flushPayout: jest.fn()
-            ,
+            flushPayout: jest.fn(),
             transactional: jest.fn(async (work) => work({
                 findOne: jest.fn(async (entity, where) => {
                     if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
@@ -235,10 +288,19 @@ describe('CommissionService', () => {
                     if ((entity as { name?: string })?.name === 'CommissionRuleVersion') {
                         return makeDraftRule({ status: 'active' });
                     }
+                    if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
+                        return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
+                    }
                     return null;
                 }),
                 create: jest.fn((entity, input) => ({ id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input })),
                 persist: jest.fn(),
+                find: jest.fn(async (entity, where) => {
+                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                        return where.projectId === PROJECT_ID ? [makeDraftPayout({ status: 'approved' })] : [];
+                    }
+                    return [];
+                }),
                 flush: jest.fn()
             })),
             findAdjustmentById: jest.fn(),
@@ -384,13 +446,31 @@ describe('CommissionService', () => {
             expect(result.roleAssignmentId).toBe(ASSIGNMENT_ID);
             expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
             expect(result.effectiveHandoverBaselineSummary.status).toBe('available');
-            expect(result.allowedActions).toEqual(['submit-commission-role-change']);
+            expect(result.allowedActions).toEqual(['submit-commission-freeze-dispute']);
         });
 
         it('throws NotFoundException when role assignment detail target is missing', async () => {
             repo.findRoleAssignmentById.mockResolvedValue(null);
 
             await expect(service.getRoleAssignmentDetail(ASSIGNMENT_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('suppresses dispute submit action when an open dispute already exists', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({
+                    status: 'frozen',
+                    sourceHandoverId: HANDOVER_ID,
+                    handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+                    effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID
+                }) as never
+            );
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(makeReceiptJudgmentFreeze() as never);
+            repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(makeFreezeDisputeRecord() as never);
+
+            const result = await service.getRoleAssignmentDetail(ASSIGNMENT_ID);
+
+            expect(result.allowedActions).toEqual([]);
         });
     });
 
@@ -480,6 +560,160 @@ describe('CommissionService', () => {
                     handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
             ).rejects.toThrow(BadRequestException);
+        });
+    });
+
+    describe('submitCommissionFreezeDispute', () => {
+        it('creates a dispute record from the current frozen version', async () => {
+            const assignment = makeDraftAssignment({
+                status: 'frozen',
+                sourceHandoverId: HANDOVER_ID,
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+            const dispute = makeFreezeDisputeRecord();
+
+            repo.findRoleAssignmentById.mockResolvedValue(assignment as never);
+            repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.findCurrentCalculation.mockResolvedValue(null);
+            repo.findPayoutsForProject.mockResolvedValue([]);
+            repo.createFreezeDisputeRecord.mockReturnValue(dispute as never);
+            repo.persistAndFlushFreezeDisputeRecord.mockResolvedValue();
+
+            const result = await service.submitCommissionFreezeDispute('user-1', {
+                freezeVersionId: ASSIGNMENT_ID,
+                disputeReason: '角色权重需要调整',
+                affectedAssignmentIds: ['00000000-0000-4000-8000-000000000010'],
+                recalculationImpactMode: 'recalculate-and-adjust',
+                expectedVersion: 1
+            });
+
+            expect(repo.createFreezeDisputeRecord).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    freezeVersionId: ASSIGNMENT_ID,
+                    arbitrationStatus: 'pending',
+                    status: 'submitted'
+                })
+            );
+            expect(result.disputeRecordId).toBe(DISPUTE_ID);
+            expect(result.businessStatusAfter).toBe('dispute-submitted');
+        });
+
+        it('rejects duplicate open disputes on the same freeze version', async () => {
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({
+                    status: 'frozen',
+                    sourceHandoverId: HANDOVER_ID,
+                    handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                }) as never
+            );
+            repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(makeFreezeDisputeRecord() as never);
+
+            await expect(
+                service.submitCommissionFreezeDispute('user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    disputeReason: '重复提交',
+                    affectedAssignmentIds: ['00000000-0000-4000-8000-000000000010'],
+                    recalculationImpactMode: 'recalculate-and-adjust'
+                })
+            ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('getCommissionFreezeDispute', () => {
+        it('returns dispute detail view', async () => {
+            repo.findFreezeDisputeById.mockResolvedValue(makeFreezeDisputeRecord() as never);
+
+            const result = await service.getCommissionFreezeDispute(DISPUTE_ID);
+
+            expect(result.disputeRecordId).toBe(DISPUTE_ID);
+            expect(result.allowedActions).toEqual(['arbitrate-commission-freeze-dispute']);
+        });
+    });
+
+    describe('arbitrateCommissionFreezeDispute', () => {
+        it('arbitrates dispute and creates replacement freeze version', async () => {
+            const disputedAssignment = makeDraftAssignment({
+                status: 'frozen',
+                sourceHandoverId: HANDOVER_ID,
+                sourceHandoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
+                contractSummarySnapshotId: CONTRACT_SUMMARY_SNAPSHOT_ID,
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+                effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID
+            });
+            const currentCalculation = makeCalculatedResult({ status: 'effective' });
+            const payouts = [makeDraftPayout({ status: 'paid' })];
+
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
+                            return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            if (where.id === ASSIGNMENT_ID) {
+                                return disputedAssignment;
+                            }
+                            if (where.projectId === PROJECT_ID && where.isCurrent === true) {
+                                return disputedAssignment;
+                            }
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionCalculation') {
+                            return currentCalculation;
+                        }
+                        return null;
+                    }),
+                    find: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionPayout' && where.projectId === PROJECT_ID) {
+                            return payouts;
+                        }
+                        return [];
+                    }),
+                    create: jest.fn((entity, input) => ({ rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input })),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.arbitrateCommissionFreezeDispute(DISPUTE_ID, 'user-1', {
+                arbitrationDecision: 'replace-freeze-version',
+                replacementAssignmentPayload: {
+                    participants: [
+                        {
+                            userId: '00000000-0000-4000-8000-000000000010',
+                            displayName: '张三',
+                            roleType: 'sales-owner',
+                            weight: 0.7
+                        },
+                        {
+                            userId: '00000000-0000-4000-8000-000000000011',
+                            displayName: '李四',
+                            roleType: 'delivery-owner',
+                            weight: 0.3
+                        }
+                    ]
+                },
+                recalculationImpactMode: 'recalculate-and-adjust',
+                expectedVersion: 1
+            });
+
+            expect(result.disputeRecordId).toBe(DISPUTE_ID);
+            expect(result.replacementFreezeVersionId).not.toBeNull();
+            expect(result.resultStatus).toBe('replacement-created');
+            expect(disputedAssignment.isCurrent).toBe(false);
+            expect(disputedAssignment.status).toBe('superseded');
+        });
+    });
+
+    describe('getCommissionFreezeChangeRequest', () => {
+        it('returns change request detail', async () => {
+            repo.findFreezeChangeRequestById.mockResolvedValue(makeFreezeChangeRequest() as never);
+
+            const result = await service.getCommissionFreezeChangeRequest(CHANGE_REQUEST_ID);
+
+            expect(result.changeRequestId).toBe(CHANGE_REQUEST_ID);
+            expect(result.replacementFreezeVersionId).toBe('51000000-0000-4000-8000-000000000099');
         });
     });
 
