@@ -21,13 +21,12 @@ import {
     submitAdjustmentApproval,
     submitPayoutApproval
 } from '../support/commission-api';
-import { createActiveContractForProject, createContract, getContract, submitContractReview } from '../support/contract-api';
+import { COMMISSION_E2E_FIXTURES } from '../support/commission-seed-fixtures';
 import { expectErrorStatus } from '../support/http';
-import { createProjectForProfile } from '../support/project-api';
+import { PROJECT_HANDOVER_E2E_FIXTURES } from '../support/project-handover-seed-fixtures';
 import {
     buildAdjustmentInput,
     buildCommissionRuleVersionInput,
-    buildContractInput,
     buildPayoutInput,
     buildRoleAssignmentInput,
     makeUniqueSuffix
@@ -369,63 +368,34 @@ describe('poms-api commission workflow e2e', () => {
 
     it('rejects role-assignment freeze before project handover is complete', async () => {
         const { client, profile } = await loginAsAdmin();
-        const unique = makeUniqueSuffix('cms-freeze-guard');
-
-        const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-CMS-${unique}`,
-            projectName: `E2E 提成冻结前置 ${unique}`,
-            currentStage: 'negotiation'
+        const fixture = PROJECT_HANDOVER_E2E_FIXTURES.staleVersion;
+        const assignment = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        const response = await client.post(`/commission-role-assignments/${assignment.id}:freeze`, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId
         });
 
-        const assignment = await createRoleAssignment(client, project.id, buildRoleAssignmentInput(profile));
-        const response = await client.post(
-            `/commission/projects/${project.id}/role-assignment/${assignment.id}/freeze`
-        );
-
-        expectErrorStatus(response, 422, '尚未完成移交');
+        expectErrorStatus(response, 400, 'is not confirmed');
     });
 
     it('rejects calculation trigger when the project has no active contract facts', async () => {
         const { client, profile } = await loginAsAdmin();
+        const fixture = COMMISSION_E2E_FIXTURES.noActiveContract;
         const unique = makeUniqueSuffix('cms-contract-guard');
-
-        const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-CMS-${unique}`,
-            projectName: `E2E 提成合同前置 ${unique}`,
-            currentStage: 'execution'
-        });
-
-        const contract = await createContract(
-            client,
-            buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-CMS-HT-${unique}`,
-                signedAmount: '166000.00'
-            })
-        );
-
-        await submitContractReview(client, contract.id, {
-            comment: 'e2e 未生效合同送审',
-            expectedVersion: contract.rowVersion
-        });
-
-        const contractTodo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, contractTodo.sourceId, {
-            comment: 'e2e 合同审批通过但未生效',
-            expectedVersion: 1
-        });
-
-        const pendingReviewContract = await getContract(client, contract.id);
-        expect(pendingReviewContract.status).toBe('pending-review');
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
         await activateRuleVersion(client, ruleVersion.id);
 
-        const assignment = await createRoleAssignment(client, project.id, buildRoleAssignmentInput(profile));
-        const frozenAssignment = await freezeRoleAssignment(client, project.id, assignment.id);
-        expect(frozenAssignment.status).toBe('frozen');
+        const assignment = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        const frozenAssignment = await freezeRoleAssignment(client, assignment.id, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId,
+            expectedVersion: assignment.rowVersion
+        });
+        expect(frozenAssignment.businessStatusAfter).toBe('frozen');
 
         const response = await client.post(
-            `/commission/projects/${project.id}/calculations/trigger`,
+            `/commission/projects/${fixture.projectId}/calculations/trigger`,
             {
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '70000.00'
@@ -437,31 +407,23 @@ describe('poms-api commission workflow e2e', () => {
 
     it('rejects calculation trigger when confirmed receipts are below requested revenue', async () => {
         const { client, profile } = await loginAsAdmin();
+        const fixture = COMMISSION_E2E_FIXTURES.main;
         const unique = makeUniqueSuffix('cms-receipt-guard');
-
-        const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-CMS-${unique}`,
-            projectName: `E2E 提成回款口径 ${unique}`,
-            currentStage: 'execution'
-        });
-
-        await createActiveContractForProject(client, project.id, profile.id, {
-            contractNo: `E2E-CMS-HT-${unique}`,
-            signedAmount: '188000.00',
-            receiptAmount: '50000.00',
-            paymentAmountExcludingTax: '70000.00'
-        });
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
         await activateRuleVersion(client, ruleVersion.id);
 
-        const assignment = await createRoleAssignment(client, project.id, buildRoleAssignmentInput(profile));
-        await freezeRoleAssignment(client, project.id, assignment.id);
+        const assignment = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        await freezeRoleAssignment(client, assignment.id, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId,
+            expectedVersion: assignment.rowVersion
+        });
 
         const response = await client.post(
-            `/commission/projects/${project.id}/calculations/trigger`,
+            `/commission/projects/${fixture.projectId}/calculations/trigger`,
             {
-                recognizedRevenueTaxExclusive: '100000.00',
+                recognizedRevenueTaxExclusive: '120000.00',
                 recognizedCostTaxExclusive: '70000.00'
             }
         );
@@ -471,32 +433,24 @@ describe('poms-api commission workflow e2e', () => {
 
     it('rejects calculation trigger when confirmed payments are below requested cost', async () => {
         const { client, profile } = await loginAsAdmin();
+        const fixture = COMMISSION_E2E_FIXTURES.main;
         const unique = makeUniqueSuffix('cms-payment-guard');
-
-        const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-CMS-${unique}`,
-            projectName: `E2E 提成成本口径 ${unique}`,
-            currentStage: 'execution'
-        });
-
-        await createActiveContractForProject(client, project.id, profile.id, {
-            contractNo: `E2E-CMS-HT-${unique}`,
-            signedAmount: '188000.00',
-            receiptAmount: '100000.00',
-            paymentAmountExcludingTax: '30000.00'
-        });
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
         await activateRuleVersion(client, ruleVersion.id);
 
-        const assignment = await createRoleAssignment(client, project.id, buildRoleAssignmentInput(profile));
-        await freezeRoleAssignment(client, project.id, assignment.id);
+        const assignment = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        await freezeRoleAssignment(client, assignment.id, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId,
+            expectedVersion: assignment.rowVersion
+        });
 
         const response = await client.post(
-            `/commission/projects/${project.id}/calculations/trigger`,
+            `/commission/projects/${fixture.projectId}/calculations/trigger`,
             {
                 recognizedRevenueTaxExclusive: '100000.00',
-                recognizedCostTaxExclusive: '70000.00'
+                recognizedCostTaxExclusive: '80000.00'
             }
         );
 

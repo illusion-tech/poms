@@ -35,6 +35,8 @@ export type {
     CreateContractReadinessPackageRequest,
     CreateProjectRequest,
     CreateReceiptRecordRequest,
+    FreezeCommissionRoleAssignmentRequest,
+    FreezeCommissionRoleAssignmentResult,
     InitializeContractSnapshotFromReadinessPackageRequest,
     InitializeReceivablePlanFromReadinessPackageRequest,
     InvoiceRecordDetailView,

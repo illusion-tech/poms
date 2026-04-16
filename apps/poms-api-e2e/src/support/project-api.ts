@@ -7,6 +7,10 @@ export function createProject(client: AxiosInstance, input: CreateProjectRequest
     return client.post<ProjectSummary>('/projects', input).then((response) => expectStatus(response, 201));
 }
 
+export function getProject(client: AxiosInstance, projectId: string): Promise<ProjectSummary> {
+    return client.get<ProjectSummary>(`/projects/${projectId}`).then((response) => expectStatus(response, 200));
+}
+
 export function createProjectForProfile(
     client: AxiosInstance,
     profile: SanitizedUserWithOrgUnits,

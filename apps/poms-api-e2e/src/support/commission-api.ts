@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import { findOpenTodoForTarget, getApprovalRecord } from './approval-api';
-import { createActiveContractForProject } from './contract-api';
-import { createProjectForProfile } from './project-api';
+import { COMMISSION_E2E_FIXTURES } from './commission-seed-fixtures';
+import { getProject } from './project-api';
 import {
     buildCalculationInput,
     buildCommissionRuleVersionInput,
@@ -21,6 +21,8 @@ import type {
     CreateCommissionPayoutRequest,
     CreateCommissionRoleAssignmentRequest,
     CreateCommissionRuleVersionRequest,
+    FreezeCommissionRoleAssignmentRequest,
+    FreezeCommissionRoleAssignmentResult,
     ProjectSummary,
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
@@ -32,7 +34,7 @@ import type {
 export interface EffectiveCalculationScenario {
     project: ProjectSummary;
     ruleVersion: CommissionRuleVersionSummary;
-    roleAssignment: CommissionRoleAssignmentSummary;
+    roleAssignment: FreezeCommissionRoleAssignmentResult;
     calculation: CommissionCalculationSummary;
 }
 
@@ -75,11 +77,12 @@ export async function createRoleAssignment(
 
 export async function freezeRoleAssignment(
     client: AxiosInstance,
-    projectId: string,
-    assignmentId: string
-): Promise<CommissionRoleAssignmentSummary> {
-    const response = await client.post<CommissionRoleAssignmentSummary>(
-        `/commission/projects/${projectId}/role-assignment/${assignmentId}/freeze`
+    assignmentId: string,
+    input: FreezeCommissionRoleAssignmentRequest
+): Promise<FreezeCommissionRoleAssignmentResult> {
+    const response = await client.post<FreezeCommissionRoleAssignmentResult>(
+        `/commission-role-assignments/${assignmentId}:freeze`,
+        input
     );
     return expectStatus(response, 200);
 }
@@ -255,18 +258,8 @@ export async function setupEffectiveCalculationScenario(
     profile: SanitizedUserWithOrgUnits,
     unique: string
 ): Promise<EffectiveCalculationScenario> {
-    const project = await createProjectForProfile(client, profile, {
-        projectCode: `E2E-CMS-${unique}`,
-        projectName: `E2E 提成治理链 ${unique}`,
-        currentStage: 'execution'
-    });
-
-    await createActiveContractForProject(client, project.id, profile.id, {
-        contractNo: `E2E-CMS-HT-${unique}`,
-        signedAmount: '188000.00',
-        receiptAmount: '100000.00',
-        paymentAmountExcludingTax: '70000.00'
-    });
+    const fixture = COMMISSION_E2E_FIXTURES.main;
+    const project = await getProject(client, fixture.projectId);
 
     const ruleVersion = await createRuleVersion(
         client,
@@ -281,8 +274,12 @@ export async function setupEffectiveCalculationScenario(
     );
     const roleAssignment = await freezeRoleAssignment(
         client,
-        project.id,
-        roleAssignmentDraft.id
+        roleAssignmentDraft.id,
+        {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId,
+            expectedVersion: roleAssignmentDraft.rowVersion
+        }
     );
 
     const calculated = await triggerCalculation(
