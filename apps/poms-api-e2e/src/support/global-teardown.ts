@@ -1,8 +1,7 @@
-import { killPort } from '@nx/node/utils';
+import { stopManagedApiServer } from './server-harness';
 /* eslint-disable */
 
 module.exports = async function () {
-    const port = process.env.PORT ? Number(process.env.PORT) : 3333;
-    await killPort(port);
+    await stopManagedApiServer();
     console.log(globalThis.__TEARDOWN_MESSAGE__);
 };

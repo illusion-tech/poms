@@ -2,22 +2,28 @@ import { approveRecord, expectNoOpenTodoForTarget, findOpenTodoForTarget, getApp
 import { loginAsAdmin } from '../support/api-client';
 import {
     activateRuleVersion,
+    arbitrateFreezeDispute,
     createAdjustment,
     createPayout,
     createRoleAssignment,
     createRuleVersion,
     executeAdjustment,
     findAdjustmentApprovalRecord,
+    getCurrentRoleAssignment,
+    getFreezeChangeRequest,
+    getFreezeDispute,
     findPayoutApprovalRecord,
     freezeRoleAssignment,
     getAdjustment,
     getPayout,
+    getRoleAssignmentDetail,
     listAdjustments,
     listCalculations,
     recalculateCalculation,
     registerPayout,
     setupDraftPayoutScenario,
     setupEffectiveCalculationScenario,
+    submitFreezeDispute,
     submitAdjustmentApproval,
     submitPayoutApproval
 } from '../support/commission-api';
@@ -159,6 +165,73 @@ describe('poms-api commission workflow e2e', () => {
         );
 
         expectErrorStatus(response, 422, '只有已批准状态的提成发放可以登记发放');
+    });
+
+    it('submits a freeze dispute, arbitrates it, and switches the current freeze version', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('commission-freeze-dispute');
+
+        const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
+        const freezeDetail = await getRoleAssignmentDetail(client, scenario.roleAssignment.targetId);
+        expect(freezeDetail.allowedActions).toContain('submit-commission-freeze-dispute');
+
+        const submitResult = await submitFreezeDispute(client, {
+            freezeVersionId: scenario.roleAssignment.targetId,
+            disputeReason: 'e2e 冻结角色需要重裁',
+            affectedAssignmentIds: [profile.id],
+            recalculationImpactMode: 'recalculate-and-adjust',
+            expectedVersion: freezeDetail.freezeVersionSummary.rowVersion
+        });
+        expect(submitResult.businessStatusAfter).toBe('dispute-submitted');
+
+        const disputeDetail = await getFreezeDispute(client, submitResult.disputeRecordId);
+        expect(disputeDetail.freezeVersionId).toBe(scenario.roleAssignment.targetId);
+        expect(disputeDetail.allowedActions).toEqual(['arbitrate-commission-freeze-dispute']);
+        expect(disputeDetail.affectedAssignmentSummary).toContain(profile.displayName);
+
+        const arbitrationResult = await arbitrateFreezeDispute(client, disputeDetail.disputeRecordId, {
+            arbitrationDecision: 'replace-freeze-version',
+            replacementAssignmentPayload: {
+                participants: [
+                    {
+                        userId: profile.id,
+                        displayName: profile.displayName,
+                        roleType: 'sales-owner',
+                        weight: 0.6
+                    },
+                    {
+                        userId: '00000000-0000-4000-8000-000000000099',
+                        displayName: 'e2e 协作人',
+                        roleType: 'delivery-owner',
+                        weight: 0.4
+                    }
+                ]
+            },
+            recalculationImpactMode: 'recalculate-and-adjust',
+            expectedVersion: disputeDetail.rowVersion
+        });
+        expect(arbitrationResult.resultStatus).toBe('replacement-created');
+        expect(arbitrationResult.supersededFreezeVersionId).toBe(scenario.roleAssignment.targetId);
+        expect(arbitrationResult.replacementFreezeVersionId).not.toBeNull();
+
+        const changeRequest = await getFreezeChangeRequest(client, arbitrationResult.changeRequestId);
+        expect(changeRequest.disputeRecordId).toBe(disputeDetail.disputeRecordId);
+        expect(changeRequest.replacementFreezeVersionId).toBe(arbitrationResult.replacementFreezeVersionId);
+        expect(changeRequest.status).toBe('effective');
+        expect(changeRequest.riskFlagSummary).toContain('effective-calculation-present');
+
+        const supersededFreezeDetail = await getRoleAssignmentDetail(client, scenario.roleAssignment.targetId);
+        expect(supersededFreezeDetail.freezeVersionSummary.status).toBe('superseded');
+        expect(supersededFreezeDetail.freezeVersionSummary.isCurrent).toBe(false);
+        expect(supersededFreezeDetail.allowedActions).toEqual([]);
+
+        const currentFreezeVersion = await getCurrentRoleAssignment(client, scenario.project.id);
+        expect(currentFreezeVersion).not.toBeNull();
+        expect(currentFreezeVersion?.id).toBe(arbitrationResult.replacementFreezeVersionId);
+        expect(currentFreezeVersion?.status).toBe('frozen');
+        expect(currentFreezeVersion?.version).toBe(
+            supersededFreezeDetail.freezeVersionSummary.version + 1
+        );
     });
 
     it('rejects duplicate payout creation for the same calculation stage', async () => {

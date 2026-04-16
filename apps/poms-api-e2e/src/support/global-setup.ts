@@ -1,11 +1,10 @@
-import { waitForPortOpen } from '@nx/node/utils';
+import { E2E_API_HOST, E2E_API_PORT } from './server-config';
+import { startManagedApiServer } from './server-harness';
 
 /* eslint-disable */
 var __TEARDOWN_MESSAGE__: string;
 
 module.exports = async function () {
-    const host = process.env.HOST ?? 'localhost';
-    const port = process.env.PORT ? Number(process.env.PORT) : 3333;
-    await waitForPortOpen(port, { host });
-    globalThis.__TEARDOWN_MESSAGE__ = `\nTearing down e2e server on ${host}:${port}...\n`;
+    await startManagedApiServer();
+    globalThis.__TEARDOWN_MESSAGE__ = `\nTearing down managed e2e server on ${E2E_API_HOST}:${E2E_API_PORT}...\n`;
 };

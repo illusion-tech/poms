@@ -10,9 +10,14 @@ import {
     buildRoleAssignmentInput
 } from './test-data';
 import type {
+    ArbitrateCommissionFreezeDisputeRequest,
+    ArbitrateCommissionFreezeDisputeResult,
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
+    CommissionFreezeChangeRequestDetailView,
+    CommissionFreezeDisputeDetailView,
     CommissionPayoutSummary,
+    CommissionRoleAssignmentDetailView,
     CommissionRoleAssignmentSummary,
     CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
@@ -27,6 +32,8 @@ import type {
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
     SanitizedUserWithOrgUnits,
+    SubmitCommissionFreezeDisputeRequest,
+    SubmitCommissionFreezeDisputeResult,
     SubmitCommissionAdjustmentApprovalRequest,
     SubmitCommissionPayoutApprovalRequest
 } from './types';
@@ -75,6 +82,26 @@ export async function createRoleAssignment(
     return expectStatus(response, 201);
 }
 
+export async function getCurrentRoleAssignment(
+    client: AxiosInstance,
+    projectId: string
+): Promise<CommissionRoleAssignmentSummary | null> {
+    const response = await client.get<CommissionRoleAssignmentSummary | null>(
+        `/commission/projects/${projectId}/role-assignment`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function getRoleAssignmentDetail(
+    client: AxiosInstance,
+    assignmentId: string
+): Promise<CommissionRoleAssignmentDetailView> {
+    const response = await client.get<CommissionRoleAssignmentDetailView>(
+        `/commission-role-assignments/${assignmentId}`
+    );
+    return expectStatus(response, 200);
+}
+
 export async function freezeRoleAssignment(
     client: AxiosInstance,
     assignmentId: string,
@@ -83,6 +110,49 @@ export async function freezeRoleAssignment(
     const response = await client.post<FreezeCommissionRoleAssignmentResult>(
         `/commission-role-assignments/${assignmentId}:freeze`,
         input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function submitFreezeDispute(
+    client: AxiosInstance,
+    input: SubmitCommissionFreezeDisputeRequest
+): Promise<SubmitCommissionFreezeDisputeResult> {
+    const response = await client.post<SubmitCommissionFreezeDisputeResult>(
+        '/commission-freeze-disputes',
+        input
+    );
+    return expectStatus(response, 201);
+}
+
+export async function getFreezeDispute(
+    client: AxiosInstance,
+    disputeId: string
+): Promise<CommissionFreezeDisputeDetailView> {
+    const response = await client.get<CommissionFreezeDisputeDetailView>(
+        `/commission-freeze-disputes/${disputeId}`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function arbitrateFreezeDispute(
+    client: AxiosInstance,
+    disputeId: string,
+    input: ArbitrateCommissionFreezeDisputeRequest
+): Promise<ArbitrateCommissionFreezeDisputeResult> {
+    const response = await client.post<ArbitrateCommissionFreezeDisputeResult>(
+        `/commission-freeze-disputes/${disputeId}:arbitrate`,
+        input
+    );
+    return expectStatus(response, 200);
+}
+
+export async function getFreezeChangeRequest(
+    client: AxiosInstance,
+    changeRequestId: string
+): Promise<CommissionFreezeChangeRequestDetailView> {
+    const response = await client.get<CommissionFreezeChangeRequestDetailView>(
+        `/commission-freeze-change-requests/${changeRequestId}`
     );
     return expectStatus(response, 200);
 }

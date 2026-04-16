@@ -1,10 +1,9 @@
 /* eslint-disable */
 import axios from 'axios';
+import { E2E_API_BASE_URL } from './server-config';
 
 module.exports = async function () {
-    const host = process.env.HOST ?? 'localhost';
-    const port = process.env.PORT ?? '3333';
-    axios.defaults.baseURL = `http://${host}:${port}/api`;
+    axios.defaults.baseURL = E2E_API_BASE_URL;
     axios.defaults.validateStatus = () => true;
     axios.defaults.proxy = false;
 };
