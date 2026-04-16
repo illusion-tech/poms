@@ -110,9 +110,9 @@
 
 ## 9. 例外与风险
 
-| Exception ID | Level  | Scope                                                          | Approved By                | Cleanup Owner | Cleanup Due     | Notes                                                                                                                                      |
-| ------------ | ------ | -------------------------------------------------------------- | -------------------------- | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `EX-09D-E01` | medium | `CommissionRoleAssignmentDetailView.allowedActions` 历史占位值 | `Solo worktree checkpoint` | `Codex`       | `EX-09D` 完成时 | 当前实现仍暴露 `submit-commission-role-change` 占位 action；已归类为 `existing-baseline-drift`，需在 `EX-09D` 代码实现时随争议资源一起更名 |
+| Exception ID | Level  | Scope                                                          | Approved By                | Cleanup Owner | Cleanup Due     | Notes                                                                                                                    |
+| ------------ | ------ | -------------------------------------------------------------- | -------------------------- | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `EX-09D-E01` | medium | `CommissionRoleAssignmentDetailView.allowedActions` 历史占位值 | `Solo worktree checkpoint` | `Codex`       | `EX-09D` 完成时 | 已于 2026-04-16 在 `EX-09D` 代码落地时关闭：runtime / OpenAPI / e2e helper 已统一改为 `submit-commission-freeze-dispute` |
 
 ## 10. G1 结论
 
