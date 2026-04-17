@@ -41,6 +41,9 @@ const makeChain = () => {
 };
 
 export const defineEntity = Object.assign(
-    (_config: unknown) => ({ class: class {}, setClass: () => undefined }),
+    (config: unknown) => {
+        void config;
+        return { class: class {}, setClass: () => undefined };
+    },
     { properties: new Proxy({} as Record<string, unknown>, { get: () => makeChain }) }
 );

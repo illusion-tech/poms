@@ -384,8 +384,8 @@ export class ProjectCostController {
         @Body() body: CreateExpenseRecordRequestDto,
         @Request() req: AuthenticatedRequest
     ): Promise<ExpenseRecordSummary> {
-        const userId = req.user?.sub ?? 'system';
-        return this.projectCostService.createExpenseRecord(projectId, body, userId);
+        void req;
+        return this.projectCostService.createExpenseRecord(projectId, body);
     }
 
     @Patch('expense-records/:id')

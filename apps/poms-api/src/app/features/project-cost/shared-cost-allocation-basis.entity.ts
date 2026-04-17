@@ -1,5 +1,4 @@
 import { defineEntity } from '@mikro-orm/core';
-import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
 

@@ -497,8 +497,7 @@ export class ProjectCostService {
 
     async createExpenseRecord(
         projectId: string,
-        input: CreateExpenseRecordRequest,
-        userId: string
+        input: CreateExpenseRecordRequest
     ): Promise<ExpenseRecordSummary> {
         await this.assertExpenseProjectAndContract(projectId, input.contractId ?? null);
         this.assertExpenseAmountsConsistent(input.amountIncludingTax, input.taxAmount, input.amountExcludingTax);

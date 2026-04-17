@@ -849,8 +849,7 @@ describe('ProjectCostService', () => {
                     amountExcludingTax: '1111.11',
                     evidenceSummary: 'receipt attached',
                     attachmentCount: 2
-                },
-                USER_ID
+                }
             );
 
             expect(expenseRecordRepository.create).toHaveBeenCalledWith(
@@ -885,8 +884,7 @@ describe('ProjectCostService', () => {
                         amountIncludingTax: '1234.56',
                         taxAmount: '100.00',
                         amountExcludingTax: '1000.00'
-                    },
-                    USER_ID
+                    }
                 )
             ).rejects.toThrow(UnprocessableEntityException);
         });
