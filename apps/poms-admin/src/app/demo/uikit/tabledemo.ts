@@ -23,6 +23,16 @@ interface expandedRows {
     [key: string]: boolean;
 }
 
+interface StatusOption {
+    label: string;
+    value: string;
+}
+
+interface RowGroupMeta {
+    index: number;
+    size: number;
+}
+
 @Component({
     selector: 'app-table-demo',
     standalone: true,
@@ -426,11 +436,11 @@ export class TableDemo implements OnInit {
 
     representatives: Representative[] = [];
 
-    statuses: any[] = [];
+    statuses: StatusOption[] = [];
 
     products: Product[] = [];
 
-    rowGroupMetadata: any;
+    rowGroupMetadata: Record<string, RowGroupMeta> = {};
 
     expandedRows: expandedRows = {};
 

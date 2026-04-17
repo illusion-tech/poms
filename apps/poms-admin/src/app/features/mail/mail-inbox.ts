@@ -533,7 +533,7 @@ export class MailInbox implements OnInit {
         return colors[index];
     }
 
-    onPageChange(event: any) {
+    onPageChange(event: { first: number }) {
         this.first.set(event.first);
     }
 

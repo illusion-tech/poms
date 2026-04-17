@@ -9,6 +9,19 @@ import { PhotoService } from '../services/photo.service';
 import { Product, ProductService } from '../services/product.service';
 import { ImageCompareModule } from 'primeng/imagecompare';
 
+interface GalleryImage {
+    itemImageSrc: string;
+    thumbnailImageSrc: string;
+    alt: string;
+    title: string;
+}
+
+interface ResponsiveOption {
+    breakpoint: string;
+    numVisible: number;
+    numScroll?: number;
+}
+
 @Component({
     selector: 'app-media-demo',
     standalone: true,
@@ -76,9 +89,9 @@ import { ImageCompareModule } from 'primeng/imagecompare';
 export class MediaDemo implements OnInit {
     products!: Product[];
 
-    images!: any[];
+    images!: GalleryImage[];
 
-    galleriaResponsiveOptions: any[] = [
+    galleriaResponsiveOptions: ResponsiveOption[] = [
         {
             breakpoint: '1024px',
             numVisible: 5
@@ -97,7 +110,7 @@ export class MediaDemo implements OnInit {
         }
     ];
 
-    carouselResponsiveOptions: any[] = [
+    carouselResponsiveOptions: ResponsiveOption[] = [
         {
             breakpoint: '1024px',
             numVisible: 3,

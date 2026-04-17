@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { generateRandomData } from '../../../../shared/utils/utils';
+import { DataPoint, generateRandomData } from '../../../../shared/utils/utils';
 import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { BarChart } from '../../../dashboard/ui/charts/barchart';
 import { TableModule } from 'primeng/table';
@@ -73,7 +73,7 @@ import { AuthLogoWidget } from '../../../auth/components/authlogowidget';
     </section>`
 })
 export class AboutSectionOneWidget implements OnInit {
-    randomData: any[] = [];
+    randomData: DataPoint[] = [];
 
     ngOnInit() {
         this.randomData = generateRandomData('2020-10-27T00:00:00', '2023-11-03T00:00:00', 4, 10000, 50000);

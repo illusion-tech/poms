@@ -9051,9 +9051,9 @@ export class CustomerService {
         return Promise.resolve(this.getData());
     }
 
-    getCustomers(params?: any) {
+    getCustomers(params?: Record<string, string | number | boolean>) {
         return this.http
-            .get<any>('https://www.primefaces.org/data/customers', {
+            .get<unknown>('https://www.primefaces.org/data/customers', {
                 params: params
             })
             .toPromise();

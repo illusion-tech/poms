@@ -209,11 +209,11 @@ export class OverlayDemo implements OnInit {
         this.display = false;
     }
 
-    toggleDataTable(op: Popover, event: any) {
+    toggleDataTable(op: Popover, event: Event) {
         op.toggle(event);
     }
 
-    onProductSelect(op: Popover, event: any) {
+    onProductSelect(op: Popover, event: { data: Product }) {
         op.hide();
         this.messageService.add({
             severity: 'info',

@@ -33,6 +33,15 @@ import { Country } from '../services/customer.service';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputOtpModule } from 'primeng/inputotp';
 
+interface CityOption {
+    name: string;
+    code: string;
+}
+
+interface SelectButtonOption {
+    name: string;
+}
+
 @Component({
     selector: 'app-input-demo',
     standalone: true,
@@ -253,35 +262,35 @@ import { InputOtpModule } from 'primeng/inputotp';
     providers: [CountryService, NodeService]
 })
 export class InputDemo implements OnInit {
-    floatValue: any = null;
+    floatValue: string | null = null;
 
-    iftaValue: any = null;
+    iftaValue: string | null = null;
 
-    inputOtpValue: any = null;
+    inputOtpValue: string | null = null;
 
-    autoValue: any[] | undefined;
+    autoValue: Country[] | undefined;
 
-    autoFilteredValue: any[] = [];
+    autoFilteredValue: Country[] = [];
 
-    selectedAutoValue: any = null;
+    selectedAutoValue: Country | null = null;
 
-    calendarValue: any = null;
+    calendarValue: Date | null = null;
 
-    inputNumberValue: any = null;
+    inputNumberValue: number | null = null;
 
     sliderValue: number = 50;
 
-    ratingValue: any = null;
+    ratingValue: number | null = null;
 
     colorValue: string = '#1976D2';
 
-    radioValue: any = null;
+    radioValue: string | null = null;
 
-    checkboxValue: any[] = [];
+    checkboxValue: string[] = [];
 
     switchValue: boolean = false;
 
-    listboxValues: any[] = [
+    listboxValues: CityOption[] = [
         { name: 'New York', code: 'NY' },
         { name: 'Rome', code: 'RM' },
         { name: 'London', code: 'LDN' },
@@ -289,9 +298,9 @@ export class InputDemo implements OnInit {
         { name: 'Paris', code: 'PRS' }
     ];
 
-    listboxValue: any = null;
+    listboxValue: CityOption | null = null;
 
-    dropdownValues = [
+    dropdownValues: CityOption[] = [
         { name: 'New York', code: 'NY' },
         { name: 'Rome', code: 'RM' },
         { name: 'London', code: 'LDN' },
@@ -299,7 +308,7 @@ export class InputDemo implements OnInit {
         { name: 'Paris', code: 'PRS' }
     ];
 
-    dropdownValue: any = null;
+    dropdownValue: CityOption | null = null;
 
     multiselectCountries: Country[] = [
         { name: 'Australia', code: 'AU' },
@@ -318,9 +327,9 @@ export class InputDemo implements OnInit {
 
     toggleValue: boolean = false;
 
-    selectButtonValue: any = null;
+    selectButtonValue: SelectButtonOption | null = null;
 
-    selectButtonValues: any = [{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }];
+    selectButtonValues: SelectButtonOption[] = [{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }];
 
     knobValue: number = 50;
 
@@ -328,7 +337,7 @@ export class InputDemo implements OnInit {
 
     treeSelectNodes!: TreeNode[];
 
-    selectedNode: any = null;
+    selectedNode: string | null = null;
 
     countryService = inject(CountryService);
 
@@ -343,11 +352,12 @@ export class InputDemo implements OnInit {
     }
 
     filterCountry(event: AutoCompleteCompleteEvent) {
-        const filtered: any[] = [];
+        const filtered: Country[] = [];
         const query = event.query;
+        const countries = this.autoValue ?? [];
 
-        for (let i = 0; i < (this.autoValue as any[]).length; i++) {
-            const country = (this.autoValue as any[])[i];
+        for (let i = 0; i < countries.length; i++) {
+            const country = countries[i];
             if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
                 filtered.push(country);
             }

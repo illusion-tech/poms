@@ -9,6 +9,11 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
 import { Product, ProductService } from '../services/product.service';
 
+interface CityOption {
+    name: string;
+    code: string;
+}
+
 @Component({
     selector: 'app-list-demo',
     standalone: true,
@@ -178,11 +183,11 @@ export class ListDemo implements OnInit {
 
     products: Product[] = [];
 
-    sourceCities: any[] = [];
+    sourceCities: CityOption[] = [];
 
-    targetCities: any[] = [];
+    targetCities: CityOption[] = [];
 
-    orderCities: any[] = [];
+    orderCities: CityOption[] = [];
 
     constructor(private productService: ProductService) {}
 

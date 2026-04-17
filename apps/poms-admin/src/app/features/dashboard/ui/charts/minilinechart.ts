@@ -3,6 +3,59 @@ import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../../../layout/service/layout.service';
 import { ChartModule } from 'primeng/chart';
 
+type HoverLineChart = {
+    ctx: CanvasRenderingContext2D;
+    tooltip: {
+        _active: unknown[];
+        dataPoints: Array<{
+            dataIndex: number;
+            parsed: {
+                y: number;
+            };
+        }>;
+    };
+    chartArea: {
+        bottom: number;
+    };
+    scales: {
+        x: {
+            getPixelForValue(value: number): number;
+        };
+        y: {
+            getPixelForValue(value: number): number;
+        };
+    };
+};
+
+type GradientBackgroundContext = {
+    chart: {
+        chartArea?: {
+            top: number;
+            bottom: number;
+        };
+        ctx: CanvasRenderingContext2D;
+    };
+};
+
+type MiniLineTooltipContext = {
+    chart: {
+        canvas: HTMLCanvasElement;
+    };
+    tooltip: {
+        opacity: number;
+        body?: Array<{
+            lines: string[];
+        }>;
+        caretX: number;
+        caretY: number;
+    };
+};
+
+type TooltipBodyLine = {
+    text: string;
+    value: string;
+};
+
 @Component({
     selector: 'mini-line-chart',
     standalone: true,
@@ -32,19 +85,19 @@ export class MiniLineChart {
 
     class = input<string>('');
 
-    inputData = input.required<any[]>({ alias: 'data' });
+    inputData = input.required<number[]>({ alias: 'data' });
 
-    bgColor = input<any[] | null | undefined>();
+    bgColor = input<string[] | null | undefined>();
 
     borderColor = input<string | null | undefined>();
 
     tooltipPrefix = input<string>('');
 
-    plugins = signal<any>([]);
+    plugins = signal<unknown[]>([]);
 
-    chartData = signal<any>({});
+    chartData = signal<Record<string, unknown>>({});
 
-    chartOptions = signal<any>({});
+    chartOptions = signal<Record<string, unknown>>({});
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;
@@ -62,7 +115,7 @@ export class MiniLineChart {
         const darkMode = this.layoutService.isDarkTheme() ?? false;
         const hoverLine = {
             id: 'hoverLine',
-            afterDatasetsDraw: (chart: any) => {
+            afterDatasetsDraw: (chart: HoverLineChart) => {
                 const {
                     ctx,
                     tooltip,
@@ -83,7 +136,7 @@ export class MiniLineChart {
                         const rootStyles = getComputedStyle(document.documentElement);
                         const surface0Color = rootStyles.getPropertyValue('--p-surface-0');
                         const surface950Color = rootStyles.getPropertyValue('--p-surface-950');
-                        const hexToRgba = (hex: any, alpha: any) => {
+                        const hexToRgba = (hex: string, alpha: number) => {
                             const r = parseInt(hex.slice(1, 3), 16);
                             const g = parseInt(hex.slice(3, 5), 16);
                             const b = parseInt(hex.slice(5, 7), 16);
@@ -130,7 +183,7 @@ export class MiniLineChart {
                     hideInLegendAndTooltip: false,
                     pointStyle: 'circle',
                     pointRadius: 4,
-                    backgroundColor: (context: any) => {
+                    backgroundColor: (context: GradientBackgroundContext) => {
                         const defaultColor = [darkMode ? 'rgba(255, 255, 255, 0.24)' : 'rgba(3, 6, 22, 0.24)', darkMode ? 'rgba(255, 255, 255, 0)' : 'rgba(3, 6, 22, 0)'];
                         const bg = this.bgColor() ?? defaultColor;
 
@@ -145,7 +198,7 @@ export class MiniLineChart {
                         const gradientBg = ctx.createLinearGradient(0, top, 0, bottom);
                         const colorTranches = 1 / (bg.length - 1);
 
-                        bg.forEach((color: any, index: any) => {
+                        bg.forEach((color, index) => {
                             gradientBg.addColorStop(index * colorTranches, color);
                         });
 
@@ -168,9 +221,13 @@ export class MiniLineChart {
                 tooltip: {
                     enabled: false,
                     position: 'nearest',
-                    external: function (context: any) {
+                    external: function (context: MiniLineTooltipContext) {
                         const { chart, tooltip } = context;
-                        let tooltipEl = chart.canvas.parentNode.querySelector('div.chartjs-tooltip');
+                        const parentElement = chart.canvas.parentElement;
+                        if (!parentElement) {
+                            return;
+                        }
+                        let tooltipEl = parentElement.querySelector<HTMLDivElement>('div.chartjs-tooltip');
                         if (!tooltipEl) {
                             tooltipEl = document.createElement('div');
                             tooltipEl.classList.add(
@@ -194,7 +251,7 @@ export class MiniLineChart {
                                 'duration-[0.05s]',
                                 'shadow-[0px_1px_2px_0px_rgba(18,18,23,0.05)]'
                             );
-                            chart.canvas.parentNode.appendChild(tooltipEl);
+                            parentElement.appendChild(tooltipEl);
                         }
 
                         if (tooltip.opacity === 0) {
@@ -203,7 +260,7 @@ export class MiniLineChart {
                         }
 
                         if (tooltip.body) {
-                            const bodyLines = tooltip.body.map((b: any) => {
+                            const bodyLines: TooltipBodyLine[] = tooltip.body.map((b) => {
                                 const strArr = b.lines[0].split(':');
                                 return {
                                     text: strArr[0].trim(),
@@ -212,7 +269,7 @@ export class MiniLineChart {
                             });
 
                             tooltipEl.innerHTML = '';
-                            bodyLines.forEach((body: any) => {
+                            bodyLines.forEach((body) => {
                                 const text = document.createElement('div');
                                 text.appendChild(document.createTextNode(tooltipPrefix + body.value));
                                 text.classList.add('label-small', 'text-surface-950', 'dark:text-surface-0', 'font-medium');

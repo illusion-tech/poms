@@ -376,7 +376,7 @@ export class Edit {
         }
     }
 
-    removeAuthor(event: any, authorToRemove: Author) {
+    removeAuthor(event: Event, authorToRemove: Author) {
         event.stopPropagation();
         this.selectedAuthors.set(this.selectedAuthors().filter((author) => author.name !== authorToRemove.name));
     }

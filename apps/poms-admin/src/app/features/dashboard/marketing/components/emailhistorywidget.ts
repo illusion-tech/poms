@@ -10,6 +10,22 @@ import { FormsModule } from '@angular/forms';
 import { Table, TableModule } from 'primeng/table';
 import { AvatarModule } from 'primeng/avatar';
 
+interface EmailHistoryName {
+    avatarStyle: string;
+    value: string;
+    shortValue: string;
+}
+
+interface EmailHistoryEntry {
+    id: string;
+    date: string;
+    name: EmailHistoryName;
+    emailAddress: string;
+    sent: string;
+    ctr: string;
+    deliveredRate: string;
+}
+
 @Component({
     selector: 'email-history-widget',
     standalone: true,
@@ -125,9 +141,9 @@ export class EmailHistoryWidget {
 
     filterFields = ['id', 'date', 'name', 'emailAddress', 'sent', 'ctr', 'deliveredRate'];
 
-    selectedEmailHistory: any;
+    selectedEmailHistory: EmailHistoryEntry[] = [];
 
-    emailHistory = [
+    emailHistory: EmailHistoryEntry[] = [
         {
             id: '#12546',
             date: 'May 5th, 2024',

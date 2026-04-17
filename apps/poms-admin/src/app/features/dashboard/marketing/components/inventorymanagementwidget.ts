@@ -2,6 +2,19 @@
 import { CommonModule } from '@angular/common';
 import { SectionCard } from '../../../../shared/ui/sectioncard';
 
+interface InventoryManagementPoint {
+    x: string;
+    y: number[];
+}
+
+interface InventoryManagementHeaderItem {
+    title: string;
+    value: string;
+    change: string;
+    status: 'success' | 'danger';
+    color: string;
+}
+
 @Component({
     selector: 'inventory-management-widget',
     standalone: true,
@@ -56,7 +69,7 @@ import { SectionCard } from '../../../../shared/ui/sectioncard';
 export class InventoryManagementWidget {
     inventoryManagementDataMax = 500;
 
-    inventoryManagementData = [
+    inventoryManagementData: InventoryManagementPoint[] = [
         {
             x: '500',
             y: [123, 87, 156]
@@ -79,7 +92,7 @@ export class InventoryManagementWidget {
         }
     ];
 
-    inventoryManagementHeader = [
+    inventoryManagementHeader: InventoryManagementHeaderItem[] = [
         {
             title: 'Stock Status',
             value: '22.543',
@@ -107,7 +120,7 @@ export class InventoryManagementWidget {
         return `var(--p-${this.inventoryManagementHeader[j].color})`;
     }
 
-    itemBackgroundColor(item: any) {
+    itemBackgroundColor(item: InventoryManagementHeaderItem) {
         return `var(--p-${item.color})`;
     }
 }

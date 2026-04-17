@@ -63,7 +63,7 @@ export class MessagesDemo {
 
     constructor(private service: MessageService) {}
 
-    pt: any = {
+    pt: Record<'contentWrapper', string> = {
         contentWrapper: 'flex items-center'
     };
 

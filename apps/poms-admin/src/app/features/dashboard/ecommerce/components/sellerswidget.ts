@@ -127,7 +127,7 @@ export class SellersWidget {
 
     @ViewChildren('sellerListMenu') sellerListMenu!: QueryList<Menu>;
 
-    toggleSellerListMenu(index: number, event: any) {
+    toggleSellerListMenu(index: number, event: Event) {
         const menusToToggle = this.sellerListMenu.toArray();
         menusToToggle[index].toggle(event);
     }

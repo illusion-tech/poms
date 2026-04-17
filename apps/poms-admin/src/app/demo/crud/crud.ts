@@ -222,7 +222,7 @@ export class Crud implements OnInit {
 
     submitted: boolean = false;
 
-    statuses!: any[];
+    statuses!: Array<{ label: string; value: string }>;
 
     @ViewChild('dt') dt!: Table;
 

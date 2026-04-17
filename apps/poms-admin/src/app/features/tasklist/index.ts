@@ -31,6 +31,10 @@ interface Task {
     members: Member[];
 }
 
+interface TaskFormData extends Omit<Task, 'id'> {
+    id: number | null;
+}
+
 @Component({
     selector: 'app-tasklist',
     standalone: true,
@@ -533,7 +537,7 @@ export class TaskList {
         this.isDrawerVisible = true;
     }
 
-    handleDrawerSave(newTaskData: any) {
+    handleDrawerSave(newTaskData: TaskFormData) {
         if (this.drawerMode === 'create') {
             const tasks = this.taskData();
             const newId = Math.max(...tasks.map((t) => t.id), 0) + 1;

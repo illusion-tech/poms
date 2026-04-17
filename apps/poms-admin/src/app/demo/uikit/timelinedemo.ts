@@ -4,6 +4,14 @@ import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 
+interface TimelineEvent {
+    status: string;
+    date: string;
+    icon: string;
+    color: string;
+    image?: string;
+}
+
 @Component({
     selector: 'app-timeline-demo',
     standalone: true,
@@ -103,9 +111,9 @@ import { ButtonModule } from 'primeng/button';
     </div>`
 })
 export class TimelineDemo implements OnInit {
-    events1: any[] = [];
+    events1: TimelineEvent[] = [];
 
-    events2: any[] = [];
+    events2: string[] = [];
 
     ngOnInit() {
         this.events1 = [

@@ -6,6 +6,16 @@ import { TreeTableModule } from 'primeng/treetable';
 import { CommonModule } from '@angular/common';
 import { NodeService } from '../services/node.service';
 
+interface TreeTableColumn {
+    field: string;
+    header: string;
+}
+
+interface TreeTableSelectionKeyState {
+    partialChecked: boolean;
+    checked: boolean;
+}
+
 @Component({
     selector: 'app-tree-demo',
     standalone: true,
@@ -51,15 +61,15 @@ export class TreeDemo implements OnInit {
 
     selectedTreeValue: TreeNode[] = [];
 
-    selectedTreeTableValue = {};
+    selectedTreeTableValue: Record<string, TreeTableSelectionKeyState> = {};
 
-    cols: any[] = [];
+    cols: TreeTableColumn[] = [];
 
     nodeService = inject(NodeService);
 
     ngOnInit() {
         this.nodeService.getFiles().then((files) => this.treeValue.set(files));
-        this.nodeService.getTreeTableNodes().then((files: any) => this.treeTableValue.set(files));
+        this.nodeService.getTreeTableNodes().then((files) => this.treeTableValue.set(files));
 
         this.cols = [
             { field: 'name', header: 'Name' },

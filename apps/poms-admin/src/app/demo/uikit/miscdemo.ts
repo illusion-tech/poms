@@ -234,7 +234,7 @@ import { MeterGroupModule } from 'primeng/metergroup';
 export class MiscDemo implements OnInit, OnDestroy {
     value = 0;
 
-    interval: any;
+    interval: ReturnType<typeof setInterval> | null = null;
 
     meterGroupValue = [
         { label: 'Apps', color: '#34d399', value: 16 },
@@ -248,12 +248,16 @@ export class MiscDemo implements OnInit, OnDestroy {
             this.value = this.value + Math.floor(Math.random() * 10) + 1;
             if (this.value >= 100) {
                 this.value = 100;
-                clearInterval(this.interval);
+                if (this.interval) {
+                    clearInterval(this.interval);
+                }
             }
         }, 2000);
     }
 
     ngOnDestroy() {
-        clearInterval(this.interval);
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
     }
 }

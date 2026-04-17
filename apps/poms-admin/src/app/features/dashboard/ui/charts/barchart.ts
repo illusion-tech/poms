@@ -2,8 +2,59 @@
 import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../../../layout/service/layout.service';
-import { sampleDataByFixedLength } from '../../../../shared/utils/utils';
+import { DataPoint, sampleDataByFixedLength, TimeUnit } from '../../../../shared/utils/utils';
 import 'chartjs-adapter-date-fns';
+
+type NumericDataPoint = DataPoint & {
+    y: number;
+};
+
+type TimeInterval = {
+    days?: number;
+    weeks?: number;
+    months?: number;
+    years?: number;
+};
+
+type ChartColors = {
+    surface100: string;
+    surface200: string;
+    surface400: string;
+    surface500: string;
+    surface700: string;
+    surface900: string;
+};
+
+type ExternalTooltipPoint = {
+    element: {
+        x: number;
+        y: number;
+    };
+    formattedValue: string;
+    dataset: {
+        backgroundColor: string;
+        label: string;
+    };
+};
+
+type ExternalTooltipContext = {
+    chart: {
+        canvas: HTMLCanvasElement;
+        width: number;
+        height: number;
+    };
+    tooltip: {
+        opacity: number;
+        dataPoints: ExternalTooltipPoint[];
+        body?: unknown[];
+        title: string[];
+        options: {
+            bodyFont: {
+                string: string;
+            };
+        };
+    };
+};
 
 @Component({
     selector: 'bar-chart',
@@ -36,13 +87,13 @@ export class BarChart {
 
     labels = input<string[]>(['']);
 
-    dataset = input<any[]>([]);
+    dataset = input<NumericDataPoint[]>([]);
 
     show = input<number>(12);
 
     tooltipPrefix = input<string>('$');
 
-    option = input<string>('month');
+    option = input<TimeUnit>('month');
 
     bgColors = input<string[]>();
 
@@ -50,15 +101,15 @@ export class BarChart {
 
     label = input<string>('Label');
 
-    data = signal<any>(null);
+    data = signal<NumericDataPoint[]>([]);
 
-    plugins = signal<any>([]);
+    plugins = signal<unknown[]>([]);
 
-    chartData = signal<any>({});
+    chartData = signal<Record<string, unknown>>({});
 
-    chartOptions = signal<any>({});
+    chartOptions = signal<Record<string, unknown>>({});
 
-    chartColors: any;
+    chartColors!: ChartColors;
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;
@@ -85,11 +136,13 @@ export class BarChart {
         };
     }
 
-    setChartData(option: string) {
-        const sampledData: any = sampleDataByFixedLength(this.dataset(), option, this.show());
+    setChartData(option: TimeUnit) {
+        const sampledData = sampleDataByFixedLength(this.dataset(), option, this.show()) as NumericDataPoint[];
         if (sampledData.length <= 0) {
             this.data.set([]);
-            return;
+            return {
+                datasets: []
+            };
         }
         const rootStyles = getComputedStyle(document.documentElement);
         const primary = rootStyles.getPropertyValue('--p-primary-color');
@@ -122,7 +175,7 @@ export class BarChart {
         };
     }
 
-    getIntervalFromOption(option: string) {
+    getIntervalFromOption(option: TimeUnit): TimeInterval {
         switch (option) {
             case 'week':
                 return { weeks: 1 };
@@ -137,7 +190,7 @@ export class BarChart {
         }
     }
 
-    addInterval(date: Date, interval: any) {
+    addInterval(date: Date, interval: TimeInterval) {
         return new Date(date.getFullYear() + (interval.years || 0), date.getMonth() + (interval.months || 0), date.getDate() + (interval.days || 0) + (interval.weeks ? interval.weeks * 7 : 0));
     }
 
@@ -148,6 +201,12 @@ export class BarChart {
         const darkMode = this.layoutService.isDarkTheme() ?? false;
 
         const dataValue = this.data();
+        if (dataValue.length === 0) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+        }
         const endDate = new Date(dataValue[dataValue.length - 1].x);
         const startDate = new Date(dataValue[0].x);
         return {
@@ -164,9 +223,13 @@ export class BarChart {
                 tooltip: {
                     enabled: false,
                     position: 'nearest',
-                    external: function (context: any) {
+                    external: function (context: ExternalTooltipContext) {
                         const { chart, tooltip } = context;
-                        let tooltipEl = chart.canvas.parentNode.querySelector('div.chartjs-tooltip');
+                        const parentElement = chart.canvas.parentElement;
+                        if (!parentElement) {
+                            return;
+                        }
+                        let tooltipEl = parentElement.querySelector<HTMLDivElement>('div.chartjs-tooltip');
                         if (!tooltipEl) {
                             tooltipEl = document.createElement('div');
                             tooltipEl.classList.add(
@@ -184,15 +247,15 @@ export class BarChart {
                                 'pointer-events-none',
                                 'shadow-[0px_16px_32px_-12px_rgba(88,92,95,0.10)]'
                             );
-                            chart.canvas.parentNode.appendChild(tooltipEl);
+                            parentElement.appendChild(tooltipEl);
                         }
 
                         if (tooltip.opacity === 0) {
                             tooltipEl.style.opacity = 0;
                             return;
                         }
-                        const datasetPointsX = tooltip.dataPoints.map((dp: any) => dp.element.x);
-                        const avgX = datasetPointsX.reduce((a: any, b: any) => a + b, 0) / datasetPointsX.length;
+                        const datasetPointsX = tooltip.dataPoints.map((dp) => dp.element.x);
+                        const avgX = datasetPointsX.reduce((sum, value) => sum + value, 0) / datasetPointsX.length;
                         const avgY = tooltip.dataPoints[0].element.y;
 
                         if (tooltip.body) {
@@ -203,7 +266,7 @@ export class BarChart {
                             tooltipEl.appendChild(tooltipHeader);
                             const tooltipBody = document.createElement('div');
                             tooltipBody.classList.add('flex', 'flex-col', 'gap-2', 'px-3', 'py-2', 'min-w-50');
-                            tooltip.dataPoints.reverse().forEach((body: any) => {
+                            [...tooltip.dataPoints].reverse().forEach((body) => {
                                 const row = document.createElement('div');
                                 row.classList.add('flex', 'items-center', 'gap-2', 'w-full');
                                 const point = document.createElement('div');
@@ -227,7 +290,7 @@ export class BarChart {
 
                         tooltipEl.style.opacity = 1;
                         tooltipEl.style.font = tooltip.options.bodyFont.string;
-                        tooltipEl.style.padding = 0;
+                        tooltipEl.style.padding = '0';
                         const chartWidth = chart.width;
                         const tooltipWidth = tooltipEl.offsetWidth;
                         const chartHeight = chart.height;
@@ -306,11 +369,12 @@ export class BarChart {
                         maxTicksLimit: 6,
                         color: darkMode ? 'rgba(255, 255, 255, 0.40)' : surface400,
                         stepSize: this.stepSize(),
-                        callback: function (value: any) {
-                            if (value > 1000) {
-                                return value / 1000 + 'K';
+                        callback: function (value: number | string) {
+                            const numericValue = Number(value);
+                            if (numericValue > 1000) {
+                                return numericValue / 1000 + 'K';
                             }
-                            return value;
+                            return numericValue;
                         }
                     }
                 }
