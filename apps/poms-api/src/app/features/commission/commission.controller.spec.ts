@@ -105,14 +105,17 @@ describe('CommissionController', () => {
             createRoleAssignment: jest.fn(),
             freezeCommissionRoleAssignment: jest.fn(),
             listCalculations: jest.fn(),
-            triggerCalculation: jest.fn(),
-            confirmCalculation: jest.fn(),
+            createCalculation: jest.fn(),
+            approveCalculation: jest.fn(),
             recalculateCalculation: jest.fn(),
             listPayouts: jest.fn(),
+            getPayoutById: jest.fn(),
             createPayout: jest.fn(),
+            submitPayoutApproval: jest.fn(),
             approvePayout: jest.fn(),
             registerPayout: jest.fn(),
             listAdjustments: jest.fn(),
+            getAdjustmentById: jest.fn(),
             createAdjustment: jest.fn(),
             executeAdjustment: jest.fn()
         } as unknown as jest.Mocked<CommissionService>;
@@ -176,26 +179,26 @@ describe('CommissionController', () => {
         expect(result).toHaveLength(1);
     });
 
-    it('delegates triggerCalculation to service', async () => {
-        service.triggerCalculation.mockResolvedValue(stubCalculation);
+    it('delegates createCalculation to service', async () => {
+        service.createCalculation.mockResolvedValue(stubCalculation);
         const body = { recognizedRevenueTaxExclusive: '100000.00', recognizedCostTaxExclusive: '70000.00' };
-        const result = await controller.triggerCalculation(PROJECT_ID, body as never);
-        expect(service.triggerCalculation).toHaveBeenCalledWith(PROJECT_ID, body);
+        const result = await controller.createCalculation(PROJECT_ID, body as never);
+        expect(service.createCalculation).toHaveBeenCalledWith(PROJECT_ID, body);
         expect(result).toBe(stubCalculation);
     });
 
-    it('delegates confirmCalculation to service', async () => {
-        service.confirmCalculation.mockResolvedValue({ ...stubCalculation, status: 'effective', approvedAt: '2026-03-25T10:10:00.000Z' });
-        const result = await controller.confirmCalculation(PROJECT_ID, CALCULATION_ID, {} as never);
-        expect(service.confirmCalculation).toHaveBeenCalledWith(PROJECT_ID, CALCULATION_ID, {});
+    it('delegates approveCalculation to service', async () => {
+        service.approveCalculation.mockResolvedValue({ ...stubCalculation, status: 'effective', approvedAt: '2026-03-25T10:10:00.000Z' });
+        const result = await controller.approveCalculation(CALCULATION_ID, {} as never);
+        expect(service.approveCalculation).toHaveBeenCalledWith(CALCULATION_ID, {});
         expect(result.status).toBe('effective');
     });
 
     it('delegates recalculateCalculation to service', async () => {
         service.recalculateCalculation.mockResolvedValue({ ...stubCalculation, id: '52000000-0000-4000-8000-000000000002', version: 2, status: 'calculated' });
         const body = { reason: '回款冲减', expectedVersion: 1 };
-        const result = await controller.recalculateCalculation(PROJECT_ID, CALCULATION_ID, body as never);
-        expect(service.recalculateCalculation).toHaveBeenCalledWith(PROJECT_ID, CALCULATION_ID, body);
+        const result = await controller.recalculateCalculation(CALCULATION_ID, body as never);
+        expect(service.recalculateCalculation).toHaveBeenCalledWith(CALCULATION_ID, body);
         expect(result.version).toBe(2);
     });
 
@@ -225,26 +228,26 @@ describe('CommissionController', () => {
             todoItemIds: ['50000000-0000-4000-8000-000000000001'],
             snapshotId: null
         });
-        service.listPayouts.mockResolvedValue([{ ...stubPayout, status: 'pending-approval' }]);
+        service.getPayoutById.mockResolvedValue({ ...stubPayout, status: 'pending-approval' });
 
-        const result = await controller.submitPayoutApproval(PROJECT_ID, PAYOUT_ID, { user: { sub: 'user-1' } } as never, {} as never);
+        const result = await controller.submitPayoutApproval(PAYOUT_ID, { user: { sub: 'user-1' } } as never, {} as never);
 
         expect(approvalService.submitCommissionPayoutApproval).toHaveBeenCalledWith(PAYOUT_ID, 'user-1', {});
-        expect(service.listPayouts).toHaveBeenCalledWith(PROJECT_ID);
+        expect(service.getPayoutById).toHaveBeenCalledWith(PAYOUT_ID);
         expect(result.status).toBe('pending-approval');
     });
 
     it('delegates approvePayout to service', async () => {
         service.approvePayout.mockResolvedValue({ ...stubPayout, status: 'approved', approvedAmount: '480.00' });
-        const result = await controller.approvePayout(PROJECT_ID, PAYOUT_ID, {} as never);
-        expect(service.approvePayout).toHaveBeenCalledWith(PROJECT_ID, PAYOUT_ID, {});
+        const result = await controller.approvePayout(PAYOUT_ID, {} as never);
+        expect(service.approvePayout).toHaveBeenCalledWith(PAYOUT_ID, {});
         expect(result.status).toBe('approved');
     });
 
     it('delegates registerPayout to service', async () => {
         service.registerPayout.mockResolvedValue({ ...stubPayout, status: 'paid', approvedAmount: '480.00', paidRecordAmount: '400.00' });
-        const result = await controller.registerPayout(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '400.00' } as never);
-        expect(service.registerPayout).toHaveBeenCalledWith(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '400.00' });
+        const result = await controller.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' } as never);
+        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, { paidRecordAmount: '400.00' });
         expect(result.status).toBe('paid');
     });
 
@@ -274,19 +277,19 @@ describe('CommissionController', () => {
             todoItemIds: ['50000000-0000-4000-8000-000000000011'],
             snapshotId: null
         });
-        service.listAdjustments.mockResolvedValue([{ ...stubAdjustment, status: 'pending-approval' }]);
+        service.getAdjustmentById.mockResolvedValue([{ ...stubAdjustment, status: 'pending-approval' }][0]);
 
-        const result = await controller.submitAdjustmentApproval(PROJECT_ID, ADJUSTMENT_ID, { user: { sub: 'user-1' } } as never, {} as never);
+        const result = await controller.submitAdjustmentApproval(ADJUSTMENT_ID, { user: { sub: 'user-1' } } as never, {} as never);
 
         expect(approvalService.submitCommissionAdjustmentApproval).toHaveBeenCalledWith(ADJUSTMENT_ID, 'user-1', {});
-        expect(service.listAdjustments).toHaveBeenCalledWith(PROJECT_ID);
+        expect(service.getAdjustmentById).toHaveBeenCalledWith(ADJUSTMENT_ID);
         expect(result.status).toBe('pending-approval');
     });
 
     it('delegates executeAdjustment to service', async () => {
         service.executeAdjustment.mockResolvedValue({ ...stubAdjustment, status: 'executed', executedAt: '2026-03-25T10:20:00.000Z' });
-        const result = await controller.executeAdjustment(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 } as never);
-        expect(service.executeAdjustment).toHaveBeenCalledWith(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 });
+        const result = await controller.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 } as never);
+        expect(service.executeAdjustment).toHaveBeenCalledWith(ADJUSTMENT_ID, { expectedVersion: 1 });
         expect(result.status).toBe('executed');
     });
 });

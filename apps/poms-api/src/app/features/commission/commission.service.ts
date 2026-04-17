@@ -483,7 +483,7 @@ export class CommissionService {
         return entities.map(this.#toCalculationSummary);
     }
 
-    async triggerCalculation(projectId: string, dto: CreateCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
+    async createCalculation(projectId: string, dto: CreateCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
         await this.#assertProjectExists(projectId);
         const revenue = this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive');
         const cost = this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive');
@@ -530,10 +530,10 @@ export class CommissionService {
         return this.#toCalculationSummary(entity);
     }
 
-    async confirmCalculation(projectId: string, id: string, dto: ConfirmCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
+    async approveCalculation(id: string, dto: ConfirmCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
         const entity = await this.repo.findCalculationById(id);
-        if (!entity || entity.projectId !== projectId) {
-            throw new NotFoundException(`项目 ${projectId} 的提成计算 ${id} 不存在`);
+        if (!entity) {
+            throw new NotFoundException(`CommissionCalculation ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionCalculation');
 
@@ -593,10 +593,19 @@ export class CommissionService {
         return this.#toPayoutSummary(entity);
     }
 
-    async submitPayoutApproval(projectId: string, id: string, dto: SubmitCommissionPayoutApprovalRequest): Promise<CommissionPayoutSummary> {
+    async getPayoutById(id: string): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
-        if (!entity || entity.projectId !== projectId) {
-            throw new NotFoundException(`项目 ${projectId} 的提成发放 ${id} 不存在`);
+        if (!entity) {
+            throw new NotFoundException(`CommissionPayout ${id} not found`);
+        }
+
+        return this.#toPayoutSummary(entity);
+    }
+
+    async submitPayoutApproval(id: string, dto: SubmitCommissionPayoutApprovalRequest): Promise<CommissionPayoutSummary> {
+        const entity = await this.repo.findPayoutById(id);
+        if (!entity) {
+            throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
 
@@ -609,10 +618,10 @@ export class CommissionService {
         return this.#toPayoutSummary(entity);
     }
 
-    async approvePayout(projectId: string, id: string, dto: ApproveCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
+    async approvePayout(id: string, dto: ApproveCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
-        if (!entity || entity.projectId !== projectId) {
-            throw new NotFoundException(`项目 ${projectId} 的提成发放 ${id} 不存在`);
+        if (!entity) {
+            throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
 
@@ -633,10 +642,10 @@ export class CommissionService {
         return this.#toPayoutSummary(entity);
     }
 
-    async registerPayout(projectId: string, id: string, dto: RegisterCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
+    async registerPayout(id: string, dto: RegisterCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
-        if (!entity || entity.projectId !== projectId) {
-            throw new NotFoundException(`项目 ${projectId} 的提成发放 ${id} 不存在`);
+        if (!entity) {
+            throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
 
@@ -694,11 +703,20 @@ export class CommissionService {
         return this.#toAdjustmentSummary(entity);
     }
 
-    async executeAdjustment(projectId: string, id: string, dto: ExecuteCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
+    async getAdjustmentById(id: string): Promise<CommissionAdjustmentSummary> {
+        const entity = await this.repo.findAdjustmentById(id);
+        if (!entity) {
+            throw new NotFoundException(`CommissionAdjustment ${id} not found`);
+        }
+
+        return this.#toAdjustmentSummary(entity);
+    }
+
+    async executeAdjustment(id: string, dto: ExecuteCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
         return this.repo.transactional(async (em) => {
             const adjustment = await em.findOne(CommissionAdjustment, { id });
-            if (!adjustment || adjustment.projectId !== projectId) {
-                throw new NotFoundException(`项目 ${projectId} 的提成调整 ${id} 不存在`);
+            if (!adjustment) {
+                throw new NotFoundException(`CommissionAdjustment ${id} not found`);
             }
             this.#assertExpectedVersion(adjustment.rowVersion, dto.expectedVersion, 'CommissionAdjustment');
 
@@ -737,11 +755,11 @@ export class CommissionService {
         });
     }
 
-    async recalculateCalculation(projectId: string, id: string, dto: RecalculateCommissionRequest): Promise<CommissionCalculationSummary> {
+    async recalculateCalculation(id: string, dto: RecalculateCommissionRequest): Promise<CommissionCalculationSummary> {
         return this.repo.transactional(async (em) => {
             const current = await em.findOne(CommissionCalculation, { id });
-            if (!current || current.projectId !== projectId) {
-                throw new NotFoundException(`项目 ${projectId} 的提成计算 ${id} 不存在`);
+            if (!current) {
+                throw new NotFoundException(`CommissionCalculation ${id} not found`);
             }
             this.#assertExpectedVersion(current.rowVersion, dto.expectedVersion, 'CommissionCalculation');
 
@@ -766,7 +784,7 @@ export class CommissionService {
             const commissionPool = contributionMargin > 0 && commissionRate > 0 ? contributionMargin * commissionRate : 0;
 
             const nextCalculation = em.create(CommissionCalculation, {
-                projectId,
+                projectId: current.projectId,
                 ruleVersionId: current.ruleVersionId,
                 version: current.version + 1,
                 isCurrent: true,
@@ -782,7 +800,7 @@ export class CommissionService {
             });
 
             const adjustment = em.create(CommissionAdjustment, {
-                projectId,
+                projectId: current.projectId,
                 adjustmentType: 'recalculate',
                 relatedPayoutId: null,
                 relatedCalculationId: current.id,

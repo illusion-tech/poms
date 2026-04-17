@@ -741,7 +741,7 @@ describe('CommissionService', () => {
             repo.createCalculation.mockReturnValue(created as never);
             repo.persistAndFlushCalculation.mockResolvedValue();
 
-            const result = await service.triggerCalculation(PROJECT_ID, {
+            const result = await service.createCalculation(PROJECT_ID, {
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '70000.00'
             });
@@ -760,7 +760,7 @@ describe('CommissionService', () => {
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
 
             await expect(
-                service.triggerCalculation(PROJECT_ID, {
+                service.createCalculation(PROJECT_ID, {
                     recognizedRevenueTaxExclusive: '100000.00',
                     recognizedCostTaxExclusive: '70000.00'
                 })
@@ -772,7 +772,7 @@ describe('CommissionService', () => {
             repo.findActiveContractsForProject.mockResolvedValue([]);
 
             await expect(
-                service.triggerCalculation(PROJECT_ID, {
+                service.createCalculation(PROJECT_ID, {
                     recognizedRevenueTaxExclusive: '100000.00',
                     recognizedCostTaxExclusive: '70000.00'
                 })
@@ -786,7 +786,7 @@ describe('CommissionService', () => {
             repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '70000.00' }] as never);
 
             await expect(
-                service.triggerCalculation(PROJECT_ID, {
+                service.createCalculation(PROJECT_ID, {
                     recognizedRevenueTaxExclusive: '100000.00',
                     recognizedCostTaxExclusive: '70000.00'
                 })
@@ -800,7 +800,7 @@ describe('CommissionService', () => {
             repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '30000.00' }] as never);
 
             await expect(
-                service.triggerCalculation(PROJECT_ID, {
+                service.createCalculation(PROJECT_ID, {
                     recognizedRevenueTaxExclusive: '100000.00',
                     recognizedCostTaxExclusive: '70000.00'
                 })
@@ -814,7 +814,7 @@ describe('CommissionService', () => {
             repo.findCalculationById.mockResolvedValue(calculation as never);
             repo.flushCalculation.mockResolvedValue();
 
-            const result = await service.confirmCalculation(PROJECT_ID, CALCULATION_ID, {});
+            const result = await service.approveCalculation(CALCULATION_ID, {});
 
             expect(calculation.status).toBe('effective');
             expect(result.status).toBe('effective');
@@ -822,7 +822,7 @@ describe('CommissionService', () => {
 
         it('throws if calculation is not in calculated status', async () => {
             repo.findCalculationById.mockResolvedValue(makeCalculatedResult({ status: 'effective' }) as never);
-            await expect(service.confirmCalculation(PROJECT_ID, CALCULATION_ID, {})).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.approveCalculation(CALCULATION_ID, {})).rejects.toThrow(UnprocessableEntityException);
         });
     });
 
@@ -877,7 +877,7 @@ describe('CommissionService', () => {
             repo.findPayoutById.mockResolvedValue(payout as never);
             repo.flushPayout.mockResolvedValue();
 
-            const result = await service.submitPayoutApproval(PROJECT_ID, PAYOUT_ID, {});
+            const result = await service.submitPayoutApproval(PAYOUT_ID, {});
 
             expect(payout.status).toBe('pending-approval');
             expect(result.status).toBe('pending-approval');
@@ -890,7 +890,7 @@ describe('CommissionService', () => {
             repo.findPayoutById.mockResolvedValue(payout as never);
             repo.flushPayout.mockResolvedValue();
 
-            const result = await service.approvePayout(PROJECT_ID, PAYOUT_ID, {});
+            const result = await service.approvePayout(PAYOUT_ID, {});
 
             expect(payout.status).toBe('approved');
             expect(result.approvedAmount).toBe('480.00');
@@ -898,7 +898,7 @@ describe('CommissionService', () => {
 
         it('throws if approved amount is above cap', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'pending-approval' }) as never);
-            await expect(service.approvePayout(PROJECT_ID, PAYOUT_ID, { approvedAmount: '999.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.approvePayout(PAYOUT_ID, { approvedAmount: '999.00' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 
@@ -908,7 +908,7 @@ describe('CommissionService', () => {
             repo.findPayoutById.mockResolvedValue(payout as never);
             repo.flushPayout.mockResolvedValue();
 
-            const result = await service.registerPayout(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '400.00' });
+            const result = await service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' });
 
             expect(payout.status).toBe('paid');
             expect(result.paidRecordAmount).toBe('400.00');
@@ -916,7 +916,7 @@ describe('CommissionService', () => {
 
         it('throws if paid amount exceeds approved amount', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
-            await expect(service.registerPayout(PROJECT_ID, PAYOUT_ID, { paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 
@@ -964,7 +964,7 @@ describe('CommissionService', () => {
 
     describe('executeAdjustment', () => {
         it('executes approved suspension adjustment and suspends payout', async () => {
-            const result = await service.executeAdjustment(PROJECT_ID, ADJUSTMENT_ID, { expectedVersion: 1 });
+            const result = await service.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 });
             expect(repo.transactional).toHaveBeenCalled();
             expect(result.status).toBe('executed');
         });
@@ -972,7 +972,7 @@ describe('CommissionService', () => {
 
     describe('recalculateCalculation', () => {
         it('creates recalculated version and adjustment trail', async () => {
-            const result = await service.recalculateCalculation(PROJECT_ID, CALCULATION_ID, {
+            const result = await service.recalculateCalculation(CALCULATION_ID, {
                 reason: '回款冲减',
                 recognizedRevenueTaxExclusive: '80000.00',
                 recognizedCostTaxExclusive: '70000.00',

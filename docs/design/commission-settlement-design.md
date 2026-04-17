@@ -531,30 +531,27 @@ flowchart LR
 
 #### 当前已落地
 
-- `GET /commission/rule-versions`
-- `POST /commission/rule-versions`
-- `POST /commission/rule-versions/:id/activate`
-- `POST /commission/rule-versions/:id/stop`
-- `GET /commission/projects/:projectId/role-assignment`
-- `POST /commission/projects/:projectId/role-assignment`
-- `GET /commission-role-assignments/:id`
-- `POST /commission-role-assignments/:id:freeze`
-- `GET /commission/projects/:projectId/calculations`
-- `POST /commission/projects/:projectId/calculations/trigger`
-- `POST /commission/projects/:projectId/calculations/:id/effective`
-- `GET /commission/projects/:projectId/payouts`
-- `POST /commission/projects/:projectId/payouts`
-- `POST /commission/projects/:projectId/payouts/:id/submit-approval`
-- `POST /commission/projects/:projectId/payouts/:id/approve`
-- `POST /commission/projects/:projectId/payouts/:id/register-payout`
-
-#### 当前已落地
-
-- `GET /commission/projects/:projectId/adjustments`
-- `POST /commission/projects/:projectId/adjustments`
-- `POST /commission/projects/:projectId/adjustments/:id/submit-approval`
-- `POST /commission/projects/:projectId/adjustments/:id/execute`
-- `POST /commission/projects/:projectId/calculations/:id/recalculate`
+- `GET /commission-rule-versions`
+- `POST /commission-rule-versions`
+- `POST /commission-rule-versions/{id}:activate`
+- `POST /commission-rule-versions/{id}:stop`
+- `GET /projects/{projectId}/commission-role-assignment`
+- `POST /projects/{projectId}/commission-role-assignments`
+- `GET /commission-role-assignments/{id}`
+- `POST /commission-role-assignments/{id}:freeze`
+- `GET /projects/{projectId}/commission-calculations`
+- `POST /projects/{projectId}/commission-calculations`
+- `POST /commission-calculations/{id}:approve`
+- `POST /commission-calculations/{id}:recalculate`
+- `GET /projects/{projectId}/commission-payouts`
+- `POST /projects/{projectId}/commission-payouts`
+- `POST /commission-payouts/{id}:submitApproval`
+- `POST /commission-payouts/{id}:approve`
+- `POST /commission-payouts/{id}:registerPayout`
+- `GET /projects/{projectId}/commission-adjustments`
+- `POST /projects/{projectId}/commission-adjustments`
+- `POST /commission-adjustments/{id}:submitApproval`
+- `POST /commission-adjustments/{id}:execute`
 
 #### 调整与重算
 

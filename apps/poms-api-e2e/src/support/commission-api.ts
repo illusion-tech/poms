@@ -54,7 +54,7 @@ export async function createRuleVersion(
     input: CreateCommissionRuleVersionRequest
 ): Promise<CommissionRuleVersionSummary> {
     const response = await client.post<CommissionRuleVersionSummary>(
-        '/commission/rule-versions',
+        '/commission-rule-versions',
         input
     );
     return expectStatus(response, 201);
@@ -65,7 +65,7 @@ export async function activateRuleVersion(
     ruleVersionId: string
 ): Promise<CommissionRuleVersionSummary> {
     const response = await client.post<CommissionRuleVersionSummary>(
-        `/commission/rule-versions/${ruleVersionId}/activate`
+        `/commission-rule-versions/${ruleVersionId}:activate`
     );
     return expectStatus(response, 200);
 }
@@ -76,7 +76,7 @@ export async function createRoleAssignment(
     input: CreateCommissionRoleAssignmentRequest
 ): Promise<CommissionRoleAssignmentSummary> {
     const response = await client.post<CommissionRoleAssignmentSummary>(
-        `/commission/projects/${projectId}/role-assignment`,
+        `/projects/${projectId}/commission-role-assignments`,
         input
     );
     return expectStatus(response, 201);
@@ -87,7 +87,7 @@ export async function getCurrentRoleAssignment(
     projectId: string
 ): Promise<CommissionRoleAssignmentSummary | null> {
     const response = await client.get<CommissionRoleAssignmentSummary | null>(
-        `/commission/projects/${projectId}/role-assignment`
+        `/projects/${projectId}/commission-role-assignment`
     );
     return expectStatus(response, 200);
 }
@@ -157,26 +157,25 @@ export async function getFreezeChangeRequest(
     return expectStatus(response, 200);
 }
 
-export async function triggerCalculation(
+export async function createCalculation(
     client: AxiosInstance,
     projectId: string,
     input: CreateCommissionCalculationRequest
 ): Promise<CommissionCalculationSummary> {
     const response = await client.post<CommissionCalculationSummary>(
-        `/commission/projects/${projectId}/calculations/trigger`,
+        `/projects/${projectId}/commission-calculations`,
         input
     );
     return expectStatus(response, 201);
 }
 
-export async function confirmCalculation(
+export async function approveCalculation(
     client: AxiosInstance,
-    projectId: string,
     calculationId: string,
     input: ConfirmCommissionCalculationRequest
 ): Promise<CommissionCalculationSummary> {
     const response = await client.post<CommissionCalculationSummary>(
-        `/commission/projects/${projectId}/calculations/${calculationId}/effective`,
+        `/commission-calculations/${calculationId}:approve`,
         input
     );
     return expectStatus(response, 200);
@@ -187,7 +186,7 @@ export async function listCalculations(
     projectId: string
 ): Promise<CommissionCalculationSummary[]> {
     const response = await client.get<CommissionCalculationSummary[]>(
-        `/commission/projects/${projectId}/calculations`
+        `/projects/${projectId}/commission-calculations`
     );
     return expectStatus(response, 200);
 }
@@ -198,7 +197,7 @@ export async function createPayout(
     input: CreateCommissionPayoutRequest
 ): Promise<CommissionPayoutSummary> {
     const response = await client.post<CommissionPayoutSummary>(
-        `/commission/projects/${projectId}/payouts`,
+        `/projects/${projectId}/commission-payouts`,
         input
     );
     return expectStatus(response, 201);
@@ -206,12 +205,11 @@ export async function createPayout(
 
 export async function submitPayoutApproval(
     client: AxiosInstance,
-    projectId: string,
     payoutId: string,
     input: SubmitCommissionPayoutApprovalRequest
 ): Promise<CommissionPayoutSummary> {
     const response = await client.post<CommissionPayoutSummary>(
-        `/commission/projects/${projectId}/payouts/${payoutId}/submit-approval`,
+        `/commission-payouts/${payoutId}:submitApproval`,
         input
     );
     return expectStatus(response, 200);
@@ -222,7 +220,7 @@ export async function listPayouts(
     projectId: string
 ): Promise<CommissionPayoutSummary[]> {
     const response = await client.get<CommissionPayoutSummary[]>(
-        `/commission/projects/${projectId}/payouts`
+        `/projects/${projectId}/commission-payouts`
     );
     return expectStatus(response, 200);
 }
@@ -240,12 +238,11 @@ export async function getPayout(
 
 export async function registerPayout(
     client: AxiosInstance,
-    projectId: string,
     payoutId: string,
     input: RegisterCommissionPayoutRequest
 ): Promise<CommissionPayoutSummary> {
     const response = await client.post<CommissionPayoutSummary>(
-        `/commission/projects/${projectId}/payouts/${payoutId}/register-payout`,
+        `/commission-payouts/${payoutId}:registerPayout`,
         input
     );
     return expectStatus(response, 200);
@@ -257,7 +254,7 @@ export async function createAdjustment(
     input: CreateCommissionAdjustmentRequest
 ): Promise<CommissionAdjustmentSummary> {
     const response = await client.post<CommissionAdjustmentSummary>(
-        `/commission/projects/${projectId}/adjustments`,
+        `/projects/${projectId}/commission-adjustments`,
         input
     );
     return expectStatus(response, 201);
@@ -265,12 +262,11 @@ export async function createAdjustment(
 
 export async function submitAdjustmentApproval(
     client: AxiosInstance,
-    projectId: string,
     adjustmentId: string,
     input: SubmitCommissionAdjustmentApprovalRequest
 ): Promise<CommissionAdjustmentSummary> {
     const response = await client.post<CommissionAdjustmentSummary>(
-        `/commission/projects/${projectId}/adjustments/${adjustmentId}/submit-approval`,
+        `/commission-adjustments/${adjustmentId}:submitApproval`,
         input
     );
     return expectStatus(response, 200);
@@ -281,7 +277,7 @@ export async function listAdjustments(
     projectId: string
 ): Promise<CommissionAdjustmentSummary[]> {
     const response = await client.get<CommissionAdjustmentSummary[]>(
-        `/commission/projects/${projectId}/adjustments`
+        `/projects/${projectId}/commission-adjustments`
     );
     return expectStatus(response, 200);
 }
@@ -299,12 +295,11 @@ export async function getAdjustment(
 
 export async function executeAdjustment(
     client: AxiosInstance,
-    projectId: string,
     adjustmentId: string,
     input: { expectedVersion?: number }
 ): Promise<CommissionAdjustmentSummary> {
     const response = await client.post<CommissionAdjustmentSummary>(
-        `/commission/projects/${projectId}/adjustments/${adjustmentId}/execute`,
+        `/commission-adjustments/${adjustmentId}:execute`,
         input
     );
     return expectStatus(response, 200);
@@ -312,12 +307,11 @@ export async function executeAdjustment(
 
 export async function recalculateCalculation(
     client: AxiosInstance,
-    projectId: string,
     calculationId: string,
     input: RecalculateCommissionRequest
 ): Promise<CommissionCalculationSummary> {
     const response = await client.post<CommissionCalculationSummary>(
-        `/commission/projects/${projectId}/calculations/${calculationId}/recalculate`,
+        `/commission-calculations/${calculationId}:recalculate`,
         input
     );
     return expectStatus(response, 200);
@@ -352,12 +346,12 @@ export async function setupEffectiveCalculationScenario(
         }
     );
 
-    const calculated = await triggerCalculation(
+    const calculated = await createCalculation(
         client,
         project.id,
         buildCalculationInput()
     );
-    const calculation = await confirmCalculation(client, project.id, calculated.id, {
+    const calculation = await approveCalculation(client, calculated.id, {
         expectedVersion: calculated.rowVersion
     });
 

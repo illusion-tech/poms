@@ -4621,7 +4621,7 @@
         ]
       }
     },
-    "/api/commission/rule-versions": {
+    "/api/commission-rule-versions": {
       "get": {
         "operationId": "CommissionController_listRuleVersions",
         "parameters": [],
@@ -4683,7 +4683,7 @@
         ]
       }
     },
-    "/api/commission/rule-versions/{id}/activate": {
+    "/api/commission-rule-versions/{id}:activate": {
       "post": {
         "operationId": "CommissionController_activateRuleVersion",
         "parameters": [
@@ -4719,7 +4719,7 @@
         ]
       }
     },
-    "/api/commission/rule-versions/{id}/stop": {
+    "/api/commission-rule-versions/{id}:stop": {
       "post": {
         "operationId": "CommissionController_stopRuleVersion",
         "parameters": [
@@ -4755,7 +4755,7 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/role-assignment": {
+    "/api/projects/{projectId}/commission-role-assignment": {
       "get": {
         "operationId": "CommissionController_getCurrentRoleAssignment",
         "parameters": [
@@ -4789,7 +4789,9 @@
         "tags": [
           "Commission"
         ]
-      },
+      }
+    },
+    "/api/projects/{projectId}/commission-role-assignments": {
       "post": {
         "operationId": "CommissionController_createRoleAssignment",
         "parameters": [
@@ -4835,7 +4837,7 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/calculations": {
+    "/api/projects/{projectId}/commission-calculations": {
       "get": {
         "operationId": "CommissionController_listCalculations",
         "parameters": [
@@ -4869,11 +4871,9 @@
         "tags": [
           "Commission"
         ]
-      }
-    },
-    "/api/commission/projects/{projectId}/calculations/trigger": {
+      },
       "post": {
-        "operationId": "CommissionController_triggerCalculation",
+        "operationId": "CommissionController_createCalculation",
         "parameters": [
           {
             "name": "projectId",
@@ -4917,18 +4917,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/calculations/{id}/effective": {
+    "/api/commission-calculations/{id}:approve": {
       "post": {
-        "operationId": "CommissionController_confirmCalculation",
+        "operationId": "CommissionController_approveCalculation",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -4971,18 +4963,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/calculations/{id}/recalculate": {
+    "/api/commission-calculations/{id}:recalculate": {
       "post": {
         "operationId": "CommissionController_recalculateCalculation",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -5025,7 +5009,7 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/payouts": {
+    "/api/projects/{projectId}/commission-payouts": {
       "get": {
         "operationId": "CommissionController_listPayouts",
         "parameters": [
@@ -5105,18 +5089,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/payouts/{id}/submit-approval": {
+    "/api/commission-payouts/{id}:submitApproval": {
       "post": {
         "operationId": "CommissionController_submitPayoutApproval",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -5159,18 +5135,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/payouts/{id}/approve": {
+    "/api/commission-payouts/{id}:approve": {
       "post": {
         "operationId": "CommissionController_approvePayout",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -5213,18 +5181,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/payouts/{id}/register-payout": {
+    "/api/commission-payouts/{id}:registerPayout": {
       "post": {
         "operationId": "CommissionController_registerPayout",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -5267,7 +5227,7 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/adjustments": {
+    "/api/projects/{projectId}/commission-adjustments": {
       "get": {
         "operationId": "CommissionController_listAdjustments",
         "parameters": [
@@ -5347,18 +5307,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/adjustments/{id}/submit-approval": {
+    "/api/commission-adjustments/{id}:submitApproval": {
       "post": {
         "operationId": "CommissionController_submitAdjustmentApproval",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -5401,18 +5353,10 @@
         ]
       }
     },
-    "/api/commission/projects/{projectId}/adjustments/{id}/execute": {
+    "/api/commission-adjustments/{id}:execute": {
       "post": {
         "operationId": "CommissionController_executeAdjustment",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,

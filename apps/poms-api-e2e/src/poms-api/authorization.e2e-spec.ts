@@ -25,7 +25,7 @@ describe('poms-api authorization e2e', () => {
         const unique = makeUniqueSuffix('viewer-rule');
 
         const response = await client.post(
-            '/commission/rule-versions',
+            '/commission-rule-versions',
             buildCommissionRuleVersionInput(unique)
         );
 

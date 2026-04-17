@@ -81,7 +81,7 @@ export class CommissionStore {
 
         try {
             const calculation = await firstValueFrom(
-                this.#commissionApi.commissionControllerTriggerCalculation({
+                this.#commissionApi.commissionControllerCreateCalculation({
                     projectId,
                     createCommissionCalculationRequest: request
                 })
@@ -98,8 +98,7 @@ export class CommissionStore {
 
         try {
             const calculation = await firstValueFrom(
-                this.#commissionApi.commissionControllerConfirmCalculation({
-                    projectId,
+                this.#commissionApi.commissionControllerApproveCalculation({
                     id,
                     confirmCommissionCalculationRequest: request
                 })
@@ -134,7 +133,6 @@ export class CommissionStore {
         try {
             const calculation = await firstValueFrom(
                 this.#commissionApi.commissionControllerRecalculateCalculation({
-                    projectId,
                     id,
                     recalculateCommissionRequest: request
                 })
@@ -152,7 +150,6 @@ export class CommissionStore {
         try {
             const payout = await firstValueFrom(
                 this.#commissionApi.commissionControllerSubmitPayoutApproval({
-                    projectId,
                     id,
                     submitCommissionPayoutApprovalRequest: request
                 })
@@ -208,7 +205,6 @@ export class CommissionStore {
         try {
             const payout = await firstValueFrom(
                 this.#commissionApi.commissionControllerRegisterPayout({
-                    projectId,
                     id,
                     registerCommissionPayoutRequest: request
                 })
@@ -255,7 +251,6 @@ export class CommissionStore {
         try {
             const adjustment = await firstValueFrom(
                 this.#commissionApi.commissionControllerSubmitAdjustmentApproval({
-                    projectId,
                     id,
                     submitCommissionAdjustmentApprovalRequest: request
                 })
@@ -311,7 +306,6 @@ export class CommissionStore {
         try {
             const adjustment = await firstValueFrom(
                 this.#commissionApi.commissionControllerExecuteAdjustment({
-                    projectId,
                     id,
                     executeCommissionAdjustmentRequest: request
                 })

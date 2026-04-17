@@ -57,7 +57,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(payout.status).toBe('draft');
         expect(payout.theoreticalCapAmount).toBe('480.00');
 
-        const submittedPayout = await submitPayoutApproval(client, scenario.project.id, payout.id, {
+        const submittedPayout = await submitPayoutApproval(client, payout.id, {
             expectedVersion: payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -73,7 +73,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(approvedPayout.status).toBe('approved');
         expect(approvedPayout.approvedAmount).toBe('480.00');
 
-        const paidPayout = await registerPayout(client, scenario.project.id, payout.id, {
+        const paidPayout = await registerPayout(client, payout.id, {
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -89,14 +89,9 @@ describe('poms-api commission workflow e2e', () => {
         );
         expect(adjustment.status).toBe('draft');
 
-        const submittedAdjustment = await submitAdjustmentApproval(
-            client,
-            scenario.project.id,
-            adjustment.id,
-            {
-                expectedVersion: adjustment.rowVersion
-            }
-        );
+        const submittedAdjustment = await submitAdjustmentApproval(client, adjustment.id, {
+            expectedVersion: adjustment.rowVersion
+        });
         expect(submittedAdjustment.status).toBe('pending-approval');
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
@@ -109,7 +104,7 @@ describe('poms-api commission workflow e2e', () => {
         const approvedAdjustment = await getAdjustment(client, scenario.project.id, adjustment.id);
         expect(approvedAdjustment.status).toBe('approved');
 
-        const executedAdjustment = await executeAdjustment(client, scenario.project.id, adjustment.id, {
+        const executedAdjustment = await executeAdjustment(client, adjustment.id, {
             expectedVersion: approvedAdjustment.rowVersion
         });
         expect(executedAdjustment.status).toBe('executed');
@@ -117,17 +112,12 @@ describe('poms-api commission workflow e2e', () => {
         const suspendedPayout = await getPayout(client, scenario.project.id, payout.id);
         expect(suspendedPayout.status).toBe('suspended');
 
-        const recalculated = await recalculateCalculation(
-            client,
-            scenario.project.id,
-            scenario.calculation.id,
-            {
-                reason: 'e2e 异常重算',
-                recognizedRevenueTaxExclusive: '90000.00',
-                recognizedCostTaxExclusive: '70000.00',
-                expectedVersion: scenario.calculation.rowVersion
-            }
-        );
+        const recalculated = await recalculateCalculation(client, scenario.calculation.id, {
+            reason: 'e2e 异常重算',
+            recognizedRevenueTaxExclusive: '90000.00',
+            recognizedCostTaxExclusive: '70000.00',
+            expectedVersion: scenario.calculation.rowVersion
+        });
         expect(recalculated.version).toBe(scenario.calculation.version + 1);
         expect(recalculated.recalculatedFromId).toBe(scenario.calculation.id);
         expect(recalculated.status).toBe('calculated');
@@ -157,7 +147,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         const response = await client.post(
-            `/commission/projects/${scenario.project.id}/payouts/${scenario.payout.id}/register-payout`,
+            `/commission-payouts/${scenario.payout.id}:registerPayout`,
             {
                 paidRecordAmount: '100.00',
                 expectedVersion: scenario.payout.rowVersion
@@ -242,7 +232,7 @@ describe('poms-api commission workflow e2e', () => {
         await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
 
         const response = await client.post(
-            `/commission/projects/${scenario.project.id}/payouts`,
+            `/projects/${scenario.project.id}/commission-payouts`,
             buildPayoutInput(scenario.calculation.id)
         );
 
@@ -254,7 +244,7 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('commission-reject-payout');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        const submittedPayout = await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        const submittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -279,7 +269,7 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('commission-reject-adjustment');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -299,14 +289,9 @@ describe('poms-api commission workflow e2e', () => {
             })
         );
 
-        const submittedAdjustment = await submitAdjustmentApproval(
-            client,
-            scenario.project.id,
-            adjustment.id,
-            {
-                expectedVersion: adjustment.rowVersion
-            }
-        );
+        const submittedAdjustment = await submitAdjustmentApproval(client, adjustment.id, {
+            expectedVersion: adjustment.rowVersion
+        });
         expect(submittedAdjustment.status).toBe('pending-approval');
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
@@ -327,7 +312,7 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('commission-approval-version');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -345,13 +330,13 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('cms-dup-pay');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
 
         const pendingPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
         const response = await client.post(
-            `/commission/projects/${scenario.project.id}/payouts/${scenario.payout.id}/submit-approval`,
+            `/commission-payouts/${scenario.payout.id}:submitApproval`,
             {
                 expectedVersion: pendingPayout.rowVersion
             }
@@ -365,7 +350,7 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('cms-dup-adj');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -383,13 +368,13 @@ describe('poms-api commission workflow e2e', () => {
             })
         );
 
-        await submitAdjustmentApproval(client, scenario.project.id, adjustment.id, {
+        await submitAdjustmentApproval(client, adjustment.id, {
             expectedVersion: adjustment.rowVersion
         });
 
         const pendingAdjustment = await getAdjustment(client, scenario.project.id, adjustment.id);
         const response = await client.post(
-            `/commission/projects/${scenario.project.id}/adjustments/${adjustment.id}/submit-approval`,
+            `/commission-adjustments/${adjustment.id}:submitApproval`,
             {
                 expectedVersion: pendingAdjustment.rowVersion
             }
@@ -403,7 +388,7 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('cms-resubmit-pay');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -423,7 +408,7 @@ describe('poms-api commission workflow e2e', () => {
         const rejectedPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
         expect(rejectedPayout.status).toBe('draft');
 
-        const resubmittedPayout = await submitPayoutApproval(client, scenario.project.id, scenario.payout.id, {
+        const resubmittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
             expectedVersion: rejectedPayout.rowVersion
         });
         expect(resubmittedPayout.status).toBe('pending-approval');
@@ -468,7 +453,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(frozenAssignment.businessStatusAfter).toBe('frozen');
 
         const response = await client.post(
-            `/commission/projects/${fixture.projectId}/calculations/trigger`,
+            `/projects/${fixture.projectId}/commission-calculations`,
             {
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '70000.00'
@@ -494,7 +479,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const response = await client.post(
-            `/commission/projects/${fixture.projectId}/calculations/trigger`,
+            `/projects/${fixture.projectId}/commission-calculations`,
             {
                 recognizedRevenueTaxExclusive: '120000.00',
                 recognizedCostTaxExclusive: '70000.00'
@@ -520,7 +505,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const response = await client.post(
-            `/commission/projects/${fixture.projectId}/calculations/trigger`,
+            `/projects/${fixture.projectId}/commission-calculations`,
             {
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '80000.00'
