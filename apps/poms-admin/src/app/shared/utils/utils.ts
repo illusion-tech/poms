@@ -11,7 +11,7 @@ export const parseDate = (dateStr: string | Date): Date => {
 
 export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
     const sampledData: DataPoint[] = [];
-    let tempData: DataPoint[] = [];
+    let tempData: DataPoint[] = data.filter((item) => parseDate(item.x) >= startDate);
     const dataLength: number = data.length;
 
     if (dataLength === 0) return sampledData;
@@ -34,7 +34,6 @@ export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: n
     const calculatedDate: Date = new Date(endDate.getTime() - show * selectedMultiplier);
     const startDate: Date = firstData.getTime() > calculatedDate.getTime() ? firstData : calculatedDate;
 
-    tempData = data.filter((item) => parseDate(item.x) >= startDate);
     const tempLen: number = tempData.length;
 
     if (['minute', 'second', 'millisecond'].includes(option)) {
