@@ -53,7 +53,7 @@ describe('poms-api authorization e2e', () => {
         );
 
         const response = await viewerClient.post(
-            `/contract-finance/contracts/${contract.id}/receipts`,
+            `/contracts/${contract.id}/receipt-records`,
             {
                 receiptAmount: '1000.00',
                 receiptDate: new Date().toISOString(),

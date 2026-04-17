@@ -82,7 +82,7 @@ export async function activateRole(
     roleId: string,
     input: UpdateRoleActivationRequest = {}
 ): Promise<PlatformRoleSummary> {
-    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}/activate`, input);
+    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}:activate`, input);
     return expectStatus(response, 200);
 }
 
@@ -91,7 +91,7 @@ export async function deactivateRole(
     roleId: string,
     input: UpdateRoleActivationRequest = {}
 ): Promise<PlatformRoleSummary> {
-    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}/deactivate`, input);
+    const response = await client.post<PlatformRoleSummary>(`/platform/roles/${roleId}:deactivate`, input);
     return expectStatus(response, 200);
 }
 
@@ -100,7 +100,7 @@ export async function assignRolePermissions(
     roleId: string,
     input: AssignRolePermissionsRequest
 ): Promise<PlatformRoleSummary> {
-    const response = await client.post<PlatformRoleSummary>(
+    const response = await client.put<PlatformRoleSummary>(
         `/platform/roles/${roleId}/permissions`,
         input
     );
@@ -112,7 +112,7 @@ export async function assignUserRoles(
     userId: string,
     input: AssignUserRolesRequest
 ): Promise<SanitizedUserWithOrgUnits> {
-    const response = await client.post<SanitizedUserWithOrgUnits>(
+    const response = await client.put<SanitizedUserWithOrgUnits>(
         `/platform/users/${userId}/roles`,
         input
     );
@@ -124,7 +124,7 @@ export async function assignUserOrgMemberships(
     userId: string,
     input: AssignUserOrgMembershipsRequest
 ): Promise<SanitizedUserWithOrgUnits> {
-    const response = await client.post<SanitizedUserWithOrgUnits>(
+    const response = await client.put<SanitizedUserWithOrgUnits>(
         `/platform/users/${userId}/org-memberships`,
         input
     );
@@ -137,7 +137,7 @@ export async function deactivatePlatformUser(
     input: UpdatePlatformUserActivationRequest = {}
 ): Promise<PlatformUserSummary> {
     const response = await client.post<PlatformUserSummary>(
-        `/platform/users/${userId}/deactivate`,
+        `/platform/users/${userId}:deactivate`,
         input
     );
     return expectStatus(response, 200);
@@ -149,7 +149,7 @@ export async function activatePlatformUser(
     input: UpdatePlatformUserActivationRequest = {}
 ): Promise<PlatformUserSummary> {
     const response = await client.post<PlatformUserSummary>(
-        `/platform/users/${userId}/activate`,
+        `/platform/users/${userId}:activate`,
         input
     );
     return expectStatus(response, 200);
@@ -169,7 +169,7 @@ export async function createOrgUnit(
 }
 
 export async function listPlatformOrgUnitTree(client: AxiosInstance): Promise<OrgUnitTreeNode[]> {
-    const response = await client.get<OrgUnitTreeNode[]>('/platform/org-units/tree');
+    const response = await client.get<OrgUnitTreeNode[]>('/platform/org-unit-tree');
     return expectStatus(response, 200);
 }
 
@@ -183,7 +183,7 @@ export async function activateOrgUnit(
     orgUnitId: string,
     input: UpdateOrgUnitActivationRequest = {}
 ): Promise<PlatformOrgUnitSummary> {
-    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}/activate`, input);
+    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}:activate`, input);
     return expectStatus(response, 200);
 }
 
@@ -192,7 +192,7 @@ export async function deactivateOrgUnit(
     orgUnitId: string,
     input: UpdateOrgUnitActivationRequest = {}
 ): Promise<PlatformOrgUnitSummary> {
-    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}/deactivate`, input);
+    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}:deactivate`, input);
     return expectStatus(response, 200);
 }
 
@@ -201,7 +201,7 @@ export async function moveOrgUnit(
     orgUnitId: string,
     input: MoveOrgUnitRequest
 ): Promise<PlatformOrgUnitSummary> {
-    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}/move`, input);
+    const response = await client.post<PlatformOrgUnitSummary>(`/platform/org-units/${orgUnitId}:move`, input);
     return expectStatus(response, 200);
 }
 
@@ -211,7 +211,7 @@ export async function getMyNavigation(client: AxiosInstance): Promise<Navigation
 }
 
 export async function syncPlatformNavigation(client: AxiosInstance): Promise<NavigationSyncSummary> {
-    const response = await client.post<NavigationSyncSummary>('/platform/navigation/sync', {});
+    const response = await client.post<NavigationSyncSummary>('/platform/navigation:sync', {});
     return expectStatus(response, 200);
 }
 

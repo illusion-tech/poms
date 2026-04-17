@@ -47,7 +47,7 @@ export async function submitContractReview(
     input: SubmitContractReviewRequest
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(
-        `/contracts/${contractId}/submit-review`,
+        `/contracts/${contractId}:submitReview`,
         input
     );
     return expectStatus(response, 200);
@@ -58,7 +58,7 @@ export async function getCurrentContractApproval(
     contractId: string
 ): Promise<ApprovalRecordSummary> {
     const response = await client.get<ApprovalRecordSummary>(
-        `/contracts/${contractId}/current-approval`
+        `/contracts/${contractId}/approval-record`
     );
     return expectStatus(response, 200);
 }
@@ -68,7 +68,7 @@ export async function activateContract(
     contractId: string,
     input: { comment?: string; expectedVersion?: number }
 ): Promise<CommandResult> {
-    const response = await client.post<CommandResult>(`/contracts/${contractId}/activate`, input);
+    const response = await client.post<CommandResult>(`/contracts/${contractId}:activate`, input);
     return expectStatus(response, 200);
 }
 
@@ -218,7 +218,7 @@ export async function createActiveContractForProject(
         receiptDate: new Date().toISOString(),
         sourceType: 'manual'
     });
-    await confirmReceipt(client, activeContract.id, receipt.id, {
+    await confirmReceipt(client, receipt.id, {
         expectedVersion: receipt.rowVersion
     });
 
@@ -229,7 +229,7 @@ export async function createActiveContractForProject(
         costCategory: 'implementation',
         sourceType: 'manual'
     });
-    await confirmPayment(client, projectId, payment.id, {
+    await confirmPayment(client, payment.id, {
         expectedVersion: payment.rowVersion
     });
 

@@ -333,7 +333,7 @@ describe('poms-api platform governance e2e', () => {
         expect(deactivatedParent.isActive).toBe(false);
         expect(deactivatedChild.isActive).toBe(false);
 
-        const activateChildResponse = await adminClient.post(`/platform/org-units/${child.id}/activate`, {});
+        const activateChildResponse = await adminClient.post(`/platform/org-units/${child.id}:activate`, {});
         expectErrorStatus(activateChildResponse, 409);
 
         await activateOrgUnit(adminClient, parent.id);
@@ -366,7 +366,7 @@ describe('poms-api platform governance e2e', () => {
 
         await deactivateOrgUnit(adminClient, inactiveOrg.id);
 
-        const assignResponse = await adminClient.post(`/platform/users/${viewer.id}/org-memberships`, {
+        const assignResponse = await adminClient.put(`/platform/users/${viewer.id}/org-memberships`, {
             primaryOrgUnitId: inactiveOrg.id,
             secondaryOrgUnitIds: []
         });
@@ -461,7 +461,7 @@ describe('poms-api platform governance e2e', () => {
         ).toBe(true);
 
         const viewerSession = await loginAsViewer();
-        const routeDeniedResponse = await viewerSession.client.post('/security-events/route-denied', {
+        const routeDeniedResponse = await viewerSession.client.post('/security-events:recordRouteDenied', {
             path: '/platform/users',
             returnUrl: '/platform/users',
             requiredPermissions: ['platform:users:manage']

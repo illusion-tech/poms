@@ -328,7 +328,7 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(payment.status).toBe('recorded');
 
-        const confirmedPayment = await confirmPayment(client, project.id, payment.id, {
+        const confirmedPayment = await confirmPayment(client, payment.id, {
             expectedVersion: payment.rowVersion
         });
         expect(confirmedPayment.status).toBe('confirmed');
@@ -419,13 +419,13 @@ describe('Actual Cost Workflow E2E', () => {
         const invoiceDetail = await getInvoice(client, invoice.id);
         expect(invoiceDetail.allowedActions).toEqual([]);
 
-        const updateAfterMapping = await client.patch(`/contract-finance/invoice-records/${invoice.id}`, {
+        const updateAfterMapping = await client.patch(`/invoice-records/${invoice.id}`, {
             invoiceAmount: '3999.99',
             expectedVersion: verifiedInvoice.rowVersion
         });
         expectErrorStatus(updateAfterMapping, 422, '已存在统一成本映射');
 
-        const markExceptionAfterMapping = await client.post(`/contract-finance/invoice-records/${invoice.id}/mark-exception`, {
+        const markExceptionAfterMapping = await client.post(`/invoice-records/${invoice.id}:markException`, {
             reason: 'should fail after mapping',
             expectedVersion: verifiedInvoice.rowVersion
         });
@@ -616,19 +616,19 @@ describe('Actual Cost Workflow E2E', () => {
         const payableDetail = await getPayable(client, payable.id);
         expect(payableDetail.allowedActions).toEqual([]);
 
-        const updatePayableAfterMapping = await client.patch(`/contract-finance/payable-records/${payable.id}`, {
+        const updatePayableAfterMapping = await client.patch(`/payable-records/${payable.id}`, {
             evidenceSummary: 'should fail after mapping',
             expectedVersion: payable.rowVersion
         });
         expectErrorStatus(updatePayableAfterMapping, 422, '已存在统一成本映射');
 
-        const closePayableAfterMapping = await client.post(`/contract-finance/payable-records/${payable.id}/close`, {
+        const closePayableAfterMapping = await client.post(`/payable-records/${payable.id}:close`, {
             reason: 'should fail after mapping',
             expectedVersion: payable.rowVersion
         });
         expectErrorStatus(closePayableAfterMapping, 422, '已存在统一成本映射');
 
-        const voidPayableAfterMapping = await client.post(`/contract-finance/payable-records/${payable.id}/void`, {
+        const voidPayableAfterMapping = await client.post(`/payable-records/${payable.id}:void`, {
             reason: 'should fail after mapping',
             expectedVersion: payable.rowVersion
         });
@@ -641,7 +641,7 @@ describe('Actual Cost Workflow E2E', () => {
             costCategory: 'hardware',
             sourceType: 'manual'
         });
-        const confirmedPayment = await confirmPayment(client, project.id, payment.id, {
+        const confirmedPayment = await confirmPayment(client, payment.id, {
             expectedVersion: payment.rowVersion
         });
 

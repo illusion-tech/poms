@@ -27,7 +27,7 @@ export async function listReceipts(
     contractId: string
 ): Promise<ReceiptRecordSummary[]> {
     const response = await client.get<ReceiptRecordSummary[]>(
-        `/contract-finance/contracts/${contractId}/receipts`
+        `/contracts/${contractId}/receipt-records`
     );
     return expectStatus(response, 200);
 }
@@ -38,7 +38,7 @@ export async function createReceipt(
     input: CreateReceiptRecordRequest
 ): Promise<ReceiptRecordSummary> {
     const response = await client.post<ReceiptRecordSummary>(
-        `/contract-finance/contracts/${contractId}/receipts`,
+        `/contracts/${contractId}/receipt-records`,
         input
     );
     return expectStatus(response, 201);
@@ -46,12 +46,11 @@ export async function createReceipt(
 
 export async function confirmReceipt(
     client: AxiosInstance,
-    contractId: string,
     receiptId: string,
     input: ConfirmReceiptRecordRequest
 ): Promise<ReceiptRecordSummary> {
     const response = await client.post<ReceiptRecordSummary>(
-        `/contract-finance/contracts/${contractId}/receipts/${receiptId}/confirm`,
+        `/receipt-records/${receiptId}:confirm`,
         input
     );
     return expectStatus(response, 200);
@@ -62,7 +61,7 @@ export async function listPayables(
     projectId: string
 ): Promise<PayableRecordSummary[]> {
     const response = await client.get<PayableRecordSummary[]>(
-        `/contract-finance/projects/${projectId}/payables`
+        `/projects/${projectId}/payable-records`
     );
     return expectStatus(response, 200);
 }
@@ -72,7 +71,7 @@ export async function getPayable(
     payableId: string
 ): Promise<PayableRecordDetailView> {
     const response = await client.get<PayableRecordDetailView>(
-        `/contract-finance/payable-records/${payableId}`
+        `/payable-records/${payableId}`
     );
     return expectStatus(response, 200);
 }
@@ -83,7 +82,7 @@ export async function createPayable(
     input: CreatePayableRecordRequest
 ): Promise<PayableRecordSummary> {
     const response = await client.post<PayableRecordSummary>(
-        `/contract-finance/projects/${projectId}/payables`,
+        `/projects/${projectId}/payable-records`,
         input
     );
     return expectStatus(response, 201);
@@ -95,7 +94,7 @@ export async function updatePayable(
     input: UpdatePayableRecordRequest
 ): Promise<PayableRecordSummary> {
     const response = await client.patch<PayableRecordSummary>(
-        `/contract-finance/payable-records/${payableId}`,
+        `/payable-records/${payableId}`,
         input
     );
     return expectStatus(response, 200);
@@ -107,7 +106,7 @@ export async function closePayable(
     input: ClosePayableRecordRequest
 ): Promise<PayableRecordSummary> {
     const response = await client.post<PayableRecordSummary>(
-        `/contract-finance/payable-records/${payableId}/close`,
+        `/payable-records/${payableId}:close`,
         input
     );
     return expectStatus(response, 200);
@@ -119,7 +118,7 @@ export async function voidPayable(
     input: VoidPayableRecordRequest
 ): Promise<PayableRecordSummary> {
     const response = await client.post<PayableRecordSummary>(
-        `/contract-finance/payable-records/${payableId}/void`,
+        `/payable-records/${payableId}:void`,
         input
     );
     return expectStatus(response, 200);
@@ -130,7 +129,7 @@ export async function listInvoices(
     projectId: string
 ): Promise<InvoiceRecordSummary[]> {
     const response = await client.get<InvoiceRecordSummary[]>(
-        `/contract-finance/projects/${projectId}/invoices`
+        `/projects/${projectId}/invoice-records`
     );
     return expectStatus(response, 200);
 }
@@ -140,7 +139,7 @@ export async function getInvoice(
     invoiceId: string
 ): Promise<InvoiceRecordDetailView> {
     const response = await client.get<InvoiceRecordDetailView>(
-        `/contract-finance/invoice-records/${invoiceId}`
+        `/invoice-records/${invoiceId}`
     );
     return expectStatus(response, 200);
 }
@@ -151,7 +150,7 @@ export async function createInvoice(
     input: CreateInvoiceRecordRequest
 ): Promise<InvoiceRecordSummary> {
     const response = await client.post<InvoiceRecordSummary>(
-        `/contract-finance/projects/${projectId}/invoices`,
+        `/projects/${projectId}/invoice-records`,
         input
     );
     return expectStatus(response, 201);
@@ -163,7 +162,7 @@ export async function updateInvoice(
     input: UpdateInvoiceRecordRequest
 ): Promise<InvoiceRecordSummary> {
     const response = await client.patch<InvoiceRecordSummary>(
-        `/contract-finance/invoice-records/${invoiceId}`,
+        `/invoice-records/${invoiceId}`,
         input
     );
     return expectStatus(response, 200);
@@ -175,7 +174,7 @@ export async function markInvoiceException(
     input: MarkInvoiceExceptionRequest
 ): Promise<InvoiceRecordSummary> {
     const response = await client.post<InvoiceRecordSummary>(
-        `/contract-finance/invoice-records/${invoiceId}/mark-exception`,
+        `/invoice-records/${invoiceId}:markException`,
         input
     );
     return expectStatus(response, 200);
@@ -187,7 +186,7 @@ export async function resolveInvoiceException(
     input: ResolveInvoiceExceptionRequest
 ): Promise<InvoiceRecordSummary> {
     const response = await client.post<InvoiceRecordSummary>(
-        `/contract-finance/invoice-records/${invoiceId}/resolve-exception`,
+        `/invoice-records/${invoiceId}:resolveException`,
         input
     );
     return expectStatus(response, 200);
@@ -199,7 +198,7 @@ export async function closeInvoiceRecord(
     input: CloseInvoiceRecordRequest
 ): Promise<InvoiceRecordSummary> {
     const response = await client.post<InvoiceRecordSummary>(
-        `/contract-finance/invoice-records/${invoiceId}/close`,
+        `/invoice-records/${invoiceId}:close`,
         input
     );
     return expectStatus(response, 200);
@@ -210,7 +209,7 @@ export async function listPayments(
     projectId: string
 ): Promise<PaymentRecordSummary[]> {
     const response = await client.get<PaymentRecordSummary[]>(
-        `/contract-finance/projects/${projectId}/payments`
+        `/projects/${projectId}/payment-records`
     );
     return expectStatus(response, 200);
 }
@@ -221,7 +220,7 @@ export async function createPayment(
     input: CreatePaymentRecordRequest
 ): Promise<PaymentRecordSummary> {
     const response = await client.post<PaymentRecordSummary>(
-        `/contract-finance/projects/${projectId}/payments`,
+        `/projects/${projectId}/payment-records`,
         input
     );
     return expectStatus(response, 201);
@@ -229,12 +228,11 @@ export async function createPayment(
 
 export async function confirmPayment(
     client: AxiosInstance,
-    projectId: string,
     paymentId: string,
     input: ConfirmPaymentRecordRequest
 ): Promise<PaymentRecordSummary> {
     const response = await client.post<PaymentRecordSummary>(
-        `/contract-finance/projects/${projectId}/payments/${paymentId}/confirm`,
+        `/payment-records/${paymentId}:confirm`,
         input
     );
     return expectStatus(response, 200);

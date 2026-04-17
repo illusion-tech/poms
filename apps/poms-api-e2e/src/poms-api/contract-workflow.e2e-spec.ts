@@ -79,7 +79,7 @@ describe('poms-api contract workflow e2e', () => {
             })
         );
 
-        const response = await client.post(`/contracts/${contract.id}/activate`, {
+        const response = await client.post(`/contracts/${contract.id}:activate`, {
             comment: 'e2e 非法激活',
             expectedVersion: contract.rowVersion
         });
@@ -117,7 +117,7 @@ describe('poms-api contract workflow e2e', () => {
         });
 
         const pendingReviewContract = await getContract(client, contract.id);
-        const response = await client.post(`/contracts/${contract.id}/activate`, {
+        const response = await client.post(`/contracts/${contract.id}:activate`, {
             comment: 'e2e 缺失承接包激活',
             expectedVersion: pendingReviewContract.rowVersion
         });
@@ -197,7 +197,7 @@ describe('poms-api contract workflow e2e', () => {
         await prepareContractReadinessForProject(client, project.id, profile.id, unique);
 
         const pendingReviewContract = await getContract(client, contract.id);
-        const response = await client.post(`/contracts/${contract.id}/activate`, {
+        const response = await client.post(`/contracts/${contract.id}:activate`, {
             comment: 'e2e 合同生效版本冲突',
             expectedVersion: pendingReviewContract.rowVersion - 1
         });
@@ -229,7 +229,7 @@ describe('poms-api contract workflow e2e', () => {
         });
 
         const pendingReviewContract = await getContract(client, contract.id);
-        const response = await client.post(`/contracts/${contract.id}/submit-review`, {
+        const response = await client.post(`/contracts/${contract.id}:submitReview`, {
             comment: 'e2e 重复送审',
             expectedVersion: pendingReviewContract.rowVersion
         });

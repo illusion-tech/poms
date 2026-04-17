@@ -110,7 +110,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
         expect(receipt.status).toBe('pending-confirmation');
 
-        const confirmedReceipt = await confirmReceipt(client, activeContract.id, receipt.id, {
+        const confirmedReceipt = await confirmReceipt(client, receipt.id, {
             expectedVersion: receipt.rowVersion
         });
         expect(confirmedReceipt.status).toBe('confirmed');
@@ -141,7 +141,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
         expect(payment.status).toBe('recorded');
 
-        const confirmedPayment = await confirmPayment(client, project.id, payment.id, {
+        const confirmedPayment = await confirmPayment(client, payment.id, {
             expectedVersion: payment.rowVersion
         });
         expect(confirmedPayment.status).toBe('confirmed');
@@ -189,7 +189,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         );
 
         const response = await client.post(
-            `/contract-finance/contracts/${contract.id}/receipts`,
+            `/contracts/${contract.id}/receipt-records`,
             {
                 receiptAmount: '1000.00',
                 receiptDate: new Date().toISOString(),
@@ -245,7 +245,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
 
         const response = await client.post(
-            `/contract-finance/contracts/${activeContract.id}/receipts/${receipt.id}/confirm`,
+            `/receipt-records/${receipt.id}:confirm`,
             {
                 expectedVersion: receipt.rowVersion + 1
             }
@@ -265,7 +265,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         });
 
         const response = await client.post(
-            `/contract-finance/projects/${project.id}/invoices`,
+            `/projects/${project.id}/invoice-records`,
             {
                 invoiceType: 'output',
                 contractId: null,
