@@ -40,11 +40,15 @@ export class HeatMapChart {
     });
 
     createChart() {
-        const ctx = (document.getElementById('heatmap') as HTMLCanvasElement).getContext('2d');
+        const canvas = document.getElementById('heatmap') as HTMLCanvasElement | null;
+        const ctx = canvas?.getContext('2d');
+        if (!ctx) {
+            return;
+        }
         if (this.chart) {
             this.chart.destroy();
         }
-        this.chart = new ChartJS(ctx!, {
+        this.chart = new ChartJS(ctx, {
             type: 'matrix',
             data: this.chartData,
             options: this.chartOptions,

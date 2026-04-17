@@ -32,13 +32,13 @@ import { Component, ContentChild, TemplateRef, AfterContentInit } from '@angular
     }
 })
 export class SectionCard implements AfterContentInit {
-    @ContentChild('title') titleTemplate!: TemplateRef<any>;
+    @ContentChild('title') titleTemplate!: TemplateRef<unknown>;
 
-    @ContentChild('description') descriptionTemplate!: TemplateRef<any>;
+    @ContentChild('description') descriptionTemplate!: TemplateRef<unknown>;
 
-    @ContentChild('action') actionTemplate!: TemplateRef<any>;
+    @ContentChild('action') actionTemplate!: TemplateRef<unknown>;
 
-    @ContentChild('footer') footerTemplate!: TemplateRef<any>;
+    @ContentChild('footer') footerTemplate!: TemplateRef<unknown>;
 
     hasTitle: boolean = false;
 

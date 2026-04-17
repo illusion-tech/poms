@@ -106,8 +106,9 @@ export class MultiLineChart {
                     pointStyle: 'circle',
                     pointRadius: 4,
                     backgroundColor: (context: any) => {
+                        const backgroundColors = this.bgColors();
                         const defaultColor = [darkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(3, 6, 22, 0.06)', darkMode ? 'rgba(255, 255, 255, 0)' : 'rgba(3, 6, 22, 0)'];
-                        const bg = this.bgColors()?.[index] !== undefined ? this.bgColors()![index] : defaultColor;
+                        const bg = backgroundColors?.[index] !== undefined ? backgroundColors[index] : defaultColor;
 
                         if (!context.chart.chartArea) {
                             return;

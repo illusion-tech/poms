@@ -215,7 +215,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
             this.commissionStore.loadingPayouts() ||
             this.commissionStore.loadingAdjustments()
     );
-    readonly currentPool = computed(() => (this.commissionStore.currentEffectiveCalculation() ? this.formatAmount(this.commissionStore.currentEffectiveCalculation()!.commissionPool) : '--'));
+    readonly currentPool = computed(() => {
+        const currentCalculation = this.commissionStore.currentEffectiveCalculation();
+        return currentCalculation ? this.formatAmount(currentCalculation.commissionPool) : '--';
+    });
     readonly calculationStatus = CommissionCalculationSummaryStatusEnum;
     readonly payoutStatus = CommissionPayoutSummaryStatusEnum;
     readonly adjustmentStatus = CommissionAdjustmentSummaryStatusEnum;

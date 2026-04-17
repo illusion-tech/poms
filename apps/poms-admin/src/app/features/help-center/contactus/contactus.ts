@@ -8,6 +8,12 @@ import { ButtonModule } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 
+interface ContactInfo {
+    icon: string;
+    title: string;
+    info: string;
+}
+
 @Component({
     selector: 'app-contact-us',
     imports: [CommonModule, FormsModule, InputTextModule, TextareaModule, ButtonModule, IconField, InputIcon],
@@ -57,15 +63,13 @@ import { InputIcon } from 'primeng/inputicon';
     `
 })
 export class ContactUs {
-    options: any;
-
     name: string = '';
 
     email: string = '';
 
     message: string = '';
 
-    content: any[] = [
+    content: ContactInfo[] = [
         { icon: 'pi pi-fw pi-phone', title: 'Phone', info: '1 (833) 597-7538' },
         {
             icon: 'pi pi-fw pi-map-marker',

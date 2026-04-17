@@ -41,7 +41,7 @@ export class AppSidebar implements OnInit, OnDestroy {
 
     @ViewChild('menuContainerWrapper') menuContainerWrapper!: ElementRef;
 
-    private timeout: any = null;
+    private timeout: ReturnType<typeof setTimeout> | null = null;
 
     private observer: IntersectionObserver | null = null;
 

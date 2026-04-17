@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild, computed } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '@poms/admin-data-access';
-import { AppMenuitem } from './app.menuitem';
+import { AppMenuitem, type AppMenuItemModel } from './app.menuitem';
 
 @Component({
     selector: '[app-menu]',
@@ -32,7 +32,7 @@ export class AppMenu {
         return this.#staticFallback;
     });
 
-    readonly #staticFallback: any[] = [
+    readonly #staticFallback: AppMenuItemModel[] = [
         {
             label: '总览',
             icon: 'pi pi-th-large',

@@ -349,8 +349,9 @@ export class Edit {
     categories: string[] = ['Lifestyle', 'Sustainability', 'Culture', 'Art', 'Banking', 'Technology'];
 
     formattedPublishDate = computed(() => {
-        if (!this.publishDate()) return 'Immediately';
-        const date = new Date(this.publishDate()!);
+        const publishDate = this.publishDate();
+        if (!publishDate) return 'Immediately';
+        const date = new Date(publishDate);
         const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
         return date.toLocaleDateString('en-US', options);
     });

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, computed, input, signal, viewChild, AfterViewInit } from '@angular/core';
 
+type InlineStyle = Record<string, string | number | null | undefined>;
+
 @Component({
     selector: 'lazy-image-widget',
     standalone: true,
@@ -11,7 +13,7 @@ export class LazyImageWidget implements AfterViewInit {
     src = input.required<string>();
     alt = input<string>('');
     className = input<string>('');
-    style = input<any>({});
+    style = input<InlineStyle>({});
 
     isIntersecting = signal(false);
     isLoaded = signal(false);
