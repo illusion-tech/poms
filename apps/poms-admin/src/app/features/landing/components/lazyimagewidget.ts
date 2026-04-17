@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, computed, input, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, input, signal, viewChild, AfterViewInit } from '@angular/core';
+
+type InlineStyle = Record<string, string | number | null | undefined>;
 
 @Component({
     selector: 'lazy-image-widget',
@@ -7,11 +9,11 @@ import { Component, ElementRef, computed, input, signal, viewChild } from '@angu
     imports: [CommonModule],
     template: `<img [src]="isIntersecting() ? src() : ''" [alt]="alt()" [ngClass]="imgClass()" (load)="handleLoad()" #image [style]="style()" />`
 })
-export class LazyImageWidget {
+export class LazyImageWidget implements AfterViewInit {
     src = input.required<string>();
     alt = input<string>('');
     className = input<string>('');
-    style = input<any>({});
+    style = input<InlineStyle>({});
 
     isIntersecting = signal(false);
     isLoaded = signal(false);

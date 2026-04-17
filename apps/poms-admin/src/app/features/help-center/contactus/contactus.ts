@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
+
+interface ContactInfo {
+    icon: string;
+    title: string;
+    info: string;
+}
 
 @Component({
     selector: 'app-contact-us',
@@ -57,15 +63,13 @@ import { InputIcon } from 'primeng/inputicon';
     `
 })
 export class ContactUs {
-    options: any;
-
     name: string = '';
 
     email: string = '';
 
     message: string = '';
 
-    content: any[] = [
+    content: ContactInfo[] = [
         { icon: 'pi pi-fw pi-phone', title: 'Phone', info: '1 (833) 597-7538' },
         {
             icon: 'pi pi-fw pi-map-marker',

@@ -1,5 +1,5 @@
-﻿import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { LayoutService } from '@/app/layout/service/layout.service';
+﻿import { SectionCard } from '../../../shared/ui/sectioncard';
+import { LayoutService } from '../../../layout/service/layout.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 

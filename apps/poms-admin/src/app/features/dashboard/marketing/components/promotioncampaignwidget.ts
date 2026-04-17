@@ -1,9 +1,18 @@
 ﻿import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { generateRandomHeatmapData } from '@poms/admin/shared/utils/utils';
-import { HeatMapChart } from '@poms/admin/features/dashboard/ui/charts/heatmapchart';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { generateRandomHeatmapData } from '../../../../shared/utils/utils';
+import { HeatMapChart } from '../../ui/charts/heatmapchart';
+
+interface HeatmapCondition {
+    min: number;
+    max: number;
+    color: {
+        light: string;
+        dark: string;
+    };
+}
 
 @Component({
     selector: 'promotion-campaign-widget',
@@ -32,7 +41,7 @@ export class PromotionCampaignWidget {
 
     isDarkTheme = computed(() => this.layoutService.isDarkTheme());
 
-    heatmapConditions = [
+    heatmapConditions: HeatmapCondition[] = [
         { min: 200, max: 500, color: { light: '--p-primary-200', dark: '--p-primary-950' } },
         { min: 501, max: 800, color: { light: '--p-primary-300', dark: '--p-primary-800' } },
         { min: 801, max: 1000, color: { light: '--p-primary-400', dark: '--p-primary-700' } },
@@ -41,7 +50,7 @@ export class PromotionCampaignWidget {
 
     randomHeatmapData = generateRandomHeatmapData();
 
-    backgroundColor(item: any) {
+    backgroundColor(item: HeatmapCondition) {
         return `var(${this.isDarkTheme() ? item.color.dark : item.color.light})`;
     }
 }

@@ -4,8 +4,14 @@ import { DrawerModule } from 'primeng/drawer';
 import { DividerModule } from 'primeng/divider';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 import { ButtonModule } from 'primeng/button';
+
+interface CardValue {
+    id: number;
+    name: string;
+    code: string;
+}
 
 @Component({
     selector: '[app-rightmenu]',
@@ -89,7 +95,7 @@ export class AppRightMenu {
         { label: '*****75', value: { id: 2, name: '*****75', code: 'A2' } }
     ];
 
-    selectedCard: any;
+    selectedCard: CardValue | null = null;
     amountValue: string = '';
 
     get rightMenuVisible(): boolean {

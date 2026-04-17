@@ -8,12 +8,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SliderModule } from 'primeng/slider';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { FormStateService } from './form-state.service';
-
-interface Department {
-    name: string;
-    code: string;
-}
+import { DepartmentOption, FormStateService } from './form-state.service';
 
 @Component({
     selector: 'app-business-information',
@@ -124,7 +119,7 @@ interface Department {
     `
 })
 export class BusinessInformation {
-    departmentOptions: Department[] = [
+    departmentOptions: DepartmentOption[] = [
         { name: 'Sales', code: 'sales' },
         { name: 'HR', code: 'hr' },
         { name: 'Marketing', code: 'marketing' },

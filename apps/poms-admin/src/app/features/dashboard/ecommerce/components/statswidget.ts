@@ -1,8 +1,18 @@
 ﻿import { Component } from '@angular/core';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { TagModule } from 'primeng/tag';
-import { trackByFn } from '@poms/admin/shared/utils/utils';
-import { MiniLineChart } from '@poms/admin/features/dashboard/ui/charts/minilinechart';
+import { trackByFn } from '../../../../shared/utils/utils';
+import { MiniLineChart } from '../../ui/charts/minilinechart';
+
+interface StatItem {
+    title: string;
+    value: string;
+    status: 'success' | 'danger';
+    change: string;
+    data: number[];
+    bgColor: [string, string];
+    borderColor: string;
+}
 
 @Component({
     selector: 'stats-widget',
@@ -26,7 +36,7 @@ import { MiniLineChart } from '@poms/admin/features/dashboard/ui/charts/miniline
 export class StatsWidget {
     protected readonly trackByFn = trackByFn;
 
-    statsData = [
+    statsData: StatItem[] = [
         {
             title: 'Revenue Status',
             value: '12.030',
@@ -65,7 +75,7 @@ export class StatsWidget {
         }
     ];
 
-    status(item: any) {
+    status(item: StatItem) {
         return item.status;
     }
 }

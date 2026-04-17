@@ -1,4 +1,4 @@
-import { ForbiddenException, type ExecutionContext } from '@nestjs/common';
+import { ForbiddenException, type ExecutionContext, type Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PERMISSIONS_KEY } from '../decorators/has-permissions.decorator';
 import { PermissionsGuard } from './permissions.guard';
@@ -81,7 +81,7 @@ describe('PermissionsGuard', () => {
     });
 });
 
-function createContext(handler: Function, controllerClass: Function, request: object): ExecutionContext {
+function createContext(handler: (...args: never[]) => unknown, controllerClass: Type<unknown>, request: object): ExecutionContext {
     return {
         getHandler: () => handler,
         getClass: () => controllerClass,

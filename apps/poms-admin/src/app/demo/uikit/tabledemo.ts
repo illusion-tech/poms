@@ -16,11 +16,21 @@ import { RippleModule } from 'primeng/ripple';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TagModule } from 'primeng/tag';
-import { Customer, CustomerService, Representative } from '@poms/admin/demo/services/customer.service';
-import { Product, ProductService } from '@poms/admin/demo/services/product.service';
+import { Customer, CustomerService, Representative } from '../services/customer.service';
+import { Product, ProductService } from '../services/product.service';
 
 interface expandedRows {
     [key: string]: boolean;
+}
+
+interface StatusOption {
+    label: string;
+    value: string;
+}
+
+interface RowGroupMeta {
+    index: number;
+    size: number;
 }
 
 @Component({
@@ -426,11 +436,11 @@ export class TableDemo implements OnInit {
 
     representatives: Representative[] = [];
 
-    statuses: any[] = [];
+    statuses: StatusOption[] = [];
 
     products: Product[] = [];
 
-    rowGroupMetadata: any;
+    rowGroupMetadata: Record<string, RowGroupMeta> = {};
 
     expandedRows: expandedRows = {};
 
@@ -452,7 +462,6 @@ export class TableDemo implements OnInit {
             this.customers1 = customers;
             this.loading = false;
 
-            // @ts-ignore
             this.customers1.forEach((customer) => (customer.date = new Date(customer.date)));
         });
         this.customerService.getCustomersMedium().then((customers) => (this.customers2 = customers));
@@ -563,7 +572,7 @@ export class TableDemo implements OnInit {
         let total = 0;
 
         if (this.customers2) {
-            for (let customer of this.customers2) {
+            for (const customer of this.customers2) {
                 if (customer.representative?.name === name) {
                     total++;
                 }

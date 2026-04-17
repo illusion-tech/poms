@@ -657,8 +657,9 @@ export class Files {
             };
             this.documents.set([newDoc, ...docs]);
         } else if (this.editingItem) {
+            const editingItem = this.editingItem;
             const docs = this.documents();
-            const index = docs.findIndex((d) => d.id === this.editingItem!.id);
+            const index = docs.findIndex((d) => d.id === editingItem.id);
             if (index !== -1) {
                 docs[index] = { ...docs[index], ...this.editForm } as Document;
                 this.documents.set([...docs]);
@@ -787,9 +788,10 @@ export class Files {
 
     confirmMoveToTrash() {
         if (!this.editingItem) return;
+        const editingItem = this.editingItem;
 
         this.confirmationService.confirm({
-            message: `Are you sure you want to move "${this.editingItem.fileName}" to trash? This action cannot be undone.`,
+            message: `Are you sure you want to move "${editingItem.fileName}" to trash? This action cannot be undone.`,
             header: 'Move to Trash',
             icon: 'pi pi-info-circle',
             rejectButtonProps: {
@@ -802,7 +804,7 @@ export class Files {
                 severity: 'danger'
             },
             accept: () => {
-                this.deleteDocument(this.editingItem!.id);
+                this.deleteDocument(editingItem.id);
             }
         });
     }

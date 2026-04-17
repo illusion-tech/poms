@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppConfigurator } from '@/app/layout/components/app.configurator';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { AppConfigurator } from '../../../layout/components/app.configurator';
+import { LayoutService } from '../../../layout/service/layout.service';
 
 @Component({
     selector: 'app-notfound',

@@ -1,4 +1,4 @@
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';

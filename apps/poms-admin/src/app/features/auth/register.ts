@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
-import { GoogleWidget } from '@poms/admin/features/auth/components/googlewidget';
-import { AppleWidget } from '@poms/admin/features/auth/components/applewidget';
+import { AuthLogoWidget } from './components/authlogowidget';
+import { GoogleWidget } from './components/googlewidget';
+import { AppleWidget } from './components/applewidget';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';

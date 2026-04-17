@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { LazyImageWidget } from './lazyimagewidget';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 
 @Component({
     selector: 'marketing-dashboard-overview',

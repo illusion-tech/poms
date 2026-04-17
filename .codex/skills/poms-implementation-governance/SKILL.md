@@ -55,7 +55,7 @@ Start implementation only after the frozen inputs are clear.
 
 Decide whether the change can merge or commit.
 
-- Attach common evidence: slice type, scope, formal inputs, out-of-scope items, test coverage, and known exceptions.
+- Attach common evidence: slice type, scope, formal inputs, out-of-scope items, lint status, test coverage, and known exceptions.
 - Add risk-scaled evidence by slice type.
 - Record drift classification whenever migration checks, OpenAPI diffs, or contract alignment reveal differences.
 - Use a corrective checkpoint instead of rewriting history when the slice has already started and real drift is discovered.
@@ -106,6 +106,9 @@ Follow the minimum matrix in [references/governance-summary.md](./references/gov
 Use these commands when the slice type requires them:
 
 - `git diff --check`
+- `corepack pnpm nx lint poms-api`
+- `corepack pnpm nx lint poms-admin`
+- `corepack pnpm nx lint <project-name>` for affected lint-enabled libraries
 - `corepack pnpm nx build poms-api`
 - `corepack pnpm nx build poms-admin`
 - `corepack pnpm nx test poms-api`
@@ -121,6 +124,8 @@ Always state one of these outcomes for each expected check:
 - ran and failed,
 - not required,
 - temporarily blocked with reason and follow-up.
+
+When a touched project has a `lint target`, do not omit lint. State whether the change introduced new lint warnings. Treat lint as additive evidence, not as a substitute for build or test.
 
 ## Enforce Alignment Rules
 

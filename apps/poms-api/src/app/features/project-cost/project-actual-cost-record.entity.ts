@@ -1,5 +1,4 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { Ref } from '@mikro-orm/core';
 import { Project } from '../project/project.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 

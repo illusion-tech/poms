@@ -3,12 +3,28 @@ import { FilterMatchMode } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { Table, TableModule } from 'primeng/table';
 import { AvatarModule } from 'primeng/avatar';
+
+interface EmailHistoryName {
+    avatarStyle: string;
+    value: string;
+    shortValue: string;
+}
+
+interface EmailHistoryEntry {
+    id: string;
+    date: string;
+    name: EmailHistoryName;
+    emailAddress: string;
+    sent: string;
+    ctr: string;
+    deliveredRate: string;
+}
 
 @Component({
     selector: 'email-history-widget',
@@ -125,9 +141,9 @@ export class EmailHistoryWidget {
 
     filterFields = ['id', 'date', 'name', 'emailAddress', 'sent', 'ctr', 'deliveredRate'];
 
-    selectedEmailHistory: any;
+    selectedEmailHistory: EmailHistoryEntry[] = [];
 
-    emailHistory = [
+    emailHistory: EmailHistoryEntry[] = [
         {
             id: '#12546',
             date: 'May 5th, 2024',

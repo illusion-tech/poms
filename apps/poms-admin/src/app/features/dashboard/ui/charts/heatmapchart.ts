@@ -2,10 +2,41 @@ import { Component, effect, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../../layout/service/layout.service';
 import 'chartjs-adapter-date-fns';
 
 ChartJS.register(...registerables, MatrixController, MatrixElement);
+
+type HeatmapDataPoint = {
+    x: string;
+    y: string;
+    d: string;
+    v: number;
+};
+
+type HeatmapCondition = {
+    min: number;
+    max: number;
+    color: {
+        light: string;
+        dark: string;
+    };
+};
+
+type HeatmapCellContext = {
+    chart: {
+        chartArea?: {
+            left: number;
+            right: number;
+            top: number;
+            bottom: number;
+        };
+    };
+    dataset: {
+        data: HeatmapDataPoint[];
+    };
+    dataIndex: number;
+};
 
 @Component({
     selector: 'heat-map-chart',
@@ -21,17 +52,17 @@ export class HeatMapChart {
 
     label = input<string>('Label');
 
-    dataset = input<any[]>();
+    dataset = input<HeatmapDataPoint[]>();
 
-    conditions = input.required<any[]>();
+    conditions = input.required<HeatmapCondition[]>();
 
     chart!: ChartJS;
 
-    chartData: any;
+    chartData: Record<string, unknown> = {};
 
-    chartPlugins: any;
+    chartPlugins: unknown[] = [];
 
-    chartOptions: any;
+    chartOptions: Record<string, unknown> = {};
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;
@@ -40,11 +71,15 @@ export class HeatMapChart {
     });
 
     createChart() {
-        const ctx = (document.getElementById('heatmap') as HTMLCanvasElement).getContext('2d');
+        const canvas = document.getElementById('heatmap') as HTMLCanvasElement | null;
+        const ctx = canvas?.getContext('2d');
+        if (!ctx) {
+            return;
+        }
         if (this.chart) {
             this.chart.destroy();
         }
-        this.chart = new ChartJS(ctx!, {
+        this.chart = new ChartJS(ctx, {
             type: 'matrix',
             data: this.chartData,
             options: this.chartOptions,
@@ -63,7 +98,7 @@ export class HeatMapChart {
         return [];
     }
 
-    chartBackgroundColor(c: any) {
+    chartBackgroundColor(c: HeatmapCellContext) {
         const rootStyles = getComputedStyle(document.documentElement);
         const value = c.dataset.data[c.dataIndex].v;
 
@@ -91,12 +126,12 @@ export class HeatMapChart {
                     hoverBorderColor: undefined,
                     borderRadius: 4,
                     borderWidth: 0,
-                    width(c: any) {
-                        const a = c.chart.chartArea || {};
+                    width(c: HeatmapCellContext) {
+                        const a = c.chart.chartArea || { left: 0, right: 0, top: 0, bottom: 0 };
                         return (a.right - a.left) / 14 - 1;
                     },
-                    height(c: any) {
-                        const a = c.chart.chartArea || {};
+                    height(c: HeatmapCellContext) {
+                        const a = c.chart.chartArea || { left: 0, right: 0, top: 0, bottom: 0 };
                         return (a.bottom - a.top) / 9 - 1;
                     }
                 }

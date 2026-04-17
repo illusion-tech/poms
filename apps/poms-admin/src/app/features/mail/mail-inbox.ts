@@ -437,9 +437,15 @@ export class MailInbox implements OnInit {
         const email = this.selectedEmailData();
         const emailId = this.selectedEmailId();
         const isInTrash = email?.deleted;
+        const withEmailId = (action: (id: number) => void) => () => {
+            if (emailId == null) {
+                return;
+            }
+            action(emailId);
+        };
 
         if (isInTrash) {
-            return [{ label: 'Recover', icon: 'pi pi-replay', command: () => this.recoverEmail(emailId!) }];
+            return [{ label: 'Recover', icon: 'pi pi-replay', command: withEmailId((id) => this.recoverEmail(id)) }];
         }
 
         return [
@@ -447,10 +453,10 @@ export class MailInbox implements OnInit {
             {
                 label: email?.archived ? 'Unarchive' : 'Archive',
                 icon: email?.archived ? 'pi pi-replay' : 'pi pi-inbox',
-                command: () => (email?.archived ? this.unarchiveEmail(emailId!) : this.archiveEmail(emailId!))
+                command: withEmailId((id) => (email?.archived ? this.unarchiveEmail(id) : this.archiveEmail(id)))
             },
-            { label: 'Spam', icon: 'pi pi-ban', command: () => this.markAsSpam(emailId!) },
-            { label: 'Delete', icon: 'pi pi-trash', command: () => this.deleteEmail(emailId!) }
+            { label: 'Spam', icon: 'pi pi-ban', command: withEmailId((id) => this.markAsSpam(id)) },
+            { label: 'Delete', icon: 'pi pi-trash', command: withEmailId((id) => this.deleteEmail(id)) }
         ];
     });
 
@@ -527,7 +533,7 @@ export class MailInbox implements OnInit {
         return colors[index];
     }
 
-    onPageChange(event: any) {
+    onPageChange(event: { first: number }) {
         this.first.set(event.first);
     }
 

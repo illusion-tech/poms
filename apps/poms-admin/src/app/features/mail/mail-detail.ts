@@ -10,7 +10,7 @@ import { PopoverModule } from 'primeng/popover';
 import { Popover } from 'primeng/popover';
 import { TextareaModule } from 'primeng/textarea';
 import { MenuItem } from 'primeng/api';
-import { MailService, Email } from './mail.service';
+import { MailService } from './mail.service';
 
 @Component({
     selector: 'app-mail-detail',

@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 
 @Component({
     selector: '[app-footer]',

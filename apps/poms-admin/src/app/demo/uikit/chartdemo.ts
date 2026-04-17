@@ -1,7 +1,8 @@
 import { Component, effect, inject, signal } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../layout/service/layout.service';
 
 @Component({
     selector: 'app-chart-demo',
@@ -51,25 +52,25 @@ import { LayoutService } from '@/app/layout/service/layout.service';
 export class ChartDemo {
     layoutService = inject(LayoutService);
 
-    lineData = signal<any>(null);
+    lineData = signal<ChartData<'line'> | null>(null);
 
-    barData = signal<any>(null);
+    barData = signal<ChartData<'bar'> | null>(null);
 
-    pieData = signal<any>(null);
+    pieData = signal<ChartData<'pie'> | null>(null);
 
-    polarData = signal<any>(null);
+    polarData = signal<ChartData<'polarArea'> | null>(null);
 
-    radarData = signal<any>(null);
+    radarData = signal<ChartData<'radar'> | null>(null);
 
-    lineOptions = signal<any>(null);
+    lineOptions = signal<ChartOptions<'line'> | null>(null);
 
-    barOptions = signal<any>(null);
+    barOptions = signal<ChartOptions<'bar'> | null>(null);
 
-    pieOptions = signal<any>(null);
+    pieOptions = signal<ChartOptions<'pie'> | null>(null);
 
-    polarOptions = signal<any>(null);
+    polarOptions = signal<ChartOptions<'polarArea'> | null>(null);
 
-    radarOptions = signal<any>(null);
+    radarOptions = signal<ChartOptions<'radar'> | null>(null);
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;

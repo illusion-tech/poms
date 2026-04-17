@@ -1,10 +1,10 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { generateRandomData } from '@poms/admin/shared/utils/utils';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { BarChart } from '@poms/admin/features/dashboard/ui/charts/barchart';
+import { DataPoint, generateRandomData } from '../../../../shared/utils/utils';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { BarChart } from '../../../dashboard/ui/charts/barchart';
 import { TableModule } from 'primeng/table';
-import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
+import { AuthLogoWidget } from '../../../auth/components/authlogowidget';
 
 @Component({
     selector: 'about-section-one-widget',
@@ -72,8 +72,8 @@ import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowid
         </section-card>
     </section>`
 })
-export class AboutSectionOneWidget {
-    randomData: any[] = [];
+export class AboutSectionOneWidget implements OnInit {
+    randomData: DataPoint[] = [];
 
     ngOnInit() {
         this.randomData = generateRandomData('2020-10-27T00:00:00', '2023-11-03T00:00:00', 4, 10000, 50000);

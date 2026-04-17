@@ -1,7 +1,20 @@
 ﻿import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+
+interface DeviceColor {
+    name: string;
+    background: string;
+}
+
+interface DeviceVisitItem {
+    title: string;
+    change: string;
+    status: 'success' | 'danger';
+    value: number;
+    color: DeviceColor;
+}
 
 @Component({
     selector: 'visit-by-device-widget',
@@ -62,7 +75,7 @@ export class VisitByDeviceWidget {
 
     isDarkTheme = computed(() => this.layoutService.isDarkTheme());
 
-    visitByDevice = [
+    visitByDevice: DeviceVisitItem[] = [
         {
             title: 'Web',
             change: '24%',
@@ -101,15 +114,15 @@ export class VisitByDeviceWidget {
         value: '1,772.480'
     };
 
-    color(item: any) {
+    color(item: DeviceVisitItem) {
         return `var(--p-${item.color.name}-300)`;
     }
 
-    background(item: any) {
+    background(item: DeviceVisitItem) {
         return `var(--p-${item.color.name}-${item.color.background})`;
     }
 
-    boxShadow(item: any) {
+    boxShadow(item: DeviceVisitItem) {
         return `inset 0px 3px 6px 0px color-mix(in srgb, var(--p-${item.color.name}-300) 60%, transparent 40%)`;
     }
 }

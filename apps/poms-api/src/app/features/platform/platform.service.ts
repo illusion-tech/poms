@@ -880,15 +880,21 @@ export class PlatformService {
     ): UserOrgUnitSummary[] {
         return userOrgMemberships
             .filter((m) => m.userId === userId && orgUnitMap.has(m.orgUnitId))
-            .map((m) => {
-                const orgUnit = orgUnitMap.get(m.orgUnitId)!;
-                return {
-                    id: orgUnit.id,
-                    name: orgUnit.name,
-                    code: orgUnit.code,
-                    description: orgUnit.description ?? null,
-                    membershipType: m.membershipType as 'primary' | 'secondary'
-                };
+            .flatMap((m) => {
+                const orgUnit = orgUnitMap.get(m.orgUnitId);
+                if (!orgUnit) {
+                    return [];
+                }
+
+                return [
+                    {
+                        id: orgUnit.id,
+                        name: orgUnit.name,
+                        code: orgUnit.code,
+                        description: orgUnit.description ?? null,
+                        membershipType: m.membershipType as 'primary' | 'secondary'
+                    }
+                ];
             });
     }
 

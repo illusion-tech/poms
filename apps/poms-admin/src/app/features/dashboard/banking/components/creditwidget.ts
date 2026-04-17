@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreditCard } from '@poms/admin/shared/ui/creditcard';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { CreditCard } from '../../../../shared/ui/creditcard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 
 @Component({
     selector: 'credit-widget',

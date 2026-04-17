@@ -1,10 +1,10 @@
 ﻿import { Component } from '@angular/core';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { generateRandomMultiData } from '@poms/admin/shared/utils/utils';
-import { MultiLineChart } from '@poms/admin/features/dashboard/ui/charts/multilinechart';
+import { generateRandomMultiData } from '../../../../shared/utils/utils';
+import { MultiLineChart } from '../../ui/charts/multilinechart';
 
 @Component({
     selector: 'top-products-widget',

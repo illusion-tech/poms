@@ -36,8 +36,6 @@ jest.mock('./navigation.constants', () => ({
     ] satisfies NavigationItem[]
 }));
 
-// Import AFTER jest.mock so the mock is applied first
-// eslint-disable-next-line import/first
 import { NavigationService } from './navigation.service';
 
 describe('NavigationService – visibility rules (isHidden / isDisabled)', () => {

@@ -1,5 +1,10 @@
 import { Injectable, signal } from '@angular/core';
 
+export interface DepartmentOption {
+    name: string;
+    code: string;
+}
+
 export interface FormState {
     profilePhoto: File | null;
     profilePhotoUrl: string | null;
@@ -7,7 +12,7 @@ export interface FormState {
     email: string;
     phone: string;
     biography: string;
-    department: any[];
+    department: DepartmentOption[];
     position: string;
     employed: boolean;
     hybridWork: boolean;

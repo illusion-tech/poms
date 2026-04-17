@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
+import { AuthLogoWidget } from './components/authlogowidget';
 import { InputOtpModule } from 'primeng/inputotp';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

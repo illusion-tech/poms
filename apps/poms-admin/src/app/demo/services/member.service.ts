@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Member } from '@/types/member';
+import { Member } from '../../shared/types/member';
+
+interface MembersResponse {
+    data: Member[];
+}
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +14,7 @@ export class MemberService {
 
     getMembers() {
         return this.http
-            .get<any>('/demo/data/members.json')
+            .get<MembersResponse>('/demo/data/members.json')
             .toPromise()
             .then((res) => res.data as Member[])
             .then((data) => data);

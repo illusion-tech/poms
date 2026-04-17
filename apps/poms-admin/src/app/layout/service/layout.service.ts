@@ -12,6 +12,12 @@ export interface LayoutConfig {
     menuMode: MenuMode;
 }
 
+type BackgroundPalette = Record<string, string>;
+
+type DocumentWithViewTransition = Document & {
+    startViewTransition: (callback: () => void) => void;
+};
+
 interface LayoutState {
     staticMenuInactive: boolean;
     overlayMenuActive: boolean;
@@ -21,7 +27,7 @@ interface LayoutState {
     searchBarActive: boolean;
     sidebarExpanded: boolean;
     menuHoverActive: boolean;
-    activePath: any;
+    activePath: string | null;
     anchored: boolean;
 }
 
@@ -184,7 +190,7 @@ export class LayoutService {
     }
 
     private startViewTransition(config: LayoutConfig): void {
-        (document as any).startViewTransition(() => {
+        (document as DocumentWithViewTransition).startViewTransition(() => {
             this.toggleDarkMode(config);
         });
     }
@@ -258,7 +264,7 @@ export class LayoutService {
 
     updateBodyBackground(color: string) {
         const root = document.documentElement;
-        const colorScheme: any = this.isDarkTheme() ? this.bodyBackgroundPalette.dark : this.bodyBackgroundPalette.light;
+        const colorScheme: BackgroundPalette = this.isDarkTheme() ? this.bodyBackgroundPalette.dark : this.bodyBackgroundPalette.light;
         root.style.setProperty('--surface-ground', colorScheme[color]);
     }
 }

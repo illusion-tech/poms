@@ -1,7 +1,13 @@
 ﻿import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { GaugeChart } from '@poms/admin/features/dashboard/ui/charts/gaugechart';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { GaugeChart } from '../../ui/charts/gaugechart';
+
+interface AudienceByGenderItem {
+    label: string;
+    color: string;
+    percentage: number;
+}
 
 @Component({
     selector: 'audience-by-gender-widget',
@@ -29,7 +35,7 @@ import { GaugeChart } from '@poms/admin/features/dashboard/ui/charts/gaugechart'
 export class AudienceByGenderWidget {
     totalAudience = 17772480;
 
-    audienceByGender = signal([
+    audienceByGender = signal<AudienceByGenderItem[]>([
         {
             label: 'Woman Visitor',
             color: 'primary-color',
@@ -48,7 +54,7 @@ export class AudienceByGenderWidget {
 
     bgColors = computed(() => this.audienceByGender().map((item) => item.color));
 
-    background(item: any) {
+    background(item: AudienceByGenderItem) {
         return `var(--p-${item.color})`;
     }
 }

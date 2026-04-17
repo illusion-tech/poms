@@ -19,6 +19,6 @@ import { Component, Input } from '@angular/core';
     `
 })
 export class PatternWidget {
-    @Input() leftClass: any;
-    @Input() rightClass: any;
+    @Input() leftClass: string = '';
+    @Input() rightClass: string = '';
 }

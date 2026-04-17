@@ -1,40 +1,78 @@
-type DataPoint = {
-    x: Date;
-    y: number | number[] | any;
+export type DataPoint = {
+    x: string | Date;
+    y: number | number[];
 };
 
-export type TimeUnit = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | string;
+type ReducedTimeUnit = 'week' | 'month' | 'quarter' | 'year';
+type HeatmapDataPoint = {
+    x: string;
+    y: string;
+    d: string;
+    v: number;
+};
+
+export type TimeUnit = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
+
+const TIME_UNITS: Record<TimeUnit, number> = {
+    millisecond: 1,
+    second: 1000,
+    minute: 60 * 1000,
+    hour: 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    week: 7 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000,
+    quarter: 90 * 24 * 60 * 60 * 1000,
+    year: 365 * 24 * 60 * 60 * 1000
+};
+
+const SLICE_UNITS: Record<ReducedTimeUnit, number> = {
+    week: 7,
+    month: 30,
+    quarter: 90,
+    year: 365 / 2
+};
+
+const GROUP_INTERVAL_DAYS: Record<ReducedTimeUnit, number> = {
+    week: 7,
+    month: 30,
+    quarter: 90,
+    year: 365
+};
+
+const isReducedTimeUnit = (value: TimeUnit): value is ReducedTimeUnit => value in SLICE_UNITS;
+
+const averageValues = (values: Array<number | number[]>): number | number[] => {
+    if (values.length === 0) {
+        return 0;
+    }
+
+    if (typeof values[0] === 'number') {
+        return (values as number[]).reduce((acc, value) => acc + value, 0) / values.length;
+    }
+
+    const tuples = values as number[][];
+    const tupleLength = tuples[0].length;
+
+    return Array.from({ length: tupleLength }, (_, index) => tuples.reduce((acc, value) => acc + Number(value[index]), 0) / tuples.length);
+};
 
 export const parseDate = (dateStr: string | Date): Date => {
     return typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
 };
 
 export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
-    let sampledData: DataPoint[] = [];
-    let tempData: DataPoint[] = [];
+    const sampledData: DataPoint[] = [];
     const dataLength: number = data.length;
 
     if (dataLength === 0) return sampledData;
 
-    const timeUnits: Record<TimeUnit, number> = {
-        millisecond: 1,
-        second: 1000,
-        minute: 60 * 1000,
-        hour: 60 * 60 * 1000,
-        day: 24 * 60 * 60 * 1000,
-        week: 7 * 24 * 60 * 60 * 1000,
-        month: 30 * 24 * 60 * 60 * 1000,
-        quarter: 90 * 24 * 60 * 60 * 1000,
-        year: 365 * 24 * 60 * 60 * 1000
-    };
-
-    const selectedMultiplier: number = timeUnits[option];
+    const selectedMultiplier: number = TIME_UNITS[option];
     const endDate: Date = parseDate(data[dataLength - 1].x);
     const firstData: Date = parseDate(data[0].x);
     const calculatedDate: Date = new Date(endDate.getTime() - show * selectedMultiplier);
     const startDate: Date = firstData.getTime() > calculatedDate.getTime() ? firstData : calculatedDate;
+    let tempData: DataPoint[] = data.filter((item) => parseDate(item.x) >= startDate);
 
-    tempData = data.filter((item) => parseDate(item.x) >= startDate);
     const tempLen: number = tempData.length;
 
     if (['minute', 'second', 'millisecond'].includes(option)) {
@@ -46,53 +84,27 @@ export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: n
         return tempData;
     } else if (['day', 'hour'].includes(option)) {
         return tempData;
-    } else if (['week', 'month', 'quarter', 'year'].includes(option)) {
-        // Define slice units for sampling
-        const sliceUnits: Record<'week' | 'month' | 'quarter' | 'year', number> = {
-            week: 7,
-            month: 30,
-            quarter: 90,
-            year: 365 / 2
-        };
+    } else if (isReducedTimeUnit(option)) {
+        const selectedSlicer = SLICE_UNITS[option];
+        for (let i = 0; i < tempLen; i += selectedSlicer) {
+            const range = tempData.slice(i, i + selectedSlicer);
+            const rangeAverage = range.reduce((sum, value) => sum + (value.y as number), 0) / range.length;
 
-        // Check if the `option` is present in `sliceUnits`
-        if (option in sliceUnits) {
-            const selectedSlicer: number = sliceUnits[option as keyof typeof sliceUnits];
-            for (let i = 0; i < tempLen; i += selectedSlicer) {
-                const range = tempData.slice(i, i + selectedSlicer);
-                const rangeAverage =
-                    range.reduce((sum, value) => {
-                        return sum + (value.y as number); // Assume `y` is a number (not array)
-                    }, 0) / range.length;
-
-                sampledData.push({ x: range[0].x, y: rangeAverage });
-            }
-            return sampledData;
+            sampledData.push({ x: range[0].x, y: rangeAverage });
         }
+        return sampledData;
     }
 
     return data; // Default fallback
 };
 
 export const sampleDataReductionByArray = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
-    let sampledData: DataPoint[] = [];
+    const sampledData: DataPoint[] = [];
     const dataLength: number = data.length;
 
     if (dataLength === 0) return sampledData;
 
-    const timeUnits: Record<TimeUnit, number> = {
-        millisecond: 1,
-        second: 1000,
-        minute: 60 * 1000,
-        hour: 60 * 60 * 1000,
-        day: 24 * 60 * 60 * 1000,
-        week: 7 * 24 * 60 * 60 * 1000,
-        month: 30 * 24 * 60 * 60 * 1000,
-        quarter: 90 * 24 * 60 * 60 * 1000,
-        year: 365 * 24 * 60 * 60 * 1000
-    };
-
-    const selectedMultiplier: number = timeUnits[option];
+    const selectedMultiplier: number = TIME_UNITS[option];
     const endDate: Date = parseDate(data[dataLength - 1].x);
     const firstData: Date = parseDate(data[0].x);
     const calculatedDate: Date = new Date(endDate.getTime() - show * selectedMultiplier);
@@ -110,29 +122,12 @@ export const sampleDataReductionByArray = (data: DataPoint[], option: TimeUnit, 
         return tempData;
     } else if (['day', 'hour'].includes(option)) {
         return tempData;
-    } else if (['week', 'month', 'quarter', 'year'].includes(option)) {
-        const sliceUnits: Record<'week' | 'month' | 'quarter' | 'year', number> = {
-            week: 7,
-            month: 30,
-            quarter: 90,
-            year: 366 / 2
-        };
+    } else if (isReducedTimeUnit(option)) {
+        const selectedSlicer = option === 'year' ? 366 / 2 : SLICE_UNITS[option];
+        for (let i = 0; i < tempLen; i += selectedSlicer) {
+            const sampledPointY = Array.isArray(tempData[i].y) ? [...tempData[i].y] : tempData[i].y;
 
-        // Check if the `option` is present in `sliceUnits`
-        if (option in sliceUnits) {
-            const selectedSlicer: number = sliceUnits[option as keyof typeof sliceUnits];
-            for (let i = 0; i < tempLen; i += selectedSlicer) {
-                let sampledPointY: number | number[];
-
-                // Handle case where the `y` value is an array
-                if (Array.isArray(tempData[i].y)) {
-                    sampledPointY = [...(tempData[i].y as number[])]; // Copy array to avoid mutation
-                } else {
-                    sampledPointY = tempData[i].y as number;
-                }
-
-                sampledData.push({ x: tempData[i].x, y: sampledPointY });
-            }
+            sampledData.push({ x: tempData[i].x, y: sampledPointY });
         }
         return sampledData;
     }
@@ -141,54 +136,22 @@ export const sampleDataReductionByArray = (data: DataPoint[], option: TimeUnit, 
 };
 
 // Function 3: sampleDataByFixedLength
-export const sampleDataByFixedLength = (data: any, option: any, show: any): any => {
-    let sampledData: any = [];
+export const sampleDataByFixedLength = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
+    const sampledData: DataPoint[] = [];
     const dataLength = data.length;
 
     if (dataLength === 0) return sampledData;
 
-    const timeUnits: any = {
-        millisecond: 'millisecond',
-        second: 'second',
-        minute: 'minute',
-        hour: 'hour',
-        day: 'day',
-        week: 'week',
-        month: 'month',
-        quarter: 'quarter',
-        year: 'year'
-    };
+    const parseFixedDate = (dateStr: string | Date) => new Date(dateStr);
 
-    if (!timeUnits[option]) return data;
-
-    const parseDate = (dateStr: any) => new Date(dateStr);
-
-    const average = (arr: any) => {
-        if (arr.length === 0) return 0;
-        if (typeof arr[0] === 'number') {
-            return arr.reduce((acc: any, val: any) => acc + val, 0) / arr.length;
-        } else {
-            const length = arr[0].length;
-
-            const avgArr: any = [];
-            Array(length)
-                .fill(null)
-                .forEach((_, i) => {
-                    const val = arr.map((data: any) => Number(data[i])).reduce((acc: any, val: any) => acc + val, 0) / arr.length;
-                    avgArr.push(val);
-                });
-            return avgArr;
-        }
-    };
-
-    let tempData = [];
-    let currentUnit = null;
+    let tempData: DataPoint[] = [];
+    let currentUnit: number | null = null;
 
     for (let i = dataLength - 1; i >= 0; i--) {
         const dataPoint = data[i];
-        const date = parseDate(dataPoint.x);
+        const date = parseFixedDate(dataPoint.x);
 
-        let unit = null;
+        let unit: number | null = null;
         if (option === 'day') {
             unit = Math.floor(date.getTime() / (24 * 60 * 60 * 1000));
         } else if (option === 'week') {
@@ -204,7 +167,7 @@ export const sampleDataByFixedLength = (data: any, option: any, show: any): any 
         } else if (option === 'second') {
             unit = Math.floor(date.getTime() / 1000);
         } else if (option === 'millisecond') {
-            unit = Math.floor(date.getTime() / 1);
+            unit = Math.floor(date.getTime());
         } else if (option === 'quarter') {
             unit = date.getFullYear() * 4 + Math.floor(date.getMonth() / 3);
         }
@@ -214,7 +177,7 @@ export const sampleDataByFixedLength = (data: any, option: any, show: any): any 
         }
 
         if (unit !== currentUnit) {
-            const avgValues = average(tempData.map((item) => item.y));
+            const avgValues = averageValues(tempData.map((item) => item.y));
             sampledData.unshift({ x: tempData[0].x, y: avgValues });
             tempData = [];
             currentUnit = unit;
@@ -228,22 +191,24 @@ export const sampleDataByFixedLength = (data: any, option: any, show: any): any 
     }
 
     if (tempData.length > 0) {
-        const avgValues = average(tempData.map((item) => item.y));
+        const avgValues = averageValues(tempData.map((item) => item.y));
         sampledData.unshift({ x: tempData[0].x, y: avgValues });
     }
-    if (['week', 'month', 'quarter'].includes(option)) {
-        const days: any = {
-            week: 7,
-            month: 30,
-            quarter: 90
-        };
+
+    if (isReducedTimeUnit(option)) {
         const dayCn = 24 * 60 * 60 * 1000;
-        if (new Date(sampledData[sampledData.length - 1].x).getTime() / dayCn - new Date(sampledData[sampledData.length - 2].x).getTime() / dayCn < days[option]) {
-            sampledData.pop();
-        } else {
-            sampledData.shift();
+        const lastPoint = sampledData[sampledData.length - 1];
+        const previousPoint = sampledData[sampledData.length - 2];
+
+        if (lastPoint && previousPoint) {
+            if (new Date(lastPoint.x).getTime() / dayCn - new Date(previousPoint.x).getTime() / dayCn < GROUP_INTERVAL_DAYS[option]) {
+                sampledData.pop();
+            } else {
+                sampledData.shift();
+            }
         }
     }
+
     return sampledData;
 };
 
@@ -269,19 +234,19 @@ export const generateRandomMultiData = (startDate: string | Date, endDate: strin
     const end: Date = parseDate(endDate);
 
     while (currentDate <= end) {
-        let currentValues;
+        let currentValues: number[];
         if (inter) {
-            let incr = maxValue;
+            const incr = maxValue;
             currentValues = Array(datasetsCount)
                 .fill(null)
                 .map((_, i) => {
-                    return (minValue + Math.random() * (maxValue - minValue) + incr * (datasetsCount - i * 1.2)).toFixed(0);
+                    return Number((minValue + Math.random() * (maxValue - minValue) + incr * (datasetsCount - i * 1.2)).toFixed(0));
                 });
         } else {
             currentValues = Array(datasetsCount)
                 .fill(null)
                 .map(() => {
-                    return (minValue + Math.random() * (maxValue - minValue)).toFixed(0);
+                    return Number((minValue + Math.random() * (maxValue - minValue)).toFixed(0));
                 });
         }
         data.push({ x: new Date(currentDate), y: [...currentValues] });
@@ -299,18 +264,18 @@ export const trackByFn = (): string => {
     return uniqueId;
 };
 
-export function isoDayOfWeek(dt: any) {
+export function isoDayOfWeek(dt: Date) {
     let wd = dt.getDay();
     wd = ((wd + 6) % 7) + 1;
     return '' + wd;
 }
 
-export const generateRandomHeatmapData = () => {
+export const generateRandomHeatmapData = (): HeatmapDataPoint[] => {
     const today = new Date(2024, 8, 20);
     const end = today;
     let dt = new Date(end);
     dt.setDate(end.getDate() - 81);
-    const data2 = [];
+    const data2: HeatmapDataPoint[] = [];
 
     while (dt <= end) {
         const iso = dt.toISOString().substring(0, 10);

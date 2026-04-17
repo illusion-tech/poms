@@ -7,7 +7,7 @@ import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { LayoutService, MenuMode } from '@/app/layout/service/layout.service';
+import { LayoutService, MenuMode } from '../service/layout.service';
 import { Router } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -18,6 +18,11 @@ const presets = {
     Lara,
     Nora
 } as const;
+
+type PresetName = keyof typeof presets;
+type ThemeVariant = 'primary' | 'surface';
+
+const isPresetName = (value: string): value is PresetName => value in presets;
 
 declare type KeyOfType<T> = keyof T extends infer U ? U : never;
 
@@ -141,7 +146,7 @@ export class AppConfigurator implements OnInit {
 
     primeng = inject(PrimeNG);
 
-    presets = Object.keys(presets);
+    presets = Object.keys(presets) as PresetName[];
 
     themeOptions = [
         { name: 'Light', value: false },
@@ -152,7 +157,10 @@ export class AppConfigurator implements OnInit {
 
     ngOnInit() {
         if (isPlatformBrowser(this.platformId)) {
-            this.onPresetChange(this.layoutService.layoutConfig().preset);
+            const preset = this.layoutService.layoutConfig().preset;
+            if (isPresetName(preset)) {
+                this.onPresetChange(preset);
+            }
         }
         this.updateMenuThemeOptions();
     }
@@ -345,27 +353,32 @@ export class AppConfigurator implements OnInit {
         }
     }
 
-    updateColors(event: any, type: string, color: any) {
+    updateColors(event: Event, type: ThemeVariant, color: SurfacesType) {
+        if (!color.name) {
+            return;
+        }
+        const colorName = color.name;
+
         if (type === 'primary') {
             this.layoutService.layoutConfig.update((state) => ({
                 ...state,
-                primary: color.name
+                primary: colorName
             }));
         }
         this.applyTheme(type, color);
-        this.layoutService.updateBodyBackground(color.name);
+        this.layoutService.updateBodyBackground(colorName);
         event.stopPropagation();
     }
 
-    applyTheme(type: string, color: any) {
+    applyTheme(type: ThemeVariant, color: SurfacesType) {
         if (type === 'primary') {
             updatePreset(this.getPresetExt());
-        } else if (type === 'surface') {
+        } else if (type === 'surface' && color.palette) {
             updateSurfacePalette(color.palette);
         }
     }
 
-    onPresetChange(event: any) {
+    onPresetChange(event: PresetName) {
         this.layoutService.layoutConfig.update((state) => ({
             ...state,
             preset: event

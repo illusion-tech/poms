@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
-import { Product, ProductService } from '@poms/admin/demo/services/product.service';
+import { Product, ProductService } from '../services/product.service';
 
 @Component({
     selector: 'app-overlay-demo',
@@ -209,11 +209,11 @@ export class OverlayDemo implements OnInit {
         this.display = false;
     }
 
-    toggleDataTable(op: Popover, event: any) {
+    toggleDataTable(op: Popover, event: Event) {
         op.toggle(event);
     }
 
-    onProductSelect(op: Popover, event: any) {
+    onProductSelect(op: Popover, event: { data: Product }) {
         op.hide();
         this.messageService.add({
             severity: 'info',

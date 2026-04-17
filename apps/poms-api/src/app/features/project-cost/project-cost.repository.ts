@@ -1,4 +1,4 @@
-import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, QueryOrder, type FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
@@ -42,7 +42,7 @@ export class InternalCostRateVersionRepository {
         excludeId?: string
     ): Promise<InternalCostRateVersion | null> {
         const effectiveUpperBound = effectiveTo ?? '9999-12-31';
-        const where: any = {
+        const where: FilterQuery<InternalCostRateVersion> = {
             rateKey,
             status: 'active',
             effectiveFrom: { $lte: effectiveUpperBound },
@@ -71,7 +71,7 @@ export class InternalCostRateVersionRepository {
     }
 
     async findActiveVersion(rateScopeType: string, date: string, personId?: string, roleCode?: string, rateUnit?: string): Promise<InternalCostRateVersion | null> {
-        const where: any = {
+        const where: FilterQuery<InternalCostRateVersion> = {
             rateScopeType,
             status: 'active',
             effectiveFrom: { $lte: date },

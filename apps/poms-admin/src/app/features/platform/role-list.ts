@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PlatformStore } from '@poms/admin-data-access';
+import { AssignRolePermissionsRequestPermissionKeysEnum, PlatformStore } from '@poms/admin-data-access';
 import type { PlatformRoleSummary } from '@poms/shared-contracts';
-import { AssignRolePermissionsRequestPermissionKeysEnum } from '@poms/shared-api-client';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';

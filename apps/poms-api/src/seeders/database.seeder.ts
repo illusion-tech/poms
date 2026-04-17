@@ -860,6 +860,12 @@ interface HandoverE2EFixtureOptions {
     receiptJudgmentMode?: string;
 }
 
+type PreparedHandoverE2EFixture = HandoverE2EFixture &
+    Required<Pick<HandoverE2EFixture, 'contractSummarySnapshotId' | 'handoverSummarySnapshotId' | 'handoverId' | 'confirmationRecordId'>>;
+
+type ProcessingRebaselineFixture = PreparedHandoverE2EFixture &
+    Required<Pick<HandoverE2EFixture, 'processingRebaselineRecordId' | 'amendmentId'>>;
+
 const E2E_ACTOR_ID = '00000000-0000-4000-8000-000000000001';
 const E2E_VIEWER_ID = '00000000-0000-4000-8000-000000000002';
 const CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID = '68000000-0000-4000-8000-000000000001';
@@ -926,6 +932,14 @@ async function seedProjectHandoverE2EFixtures(
     for (const fixture of [...HANDOVER_E2E_FIXTURES, ...COMMISSION_E2E_FIXTURES]) {
         await seedProjectHandoverE2EFixture(connection, schema, fixture);
     }
+}
+
+function hasPreparedHandoverFixture(fixture: HandoverE2EFixture): fixture is PreparedHandoverE2EFixture {
+    return Boolean(fixture.handoverId && fixture.contractSummarySnapshotId && fixture.handoverSummarySnapshotId && fixture.confirmationRecordId);
+}
+
+function hasProcessingRebaselineFixture(fixture: PreparedHandoverE2EFixture): fixture is ProcessingRebaselineFixture {
+    return Boolean(fixture.processingRebaselineRecordId && fixture.amendmentId);
 }
 
 async function seedProjectHandoverE2EFixture(
@@ -1167,7 +1181,7 @@ async function seedProjectHandoverE2EFixture(
         );
     `);
 
-    if (!fixture.handoverId || !fixture.contractSummarySnapshotId || !fixture.handoverSummarySnapshotId || !fixture.confirmationRecordId) {
+    if (!hasPreparedHandoverFixture(fixture)) {
         return;
     }
 
@@ -1177,7 +1191,7 @@ async function seedProjectHandoverE2EFixture(
 async function seedProjectHandoverPreparedState(
     connection: { execute(sql: string): Promise<unknown> },
     schema: string,
-    fixture: HandoverE2EFixture
+    fixture: PreparedHandoverE2EFixture
 ): Promise<void> {
     await connection.execute(`
         insert into "${schema}"."approval_summary_snapshot" (
@@ -1196,8 +1210,8 @@ async function seedProjectHandoverPreparedState(
             "updated_by"
         )
         values
-            (${sqlValue(fixture.contractSummarySnapshotId!)}, 'Project', ${sqlValue(fixture.projectId)}, 'handover-confirmation', ${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'ready-for-handover', ${sqlTimestamp('2026-04-15T00:10:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
-            (${sqlValue(fixture.handoverSummarySnapshotId!)}, 'ProjectHandover', ${sqlValue(fixture.handoverId!)}, 'project-handover', ${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'draft', ${sqlTimestamp('2026-04-15T00:11:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
+            (${sqlValue(fixture.contractSummarySnapshotId)}, 'Project', ${sqlValue(fixture.projectId)}, 'handover-confirmation', ${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'ready-for-handover', ${sqlTimestamp('2026-04-15T00:10:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(fixture.handoverSummarySnapshotId)}, 'ProjectHandover', ${sqlValue(fixture.handoverId)}, 'project-handover', ${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'draft', ${sqlTimestamp('2026-04-15T00:11:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
     `);
 
     await connection.execute(`
@@ -1216,11 +1230,11 @@ async function seedProjectHandoverPreparedState(
             "updated_by"
         )
         values (
-            ${sqlValue(fixture.handoverId!)},
+            ${sqlValue(fixture.handoverId)},
             ${sqlValue(fixture.projectId)},
-            ${sqlValue(fixture.contractSummarySnapshotId!)},
+            ${sqlValue(fixture.contractSummarySnapshotId)},
             ${sqlValue(fixture.contractSnapshotId)},
-            ${sqlValue(fixture.handoverSummarySnapshotId!)},
+            ${sqlValue(fixture.handoverSummarySnapshotId)},
             null,
             ${sqlValue(fixture.handoverStatus ?? 'draft')},
             ${sqlTimestamp((fixture.handoverStatus ?? 'draft') === 'confirmed' ? '2026-04-15T00:14:00.000Z' : null)},
@@ -1249,11 +1263,11 @@ async function seedProjectHandoverPreparedState(
             "updated_by"
         )
         values (
-            ${sqlValue(fixture.confirmationRecordId!)},
+            ${sqlValue(fixture.confirmationRecordId)},
             'project-handover',
             'project-handover',
             'ProjectHandover',
-            ${sqlValue(fixture.handoverId!)},
+            ${sqlValue(fixture.handoverId)},
             ${sqlValue(fixture.projectId)},
             'confirmed',
             2,
@@ -1280,11 +1294,11 @@ async function seedProjectHandoverPreparedState(
             "updated_by"
         )
         values
-            (${sqlValue(handoverParticipantId(fixture, 1))}, ${sqlValue(fixture.confirmationRecordId!)}, ${sqlUuid(E2E_ACTOR_ID)}, 'execution-owner', '执行负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认执行责任', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
-            (${sqlValue(handoverParticipantId(fixture, 2))}, ${sqlValue(fixture.confirmationRecordId!)}, ${sqlUuid(E2E_VIEWER_ID)}, 'sales-owner', '销售负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认商务移交', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
+            (${sqlValue(handoverParticipantId(fixture, 1))}, ${sqlValue(fixture.confirmationRecordId)}, ${sqlUuid(E2E_ACTOR_ID)}, 'execution-owner', '执行负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认执行责任', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(handoverParticipantId(fixture, 2))}, ${sqlValue(fixture.confirmationRecordId)}, ${sqlUuid(E2E_VIEWER_ID)}, 'sales-owner', '销售负责人', 'confirmed', ${sqlTimestamp('2026-04-15T00:13:00.000Z')}, '已确认商务移交', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
     `);
 
-    if (fixture.processingRebaselineRecordId && fixture.amendmentId) {
+    if (hasProcessingRebaselineFixture(fixture)) {
         await seedProcessingRebaseline(connection, schema, fixture);
     }
 
@@ -1311,9 +1325,9 @@ async function seedProjectHandoverPreparedState(
                 ${sqlValue(fixture.projectId)},
                 ${sqlValue(fixture.receiptJudgmentMode)},
                 'project-handover',
-                ${sqlValue(fixture.handoverId!)},
-                ${sqlValue(fixture.handoverId!)},
-                ${sqlValue(fixture.handoverSummarySnapshotId!)},
+                ${sqlValue(fixture.handoverId)},
+                ${sqlValue(fixture.handoverId)},
+                ${sqlValue(fixture.handoverSummarySnapshotId)},
                 ${sqlUuid(fixture.processingRebaselineRecordId ?? null)},
                 true,
                 ${sqlTimestamp('2026-04-15T00:15:00.000Z')},
@@ -1329,7 +1343,7 @@ async function seedProjectHandoverPreparedState(
 async function seedProcessingRebaseline(
     connection: { execute(sql: string): Promise<unknown> },
     schema: string,
-    fixture: HandoverE2EFixture
+    fixture: ProcessingRebaselineFixture
 ): Promise<void> {
     await connection.execute(`
         insert into "${schema}"."contract_amendment" (
@@ -1342,7 +1356,7 @@ async function seedProcessingRebaseline(
             "updated_by"
         )
         values (
-            ${sqlValue(fixture.amendmentId!)},
+            ${sqlValue(fixture.amendmentId)},
             ${sqlValue(fixture.contractId)},
             1,
             true,
@@ -1365,8 +1379,8 @@ async function seedProcessingRebaseline(
             "updated_by"
         )
         values (
-            ${sqlValue(fixture.processingRebaselineRecordId!)},
-            ${sqlValue(fixture.amendmentId!)},
+            ${sqlValue(fixture.processingRebaselineRecordId)},
+            ${sqlValue(fixture.amendmentId)},
             ${sqlValue(fixture.projectId)},
             'e2e 未收口再基线化',
             ${sqlValue(fixture.contractSnapshotId)},

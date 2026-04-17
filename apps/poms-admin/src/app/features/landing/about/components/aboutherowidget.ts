@@ -1,12 +1,12 @@
-﻿import { Component, computed, inject } from '@angular/core';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { generateRandomHeatmapData } from '@poms/admin/shared/utils/utils';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+﻿import { Component, computed, inject, OnInit } from '@angular/core';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { generateRandomHeatmapData } from '../../../../shared/utils/utils';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { CommonModule } from '@angular/common';
-import { PatternWidget } from '@poms/admin/features/landing/components/patternwidget';
-import { HeatMapChart } from '@poms/admin/features/dashboard/ui/charts/heatmapchart';
-import { MultiLineChart } from '@poms/admin/features/dashboard/ui/charts/multilinechart';
-import { CustomersLogoWidget } from '@poms/admin/features/landing/components/customerslogowidget';
+import { PatternWidget } from '../../components/patternwidget';
+import { HeatMapChart } from '../../../dashboard/ui/charts/heatmapchart';
+import { MultiLineChart } from '../../../dashboard/ui/charts/multilinechart';
+import { CustomersLogoWidget } from '../../components/customerslogowidget';
 
 interface HeatmapData {
     x: string;
@@ -120,7 +120,7 @@ interface HeatmapData {
         </section>
         <customers-logo-widget class="my-16 landing-container mx-auto" />`
 })
-export class AboutHeroWidget {
+export class AboutHeroWidget implements OnInit {
     layoutService = inject(LayoutService);
 
     isDarkTheme = computed(() => this.layoutService.isDarkTheme());

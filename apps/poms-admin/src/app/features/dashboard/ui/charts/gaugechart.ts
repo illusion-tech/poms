@@ -1,7 +1,32 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../../layout/service/layout.service';
+
+type ChartDimension = {
+    width: string;
+    height: string;
+};
+
+type DoughnutTooltipContext = {
+    chart: {
+        canvas: HTMLCanvasElement;
+    };
+    tooltip: {
+        opacity: number;
+        body?: unknown[];
+        dataPoints: Array<{
+            parsed: number;
+        }>;
+        options: {
+            bodyFont: {
+                string: string;
+            };
+        };
+        x: number;
+        y: number;
+    };
+};
 
 @Component({
     selector: 'gauge-chart',
@@ -24,19 +49,19 @@ export class GaugeChart {
 
     labels = input<string[]>(['Score', 'Gray Area']);
 
-    bgColors = input<any[]>();
+    bgColors = input<string[]>();
 
     description = input<string>();
 
     title = input<string>();
 
-    chartData = signal<any>({});
+    chartData = signal<Record<string, unknown>>({});
 
-    chartOptions = signal<any>({});
+    chartOptions = signal<Record<string, unknown>>({});
 
-    chartPlugins = signal<any>([]);
+    chartPlugins = signal<unknown[]>([]);
 
-    chartDim = signal<any>({ width: '100%', height: '100%' });
+    chartDim = signal<ChartDimension>({ width: '100%', height: '100%' });
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;
@@ -52,7 +77,7 @@ export class GaugeChart {
 
     setChartData() {
         const rootStyles = getComputedStyle(document.documentElement);
-        const bgColors = this.bgColors() as any[];
+        const bgColors = this.bgColors() ?? [];
 
         return {
             labels: this.labels(),
@@ -60,7 +85,7 @@ export class GaugeChart {
                 {
                     label: '',
                     data: this.inputData(),
-                    backgroundColor: bgColors.map((color: any) => {
+                    backgroundColor: bgColors.map((color) => {
                         return rootStyles.getPropertyValue(`--p-${color}`).trim();
                     }),
                     borderWidth: 0,
@@ -84,9 +109,13 @@ export class GaugeChart {
                 tooltip: {
                     enabled: false,
                     position: 'nearest',
-                    external: function (context: any) {
+                    external: function (context: DoughnutTooltipContext) {
                         const { chart, tooltip } = context;
-                        let tooltipEl = chart.canvas.parentNode.querySelector('div.chartjs-tooltip');
+                        const parentElement = chart.canvas.parentElement;
+                        if (!parentElement) {
+                            return;
+                        }
+                        let tooltipEl = parentElement.querySelector<HTMLDivElement>('div.chartjs-tooltip');
                         if (!tooltipEl) {
                             tooltipEl = document.createElement('div');
                             tooltipEl.classList.add(
@@ -104,7 +133,7 @@ export class GaugeChart {
                                 'pointer-events-none',
                                 'shadow-[0px_16px_32px_-12px_rgba(88,92,95,0.10)]'
                             );
-                            chart.canvas.parentNode.appendChild(tooltipEl);
+                            parentElement.appendChild(tooltipEl);
                         }
 
                         if (tooltip.opacity === 0) {
@@ -123,7 +152,7 @@ export class GaugeChart {
                         }
                         tooltipEl.style.opacity = 1;
                         tooltipEl.style.font = tooltip.options.bodyFont.string;
-                        tooltipEl.style.padding = 0;
+                        tooltipEl.style.padding = '0';
 
                         tooltipEl.style.left = tooltip.x + 'px';
                         tooltipEl.style.top = tooltip.y + 'px';

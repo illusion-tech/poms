@@ -2,6 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 
+interface Testimonial {
+    message: string;
+    avatar: string;
+    name: string;
+    title: string;
+}
+
 @Component({
     selector: 'testimonial-card-widget',
     standalone: true,
@@ -22,7 +29,7 @@ import { AvatarModule } from 'primeng/avatar';
     `
 })
 export class TestimonialCardWidget {
-    @Input() testimonial: any;
+    @Input() testimonial!: Testimonial;
 
     @Input() className: string = '';
 }

@@ -3,6 +3,17 @@ import { AccordionModule } from 'primeng/accordion';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 
+interface FaqQuestion {
+    title: string;
+    description: string;
+}
+
+interface FaqCategory {
+    label: string;
+    icon: string;
+    questions: FaqQuestion[];
+}
+
 @Component({
     selector: 'app-faq',
     imports: [AccordionModule, CommonModule, RippleModule],
@@ -46,7 +57,7 @@ import { RippleModule } from 'primeng/ripple';
     `
 })
 export class Faq implements OnInit {
-    items: any[] = [];
+    items: FaqCategory[] = [];
 
     activeIndex: number = 0;
 

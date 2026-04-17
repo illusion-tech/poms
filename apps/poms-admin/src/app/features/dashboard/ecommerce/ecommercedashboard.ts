@@ -1,12 +1,12 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
-import { StatsWidget } from '@poms/admin/features/dashboard/ecommerce/components/statswidget';
-import { TopProductsWidget } from '@poms/admin/features/dashboard/ecommerce/components/topproductswidget';
-import { TrafficWidget } from '@poms/admin/features/dashboard/ecommerce/components/trafficwidget';
-import { LeaderBoardWidget } from '@poms/admin/features/dashboard/ecommerce/components/leaderboardwidget';
-import { ProductListWidget } from '@poms/admin/features/dashboard/ecommerce/components/productlistwidget';
-import { SellersWidget } from '@poms/admin/features/dashboard/ecommerce/components/sellerswidget';
+import { StatsWidget } from './components/statswidget';
+import { TopProductsWidget } from './components/topproductswidget';
+import { TrafficWidget } from './components/trafficwidget';
+import { LeaderBoardWidget } from './components/leaderboardwidget';
+import { ProductListWidget } from './components/productlistwidget';
+import { SellersWidget } from './components/sellerswidget';
 
 @Component({
     selector: 'app-ecommerce-dashboard',

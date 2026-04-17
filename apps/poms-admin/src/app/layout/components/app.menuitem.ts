@@ -1,9 +1,32 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { isActive, Router, RouterModule } from '@angular/router';
+import { Component, computed, effect, inject, input, signal, AfterViewInit } from '@angular/core';
+import { isActive, Router, RouterModule, type IsActiveMatchOptions, type QueryParamsHandling } from '@angular/router';
+import type { MenuItem } from '@poms/admin-data-access';
 import { TooltipModule } from 'primeng/tooltip';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
+
+type MenuCommandEvent = {
+    originalEvent: Event;
+    item: AppMenuItemModel;
+};
+
+export interface AppMenuItemModel extends MenuItem {
+    class?: string;
+    badgeClass?: string;
+    path?: string;
+    visible?: boolean;
+    fragment?: string;
+    queryParamsHandling?: QueryParamsHandling;
+    preserveFragment?: boolean;
+    skipLocationChange?: boolean;
+    replaceUrl?: boolean;
+    state?: Record<string, unknown>;
+    queryParams?: Record<string, unknown>;
+    routerLinkActiveOptions?: IsActiveMatchOptions;
+    items?: AppMenuItemModel[];
+    command?: (event: MenuCommandEvent) => void;
+}
 
 @Component({
     selector: '[app-menuitem]',
@@ -52,7 +75,7 @@ import { LayoutService } from '@/app/layout/service/layout.service';
         @if (hasChildren() && isVisible()) {
             <ul [animate.enter]="initialized() ? 'p-submenu-enter' : null" [animate.leave]="'p-submenu-leave'" [class.layout-root-submenulist]="root()">
                 @for (child of item().items; track child?.label) {
-                    <li app-menuitem [item]="child" [root]="false" [parentPath]="fullPath()" [class]="child['badgeClass']"></li>
+                    <li app-menuitem [item]="child" [root]="false" [parentPath]="fullPath()" [class]="child.badgeClass"></li>
                 }
             </ul>
         }
@@ -95,12 +118,12 @@ import { LayoutService } from '@/app/layout/service/layout.service';
         `
     ]
 })
-export class AppMenuitem {
+export class AppMenuitem implements AfterViewInit {
     layoutService = inject(LayoutService);
 
     router = inject(Router);
 
-    item = input<any>(null);
+    item = input.required<AppMenuItemModel>();
 
     root = input<boolean>(true);
 
@@ -110,7 +133,7 @@ export class AppMenuitem {
 
     isVisible = computed(() => this.item()?.visible !== false);
 
-    hasChildren = computed(() => this.item()?.items && this.item()?.items.length > 0);
+    hasChildren = computed(() => (this.item().items?.length ?? 0) > 0);
 
     hasCommand = computed(() => typeof this.item()?.command === 'function');
 
@@ -130,11 +153,12 @@ export class AppMenuitem {
 
     isActive = computed(() => {
         const activePath = this.layoutService.layoutState().activePath;
-        if (this.item()?.path) {
+        if (this.item().path) {
             return activePath?.startsWith(this.fullPath() ?? '') ?? false;
         }
-        if (this.item()?.routerLink) {
-            return isActive(this.item().routerLink[0], this.router, {
+        const routerLink = this.item().routerLink;
+        if (routerLink?.length) {
+            return isActive(routerLink[0], this.router, {
                 paths: 'exact',
                 queryParams: 'ignored',
                 matrixParams: 'ignored',
@@ -163,9 +187,10 @@ export class AppMenuitem {
 
         const item = this.item();
         const parentPath = this.parentPath();
+        const routerLink = item.routerLink;
 
-        if (item?.routerLink && !item?.items) {
-            const isRouteActive = isActive(item.routerLink[0], this.router, {
+        if (routerLink?.length && !item.items) {
+            const isRouteActive = isActive(routerLink[0], this.router, {
                 paths: 'exact',
                 queryParams: 'ignored',
                 matrixParams: 'ignored',
@@ -193,8 +218,9 @@ export class AppMenuitem {
             return;
         }
 
-        if (this.hasCommand()) {
-            this.item().command({ originalEvent: event, item: this.item() });
+        const command = this.item().command;
+        if (command) {
+            command({ originalEvent: event, item: this.item() });
         }
 
         if (this.hasChildren()) {

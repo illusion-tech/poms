@@ -1,9 +1,95 @@
 ﻿import { Component, effect, HostBinding, inject, input, signal } from '@angular/core';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { sampleDataReductionByArray } from '@poms/admin/shared/utils/utils';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { DataPoint, sampleDataReductionByArray, TimeUnit } from '../../../../shared/utils/utils';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import 'chartjs-adapter-date-fns';
+
+type MultiSeriesPoint = DataPoint & {
+    y: number[];
+};
+
+type MultiLineDataset = {
+    label: string;
+    data: Array<{
+        x: string | Date;
+        y: number;
+    }>;
+    fill: boolean;
+    borderColor: string;
+    tension: number;
+    borderWidth: number;
+    pointBorderColor: string;
+    pointBackgroundColor: string;
+    pointHoverBackgroundColor: string;
+    pointHoverBorderColor: string;
+    pointBorderWidth: number;
+    hideInLegendAndTooltip: boolean;
+    pointStyle: string;
+    pointRadius: number;
+    backgroundColor: (context: GradientBackgroundContext) => CanvasGradient | undefined;
+};
+
+type GradientBackgroundContext = {
+    chart: {
+        chartArea?: {
+            top: number;
+            bottom: number;
+        };
+        ctx: CanvasRenderingContext2D;
+    };
+};
+
+type HoverLineChart = {
+    ctx: CanvasRenderingContext2D;
+    tooltip?: {
+        _active: unknown[];
+        dataPoints: Array<{
+            raw: {
+                x: string | Date;
+            };
+        }>;
+    };
+    chartArea: {
+        bottom: number;
+    };
+    scales: {
+        x: {
+            getPixelForValue(value: string | Date): number;
+        };
+    };
+};
+
+type ExternalTooltipPoint = {
+    element: {
+        x: number;
+        y: number;
+    };
+    formattedValue: string;
+    dataset: {
+        borderColor: string;
+        label: string;
+    };
+};
+
+type ExternalTooltipContext = {
+    chart: {
+        canvas: HTMLCanvasElement;
+        width: number;
+        height: number;
+    };
+    tooltip: {
+        opacity: number;
+        dataPoints: ExternalTooltipPoint[];
+        body?: unknown[];
+        title: string[];
+        options: {
+            bodyFont: {
+                string: string;
+            };
+        };
+    };
+};
 
 @Component({
     selector: 'multi-line-chart',
@@ -36,29 +122,29 @@ export class MultiLineChart {
 
     labels = input<string[]>([]);
 
-    datasets = input<any[]>([]);
+    datasets = input<MultiSeriesPoint[]>([]);
 
-    bgColors = input<(string | string[])[] | undefined | null | any>();
+    bgColors = input<string[][] | undefined | null>();
 
-    borderColors = input<(string | string[])[] | undefined | null | any>();
+    borderColors = input<string[] | undefined | null>();
 
     show = input<number>(12);
 
     tooltipPrefix = input<string>('$');
 
-    option = input<string>('month');
+    option = input<TimeUnit>('month');
 
     stepSize = input<number>(2000);
 
     dataReduction = input<boolean>(true);
 
-    data = signal<any>(null);
+    data = signal<MultiSeriesPoint[]>([]);
 
-    plugins = signal<any>([]);
+    plugins = signal<unknown[]>([]);
 
-    chartData = signal<any>({});
+    chartData = signal<Record<string, unknown>>({});
 
-    chartOptions = signal<any>({});
+    chartOptions = signal<Record<string, unknown>>({});
 
     chartEffect = effect(() => {
         this.layoutService.layoutConfig().darkTheme;
@@ -72,13 +158,13 @@ export class MultiLineChart {
         this.plugins.set(this.setChartPlugins());
     }
 
-    setChartData(option: string) {
-        const sampledData = this.dataReduction() ? sampleDataReductionByArray(this.datasets(), option, this.show()) : this.datasets();
+    setChartData(option: TimeUnit) {
+        const sampledData = (this.dataReduction() ? sampleDataReductionByArray(this.datasets(), option, this.show()) : this.datasets()) as MultiSeriesPoint[];
         if (sampledData.length <= 0) {
             this.data.set([]);
 
             return {
-                datasets: null
+                datasets: []
             };
         }
         const darkMode = this.layoutService.isDarkTheme() ?? false;
@@ -87,7 +173,7 @@ export class MultiLineChart {
         const surface950Color = rootStyles.getPropertyValue('--p-surface-950');
 
         const lineCount = sampledData[0].y.length;
-        const dataArr: any = Array(lineCount)
+        const dataArr: MultiLineDataset[] = Array(lineCount)
             .fill(null)
             .map((_, index) => {
                 return {
@@ -105,9 +191,10 @@ export class MultiLineChart {
                     hideInLegendAndTooltip: false,
                     pointStyle: 'circle',
                     pointRadius: 4,
-                    backgroundColor: (context: any) => {
+                    backgroundColor: (context: GradientBackgroundContext) => {
+                        const backgroundColors = this.bgColors();
                         const defaultColor = [darkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(3, 6, 22, 0.06)', darkMode ? 'rgba(255, 255, 255, 0)' : 'rgba(3, 6, 22, 0)'];
-                        const bg = this.bgColors()?.[index] !== undefined ? this.bgColors()![index] : defaultColor;
+                        const bg = backgroundColors?.[index] !== undefined ? backgroundColors[index] : defaultColor;
 
                         if (!context.chart.chartArea) {
                             return;
@@ -135,7 +222,7 @@ export class MultiLineChart {
                     dataArr[i].data.push({ x, y: y[i] });
                 });
         });
-        this.data.set(dataArr);
+        this.data.set(sampledData);
         return {
             datasets: dataArr
         };
@@ -144,7 +231,7 @@ export class MultiLineChart {
     setChartPlugins() {
         const hoverLine = {
             id: 'hoverLine',
-            beforeDatasetsDraw: (chart: any) => {
+            beforeDatasetsDraw: (chart: HoverLineChart) => {
                 const {
                     ctx,
                     tooltip,
@@ -179,6 +266,12 @@ export class MultiLineChart {
         const surface200Color = rootStyles.getPropertyValue('--p-surface-200');
 
         const dataValue = this.data();
+        if (dataValue.length === 0) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+        }
         const endDate = new Date(dataValue[dataValue.length - 1].x);
         const startDate = new Date(dataValue[0].x);
         return {
@@ -195,9 +288,13 @@ export class MultiLineChart {
                 tooltip: {
                     enabled: false,
                     position: 'nearest',
-                    external: function (context: any) {
+                    external: function (context: ExternalTooltipContext) {
                         const { chart, tooltip } = context;
-                        let tooltipEl = chart.canvas.parentNode.querySelector('div.chartjs-tooltip');
+                        const parentElement = chart.canvas.parentElement;
+                        if (!parentElement) {
+                            return;
+                        }
+                        let tooltipEl = parentElement.querySelector<HTMLDivElement>('div.chartjs-tooltip');
                         if (!tooltipEl) {
                             tooltipEl = document.createElement('div');
                             tooltipEl.classList.add(
@@ -215,18 +312,18 @@ export class MultiLineChart {
                                 'pointer-events-none',
                                 'shadow-[0px_16px_32px_-12px_rgba(88,92,95,0.10)]'
                             );
-                            chart.canvas.parentNode.appendChild(tooltipEl);
+                            parentElement.appendChild(tooltipEl);
                         }
 
                         if (tooltip.opacity === 0) {
-                            tooltipEl.style.opacity = 0;
+                            tooltipEl.style.opacity = '0';
                             return;
                         }
-                        const datasetPointsX = tooltip.dataPoints.map((dp: any) => dp.element.x);
-                        const avgX = datasetPointsX.reduce((a: any, b: any) => a + b, 0) / datasetPointsX.length;
+                        const datasetPointsX = tooltip.dataPoints.map((dp) => dp.element.x);
+                        const avgX = datasetPointsX.reduce((sum, value) => sum + value, 0) / datasetPointsX.length;
 
-                        const datasetPointsY = tooltip.dataPoints.map((dp: any) => dp.element.y);
-                        const avgY = datasetPointsY.reduce((a: any, b: any) => a + b, 0) / datasetPointsY.length;
+                        const datasetPointsY = tooltip.dataPoints.map((dp) => dp.element.y);
+                        const avgY = datasetPointsY.reduce((sum, value) => sum + value, 0) / datasetPointsY.length;
 
                         if (tooltip.body) {
                             tooltipEl.innerHTML = '';
@@ -236,7 +333,7 @@ export class MultiLineChart {
                             tooltipEl.appendChild(tooltipHeader);
                             const tooltipBody = document.createElement('div');
                             tooltipBody.classList.add('flex', 'flex-col', 'gap-2', 'px-3', 'py-2', 'min-w-50');
-                            tooltip.dataPoints.forEach((body: any) => {
+                            tooltip.dataPoints.forEach((body) => {
                                 const row = document.createElement('div');
                                 row.classList.add('flex', 'items-center', 'gap-2', 'w-full');
                                 const point = document.createElement('div');
@@ -258,7 +355,7 @@ export class MultiLineChart {
 
                         const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
-                        tooltipEl.style.opacity = 1;
+                        tooltipEl.style.opacity = '1';
                         tooltipEl.style.font = tooltip.options.bodyFont.string;
                         tooltipEl.style.padding = '0px';
 
@@ -329,11 +426,12 @@ export class MultiLineChart {
                         maxRotation: 0,
                         source: 'auto',
                         stepSize: this.stepSize(),
-                        callback: function (value: any) {
-                            if (value > 1000) {
-                                return value / 1000 + 'K';
+                        callback: function (value: number | string) {
+                            const numericValue = Number(value);
+                            if (numericValue > 1000) {
+                                return numericValue / 1000 + 'K';
                             }
-                            return value;
+                            return numericValue;
                         }
                     },
                     grid: {

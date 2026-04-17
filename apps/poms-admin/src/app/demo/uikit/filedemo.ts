@@ -5,6 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 
+interface FileUploadEventLike {
+    files: File[];
+}
+
 @Component({
     selector: 'app-file-demo',
     standalone: true,
@@ -34,13 +38,13 @@ import { ToastModule } from 'primeng/toast';
     providers: [MessageService]
 })
 export class FileDemo {
-    uploadedFiles: any[] = [];
+    uploadedFiles: File[] = [];
 
-    basicUploadedFiles: any[] = [];
+    basicUploadedFiles: File[] = [];
 
     constructor(private messageService: MessageService) {}
 
-    onUpload(event: any, arg: string) {
+    onUpload(event: FileUploadEventLike, arg: string) {
         if (arg === 'basic') {
             for (const file of event.files) {
                 this.basicUploadedFiles.push(file);

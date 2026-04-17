@@ -381,10 +381,10 @@ export class Detail2 implements OnInit, OnDestroy {
                 ...section,
                 element: document.getElementById(section.id)
             }))
-            .filter((section) => section.element)
+            .filter((section): section is typeof section & { element: HTMLElement } => section.element instanceof HTMLElement)
             .map((section) => ({
                 ...section,
-                top: this.getElementTop(section.element!)
+                top: this.getElementTop(section.element)
             }))
             .sort((a, b) => a.top - b.top);
 

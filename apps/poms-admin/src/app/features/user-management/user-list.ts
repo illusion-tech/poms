@@ -457,8 +457,12 @@ export class UserList {
     }
 
     switchToEditInfo() {
+        const selectedUserId = this.selectedUserId();
+        if (!selectedUserId) {
+            return;
+        }
         this.userDetailDialogVisible = false;
-        void this.openEditInfoDialog(this.selectedUserId()!);
+        void this.openEditInfoDialog(selectedUserId);
     }
 
     // ── Edit basic info dialog ─────────────────────────────────────────────
