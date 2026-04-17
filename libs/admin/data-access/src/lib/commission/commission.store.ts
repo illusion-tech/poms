@@ -4,6 +4,7 @@ import type {
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
     CommissionPayoutSummary,
+    CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
     CreateCommissionAdjustmentRequest,
     CreateCommissionCalculationRequest,
@@ -28,22 +29,27 @@ export class CommissionStore {
     readonly #calculations = signal<CommissionCalculationSummary[]>([]);
     readonly #payouts = signal<CommissionPayoutSummary[]>([]);
     readonly #adjustments = signal<CommissionAdjustmentSummary[]>([]);
+    readonly #ruleVersions = signal<CommissionRuleVersionSummary[]>([]);
     readonly #loadingCalculations = signal(false);
     readonly #loadingPayouts = signal(false);
     readonly #loadingAdjustments = signal(false);
+    readonly #loadingRuleVersions = signal(false);
     readonly #saving = signal(false);
 
     readonly calculations = this.#calculations.asReadonly();
     readonly payouts = this.#payouts.asReadonly();
     readonly adjustments = this.#adjustments.asReadonly();
+    readonly ruleVersions = this.#ruleVersions.asReadonly();
     readonly loadingCalculations = this.#loadingCalculations.asReadonly();
     readonly loadingPayouts = this.#loadingPayouts.asReadonly();
     readonly loadingAdjustments = this.#loadingAdjustments.asReadonly();
+    readonly loadingRuleVersions = this.#loadingRuleVersions.asReadonly();
     readonly saving = this.#saving.asReadonly();
 
     readonly currentEffectiveCalculation = computed(
         () => this.#calculations().find((item) => item.isCurrent && item.status === 'effective') ?? null
     );
+    readonly activeRuleVersions = computed(() => this.#ruleVersions().filter((item) => item.status === 'active'));
     readonly pendingApprovalCount = computed(() => this.#payouts().filter((item) => item.status === 'pending-approval').length);
     readonly paidPayoutCount = computed(() => this.#payouts().filter((item) => item.status === 'paid').length);
     readonly pendingAdjustmentCount = computed(() => this.#adjustments().filter((item) => item.status === 'pending-approval').length);
@@ -72,8 +78,20 @@ export class CommissionStore {
         }
     }
 
+    async loadRuleVersions() {
+        this.#loadingRuleVersions.set(true);
+
+        try {
+            const ruleVersions = await firstValueFrom(this.#commissionApi.commissionControllerListRuleVersions());
+            this.#ruleVersions.set(ruleVersions ?? []);
+            return ruleVersions;
+        } finally {
+            this.#loadingRuleVersions.set(false);
+        }
+    }
+
     async reload(projectId: string) {
-        await Promise.all([this.loadCalculations(projectId), this.loadPayouts(projectId), this.loadAdjustments(projectId)]);
+        await Promise.all([this.loadRuleVersions(), this.loadCalculations(projectId), this.loadPayouts(projectId), this.loadAdjustments(projectId)]);
     }
 
     async triggerCalculation(projectId: string, request: CreateCommissionCalculationRequest) {
@@ -319,6 +337,7 @@ export class CommissionStore {
     }
 
     clear() {
+        this.#ruleVersions.set([]);
         this.#calculations.set([]);
         this.#payouts.set([]);
         this.#adjustments.set([]);

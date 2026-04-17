@@ -135,6 +135,10 @@ const TEMPLATE = `
 
     <p-dialog [(visible)]="triggerDialogVisible" [modal]="true" header="触发提成计算" [style]="{ width: '30rem' }" styleClass="p-fluid">
         <div class="flex flex-col gap-4 py-4">
+            <div class="flex flex-col gap-2">
+                <label class="font-medium">提成规则版本</label>
+                <p-select [(ngModel)]="triggerForm.ruleVersionId" [options]="activeRuleOptions()" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+            </div>
             <div class="flex flex-col gap-2"><label class="font-medium">确认收入（不含税）</label><input pInputText [(ngModel)]="triggerForm.recognizedRevenueTaxExclusive" class="w-full" /></div>
             <div class="flex flex-col gap-2"><label class="font-medium">确认成本（不含税）</label><input pInputText [(ngModel)]="triggerForm.recognizedCostTaxExclusive" class="w-full" /></div>
         </div>
@@ -211,6 +215,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly loading = computed(
         () =>
             this.projectStore.loading() ||
+            this.commissionStore.loadingRuleVersions() ||
             this.commissionStore.loadingCalculations() ||
             this.commissionStore.loadingPayouts() ||
             this.commissionStore.loadingAdjustments()
@@ -234,6 +239,12 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly adjustmentTodoMap = computed(
         () => new Map(this.#authStore.myTodos().filter((todo) => todo.targetObjectType === 'CommissionAdjustment' && todo.status === 'open').map((todo) => [todo.targetObjectId, todo]))
     );
+    readonly activeRuleOptions = computed(() =>
+        this.commissionStore.activeRuleVersions().map((item) => ({
+            label: `${item.ruleCode} · V${item.version}`,
+            value: item.id
+        }))
+    );
     readonly payoutById = computed(() => new Map(this.payouts().map((item) => [item.id, item])));
     readonly calculationById = computed(() => new Map(this.calculations().map((item) => [item.id, item])));
     readonly effectiveCalculationOptions = computed(() => this.calculations().filter((item) => item.status === this.calculationStatus.Effective).map((item) => ({ label: `V${item.version} · 提成池 ${this.formatAmount(item.commissionPool)}`, value: item.id })));
@@ -253,7 +264,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     registerDialogVisible = false;
     rejectDialogVisible = false;
     rejectMode: 'payout' | 'adjustment' = 'payout';
-    triggerForm = { recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' };
+    triggerForm = { ruleVersionId: '', recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' };
     recalculateForm = { calculationId: '', expectedVersion: undefined as number | undefined, reason: '', recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' };
     createPayoutForm = { calculationId: '', stageType: CommissionPayoutStage.First, selectedTier: CommissionPayoutTier.Basic };
     adjustmentForm = { adjustmentType: CommissionAdjustmentType.SuspendPayout, relatedPayoutId: '', amount: '', reason: '' };
@@ -282,14 +293,28 @@ export class ProjectCommission implements OnInit, OnDestroy {
     goBackToList() { this.#router.navigate(['/projects']); }
     async reload() { const id = this.projectId(); if (id) await Promise.all([this.projectStore.loadProject(id), this.commissionStore.reload(id)]); }
 
-    openTriggerDialog() { this.triggerForm = { recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' }; this.triggerDialogVisible = true; }
+    openTriggerDialog() {
+        const defaultRuleVersionId = this.commissionStore.activeRuleVersions()[0]?.id ?? '';
+        if (!defaultRuleVersionId) {
+            this.#messageService.add({ severity: 'warn', summary: '暂无可用规则版本', detail: '请先激活提成规则版本，再触发提成计算' });
+            return;
+        }
+        this.triggerForm = { ruleVersionId: defaultRuleVersionId, recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' };
+        this.triggerDialogVisible = true;
+    }
 
     async triggerCalculation() {
         const id = this.projectId();
         if (!id) return;
-        if (!this.triggerForm.recognizedRevenueTaxExclusive.trim() || !this.triggerForm.recognizedCostTaxExclusive.trim()) return this.#messageService.add({ severity: 'warn', summary: '请填写必填项' });
+        if (!this.triggerForm.ruleVersionId || !this.triggerForm.recognizedRevenueTaxExclusive.trim() || !this.triggerForm.recognizedCostTaxExclusive.trim()) {
+            return this.#messageService.add({ severity: 'warn', summary: '请填写必填项' });
+        }
         try {
-            const calculation = await this.commissionStore.triggerCalculation(id, { recognizedRevenueTaxExclusive: this.triggerForm.recognizedRevenueTaxExclusive.trim(), recognizedCostTaxExclusive: this.triggerForm.recognizedCostTaxExclusive.trim() });
+            const calculation = await this.commissionStore.triggerCalculation(id, {
+                ruleVersionId: this.triggerForm.ruleVersionId,
+                recognizedRevenueTaxExclusive: this.triggerForm.recognizedRevenueTaxExclusive.trim(),
+                recognizedCostTaxExclusive: this.triggerForm.recognizedCostTaxExclusive.trim()
+            });
             this.triggerDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '计算完成', detail: `已生成提成计算版本 V${calculation.version}` });
         } catch (error) {

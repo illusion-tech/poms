@@ -349,7 +349,7 @@ export async function setupEffectiveCalculationScenario(
     const calculated = await createCalculation(
         client,
         project.id,
-        buildCalculationInput()
+        buildCalculationInput(ruleVersion.id)
     );
     const calculation = await approveCalculation(client, calculated.id, {
         expectedVersion: calculated.rowVersion

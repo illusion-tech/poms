@@ -489,9 +489,12 @@ export class CommissionService {
         const cost = this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive');
         await this.#assertEffectiveContractFacts(projectId, revenue, cost);
 
-        const activeRule = await this.#findLatestActiveRuleVersion();
-        if (!activeRule) {
-            throw new UnprocessableEntityException('当前不存在已激活的提成规则版本，无法触发提成计算');
+        const ruleVersion = await this.repo.findRuleVersionById(dto.ruleVersionId);
+        if (!ruleVersion) {
+            throw new NotFoundException(`CommissionRuleVersion ${dto.ruleVersionId} not found`);
+        }
+        if (ruleVersion.status !== 'active') {
+            throw new UnprocessableEntityException(`只有已激活的提成规则版本可以用于提成计算，当前状态: ${ruleVersion.status}`);
         }
 
         const assignment = await this.repo.findCurrentRoleAssignment(projectId);
@@ -501,7 +504,7 @@ export class CommissionService {
 
         const contributionMargin = revenue - cost;
         const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
-        const commissionRate = this.#resolveCommissionRate(activeRule, contributionMarginRate);
+        const commissionRate = this.#resolveCommissionRate(ruleVersion, contributionMarginRate);
         const commissionPool = contributionMargin > 0 && commissionRate > 0 ? contributionMargin * commissionRate : 0;
 
         const current = await this.repo.findCurrentCalculation(projectId);
@@ -509,7 +512,7 @@ export class CommissionService {
 
         const entity = this.repo.createCalculation({
             projectId,
-            ruleVersionId: activeRule.id,
+            ruleVersionId: ruleVersion.id,
             version: nextVersion,
             isCurrent: true,
             status: 'calculated',
@@ -778,6 +781,7 @@ export class CommissionService {
             const cost = dto.recognizedCostTaxExclusive
                 ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive')
                 : this.#toNumber(current.recognizedCostTaxExclusive);
+            await this.#assertEffectiveContractFacts(current.projectId, revenue, cost);
             const contributionMargin = revenue - cost;
             const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
             const commissionRate = this.#resolveCommissionRate(ruleVersion, contributionMarginRate);
@@ -911,6 +915,9 @@ export class CommissionService {
     }
 
     #assertRoleAssignmentDraft(entity: CommissionRoleAssignment): void {
+        if (!entity.isCurrent) {
+            throw new UnprocessableEntityException('只有当前有效的角色分配草稿可以冻结，当前版本已不是 current');
+        }
         if (entity.status !== 'draft') {
             throw new UnprocessableEntityException(`只有草稿状态的角色分配可以冻结，当前状态: ${entity.status}`);
         }
@@ -1149,11 +1156,6 @@ export class CommissionService {
                 `当前项目已确认成本不足以支撑本次提成成本口径，已确认成本 ${this.#formatAmount(confirmedPaymentAmount)}，请求成本 ${this.#formatAmount(cost)}`
             );
         }
-    }
-
-    async #findLatestActiveRuleVersion(): Promise<CommissionRuleVersion | null> {
-        const versions = await this.repo.findAllRuleVersions();
-        return versions.find((version) => version.status === 'active') ?? null;
     }
 
     #assertAdjustmentLinks(

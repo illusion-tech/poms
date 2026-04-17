@@ -436,6 +436,41 @@ describe('poms-api commission workflow e2e', () => {
         expectErrorStatus(response, 400, 'is not confirmed');
     });
 
+    it('rejects freezing a stale non-current draft role assignment', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const fixture = COMMISSION_E2E_FIXTURES.main;
+
+        const firstAssignment = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        const secondAssignment = await createRoleAssignment(client, fixture.projectId, {
+            participants: [
+                {
+                    userId: profile.id,
+                    displayName: profile.displayName,
+                    roleType: 'sales-owner',
+                    weight: 0.7
+                },
+                {
+                    userId: '00000000-0000-4000-8000-000000000088',
+                    displayName: 'e2e stale draft collaborator',
+                    roleType: 'delivery-owner',
+                    weight: 0.3
+                }
+            ]
+        });
+
+        expect(secondAssignment.id).not.toBe(firstAssignment.id);
+
+        const response = await client.post(
+            `/commission-role-assignments/${firstAssignment.id}:freeze`,
+            {
+                sourceHandoverId: fixture.handoverId,
+                handoverSummarySnapshotId: fixture.handoverSummarySnapshotId
+            }
+        );
+
+        expectErrorStatus(response, 422, '只有当前有效的角色分配草稿可以冻结');
+    });
+
     it('rejects calculation trigger when the project has no active contract facts', async () => {
         const { client, profile } = await loginAsAdmin();
         const fixture = COMMISSION_E2E_FIXTURES.noActiveContract;
@@ -455,6 +490,7 @@ describe('poms-api commission workflow e2e', () => {
         const response = await client.post(
             `/projects/${fixture.projectId}/commission-calculations`,
             {
+                ruleVersionId: ruleVersion.id,
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '70000.00'
             }
@@ -481,6 +517,7 @@ describe('poms-api commission workflow e2e', () => {
         const response = await client.post(
             `/projects/${fixture.projectId}/commission-calculations`,
             {
+                ruleVersionId: ruleVersion.id,
                 recognizedRevenueTaxExclusive: '120000.00',
                 recognizedCostTaxExclusive: '70000.00'
             }
@@ -507,11 +544,30 @@ describe('poms-api commission workflow e2e', () => {
         const response = await client.post(
             `/projects/${fixture.projectId}/commission-calculations`,
             {
+                ruleVersionId: ruleVersion.id,
                 recognizedRevenueTaxExclusive: '100000.00',
                 recognizedCostTaxExclusive: '80000.00'
             }
         );
 
         expectErrorStatus(response, 422, '已确认成本不足');
+    });
+
+    it('rejects recalculation when confirmed receipts are below requested revenue', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('cms-recalc-receipt-guard');
+
+        const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
+        const response = await client.post(
+            `/commission-calculations/${scenario.calculation.id}:recalculate`,
+            {
+                reason: 'e2e 回款冲减后重算',
+                recognizedRevenueTaxExclusive: '120000.00',
+                recognizedCostTaxExclusive: '70000.00',
+                expectedVersion: scenario.calculation.rowVersion
+            }
+        );
+
+        expectErrorStatus(response, 422, '已确认回款不足');
     });
 });

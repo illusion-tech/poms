@@ -541,6 +541,7 @@ flowchart LR
 - `POST /commission-role-assignments/{id}:freeze`
 - `GET /projects/{projectId}/commission-calculations`
 - `POST /projects/{projectId}/commission-calculations`
+  - request body 必须显式携带 `ruleVersionId`、`recognizedRevenueTaxExclusive`、`recognizedCostTaxExclusive`
 - `POST /commission-calculations/{id}:approve`
 - `POST /commission-calculations/{id}:recalculate`
 - `GET /projects/{projectId}/commission-payouts`

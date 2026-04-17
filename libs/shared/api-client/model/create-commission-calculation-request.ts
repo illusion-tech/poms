@@ -10,6 +10,7 @@
 
 
 export interface CreateCommissionCalculationRequest { 
+    ruleVersionId: string;
     recognizedRevenueTaxExclusive: string;
     recognizedCostTaxExclusive: string;
 }

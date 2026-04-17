@@ -9,12 +9,12 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "webpack-cli build",
-                "args": ["--config-node-env=production"],
+                "args": ["--node-env=production"],
                 "cwd": "apps/poms-api"
             },
             "configurations": {
                 "development": {
-                    "args": ["--config-node-env=development"]
+                    "args": ["--node-env=development"]
                 }
             }
         },

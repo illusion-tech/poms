@@ -181,7 +181,11 @@ describe('CommissionController', () => {
 
     it('delegates createCalculation to service', async () => {
         service.createCalculation.mockResolvedValue(stubCalculation);
-        const body = { recognizedRevenueTaxExclusive: '100000.00', recognizedCostTaxExclusive: '70000.00' };
+        const body = {
+            ruleVersionId: RULE_VERSION_ID,
+            recognizedRevenueTaxExclusive: '100000.00',
+            recognizedCostTaxExclusive: '70000.00'
+        };
         const result = await controller.createCalculation(PROJECT_ID, body as never);
         expect(service.createCalculation).toHaveBeenCalledWith(PROJECT_ID, body);
         expect(result).toBe(stubCalculation);

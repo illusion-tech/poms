@@ -2195,6 +2195,7 @@ export type CommissionCalculationSummary = z.infer<typeof CommissionCalculationS
 
 export const CreateCommissionCalculationRequestSchema = z
     .object({
+        ruleVersionId: z.uuid(),
         recognizedRevenueTaxExclusive: z.string().trim().min(1).max(64),
         recognizedCostTaxExclusive: z.string().trim().min(1).max(64)
     })

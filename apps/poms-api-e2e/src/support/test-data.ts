@@ -136,9 +136,11 @@ export function buildRoleAssignmentInput(
 }
 
 export function buildCalculationInput(
+    ruleVersionId: string,
     overrides?: Partial<CreateCommissionCalculationRequest>
 ): CreateCommissionCalculationRequest {
     return {
+        ruleVersionId: overrides?.ruleVersionId ?? ruleVersionId,
         recognizedRevenueTaxExclusive: overrides?.recognizedRevenueTaxExclusive ?? '100000.00',
         recognizedCostTaxExclusive: overrides?.recognizedCostTaxExclusive ?? '70000.00'
     };
