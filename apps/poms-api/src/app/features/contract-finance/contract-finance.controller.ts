@@ -39,11 +39,11 @@ import { ContractFinanceService } from './contract-finance.service';
 
 @ApiTags('ContractFinance')
 @ApiBearerAuth()
-@Controller('contract-finance')
+@Controller()
 export class ContractFinanceController {
     constructor(private readonly contractFinanceService: ContractFinanceService) {}
 
-    @Get('contracts/:contractId/receipts')
+    @Get('contracts/:contractId/receipt-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取合同回款记录列表' })
     @ApiOkResponse({ type: ReceiptRecordListDto })
@@ -51,7 +51,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.listReceipts(contractId);
     }
 
-    @Post('contracts/:contractId/receipts')
+    @Post('contracts/:contractId/receipt-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记合同回款记录' })
     @ApiCreatedResponse({ type: ReceiptRecordDto })
@@ -62,21 +62,20 @@ export class ContractFinanceController {
         return this.contractFinanceService.createReceipt(contractId, body);
     }
 
-    @Post('contracts/:contractId/receipts/:id/confirm')
+    @Post('receipt-records/:id\\:confirm')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同回款记录生效' })
     @ApiOkResponse({ type: ReceiptRecordDto })
     confirmReceipt(
-        @Param('contractId') contractId: string,
         @Param('id') id: string,
         @Request() req: { user: UserPayload },
         @Body() body: ConfirmReceiptRecordRequestDto
     ): Promise<ReceiptRecordSummary> {
-        return this.contractFinanceService.confirmReceipt(contractId, id, req.user.sub, body);
+        return this.contractFinanceService.confirmReceipt(id, req.user.sub, body);
     }
 
-    @Get('projects/:projectId/payables')
+    @Get('projects/:projectId/payable-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目采购承诺记录列表' })
     @ApiOkResponse({ type: PayableRecordListDto })
@@ -92,7 +91,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.getPayable(id);
     }
 
-    @Post('projects/:projectId/payables')
+    @Post('projects/:projectId/payable-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目采购承诺记录' })
     @ApiCreatedResponse({ type: PayableRecordDto })
@@ -114,7 +113,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.updatePayable(id, body);
     }
 
-    @Post('payable-records/:id/close')
+    @Post('payable-records/:id\\:close')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '关闭采购承诺记录' })
@@ -126,7 +125,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.closePayable(id, body);
     }
 
-    @Post('payable-records/:id/void')
+    @Post('payable-records/:id\\:void')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '作废采购承诺记录' })
@@ -138,7 +137,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.voidPayable(id, body);
     }
 
-    @Get('projects/:projectId/invoices')
+    @Get('projects/:projectId/invoice-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目发票记录列表' })
     @ApiOkResponse({ type: InvoiceRecordListDto })
@@ -154,7 +153,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.getInvoice(id);
     }
 
-    @Post('projects/:projectId/invoices')
+    @Post('projects/:projectId/invoice-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目发票记录' })
     @ApiCreatedResponse({ type: InvoiceRecordDto })
@@ -176,7 +175,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.updateInvoice(id, body);
     }
 
-    @Post('invoice-records/:id/mark-exception')
+    @Post('invoice-records/:id\\:markException')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '标记发票异常' })
@@ -188,7 +187,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.markInvoiceException(id, body);
     }
 
-    @Post('invoice-records/:id/resolve-exception')
+    @Post('invoice-records/:id\\:resolveException')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '解决发票异常' })
@@ -200,7 +199,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.resolveInvoiceException(id, body);
     }
 
-    @Post('invoice-records/:id/close')
+    @Post('invoice-records/:id\\:close')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '关闭发票记录' })
@@ -212,7 +211,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.closeInvoiceRecord(id, body);
     }
 
-    @Get('projects/:projectId/payments')
+    @Get('projects/:projectId/payment-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目付款记录列表' })
     @ApiOkResponse({ type: PaymentRecordListDto })
@@ -220,7 +219,7 @@ export class ContractFinanceController {
         return this.contractFinanceService.listPayments(projectId);
     }
 
-    @Post('projects/:projectId/payments')
+    @Post('projects/:projectId/payment-records')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目付款记录' })
     @ApiCreatedResponse({ type: PaymentRecordDto })
@@ -231,17 +230,16 @@ export class ContractFinanceController {
         return this.contractFinanceService.createPayment(projectId, body);
     }
 
-    @Post('projects/:projectId/payments/:id/confirm')
+    @Post('payment-records/:id\\:confirm')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认项目付款记录生效' })
     @ApiOkResponse({ type: PaymentRecordDto })
     confirmPayment(
-        @Param('projectId') projectId: string,
         @Param('id') id: string,
         @Request() req: { user: UserPayload },
         @Body() body: ConfirmPaymentRecordRequestDto
     ): Promise<PaymentRecordSummary> {
-        return this.contractFinanceService.confirmPayment(projectId, id, req.user.sub, body);
+        return this.contractFinanceService.confirmPayment(id, req.user.sub, body);
     }
 }

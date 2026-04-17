@@ -42,7 +42,7 @@ import {
     UpdatePlatformUserActivationRequestDto,
     UpdatePlatformUserRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -90,7 +90,7 @@ export class PlatformController {
         return this.platformService.createUser(body, req.user.sub);
     }
 
-    @Post('users/:id/activate')
+    @Post('users/:id\\:activate')
     @HasPermissions('platform:users:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用平台用户' })
@@ -99,7 +99,7 @@ export class PlatformController {
         return this.platformService.activateUser(id, body, req.user.sub);
     }
 
-    @Post('users/:id/deactivate')
+    @Post('users/:id\\:deactivate')
     @HasPermissions('platform:users:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用平台用户' })
@@ -108,7 +108,7 @@ export class PlatformController {
         return this.platformService.deactivateUser(id, body, req.user.sub);
     }
 
-    @Post('users/:id/roles')
+    @Put('users/:id/roles')
     @HasPermissions('platform:users:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户角色' })
@@ -117,7 +117,7 @@ export class PlatformController {
         return this.platformService.assignUserRoles(id, body, req.user.sub);
     }
 
-    @Post('users/:id/org-memberships')
+    @Put('users/:id/org-memberships')
     @HasPermissions('platform:users:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配用户组织关系' })
@@ -166,7 +166,7 @@ export class PlatformController {
         return this.platformService.updateRole(id, body, req.user.sub);
     }
 
-    @Post('roles/:id/activate')
+    @Post('roles/:id\\:activate')
     @HasPermissions('platform:roles:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用平台角色' })
@@ -179,7 +179,7 @@ export class PlatformController {
         return this.platformService.activateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
     }
 
-    @Post('roles/:id/deactivate')
+    @Post('roles/:id\\:deactivate')
     @HasPermissions('platform:roles:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用平台角色' })
@@ -192,7 +192,7 @@ export class PlatformController {
         return this.platformService.deactivateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
     }
 
-    @Post('roles/:id/permissions')
+    @Put('roles/:id/permissions')
     @HasPermissions('platform:roles:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配角色权限（全量替换）' })
@@ -209,7 +209,7 @@ export class PlatformController {
         return this.platformService.listOrgUnits();
     }
 
-    @Get('org-units/tree')
+    @Get('org-unit-tree')
     @HasPermissions('platform:org-units:manage')
     @ApiOperation({ summary: '获取平台组织树' })
     @ApiOkResponse({ type: PlatformOrgUnitTreeDto })
@@ -241,7 +241,7 @@ export class PlatformController {
         return this.platformService.updateOrgUnit(id, body, req.user.sub);
     }
 
-    @Post('org-units/:id/activate')
+    @Post('org-units/:id\\:activate')
     @HasPermissions('platform:org-units:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用组织单元' })
@@ -254,7 +254,7 @@ export class PlatformController {
         return this.platformService.activateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
     }
 
-    @Post('org-units/:id/deactivate')
+    @Post('org-units/:id\\:deactivate')
     @HasPermissions('platform:org-units:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用组织单元' })
@@ -267,7 +267,7 @@ export class PlatformController {
         return this.platformService.deactivateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
     }
 
-    @Post('org-units/:id/move')
+    @Post('org-units/:id\\:move')
     @HasPermissions('platform:org-units:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '移动组织单元并调整排序' })
@@ -284,7 +284,7 @@ export class PlatformController {
         return this.navigationService.getAllNavigationItems();
     }
 
-    @Post('navigation/sync')
+    @Post('navigation\\:sync')
     @HasPermissions('platform:navigation:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '记录当前导航 SSOT 的同步审计快照' })

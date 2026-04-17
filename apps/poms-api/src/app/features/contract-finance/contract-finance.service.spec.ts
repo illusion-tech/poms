@@ -175,7 +175,7 @@ describe('ContractFinanceService', () => {
         repo.findReceiptById.mockResolvedValue(receipt as never);
         repo.flushReceipt.mockResolvedValue(undefined);
 
-        const result = await service.confirmReceipt(CONTRACT_ID, RECEIPT_ID, USER_ID, { expectedVersion: 1 });
+        const result = await service.confirmReceipt(RECEIPT_ID, USER_ID, { expectedVersion: 1 });
 
         expect(result.status).toBe('confirmed');
         expect(receipt.confirmedBy).toBe(USER_ID);
@@ -208,7 +208,7 @@ describe('ContractFinanceService', () => {
         repo.flushPayable.mockResolvedValue(undefined);
         repo.flushPayment.mockResolvedValue(undefined);
 
-        const partial = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, {
+        const partial = await service.confirmPayment(PAYMENT_ID, USER_ID, {
             expectedVersion: 1
         });
         expect(partial.status).toBe('confirmed');
@@ -219,7 +219,7 @@ describe('ContractFinanceService', () => {
         payment.amountExcludingTax = '60000.00';
         repo.findConfirmedPaymentsForPayableIds.mockResolvedValue([{ amountExcludingTax: '30000.00' }] as never);
 
-        const completed = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, { expectedVersion: 2 });
+        const completed = await service.confirmPayment(PAYMENT_ID, USER_ID, { expectedVersion: 2 });
         expect(completed.status).toBe('confirmed');
         expect(payable.status).toBe('completed');
     });
@@ -465,7 +465,7 @@ describe('ContractFinanceService', () => {
         repo.findPayableById.mockResolvedValue(makePayable() as never);
         repo.flushPayment.mockResolvedValue(undefined);
 
-        const result = await service.confirmPayment(PROJECT_ID, PAYMENT_ID, USER_ID, { expectedVersion: 1 });
+        const result = await service.confirmPayment(PAYMENT_ID, USER_ID, { expectedVersion: 1 });
 
         expect(result.status).toBe('confirmed');
         expect(payment.confirmedBy).toBe(USER_ID);

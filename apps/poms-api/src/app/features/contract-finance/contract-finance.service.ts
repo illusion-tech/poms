@@ -62,14 +62,13 @@ export class ContractFinanceService {
     }
 
     async confirmReceipt(
-        contractId: string,
         id: string,
         actorUserId: string,
         dto: ConfirmReceiptRecordRequest
     ): Promise<ReceiptRecordSummary> {
         const receipt = await this.repo.findReceiptById(id);
-        if (!receipt || receipt.contractId !== contractId) {
-            throw new NotFoundException(`ReceiptRecord ${id} not found for contract ${contractId}`);
+        if (!receipt) {
+            throw new NotFoundException(`ReceiptRecord ${id} not found`);
         }
         this.#assertExpectedVersion(receipt.rowVersion, dto.expectedVersion, 'ReceiptRecord');
 
@@ -469,14 +468,13 @@ export class ContractFinanceService {
     }
 
     async confirmPayment(
-        projectId: string,
         id: string,
         actorUserId: string,
         dto: ConfirmPaymentRecordRequest
     ): Promise<PaymentRecordSummary> {
         const payment = await this.repo.findPaymentById(id);
-        if (!payment || payment.projectId !== projectId) {
-            throw new NotFoundException(`PaymentRecord ${id} not found for project ${projectId}`);
+        if (!payment) {
+            throw new NotFoundException(`PaymentRecord ${id} not found`);
         }
         this.#assertExpectedVersion(payment.rowVersion, dto.expectedVersion, 'PaymentRecord');
 

@@ -82,7 +82,7 @@ export class ProjectController {
         return mapProjectToSummary(project);
     }
 
-    @Patch(':id/basic')
+    @Patch(':id')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新项目基础信息' })
     @ApiOkResponse({ type: ProjectDto })

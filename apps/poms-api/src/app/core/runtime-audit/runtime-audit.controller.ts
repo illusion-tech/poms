@@ -52,7 +52,7 @@ export class RuntimeAuditController {
         return this.runtimeAuditService.listSecurityEvents(listQuery);
     }
 
-    @Post('security-events/route-denied')
+    @Post('security-events\\:recordRouteDenied')
     @Authenticated()
     @HttpCode(HttpStatus.ACCEPTED)
     @ApiOperation({ summary: '记录前端权限路由守卫拒绝事件' })

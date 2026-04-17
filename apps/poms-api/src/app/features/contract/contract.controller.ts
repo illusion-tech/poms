@@ -58,7 +58,7 @@ export class ContractController {
         return mapContractToSummary(contract);
     }
 
-    @Get(':id/current-approval')
+    @Get(':id/approval-record')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取合同当前审批摘要' })
     @ApiOkResponse({ type: ApprovalRecordDto })
@@ -91,7 +91,7 @@ export class ContractController {
         return mapContractToSummary(contract);
     }
 
-    @Patch(':id/basic')
+    @Patch(':id')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新合同基础信息' })
     @ApiOkResponse({ type: ContractDto })
@@ -107,7 +107,7 @@ export class ContractController {
         return mapContractToSummary(contract);
     }
 
-    @Post(':id/submit-review')
+    @Post(':id\\:submitReview')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '提交合同审核' })
@@ -116,7 +116,7 @@ export class ContractController {
         return this.approvalService.submitContractReview(id, req.user.sub, body);
     }
 
-    @Post(':id/activate')
+    @Post(':id\\:activate')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同生效' })
