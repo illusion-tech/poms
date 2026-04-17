@@ -1,9 +1,9 @@
 ﻿import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { generateRandomHeatmapData } from '@poms/admin/shared/utils/utils';
-import { HeatMapChart } from '@poms/admin/features/dashboard/ui/charts/heatmapchart';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { generateRandomHeatmapData } from '../../../../shared/utils/utils';
+import { HeatMapChart } from '../../ui/charts/heatmapchart';
 
 @Component({
     selector: 'promotion-campaign-widget',

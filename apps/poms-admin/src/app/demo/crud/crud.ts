@@ -18,7 +18,7 @@ import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Product, ProductService } from '@poms/admin/demo/services/product.service';
+import { Product, ProductService } from '../services/product.service';
 
 interface Column {
     field: string;
@@ -365,7 +365,7 @@ export class Crud implements OnInit {
 
     saveProduct() {
         this.submitted = true;
-        let _products = this.products();
+        const _products = this.products();
         if (this.product.name?.trim()) {
             if (this.product.id) {
                 _products[this.findIndexById(this.product.id)] = this.product;

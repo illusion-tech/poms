@@ -1,8 +1,8 @@
-import { Component, computed, effect, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { AppMenu } from './app.menu';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { AppTopbar } from '@/app/layout/components/app.topbar';
+import { AppTopbar } from './app.topbar';
 import { CommonModule } from '@angular/common';
 import { filter, Subject, takeUntil } from 'rxjs';
 
@@ -30,7 +30,7 @@ const BREAKPOINT = 992;
         '(mouseleave)': 'onMouseLeave()'
     }
 })
-export class AppSidebar {
+export class AppSidebar implements OnInit, OnDestroy {
     layoutService = inject(LayoutService);
 
     router = inject(Router);

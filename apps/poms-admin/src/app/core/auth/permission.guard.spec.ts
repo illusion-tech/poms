@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, UrlTree } from '@angular/router';
 import type { PermissionKey } from '@poms/shared-contracts';
 import { AuthStore } from '@poms/admin-data-access';
-import type { SanitizedUserWithOrgUnits } from '@poms/shared-api-client';
+import type { SanitizedUserWithOrgUnits } from '@poms/shared-contracts';
 import { of } from 'rxjs';
 import { permissionGuard } from './permission.guard';
 

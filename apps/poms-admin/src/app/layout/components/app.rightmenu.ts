@@ -4,7 +4,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { DividerModule } from 'primeng/divider';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 import { ButtonModule } from 'primeng/button';
 
 @Component({

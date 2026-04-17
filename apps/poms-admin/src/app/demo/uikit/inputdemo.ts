@@ -26,10 +26,10 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CountryService } from '@poms/admin/demo/services/country.service';
-import { NodeService } from '@poms/admin/demo/services/node.service';
+import { CountryService } from '../services/country.service';
+import { NodeService } from '../services/node.service';
 import { TreeNode } from 'primeng/api';
-import { Country } from '@poms/admin/demo/services/customer.service';
+import { Country } from '../services/customer.service';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputOtpModule } from 'primeng/inputotp';
 

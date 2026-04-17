@@ -2,16 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, CommissionStore, ProjectStore } from '@poms/admin-data-access';
-import type { RejectApprovalRecordRequest } from '@poms/shared-api-client';
-import {
-    CommissionAdjustmentSummaryStatusEnum,
-    CommissionAdjustmentType,
-    CommissionCalculationSummaryStatusEnum,
-    CommissionPayoutStage,
-    CommissionPayoutSummaryStatusEnum,
-    CommissionPayoutTier
-} from '@poms/shared-api-client';
+import { AuthStore, CommissionAdjustmentSummaryStatusEnum, CommissionAdjustmentType, CommissionCalculationSummaryStatusEnum, CommissionPayoutStage, CommissionPayoutSummaryStatusEnum, CommissionPayoutTier, CommissionStore, ProjectStore } from '@poms/admin-data-access';
+import type { RejectApprovalRecordRequest } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';

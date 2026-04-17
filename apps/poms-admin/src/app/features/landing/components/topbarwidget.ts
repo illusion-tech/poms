@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, afterNextRender, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, computed, inject, signal, viewChild, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LogoWidget } from './logowidget';
 
@@ -78,7 +78,7 @@ import { LogoWidget } from './logowidget';
         </section>
     `
 })
-export class TopbarWidget {
+export class TopbarWidget implements OnDestroy {
     private router = inject(Router);
     private elRef = inject(ElementRef);
 

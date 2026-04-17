@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { CommonModule } from '@angular/common';
 
 @Component({

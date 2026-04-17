@@ -1,7 +1,7 @@
 ﻿import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { GaugeChart } from '@poms/admin/features/dashboard/ui/charts/gaugechart';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { GaugeChart } from '../../ui/charts/gaugechart';
 
 @Component({
     selector: 'audience-by-gender-widget',

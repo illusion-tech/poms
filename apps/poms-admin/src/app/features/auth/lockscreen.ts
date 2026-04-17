@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
+import { AuthLogoWidget } from './components/authlogowidget';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 

@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { TagModule } from 'primeng/tag';
-import { trackByFn } from '@poms/admin/shared/utils/utils';
-import { MiniLineChart } from '@poms/admin/features/dashboard/ui/charts/minilinechart';
+import { trackByFn } from '../../../../shared/utils/utils';
+import { MiniLineChart } from '../../ui/charts/minilinechart';
 
 @Component({
     selector: 'stats-widget',

@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { AuthLogoWidget } from '@poms/admin/features/auth/components/authlogowidget';
+import { AuthLogoWidget } from './components/authlogowidget';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';

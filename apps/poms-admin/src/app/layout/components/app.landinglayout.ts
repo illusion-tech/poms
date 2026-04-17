@@ -1,10 +1,10 @@
 ﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TopbarWidget } from '@poms/admin/features/landing/components/topbarwidget';
+import { TopbarWidget } from '../../features/landing/components/topbarwidget';
 import { RouterModule } from '@angular/router';
-import { FooterWidget } from '@poms/admin/features/landing/components/footerwidget';
+import { FooterWidget } from '../../features/landing/components/footerwidget';
 import { AppConfigurator } from './app.configurator';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 
 @Component({
     selector: 'app-landing-layout',

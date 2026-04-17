@@ -1,13 +1,13 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SalesPerformanceWidget } from '@poms/admin/features/dashboard/marketing/components/salesperformancewidget';
-import { InventoryManagementWidget } from '@poms/admin/features/dashboard/marketing/components/inventorymanagementwidget';
-import { PromotionCampaignWidget } from '@poms/admin/features/dashboard/marketing/components/promotioncampaignwidget';
-import { EmailDataChartWidget } from '@poms/admin/features/dashboard/marketing/components/emaildatachartwidget';
-import { AudienceByGenderWidget } from '@poms/admin/features/dashboard/marketing/components/audiencebygenderwidget';
-import { GlobalRankWidget } from '@poms/admin/features/dashboard/marketing/components/globalrankwidget';
-import { VisitByDeviceWidget } from '@poms/admin/features/dashboard/marketing/components/visitbydevicewidget';
-import { EmailHistoryWidget } from '@poms/admin/features/dashboard/marketing/components/emailhistorywidget';
+import { SalesPerformanceWidget } from './components/salesperformancewidget';
+import { InventoryManagementWidget } from './components/inventorymanagementwidget';
+import { PromotionCampaignWidget } from './components/promotioncampaignwidget';
+import { EmailDataChartWidget } from './components/emaildatachartwidget';
+import { AudienceByGenderWidget } from './components/audiencebygenderwidget';
+import { GlobalRankWidget } from './components/globalrankwidget';
+import { VisitByDeviceWidget } from './components/visitbydevicewidget';
+import { EmailHistoryWidget } from './components/emailhistorywidget';
 
 @Component({
     selector: 'marketing-dashboard',

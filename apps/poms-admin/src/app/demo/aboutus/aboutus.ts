@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { LazyImageWidget } from '@poms/admin/features/landing/components/lazyimagewidget';
+import { LazyImageWidget } from '../../features/landing/components/lazyimagewidget';
 
 @Component({
     selector: 'app-about-us',

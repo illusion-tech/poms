@@ -1,9 +1,9 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, AfterViewInit } from '@angular/core';
 import { isActive, Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 
 @Component({
     selector: '[app-menuitem]',
@@ -95,7 +95,7 @@ import { LayoutService } from '@/app/layout/service/layout.service';
         `
     ]
 })
-export class AppMenuitem {
+export class AppMenuitem implements AfterViewInit {
     layoutService = inject(LayoutService);
 
     router = inject(Router);

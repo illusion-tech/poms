@@ -1,8 +1,8 @@
 ﻿import { Component, effect, HostBinding, inject, input, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { sampleDataByFixedLength } from '@poms/admin/shared/utils/utils';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { sampleDataByFixedLength } from '../../../../shared/utils/utils';
 import 'chartjs-adapter-date-fns';
 
 @Component({

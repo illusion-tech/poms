@@ -2,7 +2,7 @@ import { Component, effect, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../../layout/service/layout.service';
 import 'chartjs-adapter-date-fns';
 
 ChartJS.register(...registerables, MatrixController, MatrixElement);

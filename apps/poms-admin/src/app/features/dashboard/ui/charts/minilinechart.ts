@@ -1,6 +1,6 @@
 import { Component, effect, HostBinding, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../../layout/service/layout.service';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
@@ -84,9 +84,9 @@ export class MiniLineChart {
                         const surface0Color = rootStyles.getPropertyValue('--p-surface-0');
                         const surface950Color = rootStyles.getPropertyValue('--p-surface-950');
                         const hexToRgba = (hex: any, alpha: any) => {
-                            let r = parseInt(hex.slice(1, 3), 16);
-                            let g = parseInt(hex.slice(3, 5), 16);
-                            let b = parseInt(hex.slice(5, 7), 16);
+                            const r = parseInt(hex.slice(1, 3), 16);
+                            const g = parseInt(hex.slice(3, 5), 16);
+                            const b = parseInt(hex.slice(5, 7), 16);
                             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
                         };
                         const startColor = darkMode ? surface0Color : surface950Color;

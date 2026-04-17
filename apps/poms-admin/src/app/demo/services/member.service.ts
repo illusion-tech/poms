@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Member } from '@/types/member';
+import { Member } from '../../shared/types/member';
 
 @Injectable({
     providedIn: 'root'

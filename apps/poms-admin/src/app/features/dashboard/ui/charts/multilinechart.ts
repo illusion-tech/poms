@@ -1,6 +1,6 @@
 ﻿import { Component, effect, HostBinding, inject, input, signal } from '@angular/core';
-import { LayoutService } from '@/app/layout/service/layout.service';
-import { sampleDataReductionByArray } from '@poms/admin/shared/utils/utils';
+import { LayoutService } from '../../../../layout/service/layout.service';
+import { sampleDataReductionByArray } from '../../../../shared/utils/utils';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import 'chartjs-adapter-date-fns';

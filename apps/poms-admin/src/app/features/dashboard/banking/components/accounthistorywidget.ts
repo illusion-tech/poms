@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { TableModule } from 'primeng/table';
 
 @Component({

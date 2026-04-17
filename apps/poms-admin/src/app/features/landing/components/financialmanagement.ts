@@ -1,5 +1,5 @@
-﻿import { CreditCard } from '@poms/admin/shared/ui/creditcard';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+﻿import { CreditCard } from '../../../shared/ui/creditcard';
+import { SectionCard } from '../../../shared/ui/sectioncard';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 

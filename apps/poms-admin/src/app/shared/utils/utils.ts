@@ -10,7 +10,7 @@ export const parseDate = (dateStr: string | Date): Date => {
 };
 
 export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
-    let sampledData: DataPoint[] = [];
+    const sampledData: DataPoint[] = [];
     let tempData: DataPoint[] = [];
     const dataLength: number = data.length;
 
@@ -75,7 +75,7 @@ export const sampleDataReduction = (data: DataPoint[], option: TimeUnit, show: n
 };
 
 export const sampleDataReductionByArray = (data: DataPoint[], option: TimeUnit, show: number): DataPoint[] => {
-    let sampledData: DataPoint[] = [];
+    const sampledData: DataPoint[] = [];
     const dataLength: number = data.length;
 
     if (dataLength === 0) return sampledData;
@@ -142,7 +142,7 @@ export const sampleDataReductionByArray = (data: DataPoint[], option: TimeUnit, 
 
 // Function 3: sampleDataByFixedLength
 export const sampleDataByFixedLength = (data: any, option: any, show: any): any => {
-    let sampledData: any = [];
+    const sampledData: any = [];
     const dataLength = data.length;
 
     if (dataLength === 0) return sampledData;
@@ -271,7 +271,7 @@ export const generateRandomMultiData = (startDate: string | Date, endDate: strin
     while (currentDate <= end) {
         let currentValues;
         if (inter) {
-            let incr = maxValue;
+            const incr = maxValue;
             currentValues = Array(datasetsCount)
                 .fill(null)
                 .map((_, i) => {

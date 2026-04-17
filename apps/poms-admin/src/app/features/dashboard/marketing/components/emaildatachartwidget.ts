@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { MultiLineChart } from '@poms/admin/features/dashboard/ui/charts/multilinechart';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { MultiLineChart } from '../../ui/charts/multilinechart';
 
 @Component({
     selector: 'email-data-chart-widget',

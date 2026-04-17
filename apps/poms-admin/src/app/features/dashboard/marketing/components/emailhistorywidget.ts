@@ -3,7 +3,7 @@ import { FilterMatchMode } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';

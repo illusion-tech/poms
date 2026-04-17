@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 

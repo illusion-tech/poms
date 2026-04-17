@@ -1,9 +1,9 @@
 ﻿import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
 import { TableModule } from 'primeng/table';
-import { GaugeChart } from '@poms/admin/features/dashboard/ui/charts/gaugechart';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { GaugeChart } from '../../../dashboard/ui/charts/gaugechart';
+import { LayoutService } from '../../../../layout/service/layout.service';
 
 @Component({
     selector: 'about-section-two-widget',

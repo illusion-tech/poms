@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { generateRandomData } from '@poms/admin/shared/utils/utils';
-import { SectionCard } from '@poms/admin/shared/ui/sectioncard';
-import { BarChart } from '@poms/admin/features/dashboard/ui/charts/barchart';
+import { generateRandomData } from '../../../../shared/utils/utils';
+import { SectionCard } from '../../../../shared/ui/sectioncard';
+import { BarChart } from '../../ui/charts/barchart';
 
 @Component({
     selector: 'overview-widget',

@@ -7,7 +7,7 @@ import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { LayoutService, MenuMode } from '@/app/layout/service/layout.service';
+import { LayoutService, MenuMode } from '../service/layout.service';
 import { Router } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';

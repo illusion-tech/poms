@@ -1,10 +1,10 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StatWidget } from '@poms/admin/features/dashboard/banking/components/statwidget';
-import { OverviewWidget } from '@poms/admin/features/dashboard/banking/components/overviewwidget';
-import { CreditWidget } from '@poms/admin/features/dashboard/banking/components/creditwidget';
-import { AccountHistoryWidget } from '@poms/admin/features/dashboard/banking/components/accounthistorywidget';
-import { LastCardMovementsWidget } from '@poms/admin/features/dashboard/banking/components/lastcardmovementswidget';
+import { StatWidget } from './components/statwidget';
+import { OverviewWidget } from './components/overviewwidget';
+import { CreditWidget } from './components/creditwidget';
+import { AccountHistoryWidget } from './components/accounthistorywidget';
+import { LastCardMovementsWidget } from './components/lastcardmovementswidget';
 
 @Component({
     selector: 'banking-dashboard',

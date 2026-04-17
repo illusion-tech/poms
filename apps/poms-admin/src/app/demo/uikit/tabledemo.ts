@@ -16,8 +16,8 @@ import { RippleModule } from 'primeng/ripple';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TagModule } from 'primeng/tag';
-import { Customer, CustomerService, Representative } from '@poms/admin/demo/services/customer.service';
-import { Product, ProductService } from '@poms/admin/demo/services/product.service';
+import { Customer, CustomerService, Representative } from '../services/customer.service';
+import { Product, ProductService } from '../services/product.service';
 
 interface expandedRows {
     [key: string]: boolean;
@@ -563,7 +563,7 @@ export class TableDemo implements OnInit {
         let total = 0;
 
         if (this.customers2) {
-            for (let customer of this.customers2) {
+            for (const customer of this.customers2) {
                 if (customer.representative?.name === name) {
                     total++;
                 }

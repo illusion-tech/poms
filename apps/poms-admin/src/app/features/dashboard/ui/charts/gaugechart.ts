@@ -1,7 +1,7 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../../../layout/service/layout.service';
 
 @Component({
     selector: 'gauge-chart',

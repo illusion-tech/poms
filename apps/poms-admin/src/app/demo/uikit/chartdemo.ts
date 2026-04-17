@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../../layout/service/layout.service';
 
 @Component({
     selector: 'app-chart-demo',
