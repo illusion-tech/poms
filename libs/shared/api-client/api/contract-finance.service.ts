@@ -72,13 +72,11 @@ export interface ContractFinanceControllerClosePayableRequestParams {
 }
 
 export interface ContractFinanceControllerConfirmPaymentRequestParams {
-    projectId: string;
     id: string;
     confirmPaymentRecordRequest: ConfirmPaymentRecordRequest;
 }
 
 export interface ContractFinanceControllerConfirmReceiptRequestParams {
-    contractId: string;
     id: string;
     confirmReceiptRecordRequest: ConfirmReceiptRecordRequest;
 }
@@ -164,7 +162,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 关闭发票记录
-     * @endpoint post /api/contract-finance/invoice-records/{id}/close
+     * @endpoint post /api/invoice-records/{id}:close
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -220,7 +218,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/close`;
+        let localVarPath = `/api/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:close`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -238,7 +236,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 关闭采购承诺记录
-     * @endpoint post /api/contract-finance/payable-records/{id}/close
+     * @endpoint post /api/payable-records/{id}:close
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -294,7 +292,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/close`;
+        let localVarPath = `/api/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:close`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PayableRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -312,7 +310,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 确认项目付款记录生效
-     * @endpoint post /api/contract-finance/projects/{projectId}/payments/{id}/confirm
+     * @endpoint post /api/payment-records/{id}:confirm
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -322,10 +320,6 @@ export class ContractFinanceApi extends BaseService {
     public contractFinanceControllerConfirmPayment(requestParameters: ContractFinanceControllerConfirmPaymentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaymentRecordSummary>>;
     public contractFinanceControllerConfirmPayment(requestParameters: ContractFinanceControllerConfirmPaymentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaymentRecordSummary>>;
     public contractFinanceControllerConfirmPayment(requestParameters: ContractFinanceControllerConfirmPaymentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const projectId = requestParameters?.projectId;
-        if (projectId === null || projectId === undefined) {
-            throw new Error('Required parameter projectId was null or undefined when calling contractFinanceControllerConfirmPayment.');
-        }
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerConfirmPayment.');
@@ -372,7 +366,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/confirm`;
+        let localVarPath = `/api/payment-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PaymentRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -390,7 +384,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 确认合同回款记录生效
-     * @endpoint post /api/contract-finance/contracts/{contractId}/receipts/{id}/confirm
+     * @endpoint post /api/receipt-records/{id}:confirm
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -400,10 +394,6 @@ export class ContractFinanceApi extends BaseService {
     public contractFinanceControllerConfirmReceipt(requestParameters: ContractFinanceControllerConfirmReceiptRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ReceiptRecordSummary>>;
     public contractFinanceControllerConfirmReceipt(requestParameters: ContractFinanceControllerConfirmReceiptRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ReceiptRecordSummary>>;
     public contractFinanceControllerConfirmReceipt(requestParameters: ContractFinanceControllerConfirmReceiptRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const contractId = requestParameters?.contractId;
-        if (contractId === null || contractId === undefined) {
-            throw new Error('Required parameter contractId was null or undefined when calling contractFinanceControllerConfirmReceipt.');
-        }
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling contractFinanceControllerConfirmReceipt.');
@@ -450,7 +440,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/contracts/${this.configuration.encodeParam({name: "contractId", value: contractId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/receipts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/confirm`;
+        let localVarPath = `/api/receipt-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ReceiptRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -468,7 +458,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 登记项目发票记录
-     * @endpoint post /api/contract-finance/projects/{projectId}/invoices
+     * @endpoint post /api/projects/{projectId}/invoice-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -524,7 +514,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoices`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoice-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -542,7 +532,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 登记项目采购承诺记录
-     * @endpoint post /api/contract-finance/projects/{projectId}/payables
+     * @endpoint post /api/projects/{projectId}/payable-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -598,7 +588,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payables`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payable-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PayableRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -616,7 +606,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 登记项目付款记录
-     * @endpoint post /api/contract-finance/projects/{projectId}/payments
+     * @endpoint post /api/projects/{projectId}/payment-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -672,7 +662,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payments`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payment-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PaymentRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -690,7 +680,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 登记合同回款记录
-     * @endpoint post /api/contract-finance/contracts/{contractId}/receipts
+     * @endpoint post /api/contracts/{contractId}/receipt-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -746,7 +736,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/contracts/${this.configuration.encodeParam({name: "contractId", value: contractId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/receipts`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "contractId", value: contractId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/receipt-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ReceiptRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -764,7 +754,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取发票记录详情
-     * @endpoint get /api/contract-finance/invoice-records/{id}
+     * @endpoint get /api/invoice-records/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -807,7 +797,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordDetailView>('get', `${basePath}${localVarPath}`,
             {
@@ -824,7 +814,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取采购承诺记录详情
-     * @endpoint get /api/contract-finance/payable-records/{id}
+     * @endpoint get /api/payable-records/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -867,7 +857,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PayableRecordDetailView>('get', `${basePath}${localVarPath}`,
             {
@@ -884,7 +874,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取项目发票记录列表
-     * @endpoint get /api/contract-finance/projects/{projectId}/invoices
+     * @endpoint get /api/projects/{projectId}/invoice-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -927,7 +917,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoices`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/invoice-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<InvoiceRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
@@ -944,7 +934,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取项目采购承诺记录列表
-     * @endpoint get /api/contract-finance/projects/{projectId}/payables
+     * @endpoint get /api/projects/{projectId}/payable-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -987,7 +977,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payables`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payable-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<PayableRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
@@ -1004,7 +994,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取项目付款记录列表
-     * @endpoint get /api/contract-finance/projects/{projectId}/payments
+     * @endpoint get /api/projects/{projectId}/payment-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1047,7 +1037,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payments`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/payment-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<PaymentRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
@@ -1064,7 +1054,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 获取合同回款记录列表
-     * @endpoint get /api/contract-finance/contracts/{contractId}/receipts
+     * @endpoint get /api/contracts/{contractId}/receipt-records
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1107,7 +1097,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/contracts/${this.configuration.encodeParam({name: "contractId", value: contractId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/receipts`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "contractId", value: contractId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/receipt-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<ReceiptRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
@@ -1124,7 +1114,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 标记发票异常
-     * @endpoint post /api/contract-finance/invoice-records/{id}/mark-exception
+     * @endpoint post /api/invoice-records/{id}:markException
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1180,7 +1170,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mark-exception`;
+        let localVarPath = `/api/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:markException`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -1198,7 +1188,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 解决发票异常
-     * @endpoint post /api/contract-finance/invoice-records/{id}/resolve-exception
+     * @endpoint post /api/invoice-records/{id}:resolveException
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1254,7 +1244,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/resolve-exception`;
+        let localVarPath = `/api/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:resolveException`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -1272,7 +1262,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 更新发票记录
-     * @endpoint patch /api/contract-finance/invoice-records/{id}
+     * @endpoint patch /api/invoice-records/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1328,7 +1318,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/invoice-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<InvoiceRecordSummary>('patch', `${basePath}${localVarPath}`,
             {
@@ -1346,7 +1336,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 更新采购承诺记录
-     * @endpoint patch /api/contract-finance/payable-records/{id}
+     * @endpoint patch /api/payable-records/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1402,7 +1392,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PayableRecordSummary>('patch', `${basePath}${localVarPath}`,
             {
@@ -1420,7 +1410,7 @@ export class ContractFinanceApi extends BaseService {
 
     /**
      * 作废采购承诺记录
-     * @endpoint post /api/contract-finance/payable-records/{id}/void
+     * @endpoint post /api/payable-records/{id}:void
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1476,7 +1466,7 @@ export class ContractFinanceApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contract-finance/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/void`;
+        let localVarPath = `/api/payable-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:void`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PayableRecordSummary>('post', `${basePath}${localVarPath}`,
             {

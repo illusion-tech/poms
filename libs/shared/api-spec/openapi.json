@@ -237,7 +237,7 @@
         ]
       }
     },
-    "/api/security-events/route-denied": {
+    "/api/security-events:recordRouteDenied": {
       "post": {
         "operationId": "RuntimeAuditController_recordRouteDeniedEvent",
         "parameters": [],
@@ -468,7 +468,7 @@
         ]
       }
     },
-    "/api/platform/users/{id}/activate": {
+    "/api/platform/users/{id}:activate": {
       "post": {
         "operationId": "PlatformController_activateUser",
         "parameters": [
@@ -514,7 +514,7 @@
         ]
       }
     },
-    "/api/platform/users/{id}/deactivate": {
+    "/api/platform/users/{id}:deactivate": {
       "post": {
         "operationId": "PlatformController_deactivateUser",
         "parameters": [
@@ -561,7 +561,7 @@
       }
     },
     "/api/platform/users/{id}/roles": {
-      "post": {
+      "put": {
         "operationId": "PlatformController_assignUserRoles",
         "parameters": [
           {
@@ -607,7 +607,7 @@
       }
     },
     "/api/platform/users/{id}/org-memberships": {
-      "post": {
+      "put": {
         "operationId": "PlatformController_assignUserOrgMemberships",
         "parameters": [
           {
@@ -821,7 +821,7 @@
         ]
       }
     },
-    "/api/platform/roles/{id}/activate": {
+    "/api/platform/roles/{id}:activate": {
       "post": {
         "operationId": "PlatformController_activateRole",
         "parameters": [
@@ -867,7 +867,7 @@
         ]
       }
     },
-    "/api/platform/roles/{id}/deactivate": {
+    "/api/platform/roles/{id}:deactivate": {
       "post": {
         "operationId": "PlatformController_deactivateRole",
         "parameters": [
@@ -914,7 +914,7 @@
       }
     },
     "/api/platform/roles/{id}/permissions": {
-      "post": {
+      "put": {
         "operationId": "PlatformController_assignRolePermissions",
         "parameters": [
           {
@@ -1021,7 +1021,7 @@
         ]
       }
     },
-    "/api/platform/org-units/tree": {
+    "/api/platform/org-unit-tree": {
       "get": {
         "operationId": "PlatformController_listOrgUnitTree",
         "parameters": [],
@@ -1128,7 +1128,7 @@
         ]
       }
     },
-    "/api/platform/org-units/{id}/activate": {
+    "/api/platform/org-units/{id}:activate": {
       "post": {
         "operationId": "PlatformController_activateOrgUnit",
         "parameters": [
@@ -1174,7 +1174,7 @@
         ]
       }
     },
-    "/api/platform/org-units/{id}/deactivate": {
+    "/api/platform/org-units/{id}:deactivate": {
       "post": {
         "operationId": "PlatformController_deactivateOrgUnit",
         "parameters": [
@@ -1220,7 +1220,7 @@
         ]
       }
     },
-    "/api/platform/org-units/{id}/move": {
+    "/api/platform/org-units/{id}:move": {
       "post": {
         "operationId": "PlatformController_moveOrgUnit",
         "parameters": [
@@ -1293,7 +1293,7 @@
         ]
       }
     },
-    "/api/platform/navigation/sync": {
+    "/api/platform/navigation:sync": {
       "post": {
         "operationId": "PlatformController_syncNavigation",
         "parameters": [],
@@ -1520,9 +1520,7 @@
         "tags": [
           "Project"
         ]
-      }
-    },
-    "/api/projects/{id}/basic": {
+      },
       "patch": {
         "operationId": "ProjectController_updateBasicInfo",
         "parameters": [
@@ -2764,7 +2762,7 @@
         ]
       }
     },
-    "/api/contract-finance/contracts/{contractId}/receipts": {
+    "/api/contracts/{contractId}/receipt-records": {
       "get": {
         "operationId": "ContractFinanceController_listReceipts",
         "parameters": [
@@ -2844,18 +2842,10 @@
         ]
       }
     },
-    "/api/contract-finance/contracts/{contractId}/receipts/{id}/confirm": {
+    "/api/receipt-records/{id}:confirm": {
       "post": {
         "operationId": "ContractFinanceController_confirmReceipt",
         "parameters": [
-          {
-            "name": "contractId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -2898,7 +2888,7 @@
         ]
       }
     },
-    "/api/contract-finance/projects/{projectId}/payables": {
+    "/api/projects/{projectId}/payable-records": {
       "get": {
         "operationId": "ContractFinanceController_listPayables",
         "parameters": [
@@ -2978,7 +2968,7 @@
         ]
       }
     },
-    "/api/contract-finance/payable-records/{id}": {
+    "/api/payable-records/{id}": {
       "get": {
         "operationId": "ContractFinanceController_getPayable",
         "parameters": [
@@ -3058,7 +3048,7 @@
         ]
       }
     },
-    "/api/contract-finance/payable-records/{id}/close": {
+    "/api/payable-records/{id}:close": {
       "post": {
         "operationId": "ContractFinanceController_closePayable",
         "parameters": [
@@ -3104,7 +3094,7 @@
         ]
       }
     },
-    "/api/contract-finance/payable-records/{id}/void": {
+    "/api/payable-records/{id}:void": {
       "post": {
         "operationId": "ContractFinanceController_voidPayable",
         "parameters": [
@@ -3150,7 +3140,7 @@
         ]
       }
     },
-    "/api/contract-finance/projects/{projectId}/invoices": {
+    "/api/projects/{projectId}/invoice-records": {
       "get": {
         "operationId": "ContractFinanceController_listInvoices",
         "parameters": [
@@ -3230,7 +3220,7 @@
         ]
       }
     },
-    "/api/contract-finance/invoice-records/{id}": {
+    "/api/invoice-records/{id}": {
       "get": {
         "operationId": "ContractFinanceController_getInvoice",
         "parameters": [
@@ -3310,7 +3300,7 @@
         ]
       }
     },
-    "/api/contract-finance/invoice-records/{id}/mark-exception": {
+    "/api/invoice-records/{id}:markException": {
       "post": {
         "operationId": "ContractFinanceController_markInvoiceException",
         "parameters": [
@@ -3356,7 +3346,7 @@
         ]
       }
     },
-    "/api/contract-finance/invoice-records/{id}/resolve-exception": {
+    "/api/invoice-records/{id}:resolveException": {
       "post": {
         "operationId": "ContractFinanceController_resolveInvoiceException",
         "parameters": [
@@ -3402,7 +3392,7 @@
         ]
       }
     },
-    "/api/contract-finance/invoice-records/{id}/close": {
+    "/api/invoice-records/{id}:close": {
       "post": {
         "operationId": "ContractFinanceController_closeInvoiceRecord",
         "parameters": [
@@ -3448,7 +3438,7 @@
         ]
       }
     },
-    "/api/contract-finance/projects/{projectId}/payments": {
+    "/api/projects/{projectId}/payment-records": {
       "get": {
         "operationId": "ContractFinanceController_listPayments",
         "parameters": [
@@ -3528,18 +3518,10 @@
         ]
       }
     },
-    "/api/contract-finance/projects/{projectId}/payments/{id}/confirm": {
+    "/api/payment-records/{id}:confirm": {
       "post": {
         "operationId": "ContractFinanceController_confirmPayment",
         "parameters": [
-          {
-            "name": "projectId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "required": true,
@@ -4089,45 +4071,7 @@
         "tags": [
           "Contract"
         ]
-      }
-    },
-    "/api/contracts/{id}/current-approval": {
-      "get": {
-        "operationId": "ContractController_getCurrentApproval",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApprovalRecordSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "获取合同当前审批摘要",
-        "tags": [
-          "Contract"
-        ]
-      }
-    },
-    "/api/contracts/{id}/basic": {
+      },
       "patch": {
         "operationId": "ContractController_updateBasicInfo",
         "parameters": [
@@ -4173,7 +4117,43 @@
         ]
       }
     },
-    "/api/contracts/{id}/submit-review": {
+    "/api/contracts/{id}/approval-record": {
+      "get": {
+        "operationId": "ContractController_getCurrentApproval",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取合同当前审批摘要",
+        "tags": [
+          "Contract"
+        ]
+      }
+    },
+    "/api/contracts/{id}:submitReview": {
       "post": {
         "operationId": "ContractController_submitReview",
         "parameters": [
@@ -4219,7 +4199,7 @@
         ]
       }
     },
-    "/api/contracts/{id}/activate": {
+    "/api/contracts/{id}:activate": {
       "post": {
         "operationId": "ContractController_activate",
         "parameters": [

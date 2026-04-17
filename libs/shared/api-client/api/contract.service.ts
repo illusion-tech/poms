@@ -88,7 +88,7 @@ export class ContractApi extends BaseService {
 
     /**
      * 确认合同生效
-     * @endpoint post /api/contracts/{id}/activate
+     * @endpoint post /api/contracts/{id}:activate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -144,7 +144,7 @@ export class ContractApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/activate`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
@@ -352,7 +352,7 @@ export class ContractApi extends BaseService {
 
     /**
      * 获取合同当前审批摘要
-     * @endpoint get /api/contracts/{id}/current-approval
+     * @endpoint get /api/contracts/{id}/approval-record
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -395,7 +395,7 @@ export class ContractApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/current-approval`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/approval-record`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ApprovalRecordSummary>('get', `${basePath}${localVarPath}`,
             {
@@ -501,7 +501,7 @@ export class ContractApi extends BaseService {
 
     /**
      * 提交合同审核
-     * @endpoint post /api/contracts/{id}/submit-review
+     * @endpoint post /api/contracts/{id}:submitReview
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -557,7 +557,7 @@ export class ContractApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/submit-review`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:submitReview`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
@@ -575,7 +575,7 @@ export class ContractApi extends BaseService {
 
     /**
      * 更新合同基础信息
-     * @endpoint patch /api/contracts/{id}/basic
+     * @endpoint patch /api/contracts/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -631,7 +631,7 @@ export class ContractApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/basic`;
+        let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ContractSummary>('patch', `${basePath}${localVarPath}`,
             {

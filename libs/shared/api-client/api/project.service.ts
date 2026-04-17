@@ -354,7 +354,7 @@ export class ProjectApi extends BaseService {
 
     /**
      * 更新项目基础信息
-     * @endpoint patch /api/projects/{id}/basic
+     * @endpoint patch /api/projects/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -410,7 +410,7 @@ export class ProjectApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/basic`;
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectSummary>('patch', `${basePath}${localVarPath}`,
             {

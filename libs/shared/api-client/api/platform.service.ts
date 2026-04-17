@@ -172,7 +172,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 启用组织单元
-     * @endpoint post /api/platform/org-units/{id}/activate
+     * @endpoint post /api/platform/org-units/{id}:activate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -228,7 +228,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/activate`;
+        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PlatformOrgUnitSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -246,7 +246,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 启用平台角色
-     * @endpoint post /api/platform/roles/{id}/activate
+     * @endpoint post /api/platform/roles/{id}:activate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -302,7 +302,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/activate`;
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PlatformRoleSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -320,7 +320,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 启用平台用户
-     * @endpoint post /api/platform/users/{id}/activate
+     * @endpoint post /api/platform/users/{id}:activate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -376,7 +376,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/activate`;
+        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<object>('post', `${basePath}${localVarPath}`,
             {
@@ -394,7 +394,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 分配角色权限（全量替换）
-     * @endpoint post /api/platform/roles/{id}/permissions
+     * @endpoint put /api/platform/roles/{id}/permissions
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -452,7 +452,7 @@ export class PlatformApi extends BaseService {
 
         let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/permissions`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<PlatformRoleSummary>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<PlatformRoleSummary>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: assignRolePermissionsRequest,
@@ -468,7 +468,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 分配用户组织关系
-     * @endpoint post /api/platform/users/{id}/org-memberships
+     * @endpoint put /api/platform/users/{id}/org-memberships
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -526,7 +526,7 @@ export class PlatformApi extends BaseService {
 
         let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/org-memberships`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<SanitizedUserWithOrgUnits>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<SanitizedUserWithOrgUnits>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: assignUserOrgMembershipsRequest,
@@ -542,7 +542,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 分配用户角色
-     * @endpoint post /api/platform/users/{id}/roles
+     * @endpoint put /api/platform/users/{id}/roles
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -600,7 +600,7 @@ export class PlatformApi extends BaseService {
 
         let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/roles`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<SanitizedUserWithOrgUnits>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<SanitizedUserWithOrgUnits>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: assignUserRolesRequest,
@@ -826,7 +826,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 停用组织单元
-     * @endpoint post /api/platform/org-units/{id}/deactivate
+     * @endpoint post /api/platform/org-units/{id}:deactivate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -882,7 +882,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/deactivate`;
+        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:deactivate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PlatformOrgUnitSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -900,7 +900,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 停用平台角色
-     * @endpoint post /api/platform/roles/{id}/deactivate
+     * @endpoint post /api/platform/roles/{id}:deactivate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -956,7 +956,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/deactivate`;
+        let localVarPath = `/api/platform/roles/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:deactivate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PlatformRoleSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -974,7 +974,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 停用平台用户
-     * @endpoint post /api/platform/users/{id}/deactivate
+     * @endpoint post /api/platform/users/{id}:deactivate
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1030,7 +1030,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/deactivate`;
+        let localVarPath = `/api/platform/users/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:deactivate`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<object>('post', `${basePath}${localVarPath}`,
             {
@@ -1283,7 +1283,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 获取平台组织树
-     * @endpoint get /api/platform/org-units/tree
+     * @endpoint get /api/platform/org-unit-tree
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
@@ -1321,7 +1321,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/org-units/tree`;
+        let localVarPath = `/api/platform/org-unit-tree`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<OrgUnitTreeNode>>('get', `${basePath}${localVarPath}`,
             {
@@ -1558,7 +1558,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 移动组织单元并调整排序
-     * @endpoint post /api/platform/org-units/{id}/move
+     * @endpoint post /api/platform/org-units/{id}:move
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1614,7 +1614,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/move`;
+        let localVarPath = `/api/platform/org-units/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:move`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<PlatformOrgUnitSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -1632,7 +1632,7 @@ export class PlatformApi extends BaseService {
 
     /**
      * 记录当前导航 SSOT 的同步审计快照
-     * @endpoint post /api/platform/navigation/sync
+     * @endpoint post /api/platform/navigation:sync
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
@@ -1670,7 +1670,7 @@ export class PlatformApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/platform/navigation/sync`;
+        let localVarPath = `/api/platform/navigation:sync`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<NavigationSyncSummary>('post', `${basePath}${localVarPath}`,
             {

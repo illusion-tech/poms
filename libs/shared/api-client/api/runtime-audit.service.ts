@@ -360,7 +360,7 @@ export class RuntimeAuditApi extends BaseService {
 
     /**
      * 记录前端权限路由守卫拒绝事件
-     * @endpoint post /api/security-events/route-denied
+     * @endpoint post /api/security-events:recordRouteDenied
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -411,7 +411,7 @@ export class RuntimeAuditApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/security-events/route-denied`;
+        let localVarPath = `/api/security-events:recordRouteDenied`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
