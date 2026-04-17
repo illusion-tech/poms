@@ -40,7 +40,7 @@ export const permissionGuard: CanActivateFn = async (route, state) => {
 
     void firstValueFrom(
         http
-            .post('/api/security-events/route-denied', {
+            .post('/api/security-events:recordRouteDenied', {
                 path: state.url,
                 returnUrl: state.url,
                 requiredPermissions

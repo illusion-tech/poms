@@ -239,7 +239,7 @@ export class NavigationGovernance {
         this.syncing.set(true);
 
         const summary = await firstValueFrom(
-            this.#http.post<NavigationSyncSummary>('/api/platform/navigation/sync', {}).pipe(catchError(() => of(null)))
+            this.#http.post<NavigationSyncSummary>('/api/platform/navigation:sync', {}).pipe(catchError(() => of(null)))
         );
 
         this.syncing.set(false);

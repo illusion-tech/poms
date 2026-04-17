@@ -104,7 +104,7 @@ describe('permissionGuard', () => {
 
         expect(result instanceof UrlTree).toBe(true);
         expect(router.serializeUrl(result as UrlTree)).toBe('/auth/access?returnUrl=%2Fplatform%2Fusers');
-        expect(httpClientMock.post).toHaveBeenCalledWith('/api/security-events/route-denied', {
+        expect(httpClientMock.post).toHaveBeenCalledWith('/api/security-events:recordRouteDenied', {
             path: '/platform/users',
             returnUrl: '/platform/users',
             requiredPermissions: ['platform:users:manage']
