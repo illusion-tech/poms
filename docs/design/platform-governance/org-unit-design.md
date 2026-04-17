@@ -291,14 +291,14 @@ flowchart TD
 
 第一阶段建议至少提供以下接口：
 
-- `GET /platform/org-units/tree`
+- `GET /platform/org-unit-tree`
 - `GET /platform/org-units`
-- `GET /platform/org-units/:id`
+- `GET /platform/org-units/{id}`
 - `POST /platform/org-units`
-- `PATCH /platform/org-units/:id`
-- `POST /platform/org-units/:id/activate`
-- `POST /platform/org-units/:id/deactivate`
-- `POST /platform/org-units/:id/move`
+- `PATCH /platform/org-units/{id}`
+- `POST /platform/org-units/{id}:activate`
+- `POST /platform/org-units/{id}:deactivate`
+- `POST /platform/org-units/{id}:move`
 
 说明：
 
