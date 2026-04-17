@@ -1,7 +1,7 @@
 # POMS 实施治理最小校验矩阵
 
 **文档状态**: Active
-**最后更新**: 2026-04-11
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` PR 评审、local checkpoint、实施基线包和本地验证中的最小自动化 / 半自动化校验
 **关联文档**:
 
@@ -28,21 +28,23 @@
 - 哪些校验暂时无法跑
 - 无法跑时是否需要例外
 
+对存在 `lint target` 的受影响项目，`lint` 视为最小静态校验的一部分。`lint` 不能替代 build 或 test，但 `G3` 必须明确说明 lint 结果以及是否引入新的 warning。
+
 若变更不是新切片开工，而是“已开工后发现 drift 的 corrective slice”，应结合 `implementation-corrective-checkpoint-template.md` 记录当前阻断、修复范围与剩余阻断，而不是只留下零散命令结果。
 
 ---
 
 ## 2. 切片类型到校验矩阵
 
-| Slice Type                   | Required Evidence                                                      | Usually Not Required                                        |
-| ---------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `docs-only` / `process-only` | `git diff --check`、影响范围说明、无行为变更声明                       | build、API test、migration-check、OpenAPI client generation |
-| `refactor-only`              | 对外行为不变说明、相关单测或构建、关键回归路径                         | migration-check，除非触及 entity / mapping                  |
-| `query-only`                 | query / view 对照、API 或 service 测试、权限边界说明                   | migration-check，除非新增字段或表                           |
-| `frontend-only`              | build、关键交互验证、OpenAPI client 影响说明                           | migration-check                                             |
-| `api / command`              | route-command-DTO 对照、API / service 测试、OpenAPI 生成与 diff 判断   | migration-check，除非同时触及 persistence                   |
-| `persistence`                | migration-entity-DDL-contract 对照、`migration-check` 结果、drift 归类 | 前端 E2E，除非影响用户主路径                                |
-| `cross-layer-high-risk`      | 以上相关项全部适用，并显式判断 E2E 是否必须补                          | 无默认豁免                                                  |
+| Slice Type                   | Required Evidence                                                                                            | Usually Not Required                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `docs-only` / `process-only` | `git diff --check`、影响范围说明、无行为变更声明                                                             | build、lint、API test、migration-check、OpenAPI client generation |
+| `refactor-only`              | 对外行为不变说明、相关项目 lint（若存在 target）、相关单测或构建、关键回归路径                               | migration-check，除非触及 entity / mapping                        |
+| `query-only`                 | query / view 对照、相关项目 lint（若存在 target）、API 或 service 测试、权限边界说明                         | migration-check，除非新增字段或表                                 |
+| `frontend-only`              | 受影响前端项目 lint（若存在 target）、build、关键交互验证、OpenAPI client 影响说明                           | migration-check                                                   |
+| `api / command`              | route-command-DTO 对照、受影响后端项目 lint（若存在 target）、API / service 测试、OpenAPI 生成与 diff 判断   | migration-check，除非同时触及 persistence                         |
+| `persistence`                | migration-entity-DDL-contract 对照、受影响后端项目 lint（若存在 target）、`migration-check` 结果、drift 归类 | 前端 E2E，除非影响用户主路径                                      |
+| `cross-layer-high-risk`      | 以上相关项全部适用；所有受影响且存在 lint target 的项目均应执行 lint，并显式判断 E2E 是否必须补              | 无默认豁免                                                        |
 
 ---
 
@@ -52,7 +54,10 @@
 
 | Purpose                      | Command                                         | Required When                                | Evidence                                 |
 | ---------------------------- | ----------------------------------------------- | -------------------------------------------- | ---------------------------------------- |
-| Markdown / whitespace sanity | `git diff --check`                              | 所有变更                                    | 命令通过或列出修复结果                   |
+| Markdown / whitespace sanity | `git diff --check`                              | 所有变更                                     | 命令通过或列出修复结果                   |
+| API lint                     | `corepack pnpm nx lint poms-api`                | 变更触及 `poms-api`                          | 命令结果、warning 结论                   |
+| Admin lint                   | `corepack pnpm nx lint poms-admin`              | 变更触及 `poms-admin`                        | 命令结果、warning 结论                   |
+| Library lint                 | `corepack pnpm nx lint <project-name>`          | 变更触及存在 `lint target` 的 library        | 命令结果、warning 结论                   |
 | API build                    | `corepack pnpm nx build poms-api`               | 后端代码变更                                 | 命令结果                                 |
 | Admin build                  | `corepack pnpm nx build poms-admin`             | 前端或 generated client 影响前端             | 命令结果                                 |
 | API unit / integration tests | `corepack pnpm nx test poms-api`                | API / command / persistence 变更             | 命令结果与覆盖范围                       |
@@ -104,6 +109,8 @@
 5. 字段命名、日期类型、标识符类型、金额精度或版本链语义存在差异且未修复。
 6. 变更说明声称父任务完成，但证据只覆盖子切片。
 7. 例外缺少批准人、cleanup owner 或 cleanup due。
+8. 受影响项目存在 `lint target`，但 `G3` 没有提供 lint 结果、warning 结论或豁免理由。
+9. 必跑 lint 失败，或本次变更引入新的 lint warning / error 且未通过例外记录明确接受。
 
 ---
 
@@ -116,3 +123,4 @@
 3. 因历史全局 drift 导致 `migration-check` 失败，但本次变更未新增 drift。
 4. E2E 经风险判断不补，但已有 API / integration 测试覆盖主路径。
 5. generated client diff 只来自预期 API 变化，并已提交生成结果。
+6. 受影响项目存在历史 lint warning，但本次未新增 warning，且已记录 warning 结论与后续清理安排。

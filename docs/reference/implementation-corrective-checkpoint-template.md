@@ -1,7 +1,7 @@
 # POMS 实施纠偏 Checkpoint 模板
 
 **文档状态**: Active
-**最后更新**: 2026-04-12
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` 已开工切片在实现中发现 design / DDL / entity / contract / API drift 后，用于记录 `G3` 阻断、纠偏范围与修复证据
 **关联文档**:
 
@@ -105,6 +105,7 @@
 
 | Check                            | Required | Command / Evidence | Result | Gap / Reason |
 | -------------------------------- | -------- | ------------------ | ------ | ------------ |
+| Lint                             |          |                    |        |              |
 | Build                            |          |                    |        |              |
 | Unit tests                       |          |                    |        |              |
 | API / integration tests          |          |                    |        |              |

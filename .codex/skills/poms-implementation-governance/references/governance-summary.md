@@ -7,7 +7,7 @@ Use this file as the compact operating guide. Open the full source documents onl
 1. Use one formal input set for one slice.
 2. Freeze the slice before coding.
 3. Split large work into independently verifiable sub-slices.
-4. Block merge or commit when design, DDL, entity, contract, API, or tests drift in a material way.
+4. Block merge or commit when design, DDL, entity, contract, API, required lint, or tests drift in a material way.
 5. Record every exception with scope, risk, cleanup owner, and cleanup due date.
 6. Keep `Done` reserved for work that downstream slices can actually rely on.
 
@@ -36,6 +36,7 @@ Use this file as the compact operating guide. Open the full source documents onl
 
 - Provide common evidence plus slice-type-specific evidence.
 - Run or explicitly waive the required checks.
+- Include lint results for every touched project that has a `lint target`.
 - Classify drift.
 - Use a corrective checkpoint if the slice had already started.
 
@@ -90,19 +91,22 @@ Keep at least:
 
 | Slice Type | Required Evidence | Usually Not Required |
 | --- | --- | --- |
-| `docs-only` / `process-only` | `git diff --check`, scope summary, no behavior change statement | build, API tests, migration check, OpenAPI generation |
-| `refactor-only` | external behavior unchanged statement, relevant tests or build, regression path | migration check unless mapping changed |
-| `query-only` | query or view mapping, API or service tests, permission boundary | migration check unless schema changed |
-| `frontend-only` | build, key interaction verification, generated client impact statement | migration check |
-| `api / command` | route-command-DTO alignment, API or service tests, OpenAPI generation and diff review | migration check unless persistence changed too |
-| `persistence` | migration-entity-DDL-contract alignment, migration check, drift classification | frontend E2E unless a user path changed |
-| `cross-layer-high-risk` | all relevant items above plus explicit E2E decision | no default waiver |
+| `docs-only` / `process-only` | `git diff --check`, scope summary, no behavior change statement | build, lint, API tests, migration check, OpenAPI generation |
+| `refactor-only` | external behavior unchanged statement, relevant lint for touched lint-enabled projects, relevant tests or build, regression path | migration check unless mapping changed |
+| `query-only` | query or view mapping, relevant lint for touched lint-enabled projects, API or service tests, permission boundary | migration check unless schema changed |
+| `frontend-only` | frontend lint, build, key interaction verification, generated client impact statement | migration check |
+| `api / command` | route-command-DTO alignment, backend lint, API or service tests, OpenAPI generation and diff review | migration check unless persistence changed too |
+| `persistence` | migration-entity-DDL-contract alignment, backend lint, migration check, drift classification | frontend E2E unless a user path changed |
+| `cross-layer-high-risk` | all relevant items above plus lint for every touched lint-enabled project and an explicit E2E decision | no default waiver |
 
 ## Current Command Set
 
 | Purpose | Command |
 | --- | --- |
 | whitespace and markdown sanity | `git diff --check` |
+| API lint | `corepack pnpm nx lint poms-api` |
+| admin lint | `corepack pnpm nx lint poms-admin` |
+| library lint | `corepack pnpm nx lint <project-name>` |
 | API build | `corepack pnpm nx build poms-api` |
 | admin build | `corepack pnpm nx build poms-admin` |
 | API tests | `corepack pnpm nx test poms-api` |
@@ -133,6 +137,8 @@ Block `G3 = Pass` when any of these is true:
 5. Field naming, date types, identifier types, money precision, or version-chain semantics drift without a fix.
 6. The change claims the parent task is complete while the evidence covers only a child slice.
 7. An exception lacks approver, cleanup owner, or cleanup due date.
+8. A touched lint-enabled project has no lint result, no warning statement, and no accepted exception.
+9. Required lint failed or the change introduced new lint warnings without an explicit exception record.
 
 ## High-Risk Alignment Points
 

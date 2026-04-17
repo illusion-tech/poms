@@ -1,7 +1,7 @@
 # POMS 个人开发与本地工作树治理
 
 **文档状态**: Active
-**最后更新**: 2026-04-12
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` 个人开发、单 `main` 分支、本地 worktree 或不通过 PR 的实现推进
 **关联文档**:
 
@@ -126,6 +126,7 @@ Evidence:
 
 Commands:
 - `git diff --check`:
+- Lint:
 - Build:
 - Unit / API tests:
 - E2E:
@@ -177,7 +178,7 @@ EX-06A: align cost record contract with DDL
 Gate: G3 Pass
 Type: persistence + api-command
 Scope: cost record dates, source identifiers, supersedes chain
-Evidence: git diff --check; poms-api tests; OpenAPI generated client check
+Evidence: git diff --check; poms-api lint; poms-api tests; OpenAPI generated client check
 Drift: no new drift
 Docs: updated
 Tracker: EX-06A remains Doing until source mapping closes
@@ -207,9 +208,10 @@ PR 的价值不是“多人审批”，而是把 diff、讨论、证据和结论
 
 1. docs-only 不需要 migration / entity / contract 对照。
 2. refactor-only 不需要实施基线包，除非触及外部行为或结构边界。
-3. persistence 必须有 migration / entity / DDL / contract 对照。
-4. api / command 必须有 route / command / DTO / contract 对照。
-5. cross-layer-high-risk 必须显式判断是否需要 E2E。
-6. 不适用项写 `N/A` 和原因即可，不要复制空表。
+3. 代码切片触及存在 `lint target` 的项目时，提交前必须记录对应 lint 结果与 warning 结论。
+4. persistence 必须有 migration / entity / DDL / contract 对照。
+5. api / command 必须有 route / command / DTO / contract 对照。
+6. cross-layer-high-risk 必须显式判断是否需要 E2E。
+7. 不适用项写 `N/A` 和原因即可，不要复制空表。
 
 最小目标是：未来的你能在 3 分钟内判断“这次为什么可以合入或为什么不能标记 Done”。

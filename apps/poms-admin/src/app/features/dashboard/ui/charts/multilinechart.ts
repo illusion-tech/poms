@@ -316,7 +316,7 @@ export class MultiLineChart {
                         }
 
                         if (tooltip.opacity === 0) {
-                            tooltipEl.style.opacity = 0;
+                            tooltipEl.style.opacity = '0';
                             return;
                         }
                         const datasetPointsX = tooltip.dataPoints.map((dp) => dp.element.x);
@@ -355,7 +355,7 @@ export class MultiLineChart {
 
                         const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
-                        tooltipEl.style.opacity = 1;
+                        tooltipEl.style.opacity = '1';
                         tooltipEl.style.font = tooltip.options.bodyFont.string;
                         tooltipEl.style.padding = '0px';
 
