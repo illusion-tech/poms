@@ -33,42 +33,42 @@
 
 ## 2. 正式输入
 
-| Input Type                | Document / Source                                              | Section / Anchor                 | Status   | Notes                                                                                                       |
-| ------------------------- | -------------------------------------------------------------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| Business design           | `docs/design/phase2-commission-retention-final-settlement.md`  | `3` ~ `12`                       | Review   | 固定最终结算 / 质保金收口问题、离职特例、异常阻断与统一依据链                                              |
-| Business design           | `docs/design/phase2-commission-rule-explanation-language.md`   | `4` ~ `12`                       | Review   | 固定阶段表达、gate 结论、阻断原因分类与依据引用表达                                                        |
-| Command design            | `docs/design/interface-command-design.md`                      | `220` ~ `229`                    | Active   | `stage=retention` 明确要求到账状态、重大争议与离职 / 特例结论走正式守卫                                    |
-| DTO / OpenAPI design      | `docs/design/interface-openapi-dto-design.md`                  | `281` ~ `291`                    | Active   | `submitCommissionPayoutApproval(stage=retention)` 已显式要求 `departureExceptionDecisionId`                |
-| Route inventory / ADR-015 | `docs/design/ex-14g1-ex14-route-governance-baseline.md`        | `全文`                           | Active   | `EX-14A` 不触达 public route，但必须继承已冻结的 `EX-14G1` 边界                                            |
-| Query boundary            | `docs/design/query-view-boundary-design.md`                    | `150` ~ `156`, `307`             | Active   | 冻结 `CommissionFinalSettlementView` / `CommissionRuleExplanationView` 的读侧字段与“Summary 可读侧聚合”规则 |
-| Data model / table freeze | `docs/design/data-model-prerequisites.md`                      | `7.8`, `8.2`                     | Active   | 本片回写 `CommissionDepartureExceptionDecision` 与 `EX-14` snapshot 对象链                                  |
-| Data model / table freeze | `docs/design/table-structure-freeze-design.md`                 | `7.8`                            | Active   | 本片回写三张逻辑表及其最小字段组                                                                            |
-| Schema / DDL              | `docs/design/schema-ddl-design.md`                             | `8.10.4`, `8.11`                 | Active   | 本片回写三张表的外键、当前有效约束与一致性强约束                                                            |
-| ADR                       | `docs/adr/014-design-execution-state-model-and-governance-gates.md` | `gates`                       | Accepted | 新切片进入 `G1` 必须先冻结实施基线                                                                          |
+| Input Type                | Document / Source                                                   | Section / Anchor     | Status   | Notes                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------- | -------------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| Business design           | `docs/design/phase2-commission-retention-final-settlement.md`       | `3` ~ `12`           | Review   | 固定最终结算 / 质保金收口问题、离职特例、异常阻断与统一依据链                                               |
+| Business design           | `docs/design/phase2-commission-rule-explanation-language.md`        | `4` ~ `12`           | Review   | 固定阶段表达、gate 结论、阻断原因分类与依据引用表达                                                         |
+| Command design            | `docs/design/interface-command-design.md`                           | `220` ~ `229`        | Active   | `stage=retention` 明确要求到账状态、重大争议与离职 / 特例结论走正式守卫                                     |
+| DTO / OpenAPI design      | `docs/design/interface-openapi-dto-design.md`                       | `281` ~ `291`        | Active   | `submitCommissionPayoutApproval(stage=retention)` 已显式要求 `departureExceptionDecisionId`                 |
+| Route inventory / ADR-015 | `docs/design/ex-14g1-ex14-route-governance-baseline.md`             | `全文`               | Active   | `EX-14A` 不触达 public route，但必须继承已冻结的 `EX-14G1` 边界                                             |
+| Query boundary            | `docs/design/query-view-boundary-design.md`                         | `150` ~ `156`, `307` | Active   | 冻结 `CommissionFinalSettlementView` / `CommissionRuleExplanationView` 的读侧字段与“Summary 可读侧聚合”规则 |
+| Data model / table freeze | `docs/design/data-model-prerequisites.md`                           | `7.8`, `8.2`         | Active   | 本片回写 `CommissionDepartureExceptionDecision` 与 `EX-14` snapshot 对象链                                  |
+| Data model / table freeze | `docs/design/table-structure-freeze-design.md`                      | `7.8`                | Active   | 本片回写三张逻辑表及其最小字段组                                                                            |
+| Schema / DDL              | `docs/design/schema-ddl-design.md`                                  | `8.10.4`, `8.11`     | Active   | 本片回写三张表的外键、当前有效约束与一致性强约束                                                            |
+| ADR                       | `docs/adr/014-design-execution-state-model-and-governance-gates.md` | `gates`              | Accepted | 新切片进入 `G1` 必须先冻结实施基线                                                                          |
 
 ---
 
 ## 3. 本次 SSOT
 
-| Concern                   | SSOT                                                                                                                           | Implementation Rule                                                                                                                           |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Business semantics        | `EX-14` 只承接 `EX-13` 已冻结的 `L4 -> L5` 稳定依据链，不重复发明新的经营事实来源                                              | `CommissionFinalSettlementSnapshot` 只能消费既有 `gate review + summary anchor + L4 input package`                                           |
-| Public route canonical path | `EX-14G1`                                                                                                                   | 本片不触达 route / controller，route inventory 状态保持 `planned`                                                                             |
-| Route / command naming    | `submitCommissionPayoutApproval(stage=retention)` 已冻结 `departureExceptionDecisionId`                                       | 必须补齐 `CommissionDepartureExceptionDecision`，不能用备注文本替代正式对象                                                                   |
-| DTO / contract naming     | `query-view-boundary` 与 `interface-openapi-dto-design`                                                                        | 本片只冻结 persistence 命名，不提前改 public contract                                                                                         |
-| Table / column naming     | `CommissionDepartureExceptionDecision`、`CommissionFinalSettlementSnapshot`、`CommissionRuleExplanationSnapshot`               | 表名分别固定为 `commission_departure_exception_decision`、`commission_final_settlement_snapshot`、`commission_rule_explanation_snapshot`     |
-| Date / time semantics     | `handledAt` / `generatedAt` 代表结论处理或快照生成时点                                                                          | 使用 `timestamptz`；不退回 `date`                                                                                                             |
-| Identifier semantics      | `departureExceptionDecisionId`、`gateReviewRecordId`、`summarySnapshotId`、`freezeVersionId` 都必须是系统内正式 FK            | `EX-14B` 只能消费这些正式引用，不得回挂页面临时对象或备注                                                                                     |
-| Money / decimal semantics | `taxImpactPendingAmount`、相关保留金额类字段继续统一使用 `decimal(18,2)`；本片不新增新的金额精度语义                          | 最终结算收口链继续沿用 `EX-13` / `L4` 金额口径                                                                                                |
-| Status machine            | 三张新表统一保留 `version + is_current + status + supersedes_id` current 版本链                                                | 不接受覆盖式更新当前收口状态或解释结果                                                                                                       |
-| Summary semantics         | 页面裁剪型 `Summary` 可读侧聚合，但稳定场景级结论摘要允许落到结果快照                                                          | `CommissionFinalSettlementSnapshot` / `CommissionRuleExplanationSnapshot` 只落对后续审批、通知、打印、导出具有稳定意义的结论摘要，不追求 UI 同形 |
+| Concern                     | SSOT                                                                                                               | Implementation Rule                                                                                                                              |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Business semantics          | `EX-14` 只承接 `EX-13` 已冻结的 `L4 -> L5` 稳定依据链，不重复发明新的经营事实来源                                  | `CommissionFinalSettlementSnapshot` 只能消费既有 `gate review + summary anchor + L4 input package`                                               |
+| Public route canonical path | `EX-14G1`                                                                                                          | 本片不触达 route / controller，route inventory 状态保持 `planned`                                                                                |
+| Route / command naming      | `submitCommissionPayoutApproval(stage=retention)` 已冻结 `departureExceptionDecisionId`                            | 必须补齐 `CommissionDepartureExceptionDecision`，不能用备注文本替代正式对象                                                                      |
+| DTO / contract naming       | `query-view-boundary` 与 `interface-openapi-dto-design`                                                            | 本片只冻结 persistence 命名，不提前改 public contract                                                                                            |
+| Table / column naming       | `CommissionDepartureExceptionDecision`、`CommissionFinalSettlementSnapshot`、`CommissionRuleExplanationSnapshot`   | 表名分别固定为 `commission_departure_exception_decision`、`commission_final_settlement_snapshot`、`commission_rule_explanation_snapshot`         |
+| Date / time semantics       | `handledAt` / `generatedAt` 代表结论处理或快照生成时点                                                             | 使用 `timestamptz`；不退回 `date`                                                                                                                |
+| Identifier semantics        | `departureExceptionDecisionId`、`gateReviewRecordId`、`summarySnapshotId`、`freezeVersionId` 都必须是系统内正式 FK | `EX-14B` 只能消费这些正式引用，不得回挂页面临时对象或备注                                                                                        |
+| Money / decimal semantics   | `taxImpactPendingAmount`、相关保留金额类字段继续统一使用 `decimal(18,2)`；本片不新增新的金额精度语义               | 最终结算收口链继续沿用 `EX-13` / `L4` 金额口径                                                                                                   |
+| Status machine              | 三张新表统一保留 `version + is_current + status + supersedes_id` current 版本链                                    | 不接受覆盖式更新当前收口状态或解释结果                                                                                                           |
+| Summary semantics           | 页面裁剪型 `Summary` 可读侧聚合，但稳定场景级结论摘要允许落到结果快照                                              | `CommissionFinalSettlementSnapshot` / `CommissionRuleExplanationSnapshot` 只落对后续审批、通知、打印、导出具有稳定意义的结论摘要，不追求 UI 同形 |
 
 ---
 
 ## 4. 命令与接口边界
 
-| Route / Controller | Command / Service | Request DTO / Contract | Response DTO / Contract | Guard / Permission                                                            | Design Source                            | Result |
-| ------------------ | ----------------- | ---------------------- | ----------------------- | ----------------------------------------------------------------------------- | ---------------------------------------- | ------ |
+| Route / Controller | Command / Service                                                       | Request DTO / Contract                                     | Response DTO / Contract                | Guard / Permission                                                      | Design Source                                                    | Result |
+| ------------------ | ----------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- | ------ |
 | N/A                | `submitCommissionPayoutApproval` at `stage=retention` (future `EX-14B`) | `departureExceptionDecisionId`、`retentionReceiptRecordId` | `retentionSettlementStatus` 等后续输出 | 本片只补正式模型；命令守卫与控制器留给 `EX-14B`，但不再允许悬空对象引用 | `interface-command-design.md`、`interface-openapi-dto-design.md` | N/A    |
 
 ### 4.1 公共路由补充信息（仅适用于触及 public route surface）
@@ -84,29 +84,29 @@
 
 ## 5. 读侧边界
 
-| Query / View                    | Consumer                      | Fields                                                                                                                         | Filter / Sort | Permission Boundary                                                | Design Source                            | Result |
-| ------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------- | ------------------------------------------------------------------ | ---------------------------------------- | ------ |
-| `CommissionFinalSettlementView` | `L5-T03` consumer             | 直接消费三类稳定事实：结算状态、统一经营依据包、到账 / 离职特例正式引用；其余展示摘要允许在 `EX-14B` 聚合                        | N/A           | 本片不实现 query，只保证 project-scoped current snapshot 有正式落点 | `query-view-boundary-design.md`          | N/A    |
-| `CommissionRuleExplanationView` | `L5-T04` consumer             | 直接消费当前阶段状态、gate 决策码、阻断原因分类 / 编码与下一步动作摘要；共同依据包可回到 `CommissionFinalSettlementSnapshot`   | N/A           | 本片不实现 query，只保证统一解释结果有正式落点                     | `query-view-boundary-design.md`          | N/A    |
+| Query / View                    | Consumer          | Fields                                                                                                                       | Filter / Sort | Permission Boundary                                                 | Design Source                   | Result |
+| ------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------- | ------------------------------- | ------ |
+| `CommissionFinalSettlementView` | `L5-T03` consumer | 直接消费三类稳定事实：结算状态、统一经营依据包、到账 / 离职特例正式引用；其余展示摘要允许在 `EX-14B` 聚合                    | N/A           | 本片不实现 query，只保证 project-scoped current snapshot 有正式落点 | `query-view-boundary-design.md` | N/A    |
+| `CommissionRuleExplanationView` | `L5-T04` consumer | 直接消费当前阶段状态、gate 决策码、阻断原因分类 / 编码与下一步动作摘要；共同依据包可回到 `CommissionFinalSettlementSnapshot` | N/A           | 本片不实现 query，只保证统一解释结果有正式落点                      | `query-view-boundary-design.md` | N/A    |
 
 ---
 
 ## 6. 持久化边界
 
-| Table                                   | Migration                                                                    | Entity / Repository                                                                           | DDL / Freeze Source                                                                       | Check Result |
-| --------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
-| `commission_departure_exception_decision` | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts` | `CommissionDepartureExceptionDecision` / `CommissionRepository`                               | `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md` | Pass         |
-| `commission_final_settlement_snapshot`  | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts` + `Migration20260418194500_ex14a_nullable_reference_fk_rules.ts` | `CommissionFinalSettlementSnapshot` / `CommissionRepository`                                  | 同上                                                                                      | Pass         |
-| `commission_rule_explanation_snapshot`  | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts` | `CommissionRuleExplanationSnapshot` / `CommissionRepository`                                  | 同上                                                                                      | Pass         |
+| Table                                     | Migration                                                                                                                                            | Entity / Repository                                             | DDL / Freeze Source                                                                       | Check Result |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
+| `commission_departure_exception_decision` | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts`                                                                             | `CommissionDepartureExceptionDecision` / `CommissionRepository` | `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md` | Pass         |
+| `commission_final_settlement_snapshot`    | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts` + `Migration20260418194500_ex14a_nullable_reference_fk_rules.ts`            | `CommissionFinalSettlementSnapshot` / `CommissionRepository`    | 同上                                                                                      | Pass         |
+| `commission_rule_explanation_snapshot`    | `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts` + `Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule.ts` | `CommissionRuleExplanationSnapshot` / `CommissionRepository`    | 同上                                                                                      | Pass         |
 
-| Field                           | Design Type / Meaning                                             | Migration / DDL                                                     | Entity                                  | Shared Contract / OpenAPI                      | Result |
-| ------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------- | ------ |
-| `departureExceptionDecisionId`  | `stage=retention` 的正式离职 / 特例结论引用                        | FK -> `commission_departure_exception_decision.id`                  | `CommissionFinalSettlementSnapshot`     | 后续 `EX-14B` 命令请求将直接消费               | Pass   |
-| `retentionReceiptRecordId`      | 质保金到账事实引用                                                 | FK -> `receipt_record.id` + nullable `on delete set null`          | `CommissionFinalSettlementSnapshot`     | 后续 `EX-14B` 命令请求将直接消费               | Pass   |
-| `summarySnapshotId`             | 场景摘要快照稳定锚点                                               | FK -> `approval_summary_snapshot.id`                                | 决策表 + 最终结算快照                   | 后续 query / command 继续消费                  | Pass   |
-| `finalSettlementSnapshotId`     | 规则解释结果所绑定的最终结算收口事实                               | FK -> `commission_final_settlement_snapshot.id`                     | `CommissionRuleExplanationSnapshot`     | 仅 persistence SSOT，本片不改 public contract  | Pass   |
-| `blockingReasonCode`            | 统一规则解释页的稳定阻断原因码                                     | `varchar(64)`                                                       | `CommissionRuleExplanationSnapshot`     | 后续 `EX-14B` query 映射中文解释               | Pass   |
-| `version / isCurrent / status`  | 三张表统一 current 版本链                                           | `version int` + partial unique current + `status varchar(32)`       | 三张新表                                | `N/A`                                          | Pass   |
+| Field                          | Design Type / Meaning                       | Migration / DDL                                               | Entity                              | Shared Contract / OpenAPI                     | Result |
+| ------------------------------ | ------------------------------------------- | ------------------------------------------------------------- | ----------------------------------- | --------------------------------------------- | ------ |
+| `departureExceptionDecisionId` | `stage=retention` 的正式离职 / 特例结论引用 | FK -> `commission_departure_exception_decision.id`            | `CommissionFinalSettlementSnapshot` | 后续 `EX-14B` 命令请求将直接消费              | Pass   |
+| `retentionReceiptRecordId`     | 质保金到账事实引用                          | FK -> `receipt_record.id` + nullable `on delete set null`     | `CommissionFinalSettlementSnapshot` | 后续 `EX-14B` 命令请求将直接消费              | Pass   |
+| `summarySnapshotId`            | 场景摘要快照稳定锚点                        | FK -> `approval_summary_snapshot.id`                          | 决策表 + 最终结算快照               | 后续 query / command 继续消费                 | Pass   |
+| `finalSettlementSnapshotId`    | 规则解释结果所绑定的最终结算收口事实        | FK -> `commission_final_settlement_snapshot.id`               | `CommissionRuleExplanationSnapshot` | 仅 persistence SSOT，本片不改 public contract | Pass   |
+| `blockingReasonCode`           | 统一规则解释页的稳定阻断原因码              | `varchar(64)`                                                 | `CommissionRuleExplanationSnapshot` | 后续 `EX-14B` query 映射中文解释              | Pass   |
+| `version / isCurrent / status` | 三张表统一 current 版本链                   | `version int` + partial unique current + `status varchar(32)` | 三张新表                            | `N/A`                                         | Pass   |
 
 ---
 
@@ -125,24 +125,24 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                                                     | Result  | Gap / Reason                                                                |
-| -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- |
-| Lint                             | Yes      | `corepack pnpm nx lint poms-api`                                                                       | Pass    | `poms-api` lint 全绿                                                        |
-| Build                            | Yes      | `corepack pnpm nx build poms-api`                                                                      | Pass    | 新实体 / repository / migration 编译通过                                    |
-| Unit tests                       | Conditional | `N/A`                                                                                                | `N/A`   | 本片只改 entity / repository / migration，无新增独立 service 行为分支       |
-| API / integration tests          | No       | `N/A`                                                                                                  | `N/A`   | 本片不新增 controller / command                                             |
-| E2E                              | No       | `N/A`                                                                                                  | `N/A`   | 本片不新增 public route                                                     |
-| OpenAPI generation / client diff | No       | `N/A`                                                                                                  | `N/A`   | 本片不改 public contract                                                    |
-| Migration / schema check         | Yes      | `corepack pnpm nx run poms-api:migration-up`、`corepack pnpm nx run poms-api:migration-check`         | Pass    | 初次 `migration-check` 暴露 nullable FK delete rule drift，已通过 follow-up migration 收口 |
-| Diff / whitespace check          | Yes      | `git diff --check`                                                                                     | Pass    | 仅有 worktree 既有 CRLF warning，无 whitespace error                         |
-| Copilot blocking gate            | Yes      | `copilot-skill-plan.cmd --model claude-sonnet-4.6 --context-mode repo-read`                           | Blocked | Copilot CLI 连续两次在 180s 超时，未返回可用二次意见；本片按本地正式输入继续 |
+| Check                            | Required    | Command / Evidence                                                                            | Result  | Gap / Reason                                                                               |
+| -------------------------------- | ----------- | --------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| Lint                             | Yes         | `corepack pnpm nx lint poms-api`                                                              | Pass    | `poms-api` lint 全绿                                                                       |
+| Build                            | Yes         | `corepack pnpm nx build poms-api`                                                             | Pass    | 新实体 / repository / migration 编译通过                                                   |
+| Unit tests                       | Conditional | `N/A`                                                                                         | `N/A`   | 本片只改 entity / repository / migration，无新增独立 service 行为分支                      |
+| API / integration tests          | No          | `N/A`                                                                                         | `N/A`   | 本片不新增 controller / command                                                            |
+| E2E                              | No          | `N/A`                                                                                         | `N/A`   | 本片不新增 public route                                                                    |
+| OpenAPI generation / client diff | No          | `N/A`                                                                                         | `N/A`   | 本片不改 public contract                                                                   |
+| Migration / schema check         | Yes         | `corepack pnpm nx run poms-api:migration-up`、`corepack pnpm nx run poms-api:migration-check` | Pass    | 初次 `migration-check` 暴露 nullable FK delete rule drift，已通过 follow-up migration 收口 |
+| Diff / whitespace check          | Yes         | `git diff --check`                                                                            | Pass    | 仅有 worktree 既有 CRLF warning，无 whitespace error                                       |
+| Copilot blocking gate            | Yes         | `copilot-skill-plan.cmd --model claude-sonnet-4.6 --context-mode repo-read`                   | Blocked | Copilot CLI 连续两次在 180s 超时，未返回可用二次意见；本片按本地正式输入继续               |
 
 ---
 
 ## 9. 例外与风险
 
-| Exception ID | Level  | Scope                                                    | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                              |
-| ------------ | ------ | -------------------------------------------------------- | ----------- | ------------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| Exception ID | Level  | Scope                                                        | Approved By | Cleanup Owner | Cleanup Due | Notes                                                                                                 |
+| ------------ | ------ | ------------------------------------------------------------ | ----------- | ------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
 | `EX-14A-E1`  | Medium | Copilot blocking gate 工具超时，未能在 `G1` 获得二次校验输出 | Codex       | Codex         | 2026-04-18  | 已执行强制门禁，但工具连续超时；本片仍以本地 authoritative docs + baseline 推进，且所有本地校验已通过 |
 
 ---
@@ -163,6 +163,6 @@
 - Closed At: `2026-04-18`
 - Evidence:
   1. 已新增 `CommissionDepartureExceptionDecision`、`CommissionFinalSettlementSnapshot` 与 `CommissionRuleExplanationSnapshot` 三个正式 entity，并完成 `CommissionRepository` / `CommissionModule` 注册。
-  2. 已新增 `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts`，并补 `Migration20260418194500_ex14a_nullable_reference_fk_rules.ts` 收口 nullable FK delete rule drift。
+  2. 已新增 `Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts`，并补 `Migration20260418194500_ex14a_nullable_reference_fk_rules.ts` 与 `Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule.ts` 收口 FK delete rule drift。
   3. 已回写 `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md` 与本基线包，补齐 `departureExceptionDecisionId` 的上游对象链缺口。
   4. 已通过 `corepack pnpm nx lint poms-api`、`corepack pnpm nx build poms-api`、`corepack pnpm nx run poms-api:migration-up`、`corepack pnpm nx run poms-api:migration-check` 与 `git diff --check`。

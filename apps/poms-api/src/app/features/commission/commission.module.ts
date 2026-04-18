@@ -18,7 +18,10 @@ import { CommissionPayout } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionController } from './commission.controller';
+import { CommissionDepartureExceptionDecision } from './commission-departure-exception-decision.entity';
+import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
 import { CommissionRepository } from './commission.repository';
+import { CommissionRuleExplanationSnapshot } from './commission-rule-explanation-snapshot.entity';
 import { CommissionService } from './commission.service';
 
 @Module({
@@ -37,7 +40,10 @@ import { CommissionService } from './commission.service';
             CommissionFreezeChangeRequest,
             CommissionCalculation,
             CommissionPayout,
-            CommissionAdjustment
+            CommissionAdjustment,
+            CommissionDepartureExceptionDecision,
+            CommissionFinalSettlementSnapshot,
+            CommissionRuleExplanationSnapshot
         ]),
         ApprovalModule
     ],

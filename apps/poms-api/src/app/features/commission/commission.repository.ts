@@ -9,10 +9,13 @@ import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handov
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionDepartureExceptionDecision } from './commission-departure-exception-decision.entity';
+import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
 import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionPayout, type CommissionPayoutStage } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
+import { CommissionRuleExplanationSnapshot } from './commission-rule-explanation-snapshot.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 
 @Injectable()
@@ -45,7 +48,13 @@ export class CommissionRepository {
         @InjectRepository(CommissionPayout)
         private readonly payoutRepository: EntityRepository<CommissionPayout>,
         @InjectRepository(CommissionAdjustment)
-        private readonly adjustmentRepository: EntityRepository<CommissionAdjustment>
+        private readonly adjustmentRepository: EntityRepository<CommissionAdjustment>,
+        @InjectRepository(CommissionDepartureExceptionDecision)
+        private readonly departureExceptionDecisionRepository: EntityRepository<CommissionDepartureExceptionDecision>,
+        @InjectRepository(CommissionFinalSettlementSnapshot)
+        private readonly finalSettlementSnapshotRepository: EntityRepository<CommissionFinalSettlementSnapshot>,
+        @InjectRepository(CommissionRuleExplanationSnapshot)
+        private readonly ruleExplanationSnapshotRepository: EntityRepository<CommissionRuleExplanationSnapshot>
     ) {}
 
     async transactional<T>(work: (em: EntityManager) => Promise<T>): Promise<T> {
@@ -278,5 +287,104 @@ export class CommissionRepository {
 
     async flushAdjustment(): Promise<void> {
         await this.adjustmentRepository.getEntityManager().flush();
+    }
+
+    // ── Departure Exception Decisions ───────────────────────────────────────
+
+    async findCurrentDepartureExceptionDecision(projectId: string): Promise<CommissionDepartureExceptionDecision | null> {
+        return this.departureExceptionDecisionRepository.findOne({ projectId, isCurrent: true });
+    }
+
+    async findDepartureExceptionDecisionById(id: string): Promise<CommissionDepartureExceptionDecision | null> {
+        return this.departureExceptionDecisionRepository.findOne({ id });
+    }
+
+    async findDepartureExceptionDecisionsForProject(projectId: string): Promise<CommissionDepartureExceptionDecision[]> {
+        return this.departureExceptionDecisionRepository.find(
+            { projectId },
+            { orderBy: { version: QueryOrder.DESC } }
+        );
+    }
+
+    createDepartureExceptionDecision(
+        input: ConstructorParameters<typeof CommissionDepartureExceptionDecision>[0]
+    ): CommissionDepartureExceptionDecision {
+        return this.departureExceptionDecisionRepository.create(input);
+    }
+
+    async persistAndFlushDepartureExceptionDecision(entity: CommissionDepartureExceptionDecision): Promise<void> {
+        const em = this.departureExceptionDecisionRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushDepartureExceptionDecision(): Promise<void> {
+        await this.departureExceptionDecisionRepository.getEntityManager().flush();
+    }
+
+    // ── Final Settlement Snapshots ──────────────────────────────────────────
+
+    async findCurrentFinalSettlementSnapshot(projectId: string): Promise<CommissionFinalSettlementSnapshot | null> {
+        return this.finalSettlementSnapshotRepository.findOne({ projectId, isCurrent: true });
+    }
+
+    async findFinalSettlementSnapshotById(id: string): Promise<CommissionFinalSettlementSnapshot | null> {
+        return this.finalSettlementSnapshotRepository.findOne({ id });
+    }
+
+    async findFinalSettlementSnapshotsForProject(projectId: string): Promise<CommissionFinalSettlementSnapshot[]> {
+        return this.finalSettlementSnapshotRepository.find(
+            { projectId },
+            { orderBy: { version: QueryOrder.DESC } }
+        );
+    }
+
+    createFinalSettlementSnapshot(
+        input: ConstructorParameters<typeof CommissionFinalSettlementSnapshot>[0]
+    ): CommissionFinalSettlementSnapshot {
+        return this.finalSettlementSnapshotRepository.create(input);
+    }
+
+    async persistAndFlushFinalSettlementSnapshot(entity: CommissionFinalSettlementSnapshot): Promise<void> {
+        const em = this.finalSettlementSnapshotRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushFinalSettlementSnapshot(): Promise<void> {
+        await this.finalSettlementSnapshotRepository.getEntityManager().flush();
+    }
+
+    // ── Rule Explanation Snapshots ──────────────────────────────────────────
+
+    async findCurrentRuleExplanationSnapshot(projectId: string): Promise<CommissionRuleExplanationSnapshot | null> {
+        return this.ruleExplanationSnapshotRepository.findOne({ projectId, isCurrent: true });
+    }
+
+    async findRuleExplanationSnapshotById(id: string): Promise<CommissionRuleExplanationSnapshot | null> {
+        return this.ruleExplanationSnapshotRepository.findOne({ id });
+    }
+
+    async findRuleExplanationSnapshotsForProject(projectId: string): Promise<CommissionRuleExplanationSnapshot[]> {
+        return this.ruleExplanationSnapshotRepository.find(
+            { projectId },
+            { orderBy: { version: QueryOrder.DESC } }
+        );
+    }
+
+    createRuleExplanationSnapshot(
+        input: ConstructorParameters<typeof CommissionRuleExplanationSnapshot>[0]
+    ): CommissionRuleExplanationSnapshot {
+        return this.ruleExplanationSnapshotRepository.create(input);
+    }
+
+    async persistAndFlushRuleExplanationSnapshot(entity: CommissionRuleExplanationSnapshot): Promise<void> {
+        const em = this.ruleExplanationSnapshotRepository.getEntityManager();
+        em.persist(entity);
+        await em.flush();
+    }
+
+    async flushRuleExplanationSnapshot(): Promise<void> {
+        await this.ruleExplanationSnapshotRepository.getEntityManager().flush();
     }
 }
