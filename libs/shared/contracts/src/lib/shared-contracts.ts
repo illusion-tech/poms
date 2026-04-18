@@ -2494,6 +2494,55 @@ export const OperatingSnapshotActionLevelSchema = z
 
 export type OperatingSnapshotActionLevel = z.infer<typeof OperatingSnapshotActionLevelSchema>;
 
+const CommissionSharedEvidencePackageShape = {
+    freezeVersionSummary: CommissionRoleAssignmentSummarySchema,
+    baselineSelectionSource: BaselineSelectionSourceSchema,
+    taxImpactSummary: z.string(),
+    taxImpactPendingAmount: z.string(),
+    dataMaturityLevel: z.string(),
+    costActionRecommendation: OperatingSnapshotActionLevelSchema,
+    currentActionLevel: OperatingSnapshotActionLevelSchema,
+    referencedBaselineVersion: z.string(),
+    referencedSnapshotVersion: z.string(),
+    summaryPackageKey: z.string(),
+    summarySnapshotId: z.uuid(),
+    projectionLevel: z.string(),
+    exportPolicy: z.string()
+};
+
+export const CommissionFinalSettlementViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        finalSettlementStatus: z.string(),
+        nonRetentionSettlementStatus: z.string(),
+        retentionSettlementStatus: z.string(),
+        retentionRequirementSummary: z.string().nullable(),
+        retentionReceiptSummary: z.string().nullable(),
+        departureExceptionSummary: z.string().nullable(),
+        ...CommissionSharedEvidencePackageShape,
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'CommissionFinalSettlementView' });
+
+export type CommissionFinalSettlementView = z.infer<typeof CommissionFinalSettlementViewSchema>;
+
+export const CommissionRuleExplanationViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        currentStageStatus: z.string(),
+        gateDecisionCode: z.string(),
+        blockingReasonCategory: z.string().nullable(),
+        blockingReasonCode: z.string().nullable(),
+        blockingReasonSummary: z.string().nullable(),
+        gateDecisionSummary: z.string(),
+        nextActionSummary: z.string().nullable(),
+        ...CommissionSharedEvidencePackageShape,
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'CommissionRuleExplanationView' });
+
+export type CommissionRuleExplanationView = z.infer<typeof CommissionRuleExplanationViewSchema>;
+
 export const ChangePackageBaselineInputSchema = z.object({
     changePackageId: z.uuid(),
     changeAmount: z.string().trim().min(1).max(64),

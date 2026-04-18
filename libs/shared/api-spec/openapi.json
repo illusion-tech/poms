@@ -5079,6 +5079,78 @@
         ]
       }
     },
+    "/api/projects/{projectId}/commission-final-settlement": {
+      "get": {
+        "operationId": "CommissionController_getCommissionFinalSettlement",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionFinalSettlementView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目最终结算与质保金结算视图",
+        "tags": [
+          "Commission"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/commission-rule-explanation": {
+      "get": {
+        "operationId": "CommissionController_getCommissionRuleExplanation",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionRuleExplanationView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目统一提成规则解释视图",
+        "tags": [
+          "Commission"
+        ]
+      }
+    },
     "/api/projects/{projectId}/commission-role-assignments": {
       "post": {
         "operationId": "CommissionController_createRoleAssignment",
@@ -15333,6 +15405,215 @@
           "updatedAt"
         ],
         "id": "CommissionRoleAssignmentSummary"
+      },
+      "CommissionFinalSettlementView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "finalSettlementStatus": {
+            "type": "string"
+          },
+          "nonRetentionSettlementStatus": {
+            "type": "string"
+          },
+          "retentionSettlementStatus": {
+            "type": "string"
+          },
+          "retentionRequirementSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "retentionReceiptSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "departureExceptionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "freezeVersionSummary": {
+            "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "finalSettlementStatus",
+          "nonRetentionSettlementStatus",
+          "retentionSettlementStatus",
+          "retentionRequirementSummary",
+          "retentionReceiptSummary",
+          "departureExceptionSummary",
+          "freezeVersionSummary",
+          "baselineSelectionSource",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "allowedActions"
+        ],
+        "id": "CommissionFinalSettlementView"
+      },
+      "CommissionRuleExplanationView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStageStatus": {
+            "type": "string"
+          },
+          "gateDecisionCode": {
+            "type": "string"
+          },
+          "blockingReasonCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockingReasonCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockingReasonSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "gateDecisionSummary": {
+            "type": "string"
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "freezeVersionSummary": {
+            "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStageStatus",
+          "gateDecisionCode",
+          "blockingReasonCategory",
+          "blockingReasonCode",
+          "blockingReasonSummary",
+          "gateDecisionSummary",
+          "nextActionSummary",
+          "freezeVersionSummary",
+          "baselineSelectionSource",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "allowedActions"
+        ],
+        "id": "CommissionRuleExplanationView"
       },
       "CreateCommissionRoleAssignmentRequest": {
         "type": "object",

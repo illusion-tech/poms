@@ -20,8 +20,24 @@ jest.mock('../commission/commission-payout.entity', () => ({
     CommissionPayout: class CommissionPayout {}
 }));
 
+jest.mock('../commission/commission-role-assignment.entity', () => ({
+    CommissionRoleAssignment: class CommissionRoleAssignment {}
+}));
+
+jest.mock('../commission/commission-final-settlement-snapshot.entity', () => ({
+    CommissionFinalSettlementSnapshot: class CommissionFinalSettlementSnapshot {}
+}));
+
 jest.mock('../commission/commission-adjustment.entity', () => ({
     CommissionAdjustment: class CommissionAdjustment {}
+}));
+
+jest.mock('../project-cost/operating-signal-gate-binding.entity', () => ({
+    OperatingSignalToCommissionGateBinding: class OperatingSignalToCommissionGateBinding {}
+}));
+
+jest.mock('../project-cost/commission-gate-review-record.entity', () => ({
+    CommissionGateReviewRecord: class CommissionGateReviewRecord {}
 }));
 
 jest.mock('./approval-record.entity', () => ({
@@ -40,6 +56,7 @@ describe('ApprovalService', () => {
     const contractId = '30000000-0000-4000-8000-000000000001';
     const payoutId = '31000000-0000-4000-8000-000000000001';
     const adjustmentId = '32000000-0000-4000-8000-000000000001';
+    const finalSettlementSnapshotId = '33000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
     const initiatorUserId = '00000000-0000-4000-8000-000000000002';
     const approverUserId = '00000000-0000-4000-8000-000000000001';
@@ -194,6 +211,60 @@ describe('ApprovalService', () => {
         expect(result.todoItemIds).toHaveLength(1);
     });
 
+    it('blocks final commission payout submit when current frozen assignment is missing', async () => {
+        const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
+        em.findOne.mockResolvedValueOnce(payout).mockResolvedValueOnce(null).mockResolvedValueOnce(null);
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
+    it('blocks final commission payout submit when the latest gate review is BLOCK', async () => {
+        const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding())
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
+    it('blocks final commission payout submit when the active final gate binding is missing', async () => {
+        const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(null);
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
+    it('blocks final commission payout submit when the active final gate review is missing', async () => {
+        const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding())
+            .mockResolvedValueOnce(null);
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
+    it('blocks final commission payout submit when the active final gate binding action is BLOCK', async () => {
+        const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'BLOCK_FINAL_SETTLEMENT' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'REVIEW' }));
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
     it('approves pending commission payout and closes todo', async () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
@@ -221,6 +292,84 @@ describe('ApprovalService', () => {
         expect(todo.status).toBe('completed');
         expect(result.targetType).toBe('CommissionPayout');
         expect(result.businessStatusAfter).toBe('approved');
+    });
+
+    it('approves final payout and supersedes the current final settlement snapshot', async () => {
+        const approval = createApprovalRecord({
+            approvalType: 'commission-payout-approval',
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            currentNodeKey: 'commission-payout-approval'
+        });
+        const payout = createCommissionPayout({ stageType: 'final', status: 'pending-approval' });
+        const todo = createTodoItem({
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            title: '提成发放审批：最终结算（非质保部分）'
+        });
+        const currentSnapshot = createFinalSettlementSnapshot();
+
+        em.findOne
+            .mockResolvedValueOnce(approval)
+            .mockResolvedValueOnce(todo)
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding())
+            .mockResolvedValueOnce(createFinalGateReview())
+            .mockResolvedValueOnce(currentSnapshot);
+
+        const result = await service.approveRecord(approvalRecordId, approverUserId, {
+            comment: '批准最终结算发放',
+            expectedVersion: 4
+        });
+
+        expect(payout.status).toBe('approved');
+        expect(currentSnapshot.isCurrent).toBe(false);
+        expect(currentSnapshot.status).toBe('superseded');
+        expect(em.create).toHaveBeenCalledWith(
+            expect.any(Function),
+            expect.objectContaining({
+                projectId,
+                freezeVersionId: '34000000-0000-4000-8000-000000000001',
+                gateReviewRecordId: '36000000-0000-4000-8000-000000000001',
+                finalSettlementStatus: 'pending-final-settlement',
+                nonRetentionSettlementStatus: 'pending-non-retention',
+                retentionSettlementStatus: 'waiting-retention',
+                summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+                supersedesId: finalSettlementSnapshotId
+            })
+        );
+        expect(result.snapshotId).toBe('generated-uuid');
+        expect(result.businessStatusAfter).toBe('approved');
+    });
+
+    it('blocks final payout approval when the latest gate review turns BLOCK before approve', async () => {
+        const approval = createApprovalRecord({
+            approvalType: 'commission-payout-approval',
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            currentNodeKey: 'commission-payout-approval'
+        });
+        const payout = createCommissionPayout({ stageType: 'final', status: 'pending-approval' });
+        const todo = createTodoItem({
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            title: '提成发放审批：最终结算（非质保部分）'
+        });
+
+        em.findOne
+            .mockResolvedValueOnce(approval)
+            .mockResolvedValueOnce(todo)
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding())
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
+
+        await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
     });
 
     it('submits commission adjustment approval and creates approval plus todo', async () => {
@@ -484,6 +633,9 @@ describe('ApprovalService', () => {
         if (entityName === 'ApprovalRecord') {
             return approvalRecordId;
         }
+        if (entityName === 'CommissionFinalSettlementSnapshot') {
+            return finalSettlementSnapshotId;
+        }
         return 'generated-id';
     }
 
@@ -558,14 +710,125 @@ describe('ApprovalService', () => {
             projectId,
             calculationId: '52000000-0000-4000-8000-000000000001',
             stageType: 'first',
+            payoutKind: 'primary',
+            sourcePayoutId: null,
             selectedTier: 'basic',
             theoreticalCapAmount: '480.00',
             approvedAmount: null,
             paidRecordAmount: null,
             status: 'draft',
             approvedAt: null,
+            approvedBy: null,
             handledAt: null,
+            handledBy: null,
             rowVersion: 4,
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createCommissionRoleAssignment(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '34000000-0000-4000-8000-000000000001',
+            projectId,
+            version: 2,
+            rowVersion: 1,
+            isCurrent: true,
+            status: 'frozen',
+            participantsJson: [],
+            sourceHandoverId: null,
+            sourceHandoverRebaselineRecordId: null,
+            contractSummarySnapshotId: null,
+            handoverSummarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            effectiveHandoverBaselineSnapshotId: null,
+            frozenAt: new Date('2026-03-22T10:00:00.000Z'),
+            frozenBy: approverUserId,
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createFinalGateBinding(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '35000000-0000-4000-8000-000000000001',
+            projectId,
+            signalEvaluationId: '35100000-0000-4000-8000-000000000001',
+            bindingAction: 'REVIEW',
+            gateStageType: 'final',
+            baselineSelectionSource: 'original',
+            taxImpactSummary: '税务影响待闭合',
+            taxImpactPendingAmount: '1200.00',
+            allocationStabilitySummary: null,
+            unmappedCostSummary: null,
+            dataMaturityLevel: 'stable',
+            costActionRecommendation: 'REVIEW',
+            currentActionLevel: 'REVIEW',
+            nextActionSummary: 'REVIEW: tax_gap',
+            downstreamConsumerSummary: null,
+            referencedBaselineVersion: 'baseline-v3',
+            referencedSnapshotVersion: 'snapshot-v5',
+            generatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            status: 'active',
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createFinalGateReview(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '36000000-0000-4000-8000-000000000001',
+            bindingId: '35000000-0000-4000-8000-000000000001',
+            gateReviewDecision: 'REVIEW',
+            blockingReasonCode: null,
+            summaryPackageKey: 'commission-final-settlement',
+            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            projectionLevel: 'final-settlement',
+            exportPolicy: 'controlled',
+            nextActionSummary: 'REVIEW: tax_gap',
+            handledAt: new Date('2026-03-22T10:00:00.000Z'),
+            handledBy: approverUserId,
+            status: 'active',
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createFinalSettlementSnapshot(overrides: Record<string, unknown> = {}) {
+        return {
+            id: finalSettlementSnapshotId,
+            projectId,
+            freezeVersionId: '34000000-0000-4000-8000-000000000001',
+            gateReviewRecordId: '36000000-0000-4000-8000-000000000001',
+            retentionReceiptRecordId: null,
+            departureExceptionDecisionId: null,
+            version: 1,
+            isCurrent: true,
+            finalSettlementStatus: 'pending-final-settlement',
+            nonRetentionSettlementStatus: 'pending-non-retention',
+            retentionSettlementStatus: 'waiting-retention',
+            retentionRequirementSummary: '待质保期届满、重大争议收口与质保金到账',
+            retentionReceiptSummary: null,
+            departureExceptionSummary: null,
+            baselineSelectionSource: 'original',
+            taxImpactSummary: '税务影响待闭合',
+            taxImpactPendingAmount: '1200.00',
+            dataMaturityLevel: 'stable',
+            costActionRecommendation: 'REVIEW',
+            currentActionLevel: 'REVIEW',
+            referencedBaselineVersion: 'baseline-v3',
+            referencedSnapshotVersion: 'snapshot-v5',
+            summaryPackageKey: 'commission-final-settlement',
+            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            projectionLevel: 'final-settlement',
+            exportPolicy: 'controlled',
+            generatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            status: 'active',
+            supersedesId: null,
+            rowVersion: 1,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             updatedAt: new Date('2026-03-22T10:00:00.000Z'),
             ...overrides

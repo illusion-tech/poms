@@ -4,11 +4,13 @@ import {
     ApproveCommissionPayoutRequestSchema,
     CommissionAdjustmentSummarySchema,
     CommissionCalculationSummarySchema,
+    CommissionFinalSettlementViewSchema,
     CommissionFreezeChangeRequestDetailViewSchema,
     CommissionFreezeDisputeDetailViewSchema,
     CommissionRoleAssignmentDetailViewSchema,
     CommissionPayoutSummarySchema,
     CommissionRoleAssignmentSummarySchema,
+    CommissionRuleExplanationViewSchema,
     CommissionRuleVersionSummarySchema,
     ConfirmCommissionCalculationRequestSchema,
     CreateCommissionAdjustmentRequestSchema,
@@ -46,6 +48,10 @@ export class FreezeCommissionRoleAssignmentRequestDto extends createZodDto(Freez
 export class FreezeCommissionRoleAssignmentResultDto extends createZodDto(FreezeCommissionRoleAssignmentResultSchema) {}
 
 export class CommissionRoleAssignmentDetailViewDto extends createZodDto(CommissionRoleAssignmentDetailViewSchema) {}
+
+export class CommissionFinalSettlementViewDto extends createZodDto(CommissionFinalSettlementViewSchema) {}
+
+export class CommissionRuleExplanationViewDto extends createZodDto(CommissionRuleExplanationViewSchema) {}
 
 export class SubmitCommissionFreezeDisputeRequestDto extends createZodDto(SubmitCommissionFreezeDisputeRequestSchema) {}
 

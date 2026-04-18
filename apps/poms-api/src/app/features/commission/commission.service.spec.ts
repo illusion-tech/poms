@@ -9,6 +9,10 @@ const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
 const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const DISPUTE_ID = '55000000-0000-4000-8000-000000000001';
 const CHANGE_REQUEST_ID = '56000000-0000-4000-8000-000000000001';
+const FINAL_SETTLEMENT_SNAPSHOT_ID = '57000000-0000-4000-8000-000000000001';
+const RULE_EXPLANATION_SNAPSHOT_ID = '58000000-0000-4000-8000-000000000001';
+const GATE_REVIEW_RECORD_ID = '59000000-0000-4000-8000-000000000001';
+const NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID = '57000000-0000-4000-8000-000000000099';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 const HANDOVER_ID = '61000000-0000-4000-8000-000000000001';
 const HANDOVER_SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
@@ -152,6 +156,64 @@ const makeFreezeChangeRequest = (overrides: Record<string, unknown> = {}) => ({
     ...overrides
 });
 
+const makeFinalSettlementSnapshot = (overrides: Record<string, unknown> = {}) => ({
+    id: FINAL_SETTLEMENT_SNAPSHOT_ID,
+    projectId: PROJECT_ID,
+    freezeVersionId: ASSIGNMENT_ID,
+    gateReviewRecordId: GATE_REVIEW_RECORD_ID,
+    retentionReceiptRecordId: null,
+    departureExceptionDecisionId: null,
+    version: 1,
+    isCurrent: true,
+    finalSettlementStatus: 'pending-final-settlement',
+    nonRetentionSettlementStatus: 'settled',
+    retentionSettlementStatus: 'waiting-retention',
+    retentionRequirementSummary: '等待质保金到账',
+    retentionReceiptSummary: null,
+    departureExceptionSummary: null,
+    baselineSelectionSource: 'original',
+    taxImpactSummary: '税务影响待闭合',
+    taxImpactPendingAmount: '1200.00',
+    dataMaturityLevel: 'stable',
+    costActionRecommendation: 'REVIEW',
+    currentActionLevel: 'BLOCK',
+    referencedBaselineVersion: 'baseline-v3',
+    referencedSnapshotVersion: 'snapshot-v5',
+    summaryPackageKey: 'commission-final-settlement',
+    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'final-settlement',
+    exportPolicy: 'controlled',
+    generatedAt: new Date('2026-03-25T10:30:00Z'),
+    status: 'active',
+    supersedesId: null,
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:30:00Z'),
+    updatedAt: new Date('2026-03-25T10:30:00Z'),
+    ...overrides
+});
+
+const makeRuleExplanationSnapshot = (overrides: Record<string, unknown> = {}) => ({
+    id: RULE_EXPLANATION_SNAPSHOT_ID,
+    projectId: PROJECT_ID,
+    finalSettlementSnapshotId: FINAL_SETTLEMENT_SNAPSHOT_ID,
+    version: 1,
+    isCurrent: true,
+    currentStageStatus: 'blocked-retention',
+    gateDecisionCode: 'BLOCK_RETENTION',
+    blockingReasonCategory: 'retention',
+    blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
+    blockingReasonSummary: '质保金尚未到账',
+    gateDecisionSummary: '当前暂不能进入质保金结算',
+    nextActionSummary: '请财务确认质保金到账后再复核',
+    generatedAt: new Date('2026-03-25T10:35:00Z'),
+    status: 'active',
+    supersedesId: null,
+    rowVersion: 1,
+    createdAt: new Date('2026-03-25T10:35:00Z'),
+    updatedAt: new Date('2026-03-25T10:35:00Z'),
+    ...overrides
+});
+
 const makeProject = (overrides: Record<string, unknown> = {}) => ({
     id: PROJECT_ID,
     currentStage: 'execution',
@@ -254,6 +316,18 @@ describe('CommissionService', () => {
             findProjectHandoverById: jest.fn(),
             findCurrentReceiptJudgmentFreeze: jest.fn(),
             findApprovalSummarySnapshotById: jest.fn(),
+            findCurrentFinalSettlementSnapshot: jest.fn(),
+            findFinalSettlementSnapshotById: jest.fn(),
+            findFinalSettlementSnapshotsForProject: jest.fn(),
+            createFinalSettlementSnapshot: jest.fn(),
+            persistAndFlushFinalSettlementSnapshot: jest.fn(),
+            flushFinalSettlementSnapshot: jest.fn(),
+            findCurrentRuleExplanationSnapshot: jest.fn(),
+            findRuleExplanationSnapshotById: jest.fn(),
+            findRuleExplanationSnapshotsForProject: jest.fn(),
+            createRuleExplanationSnapshot: jest.fn(),
+            persistAndFlushRuleExplanationSnapshot: jest.fn(),
+            flushRuleExplanationSnapshot: jest.fn(),
             findAllRuleVersions: jest.fn(),
             findRuleVersionById: jest.fn(),
             findRuleVersionByCodeAndVersion: jest.fn(),
@@ -313,6 +387,12 @@ describe('CommissionService', () => {
                     if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
                         return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
                     }
+                    if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                        if (where.id === FINAL_SETTLEMENT_SNAPSHOT_ID) {
+                            return makeFinalSettlementSnapshot();
+                        }
+                        return where.projectId === PROJECT_ID && where.isCurrent === true ? makeFinalSettlementSnapshot() : null;
+                    }
                     return null;
                 }),
                 create: jest.fn((entity, input) => {
@@ -337,6 +417,15 @@ describe('CommissionService', () => {
                     if ((entity as { name?: string })?.name === 'CommissionPayout') {
                         return makeDraftPayout({
                             id: PAYOUT_ID,
+                            rowVersion: 1,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            ...input
+                        });
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                        return makeFinalSettlementSnapshot({
+                            id: NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID,
                             rowVersion: 1,
                             createdAt: new Date(),
                             updatedAt: new Date(),
@@ -473,6 +562,85 @@ describe('CommissionService', () => {
             repo.findCurrentRoleAssignment.mockResolvedValue(null);
             const result = await service.getCurrentRoleAssignment(PROJECT_ID);
             expect(result).toBeNull();
+        });
+    });
+
+    describe('getCommissionFinalSettlement', () => {
+        it('maps the current final settlement snapshot into the view contract', async () => {
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(makeFinalSettlementSnapshot() as never);
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
+
+            const result = await service.getCommissionFinalSettlement(PROJECT_ID);
+
+            expect(result.projectId).toBe(PROJECT_ID);
+            expect(result.finalSettlementStatus).toBe('pending-final-settlement');
+            expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
+            expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
+            expect(result.allowedActions).toEqual([]);
+        });
+
+        it('throws NotFoundException when the current final settlement snapshot is missing', async () => {
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(null);
+
+            await expect(service.getCommissionFinalSettlement(PROJECT_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('throws NotFoundException when the linked freeze version is missing', async () => {
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(makeFinalSettlementSnapshot() as never);
+            repo.findRoleAssignmentById.mockResolvedValue(null);
+
+            await expect(service.getCommissionFinalSettlement(PROJECT_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('throws NotFoundException when the linked freeze version is no longer current frozen', async () => {
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(makeFinalSettlementSnapshot() as never);
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'superseded', isCurrent: false }) as never
+            );
+
+            await expect(service.getCommissionFinalSettlement(PROJECT_ID)).rejects.toThrow(NotFoundException);
+        });
+    });
+
+    describe('getCommissionRuleExplanation', () => {
+        it('hydrates shared evidence fields from the linked final settlement snapshot', async () => {
+            repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(makeRuleExplanationSnapshot() as never);
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(makeFinalSettlementSnapshot() as never);
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
+
+            const result = await service.getCommissionRuleExplanation(PROJECT_ID);
+
+            expect(result.projectId).toBe(PROJECT_ID);
+            expect(result.gateDecisionCode).toBe('BLOCK_RETENTION');
+            expect(result.blockingReasonCode).toBe('RETENTION_RECEIPT_PENDING');
+            expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
+            expect(result.taxImpactSummary).toBe('税务影响待闭合');
+            expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
+            expect(result.allowedActions).toEqual([]);
+        });
+
+        it('throws NotFoundException when the current rule explanation snapshot is missing', async () => {
+            repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(null);
+
+            await expect(service.getCommissionRuleExplanation(PROJECT_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('throws NotFoundException when the linked final settlement snapshot is no longer current', async () => {
+            repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(makeRuleExplanationSnapshot() as never);
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(
+                makeFinalSettlementSnapshot({ isCurrent: false, status: 'superseded' }) as never
+            );
+
+            await expect(service.getCommissionRuleExplanation(PROJECT_ID)).rejects.toThrow(NotFoundException);
+        });
+
+        it('throws NotFoundException when the linked final settlement snapshot belongs to another project', async () => {
+            repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(makeRuleExplanationSnapshot() as never);
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(
+                makeFinalSettlementSnapshot({ projectId: '00000000-0000-4000-8000-000000000099' }) as never
+            );
+
+            await expect(service.getCommissionRuleExplanation(PROJECT_ID)).rejects.toThrow(NotFoundException);
         });
     });
 
@@ -1010,6 +1178,124 @@ describe('CommissionService', () => {
             );
 
             await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '120.00' })).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('supersedes the current final settlement snapshot when final payout registration is completed', async () => {
+            const payout = makeDraftPayout({
+                stageType: 'final',
+                status: 'approved',
+                approvedAmount: '480.00'
+            });
+            const currentSnapshot = makeFinalSettlementSnapshot({
+                finalSettlementStatus: 'pending-final-settlement',
+                nonRetentionSettlementStatus: 'pending-non-retention'
+            });
+            const createdSnapshots: Record<string, unknown>[] = [];
+
+            repo.findPayoutById.mockResolvedValue(payout as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID ? payout : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? currentSnapshot : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID ? makeDraftAssignment({ status: 'frozen' }) : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn((entity, input) => {
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            createdSnapshots.push(input);
+                            return makeFinalSettlementSnapshot({
+                                id: NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID,
+                                ...input
+                            });
+                        }
+                        return input;
+                    }),
+                    persist: jest.fn(),
+                    find: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' }, 'user-1');
+
+            expect(payout.status).toBe('paid');
+            expect(currentSnapshot.isCurrent).toBe(false);
+            expect(currentSnapshot.status).toBe('superseded');
+            expect(createdSnapshots[0]).toEqual(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    freezeVersionId: ASSIGNMENT_ID,
+                    gateReviewRecordId: GATE_REVIEW_RECORD_ID,
+                    finalSettlementStatus: 'pending-retention-settlement',
+                    nonRetentionSettlementStatus: 'settled-non-retention',
+                    retentionSettlementStatus: 'waiting-retention',
+                    supersedesId: FINAL_SETTLEMENT_SNAPSHOT_ID,
+                    createdBy: 'user-1',
+                    updatedBy: 'user-1'
+                })
+            );
+            expect(result.status).toBe('paid');
+            expect(result.paidRecordAmount).toBe('400.00');
+        });
+
+        it('blocks final payout registration when the current final settlement snapshot is missing', async () => {
+            repo.findPayoutById.mockResolvedValue(
+                makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never
+            );
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID ? makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            return null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    find: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('blocks final payout registration when the linked freeze version is no longer current frozen', async () => {
+            repo.findPayoutById.mockResolvedValue(
+                makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never
+            );
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID ? makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? makeFinalSettlementSnapshot() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID ? makeDraftAssignment({ status: 'frozen', isCurrent: false }) : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    find: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 

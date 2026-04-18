@@ -23,9 +23,13 @@ import { CommissionAdjustmentSummary } from '../model/commission-adjustment-summ
 // @ts-ignore
 import { CommissionCalculationSummary } from '../model/commission-calculation-summary';
 // @ts-ignore
+import { CommissionFinalSettlementView } from '../model/commission-final-settlement-view';
+// @ts-ignore
 import { CommissionPayoutSummary } from '../model/commission-payout-summary';
 // @ts-ignore
 import { CommissionRoleAssignmentSummary } from '../model/commission-role-assignment-summary';
+// @ts-ignore
+import { CommissionRuleExplanationView } from '../model/commission-rule-explanation-view';
 // @ts-ignore
 import { CommissionRuleVersionSummary } from '../model/commission-rule-version-summary';
 // @ts-ignore
@@ -98,6 +102,14 @@ export interface CommissionControllerCreateRuleVersionRequestParams {
 export interface CommissionControllerExecuteAdjustmentRequestParams {
     id: string;
     executeCommissionAdjustmentRequest: ExecuteCommissionAdjustmentRequest;
+}
+
+export interface CommissionControllerGetCommissionFinalSettlementRequestParams {
+    projectId: string;
+}
+
+export interface CommissionControllerGetCommissionRuleExplanationRequestParams {
+    projectId: string;
 }
 
 export interface CommissionControllerGetCurrentRoleAssignmentRequestParams {
@@ -788,6 +800,126 @@ export class CommissionApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: executeCommissionAdjustmentRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目最终结算与质保金结算视图
+     * @endpoint get /api/projects/{projectId}/commission-final-settlement
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerGetCommissionFinalSettlement(requestParameters: CommissionControllerGetCommissionFinalSettlementRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionFinalSettlementView>;
+    public commissionControllerGetCommissionFinalSettlement(requestParameters: CommissionControllerGetCommissionFinalSettlementRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionFinalSettlementView>>;
+    public commissionControllerGetCommissionFinalSettlement(requestParameters: CommissionControllerGetCommissionFinalSettlementRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionFinalSettlementView>>;
+    public commissionControllerGetCommissionFinalSettlement(requestParameters: CommissionControllerGetCommissionFinalSettlementRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerGetCommissionFinalSettlement.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/commission-final-settlement`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionFinalSettlementView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目统一提成规则解释视图
+     * @endpoint get /api/projects/{projectId}/commission-rule-explanation
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerGetCommissionRuleExplanation(requestParameters: CommissionControllerGetCommissionRuleExplanationRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionRuleExplanationView>;
+    public commissionControllerGetCommissionRuleExplanation(requestParameters: CommissionControllerGetCommissionRuleExplanationRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionRuleExplanationView>>;
+    public commissionControllerGetCommissionRuleExplanation(requestParameters: CommissionControllerGetCommissionRuleExplanationRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionRuleExplanationView>>;
+    public commissionControllerGetCommissionRuleExplanation(requestParameters: CommissionControllerGetCommissionRuleExplanationRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerGetCommissionRuleExplanation.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/commission-rule-explanation`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionRuleExplanationView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

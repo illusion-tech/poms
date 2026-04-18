@@ -8,6 +8,7 @@ const CALCULATION_ID = '52000000-0000-4000-8000-000000000001';
 const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
 const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
+const SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
 
 const stubRuleVersion = {
     id: RULE_VERSION_ID,
@@ -36,6 +37,60 @@ const stubAssignment = {
     frozenAt: null,
     createdAt: '2026-03-25T10:00:00.000Z',
     updatedAt: '2026-03-25T10:00:00.000Z'
+};
+
+const stubFreezeVersionSummary = {
+    ...stubAssignment,
+    status: 'frozen' as const
+};
+
+const stubFinalSettlementView = {
+    projectId: PROJECT_ID,
+    finalSettlementStatus: 'pending-final-settlement',
+    nonRetentionSettlementStatus: 'settled',
+    retentionSettlementStatus: 'waiting-retention',
+    retentionRequirementSummary: '等待质保金到账',
+    retentionReceiptSummary: null,
+    departureExceptionSummary: null,
+    freezeVersionSummary: stubFreezeVersionSummary,
+    baselineSelectionSource: 'original' as const,
+    taxImpactSummary: '税务影响待闭合',
+    taxImpactPendingAmount: '1200.00',
+    dataMaturityLevel: 'stable',
+    costActionRecommendation: 'REVIEW' as const,
+    currentActionLevel: 'BLOCK' as const,
+    referencedBaselineVersion: 'baseline-v3',
+    referencedSnapshotVersion: 'snapshot-v5',
+    summaryPackageKey: 'commission-final-settlement',
+    summarySnapshotId: SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'final-settlement',
+    exportPolicy: 'controlled',
+    allowedActions: []
+};
+
+const stubRuleExplanationView = {
+    projectId: PROJECT_ID,
+    currentStageStatus: 'blocked-retention',
+    gateDecisionCode: 'BLOCK_RETENTION',
+    blockingReasonCategory: 'retention',
+    blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
+    blockingReasonSummary: '质保金尚未到账',
+    gateDecisionSummary: '当前暂不能进入质保金结算',
+    nextActionSummary: '请财务确认质保金到账后再复核',
+    freezeVersionSummary: stubFreezeVersionSummary,
+    baselineSelectionSource: 'original' as const,
+    taxImpactSummary: '税务影响待闭合',
+    taxImpactPendingAmount: '1200.00',
+    dataMaturityLevel: 'stable',
+    costActionRecommendation: 'REVIEW' as const,
+    currentActionLevel: 'BLOCK' as const,
+    referencedBaselineVersion: 'baseline-v3',
+    referencedSnapshotVersion: 'snapshot-v5',
+    summaryPackageKey: 'commission-final-settlement',
+    summarySnapshotId: SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'final-settlement',
+    exportPolicy: 'controlled',
+    allowedActions: []
 };
 
 const stubCalculation = {
@@ -103,6 +158,8 @@ describe('CommissionController', () => {
             activateRuleVersion: jest.fn(),
             stopRuleVersion: jest.fn(),
             getCurrentRoleAssignment: jest.fn(),
+            getCommissionFinalSettlement: jest.fn(),
+            getCommissionRuleExplanation: jest.fn(),
             getRoleAssignmentDetail: jest.fn(),
             createRoleAssignment: jest.fn(),
             freezeCommissionRoleAssignment: jest.fn(),
@@ -164,6 +221,20 @@ describe('CommissionController', () => {
         const result = await controller.getCurrentRoleAssignment(PROJECT_ID);
         expect(service.getCurrentRoleAssignment).toHaveBeenCalledWith(PROJECT_ID);
         expect(result).toBe(stubAssignment);
+    });
+
+    it('returns final settlement view from service', async () => {
+        service.getCommissionFinalSettlement.mockResolvedValue(stubFinalSettlementView);
+        const result = await controller.getCommissionFinalSettlement(PROJECT_ID);
+        expect(service.getCommissionFinalSettlement).toHaveBeenCalledWith(PROJECT_ID);
+        expect(result).toBe(stubFinalSettlementView);
+    });
+
+    it('returns rule explanation view from service', async () => {
+        service.getCommissionRuleExplanation.mockResolvedValue(stubRuleExplanationView);
+        const result = await controller.getCommissionRuleExplanation(PROJECT_ID);
+        expect(service.getCommissionRuleExplanation).toHaveBeenCalledWith(PROJECT_ID);
+        expect(result).toBe(stubRuleExplanationView);
     });
 
     it('delegates createRoleAssignment to service', async () => {
@@ -252,8 +323,8 @@ describe('CommissionController', () => {
 
     it('delegates registerPayout to service', async () => {
         service.registerPayout.mockResolvedValue({ ...stubPayout, status: 'paid', approvedAmount: '480.00', paidRecordAmount: '400.00' });
-        const result = await controller.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' } as never);
-        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, { paidRecordAmount: '400.00' });
+        const result = await controller.registerPayout(PAYOUT_ID, { user: { sub: 'user-1' } } as never, { paidRecordAmount: '400.00' } as never);
+        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, { paidRecordAmount: '400.00' }, 'user-1');
         expect(result.status).toBe('paid');
     });
 

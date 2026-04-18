@@ -1,8 +1,10 @@
 import type {
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
+    CommissionFinalSettlementView,
     CommissionPayoutSummary,
     CommissionRoleAssignmentSummary,
+    CommissionRuleExplanationView,
     CommissionRuleVersionSummary,
     UserPayload
 } from '@poms/shared-contracts';
@@ -12,9 +14,11 @@ import {
     CommissionAdjustmentSummaryDto,
     CommissionCalculationListDto,
     CommissionCalculationSummaryDto,
+    CommissionFinalSettlementViewDto,
     CommissionPayoutListDto,
     CommissionPayoutSummaryDto,
     CommissionRoleAssignmentSummaryDto,
+    CommissionRuleExplanationViewDto,
     CommissionRuleVersionListDto,
     CommissionRuleVersionSummaryDto,
     ConfirmCommissionCalculationRequestDto,
@@ -88,6 +92,22 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionRoleAssignmentSummaryDto })
     getCurrentRoleAssignment(@Param('projectId') projectId: string): Promise<CommissionRoleAssignmentSummary | null> {
         return this.commissionService.getCurrentRoleAssignment(projectId);
+    }
+
+    @Get('projects/:projectId/commission-final-settlement')
+    @HasPermissions('commission:payouts:manage')
+    @ApiOperation({ summary: '获取项目最终结算与质保金结算视图' })
+    @ApiOkResponse({ type: CommissionFinalSettlementViewDto })
+    getCommissionFinalSettlement(@Param('projectId') projectId: string): Promise<CommissionFinalSettlementView> {
+        return this.commissionService.getCommissionFinalSettlement(projectId);
+    }
+
+    @Get('projects/:projectId/commission-rule-explanation')
+    @HasPermissions('commission:payouts:manage')
+    @ApiOperation({ summary: '获取项目统一提成规则解释视图' })
+    @ApiOkResponse({ type: CommissionRuleExplanationViewDto })
+    getCommissionRuleExplanation(@Param('projectId') projectId: string): Promise<CommissionRuleExplanationView> {
+        return this.commissionService.getCommissionRuleExplanation(projectId);
     }
 
     @Post('projects/:projectId/commission-role-assignments')
@@ -201,9 +221,10 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     registerPayout(
         @Param('id') id: string,
+        @Request() req: { user: UserPayload },
         @Body() body: RegisterCommissionPayoutRequestDto
     ): Promise<CommissionPayoutSummary> {
-        return this.commissionService.registerPayout(id, body);
+        return this.commissionService.registerPayout(id, body, req.user.sub);
     }
 
     // ── Adjustments ────────────────────────────────────────────────────────

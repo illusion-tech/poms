@@ -8,11 +8,13 @@ import type {
     CommissionAdjustmentSummary,
     CommissionAdjustmentType,
     CommissionCalculationSummary,
+    CommissionFinalSettlementView,
     CommissionRoleAssignmentDetailView,
     CommissionPayoutStage,
     CommissionPayoutSummary,
     CommissionPayoutTier,
     CommissionRoleAssignmentSummary,
+    CommissionRuleExplanationView,
     CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
     CreateCommissionAdjustmentRequest,
@@ -34,8 +36,10 @@ import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
+import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
 import { CommissionPayout } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
+import { CommissionRuleExplanationSnapshot } from './commission-rule-explanation-snapshot.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionRepository } from './commission.repository';
 
@@ -51,6 +55,27 @@ const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTie
 const FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION = 'freeze-commission-role-assignment';
 const SUBMIT_COMMISSION_FREEZE_DISPUTE_ACTION = 'submit-commission-freeze-dispute';
 const ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION = 'arbitrate-commission-freeze-dispute';
+const FINAL_SETTLEMENT_STATUS_PENDING_RETENTION = 'pending-retention-settlement';
+const NON_RETENTION_SETTLEMENT_STATUS_SETTLED = 'settled-non-retention';
+const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
+const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
+
+type CommissionSharedEvidencePackage = Pick<
+    CommissionFinalSettlementView,
+    | 'freezeVersionSummary'
+    | 'baselineSelectionSource'
+    | 'taxImpactSummary'
+    | 'taxImpactPendingAmount'
+    | 'dataMaturityLevel'
+    | 'costActionRecommendation'
+    | 'currentActionLevel'
+    | 'referencedBaselineVersion'
+    | 'referencedSnapshotVersion'
+    | 'summaryPackageKey'
+    | 'summarySnapshotId'
+    | 'projectionLevel'
+    | 'exportPolicy'
+>;
 
 @Injectable()
 export class CommissionService {
@@ -124,6 +149,43 @@ export class CommissionService {
     async getCurrentRoleAssignment(projectId: string): Promise<CommissionRoleAssignmentSummary | null> {
         const entity = await this.repo.findCurrentRoleAssignment(projectId);
         return entity ? this.#toRoleAssignmentSummary(entity) : null;
+    }
+
+    async getCommissionFinalSettlement(projectId: string): Promise<CommissionFinalSettlementView> {
+        const { snapshot, freezeVersion } = await this.#getCurrentFinalSettlementContext(projectId);
+
+        return {
+            projectId,
+            finalSettlementStatus: snapshot.finalSettlementStatus,
+            nonRetentionSettlementStatus: snapshot.nonRetentionSettlementStatus,
+            retentionSettlementStatus: snapshot.retentionSettlementStatus,
+            retentionRequirementSummary: snapshot.retentionRequirementSummary ?? null,
+            retentionReceiptSummary: snapshot.retentionReceiptSummary ?? null,
+            departureExceptionSummary: snapshot.departureExceptionSummary ?? null,
+            ...this.#buildCommissionSharedEvidencePackage(snapshot, freezeVersion),
+            allowedActions: []
+        };
+    }
+
+    async getCommissionRuleExplanation(projectId: string): Promise<CommissionRuleExplanationView> {
+        const snapshot = await this.#getCurrentRuleExplanationSnapshot(projectId);
+        const { snapshot: finalSettlementSnapshot, freezeVersion } = await this.#getCurrentFinalSettlementContextById(
+            projectId,
+            snapshot.finalSettlementSnapshotId
+        );
+
+        return {
+            projectId,
+            currentStageStatus: snapshot.currentStageStatus,
+            gateDecisionCode: snapshot.gateDecisionCode,
+            blockingReasonCategory: snapshot.blockingReasonCategory ?? null,
+            blockingReasonCode: snapshot.blockingReasonCode ?? null,
+            blockingReasonSummary: snapshot.blockingReasonSummary ?? null,
+            gateDecisionSummary: snapshot.gateDecisionSummary,
+            nextActionSummary: snapshot.nextActionSummary ?? null,
+            ...this.#buildCommissionSharedEvidencePackage(finalSettlementSnapshot, freezeVersion),
+            allowedActions: []
+        };
     }
 
     async getRoleAssignmentDetail(id: string): Promise<CommissionRoleAssignmentDetailView> {
@@ -684,7 +746,7 @@ export class CommissionService {
         return this.#toPayoutSummary(entity);
     }
 
-    async registerPayout(id: string, dto: RegisterCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
+    async registerPayout(id: string, dto: RegisterCommissionPayoutRequest, actorUserId?: string): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -702,9 +764,96 @@ export class CommissionService {
             throw new UnprocessableEntityException(`登记发放金额必须位于 0 到批准金额 ${entity.approvedAmount ?? '0.00'} 之间`);
         }
 
+        if (entity.stageType === 'final') {
+            return this.repo.transactional(async (em) => {
+                const payout = await em.findOne(CommissionPayout, { id });
+                if (!payout) {
+                    throw new NotFoundException(`CommissionPayout ${id} not found`);
+                }
+
+                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'CommissionPayout');
+                this.#assertPayoutSupportsLifecycleActions(payout);
+
+                if (payout.status !== 'approved') {
+                    throw new UnprocessableEntityException(`只有已批准状态的提成发放可以登记发放，当前状态: ${payout.status}`);
+                }
+
+                const transactionalApprovedAmount = payout.approvedAmount ? this.#toNumber(payout.approvedAmount) : 0;
+                if (paidAmount < 0 || paidAmount > transactionalApprovedAmount) {
+                    throw new UnprocessableEntityException(`登记发放金额必须位于 0 到批准金额 ${payout.approvedAmount ?? '0.00'} 之间`);
+                }
+
+                const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+                    projectId: payout.projectId,
+                    isCurrent: true
+                });
+                if (!currentSnapshot || currentSnapshot.status !== 'active') {
+                    throw new UnprocessableEntityException('当前项目缺少有效的最终结算快照，无法登记 final 阶段发放');
+                }
+
+                const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: currentSnapshot.freezeVersionId });
+                if (
+                    !freezeVersion ||
+                    freezeVersion.projectId !== payout.projectId ||
+                    !freezeVersion.isCurrent ||
+                    freezeVersion.status !== 'frozen'
+                ) {
+                    throw new UnprocessableEntityException('当前项目缺少有效的冻结提成角色版本，无法登记 final 阶段发放');
+                }
+
+                payout.status = 'paid';
+                payout.paidRecordAmount = this.#formatAmount(paidAmount);
+                payout.handledAt = new Date();
+                payout.handledBy = actorUserId ?? null;
+
+                currentSnapshot.isCurrent = false;
+                currentSnapshot.status = 'superseded';
+                currentSnapshot.updatedBy = actorUserId ?? null;
+
+                const nextSnapshot = em.create(CommissionFinalSettlementSnapshot, {
+                    id: randomUUID(),
+                    projectId: payout.projectId,
+                    freezeVersionId: currentSnapshot.freezeVersionId,
+                    gateReviewRecordId: currentSnapshot.gateReviewRecordId,
+                    retentionReceiptRecordId: null,
+                    departureExceptionDecisionId: null,
+                    version: currentSnapshot.version + 1,
+                    isCurrent: true,
+                    finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
+                    nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
+                    retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+                    retentionRequirementSummary: currentSnapshot.retentionRequirementSummary ?? DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+                    retentionReceiptSummary: null,
+                    departureExceptionSummary: null,
+                    baselineSelectionSource: currentSnapshot.baselineSelectionSource,
+                    taxImpactSummary: currentSnapshot.taxImpactSummary,
+                    taxImpactPendingAmount: currentSnapshot.taxImpactPendingAmount,
+                    dataMaturityLevel: currentSnapshot.dataMaturityLevel,
+                    costActionRecommendation: currentSnapshot.costActionRecommendation,
+                    currentActionLevel: currentSnapshot.currentActionLevel,
+                    referencedBaselineVersion: currentSnapshot.referencedBaselineVersion,
+                    referencedSnapshotVersion: currentSnapshot.referencedSnapshotVersion,
+                    summaryPackageKey: currentSnapshot.summaryPackageKey,
+                    summarySnapshotId: currentSnapshot.summarySnapshotId,
+                    projectionLevel: currentSnapshot.projectionLevel,
+                    exportPolicy: currentSnapshot.exportPolicy,
+                    generatedAt: new Date(),
+                    status: 'active',
+                    supersedesId: currentSnapshot.id,
+                    createdBy: actorUserId ?? null,
+                    updatedBy: actorUserId ?? null
+                });
+
+                em.persist([payout, currentSnapshot, nextSnapshot]);
+                await em.flush();
+                return this.#toPayoutSummary(payout);
+            });
+        }
+
         entity.status = 'paid';
         entity.paidRecordAmount = this.#formatAmount(paidAmount);
         entity.handledAt = new Date();
+        entity.handledBy = actorUserId ?? null;
         await this.repo.flushPayout();
         return this.#toPayoutSummary(entity);
     }
@@ -998,6 +1147,80 @@ export class CommissionService {
         createdAt: e.createdAt.toISOString(),
         updatedAt: e.updatedAt.toISOString()
     });
+
+    async #getCurrentFinalSettlementContext(projectId: string): Promise<{
+        snapshot: CommissionFinalSettlementSnapshot;
+        freezeVersion: CommissionRoleAssignment;
+    }> {
+        const snapshot = await this.repo.findCurrentFinalSettlementSnapshot(projectId);
+        return this.#assertAndBuildFinalSettlementContext(projectId, snapshot);
+    }
+
+    async #getCurrentFinalSettlementContextById(
+        projectId: string,
+        snapshotId: string
+    ): Promise<{
+        snapshot: CommissionFinalSettlementSnapshot;
+        freezeVersion: CommissionRoleAssignment;
+    }> {
+        const snapshot = await this.repo.findFinalSettlementSnapshotById(snapshotId);
+        return this.#assertAndBuildFinalSettlementContext(projectId, snapshot);
+    }
+
+    async #assertAndBuildFinalSettlementContext(
+        projectId: string,
+        snapshot: CommissionFinalSettlementSnapshot | null
+    ): Promise<{
+        snapshot: CommissionFinalSettlementSnapshot;
+        freezeVersion: CommissionRoleAssignment;
+    }> {
+        if (!snapshot || snapshot.projectId !== projectId || !snapshot.isCurrent || snapshot.status !== 'active') {
+            throw new NotFoundException(`Current CommissionFinalSettlementSnapshot for project ${projectId} not found`);
+        }
+
+        const freezeVersion = await this.repo.findRoleAssignmentById(snapshot.freezeVersionId);
+        if (
+            !freezeVersion ||
+            freezeVersion.projectId !== projectId ||
+            !freezeVersion.isCurrent ||
+            freezeVersion.status !== 'frozen'
+        ) {
+            throw new NotFoundException(
+                `Current frozen CommissionRoleAssignment ${snapshot.freezeVersionId} not found for project ${projectId}`
+            );
+        }
+
+        return { snapshot, freezeVersion };
+    }
+
+    async #getCurrentRuleExplanationSnapshot(projectId: string): Promise<CommissionRuleExplanationSnapshot> {
+        const snapshot = await this.repo.findCurrentRuleExplanationSnapshot(projectId);
+        if (!snapshot || snapshot.projectId !== projectId || !snapshot.isCurrent || snapshot.status !== 'active') {
+            throw new NotFoundException(`Current CommissionRuleExplanationSnapshot for project ${projectId} not found`);
+        }
+        return snapshot;
+    }
+
+    #buildCommissionSharedEvidencePackage(
+        snapshot: CommissionFinalSettlementSnapshot,
+        freezeVersion: CommissionRoleAssignment
+    ): CommissionSharedEvidencePackage {
+        return {
+            freezeVersionSummary: this.#toRoleAssignmentSummary(freezeVersion),
+            baselineSelectionSource: snapshot.baselineSelectionSource as CommissionFinalSettlementView['baselineSelectionSource'],
+            taxImpactSummary: snapshot.taxImpactSummary,
+            taxImpactPendingAmount: this.#stringifyDecimal(snapshot.taxImpactPendingAmount),
+            dataMaturityLevel: snapshot.dataMaturityLevel,
+            costActionRecommendation: snapshot.costActionRecommendation as CommissionFinalSettlementView['costActionRecommendation'],
+            currentActionLevel: snapshot.currentActionLevel as CommissionFinalSettlementView['currentActionLevel'],
+            referencedBaselineVersion: snapshot.referencedBaselineVersion,
+            referencedSnapshotVersion: snapshot.referencedSnapshotVersion,
+            summaryPackageKey: snapshot.summaryPackageKey,
+            summarySnapshotId: snapshot.summarySnapshotId,
+            projectionLevel: snapshot.projectionLevel,
+            exportPolicy: snapshot.exportPolicy
+        };
+    }
 
     async #assertProjectExists(projectId: string): Promise<void> {
         const project = await this.repo.findProjectById(projectId);

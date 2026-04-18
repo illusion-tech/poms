@@ -1,4 +1,4 @@
-import { EntityRepository, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import type {
@@ -14,8 +14,12 @@ import type {
 import { randomUUID } from 'node:crypto';
 import { DEV_USERS } from '../../core/platform/dev-platform.fixtures';
 import { CommissionAdjustment } from '../commission/commission-adjustment.entity';
+import { CommissionFinalSettlementSnapshot } from '../commission/commission-final-settlement-snapshot.entity';
 import { CommissionPayout } from '../commission/commission-payout.entity';
+import { CommissionRoleAssignment } from '../commission/commission-role-assignment.entity';
 import { Contract } from '../contract/contract.entity';
+import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
+import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { ApprovalRecord } from './approval-record.entity';
 import { TodoItem } from './todo-item.entity';
 
@@ -34,6 +38,10 @@ const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
 const DEFAULT_APPROVER_USER_ID = DEV_USERS[0].id;
 const APPROVAL_ACTIONS = ['approve', 'reject'];
+const FINAL_SETTLEMENT_STATUS_PENDING = 'pending-final-settlement';
+const NON_RETENTION_SETTLEMENT_STATUS_PENDING = 'pending-non-retention';
+const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
+const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
 
 @Injectable()
 export class ApprovalService {
@@ -161,6 +169,8 @@ export class ApprovalService {
             if (existingApproval) {
                 throw new ConflictException(`CommissionPayout ${payoutId} already has a pending approval`);
             }
+
+            await this.loadValidatedFinalPayoutApprovalContext(em, payout);
 
             payout.status = 'pending-approval';
 
@@ -423,14 +433,22 @@ export class ApprovalService {
                     throw new NotFoundException(`CommissionPayout ${approvalRecord.targetObjectId} not found`);
                 }
 
+                let snapshotId: string | null = null;
                 if (decision === 'approved') {
+                    const finalSettlementContext = await this.loadValidatedFinalPayoutApprovalContext(em, payout);
                     payout.status = 'approved';
                     payout.approvedAmount = payout.approvedAmount ?? payout.theoreticalCapAmount;
                     payout.approvedAt = new Date();
+                    payout.approvedBy = actorUserId;
+                    snapshotId = await this.writeCurrentFinalSettlementSnapshot(em, payout, actorUserId, {
+                        finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING,
+                        nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_PENDING
+                    }, finalSettlementContext);
                 } else {
                     payout.status = 'draft';
                     payout.approvedAmount = null;
                     payout.approvedAt = null;
+                    payout.approvedBy = null;
                 }
 
                 em.persist([approvalRecord, payout, ...(todoItem ? [todoItem] : [])]);
@@ -444,7 +462,7 @@ export class ApprovalService {
                     approvalRecordId: approvalRecord.id,
                     confirmationRecordId: null,
                     todoItemIds,
-                    snapshotId: null
+                    snapshotId
                 };
             }
 
@@ -489,6 +507,149 @@ export class ApprovalService {
         if (expectedVersion !== undefined && actualVersion !== expectedVersion) {
             throw new ConflictException(`${resourceType} version ${expectedVersion} does not match current version ${actualVersion}`);
         }
+    }
+
+    private async loadValidatedFinalPayoutApprovalContext(
+        em: EntityManager,
+        payout: CommissionPayout
+    ): Promise<{
+        freezeVersion: CommissionRoleAssignment;
+        binding: OperatingSignalToCommissionGateBinding;
+        gateReview: CommissionGateReviewRecord;
+    } | null> {
+        if (payout.stageType !== 'final') {
+            return null;
+        }
+
+        const context = await this.loadCurrentFinalSettlementContext(em, payout.projectId);
+        const { binding, gateReview } = context;
+        if (this.isBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
+        }
+
+        return context;
+    }
+
+    private async loadCurrentFinalSettlementContext(
+        em: EntityManager,
+        projectId: string
+    ): Promise<{
+        freezeVersion: CommissionRoleAssignment;
+        binding: OperatingSignalToCommissionGateBinding;
+        gateReview: CommissionGateReviewRecord;
+    }> {
+        const freezeVersion = await em.findOne(CommissionRoleAssignment, {
+            projectId,
+            isCurrent: true,
+            status: 'frozen'
+        });
+        if (!freezeVersion) {
+            throw new BadRequestException(`Current frozen CommissionRoleAssignment is required before processing final payout approval for project ${projectId}`);
+        }
+
+        const binding = await em.findOne(OperatingSignalToCommissionGateBinding, {
+            projectId,
+            gateStageType: 'final',
+            status: 'active'
+        });
+        if (!binding) {
+            throw new BadRequestException(`Active final commission gate binding is required before processing final payout approval for project ${projectId}`);
+        }
+
+        const gateReview = await em.findOne(
+            CommissionGateReviewRecord,
+            {
+                bindingId: binding.id,
+                status: 'active'
+            },
+            {
+                orderBy: {
+                    handledAt: QueryOrder.DESC,
+                    createdAt: QueryOrder.DESC
+                }
+            }
+        );
+        if (!gateReview) {
+            throw new BadRequestException(`Active final commission gate review is required before processing final payout approval for project ${projectId}`);
+        }
+
+        return { freezeVersion, binding, gateReview };
+    }
+
+    private async writeCurrentFinalSettlementSnapshot(
+        em: EntityManager,
+        payout: CommissionPayout,
+        actorUserId: string,
+        statusPatch: {
+            finalSettlementStatus: string;
+            nonRetentionSettlementStatus: string;
+        },
+        finalSettlementContext?: {
+            freezeVersion: CommissionRoleAssignment;
+            binding: OperatingSignalToCommissionGateBinding;
+            gateReview: CommissionGateReviewRecord;
+        } | null
+    ): Promise<string | null> {
+        if (payout.stageType !== 'final') {
+            return null;
+        }
+
+        const { freezeVersion, binding, gateReview } =
+            finalSettlementContext ?? (await this.loadCurrentFinalSettlementContext(em, payout.projectId));
+        const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+            projectId: payout.projectId,
+            isCurrent: true
+        });
+
+        if (currentSnapshot) {
+            currentSnapshot.isCurrent = false;
+            currentSnapshot.status = 'superseded';
+            currentSnapshot.updatedBy = actorUserId;
+            em.persist(currentSnapshot);
+        }
+
+        const snapshot = em.create(CommissionFinalSettlementSnapshot, {
+            id: randomUUID(),
+            projectId: payout.projectId,
+            freezeVersionId: freezeVersion.id,
+            gateReviewRecordId: gateReview.id,
+            retentionReceiptRecordId: null,
+            departureExceptionDecisionId: null,
+            version: currentSnapshot ? currentSnapshot.version + 1 : 1,
+            isCurrent: true,
+            finalSettlementStatus: statusPatch.finalSettlementStatus,
+            nonRetentionSettlementStatus: statusPatch.nonRetentionSettlementStatus,
+            retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionRequirementSummary: currentSnapshot?.retentionRequirementSummary ?? DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+            retentionReceiptSummary: null,
+            departureExceptionSummary: null,
+            baselineSelectionSource: binding.baselineSelectionSource,
+            taxImpactSummary: binding.taxImpactSummary,
+            taxImpactPendingAmount: binding.taxImpactPendingAmount,
+            dataMaturityLevel: binding.dataMaturityLevel,
+            costActionRecommendation: binding.costActionRecommendation,
+            currentActionLevel: binding.currentActionLevel,
+            referencedBaselineVersion: binding.referencedBaselineVersion,
+            referencedSnapshotVersion: binding.referencedSnapshotVersion,
+            summaryPackageKey: gateReview.summaryPackageKey,
+            summarySnapshotId: gateReview.summarySnapshotId,
+            projectionLevel: gateReview.projectionLevel,
+            exportPolicy: gateReview.exportPolicy,
+            generatedAt: new Date(),
+            status: 'active',
+            supersedesId: currentSnapshot?.id ?? null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+
+        em.persist(snapshot);
+        return snapshot.id;
+    }
+
+    private isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
+        return [bindingAction, gateReviewDecision]
+            .map((value) => value?.trim().toUpperCase())
+            .some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
     }
 }
 
