@@ -4,11 +4,16 @@ import { ContractFinanceModule } from '../contract-finance/contract-finance.modu
 import { ProjectHandoverModule } from '../project-handover/project-handover.module';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import { ChangePackageBaseline } from './change-package-baseline.entity';
+import { CommissionGateReviewRecord } from './commission-gate-review-record.entity';
 import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
+import { DataMaturityEvaluationResult } from './data-maturity-evaluation-result.entity';
 import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
 import { OperatingRestatementRecord } from './operating-restatement-record.entity';
+import { OperatingSignalEvaluationResult } from './operating-signal-evaluation-result.entity';
+import { OperatingSignalToCommissionGateBinding } from './operating-signal-gate-binding.entity';
+import { OperatingSignalReviewRecord } from './operating-signal-review-record.entity';
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
@@ -17,11 +22,16 @@ import { SharedCostAllocationResult } from './shared-cost-allocation-result.enti
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CommissionGateReviewRecordRepository,
     CostStageAttributionSnapshotRepository,
+    DataMaturityEvaluationResultRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
+    OperatingSignalEvaluationResultRepository,
+    OperatingSignalReviewRecordRepository,
+    OperatingSignalToCommissionGateBindingRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
     ProjectOperatingSnapshotRepository,
@@ -36,11 +46,16 @@ import { ProjectCostController } from './project-cost.controller';
         MikroOrmModule.forFeature([
             AccountingTaxTreatmentSnapshot,
             ChangePackageBaseline,
+            CommissionGateReviewRecord,
             CostStageAttributionSnapshot,
+            DataMaturityEvaluationResult,
             ExpenseRecord,
             InternalCostRateVersion,
             OperatingBaselinePackage,
             OperatingRestatementRecord,
+            OperatingSignalEvaluationResult,
+            OperatingSignalToCommissionGateBinding,
+            OperatingSignalReviewRecord,
             PeriodClosingSnapshot,
             ProjectActualCostRecord,
             ProjectOperatingSnapshot,
@@ -54,11 +69,16 @@ import { ProjectCostController } from './project-cost.controller';
     providers: [
         AccountingTaxTreatmentSnapshotRepository,
         ChangePackageBaselineRepository,
+        CommissionGateReviewRecordRepository,
         CostStageAttributionSnapshotRepository,
+        DataMaturityEvaluationResultRepository,
         ExpenseRecordRepository,
         InternalCostRateVersionRepository,
         OperatingBaselinePackageRepository,
         OperatingRestatementRecordRepository,
+        OperatingSignalEvaluationResultRepository,
+        OperatingSignalReviewRecordRepository,
+        OperatingSignalToCommissionGateBindingRepository,
         PeriodClosingSnapshotRepository,
         ProjectActualCostRecordRepository,
         ProjectOperatingSnapshotRepository,
@@ -69,11 +89,16 @@ import { ProjectCostController } from './project-cost.controller';
     exports: [
         AccountingTaxTreatmentSnapshotRepository,
         ChangePackageBaselineRepository,
+        CommissionGateReviewRecordRepository,
         CostStageAttributionSnapshotRepository,
+        DataMaturityEvaluationResultRepository,
         ExpenseRecordRepository,
         InternalCostRateVersionRepository,
         OperatingBaselinePackageRepository,
         OperatingRestatementRecordRepository,
+        OperatingSignalEvaluationResultRepository,
+        OperatingSignalReviewRecordRepository,
+        OperatingSignalToCommissionGateBindingRepository,
         PeriodClosingSnapshotRepository,
         ProjectActualCostRecordRepository,
         ProjectOperatingSnapshotRepository,

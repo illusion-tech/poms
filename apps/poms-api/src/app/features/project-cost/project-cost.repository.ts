@@ -3,11 +3,16 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import { ChangePackageBaseline } from './change-package-baseline.entity';
+import { CommissionGateReviewRecord } from './commission-gate-review-record.entity';
 import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
+import { DataMaturityEvaluationResult } from './data-maturity-evaluation-result.entity';
 import { ExpenseRecord } from './expense-record.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
 import { OperatingRestatementRecord } from './operating-restatement-record.entity';
+import { OperatingSignalEvaluationResult } from './operating-signal-evaluation-result.entity';
+import { OperatingSignalToCommissionGateBinding } from './operating-signal-gate-binding.entity';
+import { OperatingSignalReviewRecord } from './operating-signal-review-record.entity';
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
@@ -282,6 +287,158 @@ export class ProjectOperatingSnapshotRepository {
     }
 
     async saveAll(entities: ProjectOperatingSnapshot[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class DataMaturityEvaluationResultRepository {
+    constructor(
+        @InjectRepository(DataMaturityEvaluationResult)
+        private readonly repository: EntityRepository<DataMaturityEvaluationResult>
+    ) {}
+
+    async findById(id: string): Promise<DataMaturityEvaluationResult | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveByProjectAndSnapshot(
+        projectId: string,
+        referencedSnapshotId: string
+    ): Promise<DataMaturityEvaluationResult | null> {
+        return this.repository.findOne({ projectId, referencedSnapshotId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof DataMaturityEvaluationResult>[0]): DataMaturityEvaluationResult {
+        return this.repository.create(input);
+    }
+
+    async save(entity: DataMaturityEvaluationResult): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: DataMaturityEvaluationResult[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class OperatingSignalEvaluationResultRepository {
+    constructor(
+        @InjectRepository(OperatingSignalEvaluationResult)
+        private readonly repository: EntityRepository<OperatingSignalEvaluationResult>
+    ) {}
+
+    async findById(id: string): Promise<OperatingSignalEvaluationResult | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveByProjectAndSnapshot(
+        projectId: string,
+        referencedSnapshotId: string
+    ): Promise<OperatingSignalEvaluationResult | null> {
+        return this.repository.findOne({ projectId, referencedSnapshotId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof OperatingSignalEvaluationResult>[0]): OperatingSignalEvaluationResult {
+        return this.repository.create(input);
+    }
+
+    async save(entity: OperatingSignalEvaluationResult): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: OperatingSignalEvaluationResult[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class OperatingSignalReviewRecordRepository {
+    constructor(
+        @InjectRepository(OperatingSignalReviewRecord)
+        private readonly repository: EntityRepository<OperatingSignalReviewRecord>
+    ) {}
+
+    async findById(id: string): Promise<OperatingSignalReviewRecord | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveBySignalEvaluationId(signalEvaluationId: string): Promise<OperatingSignalReviewRecord | null> {
+        return this.repository.findOne({ signalEvaluationId, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof OperatingSignalReviewRecord>[0]): OperatingSignalReviewRecord {
+        return this.repository.create(input);
+    }
+
+    async save(entity: OperatingSignalReviewRecord): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: OperatingSignalReviewRecord[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class OperatingSignalToCommissionGateBindingRepository {
+    constructor(
+        @InjectRepository(OperatingSignalToCommissionGateBinding)
+        private readonly repository: EntityRepository<OperatingSignalToCommissionGateBinding>
+    ) {}
+
+    async findById(id: string): Promise<OperatingSignalToCommissionGateBinding | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findActiveByProjectAndGateStageType(
+        projectId: string,
+        gateStageType: string
+    ): Promise<OperatingSignalToCommissionGateBinding | null> {
+        return this.repository.findOne({ projectId, gateStageType, status: 'active' });
+    }
+
+    create(input: ConstructorParameters<typeof OperatingSignalToCommissionGateBinding>[0]): OperatingSignalToCommissionGateBinding {
+        return this.repository.create(input);
+    }
+
+    async save(entity: OperatingSignalToCommissionGateBinding): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: OperatingSignalToCommissionGateBinding[]): Promise<void> {
+        await this.repository.getEntityManager().persist(entities).flush();
+    }
+}
+
+@Injectable()
+export class CommissionGateReviewRecordRepository {
+    constructor(
+        @InjectRepository(CommissionGateReviewRecord)
+        private readonly repository: EntityRepository<CommissionGateReviewRecord>
+    ) {}
+
+    async findById(id: string): Promise<CommissionGateReviewRecord | null> {
+        return this.repository.findOne({ id });
+    }
+
+    async findByBindingId(bindingId: string): Promise<CommissionGateReviewRecord[]> {
+        return this.repository.find(
+            { bindingId },
+            { orderBy: { handledAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
+    create(input: ConstructorParameters<typeof CommissionGateReviewRecord>[0]): CommissionGateReviewRecord {
+        return this.repository.create(input);
+    }
+
+    async save(entity: CommissionGateReviewRecord): Promise<void> {
+        await this.repository.getEntityManager().persist(entity).flush();
+    }
+
+    async saveAll(entities: CommissionGateReviewRecord[]): Promise<void> {
         await this.repository.getEntityManager().persist(entities).flush();
     }
 }
