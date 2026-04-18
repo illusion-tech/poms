@@ -8,7 +8,7 @@
 - G1 Date: `2026-04-18`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-13B`
 - Execution Status: `Paused 2026-04-18`
-- Execution Note: `按 owner 指令切换到 ADR-015 治理补录；本轮未闭环 controller / service / contract WIP 已在工作树回退，不保留半成品实现。`
+- Execution Note: `按 owner 指令切换到 ADR-015 治理补录；本轮未闭环 controller / service / contract WIP 已在工作树回退，不保留半成品实现。2026-04-18 恢复 EX-13B 时又发现 gate review 所需 summary snapshot anchor 未落到 EX-13A 正式表链；该 drift 已由 ex-13b-summary-anchor-corrective-checkpoint.md 记录，并通过 ex-13b1-gate-review-summary-anchor-baseline.md / EX-13B1 收口。后续恢复 EX-13B 时必须直接消费修正后的 CommissionGateReviewRecord 模型。`
 
 ---
 

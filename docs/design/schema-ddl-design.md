@@ -622,8 +622,9 @@
 5. `commission_gate_review_record`
   - 主键：`id`
   - 外键：`binding_id -> operating_signal_gate_binding.id`
-  - 索引建议：`binding_id + handled_at desc`、`gate_review_decision + status`
-  - 字段补点建议：`next_action_summary text`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 索引建议：`binding_id + handled_at desc`、`gate_review_decision + status`、`summary_snapshot_id`
+  - 字段补点建议：`summary_package_key varchar(64) not null`、`summary_snapshot_id uuid not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`、`next_action_summary text`
 
 ### 8.9 第二批 DDL 级强约束建议
 
@@ -647,6 +648,7 @@
 16. 同一条经营信号同一时刻只允许一条当前有效 `operating_signal_review_record`；若再次复核，必须新增历史记录并切换当前有效记录，而不是无痕更新旧记录。
 17. `operating_signal_gate_binding` 必须直接保留 `baseline_selection_source`、`tax_impact_summary`、`tax_impact_pending_amount`、`allocation_stability_summary`、`unmapped_cost_summary`、`data_maturity_level`、`cost_action_recommendation`、`current_action_level`、`next_action_summary` 与 `downstream_consumer_summary`，保证 `L4-T04` 与 `L5` 消费同一条反馈链。
 18. `commission_gate_review_record` 只能消费来自当前有效 `operating_signal_gate_binding` 的稳定结果；若绑定结果尚未齐备税务 / 成本 / 动作等级字段，则必须回落为待补数或阻断，不得默认放行。
+19. `commission_gate_review_record` 必须直接保留 `summary_package_key`、`summary_snapshot_id`、`projection_level` 与 `export_policy`，并强关联 `approval_summary_snapshot`；`L5` gate、发放、最终结算与规则解释不得在下游再生成另一套场景摘要口径。
 
 ### 8.10 第二阶段第三批 DDL 补点
 

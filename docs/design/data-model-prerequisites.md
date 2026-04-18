@@ -286,7 +286,7 @@
 | `OperatingSignalReviewRecord`                        | 动作记录表        | 表达人工复核结论、复核后成熟度 / 动作等级、处理意见与 `reviewRecordId` 历史链                                                         | 是否只允许每条经营信号存在一条当前有效复核记录                                 |
 | `DataMaturityEvaluationResult`                       | 派生 / 结果表     | 表达经营数据成熟度等级、成本侧动作建议，并固定分摊稳定性提示、未映射成本提示与待闭合税务影响输入                                      | 是否允许人工复核覆盖系统结果还是只追加复核记录                                 |
 | `OperatingSignalToCommissionGateBinding`             | 派生 / 绑定结果表 | 固化 `L4` 经营信号到 `L5 gate` 的 `PROMPT / REVIEW / BLOCK` 绑定，并携带基线选择来源、稳定输出包、下一步动作与下游消费摘要            | 是否按项目、阶段或发放批次保留多条历史绑定结果                                 |
-| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论与放行 / 阻断原因                                                                           | 是否与 `CommissionPayout` 或发放审批记录建立强关联                             |
+| `CommissionGateReviewRecord`                         | 动作记录表        | 记录 `REVIEW / BLOCK` 分支处理人、处理结论、放行 / 阻断原因与场景摘要快照引用                                                         | 是否与 `CommissionPayout` 或发放审批记录建立强关联                             |
 
 第二阶段第二批对象链还需继续固定以下承接关系：
 
@@ -294,6 +294,7 @@
 2. `OperatingSignalEvaluationResult` 与 `OperatingSignalReviewRecord` 必须共同还原 `varianceSourceSummary`、`riskLevel`、`recommendedActionSummary`、`currentActionLevel`、`referencedBaselineVersion` 与 `referencedSnapshotVersion`，作为 `L4-T03` 的实现层事实来源。
 3. `OperatingSignalToCommissionGateBinding` 必须直接承接 `nextActionSummary`、`downstreamConsumerSummary`、`bindingAction`、`currentActionLevel` 与 `baselineSelectionSource`，作为 `L4-T04` 以及下游 `L5` gate 的稳定反馈链入口。
 4. `AccountingTaxTreatmentSnapshot`、`DataMaturityEvaluationResult`、`ProjectOperatingSnapshot`、`OperatingSignalEvaluationResult` 与 `OperatingSignalToCommissionGateBinding` 共同构成 `L4` 正式输入包的实现层承接对象，后续不得只剩查询聚合结果而缺失可落表的来源链。
+5. `OperatingSignalToCommissionGateBinding` 与 `CommissionGateReviewRecord` 必须共同固定 `summaryPackageKey`、`summarySnapshotId`、`projectionLevel`、`exportPolicy` 与引用基线 / 快照版本，保证 gate、发放、最终结算与规则解释页沿用同一份 `L4 -> L5` 场景摘要快照。
 
 ### 7.8 第二阶段第三批流程健壮性与审批增强对象链
 
