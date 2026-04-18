@@ -34,10 +34,14 @@ describe('permissionGuard', () => {
     let httpClientMock: { post: jest.Mock };
     let router: Router;
 
-    async function runGuard(requiredPermissions: PermissionKey[], url = '/platform/users'): Promise<boolean | UrlTree> {
+    async function runGuard(
+        requiredPermissions: PermissionKey[],
+        url = '/platform/users',
+        requiredPermissionsMode: 'any' | 'all' = 'any'
+    ): Promise<boolean | UrlTree> {
         return TestBed.runInInjectionContext(() =>
             permissionGuard(
-                { data: { requiredPermissions } } as never,
+                { data: { requiredPermissions, requiredPermissionsMode } } as never,
                 { url } as never
             )
         );
@@ -121,5 +125,15 @@ describe('permissionGuard', () => {
 
         expect(result).toBe(true);
         expect(initialize).toHaveBeenCalledTimes(1);
+    });
+
+    it('requires every declared permission when the route uses all mode', async () => {
+        token.set('jwt-token');
+        currentUser.set(createUser(['project:read']));
+
+        const result = await runGuard(['project:read', 'contract:finance:manage'], '/projects/1/workspace/operating-overview', 'all');
+
+        expect(result instanceof UrlTree).toBe(true);
+        expect(router.serializeUrl(result as UrlTree)).toBe('/auth/access?returnUrl=%2Fprojects%2F1%2Fworkspace%2Foperating-overview');
     });
 });

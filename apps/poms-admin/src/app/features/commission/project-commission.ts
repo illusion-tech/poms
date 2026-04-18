@@ -25,13 +25,14 @@ const TEMPLATE = `
                 <div class="flex items-center gap-3">
                     <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBackToProject()" class="cursor-pointer" />
                     <div>
-                        <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">提成治理 · {{ project()!.projectName }}</h1>
+                        <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">提成操作 · {{ project()!.projectName }}</h1>
                         <span class="text-sm text-surface-500 dark:text-surface-400">{{ project()!.projectCode }}</span>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <p-tag [value]="getProjectStageName(project()!.currentStage)" [severity]="getProjectStageSeverity(project()!.currentStage)" />
                     <p-tag [value]="getProjectStatusName(project()!.status)" [severity]="getProjectStatusSeverity(project()!.status)" />
+                    <p-button label="阶段解释" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToGateOverview()" class="cursor-pointer" />
                     <p-button label="刷新" icon="pi pi-refresh" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="reload()" class="cursor-pointer" />
                 </div>
             </div>
@@ -197,7 +198,7 @@ const TEMPLATE = `
     selector: 'app-project-commission',
     standalone: true,
     imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TextareaModule, ToastModule],
-    providers: [ProjectStore, CommissionStore, MessageService],
+    providers: [CommissionStore, MessageService],
     template: TEMPLATE
 })
 export class ProjectCommission implements OnInit, OnDestroy {
@@ -278,21 +279,21 @@ export class ProjectCommission implements OnInit, OnDestroy {
         const adjustmentId = this.#route.snapshot.queryParamMap.get('adjustmentId');
         if (payoutId) this.highlightedPayoutId.set(payoutId);
         if (adjustmentId) this.highlightedAdjustmentId.set(adjustmentId);
-        if (projectId) void Promise.all([this.projectStore.loadProject(projectId), this.commissionStore.reload(projectId)]);
+        if (projectId) void this.commissionStore.reload(projectId);
     }
 
     ngOnDestroy() {
-        this.projectStore.clearSelectedProject();
         this.commissionStore.clear();
     }
 
-    projectId() { return this.#route.snapshot.paramMap.get('id'); }
+    projectId() { return this.#route.parent?.snapshot.paramMap.get('id'); }
     todoForPayout(payoutId: string) { return this.payoutTodoMap().get(payoutId) ?? null; }
     todoForAdjustment(adjustmentId: string) { return this.adjustmentTodoMap().get(adjustmentId) ?? null; }
     requiresAdjustmentAmount() { return this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Clawback || this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Supplement; }
     goBackToProject() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id]); }
+    goToGateOverview() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id, 'commission', 'gate-overview']); }
     goBackToList() { this.#router.navigate(['/projects']); }
-    async reload() { const id = this.projectId(); if (id) await Promise.all([this.projectStore.loadProject(id), this.commissionStore.reload(id)]); }
+    async reload() { const id = this.projectId(); if (id) await this.commissionStore.reload(id); }
 
     openTriggerDialog() {
         const defaultRuleVersionId = this.commissionStore.activeRuleVersions()[0]?.id ?? '';
@@ -515,10 +516,64 @@ export class ProjectCommission implements OnInit, OnDestroy {
     getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', executed: 'info', rejected: 'danger', closed: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
     getStageLabel(stage: CommissionPayoutStage) { return { first: '首期发放', second: '二期发放', final: '最终发放' }[stage]; }
     getTierLabel(tier: CommissionPayoutTier) { return { basic: '基础档', mid: '中档', premium: '上限档' }[tier]; }
-    getProjectStatusName(status: string) { return { active: '进行中', closed_won: '已签约', closed_lost: '已丢单', draft: '草稿', suspended: '已暂停' }[status] ?? status; }
-    getProjectStatusSeverity(status: string) { return { active: 'info', closed_won: 'success', closed_lost: 'danger', draft: 'secondary', suspended: 'warn' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined; }
-    getProjectStageName(stage: string) { return { lead: '线索', opportunity: '商机', proposal: '方案', negotiation: '谈判', contracting: '签约中', execution: '执行中', closed: '已关闭' }[stage] ?? stage; }
-    getProjectStageSeverity(stage: string) { return { lead: 'secondary', opportunity: 'info', proposal: 'info', negotiation: 'warn', contracting: 'warn', execution: 'success', closed: 'contrast' }[stage] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined; }
+    getProjectStatusName(status: string) {
+        return {
+            active: '进行中',
+            blocked: '阻塞中',
+            completed: '已完成',
+            closed_won: '已签约',
+            closed_lost: '已丢单',
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止',
+            draft: '草稿',
+            suspended: '已暂停'
+        }[status] ?? status;
+    }
+    getProjectStatusSeverity(status: string) {
+        return {
+            active: 'info',
+            blocked: 'warn',
+            completed: 'success',
+            closed_won: 'success',
+            closed_lost: 'danger',
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger',
+            draft: 'secondary',
+            suspended: 'warn'
+        }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+    }
+    getProjectStageName(stage: string) {
+        return {
+            assessment: '立项评估',
+            'scope-confirmation': '范围确认',
+            'commercial-closure': '商务收口',
+            contracting: '签约中',
+            handover: '项目移交',
+            execution: '正式执行',
+            acceptance: '验收确认',
+            completed: '已完成',
+            lead: '线索',
+            opportunity: '商机',
+            proposal: '方案',
+            negotiation: '谈判'
+        }[stage] ?? stage;
+    }
+    getProjectStageSeverity(stage: string) {
+        return {
+            assessment: 'secondary',
+            'scope-confirmation': 'info',
+            'commercial-closure': 'warn',
+            contracting: 'warn',
+            handover: 'warn',
+            execution: 'success',
+            acceptance: 'info',
+            completed: 'contrast',
+            lead: 'secondary',
+            opportunity: 'info',
+            proposal: 'info',
+            negotiation: 'warn'
+        }[stage] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+    }
     getErrorMessage(error: unknown) {
         if (typeof error === 'object' && error !== null) {
             const candidate = error as { error?: { message?: string }; message?: string };

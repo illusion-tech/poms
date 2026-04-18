@@ -14,14 +14,15 @@
   1. 为前端工作区主入口、`L4` 读取页、`L5` 闸口解释页和提成操作页建立 E2E 与 guard 证据。
   2. 验证 viewer / admin 在工作区中的真实可见性边界。
   3. 留痕“哪些页面只能读、哪些页面可操作、哪些页面应被拦住”。
+  4. 把工作区验证分成 `smoke` 与 `journey` 两层，避免只剩 URL 直达证明。
 - 本次明确不做:
   1. 不扩大为全站 E2E 重跑计划。
   2. 不把后端业务 E2E 重复写一遍。
   3. 不在本片新增新的权限模型或角色。
 - 下游可依赖的交付边界:
-  1. 工作区主入口、直接路由访问、权限拒绝与关键文本链路有浏览器级证据。
+  1. 工作区主入口、项目列表行菜单 / 项目详情按钮入口、直接路由访问、权限拒绝与关键文本链路有浏览器级证据。
   2. `permissionGuard` 的 all-mode 行为有单测证据。
-  3. viewer / admin 对应边界可用于后续评审。
+  3. viewer / admin 对应边界与工作区内部真实跳转链可用于后续评审。
 - 不允许下游依赖的留白:
   1. 不允许只凭 UI 隐藏按钮而没有真实路由 guard。
   2. 不允许只凭 guard 而没有浏览器级可见性证据。
@@ -42,10 +43,10 @@
 
 | Concern        | SSOT                                     | Implementation Rule                           |
 | -------------- | ---------------------------------------- | --------------------------------------------- |
-| 工作区入口     | 项目页进入 + 直接路由进入                | 两种入口都必须验证                            |
+| 工作区入口     | 项目列表行菜单 / 项目详情按钮 + 直接路由进入 | 三种入口都必须验证                         |
 | 财务读取页权限 | `project:read + contract:finance:manage` | viewer 不得直接进入 `L4` 读取页与 gate 解释页 |
 | 提成操作页权限 | `project:read + commission:*:manage`     | 没有完整 manage 权限时必须被 guard 拦住       |
-| 可见性证据     | unit + Playwright                        | 仅 UI 隐藏或仅单测都不够                      |
+| 可见性证据     | unit + Playwright smoke + Playwright journey | 仅 UI 隐藏或仅单测都不够                  |
 | 敏感字段边界   | 权限设计文档 + 实际页面表现              | 需验证受限用户看不到受限页面                  |
 
 ## 4. 命令与接口边界
@@ -72,8 +73,9 @@
 | Query / View                | Consumer   | Fields                                                 | Filter / Sort    | Permission Boundary      | Design Source                                               | Result |
 | --------------------------- | ---------- | ------------------------------------------------------ | ---------------- | ------------------------ | ----------------------------------------------------------- | ------ |
 | `permission.guard` all-mode | 路由 guard | 所有 requiredPermissions 必须同时满足                  | `N/A`            | 真实路由边界             | `phase2-data-permission-and-sensitive-visibility-design.md` | Frozen |
-| 工作区 smoke E2E            | admin      | 工作区入口、`L4` 文本链路、`L5` 闸口解释、提成操作入口 | 固定 seeded 项目 | admin 全可见             | `FE-01`、`FE-02`、`FE-03`                                   | Frozen |
-| 受限访问 E2E                | viewer     | 主壳层可见、财务读取页 / 操作页受限                    | 固定 seeded 项目 | viewer 仅 `project:read` | 权限设计文档                                                | Frozen |
+| 工作区 smoke E2E            | admin / anonymous | 项目详情按钮入口、直接路由、关键解释文本、returnUrl | 固定 seeded 项目 | admin 全可见 / anonymous returnUrl | `FE-01`、`FE-02`、`FE-03`                     | Frozen |
+| 工作区 journey E2E          | admin      | 左侧菜单 -> 项目列表行菜单 -> 工作区 -> 内部链接 / 按钮跳转链 | 固定 seeded 项目 | admin 全可见             | `FE-01`、`FE-02`、`FE-03`                                   | Frozen |
+| 受限访问 E2E                | viewer     | 项目列表入口、主壳层可见、财务读取页 / 操作页受限      | 固定 seeded 项目 | viewer 仅 `project:read` | 权限设计文档                                                | Frozen |
 
 ## 6. 持久化边界
 
@@ -104,7 +106,7 @@
 | Build                            | Yes      | `corepack pnpm nx build poms-admin`            | Pending | `G3` 统一执行               |
 | Unit tests                       | Yes      | `corepack pnpm nx test poms-admin --runInBand` | Pending | 至少覆盖 `permission.guard` |
 | API / integration tests          | No       | `N/A`                                          | N/A     | 不改 API                    |
-| E2E                              | Yes      | `poms-admin-e2e` 工作区 smoke + 权限拒绝       | Pending | 本片核心证据                |
+| E2E                              | Yes      | `poms-admin-e2e` 工作区 smoke + journey + 权限拒绝 | Pending | 本片核心证据             |
 | OpenAPI generation / client diff | No       | `N/A`                                          | N/A     | 未改 contract               |
 | Migration / schema check         | No       | `N/A`                                          | N/A     | 未改 persistence            |
 
@@ -121,5 +123,5 @@
 - Approved At: `2026-04-18`
 - Conditions:
   1. `permission.guard` 的 all-mode 与页面真实表现必须一致。
-  2. 工作区主入口、直接路由和权限拒绝三条链都要有证据。
+  2. 工作区主入口、项目列表 / 项目详情真实入口、直接路由和权限拒绝四条链都要有证据。
   3. 本片未通过前，`FE-01 ~ FE-03` 都不能标记 `Done`。

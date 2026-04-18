@@ -5,9 +5,31 @@ import { AuthStore } from '@poms/admin-data-access';
 import { type CanActivateFn, Router } from '@angular/router';
 import { catchError, firstValueFrom, of } from 'rxjs';
 
+type RequiredPermissionsMode = 'any' | 'all';
+
 function readRequiredPermissions(raw: unknown): PermissionKey[] {
     if (!Array.isArray(raw)) return [];
     return raw as PermissionKey[];
+}
+
+function readRequiredPermissionsMode(raw: unknown): RequiredPermissionsMode {
+    return raw === 'all' ? 'all' : 'any';
+}
+
+function hasRequiredPermissions(
+    currentPermissions: readonly PermissionKey[],
+    requiredPermissions: readonly PermissionKey[],
+    mode: RequiredPermissionsMode
+): boolean {
+    if (requiredPermissions.length === 0) {
+        return true;
+    }
+
+    if (mode === 'all') {
+        return requiredPermissions.every((permission) => currentPermissions.includes(permission));
+    }
+
+    return requiredPermissions.some((permission) => currentPermissions.includes(permission));
 }
 
 export const permissionGuard: CanActivateFn = async (route, state) => {
@@ -15,6 +37,7 @@ export const permissionGuard: CanActivateFn = async (route, state) => {
     const http = inject(HttpClient);
     const router = inject(Router);
     const requiredPermissions = readRequiredPermissions(route.data?.['requiredPermissions']);
+    const permissionMode = readRequiredPermissionsMode(route.data?.['requiredPermissionsMode']);
 
     if (requiredPermissions.length === 0) return true;
 
@@ -34,7 +57,9 @@ export const permissionGuard: CanActivateFn = async (route, state) => {
         });
     }
 
-    if (authStore.hasAnyPermission(requiredPermissions)) {
+    const currentPermissions = authStore.currentUser()?.permissions ?? [];
+
+    if (hasRequiredPermissions(currentPermissions, requiredPermissions, permissionMode)) {
         return true;
     }
 

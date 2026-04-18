@@ -1,13 +1,11 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/components/app.layout';
-import { AuthLayout } from './app/layout/components/app.authlayout';
 import { authGuard } from './app/core/auth/auth.guard';
 import { permissionGuard } from './app/core/auth/permission.guard';
 
 export const appRoutes: Routes = [
     {
         path: '',
-        component: AppLayout,
+        loadComponent: () => import('./app/layout/components/app.layout').then((c) => c.AppLayout),
         canActivate: [authGuard],
         children: [
             {
@@ -26,14 +24,90 @@ export const appRoutes: Routes = [
                 data: { breadcrumb: '项目管理' }
             },
             {
-                path: 'projects/:id',
-                loadComponent: () => import('./app/features/project/project-detail').then((c) => c.ProjectDetail),
-                data: { breadcrumb: '项目详情' }
+                path: 'projects/:id/workspace',
+                loadComponent: () => import('./app/features/project/project-workspace-shell').then((c) => c.ProjectWorkspaceShell),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '项目工作区',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./app/features/project/project-workspace-home').then((c) => c.ProjectWorkspaceHome),
+                        data: { breadcrumb: '工作区总览' }
+                    },
+                    {
+                        path: 'operating-overview',
+                        loadComponent: () => import('./app/features/project/project-operating-overview').then((c) => c.ProjectOperatingOverview),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '经营总览',
+                            requiredPermissions: ['project:read', 'contract:finance:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'variance-risk',
+                        loadComponent: () => import('./app/features/project/project-variance-risk').then((c) => c.ProjectVarianceRisk),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '偏差与风险',
+                            requiredPermissions: ['project:read', 'contract:finance:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    }
+                ]
             },
             {
                 path: 'projects/:id/commission',
-                loadComponent: () => import('./app/features/commission/project-commission').then((c) => c.ProjectCommission),
-                data: { breadcrumb: '提成治理' }
+                loadComponent: () => import('./app/features/commission/project-commission-shell').then((c) => c.ProjectCommissionShell),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '提成工作区',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                },
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'operations'
+                    },
+                    {
+                        path: 'gate-overview',
+                        loadComponent: () =>
+                            import('./app/features/commission/project-commission-gate-overview').then((c) => c.ProjectCommissionGateOverview),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '阶段闸口解释',
+                            requiredPermissions: ['project:read', 'contract:finance:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'operations',
+                        loadComponent: () => import('./app/features/commission/project-commission').then((c) => c.ProjectCommission),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '提成操作',
+                            requiredPermissions: [
+                                'project:read',
+                                'commission:rule-versions:manage',
+                                'commission:calculations:manage',
+                                'commission:payouts:manage',
+                                'commission:adjustments:manage'
+                            ],
+                            requiredPermissionsMode: 'all'
+                        }
+                    }
+                ]
+            },
+            {
+                path: 'projects/:id',
+                loadComponent: () => import('./app/features/project/project-detail').then((c) => c.ProjectDetail),
+                data: { breadcrumb: '项目详情' }
             },
             {
                 path: 'contracts',
@@ -90,7 +164,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'auth',
-        component: AuthLayout,
+        loadComponent: () => import('./app/layout/components/app.authlayout').then((c) => c.AuthLayout),
         children: [
             {
                 path: 'login',

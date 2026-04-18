@@ -6,9 +6,11 @@ export * from './lib/poms-api/poms-auth.interceptor';
 export * from './lib/poms-api/provide-poms-api-client';
 export * from './lib/platform/platform.store';
 export * from './lib/project/project.store';
+export * from './lib/project/project-workspace.store';
 
 export {
     PlatformApi,
+    ProjectCostApi,
     AssignRolePermissionsRequestPermissionKeysEnum,
     CommissionAdjustmentSummaryStatusEnum,
     CommissionAdjustmentType,
@@ -18,6 +20,27 @@ export {
     CommissionPayoutTier
 } from '@poms/shared-api-client';
 
-export type { ActivateContractRequest, ApprovalRecordSummary, CommandResult, CommissionCalculationSummary, CommissionPayoutSummary, ConfirmCommissionCalculationRequest, ContractSummary, CreateCommissionCalculationRequest, CreateCommissionPayoutRequest, CreateContractRequest, CreateProjectRequest, ProjectSummary, RegisterCommissionPayoutRequest, SubmitCommissionPayoutApprovalRequest, SubmitContractReviewRequest, TodoItemSummary } from '@poms/shared-api-client';
+export type {
+    ActivateContractRequest,
+    ApprovalRecordSummary,
+    BusinessAccountingFeedbackView,
+    CommandResult,
+    CommissionCalculationSummary,
+    CommissionPayoutSummary,
+    ConfirmCommissionCalculationRequest,
+    ContractSummary,
+    CreateCommissionCalculationRequest,
+    CreateCommissionPayoutRequest,
+    CreateContractRequest,
+    CreateProjectRequest,
+    ProjectBusinessOutcomeOverviewView,
+    ProjectSummary,
+    ProjectUnifiedAccountingView,
+    ProjectVarianceRiskExplanationView,
+    RegisterCommissionPayoutRequest,
+    SubmitCommissionPayoutApprovalRequest,
+    SubmitContractReviewRequest,
+    TodoItemSummary
+} from '@poms/shared-api-client';
 export type { PlatformUserSummary, PlatformUserDetail, PlatformRoleSummary, PlatformOrgUnitSummary, CreatePlatformUserRequest, AssignUserRolesRequest, AssignUserOrgMembershipsRequest, CreateRoleRequest, AssignRolePermissionsRequest, CreateOrgUnitRequest, UpdateOrgUnitRequest, UpdatePlatformUserRequest, UserOrgUnitSummary } from '@poms/shared-api-client';
 export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';

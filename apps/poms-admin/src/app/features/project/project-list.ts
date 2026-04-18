@@ -172,6 +172,11 @@ export class ProjectList implements OnInit {
                 command: () => this.navigateToDetail(project)
             },
             {
+                label: '项目工作区',
+                icon: 'pi pi-sitemap',
+                command: () => this.navigateToWorkspace(project)
+            },
+            {
                 label: '编辑',
                 icon: 'pi pi-pencil',
                 command: () => this.navigateToDetail(project)
@@ -196,6 +201,10 @@ export class ProjectList implements OnInit {
         this.#router.navigate(['/projects', project.id]);
     }
 
+    navigateToWorkspace(project: ProjectSummary) {
+        this.#router.navigate(['/projects', project.id, 'workspace']);
+    }
+
     showCreateDialog() {
         this.createForm = { projectCode: '', projectName: '', currentStage: 'lead' };
         this.createDialogVisible = true;
@@ -215,8 +224,12 @@ export class ProjectList implements OnInit {
     getStatusName(status: string): string {
         const map: Record<string, string> = {
             active: '进行中',
+            blocked: '阻塞中',
+            completed: '已完成',
             closed_won: '已签约',
             closed_lost: '已丢单',
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止',
             draft: '草稿',
             suspended: '已暂停'
         };
@@ -226,8 +239,12 @@ export class ProjectList implements OnInit {
     getStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
             active: 'info',
+            blocked: 'warn',
+            completed: 'success',
             closed_won: 'success',
             closed_lost: 'danger',
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger',
             draft: 'secondary',
             suspended: 'warn'
         };
@@ -236,26 +253,36 @@ export class ProjectList implements OnInit {
 
     getStageName(stage: string): string {
         const map: Record<string, string> = {
+            assessment: '立项评估',
+            'scope-confirmation': '范围确认',
+            'commercial-closure': '商务收口',
+            contracting: '签约中',
+            handover: '项目移交',
+            execution: '正式执行',
+            acceptance: '验收确认',
+            completed: '已完成',
             lead: '线索',
             opportunity: '商机',
             proposal: '方案',
-            negotiation: '谈判',
-            contracting: '签约中',
-            execution: '执行中',
-            closed: '已关闭'
+            negotiation: '谈判'
         };
         return map[stage] ?? stage;
     }
 
     getStageSeverity(stage: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
+            assessment: 'secondary',
+            'scope-confirmation': 'info',
+            'commercial-closure': 'warn',
+            contracting: 'warn',
+            handover: 'warn',
+            execution: 'success',
+            acceptance: 'info',
+            completed: 'contrast',
             lead: 'secondary',
             opportunity: 'info',
             proposal: 'info',
-            negotiation: 'warn',
-            contracting: 'warn',
-            execution: 'success',
-            closed: 'contrast'
+            negotiation: 'warn'
         };
         return map[stage];
     }
