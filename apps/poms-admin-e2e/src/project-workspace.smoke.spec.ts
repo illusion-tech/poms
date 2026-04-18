@@ -55,6 +55,14 @@ test.describe('poms-admin project workspace smoke', () => {
         await expect(page.getByText('Review commission settlement package')).toBeVisible();
         await expect(page.getByText('Commission payout workflow')).toBeVisible();
 
+        await page.goto(`/projects/${projectId}/commission/final-settlement`);
+        await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/commission/final-settlement$`));
+        await expect(page.getByText(/最终结算暂不可用|当前结算链状态/)).toBeVisible();
+
+        await page.goto(`/projects/${projectId}/commission/rule-explanation`);
+        await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/commission/rule-explanation$`));
+        await expect(page.getByText(/规则解释暂不可用|当前规则结论/)).toBeVisible();
+
         await page.goto(`/projects/${projectId}/commission/operations`);
         await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/commission/operations$`));
         await expect(page.getByRole('heading', { name: /提成操作/ })).toBeVisible();
@@ -72,9 +80,19 @@ test.describe('poms-admin project workspace smoke', () => {
         await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/workspace$`));
         await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
         await expect(page.getByText('经营总览 · 需要项目读取和经营核算权限')).toBeVisible();
+        await expect(page.getByText('最终结算 · 需要项目读取和提成发放治理权限')).toBeVisible();
+        await expect(page.getByText('规则解释 · 需要项目读取和提成发放治理权限')).toBeVisible();
         await expect(page.getByText('提成操作 · 需要提成治理操作权限')).toBeVisible();
 
         await page.goto(`/projects/${projectId}/workspace/operating-overview`);
+        await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
+        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+
+        await page.goto(`/projects/${projectId}/commission/final-settlement`);
+        await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
+        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+
+        await page.goto(`/projects/${projectId}/commission/rule-explanation`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
         await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
 

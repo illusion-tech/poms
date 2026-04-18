@@ -68,7 +68,7 @@ interface CommissionTab {
 
                 <section-card>
                     <ng-template #title>提成入口分离</ng-template>
-                    <ng-template #description>把“阶段解释”和“实际操作”拆开，避免在同一页同时承担规则说明、经营解释和发放动作。</ng-template>
+                    <ng-template #description>把“阶段解释”“最终结算”“规则解释”和“实际操作”拆开，避免在同一页同时承担规则说明、经营解释和发放动作。</ng-template>
                     <div class="mt-4 flex flex-wrap gap-2">
                         @for (tab of tabs(); track tab.label) {
                             @if (tab.enabled) {
@@ -140,6 +140,18 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
                 permissionHint: '需要项目读取和经营核算权限'
             },
             {
+                label: '最终结算',
+                routerLink: ['/projects', projectId, 'commission', 'final-settlement'],
+                enabled: this.canAccessCommissionExplanation(),
+                permissionHint: '需要项目读取和提成发放治理权限'
+            },
+            {
+                label: '规则解释',
+                routerLink: ['/projects', projectId, 'commission', 'rule-explanation'],
+                enabled: this.canAccessCommissionExplanation(),
+                permissionHint: '需要项目读取和提成发放治理权限'
+            },
+            {
                 label: '提成操作',
                 routerLink: ['/projects', projectId, 'commission', 'operations'],
                 enabled: this.canAccessCommissionOperations(),
@@ -179,6 +191,10 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     canAccessCommissionGate(): boolean {
         return this.#hasAllPermissions(['project:read', 'contract:finance:manage']);
+    }
+
+    canAccessCommissionExplanation(): boolean {
+        return this.#hasAllPermissions(['project:read', 'commission:payouts:manage']);
     }
 
     canAccessCommissionOperations(): boolean {

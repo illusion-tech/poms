@@ -79,6 +79,63 @@ const SIGNAL_LEVEL_LABELS: Record<string, string> = {
     RISK: '风险'
 };
 
+const COMMISSION_SETTLEMENT_STATUS_LABELS: Record<string, string> = {
+    'pending-final-settlement': '待最终结算',
+    'pending-non-retention': '非质保待结算',
+    'pending-retention-settlement': '质保金待结算',
+    'waiting-retention': '待质保金条件',
+    'ready-retention': '质保金可结算',
+    settled: '已结清',
+    'settled-non-retention': '非质保已结清',
+    'settled-final': '最终结算已完成',
+    'settled-retention': '质保金已结清'
+};
+
+const COMMISSION_SETTLEMENT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    'pending-final-settlement': 'warn',
+    'pending-non-retention': 'info',
+    'pending-retention-settlement': 'warn',
+    'waiting-retention': 'warn',
+    'ready-retention': 'info',
+    settled: 'success',
+    'settled-non-retention': 'success',
+    'settled-final': 'success',
+    'settled-retention': 'success'
+};
+
+const BASELINE_SELECTION_SOURCE_LABELS: Record<string, string> = {
+    original: '原始经营基线',
+    handover_rebaseline: '移交再基线化'
+};
+
+const FREEZE_VERSION_STATUS_LABELS: Record<string, string> = {
+    draft: '草稿',
+    frozen: '已冻结',
+    superseded: '已被替代'
+};
+
+const FREEZE_VERSION_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    draft: 'secondary',
+    frozen: 'success',
+    superseded: 'warn'
+};
+
+const COMMISSION_RULE_STAGE_LABELS: Record<string, string> = {
+    'blocked-retention': '质保金结算阻塞',
+    'blocked-final-settlement': '最终结算阻塞',
+    'ready-final-settlement': '可进入最终结算',
+    'ready-retention': '可进入质保金结算',
+    settled: '已结清'
+};
+
+const COMMISSION_GATE_DECISION_LABELS: Record<string, string> = {
+    BLOCK_RETENTION: '阻断质保金结算',
+    BLOCK_FINAL_SETTLEMENT: '阻断最终结算',
+    READY_FOR_FINAL_SETTLEMENT: '可进入最终结算',
+    READY_FOR_RETENTION_SETTLEMENT: '可进入质保金结算',
+    SETTLED: '已结清'
+};
+
 export function projectStageLabel(stage: string): string {
     return PROJECT_STAGE_LABELS[stage] ?? stage;
 }
@@ -114,6 +171,73 @@ export function signalLevelLabel(level: string | null | undefined): string {
         return '待判断';
     }
     return SIGNAL_LEVEL_LABELS[level.toUpperCase()] ?? level;
+}
+
+export function commissionSettlementStatusLabel(status: string | null | undefined): string {
+    if (!status) {
+        return '待判断';
+    }
+    return COMMISSION_SETTLEMENT_STATUS_LABELS[status] ?? status;
+}
+
+export function commissionSettlementStatusSeverity(status: string | null | undefined): UiTagSeverity {
+    if (!status) {
+        return 'secondary';
+    }
+    return COMMISSION_SETTLEMENT_STATUS_SEVERITIES[status] ?? 'secondary';
+}
+
+export function baselineSelectionSourceLabel(source: string | null | undefined): string {
+    if (!source) {
+        return '待确认';
+    }
+    return BASELINE_SELECTION_SOURCE_LABELS[source] ?? source;
+}
+
+export function freezeVersionStatusLabel(status: string | null | undefined): string {
+    if (!status) {
+        return '待确认';
+    }
+    return FREEZE_VERSION_STATUS_LABELS[status] ?? status;
+}
+
+export function freezeVersionStatusSeverity(status: string | null | undefined): UiTagSeverity {
+    if (!status) {
+        return 'secondary';
+    }
+    return FREEZE_VERSION_STATUS_SEVERITIES[status] ?? 'secondary';
+}
+
+export function commissionRuleStageLabel(status: string | null | undefined): string {
+    if (!status) {
+        return '待判断';
+    }
+    return COMMISSION_RULE_STAGE_LABELS[status] ?? status;
+}
+
+export function gateDecisionLabel(code: string | null | undefined): string {
+    if (!code) {
+        return '待判断';
+    }
+    return COMMISSION_GATE_DECISION_LABELS[code] ?? code;
+}
+
+export function gateDecisionSeverity(code: string | null | undefined): UiTagSeverity {
+    if (!code) {
+        return 'secondary';
+    }
+
+    if (code.startsWith('BLOCK')) {
+        return 'danger';
+    }
+    if (code.startsWith('READY') || code === 'SETTLED') {
+        return 'success';
+    }
+    if (code.startsWith('REVIEW')) {
+        return 'warn';
+    }
+
+    return 'secondary';
 }
 
 export function formatAmount(value: string | null | undefined): string {
@@ -200,14 +324,14 @@ export function projectWorkspaceGuide(project: {
             return {
                 currentStep: '核对验收事实与收尾条件',
                 nextStep: '满足完成条件后进入完成态',
-                currentGap: '验收与最终结算前端读取页仍待 `EX-14` 后续切片',
+                currentGap: '最终结算与规则解释读取页已可查看，但质保金写侧和收尾执行链仍待后续切片',
                 owner: '项目负责人 / 业务确认角色'
             };
         case 'completed':
             return {
                 currentStep: '项目主线已收口',
-                nextStep: '查看最终结算与归档结果',
-                currentGap: '最终结算解释链仍待后续前端切片',
+                nextStep: '查看最终结算、规则解释与归档结果',
+                currentGap: '最终结算读取链已具备，归档与剩余收尾写侧仍待后续切片',
                 owner: projectOwnerSummary(project)
             };
         case 'execution':

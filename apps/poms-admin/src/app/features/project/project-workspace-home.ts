@@ -56,11 +56,11 @@ interface WorkspaceEntry {
                     <div class="mt-4 grid grid-cols-1 gap-3">
                         <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
                             <div class="text-sm font-medium text-surface-950 dark:text-surface-0">已覆盖</div>
-                            <div class="mt-1 text-sm text-surface-500 dark:text-surface-400">项目工作区壳层、经营总览、偏差与风险、提成阶段解释、提成操作入口分离。</div>
+                            <div class="mt-1 text-sm text-surface-500 dark:text-surface-400">项目工作区壳层、经营总览、偏差与风险、提成阶段解释、最终结算、规则解释、提成操作入口分离。</div>
                         </div>
                         <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
                             <div class="text-sm font-medium text-surface-950 dark:text-surface-0">暂不覆盖</div>
-                            <div class="mt-1 text-sm text-surface-500 dark:text-surface-400">签约前 L1 六工作区、合同到移交 L3 工作区、最终结算与规则解释正式页。</div>
+                            <div class="mt-1 text-sm text-surface-500 dark:text-surface-400">签约前 L1 六工作区、合同到移交 L3 工作区、质保金结算与归档写侧工作流。</div>
                         </div>
                         <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
                             <div class="text-sm font-medium text-surface-950 dark:text-surface-0">落地前提</div>
@@ -85,6 +85,7 @@ export class ProjectWorkspaceHome {
         }
 
         const canAccessFinanceWorkspace = this.#hasAllPermissions(['project:read', 'contract:finance:manage']);
+        const canAccessCommissionExplanation = this.#hasAllPermissions(['project:read', 'commission:payouts:manage']);
         const canAccessCommissionOperations = this.#hasAllPermissions([
             'project:read',
             'commission:rule-versions:manage',
@@ -114,6 +115,20 @@ export class ProjectWorkspaceHome {
                 routerLink: ['/projects', projectId, 'commission', 'gate-overview'],
                 enabled: canAccessFinanceWorkspace,
                 blockedReason: '需要项目读取和经营核算权限。'
+            },
+            {
+                title: '最终结算',
+                description: '把最终结算、非质保结算、质保金结算和冻结依据放到同一条解释链里。',
+                routerLink: ['/projects', projectId, 'commission', 'final-settlement'],
+                enabled: canAccessCommissionExplanation,
+                blockedReason: '需要项目读取和提成发放治理权限。'
+            },
+            {
+                title: '规则解释',
+                description: '把为什么可发、为什么被挡住、下一步由谁处理直接解释出来。',
+                routerLink: ['/projects', projectId, 'commission', 'rule-explanation'],
+                enabled: canAccessCommissionExplanation,
+                blockedReason: '需要项目读取和提成发放治理权限。'
             },
             {
                 title: '提成操作',

@@ -192,6 +192,18 @@ export class ProjectWorkspaceShell implements OnInit, OnDestroy {
                 permissionHint: '需要项目读取和经营核算权限'
             },
             {
+                label: '最终结算',
+                routerLink: [...commissionRoute, 'final-settlement'],
+                enabled: this.canAccessCommissionExplanation(),
+                permissionHint: '需要项目读取和提成发放治理权限'
+            },
+            {
+                label: '规则解释',
+                routerLink: [...commissionRoute, 'rule-explanation'],
+                enabled: this.canAccessCommissionExplanation(),
+                permissionHint: '需要项目读取和提成发放治理权限'
+            },
+            {
                 label: '提成操作',
                 routerLink: [...commissionRoute, 'operations'],
                 enabled: this.canAccessCommissionOperations(),
@@ -238,6 +250,10 @@ export class ProjectWorkspaceShell implements OnInit, OnDestroy {
 
     canAccessFinanceWorkspace(): boolean {
         return this.#hasAllPermissions(['project:read', 'contract:finance:manage']);
+    }
+
+    canAccessCommissionExplanation(): boolean {
+        return this.#hasAllPermissions(['project:read', 'commission:payouts:manage']);
     }
 
     canAccessCommissionOperations(): boolean {

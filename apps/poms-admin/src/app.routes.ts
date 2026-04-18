@@ -73,7 +73,7 @@ export const appRoutes: Routes = [
                     {
                         path: '',
                         pathMatch: 'full',
-                        redirectTo: 'operations'
+                        redirectTo: 'gate-overview'
                     },
                     {
                         path: 'gate-overview',
@@ -83,6 +83,28 @@ export const appRoutes: Routes = [
                         data: {
                             breadcrumb: '阶段闸口解释',
                             requiredPermissions: ['project:read', 'contract:finance:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'final-settlement',
+                        loadComponent: () =>
+                            import('./app/features/commission/project-commission-final-settlement').then((c) => c.ProjectCommissionFinalSettlement),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '最终结算',
+                            requiredPermissions: ['project:read', 'commission:payouts:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'rule-explanation',
+                        loadComponent: () =>
+                            import('./app/features/commission/project-commission-rule-explanation').then((c) => c.ProjectCommissionRuleExplanation),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '规则解释',
+                            requiredPermissions: ['project:read', 'commission:payouts:manage'],
                             requiredPermissionsMode: 'all'
                         }
                     },
