@@ -79,5 +79,5 @@ Exceptions:
 Decision:
 
 - Can commit to main: yes
-- Can mark tracker Done: no
-  - 原因：当前尚未形成 commit / merge 载体，`G4` 未通过；`FE-01 ~ FE-05` 继续保持 `Doing`。
+- Can mark tracker Done: yes
+  - 2026-04-18 已以本地 commit `737bded` 形成交付载体；`FE-01 ~ FE-05` 可进入 `G4 = Pass` close-out。
