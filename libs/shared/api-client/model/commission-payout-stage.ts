@@ -15,6 +15,8 @@ export enum CommissionPayoutStage {
 
     Second = 'second',
 
-    Final = 'final'
+    Final = 'final',
+
+    Retention = 'retention'
 }
 

@@ -265,6 +265,12 @@ describe('ApprovalService', () => {
         await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
     });
 
+    it('blocks retention commission payout submit until the retention write-side is implemented', async () => {
+        em.findOne.mockResolvedValueOnce(createCommissionPayout({ stageType: 'retention', status: 'draft', rowVersion: 2 }));
+
+        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+    });
+
     it('approves pending commission payout and closes todo', async () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
@@ -368,6 +374,26 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(createFinalGateBinding())
             .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
+
+        await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
+    });
+
+    it('blocks retention payout approval until the retention write-side is implemented', async () => {
+        const approval = createApprovalRecord({
+            approvalType: 'commission-payout-approval',
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            currentNodeKey: 'commission-payout-approval'
+        });
+        const payout = createCommissionPayout({ stageType: 'retention', status: 'pending-approval' });
+        const todo = createTodoItem({
+            businessDomain: 'commission',
+            targetObjectType: 'CommissionPayout',
+            targetObjectId: payoutId,
+            title: '提成发放审批：质保金结算'
+        });
+        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(todo).mockResolvedValueOnce(payout);
 
         await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
     });

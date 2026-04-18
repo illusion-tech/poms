@@ -46,7 +46,11 @@ import { CommissionRepository } from './commission.repository';
 const COMMISSION_ROLE_ASSIGNMENT_PROJECT_CURRENT_UNIQUE = 'uq_commission_role_assignment_project_current';
 const COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE = 'uq_commission_calculation_project_current';
 
-const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTier, number>> = {
+type DraftableCommissionPayoutStage = Exclude<CommissionPayoutStage, 'retention'>;
+
+const RETENTION_PAYOUT_NOT_READY_MESSAGE = '质保金结算发放链路尚未启用，需先补齐到账、离职 / 特例与规则解释写侧约束';
+
+const PAYOUT_CAP_RATES: Record<DraftableCommissionPayoutStage, Record<CommissionPayoutTier, number>> = {
     first: { basic: 0.2, mid: 0.25, premium: 0.3 },
     second: { basic: 0.7, mid: 0.75, premium: 0.8 },
     final: { basic: 1, mid: 1, premium: 1 }
@@ -663,6 +667,10 @@ export class CommissionService {
         }
         if (calculation.status !== 'effective') {
             throw new UnprocessableEntityException(`只有已生效的提成计算结果可以发起发放，当前状态: ${calculation.status}`);
+        }
+
+        if (dto.stageType === 'retention') {
+            throw new UnprocessableEntityException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
         }
 
         const existing = await this.repo.findPayoutByProjectCalculationStage(projectId, dto.calculationId, dto.stageType);
@@ -1588,6 +1596,9 @@ export class CommissionService {
     #assertPayoutSupportsLifecycleActions(payout: CommissionPayout): void {
         if (payout.payoutKind !== 'primary') {
             throw new UnprocessableEntityException('补偿性发放记录由调整执行链直接生成，不支持单独审批或登记');
+        }
+        if (payout.stageType === 'retention') {
+            throw new UnprocessableEntityException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
         }
     }
 

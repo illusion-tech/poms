@@ -3,7 +3,7 @@ import { Project } from '../project/project.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 
 export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'suspended' | 'reversed';
-export type CommissionPayoutStage = 'first' | 'second' | 'final';
+export type CommissionPayoutStage = 'first' | 'second' | 'final' | 'retention';
 export type CommissionPayoutTier = 'basic' | 'mid' | 'premium';
 export type CommissionPayoutKind = 'primary' | 'supplement';
 

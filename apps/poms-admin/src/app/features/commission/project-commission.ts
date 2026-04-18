@@ -15,6 +15,13 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
 
+const PAYOUT_STAGE_LABELS: Record<CommissionPayoutStage, string> = {
+    [CommissionPayoutStage.First]: '首期发放',
+    [CommissionPayoutStage.Second]: '二期发放',
+    [CommissionPayoutStage.Final]: '最终发放',
+    [CommissionPayoutStage.Retention]: '质保金结算'
+};
+
 const TEMPLATE = `
     <p-toast />
     @if (loading()) {
@@ -228,7 +235,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly calculationStatus = CommissionCalculationSummaryStatusEnum;
     readonly payoutStatus = CommissionPayoutSummaryStatusEnum;
     readonly adjustmentStatus = CommissionAdjustmentSummaryStatusEnum;
-    readonly stageOptions = [{ label: '首期发放', value: CommissionPayoutStage.First }, { label: '二期发放', value: CommissionPayoutStage.Second }, { label: '最终发放', value: CommissionPayoutStage.Final }];
+    readonly stageOptions = [CommissionPayoutStage.First, CommissionPayoutStage.Second, CommissionPayoutStage.Final].map((value) => ({
+        label: PAYOUT_STAGE_LABELS[value],
+        value
+    }));
     readonly tierOptions = [{ label: '基础档', value: CommissionPayoutTier.Basic }, { label: '中档', value: CommissionPayoutTier.Mid }, { label: '上限档', value: CommissionPayoutTier.Premium }];
     readonly adjustmentTypeOptions = [
         { label: '暂停发放', value: CommissionAdjustmentType.SuspendPayout },
@@ -514,7 +524,9 @@ export class ProjectCommission implements OnInit, OnDestroy {
     getAdjustmentTypeLabel(type: CommissionAdjustmentType) { return { 'suspend-payout': '暂停发放', 'reverse-payout': '冲销发放', clawback: '扣回', supplement: '补发', recalculate: '重算' }[type]; }
     getAdjustmentStatusName(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: '草稿', 'pending-approval': '待审批', approved: '已批准', executed: '已执行', rejected: '已驳回', closed: '已关闭' }[status]; }
     getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', executed: 'info', rejected: 'danger', closed: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
-    getStageLabel(stage: CommissionPayoutStage) { return { first: '首期发放', second: '二期发放', final: '最终发放' }[stage]; }
+    getStageLabel(stage: CommissionPayoutStage) {
+        return PAYOUT_STAGE_LABELS[stage];
+    }
     getTierLabel(tier: CommissionPayoutTier) { return { basic: '基础档', mid: '中档', premium: '上限档' }[tier]; }
     getProjectStatusName(status: string) {
         return {

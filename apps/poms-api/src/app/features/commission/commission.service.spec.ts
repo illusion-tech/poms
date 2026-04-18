@@ -1116,6 +1116,19 @@ describe('CommissionService', () => {
                 })
             ).rejects.toThrow(ConflictException);
         });
+
+        it('rejects retention payout draft creation until the retention write-side is implemented', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findCalculationById.mockResolvedValue(makeCalculatedResult({ status: 'effective' }) as never);
+
+            await expect(
+                service.createPayout(PROJECT_ID, {
+                    calculationId: CALCULATION_ID,
+                    stageType: 'retention',
+                    selectedTier: 'basic'
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
     });
 
     describe('submitPayoutApproval', () => {
@@ -1132,6 +1145,12 @@ describe('CommissionService', () => {
 
         it('rejects supplement payout submission', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ payoutKind: 'supplement' }) as never);
+
+            await expect(service.submitPayoutApproval(PAYOUT_ID, {})).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('rejects retention payout submission until the retention write-side is implemented', async () => {
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ stageType: 'retention' }) as never);
 
             await expect(service.submitPayoutApproval(PAYOUT_ID, {})).rejects.toThrow(UnprocessableEntityException);
         });

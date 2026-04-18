@@ -2215,7 +2215,7 @@ export type ConfirmCommissionCalculationRequest = z.infer<typeof ConfirmCommissi
 // Commission — Payout
 // ---------------------------------------------------------------------------
 
-export const CommissionPayoutStageSchema = z.enum(['first', 'second', 'final']).meta({ id: 'CommissionPayoutStage' });
+export const CommissionPayoutStageSchema = z.enum(['first', 'second', 'final', 'retention']).meta({ id: 'CommissionPayoutStage' });
 
 export type CommissionPayoutStage = z.infer<typeof CommissionPayoutStageSchema>;
 

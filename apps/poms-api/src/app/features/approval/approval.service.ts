@@ -42,6 +42,7 @@ const FINAL_SETTLEMENT_STATUS_PENDING = 'pending-final-settlement';
 const NON_RETENTION_SETTLEMENT_STATUS_PENDING = 'pending-non-retention';
 const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
 const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
+const RETENTION_PAYOUT_NOT_READY_MESSAGE = '质保金结算发放链路尚未启用，需先补齐到账、离职 / 特例与规则解释写侧约束';
 
 @Injectable()
 export class ApprovalService {
@@ -159,6 +160,7 @@ export class ApprovalService {
             }
 
             this.assertExpectedVersion(payout.rowVersion, input.expectedVersion, 'CommissionPayout');
+            this.assertRetentionPayoutSupported(payout);
 
             const existingApproval = await em.findOne(ApprovalRecord, {
                 approvalType: COMMISSION_PAYOUT_APPROVAL_TYPE,
@@ -435,6 +437,7 @@ export class ApprovalService {
 
                 let snapshotId: string | null = null;
                 if (decision === 'approved') {
+                    this.assertRetentionPayoutSupported(payout);
                     const finalSettlementContext = await this.loadValidatedFinalPayoutApprovalContext(em, payout);
                     payout.status = 'approved';
                     payout.approvedAmount = payout.approvedAmount ?? payout.theoreticalCapAmount;
@@ -506,6 +509,12 @@ export class ApprovalService {
     private assertExpectedVersion(actualVersion: number, expectedVersion: number | undefined, resourceType: string): void {
         if (expectedVersion !== undefined && actualVersion !== expectedVersion) {
             throw new ConflictException(`${resourceType} version ${expectedVersion} does not match current version ${actualVersion}`);
+        }
+    }
+
+    private assertRetentionPayoutSupported(payout: CommissionPayout): void {
+        if (payout.stageType === 'retention') {
+            throw new BadRequestException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
         }
     }
 
@@ -766,6 +775,9 @@ function mapPayoutStageName(stageType: string): string {
     }
     if (stageType === 'final') {
         return '最终阶段';
+    }
+    if (stageType === 'retention') {
+        return '质保金结算';
     }
     return stageType;
 }
