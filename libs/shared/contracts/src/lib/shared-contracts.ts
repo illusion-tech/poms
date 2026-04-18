@@ -2223,6 +2223,10 @@ export const CommissionPayoutTierSchema = z.enum(['basic', 'mid', 'premium']).me
 
 export type CommissionPayoutTier = z.infer<typeof CommissionPayoutTierSchema>;
 
+export const CommissionPayoutKindSchema = z.enum(['primary', 'supplement']).meta({ id: 'CommissionPayoutKind' });
+
+export type CommissionPayoutKind = z.infer<typeof CommissionPayoutKindSchema>;
+
 export const CommissionPayoutSummarySchema = z
     .object({
         id: z.uuid(),
@@ -2230,6 +2234,8 @@ export const CommissionPayoutSummarySchema = z
         calculationId: z.uuid(),
         rowVersion: z.number().int().positive(),
         stageType: CommissionPayoutStageSchema,
+        payoutKind: CommissionPayoutKindSchema,
+        sourcePayoutId: z.uuid().nullable(),
         selectedTier: CommissionPayoutTierSchema,
         theoreticalCapAmount: z.string(),
         approvedAmount: z.string().nullable(),

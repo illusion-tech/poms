@@ -29,6 +29,7 @@ export * from './commission-calculation-summary';
 export * from './commission-freeze-change-request-detail-view';
 export * from './commission-freeze-dispute-arbitration-status';
 export * from './commission-freeze-dispute-detail-view';
+export * from './commission-payout-kind';
 export * from './commission-payout-stage';
 export * from './commission-payout-summary';
 export * from './commission-payout-tier';

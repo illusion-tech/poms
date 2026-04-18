@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CommissionPayoutTier } from './commission-payout-tier';
+import { CommissionPayoutKind } from './commission-payout-kind';
 import { CommissionPayoutStage } from './commission-payout-stage';
 
 
@@ -17,6 +18,8 @@ export interface CommissionPayoutSummary {
     calculationId: string;
     rowVersion: number;
     stageType: CommissionPayoutStage;
+    payoutKind: CommissionPayoutKind;
+    sourcePayoutId: string | null;
     selectedTier: CommissionPayoutTier;
     theoreticalCapAmount: string;
     approvedAmount: string | null;

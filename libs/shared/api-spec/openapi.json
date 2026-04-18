@@ -14524,6 +14524,15 @@
           "stageType": {
             "$ref": "#/components/schemas/CommissionPayoutStage"
           },
+          "payoutKind": {
+            "$ref": "#/components/schemas/CommissionPayoutKind"
+          },
+          "sourcePayoutId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "selectedTier": {
             "$ref": "#/components/schemas/CommissionPayoutTier"
           },
@@ -14578,6 +14587,8 @@
           "calculationId",
           "rowVersion",
           "stageType",
+          "payoutKind",
+          "sourcePayoutId",
           "selectedTier",
           "theoreticalCapAmount",
           "approvedAmount",
@@ -14598,6 +14609,14 @@
           "final"
         ],
         "id": "CommissionPayoutStage"
+      },
+      "CommissionPayoutKind": {
+        "type": "string",
+        "enum": [
+          "primary",
+          "supplement"
+        ],
+        "id": "CommissionPayoutKind"
       },
       "CommissionPayoutTier": {
         "type": "string",
