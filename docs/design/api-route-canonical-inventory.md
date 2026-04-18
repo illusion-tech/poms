@@ -1,7 +1,7 @@
 # API Canonical Inventory
 
 **文档状态**: Active
-**最后更新**: 2026-04-17
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -234,6 +234,19 @@
 | `contract-finance` | `createPaymentRecord`            | `POST /projects/{projectId}/payment-records`   | `POST /projects/{projectId}/payment-records`   | `POST /projects/{projectId}/payment-records`   | `ADR-015` + `EX-15E4` | `N/A`      | `EX-15E4` 已恢复 project 子集合 create                                 | `B2`  | `aligned` |
 | `contract-finance` | `confirmPaymentRecord`           | `POST /payment-records/{id}:confirm`           | `POST /payment-records/{id}:confirm`           | `POST /payment-records/{id}:confirm`           | `ADR-015` + `EX-15E4` | `N/A`      | `EX-15E4` 已移除父资源 identity，稳定以 `PaymentRecord.id` 为 SSOT     | `B2`  | `aligned` |
 | `runtime-audit`    | `recordRouteDeniedSecurityEvent` | `POST /security-events:recordRouteDenied`      | `POST /security-events:recordRouteDenied`      | `POST /security-events:recordRouteDenied`      | `ADR-015` + `EX-15E4` | `N/A`      | `EX-15E4` 已完成 collection custom method 收口                         | `B2`  | `aligned` |
+
+### 6.8 EX-15G EX-13 Planned Surface
+
+| Domain         | Capability                          | Canonical Route                                          | Current Implemented Route | Current Design Route                                     | Authority                                    | Drift Type | Action                                                                | Batch | Status    |
+| -------------- | ----------------------------------- | -------------------------------------------------------- | ------------------------- | -------------------------------------------------------- | -------------------------------------------- | ---------- | --------------------------------------------------------------------- | ----- | --------- |
+| `project-cost` | `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`         | `Not implemented`         | `POST /operating-signal-evaluations/{id}:review`         | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | 已先冻结 canonical route；恢复 `EX-13B` 实现时不得回退为 slash-action | `B3`  | `planned` |
+| `project-cost` | `getOperatingSignalEvaluation`      | `GET /operating-signal-evaluations/{id}`                 | `Not implemented`         | `GET /operating-signal-evaluations/{id}`                 | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | item detail query 统一保持 resource-first                             | `B3`  | `planned` |
+| `project-cost` | `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`             | `Not implemented`         | `POST /commission-gate-bindings/{id}:review`             | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | 已先冻结 canonical route；恢复 `EX-13B` 实现时不得回退为 slash-action | `B3`  | `planned` |
+| `project-cost` | `getCommissionGateBinding`          | `GET /commission-gate-bindings/{id}`                     | `Not implemented`         | `GET /commission-gate-bindings/{id}`                     | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | gate binding detail 统一保持 top-level identity                       | `B3`  | `planned` |
+| `project-cost` | `getProjectBusinessOutcomeOverview` | `GET /projects/{projectId}/business-outcome-overview`    | `Not implemented`         | `GET /projects/{projectId}/business-outcome-overview`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/summary` / `/detail` 后缀          | `B3`  | `planned` |
+| `project-cost` | `getProjectUnifiedAccounting`       | `GET /projects/{projectId}/unified-accounting`           | `Not implemented`         | `GET /projects/{projectId}/unified-accounting`           | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/current` / `/detail` 后缀          | `B3`  | `planned` |
+| `project-cost` | `getProjectVarianceRiskExplanation` | `GET /projects/{projectId}/variance-risk-explanation`    | `Not implemented`         | `GET /projects/{projectId}/variance-risk-explanation`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                          | `B3`  | `planned` |
+| `project-cost` | `getBusinessAccountingFeedback`     | `GET /projects/{projectId}/business-accounting-feedback` | `Not implemented`         | `GET /projects/{projectId}/business-accounting-feedback` | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                          | `B3`  | `planned` |
 
 ## 7. 批次推进原则
 

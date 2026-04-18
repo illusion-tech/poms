@@ -7,6 +7,8 @@
 - G1 Reviewer: `Solo worktree checkpoint`
 - G1 Date: `2026-04-18`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-13B`
+- Execution Status: `Paused 2026-04-18`
+- Execution Note: `按 owner 指令切换到 ADR-015 治理补录；本轮未闭环 controller / service / contract WIP 已在工作树回退，不保留半成品实现。`
 
 ---
 
@@ -25,14 +27,14 @@
 
 ## 2. 正式输入
 
-| Input Type           | Document / Source                                          | Section / Anchor     | Status   | Notes                                                     |
-| -------------------- | ---------------------------------------------------------- | -------------------- | -------- | --------------------------------------------------------- |
-| Command design       | `interface-command-design.md`                              | `200-214`            | Accepted | 冻结两个 review 命令                                      |
-| DTO / OpenAPI design | `interface-openapi-dto-design.md`                          | `261-275`            | Accepted | 冻结 review 请求 / 响应最小字段                           |
-| Query boundary       | `query-view-boundary-design.md`                            | `180-185`            | Accepted | 冻结 `L4-T01 ~ T04` 视图字段                              |
-| Persistence baseline | `ex-13a-operating-signal-model-baseline.md`                | `6`, `10`, `11`      | Accepted | 必须直接消费 EX-13A 正式表链                              |
-| DDL / freeze         | `table-structure-freeze-design.md`、`schema-ddl-design.md` | `294-296`, `598-649` | Accepted | 查询 / 命令只允许消费正式列，不得回退页面聚合             |
-| ADR                  | `../adr/015-api-route-canonical-grammar.md`                | `Decision`           | Accepted | route 继续使用 canonical slash-action / collection create |
+| Input Type           | Document / Source                                          | Section / Anchor     | Status   | Notes                                                                    |
+| -------------------- | ---------------------------------------------------------- | -------------------- | -------- | ------------------------------------------------------------------------ |
+| Command design       | `interface-command-design.md`                              | `200-214`            | Accepted | 冻结两个 review 命令                                                     |
+| DTO / OpenAPI design | `interface-openapi-dto-design.md`                          | `261-275`            | Accepted | 冻结 review 请求 / 响应最小字段                                          |
+| Query boundary       | `query-view-boundary-design.md`                            | `180-185`            | Accepted | 冻结 `L4-T01 ~ T04` 视图字段                                             |
+| Persistence baseline | `ex-13a-operating-signal-model-baseline.md`                | `6`, `10`, `11`      | Accepted | 必须直接消费 EX-13A 正式表链                                             |
+| DDL / freeze         | `table-structure-freeze-design.md`、`schema-ddl-design.md` | `294-296`, `598-649` | Accepted | 查询 / 命令只允许消费正式列，不得回退页面聚合                            |
+| ADR                  | `../adr/015-api-route-canonical-grammar.md`                | `Decision`           | Accepted | route 必须使用 `resource-first + colon-action` / stable noun subresource |
 
 ---
 
@@ -76,3 +78,4 @@
   1. 先在 `project-cost` 完成命令 / 查询 / contract 最小闭环，再评估是否需要把 gate 结果读侧下沉到 `commission`。
   2. 所有视图与命令必须直接消费 `EX-13A` 表链，不得重新引入临时聚合 SSOT。
   3. close-out 至少要求 `poms-api` lint/test/build、OpenAPI / generated client、相关 HTTP E2E 与 tracker 回写。
+  4. 2026-04-18 起，恢复 `EX-13B` 前必须先完成 `EX-15G` 的 authoritative inventory / route baseline 回写，不得再先写 controller 再补治理。
