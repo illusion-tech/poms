@@ -110,7 +110,7 @@
 | `commission_role_assignment`      | 版本表     | `id`、`project_id`、`version`、`is_current`、`role_type`、`user_id`、`weight`、`source_handover_id`、`contract_summary_snapshot_id`、`handover_summary_snapshot_id`、`effective_handover_baseline_snapshot_id`、`status` | 归属 `project`；引用移交记录 / 合同承接摘要 / 移交确认摘要 / 当前移交前有效基线 | 角色分配冻结版本链   |
 | `commission_calculation`          | 版本表     | `id`、`project_id`、`rule_version_id`、`version`、`is_current`、`status`、`recalculated_from_id`                                                                                                                         | 归属 `project`                                                                  | 计算结果版本链       |
 | `commission_calculation_snapshot` | 快照表     | `id`、`commission_calculation_id`、`snapshot_status`、`generated_at`                                                                                                                                                     | 归属 `commission_calculation`                                                   | 计算输入冻结口径     |
-| `commission_payout`               | 动作记录表 | `id`、`project_id`、`calculation_id`、`stage_type`、`approved_amount`、`paid_record_amount`、`status`、`handled_at`                                                                                                      | 归属 `project` / `commission_calculation`                                       | 发放与冲销事实       |
+| `commission_payout`               | 动作记录表 | `id`、`project_id`、`calculation_id`、`stage_type`、`payout_kind`、`source_payout_id`、`approved_amount`、`paid_record_amount`、`status`、`handled_at`                                                                   | 归属 `project` / `commission_calculation`；可自引用 source payout               | 发放、补发与冲销事实 |
 | `commission_adjustment`           | 动作记录表 | `id`、`project_id`、`adjustment_type`、`related_payout_id`、`related_calculation_id`、`status`、`handled_at`                                                                                                             | 归属 `project` / 提成发放 / 计算结果                                            | 异常调整、补发、扣回 |
 
 ### 4.3A 平台治理域
@@ -189,7 +189,7 @@
 - `commission_rule_version.rule_code / version / status / effective_at`
 - `commission_role_assignment.role_type / user_id / weight / version / is_current`
 - `commission_calculation.rule_version_id / version / is_current / recalculated_from_id`
-- `commission_payout.calculation_id / stage_type / approved_amount / paid_record_amount / status`
+- `commission_payout.calculation_id / stage_type / payout_kind / source_payout_id / approved_amount / paid_record_amount / status`
 - `commission_adjustment.adjustment_type / related_payout_id / related_calculation_id / status`
 
 说明：

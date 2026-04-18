@@ -92,11 +92,11 @@
 
 ### 5.4 当前缺口判断
 
-截至当前，以下能力仍未进入真实实现：
+截至 `2026-04-18`，以下能力已进入真实实现并完成 corrective 收口：
 
-- 提成异常调整、冲销与重算链路
-- 提成治理前端列表 / 详情 / 操作页面
-- 提成治理前后端联调入口与更完整的 OpenAPI / API Client 产物
+- 提成异常调整、补偿性 payout、冲销与重算链路
+- 提成治理前端最小列表 / 详情 / 操作页面
+- 提成治理 API、OpenAPI、共享 API Client 与 commission workflow E2E 主路径
 
 ### 5.2 第一阶段不在本域内强行扩展的内容
 
@@ -121,12 +121,14 @@
 
 - 承载业务提成发放记录
 - 表达“应发、审批、登记发放、暂停、冲销、关闭”等业务语义
+- 区分 `primary` 与 `supplement` 两类业务发放记录；`supplement` 必须作为新增补偿性发放记录存在，并通过 source payout 关系回挂原发放
 - 第一阶段不是财务付款对象
 
 #### `CommissionAdjustment`
 
 - 承载退款、坏账、违规、扣回、差额补发、异常修正等后续影响
 - 是触发冲销和重算的重要业务对象
+- `clawback` / `supplement` 执行后必须形成 downstream 业务结果；不得只把 adjustment 自身标记为 `executed`
 
 #### `CommissionRuleVersion`
 
@@ -224,12 +226,14 @@ flowchart LR
 - 状态：草稿、待审批、已批准、已发放、已暂停、已冲销、已关闭
 - 关键动作：发起、提交审批、批准、登记发放、暂停、冲销、关闭
 - 回退规则：已发放记录不可直接删除，异常时通过暂停、冲销和补发处理
+- 补充规则：补发必须通过新增 `supplement` payout 表达，不得直接覆盖原 payout 金额；source payout 继续保留原动作事实
 
 ### 8.4 `CommissionAdjustment`
 
 - 状态：草稿、待审批、已批准、已执行、已驳回、已关闭
 - 关键动作：发起、提交审批、批准、执行、驳回、关闭
 - 回退规则：已执行调整不得直接删除，应通过后续补充调整对冲
+- 执行规则：`clawback` 必须把 source payout 收口为明确结果状态，部分扣回收口为 `suspended`，全额扣回收口为 `reversed`；`supplement` 必须新增补偿性 payout，不能只记录 adjustment 金额
 
 ### 8.5 `CommissionRuleVersion`
 

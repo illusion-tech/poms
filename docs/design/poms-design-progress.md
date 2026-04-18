@@ -240,6 +240,7 @@
 - 已形成 `schema-ddl-design.md` 并补齐平台治理域与提成治理域核心表 DDL 输入，开始直接服务缺口补齐实现
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已完成提成治理域 `decimal` / 状态字段实体建模纠偏，并重新打通 OpenAPI 导出、共享 API Client 生成与前端平台管理页构建
+- 已完成 `EX-10 ~ EX-12` corrective close-out：`ruleVersionId` 显式绑定、current single-effective DB 约束、`supplement` compensating payout 与 `clawback` source payout result-chain 已正式收口
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
 - 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-corrective-checkpoint-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把新切片 `G1` 输入冻结、已开工后纠偏 checkpoint、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
 - 已完成第五轮目录治理：第一阶段收口与验收包已统一转入 `archive/phase1-closure/`，平台治理域评审清单与评审摘要已统一转入 `archive/reviews/`，当前正式输入进一步收敛到第二阶段主线控制与实施入口

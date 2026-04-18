@@ -177,6 +177,7 @@
 - `commission_role_assignment.user_id -> platform_user.id`
 - `commission_payout.project_id -> project.id`
 - `commission_payout.calculation_id -> commission_calculation.id`
+- `commission_payout.source_payout_id -> commission_payout.id`
 - `commission_adjustment.project_id -> project.id`
 - `commission_adjustment.related_payout_id -> commission_payout.id`
 - `commission_adjustment.related_calculation_id -> commission_calculation.id`
@@ -207,26 +208,26 @@
 
 第一阶段建议至少固定以下唯一约束：
 
-| 表                           | 唯一约束建议                                   | 目的                                           |
-| ---------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| `project`                    | `project_code`                                 | 项目编号唯一                                   |
-| `contract`                   | `contract_no`                                  | 合同编号唯一                                   |
-| `platform_user`              | `username`                                     | 登录名唯一                                     |
-| `role`                       | `role_key`                                     | 角色稳定键唯一                                 |
-| `org_unit`                   | `code`                                         | 组织编码唯一                                   |
-| `user_role_assignment`       | `user_id + role_id`（有效关系条件唯一）        | 同一用户同一角色有效关系唯一                   |
-| `user_org_membership`        | `user_id + org_unit_id`（有效关系条件唯一）    | 同一用户同一组织有效关系唯一                   |
-| `role_permission_assignment` | `role_id + permission_key`（有效关系条件唯一） | 同一角色同一权限有效关系唯一                   |
-| `invoice_record`             | `invoice_no`                                   | 发票编号唯一，若业务允许外部重复则改为条件唯一 |
-| `scope_confirmation_version` | `project_id + version`                         | 项目范围版本唯一                               |
-| `contract_amendment`         | `contract_id + version`                        | 合同变更版本唯一                               |
-| `receivable_plan_version`    | `contract_id + version`                        | 应收计划版本唯一                               |
-| `commission_role_assignment` | `project_id + version`                         | 提成角色分配版本唯一                           |
-| `commission_calculation`     | `project_id + version`                         | 提成计算版本唯一                               |
-| `commission_rule_version`    | `version` 或 `rule_code + version`             | 规则版本唯一                                   |
-| `commission_payout`          | `project_id + calculation_id + stage_type`     | 同一项目同一计算版本同一发放阶段唯一           |
-| `approval_record_node`       | `approval_record_id + node_key`                | 审批节点唯一                                   |
-| `confirmation_participant`   | `confirmation_record_id + participant_id`      | 确认参与人唯一                                 |
+| 表                           | 唯一约束建议                                                                     | 目的                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `project`                    | `project_code`                                                                   | 项目编号唯一                                              |
+| `contract`                   | `contract_no`                                                                    | 合同编号唯一                                              |
+| `platform_user`              | `username`                                                                       | 登录名唯一                                                |
+| `role`                       | `role_key`                                                                       | 角色稳定键唯一                                            |
+| `org_unit`                   | `code`                                                                           | 组织编码唯一                                              |
+| `user_role_assignment`       | `user_id + role_id`（有效关系条件唯一）                                          | 同一用户同一角色有效关系唯一                              |
+| `user_org_membership`        | `user_id + org_unit_id`（有效关系条件唯一）                                      | 同一用户同一组织有效关系唯一                              |
+| `role_permission_assignment` | `role_id + permission_key`（有效关系条件唯一）                                   | 同一角色同一权限有效关系唯一                              |
+| `invoice_record`             | `invoice_no`                                                                     | 发票编号唯一，若业务允许外部重复则改为条件唯一            |
+| `scope_confirmation_version` | `project_id + version`                                                           | 项目范围版本唯一                                          |
+| `contract_amendment`         | `contract_id + version`                                                          | 合同变更版本唯一                                          |
+| `receivable_plan_version`    | `contract_id + version`                                                          | 应收计划版本唯一                                          |
+| `commission_role_assignment` | `project_id + version`                                                           | 提成角色分配版本唯一                                      |
+| `commission_calculation`     | `project_id + version`                                                           | 提成计算版本唯一                                          |
+| `commission_rule_version`    | `version` 或 `rule_code + version`                                               | 规则版本唯一                                              |
+| `commission_payout`          | `project_id + calculation_id + stage_type`（`payout_kind = 'primary'` 条件唯一） | 同一项目同一计算版本同一发放阶段只允许一条 primary payout |
+| `approval_record_node`       | `approval_record_id + node_key`                                                  | 审批节点唯一                                              |
+| `confirmation_participant`   | `confirmation_record_id + participant_id`                                        | 确认参与人唯一                                            |
 
 对于 `is_current = true` 的版本表，第一阶段建议直接使用 `PostgreSQL` 的部分唯一索引表达“同一主体同一时刻只能存在一条当前有效记录”，例如：
 
@@ -1009,6 +1010,8 @@
 - `project_id`
 - `calculation_id`
 - `stage_type`
+- `payout_kind`
+- `source_payout_id`
 - `selected_tier`
 - `theoretical_cap_amount`
 - `approved_amount`
@@ -1028,9 +1031,9 @@
 约束建议：
 
 - 主键：`id`
-- 外键：`project_id -> project.id`、`calculation_id -> commission_calculation.id`
-- 唯一：`project_id + calculation_id + stage_type`
-- 索引：`project_id + status`、`calculation_id`
+- 外键：`project_id -> project.id`、`calculation_id -> commission_calculation.id`、`source_payout_id -> commission_payout.id`
+- 唯一：`project_id + calculation_id + stage_type` 在 `payout_kind = 'primary'` 下条件唯一
+- 索引：`project_id + status`、`calculation_id`、`source_payout_id`
 
 ### 7.4J `commission_adjustment`
 
