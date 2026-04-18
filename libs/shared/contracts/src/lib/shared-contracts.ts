@@ -2050,6 +2050,50 @@ export const CommissionRoleAssignmentDetailViewSchema = z
 
 export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
+export const CommissionDepartureExceptionDecisionStatusSchema = z
+    .enum(['active', 'superseded', 'voided'])
+    .meta({ id: 'CommissionDepartureExceptionDecisionStatus' });
+
+export type CommissionDepartureExceptionDecisionStatus = z.infer<typeof CommissionDepartureExceptionDecisionStatusSchema>;
+
+export const CommissionDepartureExceptionDecisionSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        freezeVersionId: z.uuid(),
+        version: z.number().int().positive(),
+        rowVersion: z.number().int().positive(),
+        isCurrent: z.boolean(),
+        departureScenarioCode: z.string(),
+        decisionCode: z.string(),
+        decisionSummary: z.string(),
+        confirmationRequirementSummary: z.string().nullable(),
+        summaryPackageKey: z.string(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string(),
+        status: CommissionDepartureExceptionDecisionStatusSchema,
+        handledAt: z.iso.datetime(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CommissionDepartureExceptionDecisionSummary' });
+
+export type CommissionDepartureExceptionDecisionSummary = z.infer<typeof CommissionDepartureExceptionDecisionSummarySchema>;
+
+export const CreateCommissionDepartureExceptionDecisionRequestSchema = z
+    .object({
+        freezeVersionId: z.uuid(),
+        departureScenarioCode: z.string().trim().min(1).max(64),
+        decisionCode: z.string().trim().min(1).max(32),
+        decisionSummary: z.string().trim().min(1).max(2000),
+        confirmationRequirementSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        summarySnapshotId: z.uuid()
+    })
+    .meta({ id: 'CreateCommissionDepartureExceptionDecisionRequest' });
+
+export type CreateCommissionDepartureExceptionDecisionRequest = z.infer<typeof CreateCommissionDepartureExceptionDecisionRequestSchema>;
+
 export const CommissionFreezeDisputeArbitrationStatusSchema = z
     .enum(['pending', 'arbitrated'])
     .meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
