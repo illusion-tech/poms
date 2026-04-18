@@ -9,8 +9,10 @@
   - `../design/implementation-governance-gates.md`
   - `../design/implementation-delivery-guide.md`
   - `../design/phase2-development-execution-tracker.md`
+  - `../design/api-route-canonical-inventory.md`
 - 相关 ADR:
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
+  - `../adr/015-api-route-canonical-grammar.md`
 
 ---
 
@@ -24,7 +26,8 @@
 2. grandfathering 的旧切片若进入新的关键合并评审，至少要补最小实施基线包和 `G3` 风险说明。
 3. 低风险切片可以裁剪不适用章节，但不能删除“范围、不做内容、测试、例外”四类信息。
 4. 涉及 persistence 或 api / command 的切片，必须保留字段 / 类型 / 命名一致性矩阵。
-5. 若设计输入、DDL、entity、contract 或 OpenAPI 之间存在差异，必须在本包中归类为“已修复、可接受、既有 drift、阻断项或例外”，不得留空。
+5. 若切片新增、变更或删除公共 API route surface，进入 `G1` 前必须先在 `../design/api-route-canonical-inventory.md` 中确认或新增 authoritative inventory 行，并冻结 canonical route；缺失 inventory 行默认阻断 `G1 / G2`。
+6. 若设计输入、DDL、entity、contract 或 OpenAPI 之间存在差异，必须在本包中归类为“已修复、可接受、既有 drift、阻断项或例外”，不得留空。
 
 ---
 
@@ -57,6 +60,7 @@
 | Business design           |                   |                  |        |       |
 | Command design            |                   |                  |        |       |
 | DTO / OpenAPI design      |                   |                  |        |       |
+| Route inventory / ADR-015 |                   |                  |        |       |
 | Query boundary            |                   |                  |        |       |
 | Data model / table freeze |                   |                  |        |       |
 | Schema / DDL              |                   |                  |        |       |
@@ -64,22 +68,32 @@
 
 ## 3. 本次 SSOT
 
-| Concern                   | SSOT | Implementation Rule |
-| ------------------------- | ---- | ------------------- |
-| Business semantics        |      |                     |
-| Route / command naming    |      |                     |
-| DTO / contract naming     |      |                     |
-| Table / column naming     |      |                     |
-| Date / time semantics     |      |                     |
-| Identifier semantics      |      |                     |
-| Money / decimal semantics |      |                     |
-| Status machine            |      |                     |
+| Concern                     | SSOT | Implementation Rule |
+| --------------------------- | ---- | ------------------- |
+| Business semantics          |      |                     |
+| Public route canonical path |      |                     |
+| Route / command naming      |      |                     |
+| DTO / contract naming       |      |                     |
+| Table / column naming       |      |                     |
+| Date / time semantics       |      |                     |
+| Identifier semantics        |      |                     |
+| Money / decimal semantics   |      |                     |
+| Status machine              |      |                     |
 
 ## 4. 命令与接口边界
 
 | Route / Controller | Command / Service | Request DTO / Contract | Response DTO / Contract | Guard / Permission | Design Source | Result |
 | ------------------ | ----------------- | ---------------------- | ----------------------- | ------------------ | ------------- | ------ |
 |                    |                   |                        |                         |                    |               |        |
+
+### 4.1 公共路由补充信息（仅适用于触及 public route surface）
+
+- Canonical inventory document:
+- Canonical route(s):
+- Current implemented route(s):
+- Inventory status: `aligned` / `planned` / `implementation-drift` / `legacy-exception`
+- Route governance source:
+- Blocker / exception:
 
 ## 5. 读侧边界
 
@@ -100,6 +114,7 @@
 ## 7. 一致性结论
 
 - Document -> code:
+- ADR-015 inventory -> route:
 - Migration -> entity:
 - Entity -> contract:
 - Route -> command:
@@ -144,5 +159,6 @@
 3. 实体使用 `supersedesId`，contract 使用 `replacementOfId`，但未定义是否为同一语义。
 4. migration 未落唯一约束或当前有效约束，设计却要求版本链唯一当前有效。
 5. 写侧命令声明会形成可追溯记录，但实现没有落来源引用、替代链、金额或状态。
+6. 公共 API route surface 尚未进入 `api-route-canonical-inventory.md`，或实现仍采用与 `ADR-015` 冲突的 route grammar / identity anchor。
 
 这些问题必须先改设计或改实现。只有在明确属于旧切片 grandfathering 且不影响下游可信输入时，才允许通过例外流程临时放行。

@@ -1,7 +1,7 @@
 # POMS 设计到实现治理闸口
 
 **文档状态**: Active
-**最后更新**: 2026-04-12
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` 全仓库后续设计、工程切片实施、评审、合并与收口治理
 **关联文档**:
 
@@ -13,6 +13,7 @@
 - 同级设计:
   - `implementation-delivery-guide.md`
   - `phase2-development-execution-tracker.md`
+  - `api-route-canonical-inventory.md`
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
   - `query-view-boundary-design.md`
@@ -27,6 +28,7 @@
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
+  - `../adr/015-api-route-canonical-grammar.md`
 
 ---
 
@@ -58,7 +60,8 @@
 3. DTO / OpenAPI 边界以 `interface-openapi-dto-design.md` 为准。
 4. 读侧边界以 `query-view-boundary-design.md` 为准。
 5. 持久化冻结边界以 `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md` 为准。
-6. 若这些文档之间尚未收口，则该切片默认不满足开工条件。
+6. 公共 API route surface 以 `api-route-canonical-inventory.md` 与 `ADR-015` 为准；新增、变更、删除公共 route 时，必须先冻结 authoritative inventory 行。
+7. 若这些文档之间尚未收口，则该切片默认不满足开工条件。
 
 ### 2.2 先冻结，再编码
 
@@ -167,13 +170,15 @@ Gate 规则与协作载体分离。
 2. 它的最小可交付边界是什么。
 3. 它是否跨多个主边界；若跨，是否已拆分。
 4. 它是否涉及命令、查询、持久化、权限、审批、敏感数据、前端主路径中的一类或多类。
-5. 它在执行追踪板中的 `Task ID / Subtask ID` 是什么；若本次把父任务进一步收敛为新的可执行子切片，是否已先补 tracker 行。
+5. 它是否新增、变更或删除公共 API route surface；若是，`api-route-canonical-inventory.md` 中的 authoritative inventory 行和 route-governance 子任务是否已先冻结。
+6. 它在执行追踪板中的 `Task ID / Subtask ID` 是什么；若本次把父任务进一步收敛为新的可执行子切片，是否已先补 tracker 行。
 
 通过标准：
 
 - 已形成明确切片名
 - 已指定主 owner
 - 已指明直接输入文档
+- 若涉及公共 API route surface，已锁定 canonical route、identity anchor 与 authoritative inventory 行
 - 已说明本次明确不做的范围
 - 已在执行追踪板登记对应 `Task ID / Subtask ID`；若为新拆子切片，tracker 已先更新
 
@@ -200,11 +205,13 @@ Gate 规则与协作载体分离。
 9. 测试要求
 10. 本次不做的内容
 11. 已知风险与例外
+12. 若触及公共 API route surface，当前实现 route、canonical route、inventory 状态与 route-governance 来源
 
 通过标准：
 
 - 不存在会直接影响实现边界的未决设计问题
 - 数据模型、命令、DTO、query、DDL 至少达到“可编码”状态
+- 若涉及公共 API route surface，authoritative inventory 行已存在，且 canonical route / identity anchor 已冻结
 - 若为部分交付，已明确标注为子切片，而不是父任务完整交付
 - 若实施基线包把父任务进一步拆成新的可执行子切片，新的 tracker 行已先创建并写入 owner / dependency / completion definition
 
@@ -224,11 +231,13 @@ Gate 规则与协作载体分离。
 3. 若涉及持久化结构，先写 migration 设计，再写 entity / mapping
 4. 若涉及接口契约，先固定 DTO 命名与字段语义，再写 controller / service
 5. 若涉及高敏或审批，先固定 guard / 审批摘要链，再做业务逻辑
+6. 若涉及新的或变更后的公共 route，先冻结 authoritative inventory 行，再写 controller / DTO / OpenAPI / generated client
 
 通过标准：
 
 - 实现者能明确说出本次 SSOT
 - 关键命名已冻结，不再边做边改
+- 若触及公共 route，已明确当前 canonical route、current implemented route 与 inventory 状态
 - 本次测试层级已确定
 
 ### G3 合并闸口
@@ -257,7 +266,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
    - 补“query / view 边界对照表”或“页面 / 客户端行为对照表”
    - 若涉及前端主路径、序列化、鉴权、OpenAPI client 或关键交互，还应说明是否触发 E2E 要求
 4. `api/command`
-   - 补“route 到 command 设计对照表”
+   - 补“authoritative inventory 行 + route 到 command 设计对照表”
    - 补“contract / DTO 到 controller 输入输出对照表”
 5. `persistence`
    - 补“migration 到 entity 对照表”
@@ -280,6 +289,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 阻断条件包括：
 
 - 大任务名义下只交付了部分能力，但未拆成子切片
+- 公共 API route surface 已开始实现，但 authoritative inventory 行、canonical route 或 identity anchor 尚未冻结
 - 契约命名与实体命名明显漂移
 - migration / entity / DDL 三者存在关键不一致
 - 文档说有的命令或查询，在代码里没有最小闭环
@@ -315,9 +325,10 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 1. 记录 `Gate Status`、owner、切片类型、正式输入与本次明确不做范围。
 2. 记录本次 SSOT，至少覆盖业务语义、接口命名、持久化命名、日期 / 时间、标识符、金额和状态机。
 3. 涉及 `api / command` 时，必须填写 route / command / DTO / contract 对照。
-4. 涉及 `persistence` 时，必须填写 table / migration / entity / DDL 对照，以及字段 / 类型 / contract 对照。
-5. 若某项不适用，应写 `N/A` 和原因；不得删除章节来规避判断。
-6. 若存在差异，必须归类为已修复、可接受、既有 drift、阻断项或已批准例外。
+4. 若触及公共 API route surface，必须填写 authoritative inventory 行、canonical route、current implemented route 与 inventory 状态。
+5. 涉及 `persistence` 时，必须填写 table / migration / entity / DDL 对照，以及字段 / 类型 / contract 对照。
+6. 若某项不适用，应写 `N/A` 和原因；不得删除章节来规避判断。
+7. 若存在差异，必须归类为已修复、可接受、既有 drift、阻断项或已批准例外。
 
 EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-package-template.md` 第 3 节为准。
 
@@ -452,8 +463,9 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 2. 字段名是否一致
 3. 状态名是否一致
 4. route 命名是否一致
-5. 请求 / 响应字段是否一致
-6. 本次明确不做的内容是否真的未被误写成“已完成”
+5. 公共 route 是否已进入 authoritative inventory，且 grammar / identity anchor 是否符合 `ADR-015`
+6. 请求 / 响应字段是否一致
+7. 本次明确不做的内容是否真的未被误写成“已完成”
 
 ### 8.2 持久化一致性
 
@@ -564,7 +576,8 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 2. migration / entity / contract 关键语义不一致
 3. 实现范围显著小于任务定义却未拆任务
 4. 用单测通过替代真实契约或持久化一致性判断
-5. 设计仍在评估中但代码已按“最终基线”合并
+5. 公共 API route surface 未先冻结 authoritative inventory 行就开始 controller / OpenAPI 实现
+6. 设计仍在评估中但代码已按“最终基线”合并
 
 ### 9.4 例外超期处理
 
@@ -595,19 +608,19 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 
 ### 10.1 生效日期
 
-本文件自 2026-04-11 起按 `ADR-014` 的正式状态模型生效。
+本文件自 2026-04-18 起按 `ADR-014` 的正式状态模型与 `ADR-015` 的公共路由治理硬门同步生效。
 
 ### 10.2 默认适用范围
 
 以下切片默认必须遵守本文件：
 
-1. 2026-04-11 之后新建的切片
-2. 2026-04-11 之后发生范围重定义、子切片拆分或大幅扩边的既有切片
-3. 2026-04-11 之后首次进入合并评审、且涉及 command / DTO / query / persistence / guard 关键边界的切片
+1. 2026-04-18 之后新建的切片
+2. 2026-04-18 之后发生范围重定义、子切片拆分或大幅扩边的既有切片
+3. 2026-04-18 之后首次进入合并评审、且涉及 command / DTO / query / persistence / guard 关键边界的切片
 
 ### 10.3 grandfathering 规则
 
-对本文件生效前已经 `Doing` 的切片，当前采用有限 grandfathering：
+对本文件在 2026-04-18 生效前已经 `Doing` 的切片，当前采用有限 grandfathering：
 
 1. 不要求追溯性补齐完整历史 `G0` 材料。
 2. 若后续只做局部收尾，可按当前范围继续推进，但在进入下一次关键合并前，至少要补最小实施基线包、风险说明和相应 `G3` 证据。
@@ -671,7 +684,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 
 若要把本文件真正落地，当前建议按以下顺序推进：
 
-1. 从 2026-04-11 之后的新切片开始强制执行 `G0 / G1 / G3 / G4`。
+1. 从 2026-04-18 之后的新切片开始强制执行 `G0 / G1 / G3 / G4`，并同步执行公共路由 authoritative inventory 前置门禁。
 2. 对生效前已开工切片，按 grandfathering 规则逐步纳入，不做一刀切追溯。
 3. 为每个新切片强制补“实施基线包”。
 4. 按 `.github/pull_request_template.md` 或 `../reference/solo-worktree-governance.md` 执行风险分层后的最小对照清单。

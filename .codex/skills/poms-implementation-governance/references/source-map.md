@@ -28,6 +28,17 @@ Open this when you need:
 - E2E decision rules,
 - SQL-first migration handling.
 
+### Public route governance
+
+- `docs/adr/015-api-route-canonical-grammar.md`
+- `docs/design/api-route-canonical-inventory.md`
+
+Open these when the slice:
+
+- adds, changes, or removes public API route surface,
+- needs the canonical route grammar or identity-anchor rule,
+- must decide whether coding is blocked until route inventory is frozen.
+
 ## Templates and reference helpers
 
 ### Baseline package template

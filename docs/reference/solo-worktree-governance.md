@@ -9,12 +9,14 @@
   - `../design/implementation-governance-gates.md`
   - `../design/implementation-delivery-guide.md`
   - `../design/phase2-development-execution-tracker.md`
+  - `../design/api-route-canonical-inventory.md`
 - 同级参考:
   - `implementation-baseline-package-template.md`
   - `implementation-corrective-checkpoint-template.md`
   - `implementation-governance-checks.md`
 - 相关 ADR:
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
+  - `../adr/015-api-route-canonical-grammar.md`
 
 ---
 
@@ -59,12 +61,13 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 
 1. 选择切片，确认 tracker 当前状态。
 2. 若实施基线包把父任务进一步收敛为新的可执行子切片，先补 tracker 行与 `Task ID / Subtask ID`，再开始编码。
-3. 若是工程实现切片，先形成最小实施基线包或在 tracker 备注中记录 `G1 = Pass`。
+3. 若切片新增、变更或删除公共 API route surface，先在 `api-route-canonical-inventory.md` 中确认或新增 authoritative inventory 行，并补对应 route-governance 子任务 / 基线。
+4. 若是工程实现切片，先形成最小实施基线包或在 tracker 备注中记录 `G1 = Pass`。
    若编码中途发现真实 drift，则停止继续堆叠实现，改用 `implementation-corrective-checkpoint-template.md` 记录 `G3` 阻断与 corrective scope。
-4. 在本地直接修改 `main` 工作树。
-5. 提交前执行本文件第 4 节的 local checkpoint。
-6. commit message 中记录 `G3` 结论摘要。
-7. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。
+5. 在本地直接修改 `main` 工作树。
+6. 提交前执行本文件第 4 节的 local checkpoint。
+7. commit message 中记录 `G3` 结论摘要。
+8. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。
 
 适用边界：
 
@@ -79,11 +82,12 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 
 1. 为切片创建独立 worktree 或独立本地分支。
 2. 若实施基线包把父任务进一步拆成新的可执行子切片，先补 tracker 行与对应子任务 ID。
-3. 在 worktree 内按 `G1 -> G2 -> G3` 推进。
+3. 若切片新增、变更或删除公共 API route surface，先冻结 `api-route-canonical-inventory.md` 中的 authoritative inventory 行，再进入编码。
+4. 在 worktree 内按 `G1 -> G2 -> G3` 推进。
    若在 `G3` 前发现 design / DDL / entity / contract / API drift，则切换到 corrective checkpoint，而不是继续把纠偏记录写进原 `G1 baseline`。
-4. 每个关键 checkpoint 使用本文件第 4 节模板记录。
-5. 回到 `main` 前，先确认没有未解释的 diff、未提交生成物或未回写文档。
-6. 将通过 checkpoint 的提交合入 `main`，再更新 tracker。
+5. 每个关键 checkpoint 使用本文件第 4 节模板记录。
+6. 回到 `main` 前，先确认没有未解释的 diff、未提交生成物或未回写文档。
+7. 将通过 checkpoint 的提交合入 `main`，再更新 tracker。
 
 适用边界：
 
@@ -118,6 +122,7 @@ Local Gate Checkpoint
 Evidence:
 - Scope:
 - Document -> code:
+- ADR-015 inventory / route surface:
 - Route -> command:
 - Migration -> entity:
 - Entity -> contract / OpenAPI:
@@ -210,8 +215,9 @@ PR 的价值不是“多人审批”，而是把 diff、讨论、证据和结论
 2. refactor-only 不需要实施基线包，除非触及外部行为或结构边界。
 3. 代码切片触及存在 `lint target` 的项目时，提交前必须记录对应 lint 结果与 warning 结论。
 4. persistence 必须有 migration / entity / DDL / contract 对照。
-5. api / command 必须有 route / command / DTO / contract 对照。
-6. cross-layer-high-risk 必须显式判断是否需要 E2E。
-7. 不适用项写 `N/A` 和原因即可，不要复制空表。
+5. api / command 必须有 route / command / DTO / contract 对照；若触及公共路由，还必须记录 authoritative inventory 行与状态。
+6. 公共 API route surface 未先冻结 authoritative inventory 行时，不得提交 controller / DTO / OpenAPI / generated client 改动。
+7. cross-layer-high-risk 必须显式判断是否需要 E2E。
+8. 不适用项写 `N/A` 和原因即可，不要复制空表。
 
 最小目标是：未来的你能在 3 分钟内判断“这次为什么可以合入或为什么不能标记 Done”。

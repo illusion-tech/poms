@@ -15,8 +15,9 @@ Use this skill to keep work in `POMS` aligned with the repository's formal gate 
    - Create a baseline package for a new frozen slice entering `G1`.
    - Create a corrective checkpoint when drift is discovered after implementation has started.
    - Use a PR checklist or a local checkpoint as the evidence carrier for `G3`.
-4. Read [references/governance-summary.md](./references/governance-summary.md) first.
-5. Read [references/source-map.md](./references/source-map.md) when the task needs the full source document rather than the summary.
+4. If the slice adds, changes, or removes public API route surface, confirm the canonical row already exists in `docs/design/api-route-canonical-inventory.md`. If it does not, block coding and create or consume a route-governance sub-slice first.
+5. Read [references/governance-summary.md](./references/governance-summary.md) first.
+6. Read [references/source-map.md](./references/source-map.md) when the task needs the full source document rather than the summary.
 
 ## Run The Gate Sequence
 
@@ -26,10 +27,12 @@ Establish the slice before coding.
 
 - Name the smallest deliverable boundary.
 - Confirm the direct formal inputs.
+- State whether the slice changes public API route surface.
+- Confirm the authoritative inventory row and canonical grammar first when public routes are touched.
 - State what this slice explicitly does not cover.
 - Update the tracker first if the parent task must be split into a new executable sub-slice.
 
-Block implementation if the work item still depends on guessed scope or mixed inputs from multiple documents.
+Block implementation if the work item still depends on guessed scope, mixed inputs from multiple documents, or an unfrozen public route surface.
 
 ### G1
 
@@ -37,6 +40,7 @@ Freeze the implementation input before entering `Doing`.
 
 - Prepare a baseline package.
 - Record the business, command, DTO, query, persistence, guard, and test boundaries.
+- Record current implemented route, canonical route, and inventory status when public API routes are involved.
 - Mark the single source of truth for naming, types, dates, identifiers, money semantics, and state transitions.
 - Keep `N/A` sections with reasons instead of deleting them.
 
@@ -50,6 +54,7 @@ Start implementation only after the frozen inputs are clear.
 - Fix naming and type semantics before writing controllers, entities, or pages.
 - Write migration SQL before ORM mapping when persistence changes are involved.
 - Freeze DTO and contract semantics before wiring controller or service logic.
+- Do not write controllers, DTOs, OpenAPI changes, or generated-client changes for new or changed public routes until the authoritative inventory row and route baseline are frozen.
 
 ### G3
 
@@ -132,6 +137,7 @@ When a touched project has a `lint target`, do not omit lint. State whether the 
 Inspect these edges whenever the slice touches them:
 
 - document -> code
+- authoritative route inventory -> route -> command
 - route -> command
 - DTO / contract -> controller input or output
 - migration -> entity -> DDL
@@ -172,6 +178,7 @@ Do not silently accept:
 
 - key naming drift,
 - migration or contract semantic mismatch,
+- public route surface missing from `ADR-015` authoritative inventory,
 - partial delivery under a parent task title,
 - undocumented baseline drift,
 - "merge now, fix later" on mainline behavior.

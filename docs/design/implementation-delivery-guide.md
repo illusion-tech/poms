@@ -1,7 +1,7 @@
 # POMS 实施启动与交付流程说明
 
 **文档状态**: Active
-**最后更新**: 2026-04-11
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程实施、切片推进与文档回写约束
 **关联文档**:
 
@@ -13,6 +13,7 @@
   - `phase2-detailed-design-index-map.md`
 - 同级设计:
   - `implementation-governance-gates.md`
+  - `api-route-canonical-inventory.md`
   - `interface-command-design.md`
   - `interface-openapi-dto-design.md`
   - `query-view-boundary-design.md`
@@ -29,6 +30,7 @@
   - `archive/control-history/phase2-lx-t04-full-mainline-development-decision.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
+  - `../adr/015-api-route-canonical-grammar.md`
 
 ---
 
@@ -50,7 +52,7 @@
 
 ## 2. 当前实施判断
 
-截至 2026-04-11，`POMS` 当前已满足第二阶段统一开发范围下的实施条件。
+截至 2026-04-18，`POMS` 当前已满足第二阶段统一开发范围下的实施条件。
 
 原因不是所有设计文档都进入了 `Accepted`，而是：
 
@@ -75,9 +77,10 @@
 5. `phase2-detailed-design-index-map.md`，定位当前切片所属主线与关联专题。
 6. 与当前切片直接相关的业务主文档。
 7. `interface-command-design.md`、`interface-openapi-dto-design.md`、`query-view-boundary-design.md`，确认实现边界。
-8. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
-9. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
-10. `../reference/implementation-baseline-package-template.md`、`../reference/implementation-corrective-checkpoint-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`，根据当前是“新切片开工”还是“已开工后纠偏”选择正确模板，并确认本切片最小校验矩阵和当前治理载体。
+8. 若当前切片触及公共 API route surface，必须补读 `api-route-canonical-inventory.md` 与 `../adr/015-api-route-canonical-grammar.md`，先确认 canonical route、identity anchor 与 inventory 状态。
+9. `data-model-prerequisites.md`、`table-structure-freeze-design.md`、`schema-ddl-design.md`，确认持久化与约束实现方式。
+10. `implementation-governance-gates.md`，确认当前切片是否已经达到 `G0 / G1` 要求、应提交哪些 `G3` 证据，以及是否存在例外或 grandfathering 规则。
+11. `../reference/implementation-baseline-package-template.md`、`../reference/implementation-corrective-checkpoint-template.md`、`../reference/implementation-governance-checks.md` 与 `../reference/solo-worktree-governance.md`，根据当前是“新切片开工”还是“已开工后纠偏”选择正确模板，并确认本切片最小校验矩阵和当前治理载体。
 
 如果当前切片涉及历史争议、批次收口或长篇论证，再补读 `archive/control-history/`、`archive/mainline-closure/` 或 `archive/phase2-batches/`，但这些文档不应反向替代当前正式入口。
 
@@ -111,6 +114,7 @@
 - 对应业务对象或横切能力的边界
 - 关联 ADR 与上游设计结论
 - 需要实现的 `command` / `query` / `DTO` / `data model` / `guard` 边界
+- 若切片新增、变更或删除公共 API route surface，是否已先在 `api-route-canonical-inventory.md` 中冻结 authoritative inventory 行、canonical route 与 route-governance 子任务
 - 本切片是否触及敏感字段、审批公共链或跨主线承接点
 - 若是新切片开工，是否已按 `implementation-baseline-package-template.md` 形成实施基线包并取得 `G1 = Pass`
 - 若是已开工后发现 drift，是否已按 `implementation-corrective-checkpoint-template.md` 形成 corrective checkpoint 并记录 `G3` 阻断与修复范围
@@ -124,6 +128,7 @@
 - repository / data-access 代码
 - command API 或 query API
 - 必要的 DTO、view model 或 contract 代码
+- 若触及公共 API route surface，已同步更新 authoritative inventory / route governance 记录
 - 最小自动化验证
 - metadata / DDL 一致性检查结果
 - PR checklist 或 local checkpoint 中按切片类型要求的对照证据
@@ -138,8 +143,9 @@
 3. API 行为与设计边界一致，没有把命令型动作退化成普通更新接口。
 4. 相关 `guard`、敏感可见性或审批公共链没有在实现中被静默绕开。
 5. 若切片涉及持久化结构，手写 migration SQL 与 ORM metadata / entity mapping 已完成一致性校验；不能把 “SQL-first” 误解为 “mapping 漂移可忽略”。
-6. 至少有最小自动化验证，覆盖核心成功路径和关键约束失败路径。
-7. 相关设计文档与 `poms-design-progress.md` 已同步回写。
+6. 若切片触及公共 API route surface，`api-route-canonical-inventory.md`、controller / OpenAPI / generated client 已保持同一 canonical route 与 identity anchor。
+7. 至少有最小自动化验证，覆盖核心成功路径和关键约束失败路径。
+8. 相关设计文档与 `poms-design-progress.md` 已同步回写。
 
 ### 5.4 测试分层最佳实践
 
