@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-17
+**最后更新**: 2026-04-18
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -241,6 +241,7 @@
 - 已通过 `ADR-012` 固化第一阶段数据库产品、migration 路线与 `MikroORM` 应用层持久化方案
 - 已完成提成治理域 `decimal` / 状态字段实体建模纠偏，并重新打通 OpenAPI 导出、共享 API Client 生成与前端平台管理页构建
 - 已完成 `EX-10 ~ EX-12` corrective close-out：`ruleVersionId` 显式绑定、current single-effective DB 约束、`supplement` compensating payout 与 `clawback` source payout result-chain 已正式收口
+- 已完成 `L4/L5` 经营快照、信号评价与 `L4 -> L5 gate` 绑定切片 `EX-13`：`EX-13A` 已建立数据成熟度 / 经营信号 / gate review 五张表与基础实体，`EX-13B1` 已补齐 `CommissionGateReviewRecord` 摘要快照锚点，`EX-13D1` 已回写上游 phase-2 动作语义与阶段 gate 边界；随后 `EX-13B` 已在 `project-cost` 落地 `reviewOperatingSignalEvaluation`、`reviewCommissionGateBinding` 与 `L4` 六个正式 query，补齐 shared contract、OpenAPI、generated client、service spec 与 seeded `poms-api-e2e`，并通过 `nx test poms-api --runInBand`、`nx run shared-api-client:check`、`nx run poms-api-e2e:e2e --runInBand --testPathPattern=operating-signal-workflow.e2e-spec.ts`（managed harness 实际跑全量 11 suites / 65 tests）、`nx lint poms-api`、`nx build poms-api` 与 `git diff --check`；当前 `EX-13` 已完成，可作为 `EX-14` 的稳定输入
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
 - 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-corrective-checkpoint-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把新切片 `G1` 输入冻结、已开工后纠偏 checkpoint、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
 - 已完成第五轮目录治理：第一阶段收口与验收包已统一转入 `archive/phase1-closure/`，平台治理域评审清单与评审摘要已统一转入 `archive/reviews/`，当前正式输入进一步收敛到第二阶段主线控制与实施入口

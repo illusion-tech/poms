@@ -1,14 +1,20 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CommissionGateReviewRecordRepository,
     CostStageAttributionSnapshotRepository,
+    DataMaturityEvaluationResultRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
+    OperatingSignalEvaluationResultRepository,
+    OperatingSignalReviewRecordRepository,
+    OperatingSignalToCommissionGateBindingRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
     ProjectOperatingSnapshotRepository,
@@ -46,6 +52,16 @@ const RECLASSIFIED_STAGE_ATTRIBUTION_ID = '17171717-1717-4171-8171-171717171717'
 const TAX_TREATMENT_ID = '18181818-1818-4181-8181-181818181818';
 const REPLACEMENT_TAX_TREATMENT_ID = '19191919-1919-4191-8191-191919191919';
 const HANDOVER_REBASELINE_RECORD_ID = '20202020-2020-4020-8020-202020202020';
+const DATA_MATURITY_EVALUATION_ID = '21212121-2121-4121-8121-212121212121';
+const OPERATING_SIGNAL_EVALUATION_ID = '22212221-2221-4221-8221-222122212221';
+const OPERATING_SIGNAL_REVIEW_RECORD_ID = '23232323-2323-4232-8232-232323232323';
+const SUPERSEDED_SIGNAL_REVIEW_RECORD_ID = '24242424-2424-4242-8242-242424242424';
+const GATE_BINDING_ID = '25252525-2525-4252-8252-252525252525';
+const SECONDARY_GATE_BINDING_ID = '26262626-2626-4262-8262-262626262626';
+const REVIEW_GATE_BINDING_ID = '27272727-2727-4272-8272-272727272727';
+const COMMISSION_GATE_REVIEW_RECORD_ID = '28282828-2828-4282-8282-282828282828';
+const SUPERSEDED_GATE_REVIEW_RECORD_ID = '29292929-2929-4292-8292-292929292929';
+const SUMMARY_SNAPSHOT_ID = '30303030-3030-4030-8030-303030303030';
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -327,6 +343,144 @@ function makeAccountingTaxTreatment(overrides: Record<string, unknown> = {}) {
     };
 }
 
+function makeDataMaturityEvaluationResult(overrides: Record<string, unknown> = {}) {
+    return {
+        id: DATA_MATURITY_EVALUATION_ID,
+        projectId: PROJECT_ID,
+        referencedSnapshotId: OPERATING_SNAPSHOT_ID,
+        dataMaturityLevel: '数据不足',
+        costActionRecommendation: 'REVIEW',
+        taxImpactPendingAmount: '1200.0000',
+        allocationStabilitySummary: 'Cost allocation requires verification',
+        unmappedCostSummary: 'Two vendor costs remain unmapped',
+        evaluationBasisJson: { sourceCoverage: 'partial' },
+        evaluatedAt: new Date('2023-08-04T00:00:00.000Z'),
+        status: 'active',
+        rowVersion: 1,
+        createdAt: new Date('2023-08-04T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeOperatingSignalEvaluationResult(overrides: Record<string, unknown> = {}) {
+    return {
+        id: OPERATING_SIGNAL_EVALUATION_ID,
+        projectId: PROJECT_ID,
+        referencedSnapshotId: OPERATING_SNAPSHOT_ID,
+        dataMaturityEvaluationId: DATA_MATURITY_EVALUATION_ID,
+        signalLevel: 'ATTENTION',
+        riskLevel: 'ATTENTION',
+        formulaBoundaryAction: 'PROMPT',
+        varianceSourceSummary: 'Margin deviation requires validation',
+        taxImpactSummary: 'Tax package is pending closeout',
+        allocationStabilitySummary: 'Allocation basis shifted after restatement',
+        unmappedCostSummary: 'Unmapped delivery cost detected',
+        currentActionLevel: 'REVIEW',
+        recommendedActionSummary: 'Review revenue and cost recognition before payout',
+        referencedBaselineVersion: 'baseline-v1',
+        referencedSnapshotVersion: 'snapshot-v1',
+        reviewRequired: true,
+        evaluatedAt: new Date('2023-08-04T00:00:00.000Z'),
+        status: 'active',
+        rowVersion: 4,
+        createdAt: new Date('2023-08-04T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeOperatingSignalReviewRecord(overrides: Record<string, unknown> = {}) {
+    return {
+        id: OPERATING_SIGNAL_REVIEW_RECORD_ID,
+        signalEvaluationId: OPERATING_SIGNAL_EVALUATION_ID,
+        reviewDecision: 'MANUAL_CONFIRMED',
+        resolvedDataMaturityLevel: '成熟',
+        resolvedCostActionRecommendation: 'PROMPT',
+        resolvedCurrentActionLevel: 'REVIEW',
+        referencedBaselineVersion: 'baseline-v2',
+        referencedSnapshotVersion: 'snapshot-v2',
+        reviewComment: 'Manual accounting review completed',
+        handledAt: new Date('2023-08-05T00:00:00.000Z'),
+        handledBy: USER_ID,
+        status: 'active',
+        rowVersion: 1,
+        createdAt: new Date('2023-08-05T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeOperatingSignalToCommissionGateBinding(overrides: Record<string, unknown> = {}) {
+    return {
+        id: GATE_BINDING_ID,
+        projectId: PROJECT_ID,
+        signalEvaluationId: OPERATING_SIGNAL_EVALUATION_ID,
+        bindingAction: 'REVIEW',
+        gateStageType: 'commission_settlement',
+        baselineSelectionSource: 'original',
+        taxImpactSummary: 'Tax package is pending closeout',
+        taxImpactPendingAmount: '1200.0000',
+        allocationStabilitySummary: 'Allocation basis shifted after restatement',
+        unmappedCostSummary: 'Unmapped delivery cost detected',
+        dataMaturityLevel: '数据不足',
+        costActionRecommendation: 'REVIEW',
+        currentActionLevel: 'REVIEW',
+        nextActionSummary: 'Review commission settlement package',
+        downstreamConsumerSummary: 'Commission payout workflow',
+        referencedBaselineVersion: 'baseline-v1',
+        referencedSnapshotVersion: 'snapshot-v1',
+        generatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        status: 'active',
+        rowVersion: 2,
+        createdAt: new Date('2023-08-05T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeApprovalSummarySnapshot(overrides: Record<string, unknown> = {}) {
+    return {
+        id: SUMMARY_SNAPSHOT_ID,
+        targetType: 'commission_settlement',
+        targetId: PROJECT_ID,
+        approvalScenarioKey: 'project-commission-gate',
+        summaryPackageId: '31313131-3131-4131-8131-313131313131',
+        summaryPackageKey: 'commission-final',
+        projectionLevel: 'L4',
+        exportPolicy: 'internal-only',
+        businessStatusAtSnapshot: 'REVIEW',
+        generatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        status: 'active',
+        supersedesId: null,
+        rowVersion: 1,
+        createdAt: new Date('2023-08-05T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function makeCommissionGateReviewRecord(overrides: Record<string, unknown> = {}) {
+    return {
+        id: COMMISSION_GATE_REVIEW_RECORD_ID,
+        bindingId: GATE_BINDING_ID,
+        gateReviewDecision: 'REVIEW',
+        blockingReasonCode: null,
+        summaryPackageKey: 'commission-final',
+        summarySnapshotId: SUMMARY_SNAPSHOT_ID,
+        projectionLevel: 'L4',
+        exportPolicy: 'internal-only',
+        nextActionSummary: 'Review commission settlement package',
+        handledAt: new Date('2023-08-05T00:00:00.000Z'),
+        handledBy: USER_ID,
+        status: 'active',
+        rowVersion: 1,
+        createdAt: new Date('2023-08-05T00:00:00.000Z'),
+        updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+        ...overrides
+    };
+}
+
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
     let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
@@ -342,6 +496,12 @@ describe('ProjectCostService', () => {
     let costStageAttributionSnapshotRepository: jest.Mocked<CostStageAttributionSnapshotRepository>;
     let accountingTaxTreatmentSnapshotRepository: jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
     let contractHandoverRebaselineRecordRepository: jest.Mocked<ContractHandoverRebaselineRecordRepository>;
+    let dataMaturityEvaluationResultRepository: jest.Mocked<DataMaturityEvaluationResultRepository>;
+    let operatingSignalEvaluationResultRepository: jest.Mocked<OperatingSignalEvaluationResultRepository>;
+    let operatingSignalReviewRecordRepository: jest.Mocked<OperatingSignalReviewRecordRepository>;
+    let operatingSignalToCommissionGateBindingRepository: jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
+    let commissionGateReviewRecordRepository: jest.Mocked<CommissionGateReviewRecordRepository>;
+    let approvalSummarySnapshotRepository: jest.Mocked<ApprovalSummarySnapshotRepository>;
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
     let transactionalEntityManager: {
         nativeUpdate: jest.Mock;
@@ -407,7 +567,8 @@ describe('ProjectCostService', () => {
             create: jest.fn((input) => ({ id: RESTATED_SNAPSHOT_ID, rowVersion: 1, createdAt: new Date('2023-07-01T00:00:00.000Z'), updatedAt: new Date('2023-07-01T00:00:00.000Z'), ...input })),
             save: jest.fn(),
             saveAll: jest.fn(),
-            findById: jest.fn()
+            findById: jest.fn(),
+            findLatestActiveByProject: jest.fn()
         };
 
         const mockPeriodClosingSnapshotRepository = {
@@ -462,6 +623,71 @@ describe('ProjectCostService', () => {
             findById: jest.fn()
         };
 
+        const mockDataMaturityEvaluationResultRepository = {
+            create: jest.fn((input) => ({
+                ...makeDataMaturityEvaluationResult(),
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findActiveByProjectAndSnapshot: jest.fn()
+        };
+
+        const mockOperatingSignalEvaluationResultRepository = {
+            create: jest.fn((input) => ({
+                ...makeOperatingSignalEvaluationResult(),
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findActiveByProjectAndSnapshot: jest.fn()
+        };
+
+        const mockOperatingSignalReviewRecordRepository = {
+            create: jest.fn((input) => ({
+                ...makeOperatingSignalReviewRecord(),
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findActiveBySignalEvaluationId: jest.fn()
+        };
+
+        const mockOperatingSignalToCommissionGateBindingRepository = {
+            create: jest.fn((input) => ({
+                ...makeOperatingSignalToCommissionGateBinding(),
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findActiveByProject: jest.fn(),
+            findActiveByProjectAndGateStageType: jest.fn()
+        };
+
+        const mockCommissionGateReviewRecordRepository = {
+            create: jest.fn((input) => ({
+                ...makeCommissionGateReviewRecord(),
+                rowVersion: 1,
+                ...input
+            })),
+            save: jest.fn(),
+            saveAll: jest.fn(),
+            findById: jest.fn(),
+            findByBindingId: jest.fn()
+        };
+
+        const mockApprovalSummarySnapshotRepository = {
+            findById: jest.fn()
+        };
+
         const mockContractFinanceRepository = {
             findProjectById: jest.fn(),
             findContractById: jest.fn(),
@@ -484,6 +710,18 @@ describe('ProjectCostService', () => {
         accountingTaxTreatmentSnapshotRepository = mockAccountingTaxTreatmentSnapshotRepository as unknown as jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
         contractHandoverRebaselineRecordRepository =
             mockContractHandoverRebaselineRecordRepository as unknown as jest.Mocked<ContractHandoverRebaselineRecordRepository>;
+        dataMaturityEvaluationResultRepository =
+            mockDataMaturityEvaluationResultRepository as unknown as jest.Mocked<DataMaturityEvaluationResultRepository>;
+        operatingSignalEvaluationResultRepository =
+            mockOperatingSignalEvaluationResultRepository as unknown as jest.Mocked<OperatingSignalEvaluationResultRepository>;
+        operatingSignalReviewRecordRepository =
+            mockOperatingSignalReviewRecordRepository as unknown as jest.Mocked<OperatingSignalReviewRecordRepository>;
+        operatingSignalToCommissionGateBindingRepository =
+            mockOperatingSignalToCommissionGateBindingRepository as unknown as jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
+        commissionGateReviewRecordRepository =
+            mockCommissionGateReviewRecordRepository as unknown as jest.Mocked<CommissionGateReviewRecordRepository>;
+        approvalSummarySnapshotRepository =
+            mockApprovalSummarySnapshotRepository as unknown as jest.Mocked<ApprovalSummarySnapshotRepository>;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
             expenseRecordRepository,
@@ -499,9 +737,25 @@ describe('ProjectCostService', () => {
             sharedCostAllocationResultRepository,
             costStageAttributionSnapshotRepository,
             accountingTaxTreatmentSnapshotRepository,
-            contractHandoverRebaselineRecordRepository
+            contractHandoverRebaselineRecordRepository,
+            dataMaturityEvaluationResultRepository,
+            operatingSignalEvaluationResultRepository,
+            operatingSignalReviewRecordRepository,
+            operatingSignalToCommissionGateBindingRepository,
+            commissionGateReviewRecordRepository,
+            approvalSummarySnapshotRepository
         );
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
+        projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(null);
+        dataMaturityEvaluationResultRepository.findById.mockResolvedValue(null);
+        dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(null);
+        operatingSignalEvaluationResultRepository.findById.mockResolvedValue(null);
+        operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(null);
+        operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId.mockResolvedValue(null);
+        operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(null);
+        operatingSignalToCommissionGateBindingRepository.findActiveByProject.mockResolvedValue([]);
+        commissionGateReviewRecordRepository.findByBindingId.mockResolvedValue([]);
+        approvalSummarySnapshotRepository.findById.mockResolvedValue(null);
     });
 
     describe('publishInternalCostRateVersion', () => {
@@ -1886,6 +2140,319 @@ describe('ProjectCostService', () => {
                     USER_ID
                 )
             ).rejects.toThrow(ConflictException);
+        });
+    });
+
+    describe('EX-13B operating signal review and downstream views', () => {
+        it('records an operating signal review and supersedes the previous active review', async () => {
+            const evaluation = makeOperatingSignalEvaluationResult({
+                rowVersion: 4,
+                riskLevel: 'ATTENTION',
+                currentActionLevel: 'REVIEW'
+            });
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                dataMaturityLevel: '初步可看',
+                costActionRecommendation: 'PROMPT'
+            });
+            const activeReview = makeOperatingSignalReviewRecord({
+                id: SUPERSEDED_SIGNAL_REVIEW_RECORD_ID,
+                status: 'active'
+            });
+
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(evaluation as never);
+            dataMaturityEvaluationResultRepository.findById.mockResolvedValue(dataMaturity as never);
+            operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId.mockResolvedValue(activeReview as never);
+
+            const result = await service.reviewOperatingSignalEvaluation(
+                evaluation.id,
+                {
+                    reviewDecision: 'APPROVE',
+                    resolvedDataMaturityLevel: '初步可看',
+                    costActionRecommendation: 'PROMPT',
+                    referencedBaselineVersion: 'baseline-v2',
+                    referencedSnapshotVersion: 'snapshot-v2',
+                    reviewComment: 'finance manual review',
+                    expectedVersion: 4
+                },
+                USER_ID
+            );
+
+            expect(activeReview.status).toBe('superseded');
+            expect(operatingSignalReviewRecordRepository.create).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    signalEvaluationId: evaluation.id,
+                    reviewDecision: 'APPROVE',
+                    resolvedDataMaturityLevel: '初步可看',
+                    resolvedCostActionRecommendation: 'PROMPT',
+                    resolvedCurrentActionLevel: 'REVIEW',
+                    referencedBaselineVersion: 'baseline-v2',
+                    referencedSnapshotVersion: 'snapshot-v2'
+                })
+            );
+            expect(operatingSignalReviewRecordRepository.saveAll).toHaveBeenCalledWith([
+                activeReview,
+                expect.objectContaining({
+                    signalEvaluationId: evaluation.id,
+                    reviewDecision: 'APPROVE',
+                    resolvedCurrentActionLevel: 'REVIEW'
+                })
+            ]);
+            expect(result).toMatchObject({
+                signalEvaluationId: evaluation.id,
+                dataMaturityLevel: '初步可看',
+                costActionRecommendation: 'PROMPT',
+                currentActionLevel: 'REVIEW',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2',
+                resultStatus: 'success'
+            });
+            expect(result.reviewRecordId).toEqual(expect.any(String));
+            expect(result.targetId).toBe(result.reviewRecordId);
+        });
+
+        it('rejects stale operating signal reviews when expectedVersion is outdated', async () => {
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(
+                makeOperatingSignalEvaluationResult({ rowVersion: 4 }) as never
+            );
+
+            await expect(
+                service.reviewOperatingSignalEvaluation(
+                    OPERATING_SIGNAL_EVALUATION_ID,
+                    {
+                        reviewDecision: 'APPROVE',
+                        resolvedDataMaturityLevel: '成熟',
+                        costActionRecommendation: 'PROMPT',
+                        referencedBaselineVersion: 'baseline-v2',
+                        referencedSnapshotVersion: 'snapshot-v2',
+                        expectedVersion: 3
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(ConflictException);
+        });
+
+        it('returns the operating signal evaluation view with active review overlays', async () => {
+            const evaluation = makeOperatingSignalEvaluationResult({
+                referencedBaselineVersion: 'baseline-v1',
+                referencedSnapshotVersion: 'snapshot-v1'
+            });
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                dataMaturityLevel: '数据不足',
+                costActionRecommendation: 'REVIEW',
+                allocationStabilitySummary: 'maturity allocation summary',
+                unmappedCostSummary: 'maturity unmapped summary'
+            });
+            const activeReview = makeOperatingSignalReviewRecord({
+                reviewDecision: 'MANUAL_CONFIRMED',
+                resolvedDataMaturityLevel: '成熟',
+                resolvedCostActionRecommendation: 'PROMPT',
+                resolvedCurrentActionLevel: 'BLOCK',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2',
+                reviewComment: 'tax packet missing'
+            });
+
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(evaluation as never);
+            dataMaturityEvaluationResultRepository.findById.mockResolvedValue(dataMaturity as never);
+            operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId.mockResolvedValue(activeReview as never);
+
+            const result = await service.getOperatingSignalEvaluation(evaluation.id);
+
+            expect(result).toMatchObject({
+                signalEvaluationId: evaluation.id,
+                dataMaturityLevel: '成熟',
+                costActionRecommendation: 'PROMPT',
+                currentActionLevel: 'BLOCK',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2',
+                reviewRequired: true,
+                reviewSummary: 'MANUAL_CONFIRMED | 成熟 | PROMPT | tax packet missing'
+            });
+        });
+
+        it('updates commission gate binding and supersedes the previous active gate review', async () => {
+            const binding = makeOperatingSignalToCommissionGateBinding({
+                rowVersion: 2,
+                bindingAction: 'REVIEW',
+                nextActionSummary: 'legacy summary'
+            });
+            const evaluation = makeOperatingSignalEvaluationResult({
+                id: binding.signalEvaluationId,
+                dataMaturityEvaluationId: DATA_MATURITY_EVALUATION_ID,
+                riskLevel: 'ATTENTION',
+                currentActionLevel: 'REVIEW'
+            });
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                id: evaluation.dataMaturityEvaluationId,
+                dataMaturityLevel: '数据不足',
+                costActionRecommendation: 'REVIEW'
+            });
+            const activeSignalReview = makeOperatingSignalReviewRecord({
+                signalEvaluationId: evaluation.id,
+                resolvedDataMaturityLevel: '成熟',
+                resolvedCostActionRecommendation: 'PROMPT',
+                resolvedCurrentActionLevel: 'REVIEW',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2'
+            });
+            const activeGateReview = makeCommissionGateReviewRecord({
+                id: SUPERSEDED_GATE_REVIEW_RECORD_ID,
+                bindingId: binding.id,
+                status: 'active'
+            });
+            const summarySnapshot = makeApprovalSummarySnapshot({
+                summaryPackageKey: 'commission-final'
+            });
+
+            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(binding as never);
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(evaluation as never);
+            dataMaturityEvaluationResultRepository.findById.mockResolvedValue(dataMaturity as never);
+            operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId.mockResolvedValue(activeSignalReview as never);
+            commissionGateReviewRecordRepository.findByBindingId.mockResolvedValue([activeGateReview] as never);
+            approvalSummarySnapshotRepository.findById.mockResolvedValue(summarySnapshot as never);
+
+            const result = await service.reviewCommissionGateBinding(
+                binding.id,
+                {
+                    bindingAction: 'BLOCK',
+                    gateReviewDecision: 'BLOCK',
+                    blockingReasonCode: 'tax_gap',
+                    baselineSelectionSource: 'handover_rebaseline',
+                    summaryPackageKey: 'commission-final',
+                    summarySnapshotId: summarySnapshot.id,
+                    referencedBaselineVersion: 'baseline-v3',
+                    referencedSnapshotVersion: 'snapshot-v3',
+                    expectedVersion: 2
+                },
+                USER_ID
+            );
+
+            expect(binding.bindingAction).toBe('BLOCK');
+            expect(binding.baselineSelectionSource).toBe('handover_rebaseline');
+            expect(binding.dataMaturityLevel).toBe('成熟');
+            expect(binding.costActionRecommendation).toBe('PROMPT');
+            expect(binding.currentActionLevel).toBe('REVIEW');
+            expect(binding.referencedBaselineVersion).toBe('baseline-v3');
+            expect(binding.referencedSnapshotVersion).toBe('snapshot-v3');
+            expect(binding.nextActionSummary).toBe('BLOCK: tax_gap');
+            expect(activeGateReview.status).toBe('superseded');
+            expect(operatingSignalToCommissionGateBindingRepository.save).toHaveBeenCalledWith(binding);
+            expect(commissionGateReviewRecordRepository.saveAll).toHaveBeenCalledWith([
+                activeGateReview,
+                expect.objectContaining({
+                    bindingId: binding.id,
+                    gateReviewDecision: 'BLOCK',
+                    blockingReasonCode: 'tax_gap',
+                    summaryPackageKey: 'commission-final',
+                    nextActionSummary: 'BLOCK: tax_gap'
+                })
+            ]);
+            expect(result).toMatchObject({
+                bindingResultId: binding.id,
+                dataMaturityLevel: '成熟',
+                costActionRecommendation: 'PROMPT',
+                currentActionLevel: 'REVIEW',
+                baselineSelectionSource: 'handover_rebaseline',
+                referencedBaselineVersion: 'baseline-v3',
+                referencedSnapshotVersion: 'snapshot-v3',
+                summaryPackageKey: 'commission-final',
+                businessStatusAfter: 'BLOCK'
+            });
+            expect(result.gateReviewRecordId).toEqual(expect.any(String));
+            expect(result.targetId).toBe(result.gateReviewRecordId);
+        });
+
+        it('blocks commission gate review payloads that omit blockingReasonCode for BLOCK', async () => {
+            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(
+                makeOperatingSignalToCommissionGateBinding({ rowVersion: 2, bindingAction: 'REVIEW' }) as never
+            );
+
+            await expect(
+                service.reviewCommissionGateBinding(
+                    GATE_BINDING_ID,
+                    {
+                        bindingAction: 'BLOCK',
+                        gateReviewDecision: 'BLOCK',
+                        baselineSelectionSource: 'original',
+                        summaryPackageKey: 'commission-final',
+                        summarySnapshotId: SUMMARY_SNAPSHOT_ID,
+                        referencedBaselineVersion: 'baseline-v2',
+                        referencedSnapshotVersion: 'snapshot-v2',
+                        expectedVersion: 2
+                    },
+                    USER_ID
+                )
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('builds business accounting feedback from the most severe active bindings', async () => {
+            const snapshot = makeProjectOperatingSnapshot();
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                referencedSnapshotId: snapshot.id
+            });
+            const evaluation = makeOperatingSignalEvaluationResult({
+                referencedSnapshotId: snapshot.id,
+                dataMaturityEvaluationId: dataMaturity.id,
+                signalLevel: 'ALERT'
+            });
+            const activeSignalReview = makeOperatingSignalReviewRecord({
+                signalEvaluationId: evaluation.id,
+                resolvedDataMaturityLevel: '成熟',
+                resolvedCostActionRecommendation: 'PROMPT',
+                resolvedCurrentActionLevel: 'REVIEW',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2'
+            });
+            const bindings = [
+                makeOperatingSignalToCommissionGateBinding({
+                    id: GATE_BINDING_ID,
+                    signalEvaluationId: evaluation.id,
+                    bindingAction: 'BLOCK',
+                    generatedAt: new Date('2023-08-05T00:00:00.000Z'),
+                    taxImpactSummary: 'Tax package stalled',
+                    nextActionSummary: 'Close tax gap',
+                    downstreamConsumerSummary: 'Finance settlement hold'
+                }),
+                makeOperatingSignalToCommissionGateBinding({
+                    id: SECONDARY_GATE_BINDING_ID,
+                    signalEvaluationId: evaluation.id,
+                    bindingAction: 'BLOCK',
+                    generatedAt: new Date('2023-08-04T00:00:00.000Z'),
+                    taxImpactSummary: 'Tax package stalled',
+                    nextActionSummary: 'Freeze commission payout',
+                    downstreamConsumerSummary: 'Approval board escalation'
+                }),
+                makeOperatingSignalToCommissionGateBinding({
+                    id: REVIEW_GATE_BINDING_ID,
+                    signalEvaluationId: evaluation.id,
+                    bindingAction: 'REVIEW',
+                    generatedAt: new Date('2023-08-06T00:00:00.000Z'),
+                    nextActionSummary: 'Review only'
+                })
+            ];
+
+            projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(snapshot as never);
+            dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(dataMaturity as never);
+            operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(evaluation as never);
+            operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId.mockResolvedValue(activeSignalReview as never);
+            operatingSignalToCommissionGateBindingRepository.findActiveByProject.mockResolvedValue(bindings as never);
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(evaluation as never);
+
+            const result = await service.getBusinessAccountingFeedback(PROJECT_ID);
+
+            expect(result).toMatchObject({
+                projectId: PROJECT_ID,
+                signalLevel: 'ALERT',
+                currentActionLevel: 'REVIEW',
+                taxImpactSummary: 'Tax package stalled',
+                dataMaturityLevel: '成熟',
+                costActionRecommendation: 'PROMPT',
+                referencedBaselineVersion: 'baseline-v2',
+                referencedSnapshotVersion: 'snapshot-v2',
+                nextActionSummary: 'Close tax gap；Freeze commission payout',
+                downstreamConsumerSummary: 'Finance settlement hold；Approval board escalation',
+                allowedActions: ['reviewCommissionGateBinding']
+            });
         });
     });
 

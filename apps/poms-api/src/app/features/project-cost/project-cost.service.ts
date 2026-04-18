@@ -4,6 +4,8 @@ import type {
     ActivateOperatingBaselinePackageRequest,
     AccountingTaxTreatmentListView,
     AccountingTaxTreatmentSnapshotSummary,
+    BusinessAccountingFeedbackView,
+    CommissionGateBindingHistoryView,
     CommandResult,
     ConfirmAccountingTaxTreatmentRequest,
     ConfirmCostStageAttributionRequest,
@@ -24,13 +26,21 @@ import type {
     ExpenseRecordDetailView,
     ExpenseRecordSummary,
     OperatingBaselinePackageSummary,
+    OperatingSignalEvaluationView,
     OperatingRestatementSummary,
     PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordSummary,
+    ProjectBusinessOutcomeOverviewView,
     ProjectOperatingSnapshotSummary,
+    ProjectUnifiedAccountingView,
+    ProjectVarianceRiskExplanationView,
     ReclassifyCostStageAttributionRequest,
     PublishInternalCostRateVersionRequest,
+    ReviewCommissionGateBindingRequest,
+    ReviewCommissionGateBindingResult,
+    ReviewOperatingSignalEvaluationRequest,
+    ReviewOperatingSignalEvaluationResult,
     ReplaceAccountingTaxTreatmentRequest,
     ReplaceSharedCostAllocationResultRequest,
     ReplaceLaborCostRecordRequest,
@@ -42,28 +52,40 @@ import type {
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
+import type { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
+import type { CommissionGateReviewRecord } from './commission-gate-review-record.entity';
 import { CostStageAttributionSnapshot } from './cost-stage-attribution-snapshot.entity';
+import type { DataMaturityEvaluationResult } from './data-maturity-evaluation-result.entity';
 import type { InvoiceRecord } from '../contract-finance/invoice-record.entity';
+import type { OperatingSignalEvaluationResult } from './operating-signal-evaluation-result.entity';
 import type { PayableRecord } from '../contract-finance/payable-record.entity';
 import type { PaymentRecord } from '../contract-finance/payment-record.entity';
 import type { ExpenseRecord } from './expense-record.entity';
 import type { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
+import type { OperatingSignalReviewRecord } from './operating-signal-review-record.entity';
+import type { OperatingSignalToCommissionGateBinding } from './operating-signal-gate-binding.entity';
 import type { OperatingRestatementRecord } from './operating-restatement-record.entity';
 import type { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import type { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import type { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import type { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
+import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
+    CommissionGateReviewRecordRepository,
     CostStageAttributionSnapshotRepository,
+    DataMaturityEvaluationResultRepository,
     ExpenseRecordRepository,
     InternalCostRateVersionRepository,
     OperatingBaselinePackageRepository,
     OperatingRestatementRecordRepository,
+    OperatingSignalEvaluationResultRepository,
+    OperatingSignalReviewRecordRepository,
+    OperatingSignalToCommissionGateBindingRepository,
     PeriodClosingSnapshotRepository,
     ProjectActualCostRecordRepository,
     ProjectOperatingSnapshotRepository,
@@ -93,7 +115,13 @@ export class ProjectCostService {
         private readonly sharedCostAllocationResultRepository: SharedCostAllocationResultRepository,
         private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
         private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository,
-        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository
+        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        private readonly dataMaturityEvaluationResultRepository: DataMaturityEvaluationResultRepository,
+        private readonly operatingSignalEvaluationResultRepository: OperatingSignalEvaluationResultRepository,
+        private readonly operatingSignalReviewRecordRepository: OperatingSignalReviewRecordRepository,
+        private readonly operatingSignalToCommissionGateBindingRepository: OperatingSignalToCommissionGateBindingRepository,
+        private readonly commissionGateReviewRecordRepository: CommissionGateReviewRecordRepository,
+        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -1414,6 +1442,398 @@ export class ProjectCostService {
         return this.toAccountingTaxTreatmentSnapshotSummary(snapshot);
     }
 
+    async reviewOperatingSignalEvaluation(
+        id: string,
+        input: ReviewOperatingSignalEvaluationRequest,
+        userId: string
+    ): Promise<ReviewOperatingSignalEvaluationResult> {
+        const evaluation = await this.operatingSignalEvaluationResultRepository.findById(id);
+        if (!evaluation) {
+            throw new NotFoundException(`OperatingSignalEvaluationResult ${id} not found`);
+        }
+        if (evaluation.status !== 'active') {
+            throw new ConflictException(`OperatingSignalEvaluationResult ${id} is not active`);
+        }
+
+        this.assertExpectedVersion(evaluation.rowVersion, input.expectedVersion, 'OperatingSignalEvaluationResult');
+
+        const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
+        if (!dataMaturity) {
+            throw new NotFoundException(
+                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`
+            );
+        }
+
+        const activeReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
+        const resolvedCurrentActionLevel = this.resolveReviewedCurrentActionLevel(
+            evaluation,
+            dataMaturity,
+            input.resolvedDataMaturityLevel,
+            input.costActionRecommendation
+        );
+
+        const reviewRecord = this.operatingSignalReviewRecordRepository.create({
+            id: randomUUID(),
+            signalEvaluationId: evaluation.id,
+            reviewDecision: input.reviewDecision,
+            resolvedDataMaturityLevel: input.resolvedDataMaturityLevel,
+            resolvedCostActionRecommendation: input.costActionRecommendation,
+            resolvedCurrentActionLevel,
+            referencedBaselineVersion: input.referencedBaselineVersion,
+            referencedSnapshotVersion: input.referencedSnapshotVersion,
+            reviewComment: input.reviewComment ?? null,
+            handledAt: new Date(),
+            handledBy: userId,
+            status: 'active',
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        const recordsToSave = [reviewRecord];
+        if (activeReview) {
+            activeReview.status = 'superseded';
+            activeReview.updatedBy = userId;
+            recordsToSave.unshift(activeReview);
+        }
+        await this.operatingSignalReviewRecordRepository.saveAll(recordsToSave);
+
+        return {
+            targetId: reviewRecord.id,
+            signalEvaluationId: evaluation.id,
+            reviewRecordId: reviewRecord.id,
+            taxImpactSummary: evaluation.taxImpactSummary,
+            dataMaturityLevel: input.resolvedDataMaturityLevel,
+            costActionRecommendation: input.costActionRecommendation,
+            currentActionLevel: resolvedCurrentActionLevel,
+            referencedBaselineVersion: input.referencedBaselineVersion,
+            referencedSnapshotVersion: input.referencedSnapshotVersion,
+            resultStatus: 'success'
+        };
+    }
+
+    async getOperatingSignalEvaluation(id: string): Promise<OperatingSignalEvaluationView> {
+        const evaluation = await this.operatingSignalEvaluationResultRepository.findById(id);
+        if (!evaluation) {
+            throw new NotFoundException(`OperatingSignalEvaluationResult ${id} not found`);
+        }
+
+        const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
+        if (!dataMaturity) {
+            throw new NotFoundException(
+                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`
+            );
+        }
+
+        const activeReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
+        const resolvedSignalInput = this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeReview);
+
+        return {
+            signalEvaluationId: evaluation.id,
+            projectId: evaluation.projectId,
+            formulaBoundaryAction: evaluation.formulaBoundaryAction,
+            signalLevel: evaluation.signalLevel,
+            taxImpactSummary: evaluation.taxImpactSummary,
+            allocationStabilitySummary:
+                evaluation.allocationStabilitySummary ?? dataMaturity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: evaluation.unmappedCostSummary ?? dataMaturity.unmappedCostSummary ?? null,
+            dataMaturityLevel: resolvedSignalInput.dataMaturityLevel,
+            costActionRecommendation: resolvedSignalInput.costActionRecommendation,
+            currentActionLevel: resolvedSignalInput.currentActionLevel,
+            referencedBaselineVersion: resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: resolvedSignalInput.referencedSnapshotVersion,
+            reviewRequired: evaluation.reviewRequired,
+            reviewSummary: this.buildOperatingSignalReviewSummary(activeReview)
+        };
+    }
+
+    async reviewCommissionGateBinding(
+        id: string,
+        input: ReviewCommissionGateBindingRequest,
+        userId: string
+    ): Promise<ReviewCommissionGateBindingResult> {
+        const binding = await this.operatingSignalToCommissionGateBindingRepository.findById(id);
+        if (!binding) {
+            throw new NotFoundException(`OperatingSignalToCommissionGateBinding ${id} not found`);
+        }
+        if (binding.status !== 'active') {
+            throw new ConflictException(`OperatingSignalToCommissionGateBinding ${id} is not active`);
+        }
+
+        this.assertExpectedVersion(binding.rowVersion, input.expectedVersion, 'OperatingSignalToCommissionGateBinding');
+        this.assertGateBindingReviewable(binding);
+        this.assertCommissionGateReviewPayload(input);
+
+        const [evaluation, summarySnapshot, existingReviews] = await Promise.all([
+            this.operatingSignalEvaluationResultRepository.findById(binding.signalEvaluationId),
+            this.approvalSummarySnapshotRepository.findById(input.summarySnapshotId),
+            this.commissionGateReviewRecordRepository.findByBindingId(binding.id)
+        ]);
+
+        if (!evaluation) {
+            throw new NotFoundException(`OperatingSignalEvaluationResult ${binding.signalEvaluationId} not found for binding ${id}`);
+        }
+
+        const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
+        if (!dataMaturity) {
+            throw new NotFoundException(
+                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`
+            );
+        }
+
+        this.assertApprovalSummarySnapshot(summarySnapshot, input.summaryPackageKey, input.summarySnapshotId);
+
+        const activeSignalReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
+        const resolvedSignalInput = this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeSignalReview);
+        const nextActionSummary = this.buildCommissionGateNextActionSummary(
+            input.bindingAction,
+            input.gateReviewDecision,
+            input.blockingReasonCode ?? null,
+            binding.nextActionSummary ?? null
+        );
+
+        binding.bindingAction = input.bindingAction;
+        binding.baselineSelectionSource = input.baselineSelectionSource;
+        binding.dataMaturityLevel = resolvedSignalInput.dataMaturityLevel;
+        binding.costActionRecommendation = resolvedSignalInput.costActionRecommendation;
+        binding.currentActionLevel = resolvedSignalInput.currentActionLevel;
+        binding.referencedBaselineVersion = input.referencedBaselineVersion;
+        binding.referencedSnapshotVersion = input.referencedSnapshotVersion;
+        binding.nextActionSummary = nextActionSummary;
+        binding.updatedBy = userId;
+
+        const reviewRecord = this.commissionGateReviewRecordRepository.create({
+            id: randomUUID(),
+            bindingId: binding.id,
+            gateReviewDecision: input.gateReviewDecision,
+            blockingReasonCode: input.blockingReasonCode ?? null,
+            summaryPackageKey: summarySnapshot.summaryPackageKey,
+            summarySnapshotId: summarySnapshot.id,
+            projectionLevel: summarySnapshot.projectionLevel,
+            exportPolicy: summarySnapshot.exportPolicy,
+            nextActionSummary,
+            handledAt: new Date(),
+            handledBy: userId,
+            status: 'active',
+            createdBy: userId,
+            updatedBy: userId
+        });
+
+        const reviewsToSave = existingReviews.filter((record) => record.status === 'active');
+        for (const record of reviewsToSave) {
+            record.status = 'superseded';
+            record.updatedBy = userId;
+        }
+
+        await this.operatingSignalToCommissionGateBindingRepository.save(binding);
+        await this.commissionGateReviewRecordRepository.saveAll([...reviewsToSave, reviewRecord]);
+
+        return {
+            targetId: reviewRecord.id,
+            bindingResultId: binding.id,
+            gateReviewRecordId: reviewRecord.id,
+            taxImpactSummary: binding.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(binding.taxImpactPendingAmount) ?? '0.0000',
+            dataMaturityLevel: binding.dataMaturityLevel,
+            costActionRecommendation: binding.costActionRecommendation as ReviewCommissionGateBindingResult['costActionRecommendation'],
+            currentActionLevel: binding.currentActionLevel as ReviewCommissionGateBindingResult['currentActionLevel'],
+            baselineSelectionSource:
+                binding.baselineSelectionSource as ReviewCommissionGateBindingResult['baselineSelectionSource'],
+            referencedBaselineVersion: binding.referencedBaselineVersion,
+            referencedSnapshotVersion: binding.referencedSnapshotVersion,
+            summaryPackageKey: reviewRecord.summaryPackageKey,
+            summarySnapshotId: reviewRecord.summarySnapshotId,
+            projectionLevel: reviewRecord.projectionLevel,
+            exportPolicy: reviewRecord.exportPolicy,
+            nextActionSummary: reviewRecord.nextActionSummary ?? null,
+            businessStatusAfter: binding.bindingAction
+        };
+    }
+
+    async getCommissionGateBinding(id: string): Promise<CommissionGateBindingHistoryView> {
+        const binding = await this.operatingSignalToCommissionGateBindingRepository.findById(id);
+        if (!binding) {
+            throw new NotFoundException(`OperatingSignalToCommissionGateBinding ${id} not found`);
+        }
+
+        const evaluation = await this.operatingSignalEvaluationResultRepository.findById(binding.signalEvaluationId);
+        if (!evaluation) {
+            throw new NotFoundException(`OperatingSignalEvaluationResult ${binding.signalEvaluationId} not found for binding ${id}`);
+        }
+
+        const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
+        if (!dataMaturity) {
+            throw new NotFoundException(
+                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`
+            );
+        }
+
+        const [activeSignalReview, reviewRecords] = await Promise.all([
+            this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id),
+            this.commissionGateReviewRecordRepository.findByBindingId(binding.id)
+        ]);
+        const latestGateReview = this.selectLatestCommissionGateReview(reviewRecords);
+        const resolvedSignalInput = this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeSignalReview);
+
+        return {
+            bindingId: binding.id,
+            projectId: binding.projectId,
+            signalEvaluationId: binding.signalEvaluationId,
+            gateStageType: binding.gateStageType,
+            signalLevel: evaluation.signalLevel,
+            taxImpactSummary: binding.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(binding.taxImpactPendingAmount) ?? '0.0000',
+            dataMaturityLevel: resolvedSignalInput.dataMaturityLevel,
+            costActionRecommendation: resolvedSignalInput.costActionRecommendation,
+            currentActionLevel: resolvedSignalInput.currentActionLevel,
+            baselineSelectionSource: binding.baselineSelectionSource as CommissionGateBindingHistoryView['baselineSelectionSource'],
+            referencedBaselineVersion: resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: resolvedSignalInput.referencedSnapshotVersion,
+            bindingAction: binding.bindingAction as CommissionGateBindingHistoryView['bindingAction'],
+            gateReviewDecision: latestGateReview?.gateReviewDecision ?? null,
+            blockingReasonSummary: latestGateReview?.blockingReasonCode ?? null,
+            summaryPackageKey: latestGateReview?.summaryPackageKey ?? null,
+            summarySnapshotId: latestGateReview?.summarySnapshotId ?? null,
+            projectionLevel: latestGateReview?.projectionLevel ?? null,
+            exportPolicy: latestGateReview?.exportPolicy ?? null,
+            nextActionSummary: latestGateReview?.nextActionSummary ?? binding.nextActionSummary ?? null,
+            handledBy: latestGateReview?.handledBy ?? null,
+            handledAt: latestGateReview ? this.toRequiredDateTime(latestGateReview.handledAt) : null,
+            allowedActions: this.buildCommissionGateAllowedActions(
+                binding.bindingAction,
+                binding.taxImpactSummary,
+                resolvedSignalInput.dataMaturityLevel,
+                resolvedSignalInput.costActionRecommendation,
+                resolvedSignalInput.referencedBaselineVersion,
+                resolvedSignalInput.referencedSnapshotVersion
+            )
+        };
+    }
+
+    async getProjectBusinessOutcomeOverview(projectId: string): Promise<ProjectBusinessOutcomeOverviewView> {
+        const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+
+        return {
+            projectId,
+            effectiveContractSetSummary: this.toNullableDecimal(context.snapshot.effectiveContractTotal) ?? '0.0000',
+            receivableConfirmedAmountSummary: this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000',
+            includedCostTotalSummary: this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000',
+            currentEffectiveBaselineCostSummary:
+                this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000',
+            grossMarginSummary: this.buildGrossMarginSummary(context.snapshot),
+            taxImpactSummary: context.snapshot.taxImpactSummary,
+            allocationStabilitySummary:
+                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
+            dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
+            currentActionLevel: context.resolvedSignalInput.currentActionLevel,
+            referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
+            allowedActions: this.buildOperatingSignalAllowedActions(
+                context.evaluation.reviewRequired,
+                context.resolvedSignalInput.currentActionLevel
+            )
+        };
+    }
+
+    async getProjectUnifiedAccounting(projectId: string): Promise<ProjectUnifiedAccountingView> {
+        const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+
+        return {
+            projectId,
+            snapshotId: context.snapshot.id,
+            originalBaselineCostSummary: this.toNullableDecimal(context.snapshot.originalBaselineCost) ?? '0.0000',
+            currentEffectiveBaselineCostSummary:
+                this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000',
+            includedCostTotalSummary: this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000',
+            receivableConfirmedAmountSummary: this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000',
+            taxImpactSummary: context.snapshot.taxImpactSummary,
+            taxImpactPendingAmount: this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? '0.0000',
+            allocationStabilitySummary:
+                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
+            dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
+            costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
+            referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
+            allowedActions: this.buildOperatingSignalAllowedActions(
+                context.evaluation.reviewRequired,
+                context.resolvedSignalInput.currentActionLevel
+            )
+        };
+    }
+
+    async getProjectVarianceRiskExplanation(projectId: string): Promise<ProjectVarianceRiskExplanationView> {
+        const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+
+        return {
+            projectId,
+            signalEvaluationId: context.evaluation.id,
+            varianceSourceSummary: context.evaluation.varianceSourceSummary,
+            riskLevel: context.evaluation.riskLevel,
+            taxImpactSummary: context.evaluation.taxImpactSummary,
+            allocationStabilitySummary:
+                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
+            dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
+            costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
+            currentActionLevel: context.resolvedSignalInput.currentActionLevel,
+            referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
+            recommendedActionSummary: context.evaluation.recommendedActionSummary ?? null,
+            allowedActions: this.buildOperatingSignalAllowedActions(
+                context.evaluation.reviewRequired,
+                context.resolvedSignalInput.currentActionLevel
+            )
+        };
+    }
+
+    async getBusinessAccountingFeedback(projectId: string): Promise<BusinessAccountingFeedbackView> {
+        const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+        const bindings = await this.operatingSignalToCommissionGateBindingRepository.findActiveByProject(projectId);
+        if (bindings.length === 0) {
+            throw new NotFoundException(`No active OperatingSignalToCommissionGateBinding found for project ${projectId}`);
+        }
+
+        const selectedBinding = this.selectMostSevereBinding(bindings);
+        const selectedEvaluation = await this.operatingSignalEvaluationResultRepository.findById(selectedBinding.signalEvaluationId);
+        if (!selectedEvaluation) {
+            throw new NotFoundException(
+                `OperatingSignalEvaluationResult ${selectedBinding.signalEvaluationId} not found for project ${projectId}`
+            );
+        }
+
+        const mostSevereBindings = bindings.filter(
+            (binding) => this.getActionSeverity(binding.bindingAction) === this.getActionSeverity(selectedBinding.bindingAction)
+        );
+
+        return {
+            projectId,
+            signalLevel: selectedEvaluation.signalLevel,
+            currentActionLevel: context.resolvedSignalInput.currentActionLevel,
+            taxImpactSummary: selectedBinding.taxImpactSummary,
+            allocationStabilitySummary: selectedBinding.allocationStabilitySummary ?? null,
+            unmappedCostSummary: selectedBinding.unmappedCostSummary ?? null,
+            dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
+            costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
+            referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
+            referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
+            nextActionSummary: this.combineSummaries(
+                mostSevereBindings.map((binding) => binding.nextActionSummary ?? null)
+            ),
+            downstreamConsumerSummary: this.combineSummaries(
+                mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null)
+            ),
+            allowedActions: this.buildCommissionGateAllowedActions(
+                selectedBinding.bindingAction,
+                selectedBinding.taxImpactSummary,
+                context.resolvedSignalInput.dataMaturityLevel,
+                context.resolvedSignalInput.costActionRecommendation,
+                context.resolvedSignalInput.referencedBaselineVersion,
+                context.resolvedSignalInput.referencedSnapshotVersion
+            )
+        };
+    }
+
     async registerLaborCostRecord(
         projectId: string,
         input: CreateLaborProjectActualCostRecordRequest,
@@ -2143,6 +2563,286 @@ export class ProjectCostService {
             return ['void'];
         }
         return [];
+    }
+
+    private resolveSignalEvaluationInput(
+        evaluation: OperatingSignalEvaluationResult,
+        dataMaturity: DataMaturityEvaluationResult,
+        reviewRecord: OperatingSignalReviewRecord | null
+    ): {
+        dataMaturityLevel: string;
+        costActionRecommendation: OperatingSignalEvaluationView['costActionRecommendation'];
+        currentActionLevel: OperatingSignalEvaluationView['currentActionLevel'];
+        referencedBaselineVersion: string;
+        referencedSnapshotVersion: string;
+    } {
+        return {
+            dataMaturityLevel: reviewRecord?.resolvedDataMaturityLevel ?? dataMaturity.dataMaturityLevel,
+            costActionRecommendation: (reviewRecord?.resolvedCostActionRecommendation ??
+                dataMaturity.costActionRecommendation) as OperatingSignalEvaluationView['costActionRecommendation'],
+            currentActionLevel: (reviewRecord?.resolvedCurrentActionLevel ??
+                evaluation.currentActionLevel) as OperatingSignalEvaluationView['currentActionLevel'],
+            referencedBaselineVersion: reviewRecord?.referencedBaselineVersion ?? evaluation.referencedBaselineVersion,
+            referencedSnapshotVersion: reviewRecord?.referencedSnapshotVersion ?? evaluation.referencedSnapshotVersion
+        };
+    }
+
+    private resolveReviewedCurrentActionLevel(
+        evaluation: OperatingSignalEvaluationResult,
+        dataMaturity: DataMaturityEvaluationResult,
+        resolvedDataMaturityLevel: string,
+        costActionRecommendation: ReviewOperatingSignalEvaluationResult['costActionRecommendation']
+    ): ReviewOperatingSignalEvaluationResult['currentActionLevel'] {
+        const candidates = [
+            costActionRecommendation,
+            this.mapDataMaturityLevelToActionLevel(resolvedDataMaturityLevel),
+            this.mapRiskLevelToActionLevel(evaluation.riskLevel),
+            this.normalizeActionLevel(evaluation.formulaBoundaryAction),
+            this.normalizeActionLevel(evaluation.currentActionLevel),
+            this.normalizeActionLevel(dataMaturity.costActionRecommendation)
+        ];
+
+        return this.resolveHighestActionLevel(candidates);
+    }
+
+    private buildOperatingSignalReviewSummary(reviewRecord: OperatingSignalReviewRecord | null): string | null {
+        if (!reviewRecord) {
+            return null;
+        }
+
+        const segments = [
+            reviewRecord.reviewDecision,
+            reviewRecord.resolvedDataMaturityLevel ?? null,
+            reviewRecord.resolvedCostActionRecommendation ?? null,
+            reviewRecord.reviewComment ?? null
+        ].filter((value): value is string => Boolean(value && value.trim().length > 0));
+
+        return segments.length === 0 ? null : segments.join(' | ');
+    }
+
+    private assertGateBindingReviewable(binding: OperatingSignalToCommissionGateBinding): void {
+        if (binding.bindingAction === 'PROMPT') {
+            throw new ConflictException(`OperatingSignalToCommissionGateBinding ${binding.id} does not require gate review`);
+        }
+    }
+
+    private assertCommissionGateReviewPayload(input: ReviewCommissionGateBindingRequest): void {
+        const decision = input.gateReviewDecision.trim().toUpperCase();
+        if ((input.bindingAction === 'BLOCK' || decision.includes('BLOCK')) && !input.blockingReasonCode) {
+            throw new UnprocessableEntityException('blockingReasonCode is required when the gate review result is BLOCK');
+        }
+    }
+
+    private assertApprovalSummarySnapshot(
+        summarySnapshot: ApprovalSummarySnapshot | null,
+        summaryPackageKey: string,
+        summarySnapshotId: string
+    ): asserts summarySnapshot is ApprovalSummarySnapshot {
+        if (!summarySnapshot) {
+            throw new NotFoundException(`ApprovalSummarySnapshot ${summarySnapshotId} not found`);
+        }
+        if (summarySnapshot.status !== 'active') {
+            throw new ConflictException(`ApprovalSummarySnapshot ${summarySnapshotId} is not active`);
+        }
+        if (summarySnapshot.summaryPackageKey !== summaryPackageKey) {
+            throw new ConflictException(`ApprovalSummarySnapshot ${summarySnapshotId} does not match summaryPackageKey ${summaryPackageKey}`);
+        }
+    }
+
+    private buildCommissionGateNextActionSummary(
+        bindingAction: ReviewCommissionGateBindingRequest['bindingAction'],
+        gateReviewDecision: string,
+        blockingReasonCode: string | null,
+        fallbackSummary: string | null
+    ): string | null {
+        if (bindingAction === 'BLOCK') {
+            return blockingReasonCode
+                ? `BLOCK: ${blockingReasonCode}`
+                : fallbackSummary ?? `BLOCK: ${gateReviewDecision}`;
+        }
+
+        if (bindingAction === 'REVIEW') {
+            return fallbackSummary ?? `REVIEW: ${gateReviewDecision}`;
+        }
+
+        return fallbackSummary ?? `PROMPT: ${gateReviewDecision}`;
+    }
+
+    private selectLatestCommissionGateReview(reviewRecords: CommissionGateReviewRecord[]): CommissionGateReviewRecord | null {
+        if (reviewRecords.length === 0) {
+            return null;
+        }
+
+        return reviewRecords.find((record) => record.status === 'active') ?? reviewRecords[0];
+    }
+
+    private async getCurrentProjectOperatingSignalContext(projectId: string): Promise<{
+        snapshot: ProjectOperatingSnapshot;
+        dataMaturity: DataMaturityEvaluationResult;
+        evaluation: OperatingSignalEvaluationResult;
+        activeSignalReview: OperatingSignalReviewRecord | null;
+        resolvedSignalInput: {
+            dataMaturityLevel: string;
+            costActionRecommendation: OperatingSignalEvaluationView['costActionRecommendation'];
+            currentActionLevel: OperatingSignalEvaluationView['currentActionLevel'];
+            referencedBaselineVersion: string;
+            referencedSnapshotVersion: string;
+        };
+    }> {
+        const snapshot = await this.projectOperatingSnapshotRepository.findLatestActiveByProject(projectId);
+        if (!snapshot) {
+            throw new NotFoundException(`No active ProjectOperatingSnapshot found for project ${projectId}`);
+        }
+
+        const [dataMaturity, evaluation] = await Promise.all([
+            this.dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot(projectId, snapshot.id),
+            this.operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot(projectId, snapshot.id)
+        ]);
+
+        if (!dataMaturity) {
+            throw new NotFoundException(`No active DataMaturityEvaluationResult found for project ${projectId} snapshot ${snapshot.id}`);
+        }
+        if (!evaluation) {
+            throw new NotFoundException(`No active OperatingSignalEvaluationResult found for project ${projectId} snapshot ${snapshot.id}`);
+        }
+
+        const activeSignalReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
+
+        return {
+            snapshot,
+            dataMaturity,
+            evaluation,
+            activeSignalReview,
+            resolvedSignalInput: this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeSignalReview)
+        };
+    }
+
+    private buildGrossMarginSummary(snapshot: ProjectOperatingSnapshot): string {
+        const grossMarginAmount = this.toNullableDecimal(snapshot.grossMarginAmount) ?? '0.0000';
+        const grossMarginRate = this.toNullableDecimal(snapshot.grossMarginRate);
+        return grossMarginRate ? `${grossMarginAmount} (${grossMarginRate})` : grossMarginAmount;
+    }
+
+    private buildOperatingSignalAllowedActions(reviewRequired: boolean, currentActionLevel: string): string[] {
+        if (reviewRequired || this.getActionSeverity(currentActionLevel) >= this.getActionSeverity('REVIEW')) {
+            return ['reviewOperatingSignalEvaluation'];
+        }
+        return [];
+    }
+
+    private buildCommissionGateAllowedActions(
+        bindingAction: string,
+        taxImpactSummary: string | null,
+        dataMaturityLevel: string | null,
+        costActionRecommendation: string | null,
+        referencedBaselineVersion: string | null,
+        referencedSnapshotVersion: string | null
+    ): string[] {
+        const hasStablePackage = Boolean(
+            taxImpactSummary &&
+                dataMaturityLevel &&
+                costActionRecommendation &&
+                referencedBaselineVersion &&
+                referencedSnapshotVersion
+        );
+
+        if (!hasStablePackage) {
+            return ['reviewCommissionGateBinding'];
+        }
+
+        if (this.getActionSeverity(bindingAction) >= this.getActionSeverity('REVIEW')) {
+            return ['reviewCommissionGateBinding'];
+        }
+
+        return [];
+    }
+
+    private selectMostSevereBinding(
+        bindings: OperatingSignalToCommissionGateBinding[]
+    ): OperatingSignalToCommissionGateBinding {
+        const [selectedBinding] = [...bindings].sort((left, right) => {
+            const severityDiff = this.getActionSeverity(right.bindingAction) - this.getActionSeverity(left.bindingAction);
+            if (severityDiff !== 0) {
+                return severityDiff;
+            }
+
+            return this.toDate(right.generatedAt).getTime() - this.toDate(left.generatedAt).getTime();
+        });
+        if (!selectedBinding) {
+            throw new NotFoundException('No active OperatingSignalToCommissionGateBinding available for selection');
+        }
+
+        return selectedBinding;
+    }
+
+    private combineSummaries(summaries: Array<string | null>): string | null {
+        const unique = [...new Set(summaries.filter((value): value is string => Boolean(value && value.trim().length > 0)))];
+        return unique.length === 0 ? null : unique.join('；');
+    }
+
+    private mapDataMaturityLevelToActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
+        const normalized = value?.trim();
+        if (!normalized) {
+            return null;
+        }
+
+        if (normalized === '数据不足' || normalized.toUpperCase() === 'INSUFFICIENT') {
+            return 'REVIEW';
+        }
+
+        if (normalized === '初步可看' || normalized.toUpperCase() === 'PRELIMINARY') {
+            return 'PROMPT';
+        }
+
+        return this.normalizeActionLevel(normalized);
+    }
+
+    private mapRiskLevelToActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
+        const normalized = value?.trim();
+        if (!normalized) {
+            return null;
+        }
+
+        if (normalized === '风险' || normalized.toUpperCase() === 'RISK') {
+            return 'BLOCK';
+        }
+
+        if (normalized === '关注' || normalized.toUpperCase() === 'ATTENTION') {
+            return 'REVIEW';
+        }
+
+        return this.normalizeActionLevel(normalized);
+    }
+
+    private normalizeActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
+        const normalized = value?.trim().toUpperCase();
+        if (normalized === 'PROMPT' || normalized === 'REVIEW' || normalized === 'BLOCK') {
+            return normalized;
+        }
+        return null;
+    }
+
+    private resolveHighestActionLevel(
+        candidates: Array<OperatingSignalEvaluationView['currentActionLevel'] | null>
+    ): OperatingSignalEvaluationView['currentActionLevel'] {
+        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>(
+            (current, candidate) =>
+                this.getActionSeverity(candidate) > this.getActionSeverity(current) ? candidate ?? current : current,
+            'PROMPT'
+        );
+    }
+
+    private getActionSeverity(value: string | null | undefined): number {
+        switch (this.normalizeActionLevel(value)) {
+            case 'BLOCK':
+                return 3;
+            case 'REVIEW':
+                return 2;
+            case 'PROMPT':
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     private async assertValidHandoverRebaselineReference(

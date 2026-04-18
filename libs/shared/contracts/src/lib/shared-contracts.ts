@@ -2890,6 +2890,214 @@ export const AccountingTaxTreatmentListViewSchema = z
 
 export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatmentListViewSchema>;
 
+export const ReviewOperatingSignalEvaluationRequestSchema = z
+    .object({
+        reviewDecision: z.string().trim().min(1).max(32),
+        resolvedDataMaturityLevel: z.string().trim().min(1).max(32),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string().trim().min(1).max(64),
+        referencedSnapshotVersion: z.string().trim().min(1).max(64),
+        reviewComment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReviewOperatingSignalEvaluationRequest' });
+
+export type ReviewOperatingSignalEvaluationRequest = z.infer<typeof ReviewOperatingSignalEvaluationRequestSchema>;
+
+export const ReviewOperatingSignalEvaluationResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        signalEvaluationId: z.uuid(),
+        reviewRecordId: z.uuid(),
+        taxImpactSummary: z.string(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        resultStatus: z.string().min(1)
+    })
+    .meta({ id: 'ReviewOperatingSignalEvaluationResult' });
+
+export type ReviewOperatingSignalEvaluationResult = z.infer<typeof ReviewOperatingSignalEvaluationResultSchema>;
+
+export const OperatingSignalEvaluationViewSchema = z
+    .object({
+        signalEvaluationId: z.uuid(),
+        projectId: z.uuid(),
+        formulaBoundaryAction: z.string(),
+        signalLevel: z.string(),
+        taxImpactSummary: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        reviewRequired: z.boolean(),
+        reviewSummary: z.string().nullable()
+    })
+    .meta({ id: 'OperatingSignalEvaluationView' });
+
+export type OperatingSignalEvaluationView = z.infer<typeof OperatingSignalEvaluationViewSchema>;
+
+export const ReviewCommissionGateBindingRequestSchema = z
+    .object({
+        bindingAction: OperatingSnapshotActionLevelSchema,
+        gateReviewDecision: z.string().trim().min(1).max(32),
+        blockingReasonCode: z.string().trim().min(1).max(64).nullable().optional(),
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        summaryPackageKey: z.string().trim().min(1).max(64),
+        summarySnapshotId: z.uuid(),
+        referencedBaselineVersion: z.string().trim().min(1).max(64),
+        referencedSnapshotVersion: z.string().trim().min(1).max(64),
+        comment: z.string().trim().min(1).max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReviewCommissionGateBindingRequest' });
+
+export type ReviewCommissionGateBindingRequest = z.infer<typeof ReviewCommissionGateBindingRequestSchema>;
+
+export const ReviewCommissionGateBindingResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        bindingResultId: z.uuid(),
+        gateReviewRecordId: z.uuid(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        summaryPackageKey: z.string(),
+        summarySnapshotId: z.uuid(),
+        projectionLevel: z.string(),
+        exportPolicy: z.string(),
+        nextActionSummary: z.string().nullable(),
+        businessStatusAfter: z.string().min(1)
+    })
+    .meta({ id: 'ReviewCommissionGateBindingResult' });
+
+export type ReviewCommissionGateBindingResult = z.infer<typeof ReviewCommissionGateBindingResultSchema>;
+
+export const CommissionGateBindingHistoryViewSchema = z
+    .object({
+        bindingId: z.uuid(),
+        projectId: z.uuid(),
+        signalEvaluationId: z.uuid(),
+        gateStageType: z.string(),
+        signalLevel: z.string(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        baselineSelectionSource: BaselineSelectionSourceSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        bindingAction: OperatingSnapshotActionLevelSchema,
+        gateReviewDecision: z.string().nullable(),
+        blockingReasonSummary: z.string().nullable(),
+        summaryPackageKey: z.string().nullable(),
+        summarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        nextActionSummary: z.string().nullable(),
+        handledBy: z.uuid().nullable(),
+        handledAt: z.iso.datetime().nullable(),
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'CommissionGateBindingHistoryView' });
+
+export type CommissionGateBindingHistoryView = z.infer<typeof CommissionGateBindingHistoryViewSchema>;
+
+export const ProjectBusinessOutcomeOverviewViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        effectiveContractSetSummary: z.string(),
+        receivableConfirmedAmountSummary: z.string(),
+        includedCostTotalSummary: z.string(),
+        currentEffectiveBaselineCostSummary: z.string(),
+        grossMarginSummary: z.string(),
+        taxImpactSummary: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        dataMaturityLevel: z.string(),
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'ProjectBusinessOutcomeOverviewView' });
+
+export type ProjectBusinessOutcomeOverviewView = z.infer<typeof ProjectBusinessOutcomeOverviewViewSchema>;
+
+export const ProjectUnifiedAccountingViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        snapshotId: z.uuid(),
+        originalBaselineCostSummary: z.string(),
+        currentEffectiveBaselineCostSummary: z.string(),
+        includedCostTotalSummary: z.string(),
+        receivableConfirmedAmountSummary: z.string(),
+        taxImpactSummary: z.string(),
+        taxImpactPendingAmount: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'ProjectUnifiedAccountingView' });
+
+export type ProjectUnifiedAccountingView = z.infer<typeof ProjectUnifiedAccountingViewSchema>;
+
+export const ProjectVarianceRiskExplanationViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        signalEvaluationId: z.uuid(),
+        varianceSourceSummary: z.string(),
+        riskLevel: z.string(),
+        taxImpactSummary: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        recommendedActionSummary: z.string().nullable(),
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'ProjectVarianceRiskExplanationView' });
+
+export type ProjectVarianceRiskExplanationView = z.infer<typeof ProjectVarianceRiskExplanationViewSchema>;
+
+export const BusinessAccountingFeedbackViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        signalLevel: z.string(),
+        currentActionLevel: OperatingSnapshotActionLevelSchema,
+        taxImpactSummary: z.string(),
+        allocationStabilitySummary: z.string().nullable(),
+        unmappedCostSummary: z.string().nullable(),
+        dataMaturityLevel: z.string(),
+        costActionRecommendation: OperatingSnapshotActionLevelSchema,
+        referencedBaselineVersion: z.string(),
+        referencedSnapshotVersion: z.string(),
+        nextActionSummary: z.string().nullable(),
+        downstreamConsumerSummary: z.string().nullable(),
+        allowedActions: z.array(z.string())
+    })
+    .meta({ id: 'BusinessAccountingFeedbackView' });
+
+export type BusinessAccountingFeedbackView = z.infer<typeof BusinessAccountingFeedbackViewSchema>;
+
 export const CreatePaymentFactProjectActualCostRecordRequestSchema = z
     .object({
         costType: z.literal('PAYMENT_FACT'),

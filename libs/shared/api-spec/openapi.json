@@ -2435,6 +2435,314 @@
         ]
       }
     },
+    "/api/operating-signal-evaluations/{id}:review": {
+      "post": {
+        "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "人工复核经营信号评价结果",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/operating-signal-evaluations/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingSignalEvaluationView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取经营信号评价详情",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/commission-gate-bindings/{id}:review": {
+      "post": {
+        "operationId": "ProjectCostController_reviewCommissionGateBinding",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCommissionGateBindingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewCommissionGateBindingResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "人工复核经营反馈 gate 绑定结果",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/commission-gate-bindings/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getCommissionGateBinding",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionGateBindingHistoryView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取经营反馈 gate 绑定详情",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/business-outcome-overview": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectBusinessOutcomeOverviewView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目经营结果总览",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/unified-accounting": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectUnifiedAccountingView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目统一核算视图",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/variance-risk-explanation": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectVarianceRiskExplanationView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目偏差与风险解释",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/business-accounting-feedback": {
+      "get": {
+        "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessAccountingFeedbackView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目经营核算反哺视图",
+        "tags": [
+          "Project Cost"
+        ]
+      }
+    },
     "/api/projects/{projectId}/expense-records": {
       "get": {
         "operationId": "ProjectCostController_listExpenseRecords",
@@ -9331,6 +9639,747 @@
           "$ref": "#/components/schemas/AccountingTaxTreatmentSnapshotSummary"
         },
         "id": "AccountingTaxTreatmentListView"
+      },
+      "ReviewOperatingSignalEvaluationRequest": {
+        "type": "object",
+        "properties": {
+          "reviewDecision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "resolvedDataMaturityLevel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "referencedSnapshotVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "reviewComment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "reviewDecision",
+          "resolvedDataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion"
+        ],
+        "id": "ReviewOperatingSignalEvaluationRequest"
+      },
+      "ReviewOperatingSignalEvaluationResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "reviewRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "signalEvaluationId",
+          "reviewRecordId",
+          "taxImpactSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "resultStatus"
+        ],
+        "id": "ReviewOperatingSignalEvaluationResult"
+      },
+      "OperatingSignalEvaluationView": {
+        "type": "object",
+        "properties": {
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "formulaBoundaryAction": {
+            "type": "string"
+          },
+          "signalLevel": {
+            "type": "string"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "reviewRequired": {
+            "type": "boolean"
+          },
+          "reviewSummary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "signalEvaluationId",
+          "projectId",
+          "formulaBoundaryAction",
+          "signalLevel",
+          "taxImpactSummary",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "reviewRequired",
+          "reviewSummary"
+        ],
+        "id": "OperatingSignalEvaluationView"
+      },
+      "ReviewCommissionGateBindingRequest": {
+        "type": "object",
+        "properties": {
+          "bindingAction": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "gateReviewDecision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "blockingReasonCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "referencedSnapshotVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "comment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "bindingAction",
+          "gateReviewDecision",
+          "baselineSelectionSource",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion"
+        ],
+        "id": "ReviewCommissionGateBindingRequest"
+      },
+      "ReviewCommissionGateBindingResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bindingResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "gateReviewRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessStatusAfter": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "bindingResultId",
+          "gateReviewRecordId",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "baselineSelectionSource",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "nextActionSummary",
+          "businessStatusAfter"
+        ],
+        "id": "ReviewCommissionGateBindingResult"
+      },
+      "CommissionGateBindingHistoryView": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "gateStageType": {
+            "type": "string"
+          },
+          "signalLevel": {
+            "type": "string"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "bindingAction": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "gateReviewDecision": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockingReasonSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "handledBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "bindingId",
+          "projectId",
+          "signalEvaluationId",
+          "gateStageType",
+          "signalLevel",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "baselineSelectionSource",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "bindingAction",
+          "gateReviewDecision",
+          "blockingReasonSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "nextActionSummary",
+          "handledBy",
+          "handledAt",
+          "allowedActions"
+        ],
+        "id": "CommissionGateBindingHistoryView"
+      },
+      "ProjectBusinessOutcomeOverviewView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "effectiveContractSetSummary": {
+            "type": "string"
+          },
+          "receivableConfirmedAmountSummary": {
+            "type": "string"
+          },
+          "includedCostTotalSummary": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCostSummary": {
+            "type": "string"
+          },
+          "grossMarginSummary": {
+            "type": "string"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "effectiveContractSetSummary",
+          "receivableConfirmedAmountSummary",
+          "includedCostTotalSummary",
+          "currentEffectiveBaselineCostSummary",
+          "grossMarginSummary",
+          "taxImpactSummary",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "allowedActions"
+        ],
+        "id": "ProjectBusinessOutcomeOverviewView"
+      },
+      "ProjectUnifiedAccountingView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCostSummary": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCostSummary": {
+            "type": "string"
+          },
+          "includedCostTotalSummary": {
+            "type": "string"
+          },
+          "receivableConfirmedAmountSummary": {
+            "type": "string"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "snapshotId",
+          "originalBaselineCostSummary",
+          "currentEffectiveBaselineCostSummary",
+          "includedCostTotalSummary",
+          "receivableConfirmedAmountSummary",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "allowedActions"
+        ],
+        "id": "ProjectUnifiedAccountingView"
+      },
+      "ProjectVarianceRiskExplanationView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "varianceSourceSummary": {
+            "type": "string"
+          },
+          "riskLevel": {
+            "type": "string"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "recommendedActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "signalEvaluationId",
+          "varianceSourceSummary",
+          "riskLevel",
+          "taxImpactSummary",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "recommendedActionSummary",
+          "allowedActions"
+        ],
+        "id": "ProjectVarianceRiskExplanationView"
+      },
+      "BusinessAccountingFeedbackView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalLevel": {
+            "type": "string"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "type": "string"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "downstreamConsumerSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "signalLevel",
+          "currentActionLevel",
+          "taxImpactSummary",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "nextActionSummary",
+          "downstreamConsumerSummary",
+          "allowedActions"
+        ],
+        "id": "BusinessAccountingFeedbackView"
       },
       "ExpenseRecordSummary": {
         "type": "object",

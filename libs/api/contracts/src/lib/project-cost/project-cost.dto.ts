@@ -2,6 +2,8 @@ import {
     ActivateOperatingBaselinePackageRequestSchema,
     AccountingTaxTreatmentListViewSchema,
     AccountingTaxTreatmentSnapshotSummarySchema,
+    BusinessAccountingFeedbackViewSchema,
+    CommissionGateBindingHistoryViewSchema,
     ConfirmExpenseRecordRequestSchema,
     ConfirmAccountingTaxTreatmentRequestSchema,
     ConfirmCostStageAttributionRequestSchema,
@@ -31,12 +33,20 @@ import {
     ProjectOperatingSnapshotSummarySchema,
     ReclassifyCostStageAttributionRequestSchema,
     PublishInternalCostRateVersionRequestSchema,
+    ProjectBusinessOutcomeOverviewViewSchema,
+    ProjectUnifiedAccountingViewSchema,
+    ProjectVarianceRiskExplanationViewSchema,
+    ReviewCommissionGateBindingRequestSchema,
+    ReviewCommissionGateBindingResultSchema,
+    ReviewOperatingSignalEvaluationRequestSchema,
+    ReviewOperatingSignalEvaluationResultSchema,
     ReplaceSharedCostAllocationResultRequestSchema,
     ReplaceAccountingTaxTreatmentRequestSchema,
     ReplaceLaborCostRecordRequestSchema,
     SharedCostAllocationBasisSummarySchema,
     SharedCostAllocationResultListViewSchema,
     SharedCostAllocationResultSummarySchema,
+    OperatingSignalEvaluationViewSchema,
     UpdateExpenseRecordRequestSchema,
     VoidExpenseRecordRequestSchema
 } from '@poms/shared-contracts';
@@ -103,6 +113,26 @@ export class ReplaceAccountingTaxTreatmentRequestDto extends createZodDto(Replac
 export class AccountingTaxTreatmentSnapshotSummaryDto extends createZodDto(AccountingTaxTreatmentSnapshotSummarySchema) {}
 
 export class AccountingTaxTreatmentListViewDto extends createZodDto(AccountingTaxTreatmentListViewSchema) {}
+
+export class ReviewOperatingSignalEvaluationRequestDto extends createZodDto(ReviewOperatingSignalEvaluationRequestSchema) {}
+
+export class ReviewOperatingSignalEvaluationResultDto extends createZodDto(ReviewOperatingSignalEvaluationResultSchema) {}
+
+export class OperatingSignalEvaluationViewDto extends createZodDto(OperatingSignalEvaluationViewSchema) {}
+
+export class ReviewCommissionGateBindingRequestDto extends createZodDto(ReviewCommissionGateBindingRequestSchema) {}
+
+export class ReviewCommissionGateBindingResultDto extends createZodDto(ReviewCommissionGateBindingResultSchema) {}
+
+export class CommissionGateBindingHistoryViewDto extends createZodDto(CommissionGateBindingHistoryViewSchema) {}
+
+export class ProjectBusinessOutcomeOverviewViewDto extends createZodDto(ProjectBusinessOutcomeOverviewViewSchema) {}
+
+export class ProjectUnifiedAccountingViewDto extends createZodDto(ProjectUnifiedAccountingViewSchema) {}
+
+export class ProjectVarianceRiskExplanationViewDto extends createZodDto(ProjectVarianceRiskExplanationViewSchema) {}
+
+export class BusinessAccountingFeedbackViewDto extends createZodDto(BusinessAccountingFeedbackViewSchema) {}
 
 export class ProjectActualCostRecordSummaryDto extends createZodDto(ProjectActualCostRecordSummarySchema) {}
 

@@ -248,6 +248,52 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."commission_gate_review_record"
+            where "binding_id" in (
+                select "id" from "${schema}"."operating_signal_gate_binding"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_review_record"
+            where "signal_evaluation_id" in (
+                select "id" from "${schema}"."operating_signal_evaluation_result"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" like 'E2E-%'
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_gate_binding"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_evaluation_result"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."data_maturity_evaluation_result"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."approval_summary_field_projection"
             where "summary_snapshot_id" in (
                 select "id" from "${schema}"."approval_summary_snapshot"
@@ -513,6 +559,52 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             delete from "${schema}"."project_handover"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_gate_review_record"
+            where "binding_id" in (
+                select "id" from "${schema}"."operating_signal_gate_binding"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_review_record"
+            where "signal_evaluation_id" in (
+                select "id" from "${schema}"."operating_signal_evaluation_result"
+                where "project_id" in (
+                    select "id" from "${schema}"."project"
+                    where "project_code" in (${seededProjectCodes})
+                )
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_gate_binding"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."operating_signal_evaluation_result"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."data_maturity_evaluation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" in (${seededProjectCodes})
@@ -818,6 +910,7 @@ export class DatabaseSeeder extends Seeder {
         }
 
         await seedProjectHandoverE2EFixtures(connection, schema);
+        await seedOperatingSignalE2EFixtures(connection, schema);
 
         console.log(`Seeded ${DEV_PROJECT_SEEDS.length} projects, ${DEV_CONTRACT_SEEDS.length} contracts and ${DEV_USERS.length} platform users in schema "${schema}".`);
         console.log(`Credentials stored in local_credential (separate from platform_user). Users: ${DEV_USERS.map((u) => u.username).join(', ')}.`);
@@ -866,10 +959,27 @@ type PreparedHandoverE2EFixture = HandoverE2EFixture &
 type ProcessingRebaselineFixture = PreparedHandoverE2EFixture &
     Required<Pick<HandoverE2EFixture, 'processingRebaselineRecordId' | 'amendmentId'>>;
 
+interface OperatingSignalE2EFixture {
+    key: string;
+    projectId: string;
+    projectCode: string;
+    projectName: string;
+    baselinePackageId: string;
+    changePackageBaselineId: string;
+    changePackageId: string;
+    operatingSnapshotId: string;
+    dataMaturityEvaluationId: string;
+    signalEvaluationId: string;
+    gateBindingId: string;
+    summarySnapshotId: string;
+}
+
 const E2E_ACTOR_ID = '00000000-0000-4000-8000-000000000001';
 const E2E_VIEWER_ID = '00000000-0000-4000-8000-000000000002';
 const CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID = '68000000-0000-4000-8000-000000000001';
 const PROJECT_HANDOVER_SUMMARY_PACKAGE_ID = '68000000-0000-4000-8000-000000000002';
+const OPERATING_SIGNAL_SUMMARY_PACKAGE_ID = '69000000-0000-4000-8000-000000000003';
+const OPERATING_SIGNAL_SUMMARY_PACKAGE_KEY = 'operating-signal-commission-gate-e2e';
 
 const HANDOVER_E2E_FIXTURES: HandoverE2EFixture[] = [
     makeHandoverE2EFixture(1, 'summary-missing', false),
@@ -903,6 +1013,11 @@ const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
     }
 ];
 
+const OPERATING_SIGNAL_E2E_FIXTURES: OperatingSignalE2EFixture[] = [
+    makeOperatingSignalE2EFixture(201, 'main'),
+    makeOperatingSignalE2EFixture(202, 'block-missing-reason')
+];
+
 async function seedProjectHandoverE2EFixtures(
     connection: { execute(sql: string): Promise<unknown> },
     schema: string
@@ -931,6 +1046,45 @@ async function seedProjectHandoverE2EFixtures(
 
     for (const fixture of [...HANDOVER_E2E_FIXTURES, ...COMMISSION_E2E_FIXTURES]) {
         await seedProjectHandoverE2EFixture(connection, schema, fixture);
+    }
+}
+
+async function seedOperatingSignalE2EFixtures(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."approval_summary_package_definition" (
+            "id",
+            "approval_scenario_key",
+            "summary_package_key",
+            "projection_level",
+            "export_policy",
+            "field_rule_version",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_ID)},
+            'commission-gate-review',
+            ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_KEY)},
+            'L4',
+            'internal-only',
+            'e2e-v1',
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        )
+        on conflict ("id") do update
+        set
+            "status" = excluded."status",
+            "updated_by" = excluded."updated_by",
+            "updated_at" = now();
+    `);
+
+    for (const fixture of OPERATING_SIGNAL_E2E_FIXTURES) {
+        await seedOperatingSignalE2EFixture(connection, schema, fixture);
     }
 }
 
@@ -1392,6 +1546,320 @@ async function seedProcessingRebaseline(
     `);
 }
 
+async function seedOperatingSignalE2EFixture(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string,
+    fixture: OperatingSignalE2EFixture
+): Promise<void> {
+    await connection.execute(`
+        insert into "${schema}"."project" (
+            "id",
+            "project_code",
+            "project_name",
+            "customer_id",
+            "status",
+            "current_stage",
+            "owner_org_id",
+            "owner_user_id",
+            "planned_sign_at",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.projectCode)},
+            ${sqlValue(fixture.projectName)},
+            null,
+            'active',
+            'execution',
+            ${sqlUuid('10000000-0000-4000-8000-000000000001')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            null,
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."operating_baseline_package" (
+            "id",
+            "project_id",
+            "original_baseline_cost",
+            "change_package_total",
+            "current_effective_baseline_cost",
+            "baseline_selection_source",
+            "effective_operating_baseline_id",
+            "baseline_summary",
+            "is_current",
+            "status",
+            "effective_at",
+            "effective_by",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.baselinePackageId)},
+            ${sqlValue(fixture.projectId)},
+            '100000.00',
+            '5000.00',
+            '105000.00',
+            'original',
+            ${sqlUuid(fixture.baselinePackageId)},
+            'e2e EX-13B baseline package',
+            true,
+            'active',
+            ${sqlTimestamp('2026-04-18T10:00:00.000Z')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."change_package_baseline" (
+            "id",
+            "baseline_package_id",
+            "change_package_id",
+            "change_amount",
+            "change_summary",
+            "status",
+            "effective_at",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.changePackageBaselineId)},
+            ${sqlValue(fixture.baselinePackageId)},
+            ${sqlUuid(fixture.changePackageId)},
+            '5000.00',
+            'Approved scope increase',
+            'active',
+            ${sqlTimestamp('2026-04-18T10:00:00.000Z')},
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."project_operating_snapshot" (
+            "id",
+            "project_id",
+            "snapshot_mode",
+            "snapshot_at",
+            "source_window_start",
+            "source_window_end",
+            "effective_contract_total",
+            "receivable_confirmed_total",
+            "included_cost_total",
+            "original_baseline_cost",
+            "current_effective_baseline_cost",
+            "gross_margin_amount",
+            "gross_margin_rate",
+            "tax_impact_summary",
+            "tax_impact_pending_amount",
+            "allocation_stability_summary",
+            "unmapped_cost_summary",
+            "current_action_level",
+            "referenced_baseline_version",
+            "baseline_selection_source",
+            "handover_rebaseline_record_id",
+            "status",
+            "supersedes_id",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.operatingSnapshotId)},
+            ${sqlValue(fixture.projectId)},
+            'period-end',
+            ${sqlTimestamp('2026-04-18T10:05:00.000Z')},
+            '2026-03-01',
+            '2026-03-31',
+            '200000.00',
+            '80000.00',
+            '120000.00',
+            '100000.00',
+            '105000.00',
+            '80000.00',
+            '0.400000',
+            'Tax package is pending closeout',
+            '1200.00',
+            'Allocation basis shifted after restatement',
+            'Unmapped delivery cost detected',
+            'REVIEW',
+            ${sqlValue(fixture.baselinePackageId)},
+            'original',
+            null,
+            'active',
+            null,
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."approval_summary_snapshot" (
+            "id",
+            "target_type",
+            "target_id",
+            "approval_scenario_key",
+            "summary_package_id",
+            "summary_package_key",
+            "projection_level",
+            "export_policy",
+            "business_status_at_snapshot",
+            "generated_at",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.summarySnapshotId)},
+            'Project',
+            ${sqlValue(fixture.projectId)},
+            'commission-gate-review',
+            ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_ID)},
+            ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_KEY)},
+            'L4',
+            'internal-only',
+            'REVIEW',
+            ${sqlTimestamp('2026-04-18T10:06:00.000Z')},
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."data_maturity_evaluation_result" (
+            "id",
+            "project_id",
+            "referenced_snapshot_id",
+            "data_maturity_level",
+            "cost_action_recommendation",
+            "tax_impact_pending_amount",
+            "allocation_stability_summary",
+            "unmapped_cost_summary",
+            "evaluation_basis_json",
+            "evaluated_at",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.dataMaturityEvaluationId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.operatingSnapshotId)},
+            '数据不足',
+            'REVIEW',
+            '1200.00',
+            'Allocation basis requires finance review',
+            'Two upstream costs remain unmapped',
+            '{"sourceCoverage":"partial","evidenceStatus":"pending"}'::jsonb,
+            ${sqlTimestamp('2026-04-18T10:10:00.000Z')},
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."operating_signal_evaluation_result" (
+            "id",
+            "project_id",
+            "referenced_snapshot_id",
+            "data_maturity_evaluation_id",
+            "signal_level",
+            "risk_level",
+            "formula_boundary_action",
+            "variance_source_summary",
+            "tax_impact_summary",
+            "allocation_stability_summary",
+            "unmapped_cost_summary",
+            "current_action_level",
+            "recommended_action_summary",
+            "referenced_baseline_version",
+            "referenced_snapshot_version",
+            "review_required",
+            "evaluated_at",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.signalEvaluationId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.operatingSnapshotId)},
+            ${sqlValue(fixture.dataMaturityEvaluationId)},
+            'ATTENTION',
+            'ATTENTION',
+            'PROMPT',
+            'Gross margin deviates from baseline expectation',
+            'Tax package is pending closeout',
+            'Allocation basis shifted after restatement',
+            'Unmapped delivery cost detected',
+            'REVIEW',
+            'Review accounting and payout input before release',
+            ${sqlValue(fixture.baselinePackageId)},
+            ${sqlValue(fixture.operatingSnapshotId)},
+            true,
+            ${sqlTimestamp('2026-04-18T10:11:00.000Z')},
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+
+    await connection.execute(`
+        insert into "${schema}"."operating_signal_gate_binding" (
+            "id",
+            "project_id",
+            "signal_evaluation_id",
+            "binding_action",
+            "gate_stage_type",
+            "baseline_selection_source",
+            "tax_impact_summary",
+            "tax_impact_pending_amount",
+            "allocation_stability_summary",
+            "unmapped_cost_summary",
+            "data_maturity_level",
+            "cost_action_recommendation",
+            "current_action_level",
+            "next_action_summary",
+            "downstream_consumer_summary",
+            "referenced_baseline_version",
+            "referenced_snapshot_version",
+            "generated_at",
+            "status",
+            "created_by",
+            "updated_by"
+        )
+        values (
+            ${sqlValue(fixture.gateBindingId)},
+            ${sqlValue(fixture.projectId)},
+            ${sqlValue(fixture.signalEvaluationId)},
+            'REVIEW',
+            'commission_settlement',
+            'original',
+            'Tax package is pending closeout',
+            '1200.00',
+            'Allocation basis shifted after restatement',
+            'Unmapped delivery cost detected',
+            '数据不足',
+            'REVIEW',
+            'REVIEW',
+            'Review commission settlement package',
+            'Commission payout workflow',
+            ${sqlValue(fixture.baselinePackageId)},
+            ${sqlValue(fixture.operatingSnapshotId)},
+            ${sqlTimestamp('2026-04-18T10:12:00.000Z')},
+            'active',
+            ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlUuid(E2E_ACTOR_ID)}
+        );
+    `);
+}
+
 function makeHandoverE2EFixture(
     index: number,
     key: string,
@@ -1432,6 +1900,26 @@ function makeHandoverE2EFixture(
 
 function handoverParticipantId(fixture: HandoverE2EFixture, sequence: number): string {
     return `71000000-0000-4000-8000-000000${fixture.projectId.slice(-3)}80${sequence}`;
+}
+
+function makeOperatingSignalE2EFixture(index: number, key: string): OperatingSignalE2EFixture {
+    const suffix = String(index).padStart(12, '0');
+    const projectKey = key.replaceAll('-', '_').toUpperCase();
+
+    return {
+        key,
+        projectId: `21000000-0000-4000-8000-${suffix}`,
+        projectCode: `E2E-OSG-FXT-${projectKey}`,
+        projectName: `E2E EX-13B ${key}`,
+        baselinePackageId: `84000000-0000-4000-8000-${suffix}`,
+        changePackageBaselineId: `84100000-0000-4000-8000-${suffix}`,
+        changePackageId: `84200000-0000-4000-8000-${suffix}`,
+        operatingSnapshotId: `84300000-0000-4000-8000-${suffix}`,
+        dataMaturityEvaluationId: `84400000-0000-4000-8000-${suffix}`,
+        signalEvaluationId: `84500000-0000-4000-8000-${suffix}`,
+        gateBindingId: `84600000-0000-4000-8000-${suffix}`,
+        summarySnapshotId: `69100000-0000-4000-8000-${suffix}`
+    };
 }
 
 function sqlValue(value: string): string {

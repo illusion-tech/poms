@@ -278,6 +278,13 @@ export class ProjectOperatingSnapshotRepository {
         return this.repository.findOne({ id });
     }
 
+    async findLatestActiveByProject(projectId: string): Promise<ProjectOperatingSnapshot | null> {
+        return this.repository.findOne(
+            { projectId, status: 'active' },
+            { orderBy: { snapshotAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
+    }
+
     create(input: ConstructorParameters<typeof ProjectOperatingSnapshot>[0]): ProjectOperatingSnapshot {
         return this.repository.create(input);
     }
@@ -390,6 +397,13 @@ export class OperatingSignalToCommissionGateBindingRepository {
 
     async findById(id: string): Promise<OperatingSignalToCommissionGateBinding | null> {
         return this.repository.findOne({ id });
+    }
+
+    async findActiveByProject(projectId: string): Promise<OperatingSignalToCommissionGateBinding[]> {
+        return this.repository.find(
+            { projectId, status: 'active' },
+            { orderBy: { generatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
+        );
     }
 
     async findActiveByProjectAndGateStageType(

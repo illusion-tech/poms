@@ -7,8 +7,8 @@
 - G1 Reviewer: `Solo worktree checkpoint`
 - G1 Date: `2026-04-18`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `EX-13B`
-- Execution Status: `Paused 2026-04-18`
-- Execution Note: `按 owner 指令切换到 ADR-015 治理补录；本轮未闭环 controller / service / contract WIP 已在工作树回退，不保留半成品实现。2026-04-18 恢复 EX-13B 时又发现 gate review 所需 summary snapshot anchor 未落到 EX-13A 正式表链；该 drift 已由 ex-13b-summary-anchor-corrective-checkpoint.md 记录，并通过 ex-13b1-gate-review-summary-anchor-baseline.md / EX-13B1 收口。后续恢复 EX-13B 时必须直接消费修正后的 CommissionGateReviewRecord 模型。`
+- Execution Status: `Done 2026-04-18`
+- Execution Note: `ADR-015 route governance、EX-13B1 summary snapshot anchor 与 EX-13D1 upstream action semantics 修正已完成，EX-13B 已按 frozen input 收口。当前工作树已落地 project-cost controller / service / contract / OpenAPI / generated client，并已通过 poms-api lint/test/build、shared-api-client:check、基于 DatabaseSeeder 固定夹具的 operating-signal HTTP E2E（managed harness 实际跑全量 11 suites / 65 tests）以及 tracker / progress close-out。`
 
 ---
 
@@ -58,12 +58,12 @@
 
 ## 4. 实施边界
 
-| Area                             | Expected Files                                                                                             | Result  |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------- |
-| Shared contract / OpenAPI        | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/shared/api-spec/openapi.json`、generated client | Pending |
-| API DTO / route                  | `apps/poms-api/src/app/features/project-cost/project-cost.controller.ts`、api-contracts DTO                | Pending |
-| Service / repository composition | `apps/poms-api/src/app/features/project-cost/project-cost.service.ts`、`project-cost.repository.ts`        | Pending |
-| Tests                            | `project-cost.service.spec.ts`、HTTP E2E                                                                   | Pending |
+| Area                             | Expected Files                                                                                             | Result |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------ |
+| Shared contract / OpenAPI        | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/shared/api-spec/openapi.json`、generated client | Pass   |
+| API DTO / route                  | `apps/poms-api/src/app/features/project-cost/project-cost.controller.ts`、api-contracts DTO                | Pass   |
+| Service / repository composition | `apps/poms-api/src/app/features/project-cost/project-cost.service.ts`、`project-cost.repository.ts`        | Pass   |
+| Tests                            | `project-cost.service.spec.ts`、HTTP E2E                                                                   | Pass   |
 
 ---
 

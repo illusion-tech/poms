@@ -12,6 +12,8 @@ import {
     ActivateOperatingBaselinePackageRequestDto,
     AccountingTaxTreatmentListViewDto,
     AccountingTaxTreatmentSnapshotSummaryDto,
+    BusinessAccountingFeedbackViewDto,
+    CommissionGateBindingHistoryViewDto,
     ConfirmAccountingTaxTreatmentRequestDto,
     ConfirmCostStageAttributionRequestDto,
     ConfirmExpenseRecordRequestDto,
@@ -31,13 +33,21 @@ import {
     ExpenseRecordListDto,
     ExpenseRecordDto,
     OperatingBaselinePackageSummaryDto,
+    OperatingSignalEvaluationViewDto,
     OperatingRestatementListViewDto,
     OperatingRestatementSummaryDto,
     PeriodClosingSnapshotSummaryDto,
     ProjectActualCostRecordDetailViewDto,
     ProjectActualCostRecordListViewDto,
+    ProjectBusinessOutcomeOverviewViewDto,
     ProjectOperatingSnapshotSummaryDto,
+    ProjectUnifiedAccountingViewDto,
+    ProjectVarianceRiskExplanationViewDto,
     PublishInternalCostRateVersionRequestDto,
+    ReviewCommissionGateBindingRequestDto,
+    ReviewCommissionGateBindingResultDto,
+    ReviewOperatingSignalEvaluationRequestDto,
+    ReviewOperatingSignalEvaluationResultDto,
     ReclassifyCostStageAttributionRequestDto,
     ReplaceAccountingTaxTreatmentRequestDto,
     ReplaceSharedCostAllocationResultRequestDto,
@@ -53,6 +63,8 @@ import {
 import type {
     AccountingTaxTreatmentListView,
     AccountingTaxTreatmentSnapshotSummary,
+    BusinessAccountingFeedbackView,
+    CommissionGateBindingHistoryView,
     CommandResult,
     CreateProjectActualCostRecordRequest,
     CostStageAttributionHistoryView,
@@ -61,12 +73,18 @@ import type {
     ExpenseRecordList,
     ExpenseRecordSummary,
     OperatingBaselinePackageSummary,
+    OperatingSignalEvaluationView,
     OperatingRestatementListView,
     OperatingRestatementSummary,
     PeriodClosingSnapshotSummary,
     ProjectActualCostRecordDetailView,
     ProjectActualCostRecordListView,
+    ProjectBusinessOutcomeOverviewView,
     ProjectOperatingSnapshotSummary,
+    ProjectUnifiedAccountingView,
+    ProjectVarianceRiskExplanationView,
+    ReviewCommissionGateBindingResult,
+    ReviewOperatingSignalEvaluationResult,
     SharedCostAllocationBasisSummary,
     SharedCostAllocationResultListView
 } from '@poms/shared-contracts';
@@ -357,6 +375,84 @@ export class ProjectCostController {
     @ApiOkResponse({ type: AccountingTaxTreatmentSnapshotSummaryDto })
     async getAccountingTaxTreatment(@Param('id') id: string): Promise<AccountingTaxTreatmentSnapshotSummary> {
         return this.projectCostService.getAccountingTaxTreatment(id);
+    }
+
+    @Post('operating-signal-evaluations/:id\\:review')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '人工复核经营信号评价结果' })
+    @ApiOkResponse({ type: ReviewOperatingSignalEvaluationResultDto })
+    async reviewOperatingSignalEvaluation(
+        @Param('id') id: string,
+        @Body() body: ReviewOperatingSignalEvaluationRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ReviewOperatingSignalEvaluationResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.reviewOperatingSignalEvaluation(id, body, userId);
+    }
+
+    @Get('operating-signal-evaluations/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取经营信号评价详情' })
+    @ApiOkResponse({ type: OperatingSignalEvaluationViewDto })
+    async getOperatingSignalEvaluation(@Param('id') id: string): Promise<OperatingSignalEvaluationView> {
+        return this.projectCostService.getOperatingSignalEvaluation(id);
+    }
+
+    @Post('commission-gate-bindings/:id\\:review')
+    @HasPermissions('contract:finance:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '人工复核经营反馈 gate 绑定结果' })
+    @ApiOkResponse({ type: ReviewCommissionGateBindingResultDto })
+    async reviewCommissionGateBinding(
+        @Param('id') id: string,
+        @Body() body: ReviewCommissionGateBindingRequestDto,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ReviewCommissionGateBindingResult> {
+        const userId = req.user?.sub ?? 'system';
+        return this.projectCostService.reviewCommissionGateBinding(id, body, userId);
+    }
+
+    @Get('commission-gate-bindings/:id')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取经营反馈 gate 绑定详情' })
+    @ApiOkResponse({ type: CommissionGateBindingHistoryViewDto })
+    async getCommissionGateBinding(@Param('id') id: string): Promise<CommissionGateBindingHistoryView> {
+        return this.projectCostService.getCommissionGateBinding(id);
+    }
+
+    @Get('projects/:projectId/business-outcome-overview')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目经营结果总览' })
+    @ApiOkResponse({ type: ProjectBusinessOutcomeOverviewViewDto })
+    async getProjectBusinessOutcomeOverview(@Param('projectId') projectId: string): Promise<ProjectBusinessOutcomeOverviewView> {
+        return this.projectCostService.getProjectBusinessOutcomeOverview(projectId);
+    }
+
+    @Get('projects/:projectId/unified-accounting')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目统一核算视图' })
+    @ApiOkResponse({ type: ProjectUnifiedAccountingViewDto })
+    async getProjectUnifiedAccounting(@Param('projectId') projectId: string): Promise<ProjectUnifiedAccountingView> {
+        return this.projectCostService.getProjectUnifiedAccounting(projectId);
+    }
+
+    @Get('projects/:projectId/variance-risk-explanation')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目偏差与风险解释' })
+    @ApiOkResponse({ type: ProjectVarianceRiskExplanationViewDto })
+    async getProjectVarianceRiskExplanation(
+        @Param('projectId') projectId: string
+    ): Promise<ProjectVarianceRiskExplanationView> {
+        return this.projectCostService.getProjectVarianceRiskExplanation(projectId);
+    }
+
+    @Get('projects/:projectId/business-accounting-feedback')
+    @HasPermissions('contract:finance:manage')
+    @ApiOperation({ summary: '获取项目经营核算反哺视图' })
+    @ApiOkResponse({ type: BusinessAccountingFeedbackViewDto })
+    async getBusinessAccountingFeedback(@Param('projectId') projectId: string): Promise<BusinessAccountingFeedbackView> {
+        return this.projectCostService.getBusinessAccountingFeedback(projectId);
     }
 
     @Get('projects/:projectId/expense-records')
