@@ -19,6 +19,7 @@ import {
     getRoleAssignmentDetail,
     listAdjustments,
     listCalculations,
+    listPayouts,
     recalculateCalculation,
     registerPayout,
     setupDraftPayoutScenario,
@@ -155,6 +156,115 @@ describe('poms-api commission workflow e2e', () => {
         );
 
         expectErrorStatus(response, 422, '只有已批准状态的提成发放可以登记发放');
+    });
+
+    it('creates a compensating payout record when supplement adjustment is executed', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('commission-supplement');
+
+        const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
+        const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
+        await submitPayoutApproval(client, payout.id, { expectedVersion: payout.rowVersion });
+
+        const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
+        await approveRecord(client, payoutApproval.id, {
+            comment: '补发前先完成原发放审批',
+            expectedVersion: payoutApproval.rowVersion
+        });
+
+        const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
+        const paidPayout = await registerPayout(client, payout.id, {
+            paidRecordAmount: '400.00',
+            expectedVersion: approvedPayout.rowVersion
+        });
+        expect(paidPayout.status).toBe('paid');
+
+        const adjustment = await createAdjustment(
+            client,
+            scenario.project.id,
+            buildAdjustmentInput(scenario.calculation.id, payout.id, {
+                adjustmentType: 'supplement',
+                amount: '80.00',
+                reason: 'e2e 补发差额'
+            })
+        );
+        await submitAdjustmentApproval(client, adjustment.id, {
+            expectedVersion: adjustment.rowVersion
+        });
+
+        const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
+        await approveRecord(client, adjustmentApproval.id, {
+            comment: '补发审批通过',
+            expectedVersion: adjustmentApproval.rowVersion
+        });
+
+        const approvedAdjustment = await getAdjustment(client, scenario.project.id, adjustment.id);
+        const executedAdjustment = await executeAdjustment(client, adjustment.id, {
+            expectedVersion: approvedAdjustment.rowVersion
+        });
+        expect(executedAdjustment.status).toBe('executed');
+
+        const payouts = await listPayouts(client, scenario.project.id);
+        expect(
+            payouts.some(
+                (item) =>
+                    item.payoutKind === 'supplement' &&
+                    item.sourcePayoutId === payout.id &&
+                    item.status === 'paid' &&
+                    item.approvedAmount === '80.00' &&
+                    item.paidRecordAmount === '80.00'
+            )
+        ).toBe(true);
+    });
+
+    it('marks source payout as reversed when clawback fully offsets the paid amount', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('commission-clawback');
+
+        const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
+        const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
+        await submitPayoutApproval(client, payout.id, { expectedVersion: payout.rowVersion });
+
+        const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
+        await approveRecord(client, payoutApproval.id, {
+            comment: '扣回前先完成原发放审批',
+            expectedVersion: payoutApproval.rowVersion
+        });
+
+        const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
+        const paidPayout = await registerPayout(client, payout.id, {
+            paidRecordAmount: '400.00',
+            expectedVersion: approvedPayout.rowVersion
+        });
+        expect(paidPayout.status).toBe('paid');
+
+        const adjustment = await createAdjustment(
+            client,
+            scenario.project.id,
+            buildAdjustmentInput(scenario.calculation.id, payout.id, {
+                adjustmentType: 'clawback',
+                amount: '400.00',
+                reason: 'e2e 全额扣回'
+            })
+        );
+        await submitAdjustmentApproval(client, adjustment.id, {
+            expectedVersion: adjustment.rowVersion
+        });
+
+        const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
+        await approveRecord(client, adjustmentApproval.id, {
+            comment: '扣回审批通过',
+            expectedVersion: adjustmentApproval.rowVersion
+        });
+
+        const approvedAdjustment = await getAdjustment(client, scenario.project.id, adjustment.id);
+        const executedAdjustment = await executeAdjustment(client, adjustment.id, {
+            expectedVersion: approvedAdjustment.rowVersion
+        });
+        expect(executedAdjustment.status).toBe('executed');
+
+        const reversedPayout = await getPayout(client, scenario.project.id, payout.id);
+        expect(reversedPayout.status).toBe('reversed');
     });
 
     it('submits a freeze dispute, arbitrates it, and switches the current freeze version', async () => {

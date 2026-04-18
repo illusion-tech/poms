@@ -5,6 +5,7 @@ import { CommissionCalculation } from './commission-calculation.entity';
 export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'suspended' | 'reversed';
 export type CommissionPayoutStage = 'first' | 'second' | 'final';
 export type CommissionPayoutTier = 'basic' | 'mid' | 'premium';
+export type CommissionPayoutKind = 'primary' | 'supplement';
 
 const p = defineEntity.properties;
 
@@ -14,9 +15,16 @@ export const CommissionPayoutSchema = defineEntity({
     schema: 'poms',
     indexes: [
         { name: 'idx_commission_payout_project_status', properties: ['projectId', 'status'] },
-        { name: 'idx_commission_payout_calculation_id', properties: ['calculationId'] }
+        { name: 'idx_commission_payout_calculation_id', properties: ['calculationId'] },
+        { name: 'idx_commission_payout_source_payout_id', properties: ['sourcePayoutId'] }
     ],
-    uniques: [{ name: 'commission_payout_project_calc_stage_unique', properties: ['projectId', 'calculationId', 'stageType'] }],
+    uniques: [
+        {
+            name: 'uq_commission_payout_primary_stage',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.calculationId}", "${columns.stageType}") where "${columns.payoutKind}" = 'primary'`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>
@@ -35,6 +43,7 @@ export const CommissionPayoutSchema = defineEntity({
                 .foreignKeyName('commission_payout_calculation_id_foreign')
                 .updateRule('cascade'),
         stageType: p.string().$type<CommissionPayoutStage>().length(32).fieldName('stage_type'),
+        payoutKind: p.string().$type<CommissionPayoutKind>().length(32).default('primary').fieldName('payout_kind'),
         selectedTier: p.string().$type<CommissionPayoutTier>().length(32).default('basic').fieldName('selected_tier'),
         theoreticalCapAmount: p.decimal().precision(18).scale(2).fieldName('theoretical_cap_amount'),
         approvedAmount: p.decimal().precision(18).scale(2).nullable().fieldName('approved_amount'),
@@ -51,6 +60,15 @@ export const CommissionPayoutSchema = defineEntity({
                 .nullable()
                 .fieldName('reversed_from_id')
                 .foreignKeyName('commission_payout_reversed_from_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null'),
+        sourcePayoutId: () =>
+            p
+                .manyToOne(CommissionPayout)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_payout_id')
+                .foreignKeyName('commission_payout_source_payout_id_foreign')
                 .updateRule('cascade')
                 .deleteRule('set null'),
         rowVersion: p.integer().version().default(1).fieldName('row_version'),

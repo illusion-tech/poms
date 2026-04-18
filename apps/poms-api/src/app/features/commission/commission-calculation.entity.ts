@@ -14,7 +14,14 @@ export const CommissionCalculationSchema = defineEntity({
         { name: 'idx_commission_calculation_project_current', properties: ['projectId', 'isCurrent'] },
         { name: 'idx_commission_calculation_status', properties: ['status'] }
     ],
-    uniques: [{ name: 'commission_calculation_project_version_unique', properties: ['projectId', 'version'] }],
+    uniques: [
+        { name: 'commission_calculation_project_version_unique', properties: ['projectId', 'version'] },
+        {
+            name: 'uq_commission_calculation_project_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>

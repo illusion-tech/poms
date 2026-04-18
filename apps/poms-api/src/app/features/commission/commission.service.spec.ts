@@ -210,6 +210,8 @@ const makeDraftPayout = (overrides: Record<string, unknown> = {}) => ({
     projectId: PROJECT_ID,
     calculationId: CALCULATION_ID,
     stageType: 'first',
+    payoutKind: 'primary',
+    sourcePayoutId: null,
     selectedTier: 'basic',
     theoreticalCapAmount: '480.00',
     approvedAmount: null,
@@ -288,6 +290,14 @@ describe('CommissionService', () => {
             flushPayout: jest.fn(),
             transactional: jest.fn(async (work) => work({
                 findOne: jest.fn(async (entity, where) => {
+                    if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                        if (where.id === ASSIGNMENT_ID) {
+                            return makeDraftAssignment({ status: 'frozen' });
+                        }
+                        return where.projectId === PROJECT_ID && where.isCurrent === true
+                            ? makeDraftAssignment({ status: 'frozen' })
+                            : null;
+                    }
                     if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
                         return where.id === ADJUSTMENT_ID ? makeDraftAdjustment({ status: 'approved' }) : null;
                     }
@@ -305,7 +315,36 @@ describe('CommissionService', () => {
                     }
                     return null;
                 }),
-                create: jest.fn((entity, input) => ({ id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input })),
+                create: jest.fn((entity, input) => {
+                    if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                        return makeDraftAssignment({
+                            id: ASSIGNMENT_ID,
+                            rowVersion: 1,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            ...input
+                        });
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionCalculation') {
+                        return makeCalculatedResult({
+                            id: CALCULATION_ID,
+                            rowVersion: 1,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            ...input
+                        });
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                        return makeDraftPayout({
+                            id: PAYOUT_ID,
+                            rowVersion: 1,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            ...input
+                        });
+                    }
+                    return { id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input };
+                }),
                 persist: jest.fn(),
                 find: jest.fn(async (entity, where) => {
                     if ((entity as { name?: string })?.name === 'CommissionPayout') {
@@ -489,32 +528,41 @@ describe('CommissionService', () => {
     describe('createRoleAssignment', () => {
         it('creates first assignment at version 1', async () => {
             repo.findCurrentRoleAssignment.mockResolvedValue(null);
-            const created = makeDraftAssignment();
-            repo.createRoleAssignment.mockReturnValue(created as never);
-            repo.persistAndFlushRoleAssignment.mockResolvedValue();
 
             const result = await service.createRoleAssignment(PROJECT_ID, {
                 participants: [{ userId: '00000000-0000-4000-8000-000000000010', displayName: '张三', roleType: 'PM', weight: 1.0 }]
             });
 
-            expect(repo.createRoleAssignment).toHaveBeenCalledWith(expect.objectContaining({ version: 1, isCurrent: true }));
+            expect(repo.transactional).toHaveBeenCalled();
             expect(result.version).toBe(1);
+            expect(result.isCurrent).toBe(true);
         });
 
         it('creates next version and marks previous as not current', async () => {
             const existing = makeDraftAssignment({ status: 'frozen', version: 1 });
             repo.findCurrentRoleAssignment.mockResolvedValue(existing as never);
-            const created = makeDraftAssignment({ version: 2 });
-            repo.createRoleAssignment.mockReturnValue(created as never);
-            repo.persistAndFlushRoleAssignment.mockResolvedValue();
 
-            await service.createRoleAssignment(PROJECT_ID, {
+            const result = await service.createRoleAssignment(PROJECT_ID, {
                 participants: [{ userId: '00000000-0000-4000-8000-000000000010', displayName: '张三', roleType: 'PM', weight: 1.0 }]
             });
 
-            expect(existing.isCurrent).toBe(false);
-            expect(existing.status).toBe('superseded');
-            expect(repo.createRoleAssignment).toHaveBeenCalledWith(expect.objectContaining({ version: 2 }));
+            expect(repo.transactional).toHaveBeenCalled();
+            expect(result.version).toBe(2);
+            expect(result.status).toBe('draft');
+        });
+
+        it('maps single-current unique violation to conflict', async () => {
+            repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ version: 1 }) as never);
+            repo.transactional.mockRejectedValueOnce({
+                code: '23505',
+                constraint: 'uq_commission_role_assignment_project_current'
+            } as never);
+
+            await expect(
+                service.createRoleAssignment(PROJECT_ID, {
+                    participants: [{ userId: '00000000-0000-4000-8000-000000000010', displayName: '张三', roleType: 'PM', weight: 1.0 }]
+                })
+            ).rejects.toThrow(ConflictException);
         });
     });
 
@@ -765,16 +813,11 @@ describe('CommissionService', () => {
             repo.findRuleVersionById.mockResolvedValue(makeDraftRule({ id: RULE_VERSION_ID, status: 'active' }) as never);
             repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
             repo.findCurrentCalculation.mockResolvedValue(null);
-            const created = makeCalculatedResult();
-            repo.createCalculation.mockReturnValue(created as never);
-            repo.persistAndFlushCalculation.mockResolvedValue();
 
             const result = await service.createCalculation(PROJECT_ID, buildCalculationRequest());
 
             expect(repo.findRuleVersionById).toHaveBeenCalledWith(RULE_VERSION_ID);
-            expect(repo.createCalculation).toHaveBeenCalledWith(
-                expect.objectContaining({ ruleVersionId: RULE_VERSION_ID, version: 1, status: 'calculated' })
-            );
+            expect(repo.transactional).toHaveBeenCalled();
             expect(result.contributionMargin).toBe('30000.00');
             expect(result.commissionPool).toBe('2400.00');
         });
@@ -824,6 +867,23 @@ describe('CommissionService', () => {
             repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '30000.00' }] as never);
 
             await expect(service.createCalculation(PROJECT_ID, buildCalculationRequest())).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('maps calculation single-current unique violation to conflict', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findActiveContractsForProject.mockResolvedValue([makeActiveContract() as never]);
+            repo.findConfirmedReceiptsForProject.mockResolvedValue([{ receiptAmount: '100000.00' }] as never);
+            repo.findConfirmedPaymentsForProject.mockResolvedValue([{ amountExcludingTax: '70000.00' }] as never);
+            repo.findRuleVersionById.mockResolvedValue(makeDraftRule({ id: RULE_VERSION_ID, status: 'active' }) as never);
+            repo.findCurrentRoleAssignment.mockResolvedValue(makeDraftAssignment({ status: 'frozen' }) as never);
+            repo.findCurrentCalculation.mockResolvedValue(makeCalculatedResult({ id: '52000000-0000-4000-8000-000000000099', version: 1 }) as never);
+            repo.createCalculation.mockReturnValue(makeCalculatedResult({ version: 2 }) as never);
+            repo.persistAndFlushCalculation.mockRejectedValue({
+                code: '23505',
+                constraint: 'uq_commission_calculation_project_current'
+            });
+
+            await expect(service.createCalculation(PROJECT_ID, buildCalculationRequest())).rejects.toThrow(ConflictException);
         });
     });
 
@@ -901,6 +961,12 @@ describe('CommissionService', () => {
             expect(payout.status).toBe('pending-approval');
             expect(result.status).toBe('pending-approval');
         });
+
+        it('rejects supplement payout submission', async () => {
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ payoutKind: 'supplement' }) as never);
+
+            await expect(service.submitPayoutApproval(PAYOUT_ID, {})).rejects.toThrow(UnprocessableEntityException);
+        });
     });
 
     describe('approvePayout', () => {
@@ -936,6 +1002,14 @@ describe('CommissionService', () => {
         it('throws if paid amount exceeds approved amount', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
             await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('rejects supplement payout registration', async () => {
+            repo.findPayoutById.mockResolvedValue(
+                makeDraftPayout({ status: 'approved', payoutKind: 'supplement', approvedAmount: '120.00' }) as never
+            );
+
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '120.00' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 
@@ -987,6 +1061,106 @@ describe('CommissionService', () => {
             expect(repo.transactional).toHaveBeenCalled();
             expect(result.status).toBe('executed');
         });
+
+        it('creates compensating payout when executing supplement adjustment', async () => {
+            const persisted: unknown[] = [];
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
+                            return where.id === ADJUSTMENT_ID
+                                ? makeDraftAdjustment({
+                                      adjustmentType: 'supplement',
+                                      status: 'approved',
+                                      amount: '80.00'
+                                  })
+                                : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID
+                                ? makeDraftPayout({
+                                      status: 'paid',
+                                      approvedAmount: '480.00',
+                                      paidRecordAmount: '400.00'
+                                  })
+                                : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn((entity, input) => {
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return makeDraftPayout({
+                                id: '53000000-0000-4000-8000-000000000099',
+                                status: 'paid',
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        return { id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input };
+                    }),
+                    persist: jest.fn((value) => {
+                        persisted.push(value);
+                    }),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 });
+
+            expect(result.status).toBe('executed');
+            expect(persisted).toHaveLength(1);
+            expect(persisted[0]).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({ adjustmentType: 'supplement', status: 'executed' }),
+                    expect.objectContaining({
+                        payoutKind: 'supplement',
+                        sourcePayoutId: PAYOUT_ID,
+                        approvedAmount: '80.00',
+                        paidRecordAmount: '80.00',
+                        status: 'paid'
+                    }),
+                    expect.objectContaining({ id: PAYOUT_ID, payoutKind: 'primary', status: 'paid' })
+                ])
+            );
+        });
+
+        it('marks source payout as reversed when clawback fully offsets paid amount', async () => {
+            const sourcePayout = makeDraftPayout({
+                status: 'paid',
+                approvedAmount: '480.00',
+                paidRecordAmount: '400.00'
+            });
+
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
+                            return where.id === ADJUSTMENT_ID
+                                ? makeDraftAdjustment({
+                                      adjustmentType: 'clawback',
+                                      status: 'approved',
+                                      amount: '400.00'
+                                  })
+                                : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID ? sourcePayout : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 });
+
+            expect(result.status).toBe('executed');
+            expect(sourcePayout.status).toBe('reversed');
+        });
     });
 
     describe('recalculateCalculation', () => {
@@ -1020,6 +1194,20 @@ describe('CommissionService', () => {
                     expectedVersion: 1
                 })
             ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('maps recalculation single-current unique violation to conflict', async () => {
+            repo.transactional.mockRejectedValueOnce({
+                code: '23505',
+                constraint: 'uq_commission_calculation_project_current'
+            } as never);
+
+            await expect(
+                service.recalculateCalculation(CALCULATION_ID, {
+                    reason: '并发重算',
+                    expectedVersion: 1
+                })
+            ).rejects.toThrow(ConflictException);
         });
     });
 });

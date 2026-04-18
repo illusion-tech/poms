@@ -63,6 +63,8 @@ const stubPayout = {
     calculationId: CALCULATION_ID,
     rowVersion: 1,
     stageType: 'first' as const,
+    payoutKind: 'primary' as const,
+    sourcePayoutId: null,
     selectedTier: 'basic' as const,
     theoreticalCapAmount: '480.00',
     approvedAmount: null,

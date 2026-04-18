@@ -39,6 +39,9 @@ import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionRepository } from './commission.repository';
 
+const COMMISSION_ROLE_ASSIGNMENT_PROJECT_CURRENT_UNIQUE = 'uq_commission_role_assignment_project_current';
+const COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE = 'uq_commission_calculation_project_current';
+
 const PAYOUT_CAP_RATES: Record<CommissionPayoutStage, Record<CommissionPayoutTier, number>> = {
     first: { basic: 0.2, mid: 0.25, premium: 0.3 },
     second: { basic: 0.7, mid: 0.75, premium: 0.8 },
@@ -158,34 +161,47 @@ export class CommissionService {
     }
 
     async createRoleAssignment(projectId: string, dto: CreateCommissionRoleAssignmentRequest): Promise<CommissionRoleAssignmentSummary> {
-        // Mark existing current assignment as no longer current
         const existing = await this.repo.findCurrentRoleAssignment(projectId);
         const nextVersion = existing ? existing.version + 1 : 1;
+        try {
+            return await this.repo.transactional(async (em) => {
+                let supersedesId: string | null = null;
 
-        const entity = this.repo.createRoleAssignment({
-            projectId,
-            version: nextVersion,
-            isCurrent: true,
-            status: 'draft',
-            participantsJson: dto.participants,
-            sourceHandoverId: null,
-            sourceHandoverRebaselineRecordId: null,
-            contractSummarySnapshotId: null,
-            handoverSummarySnapshotId: null,
-            effectiveHandoverBaselineSnapshotId: null
-        });
+                if (existing) {
+                    const current = await em.findOne(CommissionRoleAssignment, { id: existing.id });
+                    if (!current) {
+                        throw new ConflictException(`CommissionRoleAssignment ${existing.id} no longer exists`);
+                    }
+                    current.isCurrent = false;
+                    if (current.status === 'frozen') {
+                        supersedesId = current.id;
+                        current.status = 'superseded';
+                    }
+                    em.persist(current);
+                    await em.flush();
+                }
 
-        if (existing) {
-            existing.isCurrent = false;
-            // Supersede only if the previous was frozen
-            if (existing.status === 'frozen') {
-                entity.supersedesId = existing.id;
-                existing.status = 'superseded';
-            }
+                const entity = em.create(CommissionRoleAssignment, {
+                    projectId,
+                    version: nextVersion,
+                    isCurrent: true,
+                    status: 'draft',
+                    participantsJson: dto.participants,
+                    sourceHandoverId: null,
+                    sourceHandoverRebaselineRecordId: null,
+                    contractSummarySnapshotId: null,
+                    handoverSummarySnapshotId: null,
+                    effectiveHandoverBaselineSnapshotId: null,
+                    supersedesId
+                });
+
+                em.persist(entity);
+                await em.flush();
+                return this.#toRoleAssignmentSummary(entity);
+            });
+        } catch (error) {
+            throw this.#mapSingleCurrentConflict(error);
         }
-
-        await this.repo.persistAndFlushRoleAssignment(entity);
-        return this.#toRoleAssignmentSummary(entity);
     }
 
     async freezeCommissionRoleAssignment(
@@ -346,108 +362,114 @@ export class CommissionService {
         actorUserId: string,
         dto: ArbitrateCommissionFreezeDisputeRequest
     ): Promise<ArbitrateCommissionFreezeDisputeResult> {
-        return this.repo.transactional(async (em) => {
-            const disputeRecord = await em.findOne(CommissionFreezeDisputeRecord, { id });
-            if (!disputeRecord) {
-                throw new NotFoundException(`CommissionFreezeDisputeRecord ${id} not found`);
-            }
+        try {
+            return await this.repo.transactional(async (em) => {
+                const disputeRecord = await em.findOne(CommissionFreezeDisputeRecord, { id });
+                if (!disputeRecord) {
+                    throw new NotFoundException(`CommissionFreezeDisputeRecord ${id} not found`);
+                }
 
-            this.#assertExpectedVersion(disputeRecord.rowVersion, dto.expectedVersion, 'CommissionFreezeDisputeRecord');
-            this.#assertDisputeRecordPending(disputeRecord);
+                this.#assertExpectedVersion(disputeRecord.rowVersion, dto.expectedVersion, 'CommissionFreezeDisputeRecord');
+                this.#assertDisputeRecordPending(disputeRecord);
 
-            const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: disputeRecord.freezeVersionId });
-            if (!freezeVersion) {
-                throw new NotFoundException(`CommissionRoleAssignment ${disputeRecord.freezeVersionId} not found`);
-            }
+                const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: disputeRecord.freezeVersionId });
+                if (!freezeVersion) {
+                    throw new NotFoundException(`CommissionRoleAssignment ${disputeRecord.freezeVersionId} not found`);
+                }
 
-            const currentCalculation = await em.findOne(CommissionCalculation, {
-                projectId: disputeRecord.projectId,
-                isCurrent: true
-            });
-            const payouts = await em.find(CommissionPayout, { projectId: disputeRecord.projectId });
-            const impactSummaries = this.#buildFreezeImpactSummariesFromState(
-                currentCalculation,
-                payouts,
-                dto.recalculationImpactMode
-            );
-
-            let replacementFreezeVersion: CommissionRoleAssignment | null = null;
-            if (dto.replacementAssignmentPayload) {
-                const currentFreezeVersion = await em.findOne(CommissionRoleAssignment, {
+                const currentCalculation = await em.findOne(CommissionCalculation, {
                     projectId: disputeRecord.projectId,
                     isCurrent: true
                 });
-                if (!currentFreezeVersion || currentFreezeVersion.id !== freezeVersion.id) {
-                    throw new UnprocessableEntityException('只有当前有效冻结版本才能生成替代冻结版本');
+                const payouts = await em.find(CommissionPayout, { projectId: disputeRecord.projectId });
+                const impactSummaries = this.#buildFreezeImpactSummariesFromState(
+                    currentCalculation,
+                    payouts,
+                    dto.recalculationImpactMode
+                );
+
+                let replacementFreezeVersion: CommissionRoleAssignment | null = null;
+                if (dto.replacementAssignmentPayload) {
+                    const currentFreezeVersion = await em.findOne(CommissionRoleAssignment, {
+                        projectId: disputeRecord.projectId,
+                        isCurrent: true
+                    });
+                    if (!currentFreezeVersion || currentFreezeVersion.id !== freezeVersion.id) {
+                        throw new UnprocessableEntityException('只有当前有效冻结版本才能生成替代冻结版本');
+                    }
+
+                    const nextVersion = currentFreezeVersion.version + 1;
+                    freezeVersion.isCurrent = false;
+                    freezeVersion.status = 'superseded';
+                    freezeVersion.updatedBy = actorUserId;
+                    em.persist(freezeVersion);
+                    await em.flush();
+
+                    replacementFreezeVersion = em.create(CommissionRoleAssignment, {
+                        id: randomUUID(),
+                        projectId: freezeVersion.projectId,
+                        version: nextVersion,
+                        isCurrent: true,
+                        status: 'frozen',
+                        participantsJson: dto.replacementAssignmentPayload.participants,
+                        sourceHandoverId: freezeVersion.sourceHandoverId,
+                        sourceHandoverRebaselineRecordId: freezeVersion.sourceHandoverRebaselineRecordId,
+                        contractSummarySnapshotId: freezeVersion.contractSummarySnapshotId,
+                        handoverSummarySnapshotId: freezeVersion.handoverSummarySnapshotId,
+                        effectiveHandoverBaselineSnapshotId: freezeVersion.effectiveHandoverBaselineSnapshotId,
+                        frozenAt: new Date(),
+                        frozenBy: actorUserId,
+                        supersedesId: freezeVersion.id,
+                        createdBy: actorUserId,
+                        updatedBy: actorUserId
+                    });
                 }
 
-                const nextVersion = currentFreezeVersion.version + 1;
-                replacementFreezeVersion = em.create(CommissionRoleAssignment, {
+                disputeRecord.arbitrationStatus = 'arbitrated';
+                disputeRecord.recalculationImpactMode = dto.recalculationImpactMode.trim();
+                disputeRecord.impactAssessmentSummary = impactSummaries.impactAssessmentSummary;
+                disputeRecord.status = 'closed';
+                disputeRecord.handledAt = new Date();
+                disputeRecord.updatedBy = actorUserId;
+
+                const changeRequest = em.create(CommissionFreezeChangeRequest, {
                     id: randomUUID(),
-                    projectId: freezeVersion.projectId,
-                    version: nextVersion,
-                    isCurrent: true,
-                    status: 'frozen',
-                    participantsJson: dto.replacementAssignmentPayload.participants,
-                    sourceHandoverId: freezeVersion.sourceHandoverId,
-                    sourceHandoverRebaselineRecordId: freezeVersion.sourceHandoverRebaselineRecordId,
-                    contractSummarySnapshotId: freezeVersion.contractSummarySnapshotId,
-                    handoverSummarySnapshotId: freezeVersion.handoverSummarySnapshotId,
-                    effectiveHandoverBaselineSnapshotId: freezeVersion.effectiveHandoverBaselineSnapshotId,
-                    frozenAt: new Date(),
-                    frozenBy: actorUserId,
-                    supersedesId: freezeVersion.id,
+                    disputeRecordId: disputeRecord.id,
+                    supersededFreezeVersionId: freezeVersion.id,
+                    replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
+                    summaryPackageKey: disputeRecord.summaryPackageKey,
+                    summarySnapshotId: disputeRecord.summarySnapshotId,
+                    projectionLevel: disputeRecord.projectionLevel,
+                    exportPolicy: disputeRecord.exportPolicy,
+                    arbitrationDecision: dto.arbitrationDecision.trim(),
+                    recalculationImpactMode: dto.recalculationImpactMode.trim(),
+                    affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
+                    affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
+                    riskFlagSummary: impactSummaries.riskFlagSummary,
+                    status: replacementFreezeVersion ? 'effective' : 'closed',
+                    handledAt: new Date(),
                     createdBy: actorUserId,
                     updatedBy: actorUserId
                 });
 
-                freezeVersion.isCurrent = false;
-                freezeVersion.status = 'superseded';
-                freezeVersion.updatedBy = actorUserId;
-            }
+                em.persist([disputeRecord, changeRequest, ...(replacementFreezeVersion ? [replacementFreezeVersion] : [])]);
+                await em.flush();
 
-            disputeRecord.arbitrationStatus = 'arbitrated';
-            disputeRecord.recalculationImpactMode = dto.recalculationImpactMode.trim();
-            disputeRecord.impactAssessmentSummary = impactSummaries.impactAssessmentSummary;
-            disputeRecord.status = 'closed';
-            disputeRecord.handledAt = new Date();
-            disputeRecord.updatedBy = actorUserId;
-
-            const changeRequest = em.create(CommissionFreezeChangeRequest, {
-                id: randomUUID(),
-                disputeRecordId: disputeRecord.id,
-                supersededFreezeVersionId: freezeVersion.id,
-                replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
-                summaryPackageKey: disputeRecord.summaryPackageKey,
-                summarySnapshotId: disputeRecord.summarySnapshotId,
-                projectionLevel: disputeRecord.projectionLevel,
-                exportPolicy: disputeRecord.exportPolicy,
-                arbitrationDecision: dto.arbitrationDecision.trim(),
-                recalculationImpactMode: dto.recalculationImpactMode.trim(),
-                affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
-                affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
-                riskFlagSummary: impactSummaries.riskFlagSummary,
-                status: replacementFreezeVersion ? 'effective' : 'closed',
-                handledAt: new Date(),
-                createdBy: actorUserId,
-                updatedBy: actorUserId
+                return {
+                    targetId: disputeRecord.id,
+                    disputeRecordId: disputeRecord.id,
+                    changeRequestId: changeRequest.id,
+                    supersededFreezeVersionId: freezeVersion.id,
+                    replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
+                    affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
+                    affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
+                    riskFlagSummary: impactSummaries.riskFlagSummary,
+                    resultStatus: replacementFreezeVersion ? 'replacement-created' : 'resolved-without-replacement'
+                };
             });
-
-            em.persist([disputeRecord, changeRequest, freezeVersion, ...(replacementFreezeVersion ? [replacementFreezeVersion] : [])]);
-            await em.flush();
-
-            return {
-                targetId: disputeRecord.id,
-                disputeRecordId: disputeRecord.id,
-                changeRequestId: changeRequest.id,
-                supersededFreezeVersionId: freezeVersion.id,
-                replacementFreezeVersionId: replacementFreezeVersion?.id ?? null,
-                affectedCalculationSummary: impactSummaries.affectedCalculationSummary,
-                affectedPayoutSummary: impactSummaries.affectedPayoutSummary,
-                riskFlagSummary: impactSummaries.riskFlagSummary,
-                resultStatus: replacementFreezeVersion ? 'replacement-created' : 'resolved-without-replacement'
-            };
-        });
+        } catch (error) {
+            throw this.#mapSingleCurrentConflict(error);
+        }
     }
 
     async getCommissionFreezeChangeRequest(id: string): Promise<CommissionFreezeChangeRequestDetailView> {
@@ -510,27 +532,40 @@ export class CommissionService {
         const current = await this.repo.findCurrentCalculation(projectId);
         const nextVersion = current ? current.version + 1 : 1;
 
-        const entity = this.repo.createCalculation({
-            projectId,
-            ruleVersionId: ruleVersion.id,
-            version: nextVersion,
-            isCurrent: true,
-            status: 'calculated',
-            recognizedRevenueTaxExclusive: this.#formatAmount(revenue),
-            recognizedCostTaxExclusive: this.#formatAmount(cost),
-            contributionMargin: this.#formatAmount(contributionMargin),
-            contributionMarginRate: this.#formatRate(contributionMarginRate),
-            commissionPool: this.#formatAmount(commissionPool),
-            recalculatedFromId: current?.id ?? null
-        });
+        try {
+            return await this.repo.transactional(async (em) => {
+                if (current) {
+                    const currentCalculation = await em.findOne(CommissionCalculation, { id: current.id });
+                    if (!currentCalculation) {
+                        throw new ConflictException(`CommissionCalculation ${current.id} no longer exists`);
+                    }
+                    currentCalculation.isCurrent = false;
+                    currentCalculation.status = 'superseded';
+                    em.persist(currentCalculation);
+                    await em.flush();
+                }
 
-        if (current) {
-            current.isCurrent = false;
-            current.status = 'superseded';
+                const entity = em.create(CommissionCalculation, {
+                    projectId,
+                    ruleVersionId: ruleVersion.id,
+                    version: nextVersion,
+                    isCurrent: true,
+                    status: 'calculated',
+                    recognizedRevenueTaxExclusive: this.#formatAmount(revenue),
+                    recognizedCostTaxExclusive: this.#formatAmount(cost),
+                    contributionMargin: this.#formatAmount(contributionMargin),
+                    contributionMarginRate: this.#formatRate(contributionMarginRate),
+                    commissionPool: this.#formatAmount(commissionPool),
+                    recalculatedFromId: current?.id ?? null
+                });
+
+                em.persist(entity);
+                await em.flush();
+                return this.#toCalculationSummary(entity);
+            });
+        } catch (error) {
+            throw this.#mapSingleCurrentConflict(error);
         }
-
-        await this.repo.persistAndFlushCalculation(entity);
-        return this.#toCalculationSummary(entity);
     }
 
     async approveCalculation(id: string, dto: ConfirmCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
@@ -580,6 +615,8 @@ export class CommissionService {
             projectId,
             calculationId: dto.calculationId,
             stageType: dto.stageType,
+            payoutKind: 'primary',
+            sourcePayoutId: null,
             selectedTier: dto.selectedTier,
             theoreticalCapAmount,
             approvedAmount: null,
@@ -611,6 +648,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'draft') {
             throw new UnprocessableEntityException(`只有草稿状态的提成发放可以提交审批，当前状态: ${entity.status}`);
@@ -627,6 +665,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'pending-approval') {
             throw new UnprocessableEntityException(`只有待审批状态的提成发放可以批准，当前状态: ${entity.status}`);
@@ -651,6 +690,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'approved') {
             throw new UnprocessableEntityException(`只有已批准状态的提成发放可以登记发放，当前状态: ${entity.status}`);
@@ -731,27 +771,72 @@ export class CommissionService {
             if (adjustment.adjustmentType !== 'recalculate' && !payout) {
                 throw new UnprocessableEntityException('当前调整未关联提成发放记录，无法执行');
             }
+            const handledAt = new Date();
 
             if (adjustment.adjustmentType === 'suspend-payout') {
                 this.#assertPayoutStatus(payout, ['approved', 'paid'], '暂停');
+                this.#assertPrimaryPayout(payout, '暂停');
                 payout.status = 'suspended';
-                payout.handledAt = new Date();
+                payout.handledAt = handledAt;
             }
 
             if (adjustment.adjustmentType === 'reverse-payout') {
                 this.#assertPayoutStatus(payout, ['paid', 'suspended'], '冲销');
+                this.#assertPrimaryPayout(payout, '冲销');
                 payout.status = 'reversed';
-                payout.handledAt = new Date();
+                payout.handledAt = handledAt;
             }
 
-            if (adjustment.adjustmentType === 'clawback' || adjustment.adjustmentType === 'supplement') {
-                this.#assertPayoutStatus(payout, ['paid', 'suspended', 'approved'], adjustment.adjustmentType === 'clawback' ? '扣回' : '补发');
+            if (adjustment.adjustmentType === 'clawback') {
+                this.#assertPayoutStatus(payout, ['paid', 'suspended'], '扣回');
+                this.#assertPrimaryPayout(payout, '扣回');
+
+                const clawbackAmount = this.#requireAdjustmentAmount(adjustment, '扣回');
+                const paidAmount = this.#requirePaidPayoutAmount(payout, '扣回');
+                if (clawbackAmount > paidAmount) {
+                    throw new UnprocessableEntityException(
+                        `扣回金额不能超过原发放登记金额 ${this.#formatAmount(paidAmount)}`
+                    );
+                }
+
+                payout.status = clawbackAmount === paidAmount ? 'reversed' : 'suspended';
+                payout.handledAt = handledAt;
+            }
+
+            const persistTargets: object[] = [adjustment];
+            if (payout) {
+                persistTargets.push(payout);
+            }
+
+            if (adjustment.adjustmentType === 'supplement') {
+                this.#assertPayoutStatus(payout, ['paid', 'suspended'], '补发');
+                this.#assertPrimaryPayout(payout, '补发');
+
+                const supplementAmount = this.#requireAdjustmentAmount(adjustment, '补发');
+                const supplementPayout = em.create(CommissionPayout, {
+                    projectId: payout.projectId,
+                    calculationId: payout.calculationId,
+                    stageType: payout.stageType,
+                    payoutKind: 'supplement',
+                    sourcePayoutId: payout.id,
+                    selectedTier: payout.selectedTier,
+                    theoreticalCapAmount: this.#formatAmount(supplementAmount),
+                    approvedAmount: this.#formatAmount(supplementAmount),
+                    paidRecordAmount: this.#formatAmount(supplementAmount),
+                    status: 'paid',
+                    approvedAt: handledAt,
+                    approvedBy: null,
+                    handledAt,
+                    handledBy: null,
+                    reversedFromId: null
+                });
+                persistTargets.push(supplementPayout);
             }
 
             adjustment.status = 'executed';
-            adjustment.executedAt = new Date();
+            adjustment.executedAt = handledAt;
 
-            em.persist([adjustment, ...(payout ? [payout] : [])]);
+            em.persist(persistTargets);
             await em.flush();
 
             return this.#toAdjustmentSummary(adjustment);
@@ -759,70 +844,75 @@ export class CommissionService {
     }
 
     async recalculateCalculation(id: string, dto: RecalculateCommissionRequest): Promise<CommissionCalculationSummary> {
-        return this.repo.transactional(async (em) => {
-            const current = await em.findOne(CommissionCalculation, { id });
-            if (!current) {
-                throw new NotFoundException(`CommissionCalculation ${id} not found`);
-            }
-            this.#assertExpectedVersion(current.rowVersion, dto.expectedVersion, 'CommissionCalculation');
+        try {
+            return await this.repo.transactional(async (em) => {
+                const current = await em.findOne(CommissionCalculation, { id });
+                if (!current) {
+                    throw new NotFoundException(`CommissionCalculation ${id} not found`);
+                }
+                this.#assertExpectedVersion(current.rowVersion, dto.expectedVersion, 'CommissionCalculation');
 
-            if (!current.isCurrent || current.status !== 'effective') {
-                throw new UnprocessableEntityException(`只有当前已生效的提成计算结果可以触发重算，当前状态: ${current.status}`);
-            }
+                if (!current.isCurrent || current.status !== 'effective') {
+                    throw new UnprocessableEntityException(`只有当前已生效的提成计算结果可以触发重算，当前状态: ${current.status}`);
+                }
 
-            const ruleVersion = await em.findOne(CommissionRuleVersion, { id: current.ruleVersionId });
-            if (!ruleVersion) {
-                throw new UnprocessableEntityException(`提成规则版本 ${current.ruleVersionId} 不存在，无法触发重算`);
-            }
+                const ruleVersion = await em.findOne(CommissionRuleVersion, { id: current.ruleVersionId });
+                if (!ruleVersion) {
+                    throw new UnprocessableEntityException(`提成规则版本 ${current.ruleVersionId} 不存在，无法触发重算`);
+                }
 
-            const revenue = dto.recognizedRevenueTaxExclusive
-                ? this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive')
-                : this.#toNumber(current.recognizedRevenueTaxExclusive);
-            const cost = dto.recognizedCostTaxExclusive
-                ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive')
-                : this.#toNumber(current.recognizedCostTaxExclusive);
-            await this.#assertEffectiveContractFacts(current.projectId, revenue, cost);
-            const contributionMargin = revenue - cost;
-            const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
-            const commissionRate = this.#resolveCommissionRate(ruleVersion, contributionMarginRate);
-            const commissionPool = contributionMargin > 0 && commissionRate > 0 ? contributionMargin * commissionRate : 0;
+                const revenue = dto.recognizedRevenueTaxExclusive
+                    ? this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive')
+                    : this.#toNumber(current.recognizedRevenueTaxExclusive);
+                const cost = dto.recognizedCostTaxExclusive
+                    ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive')
+                    : this.#toNumber(current.recognizedCostTaxExclusive);
+                await this.#assertEffectiveContractFacts(current.projectId, revenue, cost);
+                const contributionMargin = revenue - cost;
+                const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
+                const commissionRate = this.#resolveCommissionRate(ruleVersion, contributionMarginRate);
+                const commissionPool = contributionMargin > 0 && commissionRate > 0 ? contributionMargin * commissionRate : 0;
 
-            const nextCalculation = em.create(CommissionCalculation, {
-                projectId: current.projectId,
-                ruleVersionId: current.ruleVersionId,
-                version: current.version + 1,
-                isCurrent: true,
-                status: 'calculated',
-                recognizedRevenueTaxExclusive: this.#formatAmount(revenue),
-                recognizedCostTaxExclusive: this.#formatAmount(cost),
-                contributionMargin: this.#formatAmount(contributionMargin),
-                contributionMarginRate: this.#formatRate(contributionMarginRate),
-                commissionPool: this.#formatAmount(commissionPool),
-                recalculatedFromId: current.id,
-                approvedAt: null,
-                approvedBy: null
+                current.isCurrent = false;
+                current.status = 'superseded';
+                await em.flush();
+
+                const nextCalculation = em.create(CommissionCalculation, {
+                    projectId: current.projectId,
+                    ruleVersionId: current.ruleVersionId,
+                    version: current.version + 1,
+                    isCurrent: true,
+                    status: 'calculated',
+                    recognizedRevenueTaxExclusive: this.#formatAmount(revenue),
+                    recognizedCostTaxExclusive: this.#formatAmount(cost),
+                    contributionMargin: this.#formatAmount(contributionMargin),
+                    contributionMarginRate: this.#formatRate(contributionMarginRate),
+                    commissionPool: this.#formatAmount(commissionPool),
+                    recalculatedFromId: current.id,
+                    approvedAt: null,
+                    approvedBy: null
+                });
+
+                const adjustment = em.create(CommissionAdjustment, {
+                    projectId: current.projectId,
+                    adjustmentType: 'recalculate',
+                    relatedPayoutId: null,
+                    relatedCalculationId: current.id,
+                    amount: this.#formatAmount(Math.abs(commissionPool - this.#toNumber(current.commissionPool))),
+                    reason: dto.reason.trim(),
+                    status: 'executed',
+                    executedAt: new Date(),
+                    executedBy: null
+                });
+
+                em.persist([nextCalculation, adjustment]);
+                await em.flush();
+
+                return this.#toCalculationSummary(nextCalculation);
             });
-
-            const adjustment = em.create(CommissionAdjustment, {
-                projectId: current.projectId,
-                adjustmentType: 'recalculate',
-                relatedPayoutId: null,
-                relatedCalculationId: current.id,
-                amount: this.#formatAmount(Math.abs(commissionPool - this.#toNumber(current.commissionPool))),
-                reason: dto.reason.trim(),
-                status: 'executed',
-                executedAt: new Date(),
-                executedBy: null
-            });
-
-            current.isCurrent = false;
-            current.status = 'superseded';
-
-            em.persist([current, nextCalculation, adjustment]);
-            await em.flush();
-
-            return this.#toCalculationSummary(nextCalculation);
-        });
+        } catch (error) {
+            throw this.#mapSingleCurrentConflict(error);
+        }
     }
 
     // ── Mappers ─────────────────────────────────────────────────────────────
@@ -881,6 +971,8 @@ export class CommissionService {
         calculationId: e.calculationId,
         rowVersion: e.rowVersion,
         stageType: e.stageType as CommissionPayoutSummary['stageType'],
+        payoutKind: e.payoutKind as CommissionPayoutSummary['payoutKind'],
+        sourcePayoutId: e.sourcePayoutId ?? null,
         selectedTier: e.selectedTier as CommissionPayoutSummary['selectedTier'],
         theoreticalCapAmount: this.#stringifyDecimal(e.theoreticalCapAmount),
         approvedAmount: e.approvedAmount ? this.#stringifyDecimal(e.approvedAmount) : null,
@@ -1175,6 +1267,9 @@ export class CommissionService {
         if (payout && payout.projectId !== projectId) {
             throw new NotFoundException(`项目 ${projectId} 关联的提成发放记录不存在`);
         }
+        if (payout && payout.payoutKind !== 'primary') {
+            throw new UnprocessableEntityException('提成调整只能关联 primary 发放记录，不能直接作用于补偿性发放记录');
+        }
 
         if (calculation && calculation.projectId !== projectId) {
             throw new NotFoundException(`项目 ${projectId} 关联的提成计算结果不存在`);
@@ -1191,6 +1286,45 @@ export class CommissionService {
         if (adjustmentType === 'reverse-payout') {
             this.#assertPayoutStatus(payout, ['paid', 'suspended'], '冲销');
         }
+    }
+
+    #mapSingleCurrentConflict(error: unknown): ConflictException {
+        if (this.#matchesUniqueConstraint(error, COMMISSION_ROLE_ASSIGNMENT_PROJECT_CURRENT_UNIQUE)) {
+            return new ConflictException('当前项目的提成角色分配 current 版本已发生变化，请刷新后重试');
+        }
+        if (this.#matchesUniqueConstraint(error, COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE)) {
+            return new ConflictException('当前项目的提成计算 current 版本已发生变化，请刷新后重试');
+        }
+        throw error;
+    }
+
+    #matchesUniqueConstraint(error: unknown, constraintName: string): boolean {
+        for (const candidate of this.#unwrapDbErrors(error)) {
+            const code = typeof candidate['code'] === 'string' ? candidate['code'] : undefined;
+            const constraint = typeof candidate['constraint'] === 'string' ? candidate['constraint'] : undefined;
+            const message = typeof candidate['message'] === 'string' ? candidate['message'] : '';
+            if (code === '23505' && (constraint === constraintName || message.includes(constraintName))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    #unwrapDbErrors(error: unknown): Array<Record<string, unknown>> {
+        const candidates: Array<Record<string, unknown>> = [];
+        const seen = new Set<unknown>();
+        let current = error;
+
+        while (current && typeof current === 'object' && !seen.has(current)) {
+            seen.add(current);
+            candidates.push(current as Record<string, unknown>);
+            current =
+                (current as { driverException?: unknown; cause?: unknown }).driverException ??
+                (current as { cause?: unknown }).cause ??
+                null;
+        }
+
+        return candidates;
     }
 
     #resolveCommissionRate(ruleVersion: CommissionRuleVersion, contributionMarginRate: number): number {
@@ -1220,6 +1354,32 @@ export class CommissionService {
         if (!allowedStatuses.includes(payout.status as CommissionPayoutSummary['status'])) {
             throw new UnprocessableEntityException(`提成发放当前状态 ${payout.status} 不允许执行${actionName}`);
         }
+    }
+
+    #assertPrimaryPayout(payout: CommissionPayout, actionName: string): void {
+        if (payout.payoutKind !== 'primary') {
+            throw new UnprocessableEntityException(`补偿性发放记录不允许直接执行${actionName}`);
+        }
+    }
+
+    #assertPayoutSupportsLifecycleActions(payout: CommissionPayout): void {
+        if (payout.payoutKind !== 'primary') {
+            throw new UnprocessableEntityException('补偿性发放记录由调整执行链直接生成，不支持单独审批或登记');
+        }
+    }
+
+    #requireAdjustmentAmount(adjustment: CommissionAdjustment, actionName: '扣回' | '补发'): number {
+        if (!adjustment.amount) {
+            throw new UnprocessableEntityException(`${actionName}调整必须填写金额`);
+        }
+        return this.#toNumber(adjustment.amount);
+    }
+
+    #requirePaidPayoutAmount(payout: CommissionPayout, actionName: '扣回'): number {
+        if (!payout.paidRecordAmount) {
+            throw new UnprocessableEntityException(`当前提成发放缺少已登记金额，无法执行${actionName}`);
+        }
+        return this.#toNumber(payout.paidRecordAmount);
     }
 
     #formatAmount(value: number): string {

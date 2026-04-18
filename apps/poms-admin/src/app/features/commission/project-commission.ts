@@ -81,18 +81,18 @@ const TEMPLATE = `
                         <ng-template #header><tr><th>阶段</th><th>档位</th><th>理论上限</th><th>状态</th><th style="width: 18rem">操作</th></tr></ng-template>
                         <ng-template #body let-item>
                             <tr [ngClass]="highlightedPayoutId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
-                                <td>{{ getStageLabel(item.stageType) }}</td>
+                                <td><div class="flex flex-col gap-2"><span>{{ getStageLabel(item.stageType) }}</span><p-tag [value]="getPayoutKindLabel(item.payoutKind)" severity="secondary" /></div></td>
                                 <td>{{ getTierLabel(item.selectedTier) }}</td>
                                 <td>{{ formatAmount(item.theoreticalCapAmount) }}</td>
                                 <td><div class="flex flex-col gap-2"><p-tag [value]="getPayoutStatusName(item.status)" [severity]="getPayoutStatusSeverity(item.status)" /> @if (todoForPayout(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
                                 <td>
                                     <div class="flex flex-wrap gap-2">
-                                        @if (item.status === payoutStatus.Draft) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitPayoutApproval(item.id, item.rowVersion)" class="cursor-pointer" /> }
-                                        @if (item.status === payoutStatus.PendingApproval && todoForPayout(item.id)) {
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitPayoutApproval(item.id, item.rowVersion)" class="cursor-pointer" /> }
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.PendingApproval && todoForPayout(item.id)) {
                                             <p-button label="审批通过" size="small" severity="success" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="approvePayout(todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
                                             <p-button label="驳回" size="small" severity="danger" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRejectDialog('payout', todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
                                         }
-                                        @if (item.status === payoutStatus.Approved) { <p-button label="登记发放" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRegisterDialog(item.id, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)" class="cursor-pointer" /> }
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Approved) { <p-button label="登记发放" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRegisterDialog(item.id, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)" class="cursor-pointer" /> }
                                     </div>
                                 </td>
                             </tr>
@@ -247,9 +247,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
     );
     readonly payoutById = computed(() => new Map(this.payouts().map((item) => [item.id, item])));
     readonly calculationById = computed(() => new Map(this.calculations().map((item) => [item.id, item])));
+    readonly primaryPayouts = computed(() => this.payouts().filter((item) => item.payoutKind === 'primary'));
     readonly effectiveCalculationOptions = computed(() => this.calculations().filter((item) => item.status === this.calculationStatus.Effective).map((item) => ({ label: `V${item.version} · 提成池 ${this.formatAmount(item.commissionPool)}`, value: item.id })));
     readonly payoutOptions = computed(() =>
-        this.payouts().map((item) => ({
+        this.primaryPayouts().map((item) => ({
             label: `${this.getStageLabel(item.stageType)} · ${this.getPayoutStatusName(item.status)} · ${this.formatAmount(item.theoreticalCapAmount)}`,
             value: item.id
         }))
@@ -398,7 +399,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     }
 
     openCreateAdjustmentDialog() {
-        this.adjustmentForm = { adjustmentType: CommissionAdjustmentType.SuspendPayout, relatedPayoutId: this.payouts()[0]?.id ?? '', amount: '', reason: '' };
+        this.adjustmentForm = { adjustmentType: CommissionAdjustmentType.SuspendPayout, relatedPayoutId: this.primaryPayouts()[0]?.id ?? '', amount: '', reason: '' };
         this.createAdjustmentDialogVisible = true;
     }
 
@@ -497,7 +498,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
 
     getAdjustmentTargetLabel(relatedPayoutId: string | null, relatedCalculationId: string | null) {
         const payout = relatedPayoutId ? this.payoutById().get(relatedPayoutId) : null;
-        if (payout) return `${this.getStageLabel(payout.stageType)} · ${this.getPayoutStatusName(payout.status)}`;
+        if (payout) return `${this.getStageLabel(payout.stageType)} · ${this.getPayoutKindLabel(payout.payoutKind)} · ${this.getPayoutStatusName(payout.status)}`;
         const calculation = relatedCalculationId ? this.calculationById().get(relatedCalculationId) : null;
         if (calculation) return `计算版本 V${calculation.version}`;
         return '--';
@@ -508,6 +509,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     getCalculationStatusSeverity(status: CommissionCalculationSummaryStatusEnum) { return { pending: 'secondary', calculated: 'info', effective: 'success', superseded: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
     getPayoutStatusName(status: CommissionPayoutSummaryStatusEnum) { return { draft: '草稿', 'pending-approval': '待审批', approved: '已批准', paid: '已发放', suspended: '已暂停', reversed: '已冲销' }[status]; }
     getPayoutStatusSeverity(status: CommissionPayoutSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', paid: 'info', suspended: 'warn', reversed: 'danger' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
+    getPayoutKindLabel(kind: 'primary' | 'supplement') { return { primary: '正常发放', supplement: '补发记录' }[kind]; }
     getAdjustmentTypeLabel(type: CommissionAdjustmentType) { return { 'suspend-payout': '暂停发放', 'reverse-payout': '冲销发放', clawback: '扣回', supplement: '补发', recalculate: '重算' }[type]; }
     getAdjustmentStatusName(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: '草稿', 'pending-approval': '待审批', approved: '已批准', executed: '已执行', rejected: '已驳回', closed: '已关闭' }[status]; }
     getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', executed: 'info', rejected: 'danger', closed: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }

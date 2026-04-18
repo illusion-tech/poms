@@ -236,7 +236,7 @@ export class CommissionRepository {
     }
 
     async findPayoutByProjectCalculationStage(projectId: string, calculationId: string, stageType: CommissionPayoutStage): Promise<CommissionPayout | null> {
-        return this.payoutRepository.findOne({ projectId, calculationId, stageType });
+        return this.payoutRepository.findOne({ projectId, calculationId, stageType, payoutKind: 'primary' });
     }
 
     createPayout(input: ConstructorParameters<typeof CommissionPayout>[0]): CommissionPayout {
