@@ -739,6 +739,43 @@
   - 索引建议：`dispute_record_id + handled_at desc`、`replacement_freeze_version_id`、`superseded_freeze_version_id`、`summary_snapshot_id`、`status + handled_at desc`
   - 字段补点建议：`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`、`affected_calculation_summary text`、`affected_payout_summary text`、`risk_flag_summary text`
 
+#### 8.10.4 最终结算与统一规则解释收口
+
+1. `commission_departure_exception_decision`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 外键建议：`freeze_version_id -> commission_role_assignment.id`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`supersedes_id -> commission_departure_exception_decision.id`
+  - 唯一建议：`project_id + version`
+  - 当前有效约束建议：同一 `project_id` 同一时刻只允许一条 `is_current = true`
+  - 索引建议：`project_id + handled_at desc`、`freeze_version_id + status`、`summary_snapshot_id`、`decision_code + status`
+  - 字段补点建议：`departure_scenario_code varchar(64) not null`、`decision_code varchar(32) not null`、`decision_summary text not null`、`confirmation_requirement_summary text`、`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`
+
+2. `commission_final_settlement_snapshot`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 外键建议：`freeze_version_id -> commission_role_assignment.id`
+  - 外键建议：`gate_review_record_id -> commission_gate_review_record.id`
+  - 外键建议：`retention_receipt_record_id -> receipt_record.id`
+  - 外键建议：`departure_exception_decision_id -> commission_departure_exception_decision.id`
+  - 外键建议：`summary_snapshot_id -> approval_summary_snapshot.id`
+  - 外键建议：`supersedes_id -> commission_final_settlement_snapshot.id`
+  - 唯一建议：`project_id + version`
+  - 当前有效约束建议：同一 `project_id` 同一时刻只允许一条 `is_current = true`
+  - 索引建议：`project_id + generated_at desc`、`freeze_version_id`、`gate_review_record_id`、`summary_snapshot_id`、`status + generated_at desc`
+  - 字段补点建议：`final_settlement_status varchar(32) not null`、`non_retention_settlement_status varchar(32) not null`、`retention_settlement_status varchar(32) not null`、`retention_requirement_summary text`、`retention_receipt_summary text`、`departure_exception_summary text`、`baseline_selection_source varchar(32) not null`、`tax_impact_summary text not null`、`tax_impact_pending_amount decimal(18,2) not null default 0`、`data_maturity_level varchar(32) not null`、`cost_action_recommendation varchar(32) not null`、`current_action_level varchar(32) not null`、`referenced_baseline_version varchar(64) not null`、`referenced_snapshot_version varchar(64) not null`、`summary_package_key varchar(64) not null`、`projection_level varchar(32) not null`、`export_policy varchar(32) not null`
+
+3. `commission_rule_explanation_snapshot`
+  - 主键：`id`
+  - 外键：`project_id -> project.id`
+  - 外键：`final_settlement_snapshot_id -> commission_final_settlement_snapshot.id`
+  - 外键建议：`supersedes_id -> commission_rule_explanation_snapshot.id`
+  - 唯一建议：`project_id + version`
+  - 当前有效约束建议：同一 `project_id` 同一时刻只允许一条 `is_current = true`
+  - 索引建议：`project_id + generated_at desc`、`final_settlement_snapshot_id`、`blocking_reason_code`、`gate_decision_code + status`
+  - 字段补点建议：`current_stage_status varchar(32) not null`、`gate_decision_code varchar(32) not null`、`blocking_reason_category varchar(32)`、`blocking_reason_code varchar(64)`、`blocking_reason_summary text`、`gate_decision_summary text not null`、`next_action_summary text`
+
 ### 8.11 第三批 DDL 级强约束建议
 
 第三批建议至少额外固定以下约束：
@@ -759,6 +796,12 @@
 14. 当前有效 `project_receipt_judgment_freeze` 与当前有效 `commission_role_assignment` 若消费的是再基线化后的移交口径，则其 `source_handover_rebaseline_record_id` 必须与来源 `project_handover.handover_rebaseline_record_id` 一致，不得在冻结链中改挂其他再基线化记录。
 15. 作为替代版本生效的 `commission_role_assignment` 必须保留 `supersedes_id`，且其 `source_handover_id`、`source_handover_rebaseline_record_id`、`contract_summary_snapshot_id`、`handover_summary_snapshot_id` 与 `effective_handover_baseline_snapshot_id` 必须与被替代版本保持同链一致，除非存在新的正式移交收口重新生成整链。
 16. `commission_freeze_change_request.replacement_freeze_version_id` 指向的冻结版本在成为当前有效版本前，必须能经由 `supersedes_id` 回到被争议的 `freeze_version_id`，并与 `recalculation_impact_mode` 一起作为后续重算 / 发放命令的唯一事实来源。
+17. 同一 `project_id` 同一时刻只允许一条当前有效 `commission_departure_exception_decision`；若当前 retention 命令要求离职 / 特例结论，则必须显式引用该当前有效记录，不得回退为备注文本。
+18. 当前有效 `commission_final_settlement_snapshot` 必须绑定已存在的 `commission_gate_review_record`，并与其 `summary_package_key / summary_snapshot_id / projection_level / export_policy` 保持同链一致；最终结算、质保金结算审批、通知、打印与导出不得各自挂载不同摘要快照。
+19. `commission_final_settlement_snapshot.departure_exception_decision_id` 若非空，则必须与同一 `project_id`、同一 `freeze_version_id` 链一致；不得引用其它项目或无关冻结链上的离职 / 特例结论。
+20. `commission_final_settlement_snapshot.retention_receipt_record_id` 若非空，则必须指向已确认 `receipt_record`；当 `retention_settlement_status` 表示“可结算”或“已结清”时，不得缺失该到账事实引用。
+21. 同一 `project_id` 同一时刻只允许一条当前有效 `commission_rule_explanation_snapshot`；其 `final_settlement_snapshot_id` 必须指向当前有效 `commission_final_settlement_snapshot`，不得解释历史已失效的收口链却冒充当前解释结果。
+22. `commission_rule_explanation_snapshot` 若存在 `blocking_reason_category`，则必须同时保留可追溯的 `blocking_reason_code`；统一解释页不得只留中文说明而丢失稳定原因码。
 - `row_version`
 - `created_at`
 - `created_by`
