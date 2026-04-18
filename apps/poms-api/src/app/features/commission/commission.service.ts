@@ -3,12 +3,13 @@ import type {
     ArbitrateCommissionFreezeDisputeRequest,
     ArbitrateCommissionFreezeDisputeResult,
     ApproveCommissionPayoutRequest,
-    CommissionFreezeChangeRequestDetailView,
     CommissionFreezeDisputeDetailView,
     CommissionAdjustmentSummary,
     CommissionAdjustmentType,
     CommissionCalculationSummary,
+    CommissionDepartureExceptionDecisionSummary,
     CommissionFinalSettlementView,
+    CommissionFreezeChangeRequestDetailView,
     CommissionRoleAssignmentDetailView,
     CommissionPayoutStage,
     CommissionPayoutSummary,
@@ -17,6 +18,7 @@ import type {
     CommissionRuleExplanationView,
     CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
+    CreateCommissionDepartureExceptionDecisionRequest,
     CreateCommissionAdjustmentRequest,
     CreateCommissionCalculationRequest,
     CreateCommissionPayoutRequest,
@@ -34,6 +36,7 @@ import type {
 import { BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
+import { CommissionDepartureExceptionDecision } from './commission-departure-exception-decision.entity';
 import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
@@ -45,6 +48,8 @@ import { CommissionRepository } from './commission.repository';
 
 const COMMISSION_ROLE_ASSIGNMENT_PROJECT_CURRENT_UNIQUE = 'uq_commission_role_assignment_project_current';
 const COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE = 'uq_commission_calculation_project_current';
+const COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_CURRENT_UNIQUE = 'uq_cded_project_current';
+const COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_VERSION_UNIQUE = 'cded_project_version_unique';
 
 type DraftableCommissionPayoutStage = Exclude<CommissionPayoutStage, 'retention'>;
 
@@ -562,6 +567,78 @@ export class CommissionService {
             handledAt: changeRequest.handledAt.toISOString(),
             generatedAt: new Date().toISOString()
         };
+    }
+
+    async createDepartureExceptionDecision(
+        projectId: string,
+        actorUserId: string,
+        dto: CreateCommissionDepartureExceptionDecisionRequest
+    ): Promise<CommissionDepartureExceptionDecisionSummary> {
+        await this.#assertProjectExists(projectId);
+
+        try {
+            return await this.repo.transactional(async (em) => {
+                const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: dto.freezeVersionId });
+                if (!freezeVersion) {
+                    throw new NotFoundException(`CommissionRoleAssignment ${dto.freezeVersionId} not found`);
+                }
+                if (freezeVersion.projectId !== projectId) {
+                    throw new BadRequestException('Departure exception freeze version does not belong to the same project');
+                }
+
+                this.#assertRoleAssignmentEligibleForDepartureExceptionDecision(freezeVersion);
+
+                const summarySnapshot = await this.#findMatchedFreezeSummarySnapshot(
+                    freezeVersion,
+                    dto.summarySnapshotId,
+                    '离职 / 特例结论链'
+                );
+
+                const currentDecision = await em.findOne(CommissionDepartureExceptionDecision, {
+                    projectId,
+                    isCurrent: true
+                });
+
+                let supersedesId: string | null = null;
+                let nextVersion = 1;
+                if (currentDecision) {
+                    nextVersion = currentDecision.version + 1;
+                    supersedesId = currentDecision.id;
+                    currentDecision.isCurrent = false;
+                    currentDecision.status = 'superseded';
+                    currentDecision.updatedBy = actorUserId;
+                    em.persist(currentDecision);
+                    await em.flush();
+                }
+
+                const entity = em.create(CommissionDepartureExceptionDecision, {
+                    projectId,
+                    freezeVersionId: freezeVersion.id,
+                    version: nextVersion,
+                    isCurrent: true,
+                    departureScenarioCode: dto.departureScenarioCode.trim(),
+                    decisionCode: dto.decisionCode.trim(),
+                    decisionSummary: dto.decisionSummary.trim(),
+                    confirmationRequirementSummary: dto.confirmationRequirementSummary?.trim() ?? null,
+                    summaryPackageKey: summarySnapshot.summaryPackageKey,
+                    summarySnapshotId: summarySnapshot.id,
+                    projectionLevel: summarySnapshot.projectionLevel,
+                    exportPolicy: summarySnapshot.exportPolicy,
+                    handledAt: new Date(),
+                    handledBy: actorUserId,
+                    status: 'active',
+                    supersedesId,
+                    createdBy: actorUserId,
+                    updatedBy: actorUserId
+                });
+
+                em.persist(entity);
+                await em.flush();
+                return this.#toDepartureExceptionDecisionSummary(entity);
+            });
+        } catch (error) {
+            throw this.#mapSingleCurrentConflict(error);
+        }
     }
 
     // ── Calculations ────────────────────────────────────────────────────────
@@ -1103,6 +1180,29 @@ export class CommissionService {
         updatedAt: e.updatedAt.toISOString()
     });
 
+    readonly #toDepartureExceptionDecisionSummary = (
+        e: CommissionDepartureExceptionDecision
+    ): CommissionDepartureExceptionDecisionSummary => ({
+        id: e.id,
+        projectId: e.projectId,
+        freezeVersionId: e.freezeVersionId,
+        version: e.version,
+        rowVersion: e.rowVersion,
+        isCurrent: e.isCurrent,
+        departureScenarioCode: e.departureScenarioCode,
+        decisionCode: e.decisionCode,
+        decisionSummary: e.decisionSummary,
+        confirmationRequirementSummary: e.confirmationRequirementSummary ?? null,
+        summaryPackageKey: e.summaryPackageKey,
+        summarySnapshotId: e.summarySnapshotId,
+        projectionLevel: e.projectionLevel,
+        exportPolicy: e.exportPolicy,
+        status: e.status as CommissionDepartureExceptionDecisionSummary['status'],
+        handledAt: e.handledAt.toISOString(),
+        createdAt: e.createdAt.toISOString(),
+        updatedAt: e.updatedAt.toISOString()
+    });
+
     readonly #toCalculationSummary = (e: CommissionCalculation): CommissionCalculationSummary => ({
         id: e.id,
         projectId: e.projectId,
@@ -1349,21 +1449,43 @@ export class CommissionService {
         return [];
     }
 
-    #assertRoleAssignmentEligibleForDispute(entity: CommissionRoleAssignment): void {
+    #assertCurrentFrozenRoleAssignmentWithSummary(entity: CommissionRoleAssignment, chainLabel: string): void {
         if (!entity.isCurrent || entity.status !== 'frozen') {
-            throw new UnprocessableEntityException(`只有当前有效且已冻结的角色分配可以发起争议，当前状态: ${entity.status}`);
+            throw new UnprocessableEntityException(
+                `只有当前有效且已冻结的角色分配可以进入${chainLabel}，当前状态: ${entity.status}`
+            );
         }
         if (!entity.handoverSummarySnapshotId) {
-            throw new BadRequestException('当前冻结版本缺少移交确认摘要快照，无法进入争议链');
+            throw new BadRequestException(`当前冻结版本缺少移交确认摘要快照，无法进入${chainLabel}`);
         }
     }
 
-    async #findFreezeSummarySnapshot(entity: CommissionRoleAssignment) {
+    #assertRoleAssignmentEligibleForDispute(entity: CommissionRoleAssignment): void {
+        this.#assertCurrentFrozenRoleAssignmentWithSummary(entity, '争议链');
+    }
+
+    #assertRoleAssignmentEligibleForDepartureExceptionDecision(entity: CommissionRoleAssignment): void {
+        this.#assertCurrentFrozenRoleAssignmentWithSummary(entity, '离职 / 特例结论链');
+    }
+
+    async #findFreezeSummarySnapshot(entity: CommissionRoleAssignment, chainLabel = '争议链') {
         const summarySnapshot = entity.handoverSummarySnapshotId
             ? await this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
             : null;
         if (!summarySnapshot || summarySnapshot.status !== 'active') {
-            throw new BadRequestException('当前冻结版本缺少有效摘要快照，无法进入争议链');
+            throw new BadRequestException(`当前冻结版本缺少有效摘要快照，无法进入${chainLabel}`);
+        }
+        return summarySnapshot;
+    }
+
+    async #findMatchedFreezeSummarySnapshot(
+        entity: CommissionRoleAssignment,
+        requestedSummarySnapshotId: string,
+        chainLabel: string
+    ) {
+        const summarySnapshot = await this.#findFreezeSummarySnapshot(entity, chainLabel);
+        if (summarySnapshot.id !== requestedSummarySnapshotId) {
+            throw new BadRequestException('请求摘要快照必须与当前冻结版本绑定的移交确认摘要快照一致');
         }
         return summarySnapshot;
     }
@@ -1525,6 +1647,12 @@ export class CommissionService {
         }
         if (this.#matchesUniqueConstraint(error, COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE)) {
             return new ConflictException('当前项目的提成计算 current 版本已发生变化，请刷新后重试');
+        }
+        if (
+            this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_CURRENT_UNIQUE) ||
+            this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_VERSION_UNIQUE)
+        ) {
+            return new ConflictException('当前项目的离职 / 特例结论 current 版本已发生变化，请刷新后重试');
         }
         throw error;
     }

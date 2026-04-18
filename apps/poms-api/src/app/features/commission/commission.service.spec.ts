@@ -10,9 +10,11 @@ const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const DISPUTE_ID = '55000000-0000-4000-8000-000000000001';
 const CHANGE_REQUEST_ID = '56000000-0000-4000-8000-000000000001';
 const FINAL_SETTLEMENT_SNAPSHOT_ID = '57000000-0000-4000-8000-000000000001';
+const DEPARTURE_EXCEPTION_DECISION_ID = '57500000-0000-4000-8000-000000000001';
 const RULE_EXPLANATION_SNAPSHOT_ID = '58000000-0000-4000-8000-000000000001';
 const GATE_REVIEW_RECORD_ID = '59000000-0000-4000-8000-000000000001';
 const NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID = '57000000-0000-4000-8000-000000000099';
+const NEXT_DEPARTURE_EXCEPTION_DECISION_ID = '57500000-0000-4000-8000-000000000099';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 const HANDOVER_ID = '61000000-0000-4000-8000-000000000001';
 const HANDOVER_SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
@@ -153,6 +155,32 @@ const makeFreezeChangeRequest = (overrides: Record<string, unknown> = {}) => ({
     rowVersion: 1,
     createdAt: new Date('2026-03-25T10:20:00Z'),
     updatedAt: new Date('2026-03-25T10:20:00Z'),
+    ...overrides
+});
+
+const makeDepartureExceptionDecision = (overrides: Record<string, unknown> = {}) => ({
+    id: DEPARTURE_EXCEPTION_DECISION_ID,
+    projectId: PROJECT_ID,
+    freezeVersionId: ASSIGNMENT_ID,
+    version: 1,
+    rowVersion: 1,
+    isCurrent: true,
+    departureScenarioCode: 'employee-left-company',
+    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+    decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
+    confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
+    summaryPackageKey: 'project-handover-confirmation',
+    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+    projectionLevel: 'handover-confirmation',
+    exportPolicy: 'handover-controlled',
+    handledAt: new Date('2026-03-25T10:25:00Z'),
+    handledBy: 'user-1',
+    status: 'active',
+    supersedesId: null,
+    createdBy: 'user-1',
+    updatedBy: 'user-1',
+    createdAt: new Date('2026-03-25T10:25:00Z'),
+    updatedAt: new Date('2026-03-25T10:25:00Z'),
     ...overrides
 });
 
@@ -328,6 +356,12 @@ describe('CommissionService', () => {
             createRuleExplanationSnapshot: jest.fn(),
             persistAndFlushRuleExplanationSnapshot: jest.fn(),
             flushRuleExplanationSnapshot: jest.fn(),
+            findCurrentDepartureExceptionDecision: jest.fn(),
+            findDepartureExceptionDecisionById: jest.fn(),
+            findDepartureExceptionDecisionsForProject: jest.fn(),
+            createDepartureExceptionDecision: jest.fn(),
+            persistAndFlushDepartureExceptionDecision: jest.fn(),
+            flushDepartureExceptionDecision: jest.fn(),
             findAllRuleVersions: jest.fn(),
             findRuleVersionById: jest.fn(),
             findRuleVersionByCodeAndVersion: jest.fn(),
@@ -387,6 +421,11 @@ describe('CommissionService', () => {
                     if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
                         return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
                     }
+                    if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                        return where.projectId === PROJECT_ID && where.isCurrent === true
+                            ? makeDepartureExceptionDecision()
+                            : null;
+                    }
                     if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
                         if (where.id === FINAL_SETTLEMENT_SNAPSHOT_ID) {
                             return makeFinalSettlementSnapshot();
@@ -426,6 +465,15 @@ describe('CommissionService', () => {
                     if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
                         return makeFinalSettlementSnapshot({
                             id: NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID,
+                            rowVersion: 1,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            ...input
+                        });
+                    }
+                    if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                        return makeDepartureExceptionDecision({
+                            id: NEXT_DEPARTURE_EXCEPTION_DECISION_ID,
                             rowVersion: 1,
                             createdAt: new Date(),
                             updatedAt: new Date(),
@@ -958,6 +1006,312 @@ describe('CommissionService', () => {
 
             expect(result.changeRequestId).toBe(CHANGE_REQUEST_ID);
             expect(result.replacementFreezeVersionId).toBe('51000000-0000-4000-8000-000000000099');
+        });
+    });
+
+    describe('createDepartureExceptionDecision', () => {
+        it('creates the first current decision from the current frozen version', async () => {
+            const freezeVersion = makeDraftAssignment({
+                status: 'frozen',
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID ? freezeVersion : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn((entity, input) => {
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return makeDepartureExceptionDecision({
+                                id: DEPARTURE_EXCEPTION_DECISION_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        return input;
+                    }),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                freezeVersionId: ASSIGNMENT_ID,
+                departureScenarioCode: 'employee-left-company',
+                decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
+                confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
+                summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+
+            expect(result.id).toBe(DEPARTURE_EXCEPTION_DECISION_ID);
+            expect(result.projectId).toBe(PROJECT_ID);
+            expect(result.version).toBe(1);
+            expect(result.isCurrent).toBe(true);
+            expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
+            expect(result.status).toBe('active');
+        });
+
+        it('supersedes the current decision and increments version', async () => {
+            const freezeVersion = makeDraftAssignment({
+                status: 'frozen',
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+            const currentDecision = makeDepartureExceptionDecision();
+            const createdInputs: Record<string, unknown>[] = [];
+
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID ? freezeVersion : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? currentDecision : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn((entity, input) => {
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            createdInputs.push(input);
+                            return makeDepartureExceptionDecision({
+                                id: NEXT_DEPARTURE_EXCEPTION_DECISION_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        return input;
+                    }),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            const result = await service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                freezeVersionId: ASSIGNMENT_ID,
+                departureScenarioCode: 'employee-left-company',
+                decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                decisionSummary: '允许在承接确认后进入质保金结算',
+                summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+
+            expect(currentDecision.isCurrent).toBe(false);
+            expect(currentDecision.status).toBe('superseded');
+            expect(currentDecision.updatedBy).toBe('user-1');
+            expect(createdInputs[0]).toEqual(
+                expect.objectContaining({
+                    projectId: PROJECT_ID,
+                    freezeVersionId: ASSIGNMENT_ID,
+                    version: 2,
+                    supersedesId: DEPARTURE_EXCEPTION_DECISION_ID,
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
+                    handledBy: 'user-1',
+                    createdBy: 'user-1',
+                    updatedBy: 'user-1'
+                })
+            );
+            expect(result.id).toBe(NEXT_DEPARTURE_EXCEPTION_DECISION_ID);
+            expect(result.version).toBe(2);
+        });
+
+        it('rejects when the request summary snapshot does not match the frozen version anchor', async () => {
+            const freezeVersion = makeDraftAssignment({
+                status: 'frozen',
+                handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+            });
+
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID ? freezeVersion : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: '62000000-0000-4000-8000-000000000099'
+                })
+            ).rejects.toThrow(BadRequestException);
+        });
+
+        it('rejects when the referenced freeze version belongs to another project', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID
+                                ? makeDraftAssignment({
+                                      projectId: '00000000-0000-4000-8000-000000000099',
+                                      status: 'frozen',
+                                      handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                                  })
+                                : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(BadRequestException);
+        });
+
+        it('rejects when the referenced freeze version is not frozen', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID
+                                ? makeDraftAssignment({
+                                      status: 'draft',
+                                      isCurrent: true,
+                                      handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                                  })
+                                : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('rejects when the referenced freeze version is no longer current', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID
+                                ? makeDraftAssignment({
+                                      status: 'frozen',
+                                      isCurrent: false,
+                                      handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                                  })
+                                : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('rejects when the referenced freeze version has no handover summary snapshot', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.transactional.mockImplementationOnce(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return where.id === ASSIGNMENT_ID
+                                ? makeDraftAssignment({
+                                      status: 'frozen',
+                                      handoverSummarySnapshotId: null
+                                  })
+                                : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn(),
+                    persist: jest.fn(),
+                    flush: jest.fn()
+                } as never)
+            );
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(BadRequestException);
+        });
+
+        it('maps concurrent current/version conflicts to ConflictException', async () => {
+            repo.findProjectById.mockResolvedValue(makeProject() as never);
+            repo.transactional.mockRejectedValueOnce({
+                code: '23505',
+                constraint: 'uq_cded_project_current'
+            } as never);
+
+            await expect(
+                service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
+                    freezeVersionId: ASSIGNMENT_ID,
+                    departureScenarioCode: 'employee-left-company',
+                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionSummary: '原销售已离职',
+                    summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
+                })
+            ).rejects.toThrow(ConflictException);
         });
     });
 
