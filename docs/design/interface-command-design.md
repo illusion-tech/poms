@@ -234,16 +234,17 @@
 
 ### 4.7 第二阶段第三批补充命令边界
 
-| 对象                               | 命令建议                           | 触发动作               | 前提摘要                                                           | 放行方式  | 结果摘要                                                           |
-| ---------------------------------- | ---------------------------------- | ---------------------- | ------------------------------------------------------------------ | --------- | ------------------------------------------------------------------ |
-| `ContractHandoverRebaselineRecord` | `rebaselineContractHandover`       | 发起合同变更再基线化   | 已存在生效合同变更；移交前承接事实已形成；影响范围与替代目标已明确 | 审批/确认 | 形成再基线化记录、当前状态、受影响承接项摘要与新的当前有效承接基线 |
-| `PresigningRollbackRequest`        | `submitPresigningRollback`         | 发起签约前回退         | 已存在需回退的签约前结论；回退原因、回退目标阶段与重开工作区已明确 | 审批      | 形成回退请求、锁定受影响结论与工作区并派生回退影响摘要             |
-| `PresigningRollbackRequest`        | `approvePresigningRollback`        | 审批回退并重开工作区   | 回退请求已提交；待重开工作区与失效结论已复核                       | 审批/确认 | 固化回退放行、重开工作区、原结论失效链与当前有效结论链             |
-| `SensitiveFieldRevealRequest`      | `requestSensitiveFieldReveal`      | 发起短时揭示申请       | 当前场景存在受控最小可见边界；揭示字段包、用途与有效期已明确       | 审批      | 形成揭示申请、待授权范围与审计起点                                 |
-| `SensitiveFieldRevealRequest`      | `approveSensitiveFieldReveal`      | 批准 / 驳回短时揭示    | 揭示申请已提交；授权范围、到期时间与审批意见已确认                 | 审批/确认 | 形成揭示授权或驳回结论，并触发失效链与访问审计链                   |
-| `ApprovalSummarySnapshot`          | `reviewApprovalSummaryProjection`  | 复核审批摘要字段包     | 场景级摘要包已生成；最小字段集、投影级别与导出策略已明确           | 审批/确认 | 固化审批摘要快照、场景级字段投影结果与统一引用链                   |
-| `CommissionFreezeDisputeRecord`    | `submitCommissionFreezeDispute`    | 发起冻结后争议         | 已存在冻结版本；争议原因、影响角色与回溯模式已明确                 | 审批      | 形成争议记录、影响评估入口与待仲裁链                               |
-| `CommissionFreezeDisputeRecord`    | `arbitrateCommissionFreezeDispute` | 仲裁争议并生成替代版本 | 争议记录已进入处理态；仲裁结论、替代冻结版本与回溯影响已确认       | 审批/确认 | 固化仲裁结论、替代冻结版本链、被替代版本引用与重算 / 发放影响摘要  |
+| 对象                                   | 命令建议                                     | 触发动作                              | 前提摘要                                                           | 放行方式  | 结果摘要                                                           |
+| -------------------------------------- | -------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------ | --------- | ------------------------------------------------------------------ |
+| `ContractHandoverRebaselineRecord`     | `rebaselineContractHandover`                 | 发起合同变更再基线化                  | 已存在生效合同变更；移交前承接事实已形成；影响范围与替代目标已明确 | 审批/确认 | 形成再基线化记录、当前状态、受影响承接项摘要与新的当前有效承接基线 |
+| `PresigningRollbackRequest`            | `submitPresigningRollback`                   | 发起签约前回退                        | 已存在需回退的签约前结论；回退原因、回退目标阶段与重开工作区已明确 | 审批      | 形成回退请求、锁定受影响结论与工作区并派生回退影响摘要             |
+| `PresigningRollbackRequest`            | `approvePresigningRollback`                  | 审批回退并重开工作区                  | 回退请求已提交；待重开工作区与失效结论已复核                       | 审批/确认 | 固化回退放行、重开工作区、原结论失效链与当前有效结论链             |
+| `SensitiveFieldRevealRequest`          | `requestSensitiveFieldReveal`                | 发起短时揭示申请                      | 当前场景存在受控最小可见边界；揭示字段包、用途与有效期已明确       | 审批      | 形成揭示申请、待授权范围与审计起点                                 |
+| `SensitiveFieldRevealRequest`          | `approveSensitiveFieldReveal`                | 批准 / 驳回短时揭示                   | 揭示申请已提交；授权范围、到期时间与审批意见已确认                 | 审批/确认 | 形成揭示授权或驳回结论，并触发失效链与访问审计链                   |
+| `ApprovalSummarySnapshot`              | `reviewApprovalSummaryProjection`            | 复核审批摘要字段包                    | 场景级摘要包已生成；最小字段集、投影级别与导出策略已明确           | 审批/确认 | 固化审批摘要快照、场景级字段投影结果与统一引用链                   |
+| `CommissionFreezeDisputeRecord`        | `submitCommissionFreezeDispute`              | 发起冻结后争议                        | 已存在冻结版本；争议原因、影响角色与回溯模式已明确                 | 审批      | 形成争议记录、影响评估入口与待仲裁链                               |
+| `CommissionDepartureExceptionDecision` | `createCommissionDepartureExceptionDecision` | 创建离职 / 特例结论并形成当前有效版本 | 已存在当前有效冻结版本；离职 / 特例情形、结论与绑定摘要快照已明确  | 确认      | 固化当前有效结论、旧 current supersede 链与统一摘要快照引用        |
+| `CommissionFreezeDisputeRecord`        | `arbitrateCommissionFreezeDispute`           | 仲裁争议并生成替代版本                | 争议记录已进入处理态；仲裁结论、替代冻结版本与回溯影响已确认       | 审批/确认 | 固化仲裁结论、替代冻结版本链、被替代版本引用与重算 / 发放影响摘要  |
 
 第二阶段第三批统一补充以下命令边界约束：
 
@@ -255,7 +256,8 @@
 6. `reviewApprovalSummaryProjection`、`approveRecord` 与其后续通知 / 打印 / 导出副作用必须共同绑定 `approvalScenarioKey`、`summaryPackageKey`、`summarySnapshotId`、`projectionLevel` 与 `exportPolicy`，不得在任一入口回退到详情页字段随机裁剪。
 7. 审批摘要包生成、短时揭示到期失效、回退影响分析、再基线化状态切换和冻结后回溯影响评估优先作为系统派生动作处理，不应退化为页面临时拼装。
 8. `confirmProjectHandover`、`freezeCommissionRoleAssignment` 与 `arbitrateCommissionFreezeDispute` 共同消费的联合追溯链至少必须能够回到同一 `handoverRebaselineRecordId`（若存在）、`contractSummarySnapshotId`、`handoverSummarySnapshotId`、`effectiveHandoverBaselineSnapshotId` 与冻结版本替代链，后续 `L4 / L5` 不得各自改挂其他来源。
-9. 第三批命令仍需继续遵守第一批敏感投影边界与第二批经营可信源口径，不因其属于异常链路而默认放宽写侧权限。
+9. `createCommissionDepartureExceptionDecision` 必须收口为 `POST /projects/{projectId}/commission-departure-exception-decisions` 项目子集合 create route；请求必须直接校验 current frozen assignment 与绑定摘要快照，旧 current 结论由服务端隐式 supersede，不单独开放 replace route。
+10. 第三批命令仍需继续遵守第一批敏感投影边界与第二批经营可信源口径，不因其属于异常链路而默认放宽写侧权限。
 
 ---
 
