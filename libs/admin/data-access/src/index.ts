@@ -9,6 +9,7 @@ export * from './lib/project/project.store';
 export * from './lib/project/project-workspace.store';
 
 export {
+    CommissionApi,
     PlatformApi,
     ProjectCostApi,
     AssignRolePermissionsRequestPermissionKeysEnum,
@@ -26,7 +27,9 @@ export type {
     BusinessAccountingFeedbackView,
     CommandResult,
     CommissionCalculationSummary,
+    CommissionFinalSettlementView,
     CommissionPayoutSummary,
+    CommissionRuleExplanationView,
     ConfirmCommissionCalculationRequest,
     ContractSummary,
     CreateCommissionCalculationRequest,
