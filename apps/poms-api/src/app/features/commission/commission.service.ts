@@ -1,3 +1,4 @@
+import { EntityManager, QueryOrder } from '@mikro-orm/core';
 import { randomUUID } from 'node:crypto';
 import type {
     ArbitrateCommissionFreezeDisputeRequest,
@@ -44,7 +45,25 @@ import { CommissionPayout } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleExplanationSnapshot } from './commission-rule-explanation-snapshot.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
+import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
+import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
+import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { CommissionRepository } from './commission.repository';
+import {
+    buildPendingFinalRuleExplanation,
+    buildRetentionSettlementDraft,
+    DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+    FINAL_SETTLEMENT_STATUS_PENDING,
+    FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
+    FINAL_SETTLEMENT_STATUS_SETTLED_ALL,
+    NON_RETENTION_SETTLEMENT_STATUS_PENDING,
+    NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
+    RETENTION_SETTLEMENT_STATUS_READY,
+    RETENTION_SETTLEMENT_STATUS_SETTLED,
+    RETENTION_SETTLEMENT_STATUS_WAITING,
+    type RetentionSettlementDraft,
+    type RuleExplanationDraft
+} from './commission-settlement-write-chain';
 
 const COMMISSION_ROLE_ASSIGNMENT_PROJECT_CURRENT_UNIQUE = 'uq_commission_role_assignment_project_current';
 const COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE = 'uq_commission_calculation_project_current';
@@ -52,8 +71,6 @@ const COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_CURRENT_UNIQUE = 'uq_cded_
 const COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_VERSION_UNIQUE = 'cded_project_version_unique';
 
 type DraftableCommissionPayoutStage = Exclude<CommissionPayoutStage, 'retention'>;
-
-const RETENTION_PAYOUT_NOT_READY_MESSAGE = '质保金结算发放链路尚未启用，需先补齐到账、离职 / 特例与规则解释写侧约束';
 
 const PAYOUT_CAP_RATES: Record<DraftableCommissionPayoutStage, Record<CommissionPayoutTier, number>> = {
     first: { basic: 0.2, mid: 0.25, premium: 0.3 },
@@ -64,10 +81,6 @@ const PAYOUT_CAP_RATES: Record<DraftableCommissionPayoutStage, Record<Commission
 const FREEZE_COMMISSION_ROLE_ASSIGNMENT_ACTION = 'freeze-commission-role-assignment';
 const SUBMIT_COMMISSION_FREEZE_DISPUTE_ACTION = 'submit-commission-freeze-dispute';
 const ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION = 'arbitrate-commission-freeze-dispute';
-const FINAL_SETTLEMENT_STATUS_PENDING_RETENTION = 'pending-retention-settlement';
-const NON_RETENTION_SETTLEMENT_STATUS_SETTLED = 'settled-non-retention';
-const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
-const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
 
 type CommissionSharedEvidencePackage = Pick<
     CommissionFinalSettlementView,
@@ -633,6 +646,77 @@ export class CommissionService {
                 });
 
                 em.persist(entity);
+                const currentFinalSettlementSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+                    projectId,
+                    isCurrent: true
+                });
+                if (
+                    currentFinalSettlementSnapshot &&
+                    currentFinalSettlementSnapshot.status === 'active' &&
+                    currentFinalSettlementSnapshot.freezeVersionId === freezeVersion.id &&
+                    currentFinalSettlementSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_SETTLED_ALL
+                ) {
+                    const latestRetentionReceipt = await this.#findLatestConfirmedRetentionReceipt(em, projectId);
+                    const gateReview = await this.#findGateReviewById(em, currentFinalSettlementSnapshot.gateReviewRecordId);
+                    const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
+                        freezeVersionId: freezeVersion.id,
+                        status: 'submitted'
+                    });
+
+                    const nextSnapshot =
+                        currentFinalSettlementSnapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION
+                            ? await this.#writeCurrentFinalSettlementSnapshot(
+                                  em,
+                                  this.#buildFinalSettlementEvidenceFromSnapshot(currentFinalSettlementSnapshot),
+                                  currentFinalSettlementSnapshot,
+                                  {
+                                      ...this.#toFinalSettlementStatusPatch(
+                                          this.#buildRetentionSettlementDraft(
+                                              currentFinalSettlementSnapshot.currentActionLevel,
+                                              gateReview,
+                                              entity,
+                                              latestRetentionReceipt,
+                                              Boolean(openDispute)
+                                          )
+                                      ),
+                                      retentionReceiptRecordId: latestRetentionReceipt?.id ?? null,
+                                      departureExceptionDecisionId: entity.id
+                                  },
+                                  actorUserId
+                              )
+                            : await this.#writeCurrentFinalSettlementSnapshot(
+                                  em,
+                                  this.#buildFinalSettlementEvidenceFromSnapshot(currentFinalSettlementSnapshot),
+                                  currentFinalSettlementSnapshot,
+                                  {
+                                      finalSettlementStatus: currentFinalSettlementSnapshot.finalSettlementStatus,
+                                      nonRetentionSettlementStatus: currentFinalSettlementSnapshot.nonRetentionSettlementStatus,
+                                      retentionSettlementStatus: currentFinalSettlementSnapshot.retentionSettlementStatus,
+                                      retentionRequirementSummary: currentFinalSettlementSnapshot.retentionRequirementSummary ?? DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+                                      retentionReceiptSummary: currentFinalSettlementSnapshot.retentionReceiptSummary ?? null,
+                                      departureExceptionSummary: entity.decisionSummary,
+                                      retentionReceiptRecordId: currentFinalSettlementSnapshot.retentionReceiptRecordId ?? null,
+                                      departureExceptionDecisionId: entity.id
+                                  },
+                                  actorUserId
+                              );
+
+                    await this.#writeCurrentRuleExplanationSnapshot(
+                        em,
+                        projectId,
+                        nextSnapshot.id,
+                        currentFinalSettlementSnapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION
+                            ? this.#buildRetentionSettlementDraft(
+                                  currentFinalSettlementSnapshot.currentActionLevel,
+                                  gateReview,
+                                  entity,
+                                  latestRetentionReceipt,
+                                  Boolean(openDispute)
+                              ).ruleExplanation
+                            : buildPendingFinalRuleExplanation(),
+                        actorUserId
+                    );
+                }
                 await em.flush();
                 return this.#toDepartureExceptionDecisionSummary(entity);
             });
@@ -746,17 +830,35 @@ export class CommissionService {
             throw new UnprocessableEntityException(`只有已生效的提成计算结果可以发起发放，当前状态: ${calculation.status}`);
         }
 
-        if (dto.stageType === 'retention') {
-            throw new UnprocessableEntityException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
-        }
-
         const existing = await this.repo.findPayoutByProjectCalculationStage(projectId, dto.calculationId, dto.stageType);
         if (existing) {
             throw new ConflictException(`项目 ${projectId} 在当前计算版本与发放阶段下已存在发放记录`);
         }
 
-        const capRate = PAYOUT_CAP_RATES[dto.stageType][dto.selectedTier];
-        const theoreticalCapAmount = this.#formatAmount(this.#toNumber(calculation.commissionPool) * capRate);
+        let theoreticalCapAmount: string;
+        if (dto.stageType === 'retention') {
+            const currentFinalSettlementSnapshot = await this.repo.findCurrentFinalSettlementSnapshot(projectId);
+            if (!currentFinalSettlementSnapshot || !currentFinalSettlementSnapshot.isCurrent || currentFinalSettlementSnapshot.status !== 'active') {
+                throw new UnprocessableEntityException('当前项目缺少有效的最终结算快照，无法创建质保金发放草稿');
+            }
+            if (
+                currentFinalSettlementSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION ||
+                currentFinalSettlementSnapshot.nonRetentionSettlementStatus !== NON_RETENTION_SETTLEMENT_STATUS_SETTLED ||
+                currentFinalSettlementSnapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED
+            ) {
+                throw new UnprocessableEntityException('当前项目尚未进入质保金结算草稿可创建阶段');
+            }
+
+            const payouts = await this.repo.findPayoutsForProject(projectId);
+            const remainingRetentionAmount = this.#calculateRemainingRetentionCap(calculation.id, calculation.commissionPool, payouts);
+            if (remainingRetentionAmount <= 0) {
+                throw new UnprocessableEntityException('当前项目不存在剩余可登记的质保金金额');
+            }
+            theoreticalCapAmount = this.#formatAmount(remainingRetentionAmount);
+        } else {
+            const capRate = PAYOUT_CAP_RATES[dto.stageType][dto.selectedTier];
+            theoreticalCapAmount = this.#formatAmount(this.#toNumber(calculation.commissionPool) * capRate);
+        }
 
         const entity = this.repo.createPayout({
             projectId,
@@ -795,10 +897,44 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage ?? null);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'draft') {
             throw new UnprocessableEntityException(`只有草稿状态的提成发放可以提交审批，当前状态: ${entity.status}`);
+        }
+
+        if (entity.stageType === 'retention') {
+            const currentSnapshot = await this.repo.findCurrentFinalSettlementSnapshot(entity.projectId);
+            this.#assertRetentionSnapshotEligibleForSubmit(entity, currentSnapshot);
+
+            if (dto.summarySnapshotId && dto.summarySnapshotId !== currentSnapshot.summarySnapshotId) {
+                throw new BadRequestException('summarySnapshotId must match the current final-settlement snapshot');
+            }
+            if (dto.gateReviewRecordId && dto.gateReviewRecordId !== currentSnapshot.gateReviewRecordId) {
+                throw new BadRequestException('gateReviewRecordId must match the current final-settlement snapshot');
+            }
+            if (dto.freezeVersionId && dto.freezeVersionId !== currentSnapshot.freezeVersionId) {
+                throw new BadRequestException('freezeVersionId must match the current final-settlement snapshot');
+            }
+            if (dto.departureExceptionDecisionId) {
+                const decision = await this.repo.findDepartureExceptionDecisionById(dto.departureExceptionDecisionId);
+                if (
+                    !decision ||
+                    decision.projectId !== entity.projectId ||
+                    decision.freezeVersionId !== currentSnapshot.freezeVersionId ||
+                    !decision.isCurrent ||
+                    decision.status !== 'active'
+                ) {
+                    throw new BadRequestException('departureExceptionDecisionId must reference the current active departure decision');
+                }
+            }
+            if (dto.retentionReceiptRecordId) {
+                const confirmedReceipts = await this.repo.findConfirmedReceiptsForProject(entity.projectId);
+                if (!confirmedReceipts.some((receipt) => receipt.id === dto.retentionReceiptRecordId)) {
+                    throw new BadRequestException('retentionReceiptRecordId must reference a confirmed receipt in the same project');
+                }
+            }
         }
 
         entity.status = 'pending-approval';
@@ -824,6 +960,133 @@ export class CommissionService {
             throw new UnprocessableEntityException(`批准金额必须位于 0 到理论上限 ${entity.theoreticalCapAmount} 之间`);
         }
 
+        if (entity.stageType === 'final' || entity.stageType === 'retention') {
+            return this.repo.transactional(async (em) => {
+                const payout = await em.findOne(CommissionPayout, { id });
+                if (!payout) {
+                    throw new NotFoundException(`CommissionPayout ${id} not found`);
+                }
+                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'CommissionPayout');
+                this.#assertPayoutSupportsLifecycleActions(payout);
+
+                if (payout.status !== 'pending-approval') {
+                    throw new UnprocessableEntityException(`只有待审批状态的提成发放可以批准，当前状态: ${payout.status}`);
+                }
+
+                const transactionalCapAmount = this.#toNumber(payout.theoreticalCapAmount);
+                if (approvedAmount < 0 || approvedAmount > transactionalCapAmount) {
+                    throw new UnprocessableEntityException(`批准金额必须位于 0 到理论上限 ${payout.theoreticalCapAmount} 之间`);
+                }
+
+                payout.status = 'approved';
+                payout.approvedAmount = this.#formatAmount(approvedAmount);
+                payout.approvedAt = new Date();
+
+                if (payout.stageType === 'final') {
+                    const { freezeVersion, binding, gateReview } = await this.#loadCurrentFinalGateContext(em, payout.projectId);
+                    if (this.#isBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
+                        throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
+                    }
+
+                    const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+                        projectId: payout.projectId,
+                        isCurrent: true
+                    });
+                    const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
+                        em,
+                        this.#buildFinalSettlementEvidenceFromGateContext(payout.projectId, freezeVersion, binding, gateReview),
+                        currentSnapshot,
+                        {
+                            finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING,
+                            nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_PENDING,
+                            retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+                            retentionRequirementSummary: DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+                            retentionReceiptSummary: null,
+                            departureExceptionSummary: null,
+                            retentionReceiptRecordId: null,
+                            departureExceptionDecisionId: null
+                        },
+                        null
+                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(
+                        em,
+                        payout.projectId,
+                        nextSnapshot.id,
+                        buildPendingFinalRuleExplanation(),
+                        null
+                    );
+                } else {
+                    const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+                        projectId: payout.projectId,
+                        isCurrent: true
+                    });
+                    this.#assertRetentionSnapshotReadyForApproval(payout, currentSnapshot);
+                    const retentionReceiptRecordId = currentSnapshot.retentionReceiptRecordId;
+                    const departureExceptionDecisionId = currentSnapshot.departureExceptionDecisionId;
+                    if (!retentionReceiptRecordId || !departureExceptionDecisionId) {
+                        throw new UnprocessableEntityException('当前项目缺少完整的质保金到账或离职 / 特例结论引用');
+                    }
+
+                    const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
+                    const retentionReceipt = await this.#findConfirmedReceiptById(
+                        em,
+                        retentionReceiptRecordId,
+                        payout.projectId
+                    );
+                    const departureDecision = await this.#findActiveDepartureDecisionById(
+                        em,
+                        departureExceptionDecisionId,
+                        payout.projectId,
+                        currentSnapshot.freezeVersionId
+                    );
+                    const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
+                        freezeVersionId: currentSnapshot.freezeVersionId,
+                        status: 'submitted'
+                    });
+                    if (openDispute) {
+                        throw new UnprocessableEntityException('当前冻结版本仍存在未收口争议，不能批准质保金发放');
+                    }
+                    if (departureDecision.confirmationRequirementSummary?.trim()) {
+                        throw new UnprocessableEntityException('当前离职 / 特例结论仍要求责任承接确认，不能批准质保金发放');
+                    }
+
+                    const retentionDraft = this.#buildRetentionSettlementDraft(
+                        currentSnapshot.currentActionLevel,
+                        gateReview,
+                        departureDecision,
+                        retentionReceipt,
+                        false
+                    );
+                    if (retentionDraft.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY) {
+                        throw new UnprocessableEntityException('当前项目尚未处于可批准的质保金结算状态');
+                    }
+
+                    const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
+                        em,
+                        this.#buildFinalSettlementEvidenceFromSnapshot(currentSnapshot),
+                        currentSnapshot,
+                        {
+                            ...this.#toFinalSettlementStatusPatch(retentionDraft),
+                            retentionReceiptRecordId: retentionReceipt.id,
+                            departureExceptionDecisionId: departureDecision.id
+                        },
+                        null
+                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(
+                        em,
+                        payout.projectId,
+                        nextSnapshot.id,
+                        retentionDraft.ruleExplanation,
+                        null
+                    );
+                }
+
+                em.persist(payout);
+                await em.flush();
+                return this.#toPayoutSummary(payout);
+            });
+        }
+
         entity.status = 'approved';
         entity.approvedAmount = this.#formatAmount(approvedAmount);
         entity.approvedAt = new Date();
@@ -837,6 +1100,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage ?? null);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'approved') {
@@ -849,7 +1113,7 @@ export class CommissionService {
             throw new UnprocessableEntityException(`登记发放金额必须位于 0 到批准金额 ${entity.approvedAmount ?? '0.00'} 之间`);
         }
 
-        if (entity.stageType === 'final') {
+        if (entity.stageType === 'final' || entity.stageType === 'retention') {
             return this.repo.transactional(async (em) => {
                 const payout = await em.findOne(CommissionPayout, { id });
                 if (!payout) {
@@ -873,7 +1137,9 @@ export class CommissionService {
                     isCurrent: true
                 });
                 if (!currentSnapshot || currentSnapshot.status !== 'active') {
-                    throw new UnprocessableEntityException('当前项目缺少有效的最终结算快照，无法登记 final 阶段发放');
+                    throw new UnprocessableEntityException(
+                        `当前项目缺少有效的最终结算快照，无法登记 ${payout.stageType === 'final' ? 'final' : 'retention'} 阶段发放`
+                    );
                 }
 
                 const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: currentSnapshot.freezeVersionId });
@@ -886,50 +1152,108 @@ export class CommissionService {
                     throw new UnprocessableEntityException('当前项目缺少有效的冻结提成角色版本，无法登记 final 阶段发放');
                 }
 
+                const handledAt = dto.paidAt ? new Date(dto.paidAt) : new Date();
                 payout.status = 'paid';
                 payout.paidRecordAmount = this.#formatAmount(paidAmount);
-                payout.handledAt = new Date();
+                payout.handledAt = handledAt;
                 payout.handledBy = actorUserId ?? null;
 
-                currentSnapshot.isCurrent = false;
-                currentSnapshot.status = 'superseded';
-                currentSnapshot.updatedBy = actorUserId ?? null;
+                if (payout.stageType === 'final') {
+                    if (currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING) {
+                        throw new UnprocessableEntityException('当前项目未处于 final 非质保发放可登记状态');
+                    }
+                    const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
+                    const latestRetentionReceipt = await this.#findLatestConfirmedRetentionReceipt(em, payout.projectId);
+                    const currentDepartureDecision = await this.#findCurrentActiveDepartureDecision(
+                        em,
+                        payout.projectId,
+                        currentSnapshot.freezeVersionId
+                    );
+                    const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
+                        freezeVersionId: currentSnapshot.freezeVersionId,
+                        status: 'submitted'
+                    });
+                    const retentionDraft = this.#buildRetentionSettlementDraft(
+                        currentSnapshot.currentActionLevel,
+                        gateReview,
+                        currentDepartureDecision,
+                        latestRetentionReceipt,
+                        Boolean(openDispute)
+                    );
+                    const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
+                        em,
+                        this.#buildFinalSettlementEvidenceFromSnapshot(currentSnapshot),
+                        currentSnapshot,
+                        {
+                            ...this.#toFinalSettlementStatusPatch(retentionDraft),
+                            retentionReceiptRecordId: latestRetentionReceipt?.id ?? null,
+                            departureExceptionDecisionId: currentDepartureDecision?.id ?? null
+                        },
+                        actorUserId ?? null
+                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(
+                        em,
+                        payout.projectId,
+                        nextSnapshot.id,
+                        retentionDraft.ruleExplanation,
+                        actorUserId ?? null
+                    );
+                } else {
+                    this.#assertRetentionSnapshotReadyForRegistration(payout, currentSnapshot, dto.summarySnapshotId ?? null);
+                    const retentionReceiptRecordId = currentSnapshot.retentionReceiptRecordId;
+                    const departureExceptionDecisionId = currentSnapshot.departureExceptionDecisionId;
+                    if (!retentionReceiptRecordId || !departureExceptionDecisionId) {
+                        throw new UnprocessableEntityException('当前项目缺少完整的质保金到账或离职 / 特例结论引用');
+                    }
+                    const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
+                    const retentionReceipt = await this.#findConfirmedReceiptById(
+                        em,
+                        retentionReceiptRecordId,
+                        payout.projectId
+                    );
+                    const departureDecision = await this.#findActiveDepartureDecisionById(
+                        em,
+                        departureExceptionDecisionId,
+                        payout.projectId,
+                        currentSnapshot.freezeVersionId
+                    );
+                    const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
+                        freezeVersionId: currentSnapshot.freezeVersionId,
+                        status: 'submitted'
+                    });
+                    if (openDispute) {
+                        throw new UnprocessableEntityException('当前冻结版本仍存在未收口争议，不能登记质保金发放');
+                    }
 
-                const nextSnapshot = em.create(CommissionFinalSettlementSnapshot, {
-                    id: randomUUID(),
-                    projectId: payout.projectId,
-                    freezeVersionId: currentSnapshot.freezeVersionId,
-                    gateReviewRecordId: currentSnapshot.gateReviewRecordId,
-                    retentionReceiptRecordId: null,
-                    departureExceptionDecisionId: null,
-                    version: currentSnapshot.version + 1,
-                    isCurrent: true,
-                    finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
-                    nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
-                    retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
-                    retentionRequirementSummary: currentSnapshot.retentionRequirementSummary ?? DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
-                    retentionReceiptSummary: null,
-                    departureExceptionSummary: null,
-                    baselineSelectionSource: currentSnapshot.baselineSelectionSource,
-                    taxImpactSummary: currentSnapshot.taxImpactSummary,
-                    taxImpactPendingAmount: currentSnapshot.taxImpactPendingAmount,
-                    dataMaturityLevel: currentSnapshot.dataMaturityLevel,
-                    costActionRecommendation: currentSnapshot.costActionRecommendation,
-                    currentActionLevel: currentSnapshot.currentActionLevel,
-                    referencedBaselineVersion: currentSnapshot.referencedBaselineVersion,
-                    referencedSnapshotVersion: currentSnapshot.referencedSnapshotVersion,
-                    summaryPackageKey: currentSnapshot.summaryPackageKey,
-                    summarySnapshotId: currentSnapshot.summarySnapshotId,
-                    projectionLevel: currentSnapshot.projectionLevel,
-                    exportPolicy: currentSnapshot.exportPolicy,
-                    generatedAt: new Date(),
-                    status: 'active',
-                    supersedesId: currentSnapshot.id,
-                    createdBy: actorUserId ?? null,
-                    updatedBy: actorUserId ?? null
-                });
+                    const retentionDraft = this.#buildRetentionSettlementDraft(
+                        currentSnapshot.currentActionLevel,
+                        gateReview,
+                        departureDecision,
+                        retentionReceipt,
+                        false,
+                        true
+                    );
+                    const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
+                        em,
+                        this.#buildFinalSettlementEvidenceFromSnapshot(currentSnapshot),
+                        currentSnapshot,
+                        {
+                            ...this.#toFinalSettlementStatusPatch(retentionDraft),
+                            retentionReceiptRecordId: retentionReceipt.id,
+                            departureExceptionDecisionId: departureDecision.id
+                        },
+                        actorUserId ?? null
+                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(
+                        em,
+                        payout.projectId,
+                        nextSnapshot.id,
+                        retentionDraft.ruleExplanation,
+                        actorUserId ?? null
+                    );
+                }
 
-                em.persist([payout, currentSnapshot, nextSnapshot]);
+                em.persist(payout);
                 await em.flush();
                 return this.#toPayoutSummary(payout);
             });
@@ -1698,6 +2022,414 @@ export class CommissionService {
         }
     }
 
+    #assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null): void {
+        if (requestedStage && requestedStage !== actualStage) {
+            throw new BadRequestException(`CommissionPayout stage ${requestedStage} does not match current stage ${actualStage}`);
+        }
+    }
+
+    async #loadCurrentFinalGateContext(
+        em: EntityManager,
+        projectId: string
+    ): Promise<{
+        freezeVersion: CommissionRoleAssignment;
+        binding: OperatingSignalToCommissionGateBinding;
+        gateReview: CommissionGateReviewRecord;
+    }> {
+        const freezeVersion = (await em.findOne(CommissionRoleAssignment, {
+            projectId,
+            isCurrent: true,
+            status: 'frozen'
+        })) as CommissionRoleAssignment | null;
+        if (!freezeVersion) {
+            throw new BadRequestException(`Current frozen CommissionRoleAssignment is required before processing final payout approval for project ${projectId}`);
+        }
+
+        const binding = (await em.findOne(OperatingSignalToCommissionGateBinding, {
+            projectId,
+            gateStageType: 'final',
+            status: 'active'
+        })) as OperatingSignalToCommissionGateBinding | null;
+        if (!binding) {
+            throw new BadRequestException(`Active final commission gate binding is required before processing final payout approval for project ${projectId}`);
+        }
+
+        const gateReview = (await em.findOne(
+            CommissionGateReviewRecord,
+            {
+                bindingId: binding.id,
+                status: 'active'
+            },
+            {
+                orderBy: {
+                    handledAt: QueryOrder.DESC,
+                    createdAt: QueryOrder.DESC
+                }
+            }
+        )) as CommissionGateReviewRecord | null;
+        if (!gateReview) {
+            throw new BadRequestException(`Active final commission gate review is required before processing final payout approval for project ${projectId}`);
+        }
+
+        return { freezeVersion, binding, gateReview };
+    }
+
+    #buildFinalSettlementEvidenceFromGateContext(
+        projectId: string,
+        freezeVersion: Pick<CommissionRoleAssignment, 'id'>,
+        binding: Pick<
+            OperatingSignalToCommissionGateBinding,
+            | 'baselineSelectionSource'
+            | 'taxImpactSummary'
+            | 'taxImpactPendingAmount'
+            | 'dataMaturityLevel'
+            | 'costActionRecommendation'
+            | 'currentActionLevel'
+            | 'referencedBaselineVersion'
+            | 'referencedSnapshotVersion'
+        >,
+        gateReview: Pick<
+            CommissionGateReviewRecord,
+            'id' | 'summaryPackageKey' | 'summarySnapshotId' | 'projectionLevel' | 'exportPolicy'
+        >
+    ) {
+        return {
+            projectId,
+            freezeVersionId: freezeVersion.id,
+            gateReviewRecordId: gateReview.id,
+            baselineSelectionSource: binding.baselineSelectionSource,
+            taxImpactSummary: binding.taxImpactSummary,
+            taxImpactPendingAmount: binding.taxImpactPendingAmount,
+            dataMaturityLevel: binding.dataMaturityLevel,
+            costActionRecommendation: binding.costActionRecommendation,
+            currentActionLevel: binding.currentActionLevel,
+            referencedBaselineVersion: binding.referencedBaselineVersion,
+            referencedSnapshotVersion: binding.referencedSnapshotVersion,
+            summaryPackageKey: gateReview.summaryPackageKey,
+            summarySnapshotId: gateReview.summarySnapshotId,
+            projectionLevel: gateReview.projectionLevel,
+            exportPolicy: gateReview.exportPolicy
+        };
+    }
+
+    #buildFinalSettlementEvidenceFromSnapshot(snapshot: CommissionFinalSettlementSnapshot) {
+        return {
+            projectId: snapshot.projectId,
+            freezeVersionId: snapshot.freezeVersionId,
+            gateReviewRecordId: snapshot.gateReviewRecordId,
+            baselineSelectionSource: snapshot.baselineSelectionSource,
+            taxImpactSummary: snapshot.taxImpactSummary,
+            taxImpactPendingAmount: snapshot.taxImpactPendingAmount,
+            dataMaturityLevel: snapshot.dataMaturityLevel,
+            costActionRecommendation: snapshot.costActionRecommendation,
+            currentActionLevel: snapshot.currentActionLevel,
+            referencedBaselineVersion: snapshot.referencedBaselineVersion,
+            referencedSnapshotVersion: snapshot.referencedSnapshotVersion,
+            summaryPackageKey: snapshot.summaryPackageKey,
+            summarySnapshotId: snapshot.summarySnapshotId,
+            projectionLevel: snapshot.projectionLevel,
+            exportPolicy: snapshot.exportPolicy
+        };
+    }
+
+    async #writeCurrentFinalSettlementSnapshot(
+        em: EntityManager,
+        evidenceBase: {
+            projectId: string;
+            freezeVersionId: string;
+            gateReviewRecordId: string;
+            baselineSelectionSource: string;
+            taxImpactSummary: string;
+            taxImpactPendingAmount: string | number;
+            dataMaturityLevel: string;
+            costActionRecommendation: string;
+            currentActionLevel: string;
+            referencedBaselineVersion: string;
+            referencedSnapshotVersion: string;
+            summaryPackageKey: string;
+            summarySnapshotId: string;
+            projectionLevel: string;
+            exportPolicy: string;
+        },
+        currentSnapshot: CommissionFinalSettlementSnapshot | null,
+        statusPatch: {
+            finalSettlementStatus: string;
+            nonRetentionSettlementStatus: string;
+            retentionSettlementStatus: string;
+            retentionRequirementSummary: string | null;
+            retentionReceiptSummary: string | null;
+            departureExceptionSummary: string | null;
+            retentionReceiptRecordId: string | null;
+            departureExceptionDecisionId: string | null;
+        },
+        actorUserId: string | null
+    ): Promise<CommissionFinalSettlementSnapshot> {
+        if (currentSnapshot) {
+            currentSnapshot.isCurrent = false;
+            currentSnapshot.status = 'superseded';
+            currentSnapshot.updatedBy = actorUserId;
+            em.persist(currentSnapshot);
+        }
+
+        const nextSnapshot = em.create(CommissionFinalSettlementSnapshot, {
+            id: randomUUID(),
+            projectId: evidenceBase.projectId,
+            freezeVersionId: evidenceBase.freezeVersionId,
+            gateReviewRecordId: evidenceBase.gateReviewRecordId,
+            retentionReceiptRecordId: statusPatch.retentionReceiptRecordId,
+            departureExceptionDecisionId: statusPatch.departureExceptionDecisionId,
+            version: currentSnapshot ? currentSnapshot.version + 1 : 1,
+            isCurrent: true,
+            finalSettlementStatus: statusPatch.finalSettlementStatus,
+            nonRetentionSettlementStatus: statusPatch.nonRetentionSettlementStatus,
+            retentionSettlementStatus: statusPatch.retentionSettlementStatus,
+            retentionRequirementSummary: statusPatch.retentionRequirementSummary,
+            retentionReceiptSummary: statusPatch.retentionReceiptSummary,
+            departureExceptionSummary: statusPatch.departureExceptionSummary,
+            baselineSelectionSource: evidenceBase.baselineSelectionSource,
+            taxImpactSummary: evidenceBase.taxImpactSummary,
+            taxImpactPendingAmount: this.#stringifyDecimal(evidenceBase.taxImpactPendingAmount),
+            dataMaturityLevel: evidenceBase.dataMaturityLevel,
+            costActionRecommendation: evidenceBase.costActionRecommendation,
+            currentActionLevel: evidenceBase.currentActionLevel,
+            referencedBaselineVersion: evidenceBase.referencedBaselineVersion,
+            referencedSnapshotVersion: evidenceBase.referencedSnapshotVersion,
+            summaryPackageKey: evidenceBase.summaryPackageKey,
+            summarySnapshotId: evidenceBase.summarySnapshotId,
+            projectionLevel: evidenceBase.projectionLevel,
+            exportPolicy: evidenceBase.exportPolicy,
+            generatedAt: new Date(),
+            status: 'active',
+            supersedesId: currentSnapshot?.id ?? null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        }) as CommissionFinalSettlementSnapshot;
+
+        em.persist(nextSnapshot);
+        return nextSnapshot;
+    }
+
+    async #writeCurrentRuleExplanationSnapshot(
+        em: EntityManager,
+        projectId: string,
+        finalSettlementSnapshotId: string,
+        explanation: RuleExplanationDraft,
+        actorUserId: string | null
+    ): Promise<CommissionRuleExplanationSnapshot> {
+        const currentRuleExplanation = (await em.findOne(CommissionRuleExplanationSnapshot, {
+            projectId,
+            isCurrent: true
+        })) as CommissionRuleExplanationSnapshot | null;
+
+        if (currentRuleExplanation) {
+            currentRuleExplanation.isCurrent = false;
+            currentRuleExplanation.status = 'superseded';
+            currentRuleExplanation.updatedBy = actorUserId;
+            em.persist(currentRuleExplanation);
+        }
+
+        const nextRuleExplanation = em.create(CommissionRuleExplanationSnapshot, {
+            id: randomUUID(),
+            projectId,
+            finalSettlementSnapshotId,
+            version: currentRuleExplanation ? currentRuleExplanation.version + 1 : 1,
+            isCurrent: true,
+            currentStageStatus: explanation.currentStageStatus,
+            gateDecisionCode: explanation.gateDecisionCode,
+            blockingReasonCategory: explanation.blockingReasonCategory,
+            blockingReasonCode: explanation.blockingReasonCode,
+            blockingReasonSummary: explanation.blockingReasonSummary,
+            gateDecisionSummary: explanation.gateDecisionSummary,
+            nextActionSummary: explanation.nextActionSummary,
+            generatedAt: new Date(),
+            status: 'active',
+            supersedesId: currentRuleExplanation?.id ?? null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        }) as CommissionRuleExplanationSnapshot;
+
+        em.persist(nextRuleExplanation);
+        return nextRuleExplanation;
+    }
+
+    async #findGateReviewById(
+        em: EntityManager,
+        gateReviewRecordId: string
+    ): Promise<CommissionGateReviewRecord | null> {
+        return (await em.findOne(CommissionGateReviewRecord, { id: gateReviewRecordId })) as CommissionGateReviewRecord | null;
+    }
+
+    async #findLatestConfirmedRetentionReceipt(
+        em: EntityManager,
+        projectId: string
+    ): Promise<ReceiptRecord | null> {
+        const receipts = ((await em.find(ReceiptRecord, {
+            projectId,
+            status: 'confirmed'
+        })) as ReceiptRecord[] | null) ?? [];
+        if (receipts.length === 0) {
+            return null;
+        }
+
+        return [...receipts].sort((left, right) => {
+            const leftTime = (left.confirmedAt ?? left.receiptDate ?? left.createdAt).getTime();
+            const rightTime = (right.confirmedAt ?? right.receiptDate ?? right.createdAt).getTime();
+            return rightTime - leftTime;
+        })[0];
+    }
+
+    async #findConfirmedReceiptById(
+        em: EntityManager,
+        receiptRecordId: string,
+        projectId: string
+    ): Promise<ReceiptRecord> {
+        const receipt = (await em.findOne(ReceiptRecord, { id: receiptRecordId })) as ReceiptRecord | null;
+        if (!receipt || receipt.projectId !== projectId || receipt.status !== 'confirmed') {
+            throw new UnprocessableEntityException(`当前质保金到账记录 ${receiptRecordId} 无效`);
+        }
+        return receipt;
+    }
+
+    async #findCurrentActiveDepartureDecision(
+        em: EntityManager,
+        projectId: string,
+        freezeVersionId: string
+    ): Promise<CommissionDepartureExceptionDecision | null> {
+        const decision = (await em.findOne(CommissionDepartureExceptionDecision, {
+            projectId,
+            isCurrent: true
+        })) as CommissionDepartureExceptionDecision | null;
+        if (!decision || decision.status !== 'active' || decision.freezeVersionId !== freezeVersionId) {
+            return null;
+        }
+        return decision;
+    }
+
+    async #findActiveDepartureDecisionById(
+        em: EntityManager,
+        departureExceptionDecisionId: string,
+        projectId: string,
+        freezeVersionId: string
+    ): Promise<CommissionDepartureExceptionDecision> {
+        const decision = (await em.findOne(CommissionDepartureExceptionDecision, {
+            id: departureExceptionDecisionId
+        })) as CommissionDepartureExceptionDecision | null;
+        if (
+            !decision ||
+            decision.projectId !== projectId ||
+            decision.freezeVersionId !== freezeVersionId ||
+            !decision.isCurrent ||
+            decision.status !== 'active'
+        ) {
+            throw new UnprocessableEntityException(`当前离职 / 特例结论 ${departureExceptionDecisionId} 无效`);
+        }
+        return decision;
+    }
+
+    #buildRetentionSettlementDraft(
+        bindingAction: string | null | undefined,
+        gateReview: Pick<CommissionGateReviewRecord, 'gateReviewDecision' | 'blockingReasonCode' | 'nextActionSummary'> | null,
+        departureDecision: Pick<CommissionDepartureExceptionDecision, 'decisionSummary' | 'confirmationRequirementSummary'> | null,
+        retentionReceipt: Pick<ReceiptRecord, 'receiptAmount' | 'receiptDate'> | null,
+        openFreezeDispute: boolean,
+        markAsSettled = false
+    ): RetentionSettlementDraft {
+        return buildRetentionSettlementDraft({
+            openFreezeDispute,
+            departureDecision: departureDecision
+                ? {
+                      decisionSummary: departureDecision.decisionSummary,
+                      confirmationRequirementSummary: departureDecision.confirmationRequirementSummary ?? null
+                  }
+                : null,
+            retentionReceipt: retentionReceipt
+                ? {
+                      receiptAmount: retentionReceipt.receiptAmount,
+                      receiptDate: retentionReceipt.receiptDate
+                  }
+                : null,
+            gateBindingAction: bindingAction ?? null,
+            gateReviewDecision: gateReview?.gateReviewDecision ?? null,
+            gateReviewBlockingReasonCode: gateReview?.blockingReasonCode ?? null,
+            gateNextActionSummary: gateReview?.nextActionSummary ?? null,
+            markAsSettled
+        });
+    }
+
+    #toFinalSettlementStatusPatch(draft: RetentionSettlementDraft) {
+        return {
+            finalSettlementStatus: draft.finalSettlementStatus,
+            nonRetentionSettlementStatus: draft.nonRetentionSettlementStatus,
+            retentionSettlementStatus: draft.retentionSettlementStatus,
+            retentionRequirementSummary: draft.retentionRequirementSummary,
+            retentionReceiptSummary: draft.retentionReceiptSummary,
+            departureExceptionSummary: draft.departureExceptionSummary
+        };
+    }
+
+    #calculateRemainingRetentionCap(calculationId: string, commissionPool: string | number, payouts: CommissionPayout[]): number {
+        const nonRetentionPaidAmount = payouts.reduce((sum, payout) => {
+            if (
+                payout.calculationId !== calculationId ||
+                payout.payoutKind !== 'primary' ||
+                payout.stageType === 'retention' ||
+                payout.status !== 'paid' ||
+                !payout.paidRecordAmount
+            ) {
+                return sum;
+            }
+            return sum + this.#toNumber(payout.paidRecordAmount);
+        }, 0);
+
+        return Math.max(0, this.#toNumber(commissionPool) - nonRetentionPaidAmount);
+    }
+
+    #assertRetentionSnapshotEligibleForSubmit(
+        payout: CommissionPayout,
+        currentSnapshot: CommissionFinalSettlementSnapshot | null
+    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+        if (!currentSnapshot || !currentSnapshot.isCurrent || currentSnapshot.status !== 'active') {
+            throw new UnprocessableEntityException(`当前项目缺少有效的最终结算快照，无法提交质保金发放审批`);
+        }
+        if (
+            currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION ||
+            currentSnapshot.nonRetentionSettlementStatus !== NON_RETENTION_SETTLEMENT_STATUS_SETTLED
+        ) {
+            throw new UnprocessableEntityException(`当前项目尚未完成非质保结算，不能提交质保金发放审批`);
+        }
+        if (currentSnapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED) {
+            throw new UnprocessableEntityException(`CommissionPayout ${payout.id} 对应的质保金结算已收口`);
+        }
+    }
+
+    #assertRetentionSnapshotReadyForApproval(
+        payout: CommissionPayout,
+        currentSnapshot: CommissionFinalSettlementSnapshot | null
+    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+        this.#assertRetentionSnapshotEligibleForSubmit(payout, currentSnapshot);
+        if (
+            currentSnapshot.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY ||
+            !currentSnapshot.retentionReceiptRecordId ||
+            !currentSnapshot.departureExceptionDecisionId
+        ) {
+            throw new UnprocessableEntityException(`当前项目尚未进入可批准的质保金结算状态`);
+        }
+    }
+
+    #assertRetentionSnapshotReadyForRegistration(
+        payout: CommissionPayout,
+        currentSnapshot: CommissionFinalSettlementSnapshot | null,
+        requestedSummarySnapshotId: string | null
+    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+        this.#assertRetentionSnapshotReadyForApproval(payout, currentSnapshot);
+        if (!requestedSummarySnapshotId) {
+            throw new BadRequestException('summarySnapshotId is required for retention payout registration');
+        }
+        if (requestedSummarySnapshotId !== currentSnapshot.summarySnapshotId) {
+            throw new BadRequestException('summarySnapshotId must match the current final-settlement snapshot');
+        }
+    }
+
     #parseDecimal(rawValue: string, fieldName: string): number {
         const parsed = Number(rawValue);
         if (!Number.isFinite(parsed)) {
@@ -1725,9 +2457,12 @@ export class CommissionService {
         if (payout.payoutKind !== 'primary') {
             throw new UnprocessableEntityException('补偿性发放记录由调整执行链直接生成，不支持单独审批或登记');
         }
-        if (payout.stageType === 'retention') {
-            throw new UnprocessableEntityException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
-        }
+    }
+
+    #isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
+        return [bindingAction, gateReviewDecision]
+            .map((value) => value?.trim().toUpperCase())
+            .some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
     }
 
     #requireAdjustmentAmount(adjustment: CommissionAdjustment, actionName: '扣回' | '补发'): number {

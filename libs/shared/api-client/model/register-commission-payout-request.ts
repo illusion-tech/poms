@@ -7,10 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionPayoutStage } from './commission-payout-stage';
 
 
 export interface RegisterCommissionPayoutRequest { 
+    payoutStage?: CommissionPayoutStage;
+    approvalRecordId?: string;
     paidRecordAmount: string;
+    paidAt?: string;
+    summarySnapshotId?: string;
+    comment?: string;
     expectedVersion?: number;
 }
-

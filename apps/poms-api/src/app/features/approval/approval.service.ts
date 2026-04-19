@@ -14,10 +14,28 @@ import type {
 import { randomUUID } from 'node:crypto';
 import { DEV_USERS } from '../../core/platform/dev-platform.fixtures';
 import { CommissionAdjustment } from '../commission/commission-adjustment.entity';
+import { CommissionDepartureExceptionDecision } from '../commission/commission-departure-exception-decision.entity';
 import { CommissionFinalSettlementSnapshot } from '../commission/commission-final-settlement-snapshot.entity';
 import { CommissionPayout } from '../commission/commission-payout.entity';
 import { CommissionRoleAssignment } from '../commission/commission-role-assignment.entity';
+import { CommissionRuleExplanationSnapshot } from '../commission/commission-rule-explanation-snapshot.entity';
+import {
+    buildPendingFinalRuleExplanation,
+    buildRetentionSettlementDraft,
+    DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+    FINAL_SETTLEMENT_STATUS_PENDING,
+    FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
+    NON_RETENTION_SETTLEMENT_STATUS_PENDING,
+    NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
+    RETENTION_SETTLEMENT_STATUS_READY,
+    RETENTION_SETTLEMENT_STATUS_SETTLED,
+    RETENTION_SETTLEMENT_STATUS_WAITING,
+    type RetentionSettlementDraft,
+    type RuleExplanationDraft
+} from '../commission/commission-settlement-write-chain';
+import { CommissionFreezeDisputeRecord } from '../commission/commission-freeze-dispute-record.entity';
 import { Contract } from '../contract/contract.entity';
+import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { ApprovalRecord } from './approval-record.entity';
@@ -38,11 +56,6 @@ const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
 const DEFAULT_APPROVER_USER_ID = DEV_USERS[0].id;
 const APPROVAL_ACTIONS = ['approve', 'reject'];
-const FINAL_SETTLEMENT_STATUS_PENDING = 'pending-final-settlement';
-const NON_RETENTION_SETTLEMENT_STATUS_PENDING = 'pending-non-retention';
-const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
-const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
-const RETENTION_PAYOUT_NOT_READY_MESSAGE = '质保金结算发放链路尚未启用，需先补齐到账、离职 / 特例与规则解释写侧约束';
 
 @Injectable()
 export class ApprovalService {
@@ -160,7 +173,7 @@ export class ApprovalService {
             }
 
             this.assertExpectedVersion(payout.rowVersion, input.expectedVersion, 'CommissionPayout');
-            this.assertRetentionPayoutSupported(payout);
+            this.assertRequestStageMatchesPayout(payout.stageType, input.payoutStage ?? null);
 
             const existingApproval = await em.findOne(ApprovalRecord, {
                 approvalType: COMMISSION_PAYOUT_APPROVAL_TYPE,
@@ -172,7 +185,42 @@ export class ApprovalService {
                 throw new ConflictException(`CommissionPayout ${payoutId} already has a pending approval`);
             }
 
-            await this.loadValidatedFinalPayoutApprovalContext(em, payout);
+            let snapshotId: string | null = null;
+            if (payout.stageType === 'retention') {
+                const retentionSubmitContext = await this.loadValidatedRetentionPayoutSubmitContext(em, payout, input);
+                const retentionDraft = this.buildRetentionSettlementDraftFromContext(
+                    retentionSubmitContext.binding.bindingAction,
+                    retentionSubmitContext.gateReview,
+                    retentionSubmitContext.departureDecision,
+                    retentionSubmitContext.retentionReceipt
+                );
+                const snapshot = await this.writeCurrentFinalSettlementSnapshot(
+                    em,
+                    payout,
+                    initiatorUserId,
+                    {
+                        finalSettlementStatus: retentionDraft.finalSettlementStatus,
+                        nonRetentionSettlementStatus: retentionDraft.nonRetentionSettlementStatus,
+                        retentionSettlementStatus: retentionDraft.retentionSettlementStatus,
+                        retentionRequirementSummary: retentionDraft.retentionRequirementSummary,
+                        retentionReceiptSummary: retentionDraft.retentionReceiptSummary,
+                        departureExceptionSummary: retentionDraft.departureExceptionSummary,
+                        retentionReceiptRecordId: retentionSubmitContext.retentionReceipt.id,
+                        departureExceptionDecisionId: retentionSubmitContext.departureDecision.id
+                    },
+                    retentionSubmitContext
+                );
+                await this.writeCurrentRuleExplanationSnapshot(
+                    em,
+                    payout.projectId,
+                    snapshot.id,
+                    retentionDraft.ruleExplanation,
+                    initiatorUserId
+                );
+                snapshotId = snapshot.id;
+            } else {
+                await this.loadValidatedFinalPayoutApprovalContext(em, payout);
+            }
 
             payout.status = 'pending-approval';
 
@@ -226,7 +274,7 @@ export class ApprovalService {
                 approvalRecordId: approvalRecord.id,
                 confirmationRecordId: null,
                 todoItemIds: [todoItem.id],
-                snapshotId: null
+                snapshotId
             };
         });
     }
@@ -437,16 +485,70 @@ export class ApprovalService {
 
                 let snapshotId: string | null = null;
                 if (decision === 'approved') {
-                    this.assertRetentionPayoutSupported(payout);
-                    const finalSettlementContext = await this.loadValidatedFinalPayoutApprovalContext(em, payout);
                     payout.status = 'approved';
                     payout.approvedAmount = payout.approvedAmount ?? payout.theoreticalCapAmount;
                     payout.approvedAt = new Date();
                     payout.approvedBy = actorUserId;
-                    snapshotId = await this.writeCurrentFinalSettlementSnapshot(em, payout, actorUserId, {
-                        finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING,
-                        nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_PENDING
-                    }, finalSettlementContext);
+
+                    if (payout.stageType === 'retention') {
+                        const retentionReadyContext = await this.loadValidatedRetentionPayoutReadyContext(em, payout);
+                        const retentionDraft = this.buildRetentionSettlementDraftFromContext(
+                            retentionReadyContext.binding.bindingAction,
+                            retentionReadyContext.gateReview,
+                            retentionReadyContext.departureDecision,
+                            retentionReadyContext.retentionReceipt
+                        );
+                        const snapshot = await this.writeCurrentFinalSettlementSnapshot(
+                            em,
+                            payout,
+                            actorUserId,
+                            {
+                                finalSettlementStatus: retentionDraft.finalSettlementStatus,
+                                nonRetentionSettlementStatus: retentionDraft.nonRetentionSettlementStatus,
+                                retentionSettlementStatus: retentionDraft.retentionSettlementStatus,
+                                retentionRequirementSummary: retentionDraft.retentionRequirementSummary,
+                                retentionReceiptSummary: retentionDraft.retentionReceiptSummary,
+                                departureExceptionSummary: retentionDraft.departureExceptionSummary,
+                                retentionReceiptRecordId: retentionReadyContext.retentionReceipt.id,
+                                departureExceptionDecisionId: retentionReadyContext.departureDecision.id
+                            },
+                            retentionReadyContext
+                        );
+                        await this.writeCurrentRuleExplanationSnapshot(
+                            em,
+                            payout.projectId,
+                            snapshot.id,
+                            retentionDraft.ruleExplanation,
+                            actorUserId
+                        );
+                        snapshotId = snapshot.id;
+                    } else if (payout.stageType === 'final') {
+                        const finalSettlementContext = await this.loadValidatedFinalPayoutApprovalContext(em, payout);
+                        const snapshot = await this.writeCurrentFinalSettlementSnapshot(
+                            em,
+                            payout,
+                            actorUserId,
+                            {
+                                finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING,
+                                nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_PENDING,
+                                retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+                                retentionRequirementSummary: DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+                                retentionReceiptSummary: null,
+                                departureExceptionSummary: null,
+                                retentionReceiptRecordId: null,
+                                departureExceptionDecisionId: null
+                            },
+                            finalSettlementContext
+                        );
+                        await this.writeCurrentRuleExplanationSnapshot(
+                            em,
+                            payout.projectId,
+                            snapshot.id,
+                            buildPendingFinalRuleExplanation(),
+                            actorUserId
+                        );
+                        snapshotId = snapshot.id;
+                    }
                 } else {
                     payout.status = 'draft';
                     payout.approvedAmount = null;
@@ -512,9 +614,9 @@ export class ApprovalService {
         }
     }
 
-    private assertRetentionPayoutSupported(payout: CommissionPayout): void {
-        if (payout.stageType === 'retention') {
-            throw new BadRequestException(RETENTION_PAYOUT_NOT_READY_MESSAGE);
+    private assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null): void {
+        if (requestedStage && requestedStage !== actualStage) {
+            throw new BadRequestException(`CommissionPayout stage ${requestedStage} does not match current stage ${actualStage}`);
         }
     }
 
@@ -585,6 +687,203 @@ export class ApprovalService {
         return { freezeVersion, binding, gateReview };
     }
 
+    private async loadValidatedRetentionPayoutSubmitContext(
+        em: EntityManager,
+        payout: CommissionPayout,
+        input: SubmitCommissionPayoutApprovalRequest
+    ): Promise<{
+        currentSnapshot: CommissionFinalSettlementSnapshot;
+        freezeVersion: CommissionRoleAssignment;
+        binding: OperatingSignalToCommissionGateBinding;
+        gateReview: CommissionGateReviewRecord;
+        retentionReceipt: ReceiptRecord;
+        departureDecision: CommissionDepartureExceptionDecision;
+    }> {
+        const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+            projectId: payout.projectId,
+            isCurrent: true
+        });
+        if (!currentSnapshot || currentSnapshot.status !== 'active') {
+            throw new BadRequestException(
+                `Current CommissionFinalSettlementSnapshot is required before processing retention payout approval for project ${payout.projectId}`
+            );
+        }
+        if (currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} can only enter retention approval after non-retention settlement is completed`);
+        }
+        if (currentSnapshot.nonRetentionSettlementStatus !== NON_RETENTION_SETTLEMENT_STATUS_SETTLED) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} requires settled non-retention payouts before entering retention approval`);
+        }
+        if (currentSnapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} retention settlement has already been completed`);
+        }
+
+        const context = await this.loadCurrentFinalSettlementContext(em, payout.projectId);
+        const { freezeVersion, binding, gateReview } = context;
+        if (currentSnapshot.freezeVersionId !== freezeVersion.id) {
+            throw new BadRequestException(`Current CommissionFinalSettlementSnapshot for project ${payout.projectId} is out of sync with current frozen assignment`);
+        }
+        if (this.isReviewOrBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
+        }
+
+        if (!input.summarySnapshotId) {
+            throw new BadRequestException('summarySnapshotId is required for retention payout approval submit');
+        }
+        if (input.summarySnapshotId !== currentSnapshot.summarySnapshotId || input.summarySnapshotId !== gateReview.summarySnapshotId) {
+            throw new BadRequestException('summarySnapshotId must match the current final-settlement / gate review evidence chain');
+        }
+
+        if (!input.gateReviewRecordId) {
+            throw new BadRequestException('gateReviewRecordId is required for retention payout approval submit');
+        }
+        if (input.gateReviewRecordId !== gateReview.id || input.gateReviewRecordId !== currentSnapshot.gateReviewRecordId) {
+            throw new BadRequestException('gateReviewRecordId must match the current active final gate review');
+        }
+
+        if (!input.retentionReceiptRecordId) {
+            throw new BadRequestException('retentionReceiptRecordId is required for retention payout approval submit');
+        }
+        if (input.freezeVersionId && input.freezeVersionId !== freezeVersion.id) {
+            throw new BadRequestException('freezeVersionId must match the current active frozen assignment');
+        }
+        if (input.baselineSelectionSource && input.baselineSelectionSource !== binding.baselineSelectionSource) {
+            throw new BadRequestException('baselineSelectionSource must match the current final-settlement baseline selection source');
+        }
+        const retentionReceipt = await em.findOne(ReceiptRecord, { id: input.retentionReceiptRecordId });
+        if (!retentionReceipt || retentionReceipt.projectId !== payout.projectId || retentionReceipt.status !== 'confirmed') {
+            throw new BadRequestException(`Retention receipt ${input.retentionReceiptRecordId} must be a confirmed receipt for project ${payout.projectId}`);
+        }
+
+        if (!input.departureExceptionDecisionId) {
+            throw new BadRequestException('departureExceptionDecisionId is required for retention payout approval submit');
+        }
+        const departureDecision = await em.findOne(CommissionDepartureExceptionDecision, { id: input.departureExceptionDecisionId });
+        if (
+            !departureDecision ||
+            departureDecision.projectId !== payout.projectId ||
+            departureDecision.freezeVersionId !== freezeVersion.id ||
+            !departureDecision.isCurrent ||
+            departureDecision.status !== 'active'
+        ) {
+            throw new BadRequestException(
+                `Current departure / exception decision ${input.departureExceptionDecisionId} is required before processing retention payout approval`
+            );
+        }
+        if (departureDecision.confirmationRequirementSummary?.trim()) {
+            throw new BadRequestException('The current departure / exception decision still requires successor confirmation before retention payout approval');
+        }
+
+        const openDispute = await em.findOne(CommissionFreezeDisputeRecord, { freezeVersionId: freezeVersion.id, status: 'submitted' });
+        if (openDispute) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by an open freeze dispute`);
+        }
+
+        return {
+            currentSnapshot,
+            freezeVersion,
+            binding,
+            gateReview,
+            retentionReceipt,
+            departureDecision
+        };
+    }
+
+    private async loadValidatedRetentionPayoutReadyContext(
+        em: EntityManager,
+        payout: CommissionPayout
+    ): Promise<{
+        currentSnapshot: CommissionFinalSettlementSnapshot;
+        freezeVersion: CommissionRoleAssignment;
+        binding: OperatingSignalToCommissionGateBinding;
+        gateReview: CommissionGateReviewRecord;
+        retentionReceipt: ReceiptRecord;
+        departureDecision: CommissionDepartureExceptionDecision;
+    }> {
+        const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
+            projectId: payout.projectId,
+            isCurrent: true
+        });
+        if (!currentSnapshot || currentSnapshot.status !== 'active') {
+            throw new BadRequestException(
+                `Current CommissionFinalSettlementSnapshot is required before approving retention payout for project ${payout.projectId}`
+            );
+        }
+        if (
+            currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION ||
+            currentSnapshot.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY
+        ) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is not in a retention-ready settlement state`);
+        }
+        if (!currentSnapshot.retentionReceiptRecordId || !currentSnapshot.departureExceptionDecisionId) {
+            throw new BadRequestException(`Current CommissionFinalSettlementSnapshot for project ${payout.projectId} is missing retention receipt or departure decision references`);
+        }
+
+        const context = await this.loadCurrentFinalSettlementContext(em, payout.projectId);
+        const { freezeVersion, binding, gateReview } = context;
+        if (this.isReviewOrBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
+        }
+
+        const retentionReceipt = await em.findOne(ReceiptRecord, { id: currentSnapshot.retentionReceiptRecordId });
+        if (!retentionReceipt || retentionReceipt.projectId !== payout.projectId || retentionReceipt.status !== 'confirmed') {
+            throw new BadRequestException(`Current retention receipt ${currentSnapshot.retentionReceiptRecordId} is invalid for project ${payout.projectId}`);
+        }
+
+        const departureDecision = await em.findOne(CommissionDepartureExceptionDecision, { id: currentSnapshot.departureExceptionDecisionId });
+        if (
+            !departureDecision ||
+            departureDecision.projectId !== payout.projectId ||
+            departureDecision.freezeVersionId !== freezeVersion.id ||
+            !departureDecision.isCurrent ||
+            departureDecision.status !== 'active'
+        ) {
+            throw new BadRequestException(
+                `Current departure / exception decision ${currentSnapshot.departureExceptionDecisionId} is invalid for project ${payout.projectId}`
+            );
+        }
+        if (departureDecision.confirmationRequirementSummary?.trim()) {
+            throw new BadRequestException('The current departure / exception decision still requires successor confirmation before retention payout approval');
+        }
+
+        const openDispute = await em.findOne(CommissionFreezeDisputeRecord, { freezeVersionId: freezeVersion.id, status: 'submitted' });
+        if (openDispute) {
+            throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by an open freeze dispute`);
+        }
+
+        return {
+            currentSnapshot,
+            freezeVersion,
+            binding,
+            gateReview,
+            retentionReceipt,
+            departureDecision
+        };
+    }
+
+    private buildRetentionSettlementDraftFromContext(
+        bindingAction: string | null | undefined,
+        gateReview: Pick<CommissionGateReviewRecord, 'gateReviewDecision' | 'blockingReasonCode' | 'nextActionSummary'>,
+        departureDecision: Pick<CommissionDepartureExceptionDecision, 'decisionSummary' | 'confirmationRequirementSummary'>,
+        retentionReceipt: Pick<ReceiptRecord, 'receiptAmount' | 'receiptDate'>
+    ): RetentionSettlementDraft {
+        return buildRetentionSettlementDraft({
+            openFreezeDispute: false,
+            departureDecision: {
+                decisionSummary: departureDecision.decisionSummary,
+                confirmationRequirementSummary: departureDecision.confirmationRequirementSummary ?? null
+            },
+            retentionReceipt: {
+                receiptAmount: retentionReceipt.receiptAmount,
+                receiptDate: retentionReceipt.receiptDate
+            },
+            gateBindingAction: bindingAction ?? null,
+            gateReviewDecision: gateReview.gateReviewDecision,
+            gateReviewBlockingReasonCode: gateReview.blockingReasonCode ?? null,
+            gateNextActionSummary: gateReview.nextActionSummary ?? null
+        });
+    }
+
     private async writeCurrentFinalSettlementSnapshot(
         em: EntityManager,
         payout: CommissionPayout,
@@ -592,17 +891,19 @@ export class ApprovalService {
         statusPatch: {
             finalSettlementStatus: string;
             nonRetentionSettlementStatus: string;
+            retentionSettlementStatus: string;
+            retentionRequirementSummary: string | null;
+            retentionReceiptSummary: string | null;
+            departureExceptionSummary: string | null;
+            retentionReceiptRecordId: string | null;
+            departureExceptionDecisionId: string | null;
         },
         finalSettlementContext?: {
             freezeVersion: CommissionRoleAssignment;
             binding: OperatingSignalToCommissionGateBinding;
             gateReview: CommissionGateReviewRecord;
         } | null
-    ): Promise<string | null> {
-        if (payout.stageType !== 'final') {
-            return null;
-        }
-
+    ): Promise<CommissionFinalSettlementSnapshot> {
         const { freezeVersion, binding, gateReview } =
             finalSettlementContext ?? (await this.loadCurrentFinalSettlementContext(em, payout.projectId));
         const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
@@ -622,16 +923,16 @@ export class ApprovalService {
             projectId: payout.projectId,
             freezeVersionId: freezeVersion.id,
             gateReviewRecordId: gateReview.id,
-            retentionReceiptRecordId: null,
-            departureExceptionDecisionId: null,
+            retentionReceiptRecordId: statusPatch.retentionReceiptRecordId,
+            departureExceptionDecisionId: statusPatch.departureExceptionDecisionId,
             version: currentSnapshot ? currentSnapshot.version + 1 : 1,
             isCurrent: true,
             finalSettlementStatus: statusPatch.finalSettlementStatus,
             nonRetentionSettlementStatus: statusPatch.nonRetentionSettlementStatus,
-            retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
-            retentionRequirementSummary: currentSnapshot?.retentionRequirementSummary ?? DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
-            retentionReceiptSummary: null,
-            departureExceptionSummary: null,
+            retentionSettlementStatus: statusPatch.retentionSettlementStatus,
+            retentionRequirementSummary: statusPatch.retentionRequirementSummary,
+            retentionReceiptSummary: statusPatch.retentionReceiptSummary,
+            departureExceptionSummary: statusPatch.departureExceptionSummary,
             baselineSelectionSource: binding.baselineSelectionSource,
             taxImpactSummary: binding.taxImpactSummary,
             taxImpactPendingAmount: binding.taxImpactPendingAmount,
@@ -652,13 +953,61 @@ export class ApprovalService {
         });
 
         em.persist(snapshot);
-        return snapshot.id;
+        return snapshot;
+    }
+
+    private async writeCurrentRuleExplanationSnapshot(
+        em: EntityManager,
+        projectId: string,
+        finalSettlementSnapshotId: string,
+        explanation: RuleExplanationDraft,
+        actorUserId: string
+    ): Promise<void> {
+        const currentRuleExplanation = await em.findOne(CommissionRuleExplanationSnapshot, {
+            projectId,
+            isCurrent: true
+        });
+
+        if (currentRuleExplanation) {
+            currentRuleExplanation.isCurrent = false;
+            currentRuleExplanation.status = 'superseded';
+            currentRuleExplanation.updatedBy = actorUserId;
+            em.persist(currentRuleExplanation);
+        }
+
+        const nextRuleExplanation = em.create(CommissionRuleExplanationSnapshot, {
+            id: randomUUID(),
+            projectId,
+            finalSettlementSnapshotId,
+            version: currentRuleExplanation ? currentRuleExplanation.version + 1 : 1,
+            isCurrent: true,
+            currentStageStatus: explanation.currentStageStatus,
+            gateDecisionCode: explanation.gateDecisionCode,
+            blockingReasonCategory: explanation.blockingReasonCategory,
+            blockingReasonCode: explanation.blockingReasonCode,
+            blockingReasonSummary: explanation.blockingReasonSummary,
+            gateDecisionSummary: explanation.gateDecisionSummary,
+            nextActionSummary: explanation.nextActionSummary,
+            generatedAt: new Date(),
+            status: 'active',
+            supersedesId: currentRuleExplanation?.id ?? null,
+            createdBy: actorUserId,
+            updatedBy: actorUserId
+        });
+
+        em.persist(nextRuleExplanation);
     }
 
     private isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
         return [bindingAction, gateReviewDecision]
             .map((value) => value?.trim().toUpperCase())
             .some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
+    }
+
+    private isReviewOrBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
+        return [bindingAction, gateReviewDecision]
+            .map((value) => value?.trim().toUpperCase())
+            .some((value) => value === 'REVIEW' || value === 'BLOCK' || value?.startsWith('REVIEW_') || value?.startsWith('BLOCK_'));
     }
 }
 

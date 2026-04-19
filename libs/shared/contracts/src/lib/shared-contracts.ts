@@ -2306,6 +2306,14 @@ export type CreateCommissionPayoutRequest = z.infer<typeof CreateCommissionPayou
 
 export const SubmitCommissionPayoutApprovalRequestSchema = z
     .object({
+        payoutStage: CommissionPayoutStageSchema.optional(),
+        gateReviewRecordId: z.uuid().optional(),
+        freezeVersionId: z.uuid().optional(),
+        baselineSelectionSource: z.string().trim().min(1).max(32).optional(),
+        summarySnapshotId: z.uuid().optional(),
+        retentionReceiptRecordId: z.uuid().optional(),
+        departureExceptionDecisionId: z.uuid().optional(),
+        comment: z.string().trim().min(1).max(2000).optional(),
         expectedVersion: z.number().int().positive().optional()
     })
     .meta({ id: 'SubmitCommissionPayoutApprovalRequest' });
@@ -2323,7 +2331,12 @@ export type ApproveCommissionPayoutRequest = z.infer<typeof ApproveCommissionPay
 
 export const RegisterCommissionPayoutRequestSchema = z
     .object({
+        payoutStage: CommissionPayoutStageSchema.optional(),
+        approvalRecordId: z.uuid().optional(),
         paidRecordAmount: z.string().trim().min(1).max(64),
+        paidAt: z.iso.datetime().optional(),
+        summarySnapshotId: z.uuid().optional(),
+        comment: z.string().trim().min(1).max(2000).optional(),
         expectedVersion: z.number().int().positive().optional()
     })
     .meta({ id: 'RegisterCommissionPayoutRequest' });

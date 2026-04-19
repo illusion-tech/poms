@@ -6,6 +6,8 @@ import { Contract } from '../contract/contract.entity';
 import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
+import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
+import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -44,7 +46,9 @@ import { CommissionService } from './commission.service';
             CommissionAdjustment,
             CommissionDepartureExceptionDecision,
             CommissionFinalSettlementSnapshot,
-            CommissionRuleExplanationSnapshot
+            CommissionRuleExplanationSnapshot,
+            OperatingSignalToCommissionGateBinding,
+            CommissionGateReviewRecord
         ]),
         ApprovalModule
     ],

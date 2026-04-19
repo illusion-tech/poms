@@ -7,9 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionPayoutStage } from './commission-payout-stage';
 
 
 export interface SubmitCommissionPayoutApprovalRequest { 
+    payoutStage?: CommissionPayoutStage;
+    gateReviewRecordId?: string;
+    freezeVersionId?: string;
+    baselineSelectionSource?: string;
+    summarySnapshotId?: string;
+    retentionReceiptRecordId?: string;
+    departureExceptionDecisionId?: string;
+    comment?: string;
     expectedVersion?: number;
 }
-

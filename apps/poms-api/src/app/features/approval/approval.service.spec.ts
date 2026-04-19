@@ -28,8 +28,24 @@ jest.mock('../commission/commission-final-settlement-snapshot.entity', () => ({
     CommissionFinalSettlementSnapshot: class CommissionFinalSettlementSnapshot {}
 }));
 
+jest.mock('../commission/commission-rule-explanation-snapshot.entity', () => ({
+    CommissionRuleExplanationSnapshot: class CommissionRuleExplanationSnapshot {}
+}));
+
+jest.mock('../commission/commission-departure-exception-decision.entity', () => ({
+    CommissionDepartureExceptionDecision: class CommissionDepartureExceptionDecision {}
+}));
+
+jest.mock('../commission/commission-freeze-dispute-record.entity', () => ({
+    CommissionFreezeDisputeRecord: class CommissionFreezeDisputeRecord {}
+}));
+
 jest.mock('../commission/commission-adjustment.entity', () => ({
     CommissionAdjustment: class CommissionAdjustment {}
+}));
+
+jest.mock('../contract-finance/receipt-record.entity', () => ({
+    ReceiptRecord: class ReceiptRecord {}
 }));
 
 jest.mock('../project-cost/operating-signal-gate-binding.entity', () => ({
@@ -57,6 +73,8 @@ describe('ApprovalService', () => {
     const payoutId = '31000000-0000-4000-8000-000000000001';
     const adjustmentId = '32000000-0000-4000-8000-000000000001';
     const finalSettlementSnapshotId = '33000000-0000-4000-8000-000000000001';
+    const retentionReceiptRecordId = '33100000-0000-4000-8000-000000000001';
+    const departureExceptionDecisionId = '33200000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
     const initiatorUserId = '00000000-0000-4000-8000-000000000002';
     const approverUserId = '00000000-0000-4000-8000-000000000001';
@@ -265,10 +283,81 @@ describe('ApprovalService', () => {
         await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
     });
 
-    it('blocks retention commission payout submit until the retention write-side is implemented', async () => {
-        em.findOne.mockResolvedValueOnce(createCommissionPayout({ stageType: 'retention', status: 'draft', rowVersion: 2 }));
+    it('submits retention commission payout approval and writes current settlement plus rule explanation snapshots', async () => {
+        const payout = createCommissionPayout({ stageType: 'retention', status: 'draft', rowVersion: 2 });
+        const currentSnapshot = createFinalSettlementSnapshot({
+            finalSettlementStatus: 'pending-retention-settlement',
+            nonRetentionSettlementStatus: 'settled-non-retention',
+            retentionSettlementStatus: 'waiting-retention'
+        });
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createRetentionReceipt())
+            .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(null);
+
+        const result = await service.submitCommissionPayoutApproval(payoutId, initiatorUserId, {
+            payoutStage: 'retention',
+            gateReviewRecordId: '36000000-0000-4000-8000-000000000001',
+            freezeVersionId: '34000000-0000-4000-8000-000000000001',
+            baselineSelectionSource: 'original',
+            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            retentionReceiptRecordId,
+            departureExceptionDecisionId,
+            expectedVersion: 2
+        });
+
+        expect(payout.status).toBe('pending-approval');
+        expect(em.create).toHaveBeenCalledWith(
+            expect.any(Function),
+            expect.objectContaining({
+                projectId,
+                finalSettlementStatus: 'pending-retention-settlement',
+                nonRetentionSettlementStatus: 'settled-non-retention',
+                retentionSettlementStatus: 'ready-retention',
+                retentionReceiptRecordId,
+                departureExceptionDecisionId
+            })
+        );
+        expect(result.snapshotId).toBe('generated-uuid');
+    });
+
+    it('blocks retention commission payout submit when the current departure decision still requires successor confirmation', async () => {
+        const payout = createCommissionPayout({ stageType: 'retention', status: 'draft', rowVersion: 2 });
+        const currentSnapshot = createFinalSettlementSnapshot({
+            finalSettlementStatus: 'pending-retention-settlement',
+            nonRetentionSettlementStatus: 'settled-non-retention',
+            retentionSettlementStatus: 'waiting-retention'
+        });
+
+        em.findOne
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createRetentionReceipt())
+            .mockResolvedValueOnce(createDepartureExceptionDecision());
+
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, {
+                payoutStage: 'retention',
+                gateReviewRecordId: '36000000-0000-4000-8000-000000000001',
+                summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+                retentionReceiptRecordId,
+                departureExceptionDecisionId,
+                expectedVersion: 2
+            })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('approves pending commission payout and closes todo', async () => {
@@ -324,7 +413,8 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(createFinalGateBinding())
             .mockResolvedValueOnce(createFinalGateReview())
-            .mockResolvedValueOnce(currentSnapshot);
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(null);
 
         const result = await service.approveRecord(approvalRecordId, approverUserId, {
             comment: '批准最终结算发放',
@@ -378,7 +468,7 @@ describe('ApprovalService', () => {
         await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
     });
 
-    it('blocks retention payout approval until the retention write-side is implemented', async () => {
+    it('approves retention payout and refreshes the current settlement snapshot', async () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
             businessDomain: 'commission',
@@ -393,9 +483,43 @@ describe('ApprovalService', () => {
             targetObjectId: payoutId,
             title: '提成发放审批：质保金结算'
         });
-        em.findOne.mockResolvedValueOnce(approval).mockResolvedValueOnce(todo).mockResolvedValueOnce(payout);
+        const currentSnapshot = createFinalSettlementSnapshot({
+            finalSettlementStatus: 'pending-retention-settlement',
+            nonRetentionSettlementStatus: 'settled-non-retention',
+            retentionSettlementStatus: 'ready-retention',
+            retentionReceiptRecordId,
+            departureExceptionDecisionId
+        });
 
-        await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
+        em.findOne
+            .mockResolvedValueOnce(approval)
+            .mockResolvedValueOnce(todo)
+            .mockResolvedValueOnce(payout)
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createRetentionReceipt())
+            .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce(currentSnapshot)
+            .mockResolvedValueOnce(null);
+
+        const result = await service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 });
+
+        expect(payout.status).toBe('approved');
+        expect(em.create).toHaveBeenCalledWith(
+            expect.any(Function),
+            expect.objectContaining({
+                projectId,
+                finalSettlementStatus: 'pending-retention-settlement',
+                nonRetentionSettlementStatus: 'settled-non-retention',
+                retentionSettlementStatus: 'ready-retention',
+                retentionReceiptRecordId,
+                departureExceptionDecisionId
+            })
+        );
+        expect(result.snapshotId).toBe('generated-uuid');
     });
 
     it('submits commission adjustment approval and creates approval plus todo', async () => {
@@ -875,6 +999,52 @@ describe('ApprovalService', () => {
             rowVersion: 4,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createRetentionReceipt(overrides: Record<string, unknown> = {}) {
+        return {
+            id: retentionReceiptRecordId,
+            contractId,
+            projectId,
+            receiptAmount: '160.00',
+            receiptDate: new Date('2026-03-23T10:00:00.000Z'),
+            sourceType: 'contract-receipt',
+            status: 'confirmed',
+            confirmedAt: new Date('2026-03-23T10:00:00.000Z'),
+            confirmedBy: approverUserId,
+            rowVersion: 1,
+            createdAt: new Date('2026-03-23T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-23T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createDepartureExceptionDecision(overrides: Record<string, unknown> = {}) {
+        return {
+            id: departureExceptionDecisionId,
+            projectId,
+            freezeVersionId: '34000000-0000-4000-8000-000000000001',
+            version: 1,
+            rowVersion: 1,
+            isCurrent: true,
+            departureScenarioCode: 'employee-left-company',
+            decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+            decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
+            confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
+            summaryPackageKey: 'project-handover-confirmation',
+            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'controlled',
+            handledAt: new Date('2026-03-23T10:00:00.000Z'),
+            handledBy: approverUserId,
+            status: 'active',
+            supersedesId: null,
+            createdBy: approverUserId,
+            updatedBy: approverUserId,
+            createdAt: new Date('2026-03-23T10:00:00.000Z'),
+            updatedAt: new Date('2026-03-23T10:00:00.000Z'),
             ...overrides
         };
     }
