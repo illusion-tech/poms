@@ -73,6 +73,7 @@ import type { ProjectOperatingSnapshot } from './project-operating-snapshot.enti
 import type { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
+import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
@@ -2922,7 +2923,11 @@ export class ProjectCostService {
     private dayBefore(date: string): string {
         const result = this.toDate(date);
         result.setUTCDate(result.getUTCDate() - 1);
-        return result.toISOString().slice(0, 10);
+        const normalized = toBusinessDateOnly(result);
+        if (!normalized) {
+            throw new RangeError('Date value is required');
+        }
+        return normalized;
     }
 
     private parsePositiveDecimal(value: string | number | null | undefined, fieldName: string): number {
@@ -2981,10 +2986,11 @@ export class ProjectCostService {
     }
 
     private toIsoDate(value: Date | string): string {
-        if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
-            return value;
+        const normalized = toBusinessDateOnly(value);
+        if (!normalized) {
+            throw new RangeError('Date value is required');
         }
-        return this.toDate(value).toISOString().slice(0, 10);
+        return normalized;
     }
 
     private toNullableDate(value: Date | string | null | undefined): string | null {

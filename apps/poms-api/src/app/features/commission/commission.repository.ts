@@ -6,6 +6,7 @@ import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
+import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -37,6 +38,8 @@ export class CommissionRepository {
         private readonly receiptJudgmentFreezeRepository: EntityRepository<ProjectReceiptJudgmentFreeze>,
         @InjectRepository(ApprovalSummarySnapshot)
         private readonly approvalSummarySnapshotRepository: EntityRepository<ApprovalSummarySnapshot>,
+        @InjectRepository(CommissionGateReviewRecord)
+        private readonly gateReviewRecordRepository: EntityRepository<CommissionGateReviewRecord>,
         @InjectRepository(CommissionRuleVersion)
         private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
         @InjectRepository(CommissionRoleAssignment)
@@ -79,6 +82,10 @@ export class CommissionRepository {
         return this.receiptRepository.find({ projectId, status: 'confirmed' });
     }
 
+    async findReceiptById(id: string): Promise<ReceiptRecord | null> {
+        return this.receiptRepository.findOne({ id });
+    }
+
     async findConfirmedPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
         return this.paymentRepository.find({ projectId, status: 'confirmed' });
     }
@@ -96,6 +103,10 @@ export class CommissionRepository {
 
     async findApprovalSummarySnapshotById(id: string): Promise<ApprovalSummarySnapshot | null> {
         return this.approvalSummarySnapshotRepository.findOne({ id });
+    }
+
+    async findGateReviewRecordById(id: string): Promise<CommissionGateReviewRecord | null> {
+        return this.gateReviewRecordRepository.findOne({ id });
     }
 
     // ── Rule Versions ────────────────────────────────────────────────────────

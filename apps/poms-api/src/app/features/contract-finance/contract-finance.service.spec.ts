@@ -282,6 +282,16 @@ describe('ContractFinanceService', () => {
         expect(result.allowedActions).toEqual([]);
     });
 
+    it('formats payable expectedPaymentDate with the business day instead of UTC slicing', async () => {
+        repo.findPayableById.mockResolvedValue(makePayable({ expectedPaymentDate: new Date('2026-03-30T16:30:00.000Z') }) as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue(null as never);
+        repo.findPaymentsForPayable.mockResolvedValue([] as never);
+
+        const result = await service.getPayable(PAYABLE_ID);
+
+        expect(result.expectedPaymentDate).toBe('2026-03-31');
+    });
+
     it('creates input invoice without contract', async () => {
         repo.findProjectById.mockResolvedValue(makeProject() as never);
         repo.createInvoice.mockReturnValue(makeInvoice({ contractId: null, invoiceType: 'input' }) as never);
@@ -438,6 +448,15 @@ describe('ContractFinanceService', () => {
         const result = await service.getInvoice(INVOICE_ID);
 
         expect(result.allowedActions).toEqual([]);
+    });
+
+    it('formats invoiceDate with the business day instead of UTC slicing', async () => {
+        repo.findInvoiceById.mockResolvedValue(makeInvoice({ invoiceDate: new Date('2026-03-26T16:30:00.000Z'), status: 'verified' }) as never);
+        repo.findCurrentCostMappingBySource.mockResolvedValue(null as never);
+
+        const result = await service.getInvoice(INVOICE_ID);
+
+        expect(result.invoiceDate).toBe('2026-03-27');
     });
 
     it('creates payment for project', async () => {

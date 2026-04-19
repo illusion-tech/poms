@@ -25,6 +25,7 @@ import type { InvoiceRecord } from './invoice-record.entity';
 import type { PayableRecord } from './payable-record.entity';
 import type { PaymentRecord } from './payment-record.entity';
 import type { ReceiptRecord } from './receipt-record.entity';
+import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 
 @Injectable()
 export class ContractFinanceService {
@@ -586,10 +587,11 @@ export class ContractFinanceService {
     }
 
     #toDateOnly(value: Date | string): string {
-        if (typeof value === 'string') {
-            return value.slice(0, 10);
+        const normalized = toBusinessDateOnly(value);
+        if (!normalized) {
+            throw new RangeError('Date value is required');
         }
-        return value.toISOString().slice(0, 10);
+        return normalized;
     }
 
     #appendComment(value: string, comment?: string | null): string {

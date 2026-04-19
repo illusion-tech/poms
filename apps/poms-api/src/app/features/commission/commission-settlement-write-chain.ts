@@ -1,3 +1,5 @@
+import { toBusinessDateOnly, toBusinessDateString } from '../../core/date/business-date.utils';
+
 export const FINAL_SETTLEMENT_STATUS_PENDING = 'pending-final-settlement';
 export const FINAL_SETTLEMENT_STATUS_PENDING_RETENTION = 'pending-retention-settlement';
 export const FINAL_SETTLEMENT_STATUS_SETTLED_ALL = 'settled-all';
@@ -293,7 +295,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
 }
 
 export function evaluateRetentionDueDate(value: Date | string | null | undefined, now = new Date()): RetentionDueEvaluation {
-    const retentionDueDate = toDateOnly(value);
+    const retentionDueDate = toBusinessDateOnly(value);
     if (!retentionDueDate) {
         return {
             retentionDueDate: null,
@@ -303,7 +305,7 @@ export function evaluateRetentionDueDate(value: Date | string | null | undefined
 
     return {
         retentionDueDate,
-        retentionDueStatus: retentionDueDate <= now.toISOString().slice(0, 10) ? 'due' : 'pending'
+        retentionDueStatus: retentionDueDate <= toBusinessDateString(now) ? 'due' : 'pending'
     };
 }
 
@@ -331,7 +333,7 @@ function buildUnmetRequirements(input: RetentionEvaluationInput): string[] {
 }
 
 function formatRetentionReceiptSummary(receipt: SettlementReceiptSummary): string {
-    const receiptDate = receipt.receiptDate.toISOString().slice(0, 10);
+    const receiptDate = toBusinessDateString(receipt.receiptDate);
     const receiptAmount = typeof receipt.receiptAmount === 'string' ? receipt.receiptAmount : receipt.receiptAmount.toFixed(2);
     return `质保金到账：${receiptDate} / ${receiptAmount}`;
 }
@@ -352,11 +354,4 @@ function getGateSeverity(bindingAction?: string | null, gateReviewDecision?: str
 
 function hasText(value?: string | null): value is string {
     return Boolean(value && value.trim().length > 0);
-}
-
-function toDateOnly(value: Date | string | null | undefined): string | null {
-    if (!value) {
-        return null;
-    }
-    return typeof value === 'string' ? value.slice(0, 10) : value.toISOString().slice(0, 10);
 }

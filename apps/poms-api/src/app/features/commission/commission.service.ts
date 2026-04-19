@@ -177,18 +177,19 @@ export class CommissionService {
 
     async getCommissionFinalSettlement(projectId: string): Promise<CommissionFinalSettlementView> {
         const { snapshot, freezeVersion } = await this.#getCurrentFinalSettlementContext(projectId);
-        const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
+        const liveRetentionQueryState = await this.#loadLiveRetentionQueryState(snapshot, freezeVersion);
+        const liveDraft = liveRetentionQueryState.draft;
 
         return {
             projectId,
-            finalSettlementStatus: snapshot.finalSettlementStatus,
-            nonRetentionSettlementStatus: snapshot.nonRetentionSettlementStatus,
-            retentionSettlementStatus: snapshot.retentionSettlementStatus,
-            retentionDueDate: retentionDue.retentionDueDate,
-            retentionDueStatus: retentionDue.retentionDueStatus,
-            retentionRequirementSummary: snapshot.retentionRequirementSummary ?? null,
-            retentionReceiptSummary: snapshot.retentionReceiptSummary ?? null,
-            departureExceptionSummary: snapshot.departureExceptionSummary ?? null,
+            finalSettlementStatus: liveDraft ? liveDraft.finalSettlementStatus : snapshot.finalSettlementStatus,
+            nonRetentionSettlementStatus: liveDraft ? liveDraft.nonRetentionSettlementStatus : snapshot.nonRetentionSettlementStatus,
+            retentionSettlementStatus: liveDraft ? liveDraft.retentionSettlementStatus : snapshot.retentionSettlementStatus,
+            retentionDueDate: liveRetentionQueryState.retentionDue.retentionDueDate,
+            retentionDueStatus: liveRetentionQueryState.retentionDue.retentionDueStatus,
+            retentionRequirementSummary: liveDraft ? liveDraft.retentionRequirementSummary : snapshot.retentionRequirementSummary ?? null,
+            retentionReceiptSummary: liveDraft ? liveDraft.retentionReceiptSummary : snapshot.retentionReceiptSummary ?? null,
+            departureExceptionSummary: liveDraft ? liveDraft.departureExceptionSummary : snapshot.departureExceptionSummary ?? null,
             ...this.#buildCommissionSharedEvidencePackage(snapshot, freezeVersion),
             allowedActions: []
         };
@@ -200,16 +201,18 @@ export class CommissionService {
             projectId,
             snapshot.finalSettlementSnapshotId
         );
+        const liveRetentionQueryState = await this.#loadLiveRetentionQueryState(finalSettlementSnapshot, freezeVersion);
+        const liveRuleExplanation = liveRetentionQueryState.draft?.ruleExplanation;
 
         return {
             projectId,
-            currentStageStatus: snapshot.currentStageStatus,
-            gateDecisionCode: snapshot.gateDecisionCode,
-            blockingReasonCategory: snapshot.blockingReasonCategory ?? null,
-            blockingReasonCode: snapshot.blockingReasonCode ?? null,
-            blockingReasonSummary: snapshot.blockingReasonSummary ?? null,
-            gateDecisionSummary: snapshot.gateDecisionSummary,
-            nextActionSummary: snapshot.nextActionSummary ?? null,
+            currentStageStatus: liveRuleExplanation ? liveRuleExplanation.currentStageStatus : snapshot.currentStageStatus,
+            gateDecisionCode: liveRuleExplanation ? liveRuleExplanation.gateDecisionCode : snapshot.gateDecisionCode,
+            blockingReasonCategory: liveRuleExplanation ? liveRuleExplanation.blockingReasonCategory : snapshot.blockingReasonCategory ?? null,
+            blockingReasonCode: liveRuleExplanation ? liveRuleExplanation.blockingReasonCode : snapshot.blockingReasonCode ?? null,
+            blockingReasonSummary: liveRuleExplanation ? liveRuleExplanation.blockingReasonSummary : snapshot.blockingReasonSummary ?? null,
+            gateDecisionSummary: liveRuleExplanation ? liveRuleExplanation.gateDecisionSummary : snapshot.gateDecisionSummary,
+            nextActionSummary: liveRuleExplanation ? liveRuleExplanation.nextActionSummary : snapshot.nextActionSummary ?? null,
             ...this.#buildCommissionSharedEvidencePackage(finalSettlementSnapshot, freezeVersion),
             allowedActions: []
         };
@@ -1668,6 +1671,92 @@ export class CommissionService {
             return evaluateRetentionDueDate(null);
         }
         return this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
+    }
+
+    async #loadLiveRetentionQueryState(
+        snapshot: Pick<
+            CommissionFinalSettlementSnapshot,
+            | 'projectId'
+            | 'freezeVersionId'
+            | 'gateReviewRecordId'
+            | 'retentionReceiptRecordId'
+            | 'departureExceptionDecisionId'
+            | 'currentActionLevel'
+            | 'finalSettlementStatus'
+            | 'retentionSettlementStatus'
+        >,
+        freezeVersion: CommissionRoleAssignment
+    ): Promise<{
+        retentionDue: RetentionDueEvaluation;
+        draft: RetentionSettlementDraft | null;
+    }> {
+        const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
+        if (!this.#shouldRecomputeRetentionQueryState(snapshot.finalSettlementStatus)) {
+            return { retentionDue, draft: null };
+        }
+
+        const [gateReview, openDispute, departureDecision, retentionReceipt] = await Promise.all([
+            this.repo.findGateReviewRecordById(snapshot.gateReviewRecordId),
+            this.repo.findOpenFreezeDisputeByFreezeVersionId(snapshot.freezeVersionId),
+            this.#loadRetentionDepartureDecisionForRead(
+                snapshot.projectId,
+                snapshot.freezeVersionId,
+                snapshot.departureExceptionDecisionId ?? null
+            ),
+            this.#loadRetentionReceiptForRead(snapshot.projectId, snapshot.retentionReceiptRecordId ?? null)
+        ]);
+
+        return {
+            retentionDue,
+            draft: this.#buildRetentionSettlementDraft(
+                snapshot.currentActionLevel,
+                gateReview,
+                departureDecision,
+                retentionReceipt,
+                retentionDue,
+                Boolean(openDispute),
+                snapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_SETTLED_ALL ||
+                    snapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED
+            )
+        };
+    }
+
+    #shouldRecomputeRetentionQueryState(finalSettlementStatus: string): boolean {
+        return finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION || finalSettlementStatus === FINAL_SETTLEMENT_STATUS_SETTLED_ALL;
+    }
+
+    async #loadRetentionReceiptForRead(projectId: string, receiptRecordId: string | null): Promise<ReceiptRecord | null> {
+        if (!receiptRecordId) {
+            return null;
+        }
+
+        const receipt = await this.repo.findReceiptById(receiptRecordId);
+        if (!receipt || receipt.projectId !== projectId || receipt.status !== 'confirmed') {
+            return null;
+        }
+        return receipt;
+    }
+
+    async #loadRetentionDepartureDecisionForRead(
+        projectId: string,
+        freezeVersionId: string,
+        departureExceptionDecisionId: string | null
+    ): Promise<CommissionDepartureExceptionDecision | null> {
+        if (!departureExceptionDecisionId) {
+            return null;
+        }
+
+        const decision = await this.repo.findDepartureExceptionDecisionById(departureExceptionDecisionId);
+        if (
+            !decision ||
+            decision.projectId !== projectId ||
+            decision.freezeVersionId !== freezeVersionId ||
+            !decision.isCurrent ||
+            decision.status !== 'active'
+        ) {
+            return null;
+        }
+        return decision;
     }
 
     #assertRetentionDueReady(retentionDue: RetentionDueEvaluation, payoutId: string, actionName: string): void {

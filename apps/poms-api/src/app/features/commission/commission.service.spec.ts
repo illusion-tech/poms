@@ -414,10 +414,12 @@ describe('CommissionService', () => {
             findProjectById: jest.fn(),
             findActiveContractsForProject: jest.fn(),
             findConfirmedReceiptsForProject: jest.fn(),
+            findReceiptById: jest.fn(),
             findConfirmedPaymentsForProject: jest.fn(),
             findProjectHandoverById: jest.fn(),
             findCurrentReceiptJudgmentFreeze: jest.fn(),
             findApprovalSummarySnapshotById: jest.fn(),
+            findGateReviewRecordById: jest.fn(),
             findCurrentFinalSettlementSnapshot: jest.fn(),
             findFinalSettlementSnapshotById: jest.fn(),
             findFinalSettlementSnapshotsForProject: jest.fn(),
@@ -602,6 +604,10 @@ describe('CommissionService', () => {
         service = new CommissionService(repo);
     });
 
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
     // ── Rule Versions ────────────────────────────────────────────────────────
 
     describe('listRuleVersions', () => {
@@ -730,6 +736,44 @@ describe('CommissionService', () => {
             expect(result.allowedActions).toEqual([]);
         });
 
+        it('recomputes the retention query state from the live due fact when the due date has been reached', async () => {
+            jest.useFakeTimers().setSystemTime(new Date('2026-04-19T16:30:00.000Z'));
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(
+                makeFinalSettlementSnapshot({
+                    finalSettlementStatus: 'pending-retention-settlement',
+                    nonRetentionSettlementStatus: 'settled-non-retention',
+                    retentionSettlementStatus: 'waiting-retention',
+                    retentionRequirementSummary: '待质保期届满',
+                    currentActionLevel: 'ALLOW',
+                    retentionReceiptRecordId: RETENTION_RECEIPT_ID,
+                    departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
+                }) as never
+            );
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(
+                makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
+            );
+            repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
+            repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
+            repo.findDepartureExceptionDecisionById.mockResolvedValue(
+                makeDepartureExceptionDecision({
+                    decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                    decisionSummary: '允许进入质保金结算',
+                    confirmationRequirementSummary: null
+                }) as never
+            );
+            repo.findReceiptById.mockResolvedValue(makeRetentionReceipt() as never);
+
+            const result = await service.getCommissionFinalSettlement(PROJECT_ID);
+
+            expect(result.retentionDueDate).toBe('2026-04-20');
+            expect(result.retentionDueStatus).toBe('due');
+            expect(result.retentionSettlementStatus).toBe('ready-retention');
+            expect(result.retentionRequirementSummary).toBe('当前质保金已具备结算条件');
+        });
+
         it('throws NotFoundException when the current final settlement snapshot is missing', async () => {
             repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(null);
 
@@ -768,6 +812,55 @@ describe('CommissionService', () => {
             expect(result.taxImpactSummary).toBe('税务影响待闭合');
             expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
             expect(result.allowedActions).toEqual([]);
+        });
+
+        it('recomputes the rule explanation from the live due fact when the due blocker has been cleared', async () => {
+            jest.useFakeTimers().setSystemTime(new Date('2026-04-19T16:30:00.000Z'));
+            repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(
+                makeRuleExplanationSnapshot({
+                    currentStageStatus: 'blocked-retention',
+                    gateDecisionCode: 'BLOCK_RETENTION',
+                    blockingReasonCategory: 'retention',
+                    blockingReasonCode: 'RETENTION_DUE_PENDING',
+                    blockingReasonSummary: '当前质保期尚未届满。',
+                    gateDecisionSummary: '当前暂不能进入质保金结算。',
+                    nextActionSummary: '请待合同约定质保期届满后再复核质保金结算。'
+                }) as never
+            );
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(
+                makeFinalSettlementSnapshot({
+                    finalSettlementStatus: 'pending-retention-settlement',
+                    nonRetentionSettlementStatus: 'settled-non-retention',
+                    retentionSettlementStatus: 'waiting-retention',
+                    retentionRequirementSummary: '待质保期届满',
+                    currentActionLevel: 'ALLOW',
+                    retentionReceiptRecordId: RETENTION_RECEIPT_ID,
+                    departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
+                }) as never
+            );
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(
+                makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
+            );
+            repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
+            repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
+            repo.findDepartureExceptionDecisionById.mockResolvedValue(
+                makeDepartureExceptionDecision({
+                    decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                    decisionSummary: '允许进入质保金结算',
+                    confirmationRequirementSummary: null
+                }) as never
+            );
+            repo.findReceiptById.mockResolvedValue(makeRetentionReceipt() as never);
+
+            const result = await service.getCommissionRuleExplanation(PROJECT_ID);
+
+            expect(result.currentStageStatus).toBe('ready-retention');
+            expect(result.gateDecisionCode).toBe('ALLOW_RETENTION');
+            expect(result.blockingReasonCode).toBeNull();
+            expect(result.gateDecisionSummary).toBe('当前质保金已到账，且无重大争议，可进入质保金结算。');
         });
 
         it('throws NotFoundException when the current rule explanation snapshot is missing', async () => {

@@ -1742,6 +1742,20 @@ describe('ProjectCostService', () => {
             expect(result.targetType).toBe('ProjectOperatingSnapshot');
         });
 
+        it('formats operating snapshot source windows with the business day instead of UTC slicing', async () => {
+            projectOperatingSnapshotRepository.findById.mockResolvedValue(
+                makeProjectOperatingSnapshot({
+                    sourceWindowStart: new Date('2023-06-30T16:30:00.000Z'),
+                    sourceWindowEnd: new Date('2023-07-30T16:30:00.000Z')
+                }) as never
+            );
+
+            const result = await service.getProjectOperatingSnapshot(OPERATING_SNAPSHOT_ID);
+
+            expect(result.sourceWindowStart).toBe('2023-07-01');
+            expect(result.sourceWindowEnd).toBe('2023-07-31');
+        });
+
         it('rejects handover rebaseline snapshot creation when the record belongs to another project', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
             contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(
