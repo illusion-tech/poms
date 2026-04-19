@@ -115,6 +115,30 @@ export class DatabaseSeeder extends Seeder {
         `);
 
         await connection.execute(`
+            delete from "${schema}"."commission_rule_explanation_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_final_settlement_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_departure_exception_decision"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" like 'E2E-%'
+            );
+        `);
+
+        await connection.execute(`
             delete from "${schema}"."commission_calculation"
             where "project_id" in (
                 select "id" from "${schema}"."project"
@@ -159,6 +183,30 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             delete from "${schema}"."commission_payout"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_rule_explanation_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_final_settlement_snapshot"
+            where "project_id" in (
+                select "id" from "${schema}"."project"
+                where "project_code" in (${seededProjectCodes})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."commission_departure_exception_decision"
             where "project_id" in (
                 select "id" from "${schema}"."project"
                 where "project_code" in (${seededProjectCodes})
@@ -972,6 +1020,7 @@ interface OperatingSignalE2EFixture {
     signalEvaluationId: string;
     gateBindingId: string;
     summarySnapshotId: string;
+    gateStageType: string;
 }
 
 const E2E_ACTOR_ID = '00000000-0000-4000-8000-000000000001';
@@ -1012,6 +1061,18 @@ const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
         contractNo: 'E2E-CMS-HT-NO-ACTIVE-CONTRACT'
     }
 ];
+
+const COMMISSION_MAIN_E2E_FIXTURE = COMMISSION_E2E_FIXTURES[0];
+if (!COMMISSION_MAIN_E2E_FIXTURE) {
+    throw new Error('commission-main e2e fixture must exist');
+}
+const COMMISSION_MAIN_OPERATING_SIGNAL_E2E_FIXTURE: OperatingSignalE2EFixture = {
+    ...makeOperatingSignalE2EFixture(301, 'commission-main'),
+    projectId: COMMISSION_MAIN_E2E_FIXTURE.projectId,
+    projectCode: COMMISSION_MAIN_E2E_FIXTURE.projectCode,
+    projectName: COMMISSION_MAIN_E2E_FIXTURE.projectName,
+    gateStageType: 'final'
+};
 
 const OPERATING_SIGNAL_E2E_FIXTURES: OperatingSignalE2EFixture[] = [
     makeOperatingSignalE2EFixture(201, 'main'),
@@ -1340,6 +1401,10 @@ async function seedProjectHandoverE2EFixture(
     }
 
     await seedProjectHandoverPreparedState(connection, schema, fixture);
+
+    if (fixture.key === COMMISSION_MAIN_E2E_FIXTURE.key) {
+        await seedOperatingSignalEvidenceState(connection, schema, COMMISSION_MAIN_OPERATING_SIGNAL_E2E_FIXTURE);
+    }
 }
 
 async function seedProjectHandoverPreparedState(
@@ -1579,6 +1644,15 @@ async function seedOperatingSignalE2EFixture(
             ${sqlUuid(E2E_ACTOR_ID)}
         );
     `);
+
+    await seedOperatingSignalEvidenceState(connection, schema, fixture);
+}
+
+async function seedOperatingSignalEvidenceState(
+    connection: { execute(sql: string): Promise<unknown> },
+    schema: string,
+    fixture: OperatingSignalE2EFixture
+): Promise<void> {
 
     await connection.execute(`
         insert into "${schema}"."operating_baseline_package" (
@@ -1839,7 +1913,7 @@ async function seedOperatingSignalE2EFixture(
             ${sqlValue(fixture.projectId)},
             ${sqlValue(fixture.signalEvaluationId)},
             'REVIEW',
-            'commission_settlement',
+            ${sqlValue(fixture.gateStageType)},
             'original',
             'Tax package is pending closeout',
             '1200.00',
@@ -1918,7 +1992,8 @@ function makeOperatingSignalE2EFixture(index: number, key: string): OperatingSig
         dataMaturityEvaluationId: `84400000-0000-4000-8000-${suffix}`,
         signalEvaluationId: `84500000-0000-4000-8000-${suffix}`,
         gateBindingId: `84600000-0000-4000-8000-${suffix}`,
-        summarySnapshotId: `69100000-0000-4000-8000-${suffix}`
+        summarySnapshotId: `69100000-0000-4000-8000-${suffix}`,
+        gateStageType: 'commission_settlement'
     };
 }
 

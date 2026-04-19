@@ -14,15 +14,19 @@ import type {
     ArbitrateCommissionFreezeDisputeResult,
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
+    CommissionDepartureExceptionDecisionSummary,
+    CommissionFinalSettlementView,
     CommissionFreezeChangeRequestDetailView,
     CommissionFreezeDisputeDetailView,
     CommissionPayoutSummary,
     CommissionRoleAssignmentDetailView,
     CommissionRoleAssignmentSummary,
+    CommissionRuleExplanationView,
     CommissionRuleVersionSummary,
     ConfirmCommissionCalculationRequest,
     CreateCommissionAdjustmentRequest,
     CreateCommissionCalculationRequest,
+    CreateCommissionDepartureExceptionDecisionRequest,
     CreateCommissionPayoutRequest,
     CreateCommissionRoleAssignmentRequest,
     CreateCommissionRuleVersionRequest,
@@ -213,6 +217,38 @@ export async function submitPayoutApproval(
         input
     );
     return expectStatus(response, 200);
+}
+
+export async function getCommissionFinalSettlement(
+    client: AxiosInstance,
+    projectId: string
+): Promise<CommissionFinalSettlementView> {
+    const response = await client.get<CommissionFinalSettlementView>(
+        `/projects/${projectId}/commission-final-settlement`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function getCommissionRuleExplanation(
+    client: AxiosInstance,
+    projectId: string
+): Promise<CommissionRuleExplanationView> {
+    const response = await client.get<CommissionRuleExplanationView>(
+        `/projects/${projectId}/commission-rule-explanation`
+    );
+    return expectStatus(response, 200);
+}
+
+export async function createDepartureExceptionDecision(
+    client: AxiosInstance,
+    projectId: string,
+    input: CreateCommissionDepartureExceptionDecisionRequest
+): Promise<CommissionDepartureExceptionDecisionSummary> {
+    const response = await client.post<CommissionDepartureExceptionDecisionSummary>(
+        `/projects/${projectId}/commission-departure-exception-decisions`,
+        input
+    );
+    return expectStatus(response, 201);
 }
 
 export async function listPayouts(

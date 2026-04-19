@@ -5,16 +5,16 @@ Local Gate Checkpoint
 - Slice: `FE-06`
 - Tracker Row: `FE-06`
 - Slice Type: `frontend-only`
-- Gate: `G3 = Block`
+- Gate: `G3 = Pass`
 - Formal Inputs:
   - `docs/design/fe-06-final-settlement-rule-explanation-frontend-baseline.md`
   - `docs/design/ex-14b1-final-settlement-and-rule-explanation-query-baseline.md`
   - `docs/design/phase2-commission-retention-final-settlement.md`
   - `docs/design/phase2-commission-rule-explanation-language.md`
 - This change explicitly does not cover:
-- 任何新的后端 public route surface、OpenAPI 或 generated client
-- retention / departure exception 写侧动作
-- `poms-api` departure-exception command 的历史 drift 修复本身
+  - 任何新的后端 public route surface、OpenAPI 或 generated client
+  - retention / departure exception 写侧动作
+  - `poms-api` departure-exception command 的历史 drift 修复本身
 
 Evidence:
 
@@ -48,9 +48,9 @@ Commands:
   - `corepack pnpm nx test poms-admin --runInBand`: ran and passed
   - 覆盖 `ProjectWorkspaceStore` 对 `CommissionFinalSettlementView` / `CommissionRuleExplanationView` 的读侧分支。
 - E2E:
-  - `corepack pnpm nx run poms-api:seeder-run`: ran and passed
-  - `corepack pnpm exec playwright test --config apps/poms-admin-e2e/playwright.config.ts apps/poms-admin-e2e/src/project-workspace.smoke.spec.ts apps/poms-admin-e2e/src/project-workspace.journey.spec.ts`: ran and failed
-  - 当时阻断原因不是 FE-06 页面代码，而是 Playwright `webServer` 启动 `poms-api` 时失败；后续已由 `EX-14B3B` 补齐 `CommissionService.createDepartureExceptionDecision`、controller / route / contract 链并恢复 `corepack pnpm nx build poms-api` 通过，但 FE-06 侧尚未在该修复后重跑 Playwright。
+  - `corepack pnpm nx run poms-api:seeder-run`: reran on `2026-04-19` and passed
+  - `corepack pnpm exec playwright test --config apps/poms-admin-e2e/playwright.config.ts apps/poms-admin-e2e/src/project-workspace.smoke.spec.ts apps/poms-admin-e2e/src/project-workspace.journey.spec.ts`: reran on `2026-04-19` and passed (`6 passed`)
+  - 本次重跑同时覆盖 admin / viewer / anonymous 三类入口链，证明此前阻断点确系 backend drift，而不是 `FE-06` 页面实现本身。
 - OpenAPI / generated client:
   - not required
 - Migration / schema check:
@@ -59,23 +59,23 @@ Commands:
 Drift:
 
 - Classification:
-  - `existing-baseline-drift`
+  - `resolved-existing-drift`
 - Existing baseline drift:
-  - 原 `poms-api` departure-exception controller / service 不一致 drift 已由 `EX-14B3B` 修复；当前 `FE-06` 仍保持 `G3 = Block`，仅因为修复后的浏览器级验证尚未重跑确认。
+  - 原 `poms-api` departure-exception drift 已由 `EX-14B3B` 修复；本轮 `EX-14C` 又补齐 final / retention current snapshot supersede flush 顺序与 seeder 清理顺序，重跑 Playwright 后 `FE-06` 阻断已关闭。
 - New drift introduced:
   - none proven in `FE-06` scope；`poms-admin` 与 `admin-data-access` lint、`poms-admin` unit test、`poms-admin` production build 全部通过。
 
 Exceptions:
 
 - Exception ID: `FE-06-E2E-BLOCKED-BY-POMS-API`
-- Status: `Open`
+- Status: `Closed 2026-04-19`
 - Cleanup owner: `Codex`
-- Cleanup due: `FE-06` 进入 `G4` 前
+- Cleanup due: `Closed`
 - Notes:
-  - `poms-api` build drift 已解除；下一步是重跑两条 workspace Playwright 用例，之后才能决定 `FE-06` 是否进入 `G3 = Pass` / `G4 = Pass`。
+  - 原 blocker 已由 `EX-14C` close-out 关闭；本 exception 不再阻断 `FE-06` 进入完成态。
 
 Decision:
 
-- Can commit to main: no
-- Can mark tracker Done: no
-  - 当前 `FE-06` 应维持 `Doing`；待 `poms-api` build drift 解除并重跑 Playwright 成功后，再回写 `Done`。
+- Can commit to main: yes
+- Can mark tracker Done: yes
+  - `FE-06` 可转为 `Done`；`G3` 浏览器级验证已在 backend drift 修复后补齐通过。

@@ -2169,6 +2169,7 @@ export class CommissionService {
             currentSnapshot.status = 'superseded';
             currentSnapshot.updatedBy = actorUserId;
             em.persist(currentSnapshot);
+            await em.flush();
         }
 
         const nextSnapshot = em.create(CommissionFinalSettlementSnapshot, {
@@ -2226,6 +2227,7 @@ export class CommissionService {
             currentRuleExplanation.status = 'superseded';
             currentRuleExplanation.updatedBy = actorUserId;
             em.persist(currentRuleExplanation);
+            await em.flush();
         }
 
         const nextRuleExplanation = em.create(CommissionRuleExplanationSnapshot, {

@@ -2,13 +2,18 @@ import { approveRecord, expectNoOpenTodoForTarget, findOpenTodoForTarget, getApp
 import { loginAsAdmin } from '../support/api-client';
 import {
     activateRuleVersion,
+    approveCalculation,
     arbitrateFreezeDispute,
     createAdjustment,
+    createCalculation,
+    createDepartureExceptionDecision,
     createPayout,
     createRoleAssignment,
     createRuleVersion,
     executeAdjustment,
     findAdjustmentApprovalRecord,
+    getCommissionFinalSettlement,
+    getCommissionRuleExplanation,
     getCurrentRoleAssignment,
     getFreezeChangeRequest,
     getFreezeDispute,
@@ -29,10 +34,13 @@ import {
     submitPayoutApproval
 } from '../support/commission-api';
 import { COMMISSION_E2E_FIXTURES } from '../support/commission-seed-fixtures';
+import { confirmReceipt, createReceipt } from '../support/contract-finance-api';
 import { expectErrorStatus } from '../support/http';
+import { reviewCommissionGateBinding, reviewOperatingSignalEvaluation } from '../support/operating-signal-api';
 import { PROJECT_HANDOVER_E2E_FIXTURES } from '../support/project-handover-seed-fixtures';
 import {
     buildAdjustmentInput,
+    buildCalculationInput,
     buildCommissionRuleVersionInput,
     buildPayoutInput,
     buildRoleAssignmentInput,
@@ -140,6 +148,178 @@ describe('poms-api commission workflow e2e', () => {
                     item.status === 'executed'
             )
         ).toBe(true);
+    });
+
+    it('runs seeded final and retention settlement through the current evidence chain', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const fixture = COMMISSION_E2E_FIXTURES.main;
+        const unique = makeUniqueSuffix('commission-final-retention');
+
+        const signalReview = await reviewOperatingSignalEvaluation(client, fixture.signalEvaluationId, {
+            reviewDecision: 'APPROVE',
+            resolvedDataMaturityLevel: '成熟',
+            costActionRecommendation: 'PROMPT',
+            referencedBaselineVersion: fixture.baselinePackageId,
+            referencedSnapshotVersion: fixture.operatingSnapshotId,
+            reviewComment: 'EX-14C final settlement evidence review',
+            expectedVersion: 1
+        });
+        expect(signalReview.resultStatus).toBe('success');
+
+        const gateReview = await reviewCommissionGateBinding(client, fixture.gateBindingId, {
+            bindingAction: 'PROMPT',
+            gateReviewDecision: 'ALLOW_RETENTION',
+            baselineSelectionSource: 'original',
+            summaryPackageKey: fixture.summaryPackageKey,
+            summarySnapshotId: fixture.summarySnapshotId,
+            referencedBaselineVersion: fixture.baselinePackageId,
+            referencedSnapshotVersion: fixture.operatingSnapshotId,
+            expectedVersion: 1
+        });
+        expect(gateReview.gateReviewRecordId).toBeDefined();
+        expect(gateReview.businessStatusAfter).toBe('PROMPT');
+
+        const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
+        await activateRuleVersion(client, ruleVersion.id);
+
+        const roleAssignmentDraft = await createRoleAssignment(client, fixture.projectId, buildRoleAssignmentInput(profile));
+        const frozenRoleAssignment = await freezeRoleAssignment(client, roleAssignmentDraft.id, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId,
+            expectedVersion: roleAssignmentDraft.rowVersion
+        });
+
+        const calculated = await createCalculation(client, fixture.projectId, buildCalculationInput(ruleVersion.id));
+        const effectiveCalculation = await approveCalculation(client, calculated.id, {
+            expectedVersion: calculated.rowVersion
+        });
+
+        const finalPayout = await createPayout(
+            client,
+            fixture.projectId,
+            buildPayoutInput(effectiveCalculation.id, { stageType: 'final' })
+        );
+        expect(finalPayout.theoreticalCapAmount).toBe('2400.00');
+
+        const submittedFinalPayout = await submitPayoutApproval(client, finalPayout.id, {
+            expectedVersion: finalPayout.rowVersion
+        });
+        expect(submittedFinalPayout.status).toBe('pending-approval');
+
+        const finalApproval = await findPayoutApprovalRecord(client, finalPayout.id);
+        await approveRecord(client, finalApproval.id, {
+            comment: 'EX-14C final payout approval',
+            expectedVersion: finalApproval.rowVersion
+        });
+
+        const approvedFinalPayout = await getPayout(client, fixture.projectId, finalPayout.id);
+        expect(approvedFinalPayout.status).toBe('approved');
+        expect(approvedFinalPayout.approvedAmount).toBe('2400.00');
+
+        const pendingFinalSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
+        expect(pendingFinalSettlement.finalSettlementStatus).toBe('pending-final-settlement');
+        expect(pendingFinalSettlement.nonRetentionSettlementStatus).toBe('pending-non-retention');
+        expect(pendingFinalSettlement.retentionSettlementStatus).toBe('waiting-retention');
+        expect(pendingFinalSettlement.summarySnapshotId).toBe(fixture.summarySnapshotId);
+
+        const pendingFinalExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
+        expect(pendingFinalExplanation.currentStageStatus).toBe('pending-final-settlement');
+        expect(pendingFinalExplanation.gateDecisionCode).toBe('ALLOW_FINAL_SETTLEMENT');
+        expect(pendingFinalExplanation.summarySnapshotId).toBe(fixture.summarySnapshotId);
+
+        const paidFinalPayout = await registerPayout(client, finalPayout.id, {
+            paidRecordAmount: '2040.00',
+            expectedVersion: approvedFinalPayout.rowVersion
+        });
+        expect(paidFinalPayout.status).toBe('paid');
+        expect(paidFinalPayout.paidRecordAmount).toBe('2040.00');
+
+        const pendingRetentionSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
+        expect(pendingRetentionSettlement.finalSettlementStatus).toBe('pending-retention-settlement');
+        expect(pendingRetentionSettlement.nonRetentionSettlementStatus).toBe('settled-non-retention');
+        expect(pendingRetentionSettlement.retentionSettlementStatus).toBe('waiting-retention');
+
+        const pendingRetentionExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
+        expect(pendingRetentionExplanation.currentStageStatus).toBe('blocked-retention');
+        expect(pendingRetentionExplanation.gateDecisionCode).toBe('BLOCK_RETENTION');
+        expect(pendingRetentionExplanation.blockingReasonCode).toBe('DEPARTURE_EXCEPTION_PENDING');
+
+        const retentionPayout = await createPayout(
+            client,
+            fixture.projectId,
+            buildPayoutInput(effectiveCalculation.id, { stageType: 'retention' })
+        );
+        expect(retentionPayout.theoreticalCapAmount).toBe('360.00');
+
+        const retentionReceipt = await createReceipt(client, fixture.contractId, {
+            receiptAmount: '360.00',
+            receiptDate: new Date().toISOString(),
+            sourceType: 'manual'
+        });
+        const confirmedRetentionReceipt = await confirmReceipt(client, retentionReceipt.id, {
+            expectedVersion: retentionReceipt.rowVersion
+        });
+        expect(confirmedRetentionReceipt.status).toBe('confirmed');
+
+        const departureDecision = await createDepartureExceptionDecision(client, fixture.projectId, {
+            freezeVersionId: frozenRoleAssignment.targetId,
+            departureScenarioCode: 'employee-left-company',
+            decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+            decisionSummary: '允许进入质保金结算',
+            confirmationRequirementSummary: null,
+            summarySnapshotId: fixture.handoverSummarySnapshotId
+        });
+        expect(departureDecision.isCurrent).toBe(true);
+        expect(departureDecision.summarySnapshotId).toBe(fixture.handoverSummarySnapshotId);
+
+        const submittedRetentionPayout = await submitPayoutApproval(client, retentionPayout.id, {
+            payoutStage: 'retention',
+            gateReviewRecordId: gateReview.gateReviewRecordId,
+            freezeVersionId: frozenRoleAssignment.targetId,
+            summarySnapshotId: fixture.summarySnapshotId,
+            retentionReceiptRecordId: confirmedRetentionReceipt.id,
+            departureExceptionDecisionId: departureDecision.id,
+            expectedVersion: retentionPayout.rowVersion
+        });
+        expect(submittedRetentionPayout.status).toBe('pending-approval');
+
+        const readyRetentionSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
+        expect(readyRetentionSettlement.finalSettlementStatus).toBe('pending-retention-settlement');
+        expect(readyRetentionSettlement.retentionSettlementStatus).toBe('ready-retention');
+        expect(readyRetentionSettlement.retentionReceiptSummary).toContain('360.00');
+        expect(readyRetentionSettlement.departureExceptionSummary).toBe('允许进入质保金结算');
+
+        const readyRetentionExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
+        expect(readyRetentionExplanation.currentStageStatus).toBe('ready-retention');
+        expect(readyRetentionExplanation.gateDecisionCode).toBe('ALLOW_RETENTION');
+
+        const retentionApproval = await findPayoutApprovalRecord(client, retentionPayout.id);
+        await approveRecord(client, retentionApproval.id, {
+            comment: 'EX-14C retention payout approval',
+            expectedVersion: retentionApproval.rowVersion
+        });
+
+        const approvedRetentionPayout = await getPayout(client, fixture.projectId, retentionPayout.id);
+        expect(approvedRetentionPayout.status).toBe('approved');
+        expect(approvedRetentionPayout.approvedAmount).toBe('360.00');
+
+        const paidRetentionPayout = await registerPayout(client, retentionPayout.id, {
+            payoutStage: 'retention',
+            paidRecordAmount: '360.00',
+            summarySnapshotId: fixture.summarySnapshotId,
+            expectedVersion: approvedRetentionPayout.rowVersion
+        });
+        expect(paidRetentionPayout.status).toBe('paid');
+        expect(paidRetentionPayout.paidRecordAmount).toBe('360.00');
+
+        const settledFinalSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
+        expect(settledFinalSettlement.finalSettlementStatus).toBe('settled-all');
+        expect(settledFinalSettlement.nonRetentionSettlementStatus).toBe('settled-non-retention');
+        expect(settledFinalSettlement.retentionSettlementStatus).toBe('settled-retention');
+
+        const settledRuleExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
+        expect(settledRuleExplanation.currentStageStatus).toBe('settled-retention');
+        expect(settledRuleExplanation.gateDecisionCode).toBe('SETTLED_RETENTION');
     });
 
     it('rejects payout registration before payout approval', async () => {

@@ -916,6 +916,7 @@ export class ApprovalService {
             currentSnapshot.status = 'superseded';
             currentSnapshot.updatedBy = actorUserId;
             em.persist(currentSnapshot);
+            await em.flush();
         }
 
         const snapshot = em.create(CommissionFinalSettlementSnapshot, {
@@ -973,6 +974,7 @@ export class ApprovalService {
             currentRuleExplanation.status = 'superseded';
             currentRuleExplanation.updatedBy = actorUserId;
             em.persist(currentRuleExplanation);
+            await em.flush();
         }
 
         const nextRuleExplanation = em.create(CommissionRuleExplanationSnapshot, {

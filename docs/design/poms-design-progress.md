@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-18
+**最后更新**: 2026-04-19
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -242,6 +242,8 @@
 - 已完成提成治理域 `decimal` / 状态字段实体建模纠偏，并重新打通 OpenAPI 导出、共享 API Client 生成与前端平台管理页构建
 - 已完成 `EX-10 ~ EX-12` corrective close-out：`ruleVersionId` 显式绑定、current single-effective DB 约束、`supplement` compensating payout 与 `clawback` source payout result-chain 已正式收口
 - 已完成 `L4/L5` 经营快照、信号评价与 `L4 -> L5 gate` 绑定切片 `EX-13`：`EX-13A` 已建立数据成熟度 / 经营信号 / gate review 五张表与基础实体，`EX-13B1` 已补齐 `CommissionGateReviewRecord` 摘要快照锚点，`EX-13D1` 已回写上游 phase-2 动作语义与阶段 gate 边界；随后 `EX-13B` 已在 `project-cost` 落地 `reviewOperatingSignalEvaluation`、`reviewCommissionGateBinding` 与 `L4` 六个正式 query，补齐 shared contract、OpenAPI、generated client、service spec 与 seeded `poms-api-e2e`，并通过 `nx test poms-api --runInBand`、`nx run shared-api-client:check`、`nx run poms-api-e2e:e2e --runInBand --testPathPattern=operating-signal-workflow.e2e-spec.ts`（managed harness 实际跑全量 11 suites / 65 tests）、`nx lint poms-api`、`nx build poms-api` 与 `git diff --check`；当前 `EX-13` 已完成，可作为 `EX-14` 的稳定输入
+- 已完成 `EX-14` 最终结算 / 质保金结算 / 规则解释主线 close-out：`EX-14B1` 已收口两条 project-scoped query，`EX-14B2` 已收口 final 非质保写侧，`EX-14B3A ~ EX-14B3C` 已完成 retention stage contract foundation、departure-exception command 与 retention / rule explanation 写侧闭环；`EX-14C` 又补齐基于 `DatabaseSeeder` 固定夹具的 final / retention HTTP E2E，关闭了 current `CommissionFinalSettlementSnapshot` / `CommissionRuleExplanationSnapshot` supersede 顺序与 seeder 清理顺序缺陷，并通过 `nx test poms-api --runInBand`、`nx lint poms-api`、`nx build poms-api`、`nx run poms-api:seeder-run` 与 `nx run poms-api-e2e:e2e --runInBand --testPathPattern=commission-workflow.e2e-spec.ts`；当前 `EX-14` 已完成，但保留显式例外 `EX-14C-E1`：仓库仍无“质保期届满 / retention due”正式 fact source。
+- `FE-06` 浏览器级 close-out 已完成：`project-workspace.smoke.spec.ts` 与 `project-workspace.journey.spec.ts` 已在 `EX-14C` backend 修复后重跑通过（`6 passed`），原 `FE-06-E2E-BLOCKED-BY-POMS-API` 已关闭，最终结算 / 规则解释读取页可从 tracker 转入完成态。
 - 已形成 `implementation-delivery-guide.md`，开始把“能实施”进一步收敛为“如何按统一切片流程交付”
 - 已形成 `.github/pull_request_template.md`、`docs/reference/implementation-baseline-package-template.md`、`docs/reference/implementation-corrective-checkpoint-template.md`、`docs/reference/implementation-governance-checks.md` 与 `docs/reference/solo-worktree-governance.md`，把新切片 `G1` 输入冻结、已开工后纠偏 checkpoint、PR / local checkpoint 风险分层证据和最小校验矩阵落成可复用入口
 - 已完成第五轮目录治理：第一阶段收口与验收包已统一转入 `archive/phase1-closure/`，平台治理域评审清单与评审摘要已统一转入 `archive/reviews/`，当前正式输入进一步收敛到第二阶段主线控制与实施入口
