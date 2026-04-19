@@ -7,7 +7,7 @@ import { CommissionFreezeDisputeRecord } from '../commission/commission-freeze-d
 import { CommissionPayout } from '../commission/commission-payout.entity';
 import { CommissionRoleAssignment } from '../commission/commission-role-assignment.entity';
 import { CommissionRuleExplanationSnapshot } from '../commission/commission-rule-explanation-snapshot.entity';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
@@ -26,6 +26,7 @@ import { TodoItem } from './todo-item.entity';
             ConfirmationParticipant,
             TodoItem,
             Contract,
+            ContractTermSnapshot,
             CommissionPayout,
             CommissionAdjustment,
             CommissionRoleAssignment,

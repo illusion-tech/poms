@@ -84,6 +84,7 @@ export class ContractController {
             currencyCode: body.currencyCode,
             currentSnapshotId: body.currentSnapshotId,
             signedAt: body.signedAt ? new Date(body.signedAt) : null,
+            retentionDueDate: body.retentionDueDate ?? null,
             createdBy: body.createdBy,
             updatedBy: body.updatedBy
         });
@@ -101,6 +102,7 @@ export class ContractController {
             currencyCode: body.currencyCode,
             currentSnapshotId: body.currentSnapshotId,
             signedAt: body.signedAt === undefined ? undefined : body.signedAt === null ? null : new Date(body.signedAt),
+            retentionDueDate: body.retentionDueDate,
             updatedBy: body.updatedBy
         });
 
@@ -136,6 +138,7 @@ function mapContractToSummary(contract: Contract): ContractSummary {
         currencyCode: contract.currencyCode,
         currentSnapshotId: contract.currentSnapshotId ?? null,
         signedAt: contract.signedAt?.toISOString() ?? null,
+        retentionDueDate: contract.retentionDueDate ?? null,
         rowVersion: contract.rowVersion,
         createdAt: contract.createdAt.toISOString(),
         createdBy: contract.createdBy ?? null,

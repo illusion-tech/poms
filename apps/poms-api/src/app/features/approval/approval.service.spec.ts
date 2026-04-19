@@ -13,7 +13,8 @@ jest.mock('@mikro-orm/nestjs', () => ({
 }));
 
 jest.mock('../contract/contract.entity', () => ({
-    Contract: class Contract {}
+    Contract: class Contract {},
+    ContractTermSnapshot: class ContractTermSnapshot {}
 }));
 
 jest.mock('../commission/commission-payout.entity', () => ({
@@ -295,9 +296,16 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(payout)
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce(currentSnapshot)
-            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(
+                createCommissionRoleAssignment({
+                    status: 'frozen',
+                    isCurrent: true,
+                    effectiveHandoverBaselineSnapshotId: '38000000-0000-4000-8000-000000000001'
+                })
+            )
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
             .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createContractTermSnapshot())
             .mockResolvedValueOnce(createRetentionReceipt())
             .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
             .mockResolvedValueOnce(null)
@@ -496,9 +504,16 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(todo)
             .mockResolvedValueOnce(payout)
             .mockResolvedValueOnce(currentSnapshot)
-            .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
+            .mockResolvedValueOnce(
+                createCommissionRoleAssignment({
+                    status: 'frozen',
+                    isCurrent: true,
+                    effectiveHandoverBaselineSnapshotId: '38000000-0000-4000-8000-000000000001'
+                })
+            )
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
             .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createContractTermSnapshot())
             .mockResolvedValueOnce(createRetentionReceipt())
             .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
             .mockResolvedValueOnce(null)
@@ -896,6 +911,21 @@ describe('ApprovalService', () => {
             frozenBy: approverUserId,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createContractTermSnapshot(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '38000000-0000-4000-8000-000000000001',
+            contractId,
+            effectiveAt: new Date('2026-03-22T10:00:00.000Z'),
+            effectiveBy: approverUserId,
+            retentionDueDate: '2026-03-21',
+            snapshotStatus: 'active',
+            createdAt: new Date('2026-03-22T10:00:00.000Z'),
+            createdBy: approverUserId,
+            rowVersion: 1,
             ...overrides
         };
     }

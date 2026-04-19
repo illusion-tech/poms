@@ -18,6 +18,7 @@ export interface CreateContractRequest {
     currencyCode?: string;
     currentSnapshotId?: string | null;
     signedAt?: string | null;
+    retentionDueDate?: string | null;
     createdBy?: string | null;
     updatedBy?: string | null;
 }

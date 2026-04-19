@@ -317,9 +317,23 @@ const makeActiveContract = (overrides: Record<string, unknown> = {}) => ({
     currencyCode: 'CNY',
     currentSnapshotId: '31000000-0000-4000-8000-000000000001',
     signedAt: new Date('2026-03-25T10:00:00Z'),
+    retentionDueDate: null,
     rowVersion: 1,
     createdAt: new Date('2026-03-25T10:00:00Z'),
     updatedAt: new Date('2026-03-25T10:00:00Z'),
+    ...overrides
+});
+
+const makeContractTermSnapshot = (overrides: Record<string, unknown> = {}) => ({
+    id: EFFECTIVE_BASELINE_SNAPSHOT_ID,
+    contractId: '30000000-0000-4000-8000-000000000001',
+    effectiveAt: new Date('2026-03-25T10:00:00Z'),
+    effectiveBy: 'user-1',
+    retentionDueDate: '2026-03-24',
+    snapshotStatus: 'active',
+    createdAt: new Date('2026-03-25T10:00:00Z'),
+    createdBy: 'user-1',
+    rowVersion: 1,
     ...overrides
 });
 
@@ -431,6 +445,7 @@ describe('CommissionService', () => {
             flushRuleVersion: jest.fn(),
             findCurrentRoleAssignment: jest.fn(),
             findRoleAssignmentById: jest.fn(),
+            findContractTermSnapshotById: jest.fn(),
             findAllRoleAssignmentsForProject: jest.fn(),
             createRoleAssignment: jest.fn(),
             persistAndFlushRoleAssignment: jest.fn(),
@@ -708,6 +723,8 @@ describe('CommissionService', () => {
 
             expect(result.projectId).toBe(PROJECT_ID);
             expect(result.finalSettlementStatus).toBe('pending-final-settlement');
+            expect(result.retentionDueDate).toBeNull();
+            expect(result.retentionDueStatus).toBe('missing');
             expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
             expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
             expect(result.allowedActions).toEqual([]);
@@ -1624,12 +1641,38 @@ describe('CommissionService', () => {
                     retentionSettlementStatus: 'waiting-retention'
                 }) as never
             );
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.flushPayout.mockResolvedValue();
 
             const result = await service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'retention' });
 
             expect(payout.status).toBe('pending-approval');
             expect(result.status).toBe('pending-approval');
+        });
+
+        it('blocks retention payout submission when retention due date is still pending', async () => {
+            const payout = makeDraftPayout({ stageType: 'retention' });
+            repo.findPayoutById.mockResolvedValue(payout as never);
+            repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(
+                makeFinalSettlementSnapshot({
+                    finalSettlementStatus: 'pending-retention-settlement',
+                    nonRetentionSettlementStatus: 'settled-non-retention',
+                    retentionSettlementStatus: 'waiting-retention'
+                }) as never
+            );
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(
+                makeContractTermSnapshot({ retentionDueDate: '2099-01-01' }) as never
+            );
+
+            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'retention' })).rejects.toThrow(
+                UnprocessableEntityException
+            );
         });
     });
 
@@ -1656,6 +1699,10 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
                     findOne: jest.fn(async (entity, where) => {
@@ -1759,6 +1806,10 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
                     findOne: jest.fn(async (entity, where) => {
@@ -1852,6 +1903,10 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
+            repo.findRoleAssignmentById.mockResolvedValue(
+                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
+            );
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
                     findOne: jest.fn(async (entity, where) => {

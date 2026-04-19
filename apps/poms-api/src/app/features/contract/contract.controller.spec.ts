@@ -181,6 +181,7 @@ describe('ContractController', () => {
             currencyCode: 'CNY',
             currentSnapshotId: null,
             signedAt: null,
+            retentionDueDate: null,
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

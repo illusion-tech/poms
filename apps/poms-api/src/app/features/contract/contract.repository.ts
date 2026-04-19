@@ -75,9 +75,15 @@ export class ContractTermSnapshotRepository {
         contractId: string;
         effectiveBy?: string | null;
         createdBy?: string | null;
+        retentionDueDate?: string | null;
     }): Promise<ContractTermSnapshot> {
         const existing = await this.findById(input.id);
         if (existing) {
+            const normalizedRetentionDueDate = input.retentionDueDate ?? null;
+            if ((existing.retentionDueDate ?? null) !== normalizedRetentionDueDate) {
+                existing.retentionDueDate = normalizedRetentionDueDate;
+                await this.save(existing);
+            }
             return existing;
         }
 
@@ -87,6 +93,7 @@ export class ContractTermSnapshotRepository {
             snapshotStatus: 'active',
             effectiveAt: new Date(),
             effectiveBy: input.effectiveBy ?? null,
+            retentionDueDate: input.retentionDueDate ?? null,
             createdBy: input.createdBy ?? null
         });
         await this.save(snapshot);

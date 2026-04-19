@@ -2,7 +2,7 @@ import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
@@ -25,6 +25,8 @@ export class CommissionRepository {
         private readonly projectRepository: EntityRepository<Project>,
         @InjectRepository(Contract)
         private readonly contractRepository: EntityRepository<Contract>,
+        @InjectRepository(ContractTermSnapshot)
+        private readonly contractTermSnapshotRepository: EntityRepository<ContractTermSnapshot>,
         @InjectRepository(ReceiptRecord)
         private readonly receiptRepository: EntityRepository<ReceiptRecord>,
         @InjectRepository(PaymentRecord)
@@ -67,6 +69,10 @@ export class CommissionRepository {
 
     async findActiveContractsForProject(projectId: string): Promise<Contract[]> {
         return this.contractRepository.find({ projectId, status: 'active' });
+    }
+
+    async findContractTermSnapshotById(id: string): Promise<ContractTermSnapshot | null> {
+        return this.contractTermSnapshotRepository.findOne({ id });
     }
 
     async findConfirmedReceiptsForProject(projectId: string): Promise<ReceiptRecord[]> {

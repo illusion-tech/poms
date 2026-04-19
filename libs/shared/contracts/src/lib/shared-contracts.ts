@@ -696,6 +696,7 @@ export const ContractSummarySchema = z
         currencyCode: z.string(),
         currentSnapshotId: z.uuid().nullable(),
         signedAt: z.iso.datetime().nullable(),
+        retentionDueDate: z.iso.date().nullable(),
         rowVersion: z.number().int(),
         createdAt: z.iso.datetime(),
         createdBy: z.uuid().nullable(),
@@ -729,6 +730,7 @@ export const CreateContractRequestSchema = z
         currencyCode: z.string().trim().min(1).max(16).optional(),
         currentSnapshotId: z.uuid().nullable().optional(),
         signedAt: z.iso.datetime().nullable().optional(),
+        retentionDueDate: z.iso.date().nullable().optional(),
         createdBy: z.uuid().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
     })
@@ -742,11 +744,21 @@ export const UpdateContractBasicInfoRequestSchema = z
         currencyCode: z.string().trim().min(1).max(16).optional(),
         currentSnapshotId: z.uuid().nullable().optional(),
         signedAt: z.iso.datetime().nullable().optional(),
+        retentionDueDate: z.iso.date().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
     })
-    .refine((value) => value.signedAmount !== undefined || value.currencyCode !== undefined || value.currentSnapshotId !== undefined || value.signedAt !== undefined || value.updatedBy !== undefined, {
-        message: 'At least one field is required for update'
-    })
+    .refine(
+        (value) =>
+            value.signedAmount !== undefined ||
+            value.currencyCode !== undefined ||
+            value.currentSnapshotId !== undefined ||
+            value.signedAt !== undefined ||
+            value.retentionDueDate !== undefined ||
+            value.updatedBy !== undefined,
+        {
+            message: 'At least one field is required for update'
+        }
+    )
     .meta({ id: 'UpdateContractBasicInfoRequest' });
 
 export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
@@ -2573,6 +2585,8 @@ export const CommissionFinalSettlementViewSchema = z
         finalSettlementStatus: z.string(),
         nonRetentionSettlementStatus: z.string(),
         retentionSettlementStatus: z.string(),
+        retentionDueDate: z.iso.date().nullable(),
+        retentionDueStatus: z.enum(['missing', 'pending', 'due']),
         retentionRequirementSummary: z.string().nullable(),
         retentionReceiptSummary: z.string().nullable(),
         departureExceptionSummary: z.string().nullable(),

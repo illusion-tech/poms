@@ -85,6 +85,7 @@ describe('ContractService', () => {
             currencyCode: 'CNY',
             currentSnapshotId: null,
             signedAt: null,
+            retentionDueDate: null,
             createdBy: null,
             updatedBy: null
         });
@@ -279,7 +280,8 @@ describe('ContractService', () => {
             id: readinessSnapshotId,
             contractId,
             effectiveBy: userId,
-            createdBy: userId
+            createdBy: userId,
+            retentionDueDate: null
         });
         expect(result.snapshotId).toBe(readinessSnapshotId);
     });
@@ -294,6 +296,7 @@ describe('ContractService', () => {
             currencyCode: 'CNY',
             currentSnapshotId: null,
             signedAt: null,
+            retentionDueDate: null,
             rowVersion: 1,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             createdBy: userId,

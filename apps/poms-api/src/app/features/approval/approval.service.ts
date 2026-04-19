@@ -23,6 +23,7 @@ import {
     buildPendingFinalRuleExplanation,
     buildRetentionSettlementDraft,
     DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+    evaluateRetentionDueDate,
     FINAL_SETTLEMENT_STATUS_PENDING,
     FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
     NON_RETENTION_SETTLEMENT_STATUS_PENDING,
@@ -30,11 +31,12 @@ import {
     RETENTION_SETTLEMENT_STATUS_READY,
     RETENTION_SETTLEMENT_STATUS_SETTLED,
     RETENTION_SETTLEMENT_STATUS_WAITING,
+    type RetentionDueEvaluation,
     type RetentionSettlementDraft,
     type RuleExplanationDraft
 } from '../commission/commission-settlement-write-chain';
 import { CommissionFreezeDisputeRecord } from '../commission/commission-freeze-dispute-record.entity';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
@@ -192,7 +194,8 @@ export class ApprovalService {
                     retentionSubmitContext.binding.bindingAction,
                     retentionSubmitContext.gateReview,
                     retentionSubmitContext.departureDecision,
-                    retentionSubmitContext.retentionReceipt
+                    retentionSubmitContext.retentionReceipt,
+                    retentionSubmitContext.retentionDue
                 );
                 const snapshot = await this.writeCurrentFinalSettlementSnapshot(
                     em,
@@ -496,7 +499,8 @@ export class ApprovalService {
                             retentionReadyContext.binding.bindingAction,
                             retentionReadyContext.gateReview,
                             retentionReadyContext.departureDecision,
-                            retentionReadyContext.retentionReceipt
+                            retentionReadyContext.retentionReceipt,
+                            retentionReadyContext.retentionDue
                         );
                         const snapshot = await this.writeCurrentFinalSettlementSnapshot(
                             em,
@@ -696,6 +700,7 @@ export class ApprovalService {
         freezeVersion: CommissionRoleAssignment;
         binding: OperatingSignalToCommissionGateBinding;
         gateReview: CommissionGateReviewRecord;
+        retentionDue: RetentionDueEvaluation;
         retentionReceipt: ReceiptRecord;
         departureDecision: CommissionDepartureExceptionDecision;
     }> {
@@ -726,6 +731,8 @@ export class ApprovalService {
         if (this.isReviewOrBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
             throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
         }
+        const retentionDue = await this.loadRetentionDueEvaluation(em, freezeVersion);
+        this.assertRetentionDueReady(retentionDue, payout.id, 'submit retention payout approval');
 
         if (!input.summarySnapshotId) {
             throw new BadRequestException('summarySnapshotId is required for retention payout approval submit');
@@ -784,6 +791,7 @@ export class ApprovalService {
             freezeVersion,
             binding,
             gateReview,
+            retentionDue,
             retentionReceipt,
             departureDecision
         };
@@ -797,6 +805,7 @@ export class ApprovalService {
         freezeVersion: CommissionRoleAssignment;
         binding: OperatingSignalToCommissionGateBinding;
         gateReview: CommissionGateReviewRecord;
+        retentionDue: RetentionDueEvaluation;
         retentionReceipt: ReceiptRecord;
         departureDecision: CommissionDepartureExceptionDecision;
     }> {
@@ -824,6 +833,8 @@ export class ApprovalService {
         if (this.isReviewOrBlockingGateDecision(binding.bindingAction, gateReview.gateReviewDecision)) {
             throw new BadRequestException(`CommissionPayout ${payout.id} is blocked by the current final commission gate review`);
         }
+        const retentionDue = await this.loadRetentionDueEvaluation(em, freezeVersion);
+        this.assertRetentionDueReady(retentionDue, payout.id, 'approve retention payout');
 
         const retentionReceipt = await em.findOne(ReceiptRecord, { id: currentSnapshot.retentionReceiptRecordId });
         if (!retentionReceipt || retentionReceipt.projectId !== payout.projectId || retentionReceipt.status !== 'confirmed') {
@@ -856,6 +867,7 @@ export class ApprovalService {
             freezeVersion,
             binding,
             gateReview,
+            retentionDue,
             retentionReceipt,
             departureDecision
         };
@@ -865,10 +877,12 @@ export class ApprovalService {
         bindingAction: string | null | undefined,
         gateReview: Pick<CommissionGateReviewRecord, 'gateReviewDecision' | 'blockingReasonCode' | 'nextActionSummary'>,
         departureDecision: Pick<CommissionDepartureExceptionDecision, 'decisionSummary' | 'confirmationRequirementSummary'>,
-        retentionReceipt: Pick<ReceiptRecord, 'receiptAmount' | 'receiptDate'>
+        retentionReceipt: Pick<ReceiptRecord, 'receiptAmount' | 'receiptDate'>,
+        retentionDue: RetentionDueEvaluation
     ): RetentionSettlementDraft {
         return buildRetentionSettlementDraft({
             openFreezeDispute: false,
+            retentionDue,
             departureDecision: {
                 decisionSummary: departureDecision.decisionSummary,
                 confirmationRequirementSummary: departureDecision.confirmationRequirementSummary ?? null
@@ -882,6 +896,30 @@ export class ApprovalService {
             gateReviewBlockingReasonCode: gateReview.blockingReasonCode ?? null,
             gateNextActionSummary: gateReview.nextActionSummary ?? null
         });
+    }
+
+    private async loadRetentionDueEvaluation(
+        em: EntityManager,
+        freezeVersion: Pick<CommissionRoleAssignment, 'effectiveHandoverBaselineSnapshotId'>
+    ): Promise<RetentionDueEvaluation> {
+        if (!freezeVersion.effectiveHandoverBaselineSnapshotId) {
+            return evaluateRetentionDueDate(null);
+        }
+
+        const baselineSnapshot = await em.findOne(ContractTermSnapshot, {
+            id: freezeVersion.effectiveHandoverBaselineSnapshotId
+        });
+
+        return evaluateRetentionDueDate(baselineSnapshot?.retentionDueDate ?? null);
+    }
+
+    private assertRetentionDueReady(retentionDue: RetentionDueEvaluation, payoutId: string, actionName: string): void {
+        if (retentionDue.retentionDueStatus === 'missing') {
+            throw new BadRequestException(`CommissionPayout ${payoutId} cannot ${actionName} without a current retention due date fact`);
+        }
+        if (retentionDue.retentionDueStatus === 'pending') {
+            throw new BadRequestException(`CommissionPayout ${payoutId} cannot ${actionName} before retention due date ${retentionDue.retentionDueDate}`);
+        }
     }
 
     private async writeCurrentFinalSettlementSnapshot(

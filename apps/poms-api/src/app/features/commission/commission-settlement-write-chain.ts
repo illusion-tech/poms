@@ -16,6 +16,8 @@ export const CURRENT_STAGE_STATUS_SETTLED_RETENTION = 'settled-retention';
 
 export const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
 
+export type RetentionDueStatus = 'missing' | 'pending' | 'due';
+
 type SettlementDecisionSummary = {
     confirmationRequirementSummary?: string | null;
     decisionSummary: string;
@@ -24,6 +26,11 @@ type SettlementDecisionSummary = {
 type SettlementReceiptSummary = {
     receiptAmount: string | number;
     receiptDate: Date;
+};
+
+export type RetentionDueEvaluation = {
+    retentionDueDate: string | null;
+    retentionDueStatus: RetentionDueStatus;
 };
 
 export type RuleExplanationDraft = {
@@ -40,6 +47,8 @@ export type RetentionSettlementDraft = {
     finalSettlementStatus: string;
     nonRetentionSettlementStatus: string;
     retentionSettlementStatus: string;
+    retentionDueDate: string | null;
+    retentionDueStatus: RetentionDueStatus;
     retentionRequirementSummary: string | null;
     retentionReceiptSummary: string | null;
     departureExceptionSummary: string | null;
@@ -48,6 +57,7 @@ export type RetentionSettlementDraft = {
 
 export type RetentionEvaluationInput = {
     openFreezeDispute: boolean;
+    retentionDue: RetentionDueEvaluation;
     departureDecision: SettlementDecisionSummary | null;
     retentionReceipt: SettlementReceiptSummary | null;
     gateBindingAction?: string | null;
@@ -72,12 +82,15 @@ export function buildPendingFinalRuleExplanation(): RuleExplanationDraft {
 export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): RetentionSettlementDraft {
     const departureExceptionSummary = input.departureDecision?.decisionSummary ?? null;
     const retentionReceiptSummary = input.retentionReceipt ? formatRetentionReceiptSummary(input.retentionReceipt) : null;
+    const unmetRequirements = buildUnmetRequirements(input);
 
     if (input.markAsSettled) {
         return {
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_SETTLED_ALL,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_SETTLED,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
             retentionRequirementSummary: null,
             retentionReceiptSummary,
             departureExceptionSummary,
@@ -100,6 +113,8 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
             retentionRequirementSummary: '待重大争议收口',
             retentionReceiptSummary,
             departureExceptionSummary,
@@ -115,13 +130,58 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
         };
     }
 
-    if (!input.departureDecision) {
-        const requirementSummary = buildRequirementSummary(['离职 / 特例结论明确', '质保金到账'], Boolean(input.retentionReceipt));
+    if (input.retentionDue.retentionDueStatus === 'missing') {
         return {
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
-            retentionRequirementSummary: requirementSummary,
+            retentionDueDate: null,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
+            retentionRequirementSummary: buildRequirementSummary(unmetRequirements),
+            retentionReceiptSummary,
+            departureExceptionSummary,
+            ruleExplanation: {
+                currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
+                gateDecisionCode: 'BLOCK_RETENTION',
+                blockingReasonCategory: 'retention',
+                blockingReasonCode: 'RETENTION_DUE_FACT_MISSING',
+                blockingReasonSummary: '当前有效合同条款缺少质保期届满日期，暂不能进入质保金结算。',
+                gateDecisionSummary: '当前暂不能进入质保金结算。',
+                nextActionSummary: '请先补齐当前有效合同条款的质保期届满日期，再复核质保金结算。'
+            }
+        };
+    }
+
+    if (input.retentionDue.retentionDueStatus === 'pending') {
+        return {
+            finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
+            nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
+            retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
+            retentionRequirementSummary: buildRequirementSummary(unmetRequirements),
+            retentionReceiptSummary,
+            departureExceptionSummary,
+            ruleExplanation: {
+                currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
+                gateDecisionCode: 'BLOCK_RETENTION',
+                blockingReasonCategory: 'retention',
+                blockingReasonCode: 'RETENTION_DUE_PENDING',
+                blockingReasonSummary: '当前质保期尚未届满。',
+                gateDecisionSummary: '当前暂不能进入质保金结算。',
+                nextActionSummary: '请待合同约定质保期届满后再复核质保金结算。'
+            }
+        };
+    }
+
+    if (!input.departureDecision) {
+        return {
+            finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
+            nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
+            retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
+            retentionRequirementSummary: buildRequirementSummary(unmetRequirements),
             retentionReceiptSummary,
             departureExceptionSummary,
             ruleExplanation: {
@@ -142,6 +202,8 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
             retentionRequirementSummary: confirmationRequirementSummary,
             retentionReceiptSummary,
             departureExceptionSummary,
@@ -162,6 +224,8 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
             retentionRequirementSummary: '待质保金到账',
             retentionReceiptSummary,
             departureExceptionSummary,
@@ -182,6 +246,8 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
             retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_WAITING,
+            retentionDueDate: input.retentionDue.retentionDueDate,
+            retentionDueStatus: input.retentionDue.retentionDueStatus,
             retentionRequirementSummary: '待经营依据复核完成',
             retentionReceiptSummary,
             departureExceptionSummary,
@@ -209,6 +275,8 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
         finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
         nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
         retentionSettlementStatus: RETENTION_SETTLEMENT_STATUS_READY,
+        retentionDueDate: input.retentionDue.retentionDueDate,
+        retentionDueStatus: input.retentionDue.retentionDueStatus,
         retentionRequirementSummary: '当前质保金已具备结算条件',
         retentionReceiptSummary,
         departureExceptionSummary,
@@ -224,12 +292,42 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
     };
 }
 
-function buildRequirementSummary(requirements: string[], hasReceipt: boolean): string {
-    const filtered = requirements.filter((item) => item !== '质保金到账' || !hasReceipt);
-    if (filtered.length === 0) {
+export function evaluateRetentionDueDate(value: Date | string | null | undefined, now = new Date()): RetentionDueEvaluation {
+    const retentionDueDate = toDateOnly(value);
+    if (!retentionDueDate) {
+        return {
+            retentionDueDate: null,
+            retentionDueStatus: 'missing'
+        };
+    }
+
+    return {
+        retentionDueDate,
+        retentionDueStatus: retentionDueDate <= now.toISOString().slice(0, 10) ? 'due' : 'pending'
+    };
+}
+
+function buildRequirementSummary(requirements: string[]): string {
+    if (requirements.length === 0) {
         return '当前质保金已具备结算条件';
     }
-    return `待${filtered.join('、')}`;
+    return `待${requirements.join('、')}`;
+}
+
+function buildUnmetRequirements(input: RetentionEvaluationInput): string[] {
+    const requirements: string[] = [];
+    if (input.retentionDue.retentionDueStatus === 'missing') {
+        requirements.push('补齐合同质保期届满日期');
+    } else if (input.retentionDue.retentionDueStatus === 'pending') {
+        requirements.push('质保期届满');
+    }
+    if (!input.departureDecision) {
+        requirements.push('离职 / 特例结论明确');
+    }
+    if (!input.retentionReceipt) {
+        requirements.push('质保金到账');
+    }
+    return requirements;
 }
 
 function formatRetentionReceiptSummary(receipt: SettlementReceiptSummary): string {
@@ -254,4 +352,11 @@ function getGateSeverity(bindingAction?: string | null, gateReviewDecision?: str
 
 function hasText(value?: string | null): value is string {
     return Boolean(value && value.trim().length > 0);
+}
+
+function toDateOnly(value: Date | string | null | undefined): string | null {
+    if (!value) {
+        return null;
+    }
+    return typeof value === 'string' ? value.slice(0, 10) : value.toISOString().slice(0, 10);
 }

@@ -33,6 +33,7 @@ export const ContractSchema = defineEntity({
         currencyCode: p.string().length(16).default('CNY').fieldName('currency_code').comment('币种代码'),
         currentSnapshotId: p.uuid().nullable().fieldName('current_snapshot_id').comment('当前生效条款快照标识'),
         signedAt: p.datetime().nullable().fieldName('signed_at').comment('签约时间'),
+        retentionDueDate: p.date().nullable().fieldName('retention_due_date').comment('质保期届满日期'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
         createdAt: p
             .datetime()
@@ -89,6 +90,7 @@ export const ContractTermSnapshotSchema = defineEntity({
                 .comment('所属合同 ID'),
         effectiveAt: p.datetime().defaultRaw('now()').fieldName('effective_at').comment('生效时间'),
         effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
+        retentionDueDate: p.date().nullable().fieldName('retention_due_date').comment('质保期届满日期'),
         snapshotStatus: p.string().length(32).default('active').fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),

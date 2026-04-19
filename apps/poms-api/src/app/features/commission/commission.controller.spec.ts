@@ -49,6 +49,8 @@ const stubFinalSettlementView = {
     finalSettlementStatus: 'pending-final-settlement',
     nonRetentionSettlementStatus: 'settled',
     retentionSettlementStatus: 'waiting-retention',
+    retentionDueDate: '2026-04-14',
+    retentionDueStatus: 'due' as const,
     retentionRequirementSummary: '等待质保金到账',
     retentionReceiptSummary: null,
     departureExceptionSummary: null,

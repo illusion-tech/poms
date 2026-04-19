@@ -23,6 +23,7 @@ export interface ContractSeedRecord {
     currencyCode: string;
     currentSnapshotId: string | null;
     signedAt: string | null;
+    retentionDueDate: string | null;
     createdBy: string | null;
     updatedBy: string | null;
 }
@@ -69,6 +70,7 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         currencyCode: 'CNY',
         currentSnapshotId: null,
         signedAt: null,
+        retentionDueDate: null,
         createdBy: adminUser.id,
         updatedBy: adminUser.id
     },
@@ -81,6 +83,7 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         currencyCode: 'CNY',
         currentSnapshotId: null,
         signedAt: '2026-03-20T09:30:00.000Z',
+        retentionDueDate: null,
         createdBy: adminUser.id,
         updatedBy: adminUser.id
     }

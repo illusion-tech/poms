@@ -53,6 +53,7 @@ import {
     buildPendingFinalRuleExplanation,
     buildRetentionSettlementDraft,
     DEFAULT_RETENTION_REQUIREMENT_SUMMARY,
+    evaluateRetentionDueDate,
     FINAL_SETTLEMENT_STATUS_PENDING,
     FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
     FINAL_SETTLEMENT_STATUS_SETTLED_ALL,
@@ -61,6 +62,7 @@ import {
     RETENTION_SETTLEMENT_STATUS_READY,
     RETENTION_SETTLEMENT_STATUS_SETTLED,
     RETENTION_SETTLEMENT_STATUS_WAITING,
+    type RetentionDueEvaluation,
     type RetentionSettlementDraft,
     type RuleExplanationDraft
 } from './commission-settlement-write-chain';
@@ -175,12 +177,15 @@ export class CommissionService {
 
     async getCommissionFinalSettlement(projectId: string): Promise<CommissionFinalSettlementView> {
         const { snapshot, freezeVersion } = await this.#getCurrentFinalSettlementContext(projectId);
+        const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
 
         return {
             projectId,
             finalSettlementStatus: snapshot.finalSettlementStatus,
             nonRetentionSettlementStatus: snapshot.nonRetentionSettlementStatus,
             retentionSettlementStatus: snapshot.retentionSettlementStatus,
+            retentionDueDate: retentionDue.retentionDueDate,
+            retentionDueStatus: retentionDue.retentionDueStatus,
             retentionRequirementSummary: snapshot.retentionRequirementSummary ?? null,
             retentionReceiptSummary: snapshot.retentionReceiptSummary ?? null,
             departureExceptionSummary: snapshot.departureExceptionSummary ?? null,
@@ -662,6 +667,7 @@ export class CommissionService {
                         freezeVersionId: freezeVersion.id,
                         status: 'submitted'
                     });
+                    const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
 
                     const nextSnapshot =
                         currentFinalSettlementSnapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION
@@ -676,6 +682,7 @@ export class CommissionService {
                                               gateReview,
                                               entity,
                                               latestRetentionReceipt,
+                                              retentionDue,
                                               Boolean(openDispute)
                                           )
                                       ),
@@ -711,6 +718,7 @@ export class CommissionService {
                                   gateReview,
                                   entity,
                                   latestRetentionReceipt,
+                                  retentionDue,
                                   Boolean(openDispute)
                               ).ruleExplanation
                             : buildPendingFinalRuleExplanation(),
@@ -907,6 +915,8 @@ export class CommissionService {
         if (entity.stageType === 'retention') {
             const currentSnapshot = await this.repo.findCurrentFinalSettlementSnapshot(entity.projectId);
             this.#assertRetentionSnapshotEligibleForSubmit(entity, currentSnapshot);
+            const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
+            this.#assertRetentionDueReady(retentionDue, entity.id, 'submit retention payout approval');
 
             if (dto.summarySnapshotId && dto.summarySnapshotId !== currentSnapshot.summarySnapshotId) {
                 throw new BadRequestException('summarySnapshotId must match the current final-settlement snapshot');
@@ -1049,12 +1059,15 @@ export class CommissionService {
                     if (departureDecision.confirmationRequirementSummary?.trim()) {
                         throw new UnprocessableEntityException('当前离职 / 特例结论仍要求责任承接确认，不能批准质保金发放');
                     }
+                    const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
+                    this.#assertRetentionDueReady(retentionDue, payout.id, '批准质保金发放');
 
                     const retentionDraft = this.#buildRetentionSettlementDraft(
                         currentSnapshot.currentActionLevel,
                         gateReview,
                         departureDecision,
                         retentionReceipt,
+                        retentionDue,
                         false
                     );
                     if (retentionDraft.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY) {
@@ -1173,11 +1186,13 @@ export class CommissionService {
                         freezeVersionId: currentSnapshot.freezeVersionId,
                         status: 'submitted'
                     });
+                    const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
                     const retentionDraft = this.#buildRetentionSettlementDraft(
                         currentSnapshot.currentActionLevel,
                         gateReview,
                         currentDepartureDecision,
                         latestRetentionReceipt,
+                        retentionDue,
                         Boolean(openDispute)
                     );
                     const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
@@ -1224,12 +1239,15 @@ export class CommissionService {
                     if (openDispute) {
                         throw new UnprocessableEntityException('当前冻结版本仍存在未收口争议，不能登记质保金发放');
                     }
+                    const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
+                    this.#assertRetentionDueReady(retentionDue, payout.id, '登记质保金发放');
 
                     const retentionDraft = this.#buildRetentionSettlementDraft(
                         currentSnapshot.currentActionLevel,
                         gateReview,
                         departureDecision,
                         retentionReceipt,
+                        retentionDue,
                         false,
                         true
                     );
@@ -1631,6 +1649,36 @@ export class CommissionService {
             throw new NotFoundException(`Current CommissionRuleExplanationSnapshot for project ${projectId} not found`);
         }
         return snapshot;
+    }
+
+    async #loadRetentionDueEvaluationFromFreezeVersion(
+        freezeVersion: Pick<CommissionRoleAssignment, 'effectiveHandoverBaselineSnapshotId'>
+    ): Promise<RetentionDueEvaluation> {
+        if (!freezeVersion.effectiveHandoverBaselineSnapshotId) {
+            return evaluateRetentionDueDate(null);
+        }
+
+        const baselineSnapshot = await this.repo.findContractTermSnapshotById(freezeVersion.effectiveHandoverBaselineSnapshotId);
+        return evaluateRetentionDueDate(baselineSnapshot?.retentionDueDate ?? null);
+    }
+
+    async #loadRetentionDueEvaluationFromFreezeVersionId(freezeVersionId: string): Promise<RetentionDueEvaluation> {
+        const freezeVersion = await this.repo.findRoleAssignmentById(freezeVersionId);
+        if (!freezeVersion) {
+            return evaluateRetentionDueDate(null);
+        }
+        return this.#loadRetentionDueEvaluationFromFreezeVersion(freezeVersion);
+    }
+
+    #assertRetentionDueReady(retentionDue: RetentionDueEvaluation, payoutId: string, actionName: string): void {
+        if (retentionDue.retentionDueStatus === 'missing') {
+            throw new UnprocessableEntityException(`CommissionPayout ${payoutId} 当前缺少正式质保期届满日期，无法${actionName}`);
+        }
+        if (retentionDue.retentionDueStatus === 'pending') {
+            throw new UnprocessableEntityException(
+                `CommissionPayout ${payoutId} 当前质保期尚未届满（${retentionDue.retentionDueDate}），无法${actionName}`
+            );
+        }
     }
 
     #buildCommissionSharedEvidencePackage(
@@ -2333,11 +2381,13 @@ export class CommissionService {
         gateReview: Pick<CommissionGateReviewRecord, 'gateReviewDecision' | 'blockingReasonCode' | 'nextActionSummary'> | null,
         departureDecision: Pick<CommissionDepartureExceptionDecision, 'decisionSummary' | 'confirmationRequirementSummary'> | null,
         retentionReceipt: Pick<ReceiptRecord, 'receiptAmount' | 'receiptDate'> | null,
+        retentionDue: RetentionDueEvaluation,
         openFreezeDispute: boolean,
         markAsSettled = false
     ): RetentionSettlementDraft {
         return buildRetentionSettlementDraft({
             openFreezeDispute,
+            retentionDue,
             departureDecision: departureDecision
                 ? {
                       decisionSummary: departureDecision.decisionSummary,

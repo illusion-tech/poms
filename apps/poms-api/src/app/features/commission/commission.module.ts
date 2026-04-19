@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ApprovalModule } from '../approval/approval.module';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
@@ -32,6 +32,7 @@ import { CommissionService } from './commission.service';
         MikroOrmModule.forFeature([
             Project,
             Contract,
+            ContractTermSnapshot,
             ReceiptRecord,
             PaymentRecord,
             ProjectHandover,

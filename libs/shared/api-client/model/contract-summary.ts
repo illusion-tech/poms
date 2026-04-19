@@ -19,6 +19,7 @@ export interface ContractSummary {
     currencyCode: string;
     currentSnapshotId: string | null;
     signedAt: string | null;
+    retentionDueDate: string | null;
     rowVersion: number;
     createdAt: string;
     createdBy: string | null;

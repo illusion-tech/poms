@@ -23,6 +23,7 @@ export interface CreateContractRecord {
     currencyCode?: string;
     currentSnapshotId?: string | null;
     signedAt?: Date | null;
+    retentionDueDate?: string | null;
     createdBy?: string | null;
     updatedBy?: string | null;
 }
@@ -32,6 +33,7 @@ export interface UpdateContractBasicInfoRecord {
     currencyCode?: string;
     currentSnapshotId?: string | null;
     signedAt?: Date | null;
+    retentionDueDate?: string | null;
     updatedBy?: string | null;
 }
 
@@ -85,6 +87,7 @@ export class ContractService {
             currencyCode: input.currencyCode ?? 'CNY',
             currentSnapshotId: input.currentSnapshotId ?? null,
             signedAt: input.signedAt ?? null,
+            retentionDueDate: this.normalizeDateOnly(input.retentionDueDate) ?? null,
             createdBy: input.createdBy ?? null,
             updatedBy: input.updatedBy ?? null
         });
@@ -118,6 +121,10 @@ export class ContractService {
 
         if (input.signedAt !== undefined) {
             contract.signedAt = input.signedAt;
+        }
+
+        if (input.retentionDueDate !== undefined) {
+            contract.retentionDueDate = this.normalizeDateOnly(input.retentionDueDate) ?? null;
         }
 
         if (input.updatedBy !== undefined) {
@@ -173,7 +180,8 @@ export class ContractService {
             id: snapshotId,
             contractId: contract.id,
             effectiveBy: actorUserId,
-            createdBy: actorUserId
+            createdBy: actorUserId,
+            retentionDueDate: this.normalizeDateOnly(contract.retentionDueDate ?? null) ?? null
         });
         contract.status = 'active';
         contract.currentSnapshotId = snapshotId;
@@ -197,5 +205,12 @@ export class ContractService {
         if (expectedVersion !== undefined && actualVersion !== expectedVersion) {
             throw new ConflictException(`${resourceType} version ${expectedVersion} does not match current version ${actualVersion}`);
         }
+    }
+
+    private normalizeDateOnly(value: string | null | undefined): string | null | undefined {
+        if (value === undefined) {
+            return undefined;
+        }
+        return value === null ? null : value.slice(0, 10);
     }
 }

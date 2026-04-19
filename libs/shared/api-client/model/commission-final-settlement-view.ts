@@ -17,6 +17,8 @@ export interface CommissionFinalSettlementView {
     finalSettlementStatus: string;
     nonRetentionSettlementStatus: string;
     retentionSettlementStatus: string;
+    retentionDueDate: string | null;
+    retentionDueStatus: CommissionFinalSettlementViewRetentionDueStatusEnum;
     retentionRequirementSummary: string | null;
     retentionReceiptSummary: string | null;
     departureExceptionSummary: string | null;
@@ -35,6 +37,11 @@ export interface CommissionFinalSettlementView {
     exportPolicy: string;
     allowedActions: Array<string>;
 }
+export enum CommissionFinalSettlementViewRetentionDueStatusEnum {
+    Missing = 'missing',
+    Pending = 'pending',
+    Due = 'due'
+};
 
 
 

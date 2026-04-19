@@ -336,6 +336,7 @@
 - `currency_code`
 - `current_snapshot_id`
 - `signed_at`
+- `retention_due_date`
 - `row_version`
 - `created_at`
 - `created_by`
@@ -348,6 +349,11 @@
 - 外键：`project_id -> project.id`
 - 唯一：`contract_no`
 - 索引：`project_id`、`status`
+
+当前第二阶段 corrective 补点：
+
+- `contract.retention_due_date` 作为 draft / current 合同上的正式质保期届满输入。
+- `contract_term_snapshot.retention_due_date` 作为 activation 冻结后的正式事实源，供 retention payout guard、final-settlement query 与 rule explanation 沿 `effective_handover_baseline_snapshot_id` 统一消费。
 
 ### 7.3 `receipt_record`
 

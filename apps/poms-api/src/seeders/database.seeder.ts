@@ -929,6 +929,7 @@ export class DatabaseSeeder extends Seeder {
                     "currency_code",
                     "current_snapshot_id",
                     "signed_at",
+                    "retention_due_date",
                     "created_by",
                     "updated_by"
                 )
@@ -941,6 +942,7 @@ export class DatabaseSeeder extends Seeder {
                     ${sqlValue(contract.currencyCode)},
                     ${sqlUuid(contract.currentSnapshotId)},
                     ${sqlTimestamp(contract.signedAt)},
+                    ${sqlDate(contract.retentionDueDate)},
                     ${sqlUuid(contract.createdBy)},
                     ${sqlUuid(contract.updatedBy)}
                 )
@@ -952,6 +954,7 @@ export class DatabaseSeeder extends Seeder {
                     "currency_code" = excluded."currency_code",
                     "current_snapshot_id" = excluded."current_snapshot_id",
                     "signed_at" = excluded."signed_at",
+                    "retention_due_date" = excluded."retention_due_date",
                     "updated_by" = excluded."updated_by",
                     "updated_at" = now();
             `);
@@ -984,6 +987,7 @@ interface HandoverE2EFixture {
     processingRebaselineRecordId?: string;
     amendmentId?: string;
     contractStatus?: string;
+    retentionDueDate?: string;
     confirmedReceiptAmount?: string;
     confirmedPaymentAmountExcludingTax?: string;
     receiptRecordId?: string;
@@ -995,6 +999,7 @@ interface HandoverE2EFixture {
 
 interface HandoverE2EFixtureOptions {
     contractStatus?: string;
+    retentionDueDate?: string;
     confirmedReceiptAmount?: string;
     confirmedPaymentAmountExcludingTax?: string;
     handoverStatus?: 'draft' | 'confirmed';
@@ -1041,6 +1046,7 @@ const HANDOVER_E2E_FIXTURES: HandoverE2EFixture[] = [
 const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
     {
         ...makeHandoverE2EFixture(101, 'commission-main', true, false, {
+            retentionDueDate: '2026-04-14',
             confirmedReceiptAmount: '100000.00',
             confirmedPaymentAmountExcludingTax: '70000.00',
             handoverStatus: 'confirmed',
@@ -1201,6 +1207,7 @@ async function seedProjectHandoverE2EFixture(
             "currency_code",
             "current_snapshot_id",
             "signed_at",
+            "retention_due_date",
             "created_by",
             "updated_by"
         )
@@ -1213,6 +1220,7 @@ async function seedProjectHandoverE2EFixture(
             'CNY',
             ${sqlUuid(fixture.contractSnapshotId)},
             ${sqlTimestamp('2026-04-15T00:00:00.000Z')},
+            ${sqlDate(fixture.retentionDueDate ?? null)},
             ${sqlUuid(E2E_ACTOR_ID)},
             ${sqlUuid(E2E_ACTOR_ID)}
         );
@@ -1223,6 +1231,7 @@ async function seedProjectHandoverE2EFixture(
             "id",
             "contract_id",
             "effective_by",
+            "retention_due_date",
             "snapshot_status",
             "created_by"
         )
@@ -1230,6 +1239,7 @@ async function seedProjectHandoverE2EFixture(
             ${sqlValue(fixture.contractSnapshotId)},
             ${sqlValue(fixture.contractId)},
             ${sqlUuid(E2E_ACTOR_ID)},
+            ${sqlDate(fixture.retentionDueDate ?? null)},
             'active',
             ${sqlUuid(E2E_ACTOR_ID)}
         );
@@ -1962,6 +1972,7 @@ function makeHandoverE2EFixture(
         processingRebaselineRecordId: withProcessingRebaseline ? `72000000-0000-4000-8000-${suffix}` : undefined,
         amendmentId: withProcessingRebaseline ? `73000000-0000-4000-8000-${suffix}` : undefined,
         contractStatus: options.contractStatus ?? 'active',
+        retentionDueDate: options.retentionDueDate,
         confirmedReceiptAmount: options.confirmedReceiptAmount,
         confirmedPaymentAmountExcludingTax: options.confirmedPaymentAmountExcludingTax,
         receiptRecordId: options.confirmedReceiptAmount ? `81000000-0000-4000-8000-${suffix}` : undefined,
@@ -2007,6 +2018,10 @@ function sqlUuid(value: string | null): string {
 
 function sqlTimestamp(value: string | null): string {
     return value === null ? 'null' : `${sqlValue(value)}::timestamptz`;
+}
+
+function sqlDate(value: string | null): string {
+    return value === null ? 'null' : `${sqlValue(value.slice(0, 10))}::date`;
 }
 
 function sqlText(value: string | null): string {

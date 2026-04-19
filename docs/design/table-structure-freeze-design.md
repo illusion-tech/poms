@@ -93,8 +93,8 @@
 
 | 逻辑表                    | 表角色     | 最小字段组                                                                                                      | 关键关系                      | 说明                 |
 | ------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------- | -------------------- |
-| `contract`                | 主体主表   | `id`、`project_id`、`contract_no`、`status`、`signed_amount`、`current_snapshot_id`                             | 归属 `project`                | 合同主事实           |
-| `contract_term_snapshot`  | 快照表     | `id`、`contract_id`、`effective_at`、`effective_by`、`snapshot_status`                                          | 归属 `contract`               | 生效条款冻结源       |
+| `contract`                | 主体主表   | `id`、`project_id`、`contract_no`、`status`、`signed_amount`、`retention_due_date`、`current_snapshot_id`       | 归属 `project`                | 合同主事实           |
+| `contract_term_snapshot`  | 快照表     | `id`、`contract_id`、`retention_due_date`、`effective_at`、`effective_by`、`snapshot_status`                    | 归属 `contract`               | 生效条款冻结源       |
 | `contract_amendment`      | 版本表     | `id`、`contract_id`、`version`、`is_current`、`supersedes_id`、`status`                                         | 归属 `contract`               | 变更版本链           |
 | `receivable_plan_version` | 版本表     | `id`、`contract_id`、`snapshot_id`、`version`、`is_current`、`status`                                           | 归属 `contract_term_snapshot` | 计划版本链           |
 | `receipt_record`          | 动作记录表 | `id`、`project_id`、`contract_id`、`registered_amount`、`confirmed_amount`、`status`、`source_type`             | 归属 `project` / `contract`   | 到账登记与确认事实   |
