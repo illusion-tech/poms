@@ -1,5 +1,5 @@
 import { approveRecord, expectNoOpenTodoForTarget, findOpenTodoForTarget, rejectRecord } from '../support/approval-api';
-import { loginAsAdmin } from '../support/api-client';
+import { loginAsAdmin, loginAsApprovalOwner } from '../support/api-client';
 import { activateContract, createContract, getContract, getCurrentContractApproval, prepareContractReadinessForProject, submitContractReview } from '../support/contract-api';
 import { expectErrorStatus } from '../support/http';
 import { createProjectForProfile } from '../support/project-api';
@@ -10,6 +10,7 @@ jest.setTimeout(120_000);
 describe('poms-api contract workflow e2e', () => {
     it('runs the contract approval workflow end-to-end', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('contract');
 
         const project = await createProjectForProfile(client, profile, {
@@ -34,8 +35,8 @@ describe('poms-api contract workflow e2e', () => {
         expect(submitResult.resultStatus).toBe('submitted');
         expect(submitResult.businessStatusAfter).toBe('pending-review');
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        const approveResult = await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const approveResult = await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 审批通过',
             expectedVersion: 1
         });
@@ -89,6 +90,7 @@ describe('poms-api contract workflow e2e', () => {
 
     it('rejects activation after review approval when readiness package has not been prepared', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('contract-readiness-missing');
 
         const project = await createProjectForProfile(client, profile, {
@@ -110,8 +112,8 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 审批通过但未准备承接包',
             expectedVersion: 1
         });
@@ -127,6 +129,7 @@ describe('poms-api contract workflow e2e', () => {
 
     it('returns the contract to draft when review approval is rejected', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('contract-reject');
 
         const project = await createProjectForProfile(client, profile, {
@@ -148,8 +151,8 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        const rejectResult = await rejectRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const rejectResult = await rejectRecord(approvalOwner.client, todo.sourceId, {
             reason: '资料不完整',
             comment: '补齐盖章页后重新提交',
             expectedVersion: 1
@@ -167,6 +170,7 @@ describe('poms-api contract workflow e2e', () => {
 
     it('returns 409 when contract activation uses a stale version', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('contract-version');
 
         const project = await createProjectForProfile(client, profile, {
@@ -188,8 +192,8 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 审批通过',
             expectedVersion: 1
         });
@@ -239,6 +243,7 @@ describe('poms-api contract workflow e2e', () => {
 
     it('creates a new approval record on resubmission and removes closed contract todos from /me/todos', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('contract-resubmit');
 
         const project = await createProjectForProfile(client, profile, {
@@ -260,7 +265,7 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const firstTodo = await findOpenTodoForTarget(client, 'Contract', contract.id);
+        const firstTodo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
         expect(firstTodo.allowedActions).toEqual(['approve', 'reject']);
         expect(firstTodo.currentNodeName).toBe('合同审核');
         expect(firstTodo.targetTitle).toBe(`E2E-HT-${unique}`);
@@ -268,13 +273,13 @@ describe('poms-api contract workflow e2e', () => {
         const firstApproval = await getCurrentContractApproval(client, contract.id);
         expect(firstApproval.id).toBe(firstTodo.sourceId);
 
-        await rejectRecord(client, firstApproval.id, {
+        await rejectRecord(approvalOwner.client, firstApproval.id, {
             reason: '资料不完整',
             comment: '补齐附件后重新提审',
             expectedVersion: firstApproval.rowVersion
         });
 
-        await expectNoOpenTodoForTarget(client, 'Contract', contract.id);
+        await expectNoOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
 
         const rejectedContract = await getContract(client, contract.id);
         expect(rejectedContract.status).toBe('draft');
@@ -284,7 +289,7 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: rejectedContract.rowVersion
         });
 
-        const secondTodo = await findOpenTodoForTarget(client, 'Contract', contract.id);
+        const secondTodo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
         expect(secondTodo.sourceId).not.toBe(firstTodo.sourceId);
         expect(secondTodo.allowedActions).toEqual(['approve', 'reject']);
 

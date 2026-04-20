@@ -1,4 +1,4 @@
-import { DEV_ORG_UNITS, DEV_USERS } from '../app/core/platform/dev-platform.fixtures';
+import { requireDevOrgUnitByCode, requireDevUserByUsername } from '../app/core/platform/dev-platform.fixtures';
 
 export interface ProjectSeedRecord {
     id: string;
@@ -28,8 +28,11 @@ export interface ContractSeedRecord {
     updatedBy: string | null;
 }
 
-const adminUser = DEV_USERS[0];
-const defaultOrgUnit = DEV_ORG_UNITS[1];
+const salesRepUser = requireDevUserByUsername('sales_rep');
+const salesLeadUser = requireDevUserByUsername('sales_lead');
+const businessAdminUser = requireDevUserByUsername('biz_admin');
+const salesSouthOrgUnit = requireDevOrgUnitByCode('SALES-SOUTH-1');
+const salesHqOrgUnit = requireDevOrgUnitByCode('SALES-HQ');
 
 export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
     {
@@ -39,11 +42,11 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         customerId: null,
         status: 'active',
         currentStage: 'commercial-closure',
-        ownerOrgId: defaultOrgUnit.id,
-        ownerUserId: adminUser.id,
+        ownerOrgId: salesSouthOrgUnit.id,
+        ownerUserId: salesRepUser.id,
         plannedSignAt: '2026-04-15T00:00:00.000Z',
-        createdBy: adminUser.id,
-        updatedBy: adminUser.id
+        createdBy: salesRepUser.id,
+        updatedBy: salesRepUser.id
     },
     {
         id: '20000000-0000-4000-8000-000000000002',
@@ -52,11 +55,11 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         customerId: null,
         status: 'blocked',
         currentStage: 'bid-process',
-        ownerOrgId: defaultOrgUnit.id,
-        ownerUserId: DEV_USERS[1].id,
+        ownerOrgId: salesHqOrgUnit.id,
+        ownerUserId: salesLeadUser.id,
         plannedSignAt: null,
-        createdBy: adminUser.id,
-        updatedBy: adminUser.id
+        createdBy: salesLeadUser.id,
+        updatedBy: salesLeadUser.id
     }
 ];
 
@@ -71,8 +74,8 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         currentSnapshotId: null,
         signedAt: null,
         retentionDueDate: null,
-        createdBy: adminUser.id,
-        updatedBy: adminUser.id
+        createdBy: businessAdminUser.id,
+        updatedBy: businessAdminUser.id
     },
     {
         id: '30000000-0000-4000-8000-000000000002',
@@ -84,7 +87,7 @@ export const DEV_CONTRACT_SEEDS: ContractSeedRecord[] = [
         currentSnapshotId: null,
         signedAt: '2026-03-20T09:30:00.000Z',
         retentionDueDate: null,
-        createdBy: adminUser.id,
-        updatedBy: adminUser.id
+        createdBy: businessAdminUser.id,
+        updatedBy: businessAdminUser.id
     }
 ];

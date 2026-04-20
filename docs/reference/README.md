@@ -11,7 +11,7 @@
 - `docs/adr/`：记录为什么这样定
 - `docs/design/`：记录系统设计、业务域设计、治理设计和评审治理
 - `docs/modules/`：记录模块实现设计
-- `docs/reference/`：记录术语、字典、模板和通用约定
+- `docs/reference/`：记录术语、字典、模板、手工测试账号矩阵和通用约定
 
 因此，本目录更适合沉淀“长期复用的辅助信息”，而不是某一轮评审或某一个业务域的临时结论。
 
@@ -55,6 +55,7 @@
 - `state-dictionary.md`：跨文档状态字典，用于统一阶段、状态和值域语义
 - `permission-catalog.md`：权限命名与分层目录，用于统一权限前缀、命名规则和使用边界
 - `role-catalog.md`：跨文档角色目录，用于统一平台角色、业务职责角色和审批角色口径
+- `manual-test-account-matrix.md`：全流程人工测试账号矩阵，用于把制度角色转换为可执行的组织 / 账号 / 权限建议
 - `document-templates.md`：文档模板目录，用于统一 design、modules、reference 三类文档页头和章节建议
 - `implementation-baseline-package-template.md`：实施基线包模板，用于在 `G1` 前冻结切片输入、范围、SSOT 与一致性证据
 - `implementation-corrective-checkpoint-template.md`：实施纠偏 checkpoint 模板，用于在实现中发现 drift 后记录 `G3` 阻断、修复范围与剩余阻断

@@ -143,7 +143,7 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'profile',
-                loadChildren: () => import('./app/features/user-management/usermanagement.routes'),
+                loadComponent: () => import('./app/features/profile/current-user-profile').then((c) => c.CurrentUserProfile),
                 data: { breadcrumb: '个人中心' }
             },
             {

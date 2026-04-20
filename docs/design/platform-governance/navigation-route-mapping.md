@@ -42,16 +42,16 @@
 
 ## 4. 第一阶段对照表
 
-| 导航键                | 目标导航链接           | 当前前端现状                               | 状态          | 第一阶段处理建议                                                                      |
-| --------------------- | ---------------------- | ------------------------------------------ | ------------- | ------------------------------------------------------------------------------------- |
-| `dashboard`           | `/dashboard`           | 已有真实工作台页                           | `implemented` | 继续保持为正式首页入口                                                                |
-| `projects`            | `/projects`            | 已有真实业务页                             | `implemented` | 继续保持启用，并与权限、导航同步校验                                                  |
-| `contracts`           | `/contracts`           | 已有真实业务页                             | `implemented` | 继续保持启用，并与权限、导航同步校验                                                  |
-| `platform.users`      | `/platform/users`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口，并持续用 smoke 覆盖可达性与拦截                                   |
-| `platform.roles`      | `/platform/roles`      | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                                                    |
-| `platform.org-units`  | `/platform/org-units`  | 已有真实页面、真实 API 与权限守卫          | `implemented` | 继续保持为正式入口                                                                    |
-| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看导航树与路由对齐结果 | `implemented` | 第一阶段按受控治理入口启用，并通过显式同步命令把导航事实源变化写入统一 `audit_log`    |
-| `my_profile`          | `/profile`             | 当前已有 `/profile/*` 体系                 | `implemented` | 可保留为当前阶段正式入口                                                              |
+| 导航键                | 目标导航链接           | 当前前端现状                                             | 状态          | 第一阶段处理建议                                                                   |
+| --------------------- | ---------------------- | -------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------- |
+| `dashboard`           | `/dashboard`           | 已有真实工作台页                                         | `implemented` | 继续保持为正式首页入口                                                             |
+| `projects`            | `/projects`            | 已有真实业务页                                           | `implemented` | 继续保持启用，并与权限、导航同步校验                                               |
+| `contracts`           | `/contracts`           | 已有真实业务页                                           | `implemented` | 继续保持启用，并与权限、导航同步校验                                               |
+| `platform.users`      | `/platform/users`      | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 继续保持为正式入口，并持续用 smoke 覆盖可达性与拦截                                |
+| `platform.roles`      | `/platform/roles`      | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 继续保持为正式入口                                                                 |
+| `platform.org-units`  | `/platform/org-units`  | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 继续保持为正式入口                                                                 |
+| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看导航树与路由对齐结果               | `implemented` | 第一阶段按受控治理入口启用，并通过显式同步命令把导航事实源变化写入统一 `audit_log` |
+| `my_profile`          | `/profile`             | 已有独立个人中心页，直接消费真实 `auth/profile` 聚合输出 | `implemented` | 保持为当前阶段正式入口；不得再复用平台用户管理页或旧 `/profile/*` 模板流程         |
 
 ---
 

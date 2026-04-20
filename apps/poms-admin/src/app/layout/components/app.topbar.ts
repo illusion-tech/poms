@@ -100,39 +100,21 @@ import { AppBreadcrumb } from './app.breadcrumb';
                     >
                         @if (currentUser()) {
                             <div class="px-2.5 py-2 mb-1 border-b border-surface">
-                                <p class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ currentUser()?.username }}</p>
-                                <p class="text-xs text-surface-500 dark:text-surface-400 truncate">{{ currentUser()?.email }}</p>
+                                <p class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ currentUser()?.displayName }}</p>
+                                <p class="text-xs text-surface-500 dark:text-surface-400 truncate">{{ primaryOrgName() || currentUser()?.email || currentUser()?.username }}</p>
                             </div>
                         }
                         <ul class="flex flex-col gap-1">
                             <li>
-                                <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
+                                <a (click)="goToProfile()" class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
                                     <i class="pi pi-user"></i>
-                                    <span>Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
-                                    <i class="pi pi-cog"></i>
-                                    <span>Settings</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
-                                    <i class="pi pi-calendar"></i>
-                                    <span>Calendar</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
-                                    <i class="pi pi-inbox"></i>
-                                    <span>Inbox</span>
+                                    <span>个人中心</span>
                                 </a>
                             </li>
                             <li>
                                 <a (click)="logout()" class="label-small dark:text-surface-400 flex gap-2 py-2 px-2.5 rounded-lg items-center hover:bg-emphasis transition-colors duration-150 cursor-pointer">
                                     <i class="pi pi-power-off"></i>
-                                    <span>Log out</span>
+                                    <span>退出登录</span>
                                 </a>
                             </li>
                         </ul>
@@ -156,10 +138,15 @@ export class AppTopbar {
     currentUser = computed(() => this.#authStore.currentUser());
     myTodos = computed(() => this.#authStore.myTodos());
     openTodosCount = computed(() => this.#authStore.openTodosCount());
+    primaryOrgName = computed(() => this.currentUser()?.orgUnits.find((org) => org.membershipType === 'primary')?.name ?? null);
 
     logout() {
         this.#authStore.logout();
         this.#router.navigate(['/auth/login']);
+    }
+
+    goToProfile() {
+        this.#router.navigate(['/profile']);
     }
 
     navigateToTodo(todo: TodoItemSummary) {

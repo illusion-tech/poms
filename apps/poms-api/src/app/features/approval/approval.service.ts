@@ -12,7 +12,11 @@ import type {
     TodoItemSummary
 } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
-import { DEV_USERS } from '../../core/platform/dev-platform.fixtures';
+import {
+    COMMISSION_APPROVER_USERNAME,
+    CONTRACT_REVIEW_APPROVER_USERNAME,
+    requireDevUserByUsername
+} from '../../core/platform/dev-platform.fixtures';
 import { CommissionAdjustment } from '../commission/commission-adjustment.entity';
 import { CommissionDepartureExceptionDecision } from '../commission/commission-departure-exception-decision.entity';
 import { CommissionFinalSettlementSnapshot } from '../commission/commission-final-settlement-snapshot.entity';
@@ -56,7 +60,8 @@ const COMMISSION_ADJUSTMENT_NODE_KEY = 'commission-adjustment-approval';
 const COMMISSION_ADJUSTMENT_TARGET_TYPE = 'CommissionAdjustment';
 const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
-const DEFAULT_APPROVER_USER_ID = DEV_USERS[0].id;
+const CONTRACT_REVIEW_APPROVER_USER_ID = requireDevUserByUsername(CONTRACT_REVIEW_APPROVER_USERNAME).id;
+const COMMISSION_APPROVER_USER_ID = requireDevUserByUsername(COMMISSION_APPROVER_USERNAME).id;
 const APPROVAL_ACTIONS = ['approve', 'reject'];
 
 @Injectable()
@@ -112,7 +117,7 @@ export class ApprovalService {
                 currentStatus: 'pending',
                 currentNodeKey: CONTRACT_REVIEW_NODE_KEY,
                 initiatorUserId,
-                currentApproverUserId: DEFAULT_APPROVER_USER_ID,
+                currentApproverUserId: CONTRACT_REVIEW_APPROVER_USER_ID,
                 decision: null,
                 decisionComment: input.comment ?? null,
                 submittedAt: new Date(),
@@ -131,7 +136,7 @@ export class ApprovalService {
                 projectId: contract.projectId,
                 title: `合同审核：${contract.contractNo}`,
                 summary: input.comment ?? null,
-                assigneeUserId: DEFAULT_APPROVER_USER_ID,
+                assigneeUserId: CONTRACT_REVIEW_APPROVER_USER_ID,
                 status: 'open',
                 priority: 'high',
                 dueAt: null,
@@ -240,7 +245,7 @@ export class ApprovalService {
                 currentStatus: 'pending',
                 currentNodeKey: COMMISSION_PAYOUT_NODE_KEY,
                 initiatorUserId,
-                currentApproverUserId: DEFAULT_APPROVER_USER_ID,
+                currentApproverUserId: COMMISSION_APPROVER_USER_ID,
                 decision: null,
                 decisionComment: null,
                 submittedAt: new Date(),
@@ -259,7 +264,7 @@ export class ApprovalService {
                 projectId: payout.projectId,
                 title: `提成发放审批：${mapPayoutStageName(payout.stageType)}`,
                 summary: null,
-                assigneeUserId: DEFAULT_APPROVER_USER_ID,
+                assigneeUserId: COMMISSION_APPROVER_USER_ID,
                 status: 'open',
                 priority: 'high',
                 dueAt: null,
@@ -320,7 +325,7 @@ export class ApprovalService {
                 currentStatus: 'pending',
                 currentNodeKey: COMMISSION_ADJUSTMENT_NODE_KEY,
                 initiatorUserId,
-                currentApproverUserId: DEFAULT_APPROVER_USER_ID,
+                currentApproverUserId: COMMISSION_APPROVER_USER_ID,
                 decision: null,
                 decisionComment: null,
                 submittedAt: new Date(),
@@ -339,7 +344,7 @@ export class ApprovalService {
                 projectId: adjustment.projectId,
                 title: `提成调整审批：${mapAdjustmentTypeName(adjustment.adjustmentType)}`,
                 summary: adjustment.reason,
-                assigneeUserId: DEFAULT_APPROVER_USER_ID,
+                assigneeUserId: COMMISSION_APPROVER_USER_ID,
                 status: 'open',
                 priority: 'high',
                 dueAt: null,

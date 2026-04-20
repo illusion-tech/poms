@@ -482,7 +482,7 @@ flowchart LR
 - 当前静态 fallback 菜单使用了 `label`、`icon`、`routerLink`、`url`、`target`、`items`、`separator`、`path` 等字段语义
 - 当前动态导航转换逻辑已经覆盖 `title -> label`、`icon -> icon`、`link -> routerLink`、`children -> items`、`divider -> separator`
 - 但当前动态导航转换尚未完整覆盖父级菜单激活与展开所依赖的 `path` 语义
-- 后端内置导航已开始使用 `/platform/*` 作为目标路径，而前端部分真实路由仍停留在 `/profile/*` 等历史路径下
+- 后端内置导航已收敛到 `/platform/*` 目标路径；前端历史 `/profile/*` 用户管理模板已清理，`/profile` 仅保留个人中心语义
 
 因此，导航详细设计应明确以下原则：
 
@@ -490,7 +490,7 @@ flowchart LR
 - 适配层必须是设计的一部分，而不是实现时临时补丁
 - `link` 字段必须与真实前端路由联动治理，不能只在后端单独维护
 - 若前端菜单激活态需要 `path` 或等价概念，优先通过适配规则或 `meta.activeMatchPath` 提供，而不直接复用模板内部字段名
-- 在 `/platform/*` 路由完成收敛前，导航配置与前端路由之间应建立显式对照表，避免菜单点击后落入错误页面
+- 导航配置与前端路由之间应持续维护显式对照表，避免后续再次引入历史路径并导致菜单点击落入错误页面
 
 ### 6.9 平台权限与业务权限的分层规则
 

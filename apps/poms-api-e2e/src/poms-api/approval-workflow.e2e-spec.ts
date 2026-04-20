@@ -1,5 +1,5 @@
 import { findOpenTodoForTarget, getApprovalRecord, approveRecord, rejectRecord } from '../support/approval-api';
-import { loginAsAdmin, loginAsViewer } from '../support/api-client';
+import { loginAsAdmin, loginAsApprovalOwner, loginAsViewer } from '../support/api-client';
 import { createContract, getContract, submitContractReview } from '../support/contract-api';
 import { expectErrorStatus } from '../support/http';
 import {
@@ -17,6 +17,7 @@ jest.setTimeout(120_000);
 describe('poms-api approval workflow e2e', () => {
     it('rejects a non-assigned user processing an approval even when that user has project:write', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('approval-actor');
 
         const project = await createProjectForProfile(client, profile, {
@@ -38,7 +39,7 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
         const viewer = await findPlatformUserByUsername(client, 'viewer');
         const projectViewerRole = await findPlatformRoleByKey(client, 'project-viewer');
         const tempRole = await createRole(client, {
@@ -72,6 +73,7 @@ describe('poms-api approval workflow e2e', () => {
 
     it('rejects re-approving a closed approval record', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('approval-repeat-approve');
 
         const project = await createProjectForProfile(client, profile, {
@@ -93,14 +95,14 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 首次审批通过',
             expectedVersion: 1
         });
 
-        const closedApproval = await getApprovalRecord(client, todo.sourceId);
-        const response = await client.post(`/approval-records/${todo.sourceId}:approve`, {
+        const closedApproval = await getApprovalRecord(approvalOwner.client, todo.sourceId);
+        const response = await approvalOwner.client.post(`/approval-records/${todo.sourceId}:approve`, {
             comment: 'e2e 二次审批通过',
             expectedVersion: closedApproval.rowVersion
         });
@@ -110,6 +112,7 @@ describe('poms-api approval workflow e2e', () => {
 
     it('rejects re-rejecting a closed approval record', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('approval-repeat-reject');
 
         const project = await createProjectForProfile(client, profile, {
@@ -131,15 +134,15 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await rejectRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await rejectRecord(approvalOwner.client, todo.sourceId, {
             reason: '首次驳回',
             comment: 'e2e 首次驳回',
             expectedVersion: 1
         });
 
-        const closedApproval = await getApprovalRecord(client, todo.sourceId);
-        const response = await client.post(`/approval-records/${todo.sourceId}:reject`, {
+        const closedApproval = await getApprovalRecord(approvalOwner.client, todo.sourceId);
+        const response = await approvalOwner.client.post(`/approval-records/${todo.sourceId}:reject`, {
             reason: '二次驳回',
             comment: 'e2e 重复驳回',
             expectedVersion: closedApproval.rowVersion

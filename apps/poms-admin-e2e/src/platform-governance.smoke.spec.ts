@@ -175,7 +175,9 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByText('已记录同步审计')).toBeVisible();
 
         await page.getByRole('link', { name: '个人中心' }).click();
-        await expect(page).toHaveURL(/\/profile(?:\/list)?$/);
+        await expect(page).toHaveURL(/\/profile$/);
+        await expect(page.getByRole('heading', { name: '个人中心' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '角色与权限' })).toBeVisible();
     });
 
     test('viewer does not see platform governance menu entries', async ({ page }) => {

@@ -23,6 +23,16 @@ export const VIEWER_CREDENTIALS: TestCredentials = {
     password: 'viewer123'
 };
 
+export const APPROVAL_OWNER_CREDENTIALS: TestCredentials = {
+    username: 'vp_owner',
+    password: 'vp_owner123'
+};
+
+export const FINANCE_MANAGER_CREDENTIALS: TestCredentials = {
+    username: 'finance_mgr',
+    password: 'finance_mgr123'
+};
+
 export function createApiClient(accessToken?: string): AxiosInstance {
     return axios.create({
         baseURL: axios.defaults.baseURL,
@@ -58,4 +68,12 @@ export function loginAsAdmin(): Promise<AuthSession> {
 
 export function loginAsViewer(): Promise<AuthSession> {
     return loginWithCredentials(VIEWER_CREDENTIALS);
+}
+
+export function loginAsApprovalOwner(): Promise<AuthSession> {
+    return loginWithCredentials(APPROVAL_OWNER_CREDENTIALS);
+}
+
+export function loginAsFinanceManager(): Promise<AuthSession> {
+    return loginWithCredentials(FINANCE_MANAGER_CREDENTIALS);
 }

@@ -1,5 +1,5 @@
-import { approveRecord, expectNoOpenTodoForTarget, findOpenTodoForTarget, getApprovalRecord, rejectRecord } from '../support/approval-api';
-import { loginAsAdmin } from '../support/api-client';
+import { approveRecord, expectNoOpenTodoForTarget, getApprovalRecord, rejectRecord } from '../support/approval-api';
+import { loginAsAdmin, loginAsFinanceManager } from '../support/api-client';
 import {
     activateRuleVersion,
     approveCalculation,
@@ -52,6 +52,7 @@ jest.setTimeout(120_000);
 describe('poms-api commission workflow e2e', () => {
     it('runs the commission workflow end-to-end, including adjustment and recalculation', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission');
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
@@ -73,7 +74,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(submittedPayout.status).toBe('pending-approval');
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
-        const approvePayoutResult = await approveRecord(client, payoutApproval.id, {
+        const approvePayoutResult = await approveRecord(financeManager.client, payoutApproval.id, {
             comment: 'e2e 发放审批通过',
             expectedVersion: payoutApproval.rowVersion
         });
@@ -106,7 +107,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(submittedAdjustment.status).toBe('pending-approval');
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
-        const approveAdjustmentResult = await approveRecord(client, adjustmentApproval.id, {
+        const approveAdjustmentResult = await approveRecord(financeManager.client, adjustmentApproval.id, {
             comment: 'e2e 调整审批通过',
             expectedVersion: adjustmentApproval.rowVersion
         });
@@ -154,6 +155,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('runs seeded final and retention settlement through the current evidence chain', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const fixture = COMMISSION_E2E_FIXTURES.main;
         const unique = makeUniqueSuffix('commission-final-retention');
 
@@ -210,7 +212,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(submittedFinalPayout.status).toBe('pending-approval');
 
         const finalApproval = await findPayoutApprovalRecord(client, finalPayout.id);
-        await approveRecord(client, finalApproval.id, {
+        await approveRecord(financeManager.client, finalApproval.id, {
             comment: 'EX-14C final payout approval',
             expectedVersion: finalApproval.rowVersion
         });
@@ -298,7 +300,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(readyRetentionExplanation.gateDecisionCode).toBe('ALLOW_RETENTION');
 
         const retentionApproval = await findPayoutApprovalRecord(client, retentionPayout.id);
-        await approveRecord(client, retentionApproval.id, {
+        await approveRecord(financeManager.client, retentionApproval.id, {
             comment: 'EX-14C retention payout approval',
             expectedVersion: retentionApproval.rowVersion
         });
@@ -345,6 +347,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('creates a compensating payout record when supplement adjustment is executed', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission-supplement');
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
@@ -352,7 +355,7 @@ describe('poms-api commission workflow e2e', () => {
         await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
-        await approveRecord(client, payoutApproval.id, {
+        await approveRecord(financeManager.client, payoutApproval.id, {
             comment: '补发前先完成原发放审批',
             expectedVersion: payoutApproval.rowVersion
         });
@@ -379,7 +382,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
-        await approveRecord(client, adjustmentApproval.id, {
+        await approveRecord(financeManager.client, adjustmentApproval.id, {
             comment: '补发审批通过',
             expectedVersion: adjustmentApproval.rowVersion
         });
@@ -405,6 +408,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('marks source payout as reversed when clawback fully offsets the paid amount', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission-clawback');
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
@@ -412,7 +416,7 @@ describe('poms-api commission workflow e2e', () => {
         await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
-        await approveRecord(client, payoutApproval.id, {
+        await approveRecord(financeManager.client, payoutApproval.id, {
             comment: '扣回前先完成原发放审批',
             expectedVersion: payoutApproval.rowVersion
         });
@@ -439,7 +443,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
-        await approveRecord(client, adjustmentApproval.id, {
+        await approveRecord(financeManager.client, adjustmentApproval.id, {
             comment: '扣回审批通过',
             expectedVersion: adjustmentApproval.rowVersion
         });
@@ -538,6 +542,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('returns payout to draft when payout approval is rejected', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission-reject-payout');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
@@ -548,7 +553,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(submittedPayout.status).toBe('pending-approval');
 
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
-        const rejectResult = await rejectRecord(client, payoutApproval.id, {
+        const rejectResult = await rejectRecord(financeManager.client, payoutApproval.id, {
             reason: '发放金额依据不足',
             comment: '请补充签报后重提',
             expectedVersion: payoutApproval.rowVersion
@@ -564,6 +569,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('marks adjustment as rejected when adjustment approval is rejected', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission-reject-adjustment');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
@@ -572,7 +578,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
-        await approveRecord(client, payoutApproval.id, {
+        await approveRecord(financeManager.client, payoutApproval.id, {
             comment: 'e2e 调整前先批准发放',
             expectedVersion: payoutApproval.rowVersion
         });
@@ -594,7 +600,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(submittedAdjustment.status).toBe('pending-approval');
 
         const adjustmentApproval = await findAdjustmentApprovalRecord(client, adjustment.id);
-        const rejectResult = await rejectRecord(client, adjustmentApproval.id, {
+        const rejectResult = await rejectRecord(financeManager.client, adjustmentApproval.id, {
             reason: '调整依据不足',
             comment: '先补充退款证明',
             expectedVersion: adjustmentApproval.rowVersion
@@ -608,6 +614,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('returns 409 when approval processing uses a stale approval-record version', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('commission-approval-version');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
@@ -617,7 +624,7 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
-        const response = await client.post(`/approval-records/${payoutApproval.id}:approve`, {
+        const response = await financeManager.client.post(`/approval-records/${payoutApproval.id}:approve`, {
             comment: 'e2e 审批记录版本冲突',
             expectedVersion: payoutApproval.rowVersion + 1
         });
@@ -649,6 +656,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('rejects duplicate adjustment approval submission while approval is pending', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('cms-dup-adj');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
@@ -657,7 +665,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
-        await approveRecord(client, payoutApproval.id, {
+        await approveRecord(financeManager.client, payoutApproval.id, {
             comment: 'e2e 调整前先批准发放',
             expectedVersion: payoutApproval.rowVersion
         });
@@ -688,6 +696,7 @@ describe('poms-api commission workflow e2e', () => {
 
     it('creates a new payout approval record on resubmission and removes closed payout todos from /me/todos', async () => {
         const { client, profile } = await loginAsAdmin();
+        const financeManager = await loginAsFinanceManager();
         const unique = makeUniqueSuffix('cms-resubmit-pay');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
@@ -701,13 +710,13 @@ describe('poms-api commission workflow e2e', () => {
         expect(firstApproval.targetStatus).toBe('pending-approval');
         expect(firstApproval.currentNodeName).toBe('提成发放审批');
 
-        await rejectRecord(client, firstApproval.id, {
+        await rejectRecord(financeManager.client, firstApproval.id, {
             reason: '发放依据不足',
             comment: '请补充依据后重新送审',
             expectedVersion: firstApproval.rowVersion
         });
 
-        await expectNoOpenTodoForTarget(client, 'CommissionPayout', scenario.payout.id);
+        await expectNoOpenTodoForTarget(financeManager.client, 'CommissionPayout', scenario.payout.id);
 
         const rejectedPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
         expect(rejectedPayout.status).toBe('draft');
@@ -724,9 +733,9 @@ describe('poms-api commission workflow e2e', () => {
         expect(secondApproval.targetStatus).toBe('pending-approval');
         expect(secondApproval.decision).toBeNull();
 
-        const secondApprovalDetail = await getApprovalRecord(client, secondApproval.id);
+        const secondApprovalDetail = await getApprovalRecord(financeManager.client, secondApproval.id);
         expect(secondApprovalDetail.id).toBe(secondApproval.id);
-        expect(secondApprovalDetail.currentApproverUserId).toBe(profile.id);
+        expect(secondApprovalDetail.currentApproverUserId).toBe(financeManager.profile.id);
     });
 
     it('rejects role-assignment freeze before project handover is complete', async () => {

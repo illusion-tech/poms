@@ -1,7 +1,7 @@
 import type { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
 import { hashSync } from 'bcryptjs';
-import { DEV_USERS } from '../app/core/platform/dev-platform.fixtures';
+import { DEV_ORG_UNITS, DEV_ROLES, DEV_USERS } from '../app/core/platform/dev-platform.fixtures';
 import { loadValidatedEnv } from '../config/load-env';
 import { DEV_CONTRACT_SEEDS, DEV_PROJECT_SEEDS } from './dev-seed-data';
 
@@ -10,18 +10,65 @@ export class DatabaseSeeder extends Seeder {
         const schema = loadValidatedEnv().DB_SCHEMA;
         const connection = em.getConnection();
         const seededPlatformUsernames = DEV_USERS.map((user) => sqlValue(user.username)).join(', ');
+        const seededRoleKeys = DEV_ROLES.map((role) => sqlValue(role.roleKey)).join(', ');
+        const seededOrgCodes = DEV_ORG_UNITS.map((orgUnit) => sqlValue(orgUnit.code)).join(', ');
         const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectCode)).join(', ');
+        const roleByKey = new Map(DEV_ROLES.map((role) => [role.roleKey, role]));
         const localCredentialValues = DEV_USERS.map((user, index) => {
             const credentialId = `70000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`;
             const passwordHash = hashSync(user.password, 10);
             return `(${sqlValue(credentialId)}, ${sqlValue(user.id)}, ${sqlValue(passwordHash)})`;
         }).join(',\n            ');
+        const orgUnitValues = DEV_ORG_UNITS.map(
+            (orgUnit) =>
+                `(${sqlValue(orgUnit.id)}, ${sqlValue(orgUnit.name)}, ${sqlValue(orgUnit.code)}, ${sqlText(orgUnit.description ?? null)})`
+        ).join(',\n            ');
+        const roleValues = DEV_ROLES.map(
+            (role) =>
+                `(${sqlValue(role.id)}, ${sqlValue(role.roleKey)}, ${sqlValue(role.name)}, ${sqlText(role.description)}, ${role.isSystemRole ? 'true' : 'false'})`
+        ).join(',\n            ');
+        const userValues = DEV_USERS.map((user) => {
+            const primaryOrgUnitId = user.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id;
+            if (!primaryOrgUnitId) {
+                throw new Error(`Dev user ${user.username} is missing a primary org unit`);
+            }
+
+            return `(${sqlValue(user.id)}, ${sqlValue(user.username)}, ${sqlValue(user.displayName)}, true, ${sqlValue(primaryOrgUnitId)})`;
+        }).join(',\n            ');
+        const userOrgMembershipValues = DEV_USERS.flatMap((user) =>
+            user.orgUnits.map(
+                (orgUnit, index) =>
+                    `(${sqlValue(
+                        `40000000-0000-4000-8000-${String(userOrgMembershipIndex(user.id, index)).padStart(12, '0')}`
+                    )}, ${sqlValue(user.id)}, ${sqlValue(orgUnit.id)}, ${sqlValue(orgUnit.membershipType)})`
+            )
+        ).join(',\n            ');
+        const userRoleAssignmentValues = DEV_USERS.flatMap((user) =>
+            user.roles.map((roleKey, index) => {
+                const role = roleByKey.get(roleKey);
+                if (!role) {
+                    throw new Error(`Dev user ${user.username} references unknown role ${roleKey}`);
+                }
+
+                return `(${sqlValue(
+                    `50000000-0000-4000-8000-${String(userRoleAssignmentIndex(user.id, index)).padStart(12, '0')}`
+                )}, ${sqlValue(user.id)}, ${sqlValue(role.id)})`;
+            })
+        ).join(',\n            ');
+        const rolePermissionAssignmentValues = DEV_ROLES.flatMap((role) =>
+            role.permissions.map(
+                (permissionKey, index) =>
+                    `(${sqlValue(
+                        `60000000-0000-4000-8000-${String(rolePermissionAssignmentIndex(role.id, index)).padStart(12, '0')}`
+                    )}, ${sqlValue(role.id)}, ${sqlValue(permissionKey)})`
+            )
+        ).join(',\n            ');
 
         await connection.execute(`
             delete from "${schema}"."role_permission_assignment"
             where "role_id" in (
                 select "id" from "${schema}"."role"
-                where "role_key" in ('platform-admin', 'project-viewer')
+                where "role_key" in (${seededRoleKeys})
                     or "role_key" like 'e2e-%'
             );
         `);
@@ -53,13 +100,13 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             delete from "${schema}"."role"
-            where "role_key" in ('platform-admin', 'project-viewer')
+            where "role_key" in (${seededRoleKeys})
                 or "role_key" like 'e2e-%';
         `);
 
         await connection.execute(`
             delete from "${schema}"."org_unit"
-            where "code" in ('SALES-HQ', 'SALES-SOUTH-1');
+            where "code" in (${seededOrgCodes});
         `);
 
         // 清理历史 e2e 脏数据，避免测试数据跨运行累积影响稳定性
@@ -857,20 +904,17 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             insert into "${schema}"."org_unit" ("id", "name", "code", "description") values
-            ('10000000-0000-4000-8000-000000000001', '销售管理中心', 'SALES-HQ', '开发环境默认平台组织单元'),
-            ('10000000-0000-4000-8000-000000000002', '华南销售一部', 'SALES-SOUTH-1', '开发环境默认业务组织单元');
+            ${orgUnitValues};
         `);
 
         await connection.execute(`
             insert into "${schema}"."role" ("id", "role_key", "name", "description", "is_system_role") values
-            ('30000000-0000-4000-8000-000000000001', 'platform-admin', '平台管理员', '开发环境默认平台管理员角色', true),
-            ('30000000-0000-4000-8000-000000000002', 'project-viewer', '项目只读角色', '开发环境默认项目只读角色', true);
+            ${roleValues};
         `);
 
         await connection.execute(`
             insert into "${schema}"."platform_user" ("id", "username", "display_name", "is_active", "primary_org_unit_id") values
-            ('00000000-0000-4000-8000-000000000001', 'admin', '超级管理员', true, '10000000-0000-4000-8000-000000000001'),
-            ('00000000-0000-4000-8000-000000000002', 'viewer', '只读用户', true, '10000000-0000-4000-8000-000000000002');
+            ${userValues};
         `);
 
         // local_credential.user_id has ON DELETE CASCADE, so delete from platform_user cleans these up automatically
@@ -881,41 +925,17 @@ export class DatabaseSeeder extends Seeder {
 
         await connection.execute(`
             insert into "${schema}"."user_org_membership" ("id", "user_id", "org_unit_id", "membership_type") values
-            ('40000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000001', '10000000-0000-4000-8000-000000000001', 'primary'),
-            ('40000000-0000-4000-8000-000000000002', '00000000-0000-4000-8000-000000000002', '10000000-0000-4000-8000-000000000002', 'primary');
+            ${userOrgMembershipValues};
         `);
 
         await connection.execute(`
             insert into "${schema}"."user_role_assignment" ("id", "user_id", "role_id") values
-            ('50000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000001'),
-            ('50000000-0000-4000-8000-000000000002', '00000000-0000-4000-8000-000000000002', '30000000-0000-4000-8000-000000000002');
+            ${userRoleAssignmentValues};
         `);
 
         await connection.execute(`
             insert into "${schema}"."role_permission_assignment" ("id", "role_id", "permission_key") values
-            ('60000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000001', 'platform:users:manage'),
-            ('60000000-0000-4000-8000-000000000002', '30000000-0000-4000-8000-000000000001', 'platform:roles:manage'),
-            ('60000000-0000-4000-8000-000000000003', '30000000-0000-4000-8000-000000000001', 'platform:navigation:manage'),
-            ('60000000-0000-4000-8000-000000000004', '30000000-0000-4000-8000-000000000001', 'platform:org-units:manage'),
-            ('60000000-0000-4000-8000-000000000005', '30000000-0000-4000-8000-000000000001', 'commission:rule-versions:manage'),
-            ('60000000-0000-4000-8000-000000000006', '30000000-0000-4000-8000-000000000001', 'commission:assignments:manage'),
-            ('60000000-0000-4000-8000-000000000007', '30000000-0000-4000-8000-000000000001', 'commission:calculations:manage'),
-            ('60000000-0000-4000-8000-000000000008', '30000000-0000-4000-8000-000000000001', 'commission:payouts:manage'),
-            ('60000000-0000-4000-8000-000000000009', '30000000-0000-4000-8000-000000000001', 'commission:adjustments:manage'),
-            ('60000000-0000-4000-8000-000000000010', '30000000-0000-4000-8000-000000000001', 'contract:finance:manage'),
-            ('60000000-0000-4000-8000-000000000011', '30000000-0000-4000-8000-000000000001', 'project:read'),
-            ('60000000-0000-4000-8000-000000000012', '30000000-0000-4000-8000-000000000001', 'project:write'),
-            ('60000000-0000-4000-8000-000000000013', '30000000-0000-4000-8000-000000000001', 'project:delete'),
-            ('60000000-0000-4000-8000-000000000014', '30000000-0000-4000-8000-000000000001', 'nav:dashboard:view'),
-            ('60000000-0000-4000-8000-000000000015', '30000000-0000-4000-8000-000000000001', 'nav:platform:view'),
-            ('60000000-0000-4000-8000-000000000016', '30000000-0000-4000-8000-000000000001', 'nav:projects:view'),
-            ('60000000-0000-4000-8000-000000000017', '30000000-0000-4000-8000-000000000001', 'nav:contracts:view'),
-            ('60000000-0000-4000-8000-000000000018', '30000000-0000-4000-8000-000000000001', 'nav:profile:view'),
-            ('60000000-0000-4000-8000-000000000019', '30000000-0000-4000-8000-000000000002', 'project:read'),
-            ('60000000-0000-4000-8000-000000000020', '30000000-0000-4000-8000-000000000002', 'nav:dashboard:view'),
-            ('60000000-0000-4000-8000-000000000021', '30000000-0000-4000-8000-000000000002', 'nav:projects:view'),
-            ('60000000-0000-4000-8000-000000000022', '30000000-0000-4000-8000-000000000002', 'nav:contracts:view'),
-            ('60000000-0000-4000-8000-000000000023', '30000000-0000-4000-8000-000000000002', 'nav:profile:view');
+            ${rolePermissionAssignmentValues};
         `);
 
         for (const contract of DEV_CONTRACT_SEEDS) {
@@ -2026,4 +2046,16 @@ function sqlDate(value: string | null): string {
 
 function sqlText(value: string | null): string {
     return value === null ? 'null' : sqlValue(value);
+}
+
+function userOrgMembershipIndex(userId: string, orgIndex: number): number {
+    return Number(userId.slice(-3)) * 10 + orgIndex + 1;
+}
+
+function userRoleAssignmentIndex(userId: string, roleIndex: number): number {
+    return Number(userId.slice(-3)) * 10 + roleIndex + 1;
+}
+
+function rolePermissionAssignmentIndex(roleId: string, permissionIndex: number): number {
+    return Number(roleId.slice(-3)) * 100 + permissionIndex + 1;
 }

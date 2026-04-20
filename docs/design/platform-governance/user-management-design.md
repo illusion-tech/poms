@@ -73,22 +73,22 @@
 
 结合当前仓库实现，用户管理与认证已有以下现实基础：
 
-- 后端 `auth/login` 当前使用开发期硬编码用户与明文密码，仅用于本地联调
-- 后端 `auth/profile` 当前返回 `SanitizedUserWithOrgUnits`
-- 当前用户、角色、组织主要仍来自开发期平台 fixture，而不是真实持久化模型
-- 当前共享契约中 `SanitizedUser` / `SanitizedUserWithOrgUnits` 已具备基础用户展示字段
-- 前端 `poms-admin` 的用户列表与创建页仍主要是模板演示数据，尚不是系统真实用户管理实现
+- 后端 `auth/login` 已接通真实 `LocalCredential` / `User` 校验，本地联调通过 seeder 账号提供凭证
+- 后端 `auth/profile` 返回 `SanitizedUserWithOrgUnits`
+- 当前用户、角色、组织已来自真实持久化模型与关系查询，不再以开发期平台 fixture 作为正式事实源
+- 当前共享契约中 `SanitizedUser` / `SanitizedUserWithOrgUnits` 已覆盖第一阶段基础展示字段
+- 前端 `poms-admin` 的 `/platform/users` 已接通真实用户列表、详情、创建、资料更新、启停、角色分配与组织分配
+- 历史 `/profile/*` 用户管理模板流程已清理，不再作为平台用户管理的承载实现
 
 当前缺口判断：
 
-- 尚无 `User` 正式实体、repository、migration 与管理模块
-- 尚无用户列表、详情、创建、更新、启停、角色分配、组织分配的真实 API
-- `/platform/users` 仍未接入真实用户管理后端
+- 用户管理前端当前以列表页加弹窗操作为主，尚未展开独立详情页或复杂工作流页
+- 用户自助资料编辑不属于第一阶段用户管理正式范围，需另起切片
 
 这意味着第一阶段用户管理设计需要明确两层边界：
 
-- 正式目标模型是什么
-- 当前模板实现哪些只是过渡 UI，不应反向定义正式模型
+- 正式目标模型与命令/查询边界是什么
+- 当前已交付的列表页与弹窗式管理能力如何作为第一阶段最小闭环被后续切片复用
 
 ---
 

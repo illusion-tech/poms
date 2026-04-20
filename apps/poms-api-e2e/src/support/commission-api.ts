@@ -1,6 +1,7 @@
 import type { AxiosInstance } from 'axios';
 import { expectStatus } from './http';
 import { findOpenTodoForTarget, getApprovalRecord } from './approval-api';
+import { loginAsFinanceManager } from './api-client';
 import { COMMISSION_E2E_FIXTURES } from './commission-seed-fixtures';
 import { getProject } from './project-api';
 import {
@@ -418,21 +419,23 @@ export async function setupDraftPayoutScenario(
 }
 
 export async function findPayoutApprovalRecord(
-    client: AxiosInstance,
+    _client: AxiosInstance,
     payoutId: string
 ) {
-    const payoutTodo = await findOpenTodoForTarget(client, 'CommissionPayout', payoutId);
-    return getApprovalRecord(client, payoutTodo.sourceId);
+    const financeManager = await loginAsFinanceManager();
+    const payoutTodo = await findOpenTodoForTarget(financeManager.client, 'CommissionPayout', payoutId);
+    return getApprovalRecord(financeManager.client, payoutTodo.sourceId);
 }
 
 export async function findAdjustmentApprovalRecord(
-    client: AxiosInstance,
+    _client: AxiosInstance,
     adjustmentId: string
 ) {
+    const financeManager = await loginAsFinanceManager();
     const adjustmentTodo = await findOpenTodoForTarget(
-        client,
+        financeManager.client,
         'CommissionAdjustment',
         adjustmentId
     );
-    return getApprovalRecord(client, adjustmentTodo.sourceId);
+    return getApprovalRecord(financeManager.client, adjustmentTodo.sourceId);
 }

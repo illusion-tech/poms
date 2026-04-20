@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'axios';
 import { approveRecord, findOpenTodoForTarget } from './approval-api';
+import { loginAsApprovalOwner } from './api-client';
 import { confirmPayment, confirmReceipt, createPayment, createReceipt } from './contract-finance-api';
 import { expectStatus } from './http';
 import {
@@ -197,8 +198,9 @@ export async function createActiveContractForProject(
         expectedVersion: contract.rowVersion
     });
 
-    const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-    await approveRecord(client, todo.sourceId, {
+    const approvalOwner = await loginAsApprovalOwner();
+    const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+    await approveRecord(approvalOwner.client, todo.sourceId, {
         comment: 'e2e 提成前置合同审批通过',
         expectedVersion: 1
     });

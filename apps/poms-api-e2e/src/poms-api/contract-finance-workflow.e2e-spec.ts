@@ -1,5 +1,5 @@
 import { approveRecord, findOpenTodoForTarget } from '../support/approval-api';
-import { loginAsAdmin } from '../support/api-client';
+import { loginAsAdmin, loginAsApprovalOwner } from '../support/api-client';
 import {
     createPayable,
     closeInvoiceRecord,
@@ -29,6 +29,7 @@ jest.setTimeout(120_000);
 describe('poms-api contract-finance workflow e2e', () => {
     it('records invoice, receipt and payment facts for an active contract/project', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('finance');
 
         const project = await createProjectForProfile(client, profile, {
@@ -50,8 +51,8 @@ describe('poms-api contract-finance workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 合同资金前置审批通过',
             expectedVersion: 1
         });
@@ -202,6 +203,7 @@ describe('poms-api contract-finance workflow e2e', () => {
 
     it('rejects receipt confirmation when the expected version is stale', async () => {
         const { client, profile } = await loginAsAdmin();
+        const approvalOwner = await loginAsApprovalOwner();
         const unique = makeUniqueSuffix('finance-version');
 
         const project = await createProjectForProfile(client, profile, {
@@ -223,8 +225,8 @@ describe('poms-api contract-finance workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(client, 'Contract', contract.id);
-        await approveRecord(client, todo.sourceId, {
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 合同资金版本冲突审批通过',
             expectedVersion: 1
         });
