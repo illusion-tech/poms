@@ -31,6 +31,7 @@
 ### 2. 子专题设计
 
 - `user-management-design.md`：用户管理详细设计，负责收敛用户模型、账户状态、角色组织关系和认证衔接规则
+- `profile-self-service-design.md`：个人中心自助编辑资料设计，负责收敛当前用户自助维护边界、route、契约与前端交互
 - `role-permission-design.md`：角色与权限详细设计，负责收敛权限字典、角色模型、关系建模和授权计算规则
 - `org-unit-design.md`：组织单元详细设计，负责收敛组织树模型、启停移动规则以及与用户归属的衔接
 - `navigation-design.md`：导航菜单详细设计，负责收敛导航契约、权限过滤、前端适配和路由对照规则

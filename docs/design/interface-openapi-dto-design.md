@@ -1,7 +1,7 @@
 # POMS 接口 OpenAPI 与 DTO 边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-16
+**最后更新**: 2026-04-21
 **适用范围**: `POMS` 第一阶段 OpenAPI / DTO 边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DTO 补点输入
 **关联文档**:
 
@@ -105,21 +105,28 @@
 
 ## 4. 普通更新接口 DTO 边界基线
 
-| 对象                       | 接口草案                                  | 允许输入字段组           | 禁止输入字段组                        | 说明                            |
-| -------------------------- | ----------------------------------------- | ------------------------ | ------------------------------------- | ------------------------------- |
-| `Project`                  | `PATCH /projects/{id}`                    | 基础信息、备注、预计时间 | `stage`、`commercialMode`、关闭结论   | 仅限普通维护                    |
-| `BidProcess`               | `PATCH /bid-processes/{id}`               | 附件、澄清说明           | 投标决策结论、投标结果                | 不得代替投标决策 / 结果登记命令 |
-| `Contract`                 | `PATCH /contracts/{id}`                   | 草稿字段、合同标识包     | 金额包、付款条件包、生效状态          | 仅限草稿态                      |
-| `ReceiptRecord`            | `PATCH /receipt-records/{id}`             | 登记说明、附件补录       | 确认结论、冲销结论、状态推进          | 不得代替财务确认                |
-| `PaymentRecord`            | `PATCH /payment-records/{id}`             | 登记说明、凭证补录       | 生效状态、作废结论                    | 不得代替付款确认                |
-| `InvoiceRecord`            | `PATCH /invoice-records/{id}`             | 普通台账字段             | 异常结论、解除异常结论、关闭结论      | 异常与关闭走命令型接口          |
-| `CommissionRoleAssignment` | `PATCH /commission-role-assignments/{id}` | 草稿态角色分配说明       | 冻结结果、变更审批结论                | 冻结后禁止普通编辑              |
-| `CommissionPayout`         | `PATCH /commission-payouts/{id}`          | 草稿态说明、非关键备注   | 批准金额、暂停 / 冲销结果、已发放结果 | 不得代替审批与登记发放          |
-| `CommissionAdjustment`     | `PATCH /commission-adjustments/{id}`      | 草稿态原因补录           | 执行结果、冲销结论、补发结论          | 执行必须走命令                  |
-| `User`                     | `PATCH /platform/users/{id}`              | 展示字段、联系方式等     | 启停、角色集合、组织集合              | 不得代替平台主数据高敏动作      |
-| `Role`                     | `PATCH /platform/roles/{id}`              | 名称、描述、排序         | 启停结论、权限集合                    | 不得代替角色启停与权限绑定      |
-| `OrgUnit`                  | `PATCH /platform/org-units/{id}`          | 名称、说明、排序         | 启停结论、父子移动结果                | 不得代替组织树结构命令          |
-| `NavigationItem`           | `PATCH /platform/navigation/{id}`         | 受控说明性字段           | 显隐、禁用、权限要求、关键链接变更    | 第一阶段建议只保留受控维护入口  |
+| 对象                       | 接口草案                                  | 允许输入字段组                  | 禁止输入字段组                                                                         | 说明                                                                 |
+| -------------------------- | ----------------------------------------- | ------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `Project`                  | `PATCH /projects/{id}`                    | 基础信息、备注、预计时间        | `stage`、`commercialMode`、关闭结论                                                    | 仅限普通维护                                                         |
+| `BidProcess`               | `PATCH /bid-processes/{id}`               | 附件、澄清说明                  | 投标决策结论、投标结果                                                                 | 不得代替投标决策 / 结果登记命令                                      |
+| `Contract`                 | `PATCH /contracts/{id}`                   | 草稿字段、合同标识包            | 金额包、付款条件包、生效状态                                                           | 仅限草稿态                                                           |
+| `ReceiptRecord`            | `PATCH /receipt-records/{id}`             | 登记说明、附件补录              | 确认结论、冲销结论、状态推进                                                           | 不得代替财务确认                                                     |
+| `PaymentRecord`            | `PATCH /payment-records/{id}`             | 登记说明、凭证补录              | 生效状态、作废结论                                                                     | 不得代替付款确认                                                     |
+| `InvoiceRecord`            | `PATCH /invoice-records/{id}`             | 普通台账字段                    | 异常结论、解除异常结论、关闭结论                                                       | 异常与关闭走命令型接口                                               |
+| `CommissionRoleAssignment` | `PATCH /commission-role-assignments/{id}` | 草稿态角色分配说明              | 冻结结果、变更审批结论                                                                 | 冻结后禁止普通编辑                                                   |
+| `CommissionPayout`         | `PATCH /commission-payouts/{id}`          | 草稿态说明、非关键备注          | 批准金额、暂停 / 冲销结果、已发放结果                                                  | 不得代替审批与登记发放                                               |
+| `CommissionAdjustment`     | `PATCH /commission-adjustments/{id}`      | 草稿态原因补录                  | 执行结果、冲销结论、补发结论                                                           | 执行必须走命令                                                       |
+| `User`                     | `PATCH /platform/users/{id}`              | 展示字段、联系方式等            | 启停、角色集合、组织集合                                                               | 不得代替平台主数据高敏动作                                           |
+| `CurrentUserProfile`       | `PATCH /auth/profile`                     | `displayName`、`email`、`phone` | `avatarUrl`、`username`、`isActive`、角色 / 组织集合、`emailVerified`、`phoneVerified` | 首版响应返回最新 `SanitizedUserWithOrgUnits`，用于刷新当前用户上下文 |
+| `Role`                     | `PATCH /platform/roles/{id}`              | 名称、描述、排序                | 启停结论、权限集合                                                                     | 不得代替角色启停与权限绑定                                           |
+| `OrgUnit`                  | `PATCH /platform/org-units/{id}`          | 名称、说明、排序                | 启停结论、父子移动结果                                                                 | 不得代替组织树结构命令                                               |
+| `NavigationItem`           | `PATCH /platform/navigation/{id}`         | 受控说明性字段                  | 显隐、禁用、权限要求、关键链接变更                                                     | 第一阶段建议只保留受控维护入口                                       |
+
+补充平台治理域 DTO 约束：
+
+- `PATCH /auth/profile` 新增独立请求 DTO：`UpdateCurrentUserProfileRequest`，即使局部字段与 `UpdatePlatformUserRequest` 重叠，也不直接复用类型名。
+- `UpdateCurrentUserProfileRequest` 首版仅承载 `displayName`、`email`、`phone`；`avatarUrl` 不进入当前用户自助更新请求体。
+- 当 `email` 或 `phone` 值发生变化时，响应 DTO 中对应 `emailVerified / phoneVerified` 必须反映为 `false`。
 
 ### 4.1 第二阶段第一批补充禁止输入字段
 

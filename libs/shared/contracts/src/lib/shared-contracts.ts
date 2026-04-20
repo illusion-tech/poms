@@ -170,6 +170,17 @@ export const UpdatePlatformUserRequestSchema = z
 
 export type UpdatePlatformUserRequest = z.infer<typeof UpdatePlatformUserRequestSchema>;
 
+export const UpdateCurrentUserProfileRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(128).optional(),
+        email: z.string().trim().email().nullable().optional(),
+        phone: z.string().trim().min(1).max(64).nullable().optional()
+    })
+    .strict()
+    .meta({ id: 'UpdateCurrentUserProfileRequest' });
+
+export type UpdateCurrentUserProfileRequest = z.infer<typeof UpdateCurrentUserProfileRequestSchema>;
+
 export const PlatformPermissionSummarySchema = z
     .object({
         key: z.enum(PERMISSION_KEYS),

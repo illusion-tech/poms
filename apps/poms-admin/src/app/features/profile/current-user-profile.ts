@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore } from '@poms/admin-data-access';
+import { AuthStore, type UpdateCurrentUserProfileRequest } from '@poms/admin-data-access';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
 
 interface PermissionGroup {
@@ -14,8 +20,10 @@ interface PermissionGroup {
 @Component({
     selector: 'app-current-user-profile',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TagModule, SectionCard],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, TagModule, ToastModule, SectionCard],
+    providers: [MessageService],
     template: `
+        <p-toast />
         @if (currentUser(); as user) {
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -51,6 +59,9 @@ interface PermissionGroup {
                     <section-card>
                         <ng-template #title>账户信息</ng-template>
                         <ng-template #description>当前登录身份与基础资料。</ng-template>
+                        <ng-template #action>
+                            <p-button label="编辑资料" icon="pi pi-pencil" severity="secondary" [outlined]="true" (onClick)="openEditDialog()" class="cursor-pointer" />
+                        </ng-template>
                         <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">姓名</span>
@@ -75,6 +86,13 @@ interface PermissionGroup {
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">当前状态</span>
                                 <span class="text-sm text-surface-950 dark:text-surface-0">{{ user.isActive ? '启用' : '停用' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1 md:col-span-2">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">头像地址</span>
+                                <span class="break-all text-sm text-surface-950 dark:text-surface-0">{{ user.avatarUrl || '未设置' }}</span>
+                            </div>
+                            <div class="rounded-lg border border-surface-200 px-4 py-3 text-sm text-surface-600 dark:border-surface-700 dark:text-surface-300 md:col-span-2">
+                                当前只开放姓名、邮箱和手机自助维护。修改邮箱或手机后，对应验证状态会重置为未验证。
                             </div>
                         </div>
                     </section-card>
@@ -180,6 +198,89 @@ interface PermissionGroup {
                         </div>
                     </section-card>
                 </div>
+
+                <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑资料" [style]="{ width: '32rem' }" styleClass="p-fluid" (onHide)="handleEditDialogHide()">
+                    <div class="flex flex-col gap-4 py-4">
+                        <div class="rounded-lg border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-800 dark:border-primary-900/50 dark:bg-primary-950/30 dark:text-primary-200">
+                            当前页只允许编辑姓名、邮箱和手机。邮箱或手机留空表示清空；若联系方式发生变化，对应验证状态会变为未验证。
+                        </div>
+
+                        @if (submitError) {
+                            <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-200">
+                                {{ submitError }}
+                            </div>
+                        }
+
+                        <div class="flex flex-col gap-2">
+                            <label for="profile-edit-display-name" class="font-medium text-surface-900 dark:text-surface-0">姓名 *</label>
+                            <input
+                                id="profile-edit-display-name"
+                                pInputText
+                                [(ngModel)]="editForm.displayName"
+                                maxlength="128"
+                                [disabled]="savingProfile"
+                                placeholder="请输入展示姓名"
+                                class="w-full"
+                            />
+                            @if (formErrors.displayName) {
+                                <small class="text-red-500">{{ formErrors.displayName }}</small>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="profile-edit-email" class="font-medium text-surface-900 dark:text-surface-0">邮箱</label>
+                            <input
+                                id="profile-edit-email"
+                                pInputText
+                                type="email"
+                                [(ngModel)]="editForm.email"
+                                [disabled]="savingProfile"
+                                placeholder="留空则清空邮箱"
+                                class="w-full"
+                            />
+                            @if (formErrors.email) {
+                                <small class="text-red-500">{{ formErrors.email }}</small>
+                            } @else {
+                                <small class="text-surface-500 dark:text-surface-400">留空后会把邮箱提交为 null。</small>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="profile-edit-phone" class="font-medium text-surface-900 dark:text-surface-0">手机</label>
+                            <input
+                                id="profile-edit-phone"
+                                pInputText
+                                [(ngModel)]="editForm.phone"
+                                maxlength="64"
+                                [disabled]="savingProfile"
+                                placeholder="留空则清空手机"
+                                class="w-full"
+                            />
+                            @if (formErrors.phone) {
+                                <small class="text-red-500">{{ formErrors.phone }}</small>
+                            } @else {
+                                <small class="text-surface-500 dark:text-surface-400">留空后会把手机提交为 null。</small>
+                            }
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">用户名</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ user.username }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">头像地址</span>
+                                <span class="break-all text-sm text-surface-950 dark:text-surface-0">{{ user.avatarUrl || '未设置' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" [disabled]="savingProfile" (onClick)="editDialogVisible = false" />
+                            <p-button label="保存" [loading]="savingProfile" (onClick)="saveProfile()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
             </div>
         } @else {
             <div class="py-20 text-center">
@@ -193,6 +294,7 @@ interface PermissionGroup {
 export class CurrentUserProfile {
     readonly #authStore = inject(AuthStore);
     readonly #router = inject(Router);
+    readonly #messageService = inject(MessageService);
 
     readonly currentUser = computed(() => this.#authStore.currentUser());
     readonly primaryOrg = computed(() => this.currentUser()?.orgUnits.find((org) => org.membershipType === 'primary') ?? null);
@@ -255,6 +357,19 @@ export class CurrentUserProfile {
             }
         ];
     });
+    editDialogVisible = false;
+    savingProfile = false;
+    submitError: string | null = null;
+    editForm = {
+        displayName: '',
+        email: '',
+        phone: ''
+    };
+    formErrors: Record<'displayName' | 'email' | 'phone', string | null> = {
+        displayName: null,
+        email: null,
+        phone: null
+    };
 
     goToDashboard() {
         this.#router.navigate(['/dashboard']);
@@ -262,6 +377,56 @@ export class CurrentUserProfile {
 
     goToLogin() {
         this.#router.navigate(['/auth/login']);
+    }
+
+    openEditDialog() {
+        const user = this.currentUser();
+        if (!user) {
+            return;
+        }
+
+        this.editForm = {
+            displayName: user.displayName ?? '',
+            email: user.email ?? '',
+            phone: user.phone ?? ''
+        };
+        this.resetFormErrors();
+        this.submitError = null;
+        this.editDialogVisible = true;
+    }
+
+    handleEditDialogHide() {
+        this.resetFormErrors();
+        this.submitError = null;
+    }
+
+    async saveProfile() {
+        if (!this.validateEditForm() || this.savingProfile) {
+            return;
+        }
+
+        this.savingProfile = true;
+        this.submitError = null;
+
+        try {
+            await this.#authStore.updateCurrentUserProfile(this.buildRequest());
+            this.editDialogVisible = false;
+            this.#messageService.add({
+                severity: 'success',
+                summary: '保存成功',
+                detail: '个人资料已更新'
+            });
+        } catch (error) {
+            const message = this.extractErrorMessage(error);
+            this.submitError = message;
+            this.#messageService.add({
+                severity: 'error',
+                summary: '保存失败',
+                detail: message
+            });
+        } finally {
+            this.savingProfile = false;
+        }
     }
 
     private permissionGroupLabel(group: string): string {
@@ -274,5 +439,73 @@ export class CurrentUserProfile {
             other: '其他能力'
         };
         return labels[group] ?? labels['other'];
+    }
+
+    private buildRequest(): UpdateCurrentUserProfileRequest {
+        const displayName = this.editForm.displayName.trim();
+        const email = this.editForm.email.trim();
+        const phone = this.editForm.phone.trim();
+
+        return {
+            displayName,
+            email: email === '' ? null : email,
+            phone: phone === '' ? null : phone
+        };
+    }
+
+    private validateEditForm(): boolean {
+        this.resetFormErrors();
+
+        const displayName = this.editForm.displayName.trim();
+        const email = this.editForm.email.trim();
+        const phone = this.editForm.phone.trim();
+
+        if (!displayName) {
+            this.formErrors.displayName = '姓名不能为空。';
+        } else if (displayName.length > 128) {
+            this.formErrors.displayName = '姓名长度不能超过 128 个字符。';
+        }
+
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            this.formErrors.email = '请输入有效的邮箱地址。';
+        }
+
+        if (phone.length > 64) {
+            this.formErrors.phone = '手机号长度不能超过 64 个字符。';
+        }
+
+        return !this.formErrors.displayName && !this.formErrors.email && !this.formErrors.phone;
+    }
+
+    private resetFormErrors() {
+        this.formErrors = {
+            displayName: null,
+            email: null,
+            phone: null
+        };
+    }
+
+    private extractErrorMessage(error: unknown): string {
+        if (error instanceof HttpErrorResponse) {
+            if (typeof error.error === 'string' && error.error.trim()) {
+                return error.error.trim();
+            }
+
+            if (error.error && typeof error.error === 'object') {
+                const message = (error.error as { message?: unknown }).message;
+                if (Array.isArray(message)) {
+                    return message.join('；');
+                }
+                if (typeof message === 'string' && message.trim()) {
+                    return message.trim();
+                }
+            }
+
+            if (error.status === 400) {
+                return '提交内容未通过校验，请检查输入字段。';
+            }
+        }
+
+        return '当前资料保存失败，请稍后重试。';
     }
 }

@@ -27,6 +27,7 @@ import {
     SanitizedUserWithOrgUnitsSchema,
     UpdateOrgUnitActivationRequestSchema,
     UpdateOrgUnitRequestSchema,
+    UpdateCurrentUserProfileRequestSchema,
     UpdatePlatformUserActivationRequestSchema,
     UpdatePlatformUserRequestSchema,
     UpdateRoleActivationRequestSchema,
@@ -85,6 +86,8 @@ export class CreatePlatformUserRequestDto extends createZodDto(CreatePlatformUse
 export class UpdatePlatformUserActivationRequestDto extends createZodDto(UpdatePlatformUserActivationRequestSchema) {}
 
 export class UpdatePlatformUserRequestDto extends createZodDto(UpdatePlatformUserRequestSchema) {}
+
+export class UpdateCurrentUserProfileRequestDto extends createZodDto(UpdateCurrentUserProfileRequestSchema) {}
 
 export class AssignUserRolesRequestDto extends createZodDto(AssignUserRolesRequestSchema) {}
 

@@ -22,6 +22,8 @@ import { LoginRequest } from '../model/login-request';
 import { LoginResponse } from '../model/login-response';
 // @ts-ignore
 import { SanitizedUserWithOrgUnits } from '../model/sanitized-user-with-org-units';
+// @ts-ignore
+import { UpdateCurrentUserProfileRequest } from '../model/update-current-user-profile-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -31,6 +33,10 @@ import { BaseService } from '../api.base.service';
 
 export interface AuthControllerLoginRequestParams {
     loginRequest: LoginRequest;
+}
+
+export interface AuthControllerUpdateProfileRequestParams {
+    updateCurrentUserProfileRequest: UpdateCurrentUserProfileRequest;
 }
 
 
@@ -155,6 +161,76 @@ export class AuthApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: loginRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 更新当前登录用户基础资料
+     * @endpoint patch /api/auth/profile
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerUpdateProfile(requestParameters: AuthControllerUpdateProfileRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SanitizedUserWithOrgUnits>;
+    public authControllerUpdateProfile(requestParameters: AuthControllerUpdateProfileRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SanitizedUserWithOrgUnits>>;
+    public authControllerUpdateProfile(requestParameters: AuthControllerUpdateProfileRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SanitizedUserWithOrgUnits>>;
+    public authControllerUpdateProfile(requestParameters: AuthControllerUpdateProfileRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const updateCurrentUserProfileRequest = requestParameters?.updateCurrentUserProfileRequest;
+        if (updateCurrentUserProfileRequest === null || updateCurrentUserProfileRequest === undefined) {
+            throw new Error('Required parameter updateCurrentUserProfileRequest was null or undefined when calling authControllerUpdateProfile.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/profile`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<SanitizedUserWithOrgUnits>('patch', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: updateCurrentUserProfileRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

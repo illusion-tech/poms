@@ -496,10 +496,138 @@ describe('PlatformService', () => {
             );
         });
 
+        it('resets verification flags when admin changes contact fields', async () => {
+            const user = createUser({
+                id: '00000000-0000-4000-8000-000000000001',
+                email: 'old@example.com',
+                emailVerified: true,
+                phone: '13800138000',
+                phoneVerified: true
+            });
+            repository.findUserById.mockResolvedValue(user);
+            repository.findAllUsers.mockResolvedValue([user]);
+            repository.findAllRoles.mockResolvedValue([]);
+            repository.findAllOrgUnits.mockResolvedValue([]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([]);
+
+            const result = await service.updateUser(
+                '00000000-0000-4000-8000-000000000001',
+                { email: 'new@example.com', phone: '13900139000' },
+                '00000000-0000-4000-8000-000000000099'
+            );
+
+            expect(result.email).toBe('new@example.com');
+            expect(result.phone).toBe('13900139000');
+            expect(result.emailVerified).toBe(false);
+            expect(result.phoneVerified).toBe(false);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.updated',
+                    metadata: {
+                        changedFields: expect.arrayContaining(['email', 'phone', 'emailVerified', 'phoneVerified'])
+                    }
+                })
+            );
+        });
+
         it('throws NotFoundException when user is not found', async () => {
             repository.findUserById.mockResolvedValue(null);
 
             await expect(service.updateUser('00000000-0000-4000-8000-000000000001', { displayName: '新名称' })).rejects.toThrow(NotFoundException);
+        });
+    });
+
+    describe('updateCurrentUserProfile', () => {
+        it('updates current user profile, resets changed contact verification flags, and returns sanitized profile', async () => {
+            const user = createUser({
+                id: '00000000-0000-4000-8000-000000000001',
+                username: 'viewer',
+                displayName: '原查看者',
+                email: 'viewer.old@example.com',
+                emailVerified: true,
+                phone: '13800138000',
+                phoneVerified: true
+            });
+            repository.findUserById.mockResolvedValue(user);
+            repository.findAllUsers.mockResolvedValue([]);
+            repository.findAllRoles.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000002', roleKey: 'project-viewer', name: '项目查看者' })]);
+            repository.findAllOrgUnits.mockResolvedValue([]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([
+                { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000002' }
+            ]);
+            repository.findRolesByIds.mockResolvedValue([createRole({ id: '30000000-0000-4000-8000-000000000002', roleKey: 'project-viewer', name: '项目查看者' })]);
+            repository.findActiveRolePermissionAssignments.mockResolvedValue([
+                { roleId: '30000000-0000-4000-8000-000000000002', permissionKey: 'project:read' }
+            ]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([]);
+
+            const result = await service.updateCurrentUserProfile('00000000-0000-4000-8000-000000000001', {
+                displayName: '新查看者',
+                email: 'viewer.new@example.com',
+                phone: '13900139000'
+            });
+
+            expect(result.displayName).toBe('新查看者');
+            expect(result.email).toBe('viewer.new@example.com');
+            expect(result.phone).toBe('13900139000');
+            expect(result.emailVerified).toBe(false);
+            expect(result.phoneVerified).toBe(false);
+            expect(result.roles).toEqual(['项目查看者']);
+            expect(result.permissions).toEqual(['project:read']);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.self-updated',
+                    targetId: '00000000-0000-4000-8000-000000000001',
+                    operatorId: '00000000-0000-4000-8000-000000000001',
+                    metadata: {
+                        changedFields: expect.arrayContaining(['displayName', 'email', 'phone', 'emailVerified', 'phoneVerified'])
+                    }
+                })
+            );
+        });
+
+        it('does not reset verification flags when contact values are unchanged', async () => {
+            const user = createUser({
+                id: '00000000-0000-4000-8000-000000000001',
+                username: 'viewer',
+                email: 'viewer.same@example.com',
+                emailVerified: true,
+                phone: '13800138000',
+                phoneVerified: true
+            });
+            repository.findUserById.mockResolvedValue(user);
+            repository.findAllUsers.mockResolvedValue([]);
+            repository.findAllRoles.mockResolvedValue([]);
+            repository.findAllOrgUnits.mockResolvedValue([]);
+            repository.findActiveUserRoleAssignments.mockResolvedValue([]);
+            repository.findRolesByIds.mockResolvedValue([]);
+            repository.findActiveRolePermissionAssignments.mockResolvedValue([]);
+            repository.findActiveUserOrgMemberships.mockResolvedValue([]);
+
+            const result = await service.updateCurrentUserProfile('00000000-0000-4000-8000-000000000001', {
+                email: 'viewer.same@example.com',
+                phone: '13800138000'
+            });
+
+            expect(result.emailVerified).toBe(true);
+            expect(result.phoneVerified).toBe(true);
+            expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    eventType: 'platform.user.self-updated',
+                    metadata: {
+                        changedFields: []
+                    }
+                })
+            );
+        });
+
+        it('throws ConflictException when current user is inactive', async () => {
+            repository.findUserById.mockResolvedValue(createUser({ isActive: false }));
+
+            await expect(
+                service.updateCurrentUserProfile('00000000-0000-4000-8000-000000000001', { displayName: '新名称' })
+            ).rejects.toThrow(ConflictException);
         });
     });
 

@@ -10,6 +10,7 @@ describe('AuthController', () => {
         verifyCredentials: jest.Mock;
         isKnownPlatformUsername: jest.Mock;
         getSanitizedUserProfile: jest.Mock;
+        updateCurrentUserProfile: jest.Mock;
     };
     let runtimeAuditService: {
         recordSecurityEvent: jest.Mock;
@@ -22,7 +23,8 @@ describe('AuthController', () => {
         platformService = {
             verifyCredentials: jest.fn(),
             isKnownPlatformUsername: jest.fn(),
-            getSanitizedUserProfile: jest.fn()
+            getSanitizedUserProfile: jest.fn(),
+            updateCurrentUserProfile: jest.fn()
         };
         runtimeAuditService = {
             recordSecurityEvent: jest.fn().mockResolvedValue(undefined)
@@ -81,5 +83,46 @@ describe('AuthController', () => {
 
         expect(result).toEqual({ accessToken: 'signed-token' });
         expect(runtimeAuditService.recordSecurityEvent).not.toHaveBeenCalled();
+    });
+
+    it('delegates current-user profile update to PlatformService using JWT subject', async () => {
+        platformService.updateCurrentUserProfile.mockResolvedValue({
+            id: '00000000-0000-4000-8000-000000000001',
+            username: 'viewer',
+            displayName: '新的查看者',
+            roles: ['项目查看者'],
+            permissions: ['project:read'],
+            email: 'viewer.updated@example.com',
+            avatarUrl: null,
+            isActive: true,
+            lastLoginAt: null,
+            emailVerified: false,
+            phoneVerified: false,
+            phone: '13800138000',
+            orgUnits: []
+        });
+
+        const result = await controller.updateProfile(
+            {
+                displayName: '新的查看者',
+                email: 'viewer.updated@example.com',
+                phone: '13800138000'
+            },
+            {
+                user: {
+                    sub: '00000000-0000-4000-8000-000000000001',
+                    username: 'viewer',
+                    permissions: ['project:read']
+                }
+            }
+        );
+
+        expect(platformService.updateCurrentUserProfile).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {
+            displayName: '新的查看者',
+            email: 'viewer.updated@example.com',
+            phone: '13800138000'
+        });
+        expect(result.displayName).toBe('新的查看者');
+        expect(result.emailVerified).toBe(false);
     });
 });

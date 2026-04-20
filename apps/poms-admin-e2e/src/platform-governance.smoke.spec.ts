@@ -180,6 +180,81 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByRole('heading', { name: '角色与权限' })).toBeVisible();
     });
 
+    test('profile self-service updates current user identity in place', async ({ page }) => {
+        const unique = Date.now().toString(36).toUpperCase();
+        const updatedDisplayName = `查看人-${unique}`;
+        const updatedEmail = `viewer+${unique.toLowerCase()}@example.com`;
+        const updatedPhone = `139${Date.now().toString().slice(-8)}`;
+
+        let viewerToken: string | null = null;
+        let originalProfile:
+            | {
+                  displayName: string;
+                  email: string | null;
+                  phone: string | null;
+              }
+            | null = null;
+
+        try {
+            await login(page, VIEWER_CREDENTIALS);
+            await expect(page).toHaveURL(/\/dashboard$/);
+
+            viewerToken = await page.evaluate(() => globalThis.localStorage.getItem('poms_access_token'));
+            expect(viewerToken).toBeTruthy();
+            if (!viewerToken) {
+                throw new Error('viewer token not found after login');
+            }
+
+            const originalProfileResponse = await page.request.get('/api/auth/profile', {
+                headers: {
+                    Authorization: `Bearer ${viewerToken}`
+                }
+            });
+            expect(originalProfileResponse.status()).toBe(200);
+            originalProfile = (await originalProfileResponse.json()) as {
+                displayName: string;
+                email: string | null;
+                phone: string | null;
+            };
+
+            await page.goto('/profile');
+            await expect(page).toHaveURL(/\/profile$/);
+
+            await page.getByRole('button', { name: '编辑资料' }).click();
+            await expect(page.getByRole('dialog', { name: '编辑资料' })).toBeVisible();
+
+            await page.locator('#profile-edit-display-name').fill(updatedDisplayName);
+            await page.locator('#profile-edit-email').fill(updatedEmail);
+            await page.locator('#profile-edit-phone').fill(updatedPhone);
+            await page.getByRole('button', { name: '保存' }).click();
+
+            const accountCard = page.locator('section-card').first();
+            await expect(page.getByText('个人资料已更新')).toBeVisible();
+            await expect(accountCard.getByText(updatedDisplayName, { exact: true })).toBeVisible();
+            await expect(accountCard.getByText(updatedEmail, { exact: true })).toBeVisible();
+            await expect(page.getByText('邮箱未验证').first()).toBeVisible();
+            await expect(page.getByText('手机未验证').first()).toBeVisible();
+
+            await page.locator('.profile-item .right-sidebar-button').click();
+            const profileMenu = page.locator('.profile-item .list-none').last();
+            await expect(profileMenu.getByText(updatedDisplayName, { exact: true })).toBeVisible();
+        } finally {
+            if (viewerToken && originalProfile) {
+                const restoreResponse = await page.request.patch('/api/auth/profile', {
+                    headers: {
+                        Authorization: `Bearer ${viewerToken}`
+                    },
+                    data: {
+                        displayName: originalProfile.displayName,
+                        email: originalProfile.email,
+                        phone: originalProfile.phone
+                    }
+                });
+                expect(restoreResponse.status()).toBe(200);
+            }
+        }
+    });
+
     test('viewer does not see platform governance menu entries', async ({ page }) => {
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);

@@ -90,6 +90,7 @@ export type {
     SubmitContractReviewRequest,
     TodoItemSummary,
     UpdatePayableRecordRequest,
+    UpdateCurrentUserProfileRequest,
     UpdatePlatformUserActivationRequest,
     UpdateInvoiceRecordRequest,
     VoidPayableRecordRequest,

@@ -1,7 +1,7 @@
 # API Canonical Inventory
 
 **文档状态**: Active
-**最后更新**: 2026-04-18
+**最后更新**: 2026-04-21
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -110,6 +110,13 @@
 | `commission` | `getCommissionFreezeChangeRequest` | `GET /commission-freeze-change-requests/{id}`     | `GET /commission-freeze-change-requests/{id}`     | `GET /commission-freeze-change-requests/{id}`     | `ADR-015` + `ex-09d-commission-freeze-dispute-change-baseline.md` | `N/A`      | `EX-09D` 已完成受控变更详情资源落地；当前不保留 direct create route                                                          | `B1`  | `aligned` |
 
 ## 6. Batch 2 Inventory
+
+### 6.0 Current User / Auth
+
+| Domain | Capability                 | Canonical Route       | Current Implemented Route | Current Design Route  | Authority                                                        | Drift Type | Action                                                                                   | Batch | Status    |
+| ------ | -------------------------- | --------------------- | ------------------------- | --------------------- | ---------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------- | ----- | --------- |
+| `auth` | `getCurrentUserProfile`    | `GET /auth/profile`   | `GET /auth/profile`       | `GET /auth/profile`   | `ADR-008` + `platform-governance/profile-self-service-design.md` | `N/A`      | 保持                                                                                     | `B2`  | `aligned` |
+| `auth` | `updateCurrentUserProfile` | `PATCH /auth/profile` | `PATCH /auth/profile`     | `PATCH /auth/profile` | `ADR-015` + `platform-governance/profile-self-service-design.md` | `N/A`      | `EX-16` 已完成 route / controller / OpenAPI / generated client 收口，保持 canonical path | `B2`  | `aligned` |
 
 ### 6.1 EX-15E1 Approval
 

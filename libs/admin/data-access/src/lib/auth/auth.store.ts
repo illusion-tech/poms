@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { PermissionKey } from '@poms/shared-contracts';
-import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary } from '@poms/shared-api-client';
+import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary, UpdateCurrentUserProfileRequest } from '@poms/shared-api-client';
 import { ApprovalApi, AuthApi, NavigationApi } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
 
@@ -66,6 +66,20 @@ export class AuthStore {
 
         const todos = await firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))));
         this.myTodos.set(todos ?? []);
+    }
+
+    async updateCurrentUserProfile(request: UpdateCurrentUserProfileRequest): Promise<SanitizedUserWithOrgUnits> {
+        if (!this.token()) {
+            throw new Error('Current user is not authenticated.');
+        }
+
+        const user = await firstValueFrom(
+            this.#authApi.authControllerUpdateProfile({
+                updateCurrentUserProfileRequest: request
+            })
+        );
+        this.currentUser.set(user);
+        return user;
     }
 
     async #loadUserData(): Promise<void> {

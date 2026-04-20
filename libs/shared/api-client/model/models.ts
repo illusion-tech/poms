@@ -191,6 +191,7 @@ export * from './submit-non-retention-commission-payout-approval-request';
 export * from './submit-retention-commission-payout-approval-request';
 export * from './todo-item-summary';
 export * from './update-contract-basic-info-request';
+export * from './update-current-user-profile-request';
 export * from './update-expense-record-request';
 export * from './update-invoice-record-request';
 export * from './update-org-unit-activation-request';

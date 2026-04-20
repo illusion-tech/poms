@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-19
+**最后更新**: 2026-04-21
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -130,6 +130,7 @@
 | `docs/design/platform-governance/README.md`                             | Active   | 平台治理域设计目录入口，负责聚合总设计、子设计与配套输出物                                     | 是                 |
 | `docs/design/platform-governance/platform-governance-design.md`         | Active   | 平台治理域详细设计总入口，已补第一阶段正式承诺、缺口判断与最小落地要求                         | 是                 |
 | `docs/design/platform-governance/user-management-design.md`             | Active   | 用户管理详细设计，已补第一阶段最小落地要求、接口建议与补齐顺序                                 | 是                 |
+| `docs/design/platform-governance/profile-self-service-design.md`        | Review   | 个人中心自助编辑资料设计，负责冻结当前用户自助编辑边界、route、DTO、审计与前端交互             | 是                 |
 | `docs/design/platform-governance/role-permission-design.md`             | Active   | 角色与权限详细设计，已补正式缺口、最小落地要求与接口建议                                       | 是                 |
 | `docs/design/platform-governance/org-unit-design.md`                    | Active   | 组织单元详细设计，已补真实组织树能力、接口建议与补齐顺序                                       | 是                 |
 | `docs/design/platform-governance/navigation-design.md`                  | Active   | 导航菜单详细设计，已补导航治理缺口与第一阶段补齐口径                                           | 是                 |

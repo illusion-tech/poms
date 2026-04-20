@@ -24,6 +24,7 @@ import type {
     SanitizedUserWithOrgUnits,
     UpdateOrgUnitActivationRequest,
     UpdateOrgUnitRequest,
+    UpdateCurrentUserProfileRequest,
     UpdatePlatformUserActivationRequest,
     UpdatePlatformUserRequest,
     UserOrgUnitSummary
@@ -164,12 +165,10 @@ export class PlatformService {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
 
-        const beforeSnapshot = { displayName: user.displayName, email: user.email, phone: user.phone, avatarUrl: user.avatarUrl };
-
-        if (request.displayName !== undefined) user.displayName = request.displayName;
-        if (request.email !== undefined) user.email = request.email ?? null;
-        if (request.phone !== undefined) user.phone = request.phone ?? null;
-        if (request.avatarUrl !== undefined) user.avatarUrl = request.avatarUrl ?? null;
+        const patchResult = this.#applyUserProfileUpdate(user, request, {
+            allowAvatarUrl: true,
+            includeAvatarUrlInSnapshot: true
+        });
 
         await this.platformRepository.saveAll([user]);
         await this.runtimeAuditService.recordAuditLog({
@@ -178,12 +177,50 @@ export class PlatformService {
             targetId: user.id,
             operatorId: operatorId ?? null,
             result: 'success',
-            beforeSnapshot,
-            afterSnapshot: { displayName: user.displayName, email: user.email, phone: user.phone, avatarUrl: user.avatarUrl }
+            beforeSnapshot: patchResult.beforeSnapshot,
+            afterSnapshot: patchResult.afterSnapshot,
+            metadata: {
+                changedFields: patchResult.changedFields
+            }
         });
 
         const { orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships } = await this.#loadUserAggregationContext();
         return this.#toPlatformUserDetail(user, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships);
+    }
+
+    async updateCurrentUserProfile(userId: string, request: UpdateCurrentUserProfileRequest): Promise<SanitizedUserWithOrgUnits> {
+        const user = await this.platformRepository.findUserById(userId);
+        if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
+        if (!user.isActive) throw new ConflictException(`Platform user ${userId} is inactive`);
+
+        const patchResult = this.#applyUserProfileUpdate(user, request, {
+            allowAvatarUrl: false,
+            includeAvatarUrlInSnapshot: false
+        });
+
+        await this.platformRepository.saveAll([user]);
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'platform.user.self-updated',
+            targetType: 'PlatformUser',
+            targetId: user.id,
+            operatorId: user.id,
+            result: 'success',
+            beforeSnapshot: patchResult.beforeSnapshot,
+            afterSnapshot: patchResult.afterSnapshot,
+            metadata: {
+                changedFields: patchResult.changedFields
+            }
+        });
+
+        const profile = await this.getSanitizedUserProfile(user.id, {
+            username: user.username,
+            permissions: await this.getPermissionsForUser(user.id)
+        });
+        if (!profile) {
+            throw new NotFoundException(`Platform user ${userId} not found`);
+        }
+
+        return profile;
     }
 
     async listRoles(): Promise<PlatformRoleSummary[]> {
@@ -871,6 +908,103 @@ export class PlatformService {
         }
 
         return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships };
+    }
+
+    #applyUserProfileUpdate(
+        user: {
+            displayName: string;
+            email?: string | null;
+            phone?: string | null;
+            avatarUrl?: string | null;
+            emailVerified: boolean;
+            phoneVerified: boolean;
+        },
+        request: {
+            displayName?: string;
+            email?: string | null;
+            phone?: string | null;
+            avatarUrl?: string | null;
+        },
+        options: {
+            allowAvatarUrl: boolean;
+            includeAvatarUrlInSnapshot: boolean;
+        }
+    ): {
+        beforeSnapshot: Record<string, string | boolean | null>;
+        afterSnapshot: Record<string, string | boolean | null>;
+        changedFields: string[];
+    } {
+        const beforeSnapshot = this.#buildUserProfileAuditSnapshot(user, options.includeAvatarUrlInSnapshot);
+        const changedFields = new Set<string>();
+
+        if (request.displayName !== undefined && request.displayName !== user.displayName) {
+            user.displayName = request.displayName;
+            changedFields.add('displayName');
+        }
+
+        if (request.email !== undefined) {
+            const nextEmail = request.email ?? null;
+            if (nextEmail !== (user.email ?? null)) {
+                user.email = nextEmail;
+                changedFields.add('email');
+                if (user.emailVerified !== false) {
+                    user.emailVerified = false;
+                    changedFields.add('emailVerified');
+                }
+            }
+        }
+
+        if (request.phone !== undefined) {
+            const nextPhone = request.phone ?? null;
+            if (nextPhone !== (user.phone ?? null)) {
+                user.phone = nextPhone;
+                changedFields.add('phone');
+                if (user.phoneVerified !== false) {
+                    user.phoneVerified = false;
+                    changedFields.add('phoneVerified');
+                }
+            }
+        }
+
+        if (options.allowAvatarUrl && request.avatarUrl !== undefined) {
+            const nextAvatarUrl = request.avatarUrl ?? null;
+            if (nextAvatarUrl !== (user.avatarUrl ?? null)) {
+                user.avatarUrl = nextAvatarUrl;
+                changedFields.add('avatarUrl');
+            }
+        }
+
+        return {
+            beforeSnapshot,
+            afterSnapshot: this.#buildUserProfileAuditSnapshot(user, options.includeAvatarUrlInSnapshot),
+            changedFields: [...changedFields]
+        };
+    }
+
+    #buildUserProfileAuditSnapshot(
+        user: {
+            displayName: string;
+            email?: string | null;
+            phone?: string | null;
+            avatarUrl?: string | null;
+            emailVerified: boolean;
+            phoneVerified: boolean;
+        },
+        includeAvatarUrl: boolean
+    ): Record<string, string | boolean | null> {
+        const snapshot: Record<string, string | boolean | null> = {
+            displayName: user.displayName,
+            email: user.email ?? null,
+            phone: user.phone ?? null,
+            emailVerified: user.emailVerified,
+            phoneVerified: user.phoneVerified
+        };
+
+        if (includeAvatarUrl) {
+            snapshot['avatarUrl'] = user.avatarUrl ?? null;
+        }
+
+        return snapshot;
     }
 
     #buildUserOrgUnits(

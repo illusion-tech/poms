@@ -1,7 +1,7 @@
 # POMS 查询视图边界设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-04
+**最后更新**: 2026-04-21
 **适用范围**: `POMS` 第一阶段读侧边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的查询视图补点约束
 **关联文档**:
 
@@ -158,15 +158,16 @@
 
 ### 5.3A 平台治理域
 
-| 查询视图                       | 主要对象         | 目标                      | 最小字段组                                                                                                  | 额外约束                                 |
-| ------------------------------ | ---------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `PlatformUserListView`         | `User`           | 支撑用户管理列表          | `username`、`displayName`、`email`、`phone`、`isActive`、`primaryOrgUnitName`、`roleNames`                  | 不展开完整组织树与权限全集               |
-| `PlatformUserDetailView`       | `User`           | 支撑用户详情与关系维护    | 主体字段、主责组织、附属组织摘要、当前角色摘要、`allowedActions`                                            | `allowedActions` 为聚合输出，不是事实源  |
-| `PlatformRoleListView`         | `Role`           | 支撑角色列表              | `roleKey`、`name`、`isActive`、`isSystemRole`、`permissionCount`                                            | 权限明细不在列表全量展开                 |
-| `PlatformRoleDetailView`       | `Role`           | 支撑角色详情与权限维护    | 主体字段、权限摘要、被引用用户数、`allowedActions`                                                          | 权限字典只读事实源需可追溯               |
-| `OrgUnitTreeView`              | `OrgUnit`        | 支撑组织树维护            | `id`、`name`、`code`、`isActive`、`displayOrder`、`children`                                                | 组织树是正式读模型，不复用轻量 `UnitOrg` |
-| `OrgUnitDetailView`            | `OrgUnit`        | 支撑组织详情              | 主体字段、父节点摘要、子节点摘要、挂靠用户数量、`allowedActions`                                            | 不在详情中平铺所有用户列表               |
-| `NavigationGovernanceListView` | `NavigationItem` | 支撑导航治理列表 / 树视图 | `key`、`title`、`type`、`link`、`displayOrder`、`isHidden`、`isDisabled`、`requiredPermissions`、`children` | 不引入前端框架私有字段                   |
+| 查询视图                       | 主要对象         | 目标                               | 最小字段组                                                                                                                                                      | 额外约束                                       |
+| ------------------------------ | ---------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `PlatformUserListView`         | `User`           | 支撑用户管理列表                   | `username`、`displayName`、`email`、`phone`、`isActive`、`primaryOrgUnitName`、`roleNames`                                                                      | 不展开完整组织树与权限全集                     |
+| `PlatformUserDetailView`       | `User`           | 支撑用户详情与关系维护             | 主体字段、主责组织、附属组织摘要、当前角色摘要、`allowedActions`                                                                                                | `allowedActions` 为聚合输出，不是事实源        |
+| `CurrentUserProfileView`       | `User`           | 支撑个人中心资料展示与自助编辑回显 | `id`、`username`、`displayName`、`email`、`phone`、`avatarUrl`、`isActive`、`lastLoginAt`、`emailVerified`、`phoneVerified`、`roles`、`permissions`、`orgUnits` | 只返回当前登录用户自己的上下文，不承担他人维护 |
+| `PlatformRoleListView`         | `Role`           | 支撑角色列表                       | `roleKey`、`name`、`isActive`、`isSystemRole`、`permissionCount`                                                                                                | 权限明细不在列表全量展开                       |
+| `PlatformRoleDetailView`       | `Role`           | 支撑角色详情与权限维护             | 主体字段、权限摘要、被引用用户数、`allowedActions`                                                                                                              | 权限字典只读事实源需可追溯                     |
+| `OrgUnitTreeView`              | `OrgUnit`        | 支撑组织树维护                     | `id`、`name`、`code`、`isActive`、`displayOrder`、`children`                                                                                                    | 组织树是正式读模型，不复用轻量 `UnitOrg`       |
+| `OrgUnitDetailView`            | `OrgUnit`        | 支撑组织详情                       | 主体字段、父节点摘要、子节点摘要、挂靠用户数量、`allowedActions`                                                                                                | 不在详情中平铺所有用户列表                     |
+| `NavigationGovernanceListView` | `NavigationItem` | 支撑导航治理列表 / 树视图          | `key`、`title`、`type`、`link`、`displayOrder`、`isHidden`、`isDisabled`、`requiredPermissions`、`children`                                                     | 不引入前端框架私有字段                         |
 
 ### 5.3B 第二阶段第二批经营可信源查询补点
 

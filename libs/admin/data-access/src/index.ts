@@ -9,7 +9,10 @@ export * from './lib/project/project.store';
 export * from './lib/project/project-workspace.store';
 
 export {
+    ApprovalApi,
+    AuthApi,
     CommissionApi,
+    NavigationApi,
     PlatformApi,
     ProjectCostApi,
     AssignRolePermissionsRequestPermissionKeysEnum,
@@ -44,9 +47,11 @@ export type {
     ProjectUnifiedAccountingView,
     ProjectVarianceRiskExplanationView,
     RegisterCommissionPayoutRequest,
+    SanitizedUserWithOrgUnits,
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
-    TodoItemSummary
+    TodoItemSummary,
+    UpdateCurrentUserProfileRequest
 } from '@poms/shared-api-client';
 export type { PlatformUserSummary, PlatformUserDetail, PlatformRoleSummary, PlatformOrgUnitSummary, CreatePlatformUserRequest, AssignUserRolesRequest, AssignUserOrgMembershipsRequest, CreateRoleRequest, AssignRolePermissionsRequest, CreateOrgUnitRequest, UpdateOrgUnitRequest, UpdatePlatformUserRequest, UserOrgUnitSummary } from '@poms/shared-api-client';
 export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';

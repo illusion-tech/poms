@@ -250,6 +250,76 @@ describe('poms-api platform governance e2e', () => {
         }
     });
 
+    it('allows a normal user to self-update profile via PATCH /auth/profile and records audit details', async () => {
+        const { client: adminClient } = await loginAsAdmin();
+        const viewerSession = await loginAsViewer();
+        const originalProfile = viewerSession.profile;
+        const unique = Date.now().toString(36);
+        const nextDisplayName = `查看者 ${unique}`;
+        const nextEmail = `viewer.${unique}@example.com`;
+        const nextPhone = `139${Date.now().toString().slice(-8)}`;
+
+        expect(originalProfile.emailVerified).toBe(false);
+        expect(originalProfile.phoneVerified).toBe(false);
+
+        try {
+            const updateResponse = await viewerSession.client.patch('/auth/profile', {
+                displayName: nextDisplayName,
+                email: nextEmail,
+                phone: nextPhone
+            });
+            const updatedProfile = expectStatus(updateResponse, 200);
+
+            expect(updatedProfile.id).toBe(originalProfile.id);
+            expect(updatedProfile.displayName).toBe(nextDisplayName);
+            expect(updatedProfile.email).toBe(nextEmail);
+            expect(updatedProfile.phone).toBe(nextPhone);
+            expect(updatedProfile.avatarUrl).toBe(originalProfile.avatarUrl);
+            expect(updatedProfile.emailVerified).toBe(false);
+            expect(updatedProfile.phoneVerified).toBe(false);
+
+            const refreshedProfile = expectStatus(await viewerSession.client.get('/auth/profile'), 200);
+            expect(refreshedProfile.displayName).toBe(nextDisplayName);
+            expect(refreshedProfile.email).toBe(nextEmail);
+            expect(refreshedProfile.phone).toBe(nextPhone);
+
+            const auditLogs = await listAuditLogs(adminClient, {
+                eventType: 'platform.user.self-updated',
+                targetId: originalProfile.id,
+                limit: 20
+            });
+            const selfUpdateAudit = auditLogs.find(
+                (event) =>
+                    event.operatorId === originalProfile.id &&
+                    event.afterSnapshot?.['displayName'] === nextDisplayName &&
+                    event.afterSnapshot?.['email'] === nextEmail &&
+                    event.afterSnapshot?.['phone'] === nextPhone
+            );
+
+            expect(selfUpdateAudit).toBeDefined();
+            expect(selfUpdateAudit?.metadata?.['changedFields']).toEqual(
+                expect.arrayContaining(['displayName', 'email', 'phone'])
+            );
+        } finally {
+            await updatePlatformUser(adminClient, originalProfile.id, {
+                displayName: originalProfile.displayName,
+                email: originalProfile.email,
+                phone: originalProfile.phone,
+                avatarUrl: originalProfile.avatarUrl
+            });
+        }
+    });
+
+    it('rejects forbidden self-update fields outside the current-user contract boundary', async () => {
+        const viewerSession = await loginAsViewer();
+
+        const response = await viewerSession.client.patch('/auth/profile', {
+            avatarUrl: 'https://example.com/avatar.png'
+        });
+
+        expectErrorStatus(response, 400);
+    });
+
     it('returns 404 from GET /platform/users/:id when user does not exist', async () => {
         const { client: adminClient } = await loginAsAdmin();
         const response = await adminClient.get('/platform/users/00000000-0000-4000-8000-999999999999');

@@ -1,6 +1,6 @@
 import type { UserPayload } from '@poms/shared-contracts';
-import { LoginRequestDto, LoginResponseDto, SanitizedUserWithOrgUnitsDto } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UnauthorizedException } from '@nestjs/common';
+import { LoginRequestDto, LoginResponseDto, SanitizedUserWithOrgUnitsDto, UpdateCurrentUserProfileRequestDto } from '@poms/api-contracts';
+import { Body, Controller, Get, HttpCode, HttpStatus, Patch, Post, Request, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RuntimeAuditService } from '../runtime-audit/runtime-audit.service';
@@ -83,6 +83,18 @@ export class AuthController {
         const platformProfile = await this.platformService.getSanitizedUserProfile(sub, { username, permissions });
 
         return platformProfile ?? fallbackProfile;
+    }
+
+    @Patch('profile')
+    @Authenticated()
+    @ApiBearerAuth()
+    @ApiOperation({ summary: '更新当前登录用户基础资料' })
+    @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
+    async updateProfile(
+        @Body() body: UpdateCurrentUserProfileRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<SanitizedUserWithOrgUnitsDto> {
+        return this.platformService.updateCurrentUserProfile(req.user.sub, body);
     }
 
     async #recordLoginFailure(username: string, request: RuntimeAuditRequestLike, reason: string): Promise<void> {

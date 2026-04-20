@@ -324,6 +324,41 @@
         "tags": [
           "Auth"
         ]
+      },
+      "patch": {
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCurrentUserProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "更新当前登录用户基础资料",
+        "tags": [
+          "Auth"
+        ]
       }
     },
     "/api/platform/users": {
@@ -6502,6 +6537,30 @@
           "orgUnits"
         ],
         "id": "SanitizedUserWithOrgUnits"
+      },
+      "UpdateCurrentUserProfileRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          }
+        },
+        "id": "UpdateCurrentUserProfileRequest",
+        "additionalProperties": false
       },
       "PlatformUserSummary": {
         "type": "object",
