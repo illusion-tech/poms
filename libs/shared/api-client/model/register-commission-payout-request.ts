@@ -7,15 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CommissionPayoutStage } from './commission-payout-stage';
+import { RegisterRetentionCommissionPayoutRequest } from './register-retention-commission-payout-request';
+import { RegisterNonRetentionCommissionPayoutRequest } from './register-non-retention-commission-payout-request';
 
 
-export interface RegisterCommissionPayoutRequest { 
-    payoutStage?: CommissionPayoutStage;
-    approvalRecordId?: string;
-    paidRecordAmount: string;
-    paidAt?: string;
-    summarySnapshotId?: string;
-    comment?: string;
-    expectedVersion?: number;
-}
+/**
+ * @type RegisterCommissionPayoutRequest
+ * @export
+ */
+export type RegisterCommissionPayoutRequest = RegisterNonRetentionCommissionPayoutRequest | RegisterRetentionCommissionPayoutRequest;

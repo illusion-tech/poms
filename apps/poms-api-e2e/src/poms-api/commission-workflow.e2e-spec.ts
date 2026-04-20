@@ -67,6 +67,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(payout.theoreticalCapAmount).toBe('480.00');
 
         const submittedPayout = await submitPayoutApproval(client, payout.id, {
+            payoutStage: payout.stageType,
             expectedVersion: payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -83,6 +84,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(approvedPayout.approvedAmount).toBe('480.00');
 
         const paidPayout = await registerPayout(client, payout.id, {
+            payoutStage: approvedPayout.stageType,
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -202,6 +204,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(finalPayout.theoreticalCapAmount).toBe('2400.00');
 
         const submittedFinalPayout = await submitPayoutApproval(client, finalPayout.id, {
+            payoutStage: finalPayout.stageType,
             expectedVersion: finalPayout.rowVersion
         });
         expect(submittedFinalPayout.status).toBe('pending-approval');
@@ -228,6 +231,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(pendingFinalExplanation.summarySnapshotId).toBe(fixture.summarySnapshotId);
 
         const paidFinalPayout = await registerPayout(client, finalPayout.id, {
+            payoutStage: approvedFinalPayout.stageType,
             paidRecordAmount: '2040.00',
             expectedVersion: approvedFinalPayout.rowVersion
         });
@@ -330,6 +334,7 @@ describe('poms-api commission workflow e2e', () => {
         const response = await client.post(
             `/commission-payouts/${scenario.payout.id}:registerPayout`,
             {
+                payoutStage: scenario.payout.stageType,
                 paidRecordAmount: '100.00',
                 expectedVersion: scenario.payout.rowVersion
             }
@@ -344,7 +349,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
-        await submitPayoutApproval(client, payout.id, { expectedVersion: payout.rowVersion });
+        await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
         await approveRecord(client, payoutApproval.id, {
@@ -354,6 +359,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
         const paidPayout = await registerPayout(client, payout.id, {
+            payoutStage: approvedPayout.stageType,
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -403,7 +409,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
-        await submitPayoutApproval(client, payout.id, { expectedVersion: payout.rowVersion });
+        await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
         await approveRecord(client, payoutApproval.id, {
@@ -413,6 +419,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
         const paidPayout = await registerPayout(client, payout.id, {
+            payoutStage: approvedPayout.stageType,
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -535,6 +542,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         const submittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -560,6 +568,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -603,6 +612,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -621,6 +631,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -628,6 +639,7 @@ describe('poms-api commission workflow e2e', () => {
         const response = await client.post(
             `/commission-payouts/${scenario.payout.id}:submitApproval`,
             {
+                payoutStage: pendingPayout.stageType,
                 expectedVersion: pendingPayout.rowVersion
             }
         );
@@ -641,6 +653,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -679,6 +692,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: scenario.payout.stageType,
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -699,6 +713,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(rejectedPayout.status).toBe('draft');
 
         const resubmittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
+            payoutStage: rejectedPayout.stageType,
             expectedVersion: rejectedPayout.rowVersion
         });
         expect(resubmittedPayout.status).toBe('pending-approval');

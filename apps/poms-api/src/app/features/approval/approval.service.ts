@@ -175,7 +175,7 @@ export class ApprovalService {
             }
 
             this.assertExpectedVersion(payout.rowVersion, input.expectedVersion, 'CommissionPayout');
-            this.assertRequestStageMatchesPayout(payout.stageType, input.payoutStage ?? null);
+            this.assertRequestStageMatchesPayout(payout.stageType, input.payoutStage);
 
             const existingApproval = await em.findOne(ApprovalRecord, {
                 approvalType: COMMISSION_PAYOUT_APPROVAL_TYPE,
@@ -618,8 +618,12 @@ export class ApprovalService {
         }
     }
 
-    private assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null): void {
-        if (requestedStage && requestedStage !== actualStage) {
+    private assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null | undefined): void {
+        if (!requestedStage) {
+            throw new BadRequestException('CommissionPayout stage must be provided');
+        }
+
+        if (requestedStage !== actualStage) {
             throw new BadRequestException(`CommissionPayout stage ${requestedStage} does not match current stage ${actualStage}`);
         }
     }

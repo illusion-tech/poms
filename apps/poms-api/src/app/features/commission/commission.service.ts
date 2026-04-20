@@ -666,6 +666,7 @@ export class CommissionService {
                 ) {
                     const latestRetentionReceipt = await this.#findLatestConfirmedRetentionReceipt(em, projectId);
                     const gateReview = await this.#findGateReviewById(em, currentFinalSettlementSnapshot.gateReviewRecordId);
+                    const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
                     const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
                         freezeVersionId: freezeVersion.id,
                         status: 'submitted'
@@ -681,7 +682,7 @@ export class CommissionService {
                                   {
                                       ...this.#toFinalSettlementStatusPatch(
                                           this.#buildRetentionSettlementDraft(
-                                              currentFinalSettlementSnapshot.currentActionLevel,
+                                              gateBindingAction,
                                               gateReview,
                                               entity,
                                               latestRetentionReceipt,
@@ -717,7 +718,7 @@ export class CommissionService {
                         nextSnapshot.id,
                         currentFinalSettlementSnapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION
                             ? this.#buildRetentionSettlementDraft(
-                                  currentFinalSettlementSnapshot.currentActionLevel,
+                                  gateBindingAction,
                                   gateReview,
                                   entity,
                                   latestRetentionReceipt,
@@ -908,7 +909,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
-        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage ?? null);
+        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'draft') {
@@ -1064,9 +1065,10 @@ export class CommissionService {
                     }
                     const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
                     this.#assertRetentionDueReady(retentionDue, payout.id, '批准质保金发放');
+                    const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
 
                     const retentionDraft = this.#buildRetentionSettlementDraft(
-                        currentSnapshot.currentActionLevel,
+                        gateBindingAction,
                         gateReview,
                         departureDecision,
                         retentionReceipt,
@@ -1116,7 +1118,7 @@ export class CommissionService {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
         this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
-        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage ?? null);
+        this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'approved') {
@@ -1190,8 +1192,9 @@ export class CommissionService {
                         status: 'submitted'
                     });
                     const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
+                    const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
                     const retentionDraft = this.#buildRetentionSettlementDraft(
-                        currentSnapshot.currentActionLevel,
+                        gateBindingAction,
                         gateReview,
                         currentDepartureDecision,
                         latestRetentionReceipt,
@@ -1244,9 +1247,10 @@ export class CommissionService {
                     }
                     const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
                     this.#assertRetentionDueReady(retentionDue, payout.id, '登记质保金发放');
+                    const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
 
                     const retentionDraft = this.#buildRetentionSettlementDraft(
-                        currentSnapshot.currentActionLevel,
+                        gateBindingAction,
                         gateReview,
                         departureDecision,
                         retentionReceipt,
@@ -1705,11 +1709,12 @@ export class CommissionService {
             ),
             this.#loadRetentionReceiptForRead(snapshot.projectId, snapshot.retentionReceiptRecordId ?? null)
         ]);
+        const gateBindingAction = await this.#loadGateBindingActionForReview(gateReview);
 
         return {
             retentionDue,
             draft: this.#buildRetentionSettlementDraft(
-                snapshot.currentActionLevel,
+                gateBindingAction,
                 gateReview,
                 departureDecision,
                 retentionReceipt,
@@ -2159,8 +2164,12 @@ export class CommissionService {
         }
     }
 
-    #assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null): void {
-        if (requestedStage && requestedStage !== actualStage) {
+    #assertRequestStageMatchesPayout(actualStage: string, requestedStage: string | null | undefined): void {
+        if (!requestedStage) {
+            throw new BadRequestException('CommissionPayout stage must be provided');
+        }
+
+        if (requestedStage !== actualStage) {
             throw new BadRequestException(`CommissionPayout stage ${requestedStage} does not match current stage ${actualStage}`);
         }
     }
@@ -2396,6 +2405,31 @@ export class CommissionService {
         gateReviewRecordId: string
     ): Promise<CommissionGateReviewRecord | null> {
         return (await em.findOne(CommissionGateReviewRecord, { id: gateReviewRecordId })) as CommissionGateReviewRecord | null;
+    }
+
+    async #findGateBindingActionByReview(
+        em: EntityManager,
+        gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null
+    ): Promise<string | null> {
+        if (!gateReview) {
+            return null;
+        }
+
+        const binding = (await em.findOne(OperatingSignalToCommissionGateBinding, {
+            id: gateReview.bindingId
+        })) as OperatingSignalToCommissionGateBinding | null;
+        return binding?.bindingAction ?? null;
+    }
+
+    async #loadGateBindingActionForReview(
+        gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null
+    ): Promise<string | null> {
+        if (!gateReview) {
+            return null;
+        }
+
+        const binding = await this.repo.findGateBindingById(gateReview.bindingId);
+        return binding?.bindingAction ?? null;
     }
 
     async #findLatestConfirmedRetentionReceipt(

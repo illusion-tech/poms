@@ -7,17 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CommissionPayoutStage } from './commission-payout-stage';
+import { SubmitRetentionCommissionPayoutApprovalRequest } from './submit-retention-commission-payout-approval-request';
+import { SubmitNonRetentionCommissionPayoutApprovalRequest } from './submit-non-retention-commission-payout-approval-request';
 
 
-export interface SubmitCommissionPayoutApprovalRequest { 
-    payoutStage?: CommissionPayoutStage;
-    gateReviewRecordId?: string;
-    freezeVersionId?: string;
-    baselineSelectionSource?: string;
-    summarySnapshotId?: string;
-    retentionReceiptRecordId?: string;
-    departureExceptionDecisionId?: string;
-    comment?: string;
-    expectedVersion?: number;
-}
+/**
+ * @type SubmitCommissionPayoutApprovalRequest
+ * @export
+ */
+export type SubmitCommissionPayoutApprovalRequest = SubmitNonRetentionCommissionPayoutApprovalRequest | SubmitRetentionCommissionPayoutApprovalRequest;

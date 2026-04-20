@@ -7,6 +7,7 @@ import { PaymentRecord } from '../contract-finance/payment-record.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { ProjectHandover, ProjectReceiptJudgmentFreeze } from '../project-handover/project-handover.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
+import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { Project } from '../project/project.entity';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -40,6 +41,8 @@ export class CommissionRepository {
         private readonly approvalSummarySnapshotRepository: EntityRepository<ApprovalSummarySnapshot>,
         @InjectRepository(CommissionGateReviewRecord)
         private readonly gateReviewRecordRepository: EntityRepository<CommissionGateReviewRecord>,
+        @InjectRepository(OperatingSignalToCommissionGateBinding)
+        private readonly gateBindingRepository: EntityRepository<OperatingSignalToCommissionGateBinding>,
         @InjectRepository(CommissionRuleVersion)
         private readonly ruleVersionRepository: EntityRepository<CommissionRuleVersion>,
         @InjectRepository(CommissionRoleAssignment)
@@ -107,6 +110,10 @@ export class CommissionRepository {
 
     async findGateReviewRecordById(id: string): Promise<CommissionGateReviewRecord | null> {
         return this.gateReviewRecordRepository.findOne({ id });
+    }
+
+    async findGateBindingById(id: string): Promise<OperatingSignalToCommissionGateBinding | null> {
+        return this.gateBindingRepository.findOne({ id });
     }
 
     // ── Rule Versions ────────────────────────────────────────────────────────

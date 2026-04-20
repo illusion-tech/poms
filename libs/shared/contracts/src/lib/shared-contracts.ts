@@ -2275,6 +2275,8 @@ export const CommissionPayoutStageSchema = z.enum(['first', 'second', 'final', '
 
 export type CommissionPayoutStage = z.infer<typeof CommissionPayoutStageSchema>;
 
+const NonRetentionCommissionPayoutStageSchema = z.enum(['first', 'second', 'final']);
+
 export const CommissionPayoutTierSchema = z.enum(['basic', 'mid', 'premium']).meta({ id: 'CommissionPayoutTier' });
 
 export type CommissionPayoutTier = z.infer<typeof CommissionPayoutTierSchema>;
@@ -2316,19 +2318,36 @@ export const CreateCommissionPayoutRequestSchema = z
 
 export type CreateCommissionPayoutRequest = z.infer<typeof CreateCommissionPayoutRequestSchema>;
 
+const SubmitCommissionPayoutApprovalRequestBaseSchema = z.object({
+    freezeVersionId: z.uuid().optional(),
+    baselineSelectionSource: z.string().trim().min(1).max(32).optional(),
+    comment: z.string().trim().min(1).max(2000).optional(),
+    expectedVersion: z.number().int().positive().optional()
+});
+
+export const SubmitRetentionCommissionPayoutApprovalRequestSchema = SubmitCommissionPayoutApprovalRequestBaseSchema.extend({
+    payoutStage: z.literal('retention'),
+    gateReviewRecordId: z.uuid(),
+    summarySnapshotId: z.uuid(),
+    retentionReceiptRecordId: z.uuid(),
+    departureExceptionDecisionId: z.uuid()
+}).meta({ id: 'SubmitRetentionCommissionPayoutApprovalRequest' });
+
+export const SubmitNonRetentionCommissionPayoutApprovalRequestSchema = SubmitCommissionPayoutApprovalRequestBaseSchema.extend({
+    payoutStage: NonRetentionCommissionPayoutStageSchema,
+    gateReviewRecordId: z.uuid().optional(),
+    summarySnapshotId: z.uuid().optional(),
+    retentionReceiptRecordId: z.uuid().optional(),
+    departureExceptionDecisionId: z.uuid().optional()
+}).meta({ id: 'SubmitNonRetentionCommissionPayoutApprovalRequest' });
+
 export const SubmitCommissionPayoutApprovalRequestSchema = z
-    .object({
-        payoutStage: CommissionPayoutStageSchema.optional(),
-        gateReviewRecordId: z.uuid().optional(),
-        freezeVersionId: z.uuid().optional(),
-        baselineSelectionSource: z.string().trim().min(1).max(32).optional(),
-        summarySnapshotId: z.uuid().optional(),
-        retentionReceiptRecordId: z.uuid().optional(),
-        departureExceptionDecisionId: z.uuid().optional(),
-        comment: z.string().trim().min(1).max(2000).optional(),
-        expectedVersion: z.number().int().positive().optional()
-    })
+    .union([SubmitRetentionCommissionPayoutApprovalRequestSchema, SubmitNonRetentionCommissionPayoutApprovalRequestSchema])
     .meta({ id: 'SubmitCommissionPayoutApprovalRequest' });
+
+export type SubmitRetentionCommissionPayoutApprovalRequest = z.infer<typeof SubmitRetentionCommissionPayoutApprovalRequestSchema>;
+
+export type SubmitNonRetentionCommissionPayoutApprovalRequest = z.infer<typeof SubmitNonRetentionCommissionPayoutApprovalRequestSchema>;
 
 export type SubmitCommissionPayoutApprovalRequest = z.infer<typeof SubmitCommissionPayoutApprovalRequestSchema>;
 
@@ -2341,17 +2360,31 @@ export const ApproveCommissionPayoutRequestSchema = z
 
 export type ApproveCommissionPayoutRequest = z.infer<typeof ApproveCommissionPayoutRequestSchema>;
 
+const RegisterCommissionPayoutRequestBaseSchema = z.object({
+    approvalRecordId: z.uuid().optional(),
+    paidRecordAmount: z.string().trim().min(1).max(64),
+    paidAt: z.iso.datetime().optional(),
+    comment: z.string().trim().min(1).max(2000).optional(),
+    expectedVersion: z.number().int().positive().optional()
+});
+
+export const RegisterRetentionCommissionPayoutRequestSchema = RegisterCommissionPayoutRequestBaseSchema.extend({
+    payoutStage: z.literal('retention'),
+    summarySnapshotId: z.uuid()
+}).meta({ id: 'RegisterRetentionCommissionPayoutRequest' });
+
+export const RegisterNonRetentionCommissionPayoutRequestSchema = RegisterCommissionPayoutRequestBaseSchema.extend({
+    payoutStage: NonRetentionCommissionPayoutStageSchema,
+    summarySnapshotId: z.uuid().optional()
+}).meta({ id: 'RegisterNonRetentionCommissionPayoutRequest' });
+
 export const RegisterCommissionPayoutRequestSchema = z
-    .object({
-        payoutStage: CommissionPayoutStageSchema.optional(),
-        approvalRecordId: z.uuid().optional(),
-        paidRecordAmount: z.string().trim().min(1).max(64),
-        paidAt: z.iso.datetime().optional(),
-        summarySnapshotId: z.uuid().optional(),
-        comment: z.string().trim().min(1).max(2000).optional(),
-        expectedVersion: z.number().int().positive().optional()
-    })
+    .union([RegisterRetentionCommissionPayoutRequestSchema, RegisterNonRetentionCommissionPayoutRequestSchema])
     .meta({ id: 'RegisterCommissionPayoutRequest' });
+
+export type RegisterRetentionCommissionPayoutRequest = z.infer<typeof RegisterRetentionCommissionPayoutRequestSchema>;
+
+export type RegisterNonRetentionCommissionPayoutRequest = z.infer<typeof RegisterNonRetentionCommissionPayoutRequestSchema>;
 
 export type RegisterCommissionPayoutRequest = z.infer<typeof RegisterCommissionPayoutRequestSchema>;
 

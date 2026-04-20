@@ -420,6 +420,7 @@ describe('CommissionService', () => {
             findCurrentReceiptJudgmentFreeze: jest.fn(),
             findApprovalSummarySnapshotById: jest.fn(),
             findGateReviewRecordById: jest.fn(),
+            findGateBindingById: jest.fn(),
             findCurrentFinalSettlementSnapshot: jest.fn(),
             findFinalSettlementSnapshotById: jest.fn(),
             findFinalSettlementSnapshotsForProject: jest.fn(),
@@ -516,7 +517,10 @@ describe('CommissionService', () => {
                         return where.projectId === PROJECT_ID && where.isCurrent === true ? makeRuleExplanationSnapshot() : null;
                     }
                     if ((entity as { name?: string })?.name === 'OperatingSignalToCommissionGateBinding') {
-                        return where.projectId === PROJECT_ID && where.gateStageType === 'final' ? makeFinalGateBinding() : null;
+                        return where.id === '59100000-0000-4000-8000-000000000001' ||
+                            (where.projectId === PROJECT_ID && where.gateStageType === 'final')
+                            ? makeFinalGateBinding()
+                            : null;
                     }
                     if ((entity as { name?: string })?.name === 'CommissionGateReviewRecord') {
                         return where.id === GATE_REVIEW_RECORD_ID || where.bindingId === '59100000-0000-4000-8000-000000000001'
@@ -602,6 +606,7 @@ describe('CommissionService', () => {
         } as unknown as jest.Mocked<CommissionRepository>;
 
         service = new CommissionService(repo);
+        repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding() as never);
     });
 
     afterEach(() => {
@@ -744,7 +749,7 @@ describe('CommissionService', () => {
                     nonRetentionSettlementStatus: 'settled-non-retention',
                     retentionSettlementStatus: 'waiting-retention',
                     retentionRequirementSummary: '待质保期届满',
-                    currentActionLevel: 'ALLOW',
+                    currentActionLevel: 'REVIEW',
                     retentionReceiptRecordId: RETENTION_RECEIPT_ID,
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
@@ -756,6 +761,9 @@ describe('CommissionService', () => {
                 makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
             );
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
+            repo.findGateBindingById.mockResolvedValue(
+                makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never
+            );
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
@@ -833,7 +841,7 @@ describe('CommissionService', () => {
                     nonRetentionSettlementStatus: 'settled-non-retention',
                     retentionSettlementStatus: 'waiting-retention',
                     retentionRequirementSummary: '待质保期届满',
-                    currentActionLevel: 'ALLOW',
+                    currentActionLevel: 'REVIEW',
                     retentionReceiptRecordId: RETENTION_RECEIPT_ID,
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
@@ -845,6 +853,9 @@ describe('CommissionService', () => {
                 makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
             );
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
+            repo.findGateBindingById.mockResolvedValue(
+                makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never
+            );
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
@@ -1712,7 +1723,7 @@ describe('CommissionService', () => {
             repo.findPayoutById.mockResolvedValue(payout as never);
             repo.flushPayout.mockResolvedValue();
 
-            const result = await service.submitPayoutApproval(PAYOUT_ID, {});
+            const result = await service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'first' });
 
             expect(payout.status).toBe('pending-approval');
             expect(result.status).toBe('pending-approval');
@@ -1721,7 +1732,15 @@ describe('CommissionService', () => {
         it('rejects supplement payout submission', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ payoutKind: 'supplement' }) as never);
 
-            await expect(service.submitPayoutApproval(PAYOUT_ID, {})).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'first' })).rejects.toThrow(
+                UnprocessableEntityException
+            );
+        });
+
+        it('requires payout stage when submitting payout approval', async () => {
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout() as never);
+
+            await expect(service.submitPayoutApproval(PAYOUT_ID, {} as never)).rejects.toThrow(BadRequestException);
         });
 
         it('allows retention payout submission after final settlement enters the retention stage', async () => {
@@ -1865,7 +1884,7 @@ describe('CommissionService', () => {
             repo.findPayoutById.mockResolvedValue(payout as never);
             repo.flushPayout.mockResolvedValue();
 
-            const result = await service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' });
+            const result = await service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '400.00' });
 
             expect(payout.status).toBe('paid');
             expect(result.paidRecordAmount).toBe('400.00');
@@ -1873,7 +1892,9 @@ describe('CommissionService', () => {
 
         it('throws if paid amount exceeds approved amount', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
-            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(
+                service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '500.00' })
+            ).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('rejects supplement payout registration', async () => {
@@ -1881,7 +1902,17 @@ describe('CommissionService', () => {
                 makeDraftPayout({ status: 'approved', payoutKind: 'supplement', approvedAmount: '120.00' }) as never
             );
 
-            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '120.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(
+                service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '120.00' })
+            ).rejects.toThrow(UnprocessableEntityException);
+        });
+
+        it('requires payout stage when registering payout', async () => {
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
+
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' } as never)).rejects.toThrow(
+                BadRequestException
+            );
         });
 
         it('supersedes the current final settlement snapshot when final payout registration is completed', async () => {
@@ -1949,7 +1980,7 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            const result = await service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' }, 'user-1');
+            const result = await service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' }, 'user-1');
 
             expect(payout.status).toBe('paid');
             expect(currentSnapshot.isCurrent).toBe(false);
@@ -2104,7 +2135,9 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(
+                service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })
+            ).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('blocks final payout registration when the linked freeze version is no longer current frozen', async () => {
@@ -2132,7 +2165,9 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
+            await expect(
+                service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })
+            ).rejects.toThrow(UnprocessableEntityException);
         });
     });
 

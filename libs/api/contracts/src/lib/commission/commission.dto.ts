@@ -24,11 +24,13 @@ import {
     FreezeCommissionRoleAssignmentRequestSchema,
     FreezeCommissionRoleAssignmentResultSchema,
     RecalculateCommissionRequestSchema,
-    RegisterCommissionPayoutRequestSchema,
+    RegisterNonRetentionCommissionPayoutRequestSchema,
+    RegisterRetentionCommissionPayoutRequestSchema,
     SubmitCommissionFreezeDisputeRequestSchema,
     SubmitCommissionFreezeDisputeResultSchema,
     SubmitCommissionAdjustmentApprovalRequestSchema,
-    SubmitCommissionPayoutApprovalRequestSchema
+    SubmitNonRetentionCommissionPayoutApprovalRequestSchema,
+    SubmitRetentionCommissionPayoutApprovalRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
@@ -93,11 +95,19 @@ export class CommissionPayoutListDto extends createZodDto(
 
 export class CreateCommissionPayoutRequestDto extends createZodDto(CreateCommissionPayoutRequestSchema) {}
 
-export class SubmitCommissionPayoutApprovalRequestDto extends createZodDto(SubmitCommissionPayoutApprovalRequestSchema) {}
+export class SubmitRetentionCommissionPayoutApprovalRequestDto extends createZodDto(
+    SubmitRetentionCommissionPayoutApprovalRequestSchema
+) {}
+
+export class SubmitNonRetentionCommissionPayoutApprovalRequestDto extends createZodDto(
+    SubmitNonRetentionCommissionPayoutApprovalRequestSchema
+) {}
 
 export class ApproveCommissionPayoutRequestDto extends createZodDto(ApproveCommissionPayoutRequestSchema) {}
 
-export class RegisterCommissionPayoutRequestDto extends createZodDto(RegisterCommissionPayoutRequestSchema) {}
+export class RegisterRetentionCommissionPayoutRequestDto extends createZodDto(RegisterRetentionCommissionPayoutRequestSchema) {}
+
+export class RegisterNonRetentionCommissionPayoutRequestDto extends createZodDto(RegisterNonRetentionCommissionPayoutRequestSchema) {}
 
 export class CommissionAdjustmentSummaryDto extends createZodDto(CommissionAdjustmentSummarySchema) {}
 

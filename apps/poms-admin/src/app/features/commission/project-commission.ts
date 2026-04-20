@@ -2,7 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, CommissionAdjustmentSummaryStatusEnum, CommissionAdjustmentType, CommissionCalculationSummaryStatusEnum, CommissionPayoutStage, CommissionPayoutSummaryStatusEnum, CommissionPayoutTier, CommissionStore, ProjectStore } from '@poms/admin-data-access';
+import {
+    AuthStore,
+    CommissionAdjustmentSummaryStatusEnum,
+    CommissionAdjustmentType,
+    CommissionCalculationSummaryStatusEnum,
+    CommissionPayoutStage,
+    CommissionPayoutSummaryStatusEnum,
+    CommissionPayoutTier,
+    CommissionStore,
+    ProjectStore,
+    ProjectWorkspaceStore,
+    RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum,
+    RegisterRetentionCommissionPayoutRequestPayoutStageEnum,
+    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum
+} from '@poms/admin-data-access';
 import type { RejectApprovalRecordRequest } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -95,12 +109,13 @@ const TEMPLATE = `
                                 <td><div class="flex flex-col gap-2"><p-tag [value]="getPayoutStatusName(item.status)" [severity]="getPayoutStatusSeverity(item.status)" /> @if (todoForPayout(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
                                 <td>
                                     <div class="flex flex-wrap gap-2">
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitPayoutApproval(item.id, item.rowVersion)" class="cursor-pointer" /> }
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft && item.stageType !== payoutStageEnum.Retention) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitPayoutApproval(item.id, item.stageType, item.rowVersion)" class="cursor-pointer" /> }
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft && item.stageType === payoutStageEnum.Retention) { <p-button label="查看结算链" size="small" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToFinalSettlement()" class="cursor-pointer" /> }
                                         @if (item.payoutKind === 'primary' && item.status === payoutStatus.PendingApproval && todoForPayout(item.id)) {
                                             <p-button label="审批通过" size="small" severity="success" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="approvePayout(todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
                                             <p-button label="驳回" size="small" severity="danger" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRejectDialog('payout', todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
                                         }
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Approved) { <p-button label="登记发放" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRegisterDialog(item.id, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)" class="cursor-pointer" /> }
+                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Approved) { <p-button label="登记发放" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRegisterDialog(item.id, item.stageType, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)" class="cursor-pointer" /> }
                                     </div>
                                 </td>
                             </tr>
@@ -213,6 +228,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly #router = inject(Router);
     readonly #messageService = inject(MessageService);
     readonly #authStore = inject(AuthStore);
+    readonly #workspaceStore = inject(ProjectWorkspaceStore);
     readonly projectStore = inject(ProjectStore);
     readonly commissionStore = inject(CommissionStore);
 
@@ -233,6 +249,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
         return currentCalculation ? this.formatAmount(currentCalculation.commissionPool) : '--';
     });
     readonly calculationStatus = CommissionCalculationSummaryStatusEnum;
+    readonly payoutStageEnum = CommissionPayoutStage;
     readonly payoutStatus = CommissionPayoutSummaryStatusEnum;
     readonly adjustmentStatus = CommissionAdjustmentSummaryStatusEnum;
     readonly stageOptions = [CommissionPayoutStage.First, CommissionPayoutStage.Second, CommissionPayoutStage.Final].map((value) => ({
@@ -280,7 +297,13 @@ export class ProjectCommission implements OnInit, OnDestroy {
     recalculateForm = { calculationId: '', expectedVersion: undefined as number | undefined, reason: '', recognizedRevenueTaxExclusive: '', recognizedCostTaxExclusive: '' };
     createPayoutForm = { calculationId: '', stageType: CommissionPayoutStage.First, selectedTier: CommissionPayoutTier.Basic };
     adjustmentForm = { adjustmentType: CommissionAdjustmentType.SuspendPayout, relatedPayoutId: '', amount: '', reason: '' };
-    registerForm = { payoutId: '', expectedVersion: undefined as number | undefined, paidRecordAmount: '' };
+    registerForm = {
+        payoutId: '',
+        payoutStage: CommissionPayoutStage.First,
+        summarySnapshotId: undefined as string | undefined,
+        expectedVersion: undefined as number | undefined,
+        paidRecordAmount: ''
+    };
     rejectForm = { approvalRecordId: '', expectedVersion: undefined as number | undefined, reason: '', comment: '' };
 
     ngOnInit() {
@@ -289,7 +312,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
         const adjustmentId = this.#route.snapshot.queryParamMap.get('adjustmentId');
         if (payoutId) this.highlightedPayoutId.set(payoutId);
         if (adjustmentId) this.highlightedAdjustmentId.set(adjustmentId);
-        if (projectId) void this.commissionStore.reload(projectId);
+        if (projectId) {
+            void this.commissionStore.reload(projectId);
+            void this.#workspaceStore.loadCommissionFinalSettlement(projectId).catch(() => undefined);
+        }
     }
 
     ngOnDestroy() {
@@ -302,8 +328,16 @@ export class ProjectCommission implements OnInit, OnDestroy {
     requiresAdjustmentAmount() { return this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Clawback || this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Supplement; }
     goBackToProject() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id]); }
     goToGateOverview() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id, 'commission', 'gate-overview']); }
+    goToFinalSettlement() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id, 'commission', 'final-settlement']); }
     goBackToList() { this.#router.navigate(['/projects']); }
-    async reload() { const id = this.projectId(); if (id) await this.commissionStore.reload(id); }
+    async reload() {
+        const id = this.projectId();
+        if (!id) return;
+        await Promise.all([
+            this.commissionStore.reload(id),
+            this.#workspaceStore.loadCommissionFinalSettlement(id).catch(() => undefined)
+        ]);
+    }
 
     openTriggerDialog() {
         const defaultRuleVersionId = this.commissionStore.activeRuleVersions()[0]?.id ?? '';
@@ -387,11 +421,14 @@ export class ProjectCommission implements OnInit, OnDestroy {
         }
     }
 
-    async submitPayoutApproval(payoutId: string, expectedVersion: number) {
+    async submitPayoutApproval(payoutId: string, payoutStage: CommissionPayoutStage, expectedVersion: number) {
         const id = this.projectId();
         if (!id) return;
         try {
-            await this.commissionStore.submitPayoutApproval(id, payoutId, { expectedVersion });
+            await this.commissionStore.submitPayoutApproval(id, payoutId, {
+                payoutStage: this.toSubmitPayoutStage(payoutStage),
+                expectedVersion
+            });
             this.#messageService.add({ severity: 'success', summary: '提交成功', detail: '发放审批已进入统一待办' });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '提交失败', detail: this.getErrorMessage(error) });
@@ -492,14 +529,49 @@ export class ProjectCommission implements OnInit, OnDestroy {
         }
     }
 
-    openRegisterDialog(payoutId: string, defaultAmount: string, expectedVersion: number) { this.registerForm = { payoutId, expectedVersion, paidRecordAmount: defaultAmount }; this.registerDialogVisible = true; }
+    openRegisterDialog(payoutId: string, payoutStage: CommissionPayoutStage, defaultAmount: string, expectedVersion: number) {
+        const summarySnapshotId =
+            payoutStage === CommissionPayoutStage.Retention
+                ? this.#workspaceStore.commissionFinalSettlement()?.summarySnapshotId
+                : undefined;
+
+        if (payoutStage === CommissionPayoutStage.Retention && !summarySnapshotId) {
+            this.#messageService.add({
+                severity: 'warn',
+                summary: '请先刷新结算链',
+                detail: '当前缺少质保金登记所需的结算快照锚点，请先进入最终结算页确认当前结算链。'
+            });
+            return;
+        }
+
+        this.registerForm = { payoutId, payoutStage, summarySnapshotId, expectedVersion, paidRecordAmount: defaultAmount };
+        this.registerDialogVisible = true;
+    }
 
     async registerPayout() {
         const id = this.projectId();
         if (!id) return;
         if (!this.registerForm.paidRecordAmount.trim()) return this.#messageService.add({ severity: 'warn', summary: '请填写发放金额' });
         try {
-            await this.commissionStore.registerPayout(id, this.registerForm.payoutId, { paidRecordAmount: this.registerForm.paidRecordAmount.trim(), expectedVersion: this.registerForm.expectedVersion });
+            if (this.registerForm.payoutStage === CommissionPayoutStage.Retention) {
+                const summarySnapshotId = this.registerForm.summarySnapshotId;
+                if (!summarySnapshotId) {
+                    throw new Error('当前页面缺少质保金登记所需的结算快照锚点');
+                }
+
+                await this.commissionStore.registerPayout(id, this.registerForm.payoutId, {
+                    payoutStage: RegisterRetentionCommissionPayoutRequestPayoutStageEnum.Retention,
+                    paidRecordAmount: this.registerForm.paidRecordAmount.trim(),
+                    summarySnapshotId,
+                    expectedVersion: this.registerForm.expectedVersion
+                });
+            } else {
+                await this.commissionStore.registerPayout(id, this.registerForm.payoutId, {
+                    payoutStage: this.toRegisterPayoutStage(this.registerForm.payoutStage),
+                    paidRecordAmount: this.registerForm.paidRecordAmount.trim(),
+                    expectedVersion: this.registerForm.expectedVersion
+                });
+            }
             this.registerDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '登记成功' });
         } catch (error) {
@@ -585,6 +657,30 @@ export class ProjectCommission implements OnInit, OnDestroy {
             proposal: 'info',
             negotiation: 'warn'
         }[stage] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+    }
+    toSubmitPayoutStage(payoutStage: CommissionPayoutStage) {
+        switch (payoutStage) {
+            case CommissionPayoutStage.First:
+                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.First;
+            case CommissionPayoutStage.Second:
+                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.Second;
+            case CommissionPayoutStage.Final:
+                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.Final;
+            default:
+                throw new Error('当前页面不支持直接提交质保金发放审批');
+        }
+    }
+    toRegisterPayoutStage(payoutStage: CommissionPayoutStage) {
+        switch (payoutStage) {
+            case CommissionPayoutStage.First:
+                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.First;
+            case CommissionPayoutStage.Second:
+                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.Second;
+            case CommissionPayoutStage.Final:
+                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.Final;
+            default:
+                throw new Error('当前页面缺少质保金登记所需的结算快照锚点');
+        }
     }
     getErrorMessage(error: unknown) {
         if (typeof error === 'object' && error !== null) {

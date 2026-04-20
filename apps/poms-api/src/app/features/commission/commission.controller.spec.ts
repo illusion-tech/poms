@@ -309,9 +309,10 @@ describe('CommissionController', () => {
         });
         service.getPayoutById.mockResolvedValue({ ...stubPayout, status: 'pending-approval' });
 
-        const result = await controller.submitPayoutApproval(PAYOUT_ID, { user: { sub: 'user-1' } } as never, {} as never);
+        const body = { payoutStage: 'first', expectedVersion: 1 };
+        const result = await controller.submitPayoutApproval(PAYOUT_ID, { user: { sub: 'user-1' } } as never, body as never);
 
-        expect(approvalService.submitCommissionPayoutApproval).toHaveBeenCalledWith(PAYOUT_ID, 'user-1', {});
+        expect(approvalService.submitCommissionPayoutApproval).toHaveBeenCalledWith(PAYOUT_ID, 'user-1', body);
         expect(service.getPayoutById).toHaveBeenCalledWith(PAYOUT_ID);
         expect(result.status).toBe('pending-approval');
     });
@@ -325,8 +326,9 @@ describe('CommissionController', () => {
 
     it('delegates registerPayout to service', async () => {
         service.registerPayout.mockResolvedValue({ ...stubPayout, status: 'paid', approvedAmount: '480.00', paidRecordAmount: '400.00' });
-        const result = await controller.registerPayout(PAYOUT_ID, { user: { sub: 'user-1' } } as never, { paidRecordAmount: '400.00' } as never);
-        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, { paidRecordAmount: '400.00' }, 'user-1');
+        const body = { payoutStage: 'first', paidRecordAmount: '400.00' };
+        const result = await controller.registerPayout(PAYOUT_ID, { user: { sub: 'user-1' } } as never, body as never);
+        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, body, 'user-1');
         expect(result.status).toBe('paid');
     });
 

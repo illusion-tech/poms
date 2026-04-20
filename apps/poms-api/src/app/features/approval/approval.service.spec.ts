@@ -212,6 +212,7 @@ describe('ApprovalService', () => {
         em.findOne.mockResolvedValueOnce(payout).mockResolvedValueOnce(null);
 
         const result = await service.submitCommissionPayoutApproval(payoutId, initiatorUserId, {
+            payoutStage: 'first',
             expectedVersion: 2
         });
 
@@ -230,11 +231,22 @@ describe('ApprovalService', () => {
         expect(result.todoItemIds).toHaveLength(1);
     });
 
+    it('requires payout stage when submitting commission payout approval', async () => {
+        const payout = createCommissionPayout({ status: 'draft', rowVersion: 2 });
+        em.findOne.mockResolvedValueOnce(payout);
+
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 } as never)
+        ).rejects.toThrow(BadRequestException);
+    });
+
     it('blocks final commission payout submit when current frozen assignment is missing', async () => {
         const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
         em.findOne.mockResolvedValueOnce(payout).mockResolvedValueOnce(null).mockResolvedValueOnce(null);
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('blocks final commission payout submit when the latest gate review is BLOCK', async () => {
@@ -246,7 +258,9 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createFinalGateBinding())
             .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('blocks final commission payout submit when the active final gate binding is missing', async () => {
@@ -257,7 +271,9 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(null);
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('blocks final commission payout submit when the active final gate review is missing', async () => {
@@ -269,7 +285,9 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createFinalGateBinding())
             .mockResolvedValueOnce(null);
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('blocks final commission payout submit when the active final gate binding action is BLOCK', async () => {
@@ -281,7 +299,9 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'BLOCK_FINAL_SETTLEMENT' }))
             .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'REVIEW' }));
 
-        await expect(service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { expectedVersion: 2 })).rejects.toThrow(BadRequestException);
+        await expect(
+            service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('submits retention commission payout approval and writes current settlement plus rule explanation snapshots', async () => {

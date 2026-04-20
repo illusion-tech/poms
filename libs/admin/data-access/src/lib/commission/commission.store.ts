@@ -162,7 +162,7 @@ export class CommissionStore {
         }
     }
 
-    async submitPayoutApproval(projectId: string, id: string, request: SubmitCommissionPayoutApprovalRequest = {}) {
+    async submitPayoutApproval(projectId: string, id: string, request: SubmitCommissionPayoutApprovalRequest) {
         this.#saving.set(true);
 
         try {

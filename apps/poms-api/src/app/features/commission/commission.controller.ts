@@ -4,9 +4,15 @@ import type {
     CommissionFinalSettlementView,
     CommissionPayoutSummary,
     CommissionRoleAssignmentSummary,
+    RegisterCommissionPayoutRequest,
     CommissionRuleExplanationView,
     CommissionRuleVersionSummary,
+    SubmitCommissionPayoutApprovalRequest,
     UserPayload
+} from '@poms/shared-contracts';
+import {
+    RegisterCommissionPayoutRequestSchema,
+    SubmitCommissionPayoutApprovalRequestSchema
 } from '@poms/shared-contracts';
 import {
     ApproveCommissionPayoutRequestDto,
@@ -29,12 +35,15 @@ import {
     CreateCommissionRuleVersionRequestDto,
     ExecuteCommissionAdjustmentRequestDto,
     RecalculateCommissionRequestDto,
-    RegisterCommissionPayoutRequestDto,
+    RegisterNonRetentionCommissionPayoutRequestDto,
+    RegisterRetentionCommissionPayoutRequestDto,
     SubmitCommissionAdjustmentApprovalRequestDto,
-    SubmitCommissionPayoutApprovalRequestDto
+    SubmitNonRetentionCommissionPayoutApprovalRequestDto,
+    SubmitRetentionCommissionPayoutApprovalRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ApprovalService } from '../approval/approval.service';
 import { CommissionService } from './commission.service';
@@ -191,11 +200,33 @@ export class CommissionController {
     @HasPermissions('commission:payouts:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '提交提成发放审批' })
+    @ApiExtraModels(
+        SubmitRetentionCommissionPayoutApprovalRequestDto,
+        SubmitNonRetentionCommissionPayoutApprovalRequestDto
+    )
+    @ApiBody({
+        schema: {
+            title: 'SubmitCommissionPayoutApprovalRequest',
+            oneOf: [
+                { $ref: '#/components/schemas/SubmitRetentionCommissionPayoutApprovalRequest' },
+                { $ref: '#/components/schemas/SubmitNonRetentionCommissionPayoutApprovalRequest' }
+            ],
+            discriminator: {
+                propertyName: 'payoutStage',
+                mapping: {
+                    retention: '#/components/schemas/SubmitRetentionCommissionPayoutApprovalRequest',
+                    first: '#/components/schemas/SubmitNonRetentionCommissionPayoutApprovalRequest',
+                    second: '#/components/schemas/SubmitNonRetentionCommissionPayoutApprovalRequest',
+                    final: '#/components/schemas/SubmitNonRetentionCommissionPayoutApprovalRequest'
+                }
+            }
+        }
+    })
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     submitPayoutApproval(
         @Param('id') id: string,
         @Request() req: { user: UserPayload },
-        @Body() body: SubmitCommissionPayoutApprovalRequestDto
+        @Body(new ZodValidationPipe(SubmitCommissionPayoutApprovalRequestSchema)) body: SubmitCommissionPayoutApprovalRequest
     ): Promise<CommissionPayoutSummary> {
         return this.approvalService.submitCommissionPayoutApproval(id, req.user.sub, body).then(async () => {
             return this.commissionService.getPayoutById(id);
@@ -218,11 +249,30 @@ export class CommissionController {
     @HasPermissions('commission:payouts:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '登记提成业务发放' })
+    @ApiExtraModels(RegisterRetentionCommissionPayoutRequestDto, RegisterNonRetentionCommissionPayoutRequestDto)
+    @ApiBody({
+        schema: {
+            title: 'RegisterCommissionPayoutRequest',
+            oneOf: [
+                { $ref: '#/components/schemas/RegisterRetentionCommissionPayoutRequest' },
+                { $ref: '#/components/schemas/RegisterNonRetentionCommissionPayoutRequest' }
+            ],
+            discriminator: {
+                propertyName: 'payoutStage',
+                mapping: {
+                    retention: '#/components/schemas/RegisterRetentionCommissionPayoutRequest',
+                    first: '#/components/schemas/RegisterNonRetentionCommissionPayoutRequest',
+                    second: '#/components/schemas/RegisterNonRetentionCommissionPayoutRequest',
+                    final: '#/components/schemas/RegisterNonRetentionCommissionPayoutRequest'
+                }
+            }
+        }
+    })
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     registerPayout(
         @Param('id') id: string,
         @Request() req: { user: UserPayload },
-        @Body() body: RegisterCommissionPayoutRequestDto
+        @Body(new ZodValidationPipe(RegisterCommissionPayoutRequestSchema)) body: RegisterCommissionPayoutRequest
     ): Promise<CommissionPayoutSummary> {
         return this.commissionService.registerPayout(id, body, req.user.sub);
     }
