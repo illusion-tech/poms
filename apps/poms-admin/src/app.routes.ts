@@ -21,7 +21,12 @@ export const appRoutes: Routes = [
             {
                 path: 'projects',
                 loadComponent: () => import('./app/features/project/project-list').then((c) => c.ProjectList),
-                data: { breadcrumb: '项目管理' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '项目管理',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                }
             },
             {
                 path: 'projects/:id/workspace',
@@ -81,7 +86,7 @@ export const appRoutes: Routes = [
                             import('./app/features/commission/project-commission-gate-overview').then((c) => c.ProjectCommissionGateOverview),
                         canActivate: [permissionGuard],
                         data: {
-                            breadcrumb: '阶段闸口解释',
+                            breadcrumb: '提成阶段解释',
                             requiredPermissions: ['project:read', 'contract:finance:manage'],
                             requiredPermissionsMode: 'all'
                         }
@@ -129,7 +134,12 @@ export const appRoutes: Routes = [
             {
                 path: 'projects/:id',
                 loadComponent: () => import('./app/features/project/project-detail').then((c) => c.ProjectDetail),
-                data: { breadcrumb: '项目详情' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '项目详情',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                }
             },
             {
                 path: 'contracts',

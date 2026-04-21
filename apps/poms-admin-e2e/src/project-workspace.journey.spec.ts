@@ -16,14 +16,10 @@ async function locateProjectRow(page: Page) {
     return row;
 }
 
-async function openWorkspaceFromProjectListMenu(page: Page): Promise<void> {
+async function openWorkspaceFromProjectList(page: Page): Promise<void> {
     await openProjectList(page);
     const projectRow = await locateProjectRow(page);
-    await projectRow.locator('button').last().click();
-
-    const workspaceMenuItem = page.locator('a.p-menu-item-link').filter({ hasText: '项目工作区' }).last();
-    await expect(workspaceMenuItem).toBeVisible();
-    await workspaceMenuItem.click({ force: true });
+    await projectRow.getByRole('button', { name: '工作区' }).click();
 
     await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace$`));
     await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
@@ -32,7 +28,7 @@ async function openWorkspaceFromProjectListMenu(page: Page): Promise<void> {
 async function openProjectDetailFromList(page: Page): Promise<void> {
     await openProjectList(page);
     const projectRow = await locateProjectRow(page);
-    await projectRow.getByText(WORKSPACE_PROJECT_CODE, { exact: true }).click();
+    await projectRow.getByRole('button', { name: '详情' }).click();
 
     await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}$`));
     await expect(page.getByRole('heading', { name: /E2E EX-13B main/i })).toBeVisible();
@@ -47,6 +43,18 @@ async function openWorkspaceHomeEntry(page: Page, title: string): Promise<void> 
 
     await expect(entry).toBeVisible();
     await entry.getByRole('link', { name: '进入' }).click();
+}
+
+async function expectWorkspaceHomeEntryDisabled(page: Page, title: string, reason: string): Promise<void> {
+    const entry = page
+        .locator('div.py-4')
+        .filter({ hasText: title })
+        .filter({ hasText: reason })
+        .first();
+
+    await expect(entry).toBeVisible();
+    await expect(entry.getByText('暂不可进入')).toBeVisible();
+    await expect(entry.getByRole('link', { name: '进入' })).toHaveCount(0);
 }
 
 async function returnToWorkspaceHome(page: Page): Promise<void> {
@@ -70,11 +78,11 @@ async function expectRuleExplanationSurface(page: Page): Promise<void> {
 }
 
 test.describe('poms-admin project workspace journey', () => {
-    test('admin can enter from the project list menu and traverse the workspace through real links', async ({ page }) => {
+    test('admin can enter from the project list and traverse the workspace through real links', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
-        await openWorkspaceFromProjectListMenu(page);
+        await openWorkspaceFromProjectList(page);
 
         await openWorkspaceHomeEntry(page, '经营总览');
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace/operating-overview$`));
@@ -94,11 +102,9 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page.getByText('Commission payout workflow')).toBeVisible();
 
         await returnToWorkspaceHome(page);
-        await openWorkspaceHomeEntry(page, '最终结算');
-        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/final-settlement$`));
-        await expectFinalSettlementSurface(page);
+        await expectWorkspaceHomeEntryDisabled(page, '最终结算', '项目进入验收或完成阶段后再查看最终结算。');
 
-        await page.getByRole('link', { name: '查看规则解释' }).click();
+        await openWorkspaceHomeEntry(page, '规则解释');
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/rule-explanation$`));
         await expectRuleExplanationSurface(page);
 
@@ -154,30 +160,30 @@ test.describe('poms-admin project workspace journey', () => {
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
-        await openWorkspaceFromProjectListMenu(page);
+        await openWorkspaceFromProjectList(page);
 
         await expect(page.getByRole('link', { name: '工作区总览' })).toBeVisible();
         await expect(page.getByRole('link', { name: '经营总览' })).toHaveCount(0);
         await expect(page.getByRole('link', { name: '提成操作' })).toHaveCount(0);
-        await expect(page.getByText('经营总览 · 需要项目读取和经营核算权限')).toBeVisible();
-        await expect(page.getByText('最终结算 · 需要项目读取和提成发放治理权限')).toBeVisible();
-        await expect(page.getByText('规则解释 · 需要项目读取和提成发放治理权限')).toBeVisible();
-        await expect(page.getByText('提成操作 · 需要提成治理操作权限')).toBeVisible();
+        await expect(page.getByText('经营总览 · 需要项目查看和合同资金权限。')).toBeVisible();
+        await expect(page.getByText('最终结算 · 项目进入验收或完成阶段后再查看最终结算。')).toBeVisible();
+        await expect(page.getByText('规则解释 · 需要项目查看和提成发放权限。')).toBeVisible();
+        await expect(page.getByText('提成操作 · 需要完整的提成治理操作权限。')).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/workspace/operating-overview`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/final-settlement`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/rule-explanation`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/operations`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
     });
 });

@@ -151,9 +151,9 @@ import { Component } from '@angular/core';
                                 </radialGradient>
                             </defs>
                         </svg>
-                        <h2 class="text-4xl lg:text-6xl font-semibold text-surface-950 dark:text-surface-0 mt-8 text-center">Access Denied</h2>
-                        <p class="lg:text-xl text-surface-500 dark:text-white/64 mt-4 text-center">You don’t have the permissions to access this page</p>
-                        <a href="/" class="button-primary mt-8">Go to Dashboard</a>
+                        <h2 class="text-4xl lg:text-6xl font-semibold text-surface-950 dark:text-surface-0 mt-8 text-center">无权访问</h2>
+                        <p class="lg:text-xl text-surface-500 dark:text-white/64 mt-4 text-center">当前账号不能打开这个页面。请返回工作台，或联系管理员调整权限。</p>
+                        <a href="/" class="button-primary mt-8">返回工作台</a>
                     </div>
                 </div>
             </div>

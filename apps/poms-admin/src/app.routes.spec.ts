@@ -1,0 +1,52 @@
+import type { Route } from '@angular/router';
+import { permissionGuard } from './app/core/auth/permission.guard';
+import { appRoutes } from './app.routes';
+
+function getAppRoute(path: string): Route {
+    const rootRoute = appRoutes.find((route) => route.path === '');
+    const route = rootRoute?.children?.find((child) => child.path === path);
+
+    expect(route).toBeDefined();
+    return route as Route;
+}
+
+function getChildRoute(parentPath: string, childPath: string): Route {
+    const route = getAppRoute(parentPath).children?.find((child) => child.path === childPath);
+
+    expect(route).toBeDefined();
+    return route as Route;
+}
+
+function expectAllModePermissions(route: Route, requiredPermissions: string[]): void {
+    expect(route.canActivate).toContain(permissionGuard);
+    expect(route.data?.['requiredPermissions']).toEqual(requiredPermissions);
+    expect(route.data?.['requiredPermissionsMode']).toBe('all');
+}
+
+describe('appRoutes project permissions', () => {
+    it('guards project list, detail, workspace and commission shells with project read access', () => {
+        expectAllModePermissions(getAppRoute('projects'), ['project:read']);
+        expectAllModePermissions(getAppRoute('projects/:id'), ['project:read']);
+        expectAllModePermissions(getAppRoute('projects/:id/workspace'), ['project:read']);
+        expectAllModePermissions(getAppRoute('projects/:id/commission'), ['project:read']);
+    });
+
+    it('keeps finance workspace pages behind project read and contract finance access', () => {
+        expectAllModePermissions(getChildRoute('projects/:id/workspace', 'operating-overview'), ['project:read', 'contract:finance:manage']);
+        expectAllModePermissions(getChildRoute('projects/:id/workspace', 'variance-risk'), ['project:read', 'contract:finance:manage']);
+    });
+
+    it('keeps commission pages behind their business permission combinations', () => {
+        expectAllModePermissions(getChildRoute('projects/:id/commission', 'gate-overview'), ['project:read', 'contract:finance:manage']);
+        expectAllModePermissions(getChildRoute('projects/:id/commission', 'final-settlement'), ['project:read', 'commission:payouts:manage']);
+        expectAllModePermissions(getChildRoute('projects/:id/commission', 'rule-explanation'), ['project:read', 'commission:payouts:manage']);
+        expectAllModePermissions(getChildRoute('projects/:id/commission', 'operations'), [
+            'project:read',
+            'commission:rule-versions:manage',
+            'commission:calculations:manage',
+            'commission:payouts:manage',
+            'commission:adjustments:manage'
+        ]);
+    });
+});
+

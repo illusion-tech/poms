@@ -67,8 +67,8 @@ interface CommissionTab {
                 </div>
 
                 <section-card>
-                    <ng-template #title>提成入口分离</ng-template>
-                    <ng-template #description>把“阶段解释”“最终结算”“规则解释”和“实际操作”拆开，避免在同一页同时承担规则说明、经营解释和发放动作。</ng-template>
+                    <ng-template #title>提成相关事项</ng-template>
+                    <ng-template #description>先查看阶段条件和结算说明，再处理发放、登记或调整。</ng-template>
                     <div class="mt-4 flex flex-wrap gap-2">
                         @for (tab of tabs(); track tab.label) {
                             @if (tab.enabled) {
@@ -134,28 +134,28 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         const projectId = this.projectId();
         return [
             {
-                label: '阶段闸口解释',
+                label: '提成阶段解释',
                 routerLink: ['/projects', projectId, 'commission', 'gate-overview'],
                 enabled: this.canAccessCommissionGate(),
-                permissionHint: '需要项目读取和经营核算权限'
+                permissionHint: '需要项目查看和合同资金权限。'
             },
             {
                 label: '最终结算',
                 routerLink: ['/projects', projectId, 'commission', 'final-settlement'],
                 enabled: this.canAccessCommissionExplanation(),
-                permissionHint: '需要项目读取和提成发放治理权限'
+                permissionHint: '需要项目查看和提成发放权限。'
             },
             {
                 label: '规则解释',
                 routerLink: ['/projects', projectId, 'commission', 'rule-explanation'],
                 enabled: this.canAccessCommissionExplanation(),
-                permissionHint: '需要项目读取和提成发放治理权限'
+                permissionHint: '需要项目查看和提成发放权限。'
             },
             {
                 label: '提成操作',
                 routerLink: ['/projects', projectId, 'commission', 'operations'],
                 enabled: this.canAccessCommissionOperations(),
-                permissionHint: '需要提成治理操作权限'
+                permissionHint: '需要完整的提成治理操作权限。'
             }
         ];
     });

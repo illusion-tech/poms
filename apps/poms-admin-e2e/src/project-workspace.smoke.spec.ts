@@ -76,29 +76,50 @@ test.describe('poms-admin project workspace smoke', () => {
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
+        await page.goto('/projects');
+        await expect(page).toHaveURL(/\/projects$/);
+        await expect(page.getByRole('heading', { name: '项目管理' })).toBeVisible();
+
+        await page.goto(`/projects/${projectId}`);
+        await expect(page).toHaveURL(new RegExp(`/projects/${projectId}$`));
+        await expect(page.getByRole('heading', { name: /E2E EX-13B main/i })).toBeVisible();
+
         await page.goto(`/projects/${projectId}/workspace`);
         await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/workspace$`));
         await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
-        await expect(page.getByText('经营总览 · 需要项目读取和经营核算权限')).toBeVisible();
-        await expect(page.getByText('最终结算 · 需要项目读取和提成发放治理权限')).toBeVisible();
-        await expect(page.getByText('规则解释 · 需要项目读取和提成发放治理权限')).toBeVisible();
-        await expect(page.getByText('提成操作 · 需要提成治理操作权限')).toBeVisible();
+        await expect(page.getByText('经营总览 · 需要项目查看和合同资金权限。')).toBeVisible();
+        await expect(page.getByText('最终结算 · 项目进入验收或完成阶段后再查看最终结算。')).toBeVisible();
+        await expect(page.getByText('规则解释 · 需要项目查看和提成发放权限。')).toBeVisible();
+        await expect(page.getByText('提成操作 · 需要完整的提成治理操作权限。')).toBeVisible();
 
         await page.goto(`/projects/${projectId}/workspace/operating-overview`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${projectId}/commission/final-settlement`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${projectId}/commission/rule-explanation`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${projectId}/commission/operations`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
+    });
+
+    test('anonymous direct project list access keeps the returnUrl', async ({ page }) => {
+        await page.goto('/projects');
+
+        await expect(page).toHaveURL(/\/auth\/login\?returnUrl=%2Fprojects$/);
+
+        await page.getByLabel('用户名').fill(ADMIN_CREDENTIALS.username);
+        await page.getByLabel('密码').fill(ADMIN_CREDENTIALS.password);
+        await page.getByRole('button', { name: '登录' }).click();
+
+        await expect(page).toHaveURL(/\/projects$/);
+        await expect(page.getByRole('heading', { name: '项目管理' })).toBeVisible();
     });
 
     test('anonymous direct workspace access keeps the returnUrl', async ({ page }) => {

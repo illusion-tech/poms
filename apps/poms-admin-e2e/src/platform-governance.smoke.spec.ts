@@ -273,8 +273,8 @@ test.describe('poms-admin platform governance smoke', () => {
         await page.goto('/platform/users');
 
         await expect(page).toHaveURL(/\/auth\/access\?returnUrl=%2Fplatform%2Fusers$/);
-        await expect(page.getByRole('heading', { name: 'Access Denied' })).toBeVisible();
-        await expect(page.getByText("You don’t have the permissions to access this page")).toBeVisible();
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
+        await expect(page.getByText('当前账号不能打开这个页面。请返回工作台，或联系管理员调整权限。')).toBeVisible();
 
         const viewerToken = await page.evaluate(() => globalThis.localStorage.getItem('poms_access_token'));
         expect(viewerToken).toBeTruthy();
