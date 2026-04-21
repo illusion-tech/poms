@@ -8,6 +8,8 @@
 - G1 Date: `2026-04-21`
 - Tracker Link / Row: `phase2-development-execution-tracker.md` / `FE-16C`
 
+> 2026-04-21 update: `EX-19` 已完成并解除本 readiness blocker。本文件保留为历史阻断证据，不作为 `FE-16C` 当前实现基线；当前实施输入见 `docs/design/fe-16c-project-workspace-home-guidance-frontend-baseline.md`。
+
 ## 1. 范围
 
 - 本次目标:

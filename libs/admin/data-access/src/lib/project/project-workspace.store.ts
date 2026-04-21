@@ -6,12 +6,14 @@ import type {
     CommissionRuleExplanationView,
     ProjectBusinessOutcomeOverviewView,
     ProjectUnifiedAccountingView,
-    ProjectVarianceRiskExplanationView
+    ProjectVarianceRiskExplanationView,
+    ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
-import { CommissionApi, ProjectCostApi } from '@poms/shared-api-client';
+import { CommissionApi, ProjectApi, ProjectCostApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 type WorkspaceErrorKind =
+    | 'guidance'
     | 'operating'
     | 'variance'
     | 'commission-gate'
@@ -20,9 +22,11 @@ type WorkspaceErrorKind =
 
 @Injectable()
 export class ProjectWorkspaceStore {
+    readonly #projectApi = inject(ProjectApi);
     readonly #projectCostApi = inject(ProjectCostApi);
     readonly #commissionApi = inject(CommissionApi);
 
+    readonly #guidance = signal<ProjectWorkspaceGuidanceView | null>(null);
     readonly #businessOutcomeOverview = signal<ProjectBusinessOutcomeOverviewView | null>(null);
     readonly #unifiedAccounting = signal<ProjectUnifiedAccountingView | null>(null);
     readonly #varianceRiskExplanation = signal<ProjectVarianceRiskExplanationView | null>(null);
@@ -30,18 +34,21 @@ export class ProjectWorkspaceStore {
     readonly #commissionFinalSettlement = signal<CommissionFinalSettlementView | null>(null);
     readonly #commissionRuleExplanation = signal<CommissionRuleExplanationView | null>(null);
 
+    readonly #loadingGuidance = signal(false);
     readonly #loadingOperatingOverview = signal(false);
     readonly #loadingVarianceRisk = signal(false);
     readonly #loadingCommissionGate = signal(false);
     readonly #loadingCommissionFinalSettlement = signal(false);
     readonly #loadingCommissionRuleExplanation = signal(false);
 
+    readonly #guidanceError = signal<string | null>(null);
     readonly #operatingOverviewError = signal<string | null>(null);
     readonly #varianceRiskError = signal<string | null>(null);
     readonly #commissionGateError = signal<string | null>(null);
     readonly #commissionFinalSettlementError = signal<string | null>(null);
     readonly #commissionRuleExplanationError = signal<string | null>(null);
 
+    readonly guidance = this.#guidance.asReadonly();
     readonly businessOutcomeOverview = this.#businessOutcomeOverview.asReadonly();
     readonly unifiedAccounting = this.#unifiedAccounting.asReadonly();
     readonly varianceRiskExplanation = this.#varianceRiskExplanation.asReadonly();
@@ -49,23 +56,47 @@ export class ProjectWorkspaceStore {
     readonly commissionFinalSettlement = this.#commissionFinalSettlement.asReadonly();
     readonly commissionRuleExplanation = this.#commissionRuleExplanation.asReadonly();
 
+    readonly loadingGuidance = this.#loadingGuidance.asReadonly();
     readonly loadingOperatingOverview = this.#loadingOperatingOverview.asReadonly();
     readonly loadingVarianceRisk = this.#loadingVarianceRisk.asReadonly();
     readonly loadingCommissionGate = this.#loadingCommissionGate.asReadonly();
     readonly loadingCommissionFinalSettlement = this.#loadingCommissionFinalSettlement.asReadonly();
     readonly loadingCommissionRuleExplanation = this.#loadingCommissionRuleExplanation.asReadonly();
 
+    readonly guidanceError = this.#guidanceError.asReadonly();
     readonly operatingOverviewError = this.#operatingOverviewError.asReadonly();
     readonly varianceRiskError = this.#varianceRiskError.asReadonly();
     readonly commissionGateError = this.#commissionGateError.asReadonly();
     readonly commissionFinalSettlementError = this.#commissionFinalSettlementError.asReadonly();
     readonly commissionRuleExplanationError = this.#commissionRuleExplanationError.asReadonly();
 
+    readonly hasGuidance = computed(() => this.#guidance() !== null);
     readonly hasOperatingOverview = computed(() => this.#businessOutcomeOverview() !== null && this.#unifiedAccounting() !== null);
     readonly hasVarianceRisk = computed(() => this.#varianceRiskExplanation() !== null);
     readonly hasCommissionGateOverview = computed(() => this.#commissionGateOverview() !== null);
     readonly hasCommissionFinalSettlement = computed(() => this.#commissionFinalSettlement() !== null);
     readonly hasCommissionRuleExplanation = computed(() => this.#commissionRuleExplanation() !== null);
+
+    async loadGuidance(projectId: string) {
+        this.#loadingGuidance.set(true);
+        this.#guidanceError.set(null);
+
+        try {
+            const guidance = await firstValueFrom(
+                this.#projectApi.projectControllerGetWorkspaceGuidance({
+                    projectId
+                })
+            );
+            this.#guidance.set(guidance);
+            return guidance;
+        } catch (error) {
+            this.#guidance.set(null);
+            this.#guidanceError.set(this.#readWorkspaceError(error, 'guidance'));
+            throw error;
+        } finally {
+            this.#loadingGuidance.set(false);
+        }
+    }
 
     async loadOperatingOverview(projectId: string) {
         this.#loadingOperatingOverview.set(true);
@@ -183,17 +214,20 @@ export class ProjectWorkspaceStore {
     }
 
     clear() {
+        this.#guidance.set(null);
         this.#businessOutcomeOverview.set(null);
         this.#unifiedAccounting.set(null);
         this.#varianceRiskExplanation.set(null);
         this.#commissionGateOverview.set(null);
         this.#commissionFinalSettlement.set(null);
         this.#commissionRuleExplanation.set(null);
+        this.#loadingGuidance.set(false);
         this.#loadingOperatingOverview.set(false);
         this.#loadingVarianceRisk.set(false);
         this.#loadingCommissionGate.set(false);
         this.#loadingCommissionFinalSettlement.set(false);
         this.#loadingCommissionRuleExplanation.set(false);
+        this.#guidanceError.set(null);
         this.#operatingOverviewError.set(null);
         this.#varianceRiskError.set(null);
         this.#commissionGateError.set(null);
@@ -205,6 +239,8 @@ export class ProjectWorkspaceStore {
         if (error instanceof HttpErrorResponse) {
             if (error.status === 404) {
                 switch (kind) {
+                    case 'guidance':
+                        return '当前项目还没有形成工作区引导，请先确认项目是否存在并具备查看权限。';
                     case 'operating':
                         return '当前项目还没有形成有效经营快照，先完成经营基线、经营快照和经营信号评价。';
                     case 'variance':
