@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore, ContractStore, type ContractStatus } from '@poms/admin-data-access';
@@ -32,7 +32,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                         <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()" class="cursor-pointer" />
                         <div>
                             <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">合同 {{ contract()!.contractNo }}</h1>
-                            <span class="text-sm text-surface-500 dark:text-surface-400">项目 {{ contract()!.projectId }} / 版本 {{ contract()!.rowVersion }}</span>
+                            <span class="text-sm text-surface-500 dark:text-surface-400">{{ contract()!.projectName }} / 版本 {{ contract()!.rowVersion }}</span>
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center justify-end gap-2">
@@ -97,7 +97,11 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">关联项目</span>
-                                <span class="text-sm font-medium text-primary cursor-pointer hover:underline" (click)="navigateToProject()">{{ contract()!.projectId }}</span>
+                                <span class="text-sm font-medium text-primary cursor-pointer hover:underline" (click)="navigateToProject()">{{ contract()!.projectName }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">客户名称</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.customerName ?? '-' }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">签约金额</span>
@@ -204,8 +208,11 @@ import { SectionCard } from '../../shared/ui/sectioncard';
             <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
                     <div class="flex flex-col gap-2">
-                        <label class="text-surface-900 dark:text-surface-0 font-medium">签约金额</label>
-                        <input pInputText [(ngModel)]="editForm.signedAmount" class="w-full" />
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">签约金额 <span class="text-red-500">*</span></label>
+                        <input pInputText [(ngModel)]="editForm.signedAmount" class="w-full" [class.border-red-500]="editSubmitAttempted && !isValidAmount(editForm.signedAmount)" placeholder="正数，最多两位小数" />
+                        @if (editSubmitAttempted && !isValidAmount(editForm.signedAmount)) {
+                            <span class="text-red-500 text-xs">请输入大于 0 的有效金额，最多两位小数</span>
+                        }
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -216,7 +223,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
 
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editDialogVisible = false" />
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="cancelEdit()" />
                         <p-button label="保存" (onClick)="saveContract()" [loading]="saving()" />
                     </div>
                 </ng-template>
@@ -308,7 +315,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
         }
     `
 })
-export class ContractDetail implements OnInit {
+export class ContractDetail implements OnInit, OnDestroy {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #contractStore = inject(ContractStore);
@@ -360,6 +367,7 @@ export class ContractDetail implements OnInit {
     });
 
     editDialogVisible = false;
+    editSubmitAttempted = false;
     submitReviewDialogVisible = false;
     approveDialogVisible = false;
     rejectDialogVisible = false;
@@ -383,6 +391,10 @@ export class ContractDetail implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.#contractStore.clearSelectedContract();
+    }
+
     goBack() {
         this.#router.navigate(['/contracts']);
     }
@@ -392,16 +404,27 @@ export class ContractDetail implements OnInit {
         if (c) this.#router.navigate(['/projects', c.projectId]);
     }
 
+    isValidAmount(value: string): boolean {
+        return /^\d+(\.\d{1,2})?$/.test(value.trim()) && parseFloat(value) > 0;
+    }
+
     showEditDialog() {
         const c = this.contract();
         if (!c) return;
         this.editForm = { signedAmount: c.signedAmount, currencyCode: c.currencyCode };
+        this.editSubmitAttempted = false;
         this.editDialogVisible = true;
     }
 
+    cancelEdit() {
+        this.editSubmitAttempted = false;
+        this.editDialogVisible = false;
+    }
+
     async saveContract() {
+        this.editSubmitAttempted = true;
         const c = this.contract();
-        if (!c) return;
+        if (!c || !this.isValidAmount(this.editForm.signedAmount)) return;
 
         try {
             await this.#contractStore.updateContract(c.id, {
@@ -409,6 +432,7 @@ export class ContractDetail implements OnInit {
                 currencyCode: this.editForm.currencyCode
             });
             this.editDialogVisible = false;
+            this.editSubmitAttempted = false;
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '合同基础信息已更新', life: 3000 });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '保存失败', detail: this.getErrorMessage(error), life: 4000 });
