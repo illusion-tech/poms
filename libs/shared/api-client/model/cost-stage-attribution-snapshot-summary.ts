@@ -34,6 +34,3 @@ export enum CostStageAttributionSnapshotSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

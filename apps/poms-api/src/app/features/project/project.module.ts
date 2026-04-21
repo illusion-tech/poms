@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';
 import { Contract } from '../contract/contract.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -10,7 +11,7 @@ import { ProjectRepository } from './project.repository';
 import { ProjectService } from './project.service';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Project, PlatformUser, OrgUnit, Contract])],
+    imports: [MikroOrmModule.forFeature([Project, PlatformUser, OrgUnit, Contract]), ApprovalSummaryModule],
     controllers: [ProjectController],
     providers: [ProjectRepository, ProjectQueryService, ProjectService],
     exports: [ProjectQueryService, ProjectService],

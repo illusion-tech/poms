@@ -25,6 +25,3 @@ export interface CreateContractReadinessPackageRequest {
     createdBy?: string | null;
     updatedBy?: string | null;
 }
-
-
-

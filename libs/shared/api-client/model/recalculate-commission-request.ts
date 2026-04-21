@@ -15,4 +15,3 @@ export interface RecalculateCommissionRequest {
     recognizedCostTaxExclusive?: string;
     expectedVersion?: number;
 }
-

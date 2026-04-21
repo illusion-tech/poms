@@ -18,4 +18,3 @@ export interface ConfirmAccountingTaxTreatmentRequest {
     taxImpactPendingAmount?: string;
     basisSummary?: string | null;
 }
-

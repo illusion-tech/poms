@@ -20,6 +20,3 @@ export enum UserOrgUnitSummaryMembershipTypeEnum {
     Primary = 'primary',
     Secondary = 'secondary'
 };
-
-
-

@@ -17,4 +17,3 @@ export enum SecurityEventSeverity {
 
     High = 'high'
 }
-

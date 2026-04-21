@@ -19,4 +19,3 @@ export enum ContractReadinessItemType {
 
     ReceivableSeed = 'receivable-seed'
 }
-

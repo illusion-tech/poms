@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CreateProjectRequest } from '../model/create-project-request';
 // @ts-ignore
+import { ProjectDetailView } from '../model/project-detail-view';
+// @ts-ignore
 import { ProjectListView } from '../model/project-list-view';
 // @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
@@ -203,9 +205,9 @@ export class ProjectApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectSummary>;
-    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectSummary>>;
-    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectSummary>>;
+    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectDetailView>;
+    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectDetailView>>;
+    public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectDetailView>>;
     public projectControllerGetById(requestParameters: ProjectControllerGetByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
@@ -242,7 +244,7 @@ export class ProjectApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<ProjectSummary>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectDetailView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

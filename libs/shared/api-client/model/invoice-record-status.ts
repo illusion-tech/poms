@@ -25,4 +25,3 @@ export enum InvoiceRecordStatus {
 
     Closed = 'closed'
 }
-

@@ -22,4 +22,3 @@ export interface PlatformUserSummary {
     createdAt: string;
     updatedAt: string;
 }
-

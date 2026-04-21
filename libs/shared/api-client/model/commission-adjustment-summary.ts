@@ -32,6 +32,3 @@ export enum CommissionAdjustmentSummaryStatusEnum {
     Rejected = 'rejected',
     Closed = 'closed'
 };
-
-
-

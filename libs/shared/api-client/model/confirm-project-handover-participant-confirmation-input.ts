@@ -17,6 +17,3 @@ export interface ConfirmProjectHandoverParticipantConfirmationInput {
 export enum ConfirmProjectHandoverParticipantConfirmationInputParticipantStatusEnum {
     Confirmed = 'confirmed'
 };
-
-
-

@@ -28,4 +28,3 @@ export interface ProjectSummary {
     updatedAt: string;
     updatedBy: string | null;
 }
-

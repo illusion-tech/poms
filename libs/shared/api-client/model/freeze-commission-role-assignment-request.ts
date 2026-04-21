@@ -15,4 +15,3 @@ export interface FreezeCommissionRoleAssignmentRequest {
     handoverSummarySnapshotId: string;
     expectedVersion?: number;
 }
-

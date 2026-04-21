@@ -28,4 +28,3 @@ export interface CommissionRoleAssignmentDetailView {
     allowedActions: Array<string>;
     generatedAt: string;
 }
-

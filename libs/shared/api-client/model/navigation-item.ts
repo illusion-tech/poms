@@ -50,6 +50,3 @@ export enum NavigationItemRequiredPermissionsEnum {
     NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'
 };
-
-
-

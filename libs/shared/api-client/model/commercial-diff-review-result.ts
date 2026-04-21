@@ -16,6 +16,3 @@ export interface CommercialDiffReviewResult {
     baselineReviewDecision: CommercialBaselineReviewDecision;
     resultStatus: string;
 }
-
-
-

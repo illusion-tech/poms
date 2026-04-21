@@ -20,4 +20,3 @@ export interface ArbitrateCommissionFreezeDisputeResult {
     riskFlagSummary: string | null;
     resultStatus: string;
 }
-

@@ -18,4 +18,3 @@ export interface ConfirmSharedCostAllocationBasisRequest {
     basisSummary?: string | null;
     comment?: string | null;
 }
-

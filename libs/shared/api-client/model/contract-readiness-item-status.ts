@@ -19,4 +19,3 @@ export enum ContractReadinessItemStatus {
 
     NotApplicable = 'not-applicable'
 }
-

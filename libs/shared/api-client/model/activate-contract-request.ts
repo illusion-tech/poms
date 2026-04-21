@@ -13,4 +13,3 @@ export interface ActivateContractRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

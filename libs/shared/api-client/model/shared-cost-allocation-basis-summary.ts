@@ -31,6 +31,3 @@ export enum SharedCostAllocationBasisSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

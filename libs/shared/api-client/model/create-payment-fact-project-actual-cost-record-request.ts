@@ -19,6 +19,3 @@ export interface CreatePaymentFactProjectActualCostRecordRequest {
 export enum CreatePaymentFactProjectActualCostRecordRequestCostTypeEnum {
     PaymentFact = 'PAYMENT_FACT'
 };
-
-
-

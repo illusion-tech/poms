@@ -13,4 +13,3 @@ import { CommissionRoleAssignmentSummaryParticipantsJsonInner } from './commissi
 export interface ReplacementCommissionRoleAssignmentPayload { 
     participants: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
 }
-

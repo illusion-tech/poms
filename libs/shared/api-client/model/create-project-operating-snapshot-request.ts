@@ -34,6 +34,3 @@ export enum CreateProjectOperatingSnapshotRequestSnapshotModeEnum {
     Realtime = 'realtime',
     PeriodEnd = 'period-end'
 };
-
-
-

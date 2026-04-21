@@ -29,6 +29,3 @@ export interface CommissionFreezeDisputeDetailView {
     allowedActions: Array<string>;
     generatedAt: string;
 }
-
-
-

@@ -30,6 +30,3 @@ export interface ReviewCommissionGateBindingResult {
     nextActionSummary: string | null;
     businessStatusAfter: string;
 }
-
-
-

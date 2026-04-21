@@ -23,4 +23,3 @@ export interface UpdatePayableRecordRequest {
     attachmentCount?: number;
     expectedVersion?: number;
 }
-

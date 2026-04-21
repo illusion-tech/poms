@@ -23,6 +23,3 @@ export interface ReviewCommissionGateBindingRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-
-
-

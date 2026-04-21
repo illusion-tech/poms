@@ -24,6 +24,3 @@ export interface CreateExpenseRecordRequest {
     evidenceSummary?: string | null;
     attachmentCount?: number;
 }
-
-
-

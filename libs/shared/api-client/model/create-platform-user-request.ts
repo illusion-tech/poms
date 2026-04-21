@@ -17,4 +17,3 @@ export interface CreatePlatformUserRequest {
     primaryOrgUnitId: string | null;
     initialRoleIds?: Array<string>;
 }
-

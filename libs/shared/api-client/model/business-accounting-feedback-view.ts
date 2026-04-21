@@ -25,6 +25,3 @@ export interface BusinessAccountingFeedbackView {
     downstreamConsumerSummary: string | null;
     allowedActions: Array<string>;
 }
-
-
-

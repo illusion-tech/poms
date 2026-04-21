@@ -20,6 +20,3 @@ export interface CreateExpenseProjectActualCostRecordRequest {
 export enum CreateExpenseProjectActualCostRecordRequestCostTypeEnum {
     Expense = 'EXPENSE'
 };
-
-
-

@@ -29,6 +29,3 @@ export enum ProjectHandoverParticipantConfirmationSummaryStatusEnum {
     Confirmed = 'confirmed',
     Closed = 'closed'
 };
-
-
-

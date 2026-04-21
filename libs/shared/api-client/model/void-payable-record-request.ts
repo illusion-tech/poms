@@ -14,4 +14,3 @@ export interface VoidPayableRecordRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

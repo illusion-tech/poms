@@ -26,6 +26,3 @@ export interface OperatingSignalEvaluationView {
     reviewRequired: boolean;
     reviewSummary: string | null;
 }
-
-
-

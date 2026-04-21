@@ -22,4 +22,3 @@ export interface CreatePayableRecordRequest {
     evidenceSummary?: string | null;
     attachmentCount?: number;
 }
-

@@ -15,4 +15,3 @@ export interface CommissionRoleAssignmentSummaryParticipantsJsonInner {
     roleType: string;
     weight: number;
 }
-

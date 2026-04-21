@@ -32,6 +32,3 @@ export enum CommissionRoleAssignmentSummaryStatusEnum {
     Frozen = 'frozen',
     Superseded = 'superseded'
 };
-
-
-

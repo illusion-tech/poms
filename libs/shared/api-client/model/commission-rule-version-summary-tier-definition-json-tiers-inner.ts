@@ -14,4 +14,3 @@ export interface CommissionRuleVersionSummaryTierDefinitionJsonTiersInner {
     maxMarginRate: number | null;
     commissionRate: number;
 }
-

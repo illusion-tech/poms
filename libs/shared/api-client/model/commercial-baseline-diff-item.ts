@@ -20,6 +20,3 @@ export interface CommercialBaselineDiffItem {
     isBlocking: boolean;
     sortOrder: number;
 }
-
-
-

@@ -17,4 +17,3 @@ export enum CommissionDepartureExceptionDecisionStatus {
 
     Voided = 'voided'
 }
-

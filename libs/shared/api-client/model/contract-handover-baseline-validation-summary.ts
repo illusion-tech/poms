@@ -32,6 +32,3 @@ export enum ContractHandoverBaselineValidationSummaryStatusEnum {
     Blocked = 'blocked',
     Missing = 'missing'
 };
-
-
-

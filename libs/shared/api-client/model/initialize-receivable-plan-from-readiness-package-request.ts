@@ -14,4 +14,3 @@ export interface InitializeReceivablePlanFromReadinessPackageRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

@@ -21,4 +21,3 @@ export interface ProjectListView {
     latestMilestoneAt: string | null;
     createdAt: string;
 }
-

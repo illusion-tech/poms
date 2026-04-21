@@ -15,4 +15,3 @@ export enum BaselineSelectionSource {
 
     HandoverRebaseline = 'handover_rebaseline'
 }
-

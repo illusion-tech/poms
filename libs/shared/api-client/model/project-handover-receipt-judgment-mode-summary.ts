@@ -25,6 +25,3 @@ export enum ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum {
     ProjectReceiptJudgmentFreeze = 'project-receipt-judgment-freeze',
     None = 'none'
 };
-
-
-

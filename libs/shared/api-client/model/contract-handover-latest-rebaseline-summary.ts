@@ -31,6 +31,3 @@ export enum ContractHandoverLatestRebaselineSummaryBlockingStatusEnum {
     Blocking = 'blocking',
     Effective = 'effective'
 };
-
-
-

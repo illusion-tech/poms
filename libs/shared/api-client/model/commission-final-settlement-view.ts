@@ -42,6 +42,3 @@ export enum CommissionFinalSettlementViewRetentionDueStatusEnum {
     Pending = 'pending',
     Due = 'due'
 };
-
-
-

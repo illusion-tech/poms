@@ -44,7 +44,7 @@
 | Route inventory / ADR-015 | `ex-15e4-platform-contract-finance-project-route-baseline.md`                                            | 项目查询与创建 route baseline                         | `pass`     | `GET /projects`、`POST /projects` 路径已冻结，无需重开 route grammar              |
 | Runtime fact              | `apps/poms-api/src/app/features/project/project.controller.ts`                                           | `list`、`create`                                      | `fact`     | 当前已由 `EX-17` 输出正式 `ProjectListView[]` 与收口后的 `CreateProjectRequest`   |
 | Runtime fact              | `libs/shared/contracts/src/lib/shared-contracts.ts`                                                      | `ProjectListViewSchema`、`CreateProjectRequestSchema` | `fact`     | shared contract 已与列表 / 创建正式语义对齐                                       |
-| Runtime fact              | `apps/poms-admin/src/app/features/project/project-list.ts`                                               | 列表页与创建弹窗实现                                  | `fact`     | 当前前端已切到 `ProjectListView` 并移除旧阶段下拉，但信息架构仍未完成业务化重做   |
+| Runtime fact              | `apps/poms-admin/src/app/features/project/project-list.ts`                                               | 列表页与创建弹窗实现                                  | `fact`     | `FE-16A` 已重做列表信息架构、筛选、行级入口与新建项目表单                         |
 | Runtime fact              | `libs/admin/data-access/src/lib/project/project.store.ts`                                                | 项目列表 store                                        | `fact`     | 当前列表 store 已消费 `ProjectListView[]` 并在 create/update 后回刷列表           |
 | Runtime fact              | `apps/poms-admin/src/app.routes.ts`、`apps/poms-api/src/app/features/navigation/navigation.constants.ts` | `/projects` route 与菜单权限                          | `fact`     | 菜单声明有 `nav:projects:view`，但前端直接路由缺少对应 guard；该收口留给 `FE-16D` |
 | ADR                       | `adr/015-api-route-canonical-grammar.md`                                                                 | 全文                                                  | `accepted` | 说明当前阻断点是 contract / command 语义，不是 route grammar                      |
@@ -122,16 +122,16 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence   | Result         | Gap / Reason                                          |
-| -------------------------------- | -------- | -------------------- | -------------- | ----------------------------------------------------- |
-| Lint                             | `no`     | docs-only G1 refresh | `not-required` | 本次仅刷新治理输入，复用 `EX-17` 的 upstream 验证证据 |
-| Build                            | `no`     | docs-only G1 refresh | `not-required` | 本次未进入前端编码                                    |
-| Unit tests                       | `no`     | docs-only G1 refresh | `not-required` | 本次未进入前端编码                                    |
-| API / integration tests          | `no`     | docs-only G1 refresh | `not-required` | 本次未触达运行时代码                                  |
-| E2E                              | `no`     | docs-only G1 refresh | `not-required` | 本次只刷新输入冻结，不新增浏览器行为                  |
-| OpenAPI generation / client diff | `no`     | 复用 `EX-17` G4 证据 | `not-required` | upstream 已完成并可作为本片正式输入                   |
-| Migration / schema check         | `no`     | `frontend-only`      | `not-required` | 本片不触达持久化                                      |
-| Diff hygiene                     | `yes`    | `git diff --check`   | `pass`         | 已通过；当前仅剩 Git 的 CRLF 预警，不构成 diff 错误   |
+| Check                            | Required | Command / Evidence                             | Result         | Gap / Reason                                                               |
+| -------------------------------- | -------- | ---------------------------------------------- | -------------- | -------------------------------------------------------------------------- |
+| Lint                             | `yes`    | `corepack pnpm nx lint poms-admin`             | `pass`         | 已通过                                                                     |
+| Build                            | `yes`    | `corepack pnpm nx build poms-admin`            | `pass`         | 已通过                                                                     |
+| Unit tests                       | `yes`    | `corepack pnpm nx test poms-admin --runInBand` | `pass`         | 新增 `project-list.spec.ts`，覆盖 `ProjectListView` 展示与创建请求字段收口 |
+| API / integration tests          | `no`     | N/A                                            | `not-required` | 本片不改后端 API                                                           |
+| E2E                              | `no`     | N/A                                            | `not-required` | 浏览器级菜单 / 直接路由 / 按钮守卫验证归属 `FE-16D`                        |
+| OpenAPI generation / client diff | `no`     | N/A                                            | `not-required` | 本片只消费 `EX-17` 已生成的客户端                                          |
+| Migration / schema check         | `no`     | `frontend-only`                                | `not-required` | 本片不触达持久化                                                           |
+| Diff hygiene                     | `yes`    | `git diff --check`                             | `pass`         | 已通过                                                                     |
 
 ## 9. 例外与风险
 
@@ -149,3 +149,14 @@
   2. 本片不得在列表页本地生成“下一步动作 / 阻断原因”摘要；列表只负责定位项目、展示稳定列表事实并把用户送入详情 / 工作区继续处理。
   3. `/projects` 直接路由守卫与统一按钮守卫收口继续留给 `FE-16D`，但本片不得新增更宽松的入口或动作可见性漂移。
   4. 用户可见内容继续执行“只说业务中文”的表达约束，不得回流英文术语与内部实现词。
+
+## 11. G4 Close-out
+
+- Close-out Date: `2026-04-21`
+- Result: `Pass`
+- Delivered:
+  1. `/projects` 已从旧 CRUD 表格改为项目主入口，首屏展示项目总量、进行中、需要关注与已有关键节点数量。
+  2. 列表直接消费 `ProjectListView`，展示客户、阶段、状态、负责人、归属组织与真实 `latestMilestoneAt`，不再以 `createdAt` 充当关键节点。
+  3. 搜索与筛选覆盖项目、客户、负责人、阶段和状态；行级入口收口为“详情 / 工作区”，不在本片生成“下一步动作”摘要。
+  4. 新建项目表单只提交 `projectCode / projectName / customerName`，并按 `project:write` 做本地按钮显隐，不再暴露旧阶段、状态、负责人或审计字段。
+  5. 已新增 `project-list.spec.ts`，覆盖正式列表事实展示、创建请求字段收口和只读账号创建入口隐藏。

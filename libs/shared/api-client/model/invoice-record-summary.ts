@@ -30,6 +30,3 @@ export interface InvoiceRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

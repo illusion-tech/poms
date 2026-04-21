@@ -15,4 +15,3 @@ export interface CreateRoleRequest {
     description?: string | null;
     displayOrder?: number;
 }
-

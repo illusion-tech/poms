@@ -25,6 +25,3 @@ export enum CommissionRuleVersionSummaryStatusEnum {
     Active = 'active',
     Stopped = 'stopped'
 };
-
-
-

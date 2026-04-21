@@ -18,6 +18,3 @@ export interface RebaselineContractHandoverResult {
 export enum RebaselineContractHandoverResultResultStatusEnum {
     Effective = 'effective'
 };
-
-
-

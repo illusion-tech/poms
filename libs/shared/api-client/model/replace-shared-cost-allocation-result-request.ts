@@ -17,4 +17,3 @@ export interface ReplaceSharedCostAllocationResultRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

@@ -31,6 +31,3 @@ export enum OperatingBaselinePackageSummaryStatusEnum {
     Active = 'active',
     Superseded = 'superseded'
 };
-
-
-

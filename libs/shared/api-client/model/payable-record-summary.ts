@@ -34,6 +34,3 @@ export interface PayableRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

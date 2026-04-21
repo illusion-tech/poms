@@ -33,6 +33,3 @@ export enum AccountingTaxTreatmentSnapshotSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

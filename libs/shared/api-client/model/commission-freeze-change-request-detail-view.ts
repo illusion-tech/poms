@@ -27,4 +27,3 @@ export interface CommissionFreezeChangeRequestDetailView {
     handledAt: string;
     generatedAt: string;
 }
-

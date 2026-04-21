@@ -86,6 +86,3 @@ export enum ProjectActualCostRecordDetailViewLaborPeriodTypeEnum {
     Week = 'WEEK',
     Month = 'MONTH'
 };
-
-
-

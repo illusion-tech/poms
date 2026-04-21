@@ -22,6 +22,3 @@ export interface CreateContractRequest {
     createdBy?: string | null;
     updatedBy?: string | null;
 }
-
-
-

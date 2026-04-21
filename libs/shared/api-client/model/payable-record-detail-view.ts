@@ -35,6 +35,3 @@ export interface PayableRecordDetailView {
     updatedAt: string;
     allowedActions: Array<string>;
 }
-
-
-

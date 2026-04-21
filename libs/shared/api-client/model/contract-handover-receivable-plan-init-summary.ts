@@ -20,6 +20,3 @@ export enum ContractHandoverReceivablePlanInitSummaryStatusEnum {
     Missing = 'missing',
     Blocked = 'blocked'
 };
-
-
-

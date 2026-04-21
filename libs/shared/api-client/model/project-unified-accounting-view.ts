@@ -27,6 +27,3 @@ export interface ProjectUnifiedAccountingView {
     referencedSnapshotVersion: string;
     allowedActions: Array<string>;
 }
-
-
-

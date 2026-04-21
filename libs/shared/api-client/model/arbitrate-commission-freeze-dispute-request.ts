@@ -17,4 +17,3 @@ export interface ArbitrateCommissionFreezeDisputeRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

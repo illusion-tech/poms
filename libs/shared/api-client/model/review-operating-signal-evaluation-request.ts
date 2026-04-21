@@ -19,6 +19,3 @@ export interface ReviewOperatingSignalEvaluationRequest {
     reviewComment?: string | null;
     expectedVersion?: number;
 }
-
-
-

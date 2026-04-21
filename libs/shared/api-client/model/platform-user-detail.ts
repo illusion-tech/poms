@@ -28,4 +28,3 @@ export interface PlatformUserDetail {
     phoneVerified: boolean;
     orgUnits: Array<UserOrgUnitSummary>;
 }
-

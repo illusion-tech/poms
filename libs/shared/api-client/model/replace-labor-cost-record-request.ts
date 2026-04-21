@@ -19,4 +19,3 @@ export interface ReplaceLaborCostRecordRequest {
     replaceReason: string;
     expectedSupersededRecordVersion?: number;
 }
-

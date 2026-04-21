@@ -30,6 +30,3 @@ export interface CommissionDepartureExceptionDecisionSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

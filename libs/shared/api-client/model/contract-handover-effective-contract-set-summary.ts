@@ -20,4 +20,3 @@ export interface ContractHandoverEffectiveContractSetSummary {
     latestSignedAt: string | null;
     contracts: Array<ContractHandoverContractItemSummary>;
 }
-

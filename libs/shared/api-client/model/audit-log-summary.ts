@@ -24,6 +24,3 @@ export interface AuditLogSummary {
     metadata: { [key: string]: any; };
     occurredAt: string;
 }
-
-
-

@@ -14,4 +14,3 @@ export interface VoidExpenseRecordRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

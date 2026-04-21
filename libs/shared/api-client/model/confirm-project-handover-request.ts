@@ -17,4 +17,3 @@ export interface ConfirmProjectHandoverRequest {
     contractSummarySnapshotId: string;
     expectedVersion?: number;
 }
-

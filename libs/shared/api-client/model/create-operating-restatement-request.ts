@@ -19,4 +19,3 @@ export interface CreateOperatingRestatementRequest {
     restatedValues: CreateOperatingRestatementRequestRestatedValues;
     expectedRestatesSnapshotVersion?: number;
 }
-

@@ -14,4 +14,3 @@ export interface ClosePayableRecordRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

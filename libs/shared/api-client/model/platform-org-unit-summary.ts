@@ -20,4 +20,3 @@ export interface PlatformOrgUnitSummary {
     createdAt: string;
     updatedAt: string;
 }
-

@@ -21,6 +21,3 @@ export enum ConfirmCostStageAttributionRequestStageAttributionModeEnum {
     Auto = 'auto',
     Manual = 'manual'
 };
-
-
-

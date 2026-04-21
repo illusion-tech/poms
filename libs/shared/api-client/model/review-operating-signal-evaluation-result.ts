@@ -22,6 +22,3 @@ export interface ReviewOperatingSignalEvaluationResult {
     referencedSnapshotVersion: string;
     resultStatus: string;
 }
-
-
-

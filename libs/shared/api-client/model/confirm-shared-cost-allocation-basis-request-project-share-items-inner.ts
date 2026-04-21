@@ -15,4 +15,3 @@ export interface ConfirmSharedCostAllocationBasisRequestProjectShareItemsInner {
     allocationRatio?: string | null;
     allocationSummary?: string | null;
 }
-

@@ -3,11 +3,12 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags
 import {
     CreateProjectRequestDto,
     ProjectDto,
+    ProjectDetailViewDto,
     ProjectListDto,
     ProjectListQueryDto,
     UpdateProjectBasicInfoRequestDto
 } from '@poms/api-contracts';
-import type { ProjectListQuery, ProjectListView, ProjectSummary, UserPayload } from '@poms/shared-contracts';
+import type { ProjectDetailView, ProjectListQuery, ProjectListView, ProjectSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
@@ -53,14 +54,9 @@ export class ProjectController {
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取项目详情' })
-    @ApiOkResponse({ type: ProjectDto })
-    async getById(@Param('id') id: string): Promise<ProjectSummary> {
-        const project = await this.projectService.findById(id);
-        if (!project) {
-            throw new NotFoundException(`Project ${id} not found`);
-        }
-
-        return mapProjectToSummary(project);
+    @ApiOkResponse({ type: ProjectDetailViewDto })
+    async getById(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<ProjectDetailView> {
+        return this.projectQueryService.getProjectDetail(id, req.user);
     }
 
     @Post()

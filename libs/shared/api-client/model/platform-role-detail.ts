@@ -42,6 +42,3 @@ export enum PlatformRoleDetailPermissionKeysEnum {
     NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'
 };
-
-
-

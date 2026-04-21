@@ -14,4 +14,3 @@ export interface UpdateRoleActivationRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

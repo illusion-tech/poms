@@ -15,4 +15,3 @@ export enum CommissionFreezeDisputeArbitrationStatus {
 
     Arbitrated = 'arbitrated'
 }
-

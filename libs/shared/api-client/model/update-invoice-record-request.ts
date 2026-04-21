@@ -24,6 +24,3 @@ export enum UpdateInvoiceRecordRequestStatusEnum {
     Received = 'received',
     Verified = 'verified'
 };
-
-
-

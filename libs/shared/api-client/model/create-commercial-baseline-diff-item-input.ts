@@ -19,6 +19,3 @@ export interface CreateCommercialBaselineDiffItemInput {
     isBlocking?: boolean;
     sortOrder?: number;
 }
-
-
-

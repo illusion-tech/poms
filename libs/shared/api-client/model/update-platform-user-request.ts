@@ -15,4 +15,3 @@ export interface UpdatePlatformUserRequest {
     phone?: string | null;
     avatarUrl?: string | null;
 }
-

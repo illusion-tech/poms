@@ -29,6 +29,3 @@ export interface PaymentRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

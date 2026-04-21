@@ -17,4 +17,3 @@ export enum InvoiceRecordExceptionStatus {
 
     Resolved = 'resolved'
 }
-

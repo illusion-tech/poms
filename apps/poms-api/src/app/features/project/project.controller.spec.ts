@@ -15,7 +15,8 @@ describe('ProjectController', () => {
 
     beforeEach(() => {
         projectQueryService = {
-            listProjects: jest.fn()
+            listProjects: jest.fn(),
+            getProjectDetail: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -92,10 +93,28 @@ describe('ProjectController', () => {
         );
     });
 
-    it('throws when project is not found by id', async () => {
-        projectService.findById.mockResolvedValue(null);
+    it('returns project detail through the query service', async () => {
+        const detail = {
+            id: projectId,
+            projectCode: 'PRJ-2026-001',
+            projectName: 'POMS 首期项目主链路样例',
+            allowedActions: ['view-project-workspace']
+        };
+        const user = { sub: userId, username: 'sales_rep', permissions: ['project:read'] };
+        projectQueryService.getProjectDetail.mockResolvedValue(detail as never);
 
-        await expect(controller.getById(projectId)).rejects.toThrow(NotFoundException);
+        await expect(controller.getById(projectId, { user } as never)).resolves.toBe(detail);
+        expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(projectId, user);
+    });
+
+    it('throws when project detail is not found by id', async () => {
+        projectQueryService.getProjectDetail.mockRejectedValue(new NotFoundException(`Project ${projectId} not found`));
+
+        await expect(
+            controller.getById(projectId, {
+                user: { sub: userId, username: 'sales_rep', permissions: ['project:read'] }
+            } as never)
+        ).rejects.toThrow(NotFoundException);
     });
 
     function createProjectEntity(overrides: Partial<Project> = {}): Project {

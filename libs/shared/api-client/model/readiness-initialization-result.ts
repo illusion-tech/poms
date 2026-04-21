@@ -18,4 +18,3 @@ export interface ReadinessInitializationResult {
     snapshotId?: string | null;
     newVersionId?: string | null;
 }
-

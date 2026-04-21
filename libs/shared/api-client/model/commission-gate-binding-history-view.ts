@@ -37,6 +37,3 @@ export interface CommissionGateBindingHistoryView {
     handledAt: string | null;
     allowedActions: Array<string>;
 }
-
-
-

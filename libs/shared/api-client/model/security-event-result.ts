@@ -17,4 +17,3 @@ export enum SecurityEventResult {
 
     Expired = 'expired'
 }
-

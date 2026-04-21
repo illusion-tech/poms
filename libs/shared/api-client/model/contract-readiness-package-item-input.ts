@@ -21,6 +21,3 @@ export interface ContractReadinessPackageItemInput {
     navigationHint?: string | null;
     sortOrder?: number;
 }
-
-
-

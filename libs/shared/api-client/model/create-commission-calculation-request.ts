@@ -14,4 +14,3 @@ export interface CreateCommissionCalculationRequest {
     recognizedRevenueTaxExclusive: string;
     recognizedCostTaxExclusive: string;
 }
-

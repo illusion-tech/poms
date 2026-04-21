@@ -31,6 +31,3 @@ export interface InvoiceRecordDetailView {
     updatedAt: string;
     allowedActions: Array<string>;
 }
-
-
-

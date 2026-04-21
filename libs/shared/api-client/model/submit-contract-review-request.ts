@@ -13,4 +13,3 @@ export interface SubmitContractReviewRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

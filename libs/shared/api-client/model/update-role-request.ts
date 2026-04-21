@@ -14,4 +14,3 @@ export interface UpdateRoleRequest {
     description?: string | null;
     displayOrder?: number;
 }
-

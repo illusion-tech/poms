@@ -12,4 +12,3 @@
 export interface ConfirmExpenseRecordRequest { 
     expectedVersion?: number;
 }
-

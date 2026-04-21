@@ -24,4 +24,3 @@ export interface OrgUnitTreeNode {
     canDelete: boolean;
     children: Array<OrgUnitTreeNode>;
 }
-

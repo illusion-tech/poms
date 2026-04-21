@@ -21,4 +21,3 @@ export interface CreateCommissionRuleVersionRequest {
     exceptionRuleJson?: { [key: string]: any; } | null;
     effectiveFrom?: string | null;
 }
-

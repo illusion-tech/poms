@@ -65,6 +65,3 @@ export enum ProjectActualCostRecordSummaryRecordStatusEnum {
     Voided = 'VOIDED',
     Replaced = 'REPLACED'
 };
-
-
-

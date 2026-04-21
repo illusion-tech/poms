@@ -15,4 +15,3 @@ export interface MoveOrgUnitRequest {
     reason?: string;
     expectedVersion?: number;
 }
-

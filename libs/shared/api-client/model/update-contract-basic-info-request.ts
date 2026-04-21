@@ -17,4 +17,3 @@ export interface UpdateContractBasicInfoRequest {
     retentionDueDate?: string | null;
     updatedBy?: string | null;
 }
-

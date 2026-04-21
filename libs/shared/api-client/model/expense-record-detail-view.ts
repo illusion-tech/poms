@@ -36,6 +36,3 @@ export interface ExpenseRecordDetailView {
     updatedAt: string;
     allowedActions: Array<string>;
 }
-
-
-

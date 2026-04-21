@@ -20,4 +20,3 @@ export interface PlatformRoleSummary {
     createdAt: string;
     updatedAt: string;
 }
-

@@ -17,4 +17,3 @@ export enum CommissionPayoutTier {
 
     Premium = 'premium'
 }
-

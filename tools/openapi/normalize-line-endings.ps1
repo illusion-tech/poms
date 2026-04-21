@@ -1,11 +1,12 @@
 <#
 .SYNOPSIS
-    将指定文件或目录中的文本文件统一为 LF 行尾。
+    将指定文件或目录中的文本文件统一为 LF 行尾，并清理末尾多余空白行。
 
 .DESCRIPTION
     该脚本用于解决 Windows 开发环境中混入 CRLF 或 mixed line endings 的问题。
     它支持处理单个文件或整个目录，递归扫描目标下的所有文件，跳过疑似二进制文件，
-    并仅在内容实际发生变化时以 UTF-8 without BOM 重新写回。
+    将文件末尾连续空白行收敛为单个最终换行，并仅在内容实际发生变化时以
+    UTF-8 without BOM 重新写回。
 
 .EXAMPLE
     PS> .\tools\openapi\normalize-line-endings.ps1 -Path libs/shared/api-client
@@ -17,7 +18,7 @@
 
 .NOTES
     该脚本主要服务于 OpenAPI 生成物与校验脚本，避免 `git diff --check`
-    和 `git diff --no-index` 因平台默认行尾差异产生噪音。
+    和 `git diff --no-index` 因平台默认行尾或生成器末尾空白差异产生噪音。
 #>
 param(
     [Parameter(Mandatory = $true, Position = 0)]
@@ -66,6 +67,10 @@ foreach ($file in $files) {
 
     # 同时收敛 CRLF 和孤立 CR，保证最终仓库文本统一为 LF。
     $normalized = $original.Replace("`r`n", "`n").Replace("`r", "`n")
+
+    # OpenAPI Generator 会在少量 union/enum 文件末尾生成多余空白行。
+    # 生成与校验都经过本脚本，收敛后可同时满足同步检测和 git diff --check。
+    $normalized = [System.Text.RegularExpressions.Regex]::Replace($normalized, "(?:[ `t]*`n)+\z", "`n")
 
     # 未发生变化时不重写，减少无意义时间戳变动和文件系统噪音。
     if ($normalized -ceq $original) {

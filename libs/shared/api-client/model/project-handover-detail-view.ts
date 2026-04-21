@@ -43,6 +43,3 @@ export enum ProjectHandoverDetailViewHandoverStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

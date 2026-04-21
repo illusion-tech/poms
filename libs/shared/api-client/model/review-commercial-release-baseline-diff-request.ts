@@ -17,6 +17,3 @@ export interface ReviewCommercialReleaseBaselineDiffRequest {
     attachmentIds?: Array<string>;
     expectedVersion?: number;
 }
-
-
-

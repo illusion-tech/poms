@@ -15,4 +15,3 @@ export interface UpdateOrgUnitRequest {
     description?: string | null;
     displayOrder?: number;
 }
-

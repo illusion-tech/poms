@@ -16,4 +16,3 @@ export interface ReclassifyCostStageAttributionRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

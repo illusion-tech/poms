@@ -12,4 +12,3 @@
 export interface ConfirmCommissionCalculationRequest { 
     expectedVersion?: number;
 }
-

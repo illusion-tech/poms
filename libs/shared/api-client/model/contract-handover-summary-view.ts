@@ -30,4 +30,3 @@ export interface ContractHandoverSummaryView {
     blockingReasons: Array<string>;
     generatedAt: string;
 }
-

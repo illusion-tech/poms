@@ -19,4 +19,3 @@ export enum PaymentRecordStatus {
 
     Void = 'void'
 }
-

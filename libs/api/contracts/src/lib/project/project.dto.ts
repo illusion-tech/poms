@@ -1,5 +1,6 @@
 import {
     CreateProjectRequestSchema,
+    ProjectDetailViewSchema,
     ProjectListQuerySchema,
     ProjectListSchema,
     ProjectSummarySchema,
@@ -8,6 +9,8 @@ import {
 import { createZodDto } from 'nestjs-zod';
 
 export class ProjectDto extends createZodDto(ProjectSummarySchema) {}
+
+export class ProjectDetailViewDto extends createZodDto(ProjectDetailViewSchema) {}
 
 export class ProjectListDto extends createZodDto(ProjectListSchema) {}
 

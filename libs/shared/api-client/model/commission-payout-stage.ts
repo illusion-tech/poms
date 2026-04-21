@@ -19,4 +19,3 @@ export enum CommissionPayoutStage {
 
     Retention = 'retention'
 }
-

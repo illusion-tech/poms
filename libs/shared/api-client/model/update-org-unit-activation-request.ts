@@ -14,4 +14,3 @@ export interface UpdateOrgUnitActivationRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

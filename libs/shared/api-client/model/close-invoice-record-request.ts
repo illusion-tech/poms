@@ -14,4 +14,3 @@ export interface CloseInvoiceRecordRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

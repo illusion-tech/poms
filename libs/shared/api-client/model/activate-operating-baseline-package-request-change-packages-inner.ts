@@ -15,4 +15,3 @@ export interface ActivateOperatingBaselinePackageRequestChangePackagesInner {
     changeSummary?: string | null;
     effectiveAt?: string | null;
 }
-

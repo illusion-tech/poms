@@ -21,6 +21,3 @@ export interface CommercialBaselineReviewRecordSummary {
     reviewerUserId: string;
     createdAt: string;
 }
-
-
-

@@ -21,6 +21,3 @@ export interface RegisterRetentionCommissionPayoutRequest {
 export enum RegisterRetentionCommissionPayoutRequestPayoutStageEnum {
     Retention = 'retention'
 };
-
-
-

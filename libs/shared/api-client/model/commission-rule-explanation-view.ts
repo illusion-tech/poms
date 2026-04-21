@@ -36,6 +36,3 @@ export interface CommissionRuleExplanationView {
     exportPolicy: string;
     allowedActions: Array<string>;
 }
-
-
-

@@ -17,4 +17,3 @@ export interface ContractDiffReviewHistoryView {
     diffItems: Array<CommercialBaselineDiffItem>;
     reviewHistory: Array<CommercialBaselineReviewRecordSummary>;
 }
-

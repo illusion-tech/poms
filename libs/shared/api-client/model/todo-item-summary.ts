@@ -32,4 +32,3 @@ export interface TodoItemSummary {
     createdAt: string;
     updatedAt: string;
 }
-

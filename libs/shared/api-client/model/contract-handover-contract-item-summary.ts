@@ -19,6 +19,3 @@ export interface ContractHandoverContractItemSummary {
     currentSnapshotId: string | null;
     signedAt: string | null;
 }
-
-
-

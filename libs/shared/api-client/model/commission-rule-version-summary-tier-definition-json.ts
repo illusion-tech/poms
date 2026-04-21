@@ -13,4 +13,3 @@ import { CommissionRuleVersionSummaryTierDefinitionJsonTiersInner } from './comm
 export interface CommissionRuleVersionSummaryTierDefinitionJson { 
     tiers: Array<CommissionRuleVersionSummaryTierDefinitionJsonTiersInner>;
 }
-

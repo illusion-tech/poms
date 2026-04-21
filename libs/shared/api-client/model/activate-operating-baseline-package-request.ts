@@ -20,6 +20,3 @@ export interface ActivateOperatingBaselinePackageRequest {
     changePackages?: Array<ActivateOperatingBaselinePackageRequestChangePackagesInner>;
     expectedCurrentPackageVersion?: number;
 }
-
-
-

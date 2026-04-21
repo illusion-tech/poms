@@ -23,6 +23,3 @@ export interface CreateCommercialReleaseBaselineRequest {
     createdBy?: string | null;
     updatedBy?: string | null;
 }
-
-
-

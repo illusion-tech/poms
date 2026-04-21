@@ -23,6 +23,3 @@ export interface SubmitRetentionCommissionPayoutApprovalRequest {
 export enum SubmitRetentionCommissionPayoutApprovalRequestPayoutStageEnum {
     Retention = 'retention'
 };
-
-
-

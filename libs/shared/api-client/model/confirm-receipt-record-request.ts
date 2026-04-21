@@ -12,4 +12,3 @@
 export interface ConfirmReceiptRecordRequest { 
     expectedVersion?: number;
 }
-

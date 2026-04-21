@@ -14,4 +14,3 @@ export interface ResolveInvoiceExceptionRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

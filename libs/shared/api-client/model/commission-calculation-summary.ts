@@ -33,6 +33,3 @@ export enum CommissionCalculationSummaryStatusEnum {
     Effective = 'effective',
     Superseded = 'superseded'
 };
-
-
-

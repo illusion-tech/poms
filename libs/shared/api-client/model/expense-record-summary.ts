@@ -35,6 +35,3 @@ export interface ExpenseRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

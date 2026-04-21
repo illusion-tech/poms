@@ -14,4 +14,3 @@ export interface AssignUserRolesRequest {
     reason?: string;
     expectedVersion?: number;
 }
-

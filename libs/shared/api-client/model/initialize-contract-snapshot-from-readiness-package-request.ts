@@ -14,4 +14,3 @@ export interface InitializeContractSnapshotFromReadinessPackageRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

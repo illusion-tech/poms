@@ -26,6 +26,3 @@ export enum ContractHandoverCurrentBaselineSummarySourceTypeEnum {
     HandoverRebaseline = 'handover-rebaseline',
     None = 'none'
 };
-
-
-

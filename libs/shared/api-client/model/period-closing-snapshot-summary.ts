@@ -45,6 +45,3 @@ export enum PeriodClosingSnapshotSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

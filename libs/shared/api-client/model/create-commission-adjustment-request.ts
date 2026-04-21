@@ -17,6 +17,3 @@ export interface CreateCommissionAdjustmentRequest {
     amount?: string | null;
     reason: string;
 }
-
-
-

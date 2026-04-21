@@ -28,6 +28,3 @@ export interface CreateOperatingRestatementRequestRestatedValues {
     sourceWindowStart?: string | null;
     sourceWindowEnd?: string | null;
 }
-
-
-

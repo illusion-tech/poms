@@ -40,6 +40,3 @@ export interface ContractReadinessDetail {
     allowedActions: Array<string>;
     items: Array<ContractReadinessItem>;
 }
-
-
-

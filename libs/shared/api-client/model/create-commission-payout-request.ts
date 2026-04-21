@@ -16,6 +16,3 @@ export interface CreateCommissionPayoutRequest {
     stageType: CommissionPayoutStage;
     selectedTier?: CommissionPayoutTier;
 }
-
-
-

@@ -19,4 +19,3 @@ export interface ReplaceAccountingTaxTreatmentRequest {
     basisSummary?: string | null;
     expectedVersion?: number;
 }
-

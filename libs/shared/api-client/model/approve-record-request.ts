@@ -13,4 +13,3 @@ export interface ApproveRecordRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

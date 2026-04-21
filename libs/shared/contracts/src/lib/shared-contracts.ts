@@ -680,6 +680,87 @@ export const ProjectListSchema = z.array(ProjectListViewSchema).meta({ id: 'Proj
 
 export type ProjectList = z.infer<typeof ProjectListSchema>;
 
+export const ProjectDetailStageSummarySchema = z
+    .object({
+        currentStage: z.string(),
+        status: z.string(),
+        plannedSignAt: z.iso.datetime().nullable(),
+        closedAt: z.iso.datetime().nullable(),
+        closedReason: z.string().nullable(),
+        blockingReasons: z.array(z.string())
+    })
+    .meta({ id: 'ProjectDetailStageSummary' });
+
+export type ProjectDetailStageSummary = z.infer<typeof ProjectDetailStageSummarySchema>;
+
+export const ProjectDetailBidSummarySchema = z
+    .object({
+        bidProcessId: z.uuid().nullable(),
+        bidStatus: z.string(),
+        resultStatus: z.string().nullable(),
+        summary: z.string().nullable()
+    })
+    .meta({ id: 'ProjectDetailBidSummary' });
+
+export type ProjectDetailBidSummary = z.infer<typeof ProjectDetailBidSummarySchema>;
+
+export const ProjectDetailContractSummarySchema = z
+    .object({
+        activeContractCount: z.number().int().nonnegative(),
+        latestContractId: z.uuid().nullable(),
+        latestContractNo: z.string().nullable(),
+        latestContractStatus: z.string().nullable(),
+        signedAmount: z.string().nullable(),
+        currencyCode: z.string().nullable(),
+        signedAt: z.iso.datetime().nullable(),
+        currentSnapshotId: z.uuid().nullable()
+    })
+    .meta({ id: 'ProjectDetailContractSummary' });
+
+export type ProjectDetailContractSummary = z.infer<typeof ProjectDetailContractSummarySchema>;
+
+export const ProjectDetailApprovalSummarySchema = z
+    .object({
+        summarySnapshotId: z.uuid().nullable(),
+        summaryPackageKey: z.string().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        generatedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ProjectDetailApprovalSummary' });
+
+export type ProjectDetailApprovalSummary = z.infer<typeof ProjectDetailApprovalSummarySchema>;
+
+export const ProjectDetailConfirmationSummarySchema = z
+    .object({
+        confirmationRecordId: z.uuid().nullable(),
+        status: z.string(),
+        requiredCount: z.number().int().nonnegative(),
+        confirmedCount: z.number().int().nonnegative(),
+        pendingCount: z.number().int().nonnegative(),
+        confirmedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ProjectDetailConfirmationSummary' });
+
+export type ProjectDetailConfirmationSummary = z.infer<typeof ProjectDetailConfirmationSummarySchema>;
+
+export const ProjectDetailViewSchema = ProjectSummarySchema.extend({
+    ownerName: z.string().nullable(),
+    ownerOrgName: z.string().nullable(),
+    stageSummary: ProjectDetailStageSummarySchema,
+    currentBidSummary: ProjectDetailBidSummarySchema,
+    currentContractSummary: ProjectDetailContractSummarySchema,
+    currentApprovalSummary: ProjectDetailApprovalSummarySchema,
+    currentConfirmationSummary: ProjectDetailConfirmationSummarySchema,
+    summarySnapshotId: z.uuid().nullable(),
+    projectionLevel: z.string().nullable(),
+    exportPolicy: z.string().nullable(),
+    allowedActions: z.array(z.string()),
+    generatedAt: z.iso.datetime()
+}).meta({ id: 'ProjectDetailView' });
+
+export type ProjectDetailView = z.infer<typeof ProjectDetailViewSchema>;
+
 export const CreateProjectRequestSchema = z
     .object({
         projectCode: z.string().trim().min(1).max(64),

@@ -29,6 +29,3 @@ export interface CreatePeriodClosingSnapshotRequest {
     periodKey: string;
     expectedCurrentSnapshotVersion?: number;
 }
-
-
-

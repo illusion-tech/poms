@@ -17,4 +17,3 @@ export interface SubmitCommissionFreezeDisputeRequest {
     comment?: string;
     expectedVersion?: number;
 }
-

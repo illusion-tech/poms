@@ -25,6 +25,3 @@ export interface UpdateExpenseRecordRequest {
     attachmentCount?: number;
     expectedVersion?: number;
 }
-
-
-

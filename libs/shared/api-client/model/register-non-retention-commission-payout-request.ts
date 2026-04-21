@@ -23,6 +23,3 @@ export enum RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum {
     Second = 'second',
     Final = 'final'
 };
-
-
-

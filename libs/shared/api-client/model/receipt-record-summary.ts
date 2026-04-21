@@ -24,6 +24,3 @@ export interface ReceiptRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-
-
-

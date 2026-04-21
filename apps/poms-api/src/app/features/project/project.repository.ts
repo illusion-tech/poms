@@ -112,6 +112,15 @@ export class ProjectRepository {
         return latestSignedAtByProjectId;
     }
 
+    async findContractsByProjectId(projectId: string): Promise<Contract[]> {
+        return this.contractRepository.find(
+            { projectId },
+            {
+                orderBy: { signedAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     create(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }

@@ -15,4 +15,3 @@ export enum InvoiceRecordType {
 
     Output = 'output'
 }
-

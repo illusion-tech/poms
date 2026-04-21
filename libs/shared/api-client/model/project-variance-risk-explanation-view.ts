@@ -26,6 +26,3 @@ export interface ProjectVarianceRiskExplanationView {
     recommendedActionSummary: string | null;
     allowedActions: Array<string>;
 }
-
-
-

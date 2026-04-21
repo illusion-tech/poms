@@ -19,4 +19,3 @@ export interface CommandResult {
     todoItemIds: Array<string>;
     snapshotId?: string | null;
 }
-

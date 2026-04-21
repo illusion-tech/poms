@@ -16,4 +16,3 @@ export interface CreateOrgUnitRequest {
     parentId?: string | null;
     displayOrder?: number;
 }
-

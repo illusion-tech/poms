@@ -27,6 +27,3 @@ export interface SecurityEventSummary {
     details: { [key: string]: any; };
     occurredAt: string;
 }
-
-
-

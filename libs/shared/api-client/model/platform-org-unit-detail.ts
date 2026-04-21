@@ -23,4 +23,3 @@ export interface PlatformOrgUnitDetail {
     activeMembershipCount: number;
     canDelete: boolean;
 }
-

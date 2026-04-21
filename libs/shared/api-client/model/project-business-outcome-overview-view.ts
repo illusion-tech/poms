@@ -26,6 +26,3 @@ export interface ProjectBusinessOutcomeOverviewView {
     referencedSnapshotVersion: string;
     allowedActions: Array<string>;
 }
-
-
-

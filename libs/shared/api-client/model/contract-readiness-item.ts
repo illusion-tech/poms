@@ -22,6 +22,3 @@ export interface ContractReadinessItem {
     navigationHint: string | null;
     sortOrder: number;
 }
-
-
-

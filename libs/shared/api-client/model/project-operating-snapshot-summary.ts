@@ -49,6 +49,3 @@ export enum ProjectOperatingSnapshotSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

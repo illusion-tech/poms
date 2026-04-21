@@ -17,4 +17,3 @@ export enum CommercialDiffLevel {
 
     ReapprovalRequired = 'reapproval-required'
 }
-

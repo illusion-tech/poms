@@ -35,6 +35,3 @@ export enum CommercialReleaseBaselineSummaryBaselineStatusEnum {
     Effective = 'effective',
     Superseded = 'superseded'
 };
-
-
-

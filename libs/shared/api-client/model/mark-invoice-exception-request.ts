@@ -14,4 +14,3 @@ export interface MarkInvoiceExceptionRequest {
     comment?: string | null;
     expectedVersion?: number;
 }
-

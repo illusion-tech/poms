@@ -30,6 +30,3 @@ export enum PublishInternalCostRateVersionRequestRateUnitEnum {
     Hour = 'HOUR',
     Day = 'DAY'
 };
-
-
-

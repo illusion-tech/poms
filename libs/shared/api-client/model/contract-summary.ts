@@ -26,6 +26,3 @@ export interface ContractSummary {
     updatedAt: string;
     updatedBy: string | null;
 }
-
-
-

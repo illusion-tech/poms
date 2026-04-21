@@ -24,6 +24,3 @@ export interface FreezeCommissionRoleAssignmentResult {
 export enum FreezeCommissionRoleAssignmentResultBusinessStatusAfterEnum {
     Frozen = 'frozen'
 };
-
-
-

@@ -32,4 +32,3 @@ export interface ApprovalRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-

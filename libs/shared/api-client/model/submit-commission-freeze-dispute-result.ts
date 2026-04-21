@@ -18,4 +18,3 @@ export interface SubmitCommissionFreezeDisputeResult {
     exportPolicy: string;
     businessStatusAfter: string;
 }
-

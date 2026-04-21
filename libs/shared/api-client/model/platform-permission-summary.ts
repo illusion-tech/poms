@@ -67,6 +67,3 @@ export enum PlatformPermissionSummaryDeprecatedByEnum {
     NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'
 };
-
-
-

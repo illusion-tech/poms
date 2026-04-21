@@ -19,4 +19,3 @@ export enum ExpenseRecordStatus {
 
     Voided = 'voided'
 }
-

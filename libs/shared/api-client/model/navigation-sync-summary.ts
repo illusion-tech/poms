@@ -22,6 +22,3 @@ export interface NavigationSyncSummary {
 export enum NavigationSyncSummaryTargetIdEnum {
     PlatformNavigation = 'platform-navigation'
 };
-
-
-

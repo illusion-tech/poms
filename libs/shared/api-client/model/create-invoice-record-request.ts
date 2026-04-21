@@ -17,6 +17,3 @@ export interface CreateInvoiceRecordRequest {
     invoiceAmount: string;
     invoiceDate: string;
 }
-
-
-

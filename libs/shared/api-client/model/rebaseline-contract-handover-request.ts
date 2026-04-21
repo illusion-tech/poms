@@ -16,4 +16,3 @@ export interface RebaselineContractHandoverRequest {
     effectiveBaselineAfterId: string;
     expectedVersion?: number;
 }
-

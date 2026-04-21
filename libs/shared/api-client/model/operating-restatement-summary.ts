@@ -29,6 +29,3 @@ export enum OperatingRestatementSummaryStatusEnum {
     Superseded = 'superseded',
     Voided = 'voided'
 };
-
-
-

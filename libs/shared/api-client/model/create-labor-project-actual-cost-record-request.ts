@@ -30,6 +30,3 @@ export enum CreateLaborProjectActualCostRecordRequestLaborPeriodTypeEnum {
     Week = 'WEEK',
     Month = 'MONTH'
 };
-
-
-

@@ -19,4 +19,3 @@ export enum CommercialDiffReviewStatus {
 
     Rejected = 'rejected'
 }
-

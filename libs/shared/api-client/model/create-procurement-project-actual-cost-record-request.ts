@@ -20,6 +20,3 @@ export interface CreateProcurementProjectActualCostRecordRequest {
 export enum CreateProcurementProjectActualCostRecordRequestCostTypeEnum {
     Procurement = 'PROCUREMENT'
 };
-
-
-

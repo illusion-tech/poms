@@ -12,4 +12,3 @@
 export interface SubmitCommissionAdjustmentApprovalRequest { 
     expectedVersion?: number;
 }
-

@@ -17,4 +17,3 @@ export interface CreateCommissionDepartureExceptionDecisionRequest {
     confirmationRequirementSummary?: string | null;
     summarySnapshotId: string;
 }
-

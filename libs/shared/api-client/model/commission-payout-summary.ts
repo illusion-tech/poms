@@ -38,6 +38,3 @@ export enum CommissionPayoutSummaryStatusEnum {
     Suspended = 'suspended',
     Reversed = 'reversed'
 };
-
-
-

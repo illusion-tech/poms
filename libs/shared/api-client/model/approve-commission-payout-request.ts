@@ -13,4 +13,3 @@ export interface ApproveCommissionPayoutRequest {
     approvedAmount?: string;
     expectedVersion?: number;
 }
-

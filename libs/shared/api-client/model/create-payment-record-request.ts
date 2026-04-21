@@ -20,4 +20,3 @@ export interface CreatePaymentRecordRequest {
     costCategory: string;
     sourceType?: string;
 }
-

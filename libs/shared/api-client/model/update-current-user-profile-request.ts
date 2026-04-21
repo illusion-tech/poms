@@ -14,4 +14,3 @@ export interface UpdateCurrentUserProfileRequest {
     email?: string | null;
     phone?: string | null;
 }
-

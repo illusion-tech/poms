@@ -23,6 +23,3 @@ export interface ConfirmProjectHandoverResult {
 export enum ConfirmProjectHandoverResultBusinessStatusAfterEnum {
     Confirmed = 'confirmed'
 };
-
-
-

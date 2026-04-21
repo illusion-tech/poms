@@ -14,4 +14,3 @@ export interface CreateReceiptRecordRequest {
     receiptDate: string;
     sourceType?: string;
 }
-
