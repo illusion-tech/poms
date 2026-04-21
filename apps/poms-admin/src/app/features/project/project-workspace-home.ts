@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { ProjectStore, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
-import { ButtonModule } from 'primeng/button';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 
 @Component({
     selector: 'app-project-workspace-home',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonModule, SectionCard],
+    imports: [CommonModule, SectionCard, WorkspaceActionLink],
     template: `
         @if (project()) {
             @if (guidance(); as guidance) {
@@ -63,12 +62,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                                         }
                                     </div>
                                     @if (entry.enabled && entry.route; as route) {
-                                        <a
-                                            [routerLink]="route"
-                                            class="inline-flex items-center justify-center rounded-md border border-primary-200 px-3 py-2 text-sm font-medium text-primary-700 transition-colors hover:bg-primary-50 dark:border-primary-800 dark:text-primary-200 dark:hover:bg-primary-950/30"
-                                        >
-                                            进入
-                                        </a>
+                                        <app-workspace-action-link [routerLink]="route" label="进入" severity="primary" [outlined]="true" />
                                     } @else {
                                         <span class="text-sm text-surface-400 dark:text-surface-500">暂不可进入</span>
                                     }

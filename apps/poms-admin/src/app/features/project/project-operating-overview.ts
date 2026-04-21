@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectWorkspaceStore } from '@poms/admin-data-access';
-import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
+import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import {
     actionLevelLabel,
     actionLevelSeverity,
@@ -14,29 +15,17 @@ import {
 @Component({
     selector: 'app-project-operating-overview',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonModule, TagModule, SectionCard],
+    imports: [CommonModule, TagModule, SectionCard, WorkspaceActionLink, WorkspaceLoading],
     template: `
         @if (loading()) {
-            <div class="flex items-center justify-center py-20">
-                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-            </div>
+            <app-workspace-loading label="正在读取经营总览" />
         } @else if (error()) {
             <section-card>
                 <ng-template #title>经营总览暂不可用</ng-template>
                 <ng-template #description>{{ error() }}</ng-template>
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <a
-                        [routerLink]="['/projects', projectId(), 'workspace', 'variance-risk']"
-                        class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                    >
-                        查看偏差与风险
-                    </a>
-                    <a
-                        [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']"
-                        class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                    >
-                        查看提成阶段解释
-                    </a>
+                    <app-workspace-action-link [routerLink]="['/projects', projectId(), 'workspace', 'variance-risk']" label="查看偏差与风险" />
+                    <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']" label="查看提成阶段解释" />
                 </div>
             </section-card>
         } @else if (overview() && accounting()) {
@@ -65,18 +54,8 @@ import {
                         </div>
                     </div>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <a
-                            [routerLink]="['/projects', projectId(), 'workspace', 'variance-risk']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            查看偏差与风险
-                        </a>
-                        <a
-                            [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            查看提成阶段解释
-                        </a>
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'workspace', 'variance-risk']" label="查看偏差与风险" />
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']" label="查看提成阶段解释" />
                     </div>
                 </section-card>
 

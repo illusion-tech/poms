@@ -5,6 +5,8 @@ import { AuthStore, ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-nav';
 import {
     projectStageLabel,
     projectStageSeverity,
@@ -13,23 +15,14 @@ import {
     projectWorkspaceGuide
 } from '../project/project-presentation';
 
-interface CommissionTab {
-    label: string;
-    routerLink: string[];
-    enabled: boolean;
-    permissionHint?: string;
-}
-
 @Component({
     selector: 'app-project-commission-shell',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonModule, TagModule, SectionCard],
+    imports: [CommonModule, RouterModule, ButtonModule, TagModule, SectionCard, WorkspaceLoading, WorkspaceNav],
     providers: [ProjectStore, ProjectWorkspaceStore],
     template: `
         @if (loading()) {
-            <div class="flex items-center justify-center py-20">
-                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-            </div>
+            <app-workspace-loading label="正在读取提成工作区" />
         } @else if (project()) {
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
@@ -69,25 +62,7 @@ interface CommissionTab {
                 <section-card>
                     <ng-template #title>提成相关事项</ng-template>
                     <ng-template #description>先查看阶段条件和结算说明，再处理发放、登记或调整。</ng-template>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        @for (tab of tabs(); track tab.label) {
-                            @if (tab.enabled) {
-                                <a
-                                    [routerLink]="tab.routerLink"
-                                    routerLinkActive="bg-primary-100 text-primary-900 dark:bg-primary-900/30 dark:text-primary-100 border-primary-200 dark:border-primary-700"
-                                    class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm font-medium text-surface-700 transition-colors hover:border-primary-300 hover:text-primary-700 dark:border-surface-700 dark:text-surface-200 dark:hover:border-primary-700 dark:hover:text-primary-200"
-                                >
-                                    {{ tab.label }}
-                                </a>
-                            } @else {
-                                <span
-                                    class="inline-flex items-center rounded-md border border-dashed border-surface-300 px-3 py-2 text-sm text-surface-400 dark:border-surface-600 dark:text-surface-500"
-                                >
-                                    {{ tab.label }} · {{ tab.permissionHint }}
-                                </span>
-                            }
-                        }
-                    </div>
+                    <app-workspace-nav class="mt-4 block" [items]="tabs()" />
                 </section-card>
 
                 <router-outlet></router-outlet>
@@ -130,32 +105,32 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         return projectWorkspaceGuide(project);
     });
 
-    readonly tabs = computed<CommissionTab[]>(() => {
+    readonly tabs = computed<WorkspaceNavItem[]>(() => {
         const projectId = this.projectId();
         return [
             {
                 label: '提成阶段解释',
                 routerLink: ['/projects', projectId, 'commission', 'gate-overview'],
                 enabled: this.canAccessCommissionGate(),
-                permissionHint: '需要项目查看和合同资金权限。'
+                disabledReason: '需要项目查看和合同资金权限。'
             },
             {
                 label: '最终结算',
                 routerLink: ['/projects', projectId, 'commission', 'final-settlement'],
                 enabled: this.canAccessCommissionExplanation(),
-                permissionHint: '需要项目查看和提成发放权限。'
+                disabledReason: '需要项目查看和提成发放权限。'
             },
             {
                 label: '规则解释',
                 routerLink: ['/projects', projectId, 'commission', 'rule-explanation'],
                 enabled: this.canAccessCommissionExplanation(),
-                permissionHint: '需要项目查看和提成发放权限。'
+                disabledReason: '需要项目查看和提成发放权限。'
             },
             {
                 label: '提成操作',
                 routerLink: ['/projects', projectId, 'commission', 'operations'],
                 enabled: this.canAccessCommissionOperations(),
-                permissionHint: '需要完整的提成治理操作权限。'
+                disabledReason: '需要完整的提成治理操作权限。'
             }
         ];
     });

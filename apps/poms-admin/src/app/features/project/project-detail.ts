@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 
 type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
 
@@ -110,13 +111,11 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, WorkspaceLoading],
     providers: [ProjectStore],
     template: `
         @if (loading()) {
-            <div class="flex items-center justify-center py-20">
-                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-            </div>
+            <app-workspace-loading label="正在读取项目详情" />
         } @else if (project(); as project) {
             <div class="flex flex-col gap-6">
                 <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">

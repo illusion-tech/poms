@@ -8,12 +8,18 @@ import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
+import { SelectModule } from 'primeng/select';
+import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 
 interface ProjectFilterOption {
     label: string;
     value: string;
+}
+
+interface ProjectColumnFilterOption {
+    label: string;
+    value: string | null;
 }
 
 interface ProjectSummaryItem {
@@ -89,7 +95,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule],
     providers: [ProjectStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -134,78 +140,109 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
             </section>
 
             <section class="flex flex-col gap-4">
-                <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                        <p-iconfield class="w-full md:w-80">
-                            <p-inputicon class="pi pi-search" />
-                            <input
-                                pInputText
-                                [ngModel]="searchValue()"
-                                (ngModelChange)="searchValue.set($event)"
-                                placeholder="搜索项目、客户、负责人"
-                                class="w-full! rounded-md! py-2!"
-                            />
-                        </p-iconfield>
-
-                        <select
-                            class="h-10 rounded-md border border-surface-300 bg-surface-0 px-3 text-sm text-surface-700 outline-none transition-colors hover:border-surface-400 focus:border-primary dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200 dark:hover:border-surface-500"
-                            [ngModel]="stageFilter()"
-                            (ngModelChange)="stageFilter.set($event)"
-                            aria-label="按阶段筛选"
-                        >
-                            @for (option of stageOptions; track option.value) {
-                                <option [value]="option.value">{{ option.label }}</option>
-                            }
-                        </select>
-
-                        <select
-                            class="h-10 rounded-md border border-surface-300 bg-surface-0 px-3 text-sm text-surface-700 outline-none transition-colors hover:border-surface-400 focus:border-primary dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200 dark:hover:border-surface-500"
-                            [ngModel]="statusFilter()"
-                            (ngModelChange)="statusFilter.set($event)"
-                            aria-label="按状态筛选"
-                        >
-                            @for (option of statusOptions; track option.value) {
-                                <option [value]="option.value">{{ option.label }}</option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="text-sm text-surface-500 dark:text-surface-400">
-                        当前筛出 {{ visibleProjects().length }} 个项目
-                    </div>
-                </div>
-
                 <div class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
                     <p-table
+                        #dt
                         [value]="visibleProjects()"
                         [loading]="loading()"
+                        [rowHover]="true"
+                        [showGridlines]="true"
                         [paginator]="true"
                         [rows]="rows"
                         [first]="first"
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
+                        [globalFilterFields]="['projectCode', 'projectName', 'customerName', 'ownerName', 'ownerOrgName', 'currentStage', 'status']"
                         [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个项目"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                     >
+                        <ng-template #caption>
+                            <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+                                <div class="flex flex-col gap-3 md:flex-row md:items-center">
+                                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
+
+                                    <p-iconfield class="w-full md:w-80">
+                                        <p-inputicon class="pi pi-search" />
+                                        <input
+                                            pInputText
+                                            [ngModel]="searchValue()"
+                                            (ngModelChange)="searchValue.set($event)"
+                                            (input)="onGlobalFilter(dt, $event)"
+                                            placeholder="搜索项目、客户、负责人"
+                                            class="w-full! rounded-md! py-2!"
+                                        />
+                                    </p-iconfield>
+
+                                    <p-select
+                                        [ngModel]="stageFilter()"
+                                        (ngModelChange)="setStageFilter($event)"
+                                        [options]="stageOptions"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        appendTo="body"
+                                        ariaLabel="按阶段筛选"
+                                        styleClass="w-full md:w-44 rounded-md!"
+                                    />
+
+                                    <p-select
+                                        [ngModel]="statusFilter()"
+                                        (ngModelChange)="setStatusFilter($event)"
+                                        [options]="statusOptions"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        appendTo="body"
+                                        ariaLabel="按状态筛选"
+                                        styleClass="w-full md:w-40 rounded-md!"
+                                    />
+                                </div>
+
+                                <div class="text-sm text-surface-500 dark:text-surface-400">
+                                    当前筛出 {{ visibleProjects().length }} 个项目
+                                </div>
+                            </div>
+                        </ng-template>
                         <ng-template #header>
                             <tr>
                                 <th pSortableColumn="projectName" class="min-w-64">
-                                    <span class="flex items-center gap-2">项目 <p-sortIcon field="projectName" /></span>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="flex items-center gap-2">项目 <p-sortIcon field="projectName" /></span>
+                                        <p-columnFilter type="text" field="projectName" display="menu" placeholder="按项目名筛选" />
+                                    </div>
                                 </th>
                                 <th pSortableColumn="customerName" class="min-w-48">
-                                    <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
+                                        <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
+                                    </div>
                                 </th>
                                 <th pSortableColumn="currentStage" class="min-w-40">
-                                    <span class="flex items-center gap-2">阶段 <p-sortIcon field="currentStage" /></span>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="flex items-center gap-2">阶段 <p-sortIcon field="currentStage" /></span>
+                                        <p-columnFilter field="currentStage" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template #filter let-value let-filter="filterCallback">
+                                                <p-select [ngModel]="value" [options]="stageColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意阶段" appendTo="body" (onChange)="filter($event.value)" styleClass="w-48" />
+                                            </ng-template>
+                                        </p-columnFilter>
+                                    </div>
                                 </th>
                                 <th pSortableColumn="status" class="min-w-36">
-                                    <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                                        <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template #filter let-value let-filter="filterCallback">
+                                                <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-48" />
+                                            </ng-template>
+                                        </p-columnFilter>
+                                    </div>
                                 </th>
                                 <th pSortableColumn="ownerName" class="min-w-52">
-                                    <span class="flex items-center gap-2">负责人 <p-sortIcon field="ownerName" /></span>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="flex items-center gap-2">负责人 <p-sortIcon field="ownerName" /></span>
+                                        <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按负责人筛选" />
+                                    </div>
                                 </th>
                                 <th pSortableColumn="latestMilestoneAt" class="min-w-44">
                                     <span class="flex items-center gap-2">最近关键节点 <p-sortIcon field="latestMilestoneAt" /></span>
@@ -262,6 +299,11 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                                         <div class="text-sm leading-6 text-surface-500 dark:text-surface-400">请调整搜索词、阶段或状态。</div>
                                     </div>
                                 </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #loadingbody>
+                            <tr>
+                                <td colspan="7" class="px-6 py-12 text-center text-surface-500 dark:text-surface-400">正在读取项目列表</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -366,6 +408,16 @@ export class ProjectList implements OnInit {
         ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))
     ];
 
+    readonly stageColumnFilterOptions: ProjectColumnFilterOption[] = [
+        { label: '任意阶段', value: null },
+        ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))
+    ];
+
+    readonly statusColumnFilterOptions: ProjectColumnFilterOption[] = [
+        { label: '任意状态', value: null },
+        ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))
+    ];
+
     readonly canCreateProject = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
 
     readonly visibleProjects = computed(() => {
@@ -420,6 +472,29 @@ export class ProjectList implements OnInit {
 
     navigateToWorkspace(project: ProjectListView) {
         this.#router.navigate(['/projects', project.id, 'workspace']);
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        this.first = 0;
+    }
+
+    clearFilters(table: Table) {
+        this.searchValue.set('');
+        this.stageFilter.set(ALL_FILTER_VALUE);
+        this.statusFilter.set(ALL_FILTER_VALUE);
+        this.first = 0;
+        table.clear();
+    }
+
+    setStageFilter(value: string) {
+        this.stageFilter.set(value);
+        this.first = 0;
+    }
+
+    setStatusFilter(value: string) {
+        this.statusFilter.set(value);
+        this.first = 0;
     }
 
     showCreateDialog() {

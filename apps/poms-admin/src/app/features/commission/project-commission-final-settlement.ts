@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
+import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import {
     actionLevelLabel,
     actionLevelSeverity,
@@ -18,35 +20,18 @@ import {
 @Component({
     selector: 'app-project-commission-final-settlement',
     standalone: true,
-    imports: [CommonModule, RouterModule, TagModule, SectionCard],
+    imports: [CommonModule, TagModule, SectionCard, WorkspaceActionLink, WorkspaceLoading],
     template: `
         @if (loading()) {
-            <div class="flex items-center justify-center py-20">
-                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-            </div>
+            <app-workspace-loading label="正在读取最终结算" />
         } @else if (error()) {
             <section-card>
                 <ng-template #title>最终结算暂不可用</ng-template>
                 <ng-template #description>{{ error() }}</ng-template>
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <a
-                        [routerLink]="['/projects', projectId(), 'commission', 'rule-explanation']"
-                        class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                    >
-                        查看规则解释
-                    </a>
-                    <a
-                        [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']"
-                        class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                    >
-                        返回阶段解释
-                    </a>
-                    <a
-                        [routerLink]="['/projects', projectId(), 'commission', 'operations']"
-                        class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                    >
-                        进入提成操作
-                    </a>
+                    <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'rule-explanation']" label="查看规则解释" />
+                    <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']" label="返回阶段解释" />
+                    <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'operations']" label="进入提成操作" />
                 </div>
             </section-card>
         } @else if (finalSettlement()) {
@@ -194,30 +179,10 @@ import {
                         </div>
                     </div>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <a
-                            [routerLink]="['/projects', projectId(), 'commission', 'rule-explanation']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            查看规则解释
-                        </a>
-                        <a
-                            [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            返回阶段解释
-                        </a>
-                        <a
-                            [routerLink]="['/projects', projectId(), 'workspace', 'operating-overview']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            查看经营总览
-                        </a>
-                        <a
-                            [routerLink]="['/projects', projectId(), 'commission', 'operations']"
-                            class="inline-flex items-center rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 dark:border-surface-700 dark:text-surface-200"
-                        >
-                            进入提成操作
-                        </a>
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'rule-explanation']" label="查看规则解释" />
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'gate-overview']" label="返回阶段解释" />
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'workspace', 'operating-overview']" label="查看经营总览" />
+                        <app-workspace-action-link [routerLink]="['/projects', projectId(), 'commission', 'operations']" label="进入提成操作" />
                     </div>
                 </section-card>
             </div>

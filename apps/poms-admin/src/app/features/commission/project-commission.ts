@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal, type WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -18,16 +18,23 @@ import {
     SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum
 } from '@poms/admin-data-access';
 import type { RejectApprovalRecordRequest } from '@poms/shared-contracts';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { Menu, MenuModule } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+
+type CommissionPayoutRow = ReturnType<CommissionStore['payouts']>[number];
+type CommissionAdjustmentRow = ReturnType<CommissionStore['adjustments']>[number];
 
 const PAYOUT_STAGE_LABELS: Record<CommissionPayoutStage, string> = {
     [CommissionPayoutStage.First]: '首期发放',
@@ -39,7 +46,7 @@ const PAYOUT_STAGE_LABELS: Record<CommissionPayoutStage, string> = {
 const TEMPLATE = `
     <p-toast />
     @if (loading()) {
-        <div class="flex items-center justify-center py-20"><i class="pi pi-spin pi-spinner text-4xl text-primary"></i></div>
+        <app-workspace-loading label="正在读取提成操作" />
     } @else if (project()) {
         <div class="flex flex-col gap-6">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -78,7 +85,31 @@ const TEMPLATE = `
             <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
                 <section-card class="xl:col-span-2">
                     <ng-template #title>计算结果</ng-template>
-                    <p-table [value]="calculations()" class="mt-4" [pt]="{ root: { class: 'border-none!' } }">
+                    <p-table
+                        #calculationTable
+                        [value]="calculations()"
+                        [loading]="commissionStore.loadingCalculations()"
+                        [paginator]="true"
+                        [rows]="tableRows"
+                        [rowHover]="true"
+                        [showGridlines]="true"
+                        [globalFilterFields]="['version', 'status']"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '42rem' }"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                        currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条"
+                        class="mt-4"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #caption>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(calculationTable, calculationSearchValue)"></button>
+                                <p-iconfield class="w-full sm:w-64">
+                                    <p-inputicon class="pi pi-search" />
+                                    <input pInputText [ngModel]="calculationSearchValue()" (ngModelChange)="calculationSearchValue.set($event)" (input)="onGlobalFilter(calculationTable, $event)" placeholder="搜索版本或状态" class="w-full! rounded-md! py-2!" />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
                         <ng-template #header><tr><th>版本</th><th>提成池</th><th>状态</th><th>操作</th></tr></ng-template>
                         <ng-template #body let-item>
                             <tr>
@@ -94,13 +125,39 @@ const TEMPLATE = `
                             </tr>
                         </ng-template>
                         <ng-template #emptymessage><tr><td colspan="4" class="py-8 text-center text-surface-400">暂无计算结果</td></tr></ng-template>
+                        <ng-template #loadingbody><tr><td colspan="4" class="py-8 text-center text-surface-400">正在读取计算结果</td></tr></ng-template>
                     </p-table>
                 </section-card>
 
                 <section-card class="xl:col-span-3">
                     <ng-template #title>发放记录</ng-template>
-                    <p-table [value]="payouts()" class="mt-4" [pt]="{ root: { class: 'border-none!' } }">
-                        <ng-template #header><tr><th>阶段</th><th>档位</th><th>理论上限</th><th>状态</th><th style="width: 18rem">操作</th></tr></ng-template>
+                    <p-menu #payoutActionMenu [model]="payoutActionItems()" [popup]="true" styleClass="w-48!" appendTo="body" />
+                    <p-table
+                        #payoutTable
+                        [value]="payouts()"
+                        [loading]="commissionStore.loadingPayouts()"
+                        [paginator]="true"
+                        [rows]="tableRows"
+                        [rowHover]="true"
+                        [showGridlines]="true"
+                        [globalFilterFields]="['stageType', 'selectedTier', 'status', 'payoutKind']"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '54rem' }"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                        currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条"
+                        class="mt-4"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #caption>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(payoutTable, payoutSearchValue)"></button>
+                                <p-iconfield class="w-full sm:w-72">
+                                    <p-inputicon class="pi pi-search" />
+                                    <input pInputText [ngModel]="payoutSearchValue()" (ngModelChange)="payoutSearchValue.set($event)" (input)="onGlobalFilter(payoutTable, $event)" placeholder="搜索阶段、档位或状态" class="w-full! rounded-md! py-2!" />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
+                        <ng-template #header><tr><th>阶段</th><th>档位</th><th>理论上限</th><th>状态</th><th style="width: 7rem">操作</th></tr></ng-template>
                         <ng-template #body let-item>
                             <tr [ngClass]="highlightedPayoutId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                                 <td><div class="flex flex-col gap-2"><span>{{ getStageLabel(item.stageType) }}</span><p-tag [value]="getPayoutKindLabel(item.payoutKind)" severity="secondary" /></div></td>
@@ -108,27 +165,45 @@ const TEMPLATE = `
                                 <td>{{ formatAmount(item.theoreticalCapAmount) }}</td>
                                 <td><div class="flex flex-col gap-2"><p-tag [value]="getPayoutStatusName(item.status)" [severity]="getPayoutStatusSeverity(item.status)" /> @if (todoForPayout(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
                                 <td>
-                                    <div class="flex flex-wrap gap-2">
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft && item.stageType !== payoutStageEnum.Retention) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitPayoutApproval(item.id, item.stageType, item.rowVersion)" class="cursor-pointer" /> }
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Draft && item.stageType === payoutStageEnum.Retention) { <p-button label="查看结算链" size="small" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToFinalSettlement()" class="cursor-pointer" /> }
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.PendingApproval && todoForPayout(item.id)) {
-                                            <p-button label="审批通过" size="small" severity="success" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="approvePayout(todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
-                                            <p-button label="驳回" size="small" severity="danger" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRejectDialog('payout', todoForPayout(item.id)!.sourceId, todoForPayout(item.id)!.rowVersion)" class="cursor-pointer" />
-                                        }
-                                        @if (item.payoutKind === 'primary' && item.status === payoutStatus.Approved) { <p-button label="登记发放" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRegisterDialog(item.id, item.stageType, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)" class="cursor-pointer" /> }
-                                    </div>
+                                    <p-button icon="pi pi-ellipsis-h" label="操作" size="small" severity="secondary" [outlined]="true" [rounded]="true" [disabled]="!hasPayoutActions(item)" (onClick)="openPayoutActions($event, item, payoutActionMenu)" class="cursor-pointer" />
                                 </td>
                             </tr>
                         </ng-template>
                         <ng-template #emptymessage><tr><td colspan="5" class="py-8 text-center text-surface-400">暂无发放记录</td></tr></ng-template>
+                        <ng-template #loadingbody><tr><td colspan="5" class="py-8 text-center text-surface-400">正在读取发放记录</td></tr></ng-template>
                     </p-table>
                 </section-card>
             </div>
 
             <section-card>
                 <ng-template #title>异常调整</ng-template>
-                <p-table [value]="adjustments()" class="mt-4" [pt]="{ root: { class: 'border-none!' } }">
-                    <ng-template #header><tr><th>类型</th><th>关联对象</th><th>金额</th><th>状态</th><th>原因</th><th style="width: 18rem">操作</th></tr></ng-template>
+                <p-menu #adjustmentActionMenu [model]="adjustmentActionItems()" [popup]="true" styleClass="w-48!" appendTo="body" />
+                <p-table
+                    #adjustmentTable
+                    [value]="adjustments()"
+                    [loading]="commissionStore.loadingAdjustments()"
+                    [paginator]="true"
+                    [rows]="tableRows"
+                    [rowHover]="true"
+                    [showGridlines]="true"
+                    [globalFilterFields]="['adjustmentType', 'status', 'reason']"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                    currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条"
+                    class="mt-4"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                >
+                    <ng-template #caption>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(adjustmentTable, adjustmentSearchValue)"></button>
+                            <p-iconfield class="w-full sm:w-72">
+                                <p-inputicon class="pi pi-search" />
+                                <input pInputText [ngModel]="adjustmentSearchValue()" (ngModelChange)="adjustmentSearchValue.set($event)" (input)="onGlobalFilter(adjustmentTable, $event)" placeholder="搜索类型、状态或原因" class="w-full! rounded-md! py-2!" />
+                            </p-iconfield>
+                        </div>
+                    </ng-template>
+                    <ng-template #header><tr><th>类型</th><th>关联对象</th><th>金额</th><th>状态</th><th>原因</th><th style="width: 7rem">操作</th></tr></ng-template>
                     <ng-template #body let-item>
                         <tr [ngClass]="highlightedAdjustmentId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                             <td>{{ getAdjustmentTypeLabel(item.adjustmentType) }}</td>
@@ -137,18 +212,12 @@ const TEMPLATE = `
                             <td><div class="flex flex-col gap-2"><p-tag [value]="getAdjustmentStatusName(item.status)" [severity]="getAdjustmentStatusSeverity(item.status)" /> @if (todoForAdjustment(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
                             <td class="max-w-80"><span class="line-clamp-2">{{ item.reason }}</span></td>
                             <td>
-                                <div class="flex flex-wrap gap-2">
-                                    @if (item.status === adjustmentStatus.Draft) { <p-button label="提交审批" size="small" severity="warn" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="submitAdjustmentApproval(item.id, item.rowVersion)" class="cursor-pointer" /> }
-                                    @if (item.status === adjustmentStatus.PendingApproval && todoForAdjustment(item.id)) {
-                                        <p-button label="审批通过" size="small" severity="success" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="approveAdjustment(todoForAdjustment(item.id)!.sourceId, todoForAdjustment(item.id)!.rowVersion)" class="cursor-pointer" />
-                                        <p-button label="驳回" size="small" severity="danger" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRejectDialog('adjustment', todoForAdjustment(item.id)!.sourceId, todoForAdjustment(item.id)!.rowVersion)" class="cursor-pointer" />
-                                    }
-                                    @if (item.status === adjustmentStatus.Approved) { <p-button label="执行调整" size="small" severity="primary" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="executeAdjustment(item.id, item.rowVersion)" class="cursor-pointer" /> }
-                                </div>
+                                <p-button icon="pi pi-ellipsis-h" label="操作" size="small" severity="secondary" [outlined]="true" [rounded]="true" [disabled]="!hasAdjustmentActions(item)" (onClick)="openAdjustmentActions($event, item, adjustmentActionMenu)" class="cursor-pointer" />
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template #emptymessage><tr><td colspan="6" class="py-8 text-center text-surface-400">暂无调整记录</td></tr></ng-template>
+                    <ng-template #loadingbody><tr><td colspan="6" class="py-8 text-center text-surface-400">正在读取调整记录</td></tr></ng-template>
                 </p-table>
             </section-card>
         </div>
@@ -219,7 +288,23 @@ const TEMPLATE = `
 @Component({
     selector: 'app-project-commission',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TextareaModule, ToastModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SectionCard,
+        TagModule,
+        ButtonModule,
+        DialogModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        MenuModule,
+        SelectModule,
+        TableModule,
+        TextareaModule,
+        ToastModule,
+        WorkspaceLoading
+    ],
     providers: [CommissionStore, MessageService],
     template: TEMPLATE
 })
@@ -284,6 +369,12 @@ export class ProjectCommission implements OnInit, OnDestroy {
         }))
     );
 
+    readonly tableRows = 5;
+    readonly calculationSearchValue = signal('');
+    readonly payoutSearchValue = signal('');
+    readonly adjustmentSearchValue = signal('');
+    readonly payoutActionItems = signal<MenuItem[]>([]);
+    readonly adjustmentActionItems = signal<MenuItem[]>([]);
     readonly highlightedPayoutId = signal<string | null>(null);
     readonly highlightedAdjustmentId = signal<string | null>(null);
     triggerDialogVisible = false;
@@ -337,6 +428,33 @@ export class ProjectCommission implements OnInit, OnDestroy {
             this.commissionStore.reload(id),
             this.#workspaceStore.loadCommissionFinalSettlement(id).catch(() => undefined)
         ]);
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    clearTable(table: Table, searchValue: WritableSignal<string>) {
+        searchValue.set('');
+        table.clear();
+    }
+
+    hasPayoutActions(item: CommissionPayoutRow) {
+        return this.buildPayoutActionItems(item).some((action) => !action.disabled);
+    }
+
+    openPayoutActions(event: Event, item: CommissionPayoutRow, menu: Menu) {
+        this.payoutActionItems.set(this.buildPayoutActionItems(item));
+        menu.toggle(event);
+    }
+
+    hasAdjustmentActions(item: CommissionAdjustmentRow) {
+        return this.buildAdjustmentActionItems(item).some((action) => !action.disabled);
+    }
+
+    openAdjustmentActions(event: Event, item: CommissionAdjustmentRow, menu: Menu) {
+        this.adjustmentActionItems.set(this.buildAdjustmentActionItems(item));
+        menu.toggle(event);
     }
 
     openTriggerDialog() {
@@ -577,6 +695,100 @@ export class ProjectCommission implements OnInit, OnDestroy {
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '登记失败', detail: this.getErrorMessage(error) });
         }
+    }
+
+    private buildPayoutActionItems(item: CommissionPayoutRow): MenuItem[] {
+        const saving = this.commissionStore.saving();
+        const todo = this.todoForPayout(item.id);
+        const actions: MenuItem[] = [];
+
+        if (item.payoutKind === 'primary' && item.status === this.payoutStatus.Draft && item.stageType !== this.payoutStageEnum.Retention) {
+            actions.push({
+                label: '提交审批',
+                icon: 'pi pi-send',
+                disabled: saving,
+                command: () => void this.submitPayoutApproval(item.id, item.stageType, item.rowVersion)
+            });
+        }
+
+        if (item.payoutKind === 'primary' && item.status === this.payoutStatus.Draft && item.stageType === this.payoutStageEnum.Retention) {
+            actions.push({
+                label: '查看结算链',
+                icon: 'pi pi-link',
+                command: () => this.goToFinalSettlement()
+            });
+        }
+
+        if (item.payoutKind === 'primary' && item.status === this.payoutStatus.PendingApproval && todo) {
+            actions.push(
+                {
+                    label: '审批通过',
+                    icon: 'pi pi-check',
+                    disabled: saving,
+                    command: () => void this.approvePayout(todo.sourceId, todo.rowVersion)
+                },
+                {
+                    label: '驳回',
+                    icon: 'pi pi-times',
+                    disabled: saving,
+                    command: () => this.openRejectDialog('payout', todo.sourceId, todo.rowVersion)
+                }
+            );
+        }
+
+        if (item.payoutKind === 'primary' && item.status === this.payoutStatus.Approved) {
+            actions.push({
+                label: '登记发放',
+                icon: 'pi pi-wallet',
+                disabled: saving,
+                command: () => this.openRegisterDialog(item.id, item.stageType, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)
+            });
+        }
+
+        return actions;
+    }
+
+    private buildAdjustmentActionItems(item: CommissionAdjustmentRow): MenuItem[] {
+        const saving = this.commissionStore.saving();
+        const todo = this.todoForAdjustment(item.id);
+        const actions: MenuItem[] = [];
+
+        if (item.status === this.adjustmentStatus.Draft) {
+            actions.push({
+                label: '提交审批',
+                icon: 'pi pi-send',
+                disabled: saving,
+                command: () => void this.submitAdjustmentApproval(item.id, item.rowVersion)
+            });
+        }
+
+        if (item.status === this.adjustmentStatus.PendingApproval && todo) {
+            actions.push(
+                {
+                    label: '审批通过',
+                    icon: 'pi pi-check',
+                    disabled: saving,
+                    command: () => void this.approveAdjustment(todo.sourceId, todo.rowVersion)
+                },
+                {
+                    label: '驳回',
+                    icon: 'pi pi-times',
+                    disabled: saving,
+                    command: () => this.openRejectDialog('adjustment', todo.sourceId, todo.rowVersion)
+                }
+            );
+        }
+
+        if (item.status === this.adjustmentStatus.Approved) {
+            actions.push({
+                label: '执行调整',
+                icon: 'pi pi-play',
+                disabled: saving,
+                command: () => void this.executeAdjustment(item.id, item.rowVersion)
+            });
+        }
+
+        return actions;
     }
 
     getAdjustmentTargetLabel(relatedPayoutId: string | null, relatedCalculationId: string | null) {
