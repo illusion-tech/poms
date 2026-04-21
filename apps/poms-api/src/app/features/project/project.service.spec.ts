@@ -13,6 +13,7 @@ describe('ProjectService', () => {
         findById: jest.Mock;
         findAll: jest.Mock;
         findMany: jest.Mock;
+        findPlatformUserById: jest.Mock;
     };
 
     beforeEach(() => {
@@ -22,35 +23,41 @@ describe('ProjectService', () => {
             save: jest.fn(),
             findById: jest.fn(),
             findAll: jest.fn(),
-            findMany: jest.fn()
+            findMany: jest.fn(),
+            findPlatformUserById: jest.fn()
         };
 
         service = new ProjectService(projectRepository as never);
     });
 
-    it('creates a project with default status and nullable fields', async () => {
+    it('creates a project with default assessment stage and operator ownership', async () => {
         const createdProject = createProjectEntity();
         projectRepository.findByCode.mockResolvedValue(null);
+        projectRepository.findPlatformUserById.mockResolvedValue({
+            id: userId,
+            primaryOrgUnitId: '10000000-0000-4000-8000-000000000001'
+        });
         projectRepository.create.mockReturnValue(createdProject);
         projectRepository.save.mockResolvedValue(undefined);
 
         const result = await service.createAndSave({
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
-            currentStage: 'commercial-closure'
-        });
+            customerName: '华南地铁集团'
+        }, userId);
 
         expect(projectRepository.create).toHaveBeenCalledWith({
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
+            customerName: '华南地铁集团',
             status: 'active',
-            currentStage: 'commercial-closure',
+            currentStage: 'assessment',
             customerId: null,
-            ownerOrgId: null,
-            ownerUserId: null,
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: userId,
             plannedSignAt: null,
-            createdBy: null,
-            updatedBy: null
+            createdBy: userId,
+            updatedBy: userId
         });
         expect(projectRepository.save).toHaveBeenCalledWith(createdProject);
         expect(result).toBe(createdProject);
@@ -63,8 +70,8 @@ describe('ProjectService', () => {
             service.createAndSave({
                 projectCode: 'PRJ-2026-001',
                 projectName: 'Duplicate',
-                currentStage: 'commercial-closure'
-            })
+                customerName: '重复客户'
+            }, userId)
         ).rejects.toThrow(ConflictException);
 
         expect(projectRepository.create).not.toHaveBeenCalled();
@@ -95,11 +102,12 @@ describe('ProjectService', () => {
 
         const result = await service.updateBasicInfo(projectId, {
             projectName: 'Updated project name',
-            plannedSignAt: null,
-            updatedBy: userId
-        });
+            customerName: '新的客户名称',
+            plannedSignAt: null
+        }, userId);
 
         expect(project.projectName).toBe('Updated project name');
+        expect(project.customerName).toBe('新的客户名称');
         expect(project.plannedSignAt).toBeNull();
         expect(project.updatedBy).toBe(userId);
         expect(projectRepository.save).toHaveBeenCalledWith(project);
@@ -115,8 +123,7 @@ describe('ProjectService', () => {
         projectRepository.save.mockResolvedValue(undefined);
 
         await service.updateBasicInfo(projectId, {
-            updatedBy: userId
-        });
+        }, userId);
 
         expect(project.plannedSignAt).toBe(plannedSignAt);
     });
@@ -124,7 +131,7 @@ describe('ProjectService', () => {
     it('throws when updating a missing project', async () => {
         projectRepository.findById.mockResolvedValue(null);
 
-        await expect(service.updateBasicInfo(projectId, { updatedBy: userId })).rejects.toThrow(
+        await expect(service.updateBasicInfo(projectId, {}, userId)).rejects.toThrow(
             NotFoundException
         );
     });
@@ -135,6 +142,7 @@ describe('ProjectService', () => {
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             customerId: null,
+            customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'commercial-closure',
             ownerOrgId: null,

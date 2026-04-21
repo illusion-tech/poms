@@ -121,7 +121,7 @@ export class Workbench implements OnInit {
         { title: '待办事项', value: this.openTodosCount(), tag: '待处理', severity: this.openTodosCount() > 0 ? ('warn' as const) : ('success' as const) },
         { title: '项目总数', value: this.#projectStore.projects().length, tag: '', severity: undefined },
         { title: '进行中', value: this.#projectStore.activeProjectCount(), tag: '', severity: undefined },
-        { title: '已签约', value: this.#projectStore.closedWonProjectCount(), tag: '', severity: undefined }
+        { title: '已关闭', value: this.#projectStore.closedProjectCount(), tag: '', severity: undefined }
     ]);
 
     ngOnInit() {
@@ -156,26 +156,32 @@ export class Workbench implements OnInit {
 
     getStageName(stage: string): string {
         const map: Record<string, string> = {
-            lead: '线索',
-            opportunity: '商机',
-            proposal: '方案',
-            negotiation: '谈判',
+            assessment: '立项评估',
+            'scope-confirmation': '范围确认',
+            'commercial-closure': '商务收口',
             contracting: '签约中',
-            execution: '执行中',
-            closed: '已关闭'
+            handover: '项目移交',
+            execution: '正式执行',
+            acceptance: '验收确认',
+            completed: '已完成',
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止'
         };
         return map[stage] ?? stage;
     }
 
     getStageSeverity(stage: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            lead: 'secondary',
-            opportunity: 'info',
-            proposal: 'info',
-            negotiation: 'warn',
+            assessment: 'secondary',
+            'scope-confirmation': 'info',
+            'commercial-closure': 'warn',
             contracting: 'warn',
+            handover: 'warn',
             execution: 'success',
-            closed: 'contrast'
+            acceptance: 'info',
+            completed: 'contrast',
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger'
         };
         return map[stage];
     }
@@ -183,10 +189,11 @@ export class Workbench implements OnInit {
     getStatusName(status: string): string {
         const map: Record<string, string> = {
             active: '进行中',
-            closed_won: '已签约',
-            closed_lost: '已丢单',
-            draft: '草稿',
-            suspended: '已暂停'
+            'pending-approval': '待审批',
+            blocked: '阻塞中',
+            'on-hold': '已挂起',
+            completed: '阶段完成',
+            closed: '已关闭'
         };
         return map[status] ?? status;
     }
@@ -194,10 +201,11 @@ export class Workbench implements OnInit {
     getProjectStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
             active: 'info',
-            closed_won: 'success',
-            closed_lost: 'danger',
-            draft: 'secondary',
-            suspended: 'warn'
+            'pending-approval': 'secondary',
+            blocked: 'warn',
+            'on-hold': 'warn',
+            completed: 'success',
+            closed: 'contrast'
         };
         return map[status];
     }

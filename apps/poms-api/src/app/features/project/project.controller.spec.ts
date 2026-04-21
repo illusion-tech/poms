@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { ProjectController } from './project.controller';
 import { Project } from './project.entity';
+import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
 
 describe('ProjectController', () => {
@@ -9,9 +10,14 @@ describe('ProjectController', () => {
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
     let controller: ProjectController;
+    let projectQueryService: jest.Mocked<ProjectQueryService>;
     let projectService: jest.Mocked<ProjectService>;
 
     beforeEach(() => {
+        projectQueryService = {
+            listProjects: jest.fn()
+        } as unknown as jest.Mocked<ProjectQueryService>;
+
         projectService = {
             findMany: jest.fn(),
             findByCode: jest.fn(),
@@ -21,10 +27,10 @@ describe('ProjectController', () => {
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
 
-        controller = new ProjectController(projectService);
+        controller = new ProjectController(projectQueryService, projectService);
     });
 
-    it('maps create payload plannedSignAt into Date', async () => {
+    it('maps create payload plannedSignAt into Date and injects operator id', async () => {
         const plannedSignAt = '2026-04-15T00:00:00.000Z';
         projectService.createAndSave.mockResolvedValue(
             createProjectEntity({
@@ -32,19 +38,23 @@ describe('ProjectController', () => {
             })
         );
 
-        await controller.create({
-            projectCode: 'PRJ-2026-001',
-            projectName: 'POMS 首期项目主链路样例',
-            currentStage: 'commercial-closure',
-            plannedSignAt,
-            createdBy: userId,
-            updatedBy: userId
-        });
+        await controller.create(
+            {
+                projectCode: 'PRJ-2026-001',
+                projectName: 'POMS 首期项目主链路样例',
+                customerName: '华南地铁集团',
+                currentStage: 'commercial-closure',
+                plannedSignAt
+            },
+            { user: { sub: userId } } as never
+        );
 
         expect(projectService.createAndSave).toHaveBeenCalledWith(
             expect.objectContaining({
+                customerName: '华南地铁集团',
                 plannedSignAt: new Date(plannedSignAt)
-            })
+            }),
+            userId
         );
     });
 
@@ -56,32 +66,29 @@ describe('ProjectController', () => {
         );
 
         await controller.updateBasicInfo(projectId, {
-            plannedSignAt: null,
-            updatedBy: userId
-        });
+            plannedSignAt: null
+        }, { user: { sub: userId } } as never);
 
         expect(projectService.updateBasicInfo).toHaveBeenCalledWith(
             projectId,
             expect.objectContaining({
-                plannedSignAt: null,
-                updatedBy: userId
-            })
+                plannedSignAt: null
+            }),
+            userId
         );
     });
 
     it('leaves update payload plannedSignAt undefined when not provided', async () => {
         projectService.updateBasicInfo.mockResolvedValue(createProjectEntity());
 
-        await controller.updateBasicInfo(projectId, {
-            updatedBy: userId
-        });
+        await controller.updateBasicInfo(projectId, {}, { user: { sub: userId } } as never);
 
         expect(projectService.updateBasicInfo).toHaveBeenCalledWith(
             projectId,
             expect.objectContaining({
-                plannedSignAt: undefined,
-                updatedBy: userId
-            })
+                plannedSignAt: undefined
+            }),
+            userId
         );
     });
 
@@ -97,6 +104,7 @@ describe('ProjectController', () => {
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             customerId: null,
+            customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'commercial-closure',
             ownerOrgId: null,

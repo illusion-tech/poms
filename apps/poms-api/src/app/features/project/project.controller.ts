@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateProjectRequestDto,
@@ -7,22 +7,26 @@ import {
     ProjectListQueryDto,
     UpdateProjectBasicInfoRequestDto
 } from '@poms/api-contracts';
-import type { ProjectListQuery, ProjectSummary } from '@poms/shared-contracts';
+import type { ProjectListQuery, ProjectListView, ProjectSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Project } from './project.entity';
+import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
 
 @ApiTags('Project')
 @ApiBearerAuth()
 @Controller('projects')
 export class ProjectController {
-    constructor(private readonly projectService: ProjectService) {}
+    constructor(
+        private readonly projectQueryService: ProjectQueryService,
+        private readonly projectService: ProjectService
+    ) {}
 
     @Get()
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目列表' })
     @ApiOkResponse({ type: ProjectListDto })
-    async list(@Query() query: ProjectListQueryDto): Promise<ProjectSummary[]> {
+    async list(@Query() query: ProjectListQueryDto): Promise<ProjectListView[]> {
         const listQuery: ProjectListQuery = {
             status: query.status,
             currentStage: query.currentStage,
@@ -30,9 +34,7 @@ export class ProjectController {
             keyword: query.keyword
         };
 
-        const projects = await this.projectService.findMany(listQuery);
-
-        return projects.map(mapProjectToSummary);
+        return this.projectQueryService.listProjects(listQuery);
     }
 
     @Get('code/:projectCode')
@@ -65,19 +67,17 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目基础台账' })
     @ApiCreatedResponse({ type: ProjectDto })
-    async create(@Body() body: CreateProjectRequestDto): Promise<ProjectSummary> {
+    async create(
+        @Body() body: CreateProjectRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectSummary> {
         const project = await this.projectService.createAndSave({
             projectCode: body.projectCode,
             projectName: body.projectName,
-            customerId: body.customerId ?? null,
-            status: body.status,
+            customerName: body.customerName,
             currentStage: body.currentStage,
-            ownerOrgId: body.ownerOrgId ?? null,
-            ownerUserId: body.ownerUserId ?? null,
-            plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null,
-            createdBy: body.createdBy ?? null,
-            updatedBy: body.updatedBy ?? null
-        });
+            plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
+        }, req.user.sub);
 
         return mapProjectToSummary(project);
     }
@@ -88,7 +88,8 @@ export class ProjectController {
     @ApiOkResponse({ type: ProjectDto })
     async updateBasicInfo(
         @Param('id') id: string,
-        @Body() body: UpdateProjectBasicInfoRequestDto
+        @Body() body: UpdateProjectBasicInfoRequestDto,
+        @Request() req: { user: UserPayload }
     ): Promise<ProjectSummary> {
         let plannedSignAt: Date | null | undefined;
         if (body.plannedSignAt === undefined) {
@@ -101,12 +102,9 @@ export class ProjectController {
 
         const project = await this.projectService.updateBasicInfo(id, {
             projectName: body.projectName,
-            customerId: body.customerId,
-            ownerOrgId: body.ownerOrgId,
-            ownerUserId: body.ownerUserId,
-            plannedSignAt,
-            updatedBy: body.updatedBy
-        });
+            customerName: body.customerName,
+            plannedSignAt
+        }, req.user.sub);
 
         return mapProjectToSummary(project);
     }
@@ -118,6 +116,7 @@ function mapProjectToSummary(project: Project): ProjectSummary {
         projectCode: project.projectCode,
         projectName: project.projectName,
         customerId: project.customerId ?? null,
+        customerName: project.customerName ?? null,
         status: project.status,
         currentStage: project.currentStage,
         ownerOrgId: project.ownerOrgId ?? null,

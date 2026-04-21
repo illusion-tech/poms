@@ -23,7 +23,7 @@ describe('poms-api approval workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批处理人校验 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -79,7 +79,7 @@ describe('poms-api approval workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批重复通过 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -118,7 +118,7 @@ describe('poms-api approval workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批重复驳回 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(

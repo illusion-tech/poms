@@ -149,6 +149,7 @@ export * from './project-handover-detail-view';
 export * from './project-handover-participant-confirmation-item';
 export * from './project-handover-participant-confirmation-summary';
 export * from './project-handover-receipt-judgment-mode-summary';
+export * from './project-list-view';
 export * from './project-operating-snapshot-summary';
 export * from './project-summary';
 export * from './project-unified-accounting-view';

@@ -14,7 +14,7 @@ describe('poms-api authorization e2e', () => {
         const response = await client.post('/projects', buildProjectInput(profile, {
             projectCode: `E2E-VIEW-${unique}`,
             projectName: `E2E 只读越权项目 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         }));
 
         expectErrorStatus(response, 403);

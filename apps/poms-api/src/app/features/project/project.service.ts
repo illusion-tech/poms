@@ -1,18 +1,14 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import type { ProjectStage } from '@poms/shared-contracts';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
 export interface CreateProjectRecord {
     projectCode: string;
     projectName: string;
-    currentStage: string;
-    status?: string;
-    customerId?: string | null;
-    ownerOrgId?: string | null;
-    ownerUserId?: string | null;
+    customerName: string;
+    currentStage?: ProjectStage;
     plannedSignAt?: Date | null;
-    createdBy?: string | null;
-    updatedBy?: string | null;
 }
 
 export interface FindProjectsQuery {
@@ -24,11 +20,8 @@ export interface FindProjectsQuery {
 
 export interface UpdateProjectBasicInfoRecord {
     projectName?: string;
-    customerId?: string | null;
-    ownerOrgId?: string | null;
-    ownerUserId?: string | null;
+    customerName?: string | null;
     plannedSignAt?: Date | null;
-    updatedBy?: string | null;
 }
 
 @Injectable()
@@ -51,23 +44,29 @@ export class ProjectService {
         return this.projectRepository.findByCode(projectCode);
     }
 
-    async createAndSave(input: CreateProjectRecord): Promise<Project> {
+    async createAndSave(input: CreateProjectRecord, operatorUserId: string): Promise<Project> {
         const existingProject = await this.projectRepository.findByCode(input.projectCode);
         if (existingProject) {
             throw new ConflictException(`Project code ${input.projectCode} already exists`);
         }
 
+        const operator = await this.projectRepository.findPlatformUserById(operatorUserId);
+        if (!operator) {
+            throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+        }
+
         const project = this.projectRepository.create({
             projectCode: input.projectCode,
             projectName: input.projectName,
-            status: input.status ?? 'active',
-            currentStage: input.currentStage,
-            customerId: input.customerId ?? null,
-            ownerOrgId: input.ownerOrgId ?? null,
-            ownerUserId: input.ownerUserId ?? null,
+            status: 'active',
+            currentStage: input.currentStage ?? 'assessment',
+            customerId: null,
+            customerName: input.customerName,
+            ownerOrgId: operator.primaryOrgUnitId ?? null,
+            ownerUserId: operator.id,
             plannedSignAt: input.plannedSignAt ?? null,
-            createdBy: input.createdBy ?? null,
-            updatedBy: input.updatedBy ?? null
+            createdBy: operator.id,
+            updatedBy: operator.id
         });
 
         await this.projectRepository.save(project);
@@ -75,7 +74,7 @@ export class ProjectService {
         return project;
     }
 
-    async updateBasicInfo(id: string, input: UpdateProjectBasicInfoRecord): Promise<Project> {
+    async updateBasicInfo(id: string, input: UpdateProjectBasicInfoRecord, operatorUserId: string): Promise<Project> {
         const project = await this.projectRepository.findById(id);
         if (!project) {
             throw new NotFoundException(`Project ${id} not found`);
@@ -91,25 +90,15 @@ export class ProjectService {
             project.projectName = input.projectName;
         }
 
-        if (input.customerId !== undefined) {
-            project.customerId = input.customerId;
-        }
-
-        if (input.ownerOrgId !== undefined) {
-            project.ownerOrgId = input.ownerOrgId;
-        }
-
-        if (input.ownerUserId !== undefined) {
-            project.ownerUserId = input.ownerUserId;
+        if (input.customerName !== undefined) {
+            project.customerName = input.customerName;
         }
 
         if (input.plannedSignAt !== undefined) {
             project.plannedSignAt = input.plannedSignAt;
         }
 
-        if (input.updatedBy !== undefined) {
-            project.updatedBy = input.updatedBy;
-        }
+        project.updatedBy = operatorUserId;
 
         await this.projectRepository.save(project);
 

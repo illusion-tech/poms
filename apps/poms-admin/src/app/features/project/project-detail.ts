@@ -61,8 +61,8 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                                 <p-tag [value]="getStatusName(project()!.status)" [severity]="getStatusSeverity(project()!.status)" />
                             </div>
                             <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">客户 ID</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.customerId ?? '-' }}</span>
+                                <span class="text-xs text-surface-500 dark:text-surface-400">客户名称</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.customerName ?? '-' }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">预计签约日期</span>
@@ -197,14 +197,13 @@ export class ProjectDetail implements OnInit {
     getStatusName(status: string): string {
         const map: Record<string, string> = {
             active: '进行中',
+            'pending-approval': '待审批',
             blocked: '阻塞中',
+            'on-hold': '已挂起',
             completed: '已完成',
-            closed_won: '已签约',
-            closed_lost: '已丢单',
+            closed: '已关闭',
             'closed-lost': '已丢单',
-            'closed-terminated': '已终止',
-            draft: '草稿',
-            suspended: '已暂停'
+            'closed-terminated': '已终止'
         };
         return map[status] ?? status;
     }
@@ -212,14 +211,13 @@ export class ProjectDetail implements OnInit {
     getStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
             active: 'info',
+            'pending-approval': 'secondary',
             blocked: 'warn',
+            'on-hold': 'warn',
             completed: 'success',
-            closed_won: 'success',
-            closed_lost: 'danger',
+            closed: 'contrast',
             'closed-lost': 'danger',
-            'closed-terminated': 'danger',
-            draft: 'secondary',
-            suspended: 'warn'
+            'closed-terminated': 'danger'
         };
         return map[status];
     }
@@ -234,10 +232,8 @@ export class ProjectDetail implements OnInit {
             execution: '正式执行',
             acceptance: '验收确认',
             completed: '已完成',
-            lead: '线索',
-            opportunity: '商机',
-            proposal: '方案',
-            negotiation: '谈判'
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止'
         };
         return map[stage] ?? stage;
     }
@@ -252,10 +248,8 @@ export class ProjectDetail implements OnInit {
             execution: 'success',
             acceptance: 'info',
             completed: 'contrast',
-            lead: 'secondary',
-            opportunity: 'info',
-            proposal: 'info',
-            negotiation: 'warn'
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger'
         };
         return map[stage];
     }

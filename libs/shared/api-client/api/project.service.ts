@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CreateProjectRequest } from '../model/create-project-request';
 // @ts-ignore
+import { ProjectListView } from '../model/project-list-view';
+// @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
 import { UpdateProjectBasicInfoRequest } from '../model/update-project-basic-info-request';
@@ -42,8 +44,8 @@ export interface ProjectControllerGetByIdRequestParams {
 }
 
 export interface ProjectControllerListRequestParams {
-    status?: string;
-    currentStage?: string;
+    status?: 'active' | 'pending-approval' | 'blocked' | 'on-hold' | 'completed' | 'closed';
+    currentStage?: 'assessment' | 'scope-confirmation' | 'commercial-closure' | 'contracting' | 'handover' | 'execution' | 'acceptance' | 'completed' | 'closed-lost' | 'closed-terminated';
     ownerOrgId?: string;
     keyword?: string;
 }
@@ -261,9 +263,9 @@ export class ProjectApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectSummary>>;
-    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectSummary>>>;
-    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectSummary>>>;
+    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectListView>>;
+    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectListView>>>;
+    public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectListView>>>;
     public projectControllerList(requestParameters?: ProjectControllerListRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const status = requestParameters?.status;
         const currentStage = requestParameters?.currentStage;
@@ -338,7 +340,7 @@ export class ProjectApi extends BaseService {
 
         let localVarPath = `/api/projects`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<ProjectSummary>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ProjectListView>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters.toHttpParams(),

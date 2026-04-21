@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CreateProjectRequest, ProjectSummary, UpdateProjectBasicInfoRequest } from '@poms/shared-api-client';
+import type { CreateProjectRequest, ProjectListView, ProjectSummary, UpdateProjectBasicInfoRequest } from '@poms/shared-api-client';
 import { ProjectApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 export class ProjectStore {
     readonly #projectApi = inject(ProjectApi);
 
-    readonly #projects = signal<ProjectSummary[]>([]);
+    readonly #projects = signal<ProjectListView[]>([]);
     readonly #selectedProject = signal<ProjectSummary | null>(null);
     readonly #loading = signal(false);
     readonly #saving = signal(false);
@@ -20,7 +20,7 @@ export class ProjectStore {
     readonly loaded = this.#loaded.asReadonly();
     readonly recentProjects = computed(() => this.#projects().slice(0, 5));
     readonly activeProjectCount = computed(() => this.#projects().filter((project) => project.status === 'active').length);
-    readonly closedWonProjectCount = computed(() => this.#projects().filter((project) => project.status === 'closed_won').length);
+    readonly closedProjectCount = computed(() => this.#projects().filter((project) => project.status === 'closed').length);
 
     async loadProjects() {
         this.#loading.set(true);
@@ -41,7 +41,6 @@ export class ProjectStore {
         try {
             const project = await firstValueFrom(this.#projectApi.projectControllerGetById({ id }));
             this.#selectedProject.set(project);
-            this.#upsertProject(project);
             return project;
         } finally {
             this.#loading.set(false);
@@ -53,7 +52,9 @@ export class ProjectStore {
 
         try {
             const project = await firstValueFrom(this.#projectApi.projectControllerCreate({ createProjectRequest: request }));
-            this.#upsertProject(project, true);
+            if (this.#loaded()) {
+                await this.loadProjects();
+            }
             return project;
         } finally {
             this.#saving.set(false);
@@ -71,7 +72,9 @@ export class ProjectStore {
                 })
             );
             this.#selectedProject.set(project);
-            this.#upsertProject(project);
+            if (this.#loaded()) {
+                await this.loadProjects();
+            }
             return project;
         } finally {
             this.#saving.set(false);
@@ -80,19 +83,5 @@ export class ProjectStore {
 
     clearSelectedProject() {
         this.#selectedProject.set(null);
-    }
-
-    #upsertProject(project: ProjectSummary, prepend = false) {
-        const projects = this.#projects();
-        const existingIndex = projects.findIndex((item) => item.id === project.id);
-
-        if (existingIndex === -1) {
-            this.#projects.set(prepend ? [project, ...projects] : [...projects, project]);
-            return;
-        }
-
-        const nextProjects = [...projects];
-        nextProjects[existingIndex] = project;
-        this.#projects.set(nextProjects);
     }
 }

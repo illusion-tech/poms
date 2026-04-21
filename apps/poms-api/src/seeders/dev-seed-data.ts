@@ -5,6 +5,7 @@ export interface ProjectSeedRecord {
     projectCode: string;
     projectName: string;
     customerId: string | null;
+    customerName: string | null;
     status: string;
     currentStage: string;
     ownerOrgId: string | null;
@@ -40,6 +41,7 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         projectCode: 'PRJ-2026-001',
         projectName: 'POMS 首期项目主链路样例',
         customerId: null,
+        customerName: '华南地铁集团',
         status: 'active',
         currentStage: 'commercial-closure',
         ownerOrgId: salesSouthOrgUnit.id,
@@ -53,8 +55,9 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         projectCode: 'PRJ-2026-002',
         projectName: 'POMS 审批与导航联调样例',
         customerId: null,
+        customerName: '北城建设集团',
         status: 'blocked',
-        currentStage: 'bid-process',
+        currentStage: 'handover',
         ownerOrgId: salesHqOrgUnit.id,
         ownerUserId: salesLeadUser.id,
         plannedSignAt: null,

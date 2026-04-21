@@ -14,6 +14,7 @@ export interface ProjectSummary {
     projectCode: string;
     projectName: string;
     customerId: string | null;
+    customerName: string | null;
     status: string;
     currentStage: string;
     ownerOrgId: string | null;

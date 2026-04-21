@@ -18,19 +18,14 @@ export function makeUniqueSuffix(prefix: string): string {
 
 export function buildProjectInput(
     profile: SanitizedUserWithOrgUnits,
-    overrides: Partial<CreateProjectRequest> & Pick<CreateProjectRequest, 'projectCode' | 'projectName' | 'currentStage'>
+    overrides: Partial<CreateProjectRequest> & Pick<CreateProjectRequest, 'projectCode' | 'projectName'>
 ): CreateProjectRequest {
     return {
         projectCode: overrides.projectCode,
         projectName: overrides.projectName,
-        currentStage: overrides.currentStage,
-        status: overrides.status ?? 'active',
-        customerId: overrides.customerId ?? null,
-        ownerOrgId: overrides.ownerOrgId ?? profile.orgUnits[0]?.id ?? null,
-        ownerUserId: overrides.ownerUserId ?? profile.id,
-        plannedSignAt: overrides.plannedSignAt ?? undefined,
-        createdBy: overrides.createdBy ?? profile.id,
-        updatedBy: overrides.updatedBy ?? profile.id
+        customerName: overrides.customerName ?? `${profile.displayName} 客户`,
+        currentStage: overrides.currentStage ?? 'assessment',
+        plannedSignAt: overrides.plannedSignAt ?? undefined
     };
 }
 

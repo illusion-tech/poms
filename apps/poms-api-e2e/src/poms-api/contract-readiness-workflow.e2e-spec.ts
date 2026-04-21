@@ -26,7 +26,7 @@ describe('poms-api contract readiness workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 签约就绪主链 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const baseline = await createCommercialReleaseBaseline(

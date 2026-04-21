@@ -12,13 +12,19 @@
 export interface CreateProjectRequest { 
     projectCode: string;
     projectName: string;
-    customerId?: string | null;
-    status?: string;
-    currentStage: string;
-    ownerOrgId?: string | null;
-    ownerUserId?: string | null;
+    customerName: string;
+    currentStage?: CreateProjectRequestCurrentStageEnum;
     plannedSignAt?: string | null;
-    createdBy?: string | null;
-    updatedBy?: string | null;
 }
-
+export enum CreateProjectRequestCurrentStageEnum {
+    Assessment = 'assessment',
+    ScopeConfirmation = 'scope-confirmation',
+    CommercialClosure = 'commercial-closure',
+    Contracting = 'contracting',
+    Handover = 'handover',
+    Execution = 'execution',
+    Acceptance = 'acceptance',
+    Completed = 'completed',
+    ClosedLost = 'closed-lost',
+    ClosedTerminated = 'closed-terminated'
+};

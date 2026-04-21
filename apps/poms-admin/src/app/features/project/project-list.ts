@@ -2,21 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProjectStore, type ProjectSummary } from '@poms/admin-data-access';
+import { ProjectStore, type ProjectListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Menu, MenuModule } from 'primeng/menu';
-import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MenuModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, MenuModule],
     providers: [ProjectStore],
     template: `
         <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
@@ -121,8 +120,8 @@ import { TagModule } from 'primeng/tag';
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="currentStage" class="text-surface-900 dark:text-surface-0 font-medium">当前阶段</label>
-                        <p-select id="currentStage" [(ngModel)]="createForm.currentStage" [options]="stageOptions" optionLabel="label" optionValue="value" placeholder="选择阶段" class="w-full" appendTo="body" />
+                        <label for="customerName" class="text-surface-900 dark:text-surface-0 font-medium">客户名称</label>
+                        <input pInputText id="customerName" [(ngModel)]="createForm.customerName" class="w-full" />
                     </div>
                 </div>
 
@@ -150,17 +149,10 @@ export class ProjectList implements OnInit {
     searchValue = '';
     first = 0;
     rows = 10;
-    selectedProject = signal<ProjectSummary | null>(null);
+    selectedProject = signal<ProjectListView | null>(null);
 
     createDialogVisible = false;
-    createForm = { projectCode: '', projectName: '', currentStage: 'lead' };
-
-    stageOptions = [
-        { label: '线索', value: 'lead' },
-        { label: '商机', value: 'opportunity' },
-        { label: '方案', value: 'proposal' },
-        { label: '谈判', value: 'negotiation' }
-    ];
+    createForm = { projectCode: '', projectName: '', customerName: '' };
 
     menuItems = computed(() => {
         const project = this.selectedProject();
@@ -188,7 +180,7 @@ export class ProjectList implements OnInit {
         void this.#projectStore.loadProjects();
     }
 
-    toggleMenu(event: Event, project: ProjectSummary) {
+    toggleMenu(event: Event, project: ProjectListView) {
         this.selectedProject.set(project);
         this.actionMenu.toggle(event);
     }
@@ -197,21 +189,21 @@ export class ProjectList implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    navigateToDetail(project: ProjectSummary) {
+    navigateToDetail(project: ProjectListView) {
         this.#router.navigate(['/projects', project.id]);
     }
 
-    navigateToWorkspace(project: ProjectSummary) {
+    navigateToWorkspace(project: ProjectListView) {
         this.#router.navigate(['/projects', project.id, 'workspace']);
     }
 
     showCreateDialog() {
-        this.createForm = { projectCode: '', projectName: '', currentStage: 'lead' };
+        this.createForm = { projectCode: '', projectName: '', customerName: '' };
         this.createDialogVisible = true;
     }
 
     async createProject() {
-        if (!this.createForm.projectCode || !this.createForm.projectName) return;
+        if (!this.createForm.projectCode || !this.createForm.projectName || !this.createForm.customerName) return;
 
         try {
             await this.#projectStore.createProject(this.createForm);
@@ -224,14 +216,13 @@ export class ProjectList implements OnInit {
     getStatusName(status: string): string {
         const map: Record<string, string> = {
             active: '进行中',
+            'pending-approval': '待审批',
             blocked: '阻塞中',
+            'on-hold': '已挂起',
             completed: '已完成',
-            closed_won: '已签约',
-            closed_lost: '已丢单',
+            closed: '已关闭',
             'closed-lost': '已丢单',
             'closed-terminated': '已终止',
-            draft: '草稿',
-            suspended: '已暂停'
         };
         return map[status] ?? status;
     }
@@ -239,14 +230,13 @@ export class ProjectList implements OnInit {
     getStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
         const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
             active: 'info',
+            'pending-approval': 'secondary',
             blocked: 'warn',
+            'on-hold': 'warn',
             completed: 'success',
-            closed_won: 'success',
-            closed_lost: 'danger',
+            closed: 'contrast',
             'closed-lost': 'danger',
-            'closed-terminated': 'danger',
-            draft: 'secondary',
-            suspended: 'warn'
+            'closed-terminated': 'danger'
         };
         return map[status];
     }
@@ -261,10 +251,8 @@ export class ProjectList implements OnInit {
             execution: '正式执行',
             acceptance: '验收确认',
             completed: '已完成',
-            lead: '线索',
-            opportunity: '商机',
-            proposal: '方案',
-            negotiation: '谈判'
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止'
         };
         return map[stage] ?? stage;
     }
@@ -279,10 +267,8 @@ export class ProjectList implements OnInit {
             execution: 'success',
             acceptance: 'info',
             completed: 'contrast',
-            lead: 'secondary',
-            opportunity: 'info',
-            proposal: 'info',
-            negotiation: 'warn'
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger'
         };
         return map[stage];
     }

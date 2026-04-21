@@ -616,12 +616,32 @@ export type RecordRouteDeniedSecurityEventRequest = z.infer<typeof RecordRouteDe
 // Project
 // ---------------------------------------------------------------------------
 
+export const PROJECT_STAGES = [
+    'assessment',
+    'scope-confirmation',
+    'commercial-closure',
+    'contracting',
+    'handover',
+    'execution',
+    'acceptance',
+    'completed',
+    'closed-lost',
+    'closed-terminated'
+] as const;
+
+export type ProjectStage = (typeof PROJECT_STAGES)[number];
+
+export const PROJECT_STATUSES = ['active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'] as const;
+
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+
 export const ProjectSummarySchema = z
     .object({
         id: z.uuid(),
         projectCode: z.string(),
         projectName: z.string(),
         customerId: z.uuid().nullable(),
+        customerName: z.string().nullable(),
         status: z.string(),
         currentStage: z.string(),
         ownerOrgId: z.uuid().nullable(),
@@ -639,7 +659,24 @@ export const ProjectSummarySchema = z
 
 export type ProjectSummary = z.infer<typeof ProjectSummarySchema>;
 
-export const ProjectListSchema = z.array(ProjectSummarySchema).meta({ id: 'ProjectList' });
+export const ProjectListViewSchema = z
+    .object({
+        id: z.uuid(),
+        projectCode: z.string(),
+        projectName: z.string(),
+        customerName: z.string().nullable(),
+        currentStage: z.string(),
+        status: z.string(),
+        ownerOrgName: z.string().nullable(),
+        ownerName: z.string().nullable(),
+        latestMilestoneAt: z.iso.datetime().nullable(),
+        createdAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectListView' });
+
+export type ProjectListView = z.infer<typeof ProjectListViewSchema>;
+
+export const ProjectListSchema = z.array(ProjectListViewSchema).meta({ id: 'ProjectList' });
 
 export type ProjectList = z.infer<typeof ProjectListSchema>;
 
@@ -647,14 +684,9 @@ export const CreateProjectRequestSchema = z
     .object({
         projectCode: z.string().trim().min(1).max(64),
         projectName: z.string().trim().min(1).max(255),
-        customerId: z.uuid().nullable().optional(),
-        status: z.string().trim().min(1).max(32).optional(),
-        currentStage: z.string().trim().min(1).max(64),
-        ownerOrgId: z.uuid().nullable().optional(),
-        ownerUserId: z.uuid().nullable().optional(),
-        plannedSignAt: z.iso.datetime().nullable().optional(),
-        createdBy: z.uuid().nullable().optional(),
-        updatedBy: z.uuid().nullable().optional()
+        customerName: z.string().trim().min(1).max(255),
+        currentStage: z.enum(PROJECT_STAGES).optional(),
+        plannedSignAt: z.iso.datetime().nullable().optional()
     })
     .meta({ id: 'CreateProjectRequest' });
 
@@ -662,8 +694,8 @@ export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
 
 export const ProjectListQuerySchema = z
     .object({
-        status: z.string().trim().min(1).max(32).optional(),
-        currentStage: z.string().trim().min(1).max(64).optional(),
+        status: z.enum(PROJECT_STATUSES).optional(),
+        currentStage: z.enum(PROJECT_STAGES).optional(),
         ownerOrgId: z.uuid().optional(),
         keyword: z.string().trim().min(1).max(128).optional()
     })
@@ -674,13 +706,10 @@ export type ProjectListQuery = z.infer<typeof ProjectListQuerySchema>;
 export const UpdateProjectBasicInfoRequestSchema = z
     .object({
         projectName: z.string().trim().min(1).max(255).optional(),
-        customerId: z.uuid().nullable().optional(),
-        ownerOrgId: z.uuid().nullable().optional(),
-        ownerUserId: z.uuid().nullable().optional(),
-        plannedSignAt: z.iso.datetime().nullable().optional(),
-        updatedBy: z.uuid().nullable().optional()
+        customerName: z.string().trim().min(1).max(255).nullable().optional(),
+        plannedSignAt: z.iso.datetime().nullable().optional()
     })
-    .refine((value) => value.projectName !== undefined || value.customerId !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined || value.plannedSignAt !== undefined || value.updatedBy !== undefined, {
+    .refine((value) => value.projectName !== undefined || value.customerName !== undefined || value.plannedSignAt !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateProjectBasicInfoRequest' });

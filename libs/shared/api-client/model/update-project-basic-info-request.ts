@@ -11,10 +11,7 @@
 
 export interface UpdateProjectBasicInfoRequest { 
     projectName?: string;
-    customerId?: string | null;
-    ownerOrgId?: string | null;
-    ownerUserId?: string | null;
+    customerName?: string | null;
     plannedSignAt?: string | null;
-    updatedBy?: string | null;
 }
 

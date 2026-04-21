@@ -16,7 +16,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同审批链 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -69,7 +69,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同状态约束 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -96,7 +96,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 承接包缺失约束 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -135,7 +135,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同驳回链 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -176,7 +176,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同版本冲突 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -216,7 +216,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同重复送审 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(
@@ -249,7 +249,7 @@ describe('poms-api contract workflow e2e', () => {
         const project = await createProjectForProfile(client, profile, {
             projectCode: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同重提读侧 ${unique}`,
-            currentStage: 'negotiation'
+            currentStage: 'commercial-closure'
         });
 
         const contract = await createContract(

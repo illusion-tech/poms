@@ -43,6 +43,7 @@ export type {
     CreateContractRequest,
     CreateProjectRequest,
     ProjectBusinessOutcomeOverviewView,
+    ProjectListView,
     ProjectSummary,
     ProjectUnifiedAccountingView,
     ProjectVarianceRiskExplanationView,
@@ -51,7 +52,8 @@ export type {
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
     TodoItemSummary,
-    UpdateCurrentUserProfileRequest
+    UpdateCurrentUserProfileRequest,
+    UpdateProjectBasicInfoRequest
 } from '@poms/shared-api-client';
 export type { PlatformUserSummary, PlatformUserDetail, PlatformRoleSummary, PlatformOrgUnitSummary, CreatePlatformUserRequest, AssignUserRolesRequest, AssignUserOrgMembershipsRequest, CreateRoleRequest, AssignRolePermissionsRequest, CreateOrgUnitRequest, UpdateOrgUnitRequest, UpdatePlatformUserRequest, UserOrgUnitSummary } from '@poms/shared-api-client';
 export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';

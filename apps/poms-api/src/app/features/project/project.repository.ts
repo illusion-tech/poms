@@ -1,13 +1,22 @@
 import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { Contract } from '../contract/contract.entity';
+import { OrgUnit } from '../platform/org-unit.entity';
+import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from './project.entity';
 
 @Injectable()
 export class ProjectRepository {
     constructor(
         @InjectRepository(Project)
-        private readonly projectRepository: EntityRepository<Project>
+        private readonly projectRepository: EntityRepository<Project>,
+        @InjectRepository(PlatformUser)
+        private readonly platformUserRepository: EntityRepository<PlatformUser>,
+        @InjectRepository(OrgUnit)
+        private readonly orgUnitRepository: EntityRepository<OrgUnit>,
+        @InjectRepository(Contract)
+        private readonly contractRepository: EntityRepository<Contract>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -54,6 +63,53 @@ export class ProjectRepository {
 
     async findByCode(projectCode: string): Promise<Project | null> {
         return this.projectRepository.findOne({ projectCode });
+    }
+
+    async findPlatformUserById(id: string): Promise<PlatformUser | null> {
+        return this.platformUserRepository.findOne({ id });
+    }
+
+    async findPlatformUsersByIds(ids: string[]): Promise<PlatformUser[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.platformUserRepository.find({ id: { $in: ids } });
+    }
+
+    async findOrgUnitsByIds(ids: string[]): Promise<OrgUnit[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.orgUnitRepository.find({ id: { $in: ids } });
+    }
+
+    async findLatestSignedContractAtByProjectIds(projectIds: string[]): Promise<Map<string, Date>> {
+        if (projectIds.length === 0) {
+            return new Map();
+        }
+
+        const contracts = await this.contractRepository.find(
+            {
+                projectId: { $in: projectIds },
+                signedAt: { $ne: null }
+            },
+            {
+                orderBy: { signedAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC }
+            }
+        );
+
+        const latestSignedAtByProjectId = new Map<string, Date>();
+        for (const contract of contracts) {
+            if (!contract.signedAt || latestSignedAtByProjectId.has(contract.projectId)) {
+                continue;
+            }
+
+            latestSignedAtByProjectId.set(contract.projectId, contract.signedAt);
+        }
+
+        return latestSignedAtByProjectId;
     }
 
     create(input: ConstructorParameters<typeof Project>[0]): Project {
