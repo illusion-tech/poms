@@ -1,6 +1,7 @@
 import { ContractController } from './contract.controller';
 import { ContractService } from './contract.service';
 import { ApprovalService } from '../approval/approval.service';
+import { ProjectService } from '../project/project.service';
 
 describe('ContractController', () => {
     const contractId = '30000000-0000-4000-8000-000000000001';
@@ -11,6 +12,7 @@ describe('ContractController', () => {
     let controller: ContractController;
     let contractService: jest.Mocked<ContractService>;
     let approvalService: jest.Mocked<ApprovalService>;
+    let projectService: jest.Mocked<ProjectService>;
 
     beforeEach(() => {
         contractService = {
@@ -25,8 +27,12 @@ describe('ContractController', () => {
             submitContractReview: jest.fn(),
             findLatestApprovalForTarget: jest.fn()
         } as unknown as jest.Mocked<ApprovalService>;
+        projectService = {
+            findById: jest.fn().mockResolvedValue(null),
+            findByIds: jest.fn().mockResolvedValue([])
+        } as unknown as jest.Mocked<ProjectService>;
 
-        controller = new ContractController(contractService, approvalService);
+        controller = new ContractController(contractService, approvalService, projectService);
     });
 
     it('maps create payload signedAt into Date', async () => {

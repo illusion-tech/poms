@@ -40,6 +40,10 @@ export class ProjectService {
         return this.projectRepository.findById(id);
     }
 
+    async findByIds(ids: string[]): Promise<Project[]> {
+        return this.projectRepository.findByIds(ids);
+    }
+
     async findByCode(projectCode: string): Promise<Project | null> {
         return this.projectRepository.findByCode(projectCode);
     }

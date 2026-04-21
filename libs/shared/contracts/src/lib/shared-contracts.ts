@@ -857,6 +857,8 @@ export const ContractSummarySchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
+        projectName: z.string(),
+        customerName: z.string().nullable(),
         contractNo: z.string(),
         status: ContractStatusSchema,
         signedAmount: z.string(),

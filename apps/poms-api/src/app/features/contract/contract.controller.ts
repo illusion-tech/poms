@@ -4,6 +4,8 @@ import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, Contra
 import type { ApprovalRecordSummary, CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ApprovalService } from '../approval/approval.service';
+import { Project } from '../project/project.entity';
+import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
 import { ContractService } from './contract.service';
 
@@ -13,7 +15,8 @@ import { ContractService } from './contract.service';
 export class ContractController {
     constructor(
         private readonly contractService: ContractService,
-        private readonly approvalService: ApprovalService
+        private readonly approvalService: ApprovalService,
+        private readonly projectService: ProjectService
     ) {}
 
     @Get()
@@ -28,8 +31,11 @@ export class ContractController {
         };
 
         const contracts = await this.contractService.findMany(listQuery);
+        const projectIds = [...new Set(contracts.map((c) => c.projectId))];
+        const projects = await this.projectService.findByIds(projectIds);
+        const projectMap = new Map(projects.map((p) => [p.id, p]));
 
-        return contracts.map(mapContractToSummary);
+        return contracts.map((c) => mapContractToSummary(c, projectMap.get(c.projectId) ?? null));
     }
 
     @Get('no/:contractNo')
@@ -42,7 +48,8 @@ export class ContractController {
             throw new NotFoundException(`Contract no ${contractNo} not found`);
         }
 
-        return mapContractToSummary(contract);
+        const project = await this.projectService.findById(contract.projectId);
+        return mapContractToSummary(contract, project);
     }
 
     @Get(':id')
@@ -55,7 +62,8 @@ export class ContractController {
             throw new NotFoundException(`Contract ${id} not found`);
         }
 
-        return mapContractToSummary(contract);
+        const project = await this.projectService.findById(contract.projectId);
+        return mapContractToSummary(contract, project);
     }
 
     @Get(':id/approval-record')
@@ -89,7 +97,8 @@ export class ContractController {
             updatedBy: body.updatedBy
         });
 
-        return mapContractToSummary(contract);
+        const project = await this.projectService.findById(contract.projectId);
+        return mapContractToSummary(contract, project);
     }
 
     @Patch(':id')
@@ -106,7 +115,8 @@ export class ContractController {
             updatedBy: body.updatedBy
         });
 
-        return mapContractToSummary(contract);
+        const project = await this.projectService.findById(contract.projectId);
+        return mapContractToSummary(contract, project);
     }
 
     @Post(':id\\:submitReview')
@@ -128,10 +138,12 @@ export class ContractController {
     }
 }
 
-function mapContractToSummary(contract: Contract): ContractSummary {
+function mapContractToSummary(contract: Contract, project: Project | null): ContractSummary {
     return {
         id: contract.id,
         projectId: contract.projectId,
+        projectName: project?.projectName ?? '',
+        customerName: project?.customerName ?? null,
         contractNo: contract.contractNo,
         status: contract.status,
         signedAmount: contract.signedAmount,

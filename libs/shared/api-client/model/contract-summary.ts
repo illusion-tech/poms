@@ -10,9 +10,11 @@
 import { ContractStatus } from './contract-status';
 
 
-export interface ContractSummary { 
+export interface ContractSummary {
     id: string;
     projectId: string;
+    projectName: string;
+    customerName: string | null;
     contractNo: string;
     status: ContractStatus;
     signedAmount: string;

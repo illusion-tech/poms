@@ -61,6 +61,13 @@ export class ProjectRepository {
         return this.projectRepository.findOne({ id });
     }
 
+    async findByIds(ids: string[]): Promise<Project[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+        return this.projectRepository.find({ id: { $in: ids } });
+    }
+
     async findByCode(projectCode: string): Promise<Project | null> {
         return this.projectRepository.findOne({ projectCode });
     }
