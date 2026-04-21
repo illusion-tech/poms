@@ -197,4 +197,122 @@ describe('ProjectQueryService', () => {
         expect(result.currentConfirmationSummary.status).toBe('not_configured');
         expect(result.summarySnapshotId).toBeNull();
     });
+
+    it('builds project workspace guidance with business labels, owner hint, snapshot basis and entry guards', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000003',
+            projectCode: 'PRJ-2026-003',
+            projectName: '执行中项目',
+            customerId: null,
+            customerName: '华南地铁集团',
+            currentStage: 'execution',
+            status: 'active',
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: '00000000-0000-4000-8000-000000000001',
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: null,
+            updatedAt: new Date('2026-04-18T08:00:00.000Z'),
+            updatedBy: null
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
+        ]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([
+            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
+        ]);
+        approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue({
+            id: '37000000-0000-4000-8000-000000000003',
+            summaryPackageKey: 'project-detail',
+            projectionLevel: 'project-detail',
+            exportPolicy: 'controlled',
+            generatedAt: new Date('2026-04-18T09:00:00.000Z')
+        });
+
+        const result = await service.getProjectWorkspaceGuidance('20000000-0000-4000-8000-000000000003', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read', 'contract:finance:manage', 'commission:payouts:manage']
+        });
+
+        expect(result.currentStageLabel).toBe('正式执行');
+        expect(result.statusLabel).toBe('进行中');
+        expect(result.headline).toBe('围绕经营、回款、成本和提成条件持续推进');
+        expect(result.ownerLabel).toBe('销售人员 / 华南销售一部');
+        expect(result.blockingReasons).toEqual([]);
+        expect(result.basisSummary).toEqual({
+            summarySnapshotId: '37000000-0000-4000-8000-000000000003',
+            projectionLevel: 'project-detail',
+            exportPolicy: 'controlled',
+            generatedAt: '2026-04-18T09:00:00.000Z'
+        });
+        expect(result.recommendedEntries).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    key: 'operating-overview',
+                    route: '/projects/20000000-0000-4000-8000-000000000003/workspace/operating-overview',
+                    enabled: true,
+                    disabledReason: null
+                }),
+                expect.objectContaining({
+                    key: 'commission-final-settlement',
+                    enabled: false,
+                    disabledReason: '项目进入验收或完成阶段后再查看最终结算。'
+                }),
+                expect.objectContaining({
+                    key: 'commission-rule-explanation',
+                    enabled: true,
+                    disabledReason: null
+                })
+            ])
+        );
+        expect(result.generatedAt).toEqual(expect.any(String));
+    });
+
+    it('keeps blocked pre-signing workspace guidance readable without inventing a missing workspace', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000004',
+            projectCode: 'PRJ-2026-004',
+            projectName: '阻塞中项目',
+            customerId: null,
+            customerName: '华南地铁集团',
+            currentStage: 'assessment',
+            status: 'blocked',
+            ownerOrgId: null,
+            ownerUserId: null,
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: null,
+            updatedAt: new Date('2026-04-18T08:00:00.000Z'),
+            updatedBy: null
+        });
+        approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue(null);
+
+        const result = await service.getProjectWorkspaceGuidance('20000000-0000-4000-8000-000000000004', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read']
+        });
+
+        expect(result.headline).toBe('立项评估存在阻断，先处理卡点。');
+        expect(result.currentGap).toBe('项目已标记为阻塞，需要先明确阻断原因和解除责任。');
+        expect(result.ownerLabel).toBe('项目负责人');
+        expect(result.basisSummary.summarySnapshotId).toBeNull();
+        expect(result.recommendedEntries).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    key: 'pre-signing-workspace',
+                    route: null,
+                    enabled: false,
+                    disabledReason: '签约前工作区尚未接入正式事实源，先在项目详情中确认当前阶段和缺口。'
+                })
+            ])
+        );
+    });
 });

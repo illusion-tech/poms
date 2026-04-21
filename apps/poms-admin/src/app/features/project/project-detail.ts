@@ -2,12 +2,110 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectStore } from '@poms/admin-data-access';
+import { ProjectStore, type ProjectDetailView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+
+type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+
+interface EditProjectForm {
+    customerName: string;
+    projectName: string;
+}
+
+const PROJECT_ACTIONS = {
+    editBasicInfo: 'edit-project-basic-info',
+    manageCommission: 'manage-project-commission',
+    viewWorkspace: 'view-project-workspace'
+} as const;
+
+const PROJECT_STAGE_LABELS: Record<string, string> = {
+    assessment: '立项评估',
+    'scope-confirmation': '范围确认',
+    'commercial-closure': '商务收口',
+    contracting: '签约中',
+    handover: '项目移交',
+    execution: '正式执行',
+    acceptance: '验收确认',
+    completed: '已完成',
+    'closed-lost': '已丢单',
+    'closed-terminated': '已终止'
+};
+
+const PROJECT_STAGE_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    assessment: 'secondary',
+    'scope-confirmation': 'info',
+    'commercial-closure': 'warn',
+    contracting: 'warn',
+    handover: 'warn',
+    execution: 'success',
+    acceptance: 'info',
+    completed: 'contrast',
+    'closed-lost': 'danger',
+    'closed-terminated': 'danger'
+};
+
+const PROJECT_STATUS_LABELS: Record<string, string> = {
+    active: '进行中',
+    'pending-approval': '待审批',
+    blocked: '阻塞中',
+    'on-hold': '已挂起',
+    completed: '已完成',
+    closed: '已关闭',
+    'closed-lost': '已丢单',
+    'closed-terminated': '已终止'
+};
+
+const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    active: 'info',
+    'pending-approval': 'secondary',
+    blocked: 'warn',
+    'on-hold': 'warn',
+    completed: 'success',
+    closed: 'contrast',
+    'closed-lost': 'danger',
+    'closed-terminated': 'danger'
+};
+
+const CONTRACT_STATUS_LABELS: Record<string, string> = {
+    draft: '草稿',
+    'pending-review': '待审核',
+    active: '已生效',
+    terminated: '已终止',
+    completed: '已完成'
+};
+
+const CONTRACT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    draft: 'secondary',
+    'pending-review': 'warn',
+    active: 'success',
+    terminated: 'danger',
+    completed: 'contrast'
+};
+
+const CONFIRMATION_STATUS_LABELS: Record<string, string> = {
+    not_configured: '暂未形成确认记录',
+    pending: '待确认',
+    partial: '部分确认',
+    confirmed: '已确认',
+    voided: '已作废'
+};
+
+const CONFIRMATION_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    not_configured: 'secondary',
+    pending: 'warn',
+    partial: 'info',
+    confirmed: 'success',
+    voided: 'contrast'
+};
+
+const BLOCKING_REASON_LABELS: Record<string, string> = {
+    'project-status-blocked': '项目被标记为阻塞，需先处理阻断事项。',
+    'project-closed': '项目已关闭，不能继续推进。'
+};
 
 @Component({
     selector: 'app-project-detail',
@@ -19,120 +117,237 @@ import { SectionCard } from '../../shared/ui/sectioncard';
             <div class="flex items-center justify-center py-20">
                 <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
             </div>
-        } @else if (project()) {
+        } @else if (project(); as project) {
             <div class="flex flex-col gap-6">
-                <!-- Header -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()" class="cursor-pointer" />
-                        <div>
-                            <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">{{ project()!.projectName }}</h1>
-                            <span class="text-sm text-surface-500 dark:text-surface-400">{{ project()!.projectCode }}</span>
+                <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
+                    <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+                        <div class="flex min-w-0 items-start gap-3">
+                            <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()" styleClass="rounded-md!" />
+                            <div class="min-w-0">
+                                <p class="text-sm font-medium text-surface-500 dark:text-surface-400">项目详情</p>
+                                <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ project.projectName }}</h1>
+                                <div class="mt-2 flex flex-wrap items-center gap-2 text-sm leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>{{ project.projectCode }}</span>
+                                    <span>·</span>
+                                    <span>{{ displayText(project.customerName, '待补充客户') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <p-tag [value]="getStageName(project.stageSummary.currentStage)" [severity]="getStageSeverity(project.stageSummary.currentStage)" styleClass="rounded-[6px]!" />
+                            <p-tag [value]="getStatusName(project.stageSummary.status)" [severity]="getStatusSeverity(project.stageSummary.status)" styleClass="rounded-[6px]!" />
+                            @if (canOpenWorkspace(project)) {
+                                <p-button label="项目工作区" icon="pi pi-sitemap" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToWorkspace()" />
+                            }
+                            @if (canManageCommission(project)) {
+                                <p-button label="提成操作" icon="pi pi-wallet" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToCommission()" />
+                            }
+                            @if (canEdit(project)) {
+                                <p-button label="编辑基本信息" icon="pi pi-pencil" severity="primary" styleClass="rounded-md!" (onClick)="showEditDialog()" />
+                            }
                         </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <p-tag [value]="getStageName(project()!.currentStage)" [severity]="getStageSeverity(project()!.currentStage)" />
-                        <p-tag [value]="getStatusName(project()!.status)" [severity]="getStatusSeverity(project()!.status)" />
-                        <p-button label="项目工作区" icon="pi pi-sitemap" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToWorkspace()" class="cursor-pointer" />
-                        <p-button label="提成操作" icon="pi pi-wallet" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="goToCommission()" class="cursor-pointer" />
-                        <p-button label="编辑" icon="pi pi-pencil" severity="primary" [rounded]="true" (onClick)="showEditDialog()" class="cursor-pointer" />
+
+                    @if (availableActionCount(project) === 0) {
+                        <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
+                            当前账号只能查看项目详情，暂无可操作入口。
+                        </div>
+                    }
+                </section>
+
+                <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">负责人</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</div>
+                    </div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">归属组织</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerOrgName, '待归属组织') }}</div>
+                    </div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">预计签约</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.stageSummary.plannedSignAt ? (project.stageSummary.plannedSignAt | date: 'yyyy-MM-dd') : '待确认' }}</div>
+                    </div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">资料更新时间</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    <!-- Basic Info -->
+                <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
                     <section-card>
-                        <ng-template #title>基本信息</ng-template>
-                        <div class="grid grid-cols-2 gap-4 mt-4">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">项目编码</span>
-                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ project()!.projectCode }}</span>
+                        <ng-template #title>当前阶段</ng-template>
+                        <ng-template #description>先看项目停在哪个阶段，以及是否存在明确阻断。</ng-template>
+
+                        <div class="mt-4 flex flex-col gap-4">
+                            <div class="flex flex-wrap gap-2">
+                                <p-tag [value]="getStageName(project.stageSummary.currentStage)" [severity]="getStageSeverity(project.stageSummary.currentStage)" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getStatusName(project.stageSummary.status)" [severity]="getStatusSeverity(project.stageSummary.status)" styleClass="rounded-[6px]!" />
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">项目名称</span>
-                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ project()!.projectName }}</span>
+
+                            @if (project.stageSummary.blockingReasons.length > 0) {
+                                <div class="flex flex-col gap-2">
+                                    @for (reason of project.stageSummary.blockingReasons; track reason) {
+                                        <div class="rounded-[8px] border border-orange-200 bg-orange-50 px-3 py-2 text-sm leading-6 text-orange-800 dark:border-orange-900/50 dark:bg-orange-950/20 dark:text-orange-200">
+                                            {{ getBlockingReason(reason) }}
+                                        </div>
+                                    }
+                                </div>
+                            } @else {
+                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
+                                    当前没有记录阻断原因。
+                                </div>
+                            }
+
+                            @if (project.stageSummary.closedReason) {
+                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
+                                    关闭原因：{{ project.stageSummary.closedReason }}
+                                </div>
+                            }
+                        </div>
+                    </section-card>
+
+                    <section-card>
+                        <ng-template #title>合同情况</ng-template>
+                        <ng-template #description>这里展示当前项目已经形成的正式合同事实。</ng-template>
+
+                        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">正式合同数量</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentContractSummary.activeContractCount }}</div>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">当前阶段</span>
-                                <p-tag [value]="getStageName(project()!.currentStage)" [severity]="getStageSeverity(project()!.currentStage)" />
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">最近合同</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.currentContractSummary.latestContractNo, '暂未形成正式合同') }}</div>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">项目状态</span>
-                                <p-tag [value]="getStatusName(project()!.status)" [severity]="getStatusSeverity(project()!.status)" />
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">合同状态</div>
+                                @if (project.currentContractSummary.latestContractStatus) {
+                                    <p-tag
+                                        [value]="getContractStatusName(project.currentContractSummary.latestContractStatus)"
+                                        [severity]="getContractStatusSeverity(project.currentContractSummary.latestContractStatus)"
+                                        styleClass="mt-1 rounded-[6px]!"
+                                    />
+                                } @else {
+                                    <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">待形成</div>
+                                }
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">客户名称</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.customerName ?? '-' }}</span>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">签约金额</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ formatAmount(project.currentContractSummary.signedAmount, project.currentContractSummary.currencyCode) }}</div>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">预计签约日期</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.plannedSignAt ? (project()!.plannedSignAt | date: 'yyyy-MM-dd') : '-' }}</span>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700 sm:col-span-2">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">签约时间</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentContractSummary.signedAt ? (project.currentContractSummary.signedAt | date: 'yyyy-MM-dd') : '待确认' }}</div>
                             </div>
                         </div>
                     </section-card>
 
-                    <!-- Audit Info -->
                     <section-card>
-                        <ng-template #title>审计追踪</ng-template>
-                        <div class="grid grid-cols-2 gap-4 mt-4">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">创建时间</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.createdAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">创建人</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.createdBy ?? '-' }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">最后更新</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">更新人</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.updatedBy ?? '-' }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">版本号</span>
-                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.rowVersion }}</span>
-                            </div>
-                            @if (project()!.closedAt) {
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-xs text-surface-500 dark:text-surface-400">关闭时间</span>
-                                    <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.closedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                        <ng-template #title>审批依据</ng-template>
+                        <ng-template #description>这里展示项目详情当前可追溯到的审批摘要。</ng-template>
+
+                        <div class="mt-4 flex flex-col gap-3">
+                            @if (hasApprovalSummary(project)) {
+                                <div class="rounded-[8px] border border-green-200 bg-green-50 px-3 py-2 text-sm leading-6 text-green-800 dark:border-green-900/50 dark:bg-green-950/20 dark:text-green-200">
+                                    审批摘要已形成，当前详情可追溯到正式依据。
                                 </div>
-                            }
-                            @if (project()!.closedReason) {
-                                <div class="flex flex-col gap-1 col-span-2">
-                                    <span class="text-xs text-surface-500 dark:text-surface-400">关闭原因</span>
-                                    <span class="text-sm text-surface-950 dark:text-surface-0">{{ project()!.closedReason }}</span>
+                                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                        <div class="text-xs text-surface-500 dark:text-surface-400">依据编号</div>
+                                        <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ shortId(project.currentApprovalSummary.summarySnapshotId) }}</div>
+                                    </div>
+                                    <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                        <div class="text-xs text-surface-500 dark:text-surface-400">形成时间</div>
+                                        <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentApprovalSummary.generatedAt ? (project.currentApprovalSummary.generatedAt | date: 'yyyy-MM-dd HH:mm') : '待确认' }}</div>
+                                    </div>
+                                </div>
+                            } @else {
+                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
+                                    暂无审批摘要。
                                 </div>
                             }
                         </div>
                     </section-card>
+
+                    <section-card>
+                        <ng-template #title>确认情况</ng-template>
+                        <ng-template #description>这里展示项目确认记录是否已经形成。</ng-template>
+
+                        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700 sm:col-span-3">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">确认状态</div>
+                                <p-tag
+                                    [value]="getConfirmationStatusName(project.currentConfirmationSummary.status)"
+                                    [severity]="getConfirmationStatusSeverity(project.currentConfirmationSummary.status)"
+                                    styleClass="mt-1 rounded-[6px]!"
+                                />
+                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">需要确认</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentConfirmationSummary.requiredCount }}</div>
+                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">已确认</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentConfirmationSummary.confirmedCount }}</div>
+                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">待确认</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentConfirmationSummary.pendingCount }}</div>
+                            </div>
+                        </div>
+                    </section-card>
                 </div>
+
+                <section-card>
+                    <ng-template #title>投标信息</ng-template>
+                    <ng-template #description>只展示已经接入的正式投标事实，不用项目字段倒推出投标结论。</ng-template>
+
+                    <div class="mt-4 rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
+                        @if (project.currentBidSummary.bidStatus === 'not_configured') {
+                            投标详情暂未接入正式事实源。
+                        } @else {
+                            {{ displayText(project.currentBidSummary.summary, '当前暂无投标摘要。') }}
+                        }
+                    </div>
+                </section-card>
             </div>
 
-            <!-- Edit Dialog -->
-            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑项目" [style]="{ width: '30rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑项目基本信息" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (editError) {
+                        <div class="rounded-[8px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-200">
+                            {{ editError }}
+                        </div>
+                    }
+
                     <div class="flex flex-col gap-2">
-                        <label class="text-surface-900 dark:text-surface-0 font-medium">项目名称</label>
-                        <input pInputText [(ngModel)]="editForm.projectName" class="w-full" />
+                        <label for="editProjectName" class="text-sm font-medium text-surface-900 dark:text-surface-0">项目名称</label>
+                        <input pInputText id="editProjectName" [(ngModel)]="editForm.projectName" class="w-full rounded-md!" />
+                        @if (editAttempted && !editForm.projectName.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写项目名称。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="editCustomerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
+                        <input pInputText id="editCustomerName" [(ngModel)]="editForm.customerName" class="w-full rounded-md!" placeholder="可留空" />
                     </div>
                 </div>
 
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editDialogVisible = false" />
-                        <p-button label="保存" (onClick)="saveProject()" [loading]="saving()" />
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="closeEditDialog()" />
+                        <p-button label="保存" [loading]="saving()" styleClass="rounded-md!" (onClick)="saveProject()" />
                     </div>
                 </ng-template>
             </p-dialog>
         } @else {
             <div class="py-20 text-center">
-                <i class="pi pi-exclamation-triangle text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                <i class="pi pi-exclamation-triangle mb-3 block text-4xl text-surface-300 dark:text-surface-600"></i>
                 <p class="text-surface-500 dark:text-surface-400">项目未找到</p>
-                <p-button label="返回列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBack()" class="mt-4 cursor-pointer" />
+                <p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBack()" styleClass="mt-4 rounded-md!" />
             </div>
         }
     `
@@ -145,8 +360,11 @@ export class ProjectDetail implements OnInit {
     readonly project = this.#projectStore.selectedProject;
     readonly loading = this.#projectStore.loading;
     readonly saving = this.#projectStore.saving;
+
     editDialogVisible = false;
-    editForm = { projectName: '' };
+    editAttempted = false;
+    editError: string | null = null;
+    editForm: EditProjectForm = { customerName: '', projectName: '' };
 
     ngOnInit() {
         const id = this.#route.snapshot.paramMap.get('id');
@@ -161,96 +379,144 @@ export class ProjectDetail implements OnInit {
 
     goToCommission() {
         const project = this.project();
-        if (project) {
+        if (project && this.canManageCommission(project)) {
             this.#router.navigate(['/projects', project.id, 'commission', 'operations']);
         }
     }
 
     goToWorkspace() {
         const project = this.project();
-        if (project) {
+        if (project && this.canOpenWorkspace(project)) {
             this.#router.navigate(['/projects', project.id, 'workspace']);
         }
     }
 
     showEditDialog() {
-        const p = this.project();
-        if (!p) return;
-        this.editForm = { projectName: p.projectName };
+        const project = this.project();
+        if (!project || !this.canEdit(project)) {
+            return;
+        }
+
+        this.editForm = {
+            customerName: project.customerName ?? '',
+            projectName: project.projectName
+        };
+        this.editAttempted = false;
+        this.editError = null;
         this.editDialogVisible = true;
     }
 
+    closeEditDialog() {
+        this.editDialogVisible = false;
+        this.editError = null;
+    }
+
     async saveProject() {
-        const p = this.project();
-        if (!p) return;
+        const project = this.project();
+        if (!project || !this.canEdit(project)) {
+            return;
+        }
+
+        this.editAttempted = true;
+        const projectName = this.editForm.projectName.trim();
+        if (!projectName) {
+            return;
+        }
+
+        const customerName = this.editForm.customerName.trim();
 
         try {
-            await this.#projectStore.updateProject(p.id, {
-                projectName: this.editForm.projectName
+            await this.#projectStore.updateProject(project.id, {
+                projectName,
+                customerName: customerName || null
             });
-            this.editDialogVisible = false;
+            this.closeEditDialog();
         } catch {
-            return;
+            this.editError = '项目基本信息没有保存成功，请稍后重试。';
         }
     }
 
-    getStatusName(status: string): string {
-        const map: Record<string, string> = {
-            active: '进行中',
-            'pending-approval': '待审批',
-            blocked: '阻塞中',
-            'on-hold': '已挂起',
-            completed: '已完成',
-            closed: '已关闭',
-            'closed-lost': '已丢单',
-            'closed-terminated': '已终止'
-        };
-        return map[status] ?? status;
+    canOpenWorkspace(project: ProjectDetailView): boolean {
+        return project.allowedActions.includes(PROJECT_ACTIONS.viewWorkspace);
     }
 
-    getStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            active: 'info',
-            'pending-approval': 'secondary',
-            blocked: 'warn',
-            'on-hold': 'warn',
-            completed: 'success',
-            closed: 'contrast',
-            'closed-lost': 'danger',
-            'closed-terminated': 'danger'
-        };
-        return map[status];
+    canEdit(project: ProjectDetailView): boolean {
+        return project.allowedActions.includes(PROJECT_ACTIONS.editBasicInfo);
+    }
+
+    canManageCommission(project: ProjectDetailView): boolean {
+        return project.allowedActions.includes(PROJECT_ACTIONS.manageCommission);
+    }
+
+    availableActionCount(project: ProjectDetailView): number {
+        return [this.canOpenWorkspace(project), this.canEdit(project), this.canManageCommission(project)].filter(Boolean).length;
+    }
+
+    hasApprovalSummary(project: ProjectDetailView): boolean {
+        return Boolean(project.currentApprovalSummary.summarySnapshotId);
+    }
+
+    displayText(value: string | null | undefined, fallback: string): string {
+        return value?.trim() ? value : fallback;
+    }
+
+    shortId(value: string | null | undefined): string {
+        if (!value) {
+            return '待确认';
+        }
+
+        return value.length > 8 ? value.slice(0, 8) : value;
+    }
+
+    formatAmount(value: string | null | undefined, currencyCode: string | null | undefined): string {
+        if (value === null || value === undefined || value === '') {
+            return '待确认';
+        }
+
+        const parsed = Number(value);
+        const amount = Number.isFinite(parsed)
+            ? parsed.toLocaleString('zh-CN', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+              })
+            : value;
+
+        return currencyCode ? `${amount} ${currencyCode}` : amount;
+    }
+
+    getBlockingReason(reason: string): string {
+        return BLOCKING_REASON_LABELS[reason] ?? '项目当前存在待处理事项。';
+    }
+
+    getStatusName(status: string): string {
+        return PROJECT_STATUS_LABELS[status] ?? status;
+    }
+
+    getStatusSeverity(status: string): UiTagSeverity {
+        return PROJECT_STATUS_SEVERITIES[status];
     }
 
     getStageName(stage: string): string {
-        const map: Record<string, string> = {
-            assessment: '立项评估',
-            'scope-confirmation': '范围确认',
-            'commercial-closure': '商务收口',
-            contracting: '签约中',
-            handover: '项目移交',
-            execution: '正式执行',
-            acceptance: '验收确认',
-            completed: '已完成',
-            'closed-lost': '已丢单',
-            'closed-terminated': '已终止'
-        };
-        return map[stage] ?? stage;
+        return PROJECT_STAGE_LABELS[stage] ?? stage;
     }
 
-    getStageSeverity(stage: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            assessment: 'secondary',
-            'scope-confirmation': 'info',
-            'commercial-closure': 'warn',
-            contracting: 'warn',
-            handover: 'warn',
-            execution: 'success',
-            acceptance: 'info',
-            completed: 'contrast',
-            'closed-lost': 'danger',
-            'closed-terminated': 'danger'
-        };
-        return map[stage];
+    getStageSeverity(stage: string): UiTagSeverity {
+        return PROJECT_STAGE_SEVERITIES[stage];
+    }
+
+    getContractStatusName(status: string): string {
+        return CONTRACT_STATUS_LABELS[status] ?? status;
+    }
+
+    getContractStatusSeverity(status: string): UiTagSeverity {
+        return CONTRACT_STATUS_SEVERITIES[status] ?? 'secondary';
+    }
+
+    getConfirmationStatusName(status: string): string {
+        return CONFIRMATION_STATUS_LABELS[status] ?? status;
+    }
+
+    getConfirmationStatusSeverity(status: string): UiTagSeverity {
+        return CONFIRMATION_STATUS_SEVERITIES[status] ?? 'secondary';
     }
 }

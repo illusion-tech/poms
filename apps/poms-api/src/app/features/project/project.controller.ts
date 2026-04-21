@@ -6,9 +6,10 @@ import {
     ProjectDetailViewDto,
     ProjectListDto,
     ProjectListQueryDto,
+    ProjectWorkspaceGuidanceViewDto,
     UpdateProjectBasicInfoRequestDto
 } from '@poms/api-contracts';
-import type { ProjectDetailView, ProjectListQuery, ProjectListView, ProjectSummary, UserPayload } from '@poms/shared-contracts';
+import type { ProjectDetailView, ProjectListQuery, ProjectListView, ProjectSummary, ProjectWorkspaceGuidanceView, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
@@ -49,6 +50,17 @@ export class ProjectController {
         }
 
         return mapProjectToSummary(project);
+    }
+
+    @Get(':projectId/workspace-guidance')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目工作区引导' })
+    @ApiOkResponse({ type: ProjectWorkspaceGuidanceViewDto })
+    async getWorkspaceGuidance(
+        @Param('projectId') projectId: string,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectWorkspaceGuidanceView> {
+        return this.projectQueryService.getProjectWorkspaceGuidance(projectId, req.user);
     }
 
     @Get(':id')

@@ -761,6 +761,52 @@ export const ProjectDetailViewSchema = ProjectSummarySchema.extend({
 
 export type ProjectDetailView = z.infer<typeof ProjectDetailViewSchema>;
 
+export const ProjectWorkspaceBasisSummarySchema = z
+    .object({
+        summarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        generatedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ProjectWorkspaceBasisSummary' });
+
+export type ProjectWorkspaceBasisSummary = z.infer<typeof ProjectWorkspaceBasisSummarySchema>;
+
+export const ProjectWorkspaceEntryViewSchema = z
+    .object({
+        key: z.string(),
+        label: z.string(),
+        description: z.string(),
+        route: z.string().nullable(),
+        enabled: z.boolean(),
+        disabledReason: z.string().nullable(),
+        actionKey: z.string().nullable()
+    })
+    .meta({ id: 'ProjectWorkspaceEntryView' });
+
+export type ProjectWorkspaceEntryView = z.infer<typeof ProjectWorkspaceEntryViewSchema>;
+
+export const ProjectWorkspaceGuidanceViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        currentStage: z.string(),
+        status: z.string(),
+        currentStageLabel: z.string(),
+        statusLabel: z.string(),
+        headline: z.string(),
+        currentFocus: z.string(),
+        currentGap: z.string(),
+        nextStep: z.string(),
+        ownerLabel: z.string(),
+        blockingReasons: z.array(z.string()),
+        basisSummary: ProjectWorkspaceBasisSummarySchema,
+        recommendedEntries: z.array(ProjectWorkspaceEntryViewSchema),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectWorkspaceGuidanceView' });
+
+export type ProjectWorkspaceGuidanceView = z.infer<typeof ProjectWorkspaceGuidanceViewSchema>;
+
 export const CreateProjectRequestSchema = z
     .object({
         projectCode: z.string().trim().min(1).max(64),

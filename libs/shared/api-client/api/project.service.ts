@@ -25,6 +25,8 @@ import { ProjectListView } from '../model/project-list-view';
 // @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
+import { ProjectWorkspaceGuidanceView } from '../model/project-workspace-guidance-view';
+// @ts-ignore
 import { UpdateProjectBasicInfoRequest } from '../model/update-project-basic-info-request';
 
 // @ts-ignore
@@ -43,6 +45,10 @@ export interface ProjectControllerGetByCodeRequestParams {
 
 export interface ProjectControllerGetByIdRequestParams {
     id: string;
+}
+
+export interface ProjectControllerGetWorkspaceGuidanceRequestParams {
+    projectId: string;
 }
 
 export interface ProjectControllerListRequestParams {
@@ -245,6 +251,66 @@ export class ProjectApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目工作区引导
+     * @endpoint get /api/projects/{projectId}/workspace-guidance
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerGetWorkspaceGuidance(requestParameters: ProjectControllerGetWorkspaceGuidanceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectWorkspaceGuidanceView>;
+    public projectControllerGetWorkspaceGuidance(requestParameters: ProjectControllerGetWorkspaceGuidanceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectWorkspaceGuidanceView>>;
+    public projectControllerGetWorkspaceGuidance(requestParameters: ProjectControllerGetWorkspaceGuidanceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectWorkspaceGuidanceView>>;
+    public projectControllerGetWorkspaceGuidance(requestParameters: ProjectControllerGetWorkspaceGuidanceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerGetWorkspaceGuidance.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/workspace-guidance`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectWorkspaceGuidanceView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

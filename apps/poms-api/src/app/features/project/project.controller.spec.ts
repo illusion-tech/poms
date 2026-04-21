@@ -16,7 +16,8 @@ describe('ProjectController', () => {
     beforeEach(() => {
         projectQueryService = {
             listProjects: jest.fn(),
-            getProjectDetail: jest.fn()
+            getProjectDetail: jest.fn(),
+            getProjectWorkspaceGuidance: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -105,6 +106,19 @@ describe('ProjectController', () => {
 
         await expect(controller.getById(projectId, { user } as never)).resolves.toBe(detail);
         expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(projectId, user);
+    });
+
+    it('returns project workspace guidance through the query service', async () => {
+        const guidance = {
+            projectId,
+            headline: '围绕经营、回款、成本和提成条件持续推进',
+            recommendedEntries: []
+        };
+        const user = { sub: userId, username: 'sales_rep', permissions: ['project:read'] };
+        projectQueryService.getProjectWorkspaceGuidance.mockResolvedValue(guidance as never);
+
+        await expect(controller.getWorkspaceGuidance(projectId, { user } as never)).resolves.toBe(guidance);
+        expect(projectQueryService.getProjectWorkspaceGuidance).toHaveBeenCalledWith(projectId, user);
     });
 
     it('throws when project detail is not found by id', async () => {

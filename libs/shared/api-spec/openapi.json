@@ -1537,6 +1537,42 @@
         ]
       }
     },
+    "/api/projects/{projectId}/workspace-guidance": {
+      "get": {
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectWorkspaceGuidanceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目工作区引导",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
     "/api/projects/{id}": {
       "get": {
         "operationId": "ProjectController_getById",
@@ -7923,6 +7959,151 @@
           "updatedBy"
         ],
         "id": "ProjectSummary"
+      },
+      "ProjectWorkspaceBasisSummary": {
+        "type": "object",
+        "properties": {
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "generatedAt"
+        ],
+        "id": "ProjectWorkspaceBasisSummary"
+      },
+      "ProjectWorkspaceEntryView": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "route": {
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "disabledReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionKey": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "key",
+          "label",
+          "description",
+          "route",
+          "enabled",
+          "disabledReason",
+          "actionKey"
+        ],
+        "id": "ProjectWorkspaceEntryView"
+      },
+      "ProjectWorkspaceGuidanceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "currentStageLabel": {
+            "type": "string"
+          },
+          "statusLabel": {
+            "type": "string"
+          },
+          "headline": {
+            "type": "string"
+          },
+          "currentFocus": {
+            "type": "string"
+          },
+          "currentGap": {
+            "type": "string"
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "basisSummary": {
+            "$ref": "#/components/schemas/ProjectWorkspaceBasisSummary"
+          },
+          "recommendedEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectWorkspaceEntryView"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentStageLabel",
+          "statusLabel",
+          "headline",
+          "currentFocus",
+          "currentGap",
+          "nextStep",
+          "ownerLabel",
+          "blockingReasons",
+          "basisSummary",
+          "recommendedEntries",
+          "generatedAt"
+        ],
+        "id": "ProjectWorkspaceGuidanceView"
       },
       "ProjectDetailStageSummary": {
         "type": "object",

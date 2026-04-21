@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CreateProjectRequest, ProjectListView, ProjectSummary, UpdateProjectBasicInfoRequest } from '@poms/shared-api-client';
+import type { CreateProjectRequest, ProjectDetailView, ProjectListView, UpdateProjectBasicInfoRequest } from '@poms/shared-api-client';
 import { ProjectApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -8,7 +8,7 @@ export class ProjectStore {
     readonly #projectApi = inject(ProjectApi);
 
     readonly #projects = signal<ProjectListView[]>([]);
-    readonly #selectedProject = signal<ProjectSummary | null>(null);
+    readonly #selectedProject = signal<ProjectDetailView | null>(null);
     readonly #loading = signal(false);
     readonly #saving = signal(false);
     readonly #loaded = signal(false);
@@ -65,13 +65,13 @@ export class ProjectStore {
         this.#saving.set(true);
 
         try {
-            const project = await firstValueFrom(
+            await firstValueFrom(
                 this.#projectApi.projectControllerUpdateBasicInfo({
                     id,
                     updateProjectBasicInfoRequest: request
                 })
             );
-            this.#selectedProject.set(project);
+            const project = await this.loadProject(id);
             if (this.#loaded()) {
                 await this.loadProjects();
             }

@@ -35,42 +35,42 @@
 
 ## 2. 正式输入
 
-| Input Type        | Document / Source                                                   | Section / Anchor                                   | Status | Notes |
-| ----------------- | ------------------------------------------------------------------- | -------------------------------------------------- | ------ | ----- |
-| Business design   | `docs/design/phase2-user-task-map.md`                               | `§4`、`§5`                                         | active | 冻结销售、商务、财务、负责人和管理层在项目详情页的主要任务诉求 |
-| Business design   | `docs/design/project-lifecycle-design.md`                           | `§5`、`§6`                                         | active | 冻结正式项目阶段和状态语义，不回退到 legacy pipeline 说法 |
-| Query boundary    | `docs/design/query-view-boundary-design.md`                         | `§5.1 / ProjectDetailView`                         | active | 冻结详情视图字段、摘要对象、`summarySnapshotId` 与 `allowedActions` |
-| Authorization     | `docs/design/business-authorization-matrix.md`                      | `§3`、`§5.1`、`§5.10`、`§5.13`                    | active | 冻结平台权限与业务对象动作授权分工，按钮显隐必须以对象动作边界为准 |
-| Corrective source | `docs/design/fe-16-project-management-frontend-corrective-checkpoint.md` | `§3`、`§7`                                    | active | 冻结项目管理前端纠偏原则和“用户可见内容只说业务中文”约束 |
-| Backend baseline  | `docs/design/ex-18-project-detail-view-action-boundary-baseline.md` | `G4 close-out`                                     | done   | `ProjectDetailView`、OpenAPI、generated client 与 route inventory 已回写 |
-| Historical G1     | `docs/design/fe-16b-project-detail-business-actions-readiness-baseline.md` | full document                                | history | 记录 `EX-18` 前的 Block 结论，当前不再作为实现基线 |
-| Runtime fact      | `libs/shared/api-client/api/project.service.ts`                     | `projectControllerGetById`                         | fact   | generated client 已返回 `ProjectDetailView` |
-| Runtime fact      | `libs/admin/data-access/src/lib/project/project.store.ts`           | `selectedProject` / `loadProject` / `updateProject` | fact | 当前 store 仍声明为 `ProjectSummary`，本片必须修正 |
-| Runtime fact      | `apps/poms-admin/src/app/features/project/project-detail.ts`        | template / actions                                 | fact   | 当前页面仍是基础字段 + 静态按钮，需改为业务详情视图 |
+| Input Type        | Document / Source                                                          | Section / Anchor                                    | Status  | Notes                                                                    |
+| ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| Business design   | `docs/design/phase2-user-task-map.md`                                      | `§4`、`§5`                                          | active  | 冻结销售、商务、财务、负责人和管理层在项目详情页的主要任务诉求           |
+| Business design   | `docs/design/project-lifecycle-design.md`                                  | `§5`、`§6`                                          | active  | 冻结正式项目阶段和状态语义，不回退到 legacy pipeline 说法                |
+| Query boundary    | `docs/design/query-view-boundary-design.md`                                | `§5.1 / ProjectDetailView`                          | active  | 冻结详情视图字段、摘要对象、`summarySnapshotId` 与 `allowedActions`      |
+| Authorization     | `docs/design/business-authorization-matrix.md`                             | `§3`、`§5.1`、`§5.10`、`§5.13`                      | active  | 冻结平台权限与业务对象动作授权分工，按钮显隐必须以对象动作边界为准       |
+| Corrective source | `docs/design/fe-16-project-management-frontend-corrective-checkpoint.md`   | `§3`、`§7`                                          | active  | 冻结项目管理前端纠偏原则和“用户可见内容只说业务中文”约束                 |
+| Backend baseline  | `docs/design/ex-18-project-detail-view-action-boundary-baseline.md`        | `G4 close-out`                                      | done    | `ProjectDetailView`、OpenAPI、generated client 与 route inventory 已回写 |
+| Historical G1     | `docs/design/fe-16b-project-detail-business-actions-readiness-baseline.md` | full document                                       | history | 记录 `EX-18` 前的 Block 结论，当前不再作为实现基线                       |
+| Runtime fact      | `libs/shared/api-client/api/project.service.ts`                            | `projectControllerGetById`                          | fact    | generated client 已返回 `ProjectDetailView`                              |
+| Runtime fact      | `libs/admin/data-access/src/lib/project/project.store.ts`                  | `selectedProject` / `loadProject` / `updateProject` | fact    | 当前 store 仍声明为 `ProjectSummary`，本片必须修正                       |
+| Runtime fact      | `apps/poms-admin/src/app/features/project/project-detail.ts`               | template / actions                                  | fact    | 当前页面仍是基础字段 + 静态按钮，需改为业务详情视图                      |
 
 ## 3. 本次 SSOT
 
-| Concern | SSOT | Implementation Rule |
-| ------- | ---- | ------------------- |
-| Detail view contract | `ProjectDetailView` from generated client | 详情页和 `selectedProject` 必须消费正式详情视图，不再把 `ProjectSummary` 当详情 |
-| Business semantics | `ProjectDetailView.stageSummary` + `project-lifecycle-design.md` | 用户看到业务阶段、状态、阻断原因和更新时间，不显示内部枚举原值 |
-| Action authorization | `ProjectDetailView.allowedActions` | 工作区、编辑、提成入口等按钮只按后端动作边界展示 |
-| Contract summary | `currentContractSummary` | 只展示合同事实摘要，不在前端重算签约结论或金额口径 |
-| Approval summary | `currentApprovalSummary` | 展示审批摘要快照元数据和结论，不重新裁剪审批链 |
-| Confirmation summary | `currentConfirmationSummary` | 无确认记录时显示业务中文空态，不暴露 `null` 或内部字段名 |
-| Bid summary | `currentBidSummary` | `not_configured` 只显示“投标详情暂未接入正式事实源”，不得制造投标结论 |
-| Update flow | `PATCH /projects/{id}` + refetch detail | 更新基本信息成功后重新加载 `ProjectDetailView`，避免摘要响应覆盖详情态 |
-| User language | FE-16 corrective checkpoint | 页面不出现 `workspace`、`gate`、`allowedActions`、`snapshot` 等用户难懂词 |
+| Concern              | SSOT                                                             | Implementation Rule                                                             |
+| -------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Detail view contract | `ProjectDetailView` from generated client                        | 详情页和 `selectedProject` 必须消费正式详情视图，不再把 `ProjectSummary` 当详情 |
+| Business semantics   | `ProjectDetailView.stageSummary` + `project-lifecycle-design.md` | 用户看到业务阶段、状态、阻断原因和更新时间，不显示内部枚举原值                  |
+| Action authorization | `ProjectDetailView.allowedActions`                               | 工作区、编辑、提成入口等按钮只按后端动作边界展示                                |
+| Contract summary     | `currentContractSummary`                                         | 只展示合同事实摘要，不在前端重算签约结论或金额口径                              |
+| Approval summary     | `currentApprovalSummary`                                         | 展示审批摘要快照元数据和结论，不重新裁剪审批链                                  |
+| Confirmation summary | `currentConfirmationSummary`                                     | 无确认记录时显示业务中文空态，不暴露 `null` 或内部字段名                        |
+| Bid summary          | `currentBidSummary`                                              | `not_configured` 只显示“投标详情暂未接入正式事实源”，不得制造投标结论           |
+| Update flow          | `PATCH /projects/{id}` + refetch detail                          | 更新基本信息成功后重新加载 `ProjectDetailView`，避免摘要响应覆盖详情态          |
+| User language        | FE-16 corrective checkpoint                                      | 页面不出现 `workspace`、`gate`、`allowedActions`、`snapshot` 等用户难懂词       |
 
 ## 4. 命令与接口边界
 
-| Route / API | Consumer | Request | Response | Guard / Permission | Result |
-| ----------- | -------- | ------- | -------- | ------------------ | ------ |
-| `GET /projects/{id}` / `projectControllerGetById` | `ProjectStore.loadProject`、详情页 | path `id` | `ProjectDetailView` | 后端 `project:read` + 对象可见性 | `aligned` |
-| `PATCH /projects/{id}` / `projectControllerUpdateBasicInfo` | 详情页编辑基本信息 | `UpdateProjectBasicInfoRequest` | `ProjectSummary` | 后端 `project:write` + 对象动作授权待持续收口 | `aligned-with-refresh-required` |
-| `/projects/:id` | Angular detail route | route param `id` | 页面消费 `ProjectDetailView` | 当前路由级 guard 收口留给 `FE-16D` | `in-scope-page` |
-| `/projects/:id/workspace` | 工作区入口按钮 | route navigation | N/A | 按 `allowedActions` 显隐入口 | `button-scope-only` |
-| `/projects/:id/commission/operations` | 提成入口按钮 | route navigation | N/A | 按 `allowedActions` 显隐入口 | `button-scope-only` |
+| Route / API                                                 | Consumer                           | Request                         | Response                     | Guard / Permission                            | Result                          |
+| ----------------------------------------------------------- | ---------------------------------- | ------------------------------- | ---------------------------- | --------------------------------------------- | ------------------------------- |
+| `GET /projects/{id}` / `projectControllerGetById`           | `ProjectStore.loadProject`、详情页 | path `id`                       | `ProjectDetailView`          | 后端 `project:read` + 对象可见性              | `aligned`                       |
+| `PATCH /projects/{id}` / `projectControllerUpdateBasicInfo` | 详情页编辑基本信息                 | `UpdateProjectBasicInfoRequest` | `ProjectSummary`             | 后端 `project:write` + 对象动作授权待持续收口 | `aligned-with-refresh-required` |
+| `/projects/:id`                                             | Angular detail route               | route param `id`                | 页面消费 `ProjectDetailView` | 当前路由级 guard 收口留给 `FE-16D`            | `in-scope-page`                 |
+| `/projects/:id/workspace`                                   | 工作区入口按钮                     | route navigation                | N/A                          | 按 `allowedActions` 显隐入口                  | `button-scope-only`             |
+| `/projects/:id/commission/operations`                       | 提成入口按钮                       | route navigation                | N/A                          | 按 `allowedActions` 显隐入口                  | `button-scope-only`             |
 
 ### 4.1 公共路由补充信息
 
@@ -87,20 +87,20 @@
 
 ## 5. 读侧边界
 
-| Query / View | Consumer | Required Fields | Display Rule | Result |
-| ------------ | -------- | --------------- | ------------ | ------ |
-| `ProjectDetailView` | `/projects/:id` | 主体字段、owner、org、stageSummary、currentBidSummary、currentContractSummary、currentApprovalSummary、currentConfirmationSummary、summarySnapshotId、projectionLevel、allowedActions、generatedAt | 作为详情页唯一业务事实源 | `aligned` |
-| `ProjectDetailView.allowedActions` | 详情页动作区 | `view-project-workspace`、`edit-project-basic-info`、`manage-project-commission` 等对象动作 | 控制按钮显隐，不展示内部动作 key | `aligned` |
-| `ProjectDetailView.stageSummary` | 当前阶段区 | 阶段、状态、阻断原因、最后推进时间 | 用业务中文表达，不前端补算下一阶段 | `aligned` |
-| `ProjectDetailView.currentContractSummary` | 合同摘要区 | 合同数量、生效合同、签署金额、合同状态 | 无合同则显示“暂未形成正式合同” | `aligned` |
-| `ProjectDetailView.currentApprovalSummary` | 审批摘要区 | 快照 ID、结论、来源、生成时间 | 无摘要则显示“暂无审批摘要” | `aligned` |
-| `ProjectDetailView.currentConfirmationSummary` | 确认摘要区 | 确认状态、确认时间、参与方摘要 | 无确认则显示“暂未形成确认记录” | `aligned` |
-| `ProjectDetailView.currentBidSummary` | 投标摘要区 | `bidStatus`、更新时间 | `not_configured` 只显示正式事实源未接入 | `exception-limited` |
+| Query / View                                   | Consumer        | Required Fields                                                                                                                                                                                    | Display Rule                            | Result              |
+| ---------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------- |
+| `ProjectDetailView`                            | `/projects/:id` | 主体字段、owner、org、stageSummary、currentBidSummary、currentContractSummary、currentApprovalSummary、currentConfirmationSummary、summarySnapshotId、projectionLevel、allowedActions、generatedAt | 作为详情页唯一业务事实源                | `aligned`           |
+| `ProjectDetailView.allowedActions`             | 详情页动作区    | `view-project-workspace`、`edit-project-basic-info`、`manage-project-commission` 等对象动作                                                                                                        | 控制按钮显隐，不展示内部动作 key        | `aligned`           |
+| `ProjectDetailView.stageSummary`               | 当前阶段区      | 阶段、状态、阻断原因、最后推进时间                                                                                                                                                                 | 用业务中文表达，不前端补算下一阶段      | `aligned`           |
+| `ProjectDetailView.currentContractSummary`     | 合同摘要区      | 合同数量、生效合同、签署金额、合同状态                                                                                                                                                             | 无合同则显示“暂未形成正式合同”          | `aligned`           |
+| `ProjectDetailView.currentApprovalSummary`     | 审批摘要区      | 快照 ID、结论、来源、生成时间                                                                                                                                                                      | 无摘要则显示“暂无审批摘要”              | `aligned`           |
+| `ProjectDetailView.currentConfirmationSummary` | 确认摘要区      | 确认状态、确认时间、参与方摘要                                                                                                                                                                     | 无确认则显示“暂未形成确认记录”          | `aligned`           |
+| `ProjectDetailView.currentBidSummary`          | 投标摘要区      | `bidStatus`、更新时间                                                                                                                                                                              | `not_configured` 只显示正式事实源未接入 | `exception-limited` |
 
 ## 6. 持久化边界
 
-| Table | Migration | Entity / Repository | DDL / Freeze Source | Check Result |
-| ----- | --------- | ------------------- | ------------------- | ------------ |
+| Table | Migration | Entity / Repository | DDL / Freeze Source | Check Result                           |
+| ----- | --------- | ------------------- | ------------------- | -------------------------------------- |
 | `N/A` | `N/A`     | `N/A`               | `N/A`               | 本片为 frontend-only，不触达持久化结构 |
 
 ## 7. 一致性结论
@@ -130,42 +130,42 @@
 
 ### 8.1 本次 G1 refresh 校验
 
-| Check | Required | Command / Evidence | Result | Gap / Reason |
-| ----- | -------- | ------------------ | ------ | ------------ |
-| Lint | `no` | N/A | `not-required` | docs-only G1 refresh |
-| Build | `no` | N/A | `not-required` | 未改运行时代码 |
-| Unit tests | `no` | N/A | `not-required` | 未改运行时代码 |
-| API / integration tests | `no` | N/A | `not-required` | 不改后端 |
-| E2E | `no` | N/A | `not-required` | 浏览器级权限验证归属 `FE-16D` |
-| OpenAPI generation / client diff | `no` | N/A | `not-required` | `EX-18` 已完成 generated client |
-| Migration / schema check | `no` | N/A | `not-required` | frontend-only |
-| Diff hygiene | `yes` | `git diff --check` | `pass` | 2026-04-21 已通过，仅有既有 CRLF warning |
+| Check                            | Required | Command / Evidence | Result         | Gap / Reason                             |
+| -------------------------------- | -------- | ------------------ | -------------- | ---------------------------------------- |
+| Lint                             | `no`     | N/A                | `not-required` | docs-only G1 refresh                     |
+| Build                            | `no`     | N/A                | `not-required` | 未改运行时代码                           |
+| Unit tests                       | `no`     | N/A                | `not-required` | 未改运行时代码                           |
+| API / integration tests          | `no`     | N/A                | `not-required` | 不改后端                                 |
+| E2E                              | `no`     | N/A                | `not-required` | 浏览器级权限验证归属 `FE-16D`            |
+| OpenAPI generation / client diff | `no`     | N/A                | `not-required` | `EX-18` 已完成 generated client          |
+| Migration / schema check         | `no`     | N/A                | `not-required` | frontend-only                            |
+| Diff hygiene                     | `yes`    | `git diff --check` | `pass`         | 2026-04-21 已通过，仅有既有 CRLF warning |
 
 ### 8.2 后续实现 G3 必跑
 
-| Check | Required Command | Notes |
-| ----- | ---------------- | ----- |
-| Admin lint | `corepack pnpm nx lint poms-admin` | 页面实现变更必跑 |
-| Admin build | `corepack pnpm nx build poms-admin` | 校验 generated client 与 Angular template 类型 |
-| Admin unit tests | `corepack pnpm nx test poms-admin --runInBand` | 必须覆盖详情视图、动作显隐和编辑刷新 |
-| Data-access lint | `corepack pnpm nx lint admin-data-access` | `ProjectStore` 类型变更必跑 |
-| Diff hygiene | `git diff --check` | 保持文档与代码无空白问题 |
+| Check            | Required Command                               | Notes                                          |
+| ---------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Admin lint       | `corepack pnpm nx lint poms-admin`             | 页面实现变更必跑                               |
+| Admin build      | `corepack pnpm nx build poms-admin`            | 校验 generated client 与 Angular template 类型 |
+| Admin unit tests | `corepack pnpm nx test poms-admin --runInBand` | 必须覆盖详情视图、动作显隐和编辑刷新           |
+| Data-access lint | `corepack pnpm nx lint admin-data-access`      | `ProjectStore` 类型变更必跑                    |
+| Diff hygiene     | `git diff --check`                             | 保持文档与代码无空白问题                       |
 
 ### 8.3 后续实现新增 / 调整测试点
 
-| Test Target | Required Assertion |
-| ----------- | ------------------ |
-| `project-detail.spec.ts` | 渲染 `ProjectDetailView` 的阶段、合同、审批、确认摘要，不显示原始内部 key |
-| `project-detail.spec.ts` | `allowedActions` 缺少编辑动作时不显示编辑入口 |
-| `project-detail.spec.ts` | `allowedActions` 缺少提成动作时不显示提成入口 |
-| `project-detail.spec.ts` | `currentBidSummary.bidStatus = not_configured` 时显示业务中文空态 |
+| Test Target                               | Required Assertion                                                               |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| `project-detail.spec.ts`                  | 渲染 `ProjectDetailView` 的阶段、合同、审批、确认摘要，不显示原始内部 key        |
+| `project-detail.spec.ts`                  | `allowedActions` 缺少编辑动作时不显示编辑入口                                    |
+| `project-detail.spec.ts`                  | `allowedActions` 缺少提成动作时不显示提成入口                                    |
+| `project-detail.spec.ts`                  | `currentBidSummary.bidStatus = not_configured` 时显示业务中文空态                |
 | `project.store.spec.ts` 或现有 store 测试 | `updateProject` 成功后重新加载详情，`selectedProject` 不被 `ProjectSummary` 降级 |
 
 ## 9. 例外与风险
 
-| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes |
-| ------------ | ----- | ----- | ----------- | ------------- | ----------- | ----- |
-| `FE16B-E1-BID-SUMMARY` | `E1` | 项目详情投标摘要 | `Codex` | `BidProcessDetailView / presigning workspace owner` | 后续投标过程详情切片 | 继承 `EX18-E1-BID-SUMMARY`。当前无正式 `BidProcess` query，本片只能渲染“投标详情暂未接入正式事实源”，不得伪造投标结论。 |
+| Exception ID           | Level | Scope            | Approved By | Cleanup Owner                                       | Cleanup Due          | Notes                                                                                                                   |
+| ---------------------- | ----- | ---------------- | ----------- | --------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `FE16B-E1-BID-SUMMARY` | `E1`  | 项目详情投标摘要 | `Codex`     | `BidProcessDetailView / presigning workspace owner` | 后续投标过程详情切片 | 继承 `EX18-E1-BID-SUMMARY`。当前无正式 `BidProcess` query，本片只能渲染“投标详情暂未接入正式事实源”，不得伪造投标结论。 |
 
 - 风险:
   1. 当前 `/projects/:id` route 尚无最终浏览器权限矩阵验证，必须在 `FE-16D` 关闭。
@@ -184,3 +184,35 @@
   4. 用户可见文案必须使用业务中文，不展示内部枚举、英文术语或实现说明。
   5. 若实现中发现 `ProjectDetailView` 缺少详情页必需事实，停止前端兜底，重新拆后端 query / contract 切片。
   6. 路由 guard、菜单入口、直接 URL 和浏览器权限验证仍由 `FE-16D` 收口。
+
+## 11. G3 / G4 关闭结论
+
+- Gate Status: `Done`
+- Closed By: `Codex`
+- Closed At: `2026-04-21`
+- Delivered:
+  1. `ProjectStore.selectedProject` 已从 `ProjectSummary` 收口为 `ProjectDetailView`，`updateProject` 成功后会重新加载详情，避免 `PATCH /projects/{id}` 的摘要响应降级详情态。
+  2. `/projects/:id` 详情页已按 `ProjectDetailView` 重做，展示负责人、归属组织、阶段、阻断原因、合同情况、审批依据、确认情况和投标空态。
+  3. 详情页“项目工作区 / 提成操作 / 编辑基本信息”已按 `allowedActions` 显隐，并在方法层避免未授权动作导航。
+  4. 编辑基本信息只提交项目名称与客户名称；项目名称会 trim，客户名称允许清空为 `null`。
+  5. 新增 `project-detail.spec.ts` 覆盖详情事实展示、内部 key 不外露、动作显隐与编辑提交；新增 `project-store.spec.ts` 覆盖更新后重拉详情。
+- Validation:
+
+| Check                      | Command / Evidence                             | Result         | Notes                                                                                                                 |
+| -------------------------- | ---------------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Admin lint                 | `corepack pnpm nx lint poms-admin`             | `pass`         | 首轮曾因 app 测试直接依赖 generated client 触发 module-boundary error；已通过 data-access re-export `ProjectApi` 修复 |
+| Admin build                | `corepack pnpm nx build poms-admin`            | `pass`         | Angular template 与 generated `ProjectDetailView` 类型校验通过                                                        |
+| Admin unit tests           | `corepack pnpm nx test poms-admin --runInBand` | `pass`         | 7 suites / 22 tests                                                                                                   |
+| Data-access lint           | `corepack pnpm nx lint admin-data-access`      | `pass`         | `ProjectStore` 与 data-access public export 通过                                                                      |
+| OpenAPI / generated client | N/A                                            | `not-required` | 本片不改 contract / route surface                                                                                     |
+| Migration / schema check   | N/A                                            | `not-required` | frontend-only                                                                                                         |
+| Browser E2E                | N/A                                            | `not-required` | 路由 guard、菜单入口、直接 URL 与浏览器权限矩阵归属 `FE-16D`                                                          |
+
+- Drift classification:
+  1. `new-real-drift` 已修复：前端详情态仍使用 `ProjectSummary`，现在已收口为 `ProjectDetailView`。
+  2. `new-real-drift` 已修复：详情页动作按钮原先静态展示，现在由 `allowedActions` 控制。
+  3. `new-real-drift` 已修复：`updateProject` 原先会把 `ProjectSummary` 写回 `selectedProject`，现在改为更新后重新加载详情。
+  4. `tool-noise` 未新增：本片未运行 OpenAPI generation，也未触碰 generated client。
+- Downstream:
+  1. `FE-16C` 可以继续基于 `ProjectDetailView` 已可用的项目上下文推进工作区首页纠偏。
+  2. `FE-16D` 仍需统一验证菜单入口、直接路由、按钮守卫和浏览器权限矩阵。
