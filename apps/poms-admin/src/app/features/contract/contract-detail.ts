@@ -326,7 +326,12 @@ export class ContractDetail implements OnInit {
     readonly canSubmitReview = computed(() => this.contract()?.status === 'draft');
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
-    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved');
+    readonly canActivate = computed(
+        () =>
+            this.contract()?.status === 'pending-review' &&
+            this.currentApproval()?.currentStatus === 'approved' &&
+            this.#authStore.hasAnyPermission(['contract:finance:manage'])
+    );
     readonly approvalStatusLabel = computed(() => {
         const status = this.currentApproval()?.currentStatus;
         return status ? this.getApprovalStatusName(status) : null;

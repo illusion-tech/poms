@@ -144,12 +144,22 @@ export const appRoutes: Routes = [
             {
                 path: 'contracts',
                 loadComponent: () => import('./app/features/contract/contract-list').then((c) => c.ContractList),
-                data: { breadcrumb: '合同管理' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '合同管理',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                }
             },
             {
                 path: 'contracts/:id',
                 loadComponent: () => import('./app/features/contract/contract-detail').then((c) => c.ContractDetail),
-                data: { breadcrumb: '合同详情' }
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '合同详情',
+                    requiredPermissions: ['project:read'],
+                    requiredPermissionsMode: 'all'
+                }
             },
             {
                 path: 'profile',
