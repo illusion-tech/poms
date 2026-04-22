@@ -4415,7 +4415,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContractSummary"
+                  "$ref": "#/components/schemas/ContractDetailView"
                 }
               }
             }
@@ -4451,7 +4451,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContractSummary"
+                  "$ref": "#/components/schemas/ContractDetailView"
                 }
               }
             }
@@ -4635,6 +4635,42 @@
           }
         ],
         "summary": "确认合同生效",
+        "tags": [
+          "Contract"
+        ]
+      }
+    },
+    "/api/contract-term-snapshots/{id}": {
+      "get": {
+        "operationId": "ContractTermSnapshotController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractTermSnapshotSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "按 ID 获取合同条款快照",
         "tags": [
           "Contract"
         ]
@@ -6216,16 +6252,28 @@
             "nullable": true
           },
           "beforeSnapshot": {
-            "$ref": "#/components/schemas/AuditSnapshot",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AuditSnapshot"
+              }
+            ]
           },
           "afterSnapshot": {
-            "$ref": "#/components/schemas/AuditSnapshot",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AuditSnapshot"
+              }
+            ]
           },
           "metadata": {
-            "$ref": "#/components/schemas/AuditSnapshot",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AuditSnapshot"
+              }
+            ]
           },
           "occurredAt": {
             "type": "string",
@@ -6324,8 +6372,12 @@
             "nullable": true
           },
           "details": {
-            "$ref": "#/components/schemas/AuditSnapshot",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AuditSnapshot"
+              }
+            ]
           },
           "occurredAt": {
             "type": "string",
@@ -13604,20 +13656,36 @@
             "nullable": true
           },
           "diffLevel": {
-            "$ref": "#/components/schemas/CommercialDiffLevel",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CommercialDiffLevel"
+              }
+            ]
           },
           "reviewStatus": {
-            "$ref": "#/components/schemas/CommercialDiffReviewStatus",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CommercialDiffReviewStatus"
+              }
+            ]
           },
           "packageStatus": {
-            "$ref": "#/components/schemas/ContractReadinessStatus",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractReadinessStatus"
+              }
+            ]
           },
           "guardDecision": {
-            "$ref": "#/components/schemas/ContractReadinessGuardDecision",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractReadinessGuardDecision"
+              }
+            ]
           },
           "initializedContractSnapshotId": {
             "type": "string",
@@ -14861,6 +14929,231 @@
         },
         "id": "ContractList"
       },
+      "ContractTermSnapshotSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "effectiveBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "retentionDueDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "amountTaxInclusive": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountTaxExclusive": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "downPaymentRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "retentionRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentTerms": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceReadinessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourceBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "snapshotStatus": {
+            "type": "string",
+            "enum": [
+              "active",
+              "superseded",
+              "voided"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "contractId",
+          "effectiveAt",
+          "effectiveBy",
+          "retentionDueDate",
+          "amountTaxInclusive",
+          "amountTaxExclusive",
+          "taxRate",
+          "downPaymentRate",
+          "retentionRate",
+          "paymentTerms",
+          "sourceReadinessId",
+          "sourceBaselineId",
+          "version",
+          "snapshotStatus",
+          "createdAt",
+          "createdBy",
+          "rowVersion"
+        ],
+        "id": "ContractTermSnapshotSummary"
+      },
+      "ContractDetailView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contractNo": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ContractStatus"
+          },
+          "signedAmount": {
+            "type": "string"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "currentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "signedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "retentionDueDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "currentTermSnapshot": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractTermSnapshotSummary"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "projectName",
+          "customerName",
+          "contractNo",
+          "status",
+          "signedAmount",
+          "currencyCode",
+          "currentSnapshotId",
+          "signedAt",
+          "retentionDueDate",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "currentTermSnapshot"
+        ],
+        "id": "ContractDetailView"
+      },
       "CreateContractRequest": {
         "type": "object",
         "properties": {
@@ -14886,12 +15179,6 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 16
-          },
-          "currentSnapshotId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
           },
           "signedAt": {
             "type": "string",
@@ -14937,12 +15224,6 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 16
-          },
-          "currentSnapshotId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
           },
           "signedAt": {
             "type": "string",
@@ -15068,6 +15349,36 @@
             "maxLength": 1000,
             "nullable": true
           },
+          "amountTaxInclusive": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "amountTaxExclusive": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "taxRate": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "downPaymentRate": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "retentionRate": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "paymentTerms": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          },
           "diffLevel": {
             "$ref": "#/components/schemas/CommercialDiffLevel"
           },
@@ -15144,6 +15455,30 @@
             "type": "string",
             "nullable": true
           },
+          "amountTaxInclusive": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountTaxExclusive": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "downPaymentRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "retentionRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentTerms": {
+            "type": "string",
+            "nullable": true
+          },
           "latestDiffResultId": {
             "type": "string",
             "format": "uuid",
@@ -15196,6 +15531,12 @@
           "isCurrent",
           "grossMarginSummary",
           "paymentTermsSummary",
+          "amountTaxInclusive",
+          "amountTaxExclusive",
+          "taxRate",
+          "downPaymentRate",
+          "retentionRate",
+          "paymentTerms",
           "latestDiffResultId",
           "diffLevel",
           "reviewStatus",
@@ -17730,8 +18071,12 @@
             "maxLength": 64
           },
           "replacementAssignmentPayload": {
-            "$ref": "#/components/schemas/ReplacementCommissionRoleAssignmentPayload",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReplacementCommissionRoleAssignmentPayload"
+              }
+            ]
           },
           "recalculationImpactMode": {
             "type": "string",

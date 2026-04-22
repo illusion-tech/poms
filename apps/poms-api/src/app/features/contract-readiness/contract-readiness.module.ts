@@ -27,6 +27,6 @@ import { ContractReadinessService } from './contract-readiness.service';
     ],
     controllers: [ContractReadinessController],
     providers: [CommercialReleaseBaselineRepository, ContractReadinessPackageRepository, ContractReadinessService],
-    exports: [ContractReadinessService]
+    exports: [ContractReadinessService, CommercialReleaseBaselineRepository]
 })
 export class ContractReadinessModule {}

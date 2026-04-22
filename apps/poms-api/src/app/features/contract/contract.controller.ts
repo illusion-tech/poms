@@ -1,13 +1,14 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, SubmitContractReviewRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
-import type { ApprovalRecordSummary, CommandResult, ContractListQuery, ContractSummary, UserPayload } from '@poms/shared-contracts';
+import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, ContractDetailViewDto, ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, SubmitContractReviewRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
+import type { ApprovalRecordSummary, CommandResult, ContractDetailView, ContractListQuery, ContractSummary, ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ApprovalService } from '../approval/approval.service';
 import { Project } from '../project/project.entity';
 import { ProjectService } from '../project/project.service';
-import { Contract } from './contract.entity';
+import { Contract, ContractTermSnapshot } from './contract.entity';
 import { ContractService } from './contract.service';
+import { ContractTermSnapshotRepository } from './contract.repository';
 
 @ApiTags('Contract')
 @ApiBearerAuth()
@@ -16,7 +17,8 @@ export class ContractController {
     constructor(
         private readonly contractService: ContractService,
         private readonly approvalService: ApprovalService,
-        private readonly projectService: ProjectService
+        private readonly projectService: ProjectService,
+        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository
     ) {}
 
     @Get()
@@ -41,29 +43,35 @@ export class ContractController {
     @Get('no/:contractNo')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按合同编号获取详情' })
-    @ApiOkResponse({ type: ContractDto })
-    async getByNo(@Param('contractNo') contractNo: string): Promise<ContractSummary> {
+    @ApiOkResponse({ type: ContractDetailViewDto })
+    async getByNo(@Param('contractNo') contractNo: string): Promise<ContractDetailView> {
         const contract = await this.contractService.findByNo(contractNo);
         if (!contract) {
             throw new NotFoundException(`Contract no ${contractNo} not found`);
         }
 
-        const project = await this.projectService.findById(contract.projectId);
-        return mapContractToSummary(contract, project);
+        const [project, snapshot] = await Promise.all([
+            this.projectService.findById(contract.projectId),
+            contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)
+        ]);
+        return mapContractToDetailView(contract, project, snapshot);
     }
 
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取合同详情' })
-    @ApiOkResponse({ type: ContractDto })
-    async getById(@Param('id') id: string): Promise<ContractSummary> {
+    @ApiOkResponse({ type: ContractDetailViewDto })
+    async getById(@Param('id') id: string): Promise<ContractDetailView> {
         const contract = await this.contractService.findById(id);
         if (!contract) {
             throw new NotFoundException(`Contract ${id} not found`);
         }
 
-        const project = await this.projectService.findById(contract.projectId);
-        return mapContractToSummary(contract, project);
+        const [project, snapshot] = await Promise.all([
+            this.projectService.findById(contract.projectId),
+            contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)
+        ]);
+        return mapContractToDetailView(contract, project, snapshot);
     }
 
     @Get(':id/approval-record')
@@ -90,7 +98,6 @@ export class ContractController {
             status: body.status,
             signedAmount: body.signedAmount,
             currencyCode: body.currencyCode,
-            currentSnapshotId: body.currentSnapshotId,
             signedAt: body.signedAt ? new Date(body.signedAt) : null,
             retentionDueDate: body.retentionDueDate ?? null,
             createdBy: body.createdBy,
@@ -109,7 +116,6 @@ export class ContractController {
         const contract = await this.contractService.updateBasicInfo(id, {
             signedAmount: body.signedAmount,
             currencyCode: body.currencyCode,
-            currentSnapshotId: body.currentSnapshotId,
             signedAt: body.signedAt === undefined ? undefined : body.signedAt === null ? null : new Date(body.signedAt),
             retentionDueDate: body.retentionDueDate,
             updatedBy: body.updatedBy
@@ -156,5 +162,35 @@ function mapContractToSummary(contract: Contract, project: Project | null): Cont
         createdBy: contract.createdBy ?? null,
         updatedAt: contract.updatedAt.toISOString(),
         updatedBy: contract.updatedBy ?? null
+    };
+}
+
+export function mapSnapshotToSummary(snapshot: ContractTermSnapshot): ContractTermSnapshotSummary {
+    return {
+        id: snapshot.id,
+        contractId: snapshot.contractId,
+        effectiveAt: snapshot.effectiveAt.toISOString(),
+        effectiveBy: snapshot.effectiveBy ?? null,
+        retentionDueDate: snapshot.retentionDueDate ?? null,
+        amountTaxInclusive: snapshot.amountTaxInclusive ?? null,
+        amountTaxExclusive: snapshot.amountTaxExclusive ?? null,
+        taxRate: snapshot.taxRate ?? null,
+        downPaymentRate: snapshot.downPaymentRate ?? null,
+        retentionRate: snapshot.retentionRate ?? null,
+        paymentTerms: snapshot.paymentTerms ?? null,
+        sourceReadinessId: snapshot.sourceReadinessId ?? null,
+        sourceBaselineId: snapshot.sourceBaselineId ?? null,
+        version: snapshot.version,
+        snapshotStatus: snapshot.snapshotStatus,
+        createdAt: snapshot.createdAt.toISOString(),
+        createdBy: snapshot.createdBy ?? null,
+        rowVersion: snapshot.rowVersion
+    };
+}
+
+function mapContractToDetailView(contract: Contract, project: Project | null, snapshot: ContractTermSnapshot | null): ContractDetailView {
+    return {
+        ...mapContractToSummary(contract, project),
+        currentTermSnapshot: snapshot ? mapSnapshotToSummary(snapshot) : null
     };
 }

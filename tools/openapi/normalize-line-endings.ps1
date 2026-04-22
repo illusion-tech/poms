@@ -68,9 +68,14 @@ foreach ($file in $files) {
     # 同时收敛 CRLF 和孤立 CR，保证最终仓库文本统一为 LF。
     $normalized = $original.Replace("`r`n", "`n").Replace("`r", "`n")
 
-    # OpenAPI Generator 会在少量 union/enum 文件末尾生成多余空白行。
+    # 逐行清理 trailing whitespace。
+    # OpenAPI Generator 模板会在部分行（如 JSDoc 空注释行、union 类型折行）末尾留下空格，
+    # 这些行尾空格会导致 git diff --no-index 在已提交文件（已清理）和临时生成文件之间产生差异。
+    $normalized = [System.Text.RegularExpressions.Regex]::Replace($normalized, "[ `t]+`n", "`n")
+
+    # 收敛文件末尾多余空白行。
     # 生成与校验都经过本脚本，收敛后可同时满足同步检测和 git diff --check。
-    $normalized = [System.Text.RegularExpressions.Regex]::Replace($normalized, "(?:[ `t]*`n)+\z", "`n")
+    $normalized = [System.Text.RegularExpressions.Regex]::Replace($normalized, "(?:`n)+\z", "`n")
 
     # 未发生变化时不重写，减少无意义时间戳变动和文件系统噪音。
     if ($normalized -ceq $original) {

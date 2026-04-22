@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { ActivateContractRequest, CommandResult, ContractSummary, CreateContractRequest, SubmitContractReviewRequest, UpdateContractBasicInfoRequest } from '@poms/shared-api-client';
+import type { ActivateContractRequest, CommandResult, ContractSummary, ContractDetailView, CreateContractRequest, SubmitContractReviewRequest, UpdateContractBasicInfoRequest } from '@poms/shared-api-client';
 import { ApprovalApi, ContractApi } from '@poms/shared-api-client';
 import type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';
 import { catchError, firstValueFrom, of } from 'rxjs';
@@ -12,7 +12,7 @@ export class ContractStore {
     readonly #authStore = inject(AuthStore);
 
     readonly #contracts = signal<ContractSummary[]>([]);
-    readonly #selectedContract = signal<ContractSummary | null>(null);
+    readonly #selectedContract = signal<ContractDetailView | null>(null);
     readonly #currentApproval = signal<DomainApprovalRecord<ContractStatus> | null>(null);
     readonly #loading = signal(false);
     readonly #loadingApproval = signal(false);
@@ -88,8 +88,8 @@ export class ContractStore {
                     updateContractBasicInfoRequest: request
                 })
             );
-            this.#selectedContract.set(contract);
             this.#upsertContract(contract);
+            await this.loadContract(id);
             return contract;
         } finally {
             this.#saving.set(false);

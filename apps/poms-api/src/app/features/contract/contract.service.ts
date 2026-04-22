@@ -1,13 +1,15 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { CommandResult, ContractStatus } from '@poms/shared-contracts';
-import { randomUUID } from 'node:crypto';
+
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
+import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
 import { ContractRepository, ContractTermSnapshotRepository } from './contract.repository';
+import { CommercialReleaseBaselineRepository } from '../contract-readiness/commercial-release-baseline.repository';
 
 export interface FindContractsQuery {
     projectId?: string;
@@ -21,7 +23,6 @@ export interface CreateContractRecord {
     status?: ContractStatus;
     signedAmount: string;
     currencyCode?: string;
-    currentSnapshotId?: string | null;
     signedAt?: Date | null;
     retentionDueDate?: string | null;
     createdBy?: string | null;
@@ -31,7 +32,6 @@ export interface CreateContractRecord {
 export interface UpdateContractBasicInfoRecord {
     signedAmount?: string;
     currencyCode?: string;
-    currentSnapshotId?: string | null;
     signedAt?: Date | null;
     retentionDueDate?: string | null;
     updatedBy?: string | null;
@@ -52,6 +52,7 @@ export class ContractService {
         private readonly projectService: ProjectService,
         private readonly contractReadinessService: ContractReadinessService,
         private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        private readonly commercialReleaseBaselineRepository: CommercialReleaseBaselineRepository,
         @InjectRepository(ApprovalRecord)
         private readonly approvalRecordRepository: EntityRepository<ApprovalRecord>
     ) {}
@@ -85,7 +86,6 @@ export class ContractService {
             status: input.status ?? 'draft',
             signedAmount: input.signedAmount,
             currencyCode: input.currencyCode ?? 'CNY',
-            currentSnapshotId: input.currentSnapshotId ?? null,
             signedAt: input.signedAt ?? null,
             retentionDueDate: this.normalizeDateOnly(input.retentionDueDate) ?? null,
             createdBy: input.createdBy ?? null,
@@ -113,10 +113,6 @@ export class ContractService {
 
         if (input.currencyCode !== undefined) {
             contract.currencyCode = input.currencyCode;
-        }
-
-        if (input.currentSnapshotId !== undefined) {
-            contract.currentSnapshotId = input.currentSnapshotId;
         }
 
         if (input.signedAt !== undefined) {
@@ -175,13 +171,39 @@ export class ContractService {
             );
         }
 
-        const snapshotId = contract.currentSnapshotId ?? activationReadiness.snapshotId ?? randomUUID();
-        await this.contractTermSnapshotRepository.ensureActiveSnapshot({
+        const snapshotId = activationReadiness.snapshotId;
+        if (!snapshotId) {
+            throw new BadRequestException(
+                `Contract ${id} cannot be activated without an initialized contract snapshot. Run readiness initialization first.`
+            );
+        }
+
+        if (!activationReadiness.sourceReadinessId) {
+            throw new BadRequestException(`Contract ${id} cannot be activated without a contract readiness package`);
+        }
+
+        const readinessPackage = await this.contractReadinessService.findContractReadinessById(activationReadiness.sourceReadinessId);
+        if (!readinessPackage) {
+            throw new BadRequestException(`Contract readiness package ${activationReadiness.sourceReadinessId} not found`);
+        }
+
+        const baseline = await this.commercialReleaseBaselineRepository.findById(readinessPackage.sourceBaselineId);
+        this.assertBaselineHasCoreTerms(baseline);
+
+        await this.contractTermSnapshotRepository.createActiveSnapshotIfAbsent({
             id: snapshotId,
             contractId: contract.id,
             effectiveBy: actorUserId,
             createdBy: actorUserId,
-            retentionDueDate: this.normalizeDateOnly(contract.retentionDueDate ?? null) ?? null
+            retentionDueDate: this.normalizeDateOnly(contract.retentionDueDate ?? null) ?? null,
+            amountTaxInclusive: baseline?.amountTaxInclusive ?? null,
+            amountTaxExclusive: baseline?.amountTaxExclusive ?? null,
+            taxRate: baseline?.taxRate ?? null,
+            downPaymentRate: baseline?.downPaymentRate ?? null,
+            retentionRate: baseline?.retentionRate ?? null,
+            paymentTerms: baseline?.paymentTerms ?? null,
+            sourceReadinessId: activationReadiness.sourceReadinessId ?? null,
+            sourceBaselineId: baseline?.id ?? null
         });
         contract.status = 'active';
         contract.currentSnapshotId = snapshotId;
@@ -204,6 +226,26 @@ export class ContractService {
     private assertExpectedVersion(actualVersion: number, expectedVersion: number | undefined, resourceType: string): void {
         if (expectedVersion !== undefined && actualVersion !== expectedVersion) {
             throw new ConflictException(`${resourceType} version ${expectedVersion} does not match current version ${actualVersion}`);
+        }
+    }
+
+    private assertBaselineHasCoreTerms(baseline: CommercialReleaseBaseline | null): asserts baseline is CommercialReleaseBaseline {
+        if (!baseline) {
+            throw new BadRequestException('Missing commercial release baseline for contract term snapshot');
+        }
+
+        const missing: string[] = [];
+        if (baseline.amountTaxInclusive == null || baseline.amountTaxInclusive === '') missing.push('amountTaxInclusive');
+        if (baseline.amountTaxExclusive == null || baseline.amountTaxExclusive === '') missing.push('amountTaxExclusive');
+        if (baseline.taxRate == null || baseline.taxRate === '') missing.push('taxRate');
+        if (baseline.downPaymentRate == null || baseline.downPaymentRate === '') missing.push('downPaymentRate');
+        if (baseline.retentionRate == null || baseline.retentionRate === '') missing.push('retentionRate');
+        if (baseline.paymentTerms == null || baseline.paymentTerms === '') missing.push('paymentTerms');
+
+        if (missing.length) {
+            throw new BadRequestException(
+                `Commercial release baseline missing core contract terms: ${missing.join(', ')}`
+            );
         }
     }
 

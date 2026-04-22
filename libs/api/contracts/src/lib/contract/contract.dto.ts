@@ -7,9 +7,11 @@ import {
     ContractDiffReviewHistoryViewSchema,
     ContractHandoverSummaryViewSchema,
     ContractReadinessDetailSchema,
+    ContractDetailViewSchema,
     ContractListQuerySchema,
     ContractListSchema,
     ContractSummarySchema,
+    ContractTermSnapshotSummarySchema,
     CreateCommercialReleaseBaselineRequestSchema,
     CreateContractRequestSchema,
     CreateContractReadinessPackageRequestSchema,
@@ -25,6 +27,10 @@ import {
 import { createZodDto } from 'nestjs-zod';
 
 export class ContractDto extends createZodDto(ContractSummarySchema) {}
+
+export class ContractDetailViewDto extends createZodDto(ContractDetailViewSchema) {}
+
+export class ContractTermSnapshotSummaryDto extends createZodDto(ContractTermSnapshotSummarySchema) {}
 
 export class ContractListDto extends createZodDto(ContractListSchema) {}
 

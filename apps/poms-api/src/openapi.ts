@@ -40,12 +40,34 @@ async function exportOpenApi() {
 
     const openApiDoc = SwaggerModule.createDocument(app, buildOpenApiConfig());
     const cleaned = cleanupOpenApiDoc(openApiDoc);
+    normalizeNullableRefs(cleaned);
 
     const outFile = resolve(process.cwd(), 'libs/shared/api-spec/openapi.json');
     mkdirSync(dirname(outFile), { recursive: true });
     writeFileSync(outFile, JSON.stringify(cleaned, null, 2) + '\n', 'utf8');
 
     await app.close();
+}
+
+function normalizeNullableRefs(doc: unknown): void {
+    const typedDoc = doc as Record<string, unknown>;
+    const components = typedDoc['components'] as Record<string, unknown> | undefined;
+    const schemas = components?.['schemas'] as Record<string, unknown> | undefined;
+    if (!schemas) return;
+
+    for (const schema of Object.values(schemas)) {
+        const typedSchema = schema as Record<string, unknown>;
+        const properties = typedSchema['properties'] as Record<string, Record<string, unknown>> | undefined;
+        if (!properties) continue;
+
+        for (const prop of Object.values(properties)) {
+            if (prop['$ref'] && prop['nullable'] === true) {
+                const ref = prop['$ref'] as string;
+                delete prop['$ref'];
+                prop['allOf'] = [{ $ref: ref }];
+            }
+        }
+    }
 }
 
 exportOpenApi().catch((err) => {

@@ -27,6 +27,9 @@ $projectFile = Join-Path $targetDir 'project.json'
 $generatorConfig = 'tools/openapi/typescript-angular.config.json'
 $normalizeScript = 'tools/openapi/normalize-line-endings.ps1'
 
+. "$PSScriptRoot\ensure-java17.ps1"
+Set-Java17Environment
+
 if (Test-Path $tempDir) {
     Remove-Item $tempDir -Recurse -Force
 }

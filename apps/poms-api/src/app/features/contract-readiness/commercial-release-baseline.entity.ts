@@ -31,6 +31,12 @@ export const CommercialReleaseBaselineSchema = defineEntity({
         isCurrent: p.boolean().default(true).fieldName('is_current'),
         grossMarginSummary: p.string().length(1000).nullable().fieldName('gross_margin_summary'),
         paymentTermsSummary: p.string().length(1000).nullable().fieldName('payment_terms_summary'),
+        amountTaxInclusive: p.string().columnType('numeric(18,2)').nullable().fieldName('amount_tax_inclusive').comment('含税金额'),
+        amountTaxExclusive: p.string().columnType('numeric(18,2)').nullable().fieldName('amount_tax_exclusive').comment('未税金额'),
+        taxRate: p.string().columnType('numeric(5,4)').nullable().fieldName('tax_rate').comment('税率，如 0.13'),
+        downPaymentRate: p.string().columnType('numeric(5,4)').nullable().fieldName('down_payment_rate').comment('首付款比例'),
+        retentionRate: p.string().columnType('numeric(5,4)').nullable().fieldName('retention_rate').comment('质保金比例'),
+        paymentTerms: p.string().length(1000).nullable().fieldName('payment_terms').comment('付款条款文本或 JSON 摘要'),
         latestDiffResultId: () =>
             p
                 .manyToOne(CommercialBaselineDiffResult)

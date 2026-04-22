@@ -47,6 +47,9 @@ $ErrorActionPreference = 'Stop'
 # Create unique temp directory for API client generation comparison
 $tempDir = Join-Path ([System.IO.Path]::GetTempPath()) 'poms-shared-api-client-check'
 
+. "$PSScriptRoot\ensure-java17.ps1"
+Set-Java17Environment
+
 # 清理已存在的临时目录（如果存在）
 # Remove existing temp directory to ensure clean state
 if (Test-Path $tempDir) {

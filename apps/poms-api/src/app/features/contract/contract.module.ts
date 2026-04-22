@@ -5,6 +5,7 @@ import { ApprovalModule } from '../approval/approval.module';
 import { ContractReadinessModule } from '../contract-readiness/contract-readiness.module';
 import { ProjectModule } from '../project/project.module';
 import { ContractController } from './contract.controller';
+import { ContractTermSnapshotController } from './contract-term-snapshot.controller';
 import { Contract, ContractAmendment, ContractTermSnapshot } from './contract.entity';
 import { ContractAmendmentRepository, ContractRepository, ContractTermSnapshotRepository } from './contract.repository';
 import { ContractService } from './contract.service';
@@ -16,7 +17,7 @@ import { ContractService } from './contract.service';
         ApprovalModule,
         ContractReadinessModule
     ],
-    controllers: [ContractController],
+    controllers: [ContractController, ContractTermSnapshotController],
     providers: [ContractRepository, ContractTermSnapshotRepository, ContractAmendmentRepository, ContractService],
     exports: [ContractService, ContractRepository, ContractTermSnapshotRepository, ContractAmendmentRepository]
 })

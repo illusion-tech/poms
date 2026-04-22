@@ -31,7 +31,10 @@ describe('ContractService', () => {
     let projectService: jest.Mocked<ProjectService>;
     let contractReadinessService: jest.Mocked<ContractReadinessService>;
     let contractTermSnapshotRepository: {
-        ensureActiveSnapshot: jest.Mock;
+        createActiveSnapshotIfAbsent: jest.Mock;
+    };
+    let commercialReleaseBaselineRepository: {
+        findById: jest.Mock;
     };
 
     beforeEach(() => {
@@ -49,10 +52,14 @@ describe('ContractService', () => {
             findById: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
         contractReadinessService = {
-            resolveActivationReadiness: jest.fn()
+            resolveActivationReadiness: jest.fn(),
+            findContractReadinessById: jest.fn()
         } as unknown as jest.Mocked<ContractReadinessService>;
         contractTermSnapshotRepository = {
-            ensureActiveSnapshot: jest.fn()
+            createActiveSnapshotIfAbsent: jest.fn()
+        };
+        commercialReleaseBaselineRepository = {
+            findById: jest.fn()
         };
 
         service = new ContractService(
@@ -60,6 +67,7 @@ describe('ContractService', () => {
             projectService,
             contractReadinessService,
             contractTermSnapshotRepository as never,
+            commercialReleaseBaselineRepository as never,
             approvalRecordRepository as never
         );
     });
@@ -83,7 +91,6 @@ describe('ContractService', () => {
             status: 'draft',
             signedAmount: '880000.00',
             currencyCode: 'CNY',
-            currentSnapshotId: null,
             signedAt: null,
             retentionDueDate: null,
             createdBy: null,
@@ -165,14 +172,13 @@ describe('ContractService', () => {
         );
     });
 
-    it('activates a reviewed contract and generates snapshot id when missing', async () => {
+    it('rejects activation when contract snapshot is not initialized', async () => {
         const approvedApprovalId = '40000000-0000-4000-8000-000000000001';
         const contract = createContractEntity({
             status: 'pending-review',
             rowVersion: 3
         });
         contractRepository.findById.mockResolvedValue(contract);
-        contractRepository.save.mockResolvedValue(undefined);
         approvalRecordRepository.findOne
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce({ id: approvedApprovalId });
@@ -183,26 +189,71 @@ describe('ContractService', () => {
             snapshotId: null
         });
 
-        const result = await service.activate(contractId, userId, {
-            comment: '确认合同生效',
-            expectedVersion: 3
+        await expect(
+            service.activate(contractId, userId, {
+                comment: '确认合同生效',
+                expectedVersion: 3
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects activation when baseline is missing core terms', async () => {
+        contractRepository.findById.mockResolvedValue(
+            createContractEntity({
+                status: 'pending-review'
+            })
+        );
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: '40000000-0000-4000-8000-000000000001' });
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: true,
+            reason: null,
+            sourceReadinessId: '50000000-0000-4000-8000-000000000001',
+            snapshotId: '70000000-0000-4000-8000-000000000001'
+        });
+        contractReadinessService.findContractReadinessById.mockResolvedValue({
+            id: '50000000-0000-4000-8000-000000000001',
+            sourceBaselineId: '60000000-0000-4000-8000-000000000001'
+        } as never);
+        commercialReleaseBaselineRepository.findById.mockResolvedValue({
+            id: '60000000-0000-4000-8000-000000000001',
+            taxRate: null,
+            amountTaxInclusive: '',
+            amountTaxExclusive: '88495.58',
+            downPaymentRate: '0.30',
+            retentionRate: '0.05',
+            paymentTerms: '30% 首付，65% 阶段款，5% 质保金'
+        } as never);
+
+        await expect(
+            service.activate(contractId, userId, {
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects activation when readiness package is missing', async () => {
+        contractRepository.findById.mockResolvedValue(
+            createContractEntity({
+                status: 'pending-review'
+            })
+        );
+        approvalRecordRepository.findOne
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: '40000000-0000-4000-8000-000000000001' });
+        contractReadinessService.resolveActivationReadiness.mockResolvedValue({
+            allowed: true,
+            reason: null,
+            sourceReadinessId: null,
+            snapshotId: null
         });
 
-        expect(contract.status).toBe('active');
-        expect(contract.currentSnapshotId).toMatch(
-            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-        );
-        expect(contract.updatedBy).toBe(userId);
-        expect(result).toEqual({
-            targetId: contractId,
-            targetType: 'Contract',
-            resultStatus: 'activated',
-            businessStatusAfter: 'active',
-            approvalRecordId: approvedApprovalId,
-            confirmationRecordId: null,
-            todoItemIds: [],
-            snapshotId: contract.currentSnapshotId
-        });
+        await expect(
+            service.activate(contractId, userId, {
+                expectedVersion: 1
+            })
+        ).rejects.toThrow(BadRequestException);
     });
 
     it('rejects activation when no approved review record exists', async () => {
@@ -218,8 +269,21 @@ describe('ContractService', () => {
             allowed: true,
             reason: null,
             sourceReadinessId: '50000000-0000-4000-8000-000000000001',
-            snapshotId: null
+            snapshotId: '70000000-0000-4000-8000-000000000001'
         });
+        contractReadinessService.findContractReadinessById.mockResolvedValue({
+            id: '50000000-0000-4000-8000-000000000001',
+            sourceBaselineId: '60000000-0000-4000-8000-000000000001'
+        } as never);
+        commercialReleaseBaselineRepository.findById.mockResolvedValue({
+            id: '60000000-0000-4000-8000-000000000001',
+            taxRate: '0.13',
+            amountTaxInclusive: '100000.00',
+            amountTaxExclusive: '88495.58',
+            downPaymentRate: '0.30',
+            retentionRate: '0.05',
+            paymentTerms: '30% 首付，65% 阶段款，5% 质保金'
+        } as never);
 
         await expect(
             service.activate(contractId, userId, {
@@ -270,18 +334,39 @@ describe('ContractService', () => {
             sourceReadinessId: '50000000-0000-4000-8000-000000000001',
             snapshotId: readinessSnapshotId
         });
+        contractReadinessService.findContractReadinessById.mockResolvedValue({
+            id: '50000000-0000-4000-8000-000000000001',
+            sourceBaselineId: '60000000-0000-4000-8000-000000000001'
+        } as never);
+        commercialReleaseBaselineRepository.findById.mockResolvedValue({
+            id: '60000000-0000-4000-8000-000000000001',
+            taxRate: '0.13',
+            amountTaxInclusive: '100000.00',
+            amountTaxExclusive: '88495.58',
+            downPaymentRate: '0.30',
+            retentionRate: '0.05',
+            paymentTerms: '30% 首付，65% 阶段款，5% 质保金'
+        } as never);
 
         const result = await service.activate(contractId, userId, {
             expectedVersion: 4
         });
 
         expect(contract.currentSnapshotId).toBe(readinessSnapshotId);
-        expect(contractTermSnapshotRepository.ensureActiveSnapshot).toHaveBeenCalledWith({
+        expect(contractTermSnapshotRepository.createActiveSnapshotIfAbsent).toHaveBeenCalledWith({
             id: readinessSnapshotId,
             contractId,
             effectiveBy: userId,
             createdBy: userId,
-            retentionDueDate: null
+            retentionDueDate: null,
+            amountTaxInclusive: '100000.00',
+            amountTaxExclusive: '88495.58',
+            taxRate: '0.13',
+            downPaymentRate: '0.30',
+            retentionRate: '0.05',
+            paymentTerms: '30% 首付，65% 阶段款，5% 质保金',
+            sourceReadinessId: '50000000-0000-4000-8000-000000000001',
+            sourceBaselineId: '60000000-0000-4000-8000-000000000001'
         });
         expect(result.snapshotId).toBe(readinessSnapshotId);
     });

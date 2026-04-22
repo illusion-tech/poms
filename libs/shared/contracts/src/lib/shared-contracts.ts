@@ -880,6 +880,37 @@ export const ContractListSchema = z.array(ContractSummarySchema).meta({ id: 'Con
 
 export type ContractList = z.infer<typeof ContractListSchema>;
 
+export const ContractTermSnapshotSummarySchema = z
+    .object({
+        id: z.uuid(),
+        contractId: z.uuid(),
+        effectiveAt: z.iso.datetime(),
+        effectiveBy: z.uuid().nullable(),
+        retentionDueDate: z.iso.date().nullable(),
+        amountTaxInclusive: z.string().nullable(),
+        amountTaxExclusive: z.string().nullable(),
+        taxRate: z.string().nullable(),
+        downPaymentRate: z.string().nullable(),
+        retentionRate: z.string().nullable(),
+        paymentTerms: z.string().nullable(),
+        sourceReadinessId: z.uuid().nullable(),
+        sourceBaselineId: z.uuid().nullable(),
+        version: z.number().int(),
+        snapshotStatus: z.enum(['active', 'superseded', 'voided']),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ContractTermSnapshotSummary' });
+
+export type ContractTermSnapshotSummary = z.infer<typeof ContractTermSnapshotSummarySchema>;
+
+export const ContractDetailViewSchema = ContractSummarySchema.extend({
+    currentTermSnapshot: ContractTermSnapshotSummarySchema.nullable()
+}).meta({ id: 'ContractDetailView' });
+
+export type ContractDetailView = z.infer<typeof ContractDetailViewSchema>;
+
 export const ContractListQuerySchema = z
     .object({
         projectId: z.uuid().optional(),
@@ -897,7 +928,6 @@ export const CreateContractRequestSchema = z
         status: ContractStatusSchema.optional(),
         signedAmount: z.string().trim().min(1).max(64),
         currencyCode: z.string().trim().min(1).max(16).optional(),
-        currentSnapshotId: z.uuid().nullable().optional(),
         signedAt: z.iso.datetime().nullable().optional(),
         retentionDueDate: z.iso.date().nullable().optional(),
         createdBy: z.uuid().nullable().optional(),
@@ -911,7 +941,6 @@ export const UpdateContractBasicInfoRequestSchema = z
     .object({
         signedAmount: z.string().trim().min(1).max(64).optional(),
         currencyCode: z.string().trim().min(1).max(16).optional(),
-        currentSnapshotId: z.uuid().nullable().optional(),
         signedAt: z.iso.datetime().nullable().optional(),
         retentionDueDate: z.iso.date().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
@@ -920,7 +949,6 @@ export const UpdateContractBasicInfoRequestSchema = z
         (value) =>
             value.signedAmount !== undefined ||
             value.currencyCode !== undefined ||
-            value.currentSnapshotId !== undefined ||
             value.signedAt !== undefined ||
             value.retentionDueDate !== undefined ||
             value.updatedBy !== undefined,
@@ -1040,6 +1068,12 @@ export const CommercialReleaseBaselineSummarySchema = z
         isCurrent: z.boolean(),
         grossMarginSummary: z.string().nullable(),
         paymentTermsSummary: z.string().nullable(),
+        amountTaxInclusive: z.string().nullable(),
+        amountTaxExclusive: z.string().nullable(),
+        taxRate: z.string().nullable(),
+        downPaymentRate: z.string().nullable(),
+        retentionRate: z.string().nullable(),
+        paymentTerms: z.string().nullable(),
         latestDiffResultId: z.uuid(),
         diffLevel: CommercialDiffLevelSchema,
         reviewStatus: CommercialDiffReviewStatusSchema,
@@ -1372,6 +1406,12 @@ export const CreateCommercialReleaseBaselineRequestSchema = z
         quotationReviewId: z.uuid().nullable().optional(),
         grossMarginSummary: z.string().max(1000).nullable().optional(),
         paymentTermsSummary: z.string().max(1000).nullable().optional(),
+        amountTaxInclusive: z.string().max(64).nullable().optional(),
+        amountTaxExclusive: z.string().max(64).nullable().optional(),
+        taxRate: z.string().max(64).nullable().optional(),
+        downPaymentRate: z.string().max(64).nullable().optional(),
+        retentionRate: z.string().max(64).nullable().optional(),
+        paymentTerms: z.string().max(1000).nullable().optional(),
         diffLevel: CommercialDiffLevelSchema,
         diffSummary: z.string().max(1000).nullable().optional(),
         diffItems: z.array(CreateCommercialBaselineDiffItemInputSchema).default([]),

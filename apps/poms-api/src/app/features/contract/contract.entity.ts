@@ -1,5 +1,7 @@
 import { defineEntity } from '@mikro-orm/core';
 import type { ContractStatus } from '@poms/shared-contracts';
+import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
+import { ContractReadinessPackage } from '../contract-readiness/contract-readiness-package.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
@@ -68,7 +70,9 @@ export const ContractTermSnapshotSchema = defineEntity({
             expression: (columns, table, indexName) =>
                 `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.effectiveAt}" desc)`
         },
-        { name: 'idx_contract_term_snapshot_status', properties: ['snapshotStatus'] }
+        { name: 'idx_contract_term_snapshot_status', properties: ['snapshotStatus'] },
+        { name: 'idx_contract_term_snapshot_baseline', properties: ['sourceBaselineId'] },
+        { name: 'idx_contract_term_snapshot_readiness', properties: ['sourceReadinessId'] }
     ],
     uniques: [
         {
@@ -91,6 +95,33 @@ export const ContractTermSnapshotSchema = defineEntity({
         effectiveAt: p.datetime().defaultRaw('now()').fieldName('effective_at').comment('生效时间'),
         effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
         retentionDueDate: p.date().nullable().fieldName('retention_due_date').comment('质保期届满日期'),
+        amountTaxInclusive: p.string().columnType('numeric(18,2)').nullable().fieldName('amount_tax_inclusive').comment('含税金额'),
+        amountTaxExclusive: p.string().columnType('numeric(18,2)').nullable().fieldName('amount_tax_exclusive').comment('未税金额'),
+        taxRate: p.string().columnType('numeric(5,4)').nullable().fieldName('tax_rate').comment('税率'),
+        downPaymentRate: p.string().columnType('numeric(5,4)').nullable().fieldName('down_payment_rate').comment('首付款比例'),
+        retentionRate: p.string().columnType('numeric(5,4)').nullable().fieldName('retention_rate').comment('质保金比例'),
+        paymentTerms: p.string().length(1000).nullable().fieldName('payment_terms').comment('付款条款'),
+        sourceReadinessId: () =>
+            p
+                .manyToOne(ContractReadinessPackage)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_readiness_id')
+                .foreignKeyName('contract_term_snapshot_source_readiness_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('来源签约就绪包 ID'),
+        sourceBaselineId: () =>
+            p
+                .manyToOne(CommercialReleaseBaseline)
+                .mapToPk()
+                .nullable()
+                .fieldName('source_baseline_id')
+                .foreignKeyName('contract_term_snapshot_source_baseline_fk')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('来源商业放行基线 ID'),
+        version: p.integer().default(1).comment('快照版本号'),
         snapshotStatus: p.string().length(32).default('active').fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),

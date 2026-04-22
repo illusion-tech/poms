@@ -1,6 +1,6 @@
 import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import type { ContractStatus } from '@poms/shared-contracts';
 import { Contract, ContractAmendment, ContractTermSnapshot } from './contract.entity';
 
@@ -70,20 +70,47 @@ export class ContractTermSnapshotRepository {
         return this.contractTermSnapshotRepository.create(input);
     }
 
-    async ensureActiveSnapshot(input: {
+    async createActiveSnapshotIfAbsent(input: {
         id: string;
         contractId: string;
         effectiveBy?: string | null;
         createdBy?: string | null;
         retentionDueDate?: string | null;
+        amountTaxInclusive?: string | null;
+        amountTaxExclusive?: string | null;
+        taxRate?: string | null;
+        downPaymentRate?: string | null;
+        retentionRate?: string | null;
+        paymentTerms?: string | null;
+        sourceReadinessId?: string | null;
+        sourceBaselineId?: string | null;
     }): Promise<ContractTermSnapshot> {
         const existing = await this.findById(input.id);
         if (existing) {
-            const normalizedRetentionDueDate = input.retentionDueDate ?? null;
-            if ((existing.retentionDueDate ?? null) !== normalizedRetentionDueDate) {
-                existing.retentionDueDate = normalizedRetentionDueDate;
-                await this.save(existing);
+            if (existing.contractId !== input.contractId) {
+                throw new ConflictException(
+                    `ContractTermSnapshot ${input.id} belongs to contract ${existing.contractId}, expected ${input.contractId}`
+                );
             }
+
+            const normalizedRetentionDueDate = input.retentionDueDate ?? null;
+            const sameFrozenPayload =
+                (existing.retentionDueDate ?? null) === normalizedRetentionDueDate &&
+                (existing.amountTaxInclusive ?? null) === (input.amountTaxInclusive ?? null) &&
+                (existing.amountTaxExclusive ?? null) === (input.amountTaxExclusive ?? null) &&
+                (existing.taxRate ?? null) === (input.taxRate ?? null) &&
+                (existing.downPaymentRate ?? null) === (input.downPaymentRate ?? null) &&
+                (existing.retentionRate ?? null) === (input.retentionRate ?? null) &&
+                (existing.paymentTerms ?? null) === (input.paymentTerms ?? null) &&
+                (existing.sourceReadinessId ?? null) === (input.sourceReadinessId ?? null) &&
+                (existing.sourceBaselineId ?? null) === (input.sourceBaselineId ?? null);
+
+            if (!sameFrozenPayload) {
+                throw new ConflictException(
+                    `ContractTermSnapshot ${input.id} already exists with different frozen terms. Use amendment flow to create a new snapshot.`
+                );
+            }
+
             return existing;
         }
 
@@ -94,6 +121,14 @@ export class ContractTermSnapshotRepository {
             effectiveAt: new Date(),
             effectiveBy: input.effectiveBy ?? null,
             retentionDueDate: input.retentionDueDate ?? null,
+            amountTaxInclusive: input.amountTaxInclusive ?? null,
+            amountTaxExclusive: input.amountTaxExclusive ?? null,
+            taxRate: input.taxRate ?? null,
+            downPaymentRate: input.downPaymentRate ?? null,
+            retentionRate: input.retentionRate ?? null,
+            paymentTerms: input.paymentTerms ?? null,
+            sourceReadinessId: input.sourceReadinessId ?? null,
+            sourceBaselineId: input.sourceBaselineId ?? null,
             createdBy: input.createdBy ?? null
         });
         await this.save(snapshot);

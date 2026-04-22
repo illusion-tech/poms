@@ -176,6 +176,63 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                     </section-card>
 
                     <!-- Audit Info -->
+                    <section-card class="xl:col-span-2">
+                        <ng-template #title>核心条款</ng-template>
+                        @if (contract()!.currentTermSnapshot; as snapshot) {
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.taxRate ? ((+snapshot.taxRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">含税金额</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.amountTaxInclusive ?? '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">未税金额</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.amountTaxExclusive ?? '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">首付款比例</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.downPaymentRate ? ((+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">质保金比例</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.retentionRate ? ((+snapshot.retentionRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">质保期届满日期</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.retentionDueDate ? (snapshot.retentionDueDate | date: 'yyyy-MM-dd') : '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1 xl:col-span-2">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">付款条款</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0 whitespace-pre-wrap">
+                                        {{ snapshot.paymentTerms ?? '-' }}
+                                    </span>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="py-10 text-center">
+                                <i class="pi pi-file-edit text-3xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                                <p class="text-sm text-surface-500 dark:text-surface-400">
+                                    {{ contract()!.status === 'active' ? '当前合同尚未生成条款快照' : '合同未生效，条款快照将在生效后生成' }}
+                                </p>
+                            </div>
+                        }
+                    </section-card>
+
                     <section-card class="xl:col-span-3">
                         <ng-template #title>审计追踪</ng-template>
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mt-4">
