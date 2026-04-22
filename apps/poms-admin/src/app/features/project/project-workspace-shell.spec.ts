@@ -215,6 +215,7 @@ describe('ProjectWorkspaceShell', () => {
         expect(projectStoreMock.loadProject).toHaveBeenCalledWith('project-1');
         expect(workspaceStoreMock.loadGuidance).toHaveBeenCalledWith('project-1');
         expect(text).toContain('后端确认的工作区总览');
+        expect(text).toContain('当前工作重点');
         expect(text).toContain('先完成移交和经营快照确认');
         expect(text).toContain('缺少回款确认');
         expect(text).toContain('请财务补齐回款确认后再继续');

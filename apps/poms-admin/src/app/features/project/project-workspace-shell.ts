@@ -4,95 +4,64 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import type { ProjectWorkspaceEntryView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
+import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../shared/ui/workspace-command-panel';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-nav';
 
 @Component({
     selector: 'app-project-workspace-shell',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonModule, TagModule, SectionCard, WorkspaceLoading, WorkspaceNav],
+    imports: [CommonModule, RouterModule, ButtonModule, ProjectContextHeader, SectionCard, WorkspaceCommandPanel, WorkspaceFeedback, WorkspaceLoading, WorkspaceNav],
     providers: [ProjectStore, ProjectWorkspaceStore],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目工作区" />
         } @else if (project()) {
             <div class="flex flex-col gap-6">
-                <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="flex items-start gap-3">
-                        <p-button
-                            icon="pi pi-arrow-left"
-                            [text]="true"
-                            [rounded]="true"
-                            severity="secondary"
-                            (onClick)="goBackToProject()"
-                            class="cursor-pointer"
-                        />
-                        <div class="min-w-0">
-                            <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">项目工作区 · {{ project()!.projectName }}</h1>
-                            <div class="mt-1 flex flex-wrap items-center gap-2 text-sm text-surface-500 dark:text-surface-400">
-                                <span>{{ project()!.projectCode }}</span>
-                                <span>·</span>
-                                <span>{{ guidance()?.headline ?? '正在读取工作区引导' }}</span>
-                            </div>
+                <app-project-context-header
+                    eyebrow="项目工作区"
+                    [title]="workspaceTitle()"
+                    [subtitle]="workspaceSubtitle()"
+                    [stageLabel]="guidance()?.currentStageLabel ?? '当前阶段'"
+                    [statusLabel]="guidance()?.statusLabel ?? '当前状态'"
+                    backLabel="返回项目详情"
+                    (back)="goBackToProject()"
+                >
+                    <ng-template #actions>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <p-button
+                                label="项目详情"
+                                icon="pi pi-file"
+                                severity="secondary"
+                                [outlined]="true"
+                                styleClass="rounded-md!"
+                                (onClick)="goBackToProject()"
+                                class="cursor-pointer"
+                            />
+                            <p-button
+                                label="提成操作"
+                                icon="pi pi-wallet"
+                                severity="secondary"
+                                [outlined]="true"
+                                styleClass="rounded-md!"
+                                [disabled]="!canAccessCommissionOperations()"
+                                (onClick)="goToCommissionOperations()"
+                                class="cursor-pointer"
+                            />
                         </div>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <p-tag [value]="guidance()?.currentStageLabel ?? '当前阶段'" />
-                        <p-tag [value]="guidance()?.statusLabel ?? '当前状态'" />
-                        <p-button
-                            label="项目详情"
-                            icon="pi pi-file"
-                            severity="secondary"
-                            [outlined]="true"
-                            [rounded]="true"
-                            (onClick)="goBackToProject()"
-                            class="cursor-pointer"
-                        />
-                        <p-button
-                            label="提成操作"
-                            icon="pi pi-wallet"
-                            severity="secondary"
-                            [outlined]="true"
-                            [rounded]="true"
-                            [disabled]="!canAccessCommissionOperations()"
-                            (onClick)="goToCommissionOperations()"
-                            class="cursor-pointer"
-                        />
-                    </div>
-                </div>
+                    </ng-template>
+                </app-project-context-header>
 
                 @if (guidanceError()) {
-                    <section-card>
-                        <ng-template #title>暂时读不到工作区引导</ng-template>
-                        <ng-template #description>{{ guidanceError() }}</ng-template>
+                    <app-workspace-feedback severity="error" summary="暂时读不到工作区引导" [detail]="guidanceError()">
                         <p-button label="重新读取" icon="pi pi-refresh" [text]="true" (onClick)="reloadGuidance()" class="mt-3 cursor-pointer" />
-                    </section-card>
+                    </app-workspace-feedback>
                 }
 
-                <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
-                    <div class="rounded-lg border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-xs text-surface-500 dark:text-surface-400">当前阶段</div>
-                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance()?.currentStageLabel ?? '待确认' }}</div>
-                    </div>
-                    <div class="rounded-lg border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-xs text-surface-500 dark:text-surface-400">当前重点</div>
-                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance()?.currentFocus ?? '正在读取' }}</div>
-                    </div>
-                    <div class="rounded-lg border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-xs text-surface-500 dark:text-surface-400">下一步</div>
-                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance()?.nextStep ?? '正在读取' }}</div>
-                    </div>
-                    <div class="rounded-lg border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-xs text-surface-500 dark:text-surface-400">当前缺口</div>
-                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance()?.currentGap ?? '正在读取' }}</div>
-                    </div>
-                    <div class="rounded-lg border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-xs text-surface-500 dark:text-surface-400">责任归口</div>
-                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance()?.ownerLabel ?? '正在读取' }}</div>
-                    </div>
-                </div>
+                <app-workspace-command-panel [items]="workspaceOverviewItems()" />
 
                 <section-card>
                     <ng-template #title>工作区导航</ng-template>
@@ -122,6 +91,38 @@ export class ProjectWorkspaceShell implements OnInit, OnDestroy {
     readonly guidanceError = this.#workspaceStore.guidanceError;
 
     readonly loading = computed(() => this.#projectStore.loading() || (this.#workspaceStore.loadingGuidance() && !this.#workspaceStore.hasGuidance()));
+
+    readonly workspaceOverviewItems = computed<WorkspaceCommandPanelItem[]>(() => {
+        const guidance = this.guidance();
+
+        return [
+            {
+                label: '当前阶段',
+                value: guidance?.currentStageLabel ?? '待确认',
+                icon: 'pi pi-flag'
+            },
+            {
+                label: '当前重点',
+                value: guidance?.currentFocus ?? '正在读取',
+                icon: 'pi pi-compass'
+            },
+            {
+                label: '下一步',
+                value: guidance?.nextStep ?? '正在读取',
+                icon: 'pi pi-arrow-right'
+            },
+            {
+                label: '当前缺口',
+                value: guidance?.currentGap ?? '正在读取',
+                icon: 'pi pi-exclamation-circle'
+            },
+            {
+                label: '责任归口',
+                value: guidance?.ownerLabel ?? '正在读取',
+                icon: 'pi pi-users'
+            }
+        ];
+    });
 
     readonly tabs = computed<WorkspaceNavItem[]>(() => {
         return (this.guidance()?.recommendedEntries ?? []).map((entry) => ({
@@ -155,6 +156,17 @@ export class ProjectWorkspaceShell implements OnInit, OnDestroy {
         if (projectId) {
             void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
         }
+    }
+
+    workspaceTitle(): string {
+        const project = this.project();
+        return project ? `项目工作区 · ${project.projectName}` : '项目工作区';
+    }
+
+    workspaceSubtitle(): string {
+        const project = this.project();
+        const headline = this.guidance()?.headline ?? '正在读取工作区引导';
+        return project ? `${project.projectCode} · ${headline}` : headline;
     }
 
     goBackToProject() {

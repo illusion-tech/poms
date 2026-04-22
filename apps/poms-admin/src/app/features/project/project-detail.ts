@@ -7,7 +7,10 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
+import { ProjectContextHeader } from '../../shared/ui/project-context-header';
+import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 
 type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
@@ -108,34 +111,42 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
     'project-closed': '项目已关闭，不能继续推进。'
 };
 
+const PROJECT_LIFECYCLE_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed'] as const;
+
+const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[number], string> = {
+    assessment: '判断是否继续推进',
+    'scope-confirmation': '确认范围与边界',
+    'commercial-closure': '收口商务条件',
+    contracting: '完成合同签署',
+    handover: '移交经营依据',
+    execution: '进入正式执行',
+    acceptance: '完成验收确认',
+    completed: '项目完成归档'
+};
+
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, WorkspaceLoading],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFeedback, WorkspaceLoading],
     providers: [ProjectStore],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目详情" />
         } @else if (project(); as project) {
             <div class="flex flex-col gap-6">
-                <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
-                    <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                        <div class="flex min-w-0 items-start gap-3">
-                            <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()" styleClass="rounded-md!" />
-                            <div class="min-w-0">
-                                <p class="text-sm font-medium text-surface-500 dark:text-surface-400">项目详情</p>
-                                <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ project.projectName }}</h1>
-                                <div class="mt-2 flex flex-wrap items-center gap-2 text-sm leading-5 text-surface-500 dark:text-surface-400">
-                                    <span>{{ project.projectCode }}</span>
-                                    <span>·</span>
-                                    <span>{{ displayText(project.customerName, '待补充客户') }}</span>
-                                </div>
-                            </div>
-                        </div>
-
+                <app-project-context-header
+                    eyebrow="项目详情"
+                    [title]="project.projectName"
+                    [subtitle]="projectSubtitle(project)"
+                    [stageLabel]="getStageName(project.stageSummary.currentStage)"
+                    [stageSeverity]="getStageSeverity(project.stageSummary.currentStage)"
+                    [statusLabel]="getStatusName(project.stageSummary.status)"
+                    [statusSeverity]="getStatusSeverity(project.stageSummary.status)"
+                    backLabel="返回项目列表"
+                    (back)="goBack()"
+                >
+                    <ng-template #actions>
                         <div class="flex flex-wrap items-center gap-2">
-                            <p-tag [value]="getStageName(project.stageSummary.currentStage)" [severity]="getStageSeverity(project.stageSummary.currentStage)" styleClass="rounded-[6px]!" />
-                            <p-tag [value]="getStatusName(project.stageSummary.status)" [severity]="getStatusSeverity(project.stageSummary.status)" styleClass="rounded-[6px]!" />
                             @if (canOpenWorkspace(project)) {
                                 <p-button label="项目工作区" icon="pi pi-sitemap" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToWorkspace()" />
                             }
@@ -146,14 +157,14 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
                                 <p-button label="编辑基本信息" icon="pi pi-pencil" severity="primary" styleClass="rounded-md!" (onClick)="showEditDialog()" />
                             }
                         </div>
-                    </div>
+                    </ng-template>
 
                     @if (availableActionCount(project) === 0) {
-                        <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
-                            当前账号只能查看项目详情，暂无可操作入口。
-                        </div>
+                        <app-workspace-feedback class="mt-4 block" severity="secondary" summary="当前账号只能查看项目详情" detail="暂无可操作入口。" />
                     }
-                </section>
+                </app-project-context-header>
+
+                <app-project-lifecycle-timeline [items]="lifecycleItems(project)" />
 
                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -457,6 +468,36 @@ export class ProjectDetail implements OnInit {
 
     displayText(value: string | null | undefined, fallback: string): string {
         return value?.trim() ? value : fallback;
+    }
+
+    projectSubtitle(project: ProjectDetailView): string {
+        return `${project.projectCode} · ${this.displayText(project.customerName, '待补充客户')}`;
+    }
+
+    lifecycleItems(project: ProjectDetailView): ProjectLifecycleTimelineItem[] {
+        const currentStage = project.stageSummary.currentStage;
+        const currentIndex = PROJECT_LIFECYCLE_STAGES.findIndex((stage) => stage === currentStage);
+        const isBlocked = project.stageSummary.status === 'blocked' || project.stageSummary.blockingReasons.length > 0;
+
+        return PROJECT_LIFECYCLE_STAGES.map((stage, index) => {
+            let state: ProjectLifecycleTimelineItem['state'] = 'pending';
+
+            if (currentIndex === -1) {
+                state = 'pending';
+            } else if (index < currentIndex) {
+                state = 'done';
+            } else if (index === currentIndex) {
+                state = isBlocked ? 'blocked' : 'current';
+            }
+
+            return {
+                key: stage,
+                label: this.getStageName(stage),
+                description: PROJECT_LIFECYCLE_DESCRIPTIONS[stage],
+                state,
+                severity: stage === currentStage ? this.getStageSeverity(stage) : undefined
+            };
+        });
     }
 
     shortId(value: string | null | undefined): string {

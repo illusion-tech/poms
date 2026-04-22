@@ -145,6 +145,8 @@ describe('ProjectDetail', () => {
         expect(text).toContain('华南地铁集团');
         expect(text).toContain('张销售');
         expect(text).toContain('华南销售一部');
+        expect(text).toContain('项目生命周期');
+        expect(text).toContain('有阻断');
         expect(text).toContain('项目被标记为阻塞');
         expect(text).toContain('HT-2026-001');
         expect(text).toContain('123,456.78 CNY');
