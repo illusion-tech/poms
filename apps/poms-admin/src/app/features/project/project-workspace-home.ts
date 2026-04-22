@@ -3,49 +3,30 @@ import { Component, inject } from '@angular/core';
 import { ProjectStore, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
+import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../shared/ui/workspace-command-panel';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 @Component({
     selector: 'app-project-workspace-home',
     standalone: true,
-    imports: [CommonModule, SectionCard, WorkspaceActionLink],
+    imports: [CommonModule, SectionCard, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFeedback],
     template: `
         @if (project()) {
             @if (guidance(); as guidance) {
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
-                    <section-card>
-                        <ng-template #title>{{ guidance.headline }}</ng-template>
-                        <ng-template #description>{{ guidance.currentFocus }}</ng-template>
-
-                        <div class="mt-4 grid grid-cols-1 gap-3">
-                            <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
-                                <div class="text-xs text-surface-500 dark:text-surface-400">当前缺口</div>
-                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance.currentGap }}</div>
-                            </div>
-                            <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
-                                <div class="text-xs text-surface-500 dark:text-surface-400">下一步</div>
-                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance.nextStep }}</div>
-                            </div>
-                            <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
-                                <div class="text-xs text-surface-500 dark:text-surface-400">责任归口</div>
-                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ guidance.ownerLabel }}</div>
-                            </div>
-                            <div class="rounded-lg border border-surface-200 px-4 py-3 dark:border-surface-700">
-                                <div class="text-xs text-surface-500 dark:text-surface-400">当前依据</div>
-                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ basisSummaryText(guidance) }}</div>
-                            </div>
-                        </div>
+                    <div class="flex flex-col gap-4">
+                        <app-workspace-command-panel [heading]="guidance.headline" [caption]="guidance.currentFocus" [items]="workspaceOverviewItems(guidance)" />
 
                         @if (guidance.blockingReasons.length > 0) {
-                            <div class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
-                                <div class="font-medium">当前先处理这些问题</div>
+                            <app-workspace-feedback severity="warn" summary="当前先处理这些问题">
                                 <ul class="mt-2 list-disc space-y-1 pl-5">
                                     @for (reason of guidance.blockingReasons; track reason) {
                                         <li>{{ reason }}</li>
                                     }
                                 </ul>
-                            </div>
+                            </app-workspace-feedback>
                         }
-                    </section-card>
+                    </div>
 
                     <section-card>
                         <ng-template #title>推荐入口</ng-template>
@@ -72,10 +53,7 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
                     </section-card>
                 </div>
             } @else {
-                <section-card>
-                    <ng-template #title>正在整理工作区</ng-template>
-                    <ng-template #description>{{ guidanceError() ?? '正在根据当前项目状态整理入口和下一步。' }}</ng-template>
-                </section-card>
+                <app-workspace-feedback severity="info" summary="正在整理工作区" [detail]="guidanceError() ?? '正在根据当前项目状态整理入口和下一步。'" />
             }
         }
     `
@@ -87,6 +65,36 @@ export class ProjectWorkspaceHome {
     readonly project = this.#projectStore.selectedProject;
     readonly guidance = this.#workspaceStore.guidance;
     readonly guidanceError = this.#workspaceStore.guidanceError;
+
+    workspaceOverviewItems(guidance: ProjectWorkspaceGuidanceView): WorkspaceCommandPanelItem[] {
+        return [
+            {
+                label: '当前阶段',
+                value: guidance.currentStageLabel,
+                icon: 'pi pi-flag'
+            },
+            {
+                label: '当前缺口',
+                value: guidance.currentGap,
+                icon: 'pi pi-exclamation-circle'
+            },
+            {
+                label: '下一步',
+                value: guidance.nextStep,
+                icon: 'pi pi-arrow-right'
+            },
+            {
+                label: '责任归口',
+                value: guidance.ownerLabel,
+                icon: 'pi pi-users'
+            },
+            {
+                label: '当前依据',
+                value: this.basisSummaryText(guidance),
+                icon: 'pi pi-book'
+            }
+        ];
+    }
 
     basisSummaryText(guidance: ProjectWorkspaceGuidanceView): string {
         if (guidance.basisSummary.summarySnapshotId && guidance.basisSummary.generatedAt) {

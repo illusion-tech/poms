@@ -3,8 +3,10 @@ import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthStore, ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
+import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../shared/ui/workspace-command-panel';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-nav';
 import {
@@ -18,46 +20,40 @@ import {
 @Component({
     selector: 'app-project-commission-shell',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonModule, TagModule, SectionCard, WorkspaceLoading, WorkspaceNav],
+    imports: [CommonModule, RouterModule, ButtonModule, ProjectContextHeader, SectionCard, WorkspaceCommandPanel, WorkspaceFeedback, WorkspaceLoading, WorkspaceNav],
     providers: [ProjectStore, ProjectWorkspaceStore],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取提成工作区" />
         } @else if (project()) {
             <div class="flex flex-col gap-6">
-                <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="flex items-start gap-3">
-                        <p-button
-                            icon="pi pi-arrow-left"
-                            [text]="true"
-                            [rounded]="true"
-                            severity="secondary"
-                            (onClick)="goBackToWorkspace()"
-                            class="cursor-pointer"
-                        />
-                        <div class="min-w-0">
-                            <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">提成工作区 · {{ project()!.projectName }}</h1>
-                            <div class="mt-1 flex flex-wrap items-center gap-2 text-sm text-surface-500 dark:text-surface-400">
-                                <span>{{ project()!.projectCode }}</span>
-                                <span>·</span>
-                                <span>{{ workspaceGuide().nextStep }}</span>
-                            </div>
+                <app-project-context-header
+                    eyebrow="提成工作区"
+                    [title]="commissionTitle()"
+                    [subtitle]="commissionSubtitle()"
+                    [stageLabel]="projectStageLabel(project()!.currentStage)"
+                    [stageSeverity]="projectStageSeverity(project()!.currentStage)"
+                    [statusLabel]="projectStatusLabel(project()!.status)"
+                    [statusSeverity]="projectStatusSeverity(project()!.status)"
+                    backLabel="返回项目工作区"
+                    (back)="goBackToWorkspace()"
+                >
+                    <ng-template #actions>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <p-button
+                                label="返回项目工作区"
+                                icon="pi pi-sitemap"
+                                severity="secondary"
+                                [outlined]="true"
+                                styleClass="rounded-md!"
+                                (onClick)="goBackToWorkspace()"
+                                class="cursor-pointer"
+                            />
                         </div>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <p-tag [value]="projectStageLabel(project()!.currentStage)" [severity]="projectStageSeverity(project()!.currentStage)" />
-                        <p-tag [value]="projectStatusLabel(project()!.status)" [severity]="projectStatusSeverity(project()!.status)" />
-                        <p-button
-                            label="返回项目工作区"
-                            icon="pi pi-sitemap"
-                            severity="secondary"
-                            [outlined]="true"
-                            [rounded]="true"
-                            (onClick)="goBackToWorkspace()"
-                            class="cursor-pointer"
-                        />
-                    </div>
-                </div>
+                    </ng-template>
+                </app-project-context-header>
+
+                <app-workspace-command-panel heading="提成处理重点" caption="先确认阶段条件、阻断事项、下一步和责任归口。" [items]="commissionOverviewItems()" />
 
                 <section-card>
                     <ng-template #title>提成相关事项</ng-template>
@@ -69,8 +65,7 @@ import {
             </div>
         } @else {
             <div class="py-20 text-center">
-                <i class="pi pi-exclamation-triangle mb-3 block text-4xl text-surface-300 dark:text-surface-600"></i>
-                <p class="text-surface-500 dark:text-surface-400">项目未找到</p>
+                <app-workspace-feedback severity="warn" summary="项目未找到" detail="请返回项目列表重新选择项目。" />
                 <p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBackToList()" class="mt-4 cursor-pointer" />
             </div>
         }
@@ -103,6 +98,33 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         }
 
         return projectWorkspaceGuide(project);
+    });
+
+    readonly commissionOverviewItems = computed<WorkspaceCommandPanelItem[]>(() => {
+        const guide = this.workspaceGuide();
+
+        return [
+            {
+                label: '当前阶段',
+                value: guide.currentStep,
+                icon: 'pi pi-flag'
+            },
+            {
+                label: '下一步',
+                value: guide.nextStep,
+                icon: 'pi pi-arrow-right'
+            },
+            {
+                label: '当前缺口',
+                value: guide.currentGap,
+                icon: 'pi pi-exclamation-circle'
+            },
+            {
+                label: '责任归口',
+                value: guide.owner,
+                icon: 'pi pi-users'
+            }
+        ];
     });
 
     readonly tabs = computed<WorkspaceNavItem[]>(() => {
@@ -149,6 +171,17 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     projectId(): string {
         return this.#route.snapshot.paramMap.get('id') ?? '';
+    }
+
+    commissionTitle(): string {
+        const project = this.project();
+        return project ? `提成工作区 · ${project.projectName}` : '提成工作区';
+    }
+
+    commissionSubtitle(): string {
+        const project = this.project();
+        const nextStep = this.workspaceGuide().nextStep;
+        return project ? `${project.projectCode} · ${nextStep}` : nextStep;
     }
 
     goBackToWorkspace() {
