@@ -80,15 +80,16 @@
 
 ### 4.1 销售流程域
 
-| 逻辑表                       | 表角色     | 最小字段组                                                                                                                                     | 关键关系                                                             | 说明                       |
-| ---------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------- |
-| `project`                    | 主体主表   | `id`、`project_code`、`project_name`、`customer_id`、`status`、`current_stage`、`owner_org_id`、`owner_user_id`                                | 可被 `contract`、`bid_process`、`approval_record` 引用               | 第一阶段核心主链路主表     |
-| `project_assessment`         | 动作记录表 | `id`、`project_id`、`status`、`submitted_at`、`submitted_by`                                                                                   | 归属 `project`                                                       | 用于评估提交与结论留痕     |
-| `scope_confirmation_version` | 版本表     | `id`、`project_id`、`version`、`is_current`、`supersedes_id`、`status`                                                                         | 归属 `project`                                                       | 已确认范围不应原地覆盖     |
-| `bid_process`                | 主体主表   | `id`、`project_id`、`status`、`decision_status`、`result_status`                                                                               | 归属 `project`                                                       | 第一类受控子流程           |
-| `project_handover`           | 动作记录表 | `id`、`project_id`、`contract_summary_snapshot_id`、`effective_handover_baseline_snapshot_id`、`summary_snapshot_id`、`status`、`confirmed_at` | 归属 `project`；引用合同承接摘要 / 当前移交前有效基线 / 移交确认摘要 | 移交里程碑事实与确认收口链 |
-| `acceptance_record`          | 动作记录表 | `id`、`project_id`、`acceptance_type`、`status`、`confirmed_at`                                                                                | 归属 `project`                                                       | 阶段 / 最终验收留痕        |
-| `project_completion_record`  | 动作记录表 | `id`、`project_id`、`acceptance_record_id`、`completion_result`、`status`、`completed_at`、`completed_by`                                      | 归属 `project`；引用有效 `acceptance_record`                         | 项目完成结论与完成时间留痕 |
+| 逻辑表                       | 表角色     | 最小字段组                                                                                                                                     | 关键关系                                                             | 说明                         |
+| ---------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------- |
+| `project`                    | 主体主表   | `id`、`project_code`、`project_name`、`customer_id`、`status`、`current_stage`、`owner_org_id`、`owner_user_id`                                | 可被 `contract`、`bid_process`、`approval_record` 引用               | 第一阶段核心主链路主表       |
+| `project_assessment`         | 动作记录表 | `id`、`project_id`、`status`、`submitted_at`、`submitted_by`                                                                                   | 归属 `project`                                                       | 用于评估提交与结论留痕       |
+| `scope_confirmation_version` | 版本表     | `id`、`project_id`、`version`、`is_current`、`supersedes_id`、`status`                                                                         | 归属 `project`                                                       | 已确认范围不应原地覆盖       |
+| `bid_process`                | 主体主表   | `id`、`project_id`、`status`、`decision_status`、`result_status`                                                                               | 归属 `project`                                                       | 第一类受控子流程             |
+| `project_handover`           | 动作记录表 | `id`、`project_id`、`contract_summary_snapshot_id`、`effective_handover_baseline_snapshot_id`、`summary_snapshot_id`、`status`、`confirmed_at` | 归属 `project`；引用合同承接摘要 / 当前移交前有效基线 / 移交确认摘要 | 移交里程碑事实与确认收口链   |
+| `acceptance_record`          | 动作记录表 | `id`、`project_id`、`acceptance_type`、`status`、`confirmed_at`                                                                                | 归属 `project`                                                       | 阶段 / 最终验收留痕          |
+| `project_completion_record`  | 动作记录表 | `id`、`project_id`、`acceptance_record_id`、`completion_result`、`status`、`completed_at`、`completed_by`                                      | 归属 `project`；引用有效 `acceptance_record`                         | 项目完成结论与完成时间留痕   |
+| `project_archive_record`     | 动作记录表 | `id`、`project_id`、`archive_anchor_stage`、`archive_anchor_source_type`、`archive_anchor_source_id`、`status`、`archived_at`、`archived_by`   | 归属 `project`；锚定有效完成 / 关闭事实来源                          | 项目归档事实与终态附属里程碑 |
 
 ### 4.2 合同资金域
 

@@ -20,7 +20,8 @@ describe('ProjectController', () => {
             getProjectWorkspaceGuidance: jest.fn(),
             getProjectTimeline: jest.fn(),
             listAcceptanceRecords: jest.fn(),
-            listProjectCompletionRecords: jest.fn()
+            listProjectCompletionRecords: jest.fn(),
+            listProjectArchiveRecords: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -30,6 +31,7 @@ describe('ProjectController', () => {
             createAndSave: jest.fn(),
             createAcceptanceRecord: jest.fn(),
             createProjectCompletionRecord: jest.fn(),
+            createProjectArchiveRecord: jest.fn(),
             updateBasicInfo: jest.fn(),
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
@@ -206,6 +208,33 @@ describe('ProjectController', () => {
         expect(projectQueryService.listProjectCompletionRecords).toHaveBeenCalledWith(projectId);
     });
 
+    it('returns project archive records through the query service', async () => {
+        const records = [
+            {
+                id: '38000000-0000-4000-8000-000000000001',
+                projectId,
+                archiveAnchorStage: 'completed',
+                archiveAnchorSourceType: 'project-completion-record',
+                archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+                status: 'recorded',
+                archivedAt: '2026-04-22T10:00:00.000Z',
+                archivedBy: userId,
+                archivedByName: '项目经理',
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包',
+                createdAt: '2026-04-22T10:00:00.000Z',
+                createdBy: userId,
+                updatedAt: '2026-04-22T10:00:00.000Z',
+                updatedBy: userId,
+                rowVersion: 1
+            }
+        ];
+        projectQueryService.listProjectArchiveRecords.mockResolvedValue(records as never);
+
+        await expect(controller.listProjectArchiveRecords(projectId)).resolves.toBe(records);
+        expect(projectQueryService.listProjectArchiveRecords).toHaveBeenCalledWith(projectId);
+    });
+
     it('creates project acceptance record with operator id', async () => {
         const confirmedAt = new Date('2026-04-18T09:30:00.000Z');
         projectService.createAcceptanceRecord.mockResolvedValue({
@@ -299,6 +328,50 @@ describe('ProjectController', () => {
         expect(result.completedAt).toBe('2026-04-20T10:00:00.000Z');
         expect(result.completedByName).toBeNull();
         expect(result.evidenceSummary).toBe('完成确认单');
+    });
+
+    it('creates project archive record with operator id', async () => {
+        const archivedAt = new Date('2026-04-22T10:00:00.000Z');
+        projectService.createProjectArchiveRecord.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+            status: 'recorded',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包',
+            createdAt: archivedAt,
+            createdBy: userId,
+            updatedAt: archivedAt,
+            updatedBy: userId,
+            rowVersion: 1
+        } as never);
+
+        const result = await controller.createProjectArchiveRecord(
+            projectId,
+            {
+                archivedAt: '2026-04-22T10:00:00.000Z',
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包'
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.createProjectArchiveRecord).toHaveBeenCalledWith(
+            projectId,
+            {
+                archivedAt,
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包'
+            },
+            userId
+        );
+        expect(result.archivedAt).toBe('2026-04-22T10:00:00.000Z');
+        expect(result.archivedByName).toBeNull();
+        expect(result.archiveSummary).toBe('项目资料归档完成');
     });
 
     it('throws when project detail is not found by id', async () => {

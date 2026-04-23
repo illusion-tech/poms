@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import type { AcceptanceRecordResult, AcceptanceRecordType, ProjectCompletionRecordResult, ProjectStage } from '@poms/shared-contracts';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
@@ -39,6 +40,12 @@ export interface CreateProjectCompletionRecordInput {
     completionResult: ProjectCompletionRecordResult;
     completedAt: Date;
     completionSummary: string;
+    evidenceSummary: string;
+}
+
+export interface CreateProjectArchiveRecordInput {
+    archivedAt: Date;
+    archiveSummary: string;
     evidenceSummary: string;
 }
 
@@ -205,5 +212,67 @@ export class ProjectService {
         await this.projectRepository.saveProjectCompletionRecord(record, project);
 
         return record;
+    }
+
+    async createProjectArchiveRecord(projectId: string, input: CreateProjectArchiveRecordInput, operatorUserId: string): Promise<ProjectArchiveRecord> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        if (project.currentStage === 'completed') {
+            if (project.status !== 'completed') {
+                throw new BadRequestException(`Project ${projectId} cannot record archive because completion is not effective`);
+            }
+
+            const completionRecord = await this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id);
+            if (!completionRecord) {
+                throw new BadRequestException(`Project ${projectId} cannot record archive without an effective completion source`);
+            }
+
+            const record = this.projectRepository.createProjectArchiveRecord({
+                projectId,
+                archiveAnchorStage: 'completed',
+                archiveAnchorSourceType: 'project-completion-record',
+                archiveAnchorSourceId: completionRecord.id,
+                status: 'recorded',
+                archivedAt: input.archivedAt,
+                archivedBy: operatorUserId,
+                archiveSummary: input.archiveSummary,
+                evidenceSummary: input.evidenceSummary,
+                createdBy: operatorUserId,
+                updatedBy: operatorUserId
+            });
+
+            await this.projectRepository.saveProjectArchiveRecord(record);
+
+            return record;
+        }
+
+        if (['closed-lost', 'closed-terminated'].includes(project.currentStage)) {
+            if (project.status !== 'closed' || !project.closedAt) {
+                throw new BadRequestException(`Project ${projectId} cannot record archive because close fact is not effective`);
+            }
+
+            const record = this.projectRepository.createProjectArchiveRecord({
+                projectId,
+                archiveAnchorStage: project.currentStage,
+                archiveAnchorSourceType: 'project',
+                archiveAnchorSourceId: project.id,
+                status: 'recorded',
+                archivedAt: input.archivedAt,
+                archivedBy: operatorUserId,
+                archiveSummary: input.archiveSummary,
+                evidenceSummary: input.evidenceSummary,
+                createdBy: operatorUserId,
+                updatedBy: operatorUserId
+            });
+
+            await this.projectRepository.saveProjectArchiveRecord(record);
+
+            return record;
+        }
+
+        throw new BadRequestException(`Project ${projectId} cannot record archive in stage ${project.currentStage}`);
     }
 }

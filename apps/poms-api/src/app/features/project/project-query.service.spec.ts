@@ -14,6 +14,8 @@ describe('ProjectQueryService', () => {
         findLatestAcceptedAcceptanceRecordByProjectId: jest.Mock;
         findProjectCompletionRecordsByProjectId: jest.Mock;
         findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
+        findProjectArchiveRecordsByProjectId: jest.Mock;
+        findLatestRecordedProjectArchiveRecordByProjectId: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
 
@@ -29,9 +31,12 @@ describe('ProjectQueryService', () => {
             findAcceptanceRecordsByProjectId: jest.fn(),
             findLatestAcceptedAcceptanceRecordByProjectId: jest.fn(),
             findProjectCompletionRecordsByProjectId: jest.fn(),
-            findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn()
+            findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn(),
+            findProjectArchiveRecordsByProjectId: jest.fn(),
+            findLatestRecordedProjectArchiveRecordByProjectId: jest.fn()
         };
         projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue(null);
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
 
         service = new ProjectQueryService(projectRepository as never, approvalSummarySnapshotRepository as never);
@@ -587,6 +592,57 @@ describe('ProjectQueryService', () => {
         expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000003']);
     });
 
+    it('lists archive records as project-scoped authoritative facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000011'
+        });
+        projectRepository.findProjectArchiveRecordsByProjectId.mockResolvedValue([
+            {
+                id: '38000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000011',
+                archiveAnchorStage: 'completed',
+                archiveAnchorSourceType: 'project-completion-record',
+                archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+                status: 'recorded',
+                archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                archivedBy: '00000000-0000-4000-8000-000000000003',
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包',
+                createdAt: new Date('2026-04-22T10:00:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: new Date('2026-04-22T10:00:00.000Z'),
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
+        ]);
+
+        await expect(service.listProjectArchiveRecords('20000000-0000-4000-8000-000000000011')).resolves.toEqual([
+            {
+                id: '38000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000011',
+                archiveAnchorStage: 'completed',
+                archiveAnchorSourceType: 'project-completion-record',
+                archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+                status: 'recorded',
+                archivedAt: '2026-04-22T10:00:00.000Z',
+                archivedBy: '00000000-0000-4000-8000-000000000003',
+                archivedByName: '项目经理',
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包',
+                createdAt: '2026-04-22T10:00:00.000Z',
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: '2026-04-22T10:00:00.000Z',
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        expect(projectRepository.findProjectArchiveRecordsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000011');
+        expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000003']);
+    });
+
     it('projects latest accepted acceptance record into project timeline', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000008',
@@ -690,6 +746,88 @@ describe('ProjectQueryService', () => {
                 sourceType: 'project-completion-record',
                 sourceId: '37000000-0000-4000-8000-000000000002',
                 evidenceLabel: '完成确认单',
+                isAuthoritative: true
+            }
+        ]);
+    });
+
+    it('projects latest archive record into project timeline as terminal milestone', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000012',
+            projectCode: 'PRJ-2026-012',
+            currentStage: 'completed',
+            status: 'completed',
+            closedAt: null,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000001',
+            updatedBy: '00000000-0000-4000-8000-000000000003'
+        });
+        projectRepository.findContractsByProjectId.mockResolvedValue([]);
+        projectRepository.findLatestConfirmedHandoverByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestAcceptedAcceptanceRecordByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue({
+            id: '37000000-0000-4000-8000-000000000003',
+            projectId: '20000000-0000-4000-8000-000000000012',
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000003',
+            completionResult: 'completed',
+            status: 'confirmed',
+            completedAt: new Date('2026-04-20T10:00:00.000Z'),
+            completedBy: '00000000-0000-4000-8000-000000000003',
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单'
+        });
+        projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000002',
+            projectId: '20000000-0000-4000-8000-000000000012',
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000003',
+            status: 'recorded',
+            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+            archivedBy: '00000000-0000-4000-8000-000000000004',
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' },
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' },
+            { id: '00000000-0000-4000-8000-000000000004', displayName: '档案管理员' }
+        ]);
+
+        const result = await service.getProjectTimeline('20000000-0000-4000-8000-000000000012');
+
+        expect(projectRepository.findLatestRecordedProjectArchiveRecordByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000012');
+        expect(result.events).toEqual([
+            expect.objectContaining({
+                eventKey: 'project-created',
+                stage: 'assessment'
+            }),
+            {
+                eventKey: 'project-completed:37000000-0000-4000-8000-000000000003',
+                stage: 'completed',
+                stageLabel: '已完成',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-20T10:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000003',
+                actorName: '项目经理',
+                resultLabel: '项目已完成',
+                sourceType: 'project-completion-record',
+                sourceId: '37000000-0000-4000-8000-000000000003',
+                evidenceLabel: '完成确认单',
+                isAuthoritative: true
+            },
+            {
+                eventKey: 'project-archived:38000000-0000-4000-8000-000000000002',
+                stage: 'completed',
+                stageLabel: '已完成',
+                eventType: 'milestone',
+                occurredAt: '2026-04-22T10:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000004',
+                actorName: '档案管理员',
+                resultLabel: '项目归档：项目资料归档完成',
+                sourceType: 'project-archive-record',
+                sourceId: '38000000-0000-4000-8000-000000000002',
+                evidenceLabel: '归档清单与交付包',
                 isAuthoritative: true
             }
         ]);

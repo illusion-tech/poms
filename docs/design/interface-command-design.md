@@ -100,6 +100,7 @@
 | `ProjectHandover`            | `confirmProjectHandover`    | 完成移交确认 | 已形成合同台账，确认人集合齐备；已选定项目级回款判断模式；合同承接摘要输入已固定 | 多方确认  | 固化移交完成事实、当前有效合同集合引用、合同承接摘要快照与移交确认摘要快照 |
 | `AcceptanceRecord`           | `confirmAcceptance`         | 确认验收     | 已形成可验收成果并提交证据引用                                                   | 确认      | 固化验收结论、验收类型与证据链摘要                                         |
 | `ProjectCompletionRecord`    | `confirmProjectCompletion`  | 确认完成     | 已存在有效验收记录，且项目未处于关闭 / 终止状态                                  | 确认      | 固化项目完成结论、完成时间、验收来源引用与操作者留痕                       |
+| `ProjectArchiveRecord`       | `createProjectArchiveRecord` | 记录归档     | 项目已处于 `completed` / `closed-lost` / `closed-terminated`，且存在有效终态来源  | 确认      | 固化项目归档时间、锚定终态、来源引用与操作者留痕                           |
 
 ### 4.2 合同资金域
 

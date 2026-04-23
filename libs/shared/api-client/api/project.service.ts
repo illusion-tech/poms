@@ -21,9 +21,13 @@ import { AcceptanceRecordSummary } from '../model/acceptance-record-summary';
 // @ts-ignore
 import { CreateAcceptanceRecordRequest } from '../model/create-acceptance-record-request';
 // @ts-ignore
+import { CreateProjectArchiveRecordRequest } from '../model/create-project-archive-record-request';
+// @ts-ignore
 import { CreateProjectCompletionRecordRequest } from '../model/create-project-completion-record-request';
 // @ts-ignore
 import { CreateProjectRequest } from '../model/create-project-request';
+// @ts-ignore
+import { ProjectArchiveRecordSummary } from '../model/project-archive-record-summary';
 // @ts-ignore
 import { ProjectCompletionRecordSummary } from '../model/project-completion-record-summary';
 // @ts-ignore
@@ -52,6 +56,11 @@ export interface ProjectControllerCreateRequestParams {
 export interface ProjectControllerCreateAcceptanceRecordRequestParams {
     projectId: string;
     createAcceptanceRecordRequest: CreateAcceptanceRecordRequest;
+}
+
+export interface ProjectControllerCreateProjectArchiveRecordRequestParams {
+    projectId: string;
+    createProjectArchiveRecordRequest: CreateProjectArchiveRecordRequest;
 }
 
 export interface ProjectControllerCreateProjectCompletionRecordRequestParams {
@@ -83,6 +92,10 @@ export interface ProjectControllerListRequestParams {
 }
 
 export interface ProjectControllerListAcceptanceRecordsRequestParams {
+    projectId: string;
+}
+
+export interface ProjectControllerListProjectArchiveRecordsRequestParams {
     projectId: string;
 }
 
@@ -239,6 +252,80 @@ export class ProjectApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: createAcceptanceRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建项目归档记录
+     * @endpoint post /api/projects/{projectId}/archive-records
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerCreateProjectArchiveRecord(requestParameters: ProjectControllerCreateProjectArchiveRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectArchiveRecordSummary>;
+    public projectControllerCreateProjectArchiveRecord(requestParameters: ProjectControllerCreateProjectArchiveRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectArchiveRecordSummary>>;
+    public projectControllerCreateProjectArchiveRecord(requestParameters: ProjectControllerCreateProjectArchiveRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectArchiveRecordSummary>>;
+    public projectControllerCreateProjectArchiveRecord(requestParameters: ProjectControllerCreateProjectArchiveRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerCreateProjectArchiveRecord.');
+        }
+        const createProjectArchiveRecordRequest = requestParameters?.createProjectArchiveRecordRequest;
+        if (createProjectArchiveRecordRequest === null || createProjectArchiveRecordRequest === undefined) {
+            throw new Error('Required parameter createProjectArchiveRecordRequest was null or undefined when calling projectControllerCreateProjectArchiveRecord.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/archive-records`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectArchiveRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createProjectArchiveRecordRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -710,6 +797,66 @@ export class ProjectApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/acceptance-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<AcceptanceRecordSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目归档记录
+     * @endpoint get /api/projects/{projectId}/archive-records
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerListProjectArchiveRecords(requestParameters: ProjectControllerListProjectArchiveRecordsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectArchiveRecordSummary>>;
+    public projectControllerListProjectArchiveRecords(requestParameters: ProjectControllerListProjectArchiveRecordsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectArchiveRecordSummary>>>;
+    public projectControllerListProjectArchiveRecords(requestParameters: ProjectControllerListProjectArchiveRecordsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectArchiveRecordSummary>>>;
+    public projectControllerListProjectArchiveRecords(requestParameters: ProjectControllerListProjectArchiveRecordsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerListProjectArchiveRecords.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/archive-records`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ProjectArchiveRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

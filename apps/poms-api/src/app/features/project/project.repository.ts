@@ -6,6 +6,7 @@ import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 
@@ -25,7 +26,9 @@ export class ProjectRepository {
         @InjectRepository(AcceptanceRecord)
         private readonly acceptanceRecordRepository: EntityRepository<AcceptanceRecord>,
         @InjectRepository(ProjectCompletionRecord)
-        private readonly projectCompletionRecordRepository: EntityRepository<ProjectCompletionRecord>
+        private readonly projectCompletionRecordRepository: EntityRepository<ProjectCompletionRecord>,
+        @InjectRepository(ProjectArchiveRecord)
+        private readonly projectArchiveRecordRepository: EntityRepository<ProjectArchiveRecord>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -199,6 +202,28 @@ export class ProjectRepository {
         );
     }
 
+    async findProjectArchiveRecordsByProjectId(projectId: string): Promise<ProjectArchiveRecord[]> {
+        return this.projectArchiveRecordRepository.find(
+            { projectId },
+            {
+                orderBy: { archivedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findLatestRecordedProjectArchiveRecordByProjectId(projectId: string): Promise<ProjectArchiveRecord | null> {
+        return this.projectArchiveRecordRepository.findOne(
+            {
+                projectId,
+                status: 'recorded',
+                archivedAt: { $ne: null }
+            },
+            {
+                orderBy: { archivedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     create(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }
@@ -211,6 +236,10 @@ export class ProjectRepository {
         return this.projectCompletionRecordRepository.create(input);
     }
 
+    createProjectArchiveRecord(input: ConstructorParameters<typeof ProjectArchiveRecord>[0]): ProjectArchiveRecord {
+        return this.projectArchiveRecordRepository.create(input);
+    }
+
     async save(project: Project): Promise<void> {
         await this.projectRepository.getEntityManager().persist(project).flush();
     }
@@ -221,5 +250,9 @@ export class ProjectRepository {
 
     async saveProjectCompletionRecord(record: ProjectCompletionRecord, project: Project): Promise<void> {
         await this.projectCompletionRecordRepository.getEntityManager().persist([record, project]).flush();
+    }
+
+    async saveProjectArchiveRecord(record: ProjectArchiveRecord): Promise<void> {
+        await this.projectArchiveRecordRepository.getEntityManager().persist(record).flush();
     }
 }

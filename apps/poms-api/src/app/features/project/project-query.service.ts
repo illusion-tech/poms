@@ -5,6 +5,8 @@ import type {
     AcceptanceRecordSummary,
     AcceptanceRecordType,
     PermissionKey,
+    ProjectArchiveRecordList,
+    ProjectArchiveRecordSummary,
     ProjectCompletionRecordList,
     ProjectCompletionRecordResult,
     ProjectCompletionRecordSummary,
@@ -18,6 +20,7 @@ import type {
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { Contract } from '../contract/contract.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
@@ -56,6 +59,8 @@ const PROJECT_COMPLETION_RECORD_RESULT_LABELS: Record<ProjectCompletionRecordRes
     completed: '项目已完成',
     'conditional-completed': '项目有条件完成'
 };
+
+const PROJECT_ARCHIVE_RESULT_LABEL_PREFIX = '项目归档';
 
 type ProjectWorkspaceGuidanceText = Pick<ProjectWorkspaceGuidanceView, 'headline' | 'currentFocus' | 'currentGap' | 'nextStep'> & {
     ownerFallback: string;
@@ -357,17 +362,31 @@ export class ProjectQueryService {
         return records.map((record) => this.mapProjectCompletionRecord(record, userNameById));
     }
 
+    async listProjectArchiveRecords(projectId: string): Promise<ProjectArchiveRecordList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const records = await this.projectRepository.findProjectArchiveRecordsByProjectId(project.id);
+        const archivedByIds = [...new Set(records.map((record) => record.archivedBy).filter((id): id is string => Boolean(id)))];
+        const users = await this.projectRepository.findPlatformUsersByIds(archivedByIds);
+        const userNameById = new Map(users.map((user) => [user.id, user.displayName] as const));
+        return records.map((record) => this.mapProjectArchiveRecord(record, userNameById));
+    }
+
     async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        const [contracts, latestConfirmedHandover, latestAcceptedAcceptanceRecord, latestProjectCompletionRecord] = await Promise.all([
+        const [contracts, latestConfirmedHandover, latestAcceptedAcceptanceRecord, latestProjectCompletionRecord, latestArchiveRecord] = await Promise.all([
             this.projectRepository.findContractsByProjectId(project.id),
             this.projectRepository.findLatestConfirmedHandoverByProjectId(project.id),
             this.projectRepository.findLatestAcceptedAcceptanceRecordByProjectId(project.id),
-            this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id)
+            this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id),
+            this.projectRepository.findLatestRecordedProjectArchiveRecordByProjectId(project.id)
         ]);
         const firstSignedContract =
             contracts
@@ -379,6 +398,7 @@ export class ProjectQueryService {
             latestConfirmedHandover?.confirmedBy ?? null,
             latestAcceptedAcceptanceRecord?.confirmedBy ?? null,
             latestProjectCompletionRecord?.completedBy ?? null,
+            latestArchiveRecord?.archivedBy ?? null,
             project.closedAt ? project.updatedBy : null
         ].filter((id): id is string => Boolean(id));
         const users = await this.projectRepository.findPlatformUsersByIds([...new Set(actorUserIds)]);
@@ -471,6 +491,23 @@ export class ProjectQueryService {
             });
         }
 
+        if (latestArchiveRecord?.archivedAt) {
+            events.push({
+                eventKey: `project-archived:${latestArchiveRecord.id}`,
+                stage: latestArchiveRecord.archiveAnchorStage,
+                stageLabel: this.getStageLabel(latestArchiveRecord.archiveAnchorStage),
+                eventType: 'milestone',
+                occurredAt: latestArchiveRecord.archivedAt.toISOString(),
+                actorUserId: latestArchiveRecord.archivedBy ?? null,
+                actorName: this.resolveActorName(latestArchiveRecord.archivedBy, actorNameByUserId),
+                resultLabel: `${PROJECT_ARCHIVE_RESULT_LABEL_PREFIX}：${latestArchiveRecord.archiveSummary}`,
+                sourceType: 'project-archive-record',
+                sourceId: latestArchiveRecord.id,
+                evidenceLabel: latestArchiveRecord.evidenceSummary,
+                isAuthoritative: true
+            });
+        }
+
         if (project.closedAt) {
             events.push({
                 eventKey: 'project-closed',
@@ -499,6 +536,27 @@ export class ProjectQueryService {
                 return left.eventKey.localeCompare(right.eventKey);
             }),
             generatedAt: new Date().toISOString()
+        };
+    }
+
+    private mapProjectArchiveRecord(record: ProjectArchiveRecord, userNameById: Map<string, string> = new Map()): ProjectArchiveRecordSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            archiveAnchorStage: record.archiveAnchorStage,
+            archiveAnchorSourceType: record.archiveAnchorSourceType,
+            archiveAnchorSourceId: record.archiveAnchorSourceId,
+            status: record.status,
+            archivedAt: record.archivedAt.toISOString(),
+            archivedBy: record.archivedBy ?? null,
+            archivedByName: record.archivedBy ? (userNameById.get(record.archivedBy) ?? null) : null,
+            archiveSummary: record.archiveSummary,
+            evidenceSummary: record.evidenceSummary,
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
         };
     }
 

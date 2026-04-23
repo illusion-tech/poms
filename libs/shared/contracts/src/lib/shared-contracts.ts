@@ -904,11 +904,60 @@ export const CreateProjectCompletionRecordRequestSchema = z
 
 export type CreateProjectCompletionRecordRequest = z.infer<typeof CreateProjectCompletionRecordRequestSchema>;
 
+export const PROJECT_ARCHIVE_ANCHOR_STAGES = ['completed', 'closed-lost', 'closed-terminated'] as const;
+
+export type ProjectArchiveAnchorStage = (typeof PROJECT_ARCHIVE_ANCHOR_STAGES)[number];
+
+export const PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES = ['project', 'project-completion-record'] as const;
+
+export type ProjectArchiveAnchorSourceType = (typeof PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES)[number];
+
+export const PROJECT_ARCHIVE_RECORD_STATUSES = ['recorded'] as const;
+
+export type ProjectArchiveRecordStatus = (typeof PROJECT_ARCHIVE_RECORD_STATUSES)[number];
+
+export const ProjectArchiveRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        archiveAnchorStage: z.enum(PROJECT_ARCHIVE_ANCHOR_STAGES),
+        archiveAnchorSourceType: z.enum(PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES),
+        archiveAnchorSourceId: z.uuid(),
+        status: z.enum(PROJECT_ARCHIVE_RECORD_STATUSES),
+        archivedAt: z.iso.datetime(),
+        archivedBy: z.uuid().nullable(),
+        archivedByName: z.string().nullable(),
+        archiveSummary: z.string(),
+        evidenceSummary: z.string(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ProjectArchiveRecordSummary' });
+
+export type ProjectArchiveRecordSummary = z.infer<typeof ProjectArchiveRecordSummarySchema>;
+
+export const ProjectArchiveRecordListSchema = z.array(ProjectArchiveRecordSummarySchema).meta({ id: 'ProjectArchiveRecordList' });
+
+export type ProjectArchiveRecordList = z.infer<typeof ProjectArchiveRecordListSchema>;
+
+export const CreateProjectArchiveRecordRequestSchema = z
+    .object({
+        archivedAt: z.iso.datetime(),
+        archiveSummary: z.string().trim().min(1).max(2000),
+        evidenceSummary: z.string().trim().min(1).max(2000)
+    })
+    .meta({ id: 'CreateProjectArchiveRecordRequest' });
+
+export type CreateProjectArchiveRecordRequest = z.infer<typeof CreateProjectArchiveRecordRequestSchema>;
+
 export const PROJECT_TIMELINE_EVENT_TYPES = ['stage-entered', 'stage-completed', 'milestone'] as const;
 
 export type ProjectTimelineEventType = (typeof PROJECT_TIMELINE_EVENT_TYPES)[number];
 
-export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover', 'acceptance-record', 'project-completion-record'] as const;
+export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover', 'acceptance-record', 'project-completion-record', 'project-archive-record'] as const;
 
 export type ProjectTimelineSourceType = (typeof PROJECT_TIMELINE_SOURCE_TYPES)[number];
 

@@ -19,6 +19,9 @@ describe('ProjectService', () => {
         saveAcceptanceRecord: jest.Mock;
         createProjectCompletionRecord: jest.Mock;
         saveProjectCompletionRecord: jest.Mock;
+        findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
+        createProjectArchiveRecord: jest.Mock;
+        saveProjectArchiveRecord: jest.Mock;
     };
 
     beforeEach(() => {
@@ -34,7 +37,10 @@ describe('ProjectService', () => {
             createAcceptanceRecord: jest.fn(),
             saveAcceptanceRecord: jest.fn(),
             createProjectCompletionRecord: jest.fn(),
-            saveProjectCompletionRecord: jest.fn()
+            saveProjectCompletionRecord: jest.fn(),
+            findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn(),
+            createProjectArchiveRecord: jest.fn(),
+            saveProjectArchiveRecord: jest.fn()
         };
 
         service = new ProjectService(projectRepository as never);
@@ -284,6 +290,138 @@ describe('ProjectService', () => {
         expect(projectRepository.findAcceptanceRecordById).not.toHaveBeenCalled();
         expect(projectRepository.createProjectCompletionRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectCompletionRecord).not.toHaveBeenCalled();
+    });
+
+    it('creates an archive record from a completed project and anchors it to the latest completion source', async () => {
+        const archivedAt = new Date('2026-04-22T10:00:00.000Z');
+        const project = createProjectEntity({ currentStage: 'completed', status: 'completed' });
+        const completionRecord = {
+            id: '37000000-0000-4000-8000-000000000002',
+            projectId,
+            status: 'confirmed'
+        };
+        const archiveRecord = {
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: completionRecord.id,
+            status: 'recorded'
+        };
+        projectRepository.findById.mockResolvedValue(project);
+        projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(completionRecord);
+        projectRepository.createProjectArchiveRecord.mockReturnValue(archiveRecord);
+        projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
+
+        const result = await service.createProjectArchiveRecord(projectId, {
+            archivedAt,
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包'
+        }, userId);
+
+        expect(projectRepository.createProjectArchiveRecord).toHaveBeenCalledWith({
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: completionRecord.id,
+            status: 'recorded',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包',
+            createdBy: userId,
+            updatedBy: userId
+        });
+        expect(projectRepository.saveProjectArchiveRecord).toHaveBeenCalledWith(archiveRecord);
+        expect(result).toBe(archiveRecord);
+    });
+
+    it('creates an archive record from a closed project and anchors it to the project close fact', async () => {
+        const archivedAt = new Date('2026-04-22T10:00:00.000Z');
+        const project = createProjectEntity({
+            currentStage: 'closed-terminated',
+            status: 'closed',
+            closedAt: new Date('2026-04-21T10:00:00.000Z')
+        });
+        const archiveRecord = {
+            id: '38000000-0000-4000-8000-000000000002',
+            projectId,
+            archiveAnchorStage: 'closed-terminated',
+            archiveAnchorSourceType: 'project',
+            archiveAnchorSourceId: projectId,
+            status: 'recorded'
+        };
+        projectRepository.findById.mockResolvedValue(project);
+        projectRepository.createProjectArchiveRecord.mockReturnValue(archiveRecord);
+        projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
+
+        const result = await service.createProjectArchiveRecord(projectId, {
+            archivedAt,
+            archiveSummary: '终止项目资料归档完成',
+            evidenceSummary: '终止结论与归档清单'
+        }, userId);
+
+        expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectArchiveRecord).toHaveBeenCalledWith({
+            projectId,
+            archiveAnchorStage: 'closed-terminated',
+            archiveAnchorSourceType: 'project',
+            archiveAnchorSourceId: projectId,
+            status: 'recorded',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '终止项目资料归档完成',
+            evidenceSummary: '终止结论与归档清单',
+            createdBy: userId,
+            updatedBy: userId
+        });
+        expect(projectRepository.saveProjectArchiveRecord).toHaveBeenCalledWith(archiveRecord);
+        expect(result).toBe(archiveRecord);
+    });
+
+    it('rejects archive record creation when completed project has no effective completion source', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'completed', status: 'completed' }));
+        projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(null);
+
+        await expect(service.createProjectArchiveRecord(projectId, {
+            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects archive record creation when closed project has no effective close fact', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({
+            currentStage: 'closed-lost',
+            status: 'closed',
+            closedAt: null
+        }));
+
+        await expect(service.createProjectArchiveRecord(projectId, {
+            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+            archiveSummary: '丢单项目资料归档完成',
+            evidenceSummary: '丢单结论与归档清单'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects archive record creation for non-terminal project stage', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
+
+        await expect(service.createProjectArchiveRecord(projectId, {
+            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
     });
 
     function createProjectEntity(overrides: Record<string, unknown> = {}) {
