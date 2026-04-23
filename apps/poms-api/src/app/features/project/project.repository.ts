@@ -6,6 +6,7 @@ import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 
 @Injectable()
@@ -22,7 +23,9 @@ export class ProjectRepository {
         @InjectRepository(ProjectHandover)
         private readonly projectHandoverRepository: EntityRepository<ProjectHandover>,
         @InjectRepository(AcceptanceRecord)
-        private readonly acceptanceRecordRepository: EntityRepository<AcceptanceRecord>
+        private readonly acceptanceRecordRepository: EntityRepository<AcceptanceRecord>,
+        @InjectRepository(ProjectCompletionRecord)
+        private readonly projectCompletionRecordRepository: EntityRepository<ProjectCompletionRecord>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -156,6 +159,10 @@ export class ProjectRepository {
         );
     }
 
+    async findAcceptanceRecordById(id: string): Promise<AcceptanceRecord | null> {
+        return this.acceptanceRecordRepository.findOne({ id });
+    }
+
     async findLatestAcceptedAcceptanceRecordByProjectId(projectId: string): Promise<AcceptanceRecord | null> {
         return this.acceptanceRecordRepository.findOne(
             {
@@ -170,6 +177,28 @@ export class ProjectRepository {
         );
     }
 
+    async findProjectCompletionRecordsByProjectId(projectId: string): Promise<ProjectCompletionRecord[]> {
+        return this.projectCompletionRecordRepository.find(
+            { projectId },
+            {
+                orderBy: { completedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findLatestConfirmedProjectCompletionRecordByProjectId(projectId: string): Promise<ProjectCompletionRecord | null> {
+        return this.projectCompletionRecordRepository.findOne(
+            {
+                projectId,
+                status: 'confirmed',
+                completedAt: { $ne: null }
+            },
+            {
+                orderBy: { completedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     create(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }
@@ -178,11 +207,19 @@ export class ProjectRepository {
         return this.acceptanceRecordRepository.create(input);
     }
 
+    createProjectCompletionRecord(input: ConstructorParameters<typeof ProjectCompletionRecord>[0]): ProjectCompletionRecord {
+        return this.projectCompletionRecordRepository.create(input);
+    }
+
     async save(project: Project): Promise<void> {
         await this.projectRepository.getEntityManager().persist(project).flush();
     }
 
     async saveAcceptanceRecord(record: AcceptanceRecord): Promise<void> {
         await this.acceptanceRecordRepository.getEntityManager().persist(record).flush();
+    }
+
+    async saveProjectCompletionRecord(record: ProjectCompletionRecord, project: Project): Promise<void> {
+        await this.projectCompletionRecordRepository.getEntityManager().persist([record, project]).flush();
     }
 }

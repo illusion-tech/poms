@@ -12,6 +12,8 @@ describe('ProjectQueryService', () => {
         findLatestConfirmedHandoverByProjectId: jest.Mock;
         findAcceptanceRecordsByProjectId: jest.Mock;
         findLatestAcceptedAcceptanceRecordByProjectId: jest.Mock;
+        findProjectCompletionRecordsByProjectId: jest.Mock;
+        findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
 
@@ -25,8 +27,11 @@ describe('ProjectQueryService', () => {
             findContractsByProjectId: jest.fn(),
             findLatestConfirmedHandoverByProjectId: jest.fn(),
             findAcceptanceRecordsByProjectId: jest.fn(),
-            findLatestAcceptedAcceptanceRecordByProjectId: jest.fn()
+            findLatestAcceptedAcceptanceRecordByProjectId: jest.fn(),
+            findProjectCompletionRecordsByProjectId: jest.fn(),
+            findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn()
         };
+        projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(null);
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
 
         service = new ProjectQueryService(projectRepository as never, approvalSummarySnapshotRepository as never);
@@ -533,6 +538,55 @@ describe('ProjectQueryService', () => {
         expect(projectRepository.findAcceptanceRecordsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000007');
     });
 
+    it('lists completion records as project-scoped authoritative facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000009'
+        });
+        projectRepository.findProjectCompletionRecordsByProjectId.mockResolvedValue([
+            {
+                id: '37000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000009',
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                status: 'confirmed',
+                completedAt: new Date('2026-04-20T10:00:00.000Z'),
+                completedBy: '00000000-0000-4000-8000-000000000003',
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单',
+                createdAt: new Date('2026-04-20T10:00:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: new Date('2026-04-20T10:00:00.000Z'),
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
+        ]);
+
+        await expect(service.listProjectCompletionRecords('20000000-0000-4000-8000-000000000009')).resolves.toEqual([
+            {
+                id: '37000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000009',
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                status: 'confirmed',
+                completedAt: '2026-04-20T10:00:00.000Z',
+                completedBy: '00000000-0000-4000-8000-000000000003',
+                completedByName: '项目经理',
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单',
+                createdAt: '2026-04-20T10:00:00.000Z',
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: '2026-04-20T10:00:00.000Z',
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        expect(projectRepository.findProjectCompletionRecordsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000009');
+        expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000003']);
+    });
+
     it('projects latest accepted acceptance record into project timeline', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000008',
@@ -581,6 +635,61 @@ describe('ProjectQueryService', () => {
                 sourceType: 'acceptance-record',
                 sourceId: '36000000-0000-4000-8000-000000000002',
                 evidenceLabel: '最终验收单',
+                isAuthoritative: true
+            }
+        ]);
+    });
+
+    it('projects latest confirmed completion record into project timeline', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000010',
+            projectCode: 'PRJ-2026-010',
+            currentStage: 'completed',
+            status: 'completed',
+            closedAt: null,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000001',
+            updatedBy: '00000000-0000-4000-8000-000000000003'
+        });
+        projectRepository.findContractsByProjectId.mockResolvedValue([]);
+        projectRepository.findLatestConfirmedHandoverByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestAcceptedAcceptanceRecordByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue({
+            id: '37000000-0000-4000-8000-000000000002',
+            projectId: '20000000-0000-4000-8000-000000000010',
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000002',
+            completionResult: 'completed',
+            status: 'confirmed',
+            completedAt: new Date('2026-04-20T10:00:00.000Z'),
+            completedBy: '00000000-0000-4000-8000-000000000003',
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' },
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
+        ]);
+
+        const result = await service.getProjectTimeline('20000000-0000-4000-8000-000000000010');
+
+        expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000010');
+        expect(result.events).toEqual([
+            expect.objectContaining({
+                eventKey: 'project-created',
+                stage: 'assessment'
+            }),
+            {
+                eventKey: 'project-completed:37000000-0000-4000-8000-000000000002',
+                stage: 'completed',
+                stageLabel: '已完成',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-20T10:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000003',
+                actorName: '项目经理',
+                resultLabel: '项目已完成',
+                sourceType: 'project-completion-record',
+                sourceId: '37000000-0000-4000-8000-000000000002',
+                evidenceLabel: '完成确认单',
                 isAuthoritative: true
             }
         ]);

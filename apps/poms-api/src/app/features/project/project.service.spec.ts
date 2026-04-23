@@ -14,8 +14,11 @@ describe('ProjectService', () => {
         findAll: jest.Mock;
         findMany: jest.Mock;
         findPlatformUserById: jest.Mock;
+        findAcceptanceRecordById: jest.Mock;
         createAcceptanceRecord: jest.Mock;
         saveAcceptanceRecord: jest.Mock;
+        createProjectCompletionRecord: jest.Mock;
+        saveProjectCompletionRecord: jest.Mock;
     };
 
     beforeEach(() => {
@@ -27,8 +30,11 @@ describe('ProjectService', () => {
             findAll: jest.fn(),
             findMany: jest.fn(),
             findPlatformUserById: jest.fn(),
+            findAcceptanceRecordById: jest.fn(),
             createAcceptanceRecord: jest.fn(),
-            saveAcceptanceRecord: jest.fn()
+            saveAcceptanceRecord: jest.fn(),
+            createProjectCompletionRecord: jest.fn(),
+            saveProjectCompletionRecord: jest.fn()
         };
 
         service = new ProjectService(projectRepository as never);
@@ -192,6 +198,92 @@ describe('ProjectService', () => {
 
         expect(projectRepository.createAcceptanceRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveAcceptanceRecord).not.toHaveBeenCalled();
+    });
+
+    it('creates a completion record from an effective acceptance source and moves project to completed', async () => {
+        const completedAt = new Date('2026-04-20T10:00:00.000Z');
+        const project = createProjectEntity({ currentStage: 'acceptance', status: 'active' });
+        const record = {
+            id: '37000000-0000-4000-8000-000000000001',
+            projectId,
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+            completionResult: 'completed',
+            status: 'confirmed'
+        };
+        projectRepository.findById.mockResolvedValue(project);
+        projectRepository.findAcceptanceRecordById.mockResolvedValue({
+            id: '36000000-0000-4000-8000-000000000001',
+            projectId,
+            status: 'confirmed',
+            acceptanceResult: 'accepted'
+        });
+        projectRepository.createProjectCompletionRecord.mockReturnValue(record);
+        projectRepository.saveProjectCompletionRecord.mockResolvedValue(undefined);
+
+        const result = await service.createProjectCompletionRecord(projectId, {
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+            completionResult: 'completed',
+            completedAt,
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单'
+        }, userId);
+
+        expect(projectRepository.createProjectCompletionRecord).toHaveBeenCalledWith(
+            expect.objectContaining({
+                projectId,
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                status: 'confirmed',
+                completedAt,
+                completedBy: userId,
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单',
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        expect(project.currentStage).toBe('completed');
+        expect(project.status).toBe('completed');
+        expect(project.updatedBy).toBe(userId);
+        expect(projectRepository.saveProjectCompletionRecord).toHaveBeenCalledWith(record, project);
+        expect(result).toBe(record);
+    });
+
+    it('rejects completion record creation without an effective acceptance source', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'acceptance', status: 'active' }));
+        projectRepository.findAcceptanceRecordById.mockResolvedValue({
+            id: '36000000-0000-4000-8000-000000000001',
+            projectId,
+            status: 'confirmed',
+            acceptanceResult: 'rejected'
+        });
+
+        await expect(service.createProjectCompletionRecord(projectId, {
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+            completionResult: 'completed',
+            completedAt: new Date('2026-04-20T10:00:00.000Z'),
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.createProjectCompletionRecord).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectCompletionRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects completion record creation before acceptance stage', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
+
+        await expect(service.createProjectCompletionRecord(projectId, {
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+            completionResult: 'completed',
+            completedAt: new Date('2026-04-20T10:00:00.000Z'),
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findAcceptanceRecordById).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectCompletionRecord).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectCompletionRecord).not.toHaveBeenCalled();
     });
 
     function createProjectEntity(overrides: Record<string, unknown> = {}) {

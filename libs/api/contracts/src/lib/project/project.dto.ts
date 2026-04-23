@@ -2,7 +2,10 @@ import {
     AcceptanceRecordListSchema,
     AcceptanceRecordSummarySchema,
     CreateAcceptanceRecordRequestSchema,
+    CreateProjectCompletionRecordRequestSchema,
     CreateProjectRequestSchema,
+    ProjectCompletionRecordListSchema,
+    ProjectCompletionRecordSummarySchema,
     ProjectDetailViewSchema,
     ProjectListQuerySchema,
     ProjectListSchema,
@@ -18,6 +21,12 @@ export class AcceptanceRecordDto extends createZodDto(AcceptanceRecordSummarySch
 export class AcceptanceRecordListDto extends createZodDto(AcceptanceRecordListSchema) {}
 
 export class CreateAcceptanceRecordRequestDto extends createZodDto(CreateAcceptanceRecordRequestSchema) {}
+
+export class ProjectCompletionRecordDto extends createZodDto(ProjectCompletionRecordSummarySchema) {}
+
+export class ProjectCompletionRecordListDto extends createZodDto(ProjectCompletionRecordListSchema) {}
+
+export class CreateProjectCompletionRecordRequestDto extends createZodDto(CreateProjectCompletionRecordRequestSchema) {}
 
 export class ProjectDto extends createZodDto(ProjectSummarySchema) {}
 

@@ -858,11 +858,57 @@ export const CreateAcceptanceRecordRequestSchema = z
 
 export type CreateAcceptanceRecordRequest = z.infer<typeof CreateAcceptanceRecordRequestSchema>;
 
+export const PROJECT_COMPLETION_RECORD_RESULTS = ['completed', 'conditional-completed'] as const;
+
+export type ProjectCompletionRecordResult = (typeof PROJECT_COMPLETION_RECORD_RESULTS)[number];
+
+export const PROJECT_COMPLETION_RECORD_STATUSES = ['confirmed'] as const;
+
+export type ProjectCompletionRecordStatus = (typeof PROJECT_COMPLETION_RECORD_STATUSES)[number];
+
+export const ProjectCompletionRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        acceptanceRecordId: z.uuid(),
+        completionResult: z.enum(PROJECT_COMPLETION_RECORD_RESULTS),
+        status: z.enum(PROJECT_COMPLETION_RECORD_STATUSES),
+        completedAt: z.iso.datetime(),
+        completedBy: z.uuid().nullable(),
+        completedByName: z.string().nullable(),
+        completionSummary: z.string(),
+        evidenceSummary: z.string(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ProjectCompletionRecordSummary' });
+
+export type ProjectCompletionRecordSummary = z.infer<typeof ProjectCompletionRecordSummarySchema>;
+
+export const ProjectCompletionRecordListSchema = z.array(ProjectCompletionRecordSummarySchema).meta({ id: 'ProjectCompletionRecordList' });
+
+export type ProjectCompletionRecordList = z.infer<typeof ProjectCompletionRecordListSchema>;
+
+export const CreateProjectCompletionRecordRequestSchema = z
+    .object({
+        acceptanceRecordId: z.uuid(),
+        completionResult: z.enum(PROJECT_COMPLETION_RECORD_RESULTS),
+        completedAt: z.iso.datetime(),
+        completionSummary: z.string().trim().min(1).max(2000),
+        evidenceSummary: z.string().trim().min(1).max(2000)
+    })
+    .meta({ id: 'CreateProjectCompletionRecordRequest' });
+
+export type CreateProjectCompletionRecordRequest = z.infer<typeof CreateProjectCompletionRecordRequestSchema>;
+
 export const PROJECT_TIMELINE_EVENT_TYPES = ['stage-entered', 'stage-completed', 'milestone'] as const;
 
 export type ProjectTimelineEventType = (typeof PROJECT_TIMELINE_EVENT_TYPES)[number];
 
-export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover', 'acceptance-record'] as const;
+export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover', 'acceptance-record', 'project-completion-record'] as const;
 
 export type ProjectTimelineSourceType = (typeof PROJECT_TIMELINE_SOURCE_TYPES)[number];
 

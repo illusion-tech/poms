@@ -316,6 +316,49 @@ describe('ProjectDetail', () => {
         expect(acceptance?.tooltip).toContain('客户最终验收单');
     });
 
+    it('maps authoritative project completion record events into completed milestone detail', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const timeline = createTimeline({
+            events: [
+                ...createTimeline().events,
+                {
+                    eventKey: 'project-completed:completion-1',
+                    stage: 'completed',
+                    stageLabel: '已完成',
+                    eventType: 'stage-completed',
+                    occurredAt: '2026-04-24T11:45:00.000Z',
+                    actorUserId: 'user-3',
+                    actorName: '王交付',
+                    resultLabel: '项目完成已确认',
+                    sourceType: 'project-completion-record',
+                    sourceId: 'completion-1',
+                    evidenceLabel: '项目完成确认单',
+                    isAuthoritative: true
+                }
+            ]
+        });
+        await setup(project, timeline);
+
+        const completed = component.lifecycleItems(project, timeline).find((item) => item.key === 'completed');
+
+        expect(completed?.description).toBe('形成业务完成结论');
+        expect(completed?.completedAtLabel).toContain('2026-04-24');
+        expect(completed?.tooltip).toContain('项目完成已确认');
+        expect(completed?.tooltip).toContain('王交付');
+        expect(completed?.tooltip).toContain('项目完成确认单');
+    });
+
     it('shows a non-blocking feedback message when timeline loading fails', async () => {
         await setup(createProject(), null, '项目生命周期完成时间暂时读取失败，当前仅显示阶段状态。');
 

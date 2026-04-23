@@ -88,6 +88,7 @@
 | `bid_process`                | 主体主表   | `id`、`project_id`、`status`、`decision_status`、`result_status`                                                                               | 归属 `project`                                                       | 第一类受控子流程           |
 | `project_handover`           | 动作记录表 | `id`、`project_id`、`contract_summary_snapshot_id`、`effective_handover_baseline_snapshot_id`、`summary_snapshot_id`、`status`、`confirmed_at` | 归属 `project`；引用合同承接摘要 / 当前移交前有效基线 / 移交确认摘要 | 移交里程碑事实与确认收口链 |
 | `acceptance_record`          | 动作记录表 | `id`、`project_id`、`acceptance_type`、`status`、`confirmed_at`                                                                                | 归属 `project`                                                       | 阶段 / 最终验收留痕        |
+| `project_completion_record`  | 动作记录表 | `id`、`project_id`、`acceptance_record_id`、`completion_result`、`status`、`completed_at`、`completed_by`                                      | 归属 `project`；引用有效 `acceptance_record`                         | 项目完成结论与完成时间留痕 |
 
 ### 4.2 合同资金域
 

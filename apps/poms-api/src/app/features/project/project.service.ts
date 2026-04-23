@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import type { AcceptanceRecordResult, AcceptanceRecordType, ProjectStage } from '@poms/shared-contracts';
+import type { AcceptanceRecordResult, AcceptanceRecordType, ProjectCompletionRecordResult, ProjectStage } from '@poms/shared-contracts';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -31,6 +32,14 @@ export interface CreateAcceptanceRecordInput {
     scopeSummary: string;
     evidenceSummary: string;
     comment?: string | null;
+}
+
+export interface CreateProjectCompletionRecordInput {
+    acceptanceRecordId: string;
+    completionResult: ProjectCompletionRecordResult;
+    completedAt: Date;
+    completionSummary: string;
+    evidenceSummary: string;
 }
 
 @Injectable()
@@ -147,6 +156,53 @@ export class ProjectService {
         });
 
         await this.projectRepository.saveAcceptanceRecord(record);
+
+        return record;
+    }
+
+    async createProjectCompletionRecord(projectId: string, input: CreateProjectCompletionRecordInput, operatorUserId: string): Promise<ProjectCompletionRecord> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        if (project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated') {
+            throw new BadRequestException(`Project ${projectId} cannot record completion because it is closed`);
+        }
+
+        if (project.currentStage !== 'acceptance') {
+            throw new BadRequestException(
+                `Project ${projectId} cannot record completion in stage ${project.currentStage}`
+            );
+        }
+
+        const acceptanceRecord = await this.projectRepository.findAcceptanceRecordById(input.acceptanceRecordId);
+        if (!acceptanceRecord || acceptanceRecord.projectId !== project.id) {
+            throw new BadRequestException(`Acceptance record ${input.acceptanceRecordId} is not valid for project ${projectId}`);
+        }
+
+        if (acceptanceRecord.status !== 'confirmed' || !['accepted', 'conditional'].includes(acceptanceRecord.acceptanceResult)) {
+            throw new BadRequestException(`Acceptance record ${input.acceptanceRecordId} is not an effective acceptance source`);
+        }
+
+        const record = this.projectRepository.createProjectCompletionRecord({
+            projectId,
+            acceptanceRecordId: acceptanceRecord.id,
+            completionResult: input.completionResult,
+            status: 'confirmed',
+            completedAt: input.completedAt,
+            completedBy: operatorUserId,
+            completionSummary: input.completionSummary,
+            evidenceSummary: input.evidenceSummary,
+            createdBy: operatorUserId,
+            updatedBy: operatorUserId
+        });
+
+        project.currentStage = 'completed';
+        project.status = 'completed';
+        project.updatedBy = operatorUserId;
+
+        await this.projectRepository.saveProjectCompletionRecord(record, project);
 
         return record;
     }

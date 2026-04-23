@@ -19,7 +19,8 @@ describe('ProjectController', () => {
             getProjectDetail: jest.fn(),
             getProjectWorkspaceGuidance: jest.fn(),
             getProjectTimeline: jest.fn(),
-            listAcceptanceRecords: jest.fn()
+            listAcceptanceRecords: jest.fn(),
+            listProjectCompletionRecords: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -28,6 +29,7 @@ describe('ProjectController', () => {
             findById: jest.fn(),
             createAndSave: jest.fn(),
             createAcceptanceRecord: jest.fn(),
+            createProjectCompletionRecord: jest.fn(),
             updateBasicInfo: jest.fn(),
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
@@ -178,6 +180,32 @@ describe('ProjectController', () => {
         expect(projectQueryService.listAcceptanceRecords).toHaveBeenCalledWith(projectId);
     });
 
+    it('returns project completion records through the query service', async () => {
+        const records = [
+            {
+                id: '37000000-0000-4000-8000-000000000001',
+                projectId,
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                status: 'confirmed',
+                completedAt: '2026-04-20T10:00:00.000Z',
+                completedBy: userId,
+                completedByName: '项目经理',
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单',
+                createdAt: '2026-04-20T10:00:00.000Z',
+                createdBy: userId,
+                updatedAt: '2026-04-20T10:00:00.000Z',
+                updatedBy: userId,
+                rowVersion: 1
+            }
+        ];
+        projectQueryService.listProjectCompletionRecords.mockResolvedValue(records as never);
+
+        await expect(controller.listProjectCompletionRecords(projectId)).resolves.toBe(records);
+        expect(projectQueryService.listProjectCompletionRecords).toHaveBeenCalledWith(projectId);
+    });
+
     it('creates project acceptance record with operator id', async () => {
         const confirmedAt = new Date('2026-04-18T09:30:00.000Z');
         projectService.createAcceptanceRecord.mockResolvedValue({
@@ -224,6 +252,53 @@ describe('ProjectController', () => {
         );
         expect(result.confirmedAt).toBe('2026-04-18T09:30:00.000Z');
         expect(result.evidenceSummary).toBe('客户验收单');
+    });
+
+    it('creates project completion record with operator id', async () => {
+        const completedAt = new Date('2026-04-20T10:00:00.000Z');
+        projectService.createProjectCompletionRecord.mockResolvedValue({
+            id: '37000000-0000-4000-8000-000000000001',
+            projectId,
+            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+            completionResult: 'completed',
+            status: 'confirmed',
+            completedAt,
+            completedBy: userId,
+            completionSummary: '项目交付完成',
+            evidenceSummary: '完成确认单',
+            createdAt: completedAt,
+            createdBy: userId,
+            updatedAt: completedAt,
+            updatedBy: userId,
+            rowVersion: 1
+        } as never);
+
+        const result = await controller.createProjectCompletionRecord(
+            projectId,
+            {
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                completedAt: '2026-04-20T10:00:00.000Z',
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单'
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.createProjectCompletionRecord).toHaveBeenCalledWith(
+            projectId,
+            {
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                completedAt,
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单'
+            },
+            userId
+        );
+        expect(result.completedAt).toBe('2026-04-20T10:00:00.000Z');
+        expect(result.completedByName).toBeNull();
+        expect(result.evidenceSummary).toBe('完成确认单');
     });
 
     it('throws when project detail is not found by id', async () => {

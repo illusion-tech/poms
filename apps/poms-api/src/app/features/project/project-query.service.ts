@@ -5,6 +5,9 @@ import type {
     AcceptanceRecordSummary,
     AcceptanceRecordType,
     PermissionKey,
+    ProjectCompletionRecordList,
+    ProjectCompletionRecordResult,
+    ProjectCompletionRecordSummary,
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
@@ -15,6 +18,7 @@ import type {
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { Contract } from '../contract/contract.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -46,6 +50,11 @@ const ACCEPTANCE_RECORD_RESULT_LABELS: Record<AcceptanceRecordResult, string> = 
     accepted: '已通过',
     conditional: '有条件通过',
     rejected: '未通过'
+};
+
+const PROJECT_COMPLETION_RECORD_RESULT_LABELS: Record<ProjectCompletionRecordResult, string> = {
+    completed: '项目已完成',
+    'conditional-completed': '项目有条件完成'
 };
 
 type ProjectWorkspaceGuidanceText = Pick<ProjectWorkspaceGuidanceView, 'headline' | 'currentFocus' | 'currentGap' | 'nextStep'> & {
@@ -335,16 +344,30 @@ export class ProjectQueryService {
         return records.map((record) => this.mapAcceptanceRecord(record));
     }
 
+    async listProjectCompletionRecords(projectId: string): Promise<ProjectCompletionRecordList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const records = await this.projectRepository.findProjectCompletionRecordsByProjectId(project.id);
+        const completedByIds = [...new Set(records.map((record) => record.completedBy).filter((id): id is string => Boolean(id)))];
+        const users = await this.projectRepository.findPlatformUsersByIds(completedByIds);
+        const userNameById = new Map(users.map((user) => [user.id, user.displayName] as const));
+        return records.map((record) => this.mapProjectCompletionRecord(record, userNameById));
+    }
+
     async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        const [contracts, latestConfirmedHandover, latestAcceptedAcceptanceRecord] = await Promise.all([
+        const [contracts, latestConfirmedHandover, latestAcceptedAcceptanceRecord, latestProjectCompletionRecord] = await Promise.all([
             this.projectRepository.findContractsByProjectId(project.id),
             this.projectRepository.findLatestConfirmedHandoverByProjectId(project.id),
-            this.projectRepository.findLatestAcceptedAcceptanceRecordByProjectId(project.id)
+            this.projectRepository.findLatestAcceptedAcceptanceRecordByProjectId(project.id),
+            this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id)
         ]);
         const firstSignedContract =
             contracts
@@ -355,6 +378,7 @@ export class ProjectQueryService {
             firstSignedContract?.updatedBy ?? firstSignedContract?.createdBy ?? null,
             latestConfirmedHandover?.confirmedBy ?? null,
             latestAcceptedAcceptanceRecord?.confirmedBy ?? null,
+            latestProjectCompletionRecord?.completedBy ?? null,
             project.closedAt ? project.updatedBy : null
         ].filter((id): id is string => Boolean(id));
         const users = await this.projectRepository.findPlatformUsersByIds([...new Set(actorUserIds)]);
@@ -430,6 +454,23 @@ export class ProjectQueryService {
             });
         }
 
+        if (latestProjectCompletionRecord?.completedAt) {
+            events.push({
+                eventKey: `project-completed:${latestProjectCompletionRecord.id}`,
+                stage: 'completed',
+                stageLabel: this.getStageLabel('completed'),
+                eventType: 'stage-completed',
+                occurredAt: latestProjectCompletionRecord.completedAt.toISOString(),
+                actorUserId: latestProjectCompletionRecord.completedBy ?? null,
+                actorName: this.resolveActorName(latestProjectCompletionRecord.completedBy, actorNameByUserId),
+                resultLabel: PROJECT_COMPLETION_RECORD_RESULT_LABELS[latestProjectCompletionRecord.completionResult],
+                sourceType: 'project-completion-record',
+                sourceId: latestProjectCompletionRecord.id,
+                evidenceLabel: latestProjectCompletionRecord.evidenceSummary,
+                isAuthoritative: true
+            });
+        }
+
         if (project.closedAt) {
             events.push({
                 eventKey: 'project-closed',
@@ -458,6 +499,26 @@ export class ProjectQueryService {
                 return left.eventKey.localeCompare(right.eventKey);
             }),
             generatedAt: new Date().toISOString()
+        };
+    }
+
+    private mapProjectCompletionRecord(record: ProjectCompletionRecord, userNameById: Map<string, string> = new Map()): ProjectCompletionRecordSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            acceptanceRecordId: record.acceptanceRecordId,
+            completionResult: record.completionResult,
+            status: record.status,
+            completedAt: record.completedAt.toISOString(),
+            completedBy: record.completedBy ?? null,
+            completedByName: record.completedBy ? (userNameById.get(record.completedBy) ?? null) : null,
+            completionSummary: record.completionSummary,
+            evidenceSummary: record.evidenceSummary,
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
         };
     }
 

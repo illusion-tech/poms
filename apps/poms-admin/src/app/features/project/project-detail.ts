@@ -124,7 +124,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
     handover: '移交经营依据',
     execution: '进入正式执行',
     acceptance: '完成验收确认',
-    completed: '项目完成归档'
+    completed: '形成业务完成结论'
 };
 
 @Component({

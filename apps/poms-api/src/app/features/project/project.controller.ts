@@ -4,7 +4,10 @@ import {
     AcceptanceRecordDto,
     AcceptanceRecordListDto,
     CreateAcceptanceRecordRequestDto,
+    CreateProjectCompletionRecordRequestDto,
     CreateProjectRequestDto,
+    ProjectCompletionRecordDto,
+    ProjectCompletionRecordListDto,
     ProjectDto,
     ProjectDetailViewDto,
     ProjectListDto,
@@ -15,6 +18,7 @@ import {
 } from '@poms/api-contracts';
 import type {
     AcceptanceRecordSummary,
+    ProjectCompletionRecordSummary,
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
@@ -25,6 +29,7 @@ import type {
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { AcceptanceRecord } from './acceptance-record.entity';
+import { ProjectCompletionRecord } from './project-completion-record.entity';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
@@ -93,6 +98,14 @@ export class ProjectController {
         return this.projectQueryService.listAcceptanceRecords(projectId);
     }
 
+    @Get(':projectId/completion-records')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目完成确认记录' })
+    @ApiOkResponse({ type: ProjectCompletionRecordListDto })
+    async listProjectCompletionRecords(@Param('projectId') projectId: string): Promise<ProjectCompletionRecordSummary[]> {
+        return this.projectQueryService.listProjectCompletionRecords(projectId);
+    }
+
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取项目详情' })
@@ -140,6 +153,26 @@ export class ProjectController {
         return mapAcceptanceRecordToSummary(record);
     }
 
+    @Post(':projectId/completion-records')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '创建项目完成确认记录' })
+    @ApiCreatedResponse({ type: ProjectCompletionRecordDto })
+    async createProjectCompletionRecord(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateProjectCompletionRecordRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectCompletionRecordSummary> {
+        const record = await this.projectService.createProjectCompletionRecord(projectId, {
+            acceptanceRecordId: body.acceptanceRecordId,
+            completionResult: body.completionResult,
+            completedAt: new Date(body.completedAt),
+            completionSummary: body.completionSummary,
+            evidenceSummary: body.evidenceSummary
+        }, req.user.sub);
+
+        return mapProjectCompletionRecordToSummary(record);
+    }
+
     @Patch(':id')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新项目基础信息' })
@@ -166,6 +199,26 @@ export class ProjectController {
 
         return mapProjectToSummary(project);
     }
+}
+
+function mapProjectCompletionRecordToSummary(record: ProjectCompletionRecord): ProjectCompletionRecordSummary {
+    return {
+        id: record.id,
+        projectId: record.projectId,
+        acceptanceRecordId: record.acceptanceRecordId,
+        completionResult: record.completionResult,
+        status: record.status,
+        completedAt: record.completedAt.toISOString(),
+        completedBy: record.completedBy ?? null,
+        completedByName: null,
+        completionSummary: record.completionSummary,
+        evidenceSummary: record.evidenceSummary,
+        createdAt: record.createdAt.toISOString(),
+        createdBy: record.createdBy ?? null,
+        updatedAt: record.updatedAt.toISOString(),
+        updatedBy: record.updatedBy ?? null,
+        rowVersion: record.rowVersion
+    };
 }
 
 function mapAcceptanceRecordToSummary(record: AcceptanceRecord): AcceptanceRecordSummary {
