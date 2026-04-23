@@ -359,6 +359,78 @@ describe('ProjectDetail', () => {
         expect(completed?.tooltip).toContain('项目完成确认单');
     });
 
+    it('renders archive panel from authoritative archive milestone for terminal projects', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const timeline = createTimeline({
+            events: [
+                ...createTimeline().events,
+                {
+                    eventKey: 'project-archive:archive-1',
+                    stage: 'completed',
+                    stageLabel: '已完成',
+                    eventType: 'milestone',
+                    occurredAt: '2026-04-24T15:20:00.000Z',
+                    actorUserId: 'user-4',
+                    actorName: '赵归档',
+                    resultLabel: '项目资料已完成归档',
+                    sourceType: 'project-archive-record',
+                    sourceId: 'archive-1',
+                    evidenceLabel: '项目归档清单',
+                    isAuthoritative: true
+                }
+            ]
+        });
+        await setup(project, timeline);
+
+        const archive = component.archiveSummary(project, timeline);
+        const text = fixture.nativeElement.textContent;
+
+        expect(archive?.stage).toBe('completed');
+        expect(archive?.occurredAtLabel).toContain('2026-04-24');
+        expect(archive?.resultLabel).toBe('项目资料已完成归档');
+        expect(archive?.actorName).toBe('赵归档');
+        expect(archive?.evidenceLabel).toBe('项目归档清单');
+        expect(text).toContain('项目归档');
+        expect(text).toContain('已形成归档记录');
+        expect(text).toContain('项目资料已完成归档');
+        expect(text).toContain('项目归档清单');
+    });
+
+    it('shows archive gap feedback when terminal project has no archive milestone', async () => {
+        const project = createProject({
+            currentStage: 'closed-lost',
+            status: 'closed-lost',
+            stageSummary: {
+                currentStage: 'closed-lost',
+                status: 'closed-lost',
+                plannedSignAt: null,
+                closedAt: '2026-04-24T08:00:00.000Z',
+                closedReason: '客户取消预算',
+                blockingReasons: []
+            }
+        });
+
+        await setup(project, createTimeline());
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(component.archiveSummary(project, createTimeline())).toBeNull();
+        expect(text).toContain('项目归档');
+        expect(text).toContain('尚未形成归档记录');
+        expect(text).toContain('项目当前已进入已丢单');
+    });
+
     it('shows a non-blocking feedback message when timeline loading fails', async () => {
         await setup(createProject(), null, '项目生命周期完成时间暂时读取失败，当前仅显示阶段状态。');
 
@@ -367,5 +439,27 @@ describe('ProjectDetail', () => {
         expect(text).toContain('阶段完成时间暂时不可用');
         expect(text).toContain('项目生命周期完成时间暂时读取失败');
         expect(text).toContain('华南地铁运营平台');
+    });
+
+    it('does not misreport archive gap when terminal timeline loading fails', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        await setup(project, null, '项目生命周期完成时间暂时读取失败，当前仅显示阶段状态。');
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('项目归档');
+        expect(text).toContain('归档事实暂时不可用');
+        expect(text).not.toContain('尚未形成归档记录');
     });
 });

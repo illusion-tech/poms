@@ -10,6 +10,7 @@ import { TagModule } from 'primeng/tag';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 
@@ -112,9 +113,19 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
 };
 
 const PROJECT_LIFECYCLE_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed'] as const;
+const PROJECT_TERMINAL_STAGES = ['completed', 'closed-lost', 'closed-terminated'] as const;
 
 type ProjectLifecycleStage = (typeof PROJECT_LIFECYCLE_STAGES)[number];
+type ProjectTerminalStage = (typeof PROJECT_TERMINAL_STAGES)[number];
 type ProjectTimelineEvent = ProjectTimelineView['events'][number];
+
+interface ProjectArchivePanelView {
+    actorName: string;
+    evidenceLabel: string;
+    occurredAtLabel: string;
+    resultLabel: string;
+    stage: ProjectTerminalStage;
+}
 
 const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[number], string> = {
     assessment: '判断是否继续推进',
@@ -130,7 +141,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFeedback, WorkspaceLoading],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
     providers: [ProjectStore],
     template: `
         @if (loading()) {
@@ -172,6 +183,41 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                 }
 
                 <app-project-lifecycle-timeline [items]="lifecycleItems(project, projectTimeline())" />
+
+                @if (isTerminalStage(project.stageSummary.currentStage)) {
+                    <section-card>
+                        <ng-template #title>项目归档</ng-template>
+                        <ng-template #description>终态项目的归档事实独立呈现，不占用生命周期主线节点。</ng-template>
+
+                        @if (timelineError()) {
+                            <app-workspace-feedback
+                                class="mt-4 block"
+                                severity="warn"
+                                summary="归档事实暂时不可用"
+                                detail="时间线读取失败，当前无法判断是否已经形成正式归档记录。"
+                            />
+                        } @else if (archiveSummary(project, projectTimeline()); as archive) {
+                            <div class="mt-4 flex flex-wrap items-center gap-2">
+                                <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getStageName(archive.stage)" [severity]="getStageSeverity(archive.stage)" styleClass="rounded-[6px]!" />
+                            </div>
+
+                            <div class="mt-4 rounded-[8px] border border-surface-200 px-4 py-3 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">归档结论</div>
+                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ archive.resultLabel }}</div>
+                            </div>
+
+                            <app-workspace-fact-grid class="mt-4 block" [items]="archiveFactItems(archive)" [columns]="4" />
+                        } @else {
+                            <app-workspace-feedback
+                                class="mt-4 block"
+                                severity="secondary"
+                                summary="尚未形成归档记录"
+                                [detail]="archiveGapDetail(project)"
+                            />
+                        }
+                    </section-card>
+                }
 
                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -484,6 +530,66 @@ export class ProjectDetail implements OnInit {
         return `${project.projectCode} · ${this.displayText(project.customerName, '待补充客户')}`;
     }
 
+    archiveSummary(project: ProjectDetailView, timeline: ProjectTimelineView | null): ProjectArchivePanelView | null {
+        const currentStage = project.stageSummary.currentStage;
+        if (!this.isTerminalStage(currentStage)) {
+            return null;
+        }
+
+        const archiveEvent = (timeline?.events ?? [])
+            .filter(
+                (event) =>
+                    event.isAuthoritative &&
+                    event.sourceType === 'project-archive-record' &&
+                    event.eventType === 'milestone' &&
+                    event.stage === currentStage
+            )
+            .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt))[0];
+
+        if (!archiveEvent) {
+            return null;
+        }
+
+        return {
+            stage: currentStage,
+            occurredAtLabel: this.formatTimelineDate(archiveEvent.occurredAt),
+            resultLabel: archiveEvent.resultLabel,
+            evidenceLabel: this.displayText(archiveEvent.evidenceLabel, '待补充归档依据'),
+            actorName: this.displayText(archiveEvent.actorName, '待确认')
+        };
+    }
+
+    archiveFactItems(archive: ProjectArchivePanelView): WorkspaceFactGridItem[] {
+        return [
+            {
+                label: '归档时间',
+                value: archive.occurredAtLabel,
+                icon: 'pi pi-calendar',
+                emphasis: true
+            },
+            {
+                label: '锚定终态',
+                value: this.getStageName(archive.stage),
+                severity: this.getStageSeverity(archive.stage),
+                icon: 'pi pi-flag'
+            },
+            {
+                label: '操作人',
+                value: archive.actorName,
+                icon: 'pi pi-user'
+            },
+            {
+                label: '证据摘要',
+                value: archive.evidenceLabel,
+                icon: 'pi pi-file'
+            }
+        ];
+    }
+
+    archiveGapDetail(project: ProjectDetailView): string {
+        return `项目当前已进入${this.getStageName(project.stageSummary.currentStage)}，但还没有读取到正式归档事实。`;
+    }
+
     lifecycleItems(project: ProjectDetailView, timeline: ProjectTimelineView | null): ProjectLifecycleTimelineItem[] {
         const currentStage = project.stageSummary.currentStage;
         const currentIndex = PROJECT_LIFECYCLE_STAGES.findIndex((stage) => stage === currentStage);
@@ -566,6 +672,10 @@ export class ProjectDetail implements OnInit {
 
     private isLifecycleStage(stage: string): stage is ProjectLifecycleStage {
         return (PROJECT_LIFECYCLE_STAGES as readonly string[]).includes(stage);
+    }
+
+    isTerminalStage(stage: string): stage is ProjectTerminalStage {
+        return (PROJECT_TERMINAL_STAGES as readonly string[]).includes(stage);
     }
 
     private formatTimelineDate(value: string): string {
