@@ -8,7 +8,7 @@
 - Checkpoint Date: `2026-04-24`
 - Tracker Link / Row: `docs/design/phase2-development-execution-tracker.md` / `FE-24`
 
-## 1. 范围
+## 1. 范围s
 
 - 本次完成:
   1. 在项目详情页生命周期线下方新增终态 archive 附属 panel。
@@ -24,7 +24,7 @@
 
 | Input Type            | Document / Source                                                                              | Section / Anchor            | Status | Notes                                            |
 | --------------------- | ---------------------------------------------------------------------------------------------- | --------------------------- | ------ | ------------------------------------------------ |
-| Frontend baseline     | `docs/design/fe-24-project-archive-milestone-frontend-baseline.md`                             | 全文                        | Pass   | 本片 `G1` 输入冻结。                             |
+| Frontend baseline     | `docs/design/archive/slices/fe-24-project-archive-milestone-frontend-baseline.md`              | 全文                        | Pass   | 本片 `G1` 输入冻结。                             |
 | Backend delivered     | `docs/design/archive/slices/ex-25-project-archive-fact-source-g3-g4-closeout.md`               | delivered scope / alignment | G4     | archive fact route、contract、timeline 已完成。  |
 | Frontend carryover    | `docs/design/archive/slices/fe-22-project-lifecycle-real-milestone-frontend-g3-g4-closeout.md` | `FE22-E1`                   | G4     | archive 不能作为第九个 lifecycle node。          |
 | Current detail screen | `apps/poms-admin/src/app/features/project/project-detail.ts`                                   | lifecycle line              | Fact   | 详情页为本片唯一 runtime surface。               |
@@ -60,15 +60,14 @@
 - Existing baseline drift: `none`
 - New drift introduced: `none`
 
-| Exception ID                             | Level | Scope                    | Approved By | Cleanup Owner | Cleanup Due | Notes                                             |
-| ---------------------------------------- | ----- | ------------------------ | ----------- | ------------- | ----------- | ------------------------------------------------- |
-| `FE24-E1-NO-NINTH-LIFECYCLE-NODE`        | Low   | archive 呈现结构         | Codex       | `FE-24`       | `FE-24 G4`  | 已按 panel 方案实现，待 commit 后关闭。           |
-| `FE24-E2-TERMINAL-GAP-FEEDBACK-REQUIRED` | Low   | 终态无归档事实的缺口表达 | Codex       | `FE-24`       | `FE-24 G4`  | 已实现 gap / unavailable 分流，待 `G4` 一并关闭。 |
+| Exception ID                             | Level | Scope                    | Approved By | Cleanup Owner | Cleanup Due | Notes                           |
+| ---------------------------------------- | ----- | ------------------------ | ----------- | ------------- | ----------- | ------------------------------- |
+| `FE24-E1-NO-NINTH-LIFECYCLE-NODE`        | Low   | archive 呈现结构         | Codex       | `FE-24`       | `FE-24 G4`  | 已在 `FE-24` close-out 中关闭。 |
+| `FE24-E2-TERMINAL-GAP-FEEDBACK-REQUIRED` | Low   | 终态无归档事实的缺口表达 | Codex       | `FE-24`       | `FE-24 G4`  | 已在 `FE-24` close-out 中关闭。 |
 
 ## 6. 决策
 
 - Can commit to main: `yes`
 - Can mark tracker `Done`: `no`
 - Remaining action:
-  1. 提交本轮前端代码与治理文档。
-  2. 提交后补 `G3/G4 close-out`，将基线 / checkpoint 生命周期产物迁入 `archive/slices/`。
+  1. 无。本 checkpoint 对应实现已提交，并在 `FE-24` `G4 close-out` 完成归档。
