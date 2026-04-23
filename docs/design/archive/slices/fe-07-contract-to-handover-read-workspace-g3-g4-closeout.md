@@ -1,11 +1,13 @@
-# FE-07 合同到移交承接工作区前端实现 G3 Checkpoint
+# FE-07 合同到移交承接工作区前端实现 G3/G4 Close-out
 
-- Checkpoint Status: `Pass`
+- Checkpoint Status: `G4 = Pass`
 - Parent: Phase 2 frontend workspace / L3
 - Owner: `Codex`
 - Slice Type: `frontend + query-projection`
 - G3 Reviewer: `Codex`
 - Checkpoint Date: `2026-04-23`
+- G4 Date: `2026-04-23`
+- Implementation Commit: `16966da feat(project): 接入合同到移交承接工作区`
 - Tracker Link / Row: `docs/design/phase2-development-execution-tracker.md` / `FE-07`
 
 ## 1. 范围
@@ -79,11 +81,12 @@
 - Existing baseline drift: `None`
 - Exceptions: `None`
 
-## 7. G3 结论
+## 7. G3 / G4 结论
 
 - Checkpoint Status: `Pass`
 - Can commit to main: `Yes`
-- Can mark tracker `Done`: `No`，需等本批代码与 G3 文档提交后再进入 `G4` close-out / archive。
+- Can mark tracker `Done`: `Yes`，实现已由 commit `16966da` 固化，baseline 与 close-out 已归档。
 - Conditions:
-  - `FE-07` 当前仍保持 `Doing`，但已具备 commit 前 G3 证据。
-  - 提交后应执行 `G4`：把 baseline 与 G3 checkpoint 归档，更新 tracker 为 `Done` 并记录 commit SHA。
+  - `FE-07` 交付边界限定为合同到移交承接只读工作区与真实入口链路。
+  - 写侧移交确认、合同承接再基线化操作、结构化影响项和新增权限键仍不属于本片。
+  - 下游 `FE-08` 可依赖本片的新工作区壳层入口、store 读取边界和 E2E 入口验证方式。
