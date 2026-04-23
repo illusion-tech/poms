@@ -17,7 +17,8 @@ describe('ProjectController', () => {
         projectQueryService = {
             listProjects: jest.fn(),
             getProjectDetail: jest.fn(),
-            getProjectWorkspaceGuidance: jest.fn()
+            getProjectWorkspaceGuidance: jest.fn(),
+            getProjectTimeline: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -119,6 +120,33 @@ describe('ProjectController', () => {
 
         await expect(controller.getWorkspaceGuidance(projectId, { user } as never)).resolves.toBe(guidance);
         expect(projectQueryService.getProjectWorkspaceGuidance).toHaveBeenCalledWith(projectId, user);
+    });
+
+    it('returns project timeline through the query service', async () => {
+        const timeline = {
+            projectId,
+            events: [
+                {
+                    eventKey: 'project-created',
+                    stage: 'assessment',
+                    stageLabel: '立项评估',
+                    eventType: 'stage-entered',
+                    occurredAt: '2026-03-22T10:00:00.000Z',
+                    actorUserId: userId,
+                    actorName: '销售人员',
+                    resultLabel: '项目创建',
+                    sourceType: 'project',
+                    sourceId: projectId,
+                    evidenceLabel: 'PRJ-2026-001',
+                    isAuthoritative: true
+                }
+            ],
+            generatedAt: '2026-03-22T10:00:00.000Z'
+        };
+        projectQueryService.getProjectTimeline.mockResolvedValue(timeline as never);
+
+        await expect(controller.getTimeline(projectId)).resolves.toBe(timeline);
+        expect(projectQueryService.getProjectTimeline).toHaveBeenCalledWith(projectId);
     });
 
     it('throws when project detail is not found by id', async () => {

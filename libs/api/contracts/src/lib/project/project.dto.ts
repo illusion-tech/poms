@@ -4,6 +4,7 @@ import {
     ProjectListQuerySchema,
     ProjectListSchema,
     ProjectSummarySchema,
+    ProjectTimelineViewSchema,
     ProjectWorkspaceGuidanceViewSchema,
     UpdateProjectBasicInfoRequestSchema
 } from '@poms/shared-contracts';
@@ -14,6 +15,8 @@ export class ProjectDto extends createZodDto(ProjectSummarySchema) {}
 export class ProjectDetailViewDto extends createZodDto(ProjectDetailViewSchema) {}
 
 export class ProjectWorkspaceGuidanceViewDto extends createZodDto(ProjectWorkspaceGuidanceViewSchema) {}
+
+export class ProjectTimelineViewDto extends createZodDto(ProjectTimelineViewSchema) {}
 
 export class ProjectListDto extends createZodDto(ProjectListSchema) {}
 

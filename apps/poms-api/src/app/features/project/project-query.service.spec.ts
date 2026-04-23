@@ -9,6 +9,7 @@ describe('ProjectQueryService', () => {
         findOrgUnitsByIds: jest.Mock;
         findLatestSignedContractAtByProjectIds: jest.Mock;
         findContractsByProjectId: jest.Mock;
+        findLatestConfirmedHandoverByProjectId: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
 
@@ -19,7 +20,8 @@ describe('ProjectQueryService', () => {
             findPlatformUsersByIds: jest.fn(),
             findOrgUnitsByIds: jest.fn(),
             findLatestSignedContractAtByProjectIds: jest.fn(),
-            findContractsByProjectId: jest.fn()
+            findContractsByProjectId: jest.fn(),
+            findLatestConfirmedHandoverByProjectId: jest.fn()
         };
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
 
@@ -313,6 +315,133 @@ describe('ProjectQueryService', () => {
                     disabledReason: '签约前工作区尚未接入正式事实源，先在项目详情中确认当前阶段和缺口。'
                 })
             ])
+        );
+    });
+
+    it('builds project timeline from authoritative project, contract, handover and close facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000005',
+            projectCode: 'PRJ-2026-005',
+            projectName: '已关闭项目',
+            customerId: null,
+            customerName: '华南地铁集团',
+            currentStage: 'closed-terminated',
+            status: 'closed',
+            ownerOrgId: null,
+            ownerUserId: null,
+            plannedSignAt: null,
+            closedAt: new Date('2026-04-20T10:00:00.000Z'),
+            closedReason: '客户终止',
+            rowVersion: 4,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000001',
+            updatedAt: new Date('2026-04-20T10:00:00.000Z'),
+            updatedBy: '00000000-0000-4000-8000-000000000004'
+        });
+        projectRepository.findContractsByProjectId.mockResolvedValue([
+            {
+                id: '30000000-0000-4000-8000-000000000002',
+                contractNo: 'CT-2026-002',
+                signedAt: new Date('2026-04-12T08:00:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000002',
+                updatedBy: '00000000-0000-4000-8000-000000000002'
+            },
+            {
+                id: '30000000-0000-4000-8000-000000000001',
+                contractNo: 'CT-2026-001',
+                signedAt: new Date('2026-04-10T08:00:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000002',
+                updatedBy: null
+            }
+        ]);
+        projectRepository.findLatestConfirmedHandoverByProjectId.mockResolvedValue({
+            id: '34000000-0000-4000-8000-000000000001',
+            confirmedAt: new Date('2026-04-15T09:00:00.000Z'),
+            confirmedBy: '00000000-0000-4000-8000-000000000003'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' },
+            { id: '00000000-0000-4000-8000-000000000002', displayName: '商务人员' },
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' },
+            { id: '00000000-0000-4000-8000-000000000004', displayName: '管理人员' }
+        ]);
+
+        const result = await service.getProjectTimeline('20000000-0000-4000-8000-000000000005');
+
+        expect(projectRepository.findLatestConfirmedHandoverByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000005');
+        expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith([
+            '00000000-0000-4000-8000-000000000001',
+            '00000000-0000-4000-8000-000000000002',
+            '00000000-0000-4000-8000-000000000003',
+            '00000000-0000-4000-8000-000000000004'
+        ]);
+        expect(result.projectId).toBe('20000000-0000-4000-8000-000000000005');
+        expect(result.generatedAt).toEqual(expect.any(String));
+        expect(result.events).toEqual([
+            {
+                eventKey: 'project-created',
+                stage: 'assessment',
+                stageLabel: '立项评估',
+                eventType: 'stage-entered',
+                occurredAt: '2026-04-01T00:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000001',
+                actorName: '销售人员',
+                resultLabel: '项目创建',
+                sourceType: 'project',
+                sourceId: '20000000-0000-4000-8000-000000000005',
+                evidenceLabel: 'PRJ-2026-005',
+                isAuthoritative: true
+            },
+            {
+                eventKey: 'contract-signed:30000000-0000-4000-8000-000000000001',
+                stage: 'contracting',
+                stageLabel: '签约中',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-10T08:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000002',
+                actorName: '商务人员',
+                resultLabel: '合同签约完成',
+                sourceType: 'contract',
+                sourceId: '30000000-0000-4000-8000-000000000001',
+                evidenceLabel: 'CT-2026-001',
+                isAuthoritative: true
+            },
+            {
+                eventKey: 'project-handover-confirmed:34000000-0000-4000-8000-000000000001',
+                stage: 'handover',
+                stageLabel: '项目移交',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-15T09:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000003',
+                actorName: '项目经理',
+                resultLabel: '项目移交完成',
+                sourceType: 'project-handover',
+                sourceId: '34000000-0000-4000-8000-000000000001',
+                evidenceLabel: '移交确认',
+                isAuthoritative: true
+            },
+            {
+                eventKey: 'project-closed',
+                stage: 'closed-terminated',
+                stageLabel: '已终止',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-20T10:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000004',
+                actorName: '管理人员',
+                resultLabel: '项目关闭：客户终止',
+                sourceType: 'project',
+                sourceId: '20000000-0000-4000-8000-000000000005',
+                evidenceLabel: '客户终止',
+                isAuthoritative: true
+            }
+        ]);
+    });
+
+    it('rejects project timeline when project does not exist', async () => {
+        projectRepository.findById.mockResolvedValue(null);
+
+        await expect(service.getProjectTimeline('20000000-0000-4000-8000-000000000006')).rejects.toThrow(
+            'Project 20000000-0000-4000-8000-000000000006 not found'
         );
     });
 });

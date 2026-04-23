@@ -1,5 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { PermissionKey, ProjectDetailView, ProjectListQuery, ProjectListView, ProjectWorkspaceGuidanceView, UserPayload } from '@poms/shared-contracts';
+import type {
+    PermissionKey,
+    ProjectDetailView,
+    ProjectListQuery,
+    ProjectListView,
+    ProjectTimelineView,
+    ProjectWorkspaceGuidanceView,
+    UserPayload
+} from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { Contract } from '../contract/contract.entity';
 import { Project } from './project.entity';
@@ -295,6 +303,111 @@ export class ProjectQueryService {
                 generatedAt: approvalSummarySnapshot?.generatedAt.toISOString() ?? null
             },
             recommendedEntries: this.buildWorkspaceEntries(project, user.permissions, allowedActions),
+            generatedAt: new Date().toISOString()
+        };
+    }
+
+    async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const [contracts, latestConfirmedHandover] = await Promise.all([
+            this.projectRepository.findContractsByProjectId(project.id),
+            this.projectRepository.findLatestConfirmedHandoverByProjectId(project.id)
+        ]);
+        const firstSignedContract =
+            contracts
+                .filter((contract): contract is Contract & { signedAt: Date } => contract.signedAt instanceof Date)
+                .sort((left, right) => left.signedAt.getTime() - right.signedAt.getTime())[0] ?? null;
+        const actorUserIds = [
+            project.createdBy,
+            firstSignedContract?.updatedBy ?? firstSignedContract?.createdBy ?? null,
+            latestConfirmedHandover?.confirmedBy ?? null,
+            project.closedAt ? project.updatedBy : null
+        ].filter((id): id is string => Boolean(id));
+        const users = await this.projectRepository.findPlatformUsersByIds([...new Set(actorUserIds)]);
+        const actorNameByUserId = new Map(users.map((user) => [user.id, user.displayName] as const));
+        const events: ProjectTimelineView['events'] = [
+            {
+                eventKey: 'project-created',
+                stage: 'assessment',
+                stageLabel: this.getStageLabel('assessment'),
+                eventType: 'stage-entered',
+                occurredAt: project.createdAt.toISOString(),
+                actorUserId: project.createdBy ?? null,
+                actorName: this.resolveActorName(project.createdBy, actorNameByUserId),
+                resultLabel: '项目创建',
+                sourceType: 'project',
+                sourceId: project.id,
+                evidenceLabel: project.projectCode,
+                isAuthoritative: true
+            }
+        ];
+
+        if (firstSignedContract?.signedAt) {
+            const actorUserId = firstSignedContract.updatedBy ?? firstSignedContract.createdBy ?? null;
+            events.push({
+                eventKey: `contract-signed:${firstSignedContract.id}`,
+                stage: 'contracting',
+                stageLabel: this.getStageLabel('contracting'),
+                eventType: 'stage-completed',
+                occurredAt: firstSignedContract.signedAt.toISOString(),
+                actorUserId,
+                actorName: this.resolveActorName(actorUserId, actorNameByUserId),
+                resultLabel: '合同签约完成',
+                sourceType: 'contract',
+                sourceId: firstSignedContract.id,
+                evidenceLabel: firstSignedContract.contractNo,
+                isAuthoritative: true
+            });
+        }
+
+        if (latestConfirmedHandover?.confirmedAt) {
+            events.push({
+                eventKey: `project-handover-confirmed:${latestConfirmedHandover.id}`,
+                stage: 'handover',
+                stageLabel: this.getStageLabel('handover'),
+                eventType: 'stage-completed',
+                occurredAt: latestConfirmedHandover.confirmedAt.toISOString(),
+                actorUserId: latestConfirmedHandover.confirmedBy ?? null,
+                actorName: this.resolveActorName(latestConfirmedHandover.confirmedBy, actorNameByUserId),
+                resultLabel: '项目移交完成',
+                sourceType: 'project-handover',
+                sourceId: latestConfirmedHandover.id,
+                evidenceLabel: '移交确认',
+                isAuthoritative: true
+            });
+        }
+
+        if (project.closedAt) {
+            events.push({
+                eventKey: 'project-closed',
+                stage: project.currentStage,
+                stageLabel: this.getStageLabel(project.currentStage),
+                eventType: 'stage-completed',
+                occurredAt: project.closedAt.toISOString(),
+                actorUserId: project.updatedBy ?? null,
+                actorName: this.resolveActorName(project.updatedBy, actorNameByUserId),
+                resultLabel: project.closedReason ? `项目关闭：${project.closedReason}` : '项目关闭',
+                sourceType: 'project',
+                sourceId: project.id,
+                evidenceLabel: project.closedReason ?? '项目关闭',
+                isAuthoritative: true
+            });
+        }
+
+        return {
+            projectId: project.id,
+            events: events.sort((left, right) => {
+                const byOccurredAt = left.occurredAt.localeCompare(right.occurredAt);
+                if (byOccurredAt !== 0) {
+                    return byOccurredAt;
+                }
+
+                return left.eventKey.localeCompare(right.eventKey);
+            }),
             generatedAt: new Date().toISOString()
         };
     }
@@ -635,6 +748,10 @@ export class ProjectQueryService {
 
     private getStatusLabel(status: string): string {
         return PROJECT_WORKSPACE_STATUS_LABELS[status] ?? status;
+    }
+
+    private resolveActorName(actorUserId: string | null | undefined, actorNameByUserId: Map<string, string>): string | null {
+        return actorUserId ? (actorNameByUserId.get(actorUserId) ?? null) : null;
     }
 
     private isClosedProject(project: Project): boolean {

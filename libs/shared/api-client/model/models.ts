@@ -160,6 +160,8 @@ export * from './project-handover-receipt-judgment-mode-summary';
 export * from './project-list-view';
 export * from './project-operating-snapshot-summary';
 export * from './project-summary';
+export * from './project-timeline-event';
+export * from './project-timeline-view';
 export * from './project-unified-accounting-view';
 export * from './project-variance-risk-explanation-view';
 export * from './project-workspace-basis-summary';

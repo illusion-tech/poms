@@ -47,6 +47,8 @@ export type {
     ProjectDetailView,
     ProjectListView,
     ProjectSummary,
+    ProjectTimelineEvent,
+    ProjectTimelineView,
     ProjectUnifiedAccountingView,
     ProjectVarianceRiskExplanationView,
     ProjectWorkspaceBasisSummary,

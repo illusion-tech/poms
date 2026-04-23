@@ -6,10 +6,19 @@ import {
     ProjectDetailViewDto,
     ProjectListDto,
     ProjectListQueryDto,
+    ProjectTimelineViewDto,
     ProjectWorkspaceGuidanceViewDto,
     UpdateProjectBasicInfoRequestDto
 } from '@poms/api-contracts';
-import type { ProjectDetailView, ProjectListQuery, ProjectListView, ProjectSummary, ProjectWorkspaceGuidanceView, UserPayload } from '@poms/shared-contracts';
+import type {
+    ProjectDetailView,
+    ProjectListQuery,
+    ProjectListView,
+    ProjectSummary,
+    ProjectTimelineView,
+    ProjectWorkspaceGuidanceView,
+    UserPayload
+} from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
@@ -61,6 +70,14 @@ export class ProjectController {
         @Request() req: { user: UserPayload }
     ): Promise<ProjectWorkspaceGuidanceView> {
         return this.projectQueryService.getProjectWorkspaceGuidance(projectId, req.user);
+    }
+
+    @Get(':projectId/timeline')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目生命周期里程碑' })
+    @ApiOkResponse({ type: ProjectTimelineViewDto })
+    async getTimeline(@Param('projectId') projectId: string): Promise<ProjectTimelineView> {
+        return this.projectQueryService.getProjectTimeline(projectId);
     }
 
     @Get(':id')

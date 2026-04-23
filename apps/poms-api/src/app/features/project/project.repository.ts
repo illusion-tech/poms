@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
+import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { Project } from './project.entity';
 
 @Injectable()
@@ -16,7 +17,9 @@ export class ProjectRepository {
         @InjectRepository(OrgUnit)
         private readonly orgUnitRepository: EntityRepository<OrgUnit>,
         @InjectRepository(Contract)
-        private readonly contractRepository: EntityRepository<Contract>
+        private readonly contractRepository: EntityRepository<Contract>,
+        @InjectRepository(ProjectHandover)
+        private readonly projectHandoverRepository: EntityRepository<ProjectHandover>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -124,6 +127,19 @@ export class ProjectRepository {
             { projectId },
             {
                 orderBy: { signedAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findLatestConfirmedHandoverByProjectId(projectId: string): Promise<ProjectHandover | null> {
+        return this.projectHandoverRepository.findOne(
+            {
+                projectId,
+                status: 'confirmed',
+                confirmedAt: { $ne: null }
+            },
+            {
+                orderBy: { confirmedAt: QueryOrder.DESC, updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
             }
         );
     }

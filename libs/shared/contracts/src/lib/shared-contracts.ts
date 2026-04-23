@@ -807,6 +807,43 @@ export const ProjectWorkspaceGuidanceViewSchema = z
 
 export type ProjectWorkspaceGuidanceView = z.infer<typeof ProjectWorkspaceGuidanceViewSchema>;
 
+export const PROJECT_TIMELINE_EVENT_TYPES = ['stage-entered', 'stage-completed', 'milestone'] as const;
+
+export type ProjectTimelineEventType = (typeof PROJECT_TIMELINE_EVENT_TYPES)[number];
+
+export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover'] as const;
+
+export type ProjectTimelineSourceType = (typeof PROJECT_TIMELINE_SOURCE_TYPES)[number];
+
+export const ProjectTimelineEventSchema = z
+    .object({
+        eventKey: z.string(),
+        stage: z.string(),
+        stageLabel: z.string(),
+        eventType: z.enum(PROJECT_TIMELINE_EVENT_TYPES),
+        occurredAt: z.iso.datetime(),
+        actorUserId: z.uuid().nullable(),
+        actorName: z.string().nullable(),
+        resultLabel: z.string(),
+        sourceType: z.enum(PROJECT_TIMELINE_SOURCE_TYPES),
+        sourceId: z.uuid().nullable(),
+        evidenceLabel: z.string().nullable(),
+        isAuthoritative: z.boolean()
+    })
+    .meta({ id: 'ProjectTimelineEvent' });
+
+export type ProjectTimelineEvent = z.infer<typeof ProjectTimelineEventSchema>;
+
+export const ProjectTimelineViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        events: z.array(ProjectTimelineEventSchema),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectTimelineView' });
+
+export type ProjectTimelineView = z.infer<typeof ProjectTimelineViewSchema>;
+
 export const CreateProjectRequestSchema = z
     .object({
         projectCode: z.string().trim().min(1).max(64),
