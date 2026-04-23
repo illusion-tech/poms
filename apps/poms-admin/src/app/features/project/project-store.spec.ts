@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ProjectApi, ProjectStore, type ProjectDetailView, type ProjectSummary } from '@poms/admin-data-access';
+import { ProjectApi, ProjectStore, type ProjectDetailView, type ProjectSummary, type ProjectTimelineView } from '@poms/admin-data-access';
 import { of } from 'rxjs';
 
 function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
@@ -94,6 +94,30 @@ function createSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary 
     };
 }
 
+function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTimelineView {
+    return {
+        projectId: 'project-1',
+        events: [
+            {
+                eventKey: 'contract-signed:contract-1',
+                stage: 'contracting',
+                stageLabel: '签约中',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-18T08:00:00.000Z',
+                actorUserId: 'user-1',
+                actorName: '张销售',
+                resultLabel: '合同签约完成',
+                sourceType: 'contract',
+                sourceId: 'contract-1',
+                evidenceLabel: 'HT-2026-001',
+                isAuthoritative: true
+            }
+        ],
+        generatedAt: '2026-04-20T10:00:00.000Z',
+        ...overrides
+    } as ProjectTimelineView;
+}
+
 describe('ProjectStore', () => {
     it('reloads ProjectDetailView after updating basic info instead of downgrading selectedProject to ProjectSummary', async () => {
         const refreshedDetail = createDetail({ projectName: '更新后的项目', rowVersion: 4 });
@@ -129,5 +153,35 @@ describe('ProjectStore', () => {
         expect(result).toEqual(refreshedDetail);
         expect(store.selectedProject()).toEqual(refreshedDetail);
         expect(store.selectedProject()?.currentContractSummary).toEqual(refreshedDetail.currentContractSummary);
+    });
+
+    it('loads project timeline without replacing selected project detail', async () => {
+        const detail = createDetail();
+        const timeline = createTimeline();
+        const projectApiMock = {
+            projectControllerGetById: jest.fn().mockReturnValue(of(detail)),
+            projectControllerGetTimeline: jest.fn().mockReturnValue(of(timeline))
+        };
+
+        TestBed.configureTestingModule({
+            providers: [
+                ProjectStore,
+                {
+                    provide: ProjectApi,
+                    useValue: projectApiMock
+                }
+            ]
+        });
+
+        const store = TestBed.inject(ProjectStore);
+
+        await store.loadProject('project-1');
+        const result = await store.loadProjectTimeline('project-1');
+
+        expect(projectApiMock.projectControllerGetTimeline).toHaveBeenCalledWith({ projectId: 'project-1' });
+        expect(result).toEqual(timeline);
+        expect(store.selectedProject()).toEqual(detail);
+        expect(store.selectedProjectTimeline()).toEqual(timeline);
+        expect(store.timelineError()).toBeNull();
     });
 });

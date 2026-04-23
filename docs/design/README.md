@@ -326,6 +326,7 @@
 ### 已归档过程资产
 
 - `archive/README.md`
+- `archive/slices/`：所有已完成（G4）切片的生命周期产物（`ex-*`、`fe-*` 系列 baseline / closeout / checkpoint）
 - `archive/phase1-closure/`：第一阶段收口摘要、路线图、补齐计划、验收清单、缺口矩阵与最终验收快照
 - `archive/reviews/`：已完成使命的正式审阅清单、综合评估、follow-up 清单、评审摘要、分轮审阅记录与已撤销历史判断
 - `archive/mainline-closure/`：已完成使命的主线任务收口记录与完成轨迹文档
@@ -353,6 +354,7 @@
 
 - 新增设计文档时，优先判断其属于基线、业务域、治理还是评审类资产
 - 新增设计文档时，优先使用稳定主题命名，不默认引入编号
-- 若新增内容属于“高影响、难回退、需要记录为什么这样定”的结论，应优先考虑补 ADR，而不是直接塞进设计文档
+- 若新增内容属于”高影响、难回退、需要记录为什么这样定”的结论，应优先考虑补 ADR，而不是直接塞进设计文档
 - 若某类文档后续数量明显增多，再考虑在该类内部增加子目录或局部编号
 - 每次新增、归档或调整设计资产时，应同步更新本 README 与 `poms-design-progress.md`
+- **G4 归档规则**：切片 `*-g3-g4-closeout.md` 写完并 commit 后，该切片所有 `*-baseline.md`、`*-closeout.md`、`*-corrective-checkpoint.md` 须在同一 commit 或紧跟 commit 中迁移至 `archive/slices/`

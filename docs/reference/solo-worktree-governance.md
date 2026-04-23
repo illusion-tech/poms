@@ -67,7 +67,7 @@ PR 不是治理本身，只是多人协作时承载治理证据的一种载体�
 5. 在本地直接修改 `main` 工作树。
 6. 提交前执行本文件第 4 节的 local checkpoint。
 7. commit message 中记录 `G3` 结论摘要。
-8. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。
+8. commit 后回写 tracker；只有满足 `G4` 才标记 `Done`。通过 `git mv` 将该切片所有生命周期产物迁移至 `docs/design/archive/slices/`。
 
 适用边界：
 

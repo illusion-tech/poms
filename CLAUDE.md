@@ -129,7 +129,7 @@ ESLint 强制执行以下分层约束（`@nx/enforce-module-boundaries`）：
 - **G1 冻结**：形成实施基线包（模板：`docs/reference/implementation-baseline-package-template.md`），冻结 SSOT（命名、类型、日期、标识符、金额、状态机）。未通过 G1 的切片只能停留在 `Todo`。
 - **G2 开工**：阅读基线包后再写代码。持久化切片须先写 migration SQL，再写 entity；接口切片须先固定 DTO 语义，再写 controller。
 - **G3 合并**：提交风险分层证据（见下方校验矩阵），分类所有 drift，记录所有例外。个人开发使用 local checkpoint，多人协作使用 PR checklist（`.github/pull_request_template.md`）。
-- **G4 完成**：代码已合并 + 文档已回写 + tracker 已更新，才允许标记 `Done`。子切片完成不等于父任务完成。
+- **G4 完成**：代码已合并 + 文档已回写 + tracker 已更新 + 切片生命周期产物（`*-baseline.md`、`*-closeout.md`、`*-checkpoint.md`）已 `git mv` 至 `docs/design/archive/slices/`，才允许标记 `Done`。子切片完成不等于父任务完成。
 
 ### 切片类型与 G3 最小校验
 

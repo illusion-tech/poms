@@ -308,6 +308,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 4. 测试已完成并记录范围
 5. 若涉及持久化结构，已完成 SQL-first 一致性判断
 6. 若存在未完成范围，父任务未被错误关闭
+7. 切片所有生命周期产物（`*-baseline.md`、`*-g3-g4-closeout.md`、`*-corrective-checkpoint.md`）已通过 `git mv` 迁移至 `docs/design/archive/slices/`
 
 补充约束：
 

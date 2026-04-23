@@ -56,7 +56,7 @@
 
 - 初版组件样式超过 Angular component style budget 783 bytes；已压缩语义 class 与非关键样式，最终 build 无 warning。
 - 用户视觉复核发现横向标签落在两个节点之间；根因是 PrimeNG horizontal timeline 的 content slot 与 marker 中心列不一致。该问题已作为 `FE-21` 本片内实现 drift 修正：横向改为组件自有 rail，纵向仍保留 PrimeNG Timeline。
-- `FE21-E1-COMPLETION-TIME-SOURCE` 保留：完成时间 UI 字段已经预留，但真实阶段完成时间仍需后续 query / DTO 事实源。
+- `FE21-E1-COMPLETION-TIME-SOURCE` 已由 `EX-22` + `FE-22` 关闭当前可用事实范围：完成时间 UI 字段已经消费 `ProjectTimelineView`；验收 / 完成 / 归档等缺失阶段仍按后续事实源切片处理。
 - `FE21-E2-VISUAL-SNAPSHOT-GAP` 保留：本片未新增浏览器截图级视觉回归门禁。
 
 ## 6. G4 Conclusion

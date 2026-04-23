@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectStore, type ProjectDetailView } from '@poms/admin-data-access';
+import { ProjectStore, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -113,6 +113,9 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
 
 const PROJECT_LIFECYCLE_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed'] as const;
 
+type ProjectLifecycleStage = (typeof PROJECT_LIFECYCLE_STAGES)[number];
+type ProjectTimelineEvent = ProjectTimelineView['events'][number];
+
 const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[number], string> = {
     assessment: '判断是否继续推进',
     'scope-confirmation': '确认范围与边界',
@@ -164,7 +167,11 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     }
                 </app-project-context-header>
 
-                <app-project-lifecycle-timeline [items]="lifecycleItems(project)" />
+                @if (timelineError(); as error) {
+                    <app-workspace-feedback severity="warn" summary="阶段完成时间暂时不可用" [detail]="error" />
+                }
+
+                <app-project-lifecycle-timeline [items]="lifecycleItems(project, projectTimeline())" />
 
                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -368,8 +375,10 @@ export class ProjectDetail implements OnInit {
     readonly #projectStore = inject(ProjectStore);
 
     readonly project = this.#projectStore.selectedProject;
+    readonly projectTimeline = this.#projectStore.selectedProjectTimeline;
     readonly loading = this.#projectStore.loading;
     readonly saving = this.#projectStore.saving;
+    readonly timelineError = this.#projectStore.timelineError;
 
     editDialogVisible = false;
     editAttempted = false;
@@ -380,6 +389,7 @@ export class ProjectDetail implements OnInit {
         const id = this.#route.snapshot.paramMap.get('id');
         if (id) {
             void this.#projectStore.loadProject(id);
+            void this.#projectStore.loadProjectTimeline(id).catch(() => undefined);
         }
     }
 
@@ -474,13 +484,15 @@ export class ProjectDetail implements OnInit {
         return `${project.projectCode} · ${this.displayText(project.customerName, '待补充客户')}`;
     }
 
-    lifecycleItems(project: ProjectDetailView): ProjectLifecycleTimelineItem[] {
+    lifecycleItems(project: ProjectDetailView, timeline: ProjectTimelineView | null): ProjectLifecycleTimelineItem[] {
         const currentStage = project.stageSummary.currentStage;
         const currentIndex = PROJECT_LIFECYCLE_STAGES.findIndex((stage) => stage === currentStage);
         const isBlocked = project.stageSummary.status === 'blocked' || project.stageSummary.blockingReasons.length > 0;
+        const milestoneByStage = this.timelineEventByStage(timeline);
 
         return PROJECT_LIFECYCLE_STAGES.map((stage, index) => {
             let state: ProjectLifecycleTimelineItem['state'] = 'pending';
+            const milestone = milestoneByStage.get(stage);
 
             if (currentIndex === -1) {
                 state = 'pending';
@@ -495,9 +507,69 @@ export class ProjectDetail implements OnInit {
                 label: this.getStageName(stage),
                 description: PROJECT_LIFECYCLE_DESCRIPTIONS[stage],
                 state,
-                severity: stage === currentStage ? this.getStageSeverity(stage) : undefined
+                severity: stage === currentStage ? this.getStageSeverity(stage) : undefined,
+                ...this.lifecycleMilestoneDetail(milestone)
             };
         });
+    }
+
+    private timelineEventByStage(timeline: ProjectTimelineView | null): Map<ProjectLifecycleStage, ProjectTimelineEvent> {
+        const eventsByStage = new Map<ProjectLifecycleStage, ProjectTimelineEvent>();
+
+        for (const event of timeline?.events ?? []) {
+            if (!event.isAuthoritative || !this.isLifecycleStage(event.stage)) {
+                continue;
+            }
+
+            const current = eventsByStage.get(event.stage);
+            if (!current || this.shouldReplaceTimelineEvent(current, event)) {
+                eventsByStage.set(event.stage, event);
+            }
+        }
+
+        return eventsByStage;
+    }
+
+    private shouldReplaceTimelineEvent(current: ProjectTimelineEvent, candidate: ProjectTimelineEvent): boolean {
+        if (current.eventType !== 'stage-completed' && candidate.eventType === 'stage-completed') {
+            return true;
+        }
+
+        if (current.eventType === candidate.eventType) {
+            return candidate.occurredAt.localeCompare(current.occurredAt) > 0;
+        }
+
+        return false;
+    }
+
+    private lifecycleMilestoneDetail(event: ProjectTimelineEvent | undefined): Partial<ProjectLifecycleTimelineItem> {
+        if (!event) {
+            return {};
+        }
+
+        const occurredAt = this.formatTimelineDate(event.occurredAt);
+        const actorText = event.actorName ? `，操作人：${event.actorName}` : '';
+        const evidenceText = event.evidenceLabel ? `，依据：${event.evidenceLabel}` : '';
+
+        if (event.eventType === 'stage-completed') {
+            return {
+                completedAtLabel: occurredAt,
+                tooltip: `${event.resultLabel}，完成时间：${occurredAt}${actorText}${evidenceText}`
+            };
+        }
+
+        return {
+            detail: `${event.resultLabel}：${occurredAt}`,
+            tooltip: `${event.resultLabel}，时间：${occurredAt}${actorText}${evidenceText}`
+        };
+    }
+
+    private isLifecycleStage(stage: string): stage is ProjectLifecycleStage {
+        return (PROJECT_LIFECYCLE_STAGES as readonly string[]).includes(stage);
+    }
+
+    private formatTimelineDate(value: string): string {
+        return formatDate(value, 'yyyy-MM-dd HH:mm', 'en-US');
     }
 
     shortId(value: string | null | undefined): string {
