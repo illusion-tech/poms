@@ -44,6 +44,16 @@ export const appRoutes: Routes = [
                         data: { breadcrumb: '工作区总览' }
                     },
                     {
+                        path: 'contract-handover',
+                        loadComponent: () => import('./app/features/project/project-contract-handover').then((c) => c.ProjectContractHandover),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '合同承接',
+                            requiredPermissions: ['project:read'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
                         path: 'operating-overview',
                         loadComponent: () => import('./app/features/project/project-operating-overview').then((c) => c.ProjectOperatingOverview),
                         canActivate: [permissionGuard],

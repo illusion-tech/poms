@@ -21,6 +21,7 @@ import { ProjectRepository } from './project.repository';
 const PROJECT_DETAIL_SUMMARY_SCENARIO_KEY = 'project-detail';
 const PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL = 'project-detail';
 const PROJECT_DETAIL_TARGET_TYPE = 'Project';
+const PROJECT_WORKSPACE_HANDOVER_PERMISSIONS: PermissionKey[] = ['project:read'];
 const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 'contract:finance:manage'];
 const PROJECT_WORKSPACE_PAYOUT_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:payouts:manage'];
 const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = [
@@ -635,6 +636,7 @@ export class ProjectQueryService {
         const financeStageReady = PROJECT_WORKSPACE_FINANCE_STAGES.includes(project.currentStage);
         const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(project.currentStage);
         const settlementStageReady = PROJECT_WORKSPACE_SETTLEMENT_STAGES.includes(project.currentStage);
+        const canUseHandoverWorkspace = hasAllPermissions(PROJECT_WORKSPACE_HANDOVER_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseFinanceWorkspace = hasAllPermissions(PROJECT_WORKSPACE_FINANCE_PERMISSIONS);
         const canUsePayoutWorkspace = hasAllPermissions(PROJECT_WORKSPACE_PAYOUT_PERMISSIONS);
         const canUseCommissionOperations = hasAllPermissions(PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS) && allowedActions.includes('manage-project-commission');
@@ -676,12 +678,18 @@ export class ProjectQueryService {
         if (project.currentStage === 'handover') {
             entries.push({
                 key: 'handover-workspace',
-                label: '项目移交',
-                description: '移交确认、责任边界和下游冻结依据后续会进入独立工作区。',
-                route: null,
-                enabled: false,
-                disabledReason: '项目移交工作区尚未接入正式事实源，先在项目详情中确认移交状态。',
-                actionKey: null
+                label: '合同承接',
+                description: '查看合同生效后到正式移交前的承接状态、基线和阻断事项。',
+                route: `${projectRoutePrefix}/workspace/contract-handover`,
+                enabled: !isClosed && canUseHandoverWorkspace,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: true,
+                    permissionReady: canUseHandoverWorkspace,
+                    stageReason: '项目进入移交阶段后再查看合同承接。',
+                    permissionReason: '需要项目查看权限。'
+                }),
+                actionKey: 'view-project-workspace'
             });
         }
 

@@ -26,11 +26,12 @@ const useExternalApiServer = process.env['POMS_API_BASE_URL'] !== undefined;
 // playwright.config.ts is evaluated in both the main process (webServer setup)
 // and each worker process (baseURL resolution); if the seed differs between
 // them the worker connects to a port the webServer never listened on.
+const loopbackHost = process.env['POMS_E2E_LOOPBACK_HOST'] ?? 'localhost';
 const portSeed = Number(process.env['POMS_E2E_PORT_SEED'] ?? 300);
 const adminPort = 4400 + portSeed; // default 4700
 const apiPort = 5400 + portSeed;   // default 5700
-const adminBaseUrl = process.env['POMS_ADMIN_BASE_URL'] ?? `http://127.0.0.1:${adminPort}`;
-const apiBaseUrl = process.env['POMS_API_BASE_URL'] ?? `http://127.0.0.1:${apiPort}`;
+const adminBaseUrl = process.env['POMS_ADMIN_BASE_URL'] ?? `http://${loopbackHost}:${adminPort}`;
+const apiBaseUrl = process.env['POMS_API_BASE_URL'] ?? `http://${loopbackHost}:${apiPort}`;
 
 const webServers = [];
 
@@ -45,7 +46,7 @@ if (!useExternalApiServer) {
 
 if (!useExternalAdminServer) {
     webServers.push({
-        command: `powershell -NoProfile -Command "$env:POMS_API_PROXY_TARGET='${apiBaseUrl}'; corepack pnpm nx serve poms-admin --port=${adminPort} --host=127.0.0.1"`,
+        command: `powershell -NoProfile -Command "$env:POMS_API_PROXY_TARGET='${apiBaseUrl}'; corepack pnpm nx serve poms-admin --port=${adminPort} --host=${loopbackHost}"`,
         url: `${adminBaseUrl}/auth/login`,
         reuseExistingServer: false,
         timeout: 180_000

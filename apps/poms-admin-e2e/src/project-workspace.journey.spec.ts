@@ -3,25 +3,27 @@ import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
 
 const WORKSPACE_PROJECT_CODE = 'E2E-OSG-FXT-MAIN';
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
+const HANDOVER_PROJECT_CODE = 'E2E-HO-MAIN';
+const HANDOVER_PROJECT_ID = '21000000-0000-4000-8000-000000000002';
 
-async function openProjectList(page: Page): Promise<void> {
+async function openProjectList(page: Page, projectCode = WORKSPACE_PROJECT_CODE): Promise<void> {
     await page.getByRole('link', { name: '项目管理' }).click();
     await expect(page).toHaveURL(/\/projects$/);
-    await page.getByPlaceholder('搜索项目').fill(WORKSPACE_PROJECT_CODE);
+    await page.getByPlaceholder('搜索项目').fill(projectCode);
 }
 
-async function locateProjectRow(page: Page) {
-    const row = page.locator('tr').filter({ hasText: WORKSPACE_PROJECT_CODE }).first();
+async function locateProjectRow(page: Page, projectCode = WORKSPACE_PROJECT_CODE) {
+    const row = page.locator('tr').filter({ hasText: projectCode }).first();
     await expect(row).toBeVisible();
     return row;
 }
 
-async function openWorkspaceFromProjectList(page: Page): Promise<void> {
-    await openProjectList(page);
-    const projectRow = await locateProjectRow(page);
+async function openWorkspaceFromProjectList(page: Page, projectCode = WORKSPACE_PROJECT_CODE, projectId = WORKSPACE_PROJECT_ID): Promise<void> {
+    await openProjectList(page, projectCode);
+    const projectRow = await locateProjectRow(page, projectCode);
     await projectRow.getByRole('button', { name: '工作区' }).click();
 
-    await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace$`));
+    await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/workspace$`));
     await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
 }
 
@@ -57,15 +59,15 @@ async function expectWorkspaceHomeEntryDisabled(page: Page, title: string, reaso
     await expect(entry.getByRole('link', { name: '进入' })).toHaveCount(0);
 }
 
-async function returnToWorkspaceHome(page: Page): Promise<void> {
-    const workspaceHomeTab = page.getByRole('link', { name: '工作区总览' });
+async function returnToWorkspaceHome(page: Page, projectId = WORKSPACE_PROJECT_ID): Promise<void> {
+    const workspaceHomeTab = page.getByRole('link', { name: '工作区总览', exact: true });
     if (await workspaceHomeTab.count()) {
         await workspaceHomeTab.click();
     } else {
         await page.getByRole('button', { name: '返回项目工作区' }).click();
     }
 
-    await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace$`));
+    await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/workspace$`));
     await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
 }
 
@@ -119,6 +121,24 @@ test.describe('poms-admin project workspace journey', () => {
         await openWorkspaceHomeEntry(page, '提成操作');
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/operations$`));
         await expect(page.getByRole('heading', { name: /提成操作/ })).toBeVisible();
+    });
+
+    test('admin can enter the contract handover workspace from project workspace navigation', async ({ page }) => {
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openWorkspaceFromProjectList(page, HANDOVER_PROJECT_CODE, HANDOVER_PROJECT_ID);
+
+        await openWorkspaceHomeEntry(page, '合同承接');
+        await expect(page).toHaveURL(new RegExp(`/projects/${HANDOVER_PROJECT_ID}/workspace/contract-handover$`));
+        await expect(page.getByText('当前有效合同集合')).toBeVisible();
+        await expect(page.getByRole('cell', { name: 'E2E-HO-HT-MAIN' })).toBeVisible();
+        await expect(page.getByText('Current handover baseline comes from the latest project handover record')).toBeVisible();
+        await expect(page.getByText('Receivable plan has been initialized from the current contract readiness package')).toBeVisible();
+
+        await returnToWorkspaceHome(page, HANDOVER_PROJECT_ID);
+        await page.getByRole('link', { name: '合同承接' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${HANDOVER_PROJECT_ID}/workspace/contract-handover$`));
     });
 
     test('admin can move between project detail workspace and commission pages with real buttons', async ({ page }) => {

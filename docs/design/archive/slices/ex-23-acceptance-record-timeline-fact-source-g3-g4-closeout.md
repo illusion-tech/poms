@@ -1,11 +1,12 @@
-# EX-23 项目验收事实源与生命周期时间线投影 G3 Checkpoint
+# EX-23 项目验收事实源与生命周期时间线投影 G3/G4 Close-out
 
-- Gate Status: `G3 = Pass`
+- Gate Status: `G4 = Pass`
 - Slice Type: `api / command + persistence + frontend verification`
 - Owner: `Codex`
 - Date: `2026-04-23`
-- Baseline: `docs/design/ex-23-acceptance-record-timeline-fact-source-baseline.md`
+- Baseline: `docs/design/archive/slices/ex-23-acceptance-record-timeline-fact-source-baseline.md`
 - Tracker: `docs/design/phase2-development-execution-tracker.md` / `EX-23`
+- Commit: `791e490 feat(project): 新增项目验收事实源与时间线投影`
 
 ## 1. Delivered Scope
 
@@ -66,8 +67,9 @@
 | ---------------------------------- | -------- | ------------------------------------------------------ |
 | `EX23-E1-COMPLETED-ARCHIVE-SOURCE` | Accepted | 本片只实现验收事实源；项目完成结论和归档事实另开切片。 |
 
-## 7. G3 Conclusion
+## 7. G4 Conclusion
 
 - `G3 = Pass`。
 - 当前代码、契约、OpenAPI、generated client、迁移与前端验证已对齐。
-- `G4` 需要等本地变更提交后再完成 tracker `Done` 与切片归档。
+- `G4 = Pass`：实现已提交 `791e490`，tracker 已关闭为 `Done`，切片生命周期产物已归档。
+- `completed` 与归档事实源仍保留为后续切片，不属于本片交付边界。

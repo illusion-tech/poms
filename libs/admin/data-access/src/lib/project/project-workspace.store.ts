@@ -4,18 +4,21 @@ import type {
     BusinessAccountingFeedbackView,
     CommissionFinalSettlementView,
     CommissionRuleExplanationView,
+    ContractHandoverSummaryView,
+    ProjectHandoverDetailView,
     ProjectBusinessOutcomeOverviewView,
     ProjectUnifiedAccountingView,
     ProjectVarianceRiskExplanationView,
     ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
-import { CommissionApi, ProjectApi, ProjectCostApi } from '@poms/shared-api-client';
+import { CommissionApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 type WorkspaceErrorKind =
     | 'guidance'
     | 'operating'
     | 'variance'
+    | 'contract-handover'
     | 'commission-gate'
     | 'final-settlement'
     | 'rule-explanation';
@@ -24,9 +27,12 @@ type WorkspaceErrorKind =
 export class ProjectWorkspaceStore {
     readonly #projectApi = inject(ProjectApi);
     readonly #projectCostApi = inject(ProjectCostApi);
+    readonly #projectHandoverApi = inject(ProjectHandoverApi);
     readonly #commissionApi = inject(CommissionApi);
 
     readonly #guidance = signal<ProjectWorkspaceGuidanceView | null>(null);
+    readonly #contractHandoverSummary = signal<ContractHandoverSummaryView | null>(null);
+    readonly #projectHandoverDetail = signal<ProjectHandoverDetailView | null>(null);
     readonly #businessOutcomeOverview = signal<ProjectBusinessOutcomeOverviewView | null>(null);
     readonly #unifiedAccounting = signal<ProjectUnifiedAccountingView | null>(null);
     readonly #varianceRiskExplanation = signal<ProjectVarianceRiskExplanationView | null>(null);
@@ -35,6 +41,7 @@ export class ProjectWorkspaceStore {
     readonly #commissionRuleExplanation = signal<CommissionRuleExplanationView | null>(null);
 
     readonly #loadingGuidance = signal(false);
+    readonly #loadingContractHandover = signal(false);
     readonly #loadingOperatingOverview = signal(false);
     readonly #loadingVarianceRisk = signal(false);
     readonly #loadingCommissionGate = signal(false);
@@ -42,6 +49,7 @@ export class ProjectWorkspaceStore {
     readonly #loadingCommissionRuleExplanation = signal(false);
 
     readonly #guidanceError = signal<string | null>(null);
+    readonly #contractHandoverError = signal<string | null>(null);
     readonly #operatingOverviewError = signal<string | null>(null);
     readonly #varianceRiskError = signal<string | null>(null);
     readonly #commissionGateError = signal<string | null>(null);
@@ -49,6 +57,8 @@ export class ProjectWorkspaceStore {
     readonly #commissionRuleExplanationError = signal<string | null>(null);
 
     readonly guidance = this.#guidance.asReadonly();
+    readonly contractHandoverSummary = this.#contractHandoverSummary.asReadonly();
+    readonly projectHandoverDetail = this.#projectHandoverDetail.asReadonly();
     readonly businessOutcomeOverview = this.#businessOutcomeOverview.asReadonly();
     readonly unifiedAccounting = this.#unifiedAccounting.asReadonly();
     readonly varianceRiskExplanation = this.#varianceRiskExplanation.asReadonly();
@@ -57,6 +67,7 @@ export class ProjectWorkspaceStore {
     readonly commissionRuleExplanation = this.#commissionRuleExplanation.asReadonly();
 
     readonly loadingGuidance = this.#loadingGuidance.asReadonly();
+    readonly loadingContractHandover = this.#loadingContractHandover.asReadonly();
     readonly loadingOperatingOverview = this.#loadingOperatingOverview.asReadonly();
     readonly loadingVarianceRisk = this.#loadingVarianceRisk.asReadonly();
     readonly loadingCommissionGate = this.#loadingCommissionGate.asReadonly();
@@ -64,6 +75,7 @@ export class ProjectWorkspaceStore {
     readonly loadingCommissionRuleExplanation = this.#loadingCommissionRuleExplanation.asReadonly();
 
     readonly guidanceError = this.#guidanceError.asReadonly();
+    readonly contractHandoverError = this.#contractHandoverError.asReadonly();
     readonly operatingOverviewError = this.#operatingOverviewError.asReadonly();
     readonly varianceRiskError = this.#varianceRiskError.asReadonly();
     readonly commissionGateError = this.#commissionGateError.asReadonly();
@@ -71,6 +83,7 @@ export class ProjectWorkspaceStore {
     readonly commissionRuleExplanationError = this.#commissionRuleExplanationError.asReadonly();
 
     readonly hasGuidance = computed(() => this.#guidance() !== null);
+    readonly hasContractHandover = computed(() => this.#contractHandoverSummary() !== null && this.#projectHandoverDetail() !== null);
     readonly hasOperatingOverview = computed(() => this.#businessOutcomeOverview() !== null && this.#unifiedAccounting() !== null);
     readonly hasVarianceRisk = computed(() => this.#varianceRiskExplanation() !== null);
     readonly hasCommissionGateOverview = computed(() => this.#commissionGateOverview() !== null);
@@ -95,6 +108,37 @@ export class ProjectWorkspaceStore {
             throw error;
         } finally {
             this.#loadingGuidance.set(false);
+        }
+    }
+
+    async loadContractHandover(projectId: string) {
+        this.#loadingContractHandover.set(true);
+        this.#contractHandoverError.set(null);
+
+        try {
+            const [contractHandoverSummary, projectHandoverDetail] = await Promise.all([
+                firstValueFrom(
+                    this.#projectHandoverApi.projectHandoverControllerGetContractHandoverSummary({
+                        projectId
+                    })
+                ),
+                firstValueFrom(
+                    this.#projectHandoverApi.projectHandoverControllerGetProjectHandoverDetailByProject({
+                        projectId
+                    })
+                )
+            ]);
+
+            this.#contractHandoverSummary.set(contractHandoverSummary);
+            this.#projectHandoverDetail.set(projectHandoverDetail);
+            return { contractHandoverSummary, projectHandoverDetail };
+        } catch (error) {
+            this.#contractHandoverSummary.set(null);
+            this.#projectHandoverDetail.set(null);
+            this.#contractHandoverError.set(this.#readWorkspaceError(error, 'contract-handover'));
+            throw error;
+        } finally {
+            this.#loadingContractHandover.set(false);
         }
     }
 
@@ -215,6 +259,8 @@ export class ProjectWorkspaceStore {
 
     clear() {
         this.#guidance.set(null);
+        this.#contractHandoverSummary.set(null);
+        this.#projectHandoverDetail.set(null);
         this.#businessOutcomeOverview.set(null);
         this.#unifiedAccounting.set(null);
         this.#varianceRiskExplanation.set(null);
@@ -222,12 +268,14 @@ export class ProjectWorkspaceStore {
         this.#commissionFinalSettlement.set(null);
         this.#commissionRuleExplanation.set(null);
         this.#loadingGuidance.set(false);
+        this.#loadingContractHandover.set(false);
         this.#loadingOperatingOverview.set(false);
         this.#loadingVarianceRisk.set(false);
         this.#loadingCommissionGate.set(false);
         this.#loadingCommissionFinalSettlement.set(false);
         this.#loadingCommissionRuleExplanation.set(false);
         this.#guidanceError.set(null);
+        this.#contractHandoverError.set(null);
         this.#operatingOverviewError.set(null);
         this.#varianceRiskError.set(null);
         this.#commissionGateError.set(null);
@@ -241,6 +289,8 @@ export class ProjectWorkspaceStore {
                 switch (kind) {
                     case 'guidance':
                         return '当前项目还没有形成工作区引导，请先确认项目是否存在并具备查看权限。';
+                    case 'contract-handover':
+                        return '当前项目还没有形成合同承接视图，请先完成合同生效和移交前置事实。';
                     case 'operating':
                         return '当前项目还没有形成有效经营快照，先完成经营基线、经营快照和经营信号评价。';
                     case 'variance':

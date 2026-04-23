@@ -278,6 +278,49 @@ describe('ProjectQueryService', () => {
         expect(result.generatedAt).toEqual(expect.any(String));
     });
 
+    it('enables handover workspace guidance entry when project is in handover stage', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000006',
+            projectCode: 'PRJ-2026-006',
+            projectName: '移交中项目',
+            customerId: null,
+            customerName: '华南地铁集团',
+            currentStage: 'handover',
+            status: 'active',
+            ownerOrgId: null,
+            ownerUserId: null,
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: null,
+            updatedAt: new Date('2026-04-18T08:00:00.000Z'),
+            updatedBy: null
+        });
+        approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue(null);
+
+        const result = await service.getProjectWorkspaceGuidance('20000000-0000-4000-8000-000000000006', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read']
+        });
+
+        expect(result.currentStageLabel).toBe('项目移交');
+        expect(result.recommendedEntries).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    key: 'handover-workspace',
+                    label: '合同承接',
+                    route: '/projects/20000000-0000-4000-8000-000000000006/workspace/contract-handover',
+                    enabled: true,
+                    disabledReason: null,
+                    actionKey: 'view-project-workspace'
+                })
+            ])
+        );
+    });
+
     it('keeps blocked pre-signing workspace guidance readable without inventing a missing workspace', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000004',

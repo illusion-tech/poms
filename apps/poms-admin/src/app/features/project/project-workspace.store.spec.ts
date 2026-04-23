@@ -4,10 +4,13 @@ import {
     CommissionApi,
     ProjectApi,
     ProjectCostApi,
+    ProjectHandoverApi,
     ProjectWorkspaceStore,
     type BusinessAccountingFeedbackView,
     type CommissionFinalSettlementView,
     type CommissionRuleExplanationView,
+    type ContractHandoverSummaryView,
+    type ProjectHandoverDetailView,
     type ProjectBusinessOutcomeOverviewView,
     type ProjectUnifiedAccountingView,
     type ProjectVarianceRiskExplanationView,
@@ -90,6 +93,10 @@ describe('ProjectWorkspaceStore', () => {
         projectCostControllerGetProjectVarianceRiskExplanation: jest.Mock;
         projectCostControllerGetBusinessAccountingFeedback: jest.Mock;
     };
+    let projectHandoverApiMock: {
+        projectHandoverControllerGetContractHandoverSummary: jest.Mock;
+        projectHandoverControllerGetProjectHandoverDetailByProject: jest.Mock;
+    };
     let commissionApiMock: {
         commissionControllerGetCommissionFinalSettlement: jest.Mock;
         commissionControllerGetCommissionRuleExplanation: jest.Mock;
@@ -104,6 +111,10 @@ describe('ProjectWorkspaceStore', () => {
             projectCostControllerGetProjectUnifiedAccounting: jest.fn(),
             projectCostControllerGetProjectVarianceRiskExplanation: jest.fn(),
             projectCostControllerGetBusinessAccountingFeedback: jest.fn()
+        };
+        projectHandoverApiMock = {
+            projectHandoverControllerGetContractHandoverSummary: jest.fn(),
+            projectHandoverControllerGetProjectHandoverDetailByProject: jest.fn()
         };
         commissionApiMock = {
             commissionControllerGetCommissionFinalSettlement: jest.fn(),
@@ -120,6 +131,10 @@ describe('ProjectWorkspaceStore', () => {
                 {
                     provide: ProjectCostApi,
                     useValue: projectCostApiMock
+                },
+                {
+                    provide: ProjectHandoverApi,
+                    useValue: projectHandoverApiMock
                 },
                 {
                     provide: CommissionApi,
@@ -160,6 +175,136 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.guidance()).toBeNull();
         expect(store.hasGuidance()).toBe(false);
         expect(store.guidanceError()).toBe('当前项目还没有形成工作区引导，请先确认项目是否存在并具备查看权限。');
+    });
+
+    it('loads contract handover and project handover detail into shared state', async () => {
+        const contractHandoverSummary = {
+            projectId: 'project-1',
+            projectCode: 'PRJ-001',
+            projectName: '合同承接项目',
+            effectiveContractSetSummary: {
+                activeContractCount: 1,
+                activeContractIds: ['contract-1'],
+                contractNos: ['HT-001'],
+                totalSignedAmount: '200000.00',
+                currencyCodes: ['CNY'],
+                earliestSignedAt: '2026-04-20T08:00:00.000Z',
+                latestSignedAt: '2026-04-20T08:00:00.000Z',
+                contracts: [
+                    {
+                        id: 'contract-1',
+                        contractNo: 'HT-001',
+                        status: 'active',
+                        signedAmount: '200000.00',
+                        currencyCode: 'CNY',
+                        currentSnapshotId: 'snapshot-1',
+                        signedAt: '2026-04-20T08:00:00.000Z'
+                    }
+                ]
+            },
+            contractBaselineValidationSummary: {
+                status: 'ready',
+                readinessPackageId: 'readiness-1',
+                sourceBaselineId: 'baseline-1',
+                latestDiffResultId: 'diff-1',
+                diffLevel: 'no-diff',
+                reviewStatus: 'approved',
+                packageStatus: 'ready',
+                guardDecision: 'pass',
+                initializedContractSnapshotId: 'snapshot-1',
+                contractSnapshotInitializedAt: '2026-04-20T09:00:00.000Z',
+                blockingReasonSummary: null,
+                missingPrerequisiteCount: 0
+            },
+            currentHandoverBaselineSummary: {
+                status: 'available',
+                baselineSnapshotId: 'handover-baseline-1',
+                sourceType: 'contract-readiness',
+                sourceId: 'readiness-1',
+                summary: '合同承接基线已稳定'
+            },
+            latestHandoverRebaselineSummary: {
+                status: 'none',
+                rebaselineRecordId: null,
+                effectiveBaselineAfterId: null,
+                handledAt: null,
+                blockingStatus: 'none',
+                impactItemCount: 0,
+                impactSummary: null
+            },
+            receivablePlanInitSummary: {
+                status: 'initialized',
+                initializedReceivablePlanVersionId: 'receivable-1',
+                receivablePlanInitializedAt: '2026-04-20T10:00:00.000Z',
+                summary: '回款计划已初始化'
+            },
+            contractSummarySnapshotId: 'contract-summary-1',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'handover-controlled',
+            allowedActions: ['generate-contract-handover-summary-snapshot'],
+            blockingReasons: [],
+            generatedAt: '2026-04-20T10:10:00.000Z'
+        } as ContractHandoverSummaryView;
+        const projectHandoverDetail = {
+            handoverId: 'handover-1',
+            projectId: 'project-1',
+            projectCode: 'PRJ-001',
+            projectName: '合同承接项目',
+            handoverStatus: 'draft',
+            confirmedAt: null,
+            confirmedBy: null,
+            comment: null,
+            rowVersion: 1,
+            effectiveContractSetSummary: contractHandoverSummary.effectiveContractSetSummary,
+            contractSummarySnapshotId: 'contract-summary-1',
+            currentHandoverBaselineSummary: contractHandoverSummary.currentHandoverBaselineSummary,
+            participantConfirmationSummary: {
+                status: 'pending',
+                confirmationRecordId: 'confirmation-1',
+                requiredCount: 2,
+                confirmedCount: 1,
+                pendingCount: 1,
+                closedCount: 0,
+                submittedAt: '2026-04-20T10:00:00.000Z',
+                confirmedAt: null,
+                closedAt: null,
+                rowVersion: 1,
+                participants: []
+            },
+            receiptJudgmentModeSummary: {
+                status: 'frozen',
+                receiptJudgmentMode: 'confirmed-receipt',
+                sourceType: 'project-handover',
+                sourceId: 'handover-1',
+                summary: '按移交确认冻结回款判断口径'
+            },
+            summaryPackageKey: 'contract-handover-summary',
+            summarySnapshotId: 'handover-summary-1',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'handover-controlled',
+            allowedActions: [],
+            blockingReasons: ['仍有一名参与人待确认'],
+            generatedAt: '2026-04-20T10:10:00.000Z'
+        } as ProjectHandoverDetailView;
+
+        projectHandoverApiMock.projectHandoverControllerGetContractHandoverSummary.mockReturnValue(of(contractHandoverSummary));
+        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(of(projectHandoverDetail));
+
+        await expect(store.loadContractHandover('project-1')).resolves.toEqual({
+            contractHandoverSummary,
+            projectHandoverDetail
+        });
+
+        expect(projectHandoverApiMock.projectHandoverControllerGetContractHandoverSummary).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.contractHandoverSummary()).toEqual(contractHandoverSummary);
+        expect(store.projectHandoverDetail()).toEqual(projectHandoverDetail);
+        expect(store.hasContractHandover()).toBe(true);
+        expect(store.contractHandoverError()).toBeNull();
     });
 
     it('loads operating overview and unified accounting into shared state', async () => {
@@ -432,6 +577,8 @@ describe('ProjectWorkspaceStore', () => {
         store.clear();
 
         expect(store.guidance()).toBeNull();
+        expect(store.contractHandoverSummary()).toBeNull();
+        expect(store.projectHandoverDetail()).toBeNull();
         expect(store.businessOutcomeOverview()).toBeNull();
         expect(store.unifiedAccounting()).toBeNull();
         expect(store.varianceRiskExplanation()).toBeNull();
@@ -443,6 +590,7 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.commissionGateError()).toBeNull();
         expect(store.commissionFinalSettlementError()).toBeNull();
         expect(store.commissionRuleExplanationError()).toBeNull();
+        expect(store.contractHandoverError()).toBeNull();
         expect(store.guidanceError()).toBeNull();
     });
 });
