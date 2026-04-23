@@ -5,6 +5,7 @@ import { Contract } from '../contract/contract.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
+import { AcceptanceRecord } from './acceptance-record.entity';
 import { Project } from './project.entity';
 
 @Injectable()
@@ -19,7 +20,9 @@ export class ProjectRepository {
         @InjectRepository(Contract)
         private readonly contractRepository: EntityRepository<Contract>,
         @InjectRepository(ProjectHandover)
-        private readonly projectHandoverRepository: EntityRepository<ProjectHandover>
+        private readonly projectHandoverRepository: EntityRepository<ProjectHandover>,
+        @InjectRepository(AcceptanceRecord)
+        private readonly acceptanceRecordRepository: EntityRepository<AcceptanceRecord>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -144,11 +147,42 @@ export class ProjectRepository {
         );
     }
 
+    async findAcceptanceRecordsByProjectId(projectId: string): Promise<AcceptanceRecord[]> {
+        return this.acceptanceRecordRepository.find(
+            { projectId },
+            {
+                orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findLatestAcceptedAcceptanceRecordByProjectId(projectId: string): Promise<AcceptanceRecord | null> {
+        return this.acceptanceRecordRepository.findOne(
+            {
+                projectId,
+                status: 'confirmed',
+                acceptanceResult: { $in: ['accepted', 'conditional'] },
+                confirmedAt: { $ne: null }
+            },
+            {
+                orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     create(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }
 
+    createAcceptanceRecord(input: ConstructorParameters<typeof AcceptanceRecord>[0]): AcceptanceRecord {
+        return this.acceptanceRecordRepository.create(input);
+    }
+
     async save(project: Project): Promise<void> {
         await this.projectRepository.getEntityManager().persist(project).flush();
+    }
+
+    async saveAcceptanceRecord(record: AcceptanceRecord): Promise<void> {
+        await this.acceptanceRecordRepository.getEntityManager().persist(record).flush();
     }
 }

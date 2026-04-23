@@ -10,6 +10,8 @@ describe('ProjectQueryService', () => {
         findLatestSignedContractAtByProjectIds: jest.Mock;
         findContractsByProjectId: jest.Mock;
         findLatestConfirmedHandoverByProjectId: jest.Mock;
+        findAcceptanceRecordsByProjectId: jest.Mock;
+        findLatestAcceptedAcceptanceRecordByProjectId: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
 
@@ -21,7 +23,9 @@ describe('ProjectQueryService', () => {
             findOrgUnitsByIds: jest.fn(),
             findLatestSignedContractAtByProjectIds: jest.fn(),
             findContractsByProjectId: jest.fn(),
-            findLatestConfirmedHandoverByProjectId: jest.fn()
+            findLatestConfirmedHandoverByProjectId: jest.fn(),
+            findAcceptanceRecordsByProjectId: jest.fn(),
+            findLatestAcceptedAcceptanceRecordByProjectId: jest.fn()
         };
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
 
@@ -359,6 +363,7 @@ describe('ProjectQueryService', () => {
             confirmedAt: new Date('2026-04-15T09:00:00.000Z'),
             confirmedBy: '00000000-0000-4000-8000-000000000003'
         });
+        projectRepository.findLatestAcceptedAcceptanceRecordByProjectId.mockResolvedValue(null);
         projectRepository.findPlatformUsersByIds.mockResolvedValue([
             { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' },
             { id: '00000000-0000-4000-8000-000000000002', displayName: '商务人员' },
@@ -432,6 +437,107 @@ describe('ProjectQueryService', () => {
                 sourceType: 'project',
                 sourceId: '20000000-0000-4000-8000-000000000005',
                 evidenceLabel: '客户终止',
+                isAuthoritative: true
+            }
+        ]);
+    });
+
+    it('lists acceptance records as project-scoped authoritative facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000007'
+        });
+        projectRepository.findAcceptanceRecordsByProjectId.mockResolvedValue([
+            {
+                id: '36000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000007',
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                status: 'confirmed',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: null,
+                confirmationRecordId: null,
+                confirmedAt: new Date('2026-04-18T09:30:00.000Z'),
+                confirmedBy: '00000000-0000-4000-8000-000000000003',
+                createdAt: new Date('2026-04-18T09:30:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: new Date('2026-04-18T09:30:00.000Z'),
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+
+        await expect(service.listAcceptanceRecords('20000000-0000-4000-8000-000000000007')).resolves.toEqual([
+            {
+                id: '36000000-0000-4000-8000-000000000001',
+                projectId: '20000000-0000-4000-8000-000000000007',
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                status: 'confirmed',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: null,
+                confirmationRecordId: null,
+                confirmedAt: '2026-04-18T09:30:00.000Z',
+                confirmedBy: '00000000-0000-4000-8000-000000000003',
+                createdAt: '2026-04-18T09:30:00.000Z',
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: '2026-04-18T09:30:00.000Z',
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        expect(projectRepository.findAcceptanceRecordsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000007');
+    });
+
+    it('projects latest accepted acceptance record into project timeline', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000008',
+            projectCode: 'PRJ-2026-008',
+            currentStage: 'acceptance',
+            status: 'active',
+            closedAt: null,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000001',
+            updatedBy: '00000000-0000-4000-8000-000000000001'
+        });
+        projectRepository.findContractsByProjectId.mockResolvedValue([]);
+        projectRepository.findLatestConfirmedHandoverByProjectId.mockResolvedValue(null);
+        projectRepository.findLatestAcceptedAcceptanceRecordByProjectId.mockResolvedValue({
+            id: '36000000-0000-4000-8000-000000000002',
+            projectId: '20000000-0000-4000-8000-000000000008',
+            acceptanceType: 'final-acceptance',
+            acceptanceResult: 'accepted',
+            status: 'confirmed',
+            scopeSummary: '最终验收范围',
+            evidenceSummary: '最终验收单',
+            confirmedAt: new Date('2026-04-19T10:00:00.000Z'),
+            confirmedBy: '00000000-0000-4000-8000-000000000003'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' },
+            { id: '00000000-0000-4000-8000-000000000003', displayName: '业务确认人' }
+        ]);
+
+        const result = await service.getProjectTimeline('20000000-0000-4000-8000-000000000008');
+
+        expect(result.events).toEqual([
+            expect.objectContaining({
+                eventKey: 'project-created',
+                stage: 'assessment'
+            }),
+            {
+                eventKey: 'acceptance-confirmed:36000000-0000-4000-8000-000000000002',
+                stage: 'acceptance',
+                stageLabel: '验收确认',
+                eventType: 'stage-completed',
+                occurredAt: '2026-04-19T10:00:00.000Z',
+                actorUserId: '00000000-0000-4000-8000-000000000003',
+                actorName: '业务确认人',
+                resultLabel: '最终验收已通过',
+                sourceType: 'acceptance-record',
+                sourceId: '36000000-0000-4000-8000-000000000002',
+                evidenceLabel: '最终验收单',
                 isAuthoritative: true
             }
         ]);

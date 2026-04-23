@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import type {
+    AcceptanceRecordList,
+    AcceptanceRecordResult,
+    AcceptanceRecordSummary,
+    AcceptanceRecordType,
     PermissionKey,
     ProjectDetailView,
     ProjectListQuery,
@@ -10,6 +14,7 @@ import type {
 } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { Contract } from '../contract/contract.entity';
+import { AcceptanceRecord } from './acceptance-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -29,6 +34,18 @@ const PROJECT_WORKSPACE_FINANCE_STAGES = ['execution', 'acceptance', 'completed'
 const PROJECT_WORKSPACE_COMMISSION_STAGES = ['handover', 'execution', 'acceptance', 'completed'];
 const PROJECT_WORKSPACE_SETTLEMENT_STAGES = ['acceptance', 'completed'];
 const PROJECT_WORKSPACE_PRESIGNING_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
+
+const ACCEPTANCE_RECORD_TYPE_LABELS: Record<AcceptanceRecordType, string> = {
+    'stage-outcome': '阶段成果确认',
+    'stage-acceptance': '阶段验收',
+    'final-acceptance': '最终验收'
+};
+
+const ACCEPTANCE_RECORD_RESULT_LABELS: Record<AcceptanceRecordResult, string> = {
+    accepted: '已通过',
+    conditional: '有条件通过',
+    rejected: '未通过'
+};
 
 type ProjectWorkspaceGuidanceText = Pick<ProjectWorkspaceGuidanceView, 'headline' | 'currentFocus' | 'currentGap' | 'nextStep'> & {
     ownerFallback: string;
@@ -307,15 +324,26 @@ export class ProjectQueryService {
         };
     }
 
+    async listAcceptanceRecords(projectId: string): Promise<AcceptanceRecordList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const records = await this.projectRepository.findAcceptanceRecordsByProjectId(project.id);
+        return records.map((record) => this.mapAcceptanceRecord(record));
+    }
+
     async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        const [contracts, latestConfirmedHandover] = await Promise.all([
+        const [contracts, latestConfirmedHandover, latestAcceptedAcceptanceRecord] = await Promise.all([
             this.projectRepository.findContractsByProjectId(project.id),
-            this.projectRepository.findLatestConfirmedHandoverByProjectId(project.id)
+            this.projectRepository.findLatestConfirmedHandoverByProjectId(project.id),
+            this.projectRepository.findLatestAcceptedAcceptanceRecordByProjectId(project.id)
         ]);
         const firstSignedContract =
             contracts
@@ -325,6 +353,7 @@ export class ProjectQueryService {
             project.createdBy,
             firstSignedContract?.updatedBy ?? firstSignedContract?.createdBy ?? null,
             latestConfirmedHandover?.confirmedBy ?? null,
+            latestAcceptedAcceptanceRecord?.confirmedBy ?? null,
             project.closedAt ? project.updatedBy : null
         ].filter((id): id is string => Boolean(id));
         const users = await this.projectRepository.findPlatformUsersByIds([...new Set(actorUserIds)]);
@@ -381,6 +410,25 @@ export class ProjectQueryService {
             });
         }
 
+        if (latestAcceptedAcceptanceRecord?.confirmedAt) {
+            const acceptanceTypeLabel = ACCEPTANCE_RECORD_TYPE_LABELS[latestAcceptedAcceptanceRecord.acceptanceType];
+            const acceptanceResultLabel = ACCEPTANCE_RECORD_RESULT_LABELS[latestAcceptedAcceptanceRecord.acceptanceResult];
+            events.push({
+                eventKey: `acceptance-confirmed:${latestAcceptedAcceptanceRecord.id}`,
+                stage: 'acceptance',
+                stageLabel: this.getStageLabel('acceptance'),
+                eventType: 'stage-completed',
+                occurredAt: latestAcceptedAcceptanceRecord.confirmedAt.toISOString(),
+                actorUserId: latestAcceptedAcceptanceRecord.confirmedBy ?? null,
+                actorName: this.resolveActorName(latestAcceptedAcceptanceRecord.confirmedBy, actorNameByUserId),
+                resultLabel: `${acceptanceTypeLabel}${acceptanceResultLabel}`,
+                sourceType: 'acceptance-record',
+                sourceId: latestAcceptedAcceptanceRecord.id,
+                evidenceLabel: latestAcceptedAcceptanceRecord.evidenceSummary,
+                isAuthoritative: true
+            });
+        }
+
         if (project.closedAt) {
             events.push({
                 eventKey: 'project-closed',
@@ -409,6 +457,27 @@ export class ProjectQueryService {
                 return left.eventKey.localeCompare(right.eventKey);
             }),
             generatedAt: new Date().toISOString()
+        };
+    }
+
+    private mapAcceptanceRecord(record: AcceptanceRecord): AcceptanceRecordSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            acceptanceType: record.acceptanceType,
+            acceptanceResult: record.acceptanceResult,
+            status: record.status,
+            scopeSummary: record.scopeSummary,
+            evidenceSummary: record.evidenceSummary,
+            comment: record.comment ?? null,
+            confirmationRecordId: record.confirmationRecordId ?? null,
+            confirmedAt: record.confirmedAt.toISOString(),
+            confirmedBy: record.confirmedBy ?? null,
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
         };
     }
 

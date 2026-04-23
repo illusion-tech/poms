@@ -31,5 +31,6 @@ export enum ProjectTimelineEventEventTypeEnum {
 export enum ProjectTimelineEventSourceTypeEnum {
     Project = 'project',
     Contract = 'contract',
-    ProjectHandover = 'project-handover'
+    ProjectHandover = 'project-handover',
+    AcceptanceRecord = 'acceptance-record'
 };

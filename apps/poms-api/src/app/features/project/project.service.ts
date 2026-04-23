@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import type { ProjectStage } from '@poms/shared-contracts';
+import type { AcceptanceRecordResult, AcceptanceRecordType, ProjectStage } from '@poms/shared-contracts';
+import { AcceptanceRecord } from './acceptance-record.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -22,6 +23,14 @@ export interface UpdateProjectBasicInfoRecord {
     projectName?: string;
     customerName?: string | null;
     plannedSignAt?: Date | null;
+}
+
+export interface CreateAcceptanceRecordInput {
+    acceptanceType: AcceptanceRecordType;
+    acceptanceResult: AcceptanceRecordResult;
+    scopeSummary: string;
+    evidenceSummary: string;
+    comment?: string | null;
 }
 
 @Injectable()
@@ -107,5 +116,38 @@ export class ProjectService {
         await this.projectRepository.save(project);
 
         return project;
+    }
+
+    async createAcceptanceRecord(projectId: string, input: CreateAcceptanceRecordInput, operatorUserId: string): Promise<AcceptanceRecord> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        if (project.currentStage !== 'acceptance') {
+            throw new BadRequestException(
+                `Project ${projectId} cannot record acceptance in stage ${project.currentStage}`
+            );
+        }
+
+        const now = new Date();
+        const record = this.projectRepository.createAcceptanceRecord({
+            projectId,
+            acceptanceType: input.acceptanceType,
+            acceptanceResult: input.acceptanceResult,
+            status: 'confirmed',
+            scopeSummary: input.scopeSummary,
+            evidenceSummary: input.evidenceSummary,
+            comment: input.comment?.trim() || null,
+            confirmationRecordId: null,
+            confirmedAt: now,
+            confirmedBy: operatorUserId,
+            createdBy: operatorUserId,
+            updatedBy: operatorUserId
+        });
+
+        await this.projectRepository.saveAcceptanceRecord(record);
+
+        return record;
     }
 }

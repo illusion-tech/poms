@@ -1,6 +1,9 @@
 import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+    AcceptanceRecordDto,
+    AcceptanceRecordListDto,
+    CreateAcceptanceRecordRequestDto,
     CreateProjectRequestDto,
     ProjectDto,
     ProjectDetailViewDto,
@@ -11,6 +14,7 @@ import {
     UpdateProjectBasicInfoRequestDto
 } from '@poms/api-contracts';
 import type {
+    AcceptanceRecordSummary,
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
@@ -20,6 +24,7 @@ import type {
     UserPayload
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { AcceptanceRecord } from './acceptance-record.entity';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
@@ -80,6 +85,14 @@ export class ProjectController {
         return this.projectQueryService.getProjectTimeline(projectId);
     }
 
+    @Get(':projectId/acceptance-records')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目验收确认记录' })
+    @ApiOkResponse({ type: AcceptanceRecordListDto })
+    async listAcceptanceRecords(@Param('projectId') projectId: string): Promise<AcceptanceRecordSummary[]> {
+        return this.projectQueryService.listAcceptanceRecords(projectId);
+    }
+
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取项目详情' })
@@ -105,6 +118,26 @@ export class ProjectController {
         }, req.user.sub);
 
         return mapProjectToSummary(project);
+    }
+
+    @Post(':projectId/acceptance-records')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '创建项目验收确认记录' })
+    @ApiCreatedResponse({ type: AcceptanceRecordDto })
+    async createAcceptanceRecord(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateAcceptanceRecordRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<AcceptanceRecordSummary> {
+        const record = await this.projectService.createAcceptanceRecord(projectId, {
+            acceptanceType: body.acceptanceType,
+            acceptanceResult: body.acceptanceResult,
+            scopeSummary: body.scopeSummary,
+            evidenceSummary: body.evidenceSummary,
+            comment: body.comment
+        }, req.user.sub);
+
+        return mapAcceptanceRecordToSummary(record);
     }
 
     @Patch(':id')
@@ -133,6 +166,27 @@ export class ProjectController {
 
         return mapProjectToSummary(project);
     }
+}
+
+function mapAcceptanceRecordToSummary(record: AcceptanceRecord): AcceptanceRecordSummary {
+    return {
+        id: record.id,
+        projectId: record.projectId,
+        acceptanceType: record.acceptanceType,
+        acceptanceResult: record.acceptanceResult,
+        status: record.status,
+        scopeSummary: record.scopeSummary,
+        evidenceSummary: record.evidenceSummary,
+        comment: record.comment ?? null,
+        confirmationRecordId: record.confirmationRecordId ?? null,
+        confirmedAt: record.confirmedAt.toISOString(),
+        confirmedBy: record.confirmedBy ?? null,
+        createdAt: record.createdAt.toISOString(),
+        createdBy: record.createdBy ?? null,
+        updatedAt: record.updatedAt.toISOString(),
+        updatedBy: record.updatedBy ?? null,
+        rowVersion: record.rowVersion
+    };
 }
 
 function mapProjectToSummary(project: Project): ProjectSummary {

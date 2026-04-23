@@ -274,6 +274,48 @@ describe('ProjectDetail', () => {
         expect(acceptance?.detail).toBeUndefined();
     });
 
+    it('maps authoritative acceptance record events into lifecycle completion detail', async () => {
+        const project = createProject({
+            currentStage: 'acceptance',
+            status: 'active',
+            stageSummary: {
+                currentStage: 'acceptance',
+                status: 'active',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const timeline = createTimeline({
+            events: [
+                ...createTimeline().events,
+                {
+                    eventKey: 'acceptance-confirmed:acceptance-1',
+                    stage: 'acceptance',
+                    stageLabel: '验收确认',
+                    eventType: 'stage-completed',
+                    occurredAt: '2026-04-21T09:30:00.000Z',
+                    actorUserId: 'user-2',
+                    actorName: '李业务',
+                    resultLabel: '最终验收已通过',
+                    sourceType: 'acceptance-record',
+                    sourceId: 'acceptance-1',
+                    evidenceLabel: '客户最终验收单',
+                    isAuthoritative: true
+                }
+            ]
+        });
+        await setup(project, timeline);
+
+        const acceptance = component.lifecycleItems(project, timeline).find((item) => item.key === 'acceptance');
+
+        expect(acceptance?.completedAtLabel).toContain('2026-04-21');
+        expect(acceptance?.tooltip).toContain('最终验收已通过');
+        expect(acceptance?.tooltip).toContain('李业务');
+        expect(acceptance?.tooltip).toContain('客户最终验收单');
+    });
+
     it('shows a non-blocking feedback message when timeline loading fails', async () => {
         await setup(createProject(), null, '项目生命周期完成时间暂时读取失败，当前仅显示阶段状态。');
 

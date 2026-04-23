@@ -1,4 +1,7 @@
 import {
+    AcceptanceRecordListSchema,
+    AcceptanceRecordSummarySchema,
+    CreateAcceptanceRecordRequestSchema,
     CreateProjectRequestSchema,
     ProjectDetailViewSchema,
     ProjectListQuerySchema,
@@ -9,6 +12,12 @@ import {
     UpdateProjectBasicInfoRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
+
+export class AcceptanceRecordDto extends createZodDto(AcceptanceRecordSummarySchema) {}
+
+export class AcceptanceRecordListDto extends createZodDto(AcceptanceRecordListSchema) {}
+
+export class CreateAcceptanceRecordRequestDto extends createZodDto(CreateAcceptanceRecordRequestSchema) {}
 
 export class ProjectDto extends createZodDto(ProjectSummarySchema) {}
 

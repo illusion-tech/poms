@@ -1,3 +1,4 @@
+export * from './acceptance-record-summary';
 export * from './accounting-tax-treatment-snapshot-summary';
 export * from './activate-contract-request';
 export * from './activate-operating-baseline-package-request';
@@ -76,6 +77,7 @@ export * from './contract-status';
 export * from './contract-summary';
 export * from './contract-term-snapshot-summary';
 export * from './cost-stage-attribution-snapshot-summary';
+export * from './create-acceptance-record-request';
 export * from './create-commercial-baseline-diff-item-input';
 export * from './create-commercial-release-baseline-request';
 export * from './create-commission-adjustment-request';

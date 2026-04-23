@@ -807,11 +807,62 @@ export const ProjectWorkspaceGuidanceViewSchema = z
 
 export type ProjectWorkspaceGuidanceView = z.infer<typeof ProjectWorkspaceGuidanceViewSchema>;
 
+export const ACCEPTANCE_RECORD_TYPES = ['stage-outcome', 'stage-acceptance', 'final-acceptance'] as const;
+
+export type AcceptanceRecordType = (typeof ACCEPTANCE_RECORD_TYPES)[number];
+
+export const ACCEPTANCE_RECORD_STATUSES = ['confirmed', 'voided'] as const;
+
+export type AcceptanceRecordStatus = (typeof ACCEPTANCE_RECORD_STATUSES)[number];
+
+export const ACCEPTANCE_RECORD_RESULTS = ['accepted', 'conditional', 'rejected'] as const;
+
+export type AcceptanceRecordResult = (typeof ACCEPTANCE_RECORD_RESULTS)[number];
+
+export const AcceptanceRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        acceptanceType: z.enum(ACCEPTANCE_RECORD_TYPES),
+        acceptanceResult: z.enum(ACCEPTANCE_RECORD_RESULTS),
+        status: z.enum(ACCEPTANCE_RECORD_STATUSES),
+        scopeSummary: z.string(),
+        evidenceSummary: z.string(),
+        comment: z.string().nullable(),
+        confirmationRecordId: z.uuid().nullable(),
+        confirmedAt: z.iso.datetime(),
+        confirmedBy: z.uuid().nullable(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'AcceptanceRecordSummary' });
+
+export type AcceptanceRecordSummary = z.infer<typeof AcceptanceRecordSummarySchema>;
+
+export const AcceptanceRecordListSchema = z.array(AcceptanceRecordSummarySchema).meta({ id: 'AcceptanceRecordList' });
+
+export type AcceptanceRecordList = z.infer<typeof AcceptanceRecordListSchema>;
+
+export const CreateAcceptanceRecordRequestSchema = z
+    .object({
+        acceptanceType: z.enum(ACCEPTANCE_RECORD_TYPES),
+        acceptanceResult: z.enum(ACCEPTANCE_RECORD_RESULTS),
+        scopeSummary: z.string().trim().min(1).max(2000),
+        evidenceSummary: z.string().trim().min(1).max(2000),
+        comment: z.string().trim().min(1).max(1000).nullable().optional()
+    })
+    .meta({ id: 'CreateAcceptanceRecordRequest' });
+
+export type CreateAcceptanceRecordRequest = z.infer<typeof CreateAcceptanceRecordRequestSchema>;
+
 export const PROJECT_TIMELINE_EVENT_TYPES = ['stage-entered', 'stage-completed', 'milestone'] as const;
 
 export type ProjectTimelineEventType = (typeof PROJECT_TIMELINE_EVENT_TYPES)[number];
 
-export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover'] as const;
+export const PROJECT_TIMELINE_SOURCE_TYPES = ['project', 'contract', 'project-handover', 'acceptance-record'] as const;
 
 export type ProjectTimelineSourceType = (typeof PROJECT_TIMELINE_SOURCE_TYPES)[number];
 

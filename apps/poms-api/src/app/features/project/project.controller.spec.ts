@@ -18,7 +18,8 @@ describe('ProjectController', () => {
             listProjects: jest.fn(),
             getProjectDetail: jest.fn(),
             getProjectWorkspaceGuidance: jest.fn(),
-            getProjectTimeline: jest.fn()
+            getProjectTimeline: jest.fn(),
+            listAcceptanceRecords: jest.fn()
         } as unknown as jest.Mocked<ProjectQueryService>;
 
         projectService = {
@@ -26,6 +27,7 @@ describe('ProjectController', () => {
             findByCode: jest.fn(),
             findById: jest.fn(),
             createAndSave: jest.fn(),
+            createAcceptanceRecord: jest.fn(),
             updateBasicInfo: jest.fn(),
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
@@ -147,6 +149,81 @@ describe('ProjectController', () => {
 
         await expect(controller.getTimeline(projectId)).resolves.toBe(timeline);
         expect(projectQueryService.getProjectTimeline).toHaveBeenCalledWith(projectId);
+    });
+
+    it('returns project acceptance records through the query service', async () => {
+        const records = [
+            {
+                id: '36000000-0000-4000-8000-000000000001',
+                projectId,
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                status: 'confirmed',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: null,
+                confirmationRecordId: null,
+                confirmedAt: '2026-04-18T09:30:00.000Z',
+                confirmedBy: userId,
+                createdAt: '2026-04-18T09:30:00.000Z',
+                createdBy: userId,
+                updatedAt: '2026-04-18T09:30:00.000Z',
+                updatedBy: userId,
+                rowVersion: 1
+            }
+        ];
+        projectQueryService.listAcceptanceRecords.mockResolvedValue(records as never);
+
+        await expect(controller.listAcceptanceRecords(projectId)).resolves.toBe(records);
+        expect(projectQueryService.listAcceptanceRecords).toHaveBeenCalledWith(projectId);
+    });
+
+    it('creates project acceptance record with operator id', async () => {
+        const confirmedAt = new Date('2026-04-18T09:30:00.000Z');
+        projectService.createAcceptanceRecord.mockResolvedValue({
+            id: '36000000-0000-4000-8000-000000000001',
+            projectId,
+            acceptanceType: 'stage-acceptance',
+            acceptanceResult: 'accepted',
+            status: 'confirmed',
+            scopeSummary: '阶段成果验收范围',
+            evidenceSummary: '客户验收单',
+            comment: '确认通过',
+            confirmationRecordId: null,
+            confirmedAt,
+            confirmedBy: userId,
+            createdAt: confirmedAt,
+            createdBy: userId,
+            updatedAt: confirmedAt,
+            updatedBy: userId,
+            rowVersion: 1
+        } as never);
+
+        const result = await controller.createAcceptanceRecord(
+            projectId,
+            {
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: '确认通过'
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.createAcceptanceRecord).toHaveBeenCalledWith(
+            projectId,
+            {
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: '确认通过'
+            },
+            userId
+        );
+        expect(result.confirmedAt).toBe('2026-04-18T09:30:00.000Z');
+        expect(result.evidenceSummary).toBe('客户验收单');
     });
 
     it('throws when project detail is not found by id', async () => {
