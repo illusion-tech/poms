@@ -367,9 +367,10 @@ describe('ProjectQueryService', () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     key: 'pre-signing-workspace',
-                    route: null,
-                    enabled: false,
-                    disabledReason: '签约前工作区尚未接入正式事实源，先在项目详情中确认当前阶段和缺口。'
+                    route: '/projects/20000000-0000-4000-8000-000000000004/workspace/pre-signing',
+                    enabled: true,
+                    disabledReason: null,
+                    actionKey: 'view-project-workspace'
                 })
             ])
         );

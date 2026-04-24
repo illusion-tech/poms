@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
     CommissionApi,
     CommissionRoleAssignmentsApi,
+    ContractReadinessApi,
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,
@@ -13,6 +14,7 @@ import {
     type CommissionRoleAssignmentSummary,
     type CommissionRuleExplanationView,
     type ContractHandoverSummaryView,
+    type ContractReadinessDetail,
     type ProjectHandoverDetailView,
     type ProjectBusinessOutcomeOverviewView,
     type ProjectUnifiedAccountingView,
@@ -116,6 +118,44 @@ describe('ProjectWorkspaceStore', () => {
         ],
         generatedAt: '2026-04-20T08:00:00.000Z'
     };
+    const contractReadiness = {
+        id: 'readiness-1',
+        projectId: 'project-1',
+        sourceBaselineId: 'baseline-source-1',
+        commercialReleaseBaselineId: 'commercial-baseline-1',
+        latestDiffResultId: 'diff-1',
+        diffLevel: 'prompt',
+        reviewStatus: 'not-required',
+        packageStatus: 'conditional',
+        guardDecision: 'review-required',
+        currentEffectiveDecisionSummary: '合同前置事实基本齐备，仍需复核付款条件。',
+        blockingReasonSummary: '付款条件调整需要复核。',
+        missingPrerequisiteCount: 1,
+        initializedContractSnapshotId: null,
+        initializedReceivablePlanVersionId: null,
+        contractSnapshotInitializedAt: null,
+        receivablePlanInitializedAt: null,
+        isCurrent: true,
+        rowVersion: 2,
+        createdAt: '2026-04-20T08:00:00.000Z',
+        createdBy: 'user-1',
+        updatedAt: '2026-04-20T09:00:00.000Z',
+        updatedBy: 'user-1',
+        allowedActions: ['review-commercial-release-baseline-diff'],
+        items: [
+            {
+                id: 'item-1',
+                itemType: 'blocking-reason',
+                itemKey: 'payment-term-review',
+                label: '付款条件复核',
+                summary: '合同付款条件相对商业放行基线发生调整。',
+                status: 'blocked',
+                responsibleRole: '财务负责人',
+                navigationHint: '复核商业放行差异',
+                sortOrder: 10
+            }
+        ]
+    } as ContractReadinessDetail;
     let projectApiMock: {
         projectControllerGetWorkspaceGuidance: jest.Mock;
     };
@@ -128,6 +168,9 @@ describe('ProjectWorkspaceStore', () => {
     let projectHandoverApiMock: {
         projectHandoverControllerGetContractHandoverSummary: jest.Mock;
         projectHandoverControllerGetProjectHandoverDetailByProject: jest.Mock;
+    };
+    let contractReadinessApiMock: {
+        contractReadinessControllerGetCurrentContractReadiness: jest.Mock;
     };
     let commissionApiMock: {
         commissionControllerGetCurrentRoleAssignment: jest.Mock;
@@ -152,6 +195,9 @@ describe('ProjectWorkspaceStore', () => {
             projectHandoverControllerGetContractHandoverSummary: jest.fn(),
             projectHandoverControllerGetProjectHandoverDetailByProject: jest.fn()
         };
+        contractReadinessApiMock = {
+            contractReadinessControllerGetCurrentContractReadiness: jest.fn()
+        };
         commissionApiMock = {
             commissionControllerGetCurrentRoleAssignment: jest.fn(),
             commissionControllerGetCommissionFinalSettlement: jest.fn(),
@@ -175,6 +221,10 @@ describe('ProjectWorkspaceStore', () => {
                 {
                     provide: ProjectHandoverApi,
                     useValue: projectHandoverApiMock
+                },
+                {
+                    provide: ContractReadinessApi,
+                    useValue: contractReadinessApiMock
                 },
                 {
                     provide: CommissionApi,
@@ -219,6 +269,37 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.guidance()).toBeNull();
         expect(store.hasGuidance()).toBe(false);
         expect(store.guidanceError()).toBe('当前项目还没有形成工作区引导，请先确认项目是否存在并具备查看权限。');
+    });
+
+    it('loads current contract readiness for pre-signing overview', async () => {
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(of(contractReadiness));
+
+        await expect(store.loadPreSigningOverview('project-1')).resolves.toEqual(contractReadiness);
+
+        expect(contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.contractReadiness()).toEqual(contractReadiness);
+        expect(store.hasContractReadiness()).toBe(true);
+        expect(store.preSigningError()).toBeNull();
+    });
+
+    it('treats missing current contract readiness as an empty pre-signing gap', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadPreSigningOverview('project-empty')).resolves.toBeNull();
+
+        expect(store.contractReadiness()).toBeNull();
+        expect(store.hasContractReadiness()).toBe(false);
+        expect(store.preSigningError()).toBeNull();
     });
 
     it('loads contract handover and project handover detail into shared state', async () => {
@@ -761,8 +842,10 @@ describe('ProjectWorkspaceStore', () => {
         commissionApiMock.commissionControllerGetCommissionFinalSettlement.mockReturnValue(of(finalSettlement));
         commissionApiMock.commissionControllerGetCommissionRuleExplanation.mockReturnValue(of(ruleExplanation));
         projectApiMock.projectControllerGetWorkspaceGuidance.mockReturnValue(of(workspaceGuidance));
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(of(contractReadiness));
 
         await store.loadGuidance('project-1');
+        await store.loadPreSigningOverview('project-1');
         await store.loadOperatingOverview('project-1');
         await store.loadVarianceRisk('project-1');
         await store.loadCommissionGateOverview('project-1');
@@ -774,6 +857,7 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.guidance()).toBeNull();
         expect(store.contractHandoverSummary()).toBeNull();
         expect(store.projectHandoverDetail()).toBeNull();
+        expect(store.contractReadiness()).toBeNull();
         expect(store.businessOutcomeOverview()).toBeNull();
         expect(store.unifiedAccounting()).toBeNull();
         expect(store.varianceRiskExplanation()).toBeNull();
@@ -789,6 +873,7 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.commissionFinalSettlementError()).toBeNull();
         expect(store.commissionRuleExplanationError()).toBeNull();
         expect(store.contractHandoverError()).toBeNull();
+        expect(store.preSigningError()).toBeNull();
         expect(store.guidanceError()).toBeNull();
     });
 });

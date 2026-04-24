@@ -5,6 +5,8 @@ const WORKSPACE_PROJECT_CODE = 'E2E-OSG-FXT-MAIN';
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
 const HANDOVER_PROJECT_CODE = 'E2E-HO-MAIN';
 const HANDOVER_PROJECT_ID = '21000000-0000-4000-8000-000000000002';
+const PRESIGNING_PROJECT_CODE = 'PRJ-2026-001';
+const PRESIGNING_PROJECT_ID = '20000000-0000-4000-8000-000000000001';
 
 async function openProjectList(page: Page, projectCode = WORKSPACE_PROJECT_CODE): Promise<void> {
     await page.getByRole('link', { name: '项目管理' }).click();
@@ -34,6 +36,15 @@ async function openProjectDetailFromList(page: Page): Promise<void> {
 
     await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}$`));
     await expect(page.getByRole('heading', { name: /E2E EX-13B main/i })).toBeVisible();
+}
+
+async function openProjectDetailByCode(page: Page, projectCode: string, projectId: string, heading: string): Promise<void> {
+    await openProjectList(page, projectCode);
+    const projectRow = await locateProjectRow(page, projectCode);
+    await projectRow.getByRole('button', { name: '详情' }).click();
+
+    await expect(page).toHaveURL(new RegExp(`/projects/${projectId}$`));
+    await expect(page.getByRole('heading', { name: heading })).toBeVisible();
 }
 
 async function openWorkspaceHomeEntry(page: Page, title: string): Promise<void> {
@@ -146,6 +157,30 @@ test.describe('poms-admin project workspace journey', () => {
         await returnToWorkspaceHome(page, HANDOVER_PROJECT_ID);
         await page.getByRole('link', { name: '合同承接' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${HANDOVER_PROJECT_ID}/workspace/contract-handover$`));
+    });
+
+    test('admin can enter the pre-signing workspace from project detail and workspace links', async ({ page }) => {
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openProjectDetailByCode(page, PRESIGNING_PROJECT_CODE, PRESIGNING_PROJECT_ID, 'POMS 首期项目主链路样例');
+
+        await page.getByRole('button', { name: '项目工作区' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace$`));
+
+        await openWorkspaceHomeEntry(page, '签约前主线');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing$`));
+        await expect(page.getByRole('heading', { name: '签约前主线' })).toBeVisible();
+        await expect(page.locator('app-project-pre-signing-overview').getByText('商务收口').first()).toBeVisible();
+        await expect(page.getByText('报价与毛利评审')).toBeVisible();
+        await expect(page.getByText('签约就绪承接包尚未形成')).toBeVisible();
+
+        await returnToWorkspaceHome(page, PRESIGNING_PROJECT_ID);
+        await page.getByRole('link', { name: '签约前主线' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing$`));
+
+        await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing`);
+        await expect(page.getByText('当前阻断与下一步')).toBeVisible();
     });
 
     test('admin can move between project detail workspace and commission pages with real buttons', async ({ page }) => {

@@ -29,6 +29,7 @@ const PROJECT_DETAIL_SUMMARY_SCENARIO_KEY = 'project-detail';
 const PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL = 'project-detail';
 const PROJECT_DETAIL_TARGET_TYPE = 'Project';
 const PROJECT_WORKSPACE_HANDOVER_PERMISSIONS: PermissionKey[] = ['project:read'];
+const PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS: PermissionKey[] = ['project:read'];
 const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 'contract:finance:manage'];
 const PROJECT_WORKSPACE_PAYOUT_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:payouts:manage'];
 const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = [
@@ -755,6 +756,7 @@ export class ProjectQueryService {
         const financeStageReady = PROJECT_WORKSPACE_FINANCE_STAGES.includes(project.currentStage);
         const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(project.currentStage);
         const settlementStageReady = PROJECT_WORKSPACE_SETTLEMENT_STAGES.includes(project.currentStage);
+        const canUsePreSigningWorkspace = hasAllPermissions(PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseHandoverWorkspace = hasAllPermissions(PROJECT_WORKSPACE_HANDOVER_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseFinanceWorkspace = hasAllPermissions(PROJECT_WORKSPACE_FINANCE_PERMISSIONS);
         const canUsePayoutWorkspace = hasAllPermissions(PROJECT_WORKSPACE_PAYOUT_PERMISSIONS);
@@ -786,11 +788,17 @@ export class ProjectQueryService {
             entries.push({
                 key: 'pre-signing-workspace',
                 label: '签约前主线',
-                description: '签约前评估、范围、报价和合同前置事实后续会进入独立工作区。',
-                route: null,
-                enabled: false,
-                disabledReason: '签约前工作区尚未接入正式事实源，先在项目详情中确认当前阶段和缺口。',
-                actionKey: null
+                description: '查看签约前当前阶段、阻断原因、下一步和责任归口。',
+                route: `${projectRoutePrefix}/workspace/pre-signing`,
+                enabled: !isClosed && canUsePreSigningWorkspace,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: true,
+                    permissionReady: canUsePreSigningWorkspace,
+                    stageReason: '项目进入签约前阶段后再查看签约前主线。',
+                    permissionReason: '需要项目查看权限。'
+                }),
+                actionKey: 'view-project-workspace'
             });
         }
 
