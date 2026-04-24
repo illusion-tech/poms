@@ -1,7 +1,7 @@
 # API Canonical Inventory
 
 **文档状态**: Active
-**最后更新**: 2026-04-24
+**最后更新**: 2026-04-25
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -282,6 +282,19 @@
 | `commission` | `getCommissionFinalSettlement`               | `GET /projects/{projectId}/commission-final-settlement`               | `GET /projects/{projectId}/commission-final-settlement`               | `GET /projects/{projectId}/commission-final-settlement`               | `ADR-015` + `EX-14G1` + `query-view-boundary`              | `N/A`      | `EX-14B1` 已按 canonical route 落地 shared contract、controller、OpenAPI 与 generated client，不得回退为页面后缀或 item-scoped detail path              | `B3`  | `aligned` |
 | `commission` | `getCommissionRuleExplanation`               | `GET /projects/{projectId}/commission-rule-explanation`               | `GET /projects/{projectId}/commission-rule-explanation`               | `GET /projects/{projectId}/commission-rule-explanation`               | `ADR-015` + `EX-14G1` + `query-view-boundary`              | `N/A`      | `EX-14B1` 已按 canonical route 落地 shared contract、controller、OpenAPI 与 generated client；统一解释页继续保持 project-scoped stable noun subresource | `B3`  | `aligned` |
 | `commission` | `createCommissionDepartureExceptionDecision` | `POST /projects/{projectId}/commission-departure-exception-decisions` | `POST /projects/{projectId}/commission-departure-exception-decisions` | `POST /projects/{projectId}/commission-departure-exception-decisions` | `ADR-015` + `EX-14B3B` + `interface-openapi-dto-design.md` | `N/A`      | `EX-14B3B` 已将当前有效离职 / 特例结论收口为项目子集合 create；旧 current 记录在服务端隐式 supersede，不再另开 replace route                            | `B3`  | `aligned` |
+
+### 6.10 EX-30 Lead / Project Bootstrap Closure
+
+| Domain    | Capability             | Canonical Route                     | Current Implemented Route | Current Design Route                | Authority                                                                                | Drift Type                 | Action                                                                                               | Batch | Status                 |
+| --------- | ---------------------- | ----------------------------------- | ------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- | ----- | ---------------------- |
+| `lead`    | `createLead`           | `POST /leads`                       | `N/A`                     | `POST /leads`                       | `ADR-015` + `project-lifecycle-design.md` + `EX-30`                                      | `N/A`                      | `EX-31` 新增线索登记 create route，形成 `Lead` 最小事实源。                                          | `B4`  | `planned`              |
+| `lead`    | `listLeads`            | `GET /leads`                        | `N/A`                     | `GET /leads`                        | `ADR-015` + `phase2-user-task-map.md` + `EX-30`                                          | `N/A`                      | `EX-31` 新增线索列表 query，供销售从线索入口继续推进。                                               | `B4`  | `planned`              |
+| `lead`    | `getLead`              | `GET /leads/{id}`                   | `N/A`                     | `GET /leads/{id}`                   | `ADR-015` + `project-lifecycle-design.md` + `EX-30`                                      | `N/A`                      | `EX-31` 新增线索详情 query，供转项目前核对来源、客户、主责和状态。                                   | `B4`  | `planned`              |
+| `lead`    | `updateLead`           | `PATCH /leads/{id}`                 | `N/A`                     | `PATCH /leads/{id}`                 | `ADR-015` + `business-authorization-matrix.md` + `EX-30`                                 | `N/A`                      | `EX-31` 新增普通线索信息维护；不允许覆盖 `convertedProjectId`、审计字段或 Project 来源字段。         | `B4`  | `planned`              |
+| `lead`    | `qualifyLead`          | `POST /leads/{id}:qualify`          | `N/A`                     | `POST /leads/{id}:qualify`          | `ADR-015` + `project-lifecycle-design.md` + `EX-30`                                      | `N/A`                      | `EX-31` 新增线索有效性命令；只有 `qualified` Lead 才能转入正式 Project。                             | `B4`  | `planned`              |
+| `lead`    | `closeLead`            | `POST /leads/{id}:close`            | `N/A`                     | `POST /leads/{id}:close`            | `ADR-015` + `project-lifecycle-design.md` + `EX-30`                                      | `N/A`                      | `EX-31` 新增线索关闭命令；关闭后不可转 Project。                                                     | `B4`  | `planned`              |
+| `lead`    | `convertLeadToProject` | `POST /leads/{id}:convertToProject` | `POST /projects`          | `POST /leads/{id}:convertToProject` | `ADR-015` + `project-lifecycle-design.md` + `business-authorization-matrix.md` + `EX-30` | `resourceization-required` | `EX-32` 将当前无 Lead 的 Project bootstrap create 收口为 Lead item custom method，并继承 Lead 主责。 | `B4`  | `implementation-drift` |
+| `project` | `listProjects`         | `GET /projects`                     | `GET /projects`           | `GET /projects`                     | `ADR-015` + `EX-17`                                                                      | `N/A`                      | 保持；列表继续返回 `ProjectListView[]`。                                                             | `B4`  | `aligned`              |
 
 ## 7. 批次推进原则
 
