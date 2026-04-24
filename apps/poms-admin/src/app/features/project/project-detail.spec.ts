@@ -207,6 +207,24 @@ describe('ProjectDetail', () => {
         expect(text).not.toContain('allowedActions');
     });
 
+    it('renders project detail bid summary when the backend provides a current bid process', async () => {
+        await setup(
+            createProject({
+                currentBidSummary: {
+                    bidProcessId: '6f2820b4-9665-4f22-8000-000000000011',
+                    bidStatus: 'submitted',
+                    resultStatus: 'pending',
+                    summary: '投标材料已提交，等待商务评审结果'
+                }
+            })
+        );
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('投标材料已提交，等待商务评审结果');
+        expect(text).not.toContain('投标详情暂未接入正式事实源');
+    });
+
     it('hides edit and commission actions when allowedActions only permits workspace access', async () => {
         await setup(
             createProject({

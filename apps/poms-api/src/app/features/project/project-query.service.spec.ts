@@ -183,6 +183,12 @@ describe('ProjectQueryService', () => {
             signedAt: '2026-04-18T08:00:00.000Z',
             currentSnapshotId: '31000000-0000-4000-8000-000000000001'
         });
+        expect(result.currentBidSummary).toEqual({
+            bidProcessId: null,
+            bidStatus: 'not_configured',
+            resultStatus: null,
+            summary: null
+        });
         expect(result.currentApprovalSummary).toEqual({
             summarySnapshotId: '37000000-0000-4000-8000-000000000001',
             summaryPackageKey: 'project-detail',
@@ -200,6 +206,50 @@ describe('ProjectQueryService', () => {
         });
         expect(result.summarySnapshotId).toBe('37000000-0000-4000-8000-000000000001');
         expect(result.allowedActions).toEqual(['view-project-workspace', 'edit-project-basic-info', 'manage-project-commission']);
+    });
+
+    it('builds project detail bid summary from the current bid commercial process', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000011',
+            projectCode: 'PRJ-2026-011',
+            projectName: '投标中项目',
+            customerId: null,
+            customerName: '华南地铁集团',
+            currentStage: 'assessment',
+            status: 'active',
+            ownerOrgId: null,
+            ownerUserId: null,
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-04-01T00:00:00.000Z'),
+            createdBy: null,
+            updatedAt: new Date('2026-04-20T00:00:00.000Z'),
+            updatedBy: null
+        });
+        projectRepository.findContractsByProjectId.mockResolvedValue([]);
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue({
+            id: '6f2820b4-9665-4f22-8000-000000000011',
+            currentStage: 'submitted',
+            resultStatus: 'pending',
+            processSummary: '投标材料已提交，等待商务评审结果'
+        });
+        approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue(null);
+
+        const result = await service.getProjectDetail('20000000-0000-4000-8000-000000000011', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read']
+        });
+
+        expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000011');
+        expect(result.currentBidSummary).toEqual({
+            bidProcessId: '6f2820b4-9665-4f22-8000-000000000011',
+            bidStatus: 'submitted',
+            resultStatus: 'pending',
+            summary: '投标材料已提交，等待商务评审结果'
+        });
     });
 
     it('keeps write and commission actions hidden for closed read-only project detail', async () => {

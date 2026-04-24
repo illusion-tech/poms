@@ -258,7 +258,7 @@ export class ProjectQueryService {
             throw new NotFoundException(`Project ${id} not found`);
         }
 
-        const [ownerUsers, ownerOrgUnits, contracts, approvalSummarySnapshot] = await Promise.all([
+        const [ownerUsers, ownerOrgUnits, contracts, approvalSummarySnapshot, currentBidCommercialProcess] = await Promise.all([
             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
             this.projectRepository.findContractsByProjectId(project.id),
@@ -267,7 +267,8 @@ export class ProjectQueryService {
                 project.id,
                 PROJECT_DETAIL_SUMMARY_SCENARIO_KEY,
                 PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL
-            )
+            ),
+            this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id)
         ]);
 
         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
@@ -309,12 +310,7 @@ export class ProjectQueryService {
             ownerName,
             ownerOrgName,
             stageSummary: this.buildStageSummary(project),
-            currentBidSummary: {
-                bidProcessId: null,
-                bidStatus: 'not_configured',
-                resultStatus: null,
-                summary: null
-            },
+            currentBidSummary: this.buildBidSummary(currentBidCommercialProcess),
             currentContractSummary: this.buildContractSummary(contracts),
             currentApprovalSummary,
             currentConfirmationSummary: this.buildConfirmationSummary(),
@@ -1294,6 +1290,24 @@ export class ProjectQueryService {
             currencyCode: latestContract?.currencyCode ?? null,
             signedAt: latestContract?.signedAt?.toISOString() ?? null,
             currentSnapshotId: latestContract?.currentSnapshotId ?? null
+        };
+    }
+
+    private buildBidSummary(currentProcess: ProjectBidCommercialProcess | null): ProjectDetailView['currentBidSummary'] {
+        if (!currentProcess) {
+            return {
+                bidProcessId: null,
+                bidStatus: 'not_configured',
+                resultStatus: null,
+                summary: null
+            };
+        }
+
+        return {
+            bidProcessId: currentProcess.id,
+            bidStatus: currentProcess.currentStage,
+            resultStatus: currentProcess.resultStatus,
+            summary: currentProcess.processSummary
         };
     }
 

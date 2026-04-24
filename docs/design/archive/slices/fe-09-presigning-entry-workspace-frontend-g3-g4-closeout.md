@@ -73,11 +73,11 @@
 * Generated client drift: `none`
 * Persistence drift: `none`
 
-| Exception ID                               | Status                      | Close-out                                                                                       |
-| ------------------------------------------ | --------------------------- | ----------------------------------------------------------------------------------------------- |
-| `FE09-E1-DETAIL-WORKSPACES-DEFERRED`       | Remains downstream boundary | `FE-09` 只交付签约前总入口；技术 / 投标 / 报价详细工作区继续归属 `FE-10` / `FE-11`。            |
-| `FE09-E2-GUIDANCE-PROJECTION-IN-FE-SLICE`  | Closed                      | 既有 guidance query 已输出真实 `pre-signing-workspace` route，且未新增 public API / DTO / DDL。 |
-| `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE` | Remains downstream boundary | readiness 只解释签约就绪末端，不替代技术确认、投标、报价与毛利评审事实源。                      |
+| Exception ID                               | Status         | Close-out                                                                                                           |
+| ------------------------------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `FE09-E1-DETAIL-WORKSPACES-DEFERRED`       | Closed post-G4 | 已由 `FE-10` / `FE-11` 关闭；见 `fe-09-presigning-downstream-exception-closure.md`。                                |
+| `FE09-E2-GUIDANCE-PROJECTION-IN-FE-SLICE`  | Closed         | 既有 guidance query 已输出真实 `pre-signing-workspace` route，且未新增 public API / DTO / DDL。                     |
+| `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE` | Closed post-G4 | 已由 `EX-26` / `EX-27` / `EX-28` 与 `FE-10` / `FE-11` 关闭；见 `fe-09-presigning-downstream-exception-closure.md`。 |
 
 ## 6. G4 Decision
 
@@ -91,3 +91,11 @@
   2. `FE-11` 可依赖签约前总入口作为连续上下文承接点，但不得把 current readiness 当作投标 / 报价详细事实源。
 * Next recommended slice:
   * `FE-10` should enter `G1` next if the current priority remains completing `L1` in planned order.
+
+## 7. Post-G4 Exception Closure
+
+* 2026-04-25: `FE09-E1-DETAIL-WORKSPACES-DEFERRED` 与 `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE` 已关闭。
+* Closure evidence: `docs/design/archive/slices/fe-09-presigning-downstream-exception-closure.md`
+* Supporting commits:
+  1. `a0e9de1 feat(project): 接入签约前项目三类工作区与事实源能力`
+  2. `2d0082d test(governance): 增加 FE-12 跨工作区入口链的移动端 Journey 验证`
