@@ -16,6 +16,20 @@ describe('ProjectQueryService', () => {
         findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
         findProjectArchiveRecordsByProjectId: jest.Mock;
         findLatestRecordedProjectArchiveRecordByProjectId: jest.Mock;
+        findProjectBidCommercialProcessesByProjectId: jest.Mock;
+        findCurrentProjectBidCommercialProcessByProjectId: jest.Mock;
+        findProjectBidCommercialProcessById: jest.Mock;
+        findProjectBidCommercialMaterialItemsByProcessIds: jest.Mock;
+        findProjectBidCommercialTimelineItemsByProcessIds: jest.Mock;
+        findProjectPricingMarginReviewsByProjectId: jest.Mock;
+        findCurrentProjectPricingMarginReviewByProjectId: jest.Mock;
+        findProjectPricingMarginConditionItemsByReviewIds: jest.Mock;
+        findProjectTechnicalCostPackagesByProjectId: jest.Mock;
+        findProjectTechnicalCostPackageById: jest.Mock;
+        findCurrentProjectTechnicalCostPackageByProjectId: jest.Mock;
+        findProjectTechnicalScopeItemsByPackageIds: jest.Mock;
+        findProjectTechnicalRiskItemsByPackageIds: jest.Mock;
+        findProjectTechnicalCostItemsByPackageIds: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
 
@@ -33,10 +47,27 @@ describe('ProjectQueryService', () => {
             findProjectCompletionRecordsByProjectId: jest.fn(),
             findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn(),
             findProjectArchiveRecordsByProjectId: jest.fn(),
-            findLatestRecordedProjectArchiveRecordByProjectId: jest.fn()
+            findLatestRecordedProjectArchiveRecordByProjectId: jest.fn(),
+            findProjectBidCommercialProcessesByProjectId: jest.fn(),
+            findCurrentProjectBidCommercialProcessByProjectId: jest.fn(),
+            findProjectBidCommercialProcessById: jest.fn(),
+            findProjectBidCommercialMaterialItemsByProcessIds: jest.fn(),
+            findProjectBidCommercialTimelineItemsByProcessIds: jest.fn(),
+            findProjectPricingMarginReviewsByProjectId: jest.fn(),
+            findCurrentProjectPricingMarginReviewByProjectId: jest.fn(),
+            findProjectPricingMarginConditionItemsByReviewIds: jest.fn(),
+            findProjectTechnicalCostPackagesByProjectId: jest.fn(),
+            findProjectTechnicalCostPackageById: jest.fn(),
+            findCurrentProjectTechnicalCostPackageByProjectId: jest.fn(),
+            findProjectTechnicalScopeItemsByPackageIds: jest.fn(),
+            findProjectTechnicalRiskItemsByPackageIds: jest.fn(),
+            findProjectTechnicalCostItemsByPackageIds: jest.fn()
         };
         projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(null);
         projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue(null);
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(null);
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue(null);
+        projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(null);
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
 
         service = new ProjectQueryService(projectRepository as never, approvalSummarySnapshotRepository as never);
@@ -371,6 +402,20 @@ describe('ProjectQueryService', () => {
                     enabled: true,
                     disabledReason: null,
                     actionKey: 'view-project-workspace'
+                }),
+                expect.objectContaining({
+                    key: 'technical-cost-workspace',
+                    route: '/projects/20000000-0000-4000-8000-000000000004/workspace/technical-cost',
+                    enabled: true,
+                    disabledReason: null,
+                    actionKey: 'view-project-workspace'
+                }),
+                expect.objectContaining({
+                    key: 'bid-commercial-workspace',
+                    route: '/projects/20000000-0000-4000-8000-000000000004/workspace/bid-commercial',
+                    enabled: true,
+                    disabledReason: null,
+                    actionKey: 'view-project-workspace'
                 })
             ])
         );
@@ -644,6 +689,503 @@ describe('ProjectQueryService', () => {
         expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000003']);
     });
 
+    it('lists bid commercial processes as project-scoped versioned facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000012'
+        });
+        projectRepository.findProjectBidCommercialProcessesByProjectId.mockResolvedValue([
+            createBidCommercialProcess({
+                id: '3a000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000012',
+                version: 2,
+                supersedesId: '3a000000-0000-4000-8000-000000000001'
+            })
+        ]);
+
+        await expect(service.listProjectBidCommercialProcesses('20000000-0000-4000-8000-000000000012')).resolves.toEqual([
+            expect.objectContaining({
+                id: '3a000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000012',
+                version: 2,
+                supersedesId: '3a000000-0000-4000-8000-000000000001',
+                bidMode: 'public-tender',
+                currentStage: 'preparation',
+                decision: 'participate',
+                resultStatus: 'pending',
+                effectiveAt: '2026-04-24T08:00:00.000Z'
+            })
+        ]);
+        expect(projectRepository.findProjectBidCommercialProcessesByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000012');
+    });
+
+    it('returns an actionable bid commercial workspace when no current process exists', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000013',
+            currentStage: 'commercial-closure',
+            status: 'active',
+            ownerOrgId: null,
+            ownerUserId: null
+        });
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(null);
+
+        const result = await service.getProjectBidCommercialWorkspace('20000000-0000-4000-8000-000000000013', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(result.currentProcess).toBeNull();
+        expect(result.materialItems).toEqual([]);
+        expect(result.timelineItems).toEqual([]);
+        expect(result.blockingReasons).toEqual(['尚未形成招投标 / 商务竞标过程记录。']);
+        expect(result.nextStep).toBe('明确是否需要投标、邀标、比选、商务竞标或直接商务报价路径。');
+        expect(result.allowedActions).toEqual(['view-bid-commercial-workspace', 'create-bid-commercial-process']);
+    });
+
+    it('projects current bid commercial process details into the workspace view', async () => {
+        const processId = '3a000000-0000-4000-8000-000000000003';
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000014',
+            currentStage: 'commercial-closure',
+            status: 'active',
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: '00000000-0000-4000-8000-000000000001'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
+        ]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([
+            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
+        ]);
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(
+            createBidCommercialProcess({
+                id: processId,
+                projectId: '20000000-0000-4000-8000-000000000014',
+                ownerRole: '商务负责人'
+            })
+        );
+        projectRepository.findProjectBidCommercialMaterialItemsByProcessIds.mockResolvedValue([
+            {
+                id: '3b000000-0000-4000-8000-000000000001',
+                processId,
+                materialKey: 'bid-bond',
+                label: '投标保证金确认',
+                materialStatus: 'in-progress',
+                responsibleRole: '商务负责人',
+                dueAt: new Date('2026-04-26T08:00:00.000Z'),
+                blocksNextStep: true,
+                navigationHint: '/projects/current/workspace/bid-commercial',
+                sortOrder: 1
+            }
+        ]);
+        projectRepository.findProjectBidCommercialTimelineItemsByProcessIds.mockResolvedValue([
+            {
+                id: '3c000000-0000-4000-8000-000000000001',
+                processId,
+                eventKey: 'tender-announced',
+                label: '招标公告',
+                summary: '客户已发布招标公告。',
+                timelineStatus: 'done',
+                occurredAt: new Date('2026-04-24T02:00:00.000Z'),
+                dueAt: null,
+                responsibleRole: null,
+                sortOrder: 1
+            }
+        ]);
+
+        const result = await service.getProjectBidCommercialWorkspace('20000000-0000-4000-8000-000000000014', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(projectRepository.findProjectBidCommercialMaterialItemsByProcessIds).toHaveBeenCalledWith([processId]);
+        expect(projectRepository.findProjectBidCommercialTimelineItemsByProcessIds).toHaveBeenCalledWith([processId]);
+        expect(result.currentProcess).toEqual(expect.objectContaining({ id: processId, ownerRole: '商务负责人' }));
+        expect(result.materialItems).toEqual([
+            expect.objectContaining({
+                materialKey: 'bid-bond',
+                materialStatus: 'in-progress',
+                dueAt: '2026-04-26T08:00:00.000Z'
+            })
+        ]);
+        expect(result.timelineItems).toEqual([
+            expect.objectContaining({
+                eventKey: 'tender-announced',
+                occurredAt: '2026-04-24T02:00:00.000Z'
+            })
+        ]);
+        expect(result.blockingReasons).toEqual(['投标保证金确认：材料仍在处理中']);
+        expect(result.ownerLabel).toBe('销售人员 / 华南销售一部');
+        expect(result.allowedActions).toEqual(['view-bid-commercial-workspace', 'create-bid-commercial-process']);
+    });
+
+    it('lists pricing margin reviews as project-scoped versioned facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000016'
+        });
+        projectRepository.findProjectPricingMarginReviewsByProjectId.mockResolvedValue([
+            createPricingMarginReview({
+                id: '3d000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000016',
+                version: 2,
+                supersedesId: '3d000000-0000-4000-8000-000000000001'
+            })
+        ]);
+
+        await expect(service.listProjectPricingMarginReviews('20000000-0000-4000-8000-000000000016')).resolves.toEqual([
+            expect.objectContaining({
+                id: '3d000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000016',
+                version: 2,
+                supersedesId: '3d000000-0000-4000-8000-000000000001',
+                technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+                pricingPath: 'direct-commercial',
+                quoteVersion: 'Q-2026-001',
+                decision: 'pending',
+                effectiveAt: '2026-04-24T08:00:00.000Z'
+            })
+        ]);
+        expect(projectRepository.findProjectPricingMarginReviewsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000016');
+    });
+
+    it('returns an actionable pricing margin workspace when no current review exists', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000017',
+            currentStage: 'commercial-closure',
+            status: 'active',
+            ownerOrgId: null,
+            ownerUserId: null
+        });
+        projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(null);
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue(
+            createTechnicalCostPackage({
+                id: '39000000-0000-4000-8000-000000000004',
+                projectId: '20000000-0000-4000-8000-000000000017',
+                allowNextStage: true,
+                taxReviewStatus: 'reviewed',
+                blockerCount: 0
+            })
+        );
+
+        const result = await service.getProjectPricingMarginWorkspace('20000000-0000-4000-8000-000000000017', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(result.currentReview).toBeNull();
+        expect(result.technicalCostPackage).toEqual(expect.objectContaining({ id: '39000000-0000-4000-8000-000000000004' }));
+        expect(result.bidCommercialProcess).toBeNull();
+        expect(result.conditionItems).toEqual([]);
+        expect(result.blockingReasons).toEqual(['尚未形成报价与毛利评审记录。']);
+        expect(result.nextStep).toBe('基于当前技术成本和商务路径，形成报价、税务条件、回款条件与毛利评审结论。');
+        expect(result.readyForContracting).toBe(false);
+        expect(result.allowedActions).toEqual(['view-pricing-margin-workspace', 'create-pricing-margin-review']);
+    });
+
+    it('projects current pricing margin review into the workspace view', async () => {
+        const reviewId = '3d000000-0000-4000-8000-000000000003';
+        const packageId = '39000000-0000-4000-8000-000000000005';
+        const processId = '3a000000-0000-4000-8000-000000000005';
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000018',
+            currentStage: 'commercial-closure',
+            status: 'active',
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: '00000000-0000-4000-8000-000000000001'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
+        ]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([
+            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
+        ]);
+        projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(
+            createPricingMarginReview({
+                id: reviewId,
+                projectId: '20000000-0000-4000-8000-000000000018',
+                technicalCostPackageId: packageId,
+                bidCommercialProcessId: processId,
+                pricingPath: 'bid',
+                decision: 'conditional-release',
+                readyForContracting: false,
+                blockerCount: 1,
+                ownerRole: '销售 / 财务'
+            })
+        );
+        projectRepository.findProjectPricingMarginConditionItemsByReviewIds.mockResolvedValue([
+            {
+                id: '3e000000-0000-4000-8000-000000000001',
+                reviewId,
+                conditionKey: 'down-payment-risk',
+                conditionType: 'payment',
+                label: '首付款条件确认',
+                conditionSummary: '首付款比例低于标准，需要财务确认。',
+                conditionStatus: 'open',
+                requiredForContracting: true,
+                responsibleRole: '财务',
+                dueAt: new Date('2026-04-27T08:00:00.000Z'),
+                resolutionSummary: null,
+                sortOrder: 1
+            }
+        ]);
+        projectRepository.findProjectTechnicalCostPackageById.mockResolvedValue(
+            createTechnicalCostPackage({
+                id: packageId,
+                projectId: '20000000-0000-4000-8000-000000000018'
+            })
+        );
+        projectRepository.findProjectBidCommercialProcessById.mockResolvedValue(
+            createBidCommercialProcess({
+                id: processId,
+                projectId: '20000000-0000-4000-8000-000000000018',
+                resultStatus: 'won'
+            })
+        );
+
+        const result = await service.getProjectPricingMarginWorkspace('20000000-0000-4000-8000-000000000018', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(projectRepository.findProjectPricingMarginConditionItemsByReviewIds).toHaveBeenCalledWith([reviewId]);
+        expect(projectRepository.findProjectTechnicalCostPackageById).toHaveBeenCalledWith(packageId);
+        expect(projectRepository.findProjectBidCommercialProcessById).toHaveBeenCalledWith(processId);
+        expect(result.currentReview).toEqual(expect.objectContaining({ id: reviewId, decision: 'conditional-release' }));
+        expect(result.technicalCostPackage).toEqual(expect.objectContaining({ id: packageId }));
+        expect(result.bidCommercialProcess).toEqual(expect.objectContaining({ id: processId, resultStatus: 'won' }));
+        expect(result.conditionItems).toEqual([
+            expect.objectContaining({
+                conditionKey: 'down-payment-risk',
+                conditionStatus: 'open',
+                dueAt: '2026-04-27T08:00:00.000Z'
+            })
+        ]);
+        expect(result.blockingReasons).toEqual(['首付款条件确认：首付款比例低于标准，需要财务确认。']);
+        expect(result.nextStep).toBe('先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。');
+        expect(result.readyForContracting).toBe(false);
+        expect(result.ownerLabel).toBe('销售人员 / 华南销售一部');
+        expect(result.allowedActions).toEqual(['view-pricing-margin-workspace', 'create-pricing-margin-review']);
+    });
+
+    it('lists technical cost packages as project-scoped versioned facts', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000013'
+        });
+        projectRepository.findProjectTechnicalCostPackagesByProjectId.mockResolvedValue([
+            {
+                id: '39000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000013',
+                version: 2,
+                isCurrent: true,
+                supersedesId: '39000000-0000-4000-8000-000000000001',
+                status: 'effective',
+                technicalFeasibilityDecision: 'conditional',
+                technicalConclusionSummary: '范围可实施，但集成风险需跟踪。',
+                allowNextStage: false,
+                currencyCode: 'CNY',
+                totalEstimatedAmountExcludingTax: '15000.00',
+                totalTaxCostAmount: '900.00',
+                totalEstimatedAmountIncludingTax: '15900.00',
+                taxAssumptionSummary: '按 6% 增值税估算。',
+                taxReviewStatus: 'pending',
+                highestRiskLevel: 'R3',
+                blockerCount: 2,
+                effectiveAt: new Date('2026-04-24T08:00:00.000Z'),
+                createdAt: new Date('2026-04-24T08:00:00.000Z'),
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: new Date('2026-04-24T08:00:00.000Z'),
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+
+        await expect(service.listProjectTechnicalCostPackages('20000000-0000-4000-8000-000000000013')).resolves.toEqual([
+            {
+                id: '39000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000013',
+                version: 2,
+                isCurrent: true,
+                supersedesId: '39000000-0000-4000-8000-000000000001',
+                status: 'effective',
+                technicalFeasibilityDecision: 'conditional',
+                technicalConclusionSummary: '范围可实施，但集成风险需跟踪。',
+                allowNextStage: false,
+                currencyCode: 'CNY',
+                totalEstimatedAmountExcludingTax: '15000.00',
+                totalTaxCostAmount: '900.00',
+                totalEstimatedAmountIncludingTax: '15900.00',
+                taxAssumptionSummary: '按 6% 增值税估算。',
+                taxReviewStatus: 'pending',
+                highestRiskLevel: 'R3',
+                blockerCount: 2,
+                effectiveAt: '2026-04-24T08:00:00.000Z',
+                createdAt: '2026-04-24T08:00:00.000Z',
+                createdBy: '00000000-0000-4000-8000-000000000003',
+                updatedAt: '2026-04-24T08:00:00.000Z',
+                updatedBy: '00000000-0000-4000-8000-000000000003',
+                rowVersion: 1
+            }
+        ]);
+        expect(projectRepository.findProjectTechnicalCostPackagesByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000013');
+    });
+
+    it('returns an actionable technical cost workspace when no current package exists', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000014',
+            currentStage: 'scope-confirmation',
+            status: 'active',
+            ownerOrgId: null,
+            ownerUserId: null
+        });
+
+        const result = await service.getProjectTechnicalCostWorkspace('20000000-0000-4000-8000-000000000014', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(result.currentPackage).toBeNull();
+        expect(result.scopeItems).toEqual([]);
+        expect(result.riskItems).toEqual([]);
+        expect(result.costItems).toEqual([]);
+        expect(result.blockingReasons).toEqual(['尚未形成技术与成本测算版本包。']);
+        expect(result.nextStep).toBe('补齐技术可行性、范围边界、风险项和成本税务估算。');
+        expect(result.ownerLabel).toBe('技术支持 / 售前');
+        expect(result.allowedActions).toEqual(['view-technical-cost-workspace', 'create-technical-cost-package']);
+    });
+
+    it('projects current technical cost package details into the workspace view', async () => {
+        const packageId = '39000000-0000-4000-8000-000000000003';
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000015',
+            currentStage: 'scope-confirmation',
+            status: 'active',
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: '00000000-0000-4000-8000-000000000001'
+        });
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([
+            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
+        ]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([
+            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
+        ]);
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue({
+            id: packageId,
+            projectId: '20000000-0000-4000-8000-000000000015',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            technicalFeasibilityDecision: 'conditional',
+            technicalConclusionSummary: '可实施但需关闭接口风险。',
+            allowNextStage: false,
+            currencyCode: 'CNY',
+            totalEstimatedAmountExcludingTax: '15000.00',
+            totalTaxCostAmount: '900.00',
+            totalEstimatedAmountIncludingTax: '15900.00',
+            taxAssumptionSummary: '按 6% 增值税估算。',
+            taxReviewStatus: 'pending',
+            highestRiskLevel: 'R3',
+            blockerCount: 2,
+            effectiveAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000003',
+            updatedAt: new Date('2026-04-24T08:00:00.000Z'),
+            updatedBy: '00000000-0000-4000-8000-000000000003',
+            rowVersion: 1
+        });
+        projectRepository.findProjectTechnicalScopeItemsByPackageIds.mockResolvedValue([
+            {
+                id: '39100000-0000-4000-8000-000000000001',
+                packageId,
+                scopeType: 'in-scope',
+                label: '核心接口联调',
+                description: '覆盖签约前必须确认的接口范围。',
+                sortOrder: 1
+            }
+        ]);
+        projectRepository.findProjectTechnicalRiskItemsByPackageIds.mockResolvedValue([
+            {
+                id: '39200000-0000-4000-8000-000000000001',
+                packageId,
+                riskCategory: '集成风险',
+                riskLevel: 'R3',
+                riskDescription: '客户接口文档尚未冻结。',
+                impactScope: '影响报价边界。',
+                mitigationPlan: '推动接口清单冻结。',
+                ownerRole: '售前技术负责人',
+                riskStatus: 'open',
+                blocksNextStage: true,
+                sortOrder: 1
+            }
+        ]);
+        projectRepository.findProjectTechnicalCostItemsByPackageIds.mockResolvedValue([
+            {
+                id: '39300000-0000-4000-8000-000000000001',
+                packageId,
+                costCategory: '人力',
+                costSubcategory: '售前支持',
+                costDescription: '售前技术方案与接口联调评估。',
+                estimationBasis: '2 人 5 天。',
+                quantity: '10.0000',
+                unit: 'person-day',
+                unitPrice: '1500.0000',
+                amountExcludingTax: '15000.00',
+                taxCostAmount: '900.00',
+                amountIncludingTax: '15900.00',
+                currencyCode: 'CNY',
+                confidenceLevel: 'medium',
+                highUncertainty: true,
+                responsibleRole: '售前技术负责人',
+                sortOrder: 1
+            }
+        ]);
+
+        const result = await service.getProjectTechnicalCostWorkspace('20000000-0000-4000-8000-000000000015', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'sales_rep',
+            permissions: ['project:read', 'project:write']
+        });
+
+        expect(projectRepository.findProjectTechnicalScopeItemsByPackageIds).toHaveBeenCalledWith([packageId]);
+        expect(projectRepository.findProjectTechnicalRiskItemsByPackageIds).toHaveBeenCalledWith([packageId]);
+        expect(projectRepository.findProjectTechnicalCostItemsByPackageIds).toHaveBeenCalledWith([packageId]);
+        expect(result.currentPackage).toEqual(expect.objectContaining({
+            id: packageId,
+            totalEstimatedAmountIncludingTax: '15900.00',
+            blockerCount: 2
+        }));
+        expect(result.scopeItems).toEqual([
+            expect.objectContaining({
+                scopeType: 'in-scope',
+                label: '核心接口联调'
+            })
+        ]);
+        expect(result.riskItems).toEqual([
+            expect.objectContaining({
+                riskLevel: 'R3',
+                blocksNextStage: true
+            })
+        ]);
+        expect(result.costItems).toEqual([
+            expect.objectContaining({
+                costCategory: '人力',
+                amountIncludingTax: '15900.00'
+            })
+        ]);
+        expect(result.blockingReasons).toEqual([
+            '技术与成本版本包尚未允许进入下一阶段。',
+            '集成风险：客户接口文档尚未冻结。',
+            '税务成本假设仍待复核。'
+        ]);
+        expect(result.nextStep).toBe('先完成税务成本复核，再判断是否进入商务收口。');
+        expect(result.ownerLabel).toBe('销售人员 / 华南销售一部');
+        expect(result.allowedActions).toEqual(['view-technical-cost-workspace', 'create-technical-cost-package']);
+    });
+
     it('projects latest accepted acceptance record into project timeline', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000008',
@@ -841,4 +1383,102 @@ describe('ProjectQueryService', () => {
             'Project 20000000-0000-4000-8000-000000000006 not found'
         );
     });
+
+    function createTechnicalCostPackage(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '39000000-0000-4000-8000-000000000003',
+            projectId: '20000000-0000-4000-8000-000000000001',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            technicalFeasibilityDecision: 'conditional',
+            technicalConclusionSummary: '范围可实施，但集成风险需跟踪。',
+            allowNextStage: true,
+            currencyCode: 'CNY',
+            totalEstimatedAmountExcludingTax: '15000.00',
+            totalTaxCostAmount: '900.00',
+            totalEstimatedAmountIncludingTax: '15900.00',
+            taxAssumptionSummary: '按 6% 增值税估算。',
+            taxReviewStatus: 'reviewed',
+            highestRiskLevel: 'R3',
+            blockerCount: 0,
+            effectiveAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000003',
+            updatedAt: new Date('2026-04-24T08:00:00.000Z'),
+            updatedBy: '00000000-0000-4000-8000-000000000003',
+            rowVersion: 1,
+            ...overrides
+        };
+    }
+
+    function createPricingMarginReview(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '3d000000-0000-4000-8000-000000000001',
+            projectId: '20000000-0000-4000-8000-000000000001',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+            bidCommercialProcessId: null,
+            commercialReleaseBaselineId: null,
+            pricingPath: 'direct-commercial',
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '11300.00',
+            quoteAmountTaxExclusive: '10000.00',
+            taxRate: '0.13000000',
+            taxConditionSummary: '按 13% 增值税报价。',
+            paymentTermsSummary: '首付款 30%，验收后 60%，质保金 10%。',
+            grossMarginRate: '0.28000000',
+            grossMarginBand: 'watch',
+            grossMarginSummary: '毛利率处于关注区间。',
+            decision: 'pending',
+            decisionSummary: '待完成报价评审。',
+            approvalScenarioKey: null,
+            summaryPackageKey: null,
+            summarySnapshotId: null,
+            projectionLevel: null,
+            exportPolicy: null,
+            readyForContracting: false,
+            ownerRole: '销售 / 财务',
+            blockerCount: 1,
+            effectiveAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000003',
+            updatedAt: new Date('2026-04-24T08:00:00.000Z'),
+            updatedBy: '00000000-0000-4000-8000-000000000003',
+            rowVersion: 1,
+            ...overrides
+        };
+    }
+
+    function createBidCommercialProcess(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '3a000000-0000-4000-8000-000000000001',
+            projectId: '20000000-0000-4000-8000-000000000001',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            bidMode: 'public-tender',
+            currentStage: 'preparation',
+            decision: 'participate',
+            resultStatus: 'pending',
+            processSummary: '公开招标资料准备中。',
+            decisionSummary: '客户要求正式投标，决定参与。',
+            resultSummary: null,
+            ownerRole: '商务负责人',
+            blockerCount: 0,
+            effectiveAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdAt: new Date('2026-04-24T08:00:00.000Z'),
+            createdBy: '00000000-0000-4000-8000-000000000003',
+            updatedAt: new Date('2026-04-24T08:00:00.000Z'),
+            updatedBy: '00000000-0000-4000-8000-000000000003',
+            rowVersion: 1,
+            ...overrides
+        };
+    }
 });

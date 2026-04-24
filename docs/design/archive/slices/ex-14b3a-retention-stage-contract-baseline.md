@@ -53,15 +53,15 @@
 
 ## 3. 本次 SSOT
 
-| Concern                     | SSOT                                                                  | Implementation Rule                                                                                    |
-| --------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Business semantics          | `phase2-commission-retention-final-settlement`                        | `retention` 与 `final` 继续分离；本片不猜测 retention 金额口径                                         |
-| Public route canonical path | `ADR-015` + authoritative inventory                                   | 无新 route delta；`CommissionDepartureExceptionDecision` command surface 不得在本片落地                |
-| DTO / contract naming       | `CommissionPayoutStage = first \| second \| final \| retention`       | enum 链必须同步到 shared contract / entity / OpenAPI / generated client                                |
-| Runtime guard semantics     | backend command services                                              | 当 `stage=retention` 时统一抛出显式阻断错误，直到到账 / 特例 / rule explanation 写侧补齐               |
-| Admin read-side semantics   | existing `project-commission` consumer                                | 允许显示 retention 标签；不暴露创建入口                                                                |
-| Money / decimal semantics   | `CreateCommissionPayoutRequest.theoreticalCapAmount` existing formula | retention 创建被拒绝；本片不生成任何 retention 理论上限金额                                            |
-| Status machine              | payout lifecycle                                                      | retention payout 不进入 `draft -> pending-approval -> approved -> paid` 正式迁移，直到 `EX-14B3C` 完成 |
+| Concern                     | SSOT                                                                  | Implementation Rule                                                                                    |         |            |                                                                         |
+| --------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------------------------------------------------- |
+| Business semantics          | `phase2-commission-retention-final-settlement`                        | `retention` 与 `final` 继续分离；本片不猜测 retention 金额口径                                         |         |            |                                                                         |
+| Public route canonical path | `ADR-015` + authoritative inventory                                   | 无新 route delta；`CommissionDepartureExceptionDecision` command surface 不得在本片落地                |         |            |                                                                         |
+| DTO / contract naming       | `CommissionPayoutStage = first \                                      | second \                                                                                               | final \ | retention` | enum 链必须同步到 shared contract / entity / OpenAPI / generated client |
+| Runtime guard semantics     | backend command services                                              | 当 `stage=retention` 时统一抛出显式阻断错误，直到到账 / 特例 / rule explanation 写侧补齐               |         |            |                                                                         |
+| Admin read-side semantics   | existing `project-commission` consumer                                | 允许显示 retention 标签；不暴露创建入口                                                                |         |            |                                                                         |
+| Money / decimal semantics   | `CreateCommissionPayoutRequest.theoreticalCapAmount` existing formula | retention 创建被拒绝；本片不生成任何 retention 理论上限金额                                            |         |            |                                                                         |
+| Status machine              | payout lifecycle                                                      | retention payout 不进入 `draft -> pending-approval -> approved -> paid` 正式迁移，直到 `EX-14B3C` 完成 |         |            |                                                                         |
 
 ---
 

@@ -172,8 +172,26 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing$`));
         await expect(page.getByRole('heading', { name: '签约前主线' })).toBeVisible();
         await expect(page.locator('app-project-pre-signing-overview').getByText('商务收口').first()).toBeVisible();
-        await expect(page.getByText('报价与毛利评审')).toBeVisible();
+        await expect(page.locator('app-project-pre-signing-overview').getByText('报价与毛利评审').first()).toBeVisible();
+        await expect(page.getByText('范围边界、排除项、技术风险和前期成本。')).toBeVisible();
         await expect(page.getByText('签约就绪承接包尚未形成')).toBeVisible();
+
+        await returnToWorkspaceHome(page, PRESIGNING_PROJECT_ID);
+        await openWorkspaceHomeEntry(page, '技术与成本');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/technical-cost$`));
+        await expect(page.getByRole('heading', { name: '技术与成本', exact: true })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '技术与成本版本包尚未形成' })).toBeVisible();
+
+        await returnToWorkspaceHome(page, PRESIGNING_PROJECT_ID);
+        await openWorkspaceHomeEntry(page, '招投标 / 商务竞标');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/bid-commercial$`));
+        await expect(page.getByRole('heading', { name: '招投标 / 商务竞标', exact: true })).toBeVisible();
+        await expect(page.getByText(/竞标过程尚未形成|当前竞标过程/)).toBeVisible();
+
+        await page.getByRole('link', { name: '进入报价与毛利评审' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin$`));
+        await expect(page.getByRole('heading', { name: '报价与毛利评审', exact: true })).toBeVisible();
+        await expect(page.getByText(/报价与毛利评审尚未形成|当前报价评审/)).toBeVisible();
 
         await returnToWorkspaceHome(page, PRESIGNING_PROJECT_ID);
         await page.getByRole('link', { name: '签约前主线' }).click();
@@ -181,6 +199,15 @@ test.describe('poms-admin project workspace journey', () => {
 
         await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing`);
         await expect(page.getByText('当前阻断与下一步')).toBeVisible();
+
+        await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/technical-cost`);
+        await expect(page.getByText('缺少技术与成本版本包')).toBeVisible();
+
+        await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/bid-commercial`);
+        await expect(page.getByText(/缺少正式竞标事实|当前竞标过程/)).toBeVisible();
+
+        await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin`);
+        await expect(page.getByText(/缺少正式报价评审事实|当前报价评审/)).toBeVisible();
     });
 
     test('admin can move between project detail workspace and commission pages with real buttons', async ({ page }) => {
@@ -233,15 +260,15 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page.getByText('规则解释 · 需要项目查看和提成发放权限。')).toBeVisible();
         await expect(page.getByText('提成操作 · 需要完整的提成治理操作权限。')).toBeVisible();
 
+        await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/freeze-binding`);
+        await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
+
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/workspace/operating-overview`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/final-settlement`);
-        await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
-        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
-
-        await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/freeze-binding`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 

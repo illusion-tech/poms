@@ -111,6 +111,7 @@ Follow the minimum matrix in [references/governance-summary.md](./references/gov
 Use these commands when the slice type requires them:
 
 - `git diff --check`
+- `pnpm run format:md:check` when the slice touches any Markdown file under `docs/`
 - `corepack pnpm nx lint poms-api`
 - `corepack pnpm nx lint poms-admin`
 - `corepack pnpm nx lint <project-name>` for affected lint-enabled libraries

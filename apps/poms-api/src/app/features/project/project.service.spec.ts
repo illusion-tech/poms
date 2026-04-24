@@ -22,6 +22,21 @@ describe('ProjectService', () => {
         findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
         createProjectArchiveRecord: jest.Mock;
         saveProjectArchiveRecord: jest.Mock;
+        findCurrentProjectBidCommercialProcessByProjectId: jest.Mock;
+        createProjectBidCommercialProcess: jest.Mock;
+        createProjectBidCommercialMaterialItem: jest.Mock;
+        createProjectBidCommercialTimelineItem: jest.Mock;
+        saveProjectBidCommercialProcess: jest.Mock;
+        findCurrentProjectPricingMarginReviewByProjectId: jest.Mock;
+        createProjectPricingMarginReview: jest.Mock;
+        createProjectPricingMarginConditionItem: jest.Mock;
+        saveProjectPricingMarginReview: jest.Mock;
+        findCurrentProjectTechnicalCostPackageByProjectId: jest.Mock;
+        createProjectTechnicalCostPackage: jest.Mock;
+        createProjectTechnicalScopeItem: jest.Mock;
+        createProjectTechnicalRiskItem: jest.Mock;
+        createProjectTechnicalCostItem: jest.Mock;
+        saveProjectTechnicalCostPackage: jest.Mock;
     };
 
     beforeEach(() => {
@@ -40,7 +55,22 @@ describe('ProjectService', () => {
             saveProjectCompletionRecord: jest.fn(),
             findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn(),
             createProjectArchiveRecord: jest.fn(),
-            saveProjectArchiveRecord: jest.fn()
+            saveProjectArchiveRecord: jest.fn(),
+            findCurrentProjectBidCommercialProcessByProjectId: jest.fn(),
+            createProjectBidCommercialProcess: jest.fn(),
+            createProjectBidCommercialMaterialItem: jest.fn(),
+            createProjectBidCommercialTimelineItem: jest.fn(),
+            saveProjectBidCommercialProcess: jest.fn(),
+            findCurrentProjectPricingMarginReviewByProjectId: jest.fn(),
+            createProjectPricingMarginReview: jest.fn(),
+            createProjectPricingMarginConditionItem: jest.fn(),
+            saveProjectPricingMarginReview: jest.fn(),
+            findCurrentProjectTechnicalCostPackageByProjectId: jest.fn(),
+            createProjectTechnicalCostPackage: jest.fn(),
+            createProjectTechnicalScopeItem: jest.fn(),
+            createProjectTechnicalRiskItem: jest.fn(),
+            createProjectTechnicalCostItem: jest.fn(),
+            saveProjectTechnicalCostPackage: jest.fn()
         };
 
         service = new ProjectService(projectRepository as never);
@@ -422,6 +452,484 @@ describe('ProjectService', () => {
         expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
+    });
+
+    it('creates a bid commercial process with a new version and supersedes the previous current process', async () => {
+        const previousProcess = {
+            id: '3a000000-0000-4000-8000-000000000001',
+            projectId,
+            version: 1,
+            isCurrent: true,
+            status: 'effective',
+            updatedBy: null
+        };
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'commercial-closure', status: 'active' }));
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(previousProcess);
+        projectRepository.createProjectBidCommercialProcess.mockImplementation((input) => ({
+            ...input,
+            createdAt: input.effectiveAt,
+            updatedAt: input.effectiveAt,
+            rowVersion: 1
+        }));
+        projectRepository.createProjectBidCommercialMaterialItem.mockImplementation((input) => input);
+        projectRepository.createProjectBidCommercialTimelineItem.mockImplementation((input) => input);
+        projectRepository.saveProjectBidCommercialProcess.mockResolvedValue(undefined);
+
+        const result = await service.createProjectBidCommercialProcess(projectId, {
+            bidMode: 'public-tender',
+            currentStage: 'preparation',
+            decision: 'participate',
+            resultStatus: 'pending',
+            processSummary: '公开招标资料准备中。',
+            decisionSummary: '客户要求正式投标，决定参与。',
+            resultSummary: null,
+            ownerRole: '商务负责人',
+            materialItems: [
+                {
+                    materialKey: 'bid-bond',
+                    label: '投标保证金确认',
+                    materialStatus: 'in-progress',
+                    responsibleRole: '商务负责人',
+                    blocksNextStep: true,
+                    navigationHint: '/projects/current/workspace/bid-commercial'
+                }
+            ],
+            timelineItems: [
+                {
+                    eventKey: 'tender-announced',
+                    label: '招标公告',
+                    summary: '客户已发布招标公告。',
+                    timelineStatus: 'done',
+                    occurredAt: '2026-04-24T02:00:00.000Z'
+                }
+            ]
+        }, userId);
+
+        expect(previousProcess).toEqual(
+            expect.objectContaining({
+                isCurrent: false,
+                status: 'superseded',
+                updatedBy: userId
+            })
+        );
+        expect(projectRepository.createProjectBidCommercialProcess).toHaveBeenCalledWith(
+            expect.objectContaining({
+                projectId,
+                version: 2,
+                isCurrent: true,
+                supersedesId: previousProcess.id,
+                status: 'effective',
+                bidMode: 'public-tender',
+                currentStage: 'preparation',
+                decision: 'participate',
+                resultStatus: 'pending',
+                blockerCount: 1,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        expect(projectRepository.createProjectBidCommercialMaterialItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                materialKey: 'bid-bond',
+                materialStatus: 'in-progress',
+                blocksNextStep: true,
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.createProjectBidCommercialTimelineItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventKey: 'tender-announced',
+                timelineStatus: 'done',
+                occurredAt: new Date('2026-04-24T02:00:00.000Z'),
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.saveProjectBidCommercialProcess).toHaveBeenCalledWith({
+            currentProcess: result,
+            previousProcess,
+            materialItems: [expect.objectContaining({ materialKey: 'bid-bond' })],
+            timelineItems: [expect.objectContaining({ eventKey: 'tender-announced' })]
+        });
+    });
+
+    it('rejects inconsistent not-required bid commercial process input', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'assessment', status: 'active' }));
+
+        await expect(service.createProjectBidCommercialProcess(projectId, {
+            bidMode: 'not-required',
+            currentStage: 'closed',
+            decision: 'participate',
+            resultStatus: 'not-applicable',
+            processSummary: '项目不需要竞标。'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectBidCommercialProcess).not.toHaveBeenCalled();
+    });
+
+    it('rejects bid commercial process creation outside pre-signing stages', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
+
+        await expect(service.createProjectBidCommercialProcess(projectId, {
+            bidMode: 'direct-commercial',
+            currentStage: 'not-started',
+            decision: 'participate',
+            resultStatus: 'pending',
+            processSummary: '执行期不应补签约前竞标过程。'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectBidCommercialProcess).not.toHaveBeenCalled();
+    });
+
+    it('creates a pricing margin review with references, blockers and a superseded previous review', async () => {
+        const previousReview = {
+            id: '3d000000-0000-4000-8000-000000000001',
+            projectId,
+            version: 1,
+            isCurrent: true,
+            status: 'effective',
+            updatedBy: null
+        };
+        const technicalCostPackage = {
+            id: '39000000-0000-4000-8000-000000000003',
+            projectId,
+            status: 'effective',
+            isCurrent: true,
+            currencyCode: 'CNY'
+        };
+        const bidCommercialProcess = {
+            id: '3a000000-0000-4000-8000-000000000003',
+            projectId,
+            status: 'effective',
+            isCurrent: true,
+            bidMode: 'public-tender',
+            resultStatus: 'won'
+        };
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'commercial-closure', status: 'active' }));
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue(technicalCostPackage);
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(bidCommercialProcess);
+        projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(previousReview);
+        projectRepository.createProjectPricingMarginReview.mockImplementation((input) => ({
+            ...input,
+            createdAt: input.effectiveAt,
+            updatedAt: input.effectiveAt,
+            rowVersion: 1
+        }));
+        projectRepository.createProjectPricingMarginConditionItem.mockImplementation((input) => input);
+        projectRepository.saveProjectPricingMarginReview.mockResolvedValue(undefined);
+
+        const result = await service.createProjectPricingMarginReview(projectId, {
+            technicalCostPackageId: technicalCostPackage.id,
+            bidCommercialProcessId: bidCommercialProcess.id,
+            commercialReleaseBaselineId: '33000000-0000-4000-8000-000000000001',
+            pricingPath: 'bid',
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '11300.00',
+            quoteAmountTaxExclusive: '10000.00',
+            taxRate: '0.13000000',
+            taxConditionSummary: '按 13% 增值税报价。',
+            paymentTermsSummary: '首付款 30%，验收后 60%，质保金 10%。',
+            grossMarginRate: '0.28000000',
+            grossMarginBand: 'watch',
+            grossMarginSummary: '毛利率处于关注区间，需要关闭回款条件项。',
+            decision: 'conditional-release',
+            decisionSummary: '条件放行，需补齐低首付风险说明。',
+            approvalScenarioKey: 'pricing-margin-review',
+            summaryPackageKey: 'pricing-margin-summary',
+            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+            projectionLevel: 'manager',
+            exportPolicy: 'controlled',
+            ownerRole: '销售 / 财务',
+            conditionItems: [
+                {
+                    conditionKey: 'down-payment-risk',
+                    conditionType: 'payment',
+                    label: '首付款条件确认',
+                    conditionSummary: '首付款比例低于标准，需要财务确认。',
+                    conditionStatus: 'open',
+                    requiredForContracting: true,
+                    responsibleRole: '财务'
+                }
+            ]
+        }, userId);
+
+        expect(previousReview).toEqual(expect.objectContaining({ isCurrent: false, status: 'superseded', updatedBy: userId }));
+        expect(projectRepository.createProjectPricingMarginReview).toHaveBeenCalledWith(
+            expect.objectContaining({
+                projectId,
+                version: 2,
+                isCurrent: true,
+                supersedesId: previousReview.id,
+                technicalCostPackageId: technicalCostPackage.id,
+                bidCommercialProcessId: bidCommercialProcess.id,
+                commercialReleaseBaselineId: '33000000-0000-4000-8000-000000000001',
+                pricingPath: 'bid',
+                quoteAmountTaxInclusive: '11300.00',
+                quoteAmountTaxExclusive: '10000.00',
+                decision: 'conditional-release',
+                readyForContracting: false,
+                blockerCount: 1,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        expect(projectRepository.createProjectPricingMarginConditionItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                conditionKey: 'down-payment-risk',
+                conditionStatus: 'open',
+                requiredForContracting: true,
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.saveProjectPricingMarginReview).toHaveBeenCalledWith({
+            currentReview: result,
+            previousReview,
+            conditionItems: [expect.objectContaining({ conditionKey: 'down-payment-risk' })]
+        });
+    });
+
+    it('rejects pricing margin review when the technical cost package is not current', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'commercial-closure', status: 'active' }));
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue({
+            id: '39000000-0000-4000-8000-000000000099',
+            projectId,
+            currencyCode: 'CNY'
+        });
+
+        await expect(service.createProjectPricingMarginReview(projectId, {
+            technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+            pricingPath: 'direct-commercial',
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '11300.00',
+            quoteAmountTaxExclusive: '10000.00',
+            taxRate: '0.13000000',
+            taxConditionSummary: '按 13% 增值税报价。',
+            paymentTermsSummary: '首付款 30%。',
+            grossMarginBand: 'target',
+            grossMarginSummary: '毛利达标。',
+            decision: 'pending',
+            decisionSummary: '待评审。'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectPricingMarginReview).not.toHaveBeenCalled();
+    });
+
+    it('rejects released pricing margin review without approval summary and baseline references', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'commercial-closure', status: 'active' }));
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue({
+            id: '39000000-0000-4000-8000-000000000003',
+            projectId,
+            currencyCode: 'CNY'
+        });
+        projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(null);
+
+        await expect(service.createProjectPricingMarginReview(projectId, {
+            technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+            pricingPath: 'direct-commercial',
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '11300.00',
+            quoteAmountTaxExclusive: '10000.00',
+            taxRate: '0.13000000',
+            taxConditionSummary: '按 13% 增值税报价。',
+            paymentTermsSummary: '首付款 30%。',
+            grossMarginRate: '0.32000000',
+            grossMarginBand: 'target',
+            grossMarginSummary: '毛利达标。',
+            decision: 'released',
+            decisionSummary: '可放行。'
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findCurrentProjectPricingMarginReviewByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectPricingMarginReview).not.toHaveBeenCalled();
+    });
+
+    it('creates a technical cost package with a new version and supersedes the previous current package', async () => {
+        const previousPackage = {
+            id: '39000000-0000-4000-8000-000000000001',
+            projectId,
+            version: 2,
+            isCurrent: true,
+            status: 'effective',
+            updatedBy: null
+        };
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'scope-confirmation', status: 'active' }));
+        projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue(previousPackage);
+        projectRepository.createProjectTechnicalCostPackage.mockImplementation((input) => ({
+            ...input,
+            createdAt: input.effectiveAt,
+            updatedAt: input.effectiveAt,
+            rowVersion: 1
+        }));
+        projectRepository.createProjectTechnicalScopeItem.mockImplementation((input) => input);
+        projectRepository.createProjectTechnicalRiskItem.mockImplementation((input) => input);
+        projectRepository.createProjectTechnicalCostItem.mockImplementation((input) => input);
+        projectRepository.saveProjectTechnicalCostPackage.mockResolvedValue(undefined);
+
+        const result = await service.createProjectTechnicalCostPackage(projectId, {
+            technicalFeasibilityDecision: 'conditional',
+            technicalConclusionSummary: '范围可实施，但集成风险需要持续跟踪。',
+            allowNextStage: false,
+            currencyCode: 'CNY',
+            taxAssumptionSummary: '按 6% 增值税估算。',
+            taxReviewStatus: 'pending',
+            scopeItems: [
+                {
+                    scopeType: 'in-scope',
+                    label: '核心接口联调',
+                    description: '覆盖合同签约前必须确认的接口范围。'
+                }
+            ],
+            riskItems: [
+                {
+                    riskCategory: '集成风险',
+                    riskLevel: 'R3',
+                    riskDescription: '客户接口文档尚未冻结。',
+                    impactScope: '影响报价边界和交付计划。',
+                    mitigationPlan: '由售前推动接口清单冻结。',
+                    ownerRole: '售前技术负责人',
+                    riskStatus: 'open',
+                    blocksNextStage: true
+                }
+            ],
+            costItems: [
+                {
+                    costCategory: '人力',
+                    costSubcategory: '售前支持',
+                    costDescription: '售前技术方案与接口联调评估。',
+                    estimationBasis: '2 人 5 天。',
+                    quantity: '10.0000',
+                    unit: 'person-day',
+                    unitPrice: '1500.0000',
+                    amountExcludingTax: '15000.00',
+                    taxCostAmount: '900.00',
+                    amountIncludingTax: '15900.00',
+                    currencyCode: 'CNY',
+                    confidenceLevel: 'medium',
+                    highUncertainty: true,
+                    responsibleRole: '售前技术负责人'
+                }
+            ]
+        }, userId);
+
+        expect(previousPackage).toEqual(
+            expect.objectContaining({
+                isCurrent: false,
+                status: 'superseded',
+                updatedBy: userId
+            })
+        );
+        expect(projectRepository.createProjectTechnicalCostPackage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                projectId,
+                version: 3,
+                isCurrent: true,
+                supersedesId: previousPackage.id,
+                status: 'effective',
+                totalEstimatedAmountExcludingTax: '15000.00',
+                totalTaxCostAmount: '900.00',
+                totalEstimatedAmountIncludingTax: '15900.00',
+                highestRiskLevel: 'R3',
+                blockerCount: 2,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        expect(projectRepository.createProjectTechnicalScopeItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                scopeType: 'in-scope',
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.createProjectTechnicalRiskItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                riskLevel: 'R3',
+                blocksNextStage: true,
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.createProjectTechnicalCostItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                costCategory: '人力',
+                amountExcludingTax: '15000.00',
+                taxCostAmount: '900.00',
+                amountIncludingTax: '15900.00',
+                sortOrder: 1
+            })
+        );
+        expect(projectRepository.saveProjectTechnicalCostPackage).toHaveBeenCalledWith({
+            currentPackage: result,
+            previousPackage,
+            scopeItems: [expect.objectContaining({ scopeType: 'in-scope' })],
+            riskItems: [expect.objectContaining({ riskLevel: 'R3' })],
+            costItems: [expect.objectContaining({ costCategory: '人力' })]
+        });
+    });
+
+    it('rejects a technical cost package when cost item currency differs from the package currency', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'scope-confirmation', status: 'active' }));
+
+        await expect(service.createProjectTechnicalCostPackage(projectId, {
+            technicalFeasibilityDecision: 'feasible',
+            technicalConclusionSummary: '技术可行。',
+            allowNextStage: true,
+            currencyCode: 'CNY',
+            taxAssumptionSummary: '无需额外税务成本。',
+            taxReviewStatus: 'reviewed',
+            scopeItems: [],
+            riskItems: [],
+            costItems: [
+                {
+                    costCategory: '外采',
+                    costDescription: '外部组件预估。',
+                    estimationBasis: '供应商初步报价。',
+                    amountExcludingTax: '1000.00',
+                    taxCostAmount: '60.00',
+                    amountIncludingTax: '1060.00',
+                    currencyCode: 'USD',
+                    confidenceLevel: 'high',
+                    highUncertainty: false
+                }
+            ]
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.createProjectTechnicalCostPackage).not.toHaveBeenCalled();
+        expect(projectRepository.saveProjectTechnicalCostPackage).not.toHaveBeenCalled();
+    });
+
+    it('rejects technical cost package creation outside pre-signing stages', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
+
+        await expect(service.createProjectTechnicalCostPackage(projectId, {
+            technicalFeasibilityDecision: 'feasible',
+            technicalConclusionSummary: '技术可行。',
+            allowNextStage: true,
+            currencyCode: 'CNY',
+            taxAssumptionSummary: '无需额外税务成本。',
+            taxReviewStatus: 'reviewed',
+            scopeItems: [],
+            riskItems: [],
+            costItems: [
+                {
+                    costCategory: '人力',
+                    costDescription: '执行期成本不应进入签约前估算。',
+                    estimationBasis: '测试数据。',
+                    amountExcludingTax: '1000.00',
+                    taxCostAmount: '60.00',
+                    amountIncludingTax: '1060.00',
+                    currencyCode: 'CNY',
+                    confidenceLevel: 'high',
+                    highUncertainty: false
+                }
+            ]
+        }, userId)).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findCurrentProjectTechnicalCostPackageByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectTechnicalCostPackage).not.toHaveBeenCalled();
     });
 
     function createProjectEntity(overrides: Record<string, unknown> = {}) {

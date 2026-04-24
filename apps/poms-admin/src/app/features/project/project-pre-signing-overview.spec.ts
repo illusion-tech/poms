@@ -150,6 +150,8 @@ describe('ProjectPreSigningOverview', () => {
         expect(text).toContain('报价评审未放行');
         expect(text).toContain('技术与成本');
         expect(text).toContain('报价与毛利评审');
+        expect(text).toContain('投标形态、材料责任、竞标结果和商务路径。');
+        expect(text).toContain('报价结论、毛利判断、审批摘要和放行条件。');
         expect(text).toContain('有条件就绪');
         expect(text).toContain('付款条件复核');
         expect(text).toContain('财务负责人');

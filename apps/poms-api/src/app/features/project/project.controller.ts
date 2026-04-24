@@ -4,17 +4,29 @@ import {
     AcceptanceRecordDto,
     AcceptanceRecordListDto,
     CreateAcceptanceRecordRequestDto,
+    CreateProjectBidCommercialProcessRequestDto,
     CreateProjectArchiveRecordRequestDto,
     CreateProjectCompletionRecordRequestDto,
+    CreateProjectPricingMarginReviewRequestDto,
     CreateProjectRequestDto,
+    CreateProjectTechnicalCostPackageRequestDto,
     ProjectArchiveRecordDto,
     ProjectArchiveRecordListDto,
+    ProjectBidCommercialProcessDto,
+    ProjectBidCommercialProcessListDto,
+    ProjectBidCommercialWorkspaceViewDto,
     ProjectCompletionRecordDto,
     ProjectCompletionRecordListDto,
     ProjectDto,
     ProjectDetailViewDto,
     ProjectListDto,
     ProjectListQueryDto,
+    ProjectPricingMarginReviewDto,
+    ProjectPricingMarginReviewListDto,
+    ProjectPricingMarginWorkspaceViewDto,
+    ProjectTechnicalCostPackageDto,
+    ProjectTechnicalCostPackageListDto,
+    ProjectTechnicalCostWorkspaceViewDto,
     ProjectTimelineViewDto,
     ProjectWorkspaceGuidanceViewDto,
     UpdateProjectBasicInfoRequestDto
@@ -22,11 +34,20 @@ import {
 import type {
     AcceptanceRecordSummary,
     ProjectArchiveRecordSummary,
+    ProjectBidCommercialProcessList,
+    ProjectBidCommercialProcessSummary,
+    ProjectBidCommercialWorkspaceView,
     ProjectCompletionRecordSummary,
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
+    ProjectPricingMarginReviewList,
+    ProjectPricingMarginReviewSummary,
+    ProjectPricingMarginWorkspaceView,
     ProjectSummary,
+    ProjectTechnicalCostPackageList,
+    ProjectTechnicalCostPackageSummary,
+    ProjectTechnicalCostWorkspaceView,
     ProjectTimelineView,
     ProjectWorkspaceGuidanceView,
     UserPayload
@@ -34,7 +55,10 @@ import type {
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
+import { ProjectBidCommercialProcess } from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
+import { ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
+import { ProjectTechnicalCostPackage } from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
@@ -117,6 +141,63 @@ export class ProjectController {
     @ApiOkResponse({ type: ProjectArchiveRecordListDto })
     async listProjectArchiveRecords(@Param('projectId') projectId: string): Promise<ProjectArchiveRecordSummary[]> {
         return this.projectQueryService.listProjectArchiveRecords(projectId);
+    }
+
+    @Get(':projectId/bid-commercial-processes')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前招投标与商务竞标过程列表' })
+    @ApiOkResponse({ type: ProjectBidCommercialProcessListDto })
+    async listProjectBidCommercialProcesses(@Param('projectId') projectId: string): Promise<ProjectBidCommercialProcessList> {
+        return this.projectQueryService.listProjectBidCommercialProcesses(projectId);
+    }
+
+    @Get(':projectId/bid-commercial-workspace')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前招投标与商务竞标工作区' })
+    @ApiOkResponse({ type: ProjectBidCommercialWorkspaceViewDto })
+    async getProjectBidCommercialWorkspace(
+        @Param('projectId') projectId: string,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectBidCommercialWorkspaceView> {
+        return this.projectQueryService.getProjectBidCommercialWorkspace(projectId, req.user);
+    }
+
+    @Get(':projectId/pricing-margin-reviews')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前报价与毛利评审列表' })
+    @ApiOkResponse({ type: ProjectPricingMarginReviewListDto })
+    async listProjectPricingMarginReviews(@Param('projectId') projectId: string): Promise<ProjectPricingMarginReviewList> {
+        return this.projectQueryService.listProjectPricingMarginReviews(projectId);
+    }
+
+    @Get(':projectId/pricing-margin-workspace')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前报价与毛利评审工作区' })
+    @ApiOkResponse({ type: ProjectPricingMarginWorkspaceViewDto })
+    async getProjectPricingMarginWorkspace(
+        @Param('projectId') projectId: string,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectPricingMarginWorkspaceView> {
+        return this.projectQueryService.getProjectPricingMarginWorkspace(projectId, req.user);
+    }
+
+    @Get(':projectId/technical-cost-packages')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前技术与成本版本包列表' })
+    @ApiOkResponse({ type: ProjectTechnicalCostPackageListDto })
+    async listProjectTechnicalCostPackages(@Param('projectId') projectId: string): Promise<ProjectTechnicalCostPackageList> {
+        return this.projectQueryService.listProjectTechnicalCostPackages(projectId);
+    }
+
+    @Get(':projectId/technical-cost-workspace')
+    @HasPermissions('project:read')
+    @ApiOperation({ summary: '获取项目签约前技术与成本工作区' })
+    @ApiOkResponse({ type: ProjectTechnicalCostWorkspaceViewDto })
+    async getProjectTechnicalCostWorkspace(
+        @Param('projectId') projectId: string,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectTechnicalCostWorkspaceView> {
+        return this.projectQueryService.getProjectTechnicalCostWorkspace(projectId, req.user);
     }
 
     @Get(':id')
@@ -204,6 +285,48 @@ export class ProjectController {
         return mapProjectArchiveRecordToSummary(record);
     }
 
+    @Post(':projectId/bid-commercial-processes')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '创建项目签约前招投标与商务竞标过程版本' })
+    @ApiCreatedResponse({ type: ProjectBidCommercialProcessDto })
+    async createProjectBidCommercialProcess(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateProjectBidCommercialProcessRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectBidCommercialProcessSummary> {
+        const record = await this.projectService.createProjectBidCommercialProcess(projectId, body, req.user.sub);
+
+        return mapProjectBidCommercialProcessToSummary(record);
+    }
+
+    @Post(':projectId/pricing-margin-reviews')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '创建项目签约前报价与毛利评审版本' })
+    @ApiCreatedResponse({ type: ProjectPricingMarginReviewDto })
+    async createProjectPricingMarginReview(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateProjectPricingMarginReviewRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectPricingMarginReviewSummary> {
+        const record = await this.projectService.createProjectPricingMarginReview(projectId, body, req.user.sub);
+
+        return mapProjectPricingMarginReviewToSummary(record);
+    }
+
+    @Post(':projectId/technical-cost-packages')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '创建项目签约前技术与成本版本包' })
+    @ApiCreatedResponse({ type: ProjectTechnicalCostPackageDto })
+    async createProjectTechnicalCostPackage(
+        @Param('projectId') projectId: string,
+        @Body() body: CreateProjectTechnicalCostPackageRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectTechnicalCostPackageSummary> {
+        const record = await this.projectService.createProjectTechnicalCostPackage(projectId, body, req.user.sub);
+
+        return mapProjectTechnicalCostPackageToSummary(record);
+    }
+
     @Patch(':id')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新项目基础信息' })
@@ -230,6 +353,101 @@ export class ProjectController {
 
         return mapProjectToSummary(project);
     }
+}
+
+function mapProjectBidCommercialProcessToSummary(record: ProjectBidCommercialProcess): ProjectBidCommercialProcessSummary {
+    return {
+        id: record.id,
+        projectId: record.projectId,
+        version: record.version,
+        isCurrent: record.isCurrent,
+        supersedesId: record.supersedesId ?? null,
+        status: record.status,
+        bidMode: record.bidMode,
+        currentStage: record.currentStage,
+        decision: record.decision,
+        resultStatus: record.resultStatus,
+        processSummary: record.processSummary,
+        decisionSummary: record.decisionSummary ?? null,
+        resultSummary: record.resultSummary ?? null,
+        ownerRole: record.ownerRole ?? null,
+        blockerCount: record.blockerCount,
+        effectiveAt: record.effectiveAt.toISOString(),
+        createdAt: record.createdAt.toISOString(),
+        createdBy: record.createdBy ?? null,
+        updatedAt: record.updatedAt.toISOString(),
+        updatedBy: record.updatedBy ?? null,
+        rowVersion: record.rowVersion
+    };
+}
+
+function mapProjectPricingMarginReviewToSummary(record: ProjectPricingMarginReview): ProjectPricingMarginReviewSummary {
+    return {
+        id: record.id,
+        projectId: record.projectId,
+        version: record.version,
+        isCurrent: record.isCurrent,
+        supersedesId: record.supersedesId ?? null,
+        status: record.status,
+        technicalCostPackageId: record.technicalCostPackageId,
+        bidCommercialProcessId: record.bidCommercialProcessId ?? null,
+        commercialReleaseBaselineId: record.commercialReleaseBaselineId ?? null,
+        pricingPath: record.pricingPath,
+        quoteVersion: record.quoteVersion,
+        currencyCode: record.currencyCode,
+        quoteAmountTaxInclusive: toDecimalString(record.quoteAmountTaxInclusive),
+        quoteAmountTaxExclusive: toDecimalString(record.quoteAmountTaxExclusive),
+        taxRate: toDecimalString(record.taxRate),
+        taxConditionSummary: record.taxConditionSummary,
+        paymentTermsSummary: record.paymentTermsSummary,
+        grossMarginRate: toNullableDecimalString(record.grossMarginRate),
+        grossMarginBand: record.grossMarginBand,
+        grossMarginSummary: record.grossMarginSummary,
+        decision: record.decision,
+        decisionSummary: record.decisionSummary,
+        approvalScenarioKey: record.approvalScenarioKey ?? null,
+        summaryPackageKey: record.summaryPackageKey ?? null,
+        summarySnapshotId: record.summarySnapshotId ?? null,
+        projectionLevel: record.projectionLevel ?? null,
+        exportPolicy: record.exportPolicy ?? null,
+        readyForContracting: record.readyForContracting,
+        ownerRole: record.ownerRole ?? null,
+        blockerCount: record.blockerCount,
+        effectiveAt: record.effectiveAt.toISOString(),
+        createdAt: record.createdAt.toISOString(),
+        createdBy: record.createdBy ?? null,
+        updatedAt: record.updatedAt.toISOString(),
+        updatedBy: record.updatedBy ?? null,
+        rowVersion: record.rowVersion
+    };
+}
+
+function mapProjectTechnicalCostPackageToSummary(record: ProjectTechnicalCostPackage): ProjectTechnicalCostPackageSummary {
+    return {
+        id: record.id,
+        projectId: record.projectId,
+        version: record.version,
+        isCurrent: record.isCurrent,
+        supersedesId: record.supersedesId ?? null,
+        status: record.status,
+        technicalFeasibilityDecision: record.technicalFeasibilityDecision,
+        technicalConclusionSummary: record.technicalConclusionSummary,
+        allowNextStage: record.allowNextStage,
+        currencyCode: record.currencyCode,
+        totalEstimatedAmountExcludingTax: toDecimalString(record.totalEstimatedAmountExcludingTax),
+        totalTaxCostAmount: toDecimalString(record.totalTaxCostAmount),
+        totalEstimatedAmountIncludingTax: toDecimalString(record.totalEstimatedAmountIncludingTax),
+        taxAssumptionSummary: record.taxAssumptionSummary,
+        taxReviewStatus: record.taxReviewStatus,
+        highestRiskLevel: record.highestRiskLevel ?? null,
+        blockerCount: record.blockerCount,
+        effectiveAt: record.effectiveAt.toISOString(),
+        createdAt: record.createdAt.toISOString(),
+        createdBy: record.createdBy ?? null,
+        updatedAt: record.updatedAt.toISOString(),
+        updatedBy: record.updatedBy ?? null,
+        rowVersion: record.rowVersion
+    };
 }
 
 function mapProjectArchiveRecordToSummary(record: ProjectArchiveRecord): ProjectArchiveRecordSummary {
@@ -314,4 +532,16 @@ function mapProjectToSummary(project: Project): ProjectSummary {
         updatedAt: project.updatedAt.toISOString(),
         updatedBy: project.updatedBy ?? null
     };
+}
+
+function toDecimalString(value: string | number): string {
+    return typeof value === 'string' ? value : String(value);
+}
+
+function toNullableDecimalString(value: string | number | null | undefined): string | null {
+    if (value == null) {
+        return null;
+    }
+
+    return toDecimalString(value);
 }

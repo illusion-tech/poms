@@ -94,32 +94,33 @@ Keep at least:
 
 ## Slice Type To Evidence
 
-| Slice Type | Required Evidence | Usually Not Required |
-| --- | --- | --- |
-| `docs-only` / `process-only` | `git diff --check`, scope summary, no behavior change statement | build, lint, API tests, migration check, OpenAPI generation |
-| `refactor-only` | external behavior unchanged statement, relevant lint for touched lint-enabled projects, relevant tests or build, regression path | migration check unless mapping changed |
-| `query-only` | query or view mapping, relevant lint for touched lint-enabled projects, API or service tests, permission boundary | migration check unless schema changed |
-| `frontend-only` | frontend lint, build, key interaction verification, generated client impact statement | migration check |
-| `api / command` | authoritative inventory row or explicit legacy exception, route-command-DTO alignment, backend lint, API or service tests, OpenAPI generation and diff review | migration check unless persistence changed too |
-| `persistence` | migration-entity-DDL-contract alignment, backend lint, migration check, drift classification | frontend E2E unless a user path changed |
-| `cross-layer-high-risk` | all relevant items above plus lint for every touched lint-enabled project and an explicit E2E decision | no default waiver |
+| Slice Type                   | Required Evidence                                                                                                                                             | Usually Not Required                                        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `docs-only` / `process-only` | `git diff --check`, `pnpm run format:md:check`, scope summary, no behavior change statement                                                                   | build, lint, API tests, migration check, OpenAPI generation |
+| `refactor-only`              | external behavior unchanged statement, relevant lint for touched lint-enabled projects, relevant tests or build, regression path                              | migration check unless mapping changed                      |
+| `query-only`                 | query or view mapping, relevant lint for touched lint-enabled projects, API or service tests, permission boundary                                             | migration check unless schema changed                       |
+| `frontend-only`              | frontend lint, build, key interaction verification, generated client impact statement                                                                         | migration check                                             |
+| `api / command`              | authoritative inventory row or explicit legacy exception, route-command-DTO alignment, backend lint, API or service tests, OpenAPI generation and diff review | migration check unless persistence changed too              |
+| `persistence`                | migration-entity-DDL-contract alignment, backend lint, migration check, drift classification                                                                  | frontend E2E unless a user path changed                     |
+| `cross-layer-high-risk`      | all relevant items above plus lint for every touched lint-enabled project and an explicit E2E decision                                                        | no default waiver                                           |
 
 ## Current Command Set
 
-| Purpose | Command |
-| --- | --- |
-| whitespace and markdown sanity | `git diff --check` |
-| API lint | `corepack pnpm nx lint poms-api` |
-| admin lint | `corepack pnpm nx lint poms-admin` |
-| library lint | `corepack pnpm nx lint <project-name>` |
-| API build | `corepack pnpm nx build poms-api` |
-| admin build | `corepack pnpm nx build poms-admin` |
-| API tests | `corepack pnpm nx test poms-api` |
-| admin tests | `corepack pnpm nx test poms-admin` |
-| API E2E | `corepack pnpm nx e2e poms-api-e2e` |
-| OpenAPI generation | `corepack pnpm nx run poms-api:openapi` |
-| generated client check | `corepack pnpm nx run shared-api-client:check` |
-| migration or ORM drift check | `corepack pnpm nx run poms-api:migration-check` |
+| Purpose                        | Command                                                    |
+| ------------------------------ | ---------------------------------------------------------- |
+| whitespace and markdown sanity | `git diff --check`                                         |
+| Markdown table format          | `pnpm run format:md:check` (fix with `pnpm run format:md`) |
+| API lint                       | `corepack pnpm nx lint poms-api`                           |
+| admin lint                     | `corepack pnpm nx lint poms-admin`                         |
+| library lint                   | `corepack pnpm nx lint <project-name>`                     |
+| API build                      | `corepack pnpm nx build poms-api`                          |
+| admin build                    | `corepack pnpm nx build poms-admin`                        |
+| API tests                      | `corepack pnpm nx test poms-api`                           |
+| admin tests                    | `corepack pnpm nx test poms-admin`                         |
+| API E2E                        | `corepack pnpm nx e2e poms-api-e2e`                        |
+| OpenAPI generation             | `corepack pnpm nx run poms-api:openapi`                    |
+| generated client check         | `corepack pnpm nx run shared-api-client:check`             |
+| migration or ORM drift check   | `corepack pnpm nx run poms-api:migration-check`            |
 
 ## Drift Classes
 
@@ -135,16 +136,17 @@ Use only these labels:
 
 Block `G3 = Pass` when any of these is true:
 
-1. A persistence slice has no migration-entity-DDL-contract alignment.
-2. An API or command slice has no route-command-DTO alignment.
-3. A new or changed public route surface has no authoritative inventory row, route baseline, or explicit legacy exception.
-4. OpenAPI or generated client changed and nobody explained whether that was expected.
-5. Migration check failed and the drift was not classified.
-6. Field naming, date types, identifier types, money precision, or version-chain semantics drift without a fix.
-7. The change claims the parent task is complete while the evidence covers only a child slice.
-8. An exception lacks approver, cleanup owner, or cleanup due date.
-9. A touched lint-enabled project has no lint result, no warning statement, and no accepted exception.
-10. Required lint failed or the change introduced new lint warnings without an explicit exception record.
+1. The slice touches a Markdown file under `docs/` and `format:md:check` fails without a fix.
+2. A persistence slice has no migration-entity-DDL-contract alignment.
+3. An API or command slice has no route-command-DTO alignment.
+4. A new or changed public route surface has no authoritative inventory row, route baseline, or explicit legacy exception.
+5. OpenAPI or generated client changed and nobody explained whether that was expected.
+6. Migration check failed and the drift was not classified.
+7. Field naming, date types, identifier types, money precision, or version-chain semantics drift without a fix.
+8. The change claims the parent task is complete while the evidence covers only a child slice.
+9. An exception lacks approver, cleanup owner, or cleanup due date.
+10. A touched lint-enabled project has no lint result, no warning statement, and no accepted exception.
+11. Required lint failed or the change introduced new lint warnings without an explicit exception record.
 
 ## High-Risk Alignment Points
 

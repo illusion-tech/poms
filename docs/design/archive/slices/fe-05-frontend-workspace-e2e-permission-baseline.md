@@ -41,13 +41,13 @@
 
 ## 3. 本次 SSOT
 
-| Concern        | SSOT                                     | Implementation Rule                           |
-| -------------- | ---------------------------------------- | --------------------------------------------- |
-| 工作区入口     | 项目列表行菜单 / 项目详情按钮 + 直接路由进入 | 三种入口都必须验证                         |
-| 财务读取页权限 | `project:read + contract:finance:manage` | viewer 不得直接进入 `L4` 读取页与 gate 解释页 |
-| 提成操作页权限 | `project:read + commission:*:manage`     | 没有完整 manage 权限时必须被 guard 拦住       |
-| 可见性证据     | unit + Playwright smoke + Playwright journey | 仅 UI 隐藏或仅单测都不够                  |
-| 敏感字段边界   | 权限设计文档 + 实际页面表现              | 需验证受限用户看不到受限页面                  |
+| Concern        | SSOT                                         | Implementation Rule                           |
+| -------------- | -------------------------------------------- | --------------------------------------------- |
+| 工作区入口     | 项目列表行菜单 / 项目详情按钮 + 直接路由进入 | 三种入口都必须验证                            |
+| 财务读取页权限 | `project:read + contract:finance:manage`     | viewer 不得直接进入 `L4` 读取页与 gate 解释页 |
+| 提成操作页权限 | `project:read + commission:*:manage`         | 没有完整 manage 权限时必须被 guard 拦住       |
+| 可见性证据     | unit + Playwright smoke + Playwright journey | 仅 UI 隐藏或仅单测都不够                      |
+| 敏感字段边界   | 权限设计文档 + 实际页面表现                  | 需验证受限用户看不到受限页面                  |
 
 ## 4. 命令与接口边界
 
@@ -70,12 +70,12 @@
 
 ## 5. 读侧边界
 
-| Query / View                | Consumer   | Fields                                                 | Filter / Sort    | Permission Boundary      | Design Source                                               | Result |
-| --------------------------- | ---------- | ------------------------------------------------------ | ---------------- | ------------------------ | ----------------------------------------------------------- | ------ |
-| `permission.guard` all-mode | 路由 guard | 所有 requiredPermissions 必须同时满足                  | `N/A`            | 真实路由边界             | `phase2-data-permission-and-sensitive-visibility-design.md` | Frozen |
-| 工作区 smoke E2E            | admin / anonymous | 项目详情按钮入口、直接路由、关键解释文本、returnUrl | 固定 seeded 项目 | admin 全可见 / anonymous returnUrl | `FE-01`、`FE-02`、`FE-03`                     | Frozen |
-| 工作区 journey E2E          | admin      | 左侧菜单 -> 项目列表行菜单 -> 工作区 -> 内部链接 / 按钮跳转链 | 固定 seeded 项目 | admin 全可见             | `FE-01`、`FE-02`、`FE-03`                                   | Frozen |
-| 受限访问 E2E                | viewer     | 项目列表入口、主壳层可见、财务读取页 / 操作页受限      | 固定 seeded 项目 | viewer 仅 `project:read` | 权限设计文档                                                | Frozen |
+| Query / View                | Consumer          | Fields                                                        | Filter / Sort    | Permission Boundary                | Design Source                                               | Result |
+| --------------------------- | ----------------- | ------------------------------------------------------------- | ---------------- | ---------------------------------- | ----------------------------------------------------------- | ------ |
+| `permission.guard` all-mode | 路由 guard        | 所有 requiredPermissions 必须同时满足                         | `N/A`            | 真实路由边界                       | `phase2-data-permission-and-sensitive-visibility-design.md` | Frozen |
+| 工作区 smoke E2E            | admin / anonymous | 项目详情按钮入口、直接路由、关键解释文本、returnUrl           | 固定 seeded 项目 | admin 全可见 / anonymous returnUrl | `FE-01`、`FE-02`、`FE-03`                                   | Frozen |
+| 工作区 journey E2E          | admin             | 左侧菜单 -> 项目列表行菜单 -> 工作区 -> 内部链接 / 按钮跳转链 | 固定 seeded 项目 | admin 全可见                       | `FE-01`、`FE-02`、`FE-03`                                   | Frozen |
+| 受限访问 E2E                | viewer            | 项目列表入口、主壳层可见、财务读取页 / 操作页受限             | 固定 seeded 项目 | viewer 仅 `project:read`           | 权限设计文档                                                | Frozen |
 
 ## 6. 持久化边界
 
@@ -100,15 +100,15 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence                             | Result  | Gap / Reason                |
-| -------------------------------- | -------- | ---------------------------------------------- | ------- | --------------------------- |
-| Lint                             | Yes      | `corepack pnpm nx lint poms-admin`             | Pending | `G3` 统一执行               |
-| Build                            | Yes      | `corepack pnpm nx build poms-admin`            | Pending | `G3` 统一执行               |
-| Unit tests                       | Yes      | `corepack pnpm nx test poms-admin --runInBand` | Pending | 至少覆盖 `permission.guard` |
-| API / integration tests          | No       | `N/A`                                          | N/A     | 不改 API                    |
-| E2E                              | Yes      | `poms-admin-e2e` 工作区 smoke + journey + 权限拒绝 | Pending | 本片核心证据             |
-| OpenAPI generation / client diff | No       | `N/A`                                          | N/A     | 未改 contract               |
-| Migration / schema check         | No       | `N/A`                                          | N/A     | 未改 persistence            |
+| Check                            | Required | Command / Evidence                                 | Result  | Gap / Reason                |
+| -------------------------------- | -------- | -------------------------------------------------- | ------- | --------------------------- |
+| Lint                             | Yes      | `corepack pnpm nx lint poms-admin`                 | Pending | `G3` 统一执行               |
+| Build                            | Yes      | `corepack pnpm nx build poms-admin`                | Pending | `G3` 统一执行               |
+| Unit tests                       | Yes      | `corepack pnpm nx test poms-admin --runInBand`     | Pending | 至少覆盖 `permission.guard` |
+| API / integration tests          | No       | `N/A`                                              | N/A     | 不改 API                    |
+| E2E                              | Yes      | `poms-admin-e2e` 工作区 smoke + journey + 权限拒绝 | Pending | 本片核心证据                |
+| OpenAPI generation / client diff | No       | `N/A`                                              | N/A     | 未改 contract               |
+| Migration / schema check         | No       | `N/A`                                              | N/A     | 未改 persistence            |
 
 ## 9. 例外与风险
 

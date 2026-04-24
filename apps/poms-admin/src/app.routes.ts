@@ -54,6 +54,36 @@ export const appRoutes: Routes = [
                         }
                     },
                     {
+                        path: 'technical-cost',
+                        loadComponent: () => import('./app/features/project/project-technical-cost-workspace').then((c) => c.ProjectTechnicalCostWorkspace),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '技术与成本',
+                            requiredPermissions: ['project:read'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'bid-commercial',
+                        loadComponent: () => import('./app/features/project/project-bid-commercial-workspace').then((c) => c.ProjectBidCommercialWorkspace),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '招投标 / 商务竞标',
+                            requiredPermissions: ['project:read'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
+                        path: 'pricing-margin',
+                        loadComponent: () => import('./app/features/project/project-pricing-margin-workspace').then((c) => c.ProjectPricingMarginWorkspace),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '报价与毛利评审',
+                            requiredPermissions: ['project:read'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
                         path: 'contract-handover',
                         loadComponent: () => import('./app/features/project/project-contract-handover').then((c) => c.ProjectContractHandover),
                         canActivate: [permissionGuard],

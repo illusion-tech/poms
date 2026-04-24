@@ -32,35 +32,35 @@
 
 ## 2. 正式输入
 
-| Input Type          | Document / Source                                                   | Section / Anchor                            | Status | Notes                                                                 |
-| ------------------- | ------------------------------------------------------------------- | ------------------------------------------- | ------ | --------------------------------------------------------------------- |
-| Business design     | `docs/design/phase2-user-task-map.md`                               | `§4`、`§5`                                  | active | 项目详情必须围绕销售、商务、财务、负责人等真实任务链组织              |
-| Business design     | `docs/design/project-lifecycle-design.md`                           | `§5`、`§6`                                  | active | 详情页必须表达正式项目主阶段，不回退到 legacy pipeline 阶段           |
-| Query boundary      | `docs/design/query-view-boundary-design.md`                         | `§5.1 / ProjectDetailView`                  | active | `ProjectDetailView` 需要主体字段、阶段摘要、当前合同 / 审批 / 确认摘要、摘要快照和 `allowedActions` |
-| Authorization       | `docs/design/business-authorization-matrix.md`                      | `§5.1`、`§5.2`                              | active | 查看项目详情、编辑项目与推进动作属于业务对象动作授权                  |
-| Corrective source   | `docs/design/fe-16-project-management-frontend-corrective-checkpoint.md` | `§3`、`§7`                              | active | 明确前端不得本地补齐 `ProjectDetailView` 缺失字段                     |
-| Runtime fact        | `apps/poms-api/src/app/features/project/project.controller.ts`       | `ProjectController.getById`                 | fact   | 当前 `GET /projects/:id` 返回 `ProjectSummary`                        |
-| Runtime fact        | `libs/shared/contracts/src/lib/shared-contracts.ts`                 | `ProjectSummarySchema` / `ProjectListViewSchema` | fact   | 当前 shared contracts 不存在 `ProjectDetailViewSchema`                |
-| Runtime fact        | `libs/admin/data-access/src/lib/project/project.store.ts`            | `selectedProject` / `loadProject`           | fact   | 当前前端 store 详情态为 `ProjectSummary`                              |
-| Runtime fact        | `apps/poms-admin/src/app/features/project/project-detail.ts`         | template / actions                           | fact   | 当前页面展示基础字段、审计字段，并静态展示工作区 / 提成 / 编辑按钮    |
+| Input Type        | Document / Source                                                        | Section / Anchor                                 | Status | Notes                                                                                               |
+| ----------------- | ------------------------------------------------------------------------ | ------------------------------------------------ | ------ | --------------------------------------------------------------------------------------------------- |
+| Business design   | `docs/design/phase2-user-task-map.md`                                    | `§4`、`§5`                                       | active | 项目详情必须围绕销售、商务、财务、负责人等真实任务链组织                                            |
+| Business design   | `docs/design/project-lifecycle-design.md`                                | `§5`、`§6`                                       | active | 详情页必须表达正式项目主阶段，不回退到 legacy pipeline 阶段                                         |
+| Query boundary    | `docs/design/query-view-boundary-design.md`                              | `§5.1 / ProjectDetailView`                       | active | `ProjectDetailView` 需要主体字段、阶段摘要、当前合同 / 审批 / 确认摘要、摘要快照和 `allowedActions` |
+| Authorization     | `docs/design/business-authorization-matrix.md`                           | `§5.1`、`§5.2`                                   | active | 查看项目详情、编辑项目与推进动作属于业务对象动作授权                                                |
+| Corrective source | `docs/design/fe-16-project-management-frontend-corrective-checkpoint.md` | `§3`、`§7`                                       | active | 明确前端不得本地补齐 `ProjectDetailView` 缺失字段                                                   |
+| Runtime fact      | `apps/poms-api/src/app/features/project/project.controller.ts`           | `ProjectController.getById`                      | fact   | 当前 `GET /projects/:id` 返回 `ProjectSummary`                                                      |
+| Runtime fact      | `libs/shared/contracts/src/lib/shared-contracts.ts`                      | `ProjectSummarySchema` / `ProjectListViewSchema` | fact   | 当前 shared contracts 不存在 `ProjectDetailViewSchema`                                              |
+| Runtime fact      | `libs/admin/data-access/src/lib/project/project.store.ts`                | `selectedProject` / `loadProject`                | fact   | 当前前端 store 详情态为 `ProjectSummary`                                                            |
+| Runtime fact      | `apps/poms-admin/src/app/features/project/project-detail.ts`             | template / actions                               | fact   | 当前页面展示基础字段、审计字段，并静态展示工作区 / 提成 / 编辑按钮                                  |
 
 ## 3. 本次 SSOT
 
-| Concern                   | SSOT                                  | Implementation Rule                                                                 |
-| ------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------- |
-| Detail view contract      | `ProjectDetailView`                  | 前端详情页必须消费正式详情视图，不得以 `ProjectSummary` 加本地 helper 替代          |
-| Business semantics        | `Project` 正式主阶段链               | 用户看到的是立项、范围、商务、签约、移交、执行、验收等业务阶段                     |
-| Action authorization      | 对象级 `allowedActions`              | 编辑、推进、提成、工作区入口必须由对象动作边界和状态前提控制                        |
-| Summary source            | 稳定 query / summary snapshot        | 合同、审批、确认、摘要快照不得由前端重算或裁剪                                      |
-| User-facing language      | 业务中文表达规则                     | 页面文案只说人话，不暴露 `workspace`、`gate`、`allowedActions` 等内部词              |
-| Route surface             | 现有 `GET /projects/{id}` route path | route path 可保持，response contract 需要由后端切片正式收口                         |
+| Concern              | SSOT                                 | Implementation Rule                                                        |
+| -------------------- | ------------------------------------ | -------------------------------------------------------------------------- |
+| Detail view contract | `ProjectDetailView`                  | 前端详情页必须消费正式详情视图，不得以 `ProjectSummary` 加本地 helper 替代 |
+| Business semantics   | `Project` 正式主阶段链               | 用户看到的是立项、范围、商务、签约、移交、执行、验收等业务阶段             |
+| Action authorization | 对象级 `allowedActions`              | 编辑、推进、提成、工作区入口必须由对象动作边界和状态前提控制               |
+| Summary source       | 稳定 query / summary snapshot        | 合同、审批、确认、摘要快照不得由前端重算或裁剪                             |
+| User-facing language | 业务中文表达规则                     | 页面文案只说人话，不暴露 `workspace`、`gate`、`allowedActions` 等内部词    |
+| Route surface        | 现有 `GET /projects/{id}` route path | route path 可保持，response contract 需要由后端切片正式收口                |
 
 ## 4. 命令与接口边界
 
-| Route / Controller                         | Command / Service            | Request DTO / Contract | Response DTO / Contract | Guard / Permission | Design Source                         | Result    |
-| ------------------------------------------ | ---------------------------- | ---------------------- | ----------------------- | ------------------ | ------------------------------------- | --------- |
-| `GET /projects/{id}` / `ProjectController.getById` | `ProjectService.findById`    | path `id`              | 当前 `ProjectSummary`，目标 `ProjectDetailView` | `project:read` + 对象可见性待收口 | `query-view-boundary-design.md`       | `blocked` |
-| `PATCH /projects/{id}` / `ProjectController.updateBasicInfo` | `ProjectService.updateBasicInfo` | `UpdateProjectBasicInfoRequest` | 当前 `ProjectSummary` | `project:write` + 对象动作授权待收口 | `business-authorization-matrix.md` | `blocked-for-detail-actions` |
+| Route / Controller                                           | Command / Service                | Request DTO / Contract          | Response DTO / Contract                         | Guard / Permission                   | Design Source                      | Result                       |
+| ------------------------------------------------------------ | -------------------------------- | ------------------------------- | ----------------------------------------------- | ------------------------------------ | ---------------------------------- | ---------------------------- |
+| `GET /projects/{id}` / `ProjectController.getById`           | `ProjectService.findById`        | path `id`                       | 当前 `ProjectSummary`，目标 `ProjectDetailView` | `project:read` + 对象可见性待收口    | `query-view-boundary-design.md`    | `blocked`                    |
+| `PATCH /projects/{id}` / `ProjectController.updateBasicInfo` | `ProjectService.updateBasicInfo` | `UpdateProjectBasicInfoRequest` | 当前 `ProjectSummary`                           | `project:write` + 对象动作授权待收口 | `business-authorization-matrix.md` | `blocked-for-detail-actions` |
 
 ### 4.1 公共路由补充信息
 
@@ -75,16 +75,16 @@
 
 ## 5. 读侧边界
 
-| Query / View        | Consumer               | Fields                                                                 | Filter / Sort | Permission Boundary                         | Design Source                   | Result    |
-| ------------------- | ---------------------- | ---------------------------------------------------------------------- | ------------- | ------------------------------------------- | ------------------------------- | --------- |
-| `ProjectSummary`    | 当前项目详情页          | 基础项目字段、审计字段                                                  | N/A           | `project:read`                              | runtime fact                    | `insufficient` |
-| `ProjectDetailView` | 目标项目详情页          | 主体字段、阶段摘要、当前投标摘要、当前合同摘要、当前审批 / 确认摘要、`summarySnapshotId`、`projectionLevel`、`allowedActions` | N/A           | 对象可见性 + 对象动作授权                   | `query-view-boundary-design.md` | `missing` |
+| Query / View        | Consumer       | Fields                                                                                                                        | Filter / Sort | Permission Boundary       | Design Source                   | Result         |
+| ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------- | ------------------------------- | -------------- |
+| `ProjectSummary`    | 当前项目详情页 | 基础项目字段、审计字段                                                                                                        | N/A           | `project:read`            | runtime fact                    | `insufficient` |
+| `ProjectDetailView` | 目标项目详情页 | 主体字段、阶段摘要、当前投标摘要、当前合同摘要、当前审批 / 确认摘要、`summarySnapshotId`、`projectionLevel`、`allowedActions` | N/A           | 对象可见性 + 对象动作授权 | `query-view-boundary-design.md` | `missing`      |
 
 ## 6. 持久化边界
 
-| Table | Migration | Entity / Repository | DDL / Freeze Source | Check Result |
-| ----- | --------- | ------------------- | ------------------- | ------------ |
-| `N/A` | `N/A`     | `N/A`               | `N/A`               | 本片只做前端 G1 readiness，不直接落库       |
+| Table | Migration | Entity / Repository | DDL / Freeze Source | Check Result                          |
+| ----- | --------- | ------------------- | ------------------- | ------------------------------------- |
+| `N/A` | `N/A`     | `N/A`               | `N/A`               | 本片只做前端 G1 readiness，不直接落库 |
 
 ## 7. 一致性结论
 
@@ -99,21 +99,21 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence | Result         | Gap / Reason                       |
-| -------------------------------- | -------- | ------------------ | -------------- | ---------------------------------- |
-| Lint                             | `no`     | N/A                | `not-required` | readiness docs-only                |
-| Build                            | `no`     | N/A                | `not-required` | 未改运行时代码                     |
-| Unit tests                       | `no`     | N/A                | `not-required` | 未改运行时代码                     |
-| API / integration tests          | `no`     | N/A                | `not-required` | 后端前置切片未开始                 |
-| E2E                              | `no`     | N/A                | `not-required` | 浏览器验证归属后续 FE-16D          |
-| OpenAPI generation / client diff | `no`     | N/A                | `not-required` | 本片不改 contract                  |
-| Migration / schema check         | `no`     | N/A                | `not-required` | 本片不改持久化                     |
-| Diff hygiene                     | `yes`    | `git diff --check` | `pass`         | 2026-04-21 已通过                  |
+| Check                            | Required | Command / Evidence | Result         | Gap / Reason              |
+| -------------------------------- | -------- | ------------------ | -------------- | ------------------------- |
+| Lint                             | `no`     | N/A                | `not-required` | readiness docs-only       |
+| Build                            | `no`     | N/A                | `not-required` | 未改运行时代码            |
+| Unit tests                       | `no`     | N/A                | `not-required` | 未改运行时代码            |
+| API / integration tests          | `no`     | N/A                | `not-required` | 后端前置切片未开始        |
+| E2E                              | `no`     | N/A                | `not-required` | 浏览器验证归属后续 FE-16D |
+| OpenAPI generation / client diff | `no`     | N/A                | `not-required` | 本片不改 contract         |
+| Migration / schema check         | `no`     | N/A                | `not-required` | 本片不改持久化            |
+| Diff hygiene                     | `yes`    | `git diff --check` | `pass`         | 2026-04-21 已通过         |
 
 ## 9. 例外与风险
 
-| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes |
-| ------------ | ----- | ----- | ----------- | ------------- | ----------- | ----- |
+| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes                            |
+| ------------ | ----- | ----- | ----------- | ------------- | ----------- | -------------------------------- |
 | `N/A`        | `N/A` | `N/A` | `N/A`       | `N/A`         | `N/A`       | 本片不放行例外；直接阻断前端编码 |
 
 ## 10. G1 结论

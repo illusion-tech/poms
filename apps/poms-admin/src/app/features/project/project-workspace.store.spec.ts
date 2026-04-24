@@ -16,8 +16,11 @@ import {
     type ContractHandoverSummaryView,
     type ContractReadinessDetail,
     type ProjectHandoverDetailView,
+    type ProjectBidCommercialWorkspaceView,
     type ProjectBusinessOutcomeOverviewView,
+    type ProjectPricingMarginWorkspaceView,
     type ProjectUnifiedAccountingView,
+    type ProjectTechnicalCostWorkspaceView,
     type ProjectVarianceRiskExplanationView,
     type ProjectWorkspaceGuidanceView
 } from '@poms/admin-data-access';
@@ -156,8 +159,136 @@ describe('ProjectWorkspaceStore', () => {
             }
         ]
     } as ContractReadinessDetail;
+    const technicalCostWorkspace: ProjectTechnicalCostWorkspaceView = {
+        projectId: 'project-1',
+        currentStage: 'scope-confirmation',
+        status: 'active',
+        currentPackage: {
+            id: 'technical-package-1',
+            projectId: 'project-1',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            technicalFeasibilityDecision: 'conditional',
+            technicalConclusionSummary: '范围可实施，但接口风险需要跟踪。',
+            allowNextStage: false,
+            currencyCode: 'CNY',
+            totalEstimatedAmountExcludingTax: '15000.00',
+            totalTaxCostAmount: '900.00',
+            totalEstimatedAmountIncludingTax: '15900.00',
+            taxAssumptionSummary: '按 6% 增值税估算。',
+            taxReviewStatus: 'pending',
+            highestRiskLevel: 'R3',
+            blockerCount: 2,
+            effectiveAt: '2026-04-24T08:00:00.000Z',
+            createdAt: '2026-04-24T08:00:00.000Z',
+            createdBy: 'user-1',
+            updatedAt: '2026-04-24T08:00:00.000Z',
+            updatedBy: 'user-1',
+            rowVersion: 1
+        },
+        scopeItems: [],
+        riskItems: [],
+        costItems: [],
+        blockingReasons: ['技术与成本版本包尚未允许进入下一阶段。'],
+        nextStep: '先关闭阻塞风险或更新版本包，再进入商务收口。',
+        ownerLabel: '技术支持 / 售前',
+        allowedActions: ['view-technical-cost-workspace'],
+        generatedAt: '2026-04-24T08:05:00.000Z'
+    };
+    const bidCommercialWorkspace: ProjectBidCommercialWorkspaceView = {
+        projectId: 'project-1',
+        currentStage: 'commercial-closure',
+        status: 'active',
+        currentProcess: {
+            id: 'bid-process-1',
+            projectId: 'project-1',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            bidMode: 'public-tender',
+            currentStage: 'submitted',
+            decision: 'participate',
+            resultStatus: 'pending',
+            processSummary: '公开招标已提交，等待客户确认结果。',
+            decisionSummary: '销售和商务决定参与本次公开招标。',
+            resultSummary: null,
+            ownerRole: '销售负责人',
+            blockerCount: 1,
+            effectiveAt: '2026-04-24T08:10:00.000Z',
+            createdAt: '2026-04-24T08:10:00.000Z',
+            createdBy: 'user-1',
+            updatedAt: '2026-04-24T08:10:00.000Z',
+            updatedBy: 'user-1',
+            rowVersion: 1
+        },
+        materialItems: [],
+        timelineItems: [],
+        blockingReasons: ['客户招标结果尚未确认。'],
+        nextStep: '等待客户确认竞标结果，再进入报价与毛利评审。',
+        ownerLabel: '销售负责人 / 商务负责人',
+        allowedActions: ['view-bid-commercial-workspace'],
+        generatedAt: '2026-04-24T08:15:00.000Z'
+    };
+    const pricingMarginWorkspace: ProjectPricingMarginWorkspaceView = {
+        projectId: 'project-1',
+        currentStage: 'commercial-closure',
+        status: 'active',
+        currentReview: {
+            id: 'pricing-review-1',
+            projectId: 'project-1',
+            version: 1,
+            isCurrent: true,
+            supersedesId: null,
+            status: 'effective',
+            technicalCostPackageId: 'technical-package-1',
+            bidCommercialProcessId: 'bid-process-1',
+            commercialReleaseBaselineId: 'commercial-baseline-1',
+            pricingPath: 'bid',
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '250000.00',
+            quoteAmountTaxExclusive: '235849.06',
+            taxRate: '0.0600',
+            taxConditionSummary: '按 6% 增值税测算。',
+            paymentTermsSummary: '首付款 30%，验收后 70%。',
+            grossMarginRate: '0.3200',
+            grossMarginBand: 'target',
+            grossMarginSummary: '毛利达到目标区间。',
+            decision: 'released',
+            decisionSummary: '报价与毛利已放行，可进入签约承接。',
+            approvalScenarioKey: 'pricing-margin-review',
+            summaryPackageKey: 'pricing-margin-summary',
+            summarySnapshotId: 'pricing-summary-1',
+            projectionLevel: 'pricing-margin',
+            exportPolicy: 'internal',
+            readyForContracting: true,
+            ownerRole: '商务负责人',
+            blockerCount: 0,
+            effectiveAt: '2026-04-24T08:20:00.000Z',
+            createdAt: '2026-04-24T08:20:00.000Z',
+            createdBy: 'user-1',
+            updatedAt: '2026-04-24T08:20:00.000Z',
+            updatedBy: 'user-1',
+            rowVersion: 1
+        },
+        technicalCostPackage: technicalCostWorkspace.currentPackage,
+        bidCommercialProcess: bidCommercialWorkspace.currentProcess,
+        conditionItems: [],
+        blockingReasons: [],
+        nextStep: '进入签约就绪承接。',
+        readyForContracting: true,
+        ownerLabel: '商务负责人',
+        allowedActions: ['view-pricing-margin-workspace'],
+        generatedAt: '2026-04-24T08:25:00.000Z'
+    };
     let projectApiMock: {
         projectControllerGetWorkspaceGuidance: jest.Mock;
+        projectControllerGetProjectTechnicalCostWorkspace: jest.Mock;
+        projectControllerGetProjectBidCommercialWorkspace: jest.Mock;
+        projectControllerGetProjectPricingMarginWorkspace: jest.Mock;
     };
     let projectCostApiMock: {
         projectCostControllerGetProjectBusinessOutcomeOverview: jest.Mock;
@@ -183,7 +314,10 @@ describe('ProjectWorkspaceStore', () => {
 
     beforeEach(() => {
         projectApiMock = {
-            projectControllerGetWorkspaceGuidance: jest.fn()
+            projectControllerGetWorkspaceGuidance: jest.fn(),
+            projectControllerGetProjectTechnicalCostWorkspace: jest.fn(),
+            projectControllerGetProjectBidCommercialWorkspace: jest.fn(),
+            projectControllerGetProjectPricingMarginWorkspace: jest.fn()
         };
         projectCostApiMock = {
             projectCostControllerGetProjectBusinessOutcomeOverview: jest.fn(),
@@ -300,6 +434,99 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.contractReadiness()).toBeNull();
         expect(store.hasContractReadiness()).toBe(false);
         expect(store.preSigningError()).toBeNull();
+    });
+
+    it('loads technical cost workspace into shared state', async () => {
+        projectApiMock.projectControllerGetProjectTechnicalCostWorkspace.mockReturnValue(of(technicalCostWorkspace));
+
+        await expect(store.loadTechnicalCostWorkspace('project-1')).resolves.toEqual(technicalCostWorkspace);
+
+        expect(projectApiMock.projectControllerGetProjectTechnicalCostWorkspace).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.technicalCostWorkspace()).toEqual(technicalCostWorkspace);
+        expect(store.hasTechnicalCostWorkspace()).toBe(true);
+        expect(store.technicalCostError()).toBeNull();
+    });
+
+    it('maps missing technical cost workspace responses to a user-readable message', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        projectApiMock.projectControllerGetProjectTechnicalCostWorkspace.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadTechnicalCostWorkspace('project-empty')).rejects.toBe(notFound);
+
+        expect(store.technicalCostWorkspace()).toBeNull();
+        expect(store.hasTechnicalCostWorkspace()).toBe(false);
+        expect(store.technicalCostError()).toBe('当前项目还没有形成技术与成本工作区，请先补齐签约前技术与成本版本包。');
+    });
+
+    it('loads bid commercial workspace into shared state', async () => {
+        projectApiMock.projectControllerGetProjectBidCommercialWorkspace.mockReturnValue(of(bidCommercialWorkspace));
+
+        await expect(store.loadBidCommercialWorkspace('project-1')).resolves.toEqual(bidCommercialWorkspace);
+
+        expect(projectApiMock.projectControllerGetProjectBidCommercialWorkspace).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.bidCommercialWorkspace()).toEqual(bidCommercialWorkspace);
+        expect(store.hasBidCommercialWorkspace()).toBe(true);
+        expect(store.bidCommercialError()).toBeNull();
+    });
+
+    it('maps missing bid commercial workspace responses to a user-readable message', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        projectApiMock.projectControllerGetProjectBidCommercialWorkspace.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadBidCommercialWorkspace('project-empty')).rejects.toBe(notFound);
+
+        expect(store.bidCommercialWorkspace()).toBeNull();
+        expect(store.hasBidCommercialWorkspace()).toBe(false);
+        expect(store.bidCommercialError()).toBe('当前项目还没有形成招投标 / 商务竞标工作区，请先补齐竞标形态、材料和结果事实。');
+    });
+
+    it('loads pricing margin workspace into shared state', async () => {
+        projectApiMock.projectControllerGetProjectPricingMarginWorkspace.mockReturnValue(of(pricingMarginWorkspace));
+
+        await expect(store.loadPricingMarginWorkspace('project-1')).resolves.toEqual(pricingMarginWorkspace);
+
+        expect(projectApiMock.projectControllerGetProjectPricingMarginWorkspace).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.pricingMarginWorkspace()).toEqual(pricingMarginWorkspace);
+        expect(store.hasPricingMarginWorkspace()).toBe(true);
+        expect(store.pricingMarginError()).toBeNull();
+    });
+
+    it('maps missing pricing margin workspace responses to a user-readable message', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        projectApiMock.projectControllerGetProjectPricingMarginWorkspace.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadPricingMarginWorkspace('project-empty')).rejects.toBe(notFound);
+
+        expect(store.pricingMarginWorkspace()).toBeNull();
+        expect(store.hasPricingMarginWorkspace()).toBe(false);
+        expect(store.pricingMarginError()).toBe('当前项目还没有形成报价与毛利评审工作区，请先补齐报价、成本版本、税务和回款条件。');
     });
 
     it('loads contract handover and project handover detail into shared state', async () => {
@@ -858,6 +1085,8 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.contractHandoverSummary()).toBeNull();
         expect(store.projectHandoverDetail()).toBeNull();
         expect(store.contractReadiness()).toBeNull();
+        expect(store.bidCommercialWorkspace()).toBeNull();
+        expect(store.pricingMarginWorkspace()).toBeNull();
         expect(store.businessOutcomeOverview()).toBeNull();
         expect(store.unifiedAccounting()).toBeNull();
         expect(store.varianceRiskExplanation()).toBeNull();
@@ -874,6 +1103,8 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.commissionRuleExplanationError()).toBeNull();
         expect(store.contractHandoverError()).toBeNull();
         expect(store.preSigningError()).toBeNull();
+        expect(store.bidCommercialError()).toBeNull();
+        expect(store.pricingMarginError()).toBeNull();
         expect(store.guidanceError()).toBeNull();
     });
 });

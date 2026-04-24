@@ -41,7 +41,7 @@
 
 | Slice Type                   | Required Evidence                                                                                                                                         | Usually Not Required                                              |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `docs-only` / `process-only` | `git diff --check`、影响范围说明、无行为变更声明                                                                                                          | build、lint、API test、migration-check、OpenAPI client generation |
+| `docs-only` / `process-only` | `git diff --check`、`pnpm run format:md:check`、影响范围说明、无行为变更声明                                                                              | build、lint、API test、migration-check、OpenAPI client generation |
 | `refactor-only`              | 对外行为不变说明、相关项目 lint（若存在 target）、相关单测或构建、关键回归路径                                                                            | migration-check，除非触及 entity / mapping                        |
 | `query-only`                 | query / view 对照、相关项目 lint（若存在 target）、API 或 service 测试、权限边界说明                                                                      | migration-check，除非新增字段或表                                 |
 | `frontend-only`              | 受影响前端项目 lint（若存在 target）、build、关键交互验证、OpenAPI client 影响说明                                                                        | migration-check                                                   |
@@ -55,20 +55,21 @@
 
 以下命令是当前仓库已经具备或可直接使用的最小集合。
 
-| Purpose                      | Command                                         | Required When                                | Evidence                                 |
-| ---------------------------- | ----------------------------------------------- | -------------------------------------------- | ---------------------------------------- |
-| Markdown / whitespace sanity | `git diff --check`                              | 所有变更                                     | 命令通过或列出修复结果                   |
-| API lint                     | `corepack pnpm nx lint poms-api`                | 变更触及 `poms-api`                          | 命令结果、warning 结论                   |
-| Admin lint                   | `corepack pnpm nx lint poms-admin`              | 变更触及 `poms-admin`                        | 命令结果、warning 结论                   |
-| Library lint                 | `corepack pnpm nx lint <project-name>`          | 变更触及存在 `lint target` 的 library        | 命令结果、warning 结论                   |
-| API build                    | `corepack pnpm nx build poms-api`               | 后端代码变更                                 | 命令结果                                 |
-| Admin build                  | `corepack pnpm nx build poms-admin`             | 前端或 generated client 影响前端             | 命令结果                                 |
-| API unit / integration tests | `corepack pnpm nx test poms-api`                | API / command / persistence 变更             | 命令结果与覆盖范围                       |
-| Admin tests                  | `corepack pnpm nx test poms-admin`              | 前端逻辑或权限路由变更                       | 命令结果与覆盖范围                       |
-| API E2E                      | `corepack pnpm nx e2e poms-api-e2e`             | 高风险跨层 API 主路径                        | 命令结果或不补理由                       |
-| OpenAPI spec generation      | `corepack pnpm nx run poms-api:openapi`         | controller / DTO / shared contract 变更      | `libs/shared/api-spec/openapi.json` diff |
-| Generated API client check   | `corepack pnpm nx run shared-api-client:check`  | OpenAPI 或前端 API client 变更               | 无未提交 diff，或解释生成差异            |
-| Migration / ORM drift check  | `corepack pnpm nx run poms-api:migration-check` | migration / entity / repository mapping 变更 | 通过结果或 drift 归类                    |
+| Purpose                      | Command                                         | Required When                                | Evidence                                                 |
+| ---------------------------- | ----------------------------------------------- | -------------------------------------------- | -------------------------------------------------------- |
+| Markdown / whitespace sanity | `git diff --check`                              | 所有变更                                     | 命令通过或列出修复结果                                   |
+| Markdown table format        | `pnpm run format:md:check`                      | 变更涉及 `docs/` 下 Markdown 文件            | 命令通过；失败时运行 `pnpm run format:md` 修复后重新提交 |
+| API lint                     | `corepack pnpm nx lint poms-api`                | 变更触及 `poms-api`                          | 命令结果、warning 结论                                   |
+| Admin lint                   | `corepack pnpm nx lint poms-admin`              | 变更触及 `poms-admin`                        | 命令结果、warning 结论                                   |
+| Library lint                 | `corepack pnpm nx lint <project-name>`          | 变更触及存在 `lint target` 的 library        | 命令结果、warning 结论                                   |
+| API build                    | `corepack pnpm nx build poms-api`               | 后端代码变更                                 | 命令结果                                                 |
+| Admin build                  | `corepack pnpm nx build poms-admin`             | 前端或 generated client 影响前端             | 命令结果                                                 |
+| API unit / integration tests | `corepack pnpm nx test poms-api`                | API / command / persistence 变更             | 命令结果与覆盖范围                                       |
+| Admin tests                  | `corepack pnpm nx test poms-admin`              | 前端逻辑或权限路由变更                       | 命令结果与覆盖范围                                       |
+| API E2E                      | `corepack pnpm nx e2e poms-api-e2e`             | 高风险跨层 API 主路径                        | 命令结果或不补理由                                       |
+| OpenAPI spec generation      | `corepack pnpm nx run poms-api:openapi`         | controller / DTO / shared contract 变更      | `libs/shared/api-spec/openapi.json` diff                 |
+| Generated API client check   | `corepack pnpm nx run shared-api-client:check`  | OpenAPI 或前端 API client 变更               | 无未提交 diff，或解释生成差异                            |
+| Migration / ORM drift check  | `corepack pnpm nx run poms-api:migration-check` | migration / entity / repository mapping 变更 | 通过结果或 drift 归类                                    |
 
 ---
 
@@ -107,16 +108,17 @@
 
 以下情况默认阻断 `G3 = Pass`：
 
-1. persistence 变更未给出 migration-entity-DDL-contract 对照。
-2. api / command 变更未给出 route-command-DTO 对照。
-3. 公共 API route surface 发生变化，但未给出 authoritative inventory 行、route baseline 或已批准 legacy exception。
-4. OpenAPI 或 generated client 发生变化但未说明是否预期。
-5. `migration-check` 失败但没有 drift 归类。
-6. 字段命名、日期类型、标识符类型、金额精度或版本链语义存在差异且未修复。
-7. 变更说明声称父任务完成，但证据只覆盖子切片。
-8. 例外缺少批准人、cleanup owner 或 cleanup due。
-9. 受影响项目存在 `lint target`，但 `G3` 没有提供 lint 结果、warning 结论或豁免理由。
-10. 必跑 lint 失败，或本次变更引入新的 lint warning / error 且未通过例外记录明确接受。
+1. 变更涉及 `docs/` 下 Markdown 文件，但 `format:md:check` 失败且未修复。
+2. persistence 变更未给出 migration-entity-DDL-contract 对照。
+3. api / command 变更未给出 route-command-DTO 对照。
+4. 公共 API route surface 发生变化，但未给出 authoritative inventory 行、route baseline 或已批准 legacy exception。
+5. OpenAPI 或 generated client 发生变化但未说明是否预期。
+6. `migration-check` 失败但没有 drift 归类。
+7. 字段命名、日期类型、标识符类型、金额精度或版本链语义存在差异且未修复。
+8. 变更说明声称父任务完成，但证据只覆盖子切片。
+9. 例外缺少批准人、cleanup owner 或 cleanup due。
+10. 受影响项目存在 `lint target`，但 `G3` 没有提供 lint 结果、warning 结论或豁免理由。
+11. 必跑 lint 失败，或本次变更引入新的 lint warning / error 且未通过例外记录明确接受。
 
 ---
 

@@ -23,11 +23,21 @@ import { CreateAcceptanceRecordRequest } from '../model/create-acceptance-record
 // @ts-ignore
 import { CreateProjectArchiveRecordRequest } from '../model/create-project-archive-record-request';
 // @ts-ignore
+import { CreateProjectBidCommercialProcessRequest } from '../model/create-project-bid-commercial-process-request';
+// @ts-ignore
 import { CreateProjectCompletionRecordRequest } from '../model/create-project-completion-record-request';
+// @ts-ignore
+import { CreateProjectPricingMarginReviewRequest } from '../model/create-project-pricing-margin-review-request';
 // @ts-ignore
 import { CreateProjectRequest } from '../model/create-project-request';
 // @ts-ignore
+import { CreateProjectTechnicalCostPackageRequest } from '../model/create-project-technical-cost-package-request';
+// @ts-ignore
 import { ProjectArchiveRecordSummary } from '../model/project-archive-record-summary';
+// @ts-ignore
+import { ProjectBidCommercialProcessSummary } from '../model/project-bid-commercial-process-summary';
+// @ts-ignore
+import { ProjectBidCommercialWorkspaceView } from '../model/project-bid-commercial-workspace-view';
 // @ts-ignore
 import { ProjectCompletionRecordSummary } from '../model/project-completion-record-summary';
 // @ts-ignore
@@ -35,7 +45,15 @@ import { ProjectDetailView } from '../model/project-detail-view';
 // @ts-ignore
 import { ProjectListView } from '../model/project-list-view';
 // @ts-ignore
+import { ProjectPricingMarginReviewSummary } from '../model/project-pricing-margin-review-summary';
+// @ts-ignore
+import { ProjectPricingMarginWorkspaceView } from '../model/project-pricing-margin-workspace-view';
+// @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
+// @ts-ignore
+import { ProjectTechnicalCostPackageSummary } from '../model/project-technical-cost-package-summary';
+// @ts-ignore
+import { ProjectTechnicalCostWorkspaceView } from '../model/project-technical-cost-workspace-view';
 // @ts-ignore
 import { ProjectTimelineView } from '../model/project-timeline-view';
 // @ts-ignore
@@ -63,9 +81,24 @@ export interface ProjectControllerCreateProjectArchiveRecordRequestParams {
     createProjectArchiveRecordRequest: CreateProjectArchiveRecordRequest;
 }
 
+export interface ProjectControllerCreateProjectBidCommercialProcessRequestParams {
+    projectId: string;
+    createProjectBidCommercialProcessRequest: CreateProjectBidCommercialProcessRequest;
+}
+
 export interface ProjectControllerCreateProjectCompletionRecordRequestParams {
     projectId: string;
     createProjectCompletionRecordRequest: CreateProjectCompletionRecordRequest;
+}
+
+export interface ProjectControllerCreateProjectPricingMarginReviewRequestParams {
+    projectId: string;
+    createProjectPricingMarginReviewRequest: CreateProjectPricingMarginReviewRequest;
+}
+
+export interface ProjectControllerCreateProjectTechnicalCostPackageRequestParams {
+    projectId: string;
+    createProjectTechnicalCostPackageRequest: CreateProjectTechnicalCostPackageRequest;
 }
 
 export interface ProjectControllerGetByCodeRequestParams {
@@ -74,6 +107,18 @@ export interface ProjectControllerGetByCodeRequestParams {
 
 export interface ProjectControllerGetByIdRequestParams {
     id: string;
+}
+
+export interface ProjectControllerGetProjectBidCommercialWorkspaceRequestParams {
+    projectId: string;
+}
+
+export interface ProjectControllerGetProjectPricingMarginWorkspaceRequestParams {
+    projectId: string;
+}
+
+export interface ProjectControllerGetProjectTechnicalCostWorkspaceRequestParams {
+    projectId: string;
 }
 
 export interface ProjectControllerGetTimelineRequestParams {
@@ -99,7 +144,19 @@ export interface ProjectControllerListProjectArchiveRecordsRequestParams {
     projectId: string;
 }
 
+export interface ProjectControllerListProjectBidCommercialProcessesRequestParams {
+    projectId: string;
+}
+
 export interface ProjectControllerListProjectCompletionRecordsRequestParams {
+    projectId: string;
+}
+
+export interface ProjectControllerListProjectPricingMarginReviewsRequestParams {
+    projectId: string;
+}
+
+export interface ProjectControllerListProjectTechnicalCostPackagesRequestParams {
     projectId: string;
 }
 
@@ -337,6 +394,80 @@ export class ProjectApi extends BaseService {
     }
 
     /**
+     * 创建项目签约前招投标与商务竞标过程版本
+     * @endpoint post /api/projects/{projectId}/bid-commercial-processes
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerCreateProjectBidCommercialProcess(requestParameters: ProjectControllerCreateProjectBidCommercialProcessRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectBidCommercialProcessSummary>;
+    public projectControllerCreateProjectBidCommercialProcess(requestParameters: ProjectControllerCreateProjectBidCommercialProcessRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectBidCommercialProcessSummary>>;
+    public projectControllerCreateProjectBidCommercialProcess(requestParameters: ProjectControllerCreateProjectBidCommercialProcessRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectBidCommercialProcessSummary>>;
+    public projectControllerCreateProjectBidCommercialProcess(requestParameters: ProjectControllerCreateProjectBidCommercialProcessRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerCreateProjectBidCommercialProcess.');
+        }
+        const createProjectBidCommercialProcessRequest = requestParameters?.createProjectBidCommercialProcessRequest;
+        if (createProjectBidCommercialProcessRequest === null || createProjectBidCommercialProcessRequest === undefined) {
+            throw new Error('Required parameter createProjectBidCommercialProcessRequest was null or undefined when calling projectControllerCreateProjectBidCommercialProcess.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/bid-commercial-processes`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectBidCommercialProcessSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createProjectBidCommercialProcessRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 创建项目完成确认记录
      * @endpoint post /api/projects/{projectId}/completion-records
      * @param requestParameters
@@ -400,6 +531,154 @@ export class ProjectApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: createProjectCompletionRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建项目签约前报价与毛利评审版本
+     * @endpoint post /api/projects/{projectId}/pricing-margin-reviews
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerCreateProjectPricingMarginReview(requestParameters: ProjectControllerCreateProjectPricingMarginReviewRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectPricingMarginReviewSummary>;
+    public projectControllerCreateProjectPricingMarginReview(requestParameters: ProjectControllerCreateProjectPricingMarginReviewRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectPricingMarginReviewSummary>>;
+    public projectControllerCreateProjectPricingMarginReview(requestParameters: ProjectControllerCreateProjectPricingMarginReviewRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectPricingMarginReviewSummary>>;
+    public projectControllerCreateProjectPricingMarginReview(requestParameters: ProjectControllerCreateProjectPricingMarginReviewRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerCreateProjectPricingMarginReview.');
+        }
+        const createProjectPricingMarginReviewRequest = requestParameters?.createProjectPricingMarginReviewRequest;
+        if (createProjectPricingMarginReviewRequest === null || createProjectPricingMarginReviewRequest === undefined) {
+            throw new Error('Required parameter createProjectPricingMarginReviewRequest was null or undefined when calling projectControllerCreateProjectPricingMarginReview.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/pricing-margin-reviews`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectPricingMarginReviewSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createProjectPricingMarginReviewRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建项目签约前技术与成本版本包
+     * @endpoint post /api/projects/{projectId}/technical-cost-packages
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerCreateProjectTechnicalCostPackage(requestParameters: ProjectControllerCreateProjectTechnicalCostPackageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectTechnicalCostPackageSummary>;
+    public projectControllerCreateProjectTechnicalCostPackage(requestParameters: ProjectControllerCreateProjectTechnicalCostPackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectTechnicalCostPackageSummary>>;
+    public projectControllerCreateProjectTechnicalCostPackage(requestParameters: ProjectControllerCreateProjectTechnicalCostPackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectTechnicalCostPackageSummary>>;
+    public projectControllerCreateProjectTechnicalCostPackage(requestParameters: ProjectControllerCreateProjectTechnicalCostPackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerCreateProjectTechnicalCostPackage.');
+        }
+        const createProjectTechnicalCostPackageRequest = requestParameters?.createProjectTechnicalCostPackageRequest;
+        if (createProjectTechnicalCostPackageRequest === null || createProjectTechnicalCostPackageRequest === undefined) {
+            throw new Error('Required parameter createProjectTechnicalCostPackageRequest was null or undefined when calling projectControllerCreateProjectTechnicalCostPackage.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/technical-cost-packages`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectTechnicalCostPackageSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createProjectTechnicalCostPackageRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -518,6 +797,186 @@ export class ProjectApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目签约前招投标与商务竞标工作区
+     * @endpoint get /api/projects/{projectId}/bid-commercial-workspace
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerGetProjectBidCommercialWorkspace(requestParameters: ProjectControllerGetProjectBidCommercialWorkspaceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectBidCommercialWorkspaceView>;
+    public projectControllerGetProjectBidCommercialWorkspace(requestParameters: ProjectControllerGetProjectBidCommercialWorkspaceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectBidCommercialWorkspaceView>>;
+    public projectControllerGetProjectBidCommercialWorkspace(requestParameters: ProjectControllerGetProjectBidCommercialWorkspaceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectBidCommercialWorkspaceView>>;
+    public projectControllerGetProjectBidCommercialWorkspace(requestParameters: ProjectControllerGetProjectBidCommercialWorkspaceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerGetProjectBidCommercialWorkspace.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/bid-commercial-workspace`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectBidCommercialWorkspaceView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目签约前报价与毛利评审工作区
+     * @endpoint get /api/projects/{projectId}/pricing-margin-workspace
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerGetProjectPricingMarginWorkspace(requestParameters: ProjectControllerGetProjectPricingMarginWorkspaceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectPricingMarginWorkspaceView>;
+    public projectControllerGetProjectPricingMarginWorkspace(requestParameters: ProjectControllerGetProjectPricingMarginWorkspaceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectPricingMarginWorkspaceView>>;
+    public projectControllerGetProjectPricingMarginWorkspace(requestParameters: ProjectControllerGetProjectPricingMarginWorkspaceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectPricingMarginWorkspaceView>>;
+    public projectControllerGetProjectPricingMarginWorkspace(requestParameters: ProjectControllerGetProjectPricingMarginWorkspaceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerGetProjectPricingMarginWorkspace.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/pricing-margin-workspace`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectPricingMarginWorkspaceView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目签约前技术与成本工作区
+     * @endpoint get /api/projects/{projectId}/technical-cost-workspace
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerGetProjectTechnicalCostWorkspace(requestParameters: ProjectControllerGetProjectTechnicalCostWorkspaceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectTechnicalCostWorkspaceView>;
+    public projectControllerGetProjectTechnicalCostWorkspace(requestParameters: ProjectControllerGetProjectTechnicalCostWorkspaceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectTechnicalCostWorkspaceView>>;
+    public projectControllerGetProjectTechnicalCostWorkspace(requestParameters: ProjectControllerGetProjectTechnicalCostWorkspaceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectTechnicalCostWorkspaceView>>;
+    public projectControllerGetProjectTechnicalCostWorkspace(requestParameters: ProjectControllerGetProjectTechnicalCostWorkspaceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerGetProjectTechnicalCostWorkspace.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/technical-cost-workspace`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectTechnicalCostWorkspaceView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -870,6 +1329,66 @@ export class ProjectApi extends BaseService {
     }
 
     /**
+     * 获取项目签约前招投标与商务竞标过程列表
+     * @endpoint get /api/projects/{projectId}/bid-commercial-processes
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerListProjectBidCommercialProcesses(requestParameters: ProjectControllerListProjectBidCommercialProcessesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectBidCommercialProcessSummary>>;
+    public projectControllerListProjectBidCommercialProcesses(requestParameters: ProjectControllerListProjectBidCommercialProcessesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectBidCommercialProcessSummary>>>;
+    public projectControllerListProjectBidCommercialProcesses(requestParameters: ProjectControllerListProjectBidCommercialProcessesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectBidCommercialProcessSummary>>>;
+    public projectControllerListProjectBidCommercialProcesses(requestParameters: ProjectControllerListProjectBidCommercialProcessesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerListProjectBidCommercialProcesses.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/bid-commercial-processes`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ProjectBidCommercialProcessSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取项目完成确认记录
      * @endpoint get /api/projects/{projectId}/completion-records
      * @param requestParameters
@@ -917,6 +1436,126 @@ export class ProjectApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/completion-records`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<ProjectCompletionRecordSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目签约前报价与毛利评审列表
+     * @endpoint get /api/projects/{projectId}/pricing-margin-reviews
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerListProjectPricingMarginReviews(requestParameters: ProjectControllerListProjectPricingMarginReviewsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectPricingMarginReviewSummary>>;
+    public projectControllerListProjectPricingMarginReviews(requestParameters: ProjectControllerListProjectPricingMarginReviewsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectPricingMarginReviewSummary>>>;
+    public projectControllerListProjectPricingMarginReviews(requestParameters: ProjectControllerListProjectPricingMarginReviewsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectPricingMarginReviewSummary>>>;
+    public projectControllerListProjectPricingMarginReviews(requestParameters: ProjectControllerListProjectPricingMarginReviewsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerListProjectPricingMarginReviews.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/pricing-margin-reviews`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ProjectPricingMarginReviewSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取项目签约前技术与成本版本包列表
+     * @endpoint get /api/projects/{projectId}/technical-cost-packages
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerListProjectTechnicalCostPackages(requestParameters: ProjectControllerListProjectTechnicalCostPackagesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectTechnicalCostPackageSummary>>;
+    public projectControllerListProjectTechnicalCostPackages(requestParameters: ProjectControllerListProjectTechnicalCostPackagesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectTechnicalCostPackageSummary>>>;
+    public projectControllerListProjectTechnicalCostPackages(requestParameters: ProjectControllerListProjectTechnicalCostPackagesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectTechnicalCostPackageSummary>>>;
+    public projectControllerListProjectTechnicalCostPackages(requestParameters: ProjectControllerListProjectTechnicalCostPackagesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectControllerListProjectTechnicalCostPackages.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/technical-cost-packages`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ProjectTechnicalCostPackageSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

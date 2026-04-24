@@ -7,7 +7,22 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
+import {
+    ProjectBidCommercialMaterialItem,
+    ProjectBidCommercialProcess,
+    ProjectBidCommercialTimelineItem
+} from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
+import {
+    ProjectPricingMarginConditionItem,
+    ProjectPricingMarginReview
+} from './project-pricing-margin-review.entity';
+import {
+    ProjectTechnicalCostItem,
+    ProjectTechnicalCostPackage,
+    ProjectTechnicalRiskItem,
+    ProjectTechnicalScopeItem
+} from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
 
 @Injectable()
@@ -28,7 +43,25 @@ export class ProjectRepository {
         @InjectRepository(ProjectCompletionRecord)
         private readonly projectCompletionRecordRepository: EntityRepository<ProjectCompletionRecord>,
         @InjectRepository(ProjectArchiveRecord)
-        private readonly projectArchiveRecordRepository: EntityRepository<ProjectArchiveRecord>
+        private readonly projectArchiveRecordRepository: EntityRepository<ProjectArchiveRecord>,
+        @InjectRepository(ProjectBidCommercialProcess)
+        private readonly projectBidCommercialProcessRepository: EntityRepository<ProjectBidCommercialProcess>,
+        @InjectRepository(ProjectBidCommercialMaterialItem)
+        private readonly projectBidCommercialMaterialItemRepository: EntityRepository<ProjectBidCommercialMaterialItem>,
+        @InjectRepository(ProjectBidCommercialTimelineItem)
+        private readonly projectBidCommercialTimelineItemRepository: EntityRepository<ProjectBidCommercialTimelineItem>,
+        @InjectRepository(ProjectPricingMarginReview)
+        private readonly projectPricingMarginReviewRepository: EntityRepository<ProjectPricingMarginReview>,
+        @InjectRepository(ProjectPricingMarginConditionItem)
+        private readonly projectPricingMarginConditionItemRepository: EntityRepository<ProjectPricingMarginConditionItem>,
+        @InjectRepository(ProjectTechnicalCostPackage)
+        private readonly projectTechnicalCostPackageRepository: EntityRepository<ProjectTechnicalCostPackage>,
+        @InjectRepository(ProjectTechnicalScopeItem)
+        private readonly projectTechnicalScopeItemRepository: EntityRepository<ProjectTechnicalScopeItem>,
+        @InjectRepository(ProjectTechnicalRiskItem)
+        private readonly projectTechnicalRiskItemRepository: EntityRepository<ProjectTechnicalRiskItem>,
+        @InjectRepository(ProjectTechnicalCostItem)
+        private readonly projectTechnicalCostItemRepository: EntityRepository<ProjectTechnicalCostItem>
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -224,6 +257,146 @@ export class ProjectRepository {
         );
     }
 
+    async findProjectBidCommercialProcessesByProjectId(projectId: string): Promise<ProjectBidCommercialProcess[]> {
+        return this.projectBidCommercialProcessRepository.find(
+            { projectId },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findCurrentProjectBidCommercialProcessByProjectId(projectId: string): Promise<ProjectBidCommercialProcess | null> {
+        return this.projectBidCommercialProcessRepository.findOne(
+            {
+                projectId,
+                isCurrent: true,
+                status: 'effective'
+            },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findProjectBidCommercialProcessById(id: string): Promise<ProjectBidCommercialProcess | null> {
+        return this.projectBidCommercialProcessRepository.findOne({ id });
+    }
+
+    async findProjectBidCommercialMaterialItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialMaterialItem[]> {
+        if (processIds.length === 0) {
+            return [];
+        }
+
+        return this.projectBidCommercialMaterialItemRepository.find(
+            { processId: { $in: processIds } },
+            { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
+    async findProjectBidCommercialTimelineItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialTimelineItem[]> {
+        if (processIds.length === 0) {
+            return [];
+        }
+
+        return this.projectBidCommercialTimelineItemRepository.find(
+            { processId: { $in: processIds } },
+            { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
+    async findProjectTechnicalCostPackagesByProjectId(projectId: string): Promise<ProjectTechnicalCostPackage[]> {
+        return this.projectTechnicalCostPackageRepository.find(
+            { projectId },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findProjectTechnicalCostPackageById(id: string): Promise<ProjectTechnicalCostPackage | null> {
+        return this.projectTechnicalCostPackageRepository.findOne({ id });
+    }
+
+    async findCurrentProjectTechnicalCostPackageByProjectId(projectId: string): Promise<ProjectTechnicalCostPackage | null> {
+        return this.projectTechnicalCostPackageRepository.findOne(
+            {
+                projectId,
+                isCurrent: true,
+                status: 'effective'
+            },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findProjectPricingMarginReviewsByProjectId(projectId: string): Promise<ProjectPricingMarginReview[]> {
+        return this.projectPricingMarginReviewRepository.find(
+            { projectId },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findCurrentProjectPricingMarginReviewByProjectId(projectId: string): Promise<ProjectPricingMarginReview | null> {
+        return this.projectPricingMarginReviewRepository.findOne(
+            {
+                projectId,
+                isCurrent: true,
+                status: 'effective'
+            },
+            {
+                orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findProjectPricingMarginConditionItemsByReviewIds(reviewIds: string[]): Promise<ProjectPricingMarginConditionItem[]> {
+        if (reviewIds.length === 0) {
+            return [];
+        }
+
+        return this.projectPricingMarginConditionItemRepository.find(
+            { reviewId: { $in: reviewIds } },
+            { orderBy: { reviewId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
+    async findProjectTechnicalScopeItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalScopeItem[]> {
+        if (packageIds.length === 0) {
+            return [];
+        }
+
+        return this.projectTechnicalScopeItemRepository.find(
+            { packageId: { $in: packageIds } },
+            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
+    async findProjectTechnicalRiskItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalRiskItem[]> {
+        if (packageIds.length === 0) {
+            return [];
+        }
+
+        return this.projectTechnicalRiskItemRepository.find(
+            { packageId: { $in: packageIds } },
+            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
+    async findProjectTechnicalCostItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalCostItem[]> {
+        if (packageIds.length === 0) {
+            return [];
+        }
+
+        return this.projectTechnicalCostItemRepository.find(
+            { packageId: { $in: packageIds } },
+            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
+        );
+    }
+
     create(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }
@@ -240,6 +413,44 @@ export class ProjectRepository {
         return this.projectArchiveRecordRepository.create(input);
     }
 
+    createProjectBidCommercialProcess(input: ConstructorParameters<typeof ProjectBidCommercialProcess>[0]): ProjectBidCommercialProcess {
+        return this.projectBidCommercialProcessRepository.create(input);
+    }
+
+    createProjectBidCommercialMaterialItem(input: ConstructorParameters<typeof ProjectBidCommercialMaterialItem>[0]): ProjectBidCommercialMaterialItem {
+        return this.projectBidCommercialMaterialItemRepository.create(input);
+    }
+
+    createProjectBidCommercialTimelineItem(input: ConstructorParameters<typeof ProjectBidCommercialTimelineItem>[0]): ProjectBidCommercialTimelineItem {
+        return this.projectBidCommercialTimelineItemRepository.create(input);
+    }
+
+    createProjectPricingMarginReview(input: ConstructorParameters<typeof ProjectPricingMarginReview>[0]): ProjectPricingMarginReview {
+        return this.projectPricingMarginReviewRepository.create(input);
+    }
+
+    createProjectPricingMarginConditionItem(
+        input: ConstructorParameters<typeof ProjectPricingMarginConditionItem>[0]
+    ): ProjectPricingMarginConditionItem {
+        return this.projectPricingMarginConditionItemRepository.create(input);
+    }
+
+    createProjectTechnicalCostPackage(input: ConstructorParameters<typeof ProjectTechnicalCostPackage>[0]): ProjectTechnicalCostPackage {
+        return this.projectTechnicalCostPackageRepository.create(input);
+    }
+
+    createProjectTechnicalScopeItem(input: ConstructorParameters<typeof ProjectTechnicalScopeItem>[0]): ProjectTechnicalScopeItem {
+        return this.projectTechnicalScopeItemRepository.create(input);
+    }
+
+    createProjectTechnicalRiskItem(input: ConstructorParameters<typeof ProjectTechnicalRiskItem>[0]): ProjectTechnicalRiskItem {
+        return this.projectTechnicalRiskItemRepository.create(input);
+    }
+
+    createProjectTechnicalCostItem(input: ConstructorParameters<typeof ProjectTechnicalCostItem>[0]): ProjectTechnicalCostItem {
+        return this.projectTechnicalCostItemRepository.create(input);
+    }
+
     async save(project: Project): Promise<void> {
         await this.projectRepository.getEntityManager().persist(project).flush();
     }
@@ -254,5 +465,56 @@ export class ProjectRepository {
 
     async saveProjectArchiveRecord(record: ProjectArchiveRecord): Promise<void> {
         await this.projectArchiveRecordRepository.getEntityManager().persist(record).flush();
+    }
+
+    async saveProjectBidCommercialProcess(input: {
+        currentProcess: ProjectBidCommercialProcess;
+        previousProcess: ProjectBidCommercialProcess | null;
+        materialItems: ProjectBidCommercialMaterialItem[];
+        timelineItems: ProjectBidCommercialTimelineItem[];
+    }): Promise<void> {
+        const entities = [
+            input.currentProcess,
+            ...input.materialItems,
+            ...input.timelineItems
+        ];
+        if (input.previousProcess) {
+            entities.push(input.previousProcess);
+        }
+
+        await this.projectBidCommercialProcessRepository.getEntityManager().persist(entities).flush();
+    }
+
+    async saveProjectPricingMarginReview(input: {
+        currentReview: ProjectPricingMarginReview;
+        previousReview: ProjectPricingMarginReview | null;
+        conditionItems: ProjectPricingMarginConditionItem[];
+    }): Promise<void> {
+        const entities: object[] = [input.currentReview, ...input.conditionItems];
+        if (input.previousReview) {
+            entities.push(input.previousReview);
+        }
+
+        await this.projectPricingMarginReviewRepository.getEntityManager().persist(entities).flush();
+    }
+
+    async saveProjectTechnicalCostPackage(input: {
+        currentPackage: ProjectTechnicalCostPackage;
+        previousPackage: ProjectTechnicalCostPackage | null;
+        scopeItems: ProjectTechnicalScopeItem[];
+        riskItems: ProjectTechnicalRiskItem[];
+        costItems: ProjectTechnicalCostItem[];
+    }): Promise<void> {
+        const entities = [
+            input.currentPackage,
+            ...input.scopeItems,
+            ...input.riskItems,
+            ...input.costItems
+        ];
+        if (input.previousPackage) {
+            entities.push(input.previousPackage);
+        }
+
+        await this.projectTechnicalCostPackageRepository.getEntityManager().persist(entities).flush();
     }
 }

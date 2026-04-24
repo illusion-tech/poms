@@ -86,21 +86,21 @@
 
 ### 4.1 销售流程域
 
-| 对象                         | 命令建议                    | 触发动作     | 前提摘要                                                                         | 放行方式  | 结果摘要                                                                   |
-| ---------------------------- | --------------------------- | ------------ | -------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------- |
-| `ProjectAssessment`          | `submitProjectAssessment`   | 提交立项评估 | 已创建 `Project`，处于 `assessment`                                              | 审批      | 创建 / 推进审批实例，锁定提交版本                                          |
-| `ScopeConfirmation`          | `confirmProjectScope`       | 确认范围     | 立项已通过，处于 `scope-confirmation`                                            | 确认      | 固化范围确认版本                                                           |
-| `QuotationReview`            | `submitQuotationReview`     | 提交报价评审 | 范围已确认，处于 `commercial-closure`                                            | 审批      | 形成报价评审提交批次                                                       |
-| `BidProcess`                 | `submitBidDecision`         | 提交投标决策 | 已创建当前有效 `BidProcess`                                                      | 审批      | 进入投标决策审批链                                                         |
-| `BidProcess`                 | `recordBidResult`           | 登记投标结果 | 已递交或澄清完成                                                                 | 审批/确认 | 固化投标结果，决定能否进入签约                                             |
-| `ExecutiveEscalationRequest` | `submitExecutiveEscalation` | 发起高层介入 | 满足重大例外或战略项目条件                                                       | 审批      | 创建高层介入审批链                                                         |
-| `Project`                    | `submitProjectContracting`  | 提交签约登记 | 商务收口完成；若招投标则已中标                                                   | 审批/确认 | 进入签约登记放行链                                                         |
-| `Project`                    | `closeProjectAsLost`        | 关闭丢单     | 处于签约前阶段且存在失单事实                                                     | 审批      | 形成 `closed-lost`                                                         |
-| `Project`                    | `terminateProject`          | 终止关闭     | 已进入执行或验收后发生重大终止                                                   | 审批      | 形成 `closed-terminated`                                                   |
-| `ProjectHandover`            | `confirmProjectHandover`    | 完成移交确认 | 已形成合同台账，确认人集合齐备；已选定项目级回款判断模式；合同承接摘要输入已固定 | 多方确认  | 固化移交完成事实、当前有效合同集合引用、合同承接摘要快照与移交确认摘要快照 |
-| `AcceptanceRecord`           | `confirmAcceptance`         | 确认验收     | 已形成可验收成果并提交证据引用                                                   | 确认      | 固化验收结论、验收类型与证据链摘要                                         |
-| `ProjectCompletionRecord`    | `confirmProjectCompletion`  | 确认完成     | 已存在有效验收记录，且项目未处于关闭 / 终止状态                                  | 确认      | 固化项目完成结论、完成时间、验收来源引用与操作者留痕                       |
-| `ProjectArchiveRecord`       | `createProjectArchiveRecord` | 记录归档     | 项目已处于 `completed` / `closed-lost` / `closed-terminated`，且存在有效终态来源  | 确认      | 固化项目归档时间、锚定终态、来源引用与操作者留痕                           |
+| 对象                         | 命令建议                     | 触发动作     | 前提摘要                                                                         | 放行方式  | 结果摘要                                                                   |
+| ---------------------------- | ---------------------------- | ------------ | -------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------- |
+| `ProjectAssessment`          | `submitProjectAssessment`    | 提交立项评估 | 已创建 `Project`，处于 `assessment`                                              | 审批      | 创建 / 推进审批实例，锁定提交版本                                          |
+| `ScopeConfirmation`          | `confirmProjectScope`        | 确认范围     | 立项已通过，处于 `scope-confirmation`                                            | 确认      | 固化范围确认版本                                                           |
+| `QuotationReview`            | `submitQuotationReview`      | 提交报价评审 | 范围已确认，处于 `commercial-closure`                                            | 审批      | 形成报价评审提交批次                                                       |
+| `BidProcess`                 | `submitBidDecision`          | 提交投标决策 | 已创建当前有效 `BidProcess`                                                      | 审批      | 进入投标决策审批链                                                         |
+| `BidProcess`                 | `recordBidResult`            | 登记投标结果 | 已递交或澄清完成                                                                 | 审批/确认 | 固化投标结果，决定能否进入签约                                             |
+| `ExecutiveEscalationRequest` | `submitExecutiveEscalation`  | 发起高层介入 | 满足重大例外或战略项目条件                                                       | 审批      | 创建高层介入审批链                                                         |
+| `Project`                    | `submitProjectContracting`   | 提交签约登记 | 商务收口完成；若招投标则已中标                                                   | 审批/确认 | 进入签约登记放行链                                                         |
+| `Project`                    | `closeProjectAsLost`         | 关闭丢单     | 处于签约前阶段且存在失单事实                                                     | 审批      | 形成 `closed-lost`                                                         |
+| `Project`                    | `terminateProject`           | 终止关闭     | 已进入执行或验收后发生重大终止                                                   | 审批      | 形成 `closed-terminated`                                                   |
+| `ProjectHandover`            | `confirmProjectHandover`     | 完成移交确认 | 已形成合同台账，确认人集合齐备；已选定项目级回款判断模式；合同承接摘要输入已固定 | 多方确认  | 固化移交完成事实、当前有效合同集合引用、合同承接摘要快照与移交确认摘要快照 |
+| `AcceptanceRecord`           | `confirmAcceptance`          | 确认验收     | 已形成可验收成果并提交证据引用                                                   | 确认      | 固化验收结论、验收类型与证据链摘要                                         |
+| `ProjectCompletionRecord`    | `confirmProjectCompletion`   | 确认完成     | 已存在有效验收记录，且项目未处于关闭 / 终止状态                                  | 确认      | 固化项目完成结论、完成时间、验收来源引用与操作者留痕                       |
+| `ProjectArchiveRecord`       | `createProjectArchiveRecord` | 记录归档     | 项目已处于 `completed` / `closed-lost` / `closed-terminated`，且存在有效终态来源 | 确认      | 固化项目归档时间、锚定终态、来源引用与操作者留痕                           |
 
 ### 4.2 合同资金域
 

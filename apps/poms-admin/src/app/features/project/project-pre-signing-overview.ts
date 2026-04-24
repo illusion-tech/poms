@@ -206,25 +206,25 @@ export class ProjectPreSigningOverview implements OnInit {
                 key: 'technical-cost',
                 label: '技术与成本',
                 description: '范围边界、排除项、技术风险和前期成本。',
-                statusLabel: '待接入',
-                statusSeverity: 'warn',
-                disabledReason: '正式事实源形成后开放。'
+                statusLabel: '可进入',
+                statusSeverity: 'info',
+                routerLink: ['/projects', projectId, 'workspace', 'technical-cost']
             },
             {
                 key: 'bid-commercial',
                 label: '招投标 / 商务竞标',
                 description: '投标形态、材料责任、竞标结果和商务路径。',
-                statusLabel: '待接入',
-                statusSeverity: 'warn',
-                disabledReason: '正式事实源形成后开放。'
+                statusLabel: '可进入',
+                statusSeverity: 'info',
+                routerLink: ['/projects', projectId, 'workspace', 'bid-commercial']
             },
             {
                 key: 'pricing-margin',
                 label: '报价与毛利评审',
                 description: '报价结论、毛利判断、审批摘要和放行条件。',
-                statusLabel: '待接入',
-                statusSeverity: 'warn',
-                disabledReason: '正式事实源形成后开放。'
+                statusLabel: '可进入',
+                statusSeverity: 'info',
+                routerLink: ['/projects', projectId, 'workspace', 'pricing-margin']
             },
             {
                 key: 'contract-readiness',

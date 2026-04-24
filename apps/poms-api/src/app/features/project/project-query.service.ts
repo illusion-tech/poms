@@ -7,12 +7,27 @@ import type {
     PermissionKey,
     ProjectArchiveRecordList,
     ProjectArchiveRecordSummary,
+    ProjectBidCommercialMaterialItemView,
+    ProjectBidCommercialProcessList,
+    ProjectBidCommercialProcessSummary,
+    ProjectBidCommercialTimelineItemView,
+    ProjectBidCommercialWorkspaceView,
     ProjectCompletionRecordList,
     ProjectCompletionRecordResult,
     ProjectCompletionRecordSummary,
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
+    ProjectPricingMarginConditionItemView,
+    ProjectPricingMarginReviewList,
+    ProjectPricingMarginReviewSummary,
+    ProjectPricingMarginWorkspaceView,
+    ProjectTechnicalCostItemView,
+    ProjectTechnicalCostPackageList,
+    ProjectTechnicalCostPackageSummary,
+    ProjectTechnicalCostWorkspaceView,
+    ProjectTechnicalRiskItemView,
+    ProjectTechnicalScopeItemView,
     ProjectTimelineView,
     ProjectWorkspaceGuidanceView,
     UserPayload
@@ -21,7 +36,22 @@ import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-
 import { Contract } from '../contract/contract.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
+import {
+    ProjectBidCommercialMaterialItem,
+    ProjectBidCommercialProcess,
+    ProjectBidCommercialTimelineItem
+} from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
+import {
+    ProjectPricingMarginConditionItem,
+    ProjectPricingMarginReview
+} from './project-pricing-margin-review.entity';
+import {
+    ProjectTechnicalCostItem,
+    ProjectTechnicalCostPackage,
+    ProjectTechnicalRiskItem,
+    ProjectTechnicalScopeItem
+} from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -376,6 +406,206 @@ export class ProjectQueryService {
         return records.map((record) => this.mapProjectArchiveRecord(record, userNameById));
     }
 
+    async listProjectBidCommercialProcesses(projectId: string): Promise<ProjectBidCommercialProcessList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const processes = await this.projectRepository.findProjectBidCommercialProcessesByProjectId(project.id);
+        return processes.map((item) => this.mapProjectBidCommercialProcess(item));
+    }
+
+    async getProjectBidCommercialWorkspace(projectId: string, user: UserPayload): Promise<ProjectBidCommercialWorkspaceView> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const [ownerUsers, ownerOrgUnits, currentProcess] = await Promise.all([
+            project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
+            project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
+            this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id)
+        ]);
+        const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
+        const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+        const allowedActions = this.buildBidCommercialAllowedActions(project, user.permissions);
+
+        if (!currentProcess) {
+            return {
+                projectId: project.id,
+                currentStage: project.currentStage,
+                status: project.status,
+                currentProcess: null,
+                materialItems: [],
+                timelineItems: [],
+                blockingReasons: ['尚未形成招投标 / 商务竞标过程记录。'],
+                nextStep: '明确是否需要投标、邀标、比选、商务竞标或直接商务报价路径。',
+                ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '销售 / 商务'),
+                allowedActions,
+                generatedAt: new Date().toISOString()
+            };
+        }
+
+        const [materialItems, timelineItems] = await Promise.all([
+            this.projectRepository.findProjectBidCommercialMaterialItemsByProcessIds([currentProcess.id]),
+            this.projectRepository.findProjectBidCommercialTimelineItemsByProcessIds([currentProcess.id])
+        ]);
+
+        return {
+            projectId: project.id,
+            currentStage: project.currentStage,
+            status: project.status,
+            currentProcess: this.mapProjectBidCommercialProcess(currentProcess),
+            materialItems: materialItems.map((item) => this.mapProjectBidCommercialMaterialItem(item)),
+            timelineItems: timelineItems.map((item) => this.mapProjectBidCommercialTimelineItem(item)),
+            blockingReasons: this.buildBidCommercialBlockingReasons(currentProcess, materialItems),
+            nextStep: this.buildBidCommercialNextStep(currentProcess, materialItems),
+            ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, currentProcess.ownerRole ?? '销售 / 商务'),
+            allowedActions,
+            generatedAt: new Date().toISOString()
+        };
+    }
+
+    async listProjectPricingMarginReviews(projectId: string): Promise<ProjectPricingMarginReviewList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const reviews = await this.projectRepository.findProjectPricingMarginReviewsByProjectId(project.id);
+        return reviews.map((item) => this.mapProjectPricingMarginReview(item));
+    }
+
+    async getProjectPricingMarginWorkspace(projectId: string, user: UserPayload): Promise<ProjectPricingMarginWorkspaceView> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const [ownerUsers, ownerOrgUnits, currentReview, currentTechnicalCostPackage, currentBidCommercialProcess] = await Promise.all([
+            project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
+            project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
+            this.projectRepository.findCurrentProjectPricingMarginReviewByProjectId(project.id),
+            this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(project.id),
+            this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id)
+        ]);
+        const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
+        const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+        const allowedActions = this.buildPricingMarginAllowedActions(project, user.permissions);
+
+        if (!currentReview) {
+            const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(currentTechnicalCostPackage, currentBidCommercialProcess);
+            return {
+                projectId: project.id,
+                currentStage: project.currentStage,
+                status: project.status,
+                currentReview: null,
+                technicalCostPackage: currentTechnicalCostPackage
+                    ? this.mapProjectTechnicalCostPackage(currentTechnicalCostPackage)
+                    : null,
+                bidCommercialProcess: currentBidCommercialProcess
+                    ? this.mapProjectBidCommercialProcess(currentBidCommercialProcess)
+                    : null,
+                conditionItems: [],
+                blockingReasons: blockingReasons.length > 0 ? blockingReasons : ['尚未形成报价与毛利评审记录。'],
+                nextStep: this.buildPricingMarginEmptyNextStep(currentTechnicalCostPackage, currentBidCommercialProcess),
+                readyForContracting: false,
+                ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '销售 / 财务'),
+                allowedActions,
+                generatedAt: new Date().toISOString()
+            };
+        }
+
+        const [conditionItems, technicalCostPackage, bidCommercialProcess] = await Promise.all([
+            this.projectRepository.findProjectPricingMarginConditionItemsByReviewIds([currentReview.id]),
+            this.projectRepository.findProjectTechnicalCostPackageById(currentReview.technicalCostPackageId),
+            currentReview.bidCommercialProcessId
+                ? this.projectRepository.findProjectBidCommercialProcessById(currentReview.bidCommercialProcessId)
+                : Promise.resolve(null)
+        ]);
+
+        return {
+            projectId: project.id,
+            currentStage: project.currentStage,
+            status: project.status,
+            currentReview: this.mapProjectPricingMarginReview(currentReview),
+            technicalCostPackage: technicalCostPackage ? this.mapProjectTechnicalCostPackage(technicalCostPackage) : null,
+            bidCommercialProcess: bidCommercialProcess ? this.mapProjectBidCommercialProcess(bidCommercialProcess) : null,
+            conditionItems: conditionItems.map((item) => this.mapProjectPricingMarginConditionItem(item)),
+            blockingReasons: this.buildPricingMarginBlockingReasons(currentReview, conditionItems, technicalCostPackage),
+            nextStep: this.buildPricingMarginNextStep(currentReview, conditionItems, technicalCostPackage),
+            readyForContracting: currentReview.readyForContracting,
+            ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, currentReview.ownerRole ?? '销售 / 财务'),
+            allowedActions,
+            generatedAt: new Date().toISOString()
+        };
+    }
+
+    async listProjectTechnicalCostPackages(projectId: string): Promise<ProjectTechnicalCostPackageList> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const packages = await this.projectRepository.findProjectTechnicalCostPackagesByProjectId(project.id);
+        return packages.map((item) => this.mapProjectTechnicalCostPackage(item));
+    }
+
+    async getProjectTechnicalCostWorkspace(projectId: string, user: UserPayload): Promise<ProjectTechnicalCostWorkspaceView> {
+        const project = await this.projectRepository.findById(projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${projectId} not found`);
+        }
+
+        const [ownerUsers, ownerOrgUnits, currentPackage] = await Promise.all([
+            project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
+            project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
+            this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(project.id)
+        ]);
+        const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
+        const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+        const allowedActions = this.buildTechnicalCostAllowedActions(project, user.permissions);
+
+        if (!currentPackage) {
+            return {
+                projectId: project.id,
+                currentStage: project.currentStage,
+                status: project.status,
+                currentPackage: null,
+                scopeItems: [],
+                riskItems: [],
+                costItems: [],
+                blockingReasons: ['尚未形成技术与成本测算版本包。'],
+                nextStep: '补齐技术可行性、范围边界、风险项和成本税务估算。',
+                ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '技术支持 / 售前'),
+                allowedActions,
+                generatedAt: new Date().toISOString()
+            };
+        }
+
+        const [scopeItems, riskItems, costItems] = await Promise.all([
+            this.projectRepository.findProjectTechnicalScopeItemsByPackageIds([currentPackage.id]),
+            this.projectRepository.findProjectTechnicalRiskItemsByPackageIds([currentPackage.id]),
+            this.projectRepository.findProjectTechnicalCostItemsByPackageIds([currentPackage.id])
+        ]);
+
+        return {
+            projectId: project.id,
+            currentStage: project.currentStage,
+            status: project.status,
+            currentPackage: this.mapProjectTechnicalCostPackage(currentPackage),
+            scopeItems: scopeItems.map((item) => this.mapProjectTechnicalScopeItem(item)),
+            riskItems: riskItems.map((item) => this.mapProjectTechnicalRiskItem(item)),
+            costItems: costItems.map((item) => this.mapProjectTechnicalCostItem(item)),
+            blockingReasons: this.buildTechnicalCostBlockingReasons(currentPackage, riskItems),
+            nextStep: this.buildTechnicalCostNextStep(currentPackage, riskItems),
+            ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '技术支持 / 售前'),
+            allowedActions,
+            generatedAt: new Date().toISOString()
+        };
+    }
+
     async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
@@ -602,6 +832,429 @@ export class ProjectQueryService {
         };
     }
 
+    private mapProjectBidCommercialProcess(record: ProjectBidCommercialProcess): ProjectBidCommercialProcessSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            version: record.version,
+            isCurrent: record.isCurrent,
+            supersedesId: record.supersedesId ?? null,
+            status: record.status,
+            bidMode: record.bidMode,
+            currentStage: record.currentStage,
+            decision: record.decision,
+            resultStatus: record.resultStatus,
+            processSummary: record.processSummary,
+            decisionSummary: record.decisionSummary ?? null,
+            resultSummary: record.resultSummary ?? null,
+            ownerRole: record.ownerRole ?? null,
+            blockerCount: record.blockerCount,
+            effectiveAt: record.effectiveAt.toISOString(),
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
+        };
+    }
+
+    private mapProjectBidCommercialMaterialItem(record: ProjectBidCommercialMaterialItem): ProjectBidCommercialMaterialItemView {
+        return {
+            id: record.id,
+            processId: record.processId,
+            materialKey: record.materialKey,
+            label: record.label,
+            materialStatus: record.materialStatus,
+            responsibleRole: record.responsibleRole ?? null,
+            dueAt: record.dueAt?.toISOString() ?? null,
+            blocksNextStep: record.blocksNextStep,
+            navigationHint: record.navigationHint ?? null,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private mapProjectBidCommercialTimelineItem(record: ProjectBidCommercialTimelineItem): ProjectBidCommercialTimelineItemView {
+        return {
+            id: record.id,
+            processId: record.processId,
+            eventKey: record.eventKey,
+            label: record.label,
+            summary: record.summary ?? null,
+            timelineStatus: record.timelineStatus,
+            occurredAt: record.occurredAt?.toISOString() ?? null,
+            dueAt: record.dueAt?.toISOString() ?? null,
+            responsibleRole: record.responsibleRole ?? null,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private mapProjectPricingMarginReview(record: ProjectPricingMarginReview): ProjectPricingMarginReviewSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            version: record.version,
+            isCurrent: record.isCurrent,
+            supersedesId: record.supersedesId ?? null,
+            status: record.status,
+            technicalCostPackageId: record.technicalCostPackageId,
+            bidCommercialProcessId: record.bidCommercialProcessId ?? null,
+            commercialReleaseBaselineId: record.commercialReleaseBaselineId ?? null,
+            pricingPath: record.pricingPath,
+            quoteVersion: record.quoteVersion,
+            currencyCode: record.currencyCode,
+            quoteAmountTaxInclusive: this.toDecimalString(record.quoteAmountTaxInclusive),
+            quoteAmountTaxExclusive: this.toDecimalString(record.quoteAmountTaxExclusive),
+            taxRate: this.toDecimalString(record.taxRate),
+            taxConditionSummary: record.taxConditionSummary,
+            paymentTermsSummary: record.paymentTermsSummary,
+            grossMarginRate: this.toNullableDecimalString(record.grossMarginRate),
+            grossMarginBand: record.grossMarginBand,
+            grossMarginSummary: record.grossMarginSummary,
+            decision: record.decision,
+            decisionSummary: record.decisionSummary,
+            approvalScenarioKey: record.approvalScenarioKey ?? null,
+            summaryPackageKey: record.summaryPackageKey ?? null,
+            summarySnapshotId: record.summarySnapshotId ?? null,
+            projectionLevel: record.projectionLevel ?? null,
+            exportPolicy: record.exportPolicy ?? null,
+            readyForContracting: record.readyForContracting,
+            ownerRole: record.ownerRole ?? null,
+            blockerCount: record.blockerCount,
+            effectiveAt: record.effectiveAt.toISOString(),
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
+        };
+    }
+
+    private mapProjectPricingMarginConditionItem(record: ProjectPricingMarginConditionItem): ProjectPricingMarginConditionItemView {
+        return {
+            id: record.id,
+            reviewId: record.reviewId,
+            conditionKey: record.conditionKey,
+            conditionType: record.conditionType,
+            label: record.label,
+            conditionSummary: record.conditionSummary,
+            conditionStatus: record.conditionStatus,
+            requiredForContracting: record.requiredForContracting,
+            responsibleRole: record.responsibleRole ?? null,
+            dueAt: record.dueAt?.toISOString() ?? null,
+            resolutionSummary: record.resolutionSummary ?? null,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private mapProjectTechnicalCostPackage(record: ProjectTechnicalCostPackage): ProjectTechnicalCostPackageSummary {
+        return {
+            id: record.id,
+            projectId: record.projectId,
+            version: record.version,
+            isCurrent: record.isCurrent,
+            supersedesId: record.supersedesId ?? null,
+            status: record.status,
+            technicalFeasibilityDecision: record.technicalFeasibilityDecision,
+            technicalConclusionSummary: record.technicalConclusionSummary,
+            allowNextStage: record.allowNextStage,
+            currencyCode: record.currencyCode,
+            totalEstimatedAmountExcludingTax: this.toDecimalString(record.totalEstimatedAmountExcludingTax),
+            totalTaxCostAmount: this.toDecimalString(record.totalTaxCostAmount),
+            totalEstimatedAmountIncludingTax: this.toDecimalString(record.totalEstimatedAmountIncludingTax),
+            taxAssumptionSummary: record.taxAssumptionSummary,
+            taxReviewStatus: record.taxReviewStatus,
+            highestRiskLevel: record.highestRiskLevel ?? null,
+            blockerCount: record.blockerCount,
+            effectiveAt: record.effectiveAt.toISOString(),
+            createdAt: record.createdAt.toISOString(),
+            createdBy: record.createdBy ?? null,
+            updatedAt: record.updatedAt.toISOString(),
+            updatedBy: record.updatedBy ?? null,
+            rowVersion: record.rowVersion
+        };
+    }
+
+    private mapProjectTechnicalScopeItem(record: ProjectTechnicalScopeItem): ProjectTechnicalScopeItemView {
+        return {
+            id: record.id,
+            packageId: record.packageId,
+            scopeType: record.scopeType,
+            label: record.label,
+            description: record.description,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private mapProjectTechnicalRiskItem(record: ProjectTechnicalRiskItem): ProjectTechnicalRiskItemView {
+        return {
+            id: record.id,
+            packageId: record.packageId,
+            riskCategory: record.riskCategory,
+            riskLevel: record.riskLevel,
+            riskDescription: record.riskDescription,
+            impactScope: record.impactScope,
+            mitigationPlan: record.mitigationPlan,
+            ownerRole: record.ownerRole,
+            riskStatus: record.riskStatus,
+            blocksNextStage: record.blocksNextStage,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private mapProjectTechnicalCostItem(record: ProjectTechnicalCostItem): ProjectTechnicalCostItemView {
+        return {
+            id: record.id,
+            packageId: record.packageId,
+            costCategory: record.costCategory,
+            costSubcategory: record.costSubcategory ?? null,
+            costDescription: record.costDescription,
+            estimationBasis: record.estimationBasis,
+            quantity: this.toNullableDecimalString(record.quantity),
+            unit: record.unit ?? null,
+            unitPrice: this.toNullableDecimalString(record.unitPrice),
+            amountExcludingTax: this.toDecimalString(record.amountExcludingTax),
+            taxCostAmount: this.toDecimalString(record.taxCostAmount),
+            amountIncludingTax: this.toDecimalString(record.amountIncludingTax),
+            currencyCode: record.currencyCode,
+            confidenceLevel: record.confidenceLevel,
+            highUncertainty: record.highUncertainty,
+            responsibleRole: record.responsibleRole ?? null,
+            sortOrder: record.sortOrder
+        };
+    }
+
+    private buildBidCommercialAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
+        const permissionSet = new Set<PermissionKey>(permissions);
+        const actions = ['view-bid-commercial-workspace'];
+
+        if (
+            !this.isClosedProject(project) &&
+            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
+            permissionSet.has('project:write')
+        ) {
+            actions.push('create-bid-commercial-process');
+        }
+
+        return actions;
+    }
+
+    private buildBidCommercialBlockingReasons(
+        currentProcess: ProjectBidCommercialProcess,
+        materialItems: ProjectBidCommercialMaterialItem[]
+    ): string[] {
+        const reasons: string[] = [];
+
+        if (currentProcess.decision === 'pending') {
+            reasons.push('尚未完成是否参与竞标 / 商务竞标的决策。');
+        }
+
+        if (currentProcess.decision === 'no-bid') {
+            reasons.push('当前已决策不参与本次竞标，需要明确是否转入直接商务路径或关闭推进。');
+        }
+
+        if (['lost', 'cancelled'].includes(currentProcess.resultStatus)) {
+            reasons.push('当前竞标结果不能直接进入报价与签约承接。');
+        }
+
+        for (const item of materialItems) {
+            if (item.blocksNextStep && !['ready', 'not-required'].includes(item.materialStatus)) {
+                reasons.push(`${item.label}：${item.materialStatus === 'missing' ? '材料缺失' : '材料仍在处理中'}`);
+            }
+        }
+
+        return reasons;
+    }
+
+    private buildBidCommercialNextStep(
+        currentProcess: ProjectBidCommercialProcess,
+        materialItems: ProjectBidCommercialMaterialItem[]
+    ): string {
+        const blockingReasons = this.buildBidCommercialBlockingReasons(currentProcess, materialItems);
+        if (blockingReasons.length > 0) {
+            return '先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。';
+        }
+
+        if (currentProcess.bidMode === 'not-required') {
+            return '投标路径不适用，可以直接进入报价与毛利评审。';
+        }
+
+        if (currentProcess.bidMode === 'direct-commercial') {
+            return '沿直接商务路径进入报价与毛利评审，并保留本过程作为商务依据。';
+        }
+
+        if (currentProcess.resultStatus === 'won') {
+            return '将中标 / 竞标结果带入报价与毛利评审或签约就绪判断。';
+        }
+
+        return '补齐竞标过程依据，准备进入报价与毛利评审。';
+    }
+
+    private buildPricingMarginAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
+        const permissionSet = new Set<PermissionKey>(permissions);
+        const actions = ['view-pricing-margin-workspace'];
+
+        if (
+            !this.isClosedProject(project) &&
+            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
+            permissionSet.has('project:write')
+        ) {
+            actions.push('create-pricing-margin-review');
+        }
+
+        return actions;
+    }
+
+    private buildPricingMarginPrerequisiteBlockingReasons(
+        technicalCostPackage: ProjectTechnicalCostPackage | null,
+        bidCommercialProcess: ProjectBidCommercialProcess | null
+    ): string[] {
+        const reasons: string[] = [];
+
+        if (!technicalCostPackage) {
+            reasons.push('尚未形成可引用的技术与成本版本包。');
+        } else {
+            if (!technicalCostPackage.allowNextStage) {
+                reasons.push('当前技术与成本版本包尚未允许进入报价评审。');
+            }
+
+            if (technicalCostPackage.taxReviewStatus === 'pending') {
+                reasons.push('当前技术与成本版本包的税务成本仍待复核。');
+            }
+        }
+
+        if (bidCommercialProcess && ['lost', 'cancelled'].includes(bidCommercialProcess.resultStatus)) {
+            reasons.push('当前竞标 / 商务过程结果不能直接支撑报价评审。');
+        }
+
+        return reasons;
+    }
+
+    private buildPricingMarginBlockingReasons(
+        currentReview: ProjectPricingMarginReview,
+        conditionItems: ProjectPricingMarginConditionItem[],
+        technicalCostPackage: ProjectTechnicalCostPackage | null
+    ): string[] {
+        const reasons: string[] = [];
+
+        if (!technicalCostPackage) {
+            reasons.push('报价评审引用的技术与成本版本包已不可用。');
+        }
+
+        if (currentReview.decision === 'pending') {
+            reasons.push('报价与毛利评审尚未形成放行结论。');
+        }
+
+        if (currentReview.decision === 'rejected') {
+            reasons.push('报价与毛利评审已被否决，需要回到技术、成本或商务条件重新收口。');
+        }
+
+        if (currentReview.decision === 'escalation-required') {
+            reasons.push('当前报价与毛利评审需要升级审批，暂不能进入签约就绪。');
+        }
+
+        for (const item of conditionItems) {
+            if (item.requiredForContracting && item.conditionStatus === 'open') {
+                reasons.push(`${item.label}：${item.conditionSummary}`);
+            }
+        }
+
+        return reasons;
+    }
+
+    private buildPricingMarginEmptyNextStep(
+        technicalCostPackage: ProjectTechnicalCostPackage | null,
+        bidCommercialProcess: ProjectBidCommercialProcess | null
+    ): string {
+        const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage, bidCommercialProcess);
+        if (blockingReasons.length > 0) {
+            return '先补齐技术成本、税务复核或商务路径依据，再发起报价与毛利评审。';
+        }
+
+        return '基于当前技术成本和商务路径，形成报价、税务条件、回款条件与毛利评审结论。';
+    }
+
+    private buildPricingMarginNextStep(
+        currentReview: ProjectPricingMarginReview,
+        conditionItems: ProjectPricingMarginConditionItem[],
+        technicalCostPackage: ProjectTechnicalCostPackage | null
+    ): string {
+        const blockingReasons = this.buildPricingMarginBlockingReasons(currentReview, conditionItems, technicalCostPackage);
+        if (blockingReasons.length > 0) {
+            return '先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。';
+        }
+
+        if (currentReview.readyForContracting) {
+            return '可以将当前商业放行基线和摘要快照带入签约就绪。';
+        }
+
+        return '确认商业放行基线、审批摘要和签约承接关系后再进入签约就绪。';
+    }
+
+    private buildTechnicalCostAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
+        const permissionSet = new Set<PermissionKey>(permissions);
+        const actions = ['view-technical-cost-workspace'];
+
+        if (
+            !this.isClosedProject(project) &&
+            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
+            permissionSet.has('project:write')
+        ) {
+            actions.push('create-technical-cost-package');
+        }
+
+        return actions;
+    }
+
+    private buildTechnicalCostBlockingReasons(
+        currentPackage: ProjectTechnicalCostPackage,
+        riskItems: ProjectTechnicalRiskItem[]
+    ): string[] {
+        const reasons: string[] = [];
+
+        if (!currentPackage.allowNextStage) {
+            reasons.push('技术与成本版本包尚未允许进入下一阶段。');
+        }
+
+        for (const item of riskItems) {
+            if (item.blocksNextStage && item.riskStatus !== 'closed') {
+                reasons.push(`${item.riskCategory}：${item.riskDescription}`);
+            }
+        }
+
+        if (currentPackage.taxReviewStatus === 'pending') {
+            reasons.push('税务成本假设仍待复核。');
+        }
+
+        return reasons;
+    }
+
+    private buildTechnicalCostNextStep(
+        currentPackage: ProjectTechnicalCostPackage,
+        riskItems: ProjectTechnicalRiskItem[]
+    ): string {
+        if (currentPackage.allowNextStage && riskItems.every((item) => !item.blocksNextStage || item.riskStatus === 'closed')) {
+            return '进入商务收口前，保持当前版本包作为报价和签约前判断依据。';
+        }
+
+        if (currentPackage.taxReviewStatus === 'pending') {
+            return '先完成税务成本复核，再判断是否进入商务收口。';
+        }
+
+        return '先关闭阻塞风险或更新版本包，再进入商务收口。';
+    }
+
+    private toDecimalString(value: string | number): string {
+        return typeof value === 'string' ? value : String(value);
+    }
+
+    private toNullableDecimalString(value: string | number | null | undefined): string | null {
+        if (value == null) {
+            return null;
+        }
+
+        return this.toDecimalString(value);
+    }
+
     private buildStageSummary(project: Project): ProjectDetailView['stageSummary'] {
         return {
             currentStage: project.currentStage,
@@ -796,6 +1449,51 @@ export class ProjectQueryService {
                     stageReady: true,
                     permissionReady: canUsePreSigningWorkspace,
                     stageReason: '项目进入签约前阶段后再查看签约前主线。',
+                    permissionReason: '需要项目查看权限。'
+                }),
+                actionKey: 'view-project-workspace'
+            });
+            entries.push({
+                key: 'technical-cost-workspace',
+                label: '技术与成本',
+                description: '查看技术可行性、范围边界、风险保留和前期成本估算。',
+                route: `${projectRoutePrefix}/workspace/technical-cost`,
+                enabled: !isClosed && canUsePreSigningWorkspace,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: true,
+                    permissionReady: canUsePreSigningWorkspace,
+                    stageReason: '项目进入签约前阶段后再查看技术与成本。',
+                    permissionReason: '需要项目查看权限。'
+                }),
+                actionKey: 'view-project-workspace'
+            });
+            entries.push({
+                key: 'bid-commercial-workspace',
+                label: '招投标 / 商务竞标',
+                description: '查看竞标形态、阶段、决策、材料齐备度、结果和下一步。',
+                route: `${projectRoutePrefix}/workspace/bid-commercial`,
+                enabled: !isClosed && canUsePreSigningWorkspace,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: true,
+                    permissionReady: canUsePreSigningWorkspace,
+                    stageReason: '项目进入签约前阶段后再查看招投标 / 商务竞标。',
+                    permissionReason: '需要项目查看权限。'
+                }),
+                actionKey: 'view-project-workspace'
+            });
+            entries.push({
+                key: 'pricing-margin-workspace',
+                label: '报价与毛利评审',
+                description: '查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。',
+                route: `${projectRoutePrefix}/workspace/pricing-margin`,
+                enabled: !isClosed && canUsePreSigningWorkspace,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: true,
+                    permissionReady: canUsePreSigningWorkspace,
+                    stageReason: '项目进入签约前阶段后再查看报价与毛利评审。',
                     permissionReason: '需要项目查看权限。'
                 }),
                 actionKey: 'view-project-workspace'

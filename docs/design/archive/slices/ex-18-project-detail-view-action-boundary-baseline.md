@@ -30,36 +30,36 @@
 
 ## 2. 正式输入
 
-| Input Type                | Document / Source                                                   | Section / Anchor               | Status | Notes |
-| ------------------------- | ------------------------------------------------------------------- | ------------------------------ | ------ | ----- |
-| Business design           | `docs/design/project-lifecycle-design.md`                           | `§5`、`§6`                     | active | 项目详情必须沿正式主阶段链表达 |
-| Query boundary            | `docs/design/query-view-boundary-design.md`                         | `§5.1 ProjectDetailView`       | active | 冻结详情视图最小字段组 |
-| Authorization             | `docs/design/business-authorization-matrix.md`                      | `§5.1`、`§5.2`                 | active | 查看、编辑和推进项目属于对象动作授权 |
-| Frontend blocker          | `docs/design/fe-16b-project-detail-business-actions-readiness-baseline.md` | `G1 Readiness = Block` | active | 本片解除 `FE-16B` 前端阻断 |
-| Route inventory / ADR-015 | `docs/design/api-route-canonical-inventory.md`                      | `project / getProject`         | active | `GET /projects/{id}` 保持 resource identity route |
-| Runtime fact              | `apps/poms-api/src/app/features/project/project.controller.ts`       | `getById`                      | fact   | 当前返回 `ProjectSummary` |
-| Runtime fact              | `apps/poms-api/src/app/features/project/project-query.service.ts`    | `listProjects`                 | fact   | 已有列表 query 聚合 owner / org / contract milestone |
-| Runtime fact              | `apps/poms-api/src/app/features/contract/contract.entity.ts`         | `Contract`                     | fact   | 可作为当前合同摘要事实源 |
-| Runtime fact              | `apps/poms-api/src/app/features/approval-summary/*`                 | `ApprovalSummarySnapshot`      | fact   | 可作为项目详情摘要快照元数据来源 |
+| Input Type                | Document / Source                                                          | Section / Anchor          | Status | Notes                                                |
+| ------------------------- | -------------------------------------------------------------------------- | ------------------------- | ------ | ---------------------------------------------------- |
+| Business design           | `docs/design/project-lifecycle-design.md`                                  | `§5`、`§6`                | active | 项目详情必须沿正式主阶段链表达                       |
+| Query boundary            | `docs/design/query-view-boundary-design.md`                                | `§5.1 ProjectDetailView`  | active | 冻结详情视图最小字段组                               |
+| Authorization             | `docs/design/business-authorization-matrix.md`                             | `§5.1`、`§5.2`            | active | 查看、编辑和推进项目属于对象动作授权                 |
+| Frontend blocker          | `docs/design/fe-16b-project-detail-business-actions-readiness-baseline.md` | `G1 Readiness = Block`    | active | 本片解除 `FE-16B` 前端阻断                           |
+| Route inventory / ADR-015 | `docs/design/api-route-canonical-inventory.md`                             | `project / getProject`    | active | `GET /projects/{id}` 保持 resource identity route    |
+| Runtime fact              | `apps/poms-api/src/app/features/project/project.controller.ts`             | `getById`                 | fact   | 当前返回 `ProjectSummary`                            |
+| Runtime fact              | `apps/poms-api/src/app/features/project/project-query.service.ts`          | `listProjects`            | fact   | 已有列表 query 聚合 owner / org / contract milestone |
+| Runtime fact              | `apps/poms-api/src/app/features/contract/contract.entity.ts`               | `Contract`                | fact   | 可作为当前合同摘要事实源                             |
+| Runtime fact              | `apps/poms-api/src/app/features/approval-summary/*`                        | `ApprovalSummarySnapshot` | fact   | 可作为项目详情摘要快照元数据来源                     |
 
 ## 3. 本次 SSOT
 
-| Concern                     | SSOT | Implementation Rule |
-| --------------------------- | ---- | ------------------- |
-| Public route canonical path | `GET /projects/{id}` | 不新增 `/detail` 或 `/current` 后缀 |
-| Response contract           | `ProjectDetailView` | `GET /projects/{id}` 不再返回 `ProjectSummary` |
-| Detail query source         | `ProjectQueryService.getProjectDetail` | controller 不直接拼详情字段 |
-| Contract summary            | `Contract` by `projectId` | 当前合同摘要按真实合同记录聚合 |
-| Approval summary metadata   | `ApprovalSummarySnapshot` | 若项目级详情摘要快照存在则返回元数据；不存在则返回内部字段为 `null` 的空摘要对象 |
-| Allowed actions             | `UserPayload.permissions` + `Project.status/currentStage` | 后端输出可用动作，前端只投影 |
-| Date / time semantics       | ISO datetime / ISO date | 延续 shared contract 现有时间格式 |
-| Identifier semantics        | Internal UUID | 项目、用户、组织、合同与快照 ID 均保持 UUID |
+| Concern                     | SSOT                                                      | Implementation Rule                                                              |
+| --------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Public route canonical path | `GET /projects/{id}`                                      | 不新增 `/detail` 或 `/current` 后缀                                              |
+| Response contract           | `ProjectDetailView`                                       | `GET /projects/{id}` 不再返回 `ProjectSummary`                                   |
+| Detail query source         | `ProjectQueryService.getProjectDetail`                    | controller 不直接拼详情字段                                                      |
+| Contract summary            | `Contract` by `projectId`                                 | 当前合同摘要按真实合同记录聚合                                                   |
+| Approval summary metadata   | `ApprovalSummarySnapshot`                                 | 若项目级详情摘要快照存在则返回元数据；不存在则返回内部字段为 `null` 的空摘要对象 |
+| Allowed actions             | `UserPayload.permissions` + `Project.status/currentStage` | 后端输出可用动作，前端只投影                                                     |
+| Date / time semantics       | ISO datetime / ISO date                                   | 延续 shared contract 现有时间格式                                                |
+| Identifier semantics        | Internal UUID                                             | 项目、用户、组织、合同与快照 ID 均保持 UUID                                      |
 
 ## 4. 命令与接口边界
 
-| Route / Controller | Command / Service | Request DTO / Contract | Response DTO / Contract | Guard / Permission | Design Source | Result |
-| ------------------ | ----------------- | ---------------------- | ----------------------- | ------------------ | ------------- | ------ |
-| `GET /projects/{id}` / `ProjectController.getById` | `ProjectQueryService.getProjectDetail` | path `id` | `ProjectDetailView` | `project:read` | `query-view-boundary-design.md` | `done` |
+| Route / Controller                                 | Command / Service                      | Request DTO / Contract | Response DTO / Contract | Guard / Permission | Design Source                   | Result |
+| -------------------------------------------------- | -------------------------------------- | ---------------------- | ----------------------- | ------------------ | ------------------------------- | ------ |
+| `GET /projects/{id}` / `ProjectController.getById` | `ProjectQueryService.getProjectDetail` | path `id`              | `ProjectDetailView`     | `project:read`     | `query-view-boundary-design.md` | `done` |
 
 ### 4.1 公共路由补充信息
 
@@ -72,22 +72,22 @@
 
 ## 5. 读侧边界
 
-| Query / View | Consumer | Fields | Filter / Sort | Permission Boundary | Design Source | Result |
-| ------------ | -------- | ------ | ------------- | ------------------- | ------------- | ------ |
-| `ProjectDetailView` | `/projects/:id` 项目详情页 | 主体字段、owner / org 名称、阶段摘要、当前投标摘要、当前合同摘要、当前审批摘要、当前确认摘要、摘要快照元数据、`allowedActions` | N/A | `project:read` + action-level permissions | `query-view-boundary-design.md` | `done` |
+| Query / View        | Consumer                   | Fields                                                                                                                         | Filter / Sort | Permission Boundary                       | Design Source                   | Result |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------- | ----------------------------------------- | ------------------------------- | ------ |
+| `ProjectDetailView` | `/projects/:id` 项目详情页 | 主体字段、owner / org 名称、阶段摘要、当前投标摘要、当前合同摘要、当前审批摘要、当前确认摘要、摘要快照元数据、`allowedActions` | N/A           | `project:read` + action-level permissions | `query-view-boundary-design.md` | `done` |
 
 ## 6. 持久化边界
 
-| Table | Migration | Entity / Repository | DDL / Freeze Source | Check Result |
-| ----- | --------- | ------------------- | ------------------- | ------------ |
-| `N/A` | `N/A`     | 复用 `project`、`contract`、`approval_summary_snapshot` | `N/A` | 本片不改 DDL |
+| Table | Migration | Entity / Repository                                     | DDL / Freeze Source | Check Result |
+| ----- | --------- | ------------------------------------------------------- | ------------------- | ------------ |
+| `N/A` | `N/A`     | 复用 `project`、`contract`、`approval_summary_snapshot` | `N/A`               | 本片不改 DDL |
 
-| Field | Design Type / Meaning | Migration / DDL | Entity | Shared Contract / OpenAPI | Result |
-| ----- | --------------------- | --------------- | ------ | ------------------------- | ------ |
-| `summarySnapshotId` | 项目详情摘要快照 ID | existing nullable source | `ApprovalSummarySnapshot.id` | `uuid or null` | `done` |
-| `projectionLevel` | 摘要投影级别 | existing nullable source | `ApprovalSummarySnapshot.projectionLevel` | `string or null` | `done` |
-| `exportPolicy` | 导出策略 | existing nullable source | `ApprovalSummarySnapshot.exportPolicy` | `string or null` | `done` |
-| `allowedActions` | 后端动作边界 | computed | `N/A` | `string[]` | `done` |
+| Field               | Design Type / Meaning | Migration / DDL          | Entity                                    | Shared Contract / OpenAPI | Result |
+| ------------------- | --------------------- | ------------------------ | ----------------------------------------- | ------------------------- | ------ |
+| `summarySnapshotId` | 项目详情摘要快照 ID   | existing nullable source | `ApprovalSummarySnapshot.id`              | `uuid or null`            | `done` |
+| `projectionLevel`   | 摘要投影级别          | existing nullable source | `ApprovalSummarySnapshot.projectionLevel` | `string or null`          | `done` |
+| `exportPolicy`      | 导出策略              | existing nullable source | `ApprovalSummarySnapshot.exportPolicy`    | `string or null`          | `done` |
+| `allowedActions`    | 后端动作边界          | computed                 | `N/A`                                     | `string[]`                | `done` |
 
 ## 7. 一致性结论
 
@@ -102,23 +102,23 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence | Result | Gap / Reason |
-| -------------------------------- | -------- | ------------------ | ------ | ------------ |
-| Lint                             | `yes`    | `corepack pnpm nx lint poms-api` | `pass` | 无新增 lint warning |
-| Build                            | `yes`    | `corepack pnpm nx build poms-api` | `pass` | API build 通过 |
-| Unit tests                       | `yes`    | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=project`、`corepack pnpm nx test poms-api --runInBand` | `pass` | 覆盖 query / controller；全量 API unit tests 通过 |
-| API / integration tests          | `no`     | N/A | `not-required` | 本片改详情 query，先以单测 + OpenAPI 兜底 |
-| E2E                              | `no`     | N/A | `not-required` | 浏览器级详情页验证归属 `FE-16B / FE-16D` |
-| Generated client consumer checks | `yes`    | `corepack pnpm nx lint poms-admin`、`corepack pnpm nx build poms-admin`、`corepack pnpm nx test poms-admin --runInBand` | `pass` | generated `ProjectDetailView` 不破坏当前前端编译 / 测试 |
-| OpenAPI generation / client diff | `yes`    | `corepack pnpm nx run poms-api:openapi`、`corepack pnpm nx run shared-api-client:generate`、`corepack pnpm nx run shared-api-client:check` | `pass` | response contract 已回写；生成物末尾空白归一化已纳入工具脚本 |
-| Migration / schema check         | `no`     | N/A | `not-required` | 不改 DDL |
-| Diff hygiene                     | `yes`    | `git diff --check` | `pass` | 仅有 Windows 行尾提示，无 whitespace error |
+| Check                            | Required | Command / Evidence                                                                                                                         | Result         | Gap / Reason                                                 |
+| -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------------------------------------------ |
+| Lint                             | `yes`    | `corepack pnpm nx lint poms-api`                                                                                                           | `pass`         | 无新增 lint warning                                          |
+| Build                            | `yes`    | `corepack pnpm nx build poms-api`                                                                                                          | `pass`         | API build 通过                                               |
+| Unit tests                       | `yes`    | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=project`、`corepack pnpm nx test poms-api --runInBand`                      | `pass`         | 覆盖 query / controller；全量 API unit tests 通过            |
+| API / integration tests          | `no`     | N/A                                                                                                                                        | `not-required` | 本片改详情 query，先以单测 + OpenAPI 兜底                    |
+| E2E                              | `no`     | N/A                                                                                                                                        | `not-required` | 浏览器级详情页验证归属 `FE-16B / FE-16D`                     |
+| Generated client consumer checks | `yes`    | `corepack pnpm nx lint poms-admin`、`corepack pnpm nx build poms-admin`、`corepack pnpm nx test poms-admin --runInBand`                    | `pass`         | generated `ProjectDetailView` 不破坏当前前端编译 / 测试      |
+| OpenAPI generation / client diff | `yes`    | `corepack pnpm nx run poms-api:openapi`、`corepack pnpm nx run shared-api-client:generate`、`corepack pnpm nx run shared-api-client:check` | `pass`         | response contract 已回写；生成物末尾空白归一化已纳入工具脚本 |
+| Migration / schema check         | `no`     | N/A                                                                                                                                        | `not-required` | 不改 DDL                                                     |
+| Diff hygiene                     | `yes`    | `git diff --check`                                                                                                                         | `pass`         | 仅有 Windows 行尾提示，无 whitespace error                   |
 
 ## 9. 例外与风险
 
-| Exception ID | Level | Scope | Approved By | Cleanup Owner | Cleanup Due | Notes |
-| ------------ | ----- | ----- | ----------- | ------------- | ----------- | ----- |
-| `EX18-E1-BID-SUMMARY` | `low` | 当前投标摘要 | `Codex` | `EX-18 follow-up / presigning workspace owner` | 后续 `BidProcessDetailView` 切片 | 当前无正式 `BidProcess` query，详情只返回空投标摘要，不伪造投标状态 |
+| Exception ID          | Level | Scope        | Approved By | Cleanup Owner                                  | Cleanup Due                      | Notes                                                               |
+| --------------------- | ----- | ------------ | ----------- | ---------------------------------------------- | -------------------------------- | ------------------------------------------------------------------- |
+| `EX18-E1-BID-SUMMARY` | `low` | 当前投标摘要 | `Codex`     | `EX-18 follow-up / presigning workspace owner` | 后续 `BidProcessDetailView` 切片 | 当前无正式 `BidProcess` query，详情只返回空投标摘要，不伪造投标状态 |
 
 ## 10. G1 结论
 

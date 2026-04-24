@@ -33,6 +33,9 @@ describe('appRoutes project permissions', () => {
 
     it('keeps finance workspace pages behind project read and contract finance access', () => {
         expectAllModePermissions(getChildRoute('projects/:id/workspace', 'pre-signing'), ['project:read']);
+        expectAllModePermissions(getChildRoute('projects/:id/workspace', 'technical-cost'), ['project:read']);
+        expectAllModePermissions(getChildRoute('projects/:id/workspace', 'bid-commercial'), ['project:read']);
+        expectAllModePermissions(getChildRoute('projects/:id/workspace', 'pricing-margin'), ['project:read']);
         expectAllModePermissions(getChildRoute('projects/:id/workspace', 'contract-handover'), ['project:read']);
         expectAllModePermissions(getChildRoute('projects/:id/workspace', 'operating-overview'), ['project:read', 'contract:finance:manage']);
         expectAllModePermissions(getChildRoute('projects/:id/workspace', 'variance-risk'), ['project:read', 'contract:finance:manage']);

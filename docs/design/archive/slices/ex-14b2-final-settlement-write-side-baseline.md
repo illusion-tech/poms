@@ -53,17 +53,17 @@
 
 ## 3. 本次 SSOT
 
-| Concern                     | SSOT                                                                                                             | Implementation Rule                                                                                         |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Business semantics          | `phase2-commission-retention-final-settlement` + `phase2-business-accounting-feedback-rules`                     | 本片只实现“最终结算（非质保部分）”进入审批 / 登记后的正式事实收口，不把 `retention` 与 `final` 压成同一阶段 |
+| Concern                     | SSOT                                                                                                             | Implementation Rule                                                                                         |                 |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------- |
+| Business semantics          | `phase2-commission-retention-final-settlement` + `phase2-business-accounting-feedback-rules`                     | 本片只实现“最终结算（非质保部分）”进入审批 / 登记后的正式事实收口，不把 `retention` 与 `final` 压成同一阶段 |                 |
 | Public route canonical path | `ADR-015` + authoritative inventory                                                                              | 不新增或重命名 public route；仍使用既有 `commission-payouts/{id}:submitApproval                             | registerPayout` |
-| Route / command naming      | `submitCommissionPayoutApproval` / `registerCommissionPayout`                                                    | route 与 command 名称保持不变；本片只收紧 `stage=final` 行为                                                |
-| DTO / contract naming       | 现有 `SubmitCommissionPayoutApprovalRequest` / `RegisterCommissionPayoutRequest`                                 | 本片不改 public request shape；explicit DTO tightening 留给 `EX-14B3`                                       |
-| Table / column naming       | `commission_final_settlement_snapshot`                                                                           | 只使用已存在列，不新增 migration                                                                            |
-| Date / time semantics       | `handledAt` / `approvedAt` / `generatedAt` 均为 `datetime`                                                       | snapshot `generatedAt` 与 payout 处理时间保持 `iso datetime` 语义                                           |
-| Identifier semantics        | `projectId`、`freezeVersionId`、`gateReviewRecordId`、`summarySnapshotId` 为系统内 UUID                          | final snapshot 只能引用同一项目、同一 current 冻结 / gate 链                                                |
-| Money / decimal semantics   | `taxImpactPendingAmount`、`theoreticalCapAmount`、`approvedAmount`、`paidRecordAmount` 延续 decimal string       | 本片不重写 payout 金额口径，只回写 settlement status 与正式依据链                                           |
-| Status machine              | final snapshot 必须显式区分 `finalSettlementStatus`、`nonRetentionSettlementStatus`、`retentionSettlementStatus` | 本片保守固定 `retentionSettlementStatus = waiting-retention`，直到 `EX-14B3` 补齐 retention 正式命令链      |
+| Route / command naming      | `submitCommissionPayoutApproval` / `registerCommissionPayout`                                                    | route 与 command 名称保持不变；本片只收紧 `stage=final` 行为                                                |                 |
+| DTO / contract naming       | 现有 `SubmitCommissionPayoutApprovalRequest` / `RegisterCommissionPayoutRequest`                                 | 本片不改 public request shape；explicit DTO tightening 留给 `EX-14B3`                                       |                 |
+| Table / column naming       | `commission_final_settlement_snapshot`                                                                           | 只使用已存在列，不新增 migration                                                                            |                 |
+| Date / time semantics       | `handledAt` / `approvedAt` / `generatedAt` 均为 `datetime`                                                       | snapshot `generatedAt` 与 payout 处理时间保持 `iso datetime` 语义                                           |                 |
+| Identifier semantics        | `projectId`、`freezeVersionId`、`gateReviewRecordId`、`summarySnapshotId` 为系统内 UUID                          | final snapshot 只能引用同一项目、同一 current 冻结 / gate 链                                                |                 |
+| Money / decimal semantics   | `taxImpactPendingAmount`、`theoreticalCapAmount`、`approvedAmount`、`paidRecordAmount` 延续 decimal string       | 本片不重写 payout 金额口径，只回写 settlement status 与正式依据链                                           |                 |
+| Status machine              | final snapshot 必须显式区分 `finalSettlementStatus`、`nonRetentionSettlementStatus`、`retentionSettlementStatus` | 本片保守固定 `retentionSettlementStatus = waiting-retention`，直到 `EX-14B3` 补齐 retention 正式命令链      |                 |
 
 ---
 

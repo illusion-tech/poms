@@ -36,16 +36,16 @@
 
 ## 3. Drift 清单与本次 SSOT
 
-| Concern                   | Drift / SSOT                                                                                   | Corrective Rule                                                                       |
-| ------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Business semantics        | 核心条款原先未结构化落地，详情页只能显示快照 ID                                                | 当前有效 `ContractTermSnapshot` 是税率、金额包、付款条件包和质保期的展示可信源        |
-| Route / command naming    | 快照查询曾挂到 `ContractController` 下，实际路径变成 `/contracts/contract-term-snapshots/{id}` | 独立 `ContractTermSnapshotController` 挂载 `GET /contract-term-snapshots/{id}`        |
-| DTO / contract naming     | `ContractDetailView.currentTermSnapshot` nullable 语义曾在 generated client 中丢失             | shared contract、OpenAPI、generated client 保持 `ContractTermSnapshotSummary \| null` |
-| Table / column naming     | `source_readiness_id`、`source_baseline_id` 只有索引，缺少强引用                               | migration 补 FK，快照来源链必须可审计                                                 |
-| Identifier semantics      | 普通合同 create/update 曾允许写入 `currentSnapshotId`                                          | 移除普通写入口，激活只接受 readiness package 初始化出的 snapshot identity             |
-| Money / decimal semantics | 金额、税率、首付款比例、质保金比例缺少统一落点                                                 | 从商业放行基线复制到 active snapshot；缺失时阻断激活                                  |
-| Immutability              | `ensureActiveSnapshot` 可覆盖任意已有快照                                                      | 改为 create-if-absent / immutable payload 校验，拒绝跨合同或已生效快照改写            |
-| Tooling                   | OpenAPI 生成链存在 Java 17 位置硬编码和 trailing whitespace tool-noise                         | `ensure-java17.ps1` 和 normalize 脚本收口生成环境与空白                               |
+| Concern                   | Drift / SSOT                                                                                   | Corrective Rule                                                                |       |
+| ------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----- |
+| Business semantics        | 核心条款原先未结构化落地，详情页只能显示快照 ID                                                | 当前有效 `ContractTermSnapshot` 是税率、金额包、付款条件包和质保期的展示可信源 |       |
+| Route / command naming    | 快照查询曾挂到 `ContractController` 下，实际路径变成 `/contracts/contract-term-snapshots/{id}` | 独立 `ContractTermSnapshotController` 挂载 `GET /contract-term-snapshots/{id}` |       |
+| DTO / contract naming     | `ContractDetailView.currentTermSnapshot` nullable 语义曾在 generated client 中丢失             | shared contract、OpenAPI、generated client 保持 `ContractTermSnapshotSummary \ | null` |
+| Table / column naming     | `source_readiness_id`、`source_baseline_id` 只有索引，缺少强引用                               | migration 补 FK，快照来源链必须可审计                                          |       |
+| Identifier semantics      | 普通合同 create/update 曾允许写入 `currentSnapshotId`                                          | 移除普通写入口，激活只接受 readiness package 初始化出的 snapshot identity      |       |
+| Money / decimal semantics | 金额、税率、首付款比例、质保金比例缺少统一落点                                                 | 从商业放行基线复制到 active snapshot；缺失时阻断激活                           |       |
+| Immutability              | `ensureActiveSnapshot` 可覆盖任意已有快照                                                      | 改为 create-if-absent / immutable payload 校验，拒绝跨合同或已生效快照改写     |       |
+| Tooling                   | OpenAPI 生成链存在 Java 17 位置硬编码和 trailing whitespace tool-noise                         | `ensure-java17.ps1` 和 normalize 脚本收口生成环境与空白                        |       |
 
 ---
 

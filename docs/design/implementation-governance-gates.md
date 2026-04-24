@@ -259,7 +259,8 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 #### G3.2 按切片类型追加
 
 1. `docs-only` / `process-only`
-   - 只需补“影响范围说明 + 无行为变更声明 + 需要联动更新的入口文档清单”
+   - 只需补”影响范围说明 + 无行为变更声明 + 需要联动更新的入口文档清单”
+   - 运行 `pnpm run format:md:check`，失败时先运行 `pnpm run format:md` 修复再提交
 2. `refactor-only`
    - 补“外部行为不变说明 + 关键回归验证方式”
 3. `query-only` / `frontend-only`
@@ -288,6 +289,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 
 阻断条件包括：
 
+- 变更涉及 `docs/` 下 Markdown 文件，但 `format:md:check` 失败且未修复
 - 大任务名义下只交付了部分能力，但未拆成子切片
 - 公共 API route surface 已开始实现，但 authoritative inventory 行、canonical route 或 identity anchor 尚未冻结
 - 契约命名与实体命名明显漂移

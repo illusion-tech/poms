@@ -104,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuditLogListDto"
+                  "$ref": "#/components/schemas/AuditLogList"
                 }
               }
             }
@@ -220,7 +220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SecurityEventListDto"
+                  "$ref": "#/components/schemas/SecurityEventList"
                 }
               }
             }
@@ -371,7 +371,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlatformUserListDto"
+                  "$ref": "#/components/schemas/PlatformUserList"
                 }
               }
             }
@@ -697,7 +697,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlatformRoleListDto"
+                  "$ref": "#/components/schemas/PlatformRoleList"
                 }
               }
             }
@@ -759,7 +759,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlatformPermissionListDto"
+                  "$ref": "#/components/schemas/PlatformPermissionList"
                 }
               }
             }
@@ -1004,7 +1004,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlatformOrgUnitListDto"
+                  "$ref": "#/components/schemas/PlatformOrgUnitList"
                 }
               }
             }
@@ -1066,7 +1066,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlatformOrgUnitTreeDto"
+                  "$ref": "#/components/schemas/PlatformOrgUnitTree"
                 }
               }
             }
@@ -1311,7 +1311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NavigationListDto"
+                  "$ref": "#/components/schemas/NavigationList"
                 }
               }
             }
@@ -1365,7 +1365,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NavigationListDto"
+                  "$ref": "#/components/schemas/NavigationList"
                 }
               }
             }
@@ -1449,7 +1449,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectListDto"
+                  "$ref": "#/components/schemas/ProjectList"
                 }
               }
             }
@@ -1628,7 +1628,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AcceptanceRecordListDto"
+                  "$ref": "#/components/schemas/AcceptanceRecordList"
                 }
               }
             }
@@ -1708,7 +1708,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectCompletionRecordListDto"
+                  "$ref": "#/components/schemas/ProjectCompletionRecordList"
                 }
               }
             }
@@ -1788,7 +1788,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectArchiveRecordListDto"
+                  "$ref": "#/components/schemas/ProjectArchiveRecordList"
                 }
               }
             }
@@ -1844,6 +1844,354 @@
           }
         ],
         "summary": "创建项目归档记录",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/bid-commercial-processes": {
+      "get": {
+        "operationId": "ProjectController_listProjectBidCommercialProcesses",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectBidCommercialProcessList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前招投标与商务竞标过程列表",
+        "tags": [
+          "Project"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectBidCommercialProcess",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectBidCommercialProcessRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectBidCommercialProcessSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建项目签约前招投标与商务竞标过程版本",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/bid-commercial-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectBidCommercialWorkspaceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前招投标与商务竞标工作区",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-reviews": {
+      "get": {
+        "operationId": "ProjectController_listProjectPricingMarginReviews",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginReviewList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前报价与毛利评审列表",
+        "tags": [
+          "Project"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectPricingMarginReview",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectPricingMarginReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建项目签约前报价与毛利评审版本",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginWorkspaceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前报价与毛利评审工作区",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/technical-cost-packages": {
+      "get": {
+        "operationId": "ProjectController_listProjectTechnicalCostPackages",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostPackageList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前技术与成本版本包列表",
+        "tags": [
+          "Project"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectTechnicalCostPackage",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTechnicalCostPackageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建项目签约前技术与成本版本包",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/technical-cost-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostWorkspaceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取项目签约前技术与成本工作区",
         "tags": [
           "Project"
         ]
@@ -2042,7 +2390,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectActualCostRecordListViewDto"
+                  "$ref": "#/components/schemas/ProjectActualCostRecordListView"
                 }
               }
             }
@@ -2306,7 +2654,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OperatingRestatementListViewDto"
+                  "$ref": "#/components/schemas/OperatingRestatementListView"
                 }
               }
             }
@@ -2444,7 +2792,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SharedCostAllocationResultListViewDto"
+                  "$ref": "#/components/schemas/SharedCostAllocationResultListView"
                 }
               }
             }
@@ -2597,7 +2945,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CostStageAttributionHistoryViewDto"
+                  "$ref": "#/components/schemas/CostStageAttributionHistoryView"
                 }
               }
             }
@@ -2706,7 +3054,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountingTaxTreatmentListViewDto"
+                  "$ref": "#/components/schemas/AccountingTaxTreatmentListView"
                 }
               }
             }
@@ -3125,7 +3473,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ExpenseRecordListDto"
+                  "$ref": "#/components/schemas/ExpenseRecordList"
                 }
               }
             }
@@ -3452,7 +3800,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReceiptRecordListDto"
+                  "$ref": "#/components/schemas/ReceiptRecordList"
                 }
               }
             }
@@ -3578,7 +3926,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PayableRecordListDto"
+                  "$ref": "#/components/schemas/PayableRecordList"
                 }
               }
             }
@@ -3830,7 +4178,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InvoiceRecordListDto"
+                  "$ref": "#/components/schemas/InvoiceRecordList"
                 }
               }
             }
@@ -4128,7 +4476,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentRecordListDto"
+                  "$ref": "#/components/schemas/PaymentRecordList"
                 }
               }
             }
@@ -4564,7 +4912,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItemListDto"
+                  "$ref": "#/components/schemas/TodoItemList"
                 }
               }
             }
@@ -4620,7 +4968,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContractListDto"
+                  "$ref": "#/components/schemas/ContractList"
                 }
               }
             }
@@ -5318,7 +5666,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommissionRuleVersionListDto"
+                  "$ref": "#/components/schemas/CommissionRuleVersionList"
                 }
               }
             }
@@ -5615,7 +5963,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommissionCalculationListDto"
+                  "$ref": "#/components/schemas/CommissionCalculationList"
                 }
               }
             }
@@ -5787,7 +6135,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommissionPayoutListDto"
+                  "$ref": "#/components/schemas/CommissionPayoutList"
                 }
               }
             }
@@ -6039,7 +6387,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommissionAdjustmentListDto"
+                  "$ref": "#/components/schemas/CommissionAdjustmentList"
                 }
               }
             }
@@ -6528,28 +6876,28 @@
             "nullable": true
           },
           "beforeSnapshot": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/AuditSnapshot"
               }
-            ]
+            ],
+            "nullable": true
           },
           "afterSnapshot": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/AuditSnapshot"
               }
-            ]
+            ],
+            "nullable": true
           },
           "metadata": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/AuditSnapshot"
               }
-            ]
+            ],
+            "nullable": true
           },
           "occurredAt": {
             "type": "string",
@@ -6570,8 +6918,7 @@
           "afterSnapshot",
           "metadata",
           "occurredAt"
-        ],
-        "id": "AuditLogSummary"
+        ]
       },
       "AuditLogResult": {
         "type": "string",
@@ -6579,23 +6926,20 @@
           "success",
           "rejected",
           "failed"
-        ],
-        "id": "AuditLogResult"
+        ]
       },
       "AuditSnapshot": {
         "type": "object",
         "propertyNames": {
           "type": "string"
         },
-        "additionalProperties": {},
-        "id": "AuditSnapshot"
+        "additionalProperties": {}
       },
-      "AuditLogListDto": {
+      "AuditLogList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/AuditLogSummary"
-        },
-        "id": "AuditLogList"
+        }
       },
       "SecurityEventSummary": {
         "type": "object",
@@ -6648,12 +6992,12 @@
             "nullable": true
           },
           "details": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/AuditSnapshot"
               }
-            ]
+            ],
+            "nullable": true
           },
           "occurredAt": {
             "type": "string",
@@ -6676,8 +7020,7 @@
           "userAgent",
           "details",
           "occurredAt"
-        ],
-        "id": "SecurityEventSummary"
+        ]
       },
       "SecurityEventSeverity": {
         "type": "string",
@@ -6685,8 +7028,7 @@
           "info",
           "warning",
           "high"
-        ],
-        "id": "SecurityEventSeverity"
+        ]
       },
       "SecurityEventResult": {
         "type": "string",
@@ -6694,15 +7036,13 @@
           "blocked",
           "failed",
           "expired"
-        ],
-        "id": "SecurityEventResult"
+        ]
       },
-      "SecurityEventListDto": {
+      "SecurityEventList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/SecurityEventSummary"
-        },
-        "id": "SecurityEventList"
+        }
       },
       "RecordRouteDeniedSecurityEventRequest": {
         "type": "object",
@@ -6749,8 +7089,7 @@
         "required": [
           "path",
           "requiredPermissions"
-        ],
-        "id": "RecordRouteDeniedSecurityEventRequest"
+        ]
       },
       "LoginRequest": {
         "type": "object",
@@ -6767,8 +7106,7 @@
         "required": [
           "username",
           "password"
-        ],
-        "id": "LoginRequest"
+        ]
       },
       "LoginResponse": {
         "type": "object",
@@ -6779,8 +7117,7 @@
         },
         "required": [
           "accessToken"
-        ],
-        "id": "LoginResponse"
+        ]
       },
       "UserOrgUnitSummary": {
         "type": "object",
@@ -6815,8 +7152,7 @@
           "code",
           "description",
           "membershipType"
-        ],
-        "id": "UserOrgUnitSummary"
+        ]
       },
       "SanitizedUserWithOrgUnits": {
         "type": "object",
@@ -6915,8 +7251,7 @@
           "phoneVerified",
           "phone",
           "orgUnits"
-        ],
-        "id": "SanitizedUserWithOrgUnits"
+        ]
       },
       "UpdateCurrentUserProfileRequest": {
         "type": "object",
@@ -6939,7 +7274,6 @@
             "nullable": true
           }
         },
-        "id": "UpdateCurrentUserProfileRequest",
         "additionalProperties": false
       },
       "PlatformUserSummary": {
@@ -7008,15 +7342,13 @@
           "roleNames",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PlatformUserSummary"
+        ]
       },
-      "PlatformUserListDto": {
+      "PlatformUserList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PlatformUserSummary"
-        },
-        "id": "PlatformUserList"
+        }
       },
       "PlatformUserDetail": {
         "type": "object",
@@ -7112,8 +7444,7 @@
           "emailVerified",
           "phoneVerified",
           "orgUnits"
-        ],
-        "id": "PlatformUserDetail"
+        ]
       },
       "UpdatePlatformUserRequest": {
         "type": "object",
@@ -7139,8 +7470,7 @@
             "format": "uri",
             "nullable": true
           }
-        },
-        "id": "UpdatePlatformUserRequest"
+        }
       },
       "CreatePlatformUserRequest": {
         "type": "object",
@@ -7186,8 +7516,7 @@
           "username",
           "displayName",
           "primaryOrgUnitId"
-        ],
-        "id": "CreatePlatformUserRequest"
+        ]
       },
       "UpdatePlatformUserActivationRequest": {
         "type": "object",
@@ -7205,8 +7534,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdatePlatformUserActivationRequest"
+        }
       },
       "AssignUserRolesRequest": {
         "type": "object",
@@ -7231,8 +7559,7 @@
         },
         "required": [
           "roleIds"
-        ],
-        "id": "AssignUserRolesRequest"
+        ]
       },
       "AssignUserOrgMembershipsRequest": {
         "type": "object",
@@ -7263,8 +7590,7 @@
         },
         "required": [
           "primaryOrgUnitId"
-        ],
-        "id": "AssignUserOrgMembershipsRequest"
+        ]
       },
       "PlatformRoleSummary": {
         "type": "object",
@@ -7316,15 +7642,13 @@
           "displayOrder",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PlatformRoleSummary"
+        ]
       },
-      "PlatformRoleListDto": {
+      "PlatformRoleList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PlatformRoleSummary"
-        },
-        "id": "PlatformRoleList"
+        }
       },
       "PlatformPermissionSummary": {
         "type": "object",
@@ -7412,15 +7736,13 @@
           "isSystemPermission",
           "sourceType",
           "deprecatedBy"
-        ],
-        "id": "PlatformPermissionSummary"
+        ]
       },
-      "PlatformPermissionListDto": {
+      "PlatformPermissionList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PlatformPermissionSummary"
-        },
-        "id": "PlatformPermissionList"
+        }
       },
       "PlatformRoleDetail": {
         "type": "object",
@@ -7505,8 +7827,7 @@
           "updatedAt",
           "permissionKeys",
           "assignedUserCount"
-        ],
-        "id": "PlatformRoleDetail"
+        ]
       },
       "CreateRoleRequest": {
         "type": "object",
@@ -7535,8 +7856,7 @@
         "required": [
           "roleKey",
           "name"
-        ],
-        "id": "CreateRoleRequest"
+        ]
       },
       "UpdateRoleRequest": {
         "type": "object",
@@ -7556,8 +7876,7 @@
             "minimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateRoleRequest"
+        }
       },
       "UpdateRoleActivationRequest": {
         "type": "object",
@@ -7575,8 +7894,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateRoleActivationRequest"
+        }
       },
       "AssignRolePermissionsRequest": {
         "type": "object",
@@ -7610,8 +7928,7 @@
         },
         "required": [
           "permissionKeys"
-        ],
-        "id": "AssignRolePermissionsRequest"
+        ]
       },
       "PlatformOrgUnitSummary": {
         "type": "object",
@@ -7666,17 +7983,15 @@
           "displayOrder",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PlatformOrgUnitSummary"
+        ]
       },
-      "PlatformOrgUnitListDto": {
+      "PlatformOrgUnitList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PlatformOrgUnitSummary"
-        },
-        "id": "PlatformOrgUnitList"
+        }
       },
-      "PlatformOrgUnitTreeDto__schema0": {
+      "PlatformOrgUnitTree__schema0": {
         "$ref": "#/components/schemas/OrgUnitTreeNode"
       },
       "OrgUnitTreeNode": {
@@ -7737,7 +8052,7 @@
           "children": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PlatformOrgUnitTreeDto__schema0"
+              "$ref": "#/components/schemas/PlatformOrgUnitTree__schema0"
             }
           }
         },
@@ -7755,15 +8070,13 @@
           "activeMembershipCount",
           "canDelete",
           "children"
-        ],
-        "id": "OrgUnitTreeNode"
+        ]
       },
-      "PlatformOrgUnitTreeDto": {
+      "PlatformOrgUnitTree": {
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/PlatformOrgUnitTreeDto__schema0"
-        },
-        "id": "PlatformOrgUnitTree"
+          "$ref": "#/components/schemas/PlatformOrgUnitTree__schema0"
+        }
       },
       "PlatformOrgUnitDetail": {
         "type": "object",
@@ -7834,8 +8147,7 @@
           "childCount",
           "activeMembershipCount",
           "canDelete"
-        ],
-        "id": "PlatformOrgUnitDetail"
+        ]
       },
       "CreateOrgUnitRequest": {
         "type": "object",
@@ -7870,8 +8182,7 @@
         "required": [
           "name",
           "code"
-        ],
-        "id": "CreateOrgUnitRequest"
+        ]
       },
       "UpdateOrgUnitRequest": {
         "type": "object",
@@ -7896,8 +8207,7 @@
             "minimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateOrgUnitRequest"
+        }
       },
       "UpdateOrgUnitActivationRequest": {
         "type": "object",
@@ -7915,8 +8225,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateOrgUnitActivationRequest"
+        }
       },
       "MoveOrgUnitRequest": {
         "type": "object",
@@ -7941,10 +8250,9 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "MoveOrgUnitRequest"
+        }
       },
-      "NavigationListDto__schema0": {
+      "NavigationList__schema0": {
         "$ref": "#/components/schemas/NavigationItem"
       },
       "NavigationItem": {
@@ -8028,7 +8336,7 @@
           "children": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/NavigationListDto__schema0"
+              "$ref": "#/components/schemas/NavigationList__schema0"
             },
             "nullable": true
           }
@@ -8047,15 +8355,13 @@
           "requiredPermissions",
           "meta",
           "children"
-        ],
-        "id": "NavigationItem"
+        ]
       },
-      "NavigationListDto": {
+      "NavigationList": {
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/NavigationListDto__schema0"
-        },
-        "id": "NavigationList"
+          "$ref": "#/components/schemas/NavigationList__schema0"
+        }
       },
       "NavigationSyncSummary": {
         "type": "object",
@@ -8113,8 +8419,7 @@
           "treeChecksum",
           "navigationKeys",
           "routeLinks"
-        ],
-        "id": "NavigationSyncSummary"
+        ]
       },
       "ProjectListView": {
         "type": "object",
@@ -8171,15 +8476,13 @@
           "ownerName",
           "latestMilestoneAt",
           "createdAt"
-        ],
-        "id": "ProjectListView"
+        ]
       },
-      "ProjectListDto": {
+      "ProjectList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ProjectListView"
-        },
-        "id": "ProjectList"
+        }
       },
       "ProjectSummary": {
         "type": "object",
@@ -8285,8 +8588,7 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
-        ],
-        "id": "ProjectSummary"
+        ]
       },
       "ProjectWorkspaceBasisSummary": {
         "type": "object",
@@ -8317,8 +8619,7 @@
           "projectionLevel",
           "exportPolicy",
           "generatedAt"
-        ],
-        "id": "ProjectWorkspaceBasisSummary"
+        ]
       },
       "ProjectWorkspaceEntryView": {
         "type": "object",
@@ -8356,8 +8657,7 @@
           "enabled",
           "disabledReason",
           "actionKey"
-        ],
-        "id": "ProjectWorkspaceEntryView"
+        ]
       },
       "ProjectWorkspaceGuidanceView": {
         "type": "object",
@@ -8430,8 +8730,7 @@
           "basisSummary",
           "recommendedEntries",
           "generatedAt"
-        ],
-        "id": "ProjectWorkspaceGuidanceView"
+        ]
       },
       "ProjectTimelineEvent": {
         "type": "object",
@@ -8509,8 +8808,7 @@
           "sourceId",
           "evidenceLabel",
           "isAuthoritative"
-        ],
-        "id": "ProjectTimelineEvent"
+        ]
       },
       "ProjectTimelineView": {
         "type": "object",
@@ -8536,8 +8834,7 @@
           "projectId",
           "events",
           "generatedAt"
-        ],
-        "id": "ProjectTimelineView"
+        ]
       },
       "AcceptanceRecordSummary": {
         "type": "object",
@@ -8647,15 +8944,13 @@
           "updatedAt",
           "updatedBy",
           "rowVersion"
-        ],
-        "id": "AcceptanceRecordSummary"
+        ]
       },
-      "AcceptanceRecordListDto": {
+      "AcceptanceRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/AcceptanceRecordSummary"
-        },
-        "id": "AcceptanceRecordList"
+        }
       },
       "ProjectCompletionRecordSummary": {
         "type": "object",
@@ -8753,15 +9048,13 @@
           "updatedAt",
           "updatedBy",
           "rowVersion"
-        ],
-        "id": "ProjectCompletionRecordSummary"
+        ]
       },
-      "ProjectCompletionRecordListDto": {
+      "ProjectCompletionRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ProjectCompletionRecordSummary"
-        },
-        "id": "ProjectCompletionRecordList"
+        }
       },
       "ProjectArchiveRecordSummary": {
         "type": "object",
@@ -8868,15 +9161,1231 @@
           "updatedAt",
           "updatedBy",
           "rowVersion"
-        ],
-        "id": "ProjectArchiveRecordSummary"
+        ]
       },
-      "ProjectArchiveRecordListDto": {
+      "ProjectArchiveRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+        }
+      },
+      "ProjectBidCommercialProcessSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "bidMode": {
+            "type": "string",
+            "enum": [
+              "public-tender",
+              "invitation",
+              "comparison",
+              "commercial-negotiation",
+              "competitive-negotiation",
+              "direct-commercial",
+              "not-required"
+            ]
+          },
+          "currentStage": {
+            "type": "string",
+            "enum": [
+              "not-started",
+              "preparation",
+              "submitted",
+              "negotiating",
+              "result-confirmed",
+              "closed"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "participate",
+              "no-bid",
+              "not-required"
+            ]
+          },
+          "resultStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "won",
+              "lost",
+              "cancelled",
+              "not-applicable"
+            ]
+          },
+          "processSummary": {
+            "type": "string"
+          },
+          "decisionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
         },
-        "id": "ProjectArchiveRecordList"
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "bidMode",
+          "currentStage",
+          "decision",
+          "resultStatus",
+          "processSummary",
+          "decisionSummary",
+          "resultSummary",
+          "ownerRole",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectBidCommercialProcessList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectBidCommercialProcessSummary"
+        }
+      },
+      "ProjectBidCommercialMaterialItemView": {
+        "type": "object",
+        "properties": {
+          "materialKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "materialStatus": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "in-progress",
+              "ready",
+              "not-required"
+            ]
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "blocksNextStep": {
+            "type": "boolean"
+          },
+          "navigationHint": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "processId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "materialKey",
+          "label",
+          "materialStatus",
+          "responsibleRole",
+          "dueAt",
+          "blocksNextStep",
+          "navigationHint",
+          "sortOrder",
+          "id",
+          "processId"
+        ]
+      },
+      "ProjectBidCommercialTimelineItemView": {
+        "type": "object",
+        "properties": {
+          "eventKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "timelineStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "done",
+              "cancelled"
+            ]
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "processId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "eventKey",
+          "label",
+          "summary",
+          "timelineStatus",
+          "occurredAt",
+          "dueAt",
+          "responsibleRole",
+          "sortOrder",
+          "id",
+          "processId"
+        ]
+      },
+      "ProjectBidCommercialWorkspaceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "currentProcess": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectBidCommercialProcessSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "materialItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectBidCommercialMaterialItemView"
+            }
+          },
+          "timelineItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectBidCommercialTimelineItemView"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentProcess",
+          "materialItems",
+          "timelineItems",
+          "blockingReasons",
+          "nextStep",
+          "ownerLabel",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "ProjectPricingMarginReviewSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bidCommercialProcessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "commercialReleaseBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "pricingPath": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "direct-commercial"
+            ]
+          },
+          "quoteVersion": {
+            "type": "string"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "quoteAmountTaxInclusive": {
+            "type": "string"
+          },
+          "quoteAmountTaxExclusive": {
+            "type": "string"
+          },
+          "taxRate": {
+            "type": "string"
+          },
+          "taxConditionSummary": {
+            "type": "string"
+          },
+          "paymentTermsSummary": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "grossMarginBand": {
+            "type": "string",
+            "enum": [
+              "below-redline",
+              "watch",
+              "target",
+              "not-calculated"
+            ]
+          },
+          "grossMarginSummary": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "released",
+              "conditional-release",
+              "rejected",
+              "escalation-required"
+            ]
+          },
+          "decisionSummary": {
+            "type": "string"
+          },
+          "approvalScenarioKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "readyForContracting": {
+            "type": "boolean"
+          },
+          "ownerRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "technicalCostPackageId",
+          "bidCommercialProcessId",
+          "commercialReleaseBaselineId",
+          "pricingPath",
+          "quoteVersion",
+          "currencyCode",
+          "quoteAmountTaxInclusive",
+          "quoteAmountTaxExclusive",
+          "taxRate",
+          "taxConditionSummary",
+          "paymentTermsSummary",
+          "grossMarginRate",
+          "grossMarginBand",
+          "grossMarginSummary",
+          "decision",
+          "decisionSummary",
+          "approvalScenarioKey",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "readyForContracting",
+          "ownerRole",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectPricingMarginReviewList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+        }
+      },
+      "ProjectTechnicalCostPackageSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "technicalFeasibilityDecision": {
+            "type": "string",
+            "enum": [
+              "feasible",
+              "conditional",
+              "not-feasible"
+            ]
+          },
+          "technicalConclusionSummary": {
+            "type": "string"
+          },
+          "allowNextStage": {
+            "type": "boolean"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "totalEstimatedAmountExcludingTax": {
+            "type": "string"
+          },
+          "totalTaxCostAmount": {
+            "type": "string"
+          },
+          "totalEstimatedAmountIncludingTax": {
+            "type": "string"
+          },
+          "taxAssumptionSummary": {
+            "type": "string"
+          },
+          "taxReviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "reviewed",
+              "not-required"
+            ]
+          },
+          "highestRiskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ],
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "technicalFeasibilityDecision",
+          "technicalConclusionSummary",
+          "allowNextStage",
+          "currencyCode",
+          "totalEstimatedAmountExcludingTax",
+          "totalTaxCostAmount",
+          "totalEstimatedAmountIncludingTax",
+          "taxAssumptionSummary",
+          "taxReviewStatus",
+          "highestRiskLevel",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectPricingMarginConditionItemView": {
+        "type": "object",
+        "properties": {
+          "conditionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "conditionType": {
+            "type": "string",
+            "enum": [
+              "financial",
+              "tax",
+              "payment",
+              "scope",
+              "risk",
+              "approval"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "conditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "conditionStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "waived"
+            ]
+          },
+          "requiredForContracting": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "resolutionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "reviewId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "conditionKey",
+          "conditionType",
+          "label",
+          "conditionSummary",
+          "conditionStatus",
+          "requiredForContracting",
+          "responsibleRole",
+          "dueAt",
+          "resolutionSummary",
+          "sortOrder",
+          "id",
+          "reviewId"
+        ]
+      },
+      "ProjectPricingMarginWorkspaceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "currentReview": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "technicalCostPackage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "bidCommercialProcess": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectBidCommercialProcessSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "conditionItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectPricingMarginConditionItemView"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "readyForContracting": {
+            "type": "boolean"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentReview",
+          "technicalCostPackage",
+          "bidCommercialProcess",
+          "conditionItems",
+          "blockingReasons",
+          "nextStep",
+          "readyForContracting",
+          "ownerLabel",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "ProjectTechnicalCostPackageList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+        }
+      },
+      "ProjectTechnicalScopeItemView": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "in-scope",
+              "out-of-scope",
+              "assumption"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "scopeType",
+          "label",
+          "description",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalRiskItemView": {
+        "type": "object",
+        "properties": {
+          "riskCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ]
+          },
+          "riskDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "impactScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "mitigationPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "mitigating",
+              "accepted",
+              "closed"
+            ]
+          },
+          "blocksNextStage": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "riskCategory",
+          "riskLevel",
+          "riskDescription",
+          "impactScope",
+          "mitigationPlan",
+          "ownerRole",
+          "riskStatus",
+          "blocksNextStage",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalCostItemView": {
+        "type": "object",
+        "properties": {
+          "costCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "costSubcategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "estimationBasis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "quantity": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountExcludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxCostAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "confidenceLevel": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "highUncertainty": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "costCategory",
+          "costSubcategory",
+          "costDescription",
+          "estimationBasis",
+          "quantity",
+          "unit",
+          "unitPrice",
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "currencyCode",
+          "confidenceLevel",
+          "highUncertainty",
+          "responsibleRole",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalCostWorkspaceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "currentPackage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "scopeItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemView"
+            }
+          },
+          "riskItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemView"
+            }
+          },
+          "costItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalCostItemView"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentPackage",
+          "scopeItems",
+          "riskItems",
+          "costItems",
+          "blockingReasons",
+          "nextStep",
+          "ownerLabel",
+          "allowedActions",
+          "generatedAt"
+        ]
       },
       "ProjectDetailStageSummary": {
         "type": "object",
@@ -8917,8 +10426,7 @@
           "closedAt",
           "closedReason",
           "blockingReasons"
-        ],
-        "id": "ProjectDetailStageSummary"
+        ]
       },
       "ProjectDetailBidSummary": {
         "type": "object",
@@ -8946,8 +10454,7 @@
           "bidStatus",
           "resultStatus",
           "summary"
-        ],
-        "id": "ProjectDetailBidSummary"
+        ]
       },
       "ProjectDetailContractSummary": {
         "type": "object",
@@ -9001,8 +10508,7 @@
           "currencyCode",
           "signedAt",
           "currentSnapshotId"
-        ],
-        "id": "ProjectDetailContractSummary"
+        ]
       },
       "ProjectDetailApprovalSummary": {
         "type": "object",
@@ -9038,8 +10544,7 @@
           "projectionLevel",
           "exportPolicy",
           "generatedAt"
-        ],
-        "id": "ProjectDetailApprovalSummary"
+        ]
       },
       "ProjectDetailConfirmationSummary": {
         "type": "object",
@@ -9082,8 +10587,7 @@
           "confirmedCount",
           "pendingCount",
           "confirmedAt"
-        ],
-        "id": "ProjectDetailConfirmationSummary"
+        ]
       },
       "ProjectDetailView": {
         "type": "object",
@@ -9249,8 +10753,7 @@
           "exportPolicy",
           "allowedActions",
           "generatedAt"
-        ],
-        "id": "ProjectDetailView"
+        ]
       },
       "CreateProjectRequest": {
         "type": "object",
@@ -9296,8 +10799,7 @@
           "projectCode",
           "projectName",
           "customerName"
-        ],
-        "id": "CreateProjectRequest"
+        ]
       },
       "CreateAcceptanceRecordRequest": {
         "type": "object",
@@ -9340,8 +10842,7 @@
           "acceptanceResult",
           "scopeSummary",
           "evidenceSummary"
-        ],
-        "id": "CreateAcceptanceRecordRequest"
+        ]
       },
       "CreateProjectCompletionRecordRequest": {
         "type": "object",
@@ -9380,8 +10881,7 @@
           "completedAt",
           "completionSummary",
           "evidenceSummary"
-        ],
-        "id": "CreateProjectCompletionRecordRequest"
+        ]
       },
       "CreateProjectArchiveRecordRequest": {
         "type": "object",
@@ -9406,8 +10906,695 @@
           "archivedAt",
           "archiveSummary",
           "evidenceSummary"
-        ],
-        "id": "CreateProjectArchiveRecordRequest"
+        ]
+      },
+      "ProjectBidCommercialMaterialItemInput": {
+        "type": "object",
+        "properties": {
+          "materialKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "materialStatus": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "in-progress",
+              "ready",
+              "not-required"
+            ]
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "blocksNextStep": {
+            "type": "boolean"
+          },
+          "navigationHint": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "materialKey",
+          "label",
+          "materialStatus"
+        ]
+      },
+      "ProjectBidCommercialTimelineItemInput": {
+        "type": "object",
+        "properties": {
+          "eventKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "timelineStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "done",
+              "cancelled"
+            ]
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "eventKey",
+          "label",
+          "timelineStatus"
+        ]
+      },
+      "CreateProjectBidCommercialProcessRequest": {
+        "type": "object",
+        "properties": {
+          "bidMode": {
+            "type": "string",
+            "enum": [
+              "public-tender",
+              "invitation",
+              "comparison",
+              "commercial-negotiation",
+              "competitive-negotiation",
+              "direct-commercial",
+              "not-required"
+            ]
+          },
+          "currentStage": {
+            "type": "string",
+            "enum": [
+              "not-started",
+              "preparation",
+              "submitted",
+              "negotiating",
+              "result-confirmed",
+              "closed"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "participate",
+              "no-bid",
+              "not-required"
+            ]
+          },
+          "resultStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "won",
+              "lost",
+              "cancelled",
+              "not-applicable"
+            ]
+          },
+          "processSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "decisionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "resultSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "materialItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectBidCommercialMaterialItemInput"
+            }
+          },
+          "timelineItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectBidCommercialTimelineItemInput"
+            }
+          }
+        },
+        "required": [
+          "bidMode",
+          "currentStage",
+          "decision",
+          "resultStatus",
+          "processSummary"
+        ]
+      },
+      "ProjectPricingMarginConditionItemInput": {
+        "type": "object",
+        "properties": {
+          "conditionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "conditionType": {
+            "type": "string",
+            "enum": [
+              "financial",
+              "tax",
+              "payment",
+              "scope",
+              "risk",
+              "approval"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "conditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "conditionStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "waived"
+            ]
+          },
+          "requiredForContracting": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "resolutionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "conditionKey",
+          "conditionType",
+          "label",
+          "conditionSummary",
+          "conditionStatus"
+        ]
+      },
+      "CreateProjectPricingMarginReviewRequest": {
+        "type": "object",
+        "properties": {
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bidCommercialProcessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "commercialReleaseBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "pricingPath": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "direct-commercial"
+            ]
+          },
+          "quoteVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "quoteAmountTaxInclusive": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "quoteAmountTaxExclusive": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxRate": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,8})?$"
+          },
+          "taxConditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "paymentTermsSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "pattern": "^-?\\d+(\\.\\d{1,8})?$",
+            "nullable": true
+          },
+          "grossMarginBand": {
+            "type": "string",
+            "enum": [
+              "below-redline",
+              "watch",
+              "target",
+              "not-calculated"
+            ]
+          },
+          "grossMarginSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "released",
+              "conditional-release",
+              "rejected",
+              "escalation-required"
+            ]
+          },
+          "decisionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "approvalScenarioKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "conditionItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectPricingMarginConditionItemInput"
+            }
+          }
+        },
+        "required": [
+          "technicalCostPackageId",
+          "pricingPath",
+          "quoteVersion",
+          "currencyCode",
+          "quoteAmountTaxInclusive",
+          "quoteAmountTaxExclusive",
+          "taxRate",
+          "taxConditionSummary",
+          "paymentTermsSummary",
+          "grossMarginBand",
+          "grossMarginSummary",
+          "decision",
+          "decisionSummary"
+        ]
+      },
+      "ProjectTechnicalScopeItemInput": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "in-scope",
+              "out-of-scope",
+              "assumption"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "scopeType",
+          "label",
+          "description"
+        ]
+      },
+      "ProjectTechnicalRiskItemInput": {
+        "type": "object",
+        "properties": {
+          "riskCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ]
+          },
+          "riskDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "impactScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "mitigationPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "mitigating",
+              "accepted",
+              "closed"
+            ]
+          },
+          "blocksNextStage": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "riskCategory",
+          "riskLevel",
+          "riskDescription",
+          "impactScope",
+          "mitigationPlan",
+          "ownerRole",
+          "riskStatus",
+          "blocksNextStage"
+        ]
+      },
+      "ProjectTechnicalCostItemInput": {
+        "type": "object",
+        "properties": {
+          "costCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "costSubcategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "estimationBasis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "quantity": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,4})?$",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,4})?$",
+            "nullable": true
+          },
+          "amountExcludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxCostAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "confidenceLevel": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "highUncertainty": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costCategory",
+          "costDescription",
+          "estimationBasis",
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "currencyCode",
+          "confidenceLevel",
+          "highUncertainty"
+        ]
+      },
+      "CreateProjectTechnicalCostPackageRequest": {
+        "type": "object",
+        "properties": {
+          "technicalFeasibilityDecision": {
+            "type": "string",
+            "enum": [
+              "feasible",
+              "conditional",
+              "not-feasible"
+            ]
+          },
+          "technicalConclusionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "allowNextStage": {
+            "type": "boolean"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "taxAssumptionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxReviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "reviewed",
+              "not-required"
+            ]
+          },
+          "scopeItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemInput"
+            }
+          },
+          "riskItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemInput"
+            }
+          },
+          "costItems": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalCostItemInput"
+            }
+          }
+        },
+        "required": [
+          "technicalFeasibilityDecision",
+          "technicalConclusionSummary",
+          "allowNextStage",
+          "currencyCode",
+          "taxAssumptionSummary",
+          "taxReviewStatus",
+          "costItems"
+        ]
       },
       "UpdateProjectBasicInfoRequest": {
         "type": "object",
@@ -9429,8 +11616,7 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
             "nullable": true
           }
-        },
-        "id": "UpdateProjectBasicInfoRequest"
+        }
       },
       "PublishInternalCostRateVersionRequest": {
         "type": "object",
@@ -9502,8 +11688,7 @@
           "rateValue",
           "currency",
           "effectiveFrom"
-        ],
-        "id": "PublishInternalCostRateVersionRequest"
+        ]
       },
       "CreatePaymentFactProjectActualCostRecordRequest": {
         "type": "object",
@@ -9541,7 +11726,6 @@
           "costType",
           "paymentRecordId"
         ],
-        "id": "CreatePaymentFactProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "CreateInvoiceProjectActualCostRecordRequest": {
@@ -9586,7 +11770,6 @@
           "costType",
           "invoiceRecordId"
         ],
-        "id": "CreateInvoiceProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "CreateExpenseProjectActualCostRecordRequest": {
@@ -9631,7 +11814,6 @@
           "costType",
           "expenseRecordId"
         ],
-        "id": "CreateExpenseProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "CreateProcurementProjectActualCostRecordRequest": {
@@ -9676,7 +11858,6 @@
           "costType",
           "payableRecordId"
         ],
-        "id": "CreateProcurementProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "CreateLaborProjectActualCostRecordRequest": {
@@ -9758,7 +11939,6 @@
           "laborPeriodEnd",
           "rateVersionId"
         ],
-        "id": "CreateLaborProjectActualCostRecordRequest",
         "additionalProperties": false
       },
       "BaselineSelectionSource": {
@@ -9766,8 +11946,7 @@
         "enum": [
           "original",
           "handover_rebaseline"
-        ],
-        "id": "BaselineSelectionSource"
+        ]
       },
       "ActivateOperatingBaselinePackageRequest": {
         "type": "object",
@@ -9842,8 +12021,7 @@
         "required": [
           "projectId",
           "originalBaselineCost"
-        ],
-        "id": "ActivateOperatingBaselinePackageRequest"
+        ]
       },
       "OperatingBaselinePackageSummary": {
         "type": "object",
@@ -9928,8 +12106,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "OperatingBaselinePackageSummary"
+        ]
       },
       "OperatingSnapshotActionLevel": {
         "type": "string",
@@ -9937,8 +12114,7 @@
           "PROMPT",
           "REVIEW",
           "BLOCK"
-        ],
-        "id": "OperatingSnapshotActionLevel"
+        ]
       },
       "CreateProjectOperatingSnapshotRequest": {
         "type": "object",
@@ -10045,8 +12221,7 @@
           "baselineSelectionSource",
           "projectId",
           "snapshotMode"
-        ],
-        "id": "CreateProjectOperatingSnapshotRequest"
+        ]
       },
       "ProjectOperatingSnapshotSummary": {
         "type": "object",
@@ -10194,8 +12369,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "ProjectOperatingSnapshotSummary"
+        ]
       },
       "CreatePeriodClosingSnapshotRequest": {
         "type": "object",
@@ -10293,8 +12467,7 @@
           "baselineSelectionSource",
           "projectId",
           "periodKey"
-        ],
-        "id": "CreatePeriodClosingSnapshotRequest"
+        ]
       },
       "PeriodClosingSnapshotSummary": {
         "type": "object",
@@ -10423,8 +12596,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PeriodClosingSnapshotSummary"
+        ]
       },
       "CreateOperatingRestatementRequest": {
         "type": "object",
@@ -10549,8 +12721,7 @@
           "restatementReason",
           "restatementSummary",
           "restatedValues"
-        ],
-        "id": "CreateOperatingRestatementRequest"
+        ]
       },
       "OperatingRestatementSummary": {
         "type": "object",
@@ -10635,15 +12806,13 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "OperatingRestatementSummary"
+        ]
       },
-      "OperatingRestatementListViewDto": {
+      "OperatingRestatementListView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/OperatingRestatementSummary"
-        },
-        "id": "OperatingRestatementListView"
+        }
       },
       "ConfirmSharedCostAllocationBasisRequest": {
         "type": "object",
@@ -10720,8 +12889,7 @@
           "sourceCostRecordIds",
           "allocationMethod",
           "projectShareItems"
-        ],
-        "id": "ConfirmSharedCostAllocationBasisRequest"
+        ]
       },
       "SharedCostAllocationResultSummary": {
         "type": "object",
@@ -10802,8 +12970,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "SharedCostAllocationResultSummary"
+        ]
       },
       "SharedCostAllocationBasisSummary": {
         "type": "object",
@@ -10889,15 +13056,13 @@
           "createdAt",
           "updatedAt",
           "results"
-        ],
-        "id": "SharedCostAllocationBasisSummary"
+        ]
       },
-      "SharedCostAllocationResultListViewDto": {
+      "SharedCostAllocationResultListView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/SharedCostAllocationResultSummary"
-        },
-        "id": "SharedCostAllocationResultListView"
+        }
       },
       "ReplaceSharedCostAllocationResultRequest": {
         "type": "object",
@@ -10939,8 +13104,7 @@
         "required": [
           "allocatedAmount",
           "replacementReason"
-        ],
-        "id": "ReplaceSharedCostAllocationResultRequest"
+        ]
       },
       "ConfirmCostStageAttributionRequest": {
         "type": "object",
@@ -10984,8 +13148,7 @@
         "required": [
           "stageAttributionMode",
           "attributedStage"
-        ],
-        "id": "ConfirmCostStageAttributionRequest"
+        ]
       },
       "ReclassifyCostStageAttributionRequest": {
         "type": "object",
@@ -11021,8 +13184,7 @@
         "required": [
           "newAttributedStage",
           "reclassifyReason"
-        ],
-        "id": "ReclassifyCostStageAttributionRequest"
+        ]
       },
       "CostStageAttributionSnapshotSummary": {
         "type": "object",
@@ -11114,15 +13276,13 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CostStageAttributionSnapshotSummary"
+        ]
       },
-      "CostStageAttributionHistoryViewDto": {
+      "CostStageAttributionHistoryView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CostStageAttributionSnapshotSummary"
-        },
-        "id": "CostStageAttributionHistoryView"
+        }
       },
       "ConfirmAccountingTaxTreatmentRequest": {
         "type": "object",
@@ -11169,8 +13329,7 @@
           "deductibilityStatus",
           "taxImpactAmount",
           "taxImpactSummary"
-        ],
-        "id": "ConfirmAccountingTaxTreatmentRequest"
+        ]
       },
       "ReplaceAccountingTaxTreatmentRequest": {
         "type": "object",
@@ -11222,8 +13381,7 @@
           "deductibilityStatus",
           "taxImpactAmount",
           "taxImpactSummary"
-        ],
-        "id": "ReplaceAccountingTaxTreatmentRequest"
+        ]
       },
       "AccountingTaxTreatmentSnapshotSummary": {
         "type": "object",
@@ -11320,15 +13478,13 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "AccountingTaxTreatmentSnapshotSummary"
+        ]
       },
-      "AccountingTaxTreatmentListViewDto": {
+      "AccountingTaxTreatmentListView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/AccountingTaxTreatmentSnapshotSummary"
-        },
-        "id": "AccountingTaxTreatmentListView"
+        }
       },
       "ReviewOperatingSignalEvaluationRequest": {
         "type": "object",
@@ -11374,8 +13530,7 @@
           "costActionRecommendation",
           "referencedBaselineVersion",
           "referencedSnapshotVersion"
-        ],
-        "id": "ReviewOperatingSignalEvaluationRequest"
+        ]
       },
       "ReviewOperatingSignalEvaluationResult": {
         "type": "object",
@@ -11429,8 +13584,7 @@
           "referencedBaselineVersion",
           "referencedSnapshotVersion",
           "resultStatus"
-        ],
-        "id": "ReviewOperatingSignalEvaluationResult"
+        ]
       },
       "OperatingSignalEvaluationView": {
         "type": "object",
@@ -11500,8 +13654,7 @@
           "referencedSnapshotVersion",
           "reviewRequired",
           "reviewSummary"
-        ],
-        "id": "OperatingSignalEvaluationView"
+        ]
       },
       "ReviewCommissionGateBindingRequest": {
         "type": "object",
@@ -11563,8 +13716,7 @@
           "summarySnapshotId",
           "referencedBaselineVersion",
           "referencedSnapshotVersion"
-        ],
-        "id": "ReviewCommissionGateBindingRequest"
+        ]
       },
       "ReviewCommissionGateBindingResult": {
         "type": "object",
@@ -11649,8 +13801,7 @@
           "exportPolicy",
           "nextActionSummary",
           "businessStatusAfter"
-        ],
-        "id": "ReviewCommissionGateBindingResult"
+        ]
       },
       "CommissionGateBindingHistoryView": {
         "type": "object",
@@ -11777,8 +13928,7 @@
           "handledBy",
           "handledAt",
           "allowedActions"
-        ],
-        "id": "CommissionGateBindingHistoryView"
+        ]
       },
       "ProjectBusinessOutcomeOverviewView": {
         "type": "object",
@@ -11848,8 +13998,7 @@
           "referencedBaselineVersion",
           "referencedSnapshotVersion",
           "allowedActions"
-        ],
-        "id": "ProjectBusinessOutcomeOverviewView"
+        ]
       },
       "ProjectUnifiedAccountingView": {
         "type": "object",
@@ -11925,8 +14074,7 @@
           "referencedBaselineVersion",
           "referencedSnapshotVersion",
           "allowedActions"
-        ],
-        "id": "ProjectUnifiedAccountingView"
+        ]
       },
       "ProjectVarianceRiskExplanationView": {
         "type": "object",
@@ -11999,8 +14147,7 @@
           "referencedSnapshotVersion",
           "recommendedActionSummary",
           "allowedActions"
-        ],
-        "id": "ProjectVarianceRiskExplanationView"
+        ]
       },
       "BusinessAccountingFeedbackView": {
         "type": "object",
@@ -12068,8 +14215,7 @@
           "nextActionSummary",
           "downstreamConsumerSummary",
           "allowedActions"
-        ],
-        "id": "BusinessAccountingFeedbackView"
+        ]
       },
       "ExpenseRecordSummary": {
         "type": "object",
@@ -12190,8 +14336,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "ExpenseRecordSummary"
+        ]
       },
       "ExpenseCategory": {
         "type": "string",
@@ -12201,8 +14346,7 @@
           "deployment-logistics",
           "temporary-spend",
           "misc"
-        ],
-        "id": "ExpenseCategory"
+        ]
       },
       "ExpenseSourceType": {
         "type": "string",
@@ -12210,8 +14354,7 @@
           "manual",
           "reimbursement",
           "import"
-        ],
-        "id": "ExpenseSourceType"
+        ]
       },
       "ExpenseRecordStatus": {
         "type": "string",
@@ -12220,15 +14363,13 @@
           "recorded",
           "confirmed",
           "voided"
-        ],
-        "id": "ExpenseRecordStatus"
+        ]
       },
-      "ExpenseRecordListDto": {
+      "ExpenseRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ExpenseRecordSummary"
-        },
-        "id": "ExpenseRecordList"
+        }
       },
       "ExpenseRecordDetailView": {
         "type": "object",
@@ -12356,8 +14497,7 @@
           "createdAt",
           "updatedAt",
           "allowedActions"
-        ],
-        "id": "ExpenseRecordDetailView"
+        ]
       },
       "CreateExpenseRecordRequest": {
         "type": "object",
@@ -12423,8 +14563,7 @@
           "expenseDescription",
           "expenseDate",
           "amountIncludingTax"
-        ],
-        "id": "CreateExpenseRecordRequest"
+        ]
       },
       "UpdateExpenseRecordRequest": {
         "type": "object",
@@ -12489,8 +14628,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateExpenseRecordRequest"
+        }
       },
       "ConfirmExpenseRecordRequest": {
         "type": "object",
@@ -12500,8 +14638,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ConfirmExpenseRecordRequest"
+        }
       },
       "VoidExpenseRecordRequest": {
         "type": "object",
@@ -12525,8 +14662,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "VoidExpenseRecordRequest"
+        ]
       },
       "ProjectActualCostRecordSummary": {
         "type": "object",
@@ -12766,15 +14902,13 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "ProjectActualCostRecordSummary"
+        ]
       },
-      "ProjectActualCostRecordListViewDto": {
+      "ProjectActualCostRecordListView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ProjectActualCostRecordSummary"
-        },
-        "id": "ProjectActualCostRecordListView"
+        }
       },
       "ProjectActualCostRecordDetailView": {
         "type": "object",
@@ -13113,8 +15247,7 @@
           "laborAmount",
           "workSummary",
           "deliveryStage"
-        ],
-        "id": "ProjectActualCostRecordDetailView"
+        ]
       },
       "ReplaceLaborCostRecordRequest": {
         "type": "object",
@@ -13168,8 +15301,7 @@
           "laborPeriodEnd",
           "rateVersionId",
           "replaceReason"
-        ],
-        "id": "ReplaceLaborCostRecordRequest"
+        ]
       },
       "ReceiptRecordSummary": {
         "type": "object",
@@ -13244,8 +15376,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "ReceiptRecordSummary"
+        ]
       },
       "ReceiptRecordStatus": {
         "type": "string",
@@ -13255,15 +15386,13 @@
           "confirmed",
           "reversed",
           "void"
-        ],
-        "id": "ReceiptRecordStatus"
+        ]
       },
-      "ReceiptRecordListDto": {
+      "ReceiptRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ReceiptRecordSummary"
-        },
-        "id": "ReceiptRecordList"
+        }
       },
       "CreateReceiptRecordRequest": {
         "type": "object",
@@ -13287,8 +15416,7 @@
         "required": [
           "receiptAmount",
           "receiptDate"
-        ],
-        "id": "CreateReceiptRecordRequest"
+        ]
       },
       "ConfirmReceiptRecordRequest": {
         "type": "object",
@@ -13298,8 +15426,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ConfirmReceiptRecordRequest"
+        }
       },
       "PayableRecordSummary": {
         "type": "object",
@@ -13422,8 +15549,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PayableRecordSummary"
+        ]
       },
       "PayableRecordStatus": {
         "type": "string",
@@ -13434,15 +15560,13 @@
           "completed",
           "closed",
           "voided"
-        ],
-        "id": "PayableRecordStatus"
+        ]
       },
-      "PayableRecordListDto": {
+      "PayableRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PayableRecordSummary"
-        },
-        "id": "PayableRecordList"
+        }
       },
       "PayableRecordDetailView": {
         "type": "object",
@@ -13572,8 +15696,7 @@
           "createdAt",
           "updatedAt",
           "allowedActions"
-        ],
-        "id": "PayableRecordDetailView"
+        ]
       },
       "CreatePayableRecordRequest": {
         "type": "object",
@@ -13644,8 +15767,7 @@
           "payableDescription",
           "amountExcludingTax",
           "expectedPaymentDate"
-        ],
-        "id": "CreatePayableRecordRequest"
+        ]
       },
       "UpdatePayableRecordRequest": {
         "type": "object",
@@ -13714,8 +15836,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdatePayableRecordRequest"
+        }
       },
       "ClosePayableRecordRequest": {
         "type": "object",
@@ -13739,8 +15860,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "ClosePayableRecordRequest"
+        ]
       },
       "VoidPayableRecordRequest": {
         "type": "object",
@@ -13764,8 +15884,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "VoidPayableRecordRequest"
+        ]
       },
       "InvoiceRecordSummary": {
         "type": "object",
@@ -13857,16 +15976,14 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "InvoiceRecordSummary"
+        ]
       },
       "InvoiceRecordType": {
         "type": "string",
         "enum": [
           "input",
           "output"
-        ],
-        "id": "InvoiceRecordType"
+        ]
       },
       "InvoiceRecordStatus": {
         "type": "string",
@@ -13878,8 +15995,7 @@
           "verified",
           "exception",
           "closed"
-        ],
-        "id": "InvoiceRecordStatus"
+        ]
       },
       "InvoiceRecordExceptionStatus": {
         "type": "string",
@@ -13887,15 +16003,13 @@
           "none",
           "open",
           "resolved"
-        ],
-        "id": "InvoiceRecordExceptionStatus"
+        ]
       },
-      "InvoiceRecordListDto": {
+      "InvoiceRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/InvoiceRecordSummary"
-        },
-        "id": "InvoiceRecordList"
+        }
       },
       "InvoiceRecordDetailView": {
         "type": "object",
@@ -13994,8 +16108,7 @@
           "createdAt",
           "updatedAt",
           "allowedActions"
-        ],
-        "id": "InvoiceRecordDetailView"
+        ]
       },
       "CreateInvoiceRecordRequest": {
         "type": "object",
@@ -14030,8 +16143,7 @@
           "invoiceNumber",
           "invoiceAmount",
           "invoiceDate"
-        ],
-        "id": "CreateInvoiceRecordRequest"
+        ]
       },
       "UpdateInvoiceRecordRequest": {
         "type": "object",
@@ -14072,8 +16184,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "UpdateInvoiceRecordRequest"
+        }
       },
       "MarkInvoiceExceptionRequest": {
         "type": "object",
@@ -14097,8 +16208,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "MarkInvoiceExceptionRequest"
+        ]
       },
       "ResolveInvoiceExceptionRequest": {
         "type": "object",
@@ -14122,8 +16232,7 @@
         },
         "required": [
           "resolution"
-        ],
-        "id": "ResolveInvoiceExceptionRequest"
+        ]
       },
       "CloseInvoiceRecordRequest": {
         "type": "object",
@@ -14147,8 +16256,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "CloseInvoiceRecordRequest"
+        ]
       },
       "PaymentRecordSummary": {
         "type": "object",
@@ -14249,8 +16357,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "PaymentRecordSummary"
+        ]
       },
       "PaymentRecordStatus": {
         "type": "string",
@@ -14259,15 +16366,13 @@
           "recorded",
           "confirmed",
           "void"
-        ],
-        "id": "PaymentRecordStatus"
+        ]
       },
-      "PaymentRecordListDto": {
+      "PaymentRecordList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PaymentRecordSummary"
-        },
-        "id": "PaymentRecordList"
+        }
       },
       "CreatePaymentRecordRequest": {
         "type": "object",
@@ -14326,8 +16431,7 @@
           "amountExcludingTax",
           "paymentDate",
           "costCategory"
-        ],
-        "id": "CreatePaymentRecordRequest"
+        ]
       },
       "ConfirmPaymentRecordRequest": {
         "type": "object",
@@ -14337,8 +16441,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ConfirmPaymentRecordRequest"
+        }
       },
       "ContractHandoverEffectiveContractSetSummary": {
         "type": "object",
@@ -14399,8 +16502,7 @@
           "earliestSignedAt",
           "latestSignedAt",
           "contracts"
-        ],
-        "id": "ContractHandoverEffectiveContractSetSummary"
+        ]
       },
       "ContractHandoverContractItemSummary": {
         "type": "object",
@@ -14443,8 +16545,7 @@
           "currencyCode",
           "currentSnapshotId",
           "signedAt"
-        ],
-        "id": "ContractHandoverContractItemSummary"
+        ]
       },
       "ContractStatus": {
         "type": "string",
@@ -14454,8 +16555,7 @@
           "active",
           "terminated",
           "completed"
-        ],
-        "id": "ContractStatus"
+        ]
       },
       "ContractHandoverBaselineValidationSummary": {
         "type": "object",
@@ -14487,36 +16587,36 @@
             "nullable": true
           },
           "diffLevel": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/CommercialDiffLevel"
               }
-            ]
+            ],
+            "nullable": true
           },
           "reviewStatus": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/CommercialDiffReviewStatus"
               }
-            ]
+            ],
+            "nullable": true
           },
           "packageStatus": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContractReadinessStatus"
               }
-            ]
+            ],
+            "nullable": true
           },
           "guardDecision": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContractReadinessGuardDecision"
               }
-            ]
+            ],
+            "nullable": true
           },
           "initializedContractSnapshotId": {
             "type": "string",
@@ -14553,8 +16653,7 @@
           "contractSnapshotInitializedAt",
           "blockingReasonSummary",
           "missingPrerequisiteCount"
-        ],
-        "id": "ContractHandoverBaselineValidationSummary"
+        ]
       },
       "CommercialDiffLevel": {
         "type": "string",
@@ -14562,8 +16661,7 @@
           "prompt",
           "review-required",
           "reapproval-required"
-        ],
-        "id": "CommercialDiffLevel"
+        ]
       },
       "CommercialDiffReviewStatus": {
         "type": "string",
@@ -14572,8 +16670,7 @@
           "pending-review",
           "approved",
           "rejected"
-        ],
-        "id": "CommercialDiffReviewStatus"
+        ]
       },
       "ContractReadinessStatus": {
         "type": "string",
@@ -14581,8 +16678,7 @@
           "ready",
           "conditional",
           "blocked"
-        ],
-        "id": "ContractReadinessStatus"
+        ]
       },
       "ContractReadinessGuardDecision": {
         "type": "string",
@@ -14590,8 +16686,7 @@
           "allowed",
           "review-required",
           "blocked"
-        ],
-        "id": "ContractReadinessGuardDecision"
+        ]
       },
       "ContractHandoverCurrentBaselineSummary": {
         "type": "object",
@@ -14634,8 +16729,7 @@
           "sourceType",
           "sourceId",
           "summary"
-        ],
-        "id": "ContractHandoverCurrentBaselineSummary"
+        ]
       },
       "ContractHandoverLatestRebaselineSummary": {
         "type": "object",
@@ -14695,8 +16789,7 @@
           "blockingStatus",
           "impactItemCount",
           "impactSummary"
-        ],
-        "id": "ContractHandoverLatestRebaselineSummary"
+        ]
       },
       "ContractHandoverReceivablePlanInitSummary": {
         "type": "object",
@@ -14730,8 +16823,7 @@
           "initializedReceivablePlanVersionId",
           "receivablePlanInitializedAt",
           "summary"
-        ],
-        "id": "ContractHandoverReceivablePlanInitSummary"
+        ]
       },
       "ContractHandoverSummaryView": {
         "type": "object",
@@ -14809,8 +16901,7 @@
           "allowedActions",
           "blockingReasons",
           "generatedAt"
-        ],
-        "id": "ContractHandoverSummaryView"
+        ]
       },
       "ProjectHandoverParticipantConfirmationSummary": {
         "type": "object",
@@ -14893,8 +16984,7 @@
           "closedAt",
           "rowVersion",
           "participants"
-        ],
-        "id": "ProjectHandoverParticipantConfirmationSummary"
+        ]
       },
       "ProjectHandoverParticipantConfirmationItem": {
         "type": "object",
@@ -14937,8 +17027,7 @@
           "participantStatus",
           "confirmedAt",
           "confirmedComment"
-        ],
-        "id": "ProjectHandoverParticipantConfirmationItem"
+        ]
       },
       "ProjectHandoverReceiptJudgmentModeSummary": {
         "type": "object",
@@ -14978,8 +17067,7 @@
           "sourceType",
           "sourceId",
           "summary"
-        ],
-        "id": "ProjectHandoverReceiptJudgmentModeSummary"
+        ]
       },
       "ProjectHandoverDetailView": {
         "type": "object",
@@ -15109,8 +17197,7 @@
           "allowedActions",
           "blockingReasons",
           "generatedAt"
-        ],
-        "id": "ProjectHandoverDetailView"
+        ]
       },
       "ConfirmProjectHandoverParticipantConfirmationInput": {
         "type": "object",
@@ -15136,8 +17223,7 @@
           "participantId",
           "participantRoleKey",
           "participantStatus"
-        ],
-        "id": "ConfirmProjectHandoverParticipantConfirmationInput"
+        ]
       },
       "ConfirmProjectHandoverRequest": {
         "type": "object",
@@ -15172,8 +17258,7 @@
         "required": [
           "participantConfirmations",
           "contractSummarySnapshotId"
-        ],
-        "id": "ConfirmProjectHandoverRequest"
+        ]
       },
       "ConfirmProjectHandoverResult": {
         "type": "object",
@@ -15232,8 +17317,7 @@
           "summarySnapshotId",
           "projectionLevel",
           "exportPolicy"
-        ],
-        "id": "ConfirmProjectHandoverResult"
+        ]
       },
       "RebaselineContractHandoverRequest": {
         "type": "object",
@@ -15273,8 +17357,7 @@
           "rebaselineReason",
           "affectedHandoverItemIds",
           "effectiveBaselineAfterId"
-        ],
-        "id": "RebaselineContractHandoverRequest"
+        ]
       },
       "RebaselineContractHandoverResult": {
         "type": "object",
@@ -15306,8 +17389,7 @@
           "rebaselineRecordId",
           "effectiveBaselineAfterId",
           "resultStatus"
-        ],
-        "id": "RebaselineContractHandoverResult"
+        ]
       },
       "ApprovalRecordSummary": {
         "type": "object",
@@ -15429,8 +17511,7 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "ApprovalRecordSummary"
+        ]
       },
       "ApproveRecordRequest": {
         "type": "object",
@@ -15445,8 +17526,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ApproveRecordRequest"
+        }
       },
       "CommandResult": {
         "type": "object",
@@ -15500,8 +17580,7 @@
           "approvalRecordId",
           "confirmationRecordId",
           "todoItemIds"
-        ],
-        "id": "CommandResult"
+        ]
       },
       "RejectApprovalRecordRequest": {
         "type": "object",
@@ -15524,8 +17603,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "RejectApprovalRecordRequest"
+        ]
       },
       "TodoItemSummary": {
         "type": "object",
@@ -15645,15 +17723,13 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "TodoItemSummary"
+        ]
       },
-      "TodoItemListDto": {
+      "TodoItemList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/TodoItemSummary"
-        },
-        "id": "TodoItemList"
+        }
       },
       "ContractSummary": {
         "type": "object",
@@ -15750,15 +17826,13 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
-        ],
-        "id": "ContractSummary"
+        ]
       },
-      "ContractListDto": {
+      "ContractList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ContractSummary"
-        },
-        "id": "ContractList"
+        }
       },
       "ContractTermSnapshotSummary": {
         "type": "object",
@@ -15875,8 +17949,7 @@
           "createdAt",
           "createdBy",
           "rowVersion"
-        ],
-        "id": "ContractTermSnapshotSummary"
+        ]
       },
       "ContractDetailView": {
         "type": "object",
@@ -15956,12 +18029,12 @@
             "nullable": true
           },
           "currentTermSnapshot": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContractTermSnapshotSummary"
               }
-            ]
+            ],
+            "nullable": true
           }
         },
         "required": [
@@ -15982,8 +18055,7 @@
           "updatedAt",
           "updatedBy",
           "currentTermSnapshot"
-        ],
-        "id": "ContractDetailView"
+        ]
       },
       "CreateContractRequest": {
         "type": "object",
@@ -16040,8 +18112,7 @@
           "projectId",
           "contractNo",
           "signedAmount"
-        ],
-        "id": "CreateContractRequest"
+        ]
       },
       "UpdateContractBasicInfoRequest": {
         "type": "object",
@@ -16074,8 +18145,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           }
-        },
-        "id": "UpdateContractBasicInfoRequest"
+        }
       },
       "SubmitContractReviewRequest": {
         "type": "object",
@@ -16090,8 +18160,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "SubmitContractReviewRequest"
+        }
       },
       "ActivateContractRequest": {
         "type": "object",
@@ -16106,8 +18175,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ActivateContractRequest"
+        }
       },
       "CreateCommercialBaselineDiffItemInput": {
         "type": "object",
@@ -16148,8 +18216,7 @@
           "fieldKey",
           "fieldLabel",
           "diffLevel"
-        ],
-        "id": "CreateCommercialBaselineDiffItemInput"
+        ]
       },
       "CreateCommercialReleaseBaselineRequest": {
         "type": "object",
@@ -16242,8 +18309,7 @@
           "projectId",
           "baselineCode",
           "diffLevel"
-        ],
-        "id": "CreateCommercialReleaseBaselineRequest"
+        ]
       },
       "CommercialReleaseBaselineSummary": {
         "type": "object",
@@ -16377,8 +18443,7 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
-        ],
-        "id": "CommercialReleaseBaselineSummary"
+        ]
       },
       "CommercialBaselineDiffItem": {
         "type": "object",
@@ -16423,15 +18488,13 @@
           "diffLevel",
           "isBlocking",
           "sortOrder"
-        ],
-        "id": "CommercialBaselineDiffItem"
+        ]
       },
       "CommercialBaselineReviewHistory": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CommercialBaselineReviewRecordSummary"
-        },
-        "id": "CommercialBaselineReviewHistory"
+        }
       },
       "CommercialBaselineReviewRecordSummary": {
         "type": "object",
@@ -16490,16 +18553,14 @@
           "comment",
           "reviewerUserId",
           "createdAt"
-        ],
-        "id": "CommercialBaselineReviewRecordSummary"
+        ]
       },
       "CommercialBaselineReviewDecision": {
         "type": "string",
         "enum": [
           "approved",
           "rejected"
-        ],
-        "id": "CommercialBaselineReviewDecision"
+        ]
       },
       "ContractDiffReviewHistoryView": {
         "type": "object",
@@ -16521,8 +18582,7 @@
           "baseline",
           "diffItems",
           "reviewHistory"
-        ],
-        "id": "ContractDiffReviewHistoryView"
+        ]
       },
       "ReviewCommercialReleaseBaselineDiffRequest": {
         "type": "object",
@@ -16556,8 +18616,7 @@
         },
         "required": [
           "diffDecision"
-        ],
-        "id": "ReviewCommercialReleaseBaselineDiffRequest"
+        ]
       },
       "CommercialDiffReviewResult": {
         "type": "object",
@@ -16584,8 +18643,7 @@
           "diffResultId",
           "baselineReviewDecision",
           "resultStatus"
-        ],
-        "id": "CommercialDiffReviewResult"
+        ]
       },
       "ContractReadinessPackageItemInput": {
         "type": "object",
@@ -16632,8 +18690,7 @@
           "itemKey",
           "label",
           "status"
-        ],
-        "id": "ContractReadinessPackageItemInput"
+        ]
       },
       "ContractReadinessItemType": {
         "type": "string",
@@ -16642,8 +18699,7 @@
           "reusable-fact",
           "blocking-reason",
           "receivable-seed"
-        ],
-        "id": "ContractReadinessItemType"
+        ]
       },
       "ContractReadinessItemStatus": {
         "type": "string",
@@ -16652,8 +18708,7 @@
           "conditional",
           "blocked",
           "not-applicable"
-        ],
-        "id": "ContractReadinessItemStatus"
+        ]
       },
       "CreateContractReadinessPackageRequest": {
         "type": "object",
@@ -16720,8 +18775,7 @@
           "latestDiffResultId",
           "packageStatus",
           "guardDecision"
-        ],
-        "id": "CreateContractReadinessPackageRequest"
+        ]
       },
       "ContractReadinessItem": {
         "type": "object",
@@ -16771,8 +18825,7 @@
           "responsibleRole",
           "navigationHint",
           "sortOrder"
-        ],
-        "id": "ContractReadinessItem"
+        ]
       },
       "ContractReadinessDetail": {
         "type": "object",
@@ -16919,8 +18972,7 @@
           "updatedBy",
           "allowedActions",
           "items"
-        ],
-        "id": "ContractReadinessDetail"
+        ]
       },
       "InitializeContractSnapshotFromReadinessPackageRequest": {
         "type": "object",
@@ -16939,8 +18991,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "InitializeContractSnapshotFromReadinessPackageRequest"
+        }
       },
       "ReadinessInitializationResult": {
         "type": "object",
@@ -16983,8 +19034,7 @@
           "sourceReadinessId",
           "resultStatus",
           "businessStatusAfter"
-        ],
-        "id": "ReadinessInitializationResult"
+        ]
       },
       "InitializeReceivablePlanFromReadinessPackageRequest": {
         "type": "object",
@@ -17003,8 +19053,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "InitializeReceivablePlanFromReadinessPackageRequest"
+        }
       },
       "CommissionRuleVersionSummary": {
         "type": "object",
@@ -17094,15 +19143,13 @@
           "effectiveFrom",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionRuleVersionSummary"
+        ]
       },
-      "CommissionRuleVersionListDto": {
+      "CommissionRuleVersionList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CommissionRuleVersionSummary"
-        },
-        "id": "CommissionRuleVersionList"
+        }
       },
       "CreateCommissionRuleVersionRequest": {
         "type": "object",
@@ -17206,8 +19253,7 @@
           "ruleCode",
           "version",
           "tierDefinitionJson"
-        ],
-        "id": "CreateCommissionRuleVersionRequest"
+        ]
       },
       "CommissionRoleAssignmentSummary": {
         "type": "object",
@@ -17338,8 +19384,7 @@
           "frozenAt",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionRoleAssignmentSummary"
+        ]
       },
       "CommissionFinalSettlementView": {
         "type": "object",
@@ -17456,8 +19501,7 @@
           "projectionLevel",
           "exportPolicy",
           "allowedActions"
-        ],
-        "id": "CommissionFinalSettlementView"
+        ]
       },
       "CommissionRuleExplanationView": {
         "type": "object",
@@ -17563,8 +19607,7 @@
           "projectionLevel",
           "exportPolicy",
           "allowedActions"
-        ],
-        "id": "CommissionRuleExplanationView"
+        ]
       },
       "CreateCommissionRoleAssignmentRequest": {
         "type": "object",
@@ -17605,8 +19648,7 @@
         },
         "required": [
           "participants"
-        ],
-        "id": "CreateCommissionRoleAssignmentRequest"
+        ]
       },
       "CommissionCalculationSummary": {
         "type": "object",
@@ -17703,15 +19745,13 @@
           "approvedAt",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionCalculationSummary"
+        ]
       },
-      "CommissionCalculationListDto": {
+      "CommissionCalculationList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CommissionCalculationSummary"
-        },
-        "id": "CommissionCalculationList"
+        }
       },
       "CreateCommissionCalculationRequest": {
         "type": "object",
@@ -17736,8 +19776,7 @@
           "ruleVersionId",
           "recognizedRevenueTaxExclusive",
           "recognizedCostTaxExclusive"
-        ],
-        "id": "CreateCommissionCalculationRequest"
+        ]
       },
       "ConfirmCommissionCalculationRequest": {
         "type": "object",
@@ -17747,8 +19786,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ConfirmCommissionCalculationRequest"
+        }
       },
       "RecalculateCommissionRequest": {
         "type": "object",
@@ -17776,8 +19814,7 @@
         },
         "required": [
           "reason"
-        ],
-        "id": "RecalculateCommissionRequest"
+        ]
       },
       "CommissionPayoutSummary": {
         "type": "object",
@@ -17879,8 +19916,7 @@
           "handledAt",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionPayoutSummary"
+        ]
       },
       "CommissionPayoutStage": {
         "type": "string",
@@ -17889,16 +19925,14 @@
           "second",
           "final",
           "retention"
-        ],
-        "id": "CommissionPayoutStage"
+        ]
       },
       "CommissionPayoutKind": {
         "type": "string",
         "enum": [
           "primary",
           "supplement"
-        ],
-        "id": "CommissionPayoutKind"
+        ]
       },
       "CommissionPayoutTier": {
         "type": "string",
@@ -17906,15 +19940,13 @@
           "basic",
           "mid",
           "premium"
-        ],
-        "id": "CommissionPayoutTier"
+        ]
       },
-      "CommissionPayoutListDto": {
+      "CommissionPayoutList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CommissionPayoutSummary"
-        },
-        "id": "CommissionPayoutList"
+        }
       },
       "CreateCommissionPayoutRequest": {
         "type": "object",
@@ -17935,8 +19967,7 @@
         "required": [
           "calculationId",
           "stageType"
-        ],
-        "id": "CreateCommissionPayoutRequest"
+        ]
       },
       "SubmitRetentionCommissionPayoutApprovalRequest": {
         "type": "object",
@@ -17994,8 +20025,7 @@
           "summarySnapshotId",
           "retentionReceiptRecordId",
           "departureExceptionDecisionId"
-        ],
-        "id": "SubmitRetentionCommissionPayoutApprovalRequest"
+        ]
       },
       "SubmitNonRetentionCommissionPayoutApprovalRequest": {
         "type": "object",
@@ -18051,8 +20081,7 @@
         },
         "required": [
           "payoutStage"
-        ],
-        "id": "SubmitNonRetentionCommissionPayoutApprovalRequest"
+        ]
       },
       "ApproveCommissionPayoutRequest": {
         "type": "object",
@@ -18067,8 +20096,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ApproveCommissionPayoutRequest"
+        }
       },
       "RegisterRetentionCommissionPayoutRequest": {
         "type": "object",
@@ -18114,8 +20142,7 @@
           "paidRecordAmount",
           "payoutStage",
           "summarySnapshotId"
-        ],
-        "id": "RegisterRetentionCommissionPayoutRequest"
+        ]
       },
       "RegisterNonRetentionCommissionPayoutRequest": {
         "type": "object",
@@ -18162,8 +20189,7 @@
         "required": [
           "paidRecordAmount",
           "payoutStage"
-        ],
-        "id": "RegisterNonRetentionCommissionPayoutRequest"
+        ]
       },
       "CommissionAdjustmentSummary": {
         "type": "object",
@@ -18246,8 +20272,7 @@
           "executedAt",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionAdjustmentSummary"
+        ]
       },
       "CommissionAdjustmentType": {
         "type": "string",
@@ -18257,15 +20282,13 @@
           "clawback",
           "supplement",
           "recalculate"
-        ],
-        "id": "CommissionAdjustmentType"
+        ]
       },
-      "CommissionAdjustmentListDto": {
+      "CommissionAdjustmentList": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CommissionAdjustmentSummary"
-        },
-        "id": "CommissionAdjustmentList"
+        }
       },
       "CreateCommissionAdjustmentRequest": {
         "type": "object",
@@ -18300,8 +20323,7 @@
         "required": [
           "adjustmentType",
           "reason"
-        ],
-        "id": "CreateCommissionAdjustmentRequest"
+        ]
       },
       "SubmitCommissionAdjustmentApprovalRequest": {
         "type": "object",
@@ -18311,8 +20333,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "SubmitCommissionAdjustmentApprovalRequest"
+        }
       },
       "ExecuteCommissionAdjustmentRequest": {
         "type": "object",
@@ -18322,8 +20343,7 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           }
-        },
-        "id": "ExecuteCommissionAdjustmentRequest"
+        }
       },
       "CommissionRoleAssignmentDetailView": {
         "type": "object",
@@ -18410,8 +20430,7 @@
           "exportPolicy",
           "allowedActions",
           "generatedAt"
-        ],
-        "id": "CommissionRoleAssignmentDetailView"
+        ]
       },
       "FreezeCommissionRoleAssignmentRequest": {
         "type": "object",
@@ -18439,8 +20458,7 @@
         "required": [
           "sourceHandoverId",
           "handoverSummarySnapshotId"
-        ],
-        "id": "FreezeCommissionRoleAssignmentRequest"
+        ]
       },
       "FreezeCommissionRoleAssignmentResult": {
         "type": "object",
@@ -18504,8 +20522,7 @@
           "summarySnapshotId",
           "projectionLevel",
           "exportPolicy"
-        ],
-        "id": "FreezeCommissionRoleAssignmentResult"
+        ]
       },
       "CreateCommissionDepartureExceptionDecisionRequest": {
         "type": "object",
@@ -18548,8 +20565,7 @@
           "decisionCode",
           "decisionSummary",
           "summarySnapshotId"
-        ],
-        "id": "CreateCommissionDepartureExceptionDecisionRequest"
+        ]
       },
       "CommissionDepartureExceptionDecisionStatus": {
         "type": "string",
@@ -18557,8 +20573,7 @@
           "active",
           "superseded",
           "voided"
-        ],
-        "id": "CommissionDepartureExceptionDecisionStatus"
+        ]
       },
       "CommissionDepartureExceptionDecisionSummary": {
         "type": "object",
@@ -18656,8 +20671,7 @@
           "handledAt",
           "createdAt",
           "updatedAt"
-        ],
-        "id": "CommissionDepartureExceptionDecisionSummary"
+        ]
       },
       "SubmitCommissionFreezeDisputeRequest": {
         "type": "object",
@@ -18701,8 +20715,7 @@
           "disputeReason",
           "affectedAssignmentIds",
           "recalculationImpactMode"
-        ],
-        "id": "SubmitCommissionFreezeDisputeRequest"
+        ]
       },
       "SubmitCommissionFreezeDisputeResult": {
         "type": "object",
@@ -18746,16 +20759,14 @@
           "projectionLevel",
           "exportPolicy",
           "businessStatusAfter"
-        ],
-        "id": "SubmitCommissionFreezeDisputeResult"
+        ]
       },
       "CommissionFreezeDisputeArbitrationStatus": {
         "type": "string",
         "enum": [
           "pending",
           "arbitrated"
-        ],
-        "id": "CommissionFreezeDisputeArbitrationStatus"
+        ]
       },
       "CommissionFreezeDisputeDetailView": {
         "type": "object",
@@ -18848,8 +20859,7 @@
           "handledAt",
           "allowedActions",
           "generatedAt"
-        ],
-        "id": "CommissionFreezeDisputeDetailView"
+        ]
       },
       "ReplacementCommissionRoleAssignmentPayload": {
         "type": "object",
@@ -18890,8 +20900,7 @@
         },
         "required": [
           "participants"
-        ],
-        "id": "ReplacementCommissionRoleAssignmentPayload"
+        ]
       },
       "ArbitrateCommissionFreezeDisputeRequest": {
         "type": "object",
@@ -18902,12 +20911,12 @@
             "maxLength": 64
           },
           "replacementAssignmentPayload": {
-            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ReplacementCommissionRoleAssignmentPayload"
               }
-            ]
+            ],
+            "nullable": true
           },
           "recalculationImpactMode": {
             "type": "string",
@@ -18927,8 +20936,7 @@
         "required": [
           "arbitrationDecision",
           "recalculationImpactMode"
-        ],
-        "id": "ArbitrateCommissionFreezeDisputeRequest"
+        ]
       },
       "ArbitrateCommissionFreezeDisputeResult": {
         "type": "object",
@@ -18986,8 +20994,7 @@
           "affectedPayoutSummary",
           "riskFlagSummary",
           "resultStatus"
-        ],
-        "id": "ArbitrateCommissionFreezeDisputeResult"
+        ]
       },
       "CommissionFreezeChangeRequestDetailView": {
         "type": "object",
@@ -19076,8 +21083,7 @@
           "status",
           "handledAt",
           "generatedAt"
-        ],
-        "id": "CommissionFreezeChangeRequestDetailView"
+        ]
       }
     }
   }

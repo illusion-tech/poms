@@ -807,6 +807,521 @@ export const ProjectWorkspaceGuidanceViewSchema = z
 
 export type ProjectWorkspaceGuidanceView = z.infer<typeof ProjectWorkspaceGuidanceViewSchema>;
 
+export const TECHNICAL_FEASIBILITY_DECISIONS = ['feasible', 'conditional', 'not-feasible'] as const;
+
+export type TechnicalFeasibilityDecision = (typeof TECHNICAL_FEASIBILITY_DECISIONS)[number];
+
+export const TECHNICAL_SCOPE_ITEM_TYPES = ['in-scope', 'out-of-scope', 'assumption'] as const;
+
+export type TechnicalScopeItemType = (typeof TECHNICAL_SCOPE_ITEM_TYPES)[number];
+
+export const PRESIGNING_RISK_LEVELS = ['R1', 'R2', 'R3', 'R4'] as const;
+
+export type PreSigningRiskLevel = (typeof PRESIGNING_RISK_LEVELS)[number];
+
+export const PRESIGNING_RISK_STATUSES = ['open', 'mitigating', 'accepted', 'closed'] as const;
+
+export type PreSigningRiskStatus = (typeof PRESIGNING_RISK_STATUSES)[number];
+
+export const COST_ESTIMATE_CONFIDENCE_LEVELS = ['high', 'medium', 'low'] as const;
+
+export type CostEstimateConfidenceLevel = (typeof COST_ESTIMATE_CONFIDENCE_LEVELS)[number];
+
+export const TAX_REVIEW_STATUSES = ['pending', 'reviewed', 'not-required'] as const;
+
+export type TaxReviewStatus = (typeof TAX_REVIEW_STATUSES)[number];
+
+export const PROJECT_TECHNICAL_COST_PACKAGE_STATUSES = ['effective', 'superseded'] as const;
+
+export type ProjectTechnicalCostPackageStatus = (typeof PROJECT_TECHNICAL_COST_PACKAGE_STATUSES)[number];
+
+const NonNegativeDecimalStringSchema = z
+    .string()
+    .trim()
+    .regex(/^\d+(\.\d{1,4})?$/);
+
+const NonNegativeMoneyStringSchema = z
+    .string()
+    .trim()
+    .regex(/^\d+(\.\d{1,2})?$/);
+
+const NonNegativeRatioStringSchema = z
+    .string()
+    .trim()
+    .regex(/^\d+(\.\d{1,8})?$/);
+
+const SignedRatioStringSchema = z
+    .string()
+    .trim()
+    .regex(/^-?\d+(\.\d{1,8})?$/);
+
+export const ProjectTechnicalScopeItemInputSchema = z
+    .object({
+        scopeType: z.enum(TECHNICAL_SCOPE_ITEM_TYPES),
+        label: z.string().trim().min(1).max(255),
+        description: z.string().trim().min(1).max(2000),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectTechnicalScopeItemInput' });
+
+export type ProjectTechnicalScopeItemInput = z.infer<typeof ProjectTechnicalScopeItemInputSchema>;
+
+export const ProjectTechnicalRiskItemInputSchema = z
+    .object({
+        riskCategory: z.string().trim().min(1).max(128),
+        riskLevel: z.enum(PRESIGNING_RISK_LEVELS),
+        riskDescription: z.string().trim().min(1).max(2000),
+        impactScope: z.string().trim().min(1).max(1000),
+        mitigationPlan: z.string().trim().min(1).max(2000),
+        ownerRole: z.string().trim().min(1).max(128),
+        riskStatus: z.enum(PRESIGNING_RISK_STATUSES),
+        blocksNextStage: z.boolean(),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectTechnicalRiskItemInput' });
+
+export type ProjectTechnicalRiskItemInput = z.infer<typeof ProjectTechnicalRiskItemInputSchema>;
+
+export const ProjectTechnicalCostItemInputSchema = z
+    .object({
+        costCategory: z.string().trim().min(1).max(128),
+        costSubcategory: z.string().trim().min(1).max(128).nullable().optional(),
+        costDescription: z.string().trim().min(1).max(2000),
+        estimationBasis: z.string().trim().min(1).max(2000),
+        quantity: NonNegativeDecimalStringSchema.nullable().optional(),
+        unit: z.string().trim().min(1).max(32).nullable().optional(),
+        unitPrice: NonNegativeDecimalStringSchema.nullable().optional(),
+        amountExcludingTax: NonNegativeMoneyStringSchema,
+        taxCostAmount: NonNegativeMoneyStringSchema,
+        amountIncludingTax: NonNegativeMoneyStringSchema,
+        currencyCode: z.string().trim().min(3).max(16),
+        confidenceLevel: z.enum(COST_ESTIMATE_CONFIDENCE_LEVELS),
+        highUncertainty: z.boolean(),
+        responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectTechnicalCostItemInput' });
+
+export type ProjectTechnicalCostItemInput = z.infer<typeof ProjectTechnicalCostItemInputSchema>;
+
+export const CreateProjectTechnicalCostPackageRequestSchema = z
+    .object({
+        technicalFeasibilityDecision: z.enum(TECHNICAL_FEASIBILITY_DECISIONS),
+        technicalConclusionSummary: z.string().trim().min(1).max(2000),
+        allowNextStage: z.boolean(),
+        currencyCode: z.string().trim().min(3).max(16),
+        taxAssumptionSummary: z.string().trim().min(1).max(2000),
+        taxReviewStatus: z.enum(TAX_REVIEW_STATUSES),
+        scopeItems: z.array(ProjectTechnicalScopeItemInputSchema).default([]),
+        riskItems: z.array(ProjectTechnicalRiskItemInputSchema).default([]),
+        costItems: z.array(ProjectTechnicalCostItemInputSchema).min(1)
+    })
+    .meta({ id: 'CreateProjectTechnicalCostPackageRequest' });
+
+export type CreateProjectTechnicalCostPackageRequest = z.infer<typeof CreateProjectTechnicalCostPackageRequestSchema>;
+
+export const ProjectTechnicalScopeItemViewSchema = ProjectTechnicalScopeItemInputSchema.extend({
+    id: z.uuid(),
+    packageId: z.uuid(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectTechnicalScopeItemView' });
+
+export type ProjectTechnicalScopeItemView = z.infer<typeof ProjectTechnicalScopeItemViewSchema>;
+
+export const ProjectTechnicalRiskItemViewSchema = ProjectTechnicalRiskItemInputSchema.extend({
+    id: z.uuid(),
+    packageId: z.uuid(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectTechnicalRiskItemView' });
+
+export type ProjectTechnicalRiskItemView = z.infer<typeof ProjectTechnicalRiskItemViewSchema>;
+
+export const ProjectTechnicalCostItemViewSchema = ProjectTechnicalCostItemInputSchema.extend({
+    id: z.uuid(),
+    packageId: z.uuid(),
+    costSubcategory: z.string().nullable(),
+    quantity: z.string().nullable(),
+    unit: z.string().nullable(),
+    unitPrice: z.string().nullable(),
+    responsibleRole: z.string().nullable(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectTechnicalCostItemView' });
+
+export type ProjectTechnicalCostItemView = z.infer<typeof ProjectTechnicalCostItemViewSchema>;
+
+export const ProjectTechnicalCostPackageSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        version: z.number().int().positive(),
+        isCurrent: z.boolean(),
+        supersedesId: z.uuid().nullable(),
+        status: z.enum(PROJECT_TECHNICAL_COST_PACKAGE_STATUSES),
+        technicalFeasibilityDecision: z.enum(TECHNICAL_FEASIBILITY_DECISIONS),
+        technicalConclusionSummary: z.string(),
+        allowNextStage: z.boolean(),
+        currencyCode: z.string(),
+        totalEstimatedAmountExcludingTax: z.string(),
+        totalTaxCostAmount: z.string(),
+        totalEstimatedAmountIncludingTax: z.string(),
+        taxAssumptionSummary: z.string(),
+        taxReviewStatus: z.enum(TAX_REVIEW_STATUSES),
+        highestRiskLevel: z.enum(PRESIGNING_RISK_LEVELS).nullable(),
+        blockerCount: z.number().int().nonnegative(),
+        effectiveAt: z.iso.datetime(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ProjectTechnicalCostPackageSummary' });
+
+export type ProjectTechnicalCostPackageSummary = z.infer<typeof ProjectTechnicalCostPackageSummarySchema>;
+
+export const ProjectTechnicalCostPackageListSchema = z
+    .array(ProjectTechnicalCostPackageSummarySchema)
+    .meta({ id: 'ProjectTechnicalCostPackageList' });
+
+export type ProjectTechnicalCostPackageList = z.infer<typeof ProjectTechnicalCostPackageListSchema>;
+
+export const ProjectTechnicalCostWorkspaceViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        currentStage: z.string(),
+        status: z.string(),
+        currentPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
+        scopeItems: z.array(ProjectTechnicalScopeItemViewSchema),
+        riskItems: z.array(ProjectTechnicalRiskItemViewSchema),
+        costItems: z.array(ProjectTechnicalCostItemViewSchema),
+        blockingReasons: z.array(z.string()),
+        nextStep: z.string(),
+        ownerLabel: z.string(),
+        allowedActions: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectTechnicalCostWorkspaceView' });
+
+export type ProjectTechnicalCostWorkspaceView = z.infer<typeof ProjectTechnicalCostWorkspaceViewSchema>;
+
+export const BID_COMMERCIAL_MODES = [
+    'public-tender',
+    'invitation',
+    'comparison',
+    'commercial-negotiation',
+    'competitive-negotiation',
+    'direct-commercial',
+    'not-required'
+] as const;
+
+export type BidCommercialMode = (typeof BID_COMMERCIAL_MODES)[number];
+
+export const BID_COMMERCIAL_STAGES = [
+    'not-started',
+    'preparation',
+    'submitted',
+    'negotiating',
+    'result-confirmed',
+    'closed'
+] as const;
+
+export type BidCommercialStage = (typeof BID_COMMERCIAL_STAGES)[number];
+
+export const BID_COMMERCIAL_DECISIONS = ['pending', 'participate', 'no-bid', 'not-required'] as const;
+
+export type BidCommercialDecision = (typeof BID_COMMERCIAL_DECISIONS)[number];
+
+export const BID_COMMERCIAL_RESULT_STATUSES = ['pending', 'won', 'lost', 'cancelled', 'not-applicable'] as const;
+
+export type BidCommercialResultStatus = (typeof BID_COMMERCIAL_RESULT_STATUSES)[number];
+
+export const BID_COMMERCIAL_MATERIAL_STATUSES = ['missing', 'in-progress', 'ready', 'not-required'] as const;
+
+export type BidCommercialMaterialStatus = (typeof BID_COMMERCIAL_MATERIAL_STATUSES)[number];
+
+export const BID_COMMERCIAL_TIMELINE_STATUSES = ['pending', 'done', 'cancelled'] as const;
+
+export type BidCommercialTimelineStatus = (typeof BID_COMMERCIAL_TIMELINE_STATUSES)[number];
+
+export const PROJECT_BID_COMMERCIAL_PROCESS_STATUSES = ['effective', 'superseded'] as const;
+
+export type ProjectBidCommercialProcessStatus = (typeof PROJECT_BID_COMMERCIAL_PROCESS_STATUSES)[number];
+
+export const ProjectBidCommercialMaterialItemInputSchema = z
+    .object({
+        materialKey: z.string().trim().min(1).max(128),
+        label: z.string().trim().min(1).max(255),
+        materialStatus: z.enum(BID_COMMERCIAL_MATERIAL_STATUSES),
+        responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+        dueAt: z.iso.datetime().nullable().optional(),
+        blocksNextStep: z.boolean().optional(),
+        navigationHint: z.string().trim().min(1).max(255).nullable().optional(),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectBidCommercialMaterialItemInput' });
+
+export type ProjectBidCommercialMaterialItemInput = z.infer<typeof ProjectBidCommercialMaterialItemInputSchema>;
+
+export const ProjectBidCommercialTimelineItemInputSchema = z
+    .object({
+        eventKey: z.string().trim().min(1).max(128),
+        label: z.string().trim().min(1).max(255),
+        summary: z.string().trim().min(1).max(1000).nullable().optional(),
+        timelineStatus: z.enum(BID_COMMERCIAL_TIMELINE_STATUSES),
+        occurredAt: z.iso.datetime().nullable().optional(),
+        dueAt: z.iso.datetime().nullable().optional(),
+        responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectBidCommercialTimelineItemInput' });
+
+export type ProjectBidCommercialTimelineItemInput = z.infer<typeof ProjectBidCommercialTimelineItemInputSchema>;
+
+export const CreateProjectBidCommercialProcessRequestSchema = z
+    .object({
+        bidMode: z.enum(BID_COMMERCIAL_MODES),
+        currentStage: z.enum(BID_COMMERCIAL_STAGES),
+        decision: z.enum(BID_COMMERCIAL_DECISIONS),
+        resultStatus: z.enum(BID_COMMERCIAL_RESULT_STATUSES),
+        processSummary: z.string().trim().min(1).max(2000),
+        decisionSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        resultSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        ownerRole: z.string().trim().min(1).max(128).nullable().optional(),
+        materialItems: z.array(ProjectBidCommercialMaterialItemInputSchema).default([]),
+        timelineItems: z.array(ProjectBidCommercialTimelineItemInputSchema).default([])
+    })
+    .meta({ id: 'CreateProjectBidCommercialProcessRequest' });
+
+export type CreateProjectBidCommercialProcessRequest = z.infer<typeof CreateProjectBidCommercialProcessRequestSchema>;
+
+export const ProjectBidCommercialMaterialItemViewSchema = ProjectBidCommercialMaterialItemInputSchema.extend({
+    id: z.uuid(),
+    processId: z.uuid(),
+    responsibleRole: z.string().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    blocksNextStep: z.boolean(),
+    navigationHint: z.string().nullable(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectBidCommercialMaterialItemView' });
+
+export type ProjectBidCommercialMaterialItemView = z.infer<typeof ProjectBidCommercialMaterialItemViewSchema>;
+
+export const ProjectBidCommercialTimelineItemViewSchema = ProjectBidCommercialTimelineItemInputSchema.extend({
+    id: z.uuid(),
+    processId: z.uuid(),
+    summary: z.string().nullable(),
+    occurredAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    responsibleRole: z.string().nullable(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectBidCommercialTimelineItemView' });
+
+export type ProjectBidCommercialTimelineItemView = z.infer<typeof ProjectBidCommercialTimelineItemViewSchema>;
+
+export const ProjectBidCommercialProcessSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        version: z.number().int().positive(),
+        isCurrent: z.boolean(),
+        supersedesId: z.uuid().nullable(),
+        status: z.enum(PROJECT_BID_COMMERCIAL_PROCESS_STATUSES),
+        bidMode: z.enum(BID_COMMERCIAL_MODES),
+        currentStage: z.enum(BID_COMMERCIAL_STAGES),
+        decision: z.enum(BID_COMMERCIAL_DECISIONS),
+        resultStatus: z.enum(BID_COMMERCIAL_RESULT_STATUSES),
+        processSummary: z.string(),
+        decisionSummary: z.string().nullable(),
+        resultSummary: z.string().nullable(),
+        ownerRole: z.string().nullable(),
+        blockerCount: z.number().int().nonnegative(),
+        effectiveAt: z.iso.datetime(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ProjectBidCommercialProcessSummary' });
+
+export type ProjectBidCommercialProcessSummary = z.infer<typeof ProjectBidCommercialProcessSummarySchema>;
+
+export const ProjectBidCommercialProcessListSchema = z
+    .array(ProjectBidCommercialProcessSummarySchema)
+    .meta({ id: 'ProjectBidCommercialProcessList' });
+
+export type ProjectBidCommercialProcessList = z.infer<typeof ProjectBidCommercialProcessListSchema>;
+
+export const ProjectBidCommercialWorkspaceViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        currentStage: z.string(),
+        status: z.string(),
+        currentProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
+        materialItems: z.array(ProjectBidCommercialMaterialItemViewSchema),
+        timelineItems: z.array(ProjectBidCommercialTimelineItemViewSchema),
+        blockingReasons: z.array(z.string()),
+        nextStep: z.string(),
+        ownerLabel: z.string(),
+        allowedActions: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectBidCommercialWorkspaceView' });
+
+export type ProjectBidCommercialWorkspaceView = z.infer<typeof ProjectBidCommercialWorkspaceViewSchema>;
+
+export const PRICING_MARGIN_PATHS = ['bid', 'direct-commercial'] as const;
+
+export type PricingMarginPath = (typeof PRICING_MARGIN_PATHS)[number];
+
+export const PRICING_MARGIN_DECISIONS = ['pending', 'released', 'conditional-release', 'rejected', 'escalation-required'] as const;
+
+export type PricingMarginDecision = (typeof PRICING_MARGIN_DECISIONS)[number];
+
+export const GROSS_MARGIN_BANDS = ['below-redline', 'watch', 'target', 'not-calculated'] as const;
+
+export type GrossMarginBand = (typeof GROSS_MARGIN_BANDS)[number];
+
+export const PRICING_MARGIN_CONDITION_TYPES = ['financial', 'tax', 'payment', 'scope', 'risk', 'approval'] as const;
+
+export type PricingMarginConditionType = (typeof PRICING_MARGIN_CONDITION_TYPES)[number];
+
+export const PRICING_MARGIN_CONDITION_STATUSES = ['open', 'closed', 'waived'] as const;
+
+export type PricingMarginConditionStatus = (typeof PRICING_MARGIN_CONDITION_STATUSES)[number];
+
+export const PROJECT_PRICING_MARGIN_REVIEW_STATUSES = ['effective', 'superseded'] as const;
+
+export type ProjectPricingMarginReviewStatus = (typeof PROJECT_PRICING_MARGIN_REVIEW_STATUSES)[number];
+
+export const ProjectPricingMarginConditionItemInputSchema = z
+    .object({
+        conditionKey: z.string().trim().min(1).max(128),
+        conditionType: z.enum(PRICING_MARGIN_CONDITION_TYPES),
+        label: z.string().trim().min(1).max(255),
+        conditionSummary: z.string().trim().min(1).max(2000),
+        conditionStatus: z.enum(PRICING_MARGIN_CONDITION_STATUSES),
+        requiredForContracting: z.boolean().optional(),
+        responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+        dueAt: z.iso.datetime().nullable().optional(),
+        resolutionSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+        sortOrder: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'ProjectPricingMarginConditionItemInput' });
+
+export type ProjectPricingMarginConditionItemInput = z.infer<typeof ProjectPricingMarginConditionItemInputSchema>;
+
+export const CreateProjectPricingMarginReviewRequestSchema = z
+    .object({
+        technicalCostPackageId: z.uuid(),
+        bidCommercialProcessId: z.uuid().nullable().optional(),
+        commercialReleaseBaselineId: z.uuid().nullable().optional(),
+        pricingPath: z.enum(PRICING_MARGIN_PATHS),
+        quoteVersion: z.string().trim().min(1).max(64),
+        currencyCode: z.string().trim().min(3).max(16),
+        quoteAmountTaxInclusive: NonNegativeMoneyStringSchema,
+        quoteAmountTaxExclusive: NonNegativeMoneyStringSchema,
+        taxRate: NonNegativeRatioStringSchema,
+        taxConditionSummary: z.string().trim().min(1).max(2000),
+        paymentTermsSummary: z.string().trim().min(1).max(2000),
+        grossMarginRate: SignedRatioStringSchema.nullable().optional(),
+        grossMarginBand: z.enum(GROSS_MARGIN_BANDS),
+        grossMarginSummary: z.string().trim().min(1).max(2000),
+        decision: z.enum(PRICING_MARGIN_DECISIONS),
+        decisionSummary: z.string().trim().min(1).max(2000),
+        approvalScenarioKey: z.string().trim().min(1).max(128).nullable().optional(),
+        summaryPackageKey: z.string().trim().min(1).max(64).nullable().optional(),
+        summarySnapshotId: z.uuid().nullable().optional(),
+        projectionLevel: z.string().trim().min(1).max(32).nullable().optional(),
+        exportPolicy: z.string().trim().min(1).max(32).nullable().optional(),
+        ownerRole: z.string().trim().min(1).max(128).nullable().optional(),
+        conditionItems: z.array(ProjectPricingMarginConditionItemInputSchema).default([])
+    })
+    .meta({ id: 'CreateProjectPricingMarginReviewRequest' });
+
+export type CreateProjectPricingMarginReviewRequest = z.infer<typeof CreateProjectPricingMarginReviewRequestSchema>;
+
+export const ProjectPricingMarginConditionItemViewSchema = ProjectPricingMarginConditionItemInputSchema.extend({
+    id: z.uuid(),
+    reviewId: z.uuid(),
+    requiredForContracting: z.boolean(),
+    responsibleRole: z.string().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    resolutionSummary: z.string().nullable(),
+    sortOrder: z.number().int().nonnegative()
+}).meta({ id: 'ProjectPricingMarginConditionItemView' });
+
+export type ProjectPricingMarginConditionItemView = z.infer<typeof ProjectPricingMarginConditionItemViewSchema>;
+
+export const ProjectPricingMarginReviewSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectId: z.uuid(),
+        version: z.number().int().positive(),
+        isCurrent: z.boolean(),
+        supersedesId: z.uuid().nullable(),
+        status: z.enum(PROJECT_PRICING_MARGIN_REVIEW_STATUSES),
+        technicalCostPackageId: z.uuid(),
+        bidCommercialProcessId: z.uuid().nullable(),
+        commercialReleaseBaselineId: z.uuid().nullable(),
+        pricingPath: z.enum(PRICING_MARGIN_PATHS),
+        quoteVersion: z.string(),
+        currencyCode: z.string(),
+        quoteAmountTaxInclusive: z.string(),
+        quoteAmountTaxExclusive: z.string(),
+        taxRate: z.string(),
+        taxConditionSummary: z.string(),
+        paymentTermsSummary: z.string(),
+        grossMarginRate: z.string().nullable(),
+        grossMarginBand: z.enum(GROSS_MARGIN_BANDS),
+        grossMarginSummary: z.string(),
+        decision: z.enum(PRICING_MARGIN_DECISIONS),
+        decisionSummary: z.string(),
+        approvalScenarioKey: z.string().nullable(),
+        summaryPackageKey: z.string().nullable(),
+        summarySnapshotId: z.uuid().nullable(),
+        projectionLevel: z.string().nullable(),
+        exportPolicy: z.string().nullable(),
+        readyForContracting: z.boolean(),
+        ownerRole: z.string().nullable(),
+        blockerCount: z.number().int().nonnegative(),
+        effectiveAt: z.iso.datetime(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable(),
+        rowVersion: z.number().int()
+    })
+    .meta({ id: 'ProjectPricingMarginReviewSummary' });
+
+export type ProjectPricingMarginReviewSummary = z.infer<typeof ProjectPricingMarginReviewSummarySchema>;
+
+export const ProjectPricingMarginReviewListSchema = z
+    .array(ProjectPricingMarginReviewSummarySchema)
+    .meta({ id: 'ProjectPricingMarginReviewList' });
+
+export type ProjectPricingMarginReviewList = z.infer<typeof ProjectPricingMarginReviewListSchema>;
+
+export const ProjectPricingMarginWorkspaceViewSchema = z
+    .object({
+        projectId: z.uuid(),
+        currentStage: z.string(),
+        status: z.string(),
+        currentReview: ProjectPricingMarginReviewSummarySchema.nullable(),
+        technicalCostPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
+        bidCommercialProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
+        conditionItems: z.array(ProjectPricingMarginConditionItemViewSchema),
+        blockingReasons: z.array(z.string()),
+        nextStep: z.string(),
+        readyForContracting: z.boolean(),
+        ownerLabel: z.string(),
+        allowedActions: z.array(z.string()),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ProjectPricingMarginWorkspaceView' });
+
+export type ProjectPricingMarginWorkspaceView = z.infer<typeof ProjectPricingMarginWorkspaceViewSchema>;
+
 export const ACCEPTANCE_RECORD_TYPES = ['stage-outcome', 'stage-acceptance', 'final-acceptance'] as const;
 
 export type AcceptanceRecordType = (typeof ACCEPTANCE_RECORD_TYPES)[number];

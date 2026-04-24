@@ -135,7 +135,7 @@ ESLint 强制执行以下分层约束（`@nx/enforce-module-boundaries`）：
 
 | 切片类型                     | 必跑校验                                                                                   |
 | ---------------------------- | ------------------------------------------------------------------------------------------ |
-| `docs-only` / `process-only` | `git diff --check`，无行为变更声明                                                         |
+| `docs-only` / `process-only` | `git diff --check`，`pnpm run format:md:check`，无行为变更声明                             |
 | `refactor-only`              | 相关项目 lint，相关单测或构建，外部行为不变声明                                            |
 | `query-only`                 | query/view 对照，相关项目 lint，API/service 测试                                           |
 | `frontend-only`              | 前端 lint，`corepack pnpm nx build poms-admin`，OpenAPI client 影响说明                    |
