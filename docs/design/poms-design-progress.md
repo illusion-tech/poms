@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-23
+**最后更新**: 2026-04-24
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -295,6 +295,7 @@
 - 2026-04-23 已完成 `EX-22` 的 `ProjectTimelineView` 阶段里程碑事实源：新增 `docs/design/ex-22-project-timeline-view-baseline.md` 与 `docs/design/ex-22-project-timeline-view-g3-g4-closeout.md`，route inventory 对齐 `GET /projects/{projectId}/timeline`；后端按真实动作事实输出项目创建、最早合同签约、最新移交确认和项目关闭事件，新增 shared contract / API DTO / OpenAPI / generated client / `admin-data-access` 类型导出。本片不新增 DDL，不伪造验收、完成或归档时间；前端真实展示仍归属后续 `FE-22`。验证通过 `poms-api` project tests、API lint/build、OpenAPI 生成、shared-api-client generate/check、admin-data-access lint、poms-admin lint/build 与 `git diff --check`。
 - 2026-04-23 已完成 `FE-22` 的项目生命周期真实里程碑前端接入：新增 `docs/design/fe-22-project-lifecycle-real-milestone-frontend-baseline.md` 与 `docs/design/fe-22-project-lifecycle-real-milestone-frontend-g3-g4-closeout.md`；`ProjectStore` 新增 timeline state 与 `loadProjectTimeline(projectId)`，项目详情页并行读取 `ProjectDetailView` / `ProjectTimelineView`，并把 authoritative events 投影到 `ProjectLifecycleTimeline` 的 `completedAtLabel/detail/tooltip`。timeline 读取失败时只显示非阻塞反馈，不影响详情主体。验证通过 `admin-data-access` lint、`poms-admin` lint/build/test 与 `git diff --check`；缺失阶段时间继续留给后续事实源切片，不在 UI 推断。
 - 2026-04-24 已完成项目生命周期后续事实源与前端收口链：`EX-23` 新增 `AcceptanceRecord` create/list route，并把最新有效验收记录投影为 `acceptance` 阶段完成事件；`EX-24` 新增 `ProjectCompletionRecord` create/list route，并把真实完成记录投影为 `completed` 阶段完成事件；`FE-23` 补充 completed 节点前端验证；`EX-25` 新增 `ProjectArchiveRecord` create/list route，并冻结 archive 为 terminal-state attached milestone；`FE-24` 最终在项目详情页生命周期线下方新增独立 archive panel，只消费 authoritative archive milestone，不新增第九个 lifecycle node，并显式区分“尚未形成归档记录”和“归档事实暂时不可用”。至此 `FE22-E1-PARTIAL-STAGE-COVERAGE` 已由 `EX-23~25` / `FE-23~24` 全部关闭。
+- 2026-04-24 已完成 `FE-08` 的 `G4` 收口：新增 `/projects/:id/commission/freeze-binding` 冻结与责任边界读取页，提成工作区 shell 新增统一入口，`ProjectWorkspaceStore` 已集中读取 current role assignment summary/detail 与 project handover detail；页面用共享 workspace UI 与 PrimeNG table 展示冻结状态、参与人权重、回款判断口径、收口链引用、下一步和对 `L5` 的影响。前端权限已对齐后端真实边界 `project:read + commission:assignments:manage`；focused unit tests、`poms-admin` lint/build、`admin-data-access` lint 与 `project-workspace.journey` Playwright 均通过。下一片建议进入 `FE-09` 的 `G1`，`FE-12` 仍按依赖等待 `FE-09~11` 稳定。
 - 2026-04-18 `FE-06` 当前仍停留在 `Doing` / `G3 = Block`：此前浏览器级验证曾被 `poms-api` 的 departure-exception controller / service drift 阻断；该 backend drift 现已由 `EX-14B3B` 修复，但 `FE-06` 还未在修复后重跑 workspace Playwright，因此暂不能回写为 `Done`。
 - Union request body schema-first governance：`ADR-016` 已于 2026-04-16 基于 `EX-15F / EX-15E2B` 真实 PoC 接受；`CreateProjectActualCostRecordRequest` 已从 workaround 切到 shared contract discriminated union、controller `ZodValidationPipe(schema)` 与 OpenAPI `title + oneOf + discriminator`，shared generated client 现产出同名 union type，无需再把正式业务 contract 压平成字段大并集 object。验证结果：`build` ✓ `test` ✓ `poms-api:openapi` ✓ `shared-api-client:generate` ✓ `shared-api-client:check` ✓ `poms-api-e2e` ✓ `git diff --check` ✓。
 - **已完成第一阶段核心主干工程切片（项目、合同、审批、待办、平台壳层）的真实环境验证与前后端联调**
