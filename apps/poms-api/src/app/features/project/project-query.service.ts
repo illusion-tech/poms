@@ -34,6 +34,7 @@ import type {
 } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { Contract } from '../contract/contract.entity';
+import { Lead } from '../lead/lead.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import {
@@ -258,7 +259,7 @@ export class ProjectQueryService {
             throw new NotFoundException(`Project ${id} not found`);
         }
 
-        const [ownerUsers, ownerOrgUnits, contracts, approvalSummarySnapshot, currentBidCommercialProcess] = await Promise.all([
+        const [ownerUsers, ownerOrgUnits, contracts, approvalSummarySnapshot, currentBidCommercialProcess, sourceLeads] = await Promise.all([
             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
             this.projectRepository.findContractsByProjectId(project.id),
@@ -268,11 +269,13 @@ export class ProjectQueryService {
                 PROJECT_DETAIL_SUMMARY_SCENARIO_KEY,
                 PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL
             ),
-            this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id)
+            this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id),
+            project.sourceLeadId ? this.projectRepository.findLeadsByIds([project.sourceLeadId]) : Promise.resolve([])
         ]);
 
         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
         const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+        const sourceLead = sourceLeads[0] ?? null;
         const currentApprovalSummary: ProjectDetailView['currentApprovalSummary'] = approvalSummarySnapshot
             ? {
                   summarySnapshotId: approvalSummarySnapshot.id,
@@ -293,6 +296,7 @@ export class ProjectQueryService {
             id: project.id,
             projectCode: project.projectCode,
             projectName: project.projectName,
+            sourceLeadId: project.sourceLeadId ?? null,
             customerId: project.customerId ?? null,
             customerName: project.customerName ?? null,
             status: project.status,
@@ -309,6 +313,7 @@ export class ProjectQueryService {
             updatedBy: project.updatedBy ?? null,
             ownerName,
             ownerOrgName,
+            sourceLeadSummary: this.buildSourceLeadSummary(sourceLead),
             stageSummary: this.buildStageSummary(project),
             currentBidSummary: this.buildBidSummary(currentBidCommercialProcess),
             currentContractSummary: this.buildContractSummary(contracts),
@@ -1319,6 +1324,20 @@ export class ProjectQueryService {
             confirmedCount: 0,
             pendingCount: 0,
             confirmedAt: null
+        };
+    }
+
+    private buildSourceLeadSummary(lead: Lead | null): ProjectDetailView['sourceLeadSummary'] {
+        if (!lead) {
+            return null;
+        }
+
+        return {
+            id: lead.id,
+            leadCode: lead.leadCode,
+            leadName: lead.leadName,
+            customerName: lead.customerName,
+            status: lead.status
         };
     }
 

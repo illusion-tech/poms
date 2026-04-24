@@ -5,6 +5,7 @@ describe('ProjectQueryService', () => {
     let projectRepository: {
         findById: jest.Mock;
         findMany: jest.Mock;
+        findLeadsByIds: jest.Mock;
         findPlatformUsersByIds: jest.Mock;
         findOrgUnitsByIds: jest.Mock;
         findLatestSignedContractAtByProjectIds: jest.Mock;
@@ -37,6 +38,7 @@ describe('ProjectQueryService', () => {
         projectRepository = {
             findById: jest.fn(),
             findMany: jest.fn(),
+            findLeadsByIds: jest.fn(),
             findPlatformUsersByIds: jest.fn(),
             findOrgUnitsByIds: jest.fn(),
             findLatestSignedContractAtByProjectIds: jest.fn(),
@@ -119,6 +121,7 @@ describe('ProjectQueryService', () => {
             id: '20000000-0000-4000-8000-000000000001',
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
+            sourceLeadId: '50000000-0000-4000-8000-000000000001',
             customerId: null,
             customerName: '华南地铁集团',
             currentStage: 'execution',
@@ -139,6 +142,15 @@ describe('ProjectQueryService', () => {
         ]);
         projectRepository.findOrgUnitsByIds.mockResolvedValue([
             { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
+        ]);
+        projectRepository.findLeadsByIds.mockResolvedValue([
+            {
+                id: '50000000-0000-4000-8000-000000000001',
+                leadCode: 'LEAD-2026-001',
+                leadName: '华南地铁线索',
+                customerName: '华南地铁集团',
+                status: 'converted'
+            }
         ]);
         projectRepository.findContractsByProjectId.mockResolvedValue([
             {
@@ -173,6 +185,13 @@ describe('ProjectQueryService', () => {
         );
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
+        expect(result.sourceLeadSummary).toEqual({
+            id: '50000000-0000-4000-8000-000000000001',
+            leadCode: 'LEAD-2026-001',
+            leadName: '华南地铁线索',
+            customerName: '华南地铁集团',
+            status: 'converted'
+        });
         expect(result.currentContractSummary).toEqual({
             activeContractCount: 1,
             latestContractId: '30000000-0000-4000-8000-000000000001',

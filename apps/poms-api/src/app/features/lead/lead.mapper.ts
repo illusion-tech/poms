@@ -1,6 +1,7 @@
 import type { LeadDetailView, LeadListView, LeadSummary } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
+import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 
 export function mapLeadToSummary(lead: Lead): LeadSummary {
@@ -54,13 +55,22 @@ export function mapLeadToListView(
 export function mapLeadToDetailView(
     lead: Lead,
     owner: PlatformUser | null,
-    ownerOrg: OrgUnit | null
+    ownerOrg: OrgUnit | null,
+    convertedProject: Project | null
 ): LeadDetailView {
     return {
         ...mapLeadToSummary(lead),
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
         sourceSummary: lead.sourceChannel ? `来源渠道：${lead.sourceChannel}` : null,
-        convertedProjectSummary: null
+        convertedProjectSummary: convertedProject
+            ? {
+                  id: convertedProject.id,
+                  projectCode: convertedProject.projectCode,
+                  projectName: convertedProject.projectName,
+                  status: convertedProject.status,
+                  currentStage: convertedProject.currentStage
+              }
+            : null
     };
 }

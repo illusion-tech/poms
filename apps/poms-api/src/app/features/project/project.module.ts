@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';
 import { Contract } from '../contract/contract.entity';
+import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
@@ -33,6 +34,7 @@ import { ProjectService } from './project.service';
     imports: [
         MikroOrmModule.forFeature([
             Project,
+            Lead,
             PlatformUser,
             OrgUnit,
             Contract,

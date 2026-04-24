@@ -1,4 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
+import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
 import { LeadRepository } from './lead.repository';
@@ -18,6 +19,7 @@ describe('LeadQueryService', () => {
             findById: jest.fn(),
             findPlatformUserById: jest.fn(),
             findPlatformUsersByIds: jest.fn(),
+            findProjectsByIds: jest.fn(),
             findOrgUnitById: jest.fn(),
             findOrgUnitsByIds: jest.fn()
         } as unknown as jest.Mocked<LeadRepository>;
@@ -71,6 +73,36 @@ describe('LeadQueryService', () => {
         expect(result.convertedProjectSummary).toBeNull();
     });
 
+    it('returns converted project summary when lead has converted project fact', async () => {
+        const lead = createLeadEntity({
+            status: 'converted',
+            convertedProjectId: '20000000-0000-4000-8000-000000000001',
+            convertedAt: new Date('2026-04-25T12:00:00.000Z'),
+            convertedBy: userId
+        });
+        leadRepository.findById.mockResolvedValue(lead);
+        leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
+        leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
+        leadRepository.findProjectsByIds.mockResolvedValue([
+            createProjectEntity({
+                id: '20000000-0000-4000-8000-000000000001',
+                projectCode: 'PRJ-2026-101',
+                projectName: '华南地铁项目'
+            })
+        ]);
+
+        const result = await service.getLead(leadId);
+
+        expect(leadRepository.findProjectsByIds).toHaveBeenCalledWith(['20000000-0000-4000-8000-000000000001']);
+        expect(result.convertedProjectSummary).toEqual({
+            id: '20000000-0000-4000-8000-000000000001',
+            projectCode: 'PRJ-2026-101',
+            projectName: '华南地铁项目',
+            status: 'active',
+            currentStage: 'assessment'
+        });
+    });
+
     it('throws when detail lead is missing', async () => {
         leadRepository.findById.mockResolvedValue(null);
 
@@ -96,6 +128,30 @@ describe('LeadQueryService', () => {
             convertedProjectId: null,
             convertedAt: null,
             convertedBy: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
+            updatedBy: userId,
+            ...overrides
+        });
+    }
+
+    function createProjectEntity(overrides: Partial<Project> = {}): Project {
+        return Object.assign(new Project(), {
+            id: '20000000-0000-4000-8000-000000000001',
+            projectCode: 'PRJ-2026-101',
+            projectName: '华南地铁项目',
+            sourceLeadId: leadId,
+            customerId: null,
+            customerName: '华南地铁集团',
+            status: 'active',
+            currentStage: 'assessment',
+            ownerOrgId: orgId,
+            ownerUserId: userId,
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

@@ -12,12 +12,14 @@ import { ProjectDetailConfirmationSummary } from './project-detail-confirmation-
 import { ProjectDetailContractSummary } from './project-detail-contract-summary';
 import { ProjectDetailStageSummary } from './project-detail-stage-summary';
 import { ProjectDetailApprovalSummary } from './project-detail-approval-summary';
+import { ProjectSourceLeadSummary } from './project-source-lead-summary';
 
 
 export interface ProjectDetailView {
     id: string;
     projectCode: string;
     projectName: string;
+    sourceLeadId: string | null;
     customerId: string | null;
     customerName: string | null;
     status: string;
@@ -34,6 +36,7 @@ export interface ProjectDetailView {
     updatedBy: string | null;
     ownerName: string | null;
     ownerOrgName: string | null;
+    sourceLeadSummary: ProjectSourceLeadSummary | null;
     stageSummary: ProjectDetailStageSummary;
     currentBidSummary: ProjectDetailBidSummary;
     currentContractSummary: ProjectDetailContractSummary;

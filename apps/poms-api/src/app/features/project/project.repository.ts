@@ -2,6 +2,7 @@ import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
+import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
@@ -30,6 +31,8 @@ export class ProjectRepository {
     constructor(
         @InjectRepository(Project)
         private readonly projectRepository: EntityRepository<Project>,
+        @InjectRepository(Lead)
+        private readonly leadRepository: EntityRepository<Lead>,
         @InjectRepository(PlatformUser)
         private readonly platformUserRepository: EntityRepository<PlatformUser>,
         @InjectRepository(OrgUnit)
@@ -115,6 +118,14 @@ export class ProjectRepository {
 
     async findByCode(projectCode: string): Promise<Project | null> {
         return this.projectRepository.findOne({ projectCode });
+    }
+
+    async findLeadsByIds(ids: string[]): Promise<Lead[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.leadRepository.find({ id: { $in: ids } });
     }
 
     async findPlatformUserById(id: string): Promise<PlatformUser | null> {

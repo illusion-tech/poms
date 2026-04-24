@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CloseLeadRequest } from '../model/close-lead-request';
 // @ts-ignore
+import { ConvertLeadToProjectRequest } from '../model/convert-lead-to-project-request';
+// @ts-ignore
 import { CreateLeadRequest } from '../model/create-lead-request';
 // @ts-ignore
 import { LeadDetailView } from '../model/lead-detail-view';
@@ -28,6 +30,8 @@ import { LeadListView } from '../model/lead-list-view';
 import { LeadStatus } from '../model/lead-status';
 // @ts-ignore
 import { LeadSummary } from '../model/lead-summary';
+// @ts-ignore
+import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
 import { QualifyLeadRequest } from '../model/qualify-lead-request';
 // @ts-ignore
@@ -42,6 +46,11 @@ import { BaseService } from '../api.base.service';
 export interface LeadControllerCloseRequestParams {
     id: string;
     closeLeadRequest: CloseLeadRequest;
+}
+
+export interface LeadControllerConvertToProjectRequestParams {
+    id: string;
+    convertLeadToProjectRequest: ConvertLeadToProjectRequest;
 }
 
 export interface LeadControllerCreateRequestParams {
@@ -142,6 +151,80 @@ export class LeadApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: closeLeadRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 将有效线索转为项目
+     * @endpoint post /api/leads/{id}:convertToProject
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadControllerConvertToProject(requestParameters: LeadControllerConvertToProjectRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectSummary>;
+    public leadControllerConvertToProject(requestParameters: LeadControllerConvertToProjectRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectSummary>>;
+    public leadControllerConvertToProject(requestParameters: LeadControllerConvertToProjectRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectSummary>>;
+    public leadControllerConvertToProject(requestParameters: LeadControllerConvertToProjectRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadControllerConvertToProject.');
+        }
+        const convertLeadToProjectRequest = requestParameters?.convertLeadToProjectRequest;
+        if (convertLeadToProjectRequest === null || convertLeadToProjectRequest === undefined) {
+            throw new Error('Required parameter convertLeadToProjectRequest was null or undefined when calling leadControllerConvertToProject.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/leads/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:convertToProject`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: convertLeadToProjectRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

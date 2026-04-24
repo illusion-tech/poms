@@ -7,6 +7,7 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
         id: 'project-1',
         projectCode: 'P-2026-001',
         projectName: '华南地铁运营平台',
+        sourceLeadId: null,
         customerId: null,
         customerName: '华南地铁集团',
         status: 'active',
@@ -23,6 +24,7 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
         updatedBy: null,
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
+        sourceLeadSummary: null,
         stageSummary: {
             currentStage: 'handover',
             status: 'active',
@@ -76,6 +78,7 @@ function createSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary 
         id: 'project-1',
         projectCode: 'P-2026-001',
         projectName: '更新后的项目',
+        sourceLeadId: null,
         customerId: null,
         customerName: null,
         status: 'active',

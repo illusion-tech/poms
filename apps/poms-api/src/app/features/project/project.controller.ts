@@ -517,6 +517,7 @@ function mapProjectToSummary(project: Project): ProjectSummary {
         id: project.id,
         projectCode: project.projectCode,
         projectName: project.projectName,
+        sourceLeadId: project.sourceLeadId ?? null,
         customerId: project.customerId ?? null,
         customerName: project.customerName ?? null,
         status: project.status,

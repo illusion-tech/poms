@@ -752,6 +752,16 @@ export const CloseLeadRequestSchema = z
 
 export type CloseLeadRequest = z.infer<typeof CloseLeadRequestSchema>;
 
+export const ConvertLeadToProjectRequestSchema = z
+    .object({
+        projectCode: z.string().trim().min(1).max(64),
+        projectName: z.string().trim().min(1).max(255).optional(),
+        plannedSignAt: z.iso.datetime().nullable().optional()
+    })
+    .meta({ id: 'ConvertLeadToProjectRequest' });
+
+export type ConvertLeadToProjectRequest = z.infer<typeof ConvertLeadToProjectRequestSchema>;
+
 export const LeadListQuerySchema = z
     .object({
         status: LeadStatusSchema.optional(),
@@ -790,6 +800,7 @@ export const ProjectSummarySchema = z
         id: z.uuid(),
         projectCode: z.string(),
         projectName: z.string(),
+        sourceLeadId: z.uuid().nullable(),
         customerId: z.uuid().nullable(),
         customerName: z.string().nullable(),
         status: z.string(),
@@ -894,9 +905,22 @@ export const ProjectDetailConfirmationSummarySchema = z
 
 export type ProjectDetailConfirmationSummary = z.infer<typeof ProjectDetailConfirmationSummarySchema>;
 
+export const ProjectSourceLeadSummarySchema = z
+    .object({
+        id: z.uuid(),
+        leadCode: z.string(),
+        leadName: z.string(),
+        customerName: z.string(),
+        status: LeadStatusSchema
+    })
+    .meta({ id: 'ProjectSourceLeadSummary' });
+
+export type ProjectSourceLeadSummary = z.infer<typeof ProjectSourceLeadSummarySchema>;
+
 export const ProjectDetailViewSchema = ProjectSummarySchema.extend({
     ownerName: z.string().nullable(),
     ownerOrgName: z.string().nullable(),
+    sourceLeadSummary: ProjectSourceLeadSummarySchema.nullable(),
     stageSummary: ProjectDetailStageSummarySchema,
     currentBidSummary: ProjectDetailBidSummarySchema,
     currentContractSummary: ProjectDetailContractSummarySchema,

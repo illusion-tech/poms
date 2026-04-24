@@ -13,6 +13,7 @@ export interface ProjectSummary {
     id: string;
     projectCode: string;
     projectName: string;
+    sourceLeadId: string | null;
     customerId: string | null;
     customerName: string | null;
     status: string;

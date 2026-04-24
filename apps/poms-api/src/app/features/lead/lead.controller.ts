@@ -2,19 +2,22 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query,
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CloseLeadRequestDto,
+    ConvertLeadToProjectRequestDto,
     CreateLeadRequestDto,
     LeadDetailViewDto,
     LeadDto,
     LeadListDto,
     LeadListQueryDto,
+    ProjectDto,
     QualifyLeadRequestDto,
     UpdateLeadRequestDto
 } from '@poms/api-contracts';
-import type { LeadDetailView, LeadListQuery, LeadListView, LeadSummary, UserPayload } from '@poms/shared-contracts';
+import type { LeadDetailView, LeadListQuery, LeadListView, LeadSummary, ProjectSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { mapLeadToSummary } from './lead.mapper';
 import { LeadQueryService } from './lead-query.service';
 import { LeadService } from './lead.service';
+import { Project } from '../project/project.entity';
 
 @ApiTags('Lead')
 @ApiBearerAuth()
@@ -120,4 +123,46 @@ export class LeadController {
 
         return mapLeadToSummary(lead);
     }
+
+    @Post(':id\\:convertToProject')
+    @HasPermissions('lead:write', 'project:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '将有效线索转为项目' })
+    @ApiOkResponse({ type: ProjectDto })
+    async convertToProject(
+        @Param('id') id: string,
+        @Body() body: ConvertLeadToProjectRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectSummary> {
+        const project = await this.leadService.convertToProject(id, {
+            projectCode: body.projectCode,
+            projectName: body.projectName,
+            plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
+        }, req.user.sub);
+
+        return mapProjectToSummary(project);
+    }
+}
+
+function mapProjectToSummary(project: Project): ProjectSummary {
+    return {
+        id: project.id,
+        projectCode: project.projectCode,
+        projectName: project.projectName,
+        sourceLeadId: project.sourceLeadId ?? null,
+        customerId: project.customerId ?? null,
+        customerName: project.customerName ?? null,
+        status: project.status,
+        currentStage: project.currentStage,
+        ownerOrgId: project.ownerOrgId ?? null,
+        ownerUserId: project.ownerUserId ?? null,
+        plannedSignAt: project.plannedSignAt?.toISOString() ?? null,
+        closedAt: project.closedAt?.toISOString() ?? null,
+        closedReason: project.closedReason ?? null,
+        rowVersion: project.rowVersion,
+        createdAt: project.createdAt.toISOString(),
+        createdBy: project.createdBy ?? null,
+        updatedAt: project.updatedAt.toISOString(),
+        updatedBy: project.updatedBy ?? null
+    };
 }

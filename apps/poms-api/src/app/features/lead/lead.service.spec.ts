@@ -1,10 +1,12 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 import { LeadService } from './lead.service';
 
 describe('LeadService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -16,9 +18,12 @@ describe('LeadService', () => {
         leadRepository = {
             findByCode: jest.fn(),
             findById: jest.fn(),
+            findProjectByCode: jest.fn(),
             findPlatformUserById: jest.fn(),
             findOrgUnitById: jest.fn(),
             create: jest.fn((input) => createLeadEntity(input as Partial<Lead>)),
+            createProject: jest.fn((input) => createProjectEntity(input as Partial<Project>)),
+            saveLeadAndProject: jest.fn(),
             save: jest.fn()
         } as unknown as jest.Mocked<LeadRepository>;
 
@@ -106,6 +111,76 @@ describe('LeadService', () => {
         expect(result.closedBy).toBe(userId);
     });
 
+    it('converts a qualified lead into a project and writes the lead conversion fact', async () => {
+        const lead = createLeadEntity({
+            status: 'qualified',
+            qualificationSummary: '需求和预算明确',
+            qualifiedAt: new Date('2026-04-25T11:00:00.000Z'),
+            qualifiedBy: userId
+        });
+        leadRepository.findById.mockResolvedValue(lead);
+        leadRepository.findProjectByCode.mockResolvedValue(null);
+
+        const result = await service.convertToProject(
+            leadId,
+            {
+                projectCode: 'PRJ-2026-101',
+                plannedSignAt: new Date('2026-05-01T00:00:00.000Z')
+            },
+            userId
+        );
+
+        expect(leadRepository.findProjectByCode).toHaveBeenCalledWith('PRJ-2026-101');
+        expect(leadRepository.createProject).toHaveBeenCalledWith(
+            expect.objectContaining({
+                projectCode: 'PRJ-2026-101',
+                projectName: '华南地铁线索',
+                sourceLeadId: leadId,
+                customerName: '华南地铁集团',
+                ownerOrgId: orgId,
+                ownerUserId: userId,
+                currentStage: 'assessment',
+                status: 'active'
+            })
+        );
+        expect(result.sourceLeadId).toBe(leadId);
+        expect(lead.status).toBe('converted');
+        expect(lead.convertedProjectId).toBe(result.id);
+        expect(lead.convertedAt).toBeInstanceOf(Date);
+        expect(lead.convertedBy).toBe(userId);
+        expect(leadRepository.saveLeadAndProject).toHaveBeenCalledWith(lead, result);
+    });
+
+    it('rejects converting a non-qualified lead', async () => {
+        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'registered' }));
+
+        await expect(
+            service.convertToProject(leadId, { projectCode: 'PRJ-2026-101' }, userId)
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects converting when target project code already exists', async () => {
+        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'qualified' }));
+        leadRepository.findProjectByCode.mockResolvedValue(createProjectEntity());
+
+        await expect(
+            service.convertToProject(leadId, { projectCode: 'PRJ-2026-101' }, userId)
+        ).rejects.toThrow(ConflictException);
+    });
+
+    it('rejects converting the same lead twice', async () => {
+        leadRepository.findById.mockResolvedValue(
+            createLeadEntity({
+                status: 'converted',
+                convertedProjectId: projectId
+            })
+        );
+
+        await expect(
+            service.convertToProject(leadId, { projectCode: 'PRJ-2026-102' }, userId)
+        ).rejects.toThrow(ConflictException);
+    });
+
     it('rejects editing converted leads', async () => {
         leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'converted' }));
 
@@ -139,6 +214,30 @@ describe('LeadService', () => {
             convertedProjectId: null,
             convertedAt: null,
             convertedBy: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
+            updatedBy: userId,
+            ...overrides
+        });
+    }
+
+    function createProjectEntity(overrides: Partial<Project> = {}): Project {
+        return Object.assign(new Project(), {
+            id: projectId,
+            projectCode: 'PRJ-2026-101',
+            projectName: '华南地铁线索',
+            sourceLeadId: leadId,
+            customerId: null,
+            customerName: '华南地铁集团',
+            status: 'active',
+            currentStage: 'assessment',
+            ownerOrgId: orgId,
+            ownerUserId: userId,
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

@@ -389,6 +389,7 @@ describe('ProjectController', () => {
             id: projectId,
             projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
+            sourceLeadId: null,
             customerId: null,
             customerName: '华南地铁集团',
             status: 'active',

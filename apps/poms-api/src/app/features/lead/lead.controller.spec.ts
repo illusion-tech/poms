@@ -1,3 +1,4 @@
+import { Project } from '../project/project.entity';
 import { LeadController } from './lead.controller';
 import { Lead } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
@@ -5,6 +6,7 @@ import { LeadService } from './lead.service';
 
 describe('LeadController', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
+    const projectId = '20000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -23,6 +25,7 @@ describe('LeadController', () => {
             createLead: jest.fn(),
             updateLead: jest.fn(),
             qualifyLead: jest.fn(),
+            convertToProject: jest.fn(),
             closeLead: jest.fn()
         } as unknown as jest.Mocked<LeadService>;
 
@@ -125,6 +128,38 @@ describe('LeadController', () => {
         expect(result.closedAt).toBe('2026-04-25T12:00:00.000Z');
     });
 
+    it('converts lead to project through service and maps project summary', async () => {
+        leadService.convertToProject.mockResolvedValue(createProjectEntity());
+
+        const result = await controller.convertToProject(
+            leadId,
+            {
+                projectCode: 'PRJ-2026-101',
+                projectName: '华南地铁项目',
+                plannedSignAt: '2026-05-01T00:00:00.000Z'
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(leadService.convertToProject).toHaveBeenCalledWith(
+            leadId,
+            {
+                projectCode: 'PRJ-2026-101',
+                projectName: '华南地铁项目',
+                plannedSignAt: new Date('2026-05-01T00:00:00.000Z')
+            },
+            userId
+        );
+        expect(result).toEqual(
+            expect.objectContaining({
+                id: projectId,
+                projectCode: 'PRJ-2026-101',
+                sourceLeadId: leadId,
+                currentStage: 'assessment'
+            })
+        );
+    });
+
     function createLeadEntity(overrides: Partial<Lead> = {}): Lead {
         return Object.assign(new Lead(), {
             id: leadId,
@@ -144,6 +179,30 @@ describe('LeadController', () => {
             convertedProjectId: null,
             convertedAt: null,
             convertedBy: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
+            updatedBy: userId,
+            ...overrides
+        });
+    }
+
+    function createProjectEntity(overrides: Partial<Project> = {}): Project {
+        return Object.assign(new Project(), {
+            id: projectId,
+            projectCode: 'PRJ-2026-101',
+            projectName: '华南地铁项目',
+            sourceLeadId: leadId,
+            customerId: null,
+            customerName: '华南地铁集团',
+            status: 'active',
+            currentStage: 'assessment',
+            ownerOrgId: orgId,
+            ownerUserId: userId,
+            plannedSignAt: new Date('2026-05-01T00:00:00.000Z'),
+            closedAt: null,
+            closedReason: null,
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

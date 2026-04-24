@@ -23,6 +23,7 @@ export interface CreateProjectRecord {
     projectCode: string;
     projectName: string;
     customerName: string;
+    sourceLeadId?: string | null;
     currentStage?: ProjectStage;
     plannedSignAt?: Date | null;
 }
@@ -110,6 +111,7 @@ export class ProjectService {
         const project = this.projectRepository.create({
             projectCode: input.projectCode,
             projectName: input.projectName,
+            sourceLeadId: input.sourceLeadId ?? null,
             status: 'active',
             currentStage: input.currentStage ?? 'assessment',
             customerId: null,

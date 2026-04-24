@@ -1,4 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 
@@ -25,6 +27,12 @@ export interface QualifyLeadRecord {
 
 export interface CloseLeadRecord {
     closedReason: string;
+}
+
+export interface ConvertLeadToProjectRecord {
+    projectCode: string;
+    projectName?: string;
+    plannedSignAt?: Date | null;
 }
 
 @Injectable()
@@ -131,6 +139,54 @@ export class LeadService {
         await this.leadRepository.save(lead);
 
         return lead;
+    }
+
+    async convertToProject(id: string, input: ConvertLeadToProjectRecord, operatorUserId: string): Promise<Project> {
+        const lead = await this.requireLead(id);
+        if (lead.status === 'converted' || lead.convertedProjectId) {
+            throw new ConflictException(`Lead ${id} has already been converted to project ${lead.convertedProjectId}`);
+        }
+
+        if (lead.status !== 'qualified') {
+            throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
+        }
+
+        const existingProject = await this.leadRepository.findProjectByCode(input.projectCode);
+        if (existingProject) {
+            throw new ConflictException(`Project code ${input.projectCode} already exists`);
+        }
+
+        const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
+        if (!operator) {
+            throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+        }
+
+        const project = this.leadRepository.createProject({
+            id: randomUUID(),
+            projectCode: input.projectCode,
+            projectName: input.projectName?.trim() || lead.leadName,
+            sourceLeadId: lead.id,
+            status: 'active',
+            currentStage: 'assessment',
+            customerId: null,
+            customerName: lead.customerName,
+            ownerOrgId: lead.ownerOrgId ?? null,
+            ownerUserId: lead.ownerUserId ?? null,
+            plannedSignAt: input.plannedSignAt ?? null,
+            createdBy: operator.id,
+            updatedBy: operator.id
+        });
+
+        const now = new Date();
+        lead.status = 'converted';
+        lead.convertedProjectId = project.id;
+        lead.convertedAt = now;
+        lead.convertedBy = operator.id;
+        lead.updatedBy = operator.id;
+
+        await this.leadRepository.saveLeadAndProject(lead, project);
+
+        return project;
     }
 
     private async requireLead(id: string): Promise<Lead> {

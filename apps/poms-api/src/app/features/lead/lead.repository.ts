@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import type { LeadStatus } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
+import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 
 @Injectable()
@@ -11,6 +12,8 @@ export class LeadRepository {
     constructor(
         @InjectRepository(Lead)
         private readonly leadRepository: EntityRepository<Lead>,
+        @InjectRepository(Project)
+        private readonly projectRepository: EntityRepository<Project>,
         @InjectRepository(PlatformUser)
         private readonly platformUserRepository: EntityRepository<PlatformUser>,
         @InjectRepository(OrgUnit)
@@ -53,6 +56,18 @@ export class LeadRepository {
         return this.leadRepository.findOne({ leadCode });
     }
 
+    async findProjectByCode(projectCode: string): Promise<Project | null> {
+        return this.projectRepository.findOne({ projectCode });
+    }
+
+    async findProjectsByIds(ids: string[]): Promise<Project[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.projectRepository.find({ id: { $in: ids } });
+    }
+
     async findPlatformUserById(id: string): Promise<PlatformUser | null> {
         return this.platformUserRepository.findOne({ id });
     }
@@ -81,7 +96,15 @@ export class LeadRepository {
         return this.leadRepository.create(input);
     }
 
+    createProject(input: ConstructorParameters<typeof Project>[0]): Project {
+        return this.projectRepository.create(input);
+    }
+
     async save(lead: Lead): Promise<void> {
         await this.leadRepository.getEntityManager().persist(lead).flush();
+    }
+
+    async saveLeadAndProject(lead: Lead, project: Project): Promise<void> {
+        await this.leadRepository.getEntityManager().persist([lead, project]).flush();
     }
 }

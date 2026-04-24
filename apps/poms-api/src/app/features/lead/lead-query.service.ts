@@ -28,12 +28,13 @@ export class LeadQueryService {
             throw new NotFoundException(`Lead ${id} not found`);
         }
 
-        const [owner, ownerOrg] = await Promise.all([
+        const [owner, ownerOrg, convertedProjects] = await Promise.all([
             lead.ownerUserId ? this.leadRepository.findPlatformUserById(lead.ownerUserId) : Promise.resolve(null),
-            lead.ownerOrgId ? this.leadRepository.findOrgUnitById(lead.ownerOrgId) : Promise.resolve(null)
+            lead.ownerOrgId ? this.leadRepository.findOrgUnitById(lead.ownerOrgId) : Promise.resolve(null),
+            lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([])
         ]);
 
-        return mapLeadToDetailView(lead, owner, ownerOrg);
+        return mapLeadToDetailView(lead, owner, ownerOrg, convertedProjects[0] ?? null);
     }
 
     private async loadOwnerContext(leads: { ownerUserId?: string | null; ownerOrgId?: string | null }[]): Promise<{

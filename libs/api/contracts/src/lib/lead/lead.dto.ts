@@ -1,5 +1,6 @@
 import {
     CloseLeadRequestSchema,
+    ConvertLeadToProjectRequestSchema,
     CreateLeadRequestSchema,
     LeadDetailViewSchema,
     LeadListQuerySchema,
@@ -25,3 +26,5 @@ export class UpdateLeadRequestDto extends createZodDto(UpdateLeadRequestSchema) 
 export class QualifyLeadRequestDto extends createZodDto(QualifyLeadRequestSchema) {}
 
 export class CloseLeadRequestDto extends createZodDto(CloseLeadRequestSchema) {}
+
+export class ConvertLeadToProjectRequestDto extends createZodDto(ConvertLeadToProjectRequestSchema) {}
