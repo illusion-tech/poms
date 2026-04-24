@@ -38,6 +38,7 @@ describe('appRoutes project permissions', () => {
     });
 
     it('keeps commission pages behind their business permission combinations', () => {
+        expectAllModePermissions(getChildRoute('projects/:id/commission', 'freeze-binding'), ['project:read', 'commission:assignments:manage']);
         expectAllModePermissions(getChildRoute('projects/:id/commission', 'gate-overview'), ['project:read', 'contract:finance:manage']);
         expectAllModePermissions(getChildRoute('projects/:id/commission', 'final-settlement'), ['project:read', 'commission:payouts:manage']);
         expectAllModePermissions(getChildRoute('projects/:id/commission', 'rule-explanation'), ['project:read', 'commission:payouts:manage']);

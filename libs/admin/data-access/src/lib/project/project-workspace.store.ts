@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type {
     BusinessAccountingFeedbackView,
+    CommissionRoleAssignmentDetailView,
+    CommissionRoleAssignmentSummary,
     CommissionFinalSettlementView,
     CommissionRuleExplanationView,
     ContractHandoverSummaryView,
@@ -11,8 +13,8 @@ import type {
     ProjectVarianceRiskExplanationView,
     ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
-import { CommissionApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
-import { firstValueFrom } from 'rxjs';
+import { CommissionApi, CommissionRoleAssignmentsApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
+import { firstValueFrom, type Observable } from 'rxjs';
 
 type WorkspaceErrorKind =
     | 'guidance'
@@ -20,6 +22,7 @@ type WorkspaceErrorKind =
     | 'variance'
     | 'contract-handover'
     | 'commission-gate'
+    | 'commission-freeze-binding'
     | 'final-settlement'
     | 'rule-explanation';
 
@@ -29,6 +32,7 @@ export class ProjectWorkspaceStore {
     readonly #projectCostApi = inject(ProjectCostApi);
     readonly #projectHandoverApi = inject(ProjectHandoverApi);
     readonly #commissionApi = inject(CommissionApi);
+    readonly #commissionRoleAssignmentsApi = inject(CommissionRoleAssignmentsApi);
 
     readonly #guidance = signal<ProjectWorkspaceGuidanceView | null>(null);
     readonly #contractHandoverSummary = signal<ContractHandoverSummaryView | null>(null);
@@ -37,6 +41,8 @@ export class ProjectWorkspaceStore {
     readonly #unifiedAccounting = signal<ProjectUnifiedAccountingView | null>(null);
     readonly #varianceRiskExplanation = signal<ProjectVarianceRiskExplanationView | null>(null);
     readonly #commissionGateOverview = signal<BusinessAccountingFeedbackView | null>(null);
+    readonly #commissionFreezeBindingSummary = signal<CommissionRoleAssignmentSummary | null>(null);
+    readonly #commissionFreezeBindingDetail = signal<CommissionRoleAssignmentDetailView | null>(null);
     readonly #commissionFinalSettlement = signal<CommissionFinalSettlementView | null>(null);
     readonly #commissionRuleExplanation = signal<CommissionRuleExplanationView | null>(null);
 
@@ -45,6 +51,7 @@ export class ProjectWorkspaceStore {
     readonly #loadingOperatingOverview = signal(false);
     readonly #loadingVarianceRisk = signal(false);
     readonly #loadingCommissionGate = signal(false);
+    readonly #loadingCommissionFreezeBinding = signal(false);
     readonly #loadingCommissionFinalSettlement = signal(false);
     readonly #loadingCommissionRuleExplanation = signal(false);
 
@@ -53,6 +60,7 @@ export class ProjectWorkspaceStore {
     readonly #operatingOverviewError = signal<string | null>(null);
     readonly #varianceRiskError = signal<string | null>(null);
     readonly #commissionGateError = signal<string | null>(null);
+    readonly #commissionFreezeBindingError = signal<string | null>(null);
     readonly #commissionFinalSettlementError = signal<string | null>(null);
     readonly #commissionRuleExplanationError = signal<string | null>(null);
 
@@ -63,6 +71,8 @@ export class ProjectWorkspaceStore {
     readonly unifiedAccounting = this.#unifiedAccounting.asReadonly();
     readonly varianceRiskExplanation = this.#varianceRiskExplanation.asReadonly();
     readonly commissionGateOverview = this.#commissionGateOverview.asReadonly();
+    readonly commissionFreezeBindingSummary = this.#commissionFreezeBindingSummary.asReadonly();
+    readonly commissionFreezeBindingDetail = this.#commissionFreezeBindingDetail.asReadonly();
     readonly commissionFinalSettlement = this.#commissionFinalSettlement.asReadonly();
     readonly commissionRuleExplanation = this.#commissionRuleExplanation.asReadonly();
 
@@ -71,6 +81,7 @@ export class ProjectWorkspaceStore {
     readonly loadingOperatingOverview = this.#loadingOperatingOverview.asReadonly();
     readonly loadingVarianceRisk = this.#loadingVarianceRisk.asReadonly();
     readonly loadingCommissionGate = this.#loadingCommissionGate.asReadonly();
+    readonly loadingCommissionFreezeBinding = this.#loadingCommissionFreezeBinding.asReadonly();
     readonly loadingCommissionFinalSettlement = this.#loadingCommissionFinalSettlement.asReadonly();
     readonly loadingCommissionRuleExplanation = this.#loadingCommissionRuleExplanation.asReadonly();
 
@@ -79,6 +90,7 @@ export class ProjectWorkspaceStore {
     readonly operatingOverviewError = this.#operatingOverviewError.asReadonly();
     readonly varianceRiskError = this.#varianceRiskError.asReadonly();
     readonly commissionGateError = this.#commissionGateError.asReadonly();
+    readonly commissionFreezeBindingError = this.#commissionFreezeBindingError.asReadonly();
     readonly commissionFinalSettlementError = this.#commissionFinalSettlementError.asReadonly();
     readonly commissionRuleExplanationError = this.#commissionRuleExplanationError.asReadonly();
 
@@ -87,6 +99,9 @@ export class ProjectWorkspaceStore {
     readonly hasOperatingOverview = computed(() => this.#businessOutcomeOverview() !== null && this.#unifiedAccounting() !== null);
     readonly hasVarianceRisk = computed(() => this.#varianceRiskExplanation() !== null);
     readonly hasCommissionGateOverview = computed(() => this.#commissionGateOverview() !== null);
+    readonly hasCommissionFreezeBinding = computed(
+        () => this.#commissionFreezeBindingSummary() !== null || this.#commissionFreezeBindingDetail() !== null || this.#projectHandoverDetail() !== null
+    );
     readonly hasCommissionFinalSettlement = computed(() => this.#commissionFinalSettlement() !== null);
     readonly hasCommissionRuleExplanation = computed(() => this.#commissionRuleExplanation() !== null);
 
@@ -215,6 +230,62 @@ export class ProjectWorkspaceStore {
         }
     }
 
+    async loadCommissionFreezeBinding(projectId: string) {
+        this.#loadingCommissionFreezeBinding.set(true);
+        this.#commissionFreezeBindingError.set(null);
+
+        try {
+            const [currentRoleAssignmentResult, projectHandoverResult] = await Promise.allSettled([
+                firstValueFrom(
+                    this.#commissionApi.commissionControllerGetCurrentRoleAssignment({
+                        projectId
+                    }) as unknown as Observable<CommissionRoleAssignmentSummary | null>
+                ),
+                firstValueFrom(
+                    this.#projectHandoverApi.projectHandoverControllerGetProjectHandoverDetailByProject({
+                        projectId
+                    })
+                )
+            ]);
+
+            const currentRoleAssignment =
+                currentRoleAssignmentResult.status === 'fulfilled'
+                    ? currentRoleAssignmentResult.value
+                    : this.#throwUnlessMissing(currentRoleAssignmentResult.reason);
+            const projectHandoverDetail =
+                projectHandoverResult.status === 'fulfilled'
+                    ? projectHandoverResult.value
+                    : this.#throwUnlessMissing(projectHandoverResult.reason);
+
+            let roleAssignmentDetail: CommissionRoleAssignmentDetailView | null = null;
+            if (currentRoleAssignment?.id) {
+                roleAssignmentDetail = await firstValueFrom(
+                    this.#commissionRoleAssignmentsApi.commissionRoleAssignmentControllerGetRoleAssignmentDetail({
+                        id: currentRoleAssignment.id
+                    })
+                );
+            }
+
+            this.#commissionFreezeBindingSummary.set(currentRoleAssignment);
+            this.#commissionFreezeBindingDetail.set(roleAssignmentDetail);
+            this.#projectHandoverDetail.set(projectHandoverDetail);
+
+            return {
+                currentRoleAssignment,
+                roleAssignmentDetail,
+                projectHandoverDetail
+            };
+        } catch (error) {
+            this.#commissionFreezeBindingSummary.set(null);
+            this.#commissionFreezeBindingDetail.set(null);
+            this.#projectHandoverDetail.set(null);
+            this.#commissionFreezeBindingError.set(this.#readWorkspaceError(error, 'commission-freeze-binding'));
+            throw error;
+        } finally {
+            this.#loadingCommissionFreezeBinding.set(false);
+        }
+    }
+
     async loadCommissionFinalSettlement(projectId: string) {
         this.#loadingCommissionFinalSettlement.set(true);
         this.#commissionFinalSettlementError.set(null);
@@ -265,6 +336,8 @@ export class ProjectWorkspaceStore {
         this.#unifiedAccounting.set(null);
         this.#varianceRiskExplanation.set(null);
         this.#commissionGateOverview.set(null);
+        this.#commissionFreezeBindingSummary.set(null);
+        this.#commissionFreezeBindingDetail.set(null);
         this.#commissionFinalSettlement.set(null);
         this.#commissionRuleExplanation.set(null);
         this.#loadingGuidance.set(false);
@@ -272,6 +345,7 @@ export class ProjectWorkspaceStore {
         this.#loadingOperatingOverview.set(false);
         this.#loadingVarianceRisk.set(false);
         this.#loadingCommissionGate.set(false);
+        this.#loadingCommissionFreezeBinding.set(false);
         this.#loadingCommissionFinalSettlement.set(false);
         this.#loadingCommissionRuleExplanation.set(false);
         this.#guidanceError.set(null);
@@ -279,6 +353,7 @@ export class ProjectWorkspaceStore {
         this.#operatingOverviewError.set(null);
         this.#varianceRiskError.set(null);
         this.#commissionGateError.set(null);
+        this.#commissionFreezeBindingError.set(null);
         this.#commissionFinalSettlementError.set(null);
         this.#commissionRuleExplanationError.set(null);
     }
@@ -297,6 +372,8 @@ export class ProjectWorkspaceStore {
                         return '当前项目还没有形成可解释的偏差与风险结果，先完成经营信号评价闭环。';
                     case 'commission-gate':
                         return '当前项目还没有形成有效经营反馈 gate，先完成经营信号评价和 gate 绑定闭环。';
+                    case 'commission-freeze-binding':
+                        return '当前项目还没有形成可读取的冻结绑定视图，先完成移交确认并形成当前冻结版本。';
                     case 'final-settlement':
                         return '当前项目还没有形成有效最终结算快照，先完成最终发放登记或对应收口链冻结。';
                     case 'rule-explanation':
@@ -318,5 +395,17 @@ export class ProjectWorkspaceStore {
         }
 
         return '读取当前工作区失败，请稍后重试。';
+    }
+
+    #throwUnlessMissing(error: unknown): null {
+        if (this.#isMissingWorkspaceView(error)) {
+            return null;
+        }
+
+        throw error;
+    }
+
+    #isMissingWorkspaceView(error: unknown): boolean {
+        return error instanceof HttpErrorResponse && error.status === 404;
     }
 }

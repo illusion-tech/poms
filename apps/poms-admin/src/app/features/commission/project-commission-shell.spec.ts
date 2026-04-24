@@ -84,7 +84,9 @@ describe('ProjectCommissionShell', () => {
         selectedProject: ReturnType<typeof signal<ProjectDetailView | null>>;
     };
 
-    async function setup(permissions: string[] = ['project:read', 'contract:finance:manage', 'commission:payouts:manage']) {
+    async function setup(
+        permissions: string[] = ['project:read', 'contract:finance:manage', 'commission:payouts:manage', 'commission:assignments:manage']
+    ) {
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(createProject()),
             clearSelectedProject: jest.fn(),
@@ -158,6 +160,7 @@ describe('ProjectCommissionShell', () => {
         expect(text).toContain('移交完成后进入正式执行');
         expect(text).toContain('责任归口');
         expect(text).toContain('提成相关事项');
+        expect(text).toContain('冻结与责任边界');
     });
 
     it('keeps restricted commission operation entry disabled by current permissions', async () => {
@@ -165,6 +168,7 @@ describe('ProjectCommissionShell', () => {
 
         const text = fixture.nativeElement.textContent;
 
+        expect(text).toContain('冻结与责任边界 · 需要项目查看和提成角色冻结权限。');
         expect(text).toContain('提成操作 · 需要完整的提成治理操作权限。');
     });
 

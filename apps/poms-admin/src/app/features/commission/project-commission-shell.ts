@@ -131,6 +131,12 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         const projectId = this.projectId();
         return [
             {
+                label: '冻结与责任边界',
+                routerLink: ['/projects', projectId, 'commission', 'freeze-binding'],
+                enabled: this.canAccessCommissionFreezeBinding(),
+                disabledReason: '需要项目查看和提成角色冻结权限。'
+            },
+            {
                 label: '提成阶段解释',
                 routerLink: ['/projects', projectId, 'commission', 'gate-overview'],
                 enabled: this.canAccessCommissionGate(),
@@ -199,6 +205,10 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     canAccessCommissionGate(): boolean {
         return this.#hasAllPermissions(['project:read', 'contract:finance:manage']);
+    }
+
+    canAccessCommissionFreezeBinding(): boolean {
+        return this.#hasAllPermissions(['project:read', 'commission:assignments:manage']);
     }
 
     canAccessCommissionExplanation(): boolean {

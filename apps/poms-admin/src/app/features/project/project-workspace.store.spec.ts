@@ -2,12 +2,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
     CommissionApi,
+    CommissionRoleAssignmentsApi,
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,
     ProjectWorkspaceStore,
     type BusinessAccountingFeedbackView,
     type CommissionFinalSettlementView,
+    type CommissionRoleAssignmentDetailView,
+    type CommissionRoleAssignmentSummary,
     type CommissionRuleExplanationView,
     type ContractHandoverSummaryView,
     type ProjectHandoverDetailView,
@@ -43,6 +46,35 @@ describe('ProjectWorkspaceStore', () => {
         frozenAt: '2026-04-18T10:00:00.000Z',
         createdAt: '2026-04-18T10:00:00.000Z',
         updatedAt: '2026-04-18T10:00:00.000Z'
+    };
+    const currentRoleAssignmentSummary = freezeVersionSummary as CommissionRoleAssignmentSummary;
+    const roleAssignmentDetail: CommissionRoleAssignmentDetailView = {
+        roleAssignmentId: 'freeze-1',
+        projectId: 'project-1',
+        freezeVersionSummary: currentRoleAssignmentSummary,
+        sourceHandoverId: 'handover-1',
+        contractSummarySnapshotId: 'contract-summary-1',
+        handoverSummarySnapshotId: 'handover-summary-1',
+        effectiveHandoverBaselineSummary: {
+            status: 'available',
+            baselineSnapshotId: 'handover-baseline-1',
+            sourceType: 'contract-readiness',
+            sourceId: 'readiness-1',
+            summary: '合同承接基线已稳定'
+        },
+        receiptJudgmentModeSummary: {
+            status: 'frozen',
+            receiptJudgmentMode: 'confirmed-receipt',
+            sourceType: 'project-handover',
+            sourceId: 'handover-1',
+            summary: '按移交确认冻结回款判断口径'
+        },
+        summaryPackageKey: 'commission-freeze-binding',
+        summarySnapshotId: 'freeze-summary-1',
+        projectionLevel: 'commission-freeze',
+        exportPolicy: 'internal',
+        allowedActions: ['freeze-commission-role-assignment'],
+        generatedAt: '2026-04-20T10:20:00.000Z'
     };
     const workspaceGuidance: ProjectWorkspaceGuidanceView = {
         projectId: 'project-1',
@@ -98,8 +130,12 @@ describe('ProjectWorkspaceStore', () => {
         projectHandoverControllerGetProjectHandoverDetailByProject: jest.Mock;
     };
     let commissionApiMock: {
+        commissionControllerGetCurrentRoleAssignment: jest.Mock;
         commissionControllerGetCommissionFinalSettlement: jest.Mock;
         commissionControllerGetCommissionRuleExplanation: jest.Mock;
+    };
+    let commissionRoleAssignmentsApiMock: {
+        commissionRoleAssignmentControllerGetRoleAssignmentDetail: jest.Mock;
     };
 
     beforeEach(() => {
@@ -117,8 +153,12 @@ describe('ProjectWorkspaceStore', () => {
             projectHandoverControllerGetProjectHandoverDetailByProject: jest.fn()
         };
         commissionApiMock = {
+            commissionControllerGetCurrentRoleAssignment: jest.fn(),
             commissionControllerGetCommissionFinalSettlement: jest.fn(),
             commissionControllerGetCommissionRuleExplanation: jest.fn()
+        };
+        commissionRoleAssignmentsApiMock = {
+            commissionRoleAssignmentControllerGetRoleAssignmentDetail: jest.fn()
         };
 
         TestBed.configureTestingModule({
@@ -139,6 +179,10 @@ describe('ProjectWorkspaceStore', () => {
                 {
                     provide: CommissionApi,
                     useValue: commissionApiMock
+                },
+                {
+                    provide: CommissionRoleAssignmentsApi,
+                    useValue: commissionRoleAssignmentsApiMock
                 }
             ]
         });
@@ -390,6 +434,157 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.commissionGateError()).toBe('你没有权限查看当前工作区。');
     });
 
+    it('loads freeze binding summary, detail and handover detail into shared state', async () => {
+        const projectHandoverDetail = {
+            handoverId: 'handover-1',
+            projectId: 'project-1',
+            projectCode: 'PRJ-001',
+            projectName: '冻结责任边界项目',
+            handoverStatus: 'confirmed',
+            confirmedAt: '2026-04-20T10:00:00.000Z',
+            confirmedBy: 'user-1',
+            comment: null,
+            rowVersion: 1,
+            effectiveContractSetSummary: {
+                activeContractCount: 1,
+                activeContractIds: ['contract-1'],
+                contractNos: ['HT-001'],
+                totalSignedAmount: '200000.00',
+                currencyCodes: ['CNY'],
+                earliestSignedAt: '2026-04-20T08:00:00.000Z',
+                latestSignedAt: '2026-04-20T08:00:00.000Z',
+                contracts: []
+            },
+            contractSummarySnapshotId: 'contract-summary-1',
+            currentHandoverBaselineSummary: roleAssignmentDetail.effectiveHandoverBaselineSummary,
+            participantConfirmationSummary: {
+                status: 'confirmed',
+                confirmationRecordId: 'confirmation-1',
+                requiredCount: 2,
+                confirmedCount: 2,
+                pendingCount: 0,
+                closedCount: 0,
+                submittedAt: '2026-04-20T09:50:00.000Z',
+                confirmedAt: '2026-04-20T10:00:00.000Z',
+                closedAt: null,
+                rowVersion: 1,
+                participants: []
+            },
+            receiptJudgmentModeSummary: roleAssignmentDetail.receiptJudgmentModeSummary,
+            summaryPackageKey: 'project-handover-summary',
+            summarySnapshotId: 'handover-summary-1',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'handover-controlled',
+            allowedActions: [],
+            blockingReasons: [],
+            generatedAt: '2026-04-20T10:10:00.000Z'
+        } as ProjectHandoverDetailView;
+
+        commissionApiMock.commissionControllerGetCurrentRoleAssignment.mockReturnValue(of(currentRoleAssignmentSummary));
+        commissionRoleAssignmentsApiMock.commissionRoleAssignmentControllerGetRoleAssignmentDetail.mockReturnValue(of(roleAssignmentDetail));
+        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(of(projectHandoverDetail));
+
+        await expect(store.loadCommissionFreezeBinding('project-1')).resolves.toEqual({
+            currentRoleAssignment: currentRoleAssignmentSummary,
+            roleAssignmentDetail,
+            projectHandoverDetail
+        });
+
+        expect(commissionApiMock.commissionControllerGetCurrentRoleAssignment).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(commissionRoleAssignmentsApiMock.commissionRoleAssignmentControllerGetRoleAssignmentDetail).toHaveBeenCalledWith({
+            id: 'freeze-1'
+        });
+        expect(store.commissionFreezeBindingSummary()).toEqual(currentRoleAssignmentSummary);
+        expect(store.commissionFreezeBindingDetail()).toEqual(roleAssignmentDetail);
+        expect(store.projectHandoverDetail()).toEqual(projectHandoverDetail);
+        expect(store.hasCommissionFreezeBinding()).toBe(true);
+        expect(store.commissionFreezeBindingError()).toBeNull();
+    });
+
+    it('keeps freeze binding readable when current role assignment is still missing', async () => {
+        const projectHandoverDetail = {
+            handoverId: 'handover-1',
+            projectId: 'project-1',
+            projectCode: 'PRJ-001',
+            projectName: '冻结责任边界项目',
+            handoverStatus: 'draft',
+            confirmedAt: null,
+            confirmedBy: null,
+            comment: null,
+            rowVersion: 1,
+            effectiveContractSetSummary: {
+                activeContractCount: 1,
+                activeContractIds: ['contract-1'],
+                contractNos: ['HT-001'],
+                totalSignedAmount: '200000.00',
+                currencyCodes: ['CNY'],
+                earliestSignedAt: '2026-04-20T08:00:00.000Z',
+                latestSignedAt: '2026-04-20T08:00:00.000Z',
+                contracts: []
+            },
+            contractSummarySnapshotId: 'contract-summary-1',
+            currentHandoverBaselineSummary: roleAssignmentDetail.effectiveHandoverBaselineSummary,
+            participantConfirmationSummary: {
+                status: 'pending',
+                confirmationRecordId: 'confirmation-1',
+                requiredCount: 2,
+                confirmedCount: 1,
+                pendingCount: 1,
+                closedCount: 0,
+                submittedAt: '2026-04-20T09:50:00.000Z',
+                confirmedAt: null,
+                closedAt: null,
+                rowVersion: 1,
+                participants: []
+            },
+            receiptJudgmentModeSummary: roleAssignmentDetail.receiptJudgmentModeSummary,
+            summaryPackageKey: 'project-handover-summary',
+            summarySnapshotId: 'handover-summary-1',
+            projectionLevel: 'handover-confirmation',
+            exportPolicy: 'handover-controlled',
+            allowedActions: [],
+            blockingReasons: ['仍有一名参与人待确认'],
+            generatedAt: '2026-04-20T10:10:00.000Z'
+        } as ProjectHandoverDetailView;
+
+        commissionApiMock.commissionControllerGetCurrentRoleAssignment.mockReturnValue(of(null));
+        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(of(projectHandoverDetail));
+
+        await expect(store.loadCommissionFreezeBinding('project-1')).resolves.toEqual({
+            currentRoleAssignment: null,
+            roleAssignmentDetail: null,
+            projectHandoverDetail
+        });
+
+        expect(commissionRoleAssignmentsApiMock.commissionRoleAssignmentControllerGetRoleAssignmentDetail).not.toHaveBeenCalled();
+        expect(store.commissionFreezeBindingSummary()).toBeNull();
+        expect(store.commissionFreezeBindingDetail()).toBeNull();
+        expect(store.projectHandoverDetail()).toEqual(projectHandoverDetail);
+        expect(store.hasCommissionFreezeBinding()).toBe(true);
+        expect(store.commissionFreezeBindingError()).toBeNull();
+    });
+
+    it('maps 403 freeze binding responses to a permission message', async () => {
+        const forbidden = new HttpErrorResponse({
+            status: 403,
+            statusText: 'Forbidden'
+        });
+
+        commissionApiMock.commissionControllerGetCurrentRoleAssignment.mockReturnValue(throwError(() => forbidden));
+        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(
+            throwError(() => forbidden)
+        );
+
+        await expect(store.loadCommissionFreezeBinding('project-1')).rejects.toBe(forbidden);
+
+        expect(store.commissionFreezeBindingSummary()).toBeNull();
+        expect(store.commissionFreezeBindingDetail()).toBeNull();
+        expect(store.hasCommissionFreezeBinding()).toBe(false);
+        expect(store.commissionFreezeBindingError()).toBe('你没有权限查看当前工作区。');
+    });
+
     it('loads commission final settlement into shared state', async () => {
         const finalSettlement: CommissionFinalSettlementView = {
             projectId: 'project-1',
@@ -583,11 +778,14 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.unifiedAccounting()).toBeNull();
         expect(store.varianceRiskExplanation()).toBeNull();
         expect(store.commissionGateOverview()).toBeNull();
+        expect(store.commissionFreezeBindingSummary()).toBeNull();
+        expect(store.commissionFreezeBindingDetail()).toBeNull();
         expect(store.commissionFinalSettlement()).toBeNull();
         expect(store.commissionRuleExplanation()).toBeNull();
         expect(store.operatingOverviewError()).toBeNull();
         expect(store.varianceRiskError()).toBeNull();
         expect(store.commissionGateError()).toBeNull();
+        expect(store.commissionFreezeBindingError()).toBeNull();
         expect(store.commissionFinalSettlementError()).toBeNull();
         expect(store.commissionRuleExplanationError()).toBeNull();
         expect(store.contractHandoverError()).toBeNull();

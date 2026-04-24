@@ -103,6 +103,13 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page.getByText('Review commission settlement package')).toBeVisible();
         await expect(page.getByText('Commission payout workflow')).toBeVisible();
 
+        await page.getByRole('link', { name: '冻结与责任边界' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/freeze-binding$`));
+        await expect(page.getByRole('heading', { name: '当前冻结状态' })).toBeVisible();
+
+        await page.getByRole('link', { name: '提成阶段解释', exact: true }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/gate-overview$`));
+
         await returnToWorkspaceHome(page);
         await expectWorkspaceHomeEntryDisabled(page, '最终结算', '项目进入验收或完成阶段后再查看最终结算。');
 
@@ -184,6 +191,7 @@ test.describe('poms-admin project workspace journey', () => {
 
         await expect(page.getByRole('link', { name: '工作区总览' })).toBeVisible();
         await expect(page.getByRole('link', { name: '经营总览' })).toHaveCount(0);
+        await expect(page.getByRole('link', { name: '冻结与责任边界' })).toHaveCount(0);
         await expect(page.getByRole('link', { name: '提成操作' })).toHaveCount(0);
         await expect(page.getByText('经营总览 · 需要项目查看和合同资金权限。')).toBeVisible();
         await expect(page.getByText('最终结算 · 项目进入验收或完成阶段后再查看最终结算。')).toBeVisible();
@@ -195,6 +203,10 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/final-settlement`);
+        await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
+        await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
+
+        await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/freeze-binding`);
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
 

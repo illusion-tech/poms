@@ -91,6 +91,17 @@ export const appRoutes: Routes = [
                         redirectTo: 'gate-overview'
                     },
                     {
+                        path: 'freeze-binding',
+                        loadComponent: () =>
+                            import('./app/features/commission/project-commission-freeze-binding').then((c) => c.ProjectCommissionFreezeBinding),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '冻结与责任边界',
+                            requiredPermissions: ['project:read', 'commission:assignments:manage'],
+                            requiredPermissionsMode: 'all'
+                        }
+                    },
+                    {
                         path: 'gate-overview',
                         loadComponent: () =>
                             import('./app/features/commission/project-commission-gate-overview').then((c) => c.ProjectCommissionGateOverview),
