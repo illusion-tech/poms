@@ -245,6 +245,53 @@ test.describe('poms-admin project workspace journey', () => {
         await expectRuleExplanationSurface(page);
     });
 
+    test('admin can use the core workspace chain on a mobile viewport', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await page.goto(`/projects/${PRESIGNING_PROJECT_ID}`);
+        await expect(page.getByRole('heading', { name: 'POMS 首期项目主链路样例' })).toBeVisible();
+
+        await page.getByRole('button', { name: '项目工作区' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace$`));
+        await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
+
+        await openWorkspaceHomeEntry(page, '签约前主线');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing$`));
+        await expect(page.getByRole('heading', { name: '签约前主线' })).toBeVisible();
+        await expect(page.getByText('当前阻断与下一步')).toBeVisible();
+
+        await page.getByRole('link', { name: '返回工作区总览' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace$`));
+
+        await openWorkspaceHomeEntry(page, '技术与成本');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/technical-cost$`));
+        await expect(page.getByRole('heading', { name: '技术与成本', exact: true })).toBeVisible();
+        await expect(page.getByText('缺少技术与成本版本包')).toBeVisible();
+
+        await page.getByRole('link', { name: '返回签约前主线' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pre-signing$`));
+
+        await page.goto(`/projects/${WORKSPACE_PROJECT_ID}`);
+        await expect(page.getByRole('heading', { name: /E2E EX-13B main/i })).toBeVisible();
+
+        await page.getByRole('button', { name: '项目工作区' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace$`));
+
+        await openWorkspaceHomeEntry(page, '提成阶段解释');
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/gate-overview$`));
+        await expect(page.getByRole('heading', { name: '当前 gate 结论' })).toBeVisible();
+
+        await page.getByRole('link', { name: '查看经营总览' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/workspace/operating-overview$`));
+        await expect(page.getByText('Tax package is pending closeout')).toBeVisible();
+
+        await page.getByRole('link', { name: '查看提成阶段解释' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/gate-overview$`));
+    });
+
     test('viewer can enter the workspace from the project list but only see allowed navigation', async ({ page }) => {
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
