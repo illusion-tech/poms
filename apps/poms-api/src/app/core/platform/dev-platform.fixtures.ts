@@ -1,6 +1,8 @@
 import { PERMISSION_KEYS, type PermissionKey, type UserOrgUnitSummary } from '@poms/shared-contracts';
 
 const BUSINESS_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'];
+const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read'];
+const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write'];
 const PROJECT_READ_PERMISSIONS: PermissionKey[] = ['project:read', ...BUSINESS_NAVIGATION_PERMISSIONS];
 const PROJECT_WRITE_PERMISSIONS: PermissionKey[] = ['project:read', 'project:write', ...BUSINESS_NAVIGATION_PERMISSIONS];
 
@@ -84,7 +86,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售人员',
         description: '开发环境默认销售人员角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000004',
@@ -92,7 +94,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售负责人',
         description: '开发环境默认销售负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000005',
@@ -148,7 +150,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售助理',
         description: '开发环境默认销售助理角色',
         isSystemRole: false,
-        permissions: [...PROJECT_READ_PERMISSIONS, 'contract:finance:manage']
+        permissions: [...PROJECT_READ_PERMISSIONS, ...LEAD_READ_PERMISSIONS, 'contract:finance:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000012',

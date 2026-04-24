@@ -33,6 +33,8 @@ export enum PlatformRoleDetailPermissionKeysEnum {
     CommissionPayoutsManage = 'commission:payouts:manage',
     CommissionAdjustmentsManage = 'commission:adjustments:manage',
     ContractFinanceManage = 'contract:finance:manage',
+    LeadRead = 'lead:read',
+    LeadWrite = 'lead:write',
     ProjectRead = 'project:read',
     ProjectWrite = 'project:write',
     ProjectDelete = 'project:delete',

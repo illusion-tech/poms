@@ -18,6 +18,9 @@ export const PERMISSION_KEYS = [
     'commission:adjustments:manage',
     // 合同资金
     'contract:finance:manage',
+    // 线索
+    'lead:read',
+    'lead:write',
     // 项目
     'project:read',
     'project:write',
@@ -48,6 +51,8 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'commission:payouts:manage': { description: '管理提成发放', group: '提成治理' },
     'commission:adjustments:manage': { description: '管理提成调整', group: '提成治理' },
     'contract:finance:manage': { description: '管理合同资金事实', group: '合同资金' },
+    'lead:read': { description: '查看销售线索', group: '线索' },
+    'lead:write': { description: '登记/维护销售线索', group: '线索' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
     'project:delete': { description: '删除项目', group: '项目' },
@@ -611,6 +616,151 @@ export const RecordRouteDeniedSecurityEventRequestSchema = z
     .meta({ id: 'RecordRouteDeniedSecurityEventRequest' });
 
 export type RecordRouteDeniedSecurityEventRequest = z.infer<typeof RecordRouteDeniedSecurityEventRequestSchema>;
+
+// ---------------------------------------------------------------------------
+// Lead
+// ---------------------------------------------------------------------------
+
+export const LEAD_STATUSES = ['registered', 'qualified', 'converted', 'closed'] as const;
+
+export type LeadStatus = (typeof LEAD_STATUSES)[number];
+
+export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: 'LeadStatus' });
+
+export const LeadSummarySchema = z
+    .object({
+        id: z.uuid(),
+        leadCode: z.string(),
+        leadName: z.string(),
+        customerName: z.string(),
+        sourceChannel: z.string().nullable(),
+        status: LeadStatusSchema,
+        ownerOrgId: z.uuid().nullable(),
+        ownerUserId: z.uuid().nullable(),
+        qualificationSummary: z.string().nullable(),
+        qualifiedAt: z.iso.datetime().nullable(),
+        qualifiedBy: z.uuid().nullable(),
+        closedReason: z.string().nullable(),
+        closedAt: z.iso.datetime().nullable(),
+        closedBy: z.uuid().nullable(),
+        convertedProjectId: z.uuid().nullable(),
+        convertedAt: z.iso.datetime().nullable(),
+        convertedBy: z.uuid().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'LeadSummary' });
+
+export type LeadSummary = z.infer<typeof LeadSummarySchema>;
+
+export const LeadListViewSchema = z
+    .object({
+        id: z.uuid(),
+        leadCode: z.string(),
+        leadName: z.string(),
+        customerName: z.string(),
+        sourceChannel: z.string().nullable(),
+        status: LeadStatusSchema,
+        ownerName: z.string().nullable(),
+        ownerOrgName: z.string().nullable(),
+        qualifiedAt: z.iso.datetime().nullable(),
+        convertedProjectId: z.uuid().nullable(),
+        createdAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'LeadListView' });
+
+export type LeadListView = z.infer<typeof LeadListViewSchema>;
+
+export const LeadListSchema = z.array(LeadListViewSchema).meta({ id: 'LeadList' });
+
+export type LeadList = z.infer<typeof LeadListSchema>;
+
+export const LeadConvertedProjectSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectCode: z.string(),
+        projectName: z.string(),
+        status: z.string(),
+        currentStage: z.string()
+    })
+    .meta({ id: 'LeadConvertedProjectSummary' });
+
+export type LeadConvertedProjectSummary = z.infer<typeof LeadConvertedProjectSummarySchema>;
+
+export const LeadDetailViewSchema = LeadSummarySchema.extend({
+    ownerName: z.string().nullable(),
+    ownerOrgName: z.string().nullable(),
+    sourceSummary: z.string().nullable(),
+    convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable()
+}).meta({ id: 'LeadDetailView' });
+
+export type LeadDetailView = z.infer<typeof LeadDetailViewSchema>;
+
+export const CreateLeadRequestSchema = z
+    .object({
+        leadCode: z.string().trim().min(1).max(64),
+        leadName: z.string().trim().min(1).max(255),
+        customerName: z.string().trim().min(1).max(255),
+        sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional()
+    })
+    .meta({ id: 'CreateLeadRequest' });
+
+export type CreateLeadRequest = z.infer<typeof CreateLeadRequestSchema>;
+
+export const UpdateLeadRequestSchema = z
+    .object({
+        leadName: z.string().trim().min(1).max(255).optional(),
+        customerName: z.string().trim().min(1).max(255).optional(),
+        sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.leadName !== undefined ||
+            value.customerName !== undefined ||
+            value.sourceChannel !== undefined ||
+            value.ownerOrgId !== undefined ||
+            value.ownerUserId !== undefined,
+        {
+            message: 'At least one field is required for update'
+        }
+    )
+    .meta({ id: 'UpdateLeadRequest' });
+
+export type UpdateLeadRequest = z.infer<typeof UpdateLeadRequestSchema>;
+
+export const QualifyLeadRequestSchema = z
+    .object({
+        qualificationSummary: z.string().trim().min(1).max(2000)
+    })
+    .meta({ id: 'QualifyLeadRequest' });
+
+export type QualifyLeadRequest = z.infer<typeof QualifyLeadRequestSchema>;
+
+export const CloseLeadRequestSchema = z
+    .object({
+        closedReason: z.string().trim().min(1).max(1000)
+    })
+    .meta({ id: 'CloseLeadRequest' });
+
+export type CloseLeadRequest = z.infer<typeof CloseLeadRequestSchema>;
+
+export const LeadListQuerySchema = z
+    .object({
+        status: LeadStatusSchema.optional(),
+        ownerOrgId: z.uuid().optional(),
+        keyword: z.string().trim().min(1).max(128).optional()
+    })
+    .meta({ id: 'LeadListQuery' });
+
+export type LeadListQuery = z.infer<typeof LeadListQuerySchema>;
 
 // ---------------------------------------------------------------------------
 // Project
