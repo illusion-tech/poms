@@ -52,10 +52,16 @@
 ## 5. Notes
 
 - Playwright webServer 仍输出 `Starting inspector on localhost:9229 failed: address already in use`，但 7 条测试全部通过，判定为本机调试端口环境噪声。
-- `FE19-E1-COMMISSION-GUIDANCE-SOURCE` 保留：提成壳层后续若要改为正式后端 guidance，应另开 query / governance 切片。
+- `FE19-E1-COMMISSION-GUIDANCE-SOURCE` 截至 `FE-19 G4` 保留：提成壳层后续若要改为正式后端 guidance，应另开 query / governance 切片。
 
 ## 6. G4 Conclusion
 
 - `FE-19` delivered boundary matches the baseline.
 - 项目详情、项目工作区壳层、项目工作区首页、提成工作区壳层现在共享同一套上下文、指令和反馈组件基线。
 - 后续 UI 切片可继续向合同详情、签约前工作区和更多历史提示框铺开。
+
+## 7. Post-G4 Exception Closure
+
+- 2026-04-25: `FE19-E1-COMMISSION-GUIDANCE-SOURCE` 已由 `FE-25` 关闭。
+- Closure evidence: `docs/design/archive/slices/fe-25-commission-shell-guidance-source-g3-g4-closeout.md`
+- Runtime commit: `9f85604 feat(commission): 收敛提成壳层到 workspace guidance 事实源`
