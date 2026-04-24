@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthStore, ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import type { ProjectWorkspaceEntryView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -13,8 +14,7 @@ import {
     projectStageLabel,
     projectStageSeverity,
     projectStatusLabel,
-    projectStatusSeverity,
-    projectWorkspaceGuide
+    projectStatusSeverity
 } from '../project/project-presentation';
 
 @Component({
@@ -31,9 +31,9 @@ import {
                     eyebrow="提成工作区"
                     [title]="commissionTitle()"
                     [subtitle]="commissionSubtitle()"
-                    [stageLabel]="projectStageLabel(project()!.currentStage)"
+                    [stageLabel]="guidance()?.currentStageLabel ?? projectStageLabel(project()!.currentStage)"
                     [stageSeverity]="projectStageSeverity(project()!.currentStage)"
-                    [statusLabel]="projectStatusLabel(project()!.status)"
+                    [statusLabel]="guidance()?.statusLabel ?? projectStatusLabel(project()!.status)"
                     [statusSeverity]="projectStatusSeverity(project()!.status)"
                     backLabel="返回项目工作区"
                     (back)="goBackToWorkspace()"
@@ -55,6 +55,12 @@ import {
 
                 <app-workspace-command-panel heading="提成处理重点" caption="先确认阶段条件、阻断事项、下一步和责任归口。" [items]="commissionOverviewItems()" />
 
+                @if (guidanceError()) {
+                    <app-workspace-feedback severity="error" summary="暂时读不到提成工作区引导" [detail]="guidanceError()">
+                        <p-button label="重新读取" icon="pi pi-refresh" [text]="true" (onClick)="reloadGuidance()" class="mt-3 cursor-pointer" />
+                    </app-workspace-feedback>
+                }
+
                 <section-card>
                     <ng-template #title>提成相关事项</ng-template>
                     <ng-template #description>先查看阶段条件和结算说明，再处理发放、登记或调整。</ng-template>
@@ -74,99 +80,58 @@ import {
 export class ProjectCommissionShell implements OnInit, OnDestroy {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
-    readonly #authStore = inject(AuthStore);
     readonly #projectStore = inject(ProjectStore);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
 
     readonly project = this.#projectStore.selectedProject;
-    readonly loading = this.#projectStore.loading;
+    readonly guidance = this.#workspaceStore.guidance;
+    readonly guidanceError = this.#workspaceStore.guidanceError;
+    readonly loading = computed(() => this.#projectStore.loading() || (this.#workspaceStore.loadingGuidance() && !this.#workspaceStore.hasGuidance()));
 
     readonly projectStageLabel = projectStageLabel;
     readonly projectStageSeverity = projectStageSeverity;
     readonly projectStatusLabel = projectStatusLabel;
     readonly projectStatusSeverity = projectStatusSeverity;
 
-    readonly workspaceGuide = computed(() => {
-        const project = this.project();
-        if (!project) {
-            return {
-                currentStep: '--',
-                nextStep: '--',
-                currentGap: '--',
-                owner: '--'
-            };
-        }
-
-        return projectWorkspaceGuide(project);
-    });
-
     readonly commissionOverviewItems = computed<WorkspaceCommandPanelItem[]>(() => {
-        const guide = this.workspaceGuide();
+        const guidance = this.guidance();
 
         return [
             {
                 label: '当前阶段',
-                value: guide.currentStep,
+                value: guidance?.currentStageLabel ?? '待确认',
                 icon: 'pi pi-flag'
             },
             {
                 label: '下一步',
-                value: guide.nextStep,
+                value: guidance?.nextStep ?? '正在读取',
                 icon: 'pi pi-arrow-right'
             },
             {
                 label: '当前缺口',
-                value: guide.currentGap,
+                value: guidance?.currentGap ?? '正在读取',
                 icon: 'pi pi-exclamation-circle'
             },
             {
                 label: '责任归口',
-                value: guide.owner,
+                value: guidance?.ownerLabel ?? '正在读取',
                 icon: 'pi pi-users'
             }
         ];
     });
 
     readonly tabs = computed<WorkspaceNavItem[]>(() => {
-        const projectId = this.projectId();
-        return [
-            {
-                label: '冻结与责任边界',
-                routerLink: ['/projects', projectId, 'commission', 'freeze-binding'],
-                enabled: this.canAccessCommissionFreezeBinding(),
-                disabledReason: '需要项目查看和提成角色冻结权限。'
-            },
-            {
-                label: '提成阶段解释',
-                routerLink: ['/projects', projectId, 'commission', 'gate-overview'],
-                enabled: this.canAccessCommissionGate(),
-                disabledReason: '需要项目查看和合同资金权限。'
-            },
-            {
-                label: '最终结算',
-                routerLink: ['/projects', projectId, 'commission', 'final-settlement'],
-                enabled: this.canAccessCommissionExplanation(),
-                disabledReason: '需要项目查看和提成发放权限。'
-            },
-            {
-                label: '规则解释',
-                routerLink: ['/projects', projectId, 'commission', 'rule-explanation'],
-                enabled: this.canAccessCommissionExplanation(),
-                disabledReason: '需要项目查看和提成发放权限。'
-            },
-            {
-                label: '提成操作',
-                routerLink: ['/projects', projectId, 'commission', 'operations'],
-                enabled: this.canAccessCommissionOperations(),
-                disabledReason: '需要完整的提成治理操作权限。'
-            }
-        ];
+        const keys = ['commission-freeze-binding', 'commission-gate-overview', 'commission-final-settlement', 'commission-rule-explanation', 'commission-operations'];
+        const entries = this.guidance()?.recommendedEntries ?? [];
+
+        return keys.map((key) => this.#toNavItem(key, entries)).filter((item): item is WorkspaceNavItem => item !== null);
     });
 
     ngOnInit() {
         const projectId = this.projectId();
         if (projectId) {
             void this.#projectStore.loadProject(projectId);
+            void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
         }
     }
 
@@ -186,8 +151,15 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     commissionSubtitle(): string {
         const project = this.project();
-        const nextStep = this.workspaceGuide().nextStep;
+        const nextStep = this.guidance()?.nextStep ?? '正在读取提成工作区引导';
         return project ? `${project.projectCode} · ${nextStep}` : nextStep;
+    }
+
+    reloadGuidance() {
+        const projectId = this.projectId();
+        if (projectId) {
+            void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
+        }
     }
 
     goBackToWorkspace() {
@@ -203,30 +175,17 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         this.#router.navigate(['/projects']);
     }
 
-    canAccessCommissionGate(): boolean {
-        return this.#hasAllPermissions(['project:read', 'contract:finance:manage']);
-    }
+    #toNavItem(key: string, entries: readonly ProjectWorkspaceEntryView[]): WorkspaceNavItem | null {
+        const entry = entries.find((candidate) => candidate.key === key);
+        if (!entry) {
+            return null;
+        }
 
-    canAccessCommissionFreezeBinding(): boolean {
-        return this.#hasAllPermissions(['project:read', 'commission:assignments:manage']);
-    }
-
-    canAccessCommissionExplanation(): boolean {
-        return this.#hasAllPermissions(['project:read', 'commission:payouts:manage']);
-    }
-
-    canAccessCommissionOperations(): boolean {
-        return this.#hasAllPermissions([
-            'project:read',
-            'commission:rule-versions:manage',
-            'commission:calculations:manage',
-            'commission:payouts:manage',
-            'commission:adjustments:manage'
-        ]);
-    }
-
-    #hasAllPermissions(requiredPermissions: string[]): boolean {
-        const currentPermissions = (this.#authStore.currentUser()?.permissions ?? []) as readonly string[];
-        return requiredPermissions.every((permission) => currentPermissions.includes(permission));
+        return {
+            label: entry.label,
+            routerLink: entry.route,
+            enabled: entry.enabled,
+            disabledReason: entry.disabledReason ?? undefined
+        };
     }
 }

@@ -62,6 +62,7 @@ const PROJECT_WORKSPACE_HANDOVER_PERMISSIONS: PermissionKey[] = ['project:read']
 const PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS: PermissionKey[] = ['project:read'];
 const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 'contract:finance:manage'];
 const PROJECT_WORKSPACE_PAYOUT_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:payouts:manage'];
+const PROJECT_WORKSPACE_COMMISSION_FREEZE_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:assignments:manage'];
 const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = [
     'project:read',
     'commission:rule-versions:manage',
@@ -1413,6 +1414,7 @@ export class ProjectQueryService {
         const canUseHandoverWorkspace = hasAllPermissions(PROJECT_WORKSPACE_HANDOVER_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseFinanceWorkspace = hasAllPermissions(PROJECT_WORKSPACE_FINANCE_PERMISSIONS);
         const canUsePayoutWorkspace = hasAllPermissions(PROJECT_WORKSPACE_PAYOUT_PERMISSIONS);
+        const canUseCommissionFreezeBinding = hasAllPermissions(PROJECT_WORKSPACE_COMMISSION_FREEZE_PERMISSIONS);
         const canUseCommissionOperations = hasAllPermissions(PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS) && allowedActions.includes('manage-project-commission');
         const projectRoutePrefix = `/projects/${project.id}`;
 
@@ -1548,6 +1550,21 @@ export class ProjectQueryService {
                     permissionReason: '需要项目查看和合同资金权限。'
                 }),
                 actionKey: 'contract:finance:manage'
+            },
+            {
+                key: 'commission-freeze-binding',
+                label: '冻结与责任边界',
+                description: '查看提成冻结版本、责任边界、参与人权重和移交收口关系。',
+                route: `${projectRoutePrefix}/commission/freeze-binding`,
+                enabled: !isClosed && commissionStageReady && canUseCommissionFreezeBinding,
+                disabledReason: this.buildWorkspaceEntryDisabledReason({
+                    isClosed,
+                    stageReady: commissionStageReady,
+                    permissionReady: canUseCommissionFreezeBinding,
+                    stageReason: '项目进入移交或执行阶段后再查看冻结与责任边界。',
+                    permissionReason: '需要项目查看和提成角色冻结权限。'
+                }),
+                actionKey: 'commission:assignments:manage'
             },
             {
                 key: 'commission-gate-overview',

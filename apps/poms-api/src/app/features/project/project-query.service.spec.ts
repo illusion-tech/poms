@@ -305,6 +305,11 @@ describe('ProjectQueryService', () => {
                     disabledReason: null
                 }),
                 expect.objectContaining({
+                    key: 'commission-freeze-binding',
+                    enabled: false,
+                    disabledReason: '需要项目查看和提成角色冻结权限。'
+                }),
+                expect.objectContaining({
                     key: 'commission-final-settlement',
                     enabled: false,
                     disabledReason: '项目进入验收或完成阶段后再查看最终结算。'
@@ -344,7 +349,7 @@ describe('ProjectQueryService', () => {
         const result = await service.getProjectWorkspaceGuidance('20000000-0000-4000-8000-000000000006', {
             sub: '00000000-0000-4000-8000-000000000001',
             username: 'sales_rep',
-            permissions: ['project:read']
+            permissions: ['project:read', 'commission:assignments:manage']
         });
 
         expect(result.currentStageLabel).toBe('项目移交');
@@ -357,6 +362,13 @@ describe('ProjectQueryService', () => {
                     enabled: true,
                     disabledReason: null,
                     actionKey: 'view-project-workspace'
+                }),
+                expect.objectContaining({
+                    key: 'commission-freeze-binding',
+                    route: '/projects/20000000-0000-4000-8000-000000000006/commission/freeze-binding',
+                    enabled: true,
+                    disabledReason: null,
+                    actionKey: 'commission:assignments:manage'
                 })
             ])
         );

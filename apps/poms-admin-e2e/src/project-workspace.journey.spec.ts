@@ -82,10 +82,6 @@ async function returnToWorkspaceHome(page: Page, projectId = WORKSPACE_PROJECT_I
     await expect(page.getByRole('heading', { name: /项目工作区/ })).toBeVisible();
 }
 
-async function expectFinalSettlementSurface(page: Page): Promise<void> {
-    await expect(page.getByText(/最终结算暂不可用|当前结算链状态/)).toBeVisible();
-}
-
 async function expectRuleExplanationSurface(page: Page): Promise<void> {
     await expect(page.getByText(/规则解释暂不可用|当前规则结论/)).toBeVisible();
 }
@@ -236,11 +232,9 @@ test.describe('poms-admin project workspace journey', () => {
         await page.getByRole('link', { name: '查看提成阶段解释' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/gate-overview$`));
 
-        await page.getByRole('link', { name: '最终结算' }).click();
-        await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/final-settlement$`));
-        await expectFinalSettlementSurface(page);
+        await expect(page.getByRole('button', { name: '最终结算 · 项目进入验收或完成阶段后再查看最终结算。' })).toBeDisabled();
 
-        await page.getByRole('link', { name: '查看规则解释' }).click();
+        await page.getByRole('link', { name: '规则解释' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/rule-explanation$`));
         await expectRuleExplanationSurface(page);
     });
