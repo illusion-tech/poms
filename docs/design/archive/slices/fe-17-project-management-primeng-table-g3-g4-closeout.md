@@ -58,4 +58,14 @@
 - Gate Status: `Pass`
 - Tracker status: `Done`
 - 本片可作为后续项目管理和提成工作区 UI baseline 的稳定输入。
-- 后续如继续替换非 loading 的业务提示框，应另起 UI feedback baseline 切片，不回开本片。
+- 截至 `FE-17` G4，后续如继续替换非 loading 的业务提示框，应另起 UI feedback baseline 切片，不回开本片。
+
+## 6. Post-G4 Exception Closure
+
+- Closure Date: `2026-04-25`
+- Closure Slice: `FE-26`
+- Closure Record: `docs/design/archive/slices/fe-26-project-management-feedback-surface-g3-g4-closeout.md`
+
+| Exception ID                       | Status | Closure Evidence                                                                                                                                           |
+| ---------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FE17-E1-FEEDBACK-COMPONENT-SCOPE` | Closed | 项目管理范围内剩余页面级 error / warn / not-found / 空事实 feedback surfaces 已迁移到 `WorkspaceFeedback`；普通 fact card 与字段级 validation 保持原职责。 |

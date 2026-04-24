@@ -31,6 +31,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 
 type CommissionPayoutRow = ReturnType<CommissionStore['payouts']>[number];
@@ -222,7 +223,10 @@ const TEMPLATE = `
             </section-card>
         </div>
     } @else {
-        <div class="py-20 text-center"><i class="pi pi-exclamation-triangle text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i><p class="text-surface-500 dark:text-surface-400">项目未找到</p><p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBackToList()" class="mt-4 cursor-pointer" /></div>
+        <div class="py-20 text-center">
+            <app-workspace-feedback severity="warn" summary="项目未找到" detail="请返回项目列表重新选择项目。" />
+            <p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBackToList()" class="mt-4 cursor-pointer" />
+        </div>
     }
 
     <p-dialog [(visible)]="triggerDialogVisible" [modal]="true" header="触发提成计算" [style]="{ width: '30rem' }" styleClass="p-fluid">
@@ -303,6 +307,7 @@ const TEMPLATE = `
         TableModule,
         TextareaModule,
         ToastModule,
+        WorkspaceFeedback,
         WorkspaceLoading
     ],
     providers: [CommissionStore, MessageService],

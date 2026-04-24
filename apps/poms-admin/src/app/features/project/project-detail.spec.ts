@@ -201,7 +201,7 @@ describe('ProjectDetail', () => {
         expect(text).toContain('123,456.78 CNY');
         expect(text).toContain('审批摘要已形成');
         expect(text).toContain('暂未形成确认记录');
-        expect(text).toContain('投标详情暂未接入正式事实源');
+        expect(text).toContain('暂未形成正式投标事实');
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
         expect(text).not.toContain('allowedActions');

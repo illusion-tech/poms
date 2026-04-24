@@ -148,3 +148,9 @@
 - Downstream:
   1. `FE-16B` 可回到 G1 refresh，开始详情页前端实现。
   2. 完整浏览器级动作守卫验证仍归属 `FE-16D`。
+
+## 12. Post-G4 Exception Closure
+
+- 2026-04-25: `EX18-E1-BID-SUMMARY` 已由 `EX-29` 关闭。
+- Closure evidence: `docs/design/archive/slices/ex-29-project-detail-bid-summary-source-g3-g4-closeout.md`
+- Runtime commit: `b9057e7 fix(project): 用当前投标事实源修正项目详情投标摘要`

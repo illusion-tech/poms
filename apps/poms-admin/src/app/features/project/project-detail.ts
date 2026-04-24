@@ -252,21 +252,15 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                             @if (project.stageSummary.blockingReasons.length > 0) {
                                 <div class="flex flex-col gap-2">
                                     @for (reason of project.stageSummary.blockingReasons; track reason) {
-                                        <div class="rounded-[8px] border border-orange-200 bg-orange-50 px-3 py-2 text-sm leading-6 text-orange-800 dark:border-orange-900/50 dark:bg-orange-950/20 dark:text-orange-200">
-                                            {{ getBlockingReason(reason) }}
-                                        </div>
+                                        <app-workspace-feedback severity="warn" summary="存在阻断原因" [detail]="getBlockingReason(reason)" />
                                     }
                                 </div>
                             } @else {
-                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
-                                    当前没有记录阻断原因。
-                                </div>
+                                <app-workspace-feedback severity="secondary" summary="当前没有记录阻断原因" detail="后续阶段可继续依据当前状态推进。" />
                             }
 
                             @if (project.stageSummary.closedReason) {
-                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
-                                    关闭原因：{{ project.stageSummary.closedReason }}
-                                </div>
+                                <app-workspace-feedback severity="info" summary="关闭原因" [detail]="project.stageSummary.closedReason" />
                             }
                         </div>
                     </section-card>
@@ -313,9 +307,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 
                         <div class="mt-4 flex flex-col gap-3">
                             @if (hasApprovalSummary(project)) {
-                                <div class="rounded-[8px] border border-green-200 bg-green-50 px-3 py-2 text-sm leading-6 text-green-800 dark:border-green-900/50 dark:bg-green-950/20 dark:text-green-200">
-                                    审批摘要已形成，当前详情可追溯到正式依据。
-                                </div>
+                                <app-workspace-feedback severity="success" summary="审批摘要已形成" detail="当前详情可追溯到正式依据。" />
                                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                         <div class="text-xs text-surface-500 dark:text-surface-400">依据编号</div>
@@ -327,9 +319,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                                     </div>
                                 </div>
                             } @else {
-                                <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
-                                    暂无审批摘要。
-                                </div>
+                                <app-workspace-feedback severity="secondary" summary="暂无审批摘要" detail="当前项目还没有可追溯的审批摘要。" />
                             }
                         </div>
                     </section-card>
@@ -367,22 +357,20 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     <ng-template #title>投标信息</ng-template>
                     <ng-template #description>只展示已经接入的正式投标事实，不用项目字段倒推出投标结论。</ng-template>
 
-                    <div class="mt-4 rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
-                        @if (project.currentBidSummary.bidStatus === 'not_configured') {
-                            投标详情暂未接入正式事实源。
-                        } @else {
+                    @if (project.currentBidSummary.bidStatus === 'not_configured') {
+                        <app-workspace-feedback class="mt-4 block" severity="secondary" summary="暂未形成正式投标事实" detail="当前详情不会用项目字段倒推出投标结论。" />
+                    } @else {
+                        <div class="mt-4 rounded-[8px] border border-surface-200 px-3 py-2 text-sm leading-6 text-surface-600 dark:border-surface-700 dark:text-surface-300">
                             {{ displayText(project.currentBidSummary.summary, '当前暂无投标摘要。') }}
-                        }
-                    </div>
+                        </div>
+                    }
                 </section-card>
             </div>
 
             <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑项目基本信息" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-2">
                     @if (editError) {
-                        <div class="rounded-[8px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-200">
-                            {{ editError }}
-                        </div>
+                        <app-workspace-feedback severity="error" summary="保存失败" [detail]="editError" />
                     }
 
                     <div class="flex flex-col gap-2">
@@ -408,8 +396,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
             </p-dialog>
         } @else {
             <div class="py-20 text-center">
-                <i class="pi pi-exclamation-triangle mb-3 block text-4xl text-surface-300 dark:text-surface-600"></i>
-                <p class="text-surface-500 dark:text-surface-400">项目未找到</p>
+                <app-workspace-feedback severity="warn" summary="项目未找到" detail="请返回项目列表重新选择项目。" />
                 <p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBack()" styleClass="mt-4 rounded-md!" />
             </div>
         }

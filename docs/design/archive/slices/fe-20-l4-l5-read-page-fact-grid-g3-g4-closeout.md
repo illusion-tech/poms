@@ -51,10 +51,16 @@
 ## 5. Notes
 
 - Playwright webServer 仍输出 `Starting inspector on localhost:9229 failed: address already in use`，但 7 条测试全部通过，判定为本机调试端口环境噪声。
-- `FE20-E1-OPERATION-PAGE-SCOPE` 保留：提成操作页与表格型 UI 不在本片内。
+- `FE20-E1-OPERATION-PAGE-SCOPE` 截至 `FE-20 G4` 保留：提成操作页与表格型 UI 不在本片内。
 
 ## 6. G4 Conclusion
 
 - `FE-20` delivered boundary matches the baseline.
 - L4/L5 读取 / 解释型页面的核心事实块已进入共享 `WorkspaceFactGrid` 基线。
 - 后续操作型页面可在独立切片中继续治理表单、动作、表格和确认流。
+
+## 7. Post-G4 Exception Closure
+
+- 2026-04-25: `FE20-E1-OPERATION-PAGE-SCOPE` 已由 `FE-17` 运行证据关闭。
+- Closure evidence: `docs/design/archive/slices/fe-20-operation-page-scope-exception-closure.md`
+- Supporting evidence: `docs/design/archive/slices/fe-17-project-management-primeng-table-g3-g4-closeout.md`

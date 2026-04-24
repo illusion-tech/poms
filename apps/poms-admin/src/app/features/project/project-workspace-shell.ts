@@ -73,8 +73,7 @@ import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-n
             </div>
         } @else {
             <div class="py-20 text-center">
-                <i class="pi pi-exclamation-triangle mb-3 block text-4xl text-surface-300 dark:text-surface-600"></i>
-                <p class="text-surface-500 dark:text-surface-400">项目未找到</p>
+                <app-workspace-feedback severity="warn" summary="项目未找到" detail="请返回项目列表重新选择项目。" />
                 <p-button label="返回项目列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBackToList()" class="mt-4 cursor-pointer" />
             </div>
         }

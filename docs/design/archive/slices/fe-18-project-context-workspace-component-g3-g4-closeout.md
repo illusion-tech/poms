@@ -62,4 +62,13 @@
 
 - `FE-18` delivered boundary matches the baseline.
 - Downstream frontend slices can rely on the shared project context, lifecycle, command panel and feedback components.
-- `FE18-E1-PARTIAL-PAGE-COVERAGE` remains a low-risk follow-up for broader project-management page adoption.
+- 截至 `FE-18` G4，`FE18-E1-PARTIAL-PAGE-COVERAGE` remained a low-risk follow-up for broader project-management page adoption.
+
+## 7. Post-G4 Exception Closure
+
+- Closure Date: `2026-04-25`
+- Closure Record: `docs/design/archive/slices/fe-18-partial-page-coverage-exception-closure.md`
+
+| Exception ID                    | Status | Closure Evidence                                                                                                                                        |
+| ------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FE18-E1-PARTIAL-PAGE-COVERAGE` | Closed | 后续 `FE-19`、`FE-20`、`FE-08~12` 与 `FE-25` 已把共享 workspace UI 铺到提成壳层、工作区首页、L4/L5 读取页、签约前详细工作区、冻结绑定和跨工作区入口链。 |

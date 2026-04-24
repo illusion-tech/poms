@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface ProjectFilterOption {
     label: string;
@@ -95,7 +96,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, WorkspaceFeedback],
     providers: [ProjectStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -317,9 +318,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                     </p>
 
                     @if (createError()) {
-                        <div class="rounded-[8px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-200">
-                            {{ createError() }}
-                        </div>
+                        <app-workspace-feedback severity="error" summary="新建项目失败" [detail]="createError()" />
                     }
 
                     <div class="flex flex-col gap-2">
