@@ -56,7 +56,7 @@
 | --------------------------------------- | ------ | ------------------------------------------------------------ |
 | `EX25-E3-ARCHIVE-REVERSAL-OUT-OF-SCOPE` | Closed | 已转化为 `EX-34` G1 baseline 与后续 `EX-34A` runtime slice。 |
 | `EX34-E1-RUNTIME-DEFERRED`              | Closed | 已由 `EX-34A` runtime slice 关闭。                           |
-| `EX34-E2-FRONTEND-DEFERRED`             | Open   | 转交 `FE-31`。                                               |
+| `EX34-E2-FRONTEND-DEFERRED`             | Closed | 已由 `FE-31` 前端入口与审计呈现切片关闭。                    |
 
 ## 6. G4 结论
 
