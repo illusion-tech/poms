@@ -61,6 +61,12 @@ export function buildCommercialReleaseBaselineInput(
         quotationReviewId: overrides?.quotationReviewId ?? null,
         grossMarginSummary: overrides?.grossMarginSummary ?? '毛利结论已放行',
         paymentTermsSummary: overrides?.paymentTermsSummary ?? '首付款 30%，分两期回款',
+        amountTaxInclusive: overrides?.amountTaxInclusive ?? '188000.00',
+        amountTaxExclusive: overrides?.amountTaxExclusive ?? '177358.49',
+        taxRate: overrides?.taxRate ?? '0.06',
+        downPaymentRate: overrides?.downPaymentRate ?? '0.30',
+        retentionRate: overrides?.retentionRate ?? '0.05',
+        paymentTerms: overrides?.paymentTerms ?? '30% 首付，65% 验收款，5% 质保金',
         diffLevel: overrides?.diffLevel ?? 'review-required',
         diffSummary: overrides?.diffSummary ?? '首付款比例与回款节点存在差异',
         diffItems: overrides?.diffItems ?? [
