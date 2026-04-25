@@ -22,24 +22,25 @@ async function openLeadsFromProjectEntry(page: Page): Promise<void> {
     await expect(page.getByRole('heading', { name: '线索管理' })).toBeVisible();
 }
 
-async function createLeadFromDialog(page: Page, lead: { code: string; name: string; customerName: string; sourceChannel: string }): Promise<void> {
+async function createLeadFromDialog(page: Page, lead: { name: string; customerName: string; sourceChannel: string }): Promise<void> {
     await page.getByRole('button', { name: '登记线索' }).click();
 
     const dialog = page.getByRole('dialog').filter({ hasText: '登记线索' }).last();
     await expect(dialog).toBeVisible();
-    await dialog.getByLabel('线索编号').fill(lead.code);
+    await expect(dialog.getByLabel('线索编号', { exact: true })).toHaveCount(0);
     await dialog.getByLabel('线索标题').fill(lead.name);
     await dialog.getByLabel('客户名称').fill(lead.customerName);
     await dialog.getByLabel('来源渠道').fill(lead.sourceChannel);
     await dialog.getByRole('button', { name: '登记线索' }).click();
 
-    const row = page.locator('tr').filter({ hasText: lead.code }).first();
+    const row = page.locator('tr').filter({ hasText: lead.name }).first();
     await expect(row).toBeVisible();
+    await expect(row).toContainText(/LD-\d{4}-\d{6}/);
     await expect(row.getByText('待确认')).toBeVisible();
 }
 
-async function qualifyLead(page: Page, leadCode: string): Promise<void> {
-    const row = page.locator('tr').filter({ hasText: leadCode }).first();
+async function qualifyLead(page: Page, leadName: string): Promise<void> {
+    const row = page.locator('tr').filter({ hasText: leadName }).first();
     await expect(row).toBeVisible();
     await row.getByRole('button', { name: '确认有效' }).click();
 
@@ -52,14 +53,15 @@ async function qualifyLead(page: Page, leadCode: string): Promise<void> {
     await expect(row.getByRole('button', { name: '转入项目' })).toBeVisible();
 }
 
-async function convertLeadToProject(page: Page, leadCode: string, project: { code: string; name: string }): Promise<void> {
-    const row = page.locator('tr').filter({ hasText: leadCode }).first();
+async function convertLeadToProject(page: Page, leadName: string, project: { customerProjectNo: string; name: string }): Promise<void> {
+    const row = page.locator('tr').filter({ hasText: leadName }).first();
     await expect(row).toBeVisible();
     await row.getByRole('button', { name: '转入项目' }).click();
 
     const dialog = page.getByRole('dialog').filter({ hasText: '转入项目' }).last();
     await expect(dialog).toBeVisible();
-    await dialog.getByLabel('项目编号').fill(project.code);
+    await expect(dialog.getByLabel('项目编号', { exact: true })).toHaveCount(0);
+    await dialog.getByLabel('客户项目编号', { exact: true }).fill(project.customerProjectNo);
     await dialog.getByLabel('项目名称').fill(project.name);
     await dialog.getByRole('button', { name: '转入项目' }).click();
 
@@ -71,13 +73,12 @@ test.describe('poms-admin lead bootstrap journey', () => {
     test('admin can enter leads from menu and convert a lead into a project from the project entry', async ({ page }) => {
         const suffix = uniqueSuffix();
         const lead = {
-            code: `E2E-LEAD-${suffix}`,
             name: `E2E 线索转项目 ${suffix}`,
             customerName: `E2E 客户 ${suffix}`,
             sourceChannel: '浏览器端到端'
         };
         const project = {
-            code: `E2E-PRJ-${suffix}`,
+            customerProjectNo: `E2E-CUS-PRJ-${suffix}`,
             name: `E2E 转化项目 ${suffix}`
         };
 
@@ -89,12 +90,12 @@ test.describe('poms-admin lead bootstrap journey', () => {
 
         await openLeadsFromProjectEntry(page);
         await createLeadFromDialog(page, lead);
-        await qualifyLead(page, lead.code);
-        await convertLeadToProject(page, lead.code, project);
+        await qualifyLead(page, lead.name);
+        await convertLeadToProject(page, lead.name, project);
 
         await expect(page.getByText('来源线索')).toBeVisible();
-        await expect(page.getByText(lead.code)).toBeVisible();
         await expect(page.getByText(lead.name)).toBeVisible();
+        await expect(page.getByText(project.customerProjectNo)).toBeVisible();
         await expect(page.getByText('已转项目')).toBeVisible();
     });
 

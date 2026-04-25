@@ -18,6 +18,7 @@ type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'con
 
 interface EditProjectForm {
     customerName: string;
+    customerProjectNo: string;
     projectName: string;
 }
 
@@ -253,7 +254,15 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     </section-card>
                 }
 
-                <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+                <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-6">
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">POMS 项目编号</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.projectNo }}</div>
+                    </div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
+                        <div class="text-sm text-surface-500 dark:text-surface-400">客户项目编号</div>
+                        <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.customerProjectNo, '未提供') }}</div>
+                    </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
                         <div class="text-sm text-surface-500 dark:text-surface-400">负责人</div>
                         <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</div>
@@ -419,6 +428,12 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                         <label for="editCustomerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
                         <input pInputText id="editCustomerName" [(ngModel)]="editForm.customerName" class="w-full rounded-md!" placeholder="可留空" />
                     </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="editCustomerProjectNo" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户项目编号</label>
+                        <input pInputText id="editCustomerProjectNo" [(ngModel)]="editForm.customerProjectNo" class="w-full rounded-md!" placeholder="客户或甲方项目编号，可留空" />
+                        <span class="text-xs text-surface-500 dark:text-surface-400">POMS 项目编号由系统生成，不在这里修改。</span>
+                    </div>
                 </div>
 
                 <ng-template #footer>
@@ -450,7 +465,7 @@ export class ProjectDetail implements OnInit {
     editDialogVisible = false;
     editAttempted = false;
     editError: string | null = null;
-    editForm: EditProjectForm = { customerName: '', projectName: '' };
+    editForm: EditProjectForm = { customerName: '', customerProjectNo: '', projectName: '' };
 
     ngOnInit() {
         const id = this.#route.snapshot.paramMap.get('id');
@@ -490,6 +505,7 @@ export class ProjectDetail implements OnInit {
 
         this.editForm = {
             customerName: project.customerName ?? '',
+            customerProjectNo: project.customerProjectNo ?? '',
             projectName: project.projectName
         };
         this.editAttempted = false;
@@ -515,11 +531,13 @@ export class ProjectDetail implements OnInit {
         }
 
         const customerName = this.editForm.customerName.trim();
+        const customerProjectNo = this.editForm.customerProjectNo.trim();
 
         try {
             await this.#projectStore.updateProject(project.id, {
                 projectName,
-                customerName: customerName || null
+                customerName: customerName || null,
+                customerProjectNo: customerProjectNo || null
             });
             this.closeEditDialog();
         } catch {

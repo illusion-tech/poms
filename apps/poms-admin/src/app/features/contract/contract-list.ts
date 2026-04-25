@@ -48,14 +48,17 @@ import { TagModule } from 'primeng/tag';
                     [tableStyle]="{ width: '100%' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
-                    [globalFilterFields]="['contractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
+                    [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
                     class="bg-surface-0 dark:bg-surface-800 overflow-hidden"
                     [pt]="{ pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="contractNo" class="flex-1">
-                                <span class="flex items-center gap-2">合同编号 <p-sortIcon field="contractNo" /></span>
+                                <span class="flex items-center gap-2">POMS 合同编号 <p-sortIcon field="contractNo" /></span>
+                            </th>
+                            <th pSortableColumn="customerContractNo" class="flex-1">
+                                <span class="flex items-center gap-2">客户合同编号 <p-sortIcon field="customerContractNo" /></span>
                             </th>
                             <th pSortableColumn="projectName" class="flex-1">
                                 <span class="flex items-center gap-2">项目名称 <p-sortIcon field="projectName" /></span>
@@ -79,6 +82,9 @@ import { TagModule } from 'primeng/tag';
                         <tr>
                             <td>
                                 <span class="text-primary font-medium cursor-pointer hover:underline" (click)="navigateToDetail(contract)">{{ contract.contractNo }}</span>
+                            </td>
+                            <td>
+                                <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.customerContractNo ?? '-' }}</span>
                             </td>
                             <td>
                                 <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ contract.projectName }}</span>
@@ -125,12 +131,11 @@ import { TagModule } from 'primeng/tag';
                         }
                     </div>
 
+                    <p-message severity="info" text="POMS 合同编号将在创建成功后由系统生成。" styleClass="w-full" />
+
                     <div class="flex flex-col gap-2">
-                        <label for="contractNo" class="text-surface-900 dark:text-surface-0 font-medium">合同编号 <span class="text-red-500">*</span></label>
-                        <input pInputText id="contractNo" [(ngModel)]="createForm.contractNo" class="w-full" [class.border-red-500]="createSubmitAttempted && !createForm.contractNo.trim()" />
-                        @if (createSubmitAttempted && !createForm.contractNo.trim()) {
-                            <span class="text-red-500 text-xs">请填写合同编号</span>
-                        }
+                        <label for="customerContractNo" class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>
+                        <input pInputText id="customerContractNo" [(ngModel)]="createForm.customerContractNo" class="w-full" placeholder="客户或甲方法务系统编号，可为空" />
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -175,7 +180,7 @@ export class ContractList implements OnInit {
 
     createDialogVisible = false;
     createSubmitAttempted = false;
-    createForm = { projectId: '', contractNo: '', signedAmount: '', currencyCode: 'CNY' };
+    createForm = { projectId: '', customerContractNo: '', signedAmount: '', currencyCode: 'CNY' };
 
     currencyOptions = [
         { label: '人民币 (CNY)', value: 'CNY' },
@@ -217,7 +222,7 @@ export class ContractList implements OnInit {
     }
 
     showCreateDialog() {
-        this.createForm = { projectId: '', contractNo: '', signedAmount: '', currencyCode: 'CNY' };
+        this.createForm = { projectId: '', customerContractNo: '', signedAmount: '', currencyCode: 'CNY' };
         this.createSubmitAttempted = false;
         this.createDialogVisible = true;
     }
@@ -229,17 +234,27 @@ export class ContractList implements OnInit {
 
     async createContract() {
         this.createSubmitAttempted = true;
-        if (!this.createForm.projectId.trim() || !this.createForm.contractNo.trim() || !this.isValidAmount(this.createForm.signedAmount)) {
+        if (!this.createForm.projectId.trim() || !this.isValidAmount(this.createForm.signedAmount)) {
             return;
         }
 
         try {
-            await this.#contractStore.createContract(this.createForm);
+            await this.#contractStore.createContract({
+                projectId: this.createForm.projectId.trim(),
+                customerContractNo: this.optionalText(this.createForm.customerContractNo),
+                signedAmount: this.createForm.signedAmount.trim(),
+                currencyCode: this.createForm.currencyCode
+            });
             this.createDialogVisible = false;
             this.createSubmitAttempted = false;
         } catch {
             return;
         }
+    }
+
+    optionalText(value: string): string | null {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : null;
     }
 
     getStatusName(status: ContractStatus): string {

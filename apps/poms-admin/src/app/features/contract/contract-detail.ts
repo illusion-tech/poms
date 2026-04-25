@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
@@ -16,7 +17,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
 @Component({
     selector: 'app-contract-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, SelectModule, DialogModule, TextareaModule, ToastModule],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, MessageModule, SelectModule, DialogModule, TextareaModule, ToastModule],
     providers: [ContractStore, MessageService],
     template: `
         <p-toast />
@@ -92,8 +93,12 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                         <ng-template #title>合同信息</ng-template>
                         <div class="grid grid-cols-2 gap-4 mt-4">
                             <div class="flex flex-col gap-1">
-                                <span class="text-xs text-surface-500 dark:text-surface-400">合同编号</span>
+                                <span class="text-xs text-surface-500 dark:text-surface-400">POMS 合同编号</span>
                                 <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.contractNo }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">客户合同编号</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.customerContractNo ?? '-' }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">关联项目</span>
@@ -264,6 +269,13 @@ import { SectionCard } from '../../shared/ui/sectioncard';
             <!-- Edit Dialog -->
             <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
+                    <p-message severity="info" text="POMS 合同编号由系统生成，编辑时只能维护客户合同编号等业务信息。" styleClass="w-full" />
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>
+                        <input pInputText [(ngModel)]="editForm.customerContractNo" class="w-full" placeholder="客户或甲方法务系统编号，可为空" />
+                    </div>
+
                     <div class="flex flex-col gap-2">
                         <label class="text-surface-900 dark:text-surface-0 font-medium">签约金额 <span class="text-red-500">*</span></label>
                         <input pInputText [(ngModel)]="editForm.signedAmount" class="w-full" [class.border-red-500]="editSubmitAttempted && !isValidAmount(editForm.signedAmount)" placeholder="正数，最多两位小数" />
@@ -429,7 +441,7 @@ export class ContractDetail implements OnInit, OnDestroy {
     approveDialogVisible = false;
     rejectDialogVisible = false;
     activateDialogVisible = false;
-    editForm = { signedAmount: '', currencyCode: '' };
+    editForm = { signedAmount: '', currencyCode: '', customerContractNo: '' };
     submitReviewForm = { comment: '' };
     approveForm = { comment: '' };
     rejectForm = { reason: '', comment: '' };
@@ -468,7 +480,7 @@ export class ContractDetail implements OnInit, OnDestroy {
     showEditDialog() {
         const c = this.contract();
         if (!c) return;
-        this.editForm = { signedAmount: c.signedAmount, currencyCode: c.currencyCode };
+        this.editForm = { signedAmount: c.signedAmount, currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
         this.editSubmitAttempted = false;
         this.editDialogVisible = true;
     }
@@ -486,7 +498,8 @@ export class ContractDetail implements OnInit, OnDestroy {
         try {
             await this.#contractStore.updateContract(c.id, {
                 signedAmount: this.editForm.signedAmount,
-                currencyCode: this.editForm.currencyCode
+                currencyCode: this.editForm.currencyCode,
+                customerContractNo: this.optionalText(this.editForm.customerContractNo)
             });
             this.editDialogVisible = false;
             this.editSubmitAttempted = false;
@@ -495,6 +508,11 @@ export class ContractDetail implements OnInit, OnDestroy {
             this.#messageService.add({ severity: 'error', summary: '保存失败', detail: this.getErrorMessage(error), life: 4000 });
             return;
         }
+    }
+
+    optionalText(value: string): string | null {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : null;
     }
 
     openSubmitReviewDialog() {

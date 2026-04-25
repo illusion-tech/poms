@@ -276,6 +276,14 @@ export class ProjectBidCommercialWorkspace implements OnInit {
                 severity: this.bidModeSeverity(process.bidMode)
             },
             {
+                label: '招标编号',
+                value: process.tenderNo ?? '未提供'
+            },
+            {
+                label: '标段 / 包件编号',
+                value: process.bidPackageNo ?? '未提供'
+            },
+            {
                 label: '过程阶段',
                 value: this.bidStageLabel(process.currentStage),
                 severity: this.bidStageSeverity(process.currentStage)

@@ -1,28 +1,28 @@
 import { expect, test, type Page } from '@playwright/test';
 import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
 
-const WORKSPACE_PROJECT_CODE = 'E2E-OSG-FXT-MAIN';
+const WORKSPACE_PROJECT_NO = 'E2E-OSG-FXT-MAIN';
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
-const HANDOVER_PROJECT_CODE = 'E2E-HO-MAIN';
+const HANDOVER_PROJECT_NO = 'E2E-HO-MAIN';
 const HANDOVER_PROJECT_ID = '21000000-0000-4000-8000-000000000002';
-const PRESIGNING_PROJECT_CODE = 'PRJ-2026-001';
+const PRESIGNING_PROJECT_NO = 'PRJ-2026-001';
 const PRESIGNING_PROJECT_ID = '20000000-0000-4000-8000-000000000001';
 
-async function openProjectList(page: Page, projectCode = WORKSPACE_PROJECT_CODE): Promise<void> {
+async function openProjectList(page: Page, projectNo = WORKSPACE_PROJECT_NO): Promise<void> {
     await page.getByRole('link', { name: '项目管理' }).click();
     await expect(page).toHaveURL(/\/projects$/);
-    await page.getByPlaceholder('搜索项目').fill(projectCode);
+    await page.getByPlaceholder('搜索项目').fill(projectNo);
 }
 
-async function locateProjectRow(page: Page, projectCode = WORKSPACE_PROJECT_CODE) {
-    const row = page.locator('tr').filter({ hasText: projectCode }).first();
+async function locateProjectRow(page: Page, projectNo = WORKSPACE_PROJECT_NO) {
+    const row = page.locator('tr').filter({ hasText: projectNo }).first();
     await expect(row).toBeVisible();
     return row;
 }
 
-async function openWorkspaceFromProjectList(page: Page, projectCode = WORKSPACE_PROJECT_CODE, projectId = WORKSPACE_PROJECT_ID): Promise<void> {
-    await openProjectList(page, projectCode);
-    const projectRow = await locateProjectRow(page, projectCode);
+async function openWorkspaceFromProjectList(page: Page, projectNo = WORKSPACE_PROJECT_NO, projectId = WORKSPACE_PROJECT_ID): Promise<void> {
+    await openProjectList(page, projectNo);
+    const projectRow = await locateProjectRow(page, projectNo);
     await projectRow.getByRole('button', { name: '工作区' }).click();
 
     await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/workspace$`));
@@ -38,9 +38,9 @@ async function openProjectDetailFromList(page: Page): Promise<void> {
     await expect(page.getByRole('heading', { name: /E2E EX-13B main/i })).toBeVisible();
 }
 
-async function openProjectDetailByCode(page: Page, projectCode: string, projectId: string, heading: string): Promise<void> {
-    await openProjectList(page, projectCode);
-    const projectRow = await locateProjectRow(page, projectCode);
+async function openProjectDetailByNo(page: Page, projectNo: string, projectId: string, heading: string): Promise<void> {
+    await openProjectList(page, projectNo);
+    const projectRow = await locateProjectRow(page, projectNo);
     await projectRow.getByRole('button', { name: '详情' }).click();
 
     await expect(page).toHaveURL(new RegExp(`/projects/${projectId}$`));
@@ -141,7 +141,7 @@ test.describe('poms-admin project workspace journey', () => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
-        await openWorkspaceFromProjectList(page, HANDOVER_PROJECT_CODE, HANDOVER_PROJECT_ID);
+        await openWorkspaceFromProjectList(page, HANDOVER_PROJECT_NO, HANDOVER_PROJECT_ID);
 
         await openWorkspaceHomeEntry(page, '合同承接');
         await expect(page).toHaveURL(new RegExp(`/projects/${HANDOVER_PROJECT_ID}/workspace/contract-handover$`));
@@ -159,7 +159,7 @@ test.describe('poms-admin project workspace journey', () => {
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
-        await openProjectDetailByCode(page, PRESIGNING_PROJECT_CODE, PRESIGNING_PROJECT_ID, 'POMS 首期项目主链路样例');
+        await openProjectDetailByNo(page, PRESIGNING_PROJECT_NO, PRESIGNING_PROJECT_ID, 'POMS 首期项目主链路样例');
 
         await page.getByRole('button', { name: '项目工作区' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace$`));

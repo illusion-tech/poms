@@ -12,7 +12,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         sourceLeadId: null,
         customerId: null,
         customerName: '华南地铁集团',
-        customerProjectNo: null,
+        customerProjectNo: 'CUS-PRJ-2026-01',
         status: 'blocked',
         currentStage: 'handover',
         ownerOrgId: 'org-1',
@@ -194,6 +194,10 @@ describe('ProjectDetail', () => {
         expect(projectStoreMock.loadProject).toHaveBeenCalledWith('project-1');
         expect(projectStoreMock.loadProjectTimeline).toHaveBeenCalledWith('project-1');
         expect(text).toContain('华南地铁运营平台');
+        expect(text).toContain('POMS 项目编号');
+        expect(text).toContain('P-2026-001');
+        expect(text).toContain('客户项目编号');
+        expect(text).toContain('CUS-PRJ-2026-01');
         expect(text).toContain('华南地铁集团');
         expect(text).toContain('张销售');
         expect(text).toContain('华南销售一部');
@@ -275,14 +279,16 @@ describe('ProjectDetail', () => {
         component.showEditDialog();
         component.editForm = {
             projectName: '  更新后的项目  ',
-            customerName: '   '
+            customerName: '   ',
+            customerProjectNo: '  CUS-PRJ-NEW  '
         };
 
         await component.saveProject();
 
         expect(projectStoreMock.updateProject).toHaveBeenCalledWith('project-1', {
             projectName: '更新后的项目',
-            customerName: null
+            customerName: null,
+            customerProjectNo: 'CUS-PRJ-NEW'
         });
         expect(component.editDialogVisible).toBe(false);
     });

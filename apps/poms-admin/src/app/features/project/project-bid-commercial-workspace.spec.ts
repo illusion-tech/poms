@@ -23,6 +23,8 @@ function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> =
             processSummary: '公开招标已提交，等待客户确认结果。',
             decisionSummary: '销售和商务决定参与本次公开招标。',
             resultSummary: null,
+            tenderNo: 'TB-2026-001',
+            bidPackageNo: '包件-02',
             ownerRole: '销售负责人',
             blockerCount: 1,
             effectiveAt: '2026-04-24T08:10:00.000Z',
@@ -129,6 +131,8 @@ describe('ProjectBidCommercialWorkspace', () => {
         expect(loadBidCommercialWorkspace).toHaveBeenCalledWith('project-1');
         expect(text).toContain('招投标 / 商务竞标');
         expect(text).toContain('公开招标');
+        expect(text).toContain('TB-2026-001');
+        expect(text).toContain('包件-02');
         expect(text).toContain('公开招标已提交，等待客户确认结果。');
         expect(text).toContain('客户招标结果尚未确认。');
         expect(text).toContain('投标文件');

@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
 
-const WORKSPACE_PROJECT_CODE = 'E2E-OSG-FXT-MAIN';
+const WORKSPACE_PROJECT_NO = 'E2E-OSG-FXT-MAIN';
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
 
 async function loginForApi(page: Page, credentials: { username: string; password: string }): Promise<string> {
@@ -13,8 +13,8 @@ async function loginForApi(page: Page, credentials: { username: string; password
     return payload.accessToken;
 }
 
-async function getProjectIdByCode(page: Page, token: string, projectCode: string): Promise<string> {
-    const response = await page.request.get(`/api/projects/code/${projectCode}`, {
+async function getProjectIdByNo(page: Page, token: string, projectNo: string): Promise<string> {
+    const response = await page.request.get(`/api/projects/code/${projectNo}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -27,7 +27,7 @@ async function getProjectIdByCode(page: Page, token: string, projectCode: string
 test.describe('poms-admin project workspace smoke', () => {
     test('admin can enter the project workspace from the project page and follow the L4/L5 explanation chain', async ({ page }) => {
         const token = await loginForApi(page, ADMIN_CREDENTIALS);
-        const projectId = await getProjectIdByCode(page, token, WORKSPACE_PROJECT_CODE);
+        const projectId = await getProjectIdByNo(page, token, WORKSPACE_PROJECT_NO);
 
         await login(page, ADMIN_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
