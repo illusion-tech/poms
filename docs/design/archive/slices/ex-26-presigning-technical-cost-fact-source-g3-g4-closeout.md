@@ -57,12 +57,13 @@
 
 ## 4. Drift And Exceptions
 
-| Item                    | Status            | Close-out                                                                               |
-| ----------------------- | ----------------- | --------------------------------------------------------------------------------------- |
-| `EX26-D1-COMMENT-DRIFT` | Closed            | child table column comment drift 已按 `new-real-drift` 修复，`migration-check` 通过。   |
-| `EX26-E1`               | Closed as blocker | 首版单币种边界已冻结；`FE-10` 只展示后端返回金额，不做汇率换算或前端重算。              |
-| `EX26-E2`               | Closed as blocker | rollback request / reopen record 明确不在本片；不影响 technical-cost 读取投影可依赖性。 |
-| Frontend dependency     | Closed            | `FE-10` 已完成 technical-cost 读取页与 E2E 入口链验证。                                 |
+| Item                                    | Status            | Close-out                                                                                                               |
+| --------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `EX26-D1-COMMENT-DRIFT`                 | Closed            | child table column comment drift 已按 `new-real-drift` 修复，`migration-check` 通过。                                   |
+| `EX26-E1`                               | Closed as blocker | 首版单币种边界已冻结；`FE-10` 只展示后端返回金额，不做汇率换算或前端重算。                                              |
+| `EX26-E2`                               | Closed as blocker | rollback request / reopen record 明确不在本片；不影响 technical-cost 读取投影可依赖性。                                 |
+| `EX26-E2-ROLLBACK-REQUEST-OUT-OF-SCOPE` | Closed as blocker | Full baseline exception ID for `EX26-E2`; no separate frontend or fact-source dependency remains for `FE-10` / `FE-12`. |
+| Frontend dependency                     | Closed            | `FE-10` 已完成 technical-cost 读取页与 E2E 入口链验证。                                                                 |
 
 ## 5. G4 Decision
 

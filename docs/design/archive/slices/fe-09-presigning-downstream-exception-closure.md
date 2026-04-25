@@ -23,7 +23,9 @@
 | Exception ID                               | Closure Evidence                                                                                                                                                                                                                                                         | Result |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
 | `FE09-E1-DETAIL-WORKSPACES-DEFERRED`       | `FE-10` 已交付 `/projects/:id/workspace/technical-cost`；`FE-11` 已交付 `/projects/:id/workspace/bid-commercial` 与 `/projects/:id/workspace/pricing-margin`。三个详细工作区均已接入真实入口、store 读取、route guard、focused tests、lint/build 与 Playwright journey。 | Closed |
+| `FE09-E1`                                  | Short alias for `FE09-E1-DETAIL-WORKSPACES-DEFERRED`; closed by the same `FE-10` / `FE-11` delivery evidence.                                                                                                                                                            | Closed |
 | `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE` | `EX-26`、`EX-27`、`EX-28` 已分别提供技术与成本、招投标 / 商务竞标、报价与毛利评审的正式 project-scoped query view；`FE-10` / `FE-11` 已消费这些投影，不再从 `ContractReadinessDetail` 反推详细工作区事实。                                                               | Closed |
+| `FE09-E3`                                  | Short alias for `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE`; closed by the same `EX-26~28` fact-source and `FE-10` / `FE-11` frontend delivery evidence.                                                                                                                  | Closed |
 
 ## 3. Supporting Runtime Commits
 
@@ -46,6 +48,8 @@
 ## 5. Decision
 
 - `FE09-E1-DETAIL-WORKSPACES-DEFERRED`: closed.
+- `FE09-E1`: closed as alias of `FE09-E1-DETAIL-WORKSPACES-DEFERRED`.
 - `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE`: closed.
+- `FE09-E3`: closed as alias of `FE09-E3-READINESS-PARTIAL-STAGE-COVERAGE`.
 - `FE-09` tracker exception column can be cleared.
 - Remaining risk: none introduced by this closure. Future L1 write-side or approval-side flows require separate executable slices.

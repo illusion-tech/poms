@@ -30,11 +30,11 @@
 
 ## 3. Exceptions
 
-| ID                                             | G4 Decision         | Notes                                                                     |
-| ---------------------------------------------- | ------------------- | ------------------------------------------------------------------------- |
-| `FE27-E1-NO-CONVERT-ACTION`                    | Closed by `FE-28`   | 转项目动作已在 `FE-28` 实现。                                             |
-| `FE27-E2-BROWSER-JOURNEY-DEFERRED`             | Closed by `FE-29`   | 菜单、项目入口、直接 URL、viewer / anonymous 浏览器矩阵已验证。           |
-| `FE27-D1-OPENAPI-GENERATOR-PROPERTYNAMES-WARN` | Accepted tool-noise | OpenAPI generator `propertyNames` warning 不影响 generated client check。 |
+| ID                                             | G4 Decision       | Notes                                                                     |
+| ---------------------------------------------- | ----------------- | ------------------------------------------------------------------------- |
+| `FE27-E1-NO-CONVERT-ACTION`                    | Closed by `FE-28` | 转项目动作已在 `FE-28` 实现。                                             |
+| `FE27-E2-BROWSER-JOURNEY-DEFERRED`             | Closed by `FE-29` | 菜单、项目入口、直接 URL、viewer / anonymous 浏览器矩阵已验证。           |
+| `FE27-D1-OPENAPI-GENERATOR-PROPERTYNAMES-WARN` | Closed tool-noise | OpenAPI generator `propertyNames` warning 不影响 generated client check。 |
 
 ## 4. G4 Decision
 

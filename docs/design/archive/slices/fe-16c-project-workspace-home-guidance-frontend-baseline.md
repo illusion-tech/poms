@@ -216,4 +216,5 @@
 
 - `FE-16C` 可标记为 `Done`。
 - 下游可依赖 `/projects/:id/workspace` 壳层和首页使用 `ProjectWorkspaceGuidanceView` 作为连续工作引导唯一事实源。
+- `FE16C-BLOCKER-WORKSPACE-GUIDANCE`: `Closed`; `EX-19` 已解除后端事实源阻断，`FE-16C` 已交付前端消费与壳层 / 首页呈现。
 - 下游不得把本片当作浏览器级权限矩阵完成证据；`FE-16D` 仍需继续收口 route guard、菜单入口、直接 URL 和人工浏览器验证。

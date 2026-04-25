@@ -62,9 +62,10 @@
 
 ## 6. Exceptions
 
-| Exception ID                     | Status   | Notes                                                                   |
-| -------------------------------- | -------- | ----------------------------------------------------------------------- |
-| `FE22-E1-PARTIAL-STAGE-COVERAGE` | Accepted | 仅展示 backend 返回的真实事件；验收 / 完成 / 归档时间待后续事实源切片。 |
+| Exception ID                            | Status   | Notes                                                                                   |
+| --------------------------------------- | -------- | --------------------------------------------------------------------------------------- |
+| `EX22-E1-FRONTEND-CONSUMPTION-DEFERRED` | Closed   | `FE-22` 已接入 `ProjectTimelineView`，项目详情生命周期可展示后端 authoritative events。 |
+| `FE22-E1-PARTIAL-STAGE-COVERAGE`        | Accepted | 仅展示 backend 返回的真实事件；验收 / 完成 / 归档时间待后续事实源切片。                 |
 
 ## 7. G4 Conclusion
 

@@ -71,11 +71,11 @@
 
 ## 6. Exceptions
 
-| Exception ID                            | Status   | Notes                                                        |
-| --------------------------------------- | -------- | ------------------------------------------------------------ |
-| `EX25-E1-FE24-RUNTIME-OUT-OF-SCOPE`     | Accepted | 本片只交付事实源、route、contract 与 timeline projection。   |
-| `EX25-E2-MILESTONE-NOT-NEW-STAGE`       | Closed   | 后端语义与 timeline 投影已冻结，后续前端只可消费 milestone。 |
-| `EX25-E3-ARCHIVE-REVERSAL-OUT-OF-SCOPE` | Accepted | archive record 撤销 / 替代不在本片边界内，后续另开切片。     |
+| Exception ID                            | Status             | Notes                                                                   |
+| --------------------------------------- | ------------------ | ----------------------------------------------------------------------- |
+| `EX25-E1-FE24-RUNTIME-OUT-OF-SCOPE`     | Closed by `FE-24`  | 项目详情终态 archive panel 已消费 timeline archive milestone。          |
+| `EX25-E2-MILESTONE-NOT-NEW-STAGE`       | Closed             | 后端语义与 timeline 投影已冻结，后续前端只可消费 milestone。            |
+| `EX25-E3-ARCHIVE-REVERSAL-OUT-OF-SCOPE` | Tracked in `EX-34` | archive record 撤销 / 替代版本链已拆入 tracker，进入编码前需另做 `G1`。 |
 
 ## 7. G4 Conclusion
 

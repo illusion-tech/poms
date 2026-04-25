@@ -71,12 +71,14 @@
 | ---------------------------------------- | ------ | --------------------------------------------------------------------------------------- |
 | `FE24-E1-NO-NINTH-LIFECYCLE-NODE`        | Closed | 已按附属 panel 方案交付，未扩展 lifecycle node。                                        |
 | `FE24-E2-TERMINAL-GAP-FEEDBACK-REQUIRED` | Closed | 已显式区分“无归档事实”和“时间线暂不可用”两类状态。                                      |
+| `EX22-E1-PARTIAL-STAGE-COVERAGE`         | Closed | `EX-22` 最初记录的验收 / 完成 / 归档覆盖缺口已分别由 `EX-23~25` 与 `FE-23~24` 收口。    |
 | `FE22-E1-PARTIAL-STAGE-COVERAGE`         | Closed | `acceptance` / `completed` / `archive` 三段缺口已分别由 `EX-23~25` 与 `FE-23~24` 收口。 |
 
 ## 7. G4 Conclusion
 
 - `FE-24` delivered boundary matches the G1 baseline and G3 checkpoint.
 - 项目生命周期主线与终态附属事实的语义边界已经冻结：完成是 `completed` 节点，归档是 terminal milestone panel。
+- `EX22-E1-PARTIAL-STAGE-COVERAGE` 已作为 `FE22-E1-PARTIAL-STAGE-COVERAGE` 的早期 EX 侧记录同步关闭。
 - `FE22-E1-PARTIAL-STAGE-COVERAGE` 已可正式关闭。
 - 生命周期产物已归档：
   - `docs/design/archive/slices/fe-24-project-archive-milestone-frontend-baseline.md`
