@@ -9,6 +9,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         id: 'project-1',
         projectCode: 'P-2026-001',
         projectName: '华南地铁运营平台',
+        sourceLeadId: null,
         customerId: null,
         customerName: '华南地铁集团',
         status: 'blocked',
@@ -25,6 +26,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         updatedBy: 'admin',
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
+        sourceLeadSummary: null,
         stageSummary: {
             currentStage: 'handover',
             status: 'blocked',
@@ -223,6 +225,29 @@ describe('ProjectDetail', () => {
 
         expect(text).toContain('投标材料已提交，等待商务评审结果');
         expect(text).not.toContain('投标详情暂未接入正式事实源');
+    });
+
+    it('renders source lead summary for projects converted from leads', async () => {
+        await setup(
+            createProject({
+                sourceLeadId: 'lead-1',
+                sourceLeadSummary: {
+                    id: 'lead-1',
+                    leadCode: 'L-2026-001',
+                    leadName: '华南地铁线索',
+                    customerName: '华南地铁集团',
+                    status: 'converted'
+                }
+            })
+        );
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('来源线索');
+        expect(text).toContain('L-2026-001');
+        expect(text).toContain('华南地铁线索');
+        expect(text).toContain('已转项目');
+        expect(text).toContain('查看线索列表');
     });
 
     it('hides edit and commission actions when allowedActions only permits workspace access', async () => {

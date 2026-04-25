@@ -107,6 +107,20 @@ const CONFIRMATION_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, unde
     voided: 'contrast'
 };
 
+const LEAD_STATUS_LABELS: Record<string, string> = {
+    registered: '待确认',
+    qualified: '已有效',
+    converted: '已转项目',
+    closed: '已关闭'
+};
+
+const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    registered: 'secondary',
+    qualified: 'success',
+    converted: 'info',
+    closed: 'contrast'
+};
+
 const BLOCKING_REASON_LABELS: Record<string, string> = {
     'project-status-blocked': '项目被标记为阻塞，需先处理阻断事项。',
     'project-closed': '项目已关闭，不能继续推进。'
@@ -183,6 +197,26 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                 }
 
                 <app-project-lifecycle-timeline [items]="lifecycleItems(project, projectTimeline())" />
+
+                @if (project.sourceLeadSummary; as sourceLead) {
+                    <section-card>
+                        <ng-template #title>来源线索</ng-template>
+                        <ng-template #description>项目由已确认有效的线索转入，客户、负责人和推进口径可继续追溯。</ng-template>
+
+                        <div class="mt-4 flex flex-col gap-4">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ sourceLead.leadCode }}</div>
+                                    <div class="mt-1 text-base font-semibold text-surface-950 dark:text-surface-0">{{ sourceLead.leadName }}</div>
+                                    <div class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ sourceLead.customerName }}</div>
+                                </div>
+                                <p-tag [value]="getLeadStatusName(sourceLead.status)" [severity]="getLeadStatusSeverity(sourceLead.status)" styleClass="rounded-[6px]!" />
+                            </div>
+
+                            <p-button label="查看线索列表" icon="pi pi-compass" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToLeads()" />
+                        </div>
+                    </section-card>
+                }
 
                 @if (isTerminalStage(project.stageSummary.currentStage)) {
                     <section-card>
@@ -442,6 +476,10 @@ export class ProjectDetail implements OnInit {
         if (project && this.canOpenWorkspace(project)) {
             this.#router.navigate(['/projects', project.id, 'workspace']);
         }
+    }
+
+    goToLeads() {
+        this.#router.navigate(['/leads']);
     }
 
     showEditDialog() {
@@ -727,5 +765,13 @@ export class ProjectDetail implements OnInit {
 
     getConfirmationStatusSeverity(status: string): UiTagSeverity {
         return CONFIRMATION_STATUS_SEVERITIES[status] ?? 'secondary';
+    }
+
+    getLeadStatusName(status: string): string {
+        return LEAD_STATUS_LABELS[status] ?? status;
+    }
+
+    getLeadStatusSeverity(status: string): UiTagSeverity {
+        return LEAD_STATUS_SEVERITIES[status] ?? 'secondary';
     }
 }

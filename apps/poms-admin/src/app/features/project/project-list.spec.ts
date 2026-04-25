@@ -32,6 +32,8 @@ describe('ProjectList', () => {
     };
     let currentUser: ReturnType<typeof signal<SanitizedUserWithOrgUnits | null>>;
     let canCreateProject: ReturnType<typeof signal<boolean>>;
+    let canCreateLead: ReturnType<typeof signal<boolean>>;
+    let routerMock: { navigate: jest.Mock };
 
     beforeEach(async () => {
         projectStoreMock = {
@@ -46,7 +48,7 @@ describe('ProjectList', () => {
             displayName: '张销售',
             username: 'sales_rep',
             roles: ['销售代表'],
-            permissions: ['nav:projects:view', 'project:read', 'project:write'],
+            permissions: ['nav:projects:view', 'nav:leads:view', 'project:read', 'project:write', 'lead:read', 'lead:write'],
             email: 'sales@example.com',
             avatarUrl: null,
             isActive: true,
@@ -57,6 +59,8 @@ describe('ProjectList', () => {
             orgUnits: []
         });
         canCreateProject = signal(true);
+        canCreateLead = signal(true);
+        routerMock = { navigate: jest.fn() };
 
         await TestBed.configureTestingModule({
             imports: [ProjectList],
@@ -67,14 +71,20 @@ describe('ProjectList', () => {
                         currentUser,
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
-                        hasAnyPermission: jest.fn(() => canCreateProject())
+                        hasAnyPermission: jest.fn((permissions: readonly string[]) => {
+                            if (permissions.includes('lead:write')) {
+                                return canCreateLead();
+                            }
+                            if (permissions.includes('project:write')) {
+                                return canCreateProject();
+                            }
+                            return false;
+                        })
                     }
                 },
                 {
                     provide: Router,
-                    useValue: {
-                        navigate: jest.fn()
-                    }
+                    useValue: routerMock
                 }
             ]
         })
@@ -122,11 +132,33 @@ describe('ProjectList', () => {
         });
     });
 
+    it('uses the lead conversion chain as the visible project creation entry', () => {
+        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
+            .map((button) => (button as HTMLButtonElement).textContent ?? '')
+            .join(' ');
+
+        expect(buttonText).toContain('从线索创建项目');
+        expect(buttonText).not.toContain('新建项目');
+
+        component.navigateToLeadEntry();
+
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/leads']);
+    });
+
     it('does not expose project creation when the user only has read access', () => {
         canCreateProject.set(false);
+        canCreateLead.set(false);
         fixture.detectChanges();
 
         expect(fixture.nativeElement.textContent).toContain('当前账号只能查看项目。');
+        expect(fixture.nativeElement.textContent).not.toContain('新建项目');
+    });
+
+    it('explains the route change when project write exists without lead write', () => {
+        canCreateLead.set(false);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('正式项目入口已切到线索转项目。');
         expect(fixture.nativeElement.textContent).not.toContain('新建项目');
     });
 });

@@ -19,6 +19,16 @@ export const appRoutes: Routes = [
                 data: { breadcrumb: '工作台' }
             },
             {
+                path: 'leads',
+                loadComponent: () => import('./app/features/lead/lead-list').then((c) => c.LeadList),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '线索管理',
+                    requiredPermissions: ['lead:read'],
+                    requiredPermissionsMode: 'all'
+                }
+            },
+            {
                 path: 'projects',
                 loadComponent: () => import('./app/features/project/project-list').then((c) => c.ProjectList),
                 canActivate: [permissionGuard],

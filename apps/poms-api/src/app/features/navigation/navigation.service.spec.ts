@@ -17,7 +17,17 @@ describe('NavigationService', () => {
         expect(result.map((item) => item.key)).toEqual(['overview', 'business']);
         expect(keys).toContain('dashboard');
         expect(keys).toContain('projects');
+        expect(keys).not.toContain('leads');
         expect(keys).not.toContain('contracts');
+    });
+
+    it('shows lead menu when lead navigation permission is satisfied', () => {
+        const result = service.getNavigationForUser(['nav:leads:view']);
+
+        const keys = collectKeys(result);
+        expect(result.map((item) => item.key)).toEqual(['business']);
+        expect(keys).toContain('leads');
+        expect(keys).not.toContain('projects');
     });
 
     it('hides platform group when no child permissions are satisfied', () => {
@@ -52,6 +62,7 @@ describe('NavigationService', () => {
     it('returns full visible tree for platform admin with all permissions', () => {
         const result = service.getNavigationForUser([
             'nav:dashboard:view',
+            'nav:leads:view',
             'nav:projects:view',
             'nav:contracts:view',
             'nav:profile:view',
@@ -64,6 +75,7 @@ describe('NavigationService', () => {
         const keys = collectKeys(result);
         expect(result.map((item) => item.key)).toEqual(['overview', 'business', 'platform', 'account']);
         expect(keys).toContain('dashboard');
+        expect(keys).toContain('leads');
         expect(keys).toContain('projects');
         expect(keys).toContain('contracts');
         expect(keys).toContain('platform');
@@ -73,6 +85,7 @@ describe('NavigationService', () => {
     it('sorts result items by displayOrder', () => {
         const result = service.getNavigationForUser([
             'nav:dashboard:view',
+            'nav:leads:view',
             'nav:projects:view',
             'nav:contracts:view',
             'nav:profile:view'
@@ -105,6 +118,7 @@ describe('NavigationService', () => {
         it('includes all leaf route links from the tree', () => {
             const snapshot = service.getNavigationAuditSnapshot();
             expect(snapshot.routeLinks).toContain('/dashboard');
+            expect(snapshot.routeLinks).toContain('/leads');
             expect(snapshot.routeLinks).toContain('/projects');
             expect(snapshot.routeLinks).toContain('/platform/users');
         });

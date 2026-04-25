@@ -24,6 +24,10 @@ function expectAllModePermissions(route: Route, requiredPermissions: string[]): 
 }
 
 describe('appRoutes project permissions', () => {
+    it('guards lead list with lead read access', () => {
+        expectAllModePermissions(getAppRoute('leads'), ['lead:read']);
+    });
+
     it('guards project list, detail, workspace and commission shells with project read access', () => {
         expectAllModePermissions(getAppRoute('projects'), ['project:read']);
         expectAllModePermissions(getAppRoute('projects/:id'), ['project:read']);

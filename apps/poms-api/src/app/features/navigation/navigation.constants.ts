@@ -52,6 +52,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
         meta: null,
         children: [
             {
+                id: 'nav-leads',
+                key: 'leads',
+                type: 'basic',
+                title: '线索管理',
+                subtitle: null,
+                link: '/leads',
+                icon: 'pi pi-compass',
+                displayOrder: -10,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:leads:view'],
+                meta: null,
+                children: null
+            },
+            {
                 id: 'nav-projects',
                 key: 'projects',
                 type: 'basic',

@@ -28,6 +28,7 @@ export const PERMISSION_KEYS = [
     // 导航可见性（仅影响菜单展示，不代替后端业务权限）
     'nav:dashboard:view',
     'nav:platform:view',
+    'nav:leads:view',
     'nav:projects:view',
     'nav:contracts:view',
     'nav:profile:view'
@@ -58,6 +59,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'project:delete': { description: '删除项目', group: '项目' },
     'nav:dashboard:view': { description: '查看工作台菜单', group: '导航' },
     'nav:platform:view': { description: '查看平台管理菜单', group: '导航' },
+    'nav:leads:view': { description: '查看线索菜单', group: '导航' },
     'nav:projects:view': { description: '查看项目菜单', group: '导航' },
     'nav:contracts:view': { description: '查看合同菜单', group: '导航' },
     'nav:profile:view': { description: '查看个人中心菜单', group: '导航' }

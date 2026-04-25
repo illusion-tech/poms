@@ -30,6 +30,7 @@ export enum AssignRolePermissionsRequestPermissionKeysEnum {
     ProjectDelete = 'project:delete',
     NavDashboardView = 'nav:dashboard:view',
     NavPlatformView = 'nav:platform:view',
+    NavLeadsView = 'nav:leads:view',
     NavProjectsView = 'nav:projects:view',
     NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'

@@ -111,15 +111,23 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                     </div>
 
                     <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-                        @if (canCreateProject()) {
+                        @if (canCreateLead()) {
                             <p-button
-                                label="新建项目"
-                                icon="pi pi-plus"
+                                label="从线索创建项目"
+                                icon="pi pi-compass"
                                 severity="primary"
                                 styleClass="w-full sm:w-auto rounded-md!"
-                                (onClick)="showCreateDialog()"
+                                (onClick)="navigateToLeadEntry()"
                             />
-                        } @else {
+                        }
+
+                        @if (!canCreateLead() && canCreateProject()) {
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
+                                正式项目入口已切到线索转项目。
+                            </div>
+                        }
+
+                        @if (!canCreateLead() && !canCreateProject()) {
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
                                 当前账号只能查看项目。
                             </div>
@@ -418,6 +426,7 @@ export class ProjectList implements OnInit {
     ];
 
     readonly canCreateProject = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
+    readonly canCreateLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
 
     readonly visibleProjects = computed(() => {
         const keyword = this.normalize(this.searchValue());
@@ -471,6 +480,10 @@ export class ProjectList implements OnInit {
 
     navigateToWorkspace(project: ProjectListView) {
         this.#router.navigate(['/projects', project.id, 'workspace']);
+    }
+
+    navigateToLeadEntry() {
+        this.#router.navigate(['/leads']);
     }
 
     onGlobalFilter(table: Table, event: Event) {

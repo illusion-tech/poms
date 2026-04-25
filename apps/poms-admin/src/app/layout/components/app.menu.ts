@@ -50,6 +50,11 @@ export class AppMenu {
             icon: 'pi pi-briefcase',
             items: [
                 {
+                    label: '线索管理',
+                    icon: 'pi pi-compass',
+                    routerLink: ['/leads']
+                },
+                {
                     label: '项目管理',
                     icon: 'pi pi-briefcase',
                     routerLink: ['/projects']

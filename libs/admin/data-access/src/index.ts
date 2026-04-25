@@ -7,6 +7,7 @@ export * from './lib/poms-api/provide-poms-api-client';
 export * from './lib/platform/platform.store';
 export * from './lib/project/project.store';
 export * from './lib/project/project-workspace.store';
+export * from './lib/lead/lead.store';
 
 export {
     ApprovalApi,
