@@ -7,7 +7,7 @@ import { Lead } from './lead.entity';
 export function mapLeadToSummary(lead: Lead): LeadSummary {
     return {
         id: lead.id,
-        leadCode: lead.leadCode,
+        leadNo: lead.leadNo,
         leadName: lead.leadName,
         customerName: lead.customerName,
         sourceChannel: lead.sourceChannel ?? null,
@@ -38,7 +38,7 @@ export function mapLeadToListView(
 ): LeadListView {
     return {
         id: lead.id,
-        leadCode: lead.leadCode,
+        leadNo: lead.leadNo,
         leadName: lead.leadName,
         customerName: lead.customerName,
         sourceChannel: lead.sourceChannel ?? null,
@@ -66,7 +66,7 @@ export function mapLeadToDetailView(
         convertedProjectSummary: convertedProject
             ? {
                   id: convertedProject.id,
-                  projectCode: convertedProject.projectCode,
+                  projectNo: convertedProject.projectNo,
                   projectName: convertedProject.projectName,
                   status: convertedProject.status,
                   currentStage: convertedProject.currentStage

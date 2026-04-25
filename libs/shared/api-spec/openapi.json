@@ -1810,12 +1810,12 @@
         ]
       }
     },
-    "/api/projects/code/{projectCode}": {
+    "/api/projects/code/{projectNo}": {
       "get": {
         "operationId": "ProjectController_getByCode",
         "parameters": [
           {
-            "name": "projectCode",
+            "name": "projectNo",
             "required": true,
             "in": "path",
             "schema": {
@@ -2581,6 +2581,98 @@
           }
         ],
         "summary": "更新项目基础信息",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/project-archive-records/{id}:replace": {
+      "post": {
+        "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceProjectArchiveRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "替代项目归档记录",
+        "tags": [
+          "Project"
+        ]
+      }
+    },
+    "/api/project-archive-records/{id}:void": {
+      "post": {
+        "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidProjectArchiveRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "撤销项目归档记录",
         "tags": [
           "Project"
         ]
@@ -8759,7 +8851,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "leadCode": {
+          "leadNo": {
             "type": "string"
           },
           "leadName": {
@@ -8808,7 +8900,7 @@
         },
         "required": [
           "id",
-          "leadCode",
+          "leadNo",
           "leadName",
           "customerName",
           "sourceChannel",
@@ -8844,7 +8936,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
@@ -8859,7 +8951,7 @@
         },
         "required": [
           "id",
-          "projectCode",
+          "projectNo",
           "projectName",
           "status",
           "currentStage"
@@ -8873,7 +8965,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "leadCode": {
+          "leadNo": {
             "type": "string"
           },
           "leadName": {
@@ -9001,7 +9093,7 @@
         },
         "required": [
           "id",
-          "leadCode",
+          "leadNo",
           "leadName",
           "customerName",
           "sourceChannel",
@@ -9031,11 +9123,6 @@
       "CreateLeadRequest": {
         "type": "object",
         "properties": {
-          "leadCode": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
           "leadName": {
             "type": "string",
             "minLength": 1,
@@ -9066,7 +9153,6 @@
           }
         },
         "required": [
-          "leadCode",
           "leadName",
           "customerName"
         ]
@@ -9079,7 +9165,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "leadCode": {
+          "leadNo": {
             "type": "string"
           },
           "leadName": {
@@ -9187,7 +9273,7 @@
         },
         "required": [
           "id",
-          "leadCode",
+          "leadNo",
           "leadName",
           "customerName",
           "sourceChannel",
@@ -9272,15 +9358,16 @@
       "ConvertLeadToProjectRequest": {
         "type": "object",
         "properties": {
-          "projectCode": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
           "projectName": {
             "type": "string",
             "minLength": 1,
             "maxLength": 255
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
           },
           "plannedSignAt": {
             "type": "string",
@@ -9288,10 +9375,7 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
             "nullable": true
           }
-        },
-        "required": [
-          "projectCode"
-        ]
+        }
       },
       "ProjectSummary": {
         "type": "object",
@@ -9301,7 +9385,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
@@ -9320,6 +9404,10 @@
             "nullable": true
           },
           "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerProjectNo": {
             "type": "string",
             "nullable": true
           },
@@ -9387,11 +9475,12 @@
         },
         "required": [
           "id",
-          "projectCode",
+          "projectNo",
           "projectName",
           "sourceLeadId",
           "customerId",
           "customerName",
+          "customerProjectNo",
           "status",
           "currentStage",
           "ownerOrgId",
@@ -9414,13 +9503,17 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
             "type": "string"
           },
           "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerProjectNo": {
             "type": "string",
             "nullable": true
           },
@@ -9452,9 +9545,10 @@
         },
         "required": [
           "id",
-          "projectCode",
+          "projectNo",
           "projectName",
           "customerName",
+          "customerProjectNo",
           "currentStage",
           "status",
           "ownerOrgName",
@@ -9971,7 +10065,9 @@
           "status": {
             "type": "string",
             "enum": [
-              "recorded"
+              "recorded",
+              "voided",
+              "superseded"
             ]
           },
           "archivedAt": {
@@ -9994,6 +10090,36 @@
           },
           "evidenceSummary": {
             "type": "string"
+          },
+          "supersedesArchiveRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "replacementReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "voidedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "voidedByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidReason": {
+            "type": "string",
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
@@ -10035,6 +10161,12 @@
           "archivedByName",
           "archiveSummary",
           "evidenceSummary",
+          "supersedesArchiveRecordId",
+          "replacementReason",
+          "voidedAt",
+          "voidedBy",
+          "voidedByName",
+          "voidReason",
           "createdAt",
           "createdBy",
           "updatedAt",
@@ -10135,6 +10267,14 @@
             "type": "string",
             "nullable": true
           },
+          "tenderNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "bidPackageNo": {
+            "type": "string",
+            "nullable": true
+          },
           "ownerRole": {
             "type": "string",
             "nullable": true
@@ -10191,6 +10331,8 @@
           "processSummary",
           "decisionSummary",
           "resultSummary",
+          "tenderNo",
+          "bidPackageNo",
           "ownerRole",
           "blockerCount",
           "effectiveAt",
@@ -11274,7 +11416,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "leadCode": {
+          "leadNo": {
             "type": "string"
           },
           "leadName": {
@@ -11289,7 +11431,7 @@
         },
         "required": [
           "id",
-          "leadCode",
+          "leadNo",
           "leadName",
           "customerName",
           "status"
@@ -11352,6 +11494,14 @@
             "type": "string",
             "nullable": true
           },
+          "tenderNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "bidPackageNo": {
+            "type": "string",
+            "nullable": true
+          },
           "summary": {
             "type": "string",
             "nullable": true
@@ -11361,6 +11511,8 @@
           "bidProcessId",
           "bidStatus",
           "resultStatus",
+          "tenderNo",
+          "bidPackageNo",
           "summary"
         ]
       },
@@ -11505,7 +11657,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
@@ -11524,6 +11676,10 @@
             "nullable": true
           },
           "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerProjectNo": {
             "type": "string",
             "nullable": true
           },
@@ -11647,11 +11803,12 @@
         },
         "required": [
           "id",
-          "projectCode",
+          "projectNo",
           "projectName",
           "sourceLeadId",
           "customerId",
           "customerName",
+          "customerProjectNo",
           "status",
           "currentStage",
           "ownerOrgId",
@@ -11682,11 +11839,6 @@
       "CreateProjectRequest": {
         "type": "object",
         "properties": {
-          "projectCode": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
           "projectName": {
             "type": "string",
             "minLength": 1,
@@ -11696,6 +11848,12 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 255
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
           },
           "currentStage": {
             "type": "string",
@@ -11720,7 +11878,6 @@
           }
         },
         "required": [
-          "projectCode",
           "projectName",
           "customerName"
         ]
@@ -12004,6 +12161,18 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 1000,
+            "nullable": true
+          },
+          "tenderNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "bidPackageNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
             "nullable": true
           },
           "ownerRole": {
@@ -12534,6 +12703,12 @@
             "maxLength": 255,
             "nullable": true
           },
+          "customerProjectNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
           "plannedSignAt": {
             "type": "string",
             "format": "date-time",
@@ -12541,6 +12716,65 @@
             "nullable": true
           }
         }
+      },
+      "ReplaceProjectArchiveRecordRequest": {
+        "type": "object",
+        "properties": {
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "archiveSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "replacementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "archivedAt",
+          "archiveSummary",
+          "evidenceSummary",
+          "replacementReason"
+        ]
+      },
+      "VoidProjectArchiveRecordRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "reason"
+        ]
       },
       "PublishInternalCostRateVersionRequest": {
         "type": "object",
@@ -15602,8 +15836,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "recordNo": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "costType": {
             "type": "string",
@@ -15848,8 +16081,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "recordNo": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "costType": {
             "type": "string",
@@ -17757,7 +17989,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
@@ -17812,7 +18044,7 @@
         },
         "required": [
           "projectId",
-          "projectCode",
+          "projectNo",
           "projectName",
           "effectiveContractSetSummary",
           "contractBaselineValidationSummary",
@@ -18007,7 +18239,7 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "projectCode": {
+          "projectNo": {
             "type": "string"
           },
           "projectName": {
@@ -18102,7 +18334,7 @@
         "required": [
           "handoverId",
           "projectId",
-          "projectCode",
+          "projectNo",
           "projectName",
           "handoverStatus",
           "confirmedAt",
@@ -18678,6 +18910,10 @@
           "contractNo": {
             "type": "string"
           },
+          "customerContractNo": {
+            "type": "string",
+            "nullable": true
+          },
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
           },
@@ -18739,6 +18975,7 @@
           "projectName",
           "customerName",
           "contractNo",
+          "customerContractNo",
           "status",
           "signedAmount",
           "currencyCode",
@@ -18898,6 +19135,10 @@
           "contractNo": {
             "type": "string"
           },
+          "customerContractNo": {
+            "type": "string",
+            "nullable": true
+          },
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
           },
@@ -18967,6 +19208,7 @@
           "projectName",
           "customerName",
           "contractNo",
+          "customerContractNo",
           "status",
           "signedAmount",
           "currencyCode",
@@ -18989,10 +19231,11 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "contractNo": {
+          "customerContractNo": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 64
+            "maxLength": 128,
+            "nullable": true
           },
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
@@ -19034,13 +19277,18 @@
         },
         "required": [
           "projectId",
-          "contractNo",
           "signedAmount"
         ]
       },
       "UpdateContractBasicInfoRequest": {
         "type": "object",
         "properties": {
+          "customerContractNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
           "signedAmount": {
             "type": "string",
             "minLength": 1,

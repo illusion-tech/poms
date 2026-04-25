@@ -13,7 +13,7 @@ import { LeadStatus } from './lead-status';
 
 export interface LeadDetailView {
     id: string;
-    leadCode: string;
+    leadNo: string;
     leadName: string;
     customerName: string;
     sourceChannel: string | null;

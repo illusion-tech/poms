@@ -50,6 +50,7 @@ import type {
     UpdateExpenseRecordRequest,
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import type { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
@@ -117,6 +118,7 @@ export class ProjectCostService {
         private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
         private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository,
         private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        private readonly businessNumberService: BusinessNumberService,
         private readonly dataMaturityEvaluationResultRepository: DataMaturityEvaluationResultRepository,
         private readonly operatingSignalEvaluationResultRepository: OperatingSignalEvaluationResultRepository,
         private readonly operatingSignalReviewRecordRepository: OperatingSignalReviewRecordRepository,
@@ -260,7 +262,7 @@ export class ProjectCostService {
         const confirmedAt = paymentRecord.confirmedAt ?? new Date();
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
-            recordNo: `PAYMENT-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-payment-fact'),
             costType: 'PAYMENT_FACT',
             costSubtype: paymentRecord.costCategory,
             occurredOn: this.toIsoDate(paymentRecord.paymentDate),
@@ -326,7 +328,7 @@ export class ProjectCostService {
         const confirmedAt = invoiceRecord.updatedAt;
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
-            recordNo: `INVOICE-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-invoice'),
             costType: 'INVOICE',
             costSubtype: invoiceRecord.invoiceType,
             occurredOn: this.toIsoDate(invoiceRecord.invoiceDate),
@@ -393,7 +395,7 @@ export class ProjectCostService {
         const confirmedAt = expenseRecord.confirmedAt ?? new Date();
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
-            recordNo: `EXPENSE-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-expense'),
             costType: 'EXPENSE',
             costSubtype: expenseRecord.expenseCategory,
             occurredOn: this.toIsoDate(expenseRecord.expenseDate),
@@ -463,7 +465,7 @@ export class ProjectCostService {
 
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
-            recordNo: `PROCUREMENT-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-procurement'),
             costType: 'PROCUREMENT',
             costSubtype: payableRecord.costCategory,
             occurredOn: this.toIsoDate(payableRecord.expectedPaymentDate),
@@ -1855,7 +1857,7 @@ export class ProjectCostService {
 
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
-            recordNo: `LABOR-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-labor'),
             costType: 'LABOR',
             costSubtype: null,
             occurredOn: laborPeriodStart,
@@ -1938,7 +1940,7 @@ export class ProjectCostService {
 
         const newEntity = this.projectActualCostRecordRepository.create({
             projectId: originalRecord.projectId,
-            recordNo: `LABOR-${Date.now()}`,
+            recordNo: await this.businessNumberService.next('cost-labor'),
             costType: 'LABOR',
             costSubtype: originalRecord.costSubtype,
             occurredOn: laborPeriodStart,
@@ -2135,7 +2137,7 @@ export class ProjectCostService {
         return {
             id: record.id,
             projectId: record.projectId,
-            recordNo: record.recordNo ?? null,
+            recordNo: record.recordNo,
             costType: record.costType as ProjectActualCostRecordSummary['costType'],
             costSubtype: record.costSubtype ?? null,
             occurredOn: this.toNullableDate(record.occurredOn),

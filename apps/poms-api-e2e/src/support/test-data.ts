@@ -18,12 +18,12 @@ export function makeUniqueSuffix(prefix: string): string {
 
 export function buildProjectInput(
     profile: SanitizedUserWithOrgUnits,
-    overrides: Partial<CreateProjectRequest> & Pick<CreateProjectRequest, 'projectCode' | 'projectName'>
+    overrides: Partial<CreateProjectRequest> & { projectName: string; customerProjectNo?: string | null }
 ): CreateProjectRequest {
     return {
-        projectCode: overrides.projectCode,
         projectName: overrides.projectName,
         customerName: overrides.customerName ?? `${profile.displayName} 客户`,
+        customerProjectNo: overrides.customerProjectNo ?? null,
         currentStage: overrides.currentStage ?? 'assessment',
         plannedSignAt: overrides.plannedSignAt ?? undefined
     };
@@ -32,11 +32,11 @@ export function buildProjectInput(
 export function buildContractInput(
     projectId: string,
     actorUserId: string,
-    overrides: Partial<CreateContractRequest> & Pick<CreateContractRequest, 'contractNo' | 'signedAmount'>
+    overrides: Partial<CreateContractRequest> & { signedAmount: string; customerContractNo?: string | null }
 ): CreateContractRequest {
     return {
         projectId,
-        contractNo: overrides.contractNo,
+        customerContractNo: overrides.customerContractNo ?? null,
         signedAmount: overrides.signedAmount,
         status: overrides.status,
         currencyCode: overrides.currencyCode,

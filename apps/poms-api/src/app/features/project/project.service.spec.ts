@@ -1,4 +1,6 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { BusinessNumberService } from '../business-number/business-number.service';
+import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
@@ -7,12 +9,13 @@ describe('ProjectService', () => {
 
     let service: ProjectService;
     let projectRepository: {
-        findByCode: jest.Mock;
+        findByNo: jest.Mock;
         create: jest.Mock;
         save: jest.Mock;
         findById: jest.Mock;
         findAll: jest.Mock;
         findMany: jest.Mock;
+        getEntityManager: jest.Mock;
         findPlatformUserById: jest.Mock;
         findAcceptanceRecordById: jest.Mock;
         createAcceptanceRecord: jest.Mock;
@@ -20,8 +23,11 @@ describe('ProjectService', () => {
         createProjectCompletionRecord: jest.Mock;
         saveProjectCompletionRecord: jest.Mock;
         findLatestConfirmedProjectCompletionRecordByProjectId: jest.Mock;
+        findLatestRecordedProjectArchiveRecordByProjectId: jest.Mock;
+        findProjectArchiveRecordById: jest.Mock;
         createProjectArchiveRecord: jest.Mock;
         saveProjectArchiveRecord: jest.Mock;
+        saveProjectArchiveRecordReplacement: jest.Mock;
         findCurrentProjectBidCommercialProcessByProjectId: jest.Mock;
         createProjectBidCommercialProcess: jest.Mock;
         createProjectBidCommercialMaterialItem: jest.Mock;
@@ -38,15 +44,29 @@ describe('ProjectService', () => {
         createProjectTechnicalCostItem: jest.Mock;
         saveProjectTechnicalCostPackage: jest.Mock;
     };
+    let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+    let entityManager: {
+        create: jest.Mock;
+        persist: jest.Mock;
+        flush: jest.Mock;
+    };
 
     beforeEach(() => {
+        entityManager = {
+            create: jest.fn((_, input) => createProjectEntity(input)),
+            persist: jest.fn(),
+            flush: jest.fn()
+        };
         projectRepository = {
-            findByCode: jest.fn(),
+            findByNo: jest.fn(),
             create: jest.fn(),
             save: jest.fn(),
             findById: jest.fn(),
             findAll: jest.fn(),
             findMany: jest.fn(),
+            getEntityManager: jest.fn(() => ({
+                transactional: jest.fn((work) => work(entityManager))
+            })),
             findPlatformUserById: jest.fn(),
             findAcceptanceRecordById: jest.fn(),
             createAcceptanceRecord: jest.fn(),
@@ -54,8 +74,11 @@ describe('ProjectService', () => {
             createProjectCompletionRecord: jest.fn(),
             saveProjectCompletionRecord: jest.fn(),
             findLatestConfirmedProjectCompletionRecordByProjectId: jest.fn(),
+            findLatestRecordedProjectArchiveRecordByProjectId: jest.fn().mockResolvedValue(null),
+            findProjectArchiveRecordById: jest.fn(),
             createProjectArchiveRecord: jest.fn(),
             saveProjectArchiveRecord: jest.fn(),
+            saveProjectArchiveRecordReplacement: jest.fn(),
             findCurrentProjectBidCommercialProcessByProjectId: jest.fn(),
             createProjectBidCommercialProcess: jest.fn(),
             createProjectBidCommercialMaterialItem: jest.fn(),
@@ -72,57 +95,59 @@ describe('ProjectService', () => {
             createProjectTechnicalCostItem: jest.fn(),
             saveProjectTechnicalCostPackage: jest.fn()
         };
+        businessNumberService = {
+            next: jest.fn(async () => 'PRJ-2026-000001')
+        } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
 
-        service = new ProjectService(projectRepository as never);
+        service = new ProjectService(projectRepository as never, businessNumberService as never);
     });
 
     it('creates a project with default assessment stage and operator ownership', async () => {
-        const createdProject = createProjectEntity();
-        projectRepository.findByCode.mockResolvedValue(null);
         projectRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
             primaryOrgUnitId: '10000000-0000-4000-8000-000000000001'
         });
-        projectRepository.create.mockReturnValue(createdProject);
-        projectRepository.save.mockResolvedValue(undefined);
 
         const result = await service.createAndSave({
-            projectCode: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             customerName: '华南地铁集团'
         }, userId);
 
-        expect(projectRepository.create).toHaveBeenCalledWith({
-            projectCode: 'PRJ-2026-001',
-            projectName: 'POMS 首期项目主链路样例',
-            sourceLeadId: null,
-            customerName: '华南地铁集团',
-            status: 'active',
-            currentStage: 'assessment',
-            customerId: null,
-            ownerOrgId: '10000000-0000-4000-8000-000000000001',
-            ownerUserId: userId,
-            plannedSignAt: null,
-            createdBy: userId,
-            updatedBy: userId
-        });
-        expect(projectRepository.save).toHaveBeenCalledWith(createdProject);
-        expect(result).toBe(createdProject);
+        expect(businessNumberService.next).toHaveBeenCalledWith('project', expect.any(Date), entityManager);
+        expect(entityManager.create).toHaveBeenCalledWith(
+            Project,
+            {
+                projectNo: 'PRJ-2026-000001',
+                projectName: 'POMS 首期项目主链路样例',
+                sourceLeadId: null,
+                customerName: '华南地铁集团',
+                customerProjectNo: null,
+                status: 'active',
+                currentStage: 'assessment',
+                customerId: null,
+                ownerOrgId: '10000000-0000-4000-8000-000000000001',
+                ownerUserId: userId,
+                plannedSignAt: null,
+                createdBy: userId,
+                updatedBy: userId
+            }
+        );
+        expect(entityManager.persist).toHaveBeenCalledWith(result);
+        expect(entityManager.flush).toHaveBeenCalled();
     });
 
-    it('rejects duplicate project codes before save', async () => {
-        projectRepository.findByCode.mockResolvedValue(createProjectEntity());
+    it('rejects project creation when operator user does not exist', async () => {
+        projectRepository.findPlatformUserById.mockResolvedValue(null);
 
         await expect(
             service.createAndSave({
-                projectCode: 'PRJ-2026-001',
                 projectName: 'Duplicate',
                 customerName: '重复客户'
             }, userId)
-        ).rejects.toThrow(ConflictException);
+        ).rejects.toThrow(NotFoundException);
 
-        expect(projectRepository.create).not.toHaveBeenCalled();
-        expect(projectRepository.save).not.toHaveBeenCalled();
+        expect(businessNumberService.next).not.toHaveBeenCalled();
+        expect(entityManager.persist).not.toHaveBeenCalled();
     });
 
     it('rejects basic info updates for non-editable status', async () => {
@@ -408,6 +433,128 @@ describe('ProjectService', () => {
         });
         expect(projectRepository.saveProjectArchiveRecord).toHaveBeenCalledWith(archiveRecord);
         expect(result).toBe(archiveRecord);
+    });
+
+    it('rejects archive creation when a current archive record already exists', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'completed', status: 'completed' }));
+        projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000010',
+            projectId,
+            status: 'recorded'
+        });
+
+        await expect(service.createProjectArchiveRecord(projectId, {
+            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包'
+        }, userId)).rejects.toThrow(ConflictException);
+
+        expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
+    });
+
+    it('replaces current archive record and marks the old one superseded', async () => {
+        const archivedAt = new Date('2026-04-23T10:00:00.000Z');
+        const supersededRecord = {
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000002',
+            status: 'recorded',
+            rowVersion: 3,
+            updatedBy: null
+        };
+        const replacementRecord = {
+            id: '38000000-0000-4000-8000-000000000002',
+            projectId,
+            status: 'recorded',
+            supersedesArchiveRecordId: supersededRecord.id
+        };
+        projectRepository.findProjectArchiveRecordById.mockResolvedValue(supersededRecord);
+        projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue(supersededRecord);
+        projectRepository.createProjectArchiveRecord.mockReturnValue(replacementRecord);
+        projectRepository.saveProjectArchiveRecordReplacement.mockResolvedValue(undefined);
+
+        const result = await service.replaceProjectArchiveRecord(supersededRecord.id, {
+            archivedAt,
+            archiveSummary: '归档包已更新',
+            evidenceSummary: '新版归档清单',
+            replacementReason: '归档资料补充',
+            expectedVersion: 3
+        }, userId);
+
+        expect(supersededRecord.status).toBe('superseded');
+        expect(supersededRecord.updatedBy).toBe(userId);
+        expect(projectRepository.createProjectArchiveRecord).toHaveBeenCalledWith({
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000002',
+            status: 'recorded',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '归档包已更新',
+            evidenceSummary: '新版归档清单',
+            supersedesArchiveRecordId: supersededRecord.id,
+            replacementReason: '归档资料补充',
+            createdBy: userId,
+            updatedBy: userId
+        });
+        expect(projectRepository.saveProjectArchiveRecordReplacement).toHaveBeenCalledWith({
+            supersededRecord,
+            replacementRecord
+        });
+        expect(result).toBe(replacementRecord);
+    });
+
+    it('voids current archive record with reason and operator evidence', async () => {
+        const record = {
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            status: 'recorded',
+            rowVersion: 2,
+            voidedAt: null,
+            voidedBy: null,
+            voidReason: null,
+            updatedBy: null
+        };
+        projectRepository.findProjectArchiveRecordById.mockResolvedValue(record);
+        projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue(record);
+        projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
+
+        const result = await service.voidProjectArchiveRecord(record.id, {
+            reason: '客户要求重新归档',
+            comment: '资料包撤回',
+            expectedVersion: 2
+        }, userId);
+
+        expect(record.status).toBe('voided');
+        expect(record.voidedAt).toEqual(expect.any(Date));
+        expect(record.voidedBy).toBe(userId);
+        expect(record.voidReason).toBe('客户要求重新归档: 资料包撤回');
+        expect(record.updatedBy).toBe(userId);
+        expect(projectRepository.saveProjectArchiveRecord).toHaveBeenCalledWith(record);
+        expect(result).toBe(record);
+    });
+
+    it('rejects archive replacement when expected version is stale', async () => {
+        projectRepository.findProjectArchiveRecordById.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            status: 'recorded',
+            rowVersion: 4
+        });
+
+        await expect(service.replaceProjectArchiveRecord('38000000-0000-4000-8000-000000000001', {
+            archivedAt: new Date('2026-04-23T10:00:00.000Z'),
+            archiveSummary: '归档包已更新',
+            evidenceSummary: '新版归档清单',
+            replacementReason: '归档资料补充',
+            expectedVersion: 3
+        }, userId)).rejects.toThrow(ConflictException);
+
+        expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
     });
 
     it('rejects archive record creation when completed project has no effective completion source', async () => {
@@ -936,7 +1083,7 @@ describe('ProjectService', () => {
     function createProjectEntity(overrides: Record<string, unknown> = {}) {
         return {
             id: projectId,
-            projectCode: 'PRJ-2026-001',
+            projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: null,
             customerId: null,

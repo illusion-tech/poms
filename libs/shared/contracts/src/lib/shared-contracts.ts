@@ -632,7 +632,7 @@ export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: 'LeadStatus' })
 export const LeadSummarySchema = z
     .object({
         id: z.uuid(),
-        leadCode: z.string(),
+        leadNo: z.string(),
         leadName: z.string(),
         customerName: z.string(),
         sourceChannel: z.string().nullable(),
@@ -661,7 +661,7 @@ export type LeadSummary = z.infer<typeof LeadSummarySchema>;
 export const LeadListViewSchema = z
     .object({
         id: z.uuid(),
-        leadCode: z.string(),
+        leadNo: z.string(),
         leadName: z.string(),
         customerName: z.string(),
         sourceChannel: z.string().nullable(),
@@ -684,7 +684,7 @@ export type LeadList = z.infer<typeof LeadListSchema>;
 export const LeadConvertedProjectSummarySchema = z
     .object({
         id: z.uuid(),
-        projectCode: z.string(),
+        projectNo: z.string(),
         projectName: z.string(),
         status: z.string(),
         currentStage: z.string()
@@ -704,7 +704,6 @@ export type LeadDetailView = z.infer<typeof LeadDetailViewSchema>;
 
 export const CreateLeadRequestSchema = z
     .object({
-        leadCode: z.string().trim().min(1).max(64),
         leadName: z.string().trim().min(1).max(255),
         customerName: z.string().trim().min(1).max(255),
         sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
@@ -756,8 +755,8 @@ export type CloseLeadRequest = z.infer<typeof CloseLeadRequestSchema>;
 
 export const ConvertLeadToProjectRequestSchema = z
     .object({
-        projectCode: z.string().trim().min(1).max(64),
         projectName: z.string().trim().min(1).max(255).optional(),
+        customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
     })
     .meta({ id: 'ConvertLeadToProjectRequest' });
@@ -800,11 +799,12 @@ export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 export const ProjectSummarySchema = z
     .object({
         id: z.uuid(),
-        projectCode: z.string(),
+        projectNo: z.string(),
         projectName: z.string(),
         sourceLeadId: z.uuid().nullable(),
         customerId: z.uuid().nullable(),
         customerName: z.string().nullable(),
+        customerProjectNo: z.string().nullable(),
         status: z.string(),
         currentStage: z.string(),
         ownerOrgId: z.uuid().nullable(),
@@ -825,9 +825,10 @@ export type ProjectSummary = z.infer<typeof ProjectSummarySchema>;
 export const ProjectListViewSchema = z
     .object({
         id: z.uuid(),
-        projectCode: z.string(),
+        projectNo: z.string(),
         projectName: z.string(),
         customerName: z.string().nullable(),
+        customerProjectNo: z.string().nullable(),
         currentStage: z.string(),
         status: z.string(),
         ownerOrgName: z.string().nullable(),
@@ -861,6 +862,8 @@ export const ProjectDetailBidSummarySchema = z
         bidProcessId: z.uuid().nullable(),
         bidStatus: z.string(),
         resultStatus: z.string().nullable(),
+        tenderNo: z.string().nullable(),
+        bidPackageNo: z.string().nullable(),
         summary: z.string().nullable()
     })
     .meta({ id: 'ProjectDetailBidSummary' });
@@ -910,7 +913,7 @@ export type ProjectDetailConfirmationSummary = z.infer<typeof ProjectDetailConfi
 export const ProjectSourceLeadSummarySchema = z
     .object({
         id: z.uuid(),
-        leadCode: z.string(),
+        leadNo: z.string(),
         leadName: z.string(),
         customerName: z.string(),
         status: LeadStatusSchema
@@ -1262,6 +1265,8 @@ export const CreateProjectBidCommercialProcessRequestSchema = z
         processSummary: z.string().trim().min(1).max(2000),
         decisionSummary: z.string().trim().min(1).max(1000).nullable().optional(),
         resultSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+        tenderNo: z.string().trim().min(1).max(128).nullable().optional(),
+        bidPackageNo: z.string().trim().min(1).max(128).nullable().optional(),
         ownerRole: z.string().trim().min(1).max(128).nullable().optional(),
         materialItems: z.array(ProjectBidCommercialMaterialItemInputSchema).default([]),
         timelineItems: z.array(ProjectBidCommercialTimelineItemInputSchema).default([])
@@ -1309,6 +1314,8 @@ export const ProjectBidCommercialProcessSummarySchema = z
         processSummary: z.string(),
         decisionSummary: z.string().nullable(),
         resultSummary: z.string().nullable(),
+        tenderNo: z.string().nullable(),
+        bidPackageNo: z.string().nullable(),
         ownerRole: z.string().nullable(),
         blockerCount: z.number().int().nonnegative(),
         effectiveAt: z.iso.datetime(),
@@ -1603,7 +1610,7 @@ export const PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES = ['project', 'project-completi
 
 export type ProjectArchiveAnchorSourceType = (typeof PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES)[number];
 
-export const PROJECT_ARCHIVE_RECORD_STATUSES = ['recorded'] as const;
+export const PROJECT_ARCHIVE_RECORD_STATUSES = ['recorded', 'voided', 'superseded'] as const;
 
 export type ProjectArchiveRecordStatus = (typeof PROJECT_ARCHIVE_RECORD_STATUSES)[number];
 
@@ -1620,6 +1627,12 @@ export const ProjectArchiveRecordSummarySchema = z
         archivedByName: z.string().nullable(),
         archiveSummary: z.string(),
         evidenceSummary: z.string(),
+        supersedesArchiveRecordId: z.uuid().nullable(),
+        replacementReason: z.string().nullable(),
+        voidedAt: z.iso.datetime().nullable(),
+        voidedBy: z.uuid().nullable(),
+        voidedByName: z.string().nullable(),
+        voidReason: z.string().nullable(),
         createdAt: z.iso.datetime(),
         createdBy: z.uuid().nullable(),
         updatedAt: z.iso.datetime(),
@@ -1643,6 +1656,28 @@ export const CreateProjectArchiveRecordRequestSchema = z
     .meta({ id: 'CreateProjectArchiveRecordRequest' });
 
 export type CreateProjectArchiveRecordRequest = z.infer<typeof CreateProjectArchiveRecordRequestSchema>;
+
+export const ReplaceProjectArchiveRecordRequestSchema = z
+    .object({
+        archivedAt: z.iso.datetime(),
+        archiveSummary: z.string().trim().min(1).max(2000),
+        evidenceSummary: z.string().trim().min(1).max(2000),
+        replacementReason: z.string().trim().min(1).max(1000),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReplaceProjectArchiveRecordRequest' });
+
+export type ReplaceProjectArchiveRecordRequest = z.infer<typeof ReplaceProjectArchiveRecordRequestSchema>;
+
+export const VoidProjectArchiveRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'VoidProjectArchiveRecordRequest' });
+
+export type VoidProjectArchiveRecordRequest = z.infer<typeof VoidProjectArchiveRecordRequestSchema>;
 
 export const PROJECT_TIMELINE_EVENT_TYPES = ['stage-entered', 'stage-completed', 'milestone'] as const;
 
@@ -1683,9 +1718,9 @@ export type ProjectTimelineView = z.infer<typeof ProjectTimelineViewSchema>;
 
 export const CreateProjectRequestSchema = z
     .object({
-        projectCode: z.string().trim().min(1).max(64),
         projectName: z.string().trim().min(1).max(255),
         customerName: z.string().trim().min(1).max(255),
+        customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
         currentStage: z.enum(PROJECT_STAGES).optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
     })
@@ -1708,9 +1743,10 @@ export const UpdateProjectBasicInfoRequestSchema = z
     .object({
         projectName: z.string().trim().min(1).max(255).optional(),
         customerName: z.string().trim().min(1).max(255).nullable().optional(),
+        customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
     })
-    .refine((value) => value.projectName !== undefined || value.customerName !== undefined || value.plannedSignAt !== undefined, {
+    .refine((value) => value.projectName !== undefined || value.customerName !== undefined || value.customerProjectNo !== undefined || value.plannedSignAt !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateProjectBasicInfoRequest' });
@@ -1734,6 +1770,7 @@ export const ContractSummarySchema = z
         projectName: z.string(),
         customerName: z.string().nullable(),
         contractNo: z.string(),
+        customerContractNo: z.string().nullable(),
         status: ContractStatusSchema,
         signedAmount: z.string(),
         currencyCode: z.string(),
@@ -1798,7 +1835,7 @@ export type ContractListQuery = z.infer<typeof ContractListQuerySchema>;
 export const CreateContractRequestSchema = z
     .object({
         projectId: z.uuid(),
-        contractNo: z.string().trim().min(1).max(64),
+        customerContractNo: z.string().trim().min(1).max(128).nullable().optional(),
         status: ContractStatusSchema.optional(),
         signedAmount: z.string().trim().min(1).max(64),
         currencyCode: z.string().trim().min(1).max(16).optional(),
@@ -1813,6 +1850,7 @@ export type CreateContractRequest = z.infer<typeof CreateContractRequestSchema>;
 
 export const UpdateContractBasicInfoRequestSchema = z
     .object({
+        customerContractNo: z.string().trim().min(1).max(128).nullable().optional(),
         signedAmount: z.string().trim().min(1).max(64).optional(),
         currencyCode: z.string().trim().min(1).max(16).optional(),
         signedAt: z.iso.datetime().nullable().optional(),
@@ -1821,6 +1859,7 @@ export const UpdateContractBasicInfoRequestSchema = z
     })
     .refine(
         (value) =>
+            value.customerContractNo !== undefined ||
             value.signedAmount !== undefined ||
             value.currencyCode !== undefined ||
             value.signedAt !== undefined ||
@@ -2107,7 +2146,7 @@ export type ContractHandoverReceivablePlanInitSummary = z.infer<typeof ContractH
 export const ContractHandoverSummaryViewSchema = z
     .object({
         projectId: z.uuid(),
-        projectCode: z.string(),
+        projectNo: z.string(),
         projectName: z.string(),
         effectiveContractSetSummary: ContractHandoverEffectiveContractSetSummarySchema,
         contractBaselineValidationSummary: ContractHandoverBaselineValidationSummarySchema,
@@ -2172,7 +2211,7 @@ export const ProjectHandoverDetailViewSchema = z
     .object({
         handoverId: z.uuid().nullable(),
         projectId: z.uuid(),
-        projectCode: z.string(),
+        projectNo: z.string(),
         projectName: z.string(),
         handoverStatus: z.enum(['not_started', 'draft', 'confirmed', 'superseded', 'voided']),
         confirmedAt: z.iso.datetime().nullable(),
@@ -3597,7 +3636,7 @@ export const ProjectActualCostRecordSummarySchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
-        recordNo: z.string().nullable(),
+        recordNo: z.string(),
         costType: z.enum(['PROCUREMENT', 'INVOICE', 'EXPENSE', 'PAYMENT_FACT', 'LABOR']),
         costSubtype: z.string().nullable(),
         occurredOn: z.iso.date().nullable(),

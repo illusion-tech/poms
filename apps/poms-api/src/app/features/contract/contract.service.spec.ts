@@ -1,4 +1,5 @@
-import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 
@@ -24,7 +25,9 @@ describe('ContractService', () => {
         save: jest.Mock;
         findById: jest.Mock;
         findMany: jest.Mock;
+        getEntityManager: jest.Mock;
     };
+    let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let approvalRecordRepository: {
         findOne: jest.Mock;
     };
@@ -36,14 +39,30 @@ describe('ContractService', () => {
     let commercialReleaseBaselineRepository: {
         findById: jest.Mock;
     };
+    let entityManager: {
+        create: jest.Mock;
+        persist: jest.Mock;
+        flush: jest.Mock;
+    };
 
     beforeEach(() => {
+        entityManager = {
+            create: jest.fn((_, input) => createContractEntity(input)),
+            persist: jest.fn(),
+            flush: jest.fn()
+        };
         contractRepository = {
             findByNo: jest.fn(),
             create: jest.fn(),
             save: jest.fn(),
             findById: jest.fn(),
-            findMany: jest.fn()
+            findMany: jest.fn(),
+            getEntityManager: jest.fn(() => ({
+                transactional: jest.fn((work) => work(entityManager))
+            }))
+        };
+        businessNumberService = {
+            next: jest.fn(async () => 'CT-2026-000001')
         };
         approvalRecordRepository = {
             findOne: jest.fn()
@@ -64,6 +83,7 @@ describe('ContractService', () => {
 
         service = new ContractService(
             contractRepository as never,
+            businessNumberService as never,
             projectService,
             contractReadinessService,
             contractTermSnapshotRepository as never,
@@ -73,31 +93,32 @@ describe('ContractService', () => {
     });
 
     it('creates a contract after validating project existence and defaults', async () => {
-        const createdContract = createContractEntity();
         projectService.findById.mockResolvedValue({ id: projectId } as never);
-        contractRepository.findByNo.mockResolvedValue(null);
-        contractRepository.create.mockReturnValue(createdContract);
-        contractRepository.save.mockResolvedValue(undefined);
 
         const result = await service.createAndSave({
             projectId,
-            contractNo: 'HT-2026-001',
+            customerContractNo: ' CUS-HT-001 ',
             signedAmount: '880000.00'
         });
 
-        expect(contractRepository.create).toHaveBeenCalledWith({
-            projectId,
-            contractNo: 'HT-2026-001',
-            status: 'draft',
-            signedAmount: '880000.00',
-            currencyCode: 'CNY',
-            signedAt: null,
-            retentionDueDate: null,
-            createdBy: null,
-            updatedBy: null
-        });
-        expect(contractRepository.save).toHaveBeenCalledWith(createdContract);
-        expect(result).toBe(createdContract);
+        expect(businessNumberService.next).toHaveBeenCalledWith('contract', expect.any(Date), entityManager);
+        expect(entityManager.create).toHaveBeenCalledWith(
+            expect.any(Function),
+            {
+                projectId,
+                contractNo: 'CT-2026-000001',
+                customerContractNo: 'CUS-HT-001',
+                status: 'draft',
+                signedAmount: '880000.00',
+                currencyCode: 'CNY',
+                signedAt: null,
+                retentionDueDate: null,
+                createdBy: null,
+                updatedBy: null
+            }
+        );
+        expect(entityManager.persist).toHaveBeenCalledWith(result);
+        expect(entityManager.flush).toHaveBeenCalled();
     });
 
     it('rejects contract creation when project does not exist', async () => {
@@ -106,27 +127,24 @@ describe('ContractService', () => {
         await expect(
             service.createAndSave({
                 projectId,
-                contractNo: 'HT-2026-001',
                 signedAmount: '880000.00'
             })
         ).rejects.toThrow(NotFoundException);
 
-        expect(contractRepository.create).not.toHaveBeenCalled();
+        expect(businessNumberService.next).not.toHaveBeenCalled();
+        expect(entityManager.persist).not.toHaveBeenCalled();
     });
 
-    it('rejects duplicate contract numbers before save', async () => {
+    it('creates a contract with a generated internal number when customer number is omitted', async () => {
         projectService.findById.mockResolvedValue({ id: projectId } as never);
-        contractRepository.findByNo.mockResolvedValue(createContractEntity());
 
-        await expect(
-            service.createAndSave({
-                projectId,
-                contractNo: 'HT-2026-001',
-                signedAmount: '880000.00'
-            })
-        ).rejects.toThrow(ConflictException);
+        const result = await service.createAndSave({
+            projectId,
+            signedAmount: '880000.00'
+        });
 
-        expect(contractRepository.create).not.toHaveBeenCalled();
+        expect(result.contractNo).toBe('CT-2026-000001');
+        expect(result.customerContractNo).toBeNull();
     });
 
     it('updates contract basic info and allows signedAt to be cleared', async () => {
@@ -375,7 +393,7 @@ describe('ContractService', () => {
         return {
             id: contractId,
             projectId,
-            contractNo: 'HT-2026-001',
+            contractNo: 'CT-2026-000001',
             status: 'draft',
             signedAmount: '880000.00',
             currencyCode: 'CNY',

@@ -7,7 +7,7 @@ import { LeadList } from './lead-list';
 function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
     return {
         id: 'lead-1',
-        leadCode: 'L-2026-001',
+        leadNo: 'L-2026-001',
         leadName: '华南地铁线索',
         customerName: '华南地铁集团',
         sourceChannel: '客户拜访',
@@ -47,11 +47,12 @@ function createLeadDetail(overrides: Partial<LeadDetailView> = {}): LeadDetailVi
 function createProjectSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁项目',
         sourceLeadId: 'lead-1',
         customerId: null,
         customerName: '华南地铁集团',
+        customerProjectNo: null,
         status: 'active',
         currentStage: 'assessment',
         ownerOrgId: 'org-1',
@@ -184,7 +185,6 @@ describe('LeadList', () => {
 
     it('creates a lead with the generated request shape', async () => {
         component.showCreateDialog();
-        component.updateCreateField('leadCode', '  L-2026-NEW  ');
         component.updateCreateField('leadName', '  城市交通机会  ');
         component.updateCreateField('customerName', '  城市交通集团  ');
         component.updateCreateField('sourceChannel', '  老客户转介绍  ');
@@ -192,7 +192,6 @@ describe('LeadList', () => {
         await component.createLead();
 
         expect(leadStoreMock.createLead).toHaveBeenCalledWith({
-            leadCode: 'L-2026-NEW',
             leadName: '城市交通机会',
             customerName: '城市交通集团',
             sourceChannel: '老客户转介绍'
@@ -228,13 +227,13 @@ describe('LeadList', () => {
         const lead = createLead({ status: 'qualified' });
 
         component.showConvertDialog(lead);
-        component.updateConvertField('projectCode', '  P-2026-NEW  ');
+        component.updateConvertField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateConvertField('projectName', '  城市交通项目  ');
         component.updateConvertDate(new Date(2026, 4, 1));
         await component.convertLeadToProject();
 
         expect(leadStoreMock.convertLeadToProject).toHaveBeenCalledWith('lead-1', {
-            projectCode: 'P-2026-NEW',
+            customerProjectNo: 'CUS-PRJ-NEW',
             projectName: '城市交通项目',
             plannedSignAt: '2026-05-01'
         });

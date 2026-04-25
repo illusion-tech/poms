@@ -21,6 +21,12 @@ export interface ProjectArchiveRecordSummary {
     archivedByName: string | null;
     archiveSummary: string;
     evidenceSummary: string;
+    supersedesArchiveRecordId: string | null;
+    replacementReason: string | null;
+    voidedAt: string | null;
+    voidedBy: string | null;
+    voidedByName: string | null;
+    voidReason: string | null;
     createdAt: string;
     createdBy: string | null;
     updatedAt: string;
@@ -37,5 +43,7 @@ export enum ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum {
     ProjectCompletionRecord = 'project-completion-record'
 };
 export enum ProjectArchiveRecordSummaryStatusEnum {
-    Recorded = 'recorded'
+    Recorded = 'recorded',
+    Voided = 'voided',
+    Superseded = 'superseded'
 };

@@ -165,7 +165,7 @@ export class ProjectWorkspaceShell implements OnInit, OnDestroy {
     workspaceSubtitle(): string {
         const project = this.project();
         const headline = this.guidance()?.headline ?? '正在读取工作区引导';
-        return project ? `${project.projectCode} · ${headline}` : headline;
+        return project ? `${project.projectNo} · ${headline}` : headline;
     }
 
     goBackToProject() {

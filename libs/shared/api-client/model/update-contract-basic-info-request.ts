@@ -10,6 +10,7 @@
 
 
 export interface UpdateContractBasicInfoRequest {
+    customerContractNo?: string | null;
     signedAmount?: string;
     currencyCode?: string;
     signedAt?: string | null;

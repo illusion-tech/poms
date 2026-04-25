@@ -88,7 +88,7 @@ export class ProjectHandoverQueryService {
 
         return {
             projectId: project.id,
-            projectCode: project.projectCode,
+            projectNo: project.projectNo,
             projectName: project.projectName,
             effectiveContractSetSummary,
             contractBaselineValidationSummary,
@@ -129,7 +129,7 @@ export class ProjectHandoverQueryService {
         return {
             handoverId: handover?.id ?? null,
             projectId: project.id,
-            projectCode: project.projectCode,
+            projectNo: project.projectNo,
             projectName: project.projectName,
             handoverStatus: handover?.status ?? 'not_started',
             confirmedAt: handover?.confirmedAt?.toISOString() ?? null,

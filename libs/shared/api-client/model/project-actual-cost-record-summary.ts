@@ -12,7 +12,7 @@
 export interface ProjectActualCostRecordSummary {
     id: string;
     projectId: string;
-    recordNo: string | null;
+    recordNo: string;
     costType: ProjectActualCostRecordSummaryCostTypeEnum;
     costSubtype: string | null;
     occurredOn: string | null;

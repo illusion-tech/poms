@@ -24,7 +24,7 @@ describe('poms-api contract readiness workflow e2e', () => {
         const unique = makeUniqueSuffix('readiness');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 签约就绪主链 ${unique}`,
             currentStage: 'commercial-closure'
         });

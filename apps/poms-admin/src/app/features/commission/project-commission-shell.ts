@@ -152,7 +152,7 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
     commissionSubtitle(): string {
         const project = this.project();
         const nextStep = this.guidance()?.nextStep ?? '正在读取提成工作区引导';
-        return project ? `${project.projectCode} · ${nextStep}` : nextStep;
+        return project ? `${project.projectNo} · ${nextStep}` : nextStep;
     }
 
     reloadGuidance() {

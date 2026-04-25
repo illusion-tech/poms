@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         sourceLeadId: null,
         customerId: null,
@@ -76,7 +76,7 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
 function createSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '更新后的项目',
         sourceLeadId: null,
         customerId: null,

@@ -206,7 +206,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                         <div class="mt-4 flex flex-col gap-4">
                             <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                                 <div>
-                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ sourceLead.leadCode }}</div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ sourceLead.leadNo }}</div>
                                     <div class="mt-1 text-base font-semibold text-surface-950 dark:text-surface-0">{{ sourceLead.leadName }}</div>
                                     <div class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ sourceLead.customerName }}</div>
                                 </div>
@@ -552,7 +552,7 @@ export class ProjectDetail implements OnInit {
     }
 
     projectSubtitle(project: ProjectDetailView): string {
-        return `${project.projectCode} · ${this.displayText(project.customerName, '待补充客户')}`;
+        return `${project.projectNo} · ${this.displayText(project.customerName, '待补充客户')}`;
     }
 
     archiveSummary(project: ProjectDetailView, timeline: ProjectTimelineView | null): ProjectArchivePanelView | null {

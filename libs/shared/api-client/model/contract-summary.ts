@@ -16,6 +16,7 @@ export interface ContractSummary {
     projectName: string;
     customerName: string | null;
     contractNo: string;
+    customerContractNo: string | null;
     status: ContractStatus;
     signedAmount: string;
     currencyCode: string;

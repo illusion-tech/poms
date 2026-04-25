@@ -49,7 +49,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-EX07C-${unique}`,
+            customerProjectNo: `E2E-EX07C-${unique}`,
             projectName: `E2E EX07C Project ${unique}`,
             currentStage: 'execution'
         });
@@ -169,7 +169,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-OR-${unique}`,
+            customerProjectNo: `E2E-OR-${unique}`,
             projectName: `E2E Operating Restatement Project ${unique}`,
             currentStage: 'execution'
         });
@@ -271,7 +271,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-AC-${unique}`,
+            customerProjectNo: `E2E-AC-${unique}`,
             projectName: `E2E Actual Cost Project ${unique}`,
             currentStage: 'execution'
         });
@@ -315,7 +315,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PAY-${unique}`,
+            customerProjectNo: `E2E-PAY-${unique}`,
             projectName: `E2E Payment Fact Project ${unique}`,
             currentStage: 'execution'
         });
@@ -367,7 +367,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-INV-${unique}`,
+            customerProjectNo: `E2E-INV-${unique}`,
             projectName: `E2E Invoice Fact Project ${unique}`,
             currentStage: 'execution'
         });
@@ -437,7 +437,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-EXP-${unique}`,
+            customerProjectNo: `E2E-EXP-${unique}`,
             projectName: `E2E Expense Record Project ${unique}`,
             currentStage: 'execution'
         });
@@ -502,7 +502,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-EXP-MAP-${unique}`,
+            customerProjectNo: `E2E-EXP-MAP-${unique}`,
             projectName: `E2E Expense Mapping Project ${unique}`,
             currentStage: 'execution'
         });
@@ -565,7 +565,7 @@ describe('Actual Cost Workflow E2E', () => {
 
         const unique = Date.now();
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PROC-${unique}`,
+            customerProjectNo: `E2E-PROC-${unique}`,
             projectName: `E2E Procurement Mapping Project ${unique}`,
             currentStage: 'execution'
         });

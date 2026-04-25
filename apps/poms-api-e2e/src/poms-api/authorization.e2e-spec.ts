@@ -12,7 +12,7 @@ describe('poms-api authorization e2e', () => {
         const unique = makeUniqueSuffix('viewer-project');
 
         const response = await client.post('/projects', buildProjectInput(profile, {
-            projectCode: `E2E-VIEW-${unique}`,
+            customerProjectNo: `E2E-VIEW-${unique}`,
             projectName: `E2E 只读越权项目 ${unique}`,
             currentStage: 'commercial-closure'
         }));
@@ -38,7 +38,7 @@ describe('poms-api authorization e2e', () => {
         const unique = makeUniqueSuffix('viewer-finance');
 
         const project = await createProjectForProfile(adminClient, adminProfile, {
-            projectCode: `E2E-VIEW-FIN-${unique}`,
+            customerProjectNo: `E2E-VIEW-FIN-${unique}`,
             projectName: `E2E 只读越权合同资金 ${unique}`,
             currentStage: 'execution'
         });
@@ -48,7 +48,7 @@ describe('poms-api authorization e2e', () => {
             project.id,
             adminProfile.id,
             {
-                contractNo: `E2E-VIEW-FIN-HT-${unique}`
+                customerContractNo: `E2E-VIEW-FIN-HT-${unique}`
             }
         );
 

@@ -10,6 +10,7 @@ import {
     CreateProjectPricingMarginReviewRequestDto,
     CreateProjectRequestDto,
     CreateProjectTechnicalCostPackageRequestDto,
+    ReplaceProjectArchiveRecordRequestDto,
     ProjectArchiveRecordDto,
     ProjectArchiveRecordListDto,
     ProjectBidCommercialProcessDto,
@@ -29,7 +30,8 @@ import {
     ProjectTechnicalCostWorkspaceViewDto,
     ProjectTimelineViewDto,
     ProjectWorkspaceGuidanceViewDto,
-    UpdateProjectBasicInfoRequestDto
+    UpdateProjectBasicInfoRequestDto,
+    VoidProjectArchiveRecordRequestDto
 } from '@poms/api-contracts';
 import type {
     AcceptanceRecordSummary,
@@ -87,14 +89,14 @@ export class ProjectController {
         return this.projectQueryService.listProjects(listQuery);
     }
 
-    @Get('code/:projectCode')
+    @Get('code/:projectNo')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按项目编码获取项目详情' })
     @ApiOkResponse({ type: ProjectDto })
-    async getByCode(@Param('projectCode') projectCode: string): Promise<ProjectSummary> {
-        const project = await this.projectService.findByCode(projectCode);
+    async getByCode(@Param('projectNo') projectNo: string): Promise<ProjectSummary> {
+        const project = await this.projectService.findByNo(projectNo);
         if (!project) {
-            throw new NotFoundException(`Project code ${projectCode} not found`);
+            throw new NotFoundException(`Project no ${projectNo} not found`);
         }
 
         return mapProjectToSummary(project);
@@ -217,9 +219,9 @@ export class ProjectController {
         @Request() req: { user: UserPayload }
     ): Promise<ProjectSummary> {
         const project = await this.projectService.createAndSave({
-            projectCode: body.projectCode,
             projectName: body.projectName,
             customerName: body.customerName,
+            customerProjectNo: body.customerProjectNo,
             currentStage: body.currentStage,
             plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
         }, req.user.sub);
@@ -348,10 +350,56 @@ export class ProjectController {
         const project = await this.projectService.updateBasicInfo(id, {
             projectName: body.projectName,
             customerName: body.customerName,
+            customerProjectNo: body.customerProjectNo,
             plannedSignAt
         }, req.user.sub);
 
         return mapProjectToSummary(project);
+    }
+}
+
+@ApiTags('Project')
+@ApiBearerAuth()
+@Controller('project-archive-records')
+export class ProjectArchiveRecordController {
+    constructor(private readonly projectService: ProjectService) {}
+
+    @Post(':id\\:replace')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '替代项目归档记录' })
+    @ApiOkResponse({ type: ProjectArchiveRecordDto })
+    async replaceProjectArchiveRecord(
+        @Param('id') id: string,
+        @Body() body: ReplaceProjectArchiveRecordRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectArchiveRecordSummary> {
+        const record = await this.projectService.replaceProjectArchiveRecord(id, {
+            archivedAt: new Date(body.archivedAt),
+            archiveSummary: body.archiveSummary,
+            evidenceSummary: body.evidenceSummary,
+            replacementReason: body.replacementReason,
+            expectedVersion: body.expectedVersion
+        }, req.user.sub);
+
+        return mapProjectArchiveRecordToSummary(record);
+    }
+
+    @Post(':id\\:void')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '撤销项目归档记录' })
+    @ApiOkResponse({ type: ProjectArchiveRecordDto })
+    async voidProjectArchiveRecord(
+        @Param('id') id: string,
+        @Body() body: VoidProjectArchiveRecordRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<ProjectArchiveRecordSummary> {
+        const record = await this.projectService.voidProjectArchiveRecord(id, {
+            reason: body.reason,
+            comment: body.comment,
+            expectedVersion: body.expectedVersion
+        }, req.user.sub);
+
+        return mapProjectArchiveRecordToSummary(record);
     }
 }
 
@@ -370,6 +418,8 @@ function mapProjectBidCommercialProcessToSummary(record: ProjectBidCommercialPro
         processSummary: record.processSummary,
         decisionSummary: record.decisionSummary ?? null,
         resultSummary: record.resultSummary ?? null,
+        tenderNo: record.tenderNo ?? null,
+        bidPackageNo: record.bidPackageNo ?? null,
         ownerRole: record.ownerRole ?? null,
         blockerCount: record.blockerCount,
         effectiveAt: record.effectiveAt.toISOString(),
@@ -463,6 +513,12 @@ function mapProjectArchiveRecordToSummary(record: ProjectArchiveRecord): Project
         archivedByName: null,
         archiveSummary: record.archiveSummary,
         evidenceSummary: record.evidenceSummary,
+        supersedesArchiveRecordId: record.supersedesArchiveRecordId ?? null,
+        replacementReason: record.replacementReason ?? null,
+        voidedAt: record.voidedAt?.toISOString() ?? null,
+        voidedBy: record.voidedBy ?? null,
+        voidedByName: null,
+        voidReason: record.voidReason ?? null,
         createdAt: record.createdAt.toISOString(),
         createdBy: record.createdBy ?? null,
         updatedAt: record.updatedAt.toISOString(),
@@ -515,11 +571,12 @@ function mapAcceptanceRecordToSummary(record: AcceptanceRecord): AcceptanceRecor
 function mapProjectToSummary(project: Project): ProjectSummary {
     return {
         id: project.id,
-        projectCode: project.projectCode,
+        projectNo: project.projectNo,
         projectName: project.projectName,
         sourceLeadId: project.sourceLeadId ?? null,
         customerId: project.customerId ?? null,
         customerName: project.customerName ?? null,
+        customerProjectNo: project.customerProjectNo ?? null,
         status: project.status,
         currentStage: project.currentStage,
         ownerOrgId: project.ownerOrgId ?? null,

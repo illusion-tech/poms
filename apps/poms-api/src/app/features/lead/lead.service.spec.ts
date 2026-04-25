@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
@@ -13,19 +14,33 @@ describe('LeadService', () => {
 
     let service: LeadService;
     let leadRepository: jest.Mocked<LeadRepository>;
+    let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+    let entityManager: {
+        create: jest.Mock;
+        persist: jest.Mock;
+        flush: jest.Mock;
+        findOne: jest.Mock;
+    };
 
     beforeEach(() => {
+        entityManager = {
+            create: jest.fn((entity, input) => entity === Lead ? createLeadEntity(input as Partial<Lead>) : createProjectEntity(input as Partial<Project>)),
+            persist: jest.fn(),
+            flush: jest.fn(),
+            findOne: jest.fn()
+        };
         leadRepository = {
-            findByCode: jest.fn(),
             findById: jest.fn(),
-            findProjectByCode: jest.fn(),
             findPlatformUserById: jest.fn(),
             findOrgUnitById: jest.fn(),
-            create: jest.fn((input) => createLeadEntity(input as Partial<Lead>)),
-            createProject: jest.fn((input) => createProjectEntity(input as Partial<Project>)),
-            saveLeadAndProject: jest.fn(),
+            getEntityManager: jest.fn(() => ({
+                transactional: jest.fn((work) => work(entityManager))
+            })),
             save: jest.fn()
         } as unknown as jest.Mocked<LeadRepository>;
+        businessNumberService = {
+            next: jest.fn(async (scope: string) => scope === 'lead' ? 'LD-2026-000001' : 'PRJ-2026-000001')
+        } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
 
         leadRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
@@ -33,15 +48,12 @@ describe('LeadService', () => {
         } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
 
-        service = new LeadService(leadRepository);
+        service = new LeadService(leadRepository, businessNumberService as never);
     });
 
     it('creates a registered lead with default owner from operator', async () => {
-        leadRepository.findByCode.mockResolvedValue(null);
-
         const lead = await service.createLead(
             {
-                leadCode: 'LEAD-2026-001',
                 leadName: '华南地铁线索',
                 customerName: '华南地铁集团',
                 sourceChannel: '展会'
@@ -49,33 +61,35 @@ describe('LeadService', () => {
             userId
         );
 
-        expect(leadRepository.findByCode).toHaveBeenCalledWith('LEAD-2026-001');
-        expect(leadRepository.create).toHaveBeenCalledWith(
+        expect(businessNumberService.next).toHaveBeenCalledWith('lead', expect.any(Date), entityManager);
+        expect(entityManager.create).toHaveBeenCalledWith(
+            Lead,
             expect.objectContaining({
-                leadCode: 'LEAD-2026-001',
+                leadNo: 'LD-2026-000001',
                 status: 'registered',
                 ownerUserId: userId,
                 ownerOrgId: orgId,
                 convertedProjectId: null
             })
         );
-        expect(leadRepository.save).toHaveBeenCalledWith(lead);
+        expect(entityManager.persist).toHaveBeenCalledWith(lead);
+        expect(entityManager.flush).toHaveBeenCalled();
         expect(lead.status).toBe('registered');
     });
 
-    it('rejects duplicate lead code', async () => {
-        leadRepository.findByCode.mockResolvedValue(createLeadEntity());
+    it('rejects creating a lead when operator user does not exist', async () => {
+        leadRepository.findPlatformUserById.mockResolvedValue(null);
 
         await expect(
             service.createLead(
                 {
-                    leadCode: 'LEAD-2026-001',
                     leadName: '重复线索',
                     customerName: '客户'
                 },
                 userId
             )
-        ).rejects.toThrow(ConflictException);
+        ).rejects.toThrow(NotFoundException);
+        expect(businessNumberService.next).not.toHaveBeenCalled();
     });
 
     it('qualifies only registered leads', async () => {
@@ -118,25 +132,26 @@ describe('LeadService', () => {
             qualifiedAt: new Date('2026-04-25T11:00:00.000Z'),
             qualifiedBy: userId
         });
-        leadRepository.findById.mockResolvedValue(lead);
-        leadRepository.findProjectByCode.mockResolvedValue(null);
+        entityManager.findOne.mockResolvedValue(lead);
 
         const result = await service.convertToProject(
             leadId,
             {
-                projectCode: 'PRJ-2026-101',
+                customerProjectNo: 'CUS-PRJ-001',
                 plannedSignAt: new Date('2026-05-01T00:00:00.000Z')
             },
             userId
         );
 
-        expect(leadRepository.findProjectByCode).toHaveBeenCalledWith('PRJ-2026-101');
-        expect(leadRepository.createProject).toHaveBeenCalledWith(
+        expect(businessNumberService.next).toHaveBeenCalledWith('project', expect.any(Date), entityManager);
+        expect(entityManager.create).toHaveBeenCalledWith(
+            Project,
             expect.objectContaining({
-                projectCode: 'PRJ-2026-101',
+                projectNo: 'PRJ-2026-000001',
                 projectName: '华南地铁线索',
                 sourceLeadId: leadId,
                 customerName: '华南地铁集团',
+                customerProjectNo: 'CUS-PRJ-001',
                 ownerOrgId: orgId,
                 ownerUserId: userId,
                 currentStage: 'assessment',
@@ -148,28 +163,28 @@ describe('LeadService', () => {
         expect(lead.convertedProjectId).toBe(result.id);
         expect(lead.convertedAt).toBeInstanceOf(Date);
         expect(lead.convertedBy).toBe(userId);
-        expect(leadRepository.saveLeadAndProject).toHaveBeenCalledWith(lead, result);
+        expect(entityManager.persist).toHaveBeenCalledWith([lead, result]);
+        expect(entityManager.flush).toHaveBeenCalled();
     });
 
     it('rejects converting a non-qualified lead', async () => {
-        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'registered' }));
+        entityManager.findOne.mockResolvedValue(createLeadEntity({ status: 'registered' }));
 
         await expect(
-            service.convertToProject(leadId, { projectCode: 'PRJ-2026-101' }, userId)
+            service.convertToProject(leadId, {}, userId)
         ).rejects.toThrow(BadRequestException);
     });
 
-    it('rejects converting when target project code already exists', async () => {
-        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'qualified' }));
-        leadRepository.findProjectByCode.mockResolvedValue(createProjectEntity());
+    it('throws not found when converting a missing lead', async () => {
+        entityManager.findOne.mockResolvedValue(null);
 
         await expect(
-            service.convertToProject(leadId, { projectCode: 'PRJ-2026-101' }, userId)
-        ).rejects.toThrow(ConflictException);
+            service.convertToProject(leadId, {}, userId)
+        ).rejects.toThrow(NotFoundException);
     });
 
     it('rejects converting the same lead twice', async () => {
-        leadRepository.findById.mockResolvedValue(
+        entityManager.findOne.mockResolvedValue(
             createLeadEntity({
                 status: 'converted',
                 convertedProjectId: projectId
@@ -177,7 +192,7 @@ describe('LeadService', () => {
         );
 
         await expect(
-            service.convertToProject(leadId, { projectCode: 'PRJ-2026-102' }, userId)
+            service.convertToProject(leadId, {}, userId)
         ).rejects.toThrow(ConflictException);
     });
 
@@ -198,7 +213,7 @@ describe('LeadService', () => {
     function createLeadEntity(overrides: Partial<Lead> = {}): Lead {
         return Object.assign(new Lead(), {
             id: leadId,
-            leadCode: 'LEAD-2026-001',
+            leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
             customerName: '华南地铁集团',
             sourceChannel: null,
@@ -226,7 +241,7 @@ describe('LeadService', () => {
     function createProjectEntity(overrides: Partial<Project> = {}): Project {
         return Object.assign(new Project(), {
             id: projectId,
-            projectCode: 'PRJ-2026-101',
+            projectNo: 'PRJ-2026-101',
             projectName: '华南地铁线索',
             sourceLeadId: leadId,
             customerId: null,

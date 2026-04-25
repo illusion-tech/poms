@@ -50,7 +50,7 @@ describe('LeadQueryService', () => {
         expect(result).toEqual([
             expect.objectContaining({
                 id: leadId,
-                leadCode: 'LEAD-2026-001',
+                leadNo: 'LEAD-2026-001',
                 sourceChannel: '展会',
                 ownerName: '销售人员',
                 ownerOrgName: '华南销售一部',
@@ -86,7 +86,7 @@ describe('LeadQueryService', () => {
         leadRepository.findProjectsByIds.mockResolvedValue([
             createProjectEntity({
                 id: '20000000-0000-4000-8000-000000000001',
-                projectCode: 'PRJ-2026-101',
+                projectNo: 'PRJ-2026-101',
                 projectName: '华南地铁项目'
             })
         ]);
@@ -96,7 +96,7 @@ describe('LeadQueryService', () => {
         expect(leadRepository.findProjectsByIds).toHaveBeenCalledWith(['20000000-0000-4000-8000-000000000001']);
         expect(result.convertedProjectSummary).toEqual({
             id: '20000000-0000-4000-8000-000000000001',
-            projectCode: 'PRJ-2026-101',
+            projectNo: 'PRJ-2026-101',
             projectName: '华南地铁项目',
             status: 'active',
             currentStage: 'assessment'
@@ -112,7 +112,7 @@ describe('LeadQueryService', () => {
     function createLeadEntity(overrides: Partial<Lead> = {}): Lead {
         return Object.assign(new Lead(), {
             id: leadId,
-            leadCode: 'LEAD-2026-001',
+            leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
             customerName: '华南地铁集团',
             sourceChannel: null,
@@ -140,7 +140,7 @@ describe('LeadQueryService', () => {
     function createProjectEntity(overrides: Partial<Project> = {}): Project {
         return Object.assign(new Project(), {
             id: '20000000-0000-4000-8000-000000000001',
-            projectCode: 'PRJ-2026-101',
+            projectNo: 'PRJ-2026-101',
             projectName: '华南地铁项目',
             sourceLeadId: leadId,
             customerId: null,

@@ -225,9 +225,10 @@ export class ProjectQueryService {
 
                 return {
                     id: project.id,
-                    projectCode: project.projectCode,
+                    projectNo: project.projectNo,
                     projectName: project.projectName,
                     customerName: project.customerName ?? null,
+                    customerProjectNo: project.customerProjectNo ?? null,
                     currentStage: project.currentStage,
                     status: project.status,
                     ownerOrgName: project.ownerOrgId ? (ownerOrgNameById.get(project.ownerOrgId) ?? null) : null,
@@ -294,11 +295,12 @@ export class ProjectQueryService {
 
         return {
             id: project.id,
-            projectCode: project.projectCode,
+            projectNo: project.projectNo,
             projectName: project.projectName,
             sourceLeadId: project.sourceLeadId ?? null,
             customerId: project.customerId ?? null,
             customerName: project.customerName ?? null,
+            customerProjectNo: project.customerProjectNo ?? null,
             status: project.status,
             currentStage: project.currentStage,
             ownerOrgId: project.ownerOrgId ?? null,
@@ -402,7 +404,9 @@ export class ProjectQueryService {
         }
 
         const records = await this.projectRepository.findProjectArchiveRecordsByProjectId(project.id);
-        const archivedByIds = [...new Set(records.map((record) => record.archivedBy).filter((id): id is string => Boolean(id)))];
+        const archivedByIds = [
+            ...new Set(records.flatMap((record) => [record.archivedBy, record.voidedBy]).filter((id): id is string => Boolean(id)))
+        ];
         const users = await this.projectRepository.findPlatformUsersByIds(archivedByIds);
         const userNameById = new Map(users.map((user) => [user.id, user.displayName] as const));
         return records.map((record) => this.mapProjectArchiveRecord(record, userNameById));
@@ -648,7 +652,7 @@ export class ProjectQueryService {
                 resultLabel: '项目创建',
                 sourceType: 'project',
                 sourceId: project.id,
-                evidenceLabel: project.projectCode,
+                evidenceLabel: project.projectNo,
                 isAuthoritative: true
             }
         ];
@@ -785,6 +789,12 @@ export class ProjectQueryService {
             archivedByName: record.archivedBy ? (userNameById.get(record.archivedBy) ?? null) : null,
             archiveSummary: record.archiveSummary,
             evidenceSummary: record.evidenceSummary,
+            supersedesArchiveRecordId: record.supersedesArchiveRecordId ?? null,
+            replacementReason: record.replacementReason ?? null,
+            voidedAt: record.voidedAt?.toISOString() ?? null,
+            voidedBy: record.voidedBy ?? null,
+            voidedByName: record.voidedBy ? (userNameById.get(record.voidedBy) ?? null) : null,
+            voidReason: record.voidReason ?? null,
             createdAt: record.createdAt.toISOString(),
             createdBy: record.createdBy ?? null,
             updatedAt: record.updatedAt.toISOString(),
@@ -849,6 +859,8 @@ export class ProjectQueryService {
             processSummary: record.processSummary,
             decisionSummary: record.decisionSummary ?? null,
             resultSummary: record.resultSummary ?? null,
+            tenderNo: record.tenderNo ?? null,
+            bidPackageNo: record.bidPackageNo ?? null,
             ownerRole: record.ownerRole ?? null,
             blockerCount: record.blockerCount,
             effectiveAt: record.effectiveAt.toISOString(),
@@ -1304,6 +1316,8 @@ export class ProjectQueryService {
                 bidProcessId: null,
                 bidStatus: 'not_configured',
                 resultStatus: null,
+                tenderNo: null,
+                bidPackageNo: null,
                 summary: null
             };
         }
@@ -1312,6 +1326,8 @@ export class ProjectQueryService {
             bidProcessId: currentProcess.id,
             bidStatus: currentProcess.currentStage,
             resultStatus: currentProcess.resultStatus,
+            tenderNo: currentProcess.tenderNo ?? null,
+            bidPackageNo: currentProcess.bidPackageNo ?? null,
             summary: currentProcess.processSummary
         };
     }
@@ -1334,7 +1350,7 @@ export class ProjectQueryService {
 
         return {
             id: lead.id,
-            leadCode: lead.leadCode,
+            leadNo: lead.leadNo,
             leadName: lead.leadName,
             customerName: lead.customerName,
             status: lead.status

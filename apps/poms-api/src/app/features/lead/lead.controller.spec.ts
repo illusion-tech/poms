@@ -53,7 +53,6 @@ describe('LeadController', () => {
 
         const result = await controller.create(
             {
-                leadCode: 'LEAD-2026-001',
                 leadName: '华南地铁线索',
                 customerName: '华南地铁集团',
                 sourceChannel: '展会',
@@ -65,7 +64,6 @@ describe('LeadController', () => {
 
         expect(leadService.createLead).toHaveBeenCalledWith(
             {
-                leadCode: 'LEAD-2026-001',
                 leadName: '华南地铁线索',
                 customerName: '华南地铁集团',
                 sourceChannel: '展会',
@@ -134,8 +132,8 @@ describe('LeadController', () => {
         const result = await controller.convertToProject(
             leadId,
             {
-                projectCode: 'PRJ-2026-101',
                 projectName: '华南地铁项目',
+                customerProjectNo: 'CUS-PRJ-001',
                 plannedSignAt: '2026-05-01T00:00:00.000Z'
             },
             { user: { sub: userId } } as never
@@ -144,8 +142,8 @@ describe('LeadController', () => {
         expect(leadService.convertToProject).toHaveBeenCalledWith(
             leadId,
             {
-                projectCode: 'PRJ-2026-101',
                 projectName: '华南地铁项目',
+                customerProjectNo: 'CUS-PRJ-001',
                 plannedSignAt: new Date('2026-05-01T00:00:00.000Z')
             },
             userId
@@ -153,7 +151,7 @@ describe('LeadController', () => {
         expect(result).toEqual(
             expect.objectContaining({
                 id: projectId,
-                projectCode: 'PRJ-2026-101',
+                projectNo: 'PRJ-2026-101',
                 sourceLeadId: leadId,
                 currentStage: 'assessment'
             })
@@ -163,7 +161,7 @@ describe('LeadController', () => {
     function createLeadEntity(overrides: Partial<Lead> = {}): Lead {
         return Object.assign(new Lead(), {
             id: leadId,
-            leadCode: 'LEAD-2026-001',
+            leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
             customerName: '华南地铁集团',
             sourceChannel: '展会',
@@ -191,7 +189,7 @@ describe('LeadController', () => {
     function createProjectEntity(overrides: Partial<Project> = {}): Project {
         return Object.assign(new Project(), {
             id: projectId,
-            projectCode: 'PRJ-2026-101',
+            projectNo: 'PRJ-2026-101',
             projectName: '华南地铁项目',
             sourceLeadId: leadId,
             customerId: null,

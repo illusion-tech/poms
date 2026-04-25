@@ -48,7 +48,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                         <ng-template #body let-project>
                             <tr class="cursor-pointer hover:bg-surface-50 dark:hover:bg-surface-800" (click)="navigateTo('/projects/' + project.id)">
                                 <td>
-                                    <span class="text-primary font-medium">{{ project.projectCode }}</span>
+                                    <span class="text-primary font-medium">{{ project.projectNo }}</span>
                                 </td>
                                 <td>
                                     <span class="text-surface-950 dark:text-surface-0 text-sm">{{ project.projectName }}</span>

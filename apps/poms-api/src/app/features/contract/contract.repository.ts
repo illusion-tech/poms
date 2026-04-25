@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { ConflictException, Injectable } from '@nestjs/common';
 import type { ContractStatus } from '@poms/shared-contracts';
@@ -23,7 +23,10 @@ export class ContractRepository {
         }
 
         if (input.keyword) {
-            where.$or = [{ contractNo: { $ilike: `%${input.keyword}%` } }];
+            where.$or = [
+                { contractNo: { $ilike: `%${input.keyword}%` } },
+                { customerContractNo: { $ilike: `%${input.keyword}%` } }
+            ];
         }
 
         return this.contractRepository.find(where, {
@@ -45,6 +48,10 @@ export class ContractRepository {
 
     async save(contract: Contract): Promise<void> {
         await this.contractRepository.getEntityManager().persist(contract).flush();
+    }
+
+    getEntityManager(): EntityManager {
+        return this.contractRepository.getEntityManager();
     }
 }
 

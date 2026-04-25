@@ -22,7 +22,7 @@ export const LeadSchema = defineEntity({
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('线索主键'),
-        leadCode: p.string().length(64).unique().fieldName('lead_code').comment('线索编号'),
+        leadNo: p.string().length(64).unique().fieldName('lead_no').comment('线索编号'),
         leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),
         customerName: p.string().length(255).fieldName('customer_name').comment('客户名称'),
         sourceChannel: p.string().length(64).nullable().fieldName('source_channel').comment('线索来源渠道'),

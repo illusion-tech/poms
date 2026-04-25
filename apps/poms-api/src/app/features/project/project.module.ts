@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';
+import { BusinessNumberModule } from '../business-number/business-number.module';
 import { Contract } from '../contract/contract.entity';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -24,7 +25,7 @@ import {
     ProjectTechnicalRiskItem,
     ProjectTechnicalScopeItem
 } from './project-technical-cost-package.entity';
-import { ProjectController } from './project.controller';
+import { ProjectArchiveRecordController, ProjectController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectRepository } from './project.repository';
@@ -52,10 +53,11 @@ import { ProjectService } from './project.service';
             ProjectTechnicalRiskItem,
             ProjectTechnicalCostItem
         ]),
-        ApprovalSummaryModule
+        ApprovalSummaryModule,
+        BusinessNumberModule
     ],
-    controllers: [ProjectController],
+    controllers: [ProjectController, ProjectArchiveRecordController],
     providers: [ProjectRepository, ProjectQueryService, ProjectService],
-    exports: [ProjectQueryService, ProjectService],
+    exports: [ProjectQueryService, ProjectService]
 })
 export class ProjectModule {}

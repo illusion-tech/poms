@@ -32,14 +32,13 @@ interface LeadSummaryItem {
 }
 
 interface CreateLeadForm {
-    leadCode: string;
     leadName: string;
     customerName: string;
     sourceChannel: string;
 }
 
 interface ConvertProjectForm {
-    projectCode: string;
+    customerProjectNo: string;
     projectName: string;
     plannedSignAt: Date | null;
 }
@@ -57,14 +56,13 @@ const LEAD_STATUS = {
 };
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
-    leadCode: '',
     leadName: '',
     customerName: '',
     sourceChannel: ''
 };
 
 const EMPTY_CONVERT_FORM: ConvertProjectForm = {
-    projectCode: '',
+    customerProjectNo: '',
     projectName: '',
     plannedSignAt: null
 };
@@ -144,7 +142,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['leadCode', 'leadName', 'customerName', 'sourceChannel', 'status', 'ownerName', 'ownerOrgName']"
+                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceChannel', 'status', 'ownerName', 'ownerOrgName']"
                         [tableStyle]="{ width: '100%', 'min-width': '74rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
@@ -229,7 +227,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                                     <button type="button" class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="openLeadDetail(lead)">
                                         {{ lead.leadName }}
                                     </button>
-                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ lead.leadCode }}</div>
+                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ lead.leadNo }}</div>
                                 </td>
                                 <td>{{ lead.customerName }}</td>
                                 <td><p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" /></td>
@@ -277,14 +275,6 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                     }
 
                     <div class="flex flex-col gap-2">
-                        <label for="leadCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">线索编号</label>
-                        <input pInputText id="leadCode" [ngModel]="createForm().leadCode" (ngModelChange)="updateCreateField('leadCode', $event)" placeholder="例如：L-2026-001" class="w-full rounded-md!" />
-                        @if (createAttempted() && !createForm().leadCode.trim()) {
-                            <span class="text-xs text-red-600 dark:text-red-300">请填写线索编号。</span>
-                        }
-                    </div>
-
-                    <div class="flex flex-col gap-2">
                         <label for="leadName" class="text-sm font-medium text-surface-900 dark:text-surface-0">线索标题</label>
                         <input pInputText id="leadName" [ngModel]="createForm().leadName" (ngModelChange)="updateCreateField('leadName', $event)" placeholder="填写客户能识别的机会名称" class="w-full rounded-md!" />
                         @if (createAttempted() && !createForm().leadName.trim()) {
@@ -322,7 +312,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                         <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
                             <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                                 <div>
-                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ lead.leadCode }}</div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ lead.leadNo }}</div>
                                     <h2 class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ lead.leadName }}</h2>
                                     <p class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ lead.customerName }}</p>
                                 </div>
@@ -362,7 +352,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                                 <app-workspace-feedback
                                     severity="info"
                                     summary="已转入项目"
-                                    [detail]="lead.convertedProjectSummary.projectName + '（' + lead.convertedProjectSummary.projectCode + '）'"
+                                    [detail]="lead.convertedProjectSummary.projectName + '（' + lead.convertedProjectSummary.projectNo + '）'"
                                 />
                                 <div>
                                     <p-button label="查看项目" icon="pi pi-external-link" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToProject(lead.convertedProjectSummary.id)" />
@@ -422,18 +412,15 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                     }
 
                     <div class="flex flex-col gap-2">
-                        <label for="convertProjectCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">项目编号</label>
+                        <label for="convertCustomerProjectNo" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户项目编号</label>
                         <input
                             pInputText
-                            id="convertProjectCode"
-                            [ngModel]="convertForm().projectCode"
-                            (ngModelChange)="updateConvertField('projectCode', $event)"
-                            placeholder="例如：P-2026-001"
+                            id="convertCustomerProjectNo"
+                            [ngModel]="convertForm().customerProjectNo"
+                            (ngModelChange)="updateConvertField('customerProjectNo', $event)"
+                            placeholder="客户侧立项或招标编号，可选"
                             class="w-full rounded-md!"
                         />
-                        @if (actionAttempted() && !convertForm().projectCode.trim()) {
-                            <span class="text-xs text-red-600 dark:text-red-300">请填写项目编号。</span>
-                        }
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -560,7 +547,7 @@ export class LeadList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.leadCode.trim() && form.leadName.trim() && form.customerName.trim());
+        return Boolean(form.leadName.trim() && form.customerName.trim());
     });
 
     ngOnInit() {
@@ -644,14 +631,13 @@ export class LeadList implements OnInit {
 
         try {
             await this.#leadStore.createLead({
-                leadCode: form.leadCode.trim(),
                 leadName: form.leadName.trim(),
                 customerName: form.customerName.trim(),
                 sourceChannel: this.optionalText(form.sourceChannel)
             });
             this.closeCreateDialog();
         } catch {
-            this.createError.set('请检查线索编号是否重复，或稍后重试。');
+            this.createError.set('请检查线索信息是否完整，或稍后重试。');
         }
     }
 
@@ -719,7 +705,7 @@ export class LeadList implements OnInit {
         this.convertForm.set({ ...EMPTY_CONVERT_FORM });
     }
 
-    updateConvertField(field: 'projectCode' | 'projectName', value: string) {
+    updateConvertField(field: 'customerProjectNo' | 'projectName', value: string) {
         this.convertForm.update((form) => ({
             ...form,
             [field]: value
@@ -739,15 +725,14 @@ export class LeadList implements OnInit {
         this.actionAttempted.set(true);
         const target = this.actionTarget();
         const form = this.convertForm();
-        const projectCode = form.projectCode.trim();
 
-        if (!target || !projectCode || !this.canConvertLead(target)) {
+        if (!target || !this.canConvertLead(target)) {
             return;
         }
 
         try {
             const project = await this.#leadStore.convertLeadToProject(target.id, {
-                projectCode,
+                customerProjectNo: this.optionalText(form.customerProjectNo),
                 projectName: this.optionalText(form.projectName) ?? undefined,
                 plannedSignAt: form.plannedSignAt ? this.toIsoDate(form.plannedSignAt) : null
             });
@@ -755,7 +740,7 @@ export class LeadList implements OnInit {
             this.detailDialogVisible = false;
             this.goToProject(project.id);
         } catch {
-            this.convertError.set('请确认线索仍处于有效状态，项目编号没有重复，或稍后重试。');
+            this.convertError.set('请确认线索仍处于有效状态，或稍后重试。');
         }
     }
 
@@ -814,7 +799,7 @@ export class LeadList implements OnInit {
     private leadSearchText(lead: LeadListView): string {
         return this.normalize(
             [
-                lead.leadCode,
+                lead.leadNo,
                 lead.leadName,
                 lead.customerName,
                 lead.sourceChannel,

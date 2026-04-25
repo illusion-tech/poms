@@ -7,11 +7,12 @@ import { ProjectDetail } from './project-detail';
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         sourceLeadId: null,
         customerId: null,
         customerName: '华南地铁集团',
+        customerProjectNo: null,
         status: 'blocked',
         currentStage: 'handover',
         ownerOrgId: 'org-1',
@@ -233,7 +234,7 @@ describe('ProjectDetail', () => {
                 sourceLeadId: 'lead-1',
                 sourceLeadSummary: {
                     id: 'lead-1',
-                    leadCode: 'L-2026-001',
+                    leadNo: 'L-2026-001',
                     leadName: '华南地铁线索',
                     customerName: '华南地铁集团',
                     status: 'converted'

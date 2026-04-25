@@ -183,7 +183,7 @@ describe('ProjectHandoverQueryService', () => {
     function makeProject() {
         return {
             id: projectId,
-            projectCode: 'P-001',
+            projectNo: 'P-001',
             projectName: '项目一'
         };
     }

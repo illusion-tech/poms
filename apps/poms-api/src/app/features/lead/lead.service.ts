@@ -1,11 +1,11 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 
 export interface CreateLeadRecord {
-    leadCode: string;
     leadName: string;
     customerName: string;
     sourceChannel?: string | null;
@@ -30,51 +30,52 @@ export interface CloseLeadRecord {
 }
 
 export interface ConvertLeadToProjectRecord {
-    projectCode: string;
     projectName?: string;
+    customerProjectNo?: string | null;
     plannedSignAt?: Date | null;
 }
 
 @Injectable()
 export class LeadService {
-    constructor(private readonly leadRepository: LeadRepository) {}
+    constructor(
+        private readonly leadRepository: LeadRepository,
+        private readonly businessNumberService: BusinessNumberService
+    ) {}
 
     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
-        const existingLead = await this.leadRepository.findByCode(input.leadCode);
-        if (existingLead) {
-            throw new ConflictException(`Lead code ${input.leadCode} already exists`);
-        }
-
         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
         if (!operator) {
             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
         }
 
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator);
-        const lead = this.leadRepository.create({
-            leadCode: input.leadCode,
-            leadName: input.leadName,
-            customerName: input.customerName,
-            sourceChannel: input.sourceChannel?.trim() || null,
-            status: 'registered',
-            ownerOrgId: owner.ownerOrgId,
-            ownerUserId: owner.ownerUserId,
-            qualificationSummary: null,
-            qualifiedAt: null,
-            qualifiedBy: null,
-            closedReason: null,
-            closedAt: null,
-            closedBy: null,
-            convertedProjectId: null,
-            convertedAt: null,
-            convertedBy: null,
-            createdBy: operator.id,
-            updatedBy: operator.id
+        return this.leadRepository.getEntityManager().transactional(async (em) => {
+            const leadNo = await this.businessNumberService.next('lead', new Date(), em);
+            const lead = em.create(Lead, {
+                leadNo,
+                leadName: input.leadName,
+                customerName: input.customerName,
+                sourceChannel: input.sourceChannel?.trim() || null,
+                status: 'registered',
+                ownerOrgId: owner.ownerOrgId,
+                ownerUserId: owner.ownerUserId,
+                qualificationSummary: null,
+                qualifiedAt: null,
+                qualifiedBy: null,
+                closedReason: null,
+                closedAt: null,
+                closedBy: null,
+                convertedProjectId: null,
+                convertedAt: null,
+                convertedBy: null,
+                createdBy: operator.id,
+                updatedBy: operator.id
+            });
+
+            em.persist(lead);
+            await em.flush();
+            return lead;
         });
-
-        await this.leadRepository.save(lead);
-
-        return lead;
     }
 
     async updateLead(id: string, input: UpdateLeadRecord, operatorUserId: string): Promise<Lead> {
@@ -142,51 +143,54 @@ export class LeadService {
     }
 
     async convertToProject(id: string, input: ConvertLeadToProjectRecord, operatorUserId: string): Promise<Project> {
-        const lead = await this.requireLead(id);
-        if (lead.status === 'converted' || lead.convertedProjectId) {
-            throw new ConflictException(`Lead ${id} has already been converted to project ${lead.convertedProjectId}`);
-        }
-
-        if (lead.status !== 'qualified') {
-            throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
-        }
-
-        const existingProject = await this.leadRepository.findProjectByCode(input.projectCode);
-        if (existingProject) {
-            throw new ConflictException(`Project code ${input.projectCode} already exists`);
-        }
-
         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
         if (!operator) {
             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
         }
 
-        const project = this.leadRepository.createProject({
-            id: randomUUID(),
-            projectCode: input.projectCode,
-            projectName: input.projectName?.trim() || lead.leadName,
-            sourceLeadId: lead.id,
-            status: 'active',
-            currentStage: 'assessment',
-            customerId: null,
-            customerName: lead.customerName,
-            ownerOrgId: lead.ownerOrgId ?? null,
-            ownerUserId: lead.ownerUserId ?? null,
-            plannedSignAt: input.plannedSignAt ?? null,
-            createdBy: operator.id,
-            updatedBy: operator.id
+        return this.leadRepository.getEntityManager().transactional(async (em) => {
+            const lead = await em.findOne(Lead, { id });
+            if (!lead) {
+                throw new NotFoundException(`Lead ${id} not found`);
+            }
+
+            if (lead.status === 'converted' || lead.convertedProjectId) {
+                throw new ConflictException(`Lead ${id} has already been converted to project ${lead.convertedProjectId}`);
+            }
+
+            if (lead.status !== 'qualified') {
+                throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
+            }
+
+            const projectNo = await this.businessNumberService.next('project', new Date(), em);
+            const project = em.create(Project, {
+                id: randomUUID(),
+                projectNo,
+                projectName: input.projectName?.trim() || lead.leadName,
+                sourceLeadId: lead.id,
+                status: 'active',
+                currentStage: 'assessment',
+                customerId: null,
+                customerName: lead.customerName,
+                customerProjectNo: input.customerProjectNo?.trim() || null,
+                ownerOrgId: lead.ownerOrgId ?? null,
+                ownerUserId: lead.ownerUserId ?? null,
+                plannedSignAt: input.plannedSignAt ?? null,
+                createdBy: operator.id,
+                updatedBy: operator.id
+            });
+
+            const now = new Date();
+            lead.status = 'converted';
+            lead.convertedProjectId = project.id;
+            lead.convertedAt = now;
+            lead.convertedBy = operator.id;
+            lead.updatedBy = operator.id;
+
+            em.persist([lead, project]);
+            await em.flush();
+            return project;
         });
-
-        const now = new Date();
-        lead.status = 'converted';
-        lead.convertedProjectId = project.id;
-        lead.convertedAt = now;
-        lead.convertedBy = operator.id;
-        lead.updatedBy = operator.id;
-
-        await this.leadRepository.saveLeadAndProject(lead, project);
-
-        return project;
     }
 
     private async requireLead(id: string): Promise<Lead> {

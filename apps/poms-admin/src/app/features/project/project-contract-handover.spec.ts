@@ -7,7 +7,7 @@ import { ProjectContractHandover } from './project-contract-handover';
 function createContractHandoverSummary(): ContractHandoverSummaryView {
     return {
         projectId: 'project-1',
-        projectCode: 'PRJ-001',
+        projectNo: 'PRJ-001',
         projectName: '合同承接项目',
         effectiveContractSetSummary: {
             activeContractCount: 1,
@@ -78,7 +78,7 @@ function createProjectHandoverDetail(summary: ContractHandoverSummaryView): Proj
     return {
         handoverId: 'handover-1',
         projectId: 'project-1',
-        projectCode: 'PRJ-001',
+        projectNo: 'PRJ-001',
         projectName: '合同承接项目',
         handoverStatus: 'draft',
         confirmedAt: null,

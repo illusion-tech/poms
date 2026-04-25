@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { ProjectController } from './project.controller';
+import { ProjectArchiveRecordController, ProjectController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
@@ -10,6 +10,7 @@ describe('ProjectController', () => {
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
     let controller: ProjectController;
+    let archiveRecordController: ProjectArchiveRecordController;
     let projectQueryService: jest.Mocked<ProjectQueryService>;
     let projectService: jest.Mocked<ProjectService>;
 
@@ -26,17 +27,20 @@ describe('ProjectController', () => {
 
         projectService = {
             findMany: jest.fn(),
-            findByCode: jest.fn(),
+            findByNo: jest.fn(),
             findById: jest.fn(),
             createAndSave: jest.fn(),
             createAcceptanceRecord: jest.fn(),
             createProjectCompletionRecord: jest.fn(),
             createProjectArchiveRecord: jest.fn(),
+            replaceProjectArchiveRecord: jest.fn(),
+            voidProjectArchiveRecord: jest.fn(),
             updateBasicInfo: jest.fn(),
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
 
         controller = new ProjectController(projectQueryService, projectService);
+        archiveRecordController = new ProjectArchiveRecordController(projectService);
     });
 
     it('maps create payload plannedSignAt into Date and injects operator id', async () => {
@@ -49,9 +53,9 @@ describe('ProjectController', () => {
 
         await controller.create(
             {
-                projectCode: 'PRJ-2026-001',
                 projectName: 'POMS 首期项目主链路样例',
                 customerName: '华南地铁集团',
+                customerProjectNo: 'CUS-PRJ-001',
                 currentStage: 'commercial-closure',
                 plannedSignAt
             },
@@ -61,6 +65,7 @@ describe('ProjectController', () => {
         expect(projectService.createAndSave).toHaveBeenCalledWith(
             expect.objectContaining({
                 customerName: '华南地铁集团',
+                customerProjectNo: 'CUS-PRJ-001',
                 plannedSignAt: new Date(plannedSignAt)
             }),
             userId
@@ -104,7 +109,7 @@ describe('ProjectController', () => {
     it('returns project detail through the query service', async () => {
         const detail = {
             id: projectId,
-            projectCode: 'PRJ-2026-001',
+            projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             allowedActions: ['view-project-workspace']
         };
@@ -374,6 +379,108 @@ describe('ProjectController', () => {
         expect(result.archiveSummary).toBe('项目资料归档完成');
     });
 
+    it('replaces project archive record with operator id', async () => {
+        const archivedAt = new Date('2026-04-23T10:00:00.000Z');
+        projectService.replaceProjectArchiveRecord.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000002',
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+            status: 'recorded',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '项目资料归档更新',
+            evidenceSummary: '新版归档清单',
+            supersedesArchiveRecordId: '38000000-0000-4000-8000-000000000001',
+            replacementReason: '资料补充',
+            voidedAt: null,
+            voidedBy: null,
+            voidReason: null,
+            createdAt: archivedAt,
+            createdBy: userId,
+            updatedAt: archivedAt,
+            updatedBy: userId,
+            rowVersion: 1
+        } as never);
+
+        const result = await archiveRecordController.replaceProjectArchiveRecord(
+            '38000000-0000-4000-8000-000000000001',
+            {
+                archivedAt: '2026-04-23T10:00:00.000Z',
+                archiveSummary: '项目资料归档更新',
+                evidenceSummary: '新版归档清单',
+                replacementReason: '资料补充',
+                expectedVersion: 2
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.replaceProjectArchiveRecord).toHaveBeenCalledWith(
+            '38000000-0000-4000-8000-000000000001',
+            {
+                archivedAt,
+                archiveSummary: '项目资料归档更新',
+                evidenceSummary: '新版归档清单',
+                replacementReason: '资料补充',
+                expectedVersion: 2
+            },
+            userId
+        );
+        expect(result.supersedesArchiveRecordId).toBe('38000000-0000-4000-8000-000000000001');
+        expect(result.replacementReason).toBe('资料补充');
+    });
+
+    it('voids project archive record with operator id', async () => {
+        const archivedAt = new Date('2026-04-22T10:00:00.000Z');
+        const voidedAt = new Date('2026-04-24T10:00:00.000Z');
+        projectService.voidProjectArchiveRecord.mockResolvedValue({
+            id: '38000000-0000-4000-8000-000000000001',
+            projectId,
+            archiveAnchorStage: 'completed',
+            archiveAnchorSourceType: 'project-completion-record',
+            archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+            status: 'voided',
+            archivedAt,
+            archivedBy: userId,
+            archiveSummary: '项目资料归档完成',
+            evidenceSummary: '归档清单与交付包',
+            supersedesArchiveRecordId: null,
+            replacementReason: null,
+            voidedAt,
+            voidedBy: userId,
+            voidReason: '客户要求重新归档',
+            createdAt: archivedAt,
+            createdBy: userId,
+            updatedAt: voidedAt,
+            updatedBy: userId,
+            rowVersion: 2
+        } as never);
+
+        const result = await archiveRecordController.voidProjectArchiveRecord(
+            '38000000-0000-4000-8000-000000000001',
+            {
+                reason: '客户要求重新归档',
+                comment: null,
+                expectedVersion: 1
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.voidProjectArchiveRecord).toHaveBeenCalledWith(
+            '38000000-0000-4000-8000-000000000001',
+            {
+                reason: '客户要求重新归档',
+                comment: null,
+                expectedVersion: 1
+            },
+            userId
+        );
+        expect(result.status).toBe('voided');
+        expect(result.voidedAt).toBe('2026-04-24T10:00:00.000Z');
+        expect(result.voidReason).toBe('客户要求重新归档');
+    });
+
     it('throws when project detail is not found by id', async () => {
         projectQueryService.getProjectDetail.mockRejectedValue(new NotFoundException(`Project ${projectId} not found`));
 
@@ -387,7 +494,7 @@ describe('ProjectController', () => {
     function createProjectEntity(overrides: Partial<Project> = {}): Project {
         return Object.assign(new Project(), {
             id: projectId,
-            projectCode: 'PRJ-2026-001',
+            projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: null,
             customerId: null,

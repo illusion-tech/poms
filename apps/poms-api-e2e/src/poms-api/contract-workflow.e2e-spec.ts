@@ -14,7 +14,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同审批链 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -22,7 +22,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '188000.00'
             })
         );
@@ -67,7 +67,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-guard');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同状态约束 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -75,7 +75,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '92000.00'
             })
         );
@@ -94,7 +94,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-readiness-missing');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 承接包缺失约束 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -102,7 +102,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '118000.00'
             })
         );
@@ -133,7 +133,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-reject');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同驳回链 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -141,7 +141,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '126000.00'
             })
         );
@@ -174,7 +174,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-version');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同版本冲突 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -182,7 +182,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '135000.00'
             })
         );
@@ -214,7 +214,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-duplicate-review');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同重复送审 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -222,7 +222,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '142000.00'
             })
         );
@@ -247,7 +247,7 @@ describe('poms-api contract workflow e2e', () => {
         const unique = makeUniqueSuffix('contract-resubmit');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同重提读侧 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -255,7 +255,7 @@ describe('poms-api contract workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '166000.00'
             })
         );
@@ -268,7 +268,7 @@ describe('poms-api contract workflow e2e', () => {
         const firstTodo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
         expect(firstTodo.allowedActions).toEqual(['approve', 'reject']);
         expect(firstTodo.currentNodeName).toBe('合同审核');
-        expect(firstTodo.targetTitle).toBe(`E2E-HT-${unique}`);
+        expect(firstTodo.targetTitle).toBe(contract.contractNo);
 
         const firstApproval = await getCurrentContractApproval(client, contract.id);
         expect(firstApproval.id).toBe(firstTodo.sourceId);

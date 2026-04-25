@@ -23,6 +23,8 @@ export interface ProjectBidCommercialProcessSummary {
     processSummary: string;
     decisionSummary: string | null;
     resultSummary: string | null;
+    tenderNo: string | null;
+    bidPackageNo: string | null;
     ownerRole: string | null;
     blockerCount: number;
     effectiveAt: string;

@@ -1,7 +1,7 @@
 # API Canonical Inventory
 
 **文档状态**: Active
-**最后更新**: 2026-04-25
+**最后更新**: 2026-04-26
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -240,6 +240,8 @@
 | `project`          | `listProjectCompletionRecords`      | `GET /projects/{projectId}/completion-records`        | `GET /projects/{projectId}/completion-records`        | `GET /projects/{projectId}/completion-records`        | `ADR-015` + `EX-24`                         | `N/A`      | `EX-24` 已新增项目完成事实读侧集合，供项目时间线与后续前端读取型体验消费                                                 | `B3`  | `aligned` |
 | `project`          | `createProjectArchiveRecord`        | `POST /projects/{projectId}/archive-records`          | `POST /projects/{projectId}/archive-records`          | `POST /projects/{projectId}/archive-records`          | `ADR-015` + `EX-25`                         | `N/A`      | `EX-25` 已新增项目归档事实子集合创建；archive 固定为终态附属 milestone，而不是新的主生命周期阶段                         | `B3`  | `aligned` |
 | `project`          | `listProjectArchiveRecords`         | `GET /projects/{projectId}/archive-records`           | `GET /projects/{projectId}/archive-records`           | `GET /projects/{projectId}/archive-records`           | `ADR-015` + `EX-25`                         | `N/A`      | `EX-25` 已新增项目归档事实读侧集合；后续 `FE-24` 只消费附属 milestone / 完成态详情，不新增第九个 stage node              | `B3`  | `aligned` |
+| `project`          | `replaceProjectArchiveRecord`       | `POST /project-archive-records/{id}:replace`          | `POST /project-archive-records/{id}:replace`          | `POST /project-archive-records/{id}:replace`          | `ADR-015` + `EX-34` / `EX-34A`              | `N/A`      | `EX-34A` 已实现归档替代版本链；path `{id}` 是被替代归档记录 identity SSOT，replacement 创建新 `recorded` 记录            | `B3`  | `aligned` |
+| `project`          | `voidProjectArchiveRecord`          | `POST /project-archive-records/{id}:void`             | `POST /project-archive-records/{id}:void`             | `POST /project-archive-records/{id}:void`             | `ADR-015` + `EX-34` / `EX-34A`              | `N/A`      | `EX-34A` 已实现归档撤销；作废指定 current recorded 归档事实，不删除审计记录，不影响既有 project-scoped list route        | `B3`  | `aligned` |
 | `project`          | `updateProject`                     | `PATCH /projects/{id}`                                | `PATCH /projects/{id}`                                | `PATCH /projects/{id}`                                | `ADR-015` + `EX-15E4`                       | `N/A`      | `EX-15E4` 已清退 `/basic` page suffix                                                                                    | `B2`  | `aligned` |
 | `contract-finance` | `listReceiptRecords`                | `GET /contracts/{contractId}/receipt-records`         | `GET /contracts/{contractId}/receipt-records`         | `GET /contracts/{contractId}/receipt-records`         | `ADR-015` + `EX-15E4`                       | `N/A`      | `EX-15E4` 已清退 `contract-finance` public namespace                                                                     | `B2`  | `aligned` |
 | `contract-finance` | `createReceiptRecord`               | `POST /contracts/{contractId}/receipt-records`        | `POST /contracts/{contractId}/receipt-records`        | `POST /contracts/{contractId}/receipt-records`        | `ADR-015` + `EX-15E4`                       | `N/A`      | `EX-15E4` 已保持 parent subcollection create 语义                                                                        | `B2`  | `aligned` |

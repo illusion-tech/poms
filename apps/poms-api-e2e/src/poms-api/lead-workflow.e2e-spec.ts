@@ -12,7 +12,6 @@ describe('poms-api lead workflow e2e', () => {
         const unique = makeUniqueSuffix('lead-convert');
         const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
         const lead = await createLead(client, {
-            leadCode: `E2E-LEAD-${unique}`,
             leadName: `E2E 线索转项目 ${unique}`,
             customerName: `E2E 客户 ${unique}`,
             sourceChannel: 'e2e',
@@ -26,7 +25,7 @@ describe('poms-api lead workflow e2e', () => {
         expect(qualifiedLead.status).toBe('qualified');
 
         const project = await convertLeadToProject(client, lead.id, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 项目 ${unique}`,
             plannedSignAt: '2026-05-01T00:00:00.000Z'
         });
@@ -42,7 +41,7 @@ describe('poms-api lead workflow e2e', () => {
         expect(leadDetail.convertedProjectSummary).toEqual(
             expect.objectContaining({
                 id: project.id,
-                projectCode: project.projectCode,
+                projectNo: project.projectNo,
                 currentStage: 'assessment'
             })
         );
@@ -52,13 +51,13 @@ describe('poms-api lead workflow e2e', () => {
         expect(projectDetail.sourceLeadSummary).toEqual(
             expect.objectContaining({
                 id: lead.id,
-                leadCode: lead.leadCode,
+                leadNo: lead.leadNo,
                 status: 'converted'
             })
         );
 
         const duplicateResponse = await client.post(`/leads/${lead.id}:convertToProject`, {
-            projectCode: `E2E-PRJ-DUP-${unique}`
+            customerProjectNo: `E2E-PRJ-DUP-${unique}`
         });
         expectErrorStatus(duplicateResponse, 409);
     });

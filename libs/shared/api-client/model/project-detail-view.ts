@@ -17,11 +17,12 @@ import { ProjectSourceLeadSummary } from './project-source-lead-summary';
 
 export interface ProjectDetailView {
     id: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     sourceLeadId: string | null;
     customerId: string | null;
     customerName: string | null;
+    customerProjectNo: string | null;
     status: string;
     currentStage: string;
     ownerOrgId: string | null;

@@ -11,11 +11,12 @@
 
 export interface ProjectSummary {
     id: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     sourceLeadId: string | null;
     customerId: string | null;
     customerName: string | null;
+    customerProjectNo: string | null;
     status: string;
     currentStage: string;
     ownerOrgId: string | null;

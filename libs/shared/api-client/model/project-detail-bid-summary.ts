@@ -13,5 +13,7 @@ export interface ProjectDetailBidSummary {
     bidProcessId: string | null;
     bidStatus: string;
     resultStatus: string | null;
+    tenderNo: string | null;
+    bidPackageNo: string | null;
     summary: string | null;
 }

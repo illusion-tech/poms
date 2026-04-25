@@ -413,7 +413,7 @@ describe('ProjectHandoverCommandService', () => {
         return {
             handoverId,
             projectId,
-            projectCode: 'P-001',
+            projectNo: 'P-001',
             projectName: '项目一',
             handoverStatus: 'draft',
             confirmedAt: null,

@@ -12,7 +12,7 @@ import { LeadStatus } from './lead-status';
 
 export interface ProjectSourceLeadSummary {
     id: string;
-    leadCode: string;
+    leadNo: string;
     leadName: string;
     customerName: string;
     status: LeadStatus;

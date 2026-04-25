@@ -21,7 +21,7 @@ describe('poms-api approval workflow e2e', () => {
         const unique = makeUniqueSuffix('approval-actor');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批处理人校验 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -29,7 +29,7 @@ describe('poms-api approval workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '98000.00'
             })
         );
@@ -77,7 +77,7 @@ describe('poms-api approval workflow e2e', () => {
         const unique = makeUniqueSuffix('approval-repeat-approve');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批重复通过 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -85,7 +85,7 @@ describe('poms-api approval workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '108000.00'
             })
         );
@@ -116,7 +116,7 @@ describe('poms-api approval workflow e2e', () => {
         const unique = makeUniqueSuffix('approval-repeat-reject');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 审批重复驳回 ${unique}`,
             currentStage: 'commercial-closure'
         });
@@ -124,7 +124,7 @@ describe('poms-api approval workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '118000.00'
             })
         );

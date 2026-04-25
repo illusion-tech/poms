@@ -16,7 +16,7 @@ import { ContractHandoverCurrentBaselineSummary } from './contract-handover-curr
 export interface ProjectHandoverDetailView {
     handoverId: string | null;
     projectId: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum;
     confirmedAt: string | null;

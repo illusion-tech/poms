@@ -4,6 +4,7 @@ import type { CommandResult, ContractStatus } from '@poms/shared-contracts';
 
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
 import { ProjectService } from '../project/project.service';
 import { Contract } from './contract.entity';
@@ -19,7 +20,7 @@ export interface FindContractsQuery {
 
 export interface CreateContractRecord {
     projectId: string;
-    contractNo: string;
+    customerContractNo?: string | null;
     status?: ContractStatus;
     signedAmount: string;
     currencyCode?: string;
@@ -30,6 +31,7 @@ export interface CreateContractRecord {
 }
 
 export interface UpdateContractBasicInfoRecord {
+    customerContractNo?: string | null;
     signedAmount?: string;
     currencyCode?: string;
     signedAt?: Date | null;
@@ -49,6 +51,7 @@ const CONTRACT_TARGET_TYPE = 'Contract';
 export class ContractService {
     constructor(
         private readonly contractRepository: ContractRepository,
+        private readonly businessNumberService: BusinessNumberService,
         private readonly projectService: ProjectService,
         private readonly contractReadinessService: ContractReadinessService,
         private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
@@ -75,26 +78,25 @@ export class ContractService {
             throw new NotFoundException(`Project ${input.projectId} not found`);
         }
 
-        const existingContract = await this.contractRepository.findByNo(input.contractNo);
-        if (existingContract) {
-            throw new ConflictException(`Contract no ${input.contractNo} already exists`);
-        }
+        return this.contractRepository.getEntityManager().transactional(async (em) => {
+            const contractNo = await this.businessNumberService.next('contract', new Date(), em);
+            const contract = em.create(Contract, {
+                projectId: input.projectId,
+                contractNo,
+                customerContractNo: input.customerContractNo?.trim() || null,
+                status: input.status ?? 'draft',
+                signedAmount: input.signedAmount,
+                currencyCode: input.currencyCode ?? 'CNY',
+                signedAt: input.signedAt ?? null,
+                retentionDueDate: this.normalizeDateOnly(input.retentionDueDate) ?? null,
+                createdBy: input.createdBy ?? null,
+                updatedBy: input.updatedBy ?? null
+            });
 
-        const contract = this.contractRepository.create({
-            projectId: input.projectId,
-            contractNo: input.contractNo,
-            status: input.status ?? 'draft',
-            signedAmount: input.signedAmount,
-            currencyCode: input.currencyCode ?? 'CNY',
-            signedAt: input.signedAt ?? null,
-            retentionDueDate: this.normalizeDateOnly(input.retentionDueDate) ?? null,
-            createdBy: input.createdBy ?? null,
-            updatedBy: input.updatedBy ?? null
+            em.persist(contract);
+            await em.flush();
+            return contract;
         });
-
-        await this.contractRepository.save(contract);
-
-        return contract;
     }
 
     async updateBasicInfo(id: string, input: UpdateContractBasicInfoRecord): Promise<Contract> {
@@ -109,6 +111,10 @@ export class ContractService {
 
         if (input.signedAmount !== undefined) {
             contract.signedAmount = input.signedAmount;
+        }
+
+        if (input.customerContractNo !== undefined) {
+            contract.customerContractNo = input.customerContractNo?.trim() || null;
         }
 
         if (input.currencyCode !== undefined) {

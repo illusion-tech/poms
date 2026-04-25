@@ -14,7 +14,7 @@ export function getProject(client: AxiosInstance, projectId: string): Promise<Pr
 export function createProjectForProfile(
     client: AxiosInstance,
     profile: SanitizedUserWithOrgUnits,
-    overrides: Partial<CreateProjectRequest> & Pick<CreateProjectRequest, 'projectCode' | 'projectName'>
+    overrides: Partial<CreateProjectRequest> & { projectName: string; customerProjectNo?: string | null }
 ): Promise<ProjectSummary> {
     return createProject(client, buildProjectInput(profile, overrides));
 }

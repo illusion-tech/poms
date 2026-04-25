@@ -7,7 +7,7 @@ import { ProjectWorkspaceHome } from './project-workspace-home';
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         customerId: null,
         customerName: '华南地铁集团',

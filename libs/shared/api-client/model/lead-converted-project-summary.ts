@@ -11,7 +11,7 @@
 
 export interface LeadConvertedProjectSummary {
     id: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     status: string;
     currentStage: string;

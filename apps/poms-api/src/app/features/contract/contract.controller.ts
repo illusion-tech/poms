@@ -94,7 +94,7 @@ export class ContractController {
     async create(@Body() body: CreateContractRequestDto): Promise<ContractSummary> {
         const contract = await this.contractService.createAndSave({
             projectId: body.projectId,
-            contractNo: body.contractNo,
+            customerContractNo: body.customerContractNo,
             status: body.status,
             signedAmount: body.signedAmount,
             currencyCode: body.currencyCode,
@@ -114,6 +114,7 @@ export class ContractController {
     @ApiOkResponse({ type: ContractDto })
     async updateBasicInfo(@Param('id') id: string, @Body() body: UpdateContractBasicInfoRequestDto): Promise<ContractSummary> {
         const contract = await this.contractService.updateBasicInfo(id, {
+            customerContractNo: body.customerContractNo,
             signedAmount: body.signedAmount,
             currencyCode: body.currencyCode,
             signedAt: body.signedAt === undefined ? undefined : body.signedAt === null ? null : new Date(body.signedAt),
@@ -151,6 +152,7 @@ function mapContractToSummary(contract: Contract, project: Project | null): Cont
         projectName: project?.projectName ?? '',
         customerName: project?.customerName ?? null,
         contractNo: contract.contractNo,
+        customerContractNo: contract.customerContractNo ?? null,
         status: contract.status,
         signedAmount: contract.signedAmount,
         currencyCode: contract.currencyCode,

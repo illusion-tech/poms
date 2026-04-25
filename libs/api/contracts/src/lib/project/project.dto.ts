@@ -8,6 +8,7 @@ import {
     CreateProjectPricingMarginReviewRequestSchema,
     CreateProjectRequestSchema,
     CreateProjectTechnicalCostPackageRequestSchema,
+    ReplaceProjectArchiveRecordRequestSchema,
     ProjectArchiveRecordListSchema,
     ProjectArchiveRecordSummarySchema,
     ProjectBidCommercialProcessListSchema,
@@ -27,6 +28,7 @@ import {
     ProjectTechnicalCostWorkspaceViewSchema,
     ProjectTimelineViewSchema,
     ProjectWorkspaceGuidanceViewSchema,
+    VoidProjectArchiveRecordRequestSchema,
     UpdateProjectBasicInfoRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
@@ -42,6 +44,10 @@ export class ProjectArchiveRecordDto extends createZodDto(ProjectArchiveRecordSu
 export class ProjectArchiveRecordListDto extends createZodDto(ProjectArchiveRecordListSchema) {}
 
 export class CreateProjectArchiveRecordRequestDto extends createZodDto(CreateProjectArchiveRecordRequestSchema) {}
+
+export class ReplaceProjectArchiveRecordRequestDto extends createZodDto(ReplaceProjectArchiveRecordRequestSchema) {}
+
+export class VoidProjectArchiveRecordRequestDto extends createZodDto(VoidProjectArchiveRecordRequestSchema) {}
 
 export class ProjectBidCommercialProcessDto extends createZodDto(ProjectBidCommercialProcessSummarySchema) {}
 

@@ -10,7 +10,7 @@
 
 
 export interface ConvertLeadToProjectRequest {
-    projectCode: string;
     projectName?: string;
+    customerProjectNo?: string | null;
     plannedSignAt?: string | null;
 }

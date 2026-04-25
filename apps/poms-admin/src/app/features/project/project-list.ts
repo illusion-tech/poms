@@ -31,7 +31,7 @@ interface ProjectSummaryItem {
 
 interface CreateProjectForm {
     customerName: string;
-    projectCode: string;
+    customerProjectNo: string;
     projectName: string;
 }
 
@@ -41,7 +41,7 @@ const ALL_FILTER_VALUE = 'all';
 
 const EMPTY_CREATE_FORM: CreateProjectForm = {
     customerName: '',
-    projectCode: '',
+    customerProjectNo: '',
     projectName: ''
 };
 
@@ -162,7 +162,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['projectCode', 'projectName', 'customerName', 'ownerName', 'ownerOrgName', 'currentStage', 'status']"
+                        [globalFilterFields]="['projectNo', 'projectName', 'customerName', 'customerProjectNo', 'ownerName', 'ownerOrgName', 'currentStage', 'status']"
                         [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个项目"
@@ -269,7 +269,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                                     >
                                         {{ project.projectName }}
                                     </button>
-                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.projectCode }}</div>
+                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.projectNo }}</div>
                                 </td>
                                 <td>
                                     <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ displayText(project.customerName, '待补充客户') }}</span>
@@ -330,18 +330,15 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                     }
 
                     <div class="flex flex-col gap-2">
-                        <label for="projectCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">项目编号</label>
+                        <label for="customerProjectNo" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户项目编号</label>
                         <input
                             pInputText
-                            id="projectCode"
-                            [ngModel]="createForm().projectCode"
-                            (ngModelChange)="updateCreateField('projectCode', $event)"
-                            placeholder="例如：P-2026-001"
+                            id="customerProjectNo"
+                            [ngModel]="createForm().customerProjectNo"
+                            (ngModelChange)="updateCreateField('customerProjectNo', $event)"
+                            placeholder="客户侧立项或招标编号，可选"
                             class="w-full rounded-md!"
                         />
-                        @if (createAttempted() && !createForm().projectCode.trim()) {
-                            <span class="text-xs text-red-600 dark:text-red-300">请填写项目编号。</span>
-                        }
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -466,7 +463,7 @@ export class ProjectList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.projectCode.trim() && form.projectName.trim() && form.customerName.trim());
+        return Boolean(form.projectName.trim() && form.customerName.trim());
     });
 
     ngOnInit() {
@@ -544,9 +541,9 @@ export class ProjectList implements OnInit {
 
         try {
             await this.#projectStore.createProject({
-                projectCode: form.projectCode.trim(),
                 projectName: form.projectName.trim(),
-                customerName: form.customerName.trim()
+                customerName: form.customerName.trim(),
+                customerProjectNo: this.optionalText(form.customerProjectNo)
             });
             this.closeCreateDialog();
         } catch {
@@ -574,10 +571,16 @@ export class ProjectList implements OnInit {
         return value?.trim() ? value : fallback;
     }
 
+    private optionalText(value: string): string | null {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : null;
+    }
+
     private projectSearchText(project: ProjectListView): string {
         return this.normalize(
             [
-                project.projectCode,
+                project.projectNo,
+                project.customerProjectNo,
                 project.projectName,
                 project.customerName,
                 project.ownerName,

@@ -30,6 +30,7 @@ export const ContractSchema = defineEntity({
                 .deleteRule('restrict')
                 .comment('所属项目标识'),
         contractNo: p.string().length(64).unique().fieldName('contract_no').comment('合同编号'),
+        customerContractNo: p.string().length(128).nullable().fieldName('customer_contract_no').comment('客户合同编号'),
         status: p.string().$type<ContractStatus>().length(32).comment('合同状态'),
         signedAmount: p.string().columnType('numeric(18,2)').defaultRaw('0').fieldName('signed_amount').comment('合同签约金额'),
         currencyCode: p.string().length(16).default('CNY').fieldName('currency_code').comment('币种代码'),

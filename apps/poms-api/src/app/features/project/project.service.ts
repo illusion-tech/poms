@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import type {
     AcceptanceRecordResult,
     AcceptanceRecordType,
@@ -20,9 +21,9 @@ import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
 export interface CreateProjectRecord {
-    projectCode: string;
     projectName: string;
     customerName: string;
+    customerProjectNo?: string | null;
     sourceLeadId?: string | null;
     currentStage?: ProjectStage;
     plannedSignAt?: Date | null;
@@ -38,6 +39,7 @@ export interface FindProjectsQuery {
 export interface UpdateProjectBasicInfoRecord {
     projectName?: string;
     customerName?: string | null;
+    customerProjectNo?: string | null;
     plannedSignAt?: Date | null;
 }
 
@@ -63,6 +65,20 @@ export interface CreateProjectArchiveRecordInput {
     evidenceSummary: string;
 }
 
+export interface ReplaceProjectArchiveRecordInput {
+    archivedAt: Date;
+    archiveSummary: string;
+    evidenceSummary: string;
+    replacementReason: string;
+    expectedVersion?: number;
+}
+
+export interface VoidProjectArchiveRecordInput {
+    reason: string;
+    comment?: string | null;
+    expectedVersion?: number;
+}
+
 const TECHNICAL_COST_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
 const BID_COMMERCIAL_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
 const PRICING_MARGIN_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
@@ -75,7 +91,10 @@ const RISK_LEVEL_WEIGHT: Record<PreSigningRiskLevel, number> = {
 
 @Injectable()
 export class ProjectService {
-    constructor(private readonly projectRepository: ProjectRepository) {}
+    constructor(
+        private readonly projectRepository: ProjectRepository,
+        private readonly businessNumberService: BusinessNumberService
+    ) {}
 
     async findAll(): Promise<Project[]> {
         return this.projectRepository.findAll();
@@ -93,39 +112,38 @@ export class ProjectService {
         return this.projectRepository.findByIds(ids);
     }
 
-    async findByCode(projectCode: string): Promise<Project | null> {
-        return this.projectRepository.findByCode(projectCode);
+    async findByNo(projectNo: string): Promise<Project | null> {
+        return this.projectRepository.findByNo(projectNo);
     }
 
     async createAndSave(input: CreateProjectRecord, operatorUserId: string): Promise<Project> {
-        const existingProject = await this.projectRepository.findByCode(input.projectCode);
-        if (existingProject) {
-            throw new ConflictException(`Project code ${input.projectCode} already exists`);
-        }
-
         const operator = await this.projectRepository.findPlatformUserById(operatorUserId);
         if (!operator) {
             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
         }
 
-        const project = this.projectRepository.create({
-            projectCode: input.projectCode,
-            projectName: input.projectName,
-            sourceLeadId: input.sourceLeadId ?? null,
-            status: 'active',
-            currentStage: input.currentStage ?? 'assessment',
-            customerId: null,
-            customerName: input.customerName,
-            ownerOrgId: operator.primaryOrgUnitId ?? null,
-            ownerUserId: operator.id,
-            plannedSignAt: input.plannedSignAt ?? null,
-            createdBy: operator.id,
-            updatedBy: operator.id
+        return this.projectRepository.getEntityManager().transactional(async (em) => {
+            const projectNo = await this.businessNumberService.next('project', new Date(), em);
+            const project = em.create(Project, {
+                projectNo,
+                projectName: input.projectName,
+                sourceLeadId: input.sourceLeadId ?? null,
+                status: 'active',
+                currentStage: input.currentStage ?? 'assessment',
+                customerId: null,
+                customerName: input.customerName,
+                customerProjectNo: input.customerProjectNo?.trim() || null,
+                ownerOrgId: operator.primaryOrgUnitId ?? null,
+                ownerUserId: operator.id,
+                plannedSignAt: input.plannedSignAt ?? null,
+                createdBy: operator.id,
+                updatedBy: operator.id
+            });
+
+            em.persist(project);
+            await em.flush();
+            return project;
         });
-
-        await this.projectRepository.save(project);
-
-        return project;
     }
 
     async updateBasicInfo(id: string, input: UpdateProjectBasicInfoRecord, operatorUserId: string): Promise<Project> {
@@ -146,6 +164,10 @@ export class ProjectService {
 
         if (input.customerName !== undefined) {
             project.customerName = input.customerName;
+        }
+
+        if (input.customerProjectNo !== undefined) {
+            project.customerProjectNo = input.customerProjectNo?.trim() || null;
         }
 
         if (input.plannedSignAt !== undefined) {
@@ -250,6 +272,8 @@ export class ProjectService {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because completion is not effective`);
             }
 
+            await this.assertNoCurrentArchiveRecord(project.id);
+
             const completionRecord = await this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id);
             if (!completionRecord) {
                 throw new BadRequestException(`Project ${projectId} cannot record archive without an effective completion source`);
@@ -279,6 +303,8 @@ export class ProjectService {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because close fact is not effective`);
             }
 
+            await this.assertNoCurrentArchiveRecord(project.id);
+
             const record = this.projectRepository.createProjectArchiveRecord({
                 projectId,
                 archiveAnchorStage: project.currentStage,
@@ -299,6 +325,76 @@ export class ProjectService {
         }
 
         throw new BadRequestException(`Project ${projectId} cannot record archive in stage ${project.currentStage}`);
+    }
+
+    async replaceProjectArchiveRecord(id: string, input: ReplaceProjectArchiveRecordInput, operatorUserId: string): Promise<ProjectArchiveRecord> {
+        const supersededRecord = await this.projectRepository.findProjectArchiveRecordById(id);
+        if (!supersededRecord) {
+            throw new NotFoundException(`ProjectArchiveRecord ${id} not found`);
+        }
+
+        this.assertExpectedVersion(supersededRecord.rowVersion, input.expectedVersion, 'ProjectArchiveRecord');
+        if (supersededRecord.status !== 'recorded') {
+            throw new BadRequestException(`Only recorded project archive records can be replaced, current status: ${supersededRecord.status}`);
+        }
+
+        const currentRecord = await this.projectRepository.findLatestRecordedProjectArchiveRecordByProjectId(supersededRecord.projectId);
+        if (currentRecord && currentRecord.id !== supersededRecord.id) {
+            throw new ConflictException(`Project ${supersededRecord.projectId} has a newer current archive record ${currentRecord.id}`);
+        }
+
+        supersededRecord.status = 'superseded';
+        supersededRecord.updatedBy = operatorUserId;
+
+        const replacementRecord = this.projectRepository.createProjectArchiveRecord({
+            projectId: supersededRecord.projectId,
+            archiveAnchorStage: supersededRecord.archiveAnchorStage,
+            archiveAnchorSourceType: supersededRecord.archiveAnchorSourceType,
+            archiveAnchorSourceId: supersededRecord.archiveAnchorSourceId,
+            status: 'recorded',
+            archivedAt: input.archivedAt,
+            archivedBy: operatorUserId,
+            archiveSummary: input.archiveSummary,
+            evidenceSummary: input.evidenceSummary,
+            supersedesArchiveRecordId: supersededRecord.id,
+            replacementReason: input.replacementReason.trim(),
+            createdBy: operatorUserId,
+            updatedBy: operatorUserId
+        });
+
+        await this.projectRepository.saveProjectArchiveRecordReplacement({
+            supersededRecord,
+            replacementRecord
+        });
+
+        return replacementRecord;
+    }
+
+    async voidProjectArchiveRecord(id: string, input: VoidProjectArchiveRecordInput, operatorUserId: string): Promise<ProjectArchiveRecord> {
+        const record = await this.projectRepository.findProjectArchiveRecordById(id);
+        if (!record) {
+            throw new NotFoundException(`ProjectArchiveRecord ${id} not found`);
+        }
+
+        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ProjectArchiveRecord');
+        if (record.status !== 'recorded') {
+            throw new BadRequestException(`Only recorded project archive records can be voided, current status: ${record.status}`);
+        }
+
+        const currentRecord = await this.projectRepository.findLatestRecordedProjectArchiveRecordByProjectId(record.projectId);
+        if (currentRecord && currentRecord.id !== record.id) {
+            throw new ConflictException(`Project ${record.projectId} has a newer current archive record ${currentRecord.id}`);
+        }
+
+        record.status = 'voided';
+        record.voidedAt = new Date();
+        record.voidedBy = operatorUserId;
+        record.voidReason = this.appendComment(input.reason.trim(), input.comment);
+        record.updatedBy = operatorUserId;
+
+        await this.projectRepository.saveProjectArchiveRecord(record);
+
+        return record;
     }
 
     async createProjectBidCommercialProcess(
@@ -341,6 +437,8 @@ export class ProjectService {
             processSummary: input.processSummary,
             decisionSummary: input.decisionSummary ?? null,
             resultSummary: input.resultSummary ?? null,
+            tenderNo: input.tenderNo?.trim() || null,
+            bidPackageNo: input.bidPackageNo?.trim() || null,
             ownerRole: input.ownerRole ?? null,
             blockerCount: this.countBidCommercialBlockers(input),
             effectiveAt: new Date(),
@@ -753,6 +851,24 @@ export class ProjectService {
 
     private formatMoney(value: number): string {
         return value.toFixed(2);
+    }
+
+    private async assertNoCurrentArchiveRecord(projectId: string): Promise<void> {
+        const currentArchiveRecord = await this.projectRepository.findLatestRecordedProjectArchiveRecordByProjectId(projectId);
+        if (currentArchiveRecord) {
+            throw new ConflictException(`Project ${projectId} already has current archive record ${currentArchiveRecord.id}; use replaceProjectArchiveRecord instead`);
+        }
+    }
+
+    private assertExpectedVersion(currentVersion: number, expectedVersion: number | undefined, targetType: string): void {
+        if (expectedVersion !== undefined && currentVersion !== expectedVersion) {
+            throw new ConflictException(`${targetType} version ${expectedVersion} does not match current version ${currentVersion}`);
+        }
+    }
+
+    private appendComment(value: string, comment: string | null | undefined): string {
+        const suffix = comment?.trim();
+        return suffix ? `${value}: ${suffix}` : value;
     }
 
     private resolveHighestRiskLevel(riskLevels: PreSigningRiskLevel[]): PreSigningRiskLevel | null {

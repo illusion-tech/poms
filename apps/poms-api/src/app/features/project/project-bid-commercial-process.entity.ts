@@ -68,6 +68,8 @@ export const ProjectBidCommercialProcessSchema = defineEntity({
         processSummary: p.text().fieldName('process_summary').comment('过程摘要'),
         decisionSummary: p.text().nullable().fieldName('decision_summary').comment('决策说明'),
         resultSummary: p.text().nullable().fieldName('result_summary').comment('结果说明'),
+        tenderNo: p.string().length(128).nullable().fieldName('tender_no').comment('招标编号'),
+        bidPackageNo: p.string().length(128).nullable().fieldName('bid_package_no').comment('标段/包件编号'),
         ownerRole: p.string().length(128).nullable().fieldName('owner_role').comment('责任角色'),
         blockerCount: p.integer().default(0).fieldName('blocker_count').comment('阻塞事项数量'),
         effectiveAt: p.datetime().fieldName('effective_at').comment('版本生效时间'),

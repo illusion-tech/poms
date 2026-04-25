@@ -33,7 +33,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const unique = makeUniqueSuffix('finance');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同资金事实 ${unique}`,
             currentStage: 'execution'
         });
@@ -41,7 +41,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '188000.00'
             })
         );
@@ -176,7 +176,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const unique = makeUniqueSuffix('finance-draft');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同资金草稿约束 ${unique}`,
             currentStage: 'execution'
         });
@@ -184,7 +184,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '98000.00'
             })
         );
@@ -207,7 +207,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const unique = makeUniqueSuffix('finance-version');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 合同资金版本冲突 ${unique}`,
             currentStage: 'execution'
         });
@@ -215,7 +215,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const contract = await createContract(
             client,
             buildContractInput(project.id, profile.id, {
-                contractNo: `E2E-HT-${unique}`,
+                customerContractNo: `E2E-HT-${unique}`,
                 signedAmount: '128000.00'
             })
         );
@@ -261,7 +261,7 @@ describe('poms-api contract-finance workflow e2e', () => {
         const unique = makeUniqueSuffix('finance-invoice');
 
         const project = await createProjectForProfile(client, profile, {
-            projectCode: `E2E-PRJ-${unique}`,
+            customerProjectNo: `E2E-PRJ-${unique}`,
             projectName: `E2E 发票合同约束 ${unique}`,
             currentStage: 'execution'
         });

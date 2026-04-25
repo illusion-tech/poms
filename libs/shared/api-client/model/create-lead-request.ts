@@ -10,7 +10,6 @@
 
 
 export interface CreateLeadRequest {
-    leadCode: string;
     leadName: string;
     customerName: string;
     sourceChannel?: string | null;

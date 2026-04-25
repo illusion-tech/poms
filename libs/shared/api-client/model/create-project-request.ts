@@ -10,9 +10,9 @@
 
 
 export interface CreateProjectRequest {
-    projectCode: string;
     projectName: string;
     customerName: string;
+    customerProjectNo?: string | null;
     currentStage?: CreateProjectRequestCurrentStageEnum;
     plannedSignAt?: string | null;
 }

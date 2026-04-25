@@ -183,12 +183,12 @@ export async function createActiveContractForProject(
     client: AxiosInstance,
     projectId: string,
     actorUserId: string,
-    input: { contractNo: string; signedAmount?: string; receiptAmount?: string; paymentAmountExcludingTax?: string }
+    input: { customerContractNo?: string | null; signedAmount?: string; receiptAmount?: string; paymentAmountExcludingTax?: string }
 ): Promise<ContractSummary> {
     const contract = await createContract(
         client,
         buildContractInput(projectId, actorUserId, {
-            contractNo: input.contractNo,
+            customerContractNo: input.customerContractNo ?? null,
             signedAmount: input.signedAmount ?? '188000.00'
         })
     );
@@ -205,7 +205,7 @@ export async function createActiveContractForProject(
         expectedVersion: 1
     });
 
-    await prepareContractReadinessForProject(client, projectId, actorUserId, input.contractNo);
+    await prepareContractReadinessForProject(client, projectId, actorUserId, input.customerContractNo ?? contract.contractNo);
 
     const pendingReviewContract = await getContract(client, contract.id);
     await activateContract(client, contract.id, {

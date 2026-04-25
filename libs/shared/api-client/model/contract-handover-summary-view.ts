@@ -16,7 +16,7 @@ import { ContractHandoverCurrentBaselineSummary } from './contract-handover-curr
 
 export interface ContractHandoverSummaryView {
     projectId: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     effectiveContractSetSummary: ContractHandoverEffectiveContractSetSummary;
     contractBaselineValidationSummary: ContractHandoverBaselineValidationSummary;

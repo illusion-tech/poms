@@ -55,7 +55,7 @@ const TEMPLATE = `
                     <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBackToProject()" class="cursor-pointer" />
                     <div>
                         <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">提成操作 · {{ project()!.projectName }}</h1>
-                        <span class="text-sm text-surface-500 dark:text-surface-400">{{ project()!.projectCode }}</span>
+                    <span class="text-sm text-surface-500 dark:text-surface-400">{{ project()!.projectNo }}</span>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">

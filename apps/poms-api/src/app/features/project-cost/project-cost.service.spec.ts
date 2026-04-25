@@ -1,5 +1,6 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
+import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import {
@@ -496,6 +497,7 @@ describe('ProjectCostService', () => {
     let costStageAttributionSnapshotRepository: jest.Mocked<CostStageAttributionSnapshotRepository>;
     let accountingTaxTreatmentSnapshotRepository: jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
     let contractHandoverRebaselineRecordRepository: jest.Mocked<ContractHandoverRebaselineRecordRepository>;
+    let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let dataMaturityEvaluationResultRepository: jest.Mocked<DataMaturityEvaluationResultRepository>;
     let operatingSignalEvaluationResultRepository: jest.Mocked<OperatingSignalEvaluationResultRepository>;
     let operatingSignalReviewRecordRepository: jest.Mocked<OperatingSignalReviewRecordRepository>;
@@ -695,6 +697,19 @@ describe('ProjectCostService', () => {
             findInvoiceById: jest.fn(),
             findPayableById: jest.fn()
         };
+        const mockBusinessNumberService = {
+            next: jest.fn(async (scope: string) => {
+                const prefixes: Record<string, string> = {
+                    'cost-payment-fact': 'AC-PAY',
+                    'cost-invoice': 'AC-INV',
+                    'cost-expense': 'AC-EXP',
+                    'cost-procurement': 'AC-PRC',
+                    'cost-labor': 'AC-LBR'
+                };
+
+                return `${prefixes[scope] ?? 'AC'}-2026-000001`;
+            })
+        };
 
         expenseRecordRepository = mockExpenseRecordRepository as unknown as jest.Mocked<ExpenseRecordRepository>;
         internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
@@ -710,6 +725,7 @@ describe('ProjectCostService', () => {
         accountingTaxTreatmentSnapshotRepository = mockAccountingTaxTreatmentSnapshotRepository as unknown as jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
         contractHandoverRebaselineRecordRepository =
             mockContractHandoverRebaselineRecordRepository as unknown as jest.Mocked<ContractHandoverRebaselineRecordRepository>;
+        businessNumberService = mockBusinessNumberService as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
         dataMaturityEvaluationResultRepository =
             mockDataMaturityEvaluationResultRepository as unknown as jest.Mocked<DataMaturityEvaluationResultRepository>;
         operatingSignalEvaluationResultRepository =
@@ -738,6 +754,7 @@ describe('ProjectCostService', () => {
             costStageAttributionSnapshotRepository,
             accountingTaxTreatmentSnapshotRepository,
             contractHandoverRebaselineRecordRepository,
+            businessNumberService as never,
             dataMaturityEvaluationResultRepository,
             operatingSignalEvaluationResultRepository,
             operatingSignalReviewRecordRepository,

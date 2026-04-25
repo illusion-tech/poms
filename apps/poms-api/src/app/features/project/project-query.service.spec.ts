@@ -79,9 +79,10 @@ describe('ProjectQueryService', () => {
         projectRepository.findMany.mockResolvedValue([
             {
                 id: '20000000-0000-4000-8000-000000000001',
-                projectCode: 'PRJ-2026-001',
+                projectNo: 'PRJ-2026-001',
                 projectName: 'POMS 首期项目主链路样例',
                 customerName: '华南地铁集团',
+                customerProjectNo: null,
                 currentStage: 'contracting',
                 status: 'active',
                 ownerOrgId: '10000000-0000-4000-8000-000000000001',
@@ -103,9 +104,10 @@ describe('ProjectQueryService', () => {
         await expect(service.listProjects({ keyword: 'POMS' })).resolves.toEqual([
             {
                 id: '20000000-0000-4000-8000-000000000001',
-                projectCode: 'PRJ-2026-001',
+                projectNo: 'PRJ-2026-001',
                 projectName: 'POMS 首期项目主链路样例',
                 customerName: '华南地铁集团',
+                customerProjectNo: null,
                 currentStage: 'contracting',
                 status: 'active',
                 ownerOrgName: '华南销售一部',
@@ -119,7 +121,7 @@ describe('ProjectQueryService', () => {
     it('builds project detail view with owner, contract summary, snapshot metadata and allowed actions', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000001',
-            projectCode: 'PRJ-2026-001',
+            projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: '50000000-0000-4000-8000-000000000001',
             customerId: null,
@@ -146,7 +148,7 @@ describe('ProjectQueryService', () => {
         projectRepository.findLeadsByIds.mockResolvedValue([
             {
                 id: '50000000-0000-4000-8000-000000000001',
-                leadCode: 'LEAD-2026-001',
+                leadNo: 'LEAD-2026-001',
                 leadName: '华南地铁线索',
                 customerName: '华南地铁集团',
                 status: 'converted'
@@ -187,7 +189,7 @@ describe('ProjectQueryService', () => {
         expect(result.ownerOrgName).toBe('华南销售一部');
         expect(result.sourceLeadSummary).toEqual({
             id: '50000000-0000-4000-8000-000000000001',
-            leadCode: 'LEAD-2026-001',
+            leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
             customerName: '华南地铁集团',
             status: 'converted'
@@ -206,6 +208,8 @@ describe('ProjectQueryService', () => {
             bidProcessId: null,
             bidStatus: 'not_configured',
             resultStatus: null,
+            tenderNo: null,
+            bidPackageNo: null,
             summary: null
         });
         expect(result.currentApprovalSummary).toEqual({
@@ -230,7 +234,7 @@ describe('ProjectQueryService', () => {
     it('builds project detail bid summary from the current bid commercial process', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000011',
-            projectCode: 'PRJ-2026-011',
+            projectNo: 'PRJ-2026-011',
             projectName: '投标中项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -267,6 +271,8 @@ describe('ProjectQueryService', () => {
             bidProcessId: '6f2820b4-9665-4f22-8000-000000000011',
             bidStatus: 'submitted',
             resultStatus: 'pending',
+            tenderNo: null,
+            bidPackageNo: null,
             summary: '投标材料已提交，等待商务评审结果'
         });
     });
@@ -274,7 +280,7 @@ describe('ProjectQueryService', () => {
     it('keeps write and commission actions hidden for closed read-only project detail', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000002',
-            projectCode: 'PRJ-2026-002',
+            projectNo: 'PRJ-2026-002',
             projectName: '已关闭项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -317,7 +323,7 @@ describe('ProjectQueryService', () => {
     it('builds project workspace guidance with business labels, owner hint, snapshot basis and entry guards', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000003',
-            projectCode: 'PRJ-2026-003',
+            projectNo: 'PRJ-2026-003',
             projectName: '执行中项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -396,7 +402,7 @@ describe('ProjectQueryService', () => {
     it('enables handover workspace guidance entry when project is in handover stage', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000006',
-            projectCode: 'PRJ-2026-006',
+            projectNo: 'PRJ-2026-006',
             projectName: '移交中项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -446,7 +452,7 @@ describe('ProjectQueryService', () => {
     it('keeps blocked pre-signing workspace guidance readable without inventing a missing workspace', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000004',
-            projectCode: 'PRJ-2026-004',
+            projectNo: 'PRJ-2026-004',
             projectName: '阻塞中项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -505,7 +511,7 @@ describe('ProjectQueryService', () => {
     it('builds project timeline from authoritative project, contract, handover and close facts', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000005',
-            projectCode: 'PRJ-2026-005',
+            projectNo: 'PRJ-2026-005',
             projectName: '已关闭项目',
             customerId: null,
             customerName: '华南地铁集团',
@@ -759,6 +765,12 @@ describe('ProjectQueryService', () => {
                 archivedByName: '项目经理',
                 archiveSummary: '项目资料归档完成',
                 evidenceSummary: '归档清单与交付包',
+                supersedesArchiveRecordId: null,
+                replacementReason: null,
+                voidedAt: null,
+                voidedBy: null,
+                voidedByName: null,
+                voidReason: null,
                 createdAt: '2026-04-22T10:00:00.000Z',
                 createdBy: '00000000-0000-4000-8000-000000000003',
                 updatedAt: '2026-04-22T10:00:00.000Z',
@@ -1270,7 +1282,7 @@ describe('ProjectQueryService', () => {
     it('projects latest accepted acceptance record into project timeline', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000008',
-            projectCode: 'PRJ-2026-008',
+            projectNo: 'PRJ-2026-008',
             currentStage: 'acceptance',
             status: 'active',
             closedAt: null,
@@ -1323,7 +1335,7 @@ describe('ProjectQueryService', () => {
     it('projects latest confirmed completion record into project timeline', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000010',
-            projectCode: 'PRJ-2026-010',
+            projectNo: 'PRJ-2026-010',
             currentStage: 'completed',
             status: 'completed',
             closedAt: null,
@@ -1378,7 +1390,7 @@ describe('ProjectQueryService', () => {
     it('projects latest archive record into project timeline as terminal milestone', async () => {
         projectRepository.findById.mockResolvedValue({
             id: '20000000-0000-4000-8000-000000000012',
-            projectCode: 'PRJ-2026-012',
+            projectNo: 'PRJ-2026-012',
             currentStage: 'completed',
             status: 'completed',
             closedAt: null,

@@ -12,5 +12,6 @@
 export interface UpdateProjectBasicInfoRequest {
     projectName?: string;
     customerName?: string | null;
+    customerProjectNo?: string | null;
     plannedSignAt?: string | null;
 }

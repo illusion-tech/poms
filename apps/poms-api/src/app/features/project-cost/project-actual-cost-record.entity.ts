@@ -40,7 +40,7 @@ export const ProjectActualCostRecordSchema = defineEntity({
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
-        recordNo: p.string().length(64).nullable().fieldName('record_no').comment('记录编号'),
+        recordNo: p.string().length(64).unique().fieldName('record_no').comment('记录编号'),
         costType: p.string().length(32).fieldName('cost_type').comment('成本类型：PROCUREMENT/INVOICE/EXPENSE/PAYMENT_FACT/LABOR'),
         costSubtype: p.string().length(64).nullable().fieldName('cost_subtype').comment('成本子类型'),
         occurredOn: p.date().nullable().fieldName('occurred_on').comment('发生日期'),

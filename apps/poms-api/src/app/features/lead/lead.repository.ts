@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { LeadStatus } from '@poms/shared-contracts';
@@ -37,7 +37,7 @@ export class LeadRepository {
 
         if (input.keyword) {
             (where as FilterQuery<Lead> & { $or?: FilterQuery<Lead>[] }).$or = [
-                { leadCode: { $ilike: `%${input.keyword}%` } },
+                { leadNo: { $ilike: `%${input.keyword}%` } },
                 { leadName: { $ilike: `%${input.keyword}%` } },
                 { customerName: { $ilike: `%${input.keyword}%` } }
             ];
@@ -52,12 +52,12 @@ export class LeadRepository {
         return this.leadRepository.findOne({ id });
     }
 
-    async findByCode(leadCode: string): Promise<Lead | null> {
-        return this.leadRepository.findOne({ leadCode });
+    async findByNo(leadNo: string): Promise<Lead | null> {
+        return this.leadRepository.findOne({ leadNo });
     }
 
-    async findProjectByCode(projectCode: string): Promise<Project | null> {
-        return this.projectRepository.findOne({ projectCode });
+    async findProjectByNo(projectNo: string): Promise<Project | null> {
+        return this.projectRepository.findOne({ projectNo });
     }
 
     async findProjectsByIds(ids: string[]): Promise<Project[]> {
@@ -106,5 +106,9 @@ export class LeadRepository {
 
     async saveLeadAndProject(lead: Lead, project: Project): Promise<void> {
         await this.leadRepository.getEntityManager().persist([lead, project]).flush();
+    }
+
+    getEntityManager(): EntityManager {
+        return this.leadRepository.getEntityManager();
     }
 }

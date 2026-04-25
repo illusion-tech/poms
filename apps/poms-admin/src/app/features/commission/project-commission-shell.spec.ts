@@ -7,10 +7,11 @@ import { ProjectCommissionShell } from './project-commission-shell';
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         customerId: null,
         customerName: '华南地铁集团',
+        customerProjectNo: null,
         status: 'active',
         currentStage: 'handover',
         ownerOrgId: 'org-1',

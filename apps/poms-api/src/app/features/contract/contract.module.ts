@@ -2,6 +2,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
 import { ApprovalModule } from '../approval/approval.module';
+import { BusinessNumberModule } from '../business-number/business-number.module';
 import { ContractReadinessModule } from '../contract-readiness/contract-readiness.module';
 import { ProjectModule } from '../project/project.module';
 import { ContractController } from './contract.controller';
@@ -13,6 +14,7 @@ import { ContractService } from './contract.service';
 @Module({
     imports: [
         MikroOrmModule.forFeature([Contract, ContractTermSnapshot, ContractAmendment, ApprovalRecord]),
+        BusinessNumberModule,
         ProjectModule,
         ApprovalModule,
         ContractReadinessModule

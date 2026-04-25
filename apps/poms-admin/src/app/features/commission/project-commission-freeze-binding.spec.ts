@@ -77,7 +77,7 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
     return {
         handoverId: 'handover-1',
         projectId: 'project-1',
-        projectCode: 'PRJ-001',
+        projectNo: 'PRJ-001',
         projectName: '冻结责任边界项目',
         handoverStatus: 'confirmed',
         confirmedAt: '2026-04-20T10:00:00.000Z',

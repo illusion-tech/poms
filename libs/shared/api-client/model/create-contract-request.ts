@@ -12,7 +12,7 @@ import { ContractStatus } from './contract-status';
 
 export interface CreateContractRequest {
     projectId: string;
-    contractNo: string;
+    customerContractNo?: string | null;
     status?: ContractStatus;
     signedAmount: string;
     currencyCode?: string;

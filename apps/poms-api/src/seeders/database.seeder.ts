@@ -12,7 +12,7 @@ export class DatabaseSeeder extends Seeder {
         const seededPlatformUsernames = DEV_USERS.map((user) => sqlValue(user.username)).join(', ');
         const seededRoleKeys = DEV_ROLES.map((role) => sqlValue(role.roleKey)).join(', ');
         const seededOrgCodes = DEV_ORG_UNITS.map((orgUnit) => sqlValue(orgUnit.code)).join(', ');
-        const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectCode)).join(', ');
+        const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectNo)).join(', ');
         const roleByKey = new Map(DEV_ROLES.map((role) => [role.roleKey, role]));
         const localCredentialValues = DEV_USERS.map((user, index) => {
             const credentialId = `70000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`;
@@ -114,7 +114,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."todo_item"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -122,7 +122,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."approval_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -132,7 +132,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."commission_freeze_dispute_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -141,7 +141,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_freeze_dispute_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -149,7 +149,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_adjustment"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -157,7 +157,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_payout"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -165,7 +165,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_rule_explanation_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -173,7 +173,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_final_settlement_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -181,7 +181,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_departure_exception_decision"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -189,7 +189,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_calculation"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -197,7 +197,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_role_assignment"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -207,7 +207,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."commission_freeze_dispute_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -216,7 +216,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_freeze_dispute_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -224,7 +224,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_adjustment"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -232,7 +232,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_payout"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -240,7 +240,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_rule_explanation_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -248,7 +248,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_final_settlement_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -256,7 +256,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_departure_exception_decision"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -264,7 +264,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_calculation"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -272,7 +272,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."commission_role_assignment"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -280,7 +280,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_receipt_judgment_freeze"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -290,7 +290,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."confirmation_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
                 or (
                     "target_type" = 'ProjectHandover'
@@ -298,7 +298,7 @@ export class DatabaseSeeder extends Seeder {
                         select "id" from "${schema}"."project_handover"
                         where "project_id" in (
                             select "id" from "${schema}"."project"
-                            where "project_code" like 'E2E-%'
+                            where "project_no" like 'E2E-%'
                         )
                     )
                 )
@@ -309,7 +309,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."confirmation_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             )
             or (
                 "target_type" = 'ProjectHandover'
@@ -317,7 +317,7 @@ export class DatabaseSeeder extends Seeder {
                     select "id" from "${schema}"."project_handover"
                     where "project_id" in (
                         select "id" from "${schema}"."project"
-                        where "project_code" like 'E2E-%'
+                        where "project_no" like 'E2E-%'
                     )
                 )
             );
@@ -329,7 +329,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract_handover_rebaseline_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -338,7 +338,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_handover"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -348,7 +348,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_signal_gate_binding"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -359,7 +359,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_signal_evaluation_result"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -368,7 +368,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_signal_gate_binding"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -376,7 +376,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_signal_evaluation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -384,7 +384,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."data_maturity_evaluation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -396,7 +396,7 @@ export class DatabaseSeeder extends Seeder {
                     "target_type" = 'Project'
                     and "target_id" in (
                         select "id" from "${schema}"."project"
-                        where "project_code" like 'E2E-%'
+                        where "project_no" like 'E2E-%'
                     )
                 )
                 or (
@@ -412,7 +412,7 @@ export class DatabaseSeeder extends Seeder {
                 "target_type" = 'Project'
                 and "target_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             )
             or (
@@ -425,7 +425,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_restatement_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -433,7 +433,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_operating_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -441,7 +441,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."period_closing_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -451,7 +451,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_baseline_package"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -460,7 +460,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_baseline_package"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -468,7 +468,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."shared_cost_allocation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -476,7 +476,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."accounting_tax_treatment_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -486,7 +486,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."project_actual_cost_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -495,7 +495,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_actual_cost_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -503,7 +503,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."contract_handover_rebaseline_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
@@ -513,7 +513,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -524,7 +524,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" like 'E2E-%'
+                    where "project_no" like 'E2E-%'
                 )
             );
         `);
@@ -533,13 +533,13 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."contract"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" like 'E2E-%'
+                where "project_no" like 'E2E-%'
             );
         `);
 
         await connection.execute(`
             delete from "${schema}"."project"
-            where "project_code" like 'E2E-%';
+            where "project_no" like 'E2E-%';
         `);
 
         await connection.execute(`
@@ -560,7 +560,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."payment_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -568,7 +568,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."receipt_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -578,7 +578,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -589,7 +589,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -598,7 +598,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_receipt_judgment_freeze"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -608,7 +608,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."confirmation_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
                 or (
                     "target_type" = 'ProjectHandover'
@@ -616,7 +616,7 @@ export class DatabaseSeeder extends Seeder {
                         select "id" from "${schema}"."project_handover"
                         where "project_id" in (
                             select "id" from "${schema}"."project"
-                            where "project_code" in (${seededProjectCodes})
+                            where "project_no" in (${seededProjectCodes})
                         )
                     )
                 )
@@ -627,7 +627,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."confirmation_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             )
             or (
                 "target_type" = 'ProjectHandover'
@@ -635,7 +635,7 @@ export class DatabaseSeeder extends Seeder {
                     select "id" from "${schema}"."project_handover"
                     where "project_id" in (
                         select "id" from "${schema}"."project"
-                        where "project_code" in (${seededProjectCodes})
+                        where "project_no" in (${seededProjectCodes})
                     )
                 )
             );
@@ -647,7 +647,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract_handover_rebaseline_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -656,7 +656,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_handover"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -666,7 +666,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_signal_gate_binding"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -677,7 +677,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_signal_evaluation_result"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -686,7 +686,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_signal_gate_binding"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -694,7 +694,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_signal_evaluation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -702,7 +702,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."data_maturity_evaluation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -714,7 +714,7 @@ export class DatabaseSeeder extends Seeder {
                     "target_type" = 'Project'
                     and "target_id" in (
                         select "id" from "${schema}"."project"
-                        where "project_code" in (${seededProjectCodes})
+                        where "project_no" in (${seededProjectCodes})
                     )
                 )
                 or (
@@ -730,7 +730,7 @@ export class DatabaseSeeder extends Seeder {
                 "target_type" = 'Project'
                 and "target_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             )
             or (
@@ -743,7 +743,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_restatement_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -751,7 +751,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_operating_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -759,7 +759,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."period_closing_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -769,7 +769,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."operating_baseline_package"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -778,7 +778,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."operating_baseline_package"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -786,7 +786,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."shared_cost_allocation_result"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -794,7 +794,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."accounting_tax_treatment_snapshot"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -804,7 +804,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."project_actual_cost_record"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -813,7 +813,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."project_actual_cost_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -821,7 +821,7 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."contract_handover_rebaseline_record"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
@@ -831,7 +831,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -842,7 +842,7 @@ export class DatabaseSeeder extends Seeder {
                 select "id" from "${schema}"."contract"
                 where "project_id" in (
                     select "id" from "${schema}"."project"
-                    where "project_code" in (${seededProjectCodes})
+                    where "project_no" in (${seededProjectCodes})
                 )
             );
         `);
@@ -851,20 +851,20 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."contract"
             where "project_id" in (
                 select "id" from "${schema}"."project"
-                where "project_code" in (${seededProjectCodes})
+                where "project_no" in (${seededProjectCodes})
             );
         `);
 
         await connection.execute(`
             delete from "${schema}"."project"
-            where "project_code" in (${seededProjectCodes});
+            where "project_no" in (${seededProjectCodes});
         `);
 
         for (const project of DEV_PROJECT_SEEDS) {
             await connection.execute(`
                 insert into "${schema}"."project" (
                     "id",
-                    "project_code",
+                    "project_no",
                     "project_name",
                     "customer_id",
                     "customer_name",
@@ -878,7 +878,7 @@ export class DatabaseSeeder extends Seeder {
                 )
                 values (
                     ${sqlValue(project.id)},
-                    ${sqlValue(project.projectCode)},
+                    ${sqlValue(project.projectNo)},
                     ${sqlValue(project.projectName)},
                     ${sqlUuid(project.customerId)},
                     ${project.customerName ? sqlValue(project.customerName) : 'null'},
@@ -890,7 +890,7 @@ export class DatabaseSeeder extends Seeder {
                     ${sqlUuid(project.createdBy)},
                     ${sqlUuid(project.updatedBy)}
                 )
-                on conflict ("project_code") do update
+                on conflict ("project_no") do update
                 set
                     "project_name" = excluded."project_name",
                     "customer_id" = excluded."customer_id",
@@ -994,7 +994,7 @@ export class DatabaseSeeder extends Seeder {
 interface HandoverE2EFixture {
     key: string;
     projectId: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     contractId: string;
     contractNo: string;
@@ -1038,7 +1038,7 @@ type ProcessingRebaselineFixture = PreparedHandoverE2EFixture &
 interface OperatingSignalE2EFixture {
     key: string;
     projectId: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     baselinePackageId: string;
     changePackageBaselineId: string;
@@ -1075,7 +1075,7 @@ const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
             handoverStatus: 'confirmed',
             receiptJudgmentMode: 'net-receipt'
         }),
-        projectCode: 'E2E-CMS-FXT-MAIN',
+        projectNo: 'E2E-CMS-FXT-MAIN',
         projectName: 'E2E 提成正式冻结 main',
         contractNo: 'E2E-CMS-HT-MAIN'
     },
@@ -1085,7 +1085,7 @@ const COMMISSION_E2E_FIXTURES: HandoverE2EFixture[] = [
             handoverStatus: 'confirmed',
             receiptJudgmentMode: 'net-receipt'
         }),
-        projectCode: 'E2E-CMS-FXT-NO-ACTIVE-CONTRACT',
+        projectNo: 'E2E-CMS-FXT-NO-ACTIVE-CONTRACT',
         projectName: 'E2E 提成正式冻结 no-active-contract',
         contractNo: 'E2E-CMS-HT-NO-ACTIVE-CONTRACT'
     }
@@ -1098,7 +1098,7 @@ if (!COMMISSION_MAIN_E2E_FIXTURE) {
 const COMMISSION_MAIN_OPERATING_SIGNAL_E2E_FIXTURE: OperatingSignalE2EFixture = {
     ...makeOperatingSignalE2EFixture(301, 'commission-main'),
     projectId: COMMISSION_MAIN_E2E_FIXTURE.projectId,
-    projectCode: COMMISSION_MAIN_E2E_FIXTURE.projectCode,
+    projectNo: COMMISSION_MAIN_E2E_FIXTURE.projectNo,
     projectName: COMMISSION_MAIN_E2E_FIXTURE.projectName,
     gateStageType: 'final'
 };
@@ -1194,7 +1194,7 @@ async function seedProjectHandoverE2EFixture(
     await connection.execute(`
         insert into "${schema}"."project" (
             "id",
-            "project_code",
+            "project_no",
             "project_name",
             "customer_id",
             "customer_name",
@@ -1208,10 +1208,10 @@ async function seedProjectHandoverE2EFixture(
         )
         values (
             ${sqlValue(fixture.projectId)},
-            ${sqlValue(fixture.projectCode)},
+            ${sqlValue(fixture.projectNo)},
             ${sqlValue(fixture.projectName)},
             null,
-            ${sqlValue(`${fixture.projectCode} 客户`)},
+            ${sqlValue(`${fixture.projectNo} 客户`)},
             'active',
             'handover',
             ${sqlUuid('10000000-0000-4000-8000-000000000001')},
@@ -1654,7 +1654,7 @@ async function seedOperatingSignalE2EFixture(
     await connection.execute(`
         insert into "${schema}"."project" (
             "id",
-            "project_code",
+            "project_no",
             "project_name",
             "customer_id",
             "customer_name",
@@ -1668,10 +1668,10 @@ async function seedOperatingSignalE2EFixture(
         )
         values (
             ${sqlValue(fixture.projectId)},
-            ${sqlValue(fixture.projectCode)},
+            ${sqlValue(fixture.projectNo)},
             ${sqlValue(fixture.projectName)},
             null,
-            ${sqlValue(`${fixture.projectCode} 客户`)},
+            ${sqlValue(`${fixture.projectNo} 客户`)},
             'active',
             'execution',
             ${sqlUuid('10000000-0000-4000-8000-000000000001')},
@@ -1983,7 +1983,7 @@ function makeHandoverE2EFixture(
     return {
         key,
         projectId: `21000000-0000-4000-8000-${suffix}`,
-        projectCode: `E2E-HO-${key.toUpperCase()}`,
+        projectNo: `E2E-HO-${key.toUpperCase()}`,
         projectName: `E2E 项目移交 ${key}`,
         contractId: `31000000-0000-4000-8000-${suffix}`,
         contractNo: `E2E-HO-HT-${key.toUpperCase()}`,
@@ -2021,7 +2021,7 @@ function makeOperatingSignalE2EFixture(index: number, key: string): OperatingSig
     return {
         key,
         projectId: `21000000-0000-4000-8000-${suffix}`,
-        projectCode: `E2E-OSG-FXT-${projectKey}`,
+        projectNo: `E2E-OSG-FXT-${projectKey}`,
         projectName: `E2E EX-13B ${key}`,
         baselinePackageId: `84000000-0000-4000-8000-${suffix}`,
         changePackageBaselineId: `84100000-0000-4000-8000-${suffix}`,

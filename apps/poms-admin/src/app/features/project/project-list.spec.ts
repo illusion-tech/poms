@@ -7,9 +7,10 @@ import { ProjectList } from './project-list';
 function createProject(overrides: Partial<ProjectListView> = {}): ProjectListView {
     return {
         id: 'project-1',
-        projectCode: 'P-2026-001',
+        projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         customerName: '华南地铁集团',
+        customerProjectNo: null,
         currentStage: 'commercial-closure',
         status: 'active',
         ownerOrgName: '华南销售一部',
@@ -119,16 +120,16 @@ describe('ProjectList', () => {
 
     it('creates a project without legacy stage, status, owner or audit fields', async () => {
         component.showCreateDialog();
-        component.updateCreateField('projectCode', '  P-2026-NEW  ');
+        component.updateCreateField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateCreateField('projectName', '  城市交通项目  ');
         component.updateCreateField('customerName', '  城市交通集团  ');
 
         await component.createProject();
 
         expect(projectStoreMock.createProject).toHaveBeenCalledWith({
-            projectCode: 'P-2026-NEW',
             projectName: '城市交通项目',
-            customerName: '城市交通集团'
+            customerName: '城市交通集团',
+            customerProjectNo: 'CUS-PRJ-NEW'
         });
     });
 

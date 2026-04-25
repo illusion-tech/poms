@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Contract } from '../contract/contract.entity';
@@ -95,8 +95,9 @@ export class ProjectRepository {
 
         if (input.keyword) {
             (where as FilterQuery<Project> & { $or?: FilterQuery<Project>[] }).$or = [
-                { projectCode: { $ilike: `%${input.keyword}%` } },
-                { projectName: { $ilike: `%${input.keyword}%` } }
+                { projectNo: { $ilike: `%${input.keyword}%` } },
+                { projectName: { $ilike: `%${input.keyword}%` } },
+                { customerProjectNo: { $ilike: `%${input.keyword}%` } }
             ];
         }
 
@@ -116,8 +117,8 @@ export class ProjectRepository {
         return this.projectRepository.find({ id: { $in: ids } });
     }
 
-    async findByCode(projectCode: string): Promise<Project | null> {
-        return this.projectRepository.findOne({ projectCode });
+    async findByNo(projectNo: string): Promise<Project | null> {
+        return this.projectRepository.findOne({ projectNo });
     }
 
     async findLeadsByIds(ids: string[]): Promise<Lead[]> {
@@ -266,6 +267,10 @@ export class ProjectRepository {
                 orderBy: { archivedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
             }
         );
+    }
+
+    async findProjectArchiveRecordById(id: string): Promise<ProjectArchiveRecord | null> {
+        return this.projectArchiveRecordRepository.findOne({ id });
     }
 
     async findProjectBidCommercialProcessesByProjectId(projectId: string): Promise<ProjectBidCommercialProcess[]> {
@@ -478,6 +483,16 @@ export class ProjectRepository {
         await this.projectArchiveRecordRepository.getEntityManager().persist(record).flush();
     }
 
+    async saveProjectArchiveRecordReplacement(input: {
+        supersededRecord: ProjectArchiveRecord;
+        replacementRecord: ProjectArchiveRecord;
+    }): Promise<void> {
+        await this.projectArchiveRecordRepository.getEntityManager().persist([
+            input.supersededRecord,
+            input.replacementRecord
+        ]).flush();
+    }
+
     async saveProjectBidCommercialProcess(input: {
         currentProcess: ProjectBidCommercialProcess;
         previousProcess: ProjectBidCommercialProcess | null;
@@ -527,5 +542,9 @@ export class ProjectRepository {
         }
 
         await this.projectTechnicalCostPackageRepository.getEntityManager().persist(entities).flush();
+    }
+
+    getEntityManager(): EntityManager {
+        return this.projectRepository.getEntityManager();
     }
 }

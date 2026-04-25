@@ -2,7 +2,7 @@ import { requireDevOrgUnitByCode, requireDevUserByUsername } from '../app/core/p
 
 export interface ProjectSeedRecord {
     id: string;
-    projectCode: string;
+    projectNo: string;
     projectName: string;
     customerId: string | null;
     customerName: string | null;
@@ -38,7 +38,7 @@ const salesHqOrgUnit = requireDevOrgUnitByCode('SALES-HQ');
 export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
     {
         id: '20000000-0000-4000-8000-000000000001',
-        projectCode: 'PRJ-2026-001',
+        projectNo: 'PRJ-2026-001',
         projectName: 'POMS 首期项目主链路样例',
         customerId: null,
         customerName: '华南地铁集团',
@@ -52,7 +52,7 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
     },
     {
         id: '20000000-0000-4000-8000-000000000002',
-        projectCode: 'PRJ-2026-002',
+        projectNo: 'PRJ-2026-002',
         projectName: 'POMS 审批与导航联调样例',
         customerId: null,
         customerName: '北城建设集团',

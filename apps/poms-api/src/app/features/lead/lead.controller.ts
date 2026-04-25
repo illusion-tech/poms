@@ -59,7 +59,6 @@ export class LeadController {
         @Request() req: { user: UserPayload }
     ): Promise<LeadSummary> {
         const lead = await this.leadService.createLead({
-            leadCode: body.leadCode,
             leadName: body.leadName,
             customerName: body.customerName,
             sourceChannel: body.sourceChannel,
@@ -135,8 +134,8 @@ export class LeadController {
         @Request() req: { user: UserPayload }
     ): Promise<ProjectSummary> {
         const project = await this.leadService.convertToProject(id, {
-            projectCode: body.projectCode,
             projectName: body.projectName,
+            customerProjectNo: body.customerProjectNo,
             plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
         }, req.user.sub);
 
@@ -147,11 +146,12 @@ export class LeadController {
 function mapProjectToSummary(project: Project): ProjectSummary {
     return {
         id: project.id,
-        projectCode: project.projectCode,
+        projectNo: project.projectNo,
         projectName: project.projectName,
         sourceLeadId: project.sourceLeadId ?? null,
         customerId: project.customerId ?? null,
         customerName: project.customerName ?? null,
+        customerProjectNo: project.customerProjectNo ?? null,
         status: project.status,
         currentStage: project.currentStage,
         ownerOrgId: project.ownerOrgId ?? null,

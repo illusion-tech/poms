@@ -16,7 +16,7 @@ export const ProjectSchema = defineEntity({
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('项目主键'),
-        projectCode: p.string().length(64).unique().fieldName('project_code').comment('项目编号'),
+        projectNo: p.string().length(64).unique().fieldName('project_no').comment('项目编号'),
         projectName: p.string().length(255).fieldName('project_name').comment('项目名称'),
         sourceLeadId: () =>
             p
@@ -30,6 +30,7 @@ export const ProjectSchema = defineEntity({
                 .comment('项目来源线索标识'),
         customerId: p.uuid().nullable().fieldName('customer_id').comment('客户标识，第一阶段先保留业务引用'),
         customerName: p.string().length(255).nullable().fieldName('customer_name').comment('客户名称'),
+        customerProjectNo: p.string().length(128).nullable().fieldName('customer_project_no').comment('客户项目编号'),
         status: p.string().length(32).comment('项目当前主状态'),
         currentStage: p.string().length(64).fieldName('current_stage').comment('项目当前阶段'),
         ownerOrgId: p.uuid().nullable().fieldName('owner_org_id').comment('项目归属组织标识'),
