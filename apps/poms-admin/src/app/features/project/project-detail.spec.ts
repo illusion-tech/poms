@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { ProjectStore, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
@@ -114,38 +114,90 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
     } as ProjectTimelineView;
 }
 
+function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecordSummary, unknown>> = {}): ProjectArchiveRecordSummary {
+    return {
+        id: 'archive-1',
+        projectId: 'project-1',
+        archiveAnchorStage: 'completed',
+        archiveAnchorSourceType: 'project',
+        archiveAnchorSourceId: 'project-1',
+        status: 'recorded',
+        archivedAt: '2026-04-24T15:20:00.000Z',
+        archivedBy: 'user-4',
+        archivedByName: '赵归档',
+        archiveSummary: '项目资料已完成归档',
+        evidenceSummary: '项目归档清单',
+        supersedesArchiveRecordId: null,
+        replacementReason: null,
+        voidedAt: null,
+        voidedBy: null,
+        voidedByName: null,
+        voidReason: null,
+        createdAt: '2026-04-24T15:20:00.000Z',
+        createdBy: 'user-4',
+        updatedAt: '2026-04-24T15:20:00.000Z',
+        updatedBy: 'user-4',
+        rowVersion: 7,
+        ...overrides
+    } as ProjectArchiveRecordSummary;
+}
+
 describe('ProjectDetail', () => {
     let fixture: ComponentFixture<ProjectDetail>;
     let component: ProjectDetail;
     let projectSignal: ReturnType<typeof signal<ProjectDetailView | null>>;
     let timelineSignal: ReturnType<typeof signal<ProjectTimelineView | null>>;
+    let archiveRecordsSignal: ReturnType<typeof signal<ProjectArchiveRecordSummary[]>>;
     let timelineErrorSignal: ReturnType<typeof signal<string | null>>;
+    let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
+    let authStoreMock: {
+        hasAnyPermission: jest.Mock;
+    };
     let projectStoreMock: {
         loadProject: jest.Mock;
         loadProjectTimeline: jest.Mock;
+        loadProjectArchiveRecords: jest.Mock;
         loading: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
+        loadingArchiveRecords: ReturnType<typeof signal<boolean>>;
+        savingArchiveCommand: ReturnType<typeof signal<boolean>>;
         selectedProject: ReturnType<typeof signal<ProjectDetailView | null>>;
         selectedProjectTimeline: ReturnType<typeof signal<ProjectTimelineView | null>>;
+        selectedProjectArchiveRecords: ReturnType<typeof signal<ProjectArchiveRecordSummary[]>>;
         timelineError: ReturnType<typeof signal<string | null>>;
+        archiveRecordsError: ReturnType<typeof signal<string | null>>;
         updateProject: jest.Mock;
+        replaceProjectArchiveRecord: jest.Mock;
+        voidProjectArchiveRecord: jest.Mock;
     };
 
-    async function setup(project: ProjectDetailView | null = createProject(), timeline: ProjectTimelineView | null = null, timelineError: string | null = null) {
+    async function setup(project: ProjectDetailView | null = createProject(), timeline: ProjectTimelineView | null = null, timelineError: string | null = null, archiveRecords: ProjectArchiveRecordSummary[] = [], canWriteProject = true) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
+        archiveRecordsSignal = signal<ProjectArchiveRecordSummary[]>(archiveRecords);
         timelineErrorSignal = signal<string | null>(timelineError);
+        archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
+        authStoreMock = {
+            hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('project:write') && canWriteProject)
+        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
+            loadProjectArchiveRecords: jest.fn().mockResolvedValue(archiveRecords),
             loading: signal(false),
             saving: signal(false),
+            loadingArchiveRecords: signal(false),
+            savingArchiveCommand: signal(false),
             selectedProject: projectSignal,
             selectedProjectTimeline: timelineSignal,
+            selectedProjectArchiveRecords: archiveRecordsSignal,
             timelineError: timelineErrorSignal,
-            updateProject: jest.fn().mockResolvedValue(project)
+            archiveRecordsError: archiveRecordsErrorSignal,
+            updateProject: jest.fn().mockResolvedValue(project),
+            replaceProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
+            voidProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord())
         };
 
         await TestBed.configureTestingModule({
@@ -162,6 +214,10 @@ describe('ProjectDetail', () => {
                 {
                     provide: Router,
                     useValue: routerMock
+                },
+                {
+                    provide: AuthStore,
+                    useValue: authStoreMock
                 }
             ]
         })
@@ -193,6 +249,7 @@ describe('ProjectDetail', () => {
 
         expect(projectStoreMock.loadProject).toHaveBeenCalledWith('project-1');
         expect(projectStoreMock.loadProjectTimeline).toHaveBeenCalledWith('project-1');
+        expect(projectStoreMock.loadProjectArchiveRecords).toHaveBeenCalledWith('project-1');
         expect(text).toContain('华南地铁运营平台');
         expect(text).toContain('POMS 项目编号');
         expect(text).toContain('P-2026-001');
@@ -455,6 +512,169 @@ describe('ProjectDetail', () => {
         expect(text).toContain('已形成归档记录');
         expect(text).toContain('项目资料已完成归档');
         expect(text).toContain('项目归档清单');
+    });
+
+    it('renders current archive record and non-current archive audit history', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const current = createArchiveRecord({
+            id: 'archive-2',
+            archiveSummary: '修正后的归档结论',
+            evidenceSummary: '修正后的归档清单',
+            replacementReason: '补充遗漏的验收附件'
+        });
+        const superseded = createArchiveRecord({
+            id: 'archive-1',
+            status: 'superseded',
+            archiveSummary: '原始归档结论',
+            evidenceSummary: '原始归档清单',
+            rowVersion: 3
+        });
+        const voided = createArchiveRecord({
+            id: 'archive-0',
+            status: 'voided',
+            archiveSummary: '重复归档记录',
+            evidenceSummary: '重复归档清单',
+            voidedAt: '2026-04-25T09:00:00.000Z',
+            voidedByName: '王经理',
+            voidReason: '资料重复'
+        });
+
+        await setup(project, null, null, [current, superseded, voided]);
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(component.currentArchiveRecord([current, superseded, voided])).toEqual(current);
+        expect(text).toContain('当前有效');
+        expect(text).toContain('修正后的归档结论');
+        expect(text).toContain('修正后的归档清单');
+        expect(text).toContain('归档历史');
+        expect(text).toContain('已被替代');
+        expect(text).toContain('已撤销');
+        expect(text).toContain('补充遗漏的验收附件');
+        expect(text).toContain('资料重复');
+        expect(text).toContain('王经理');
+    });
+
+    it('shows archive replace and void actions when the user can maintain project archives', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const archiveRecord = createArchiveRecord();
+
+        await setup(project, null, null, [archiveRecord]);
+
+        expect(fixture.nativeElement.textContent).toContain('替代归档');
+        expect(fixture.nativeElement.textContent).toContain('撤销归档');
+    });
+
+    it('hides archive replace and void actions when the user lacks project write permission', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const archiveRecord = createArchiveRecord();
+
+        await setup(project, null, null, [archiveRecord], false);
+
+        expect(fixture.nativeElement.textContent).not.toContain('替代归档');
+        expect(fixture.nativeElement.textContent).not.toContain('撤销归档');
+        expect(fixture.nativeElement.textContent).toContain('当前账号不能维护归档记录');
+    });
+
+    it('submits archive replacement with expectedVersion from the selected record', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const archiveRecord = createArchiveRecord({ rowVersion: 9 });
+        await setup(project, null, null, [archiveRecord]);
+
+        component.openReplaceArchiveDialog(archiveRecord);
+        component.replaceArchiveForm = {
+            archivedAt: '2026-04-26T10:30:00.000Z',
+            archiveSummary: '  新归档结论  ',
+            evidenceSummary: '  新证据摘要  ',
+            replacementReason: '  原记录证据不完整  '
+        };
+
+        await component.replaceArchiveRecord();
+
+        expect(projectStoreMock.replaceProjectArchiveRecord).toHaveBeenCalledWith('archive-1', {
+            archivedAt: '2026-04-26T10:30:00.000Z',
+            archiveSummary: '新归档结论',
+            evidenceSummary: '新证据摘要',
+            replacementReason: '原记录证据不完整',
+            expectedVersion: 9
+        });
+        expect(component.replaceArchiveDialogVisible).toBe(false);
+    });
+
+    it('submits archive void with expectedVersion from the selected record', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        const archiveRecord = createArchiveRecord({ rowVersion: 10 });
+        await setup(project, null, null, [archiveRecord]);
+
+        component.openVoidArchiveDialog(archiveRecord);
+        component.voidArchiveForm = {
+            reason: '  归档事实错误  ',
+            comment: '  待重新归档  '
+        };
+
+        await component.voidArchiveRecord();
+
+        expect(projectStoreMock.voidProjectArchiveRecord).toHaveBeenCalledWith('archive-1', {
+            reason: '归档事实错误',
+            comment: '待重新归档',
+            expectedVersion: 10
+        });
+        expect(component.voidArchiveDialogVisible).toBe(false);
     });
 
     it('shows archive gap feedback when terminal project has no archive milestone', async () => {

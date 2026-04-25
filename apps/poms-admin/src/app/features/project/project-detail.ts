@@ -2,11 +2,12 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectStore, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -22,11 +23,25 @@ interface EditProjectForm {
     projectName: string;
 }
 
+interface ReplaceArchiveForm {
+    archivedAt: string;
+    archiveSummary: string;
+    evidenceSummary: string;
+    replacementReason: string;
+}
+
+interface VoidArchiveForm {
+    reason: string;
+    comment: string;
+}
+
 const PROJECT_ACTIONS = {
     editBasicInfo: 'edit-project-basic-info',
     manageCommission: 'manage-project-commission',
     viewWorkspace: 'view-project-workspace'
 } as const;
+
+const PROJECT_WRITE_PERMISSIONS = ['project:write'] as const;
 
 const PROJECT_STAGE_LABELS: Record<string, string> = {
     assessment: '立项评估',
@@ -122,6 +137,18 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
     closed: 'contrast'
 };
 
+const ARCHIVE_STATUS_LABELS: Record<string, string> = {
+    recorded: '当前有效',
+    voided: '已撤销',
+    superseded: '已被替代'
+};
+
+const ARCHIVE_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+    recorded: 'success',
+    voided: 'danger',
+    superseded: 'warn'
+};
+
 const BLOCKING_REASON_LABELS: Record<string, string> = {
     'project-status-blocked': '项目被标记为阻塞，需先处理阻断事项。',
     'project-closed': '项目已关闭，不能继续推进。'
@@ -156,7 +183,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, TextareaModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
     providers: [ProjectStore],
     template: `
         @if (loading()) {
@@ -222,15 +249,38 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                 @if (isTerminalStage(project.stageSummary.currentStage)) {
                     <section-card>
                         <ng-template #title>项目归档</ng-template>
-                        <ng-template #description>终态项目的归档事实独立呈现，不占用生命周期主线节点。</ng-template>
+                        <ng-template #description>终态项目的归档事实和后续修正记录独立呈现，不占用生命周期主线节点。</ng-template>
 
-                        @if (timelineError()) {
-                            <app-workspace-feedback
-                                class="mt-4 block"
-                                severity="warn"
-                                summary="归档事实暂时不可用"
-                                detail="时间线读取失败，当前无法判断是否已经形成正式归档记录。"
-                            />
+                        @if (archiveRecordsError(); as error) {
+                            <app-workspace-feedback class="mt-4 block" severity="warn" summary="归档记录暂时不可用" [detail]="error" />
+                        } @else if (loadingArchiveRecords()) {
+                            <app-workspace-loading class="mt-4 block" label="正在读取归档记录" />
+                        } @else if (currentArchiveRecord(archiveRecords()); as archiveRecord) {
+                            <div class="mt-4 flex flex-wrap items-center gap-2">
+                                <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getArchiveStatusName(archiveRecord.status)" [severity]="getArchiveStatusSeverity(archiveRecord.status)" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getStageName(archiveRecord.archiveAnchorStage)" [severity]="getStageSeverity(archiveRecord.archiveAnchorStage)" styleClass="rounded-[6px]!" />
+                            </div>
+
+                            <div class="mt-4 rounded-[8px] border border-surface-200 px-4 py-3 dark:border-surface-700">
+                                <div class="text-xs text-surface-500 dark:text-surface-400">归档结论</div>
+                                <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ archiveRecord.archiveSummary }}</div>
+                            </div>
+
+                            <app-workspace-fact-grid class="mt-4 block" [items]="archiveRecordFactItems(archiveRecord)" [columns]="4" />
+
+                            @if (canManageArchiveRecord(project, archiveRecord)) {
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <p-button label="替代归档" icon="pi pi-refresh" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openReplaceArchiveDialog(archiveRecord)" />
+                                    <p-button label="撤销归档" icon="pi pi-ban" severity="danger" [outlined]="true" styleClass="rounded-md!" (onClick)="openVoidArchiveDialog(archiveRecord)" />
+                                </div>
+                            } @else {
+                                <app-workspace-feedback class="mt-4 block" severity="secondary" summary="当前账号不能维护归档记录" detail="如需修正归档，请联系具备项目维护权限的负责人处理。" />
+                            }
+                        } @else if (archiveRecords().length > 0) {
+                            <app-workspace-feedback class="mt-4 block" severity="info" summary="当前没有有效归档记录" detail="历史归档已被撤销或替代，当前项目仍需形成新的有效归档记录。" />
+                        } @else if (timelineError()) {
+                            <app-workspace-feedback class="mt-4 block" severity="warn" summary="归档事实暂时不可用" detail="时间线读取失败，当前无法判断是否已经形成正式归档记录。" />
                         } @else if (archiveSummary(project, projectTimeline()); as archive) {
                             <div class="mt-4 flex flex-wrap items-center gap-2">
                                 <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
@@ -244,12 +294,58 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 
                             <app-workspace-fact-grid class="mt-4 block" [items]="archiveFactItems(archive)" [columns]="4" />
                         } @else {
-                            <app-workspace-feedback
-                                class="mt-4 block"
-                                severity="secondary"
-                                summary="尚未形成归档记录"
-                                [detail]="archiveGapDetail(project)"
-                            />
+                            <app-workspace-feedback class="mt-4 block" severity="secondary" summary="尚未形成归档记录" [detail]="archiveGapDetail(project)" />
+                        }
+
+                        @if (!archiveRecordsError() && archiveRecords().length > 0) {
+                            <div class="mt-6 border-t border-surface-200 pt-4 dark:border-surface-700">
+                                <div class="flex flex-col gap-1">
+                                    <div class="text-sm font-semibold text-surface-950 dark:text-surface-0">归档历史</div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">按服务端审计顺序展示，不在前端改写状态。</div>
+                                </div>
+
+                                <div class="mt-3 flex flex-col divide-y divide-surface-200 rounded-[8px] border border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @for (record of archiveRecords(); track record.id) {
+                                        <div class="flex flex-col gap-3 px-4 py-3">
+                                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                                <div>
+                                                    <div class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ record.archiveSummary }}</div>
+                                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">归档时间 {{ formatDateTime(record.archivedAt) }} · {{ displayText(record.archivedByName, '待确认操作人') }}</div>
+                                                </div>
+                                                <div class="flex flex-wrap gap-2">
+                                                    <p-tag [value]="getArchiveStatusName(record.status)" [severity]="getArchiveStatusSeverity(record.status)" styleClass="rounded-[6px]!" />
+                                                    <p-tag [value]="getStageName(record.archiveAnchorStage)" [severity]="getStageSeverity(record.archiveAnchorStage)" styleClass="rounded-[6px]!" />
+                                                </div>
+                                            </div>
+
+                                            <div class="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2">
+                                                <div>
+                                                    <span class="text-surface-500 dark:text-surface-400">证据摘要：</span>
+                                                    <span class="font-medium text-surface-800 dark:text-surface-100">{{ displayText(record.evidenceSummary, '待补充') }}</span>
+                                                </div>
+                                                @if (record.replacementReason) {
+                                                    <div>
+                                                        <span class="text-surface-500 dark:text-surface-400">替代原因：</span>
+                                                        <span class="font-medium text-surface-800 dark:text-surface-100">{{ record.replacementReason }}</span>
+                                                    </div>
+                                                }
+                                                @if (record.voidReason) {
+                                                    <div>
+                                                        <span class="text-surface-500 dark:text-surface-400">撤销原因：</span>
+                                                        <span class="font-medium text-surface-800 dark:text-surface-100">{{ record.voidReason }}</span>
+                                                    </div>
+                                                }
+                                                @if (record.voidedAt) {
+                                                    <div>
+                                                        <span class="text-surface-500 dark:text-surface-400">撤销记录：</span>
+                                                        <span class="font-medium text-surface-800 dark:text-surface-100">{{ formatDateTime(record.voidedAt) }} · {{ displayText(record.voidedByName, '待确认操作人') }}</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         }
                     </section-card>
                 }
@@ -358,7 +454,9 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                                     </div>
                                     <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                         <div class="text-xs text-surface-500 dark:text-surface-400">形成时间</div>
-                                        <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.currentApprovalSummary.generatedAt ? (project.currentApprovalSummary.generatedAt | date: 'yyyy-MM-dd HH:mm') : '待确认' }}</div>
+                                        <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">
+                                            {{ project.currentApprovalSummary.generatedAt ? (project.currentApprovalSummary.generatedAt | date: 'yyyy-MM-dd HH:mm') : '待确认' }}
+                                        </div>
                                     </div>
                                 </div>
                             } @else {
@@ -374,11 +472,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                         <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700 sm:col-span-3">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">确认状态</div>
-                                <p-tag
-                                    [value]="getConfirmationStatusName(project.currentConfirmationSummary.status)"
-                                    [severity]="getConfirmationStatusSeverity(project.currentConfirmationSummary.status)"
-                                    styleClass="mt-1 rounded-[6px]!"
-                                />
+                                <p-tag [value]="getConfirmationStatusName(project.currentConfirmationSummary.status)" [severity]="getConfirmationStatusSeverity(project.currentConfirmationSummary.status)" styleClass="mt-1 rounded-[6px]!" />
                             </div>
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">需要确认</div>
@@ -443,6 +537,83 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     </div>
                 </ng-template>
             </p-dialog>
+
+            <p-dialog [(visible)]="replaceArchiveDialogVisible" [modal]="true" header="替代归档记录" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (replaceArchiveError) {
+                        <app-workspace-feedback severity="error" summary="替代归档失败" [detail]="replaceArchiveError" />
+                    }
+
+                    <div class="flex flex-col gap-2">
+                        <label for="replaceArchiveAt" class="text-sm font-medium text-surface-900 dark:text-surface-0">归档时间</label>
+                        <input pInputText id="replaceArchiveAt" type="datetime-local" [(ngModel)]="replaceArchiveForm.archivedAt" class="w-full rounded-md!" />
+                        @if (replaceArchiveAttempted && !replaceArchiveForm.archivedAt.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写归档时间。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="replaceArchiveSummary" class="text-sm font-medium text-surface-900 dark:text-surface-0">归档结论</label>
+                        <textarea pTextarea id="replaceArchiveSummary" [(ngModel)]="replaceArchiveForm.archiveSummary" rows="4" class="w-full rounded-md!" placeholder="说明新的归档结论。"></textarea>
+                        @if (replaceArchiveAttempted && !replaceArchiveForm.archiveSummary.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写归档结论。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="replaceArchiveEvidence" class="text-sm font-medium text-surface-900 dark:text-surface-0">证据摘要</label>
+                        <textarea pTextarea id="replaceArchiveEvidence" [(ngModel)]="replaceArchiveForm.evidenceSummary" rows="3" class="w-full rounded-md!" placeholder="说明本次归档依据。"></textarea>
+                        @if (replaceArchiveAttempted && !replaceArchiveForm.evidenceSummary.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写证据摘要。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="replaceArchiveReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">替代原因</label>
+                        <textarea pTextarea id="replaceArchiveReason" [(ngModel)]="replaceArchiveForm.replacementReason" rows="3" class="w-full rounded-md!" placeholder="说明为什么需要替代当前归档记录。"></textarea>
+                        @if (replaceArchiveAttempted && !replaceArchiveForm.replacementReason.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写替代原因。</span>
+                        }
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="closeReplaceArchiveDialog()" />
+                        <p-button label="提交替代" [loading]="savingArchiveCommand()" styleClass="rounded-md!" (onClick)="replaceArchiveRecord()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="voidArchiveDialogVisible" [modal]="true" header="撤销归档记录" [style]="{ width: 'min(34rem, 92vw)' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (voidArchiveError) {
+                        <app-workspace-feedback severity="error" summary="撤销归档失败" [detail]="voidArchiveError" />
+                    }
+
+                    <app-workspace-feedback severity="warn" summary="撤销后当前项目将没有有效归档记录" detail="系统会保留原记录和撤销审计，不会删除历史。" />
+
+                    <div class="flex flex-col gap-2">
+                        <label for="voidArchiveReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">撤销原因</label>
+                        <textarea pTextarea id="voidArchiveReason" [(ngModel)]="voidArchiveForm.reason" rows="4" class="w-full rounded-md!" placeholder="说明为什么撤销当前归档记录。"></textarea>
+                        @if (voidArchiveAttempted && !voidArchiveForm.reason.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写撤销原因。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="voidArchiveComment" class="text-sm font-medium text-surface-900 dark:text-surface-0">补充说明</label>
+                        <textarea pTextarea id="voidArchiveComment" [(ngModel)]="voidArchiveForm.comment" rows="3" class="w-full rounded-md!" placeholder="可补充处理背景，非必填。"></textarea>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="closeVoidArchiveDialog()" />
+                        <p-button label="确认撤销" severity="danger" [loading]="savingArchiveCommand()" styleClass="rounded-md!" (onClick)="voidArchiveRecord()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
         } @else {
             <div class="py-20 text-center">
                 <app-workspace-feedback severity="warn" summary="项目未找到" detail="请返回项目列表重新选择项目。" />
@@ -455,23 +626,44 @@ export class ProjectDetail implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #projectStore = inject(ProjectStore);
+    readonly #authStore = inject(AuthStore);
 
     readonly project = this.#projectStore.selectedProject;
     readonly projectTimeline = this.#projectStore.selectedProjectTimeline;
+    readonly archiveRecords = this.#projectStore.selectedProjectArchiveRecords;
     readonly loading = this.#projectStore.loading;
     readonly saving = this.#projectStore.saving;
+    readonly loadingArchiveRecords = this.#projectStore.loadingArchiveRecords;
+    readonly savingArchiveCommand = this.#projectStore.savingArchiveCommand;
     readonly timelineError = this.#projectStore.timelineError;
+    readonly archiveRecordsError = this.#projectStore.archiveRecordsError;
 
     editDialogVisible = false;
     editAttempted = false;
     editError: string | null = null;
     editForm: EditProjectForm = { customerName: '', customerProjectNo: '', projectName: '' };
+    replaceArchiveDialogVisible = false;
+    replaceArchiveAttempted = false;
+    replaceArchiveError: string | null = null;
+    replaceArchiveTarget: ProjectArchiveRecordSummary | null = null;
+    replaceArchiveForm: ReplaceArchiveForm = {
+        archivedAt: '',
+        archiveSummary: '',
+        evidenceSummary: '',
+        replacementReason: ''
+    };
+    voidArchiveDialogVisible = false;
+    voidArchiveAttempted = false;
+    voidArchiveError: string | null = null;
+    voidArchiveTarget: ProjectArchiveRecordSummary | null = null;
+    voidArchiveForm: VoidArchiveForm = { reason: '', comment: '' };
 
     ngOnInit() {
         const id = this.#route.snapshot.paramMap.get('id');
         if (id) {
             void this.#projectStore.loadProject(id);
             void this.#projectStore.loadProjectTimeline(id).catch(() => undefined);
+            void this.#projectStore.loadProjectArchiveRecords(id).catch(() => undefined);
         }
     }
 
@@ -545,6 +737,109 @@ export class ProjectDetail implements OnInit {
         }
     }
 
+    openReplaceArchiveDialog(record: ProjectArchiveRecordSummary) {
+        const project = this.project();
+        if (!project || !this.canManageArchiveRecord(project, record)) {
+            return;
+        }
+
+        this.replaceArchiveTarget = record;
+        this.replaceArchiveForm = {
+            archivedAt: this.toDateTimeInputValue(record.archivedAt),
+            archiveSummary: record.archiveSummary,
+            evidenceSummary: record.evidenceSummary,
+            replacementReason: ''
+        };
+        this.replaceArchiveAttempted = false;
+        this.replaceArchiveError = null;
+        this.replaceArchiveDialogVisible = true;
+    }
+
+    closeReplaceArchiveDialog() {
+        this.replaceArchiveDialogVisible = false;
+        this.replaceArchiveError = null;
+        this.replaceArchiveTarget = null;
+    }
+
+    async replaceArchiveRecord() {
+        const project = this.project();
+        const record = this.replaceArchiveTarget;
+        if (!project || !record || !this.canManageArchiveRecord(project, record)) {
+            return;
+        }
+
+        this.replaceArchiveAttempted = true;
+        const archivedAt = this.normalizeDateTimeInput(this.replaceArchiveForm.archivedAt);
+        const archiveSummary = this.replaceArchiveForm.archiveSummary.trim();
+        const evidenceSummary = this.replaceArchiveForm.evidenceSummary.trim();
+        const replacementReason = this.replaceArchiveForm.replacementReason.trim();
+
+        if (!archivedAt || !archiveSummary || !evidenceSummary || !replacementReason) {
+            if (!archivedAt && this.replaceArchiveForm.archivedAt.trim()) {
+                this.replaceArchiveError = '归档时间格式不正确，请重新选择。';
+            }
+            return;
+        }
+
+        try {
+            await this.#projectStore.replaceProjectArchiveRecord(record.id, {
+                archivedAt,
+                archiveSummary,
+                evidenceSummary,
+                replacementReason,
+                expectedVersion: record.rowVersion
+            });
+            this.closeReplaceArchiveDialog();
+        } catch {
+            this.replaceArchiveError = '替代归档没有提交成功，请确认记录是否已被其他人更新后重试。';
+        }
+    }
+
+    openVoidArchiveDialog(record: ProjectArchiveRecordSummary) {
+        const project = this.project();
+        if (!project || !this.canManageArchiveRecord(project, record)) {
+            return;
+        }
+
+        this.voidArchiveTarget = record;
+        this.voidArchiveForm = { reason: '', comment: '' };
+        this.voidArchiveAttempted = false;
+        this.voidArchiveError = null;
+        this.voidArchiveDialogVisible = true;
+    }
+
+    closeVoidArchiveDialog() {
+        this.voidArchiveDialogVisible = false;
+        this.voidArchiveError = null;
+        this.voidArchiveTarget = null;
+    }
+
+    async voidArchiveRecord() {
+        const project = this.project();
+        const record = this.voidArchiveTarget;
+        if (!project || !record || !this.canManageArchiveRecord(project, record)) {
+            return;
+        }
+
+        this.voidArchiveAttempted = true;
+        const reason = this.voidArchiveForm.reason.trim();
+        const comment = this.voidArchiveForm.comment.trim();
+        if (!reason) {
+            return;
+        }
+
+        try {
+            await this.#projectStore.voidProjectArchiveRecord(record.id, {
+                reason,
+                comment: comment || null,
+                expectedVersion: record.rowVersion
+            });
+            this.closeVoidArchiveDialog();
+        } catch {
+            this.voidArchiveError = '撤销归档没有提交成功，请确认记录是否已被其他人更新后重试。';
+        }
+    }
+
     canOpenWorkspace(project: ProjectDetailView): boolean {
         return project.allowedActions.includes(PROJECT_ACTIONS.viewWorkspace);
     }
@@ -555,6 +850,10 @@ export class ProjectDetail implements OnInit {
 
     canManageCommission(project: ProjectDetailView): boolean {
         return project.allowedActions.includes(PROJECT_ACTIONS.manageCommission);
+    }
+
+    canManageArchiveRecord(project: ProjectDetailView, record: ProjectArchiveRecordSummary): boolean {
+        return record.status === 'recorded' && this.isTerminalStage(project.stageSummary.currentStage) && this.canEdit(project) && this.#authStore.hasAnyPermission(PROJECT_WRITE_PERMISSIONS);
     }
 
     availableActionCount(project: ProjectDetailView): number {
@@ -580,13 +879,7 @@ export class ProjectDetail implements OnInit {
         }
 
         const archiveEvent = (timeline?.events ?? [])
-            .filter(
-                (event) =>
-                    event.isAuthoritative &&
-                    event.sourceType === 'project-archive-record' &&
-                    event.eventType === 'milestone' &&
-                    event.stage === currentStage
-            )
+            .filter((event) => event.isAuthoritative && event.sourceType === 'project-archive-record' && event.eventType === 'milestone' && event.stage === currentStage)
             .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt))[0];
 
         if (!archiveEvent) {
@@ -624,6 +917,37 @@ export class ProjectDetail implements OnInit {
             {
                 label: '证据摘要',
                 value: archive.evidenceLabel,
+                icon: 'pi pi-file'
+            }
+        ];
+    }
+
+    currentArchiveRecord(records: ProjectArchiveRecordSummary[]): ProjectArchiveRecordSummary | null {
+        return records.find((record) => record.status === 'recorded') ?? null;
+    }
+
+    archiveRecordFactItems(record: ProjectArchiveRecordSummary): WorkspaceFactGridItem[] {
+        return [
+            {
+                label: '归档时间',
+                value: this.formatDateTime(record.archivedAt),
+                icon: 'pi pi-calendar',
+                emphasis: true
+            },
+            {
+                label: '锚定终态',
+                value: this.getStageName(record.archiveAnchorStage),
+                severity: this.getStageSeverity(record.archiveAnchorStage),
+                icon: 'pi pi-flag'
+            },
+            {
+                label: '操作人',
+                value: this.displayText(record.archivedByName, '待确认'),
+                icon: 'pi pi-user'
+            },
+            {
+                label: '证据摘要',
+                value: this.displayText(record.evidenceSummary, '待补充归档依据'),
                 icon: 'pi pi-file'
             }
         ];
@@ -725,6 +1049,34 @@ export class ProjectDetail implements OnInit {
         return formatDate(value, 'yyyy-MM-dd HH:mm', 'en-US');
     }
 
+    formatDateTime(value: string | null | undefined): string {
+        return value ? this.formatTimelineDate(value) : '待确认';
+    }
+
+    private toDateTimeInputValue(value: string): string {
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) {
+            return '';
+        }
+
+        const localTime = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60_000);
+        return localTime.toISOString().slice(0, 16);
+    }
+
+    private normalizeDateTimeInput(value: string): string | null {
+        const trimmed = value.trim();
+        if (!trimmed) {
+            return null;
+        }
+
+        const parsed = new Date(trimmed);
+        if (Number.isNaN(parsed.getTime())) {
+            return null;
+        }
+
+        return parsed.toISOString();
+    }
+
     shortId(value: string | null | undefined): string {
         if (!value) {
             return '待确认';
@@ -791,5 +1143,13 @@ export class ProjectDetail implements OnInit {
 
     getLeadStatusSeverity(status: string): UiTagSeverity {
         return LEAD_STATUS_SEVERITIES[status] ?? 'secondary';
+    }
+
+    getArchiveStatusName(status: string): string {
+        return ARCHIVE_STATUS_LABELS[status] ?? status;
+    }
+
+    getArchiveStatusSeverity(status: string): UiTagSeverity {
+        return ARCHIVE_STATUS_SEVERITIES[status] ?? 'secondary';
     }
 }

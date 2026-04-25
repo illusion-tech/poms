@@ -1,5 +1,14 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CreateProjectRequest, ProjectDetailView, ProjectListView, ProjectTimelineView, UpdateProjectBasicInfoRequest } from '@poms/shared-api-client';
+import type {
+    CreateProjectRequest,
+    ProjectArchiveRecordSummary,
+    ProjectDetailView,
+    ProjectListView,
+    ProjectTimelineView,
+    ReplaceProjectArchiveRecordRequest,
+    UpdateProjectBasicInfoRequest,
+    VoidProjectArchiveRecordRequest
+} from '@poms/shared-api-client';
 import { ProjectApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -10,20 +19,28 @@ export class ProjectStore {
     readonly #projects = signal<ProjectListView[]>([]);
     readonly #selectedProject = signal<ProjectDetailView | null>(null);
     readonly #selectedProjectTimeline = signal<ProjectTimelineView | null>(null);
+    readonly #selectedProjectArchiveRecords = signal<ProjectArchiveRecordSummary[]>([]);
     readonly #loading = signal(false);
     readonly #loadingTimeline = signal(false);
+    readonly #loadingArchiveRecords = signal(false);
     readonly #saving = signal(false);
+    readonly #savingArchiveCommand = signal(false);
     readonly #loaded = signal(false);
     readonly #timelineError = signal<string | null>(null);
+    readonly #archiveRecordsError = signal<string | null>(null);
 
     readonly projects = this.#projects.asReadonly();
     readonly selectedProject = this.#selectedProject.asReadonly();
     readonly selectedProjectTimeline = this.#selectedProjectTimeline.asReadonly();
+    readonly selectedProjectArchiveRecords = this.#selectedProjectArchiveRecords.asReadonly();
     readonly loading = this.#loading.asReadonly();
     readonly loadingTimeline = this.#loadingTimeline.asReadonly();
+    readonly loadingArchiveRecords = this.#loadingArchiveRecords.asReadonly();
     readonly saving = this.#saving.asReadonly();
+    readonly savingArchiveCommand = this.#savingArchiveCommand.asReadonly();
     readonly loaded = this.#loaded.asReadonly();
     readonly timelineError = this.#timelineError.asReadonly();
+    readonly archiveRecordsError = this.#archiveRecordsError.asReadonly();
     readonly recentProjects = computed(() => this.#projects().slice(0, 5));
     readonly activeProjectCount = computed(() => this.#projects().filter((project) => project.status === 'active').length);
     readonly closedProjectCount = computed(() => this.#projects().filter((project) => project.status === 'closed').length);
@@ -47,7 +64,9 @@ export class ProjectStore {
         try {
             if (this.#selectedProject()?.id !== id) {
                 this.#selectedProjectTimeline.set(null);
+                this.#selectedProjectArchiveRecords.set([]);
                 this.#timelineError.set(null);
+                this.#archiveRecordsError.set(null);
             }
 
             const project = await firstValueFrom(this.#projectApi.projectControllerGetById({ id }));
@@ -76,6 +95,27 @@ export class ProjectStore {
             throw error;
         } finally {
             this.#loadingTimeline.set(false);
+        }
+    }
+
+    async loadProjectArchiveRecords(projectId: string) {
+        this.#loadingArchiveRecords.set(true);
+        this.#archiveRecordsError.set(null);
+
+        try {
+            const records = await firstValueFrom(
+                this.#projectApi.projectControllerListProjectArchiveRecords({
+                    projectId
+                })
+            );
+            this.#selectedProjectArchiveRecords.set(records ?? []);
+            return records ?? [];
+        } catch (error) {
+            this.#selectedProjectArchiveRecords.set([]);
+            this.#archiveRecordsError.set('项目归档记录暂时读取失败，请稍后重试。');
+            throw error;
+        } finally {
+            this.#loadingArchiveRecords.set(false);
         }
     }
 
@@ -113,9 +153,49 @@ export class ProjectStore {
         }
     }
 
+    async replaceProjectArchiveRecord(id: string, request: ReplaceProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectArchiveRecordControllerReplaceProjectArchiveRecord({
+                    id,
+                    replaceProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
+        }
+    }
+
+    async voidProjectArchiveRecord(id: string, request: VoidProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectArchiveRecordControllerVoidProjectArchiveRecord({
+                    id,
+                    voidProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
+        }
+    }
+
     clearSelectedProject() {
         this.#selectedProject.set(null);
         this.#selectedProjectTimeline.set(null);
+        this.#selectedProjectArchiveRecords.set([]);
         this.#timelineError.set(null);
+        this.#archiveRecordsError.set(null);
+    }
+
+    async #reloadProjectArchiveContext(projectId: string) {
+        await Promise.all([this.loadProject(projectId), this.loadProjectTimeline(projectId).catch(() => undefined), this.loadProjectArchiveRecords(projectId).catch(() => undefined)]);
     }
 }

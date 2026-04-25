@@ -66,6 +66,7 @@ export type {
     ProjectBidCommercialProcessSummary,
     ProjectBidCommercialTimelineItemView,
     ProjectBidCommercialWorkspaceView,
+    ProjectArchiveRecordSummary,
     ProjectBusinessOutcomeOverviewView,
     ProjectDetailView,
     ProjectHandoverDetailView,
@@ -89,13 +90,29 @@ export type {
     ProjectWorkspaceEntryView,
     ProjectWorkspaceGuidanceView,
     RegisterCommissionPayoutRequest,
+    ReplaceProjectArchiveRecordRequest,
     SanitizedUserWithOrgUnits,
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
     TodoItemSummary,
     UpdateCurrentUserProfileRequest,
     UpdateLeadRequest,
-    UpdateProjectBasicInfoRequest
+    UpdateProjectBasicInfoRequest,
+    VoidProjectArchiveRecordRequest
 } from '@poms/shared-api-client';
-export type { PlatformUserSummary, PlatformUserDetail, PlatformRoleSummary, PlatformOrgUnitSummary, CreatePlatformUserRequest, AssignUserRolesRequest, AssignUserOrgMembershipsRequest, CreateRoleRequest, AssignRolePermissionsRequest, CreateOrgUnitRequest, UpdateOrgUnitRequest, UpdatePlatformUserRequest, UserOrgUnitSummary } from '@poms/shared-api-client';
+export type {
+    PlatformUserSummary,
+    PlatformUserDetail,
+    PlatformRoleSummary,
+    PlatformOrgUnitSummary,
+    CreatePlatformUserRequest,
+    AssignUserRolesRequest,
+    AssignUserOrgMembershipsRequest,
+    CreateRoleRequest,
+    AssignRolePermissionsRequest,
+    CreateOrgUnitRequest,
+    UpdateOrgUnitRequest,
+    UpdatePlatformUserRequest,
+    UserOrgUnitSummary
+} from '@poms/shared-api-client';
 export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';

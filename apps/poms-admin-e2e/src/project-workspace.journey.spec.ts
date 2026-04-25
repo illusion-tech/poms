@@ -59,11 +59,7 @@ async function openWorkspaceHomeEntry(page: Page, title: string): Promise<void> 
 }
 
 async function expectWorkspaceHomeEntryDisabled(page: Page, title: string, reason: string): Promise<void> {
-    const entry = page
-        .locator('div.py-4')
-        .filter({ hasText: title })
-        .filter({ hasText: reason })
-        .first();
+    const entry = page.locator('div.py-4').filter({ hasText: title }).filter({ hasText: reason }).first();
 
     await expect(entry).toBeVisible();
     await expect(entry.getByText('暂不可进入')).toBeVisible();
@@ -84,6 +80,116 @@ async function returnToWorkspaceHome(page: Page, projectId = WORKSPACE_PROJECT_I
 
 async function expectRuleExplanationSurface(page: Page): Promise<void> {
     await expect(page.getByText(/规则解释暂不可用|当前规则结论/)).toBeVisible();
+}
+
+async function mockProjectArchiveHistory(page: Page): Promise<void> {
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}`, async (route) => {
+        const response = await route.fetch();
+        const project = (await response.json()) as {
+            allowedActions?: string[];
+            currentStage?: string;
+            stageSummary?: {
+                currentStage?: string;
+                status?: string;
+                blockingReasons?: string[];
+            };
+            status?: string;
+        };
+        project.currentStage = 'completed';
+        project.status = 'completed';
+        project.stageSummary = {
+            ...(project.stageSummary ?? {}),
+            currentStage: 'completed',
+            status: 'completed',
+            blockingReasons: []
+        };
+        project.allowedActions = [...new Set([...(project.allowedActions ?? []), 'edit-project-basic-info'])];
+
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify(project)
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/archive-records`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify([
+                {
+                    id: '38000000-0000-4000-8000-000000000202',
+                    projectId: WORKSPACE_PROJECT_ID,
+                    archiveAnchorStage: 'completed',
+                    archiveAnchorSourceType: 'project-completion-record',
+                    archiveAnchorSourceId: '37000000-0000-4000-8000-000000000202',
+                    status: 'recorded',
+                    archivedAt: '2026-04-24T15:20:00.000Z',
+                    archivedBy: '10000000-0000-4000-8000-000000000001',
+                    archivedByName: '归档负责人',
+                    archiveSummary: 'e2e 归档记录已更新',
+                    evidenceSummary: 'e2e 新版归档清单',
+                    supersedesArchiveRecordId: '38000000-0000-4000-8000-000000000201',
+                    replacementReason: 'e2e 补充验收附件',
+                    voidedAt: null,
+                    voidedBy: null,
+                    voidedByName: null,
+                    voidReason: null,
+                    createdAt: '2026-04-24T15:20:00.000Z',
+                    createdBy: '10000000-0000-4000-8000-000000000001',
+                    updatedAt: '2026-04-24T15:20:00.000Z',
+                    updatedBy: '10000000-0000-4000-8000-000000000001',
+                    rowVersion: 7
+                },
+                {
+                    id: '38000000-0000-4000-8000-000000000201',
+                    projectId: WORKSPACE_PROJECT_ID,
+                    archiveAnchorStage: 'completed',
+                    archiveAnchorSourceType: 'project-completion-record',
+                    archiveAnchorSourceId: '37000000-0000-4000-8000-000000000201',
+                    status: 'superseded',
+                    archivedAt: '2026-04-23T10:00:00.000Z',
+                    archivedBy: '10000000-0000-4000-8000-000000000001',
+                    archivedByName: '归档负责人',
+                    archiveSummary: 'e2e 原始归档记录',
+                    evidenceSummary: 'e2e 原始归档清单',
+                    supersedesArchiveRecordId: null,
+                    replacementReason: null,
+                    voidedAt: null,
+                    voidedBy: null,
+                    voidedByName: null,
+                    voidReason: null,
+                    createdAt: '2026-04-23T10:00:00.000Z',
+                    createdBy: '10000000-0000-4000-8000-000000000001',
+                    updatedAt: '2026-04-24T15:20:00.000Z',
+                    updatedBy: '10000000-0000-4000-8000-000000000001',
+                    rowVersion: 4
+                },
+                {
+                    id: '38000000-0000-4000-8000-000000000200',
+                    projectId: WORKSPACE_PROJECT_ID,
+                    archiveAnchorStage: 'completed',
+                    archiveAnchorSourceType: 'project-completion-record',
+                    archiveAnchorSourceId: '37000000-0000-4000-8000-000000000200',
+                    status: 'voided',
+                    archivedAt: '2026-04-22T10:00:00.000Z',
+                    archivedBy: '10000000-0000-4000-8000-000000000001',
+                    archivedByName: '归档负责人',
+                    archiveSummary: 'e2e 撤销归档记录',
+                    evidenceSummary: 'e2e 撤销归档清单',
+                    supersedesArchiveRecordId: null,
+                    replacementReason: null,
+                    voidedAt: '2026-04-22T12:00:00.000Z',
+                    voidedBy: '10000000-0000-4000-8000-000000000001',
+                    voidedByName: '审计负责人',
+                    voidReason: 'e2e 资料重复',
+                    createdAt: '2026-04-22T10:00:00.000Z',
+                    createdBy: '10000000-0000-4000-8000-000000000001',
+                    updatedAt: '2026-04-22T12:00:00.000Z',
+                    updatedBy: '10000000-0000-4000-8000-000000000001',
+                    rowVersion: 3
+                }
+            ])
+        });
+    });
 }
 
 test.describe('poms-admin project workspace journey', () => {
@@ -237,6 +343,29 @@ test.describe('poms-admin project workspace journey', () => {
         await page.getByRole('link', { name: '规则解释' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/rule-explanation$`));
         await expectRuleExplanationSurface(page);
+    });
+
+    test('admin can inspect archive audit history from project detail opened from the project list', async ({ page }) => {
+        await mockProjectArchiveHistory(page);
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openProjectDetailFromList(page);
+
+        await expect(page.getByText('项目归档')).toBeVisible();
+        await expect(page.getByText('e2e 归档记录已更新').first()).toBeVisible();
+        await expect(page.getByText('归档历史')).toBeVisible();
+        await expect(page.getByText('已被替代')).toBeVisible();
+        await expect(page.getByText('已撤销')).toBeVisible();
+        await expect(page.getByText('e2e 补充验收附件')).toBeVisible();
+        await expect(page.getByText('e2e 资料重复')).toBeVisible();
+
+        await page.getByRole('button', { name: '替代归档' }).click();
+        await expect(page.getByRole('dialog', { name: '替代归档记录' })).toBeVisible();
+        await page.getByRole('button', { name: '取消' }).click();
+
+        await page.getByRole('button', { name: '撤销归档' }).click();
+        await expect(page.getByRole('dialog', { name: '撤销归档记录' })).toBeVisible();
     });
 
     test('admin can use the core workspace chain on a mobile viewport', async ({ page }) => {
