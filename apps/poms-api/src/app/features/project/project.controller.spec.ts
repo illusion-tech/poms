@@ -231,13 +231,21 @@ describe('ProjectController', () => {
                 createdBy: userId,
                 updatedAt: '2026-04-22T10:00:00.000Z',
                 updatedBy: userId,
-                rowVersion: 1
+                rowVersion: 1,
+                allowedActions: ['replace-project-archive-record', 'void-project-archive-record']
             }
         ];
         projectQueryService.listProjectArchiveRecords.mockResolvedValue(records as never);
 
-        await expect(controller.listProjectArchiveRecords(projectId)).resolves.toBe(records);
-        expect(projectQueryService.listProjectArchiveRecords).toHaveBeenCalledWith(projectId);
+        await expect(
+            controller.listProjectArchiveRecords(projectId, {
+                user: { sub: userId, permissions: ['project:read', 'project:write'] }
+            } as never)
+        ).resolves.toBe(records);
+        expect(projectQueryService.listProjectArchiveRecords).toHaveBeenCalledWith(projectId, {
+            sub: userId,
+            permissions: ['project:read', 'project:write']
+        });
     });
 
     it('creates project acceptance record with operator id', async () => {

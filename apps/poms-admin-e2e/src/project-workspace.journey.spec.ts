@@ -137,7 +137,8 @@ async function mockProjectArchiveHistory(page: Page): Promise<void> {
                     createdBy: '10000000-0000-4000-8000-000000000001',
                     updatedAt: '2026-04-24T15:20:00.000Z',
                     updatedBy: '10000000-0000-4000-8000-000000000001',
-                    rowVersion: 7
+                    rowVersion: 7,
+                    allowedActions: ['replace-project-archive-record', 'void-project-archive-record']
                 },
                 {
                     id: '38000000-0000-4000-8000-000000000201',
@@ -161,7 +162,8 @@ async function mockProjectArchiveHistory(page: Page): Promise<void> {
                     createdBy: '10000000-0000-4000-8000-000000000001',
                     updatedAt: '2026-04-24T15:20:00.000Z',
                     updatedBy: '10000000-0000-4000-8000-000000000001',
-                    rowVersion: 4
+                    rowVersion: 4,
+                    allowedActions: []
                 },
                 {
                     id: '38000000-0000-4000-8000-000000000200',
@@ -185,7 +187,8 @@ async function mockProjectArchiveHistory(page: Page): Promise<void> {
                     createdBy: '10000000-0000-4000-8000-000000000001',
                     updatedAt: '2026-04-22T12:00:00.000Z',
                     updatedBy: '10000000-0000-4000-8000-000000000001',
-                    rowVersion: 3
+                    rowVersion: 3,
+                    allowedActions: []
                 }
             ])
         });

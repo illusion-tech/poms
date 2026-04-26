@@ -2,7 +2,7 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -41,7 +41,10 @@ const PROJECT_ACTIONS = {
     viewWorkspace: 'view-project-workspace'
 } as const;
 
-const PROJECT_WRITE_PERMISSIONS = ['project:write'] as const;
+const PROJECT_ARCHIVE_ACTIONS = {
+    replace: 'replace-project-archive-record',
+    void: 'void-project-archive-record'
+} as const;
 
 const PROJECT_STAGE_LABELS: Record<string, string> = {
     assessment: '立项评估',
@@ -269,10 +272,14 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 
                             <app-workspace-fact-grid class="mt-4 block" [items]="archiveRecordFactItems(archiveRecord)" [columns]="4" />
 
-                            @if (canManageArchiveRecord(project, archiveRecord)) {
+                            @if (canReplaceArchiveRecord(archiveRecord) || canVoidArchiveRecord(archiveRecord)) {
                                 <div class="mt-4 flex flex-wrap gap-2">
-                                    <p-button label="替代归档" icon="pi pi-refresh" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openReplaceArchiveDialog(archiveRecord)" />
-                                    <p-button label="撤销归档" icon="pi pi-ban" severity="danger" [outlined]="true" styleClass="rounded-md!" (onClick)="openVoidArchiveDialog(archiveRecord)" />
+                                    @if (canReplaceArchiveRecord(archiveRecord)) {
+                                        <p-button label="替代归档" icon="pi pi-refresh" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openReplaceArchiveDialog(archiveRecord)" />
+                                    }
+                                    @if (canVoidArchiveRecord(archiveRecord)) {
+                                        <p-button label="撤销归档" icon="pi pi-ban" severity="danger" [outlined]="true" styleClass="rounded-md!" (onClick)="openVoidArchiveDialog(archiveRecord)" />
+                                    }
                                 </div>
                             } @else {
                                 <app-workspace-feedback class="mt-4 block" severity="secondary" summary="当前账号不能维护归档记录" detail="如需修正归档，请联系具备项目维护权限的负责人处理。" />
@@ -626,7 +633,6 @@ export class ProjectDetail implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #projectStore = inject(ProjectStore);
-    readonly #authStore = inject(AuthStore);
 
     readonly project = this.#projectStore.selectedProject;
     readonly projectTimeline = this.#projectStore.selectedProjectTimeline;
@@ -739,7 +745,7 @@ export class ProjectDetail implements OnInit {
 
     openReplaceArchiveDialog(record: ProjectArchiveRecordSummary) {
         const project = this.project();
-        if (!project || !this.canManageArchiveRecord(project, record)) {
+        if (!project || !this.canReplaceArchiveRecord(record)) {
             return;
         }
 
@@ -764,7 +770,7 @@ export class ProjectDetail implements OnInit {
     async replaceArchiveRecord() {
         const project = this.project();
         const record = this.replaceArchiveTarget;
-        if (!project || !record || !this.canManageArchiveRecord(project, record)) {
+        if (!project || !record || !this.canReplaceArchiveRecord(record)) {
             return;
         }
 
@@ -797,7 +803,7 @@ export class ProjectDetail implements OnInit {
 
     openVoidArchiveDialog(record: ProjectArchiveRecordSummary) {
         const project = this.project();
-        if (!project || !this.canManageArchiveRecord(project, record)) {
+        if (!project || !this.canVoidArchiveRecord(record)) {
             return;
         }
 
@@ -817,7 +823,7 @@ export class ProjectDetail implements OnInit {
     async voidArchiveRecord() {
         const project = this.project();
         const record = this.voidArchiveTarget;
-        if (!project || !record || !this.canManageArchiveRecord(project, record)) {
+        if (!project || !record || !this.canVoidArchiveRecord(record)) {
             return;
         }
 
@@ -852,8 +858,12 @@ export class ProjectDetail implements OnInit {
         return project.allowedActions.includes(PROJECT_ACTIONS.manageCommission);
     }
 
-    canManageArchiveRecord(project: ProjectDetailView, record: ProjectArchiveRecordSummary): boolean {
-        return record.status === 'recorded' && this.isTerminalStage(project.stageSummary.currentStage) && this.canEdit(project) && this.#authStore.hasAnyPermission(PROJECT_WRITE_PERMISSIONS);
+    canReplaceArchiveRecord(record: ProjectArchiveRecordSummary): boolean {
+        return record.allowedActions.includes(PROJECT_ARCHIVE_ACTIONS.replace);
+    }
+
+    canVoidArchiveRecord(record: ProjectArchiveRecordSummary): boolean {
+        return record.allowedActions.includes(PROJECT_ARCHIVE_ACTIONS.void);
     }
 
     availableActionCount(project: ProjectDetailView): number {

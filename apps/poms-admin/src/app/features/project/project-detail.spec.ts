@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
@@ -138,6 +138,7 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
         updatedAt: '2026-04-24T15:20:00.000Z',
         updatedBy: 'user-4',
         rowVersion: 7,
+        allowedActions: ['replace-project-archive-record', 'void-project-archive-record'],
         ...overrides
     } as ProjectArchiveRecordSummary;
 }
@@ -151,9 +152,6 @@ describe('ProjectDetail', () => {
     let timelineErrorSignal: ReturnType<typeof signal<string | null>>;
     let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
-    let authStoreMock: {
-        hasAnyPermission: jest.Mock;
-    };
     let projectStoreMock: {
         loadProject: jest.Mock;
         loadProjectTimeline: jest.Mock;
@@ -172,16 +170,13 @@ describe('ProjectDetail', () => {
         voidProjectArchiveRecord: jest.Mock;
     };
 
-    async function setup(project: ProjectDetailView | null = createProject(), timeline: ProjectTimelineView | null = null, timelineError: string | null = null, archiveRecords: ProjectArchiveRecordSummary[] = [], canWriteProject = true) {
+    async function setup(project: ProjectDetailView | null = createProject(), timeline: ProjectTimelineView | null = null, timelineError: string | null = null, archiveRecords: ProjectArchiveRecordSummary[] = []) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
         archiveRecordsSignal = signal<ProjectArchiveRecordSummary[]>(archiveRecords);
         timelineErrorSignal = signal<string | null>(timelineError);
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
-        authStoreMock = {
-            hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('project:write') && canWriteProject)
-        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
@@ -214,10 +209,6 @@ describe('ProjectDetail', () => {
                 {
                     provide: Router,
                     useValue: routerMock
-                },
-                {
-                    provide: AuthStore,
-                    useValue: authStoreMock
                 }
             ]
         })
@@ -587,7 +578,7 @@ describe('ProjectDetail', () => {
         expect(fixture.nativeElement.textContent).toContain('撤销归档');
     });
 
-    it('hides archive replace and void actions when the user lacks project write permission', async () => {
+    it('hides archive replace and void actions when the archive record does not allow them', async () => {
         const project = createProject({
             currentStage: 'completed',
             status: 'completed',
@@ -600,9 +591,9 @@ describe('ProjectDetail', () => {
                 blockingReasons: []
             }
         });
-        const archiveRecord = createArchiveRecord();
+        const archiveRecord = createArchiveRecord({ allowedActions: [] });
 
-        await setup(project, null, null, [archiveRecord], false);
+        await setup(project, null, null, [archiveRecord]);
 
         expect(fixture.nativeElement.textContent).not.toContain('替代归档');
         expect(fixture.nativeElement.textContent).not.toContain('撤销归档');

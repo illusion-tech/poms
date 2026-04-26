@@ -75,6 +75,10 @@ const PROJECT_WORKSPACE_FINANCE_STAGES = ['execution', 'acceptance', 'completed'
 const PROJECT_WORKSPACE_COMMISSION_STAGES = ['handover', 'execution', 'acceptance', 'completed'];
 const PROJECT_WORKSPACE_SETTLEMENT_STAGES = ['acceptance', 'completed'];
 const PROJECT_WORKSPACE_PRESIGNING_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
+const PROJECT_ARCHIVE_RECORD_ACTIONS = {
+    replace: 'replace-project-archive-record',
+    void: 'void-project-archive-record'
+} as const;
 
 const ACCEPTANCE_RECORD_TYPE_LABELS: Record<AcceptanceRecordType, string> = {
     'stage-outcome': '阶段成果确认',
@@ -397,7 +401,7 @@ export class ProjectQueryService {
         return records.map((record) => this.mapProjectCompletionRecord(record, userNameById));
     }
 
-    async listProjectArchiveRecords(projectId: string): Promise<ProjectArchiveRecordList> {
+    async listProjectArchiveRecords(projectId: string, user: UserPayload): Promise<ProjectArchiveRecordList> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
@@ -409,7 +413,7 @@ export class ProjectQueryService {
         ];
         const users = await this.projectRepository.findPlatformUsersByIds(archivedByIds);
         const userNameById = new Map(users.map((user) => [user.id, user.displayName] as const));
-        return records.map((record) => this.mapProjectArchiveRecord(record, userNameById));
+        return records.map((record) => this.mapProjectArchiveRecord(record, userNameById, project, user.permissions));
     }
 
     async listProjectBidCommercialProcesses(projectId: string): Promise<ProjectBidCommercialProcessList> {
@@ -776,7 +780,12 @@ export class ProjectQueryService {
         };
     }
 
-    private mapProjectArchiveRecord(record: ProjectArchiveRecord, userNameById: Map<string, string> = new Map()): ProjectArchiveRecordSummary {
+    private mapProjectArchiveRecord(
+        record: ProjectArchiveRecord,
+        userNameById: Map<string, string> = new Map(),
+        project?: Project,
+        permissions: PermissionKey[] = []
+    ): ProjectArchiveRecordSummary {
         return {
             id: record.id,
             projectId: record.projectId,
@@ -799,7 +808,8 @@ export class ProjectQueryService {
             createdBy: record.createdBy ?? null,
             updatedAt: record.updatedAt.toISOString(),
             updatedBy: record.updatedBy ?? null,
-            rowVersion: record.rowVersion
+            rowVersion: record.rowVersion,
+            allowedActions: project ? this.buildProjectArchiveRecordAllowedActions(record, project, permissions) : []
         };
     }
 
@@ -1381,6 +1391,18 @@ export class ProjectQueryService {
         }
 
         return actions;
+    }
+
+    private buildProjectArchiveRecordAllowedActions(record: ProjectArchiveRecord, project: Project, permissions: PermissionKey[]): string[] {
+        if (record.status !== 'recorded' || !this.isTerminalProjectStage(project) || !permissions.includes('project:write')) {
+            return [];
+        }
+
+        return [PROJECT_ARCHIVE_RECORD_ACTIONS.replace, PROJECT_ARCHIVE_RECORD_ACTIONS.void];
+    }
+
+    private isTerminalProjectStage(project: Project): boolean {
+        return project.currentStage === 'completed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated';
     }
 
     private buildWorkspaceBlockingReasons(project: Project): string[] {

@@ -727,7 +727,9 @@ describe('ProjectQueryService', () => {
 
     it('lists archive records as project-scoped authoritative facts', async () => {
         projectRepository.findById.mockResolvedValue({
-            id: '20000000-0000-4000-8000-000000000011'
+            id: '20000000-0000-4000-8000-000000000011',
+            currentStage: 'completed',
+            status: 'completed'
         });
         projectRepository.findProjectArchiveRecordsByProjectId.mockResolvedValue([
             {
@@ -752,7 +754,13 @@ describe('ProjectQueryService', () => {
             { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
         ]);
 
-        await expect(service.listProjectArchiveRecords('20000000-0000-4000-8000-000000000011')).resolves.toEqual([
+        await expect(
+            service.listProjectArchiveRecords('20000000-0000-4000-8000-000000000011', {
+                sub: '00000000-0000-4000-8000-000000000001',
+                username: 'admin',
+                permissions: ['project:read', 'project:write']
+            })
+        ).resolves.toEqual([
             {
                 id: '38000000-0000-4000-8000-000000000001',
                 projectId: '20000000-0000-4000-8000-000000000011',
@@ -775,11 +783,48 @@ describe('ProjectQueryService', () => {
                 createdBy: '00000000-0000-4000-8000-000000000003',
                 updatedAt: '2026-04-22T10:00:00.000Z',
                 updatedBy: '00000000-0000-4000-8000-000000000003',
-                rowVersion: 1
+                rowVersion: 1,
+                allowedActions: ['replace-project-archive-record', 'void-project-archive-record']
             }
         ]);
         expect(projectRepository.findProjectArchiveRecordsByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000011');
         expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000003']);
+    });
+
+    it('does not expose archive record actions for non-current records or users without write permission', async () => {
+        projectRepository.findById.mockResolvedValue({
+            id: '20000000-0000-4000-8000-000000000011',
+            currentStage: 'completed',
+            status: 'completed'
+        });
+        projectRepository.findProjectArchiveRecordsByProjectId.mockResolvedValue([
+            {
+                id: '38000000-0000-4000-8000-000000000002',
+                projectId: '20000000-0000-4000-8000-000000000011',
+                archiveAnchorStage: 'completed',
+                archiveAnchorSourceType: 'project-completion-record',
+                archiveAnchorSourceId: '37000000-0000-4000-8000-000000000001',
+                status: 'superseded',
+                archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                archivedBy: null,
+                archiveSummary: '旧归档记录',
+                evidenceSummary: '旧归档清单',
+                createdAt: new Date('2026-04-22T10:00:00.000Z'),
+                createdBy: null,
+                updatedAt: new Date('2026-04-23T10:00:00.000Z'),
+                updatedBy: null,
+                rowVersion: 2
+            }
+        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([]);
+
+        const result = await service.listProjectArchiveRecords('20000000-0000-4000-8000-000000000011', {
+            sub: '00000000-0000-4000-8000-000000000001',
+            username: 'viewer',
+            permissions: ['project:read']
+        });
+
+        expect(result[0]?.allowedActions).toEqual([]);
     });
 
     it('lists bid commercial processes as project-scoped versioned facts', async () => {

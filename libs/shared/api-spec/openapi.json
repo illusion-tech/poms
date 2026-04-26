@@ -10147,6 +10147,12 @@
             "type": "integer",
             "minimum": -9007199254740991,
             "maximum": 9007199254740991
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -10171,7 +10177,8 @@
           "createdBy",
           "updatedAt",
           "updatedBy",
-          "rowVersion"
+          "rowVersion",
+          "allowedActions"
         ]
       },
       "ProjectArchiveRecordList": {

@@ -1637,7 +1637,8 @@ export const ProjectArchiveRecordSummarySchema = z
         createdBy: z.uuid().nullable(),
         updatedAt: z.iso.datetime(),
         updatedBy: z.uuid().nullable(),
-        rowVersion: z.number().int()
+        rowVersion: z.number().int(),
+        allowedActions: z.array(z.string())
     })
     .meta({ id: 'ProjectArchiveRecordSummary' });
 

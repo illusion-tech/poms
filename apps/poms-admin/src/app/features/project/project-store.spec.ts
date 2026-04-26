@@ -145,6 +145,7 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
         updatedAt: '2026-04-24T15:20:00.000Z',
         updatedBy: 'user-4',
         rowVersion: 7,
+        allowedActions: ['replace-project-archive-record', 'void-project-archive-record'],
         ...overrides
     } as ProjectArchiveRecordSummary;
 }

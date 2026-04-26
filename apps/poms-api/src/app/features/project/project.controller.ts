@@ -141,8 +141,8 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目归档记录' })
     @ApiOkResponse({ type: ProjectArchiveRecordListDto })
-    async listProjectArchiveRecords(@Param('projectId') projectId: string): Promise<ProjectArchiveRecordSummary[]> {
-        return this.projectQueryService.listProjectArchiveRecords(projectId);
+    async listProjectArchiveRecords(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary[]> {
+        return this.projectQueryService.listProjectArchiveRecords(projectId, req.user);
     }
 
     @Get(':projectId/bid-commercial-processes')
@@ -523,7 +523,8 @@ function mapProjectArchiveRecordToSummary(record: ProjectArchiveRecord): Project
         createdBy: record.createdBy ?? null,
         updatedAt: record.updatedAt.toISOString(),
         updatedBy: record.updatedBy ?? null,
-        rowVersion: record.rowVersion
+        rowVersion: record.rowVersion,
+        allowedActions: []
     };
 }
 

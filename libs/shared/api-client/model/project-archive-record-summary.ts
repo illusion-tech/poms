@@ -32,6 +32,7 @@ export interface ProjectArchiveRecordSummary {
     updatedAt: string;
     updatedBy: string | null;
     rowVersion: number;
+    allowedActions: Array<string>;
 }
 export enum ProjectArchiveRecordSummaryArchiveAnchorStageEnum {
     Completed = 'completed',
