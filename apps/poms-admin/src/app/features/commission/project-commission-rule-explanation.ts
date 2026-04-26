@@ -11,12 +11,12 @@ import {
     actionLevelLabel,
     actionLevelSeverity,
     baselineSelectionSourceLabel,
-    commissionRuleStageLabel,
+    commissionRuleStageLabelOrFallback,
     formatAmount,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity,
-    gateDecisionLabel,
-    gateDecisionSeverity
+    gateDecisionLabelOrFallback,
+    gateDecisionSeverityOrFallback
 } from '../project/project-presentation';
 
 @Component({
@@ -87,9 +87,7 @@ export class ProjectCommissionRuleExplanation implements OnInit {
             return '当前冻结版本未记录参与人';
         }
 
-        return current.freezeVersionSummary.participantsJson
-            .map((participant) => `${participant.displayName}（${participant.roleType} ${participant.weight}%）`)
-            .join('、');
+        return current.freezeVersionSummary.participantsJson.map((participant) => `${participant.displayName}（${participant.roleType} ${participant.weight}%）`).join('、');
     });
 
     readonly fallbackNextAction = computed(() => {
@@ -129,11 +127,11 @@ export class ProjectCommissionRuleExplanation implements OnInit {
         }
 
         return [
-            { label: '当前阶段状态', value: commissionRuleStageLabel(current.currentStageStatus) },
+            { label: '当前阶段状态', value: commissionRuleStageLabelOrFallback(current.currentStageStatus) },
             {
                 label: '规则结论',
-                value: gateDecisionLabel(current.gateDecisionCode),
-                severity: gateDecisionSeverity(current.gateDecisionCode)
+                value: gateDecisionLabelOrFallback(current.gateDecisionCode),
+                severity: gateDecisionSeverityOrFallback(current.gateDecisionCode)
             },
             {
                 label: '当前动作',

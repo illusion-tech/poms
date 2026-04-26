@@ -11,8 +11,8 @@ import {
     actionLevelLabel,
     actionLevelSeverity,
     baselineSelectionSourceLabel,
-    commissionSettlementStatusLabel,
-    commissionSettlementStatusSeverity,
+    commissionSettlementStatusLabelOrFallback,
+    commissionSettlementStatusSeverityOrFallback,
     formatAmount,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity
@@ -86,9 +86,7 @@ export class ProjectCommissionFinalSettlement implements OnInit {
             return '当前冻结版本未记录参与人';
         }
 
-        return current.freezeVersionSummary.participantsJson
-            .map((participant) => `${participant.displayName}（${participant.roleType} ${participant.weight}%）`)
-            .join('、');
+        return current.freezeVersionSummary.participantsJson.map((participant) => `${participant.displayName}（${participant.roleType} ${participant.weight}%）`).join('、');
     });
 
     readonly nextStepSummary = computed(() => {
@@ -121,18 +119,18 @@ export class ProjectCommissionFinalSettlement implements OnInit {
         return [
             {
                 label: '最终结算',
-                value: commissionSettlementStatusLabel(current.finalSettlementStatus),
-                severity: commissionSettlementStatusSeverity(current.finalSettlementStatus)
+                value: commissionSettlementStatusLabelOrFallback(current.finalSettlementStatus),
+                severity: commissionSettlementStatusSeverityOrFallback(current.finalSettlementStatus)
             },
             {
                 label: '非质保结算',
-                value: commissionSettlementStatusLabel(current.nonRetentionSettlementStatus),
-                severity: commissionSettlementStatusSeverity(current.nonRetentionSettlementStatus)
+                value: commissionSettlementStatusLabelOrFallback(current.nonRetentionSettlementStatus),
+                severity: commissionSettlementStatusSeverityOrFallback(current.nonRetentionSettlementStatus)
             },
             {
                 label: '质保金结算',
-                value: commissionSettlementStatusLabel(current.retentionSettlementStatus),
-                severity: commissionSettlementStatusSeverity(current.retentionSettlementStatus)
+                value: commissionSettlementStatusLabelOrFallback(current.retentionSettlementStatus),
+                severity: commissionSettlementStatusSeverityOrFallback(current.retentionSettlementStatus)
             },
             {
                 label: '当前动作',

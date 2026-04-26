@@ -11,11 +11,23 @@ import { TextareaModule } from 'primeng/textarea';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import {
+    archiveStatusLabelOrFallback,
+    archiveStatusSeverityOrFallback,
+    confirmationStatusLabelOrFallback,
+    confirmationStatusSeverityOrFallback,
+    contractStatusLabelOrFallback,
+    contractStatusSeverityOrFallback,
+    leadStatusLabelOrFallback,
+    leadStatusSeverityOrFallback,
+    projectStageLabelOrFallback,
+    projectStageSeverityOrFallback,
+    projectStatusLabelOrFallback,
+    projectStatusSeverityOrFallback
+} from '../../shared/ui/status-presentation';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-
-type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
 
 interface EditProjectForm {
     customerName: string;
@@ -51,112 +63,6 @@ const PROJECT_ARCHIVE_ACTIONS = {
     replace: 'replace-project-archive-record',
     void: 'void-project-archive-record'
 } as const;
-
-const PROJECT_STAGE_LABELS: Record<string, string> = {
-    assessment: '立项评估',
-    'scope-confirmation': '范围确认',
-    'commercial-closure': '商务收口',
-    contracting: '签约中',
-    handover: '项目移交',
-    execution: '正式执行',
-    acceptance: '验收确认',
-    completed: '已完成',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
-};
-
-const PROJECT_STAGE_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    assessment: 'secondary',
-    'scope-confirmation': 'info',
-    'commercial-closure': 'warn',
-    contracting: 'warn',
-    handover: 'warn',
-    execution: 'success',
-    acceptance: 'info',
-    completed: 'contrast',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger'
-};
-
-const PROJECT_STATUS_LABELS: Record<string, string> = {
-    active: '进行中',
-    'pending-approval': '待审批',
-    blocked: '阻塞中',
-    'on-hold': '已挂起',
-    completed: '已完成',
-    closed: '已关闭',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
-};
-
-const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    active: 'info',
-    'pending-approval': 'secondary',
-    blocked: 'warn',
-    'on-hold': 'warn',
-    completed: 'success',
-    closed: 'contrast',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger'
-};
-
-const CONTRACT_STATUS_LABELS: Record<string, string> = {
-    draft: '草稿',
-    'pending-review': '待审核',
-    active: '已生效',
-    terminated: '已终止',
-    completed: '已完成'
-};
-
-const CONTRACT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    draft: 'secondary',
-    'pending-review': 'warn',
-    active: 'success',
-    terminated: 'danger',
-    completed: 'contrast'
-};
-
-const CONFIRMATION_STATUS_LABELS: Record<string, string> = {
-    not_configured: '暂未形成确认记录',
-    pending: '待确认',
-    partial: '部分确认',
-    confirmed: '已确认',
-    voided: '已作废'
-};
-
-const CONFIRMATION_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    not_configured: 'secondary',
-    pending: 'warn',
-    partial: 'info',
-    confirmed: 'success',
-    voided: 'contrast'
-};
-
-const LEAD_STATUS_LABELS: Record<string, string> = {
-    registered: '待确认',
-    qualified: '已有效',
-    converted: '已转项目',
-    closed: '已关闭'
-};
-
-const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    registered: 'secondary',
-    qualified: 'success',
-    converted: 'info',
-    closed: 'contrast'
-};
-
-const ARCHIVE_STATUS_LABELS: Record<string, string> = {
-    recorded: '当前有效',
-    voided: '已撤销',
-    superseded: '已被替代'
-};
-
-const ARCHIVE_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    recorded: 'success',
-    voided: 'danger',
-    superseded: 'warn'
-};
 
 const BLOCKING_REASON_LABELS: Record<string, string> = {
     'project-status-blocked': '项目被标记为阻塞，需先处理阻断事项。',
@@ -1245,50 +1151,50 @@ export class ProjectDetail implements OnInit {
     }
 
     getStatusName(status: string): string {
-        return PROJECT_STATUS_LABELS[status] ?? status;
+        return projectStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string): UiTagSeverity {
-        return PROJECT_STATUS_SEVERITIES[status];
+    getStatusSeverity(status: string) {
+        return projectStatusSeverityOrFallback(status);
     }
 
     getStageName(stage: string): string {
-        return PROJECT_STAGE_LABELS[stage] ?? stage;
+        return projectStageLabelOrFallback(stage);
     }
 
-    getStageSeverity(stage: string): UiTagSeverity {
-        return PROJECT_STAGE_SEVERITIES[stage];
+    getStageSeverity(stage: string) {
+        return projectStageSeverityOrFallback(stage);
     }
 
     getContractStatusName(status: string): string {
-        return CONTRACT_STATUS_LABELS[status] ?? status;
+        return contractStatusLabelOrFallback(status);
     }
 
-    getContractStatusSeverity(status: string): UiTagSeverity {
-        return CONTRACT_STATUS_SEVERITIES[status] ?? 'secondary';
+    getContractStatusSeverity(status: string) {
+        return contractStatusSeverityOrFallback(status);
     }
 
     getConfirmationStatusName(status: string): string {
-        return CONFIRMATION_STATUS_LABELS[status] ?? status;
+        return confirmationStatusLabelOrFallback(status);
     }
 
-    getConfirmationStatusSeverity(status: string): UiTagSeverity {
-        return CONFIRMATION_STATUS_SEVERITIES[status] ?? 'secondary';
+    getConfirmationStatusSeverity(status: string) {
+        return confirmationStatusSeverityOrFallback(status);
     }
 
     getLeadStatusName(status: string): string {
-        return LEAD_STATUS_LABELS[status] ?? status;
+        return leadStatusLabelOrFallback(status);
     }
 
-    getLeadStatusSeverity(status: string): UiTagSeverity {
-        return LEAD_STATUS_SEVERITIES[status] ?? 'secondary';
+    getLeadStatusSeverity(status: string) {
+        return leadStatusSeverityOrFallback(status);
     }
 
     getArchiveStatusName(status: string): string {
-        return ARCHIVE_STATUS_LABELS[status] ?? status;
+        return archiveStatusLabelOrFallback(status);
     }
 
-    getArchiveStatusSeverity(status: string): UiTagSeverity {
-        return ARCHIVE_STATUS_SEVERITIES[status] ?? 'secondary';
+    getArchiveStatusSeverity(status: string) {
+        return archiveStatusSeverityOrFallback(status);
     }
 }

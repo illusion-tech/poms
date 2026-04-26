@@ -4,6 +4,7 @@ import { TagModule } from 'primeng/tag';
 import { TimelineModule } from 'primeng/timeline';
 import { TooltipModule } from 'primeng/tooltip';
 import type { ProjectContextTagSeverity } from './project-context-header';
+import type { UiTagSeverityValue } from './ui-severity';
 
 export type ProjectLifecycleItemState = 'done' | 'current' | 'pending' | 'blocked';
 
@@ -38,15 +39,7 @@ export interface ProjectLifecycleTimelineItem {
                             <li class="lc-node">
                                 <div class="lc-marker-row">
                                     <span class="lc-line" [class.lc-line-hidden]="first"></span>
-                                    <span
-                                        class="lc-marker"
-                                        [ngClass]="markerClass(item.state)"
-                                        [pTooltip]="tooltipText(item)"
-                                        [tooltipDisabled]="!hasTooltip(item)"
-                                        tooltipPosition="top"
-                                        tabindex="0"
-                                        [attr.aria-label]="markerAriaLabel(item)"
-                                    >
+                                    <span class="lc-marker" [ngClass]="markerClass(item.state)" [pTooltip]="tooltipText(item)" [tooltipDisabled]="!hasTooltip(item)" tooltipPosition="top" tabindex="0" [attr.aria-label]="markerAriaLabel(item)">
                                         <i [class]="stateIcon(item.state)"></i>
                                     </span>
                                     <span class="lc-line" [class.lc-line-hidden]="last"></span>
@@ -68,15 +61,7 @@ export interface ProjectLifecycleTimelineItem {
             <div class="lc-v" aria-label="项目生命周期纵向阶段线">
                 <p-timeline [value]="items" align="left" styleClass="lc-timeline lc-timeline-v">
                     <ng-template #marker let-item>
-                        <span
-                            class="lc-marker"
-                            [ngClass]="markerClass(item.state)"
-                            [pTooltip]="tooltipText(item)"
-                            [tooltipDisabled]="!hasTooltip(item)"
-                            tooltipPosition="right"
-                            tabindex="0"
-                            [attr.aria-label]="markerAriaLabel(item)"
-                        >
+                        <span class="lc-marker" [ngClass]="markerClass(item.state)" [pTooltip]="tooltipText(item)" [tooltipDisabled]="!hasTooltip(item)" tooltipPosition="right" tabindex="0" [attr.aria-label]="markerAriaLabel(item)">
                             <i [class]="stateIcon(item.state)"></i>
                         </span>
                     </ng-template>
@@ -274,7 +259,7 @@ export class ProjectLifecycleTimeline {
     }
 
     stateSeverity(state: ProjectLifecycleItemState): ProjectContextTagSeverity {
-        const severities: Record<ProjectLifecycleItemState, Exclude<ProjectContextTagSeverity, undefined>> = {
+        const severities: Record<ProjectLifecycleItemState, UiTagSeverityValue> = {
             done: 'success',
             current: 'info',
             pending: 'secondary',

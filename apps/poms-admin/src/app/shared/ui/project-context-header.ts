@@ -3,8 +3,9 @@ import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } fro
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
+import type { UiTagSeverity } from './ui-severity';
 
-export type ProjectContextTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+export type ProjectContextTagSeverity = UiTagSeverity;
 
 @Component({
     selector: 'app-project-context-header',
@@ -16,15 +17,7 @@ export type ProjectContextTagSeverity = 'success' | 'secondary' | 'info' | 'warn
                 <ng-template #start>
                     <div class="flex min-w-0 items-start gap-3">
                         @if (showBack) {
-                            <p-button
-                                icon="pi pi-arrow-left"
-                                [text]="true"
-                                [rounded]="true"
-                                severity="secondary"
-                                [attr.aria-label]="backLabel"
-                                styleClass="rounded-md!"
-                                (onClick)="back.emit()"
-                            />
+                            <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" [attr.aria-label]="backLabel" styleClass="rounded-md!" (onClick)="back.emit()" />
                         }
                         <div class="min-w-0">
                             @if (eyebrow) {

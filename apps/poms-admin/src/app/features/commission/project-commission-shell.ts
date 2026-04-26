@@ -10,12 +10,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-nav';
-import {
-    projectStageLabel,
-    projectStageSeverity,
-    projectStatusLabel,
-    projectStatusSeverity
-} from '../project/project-presentation';
+import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../project/project-presentation';
 
 @Component({
     selector: 'app-project-commission-shell',
@@ -40,15 +35,7 @@ import {
                 >
                     <ng-template #actions>
                         <div class="flex flex-wrap items-center gap-2">
-                            <p-button
-                                label="返回项目工作区"
-                                icon="pi pi-sitemap"
-                                severity="secondary"
-                                [outlined]="true"
-                                styleClass="rounded-md!"
-                                (onClick)="goBackToWorkspace()"
-                                class="cursor-pointer"
-                            />
+                            <p-button label="返回项目工作区" icon="pi pi-sitemap" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goBackToWorkspace()" class="cursor-pointer" />
                         </div>
                     </ng-template>
                 </app-project-context-header>
@@ -88,10 +75,10 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
     readonly guidanceError = this.#workspaceStore.guidanceError;
     readonly loading = computed(() => this.#projectStore.loading() || (this.#workspaceStore.loadingGuidance() && !this.#workspaceStore.hasGuidance()));
 
-    readonly projectStageLabel = projectStageLabel;
-    readonly projectStageSeverity = projectStageSeverity;
-    readonly projectStatusLabel = projectStatusLabel;
-    readonly projectStatusSeverity = projectStatusSeverity;
+    readonly projectStageLabel = projectStageLabelOrFallback;
+    readonly projectStageSeverity = projectStageSeverityOrFallback;
+    readonly projectStatusLabel = projectStatusLabelOrFallback;
+    readonly projectStatusSeverity = projectStatusSeverityOrFallback;
 
     readonly commissionOverviewItems = computed<WorkspaceCommandPanelItem[]>(() => {
         const guidance = this.guidance();

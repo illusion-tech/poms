@@ -13,6 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 @Component({
     selector: 'app-contract-detail',
@@ -188,7 +189,7 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.taxRate ? ((+snapshot.taxRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                        {{ snapshot.taxRate ? (+snapshot.taxRate * 100 | number: '1.2-2') + '%' : '-' }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
@@ -206,13 +207,13 @@ import { SectionCard } from '../../shared/ui/sectioncard';
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">首付款比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.downPaymentRate ? ((+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                        {{ snapshot.downPaymentRate ? (+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%' : '-' }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">质保金比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.retentionRate ? ((+snapshot.retentionRate * 100 | number: '1.2-2') + '%') : '-' }}
+                                        {{ snapshot.retentionRate ? (+snapshot.retentionRate * 100 | number: '1.2-2') + '%' : '-' }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
@@ -402,12 +403,7 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly canSubmitReview = computed(() => this.contract()?.status === 'draft');
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
-    readonly canActivate = computed(
-        () =>
-            this.contract()?.status === 'pending-review' &&
-            this.currentApproval()?.currentStatus === 'approved' &&
-            this.#authStore.hasAnyPermission(['contract:finance:manage'])
-    );
+    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.#authStore.hasAnyPermission(['contract:finance:manage']));
     readonly approvalStatusLabel = computed(() => {
         const status = this.currentApproval()?.currentStatus;
         return status ? this.getApprovalStatusName(status) : null;
@@ -594,49 +590,19 @@ export class ContractDetail implements OnInit, OnDestroy {
     }
 
     getStatusName(status: ContractStatus): string {
-        const map: Record<ContractStatus, string> = {
-            draft: '草稿',
-            'pending-review': '待审核',
-            active: '已生效',
-            terminated: '已终止',
-            completed: '已完成'
-        };
-        return map[status];
+        return contractStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: ContractStatus): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<ContractStatus, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            draft: 'secondary',
-            'pending-review': 'warn',
-            active: 'success',
-            terminated: 'danger',
-            completed: 'contrast'
-        };
-        return map[status];
+    getStatusSeverity(status: ContractStatus) {
+        return contractStatusSeverityOrFallback(status);
     }
 
     getApprovalStatusName(status: string): string {
-        const map: Record<string, string> = {
-            pending: '审批中',
-            approved: '已通过',
-            rejected: '已驳回',
-            canceled: '已取消',
-            closed: '已关闭',
-            draft: '草稿'
-        };
-        return map[status] ?? status;
+        return approvalStatusLabelOrFallback(status);
     }
 
-    getApprovalStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            draft: 'secondary',
-            pending: 'warn',
-            approved: 'success',
-            rejected: 'danger',
-            canceled: 'contrast',
-            closed: 'contrast'
-        };
-        return map[status];
+    getApprovalStatusSeverity(status: string) {
+        return approvalStatusSeverityOrFallback(status);
     }
 
     getErrorMessage(error: unknown): string {

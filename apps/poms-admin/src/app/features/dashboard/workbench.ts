@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 @Component({
     selector: 'app-workbench',
@@ -155,58 +156,18 @@ export class Workbench implements OnInit {
     }
 
     getStageName(stage: string): string {
-        const map: Record<string, string> = {
-            assessment: '立项评估',
-            'scope-confirmation': '范围确认',
-            'commercial-closure': '商务收口',
-            contracting: '签约中',
-            handover: '项目移交',
-            execution: '正式执行',
-            acceptance: '验收确认',
-            completed: '已完成',
-            'closed-lost': '已丢单',
-            'closed-terminated': '已终止'
-        };
-        return map[stage] ?? stage;
+        return projectStageLabelOrFallback(stage);
     }
 
-    getStageSeverity(stage: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            assessment: 'secondary',
-            'scope-confirmation': 'info',
-            'commercial-closure': 'warn',
-            contracting: 'warn',
-            handover: 'warn',
-            execution: 'success',
-            acceptance: 'info',
-            completed: 'contrast',
-            'closed-lost': 'danger',
-            'closed-terminated': 'danger'
-        };
-        return map[stage];
+    getStageSeverity(stage: string) {
+        return projectStageSeverityOrFallback(stage);
     }
 
     getStatusName(status: string): string {
-        const map: Record<string, string> = {
-            active: '进行中',
-            'pending-approval': '待审批',
-            blocked: '阻塞中',
-            'on-hold': '已挂起',
-            completed: '阶段完成',
-            closed: '已关闭'
-        };
-        return map[status] ?? status;
+        return projectStatusLabelOrFallback(status);
     }
 
-    getProjectStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
-            active: 'info',
-            'pending-approval': 'secondary',
-            blocked: 'warn',
-            'on-hold': 'warn',
-            completed: 'success',
-            closed: 'contrast'
-        };
-        return map[status];
+    getProjectStatusSeverity(status: string) {
+        return projectStatusSeverityOrFallback(status);
     }
 }

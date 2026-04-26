@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { PROJECT_STAGE_LABELS, PROJECT_STATUS_LABELS, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface ProjectFilterOption {
@@ -35,62 +36,12 @@ interface CreateProjectForm {
     projectName: string;
 }
 
-type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
-
 const ALL_FILTER_VALUE = 'all';
 
 const EMPTY_CREATE_FORM: CreateProjectForm = {
     customerName: '',
     customerProjectNo: '',
     projectName: ''
-};
-
-const PROJECT_STAGE_LABELS: Record<string, string> = {
-    assessment: '立项评估',
-    'scope-confirmation': '范围确认',
-    'commercial-closure': '商务收口',
-    contracting: '签约中',
-    handover: '项目移交',
-    execution: '正式执行',
-    acceptance: '验收确认',
-    completed: '已完成',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
-};
-
-const PROJECT_STAGE_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    assessment: 'secondary',
-    'scope-confirmation': 'info',
-    'commercial-closure': 'warn',
-    contracting: 'warn',
-    handover: 'warn',
-    execution: 'success',
-    acceptance: 'info',
-    completed: 'contrast',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger'
-};
-
-const PROJECT_STATUS_LABELS: Record<string, string> = {
-    active: '进行中',
-    'pending-approval': '待审批',
-    blocked: '阻塞中',
-    'on-hold': '已挂起',
-    completed: '已完成',
-    closed: '已关闭',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
-};
-
-const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    active: 'info',
-    'pending-approval': 'secondary',
-    blocked: 'warn',
-    'on-hold': 'warn',
-    completed: 'success',
-    closed: 'contrast',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger'
 };
 
 @Component({
@@ -105,32 +56,20 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-surface-500 dark:text-surface-400">项目入口</p>
                         <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">项目管理</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">
-                            先确认客户、负责人和阶段，再进入详情或工作区继续处理。
-                        </p>
+                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">先确认客户、负责人和阶段，再进入详情或工作区继续处理。</p>
                     </div>
 
                     <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
                         @if (canCreateLead()) {
-                            <p-button
-                                label="从线索创建项目"
-                                icon="pi pi-compass"
-                                severity="primary"
-                                styleClass="w-full sm:w-auto rounded-md!"
-                                (onClick)="navigateToLeadEntry()"
-                            />
+                            <p-button label="从线索创建项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
                         }
 
                         @if (!canCreateLead() && canCreateProject()) {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
-                                正式项目入口已切到线索转项目。
-                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">正式项目入口已切到线索转项目。</div>
                         }
 
                         @if (!canCreateLead() && !canCreateProject()) {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
-                                当前账号只能查看项目。
-                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看项目。</div>
                         }
                     </div>
                 </div>
@@ -175,14 +114,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 
                                     <p-iconfield class="w-full md:w-80">
                                         <p-inputicon class="pi pi-search" />
-                                        <input
-                                            pInputText
-                                            [ngModel]="searchValue()"
-                                            (ngModelChange)="searchValue.set($event)"
-                                            (input)="onGlobalFilter(dt, $event)"
-                                            placeholder="搜索项目、客户、负责人"
-                                            class="w-full! rounded-md! py-2!"
-                                        />
+                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
                                     </p-iconfield>
 
                                     <p-select
@@ -208,9 +140,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                                     />
                                 </div>
 
-                                <div class="text-sm text-surface-500 dark:text-surface-400">
-                                    当前筛出 {{ visibleProjects().length }} 个项目
-                                </div>
+                                <div class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleProjects().length }} 个项目</div>
                             </div>
                         </ng-template>
                         <ng-template #header>
@@ -262,11 +192,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
                         <ng-template #body let-project>
                             <tr>
                                 <td>
-                                    <button
-                                        type="button"
-                                        class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline"
-                                        (click)="navigateToDetail(project)"
-                                    >
+                                    <button type="button" class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(project)">
                                         {{ project.projectName }}
                                     </button>
                                     <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.projectNo }}</div>
@@ -321,9 +247,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建项目" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-2">
-                    <p class="text-sm leading-6 text-surface-600 dark:text-surface-300">
-                        项目会从立项评估开始。后续阶段由项目进展自然推进。
-                    </p>
+                    <p class="text-sm leading-6 text-surface-600 dark:text-surface-300">项目会从立项评估开始。后续阶段由项目进展自然推进。</p>
 
                     @if (createError()) {
                         <app-workspace-feedback severity="error" summary="新建项目失败" [detail]="createError()" />
@@ -331,26 +255,12 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 
                     <div class="flex flex-col gap-2">
                         <label for="customerProjectNo" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户项目编号</label>
-                        <input
-                            pInputText
-                            id="customerProjectNo"
-                            [ngModel]="createForm().customerProjectNo"
-                            (ngModelChange)="updateCreateField('customerProjectNo', $event)"
-                            placeholder="客户侧立项或招标编号，可选"
-                            class="w-full rounded-md!"
-                        />
+                        <input pInputText id="customerProjectNo" [ngModel]="createForm().customerProjectNo" (ngModelChange)="updateCreateField('customerProjectNo', $event)" placeholder="客户侧立项或招标编号，可选" class="w-full rounded-md!" />
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <label for="projectName" class="text-sm font-medium text-surface-900 dark:text-surface-0">项目名称</label>
-                        <input
-                            pInputText
-                            id="projectName"
-                            [ngModel]="createForm().projectName"
-                            (ngModelChange)="updateCreateField('projectName', $event)"
-                            placeholder="填写客户能识别的项目名称"
-                            class="w-full rounded-md!"
-                        />
+                        <input pInputText id="projectName" [ngModel]="createForm().projectName" (ngModelChange)="updateCreateField('projectName', $event)" placeholder="填写客户能识别的项目名称" class="w-full rounded-md!" />
                         @if (createAttempted() && !createForm().projectName.trim()) {
                             <span class="text-xs text-red-600 dark:text-red-300">请填写项目名称。</span>
                         }
@@ -358,14 +268,7 @@ const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined
 
                     <div class="flex flex-col gap-2">
                         <label for="customerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
-                        <input
-                            pInputText
-                            id="customerName"
-                            [ngModel]="createForm().customerName"
-                            (ngModelChange)="updateCreateField('customerName', $event)"
-                            placeholder="填写客户公司或单位名称"
-                            class="w-full rounded-md!"
-                        />
+                        <input pInputText id="customerName" [ngModel]="createForm().customerName" (ngModelChange)="updateCreateField('customerName', $event)" placeholder="填写客户公司或单位名称" class="w-full rounded-md!" />
                         @if (createAttempted() && !createForm().customerName.trim()) {
                             <span class="text-xs text-red-600 dark:text-red-300">请填写客户名称。</span>
                         }
@@ -402,25 +305,13 @@ export class ProjectList implements OnInit {
     first = 0;
     createDialogVisible = false;
 
-    readonly stageOptions: ProjectFilterOption[] = [
-        { label: '全部阶段', value: ALL_FILTER_VALUE },
-        ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly stageOptions: ProjectFilterOption[] = [{ label: '全部阶段', value: ALL_FILTER_VALUE }, ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))];
 
-    readonly statusOptions: ProjectFilterOption[] = [
-        { label: '全部状态', value: ALL_FILTER_VALUE },
-        ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly statusOptions: ProjectFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
-    readonly stageColumnFilterOptions: ProjectColumnFilterOption[] = [
-        { label: '任意阶段', value: null },
-        ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly stageColumnFilterOptions: ProjectColumnFilterOption[] = [{ label: '任意阶段', value: null }, ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))];
 
-    readonly statusColumnFilterOptions: ProjectColumnFilterOption[] = [
-        { label: '任意状态', value: null },
-        ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly statusColumnFilterOptions: ProjectColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
     readonly canCreateProject = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canCreateLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
@@ -552,19 +443,19 @@ export class ProjectList implements OnInit {
     }
 
     getStatusName(status: string): string {
-        return PROJECT_STATUS_LABELS[status] ?? status;
+        return projectStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string): UiTagSeverity {
-        return PROJECT_STATUS_SEVERITIES[status];
+    getStatusSeverity(status: string) {
+        return projectStatusSeverityOrFallback(status);
     }
 
     getStageName(stage: string): string {
-        return PROJECT_STAGE_LABELS[stage] ?? stage;
+        return projectStageLabelOrFallback(stage);
     }
 
-    getStageSeverity(stage: string): UiTagSeverity {
-        return PROJECT_STAGE_SEVERITIES[stage];
+    getStageSeverity(stage: string) {
+        return projectStageSeverityOrFallback(stage);
     }
 
     displayText(value: string | null | undefined, fallback: string): string {
@@ -577,18 +468,7 @@ export class ProjectList implements OnInit {
     }
 
     private projectSearchText(project: ProjectListView): string {
-        return this.normalize(
-            [
-                project.projectNo,
-                project.customerProjectNo,
-                project.projectName,
-                project.customerName,
-                project.ownerName,
-                project.ownerOrgName,
-                this.getStageName(project.currentStage),
-                this.getStatusName(project.status)
-            ].join(' ')
-        );
+        return this.normalize([project.projectNo, project.customerProjectNo, project.projectName, project.customerName, project.ownerName, project.ownerOrgName, this.getStageName(project.currentStage), this.getStatusName(project.status)].join(' '));
     }
 
     private normalize(value: string): string {

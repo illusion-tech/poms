@@ -7,11 +7,7 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-import {
-    actionLevelLabel,
-    actionLevelSeverity,
-    signalLevelLabel
-} from './project-presentation';
+import { actionLevelLabel, actionLevelSeverity, signalLevelLabelOrFallback } from './project-presentation';
 
 @Component({
     selector: 'app-project-variance-risk',
@@ -63,9 +59,7 @@ export class ProjectVarianceRisk implements OnInit {
             return '--';
         }
 
-        return current.allowedActions.includes('reviewOperatingSignalEvaluation')
-            ? '当前结果仍要求人工复核后再进入下游判断。'
-            : '当前结果可以作为下游判断输入。';
+        return current.allowedActions.includes('reviewOperatingSignalEvaluation') ? '当前结果仍要求人工复核后再进入下游判断。' : '当前结果可以作为下游判断输入。';
     });
 
     readonly riskJudgementItems = computed<WorkspaceFactGridItem[]>(() => {
@@ -75,7 +69,7 @@ export class ProjectVarianceRisk implements OnInit {
         }
 
         return [
-            { label: '风险等级', value: signalLevelLabel(current.riskLevel) },
+            { label: '风险等级', value: signalLevelLabelOrFallback(current.riskLevel) },
             {
                 label: '当前动作',
                 value: actionLevelLabel(current.currentActionLevel),

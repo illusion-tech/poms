@@ -31,6 +31,18 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import {
+    commissionAdjustmentStatusLabelOrFallback,
+    commissionAdjustmentStatusSeverityOrFallback,
+    commissionCalculationStatusLabelOrFallback,
+    commissionCalculationStatusSeverityOrFallback,
+    commissionPayoutStatusLabelOrFallback,
+    commissionPayoutStatusSeverityOrFallback,
+    projectStageLabelOrFallback,
+    projectStageSeverityOrFallback,
+    projectStatusLabelOrFallback,
+    projectStatusSeverityOrFallback
+} from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 
@@ -292,24 +304,7 @@ const TEMPLATE = `
 @Component({
     selector: 'app-project-commission',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        SectionCard,
-        TagModule,
-        ButtonModule,
-        DialogModule,
-        IconFieldModule,
-        InputIconModule,
-        InputTextModule,
-        MenuModule,
-        SelectModule,
-        TableModule,
-        TextareaModule,
-        ToastModule,
-        WorkspaceFeedback,
-        WorkspaceLoading
-    ],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, DialogModule, IconFieldModule, InputIconModule, InputTextModule, MenuModule, SelectModule, TableModule, TextareaModule, ToastModule, WorkspaceFeedback, WorkspaceLoading],
     providers: [CommissionStore, MessageService],
     template: TEMPLATE
 })
@@ -326,14 +321,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly calculations = this.commissionStore.calculations;
     readonly payouts = this.commissionStore.payouts;
     readonly adjustments = this.commissionStore.adjustments;
-    readonly loading = computed(
-        () =>
-            this.projectStore.loading() ||
-            this.commissionStore.loadingRuleVersions() ||
-            this.commissionStore.loadingCalculations() ||
-            this.commissionStore.loadingPayouts() ||
-            this.commissionStore.loadingAdjustments()
-    );
+    readonly loading = computed(() => this.projectStore.loading() || this.commissionStore.loadingRuleVersions() || this.commissionStore.loadingCalculations() || this.commissionStore.loadingPayouts() || this.commissionStore.loadingAdjustments());
     readonly currentPool = computed(() => {
         const currentCalculation = this.commissionStore.currentEffectiveCalculation();
         return currentCalculation ? this.formatAmount(currentCalculation.commissionPool) : '--';
@@ -346,16 +334,34 @@ export class ProjectCommission implements OnInit, OnDestroy {
         label: PAYOUT_STAGE_LABELS[value],
         value
     }));
-    readonly tierOptions = [{ label: '基础档', value: CommissionPayoutTier.Basic }, { label: '中档', value: CommissionPayoutTier.Mid }, { label: '上限档', value: CommissionPayoutTier.Premium }];
+    readonly tierOptions = [
+        { label: '基础档', value: CommissionPayoutTier.Basic },
+        { label: '中档', value: CommissionPayoutTier.Mid },
+        { label: '上限档', value: CommissionPayoutTier.Premium }
+    ];
     readonly adjustmentTypeOptions = [
         { label: '暂停发放', value: CommissionAdjustmentType.SuspendPayout },
         { label: '冲销发放', value: CommissionAdjustmentType.ReversePayout },
         { label: '扣回', value: CommissionAdjustmentType.Clawback },
         { label: '补发', value: CommissionAdjustmentType.Supplement }
     ];
-    readonly payoutTodoMap = computed(() => new Map(this.#authStore.myTodos().filter((todo) => todo.targetObjectType === 'CommissionPayout' && todo.status === 'open').map((todo) => [todo.targetObjectId, todo])));
+    readonly payoutTodoMap = computed(
+        () =>
+            new Map(
+                this.#authStore
+                    .myTodos()
+                    .filter((todo) => todo.targetObjectType === 'CommissionPayout' && todo.status === 'open')
+                    .map((todo) => [todo.targetObjectId, todo])
+            )
+    );
     readonly adjustmentTodoMap = computed(
-        () => new Map(this.#authStore.myTodos().filter((todo) => todo.targetObjectType === 'CommissionAdjustment' && todo.status === 'open').map((todo) => [todo.targetObjectId, todo]))
+        () =>
+            new Map(
+                this.#authStore
+                    .myTodos()
+                    .filter((todo) => todo.targetObjectType === 'CommissionAdjustment' && todo.status === 'open')
+                    .map((todo) => [todo.targetObjectId, todo])
+            )
     );
     readonly activeRuleOptions = computed(() =>
         this.commissionStore.activeRuleVersions().map((item) => ({
@@ -366,7 +372,11 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly payoutById = computed(() => new Map(this.payouts().map((item) => [item.id, item])));
     readonly calculationById = computed(() => new Map(this.calculations().map((item) => [item.id, item])));
     readonly primaryPayouts = computed(() => this.payouts().filter((item) => item.payoutKind === 'primary'));
-    readonly effectiveCalculationOptions = computed(() => this.calculations().filter((item) => item.status === this.calculationStatus.Effective).map((item) => ({ label: `V${item.version} · 提成池 ${this.formatAmount(item.commissionPool)}`, value: item.id })));
+    readonly effectiveCalculationOptions = computed(() =>
+        this.calculations()
+            .filter((item) => item.status === this.calculationStatus.Effective)
+            .map((item) => ({ label: `V${item.version} · 提成池 ${this.formatAmount(item.commissionPool)}`, value: item.id }))
+    );
     readonly payoutOptions = computed(() =>
         this.primaryPayouts().map((item) => ({
             label: `${this.getStageLabel(item.stageType)} · ${this.getPayoutStatusName(item.status)} · ${this.formatAmount(item.theoreticalCapAmount)}`,
@@ -418,21 +428,37 @@ export class ProjectCommission implements OnInit, OnDestroy {
         this.commissionStore.clear();
     }
 
-    projectId() { return this.#route.parent?.snapshot.paramMap.get('id'); }
-    todoForPayout(payoutId: string) { return this.payoutTodoMap().get(payoutId) ?? null; }
-    todoForAdjustment(adjustmentId: string) { return this.adjustmentTodoMap().get(adjustmentId) ?? null; }
-    requiresAdjustmentAmount() { return this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Clawback || this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Supplement; }
-    goBackToProject() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id]); }
-    goToGateOverview() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id, 'commission', 'gate-overview']); }
-    goToFinalSettlement() { const id = this.projectId(); if (id) this.#router.navigate(['/projects', id, 'commission', 'final-settlement']); }
-    goBackToList() { this.#router.navigate(['/projects']); }
+    projectId() {
+        return this.#route.parent?.snapshot.paramMap.get('id');
+    }
+    todoForPayout(payoutId: string) {
+        return this.payoutTodoMap().get(payoutId) ?? null;
+    }
+    todoForAdjustment(adjustmentId: string) {
+        return this.adjustmentTodoMap().get(adjustmentId) ?? null;
+    }
+    requiresAdjustmentAmount() {
+        return this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Clawback || this.adjustmentForm.adjustmentType === CommissionAdjustmentType.Supplement;
+    }
+    goBackToProject() {
+        const id = this.projectId();
+        if (id) this.#router.navigate(['/projects', id]);
+    }
+    goToGateOverview() {
+        const id = this.projectId();
+        if (id) this.#router.navigate(['/projects', id, 'commission', 'gate-overview']);
+    }
+    goToFinalSettlement() {
+        const id = this.projectId();
+        if (id) this.#router.navigate(['/projects', id, 'commission', 'final-settlement']);
+    }
+    goBackToList() {
+        this.#router.navigate(['/projects']);
+    }
     async reload() {
         const id = this.projectId();
         if (!id) return;
-        await Promise.all([
-            this.commissionStore.reload(id),
-            this.#workspaceStore.loadCommissionFinalSettlement(id).catch(() => undefined)
-        ]);
+        await Promise.all([this.commissionStore.reload(id), this.#workspaceStore.loadCommissionFinalSettlement(id).catch(() => undefined)]);
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -653,10 +679,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
     }
 
     openRegisterDialog(payoutId: string, payoutStage: CommissionPayoutStage, defaultAmount: string, expectedVersion: number) {
-        const summarySnapshotId =
-            payoutStage === CommissionPayoutStage.Retention
-                ? this.#workspaceStore.commissionFinalSettlement()?.summarySnapshotId
-                : undefined;
+        const summarySnapshotId = payoutStage === CommissionPayoutStage.Retention ? this.#workspaceStore.commissionFinalSettlement()?.summarySnapshotId : undefined;
 
         if (payoutStage === CommissionPayoutStage.Retention && !summarySnapshotId) {
             this.#messageService.add({
@@ -803,77 +826,56 @@ export class ProjectCommission implements OnInit, OnDestroy {
         if (calculation) return `计算版本 V${calculation.version}`;
         return '--';
     }
-    formatAmount(value: string | null | undefined) { if (value === null || value === undefined || value === '') return '--'; const parsed = Number(value); return Number.isFinite(parsed) ? parsed.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : value; }
-    formatRate(value: string) { const parsed = Number(value); return Number.isFinite(parsed) ? `${(parsed * 100).toFixed(2)}%` : value; }
-    getCalculationStatusName(status: CommissionCalculationSummaryStatusEnum) { return { pending: '待计算', calculated: '已计算', effective: '已生效', superseded: '已替代' }[status]; }
-    getCalculationStatusSeverity(status: CommissionCalculationSummaryStatusEnum) { return { pending: 'secondary', calculated: 'info', effective: 'success', superseded: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
-    getPayoutStatusName(status: CommissionPayoutSummaryStatusEnum) { return { draft: '草稿', 'pending-approval': '待审批', approved: '已批准', paid: '已发放', suspended: '已暂停', reversed: '已冲销' }[status]; }
-    getPayoutStatusSeverity(status: CommissionPayoutSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', paid: 'info', suspended: 'warn', reversed: 'danger' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
-    getPayoutKindLabel(kind: 'primary' | 'supplement') { return { primary: '正常发放', supplement: '补发记录' }[kind]; }
-    getAdjustmentTypeLabel(type: CommissionAdjustmentType) { return { 'suspend-payout': '暂停发放', 'reverse-payout': '冲销发放', clawback: '扣回', supplement: '补发', recalculate: '重算' }[type]; }
-    getAdjustmentStatusName(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: '草稿', 'pending-approval': '待审批', approved: '已批准', executed: '已执行', rejected: '已驳回', closed: '已关闭' }[status]; }
-    getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) { return { draft: 'secondary', 'pending-approval': 'warn', approved: 'success', executed: 'info', rejected: 'danger', closed: 'contrast' }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'; }
+    formatAmount(value: string | null | undefined) {
+        if (value === null || value === undefined || value === '') return '--';
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : value;
+    }
+    formatRate(value: string) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? `${(parsed * 100).toFixed(2)}%` : value;
+    }
+    getCalculationStatusName(status: CommissionCalculationSummaryStatusEnum) {
+        return commissionCalculationStatusLabelOrFallback(status);
+    }
+    getCalculationStatusSeverity(status: CommissionCalculationSummaryStatusEnum) {
+        return commissionCalculationStatusSeverityOrFallback(status);
+    }
+    getPayoutStatusName(status: CommissionPayoutSummaryStatusEnum) {
+        return commissionPayoutStatusLabelOrFallback(status);
+    }
+    getPayoutStatusSeverity(status: CommissionPayoutSummaryStatusEnum) {
+        return commissionPayoutStatusSeverityOrFallback(status);
+    }
+    getPayoutKindLabel(kind: 'primary' | 'supplement') {
+        return { primary: '正常发放', supplement: '补发记录' }[kind];
+    }
+    getAdjustmentTypeLabel(type: CommissionAdjustmentType) {
+        return { 'suspend-payout': '暂停发放', 'reverse-payout': '冲销发放', clawback: '扣回', supplement: '补发', recalculate: '重算' }[type];
+    }
+    getAdjustmentStatusName(status: CommissionAdjustmentSummaryStatusEnum) {
+        return commissionAdjustmentStatusLabelOrFallback(status);
+    }
+    getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) {
+        return commissionAdjustmentStatusSeverityOrFallback(status);
+    }
     getStageLabel(stage: CommissionPayoutStage) {
         return PAYOUT_STAGE_LABELS[stage];
     }
-    getTierLabel(tier: CommissionPayoutTier) { return { basic: '基础档', mid: '中档', premium: '上限档' }[tier]; }
+    getTierLabel(tier: CommissionPayoutTier) {
+        return { basic: '基础档', mid: '中档', premium: '上限档' }[tier];
+    }
     getProjectStatusName(status: string) {
-        return {
-            active: '进行中',
-            blocked: '阻塞中',
-            completed: '已完成',
-            closed_won: '已签约',
-            closed_lost: '已丢单',
-            'closed-lost': '已丢单',
-            'closed-terminated': '已终止',
-            draft: '草稿',
-            suspended: '已暂停'
-        }[status] ?? status;
+        return projectStatusLabelOrFallback(status);
     }
     getProjectStatusSeverity(status: string) {
-        return {
-            active: 'info',
-            blocked: 'warn',
-            completed: 'success',
-            closed_won: 'success',
-            closed_lost: 'danger',
-            'closed-lost': 'danger',
-            'closed-terminated': 'danger',
-            draft: 'secondary',
-            suspended: 'warn'
-        }[status] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+        return projectStatusSeverityOrFallback(status);
     }
     getProjectStageName(stage: string) {
-        return {
-            assessment: '立项评估',
-            'scope-confirmation': '范围确认',
-            'commercial-closure': '商务收口',
-            contracting: '签约中',
-            handover: '项目移交',
-            execution: '正式执行',
-            acceptance: '验收确认',
-            completed: '已完成',
-            lead: '线索',
-            opportunity: '商机',
-            proposal: '方案',
-            negotiation: '谈判'
-        }[stage] ?? stage;
+        return projectStageLabelOrFallback(stage);
     }
     getProjectStageSeverity(stage: string) {
-        return {
-            assessment: 'secondary',
-            'scope-confirmation': 'info',
-            'commercial-closure': 'warn',
-            contracting: 'warn',
-            handover: 'warn',
-            execution: 'success',
-            acceptance: 'info',
-            completed: 'contrast',
-            lead: 'secondary',
-            opportunity: 'info',
-            proposal: 'info',
-            negotiation: 'warn'
-        }[stage] as 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+        return projectStageSeverityOrFallback(stage);
     }
     toSubmitPayoutStage(payoutStage: CommissionPayoutStage) {
         switch (payoutStage) {

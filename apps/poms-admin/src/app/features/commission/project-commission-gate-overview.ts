@@ -7,11 +7,7 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-import {
-    actionLevelLabel,
-    actionLevelSeverity,
-    signalLevelLabel
-} from '../project/project-presentation';
+import { actionLevelLabel, actionLevelSeverity, signalLevelLabelOrFallback } from '../project/project-presentation';
 
 @Component({
     selector: 'app-project-commission-gate-overview',
@@ -63,9 +59,7 @@ export class ProjectCommissionGateOverview implements OnInit {
             return '--';
         }
 
-        return gateOverview.allowedActions.includes('reviewCommissionGateBinding')
-            ? '当前仍需人工复核 gate 结果后再进入发放判断。'
-            : '当前 gate 已具备下游使用条件。';
+        return gateOverview.allowedActions.includes('reviewCommissionGateBinding') ? '当前仍需人工复核 gate 结果后再进入发放判断。' : '当前 gate 已具备下游使用条件。';
     });
 
     readonly gateConclusionItems = computed<WorkspaceFactGridItem[]>(() => {
@@ -80,7 +74,7 @@ export class ProjectCommissionGateOverview implements OnInit {
                 value: actionLevelLabel(current.currentActionLevel),
                 severity: actionLevelSeverity(current.currentActionLevel)
             },
-            { label: '经营信号', value: signalLevelLabel(current.signalLevel) },
+            { label: '经营信号', value: signalLevelLabelOrFallback(current.signalLevel) },
             { label: '数据成熟度', value: current.dataMaturityLevel },
             {
                 label: '建议动作',

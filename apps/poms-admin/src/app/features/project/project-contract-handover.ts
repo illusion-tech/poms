@@ -10,6 +10,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { contractStatusLabelOrFallback as sharedContractStatusLabel, contractStatusSeverityOrFallback as sharedContractStatusSeverity } from '../../shared/ui/status-presentation';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
 type ContractHandoverContractItem = ContractHandoverSummaryView['effectiveContractSetSummary']['contracts'][number];
@@ -66,17 +67,6 @@ const RECEIPT_JUDGMENT_STATUS_LABELS: Record<string, string> = {
     frozen: '已冻结'
 };
 
-const CONTRACT_STATUS_LABELS: Record<string, string> = {
-    draft: '草稿',
-    pending_review: '待审批',
-    approved: '已审批',
-    active: '已生效',
-    suspended: '已暂停',
-    terminated: '已终止',
-    expired: '已过期',
-    archived: '已归档'
-};
-
 @Component({
     selector: 'app-project-contract-handover',
     standalone: true,
@@ -100,16 +90,7 @@ const CONTRACT_STATUS_LABELS: Record<string, string> = {
                     <ng-template #description>合同集合是进入移交确认的上游事实，不在前端重新计算口径。</ng-template>
                     <app-workspace-fact-grid class="mt-4 block" [items]="contractSetItems()" [columns]="3" />
 
-                    <p-table
-                        class="mt-4 block"
-                        styleClass="p-datatable-sm"
-                        [value]="contractItems()"
-                        [rowHover]="true"
-                        [paginator]="contractItems().length > 5"
-                        [rows]="5"
-                        [scrollable]="true"
-                        [tableStyle]="{ 'min-width': '48rem' }"
-                    >
+                    <p-table class="mt-4 block" styleClass="p-datatable-sm" [value]="contractItems()" [rowHover]="true" [paginator]="contractItems().length > 5" [rows]="5" [scrollable]="true" [tableStyle]="{ 'min-width': '48rem' }">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>合同编号</th>
@@ -437,20 +418,11 @@ export class ProjectContractHandover implements OnInit {
     }
 
     contractStatusLabel(status: string): string {
-        return CONTRACT_STATUS_LABELS[status] ?? status;
+        return sharedContractStatusLabel(status);
     }
 
     contractStatusSeverity(status: string): UiTagSeverity {
-        if (status === 'active' || status === 'approved') {
-            return 'success';
-        }
-        if (status === 'pending_review' || status === 'suspended') {
-            return 'warn';
-        }
-        if (status === 'terminated' || status === 'expired') {
-            return 'danger';
-        }
-        return 'secondary';
+        return sharedContractStatusSeverity(status);
     }
 
     baselineValidationStatusLabel(status: string): string {

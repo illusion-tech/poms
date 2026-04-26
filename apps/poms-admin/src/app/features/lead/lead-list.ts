@@ -13,6 +13,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface LeadFilterOption {
@@ -44,7 +45,6 @@ interface ConvertProjectForm {
 }
 
 type LeadActionTarget = LeadListView | LeadDetailView;
-type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
 
 const ALL_FILTER_VALUE = 'all';
 
@@ -67,20 +67,6 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
     plannedSignAt: null
 };
 
-const LEAD_STATUS_LABELS: Record<string, string> = {
-    registered: '待确认',
-    qualified: '已有效',
-    converted: '已转项目',
-    closed: '已关闭'
-};
-
-const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    registered: 'secondary',
-    qualified: 'success',
-    converted: 'info',
-    closed: 'contrast'
-};
-
 @Component({
     selector: 'app-lead-list',
     standalone: true,
@@ -93,9 +79,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-surface-500 dark:text-surface-400">签约前入口</p>
                         <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">线索管理</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">
-                            先登记客户机会，确认有效后再进入正式项目推进。
-                        </p>
+                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">先登记客户机会，确认有效后再进入正式项目推进。</p>
                     </div>
 
                     <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
@@ -104,9 +88,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
                         @if (canWriteLead()) {
                             <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
                         } @else {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">
-                                当前账号只能查看线索。
-                            </div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看线索。</div>
                         }
                     </div>
                 </div>
@@ -155,14 +137,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
 
                                     <p-iconfield class="w-full md:w-80">
                                         <p-inputicon class="pi pi-search" />
-                                        <input
-                                            pInputText
-                                            [ngModel]="searchValue()"
-                                            (ngModelChange)="searchValue.set($event)"
-                                            (input)="onGlobalFilter(dt, $event)"
-                                            placeholder="搜索线索、客户、负责人"
-                                            class="w-full! rounded-md! py-2!"
-                                        />
+                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、负责人" class="w-full! rounded-md! py-2!" />
                                     </p-iconfield>
 
                                     <p-select
@@ -349,11 +324,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
 
                         @if (lead.convertedProjectSummary) {
                             <div class="flex flex-col gap-3 rounded-[8px] border border-blue-200 bg-blue-50 p-4 dark:border-blue-900/60 dark:bg-blue-950/30">
-                                <app-workspace-feedback
-                                    severity="info"
-                                    summary="已转入项目"
-                                    [detail]="lead.convertedProjectSummary.projectName + '（' + lead.convertedProjectSummary.projectNo + '）'"
-                                />
+                                <app-workspace-feedback severity="info" summary="已转入项目" [detail]="lead.convertedProjectSummary.projectName + '（' + lead.convertedProjectSummary.projectNo + '）'" />
                                 <div>
                                     <p-button label="查看项目" icon="pi pi-external-link" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToProject(lead.convertedProjectSummary.id)" />
                                 </div>
@@ -384,7 +355,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
             <p-dialog [(visible)]="qualifyDialogVisible" [modal]="true" header="确认线索有效" [style]="{ width: '32rem' }" (onHide)="resetQualifyDialog()">
                 <div class="flex flex-col gap-3 py-2">
                     <p class="m-0 text-sm text-surface-600 dark:text-surface-300">说明为什么这条线索可以进入正式项目推进。</p>
-                    <textarea pTextarea rows="5" [ngModel]="qualificationSummary()" (ngModelChange)="qualificationSummary.set($event)" class="w-full rounded-md!" placeholder="例如：客户预算明确，已确认采购意向。" ></textarea>
+                    <textarea pTextarea rows="5" [ngModel]="qualificationSummary()" (ngModelChange)="qualificationSummary.set($event)" class="w-full rounded-md!" placeholder="例如：客户预算明确，已确认采购意向。"></textarea>
                     @if (actionAttempted() && !qualificationSummary().trim()) {
                         <span class="text-xs text-red-600 dark:text-red-300">请填写有效性说明。</span>
                     }
@@ -400,11 +371,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
             <p-dialog [(visible)]="convertDialogVisible" [modal]="true" header="转入项目" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetConvertDialog()">
                 <div class="flex flex-col gap-4 py-2">
                     @if (actionTarget(); as lead) {
-                        <app-workspace-feedback
-                            severity="info"
-                            summary="将有效线索转为正式项目"
-                            [detail]="lead.customerName + ' · ' + lead.leadName"
-                        />
+                        <app-workspace-feedback severity="info" summary="将有效线索转为正式项目" [detail]="lead.customerName + ' · ' + lead.leadName" />
                     }
 
                     @if (convertError()) {
@@ -425,14 +392,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
 
                     <div class="flex flex-col gap-2">
                         <label for="convertProjectName" class="text-sm font-medium text-surface-900 dark:text-surface-0">项目名称</label>
-                        <input
-                            pInputText
-                            id="convertProjectName"
-                            [ngModel]="convertForm().projectName"
-                            (ngModelChange)="updateConvertField('projectName', $event)"
-                            placeholder="默认使用线索标题"
-                            class="w-full rounded-md!"
-                        />
+                        <input pInputText id="convertProjectName" [ngModel]="convertForm().projectName" (ngModelChange)="updateConvertField('projectName', $event)" placeholder="默认使用线索标题" class="w-full rounded-md!" />
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -461,7 +421,7 @@ const LEAD_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> 
             <p-dialog [(visible)]="closeDialogVisible" [modal]="true" header="关闭线索" [style]="{ width: '32rem' }" (onHide)="resetCloseDialog()">
                 <div class="flex flex-col gap-3 py-2">
                     <p class="m-0 text-sm text-surface-600 dark:text-surface-300">关闭后不再作为转项目入口，请写明原因。</p>
-                    <textarea pTextarea rows="5" [ngModel]="closedReason()" (ngModelChange)="closedReason.set($event)" class="w-full rounded-md!" placeholder="例如：客户预算取消，暂不推进。" ></textarea>
+                    <textarea pTextarea rows="5" [ngModel]="closedReason()" (ngModelChange)="closedReason.set($event)" class="w-full rounded-md!" placeholder="例如：客户预算取消，暂不推进。"></textarea>
                     @if (actionAttempted() && !closedReason().trim()) {
                         <span class="text-xs text-red-600 dark:text-red-300">请填写关闭原因。</span>
                     }
@@ -508,15 +468,9 @@ export class LeadList implements OnInit {
     convertDialogVisible = false;
     closeDialogVisible = false;
 
-    readonly statusOptions: LeadFilterOption[] = [
-        { label: '全部状态', value: ALL_FILTER_VALUE },
-        ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly statusOptions: LeadFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
-    readonly statusColumnFilterOptions: LeadColumnFilterOption[] = [
-        { label: '任意状态', value: null },
-        ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))
-    ];
+    readonly statusColumnFilterOptions: LeadColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
 
@@ -785,11 +739,11 @@ export class LeadList implements OnInit {
     }
 
     getStatusName(status: string): string {
-        return LEAD_STATUS_LABELS[status] ?? status;
+        return leadStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string): UiTagSeverity {
-        return LEAD_STATUS_SEVERITIES[status];
+    getStatusSeverity(status: string) {
+        return leadStatusSeverityOrFallback(status);
     }
 
     displayText(value: string | null | undefined, fallback: string): string {
@@ -797,17 +751,7 @@ export class LeadList implements OnInit {
     }
 
     private leadSearchText(lead: LeadListView): string {
-        return this.normalize(
-            [
-                lead.leadNo,
-                lead.leadName,
-                lead.customerName,
-                lead.sourceChannel,
-                lead.ownerName,
-                lead.ownerOrgName,
-                this.getStatusName(lead.status)
-            ].join(' ')
-        );
+        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceChannel, lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
     }
 
     private normalize(value: string): string {

@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MessageModule } from 'primeng/message';
+import type { UiMessageSeverity } from './ui-severity';
 
-export type WorkspaceFeedbackSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
+export type WorkspaceFeedbackSeverity = UiMessageSeverity;
 
 @Component({
     selector: 'app-workspace-feedback',

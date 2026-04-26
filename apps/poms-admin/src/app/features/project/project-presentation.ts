@@ -1,4 +1,16 @@
-export type UiTagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined;
+import type { UiTagSeverityValue } from '../../shared/ui/ui-severity';
+
+export type { UiTagSeverity } from '../../shared/ui/ui-severity';
+export {
+    projectStageLabel,
+    projectStageLabelOrFallback,
+    projectStageSeverity,
+    projectStageSeverityOrFallback,
+    projectStatusLabel,
+    projectStatusLabelOrFallback,
+    projectStatusSeverity,
+    projectStatusSeverityOrFallback
+} from '../../shared/ui/status-presentation';
 
 export interface ProjectWorkspaceGuide {
     currentStep: string;
@@ -7,79 +19,29 @@ export interface ProjectWorkspaceGuide {
     owner: string;
 }
 
-const PROJECT_STAGE_LABELS: Record<string, string> = {
-    assessment: '立项评估',
-    'scope-confirmation': '范围确认',
-    'commercial-closure': '商务收口',
-    contracting: '签约中',
-    handover: '项目移交',
-    execution: '正式执行',
-    acceptance: '验收确认',
-    completed: '已完成',
-    lead: '线索',
-    opportunity: '商机',
-    proposal: '方案',
-    negotiation: '谈判'
-};
-
-const PROJECT_STAGE_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    assessment: 'secondary',
-    'scope-confirmation': 'info',
-    'commercial-closure': 'warn',
-    contracting: 'warn',
-    handover: 'warn',
-    execution: 'success',
-    acceptance: 'info',
-    completed: 'contrast',
-    lead: 'secondary',
-    opportunity: 'info',
-    proposal: 'info',
-    negotiation: 'warn'
-};
-
-const PROJECT_STATUS_LABELS: Record<string, string> = {
-    active: '进行中',
-    blocked: '阻塞中',
-    completed: '已完成',
-    draft: '草稿',
-    closed_won: '已签约',
-    closed_lost: '已丢单',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止',
-    suspended: '已暂停'
-};
-
-const PROJECT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
-    active: 'info',
-    blocked: 'warn',
-    completed: 'success',
-    draft: 'secondary',
-    closed_won: 'success',
-    closed_lost: 'danger',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger',
-    suspended: 'warn'
-};
-
-const ACTION_LEVEL_LABELS: Record<string, string> = {
+const ACTION_LEVEL_LABELS = {
     PROMPT: '提示',
     REVIEW: '复核',
     BLOCK: '阻断'
-};
+} as const;
 
-const ACTION_LEVEL_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+export type ActionLevelCode = keyof typeof ACTION_LEVEL_LABELS;
+
+const ACTION_LEVEL_SEVERITIES = {
     PROMPT: 'info',
     REVIEW: 'warn',
     BLOCK: 'danger'
-};
+} as const satisfies Record<ActionLevelCode, UiTagSeverityValue>;
 
-const SIGNAL_LEVEL_LABELS: Record<string, string> = {
+const SIGNAL_LEVEL_LABELS = {
     STABLE: '稳定',
     ATTENTION: '关注',
     RISK: '风险'
-};
+} as const;
 
-const COMMISSION_SETTLEMENT_STATUS_LABELS: Record<string, string> = {
+export type SignalLevelCode = keyof typeof SIGNAL_LEVEL_LABELS;
+
+const COMMISSION_SETTLEMENT_STATUS_LABELS = {
     'pending-final-settlement': '待最终结算',
     'pending-non-retention': '非质保待结算',
     'pending-retention-settlement': '质保金待结算',
@@ -89,9 +51,11 @@ const COMMISSION_SETTLEMENT_STATUS_LABELS: Record<string, string> = {
     'settled-non-retention': '非质保已结清',
     'settled-final': '最终结算已完成',
     'settled-retention': '质保金已结清'
-};
+} as const;
 
-const COMMISSION_SETTLEMENT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+export type CommissionSettlementStatusCode = keyof typeof COMMISSION_SETTLEMENT_STATUS_LABELS;
+
+const COMMISSION_SETTLEMENT_STATUS_SEVERITIES = {
     'pending-final-settlement': 'warn',
     'pending-non-retention': 'info',
     'pending-retention-settlement': 'warn',
@@ -101,128 +65,183 @@ const COMMISSION_SETTLEMENT_STATUS_SEVERITIES: Record<string, Exclude<UiTagSever
     'settled-non-retention': 'success',
     'settled-final': 'success',
     'settled-retention': 'success'
-};
+} as const satisfies Record<CommissionSettlementStatusCode, UiTagSeverityValue>;
 
-const BASELINE_SELECTION_SOURCE_LABELS: Record<string, string> = {
+const BASELINE_SELECTION_SOURCE_LABELS = {
     original: '原始经营基线',
     handover_rebaseline: '移交再基线化'
-};
+} as const;
 
-const FREEZE_VERSION_STATUS_LABELS: Record<string, string> = {
+export type BaselineSelectionSourceCode = keyof typeof BASELINE_SELECTION_SOURCE_LABELS;
+
+const FREEZE_VERSION_STATUS_LABELS = {
     draft: '草稿',
     frozen: '已冻结',
     superseded: '已被替代'
-};
+} as const;
 
-const FREEZE_VERSION_STATUS_SEVERITIES: Record<string, Exclude<UiTagSeverity, undefined>> = {
+export type FreezeVersionStatusCode = keyof typeof FREEZE_VERSION_STATUS_LABELS;
+
+const FREEZE_VERSION_STATUS_SEVERITIES = {
     draft: 'secondary',
     frozen: 'success',
     superseded: 'warn'
-};
+} as const satisfies Record<FreezeVersionStatusCode, UiTagSeverityValue>;
 
-const COMMISSION_RULE_STAGE_LABELS: Record<string, string> = {
+const COMMISSION_RULE_STAGE_LABELS = {
     'blocked-retention': '质保金结算阻塞',
     'blocked-final-settlement': '最终结算阻塞',
     'ready-final-settlement': '可进入最终结算',
     'ready-retention': '可进入质保金结算',
     settled: '已结清'
-};
+} as const;
 
-const COMMISSION_GATE_DECISION_LABELS: Record<string, string> = {
+export type CommissionRuleStageCode = keyof typeof COMMISSION_RULE_STAGE_LABELS;
+
+const COMMISSION_GATE_DECISION_LABELS = {
     BLOCK_RETENTION: '阻断质保金结算',
     BLOCK_FINAL_SETTLEMENT: '阻断最终结算',
     READY_FOR_FINAL_SETTLEMENT: '可进入最终结算',
     READY_FOR_RETENTION_SETTLEMENT: '可进入质保金结算',
     SETTLED: '已结清'
-};
+} as const;
 
-export function projectStageLabel(stage: string): string {
-    return PROJECT_STAGE_LABELS[stage] ?? stage;
+export type GateDecisionCode = keyof typeof COMMISSION_GATE_DECISION_LABELS;
+
+function knownLabel<TLabels extends Readonly<Record<string, string>>, TCode extends keyof TLabels & string>(labels: TLabels, code: TCode): TLabels[TCode] {
+    return labels[code];
 }
 
-export function projectStageSeverity(stage: string): UiTagSeverity {
-    return PROJECT_STAGE_SEVERITIES[stage];
-}
-
-export function projectStatusLabel(status: string): string {
-    return PROJECT_STATUS_LABELS[status] ?? status;
-}
-
-export function projectStatusSeverity(status: string): UiTagSeverity {
-    return PROJECT_STATUS_SEVERITIES[status];
-}
-
-export function actionLevelLabel(level: string | null | undefined): string {
-    if (!level) {
-        return '待判断';
+function labelOrFallback<TLabels extends Readonly<Record<string, string>>>(labels: TLabels, value: string | null | undefined, fallback: string): string {
+    if (!value) {
+        return fallback;
     }
-    return ACTION_LEVEL_LABELS[level.toUpperCase()] ?? level;
+
+    return Object.prototype.hasOwnProperty.call(labels, value) ? labels[value as keyof TLabels] : value;
 }
 
-export function actionLevelSeverity(level: string | null | undefined): UiTagSeverity {
-    if (!level) {
+function normalizedLabelOrFallback<TLabels extends Readonly<Record<string, string>>>(labels: TLabels, value: string | null | undefined, fallback: string): string {
+    if (!value) {
+        return fallback;
+    }
+
+    const normalized = value.toUpperCase();
+    return Object.prototype.hasOwnProperty.call(labels, normalized) ? labels[normalized as keyof TLabels] : value;
+}
+
+function knownSeverity<TCode extends string>(severities: Readonly<Record<TCode, UiTagSeverityValue>>, code: TCode): UiTagSeverityValue {
+    return severities[code];
+}
+
+function severityOrFallback<TSeverities extends Readonly<Record<string, UiTagSeverityValue>>>(severities: TSeverities, value: string | null | undefined): UiTagSeverityValue {
+    if (!value) {
         return 'secondary';
     }
-    return ACTION_LEVEL_SEVERITIES[level.toUpperCase()] ?? 'secondary';
+
+    return Object.prototype.hasOwnProperty.call(severities, value) ? severities[value as keyof TSeverities] : 'secondary';
 }
 
-export function signalLevelLabel(level: string | null | undefined): string {
-    if (!level) {
-        return '待判断';
-    }
-    return SIGNAL_LEVEL_LABELS[level.toUpperCase()] ?? level;
-}
-
-export function commissionSettlementStatusLabel(status: string | null | undefined): string {
-    if (!status) {
-        return '待判断';
-    }
-    return COMMISSION_SETTLEMENT_STATUS_LABELS[status] ?? status;
-}
-
-export function commissionSettlementStatusSeverity(status: string | null | undefined): UiTagSeverity {
-    if (!status) {
+function normalizedSeverityOrFallback<TSeverities extends Readonly<Record<string, UiTagSeverityValue>>>(severities: TSeverities, value: string | null | undefined): UiTagSeverityValue {
+    if (!value) {
         return 'secondary';
     }
-    return COMMISSION_SETTLEMENT_STATUS_SEVERITIES[status] ?? 'secondary';
+
+    const normalized = value.toUpperCase();
+    return Object.prototype.hasOwnProperty.call(severities, normalized) ? severities[normalized as keyof TSeverities] : 'secondary';
 }
 
-export function baselineSelectionSourceLabel(source: string | null | undefined): string {
-    if (!source) {
-        return '待确认';
+export function actionLevelLabel(level: ActionLevelCode): string {
+    return knownLabel(ACTION_LEVEL_LABELS, level);
+}
+
+export function actionLevelSeverity(level: ActionLevelCode): UiTagSeverityValue {
+    return knownSeverity(ACTION_LEVEL_SEVERITIES, level);
+}
+
+export function actionLevelLabelOrFallback(level: string | null | undefined): string {
+    return normalizedLabelOrFallback(ACTION_LEVEL_LABELS, level, '待判断');
+}
+
+export function actionLevelSeverityOrFallback(level: string | null | undefined): UiTagSeverityValue {
+    return normalizedSeverityOrFallback(ACTION_LEVEL_SEVERITIES, level);
+}
+
+export function signalLevelLabel(level: SignalLevelCode): string {
+    return knownLabel(SIGNAL_LEVEL_LABELS, level);
+}
+
+export function signalLevelLabelOrFallback(level: string | null | undefined): string {
+    return normalizedLabelOrFallback(SIGNAL_LEVEL_LABELS, level, '待判断');
+}
+
+export function commissionSettlementStatusLabel(status: CommissionSettlementStatusCode): string {
+    return knownLabel(COMMISSION_SETTLEMENT_STATUS_LABELS, status);
+}
+
+export function commissionSettlementStatusSeverity(status: CommissionSettlementStatusCode): UiTagSeverityValue {
+    return knownSeverity(COMMISSION_SETTLEMENT_STATUS_SEVERITIES, status);
+}
+
+export function commissionSettlementStatusLabelOrFallback(status: string | null | undefined): string {
+    return labelOrFallback(COMMISSION_SETTLEMENT_STATUS_LABELS, status, '待判断');
+}
+
+export function commissionSettlementStatusSeverityOrFallback(status: string | null | undefined): UiTagSeverityValue {
+    return severityOrFallback(COMMISSION_SETTLEMENT_STATUS_SEVERITIES, status);
+}
+
+export function baselineSelectionSourceLabel(source: BaselineSelectionSourceCode): string {
+    return knownLabel(BASELINE_SELECTION_SOURCE_LABELS, source);
+}
+
+export function baselineSelectionSourceLabelOrFallback(source: string | null | undefined): string {
+    return labelOrFallback(BASELINE_SELECTION_SOURCE_LABELS, source, '待确认');
+}
+
+export function freezeVersionStatusLabel(status: FreezeVersionStatusCode): string {
+    return knownLabel(FREEZE_VERSION_STATUS_LABELS, status);
+}
+
+export function freezeVersionStatusSeverity(status: FreezeVersionStatusCode): UiTagSeverityValue {
+    return knownSeverity(FREEZE_VERSION_STATUS_SEVERITIES, status);
+}
+
+export function freezeVersionStatusLabelOrFallback(status: string | null | undefined): string {
+    return labelOrFallback(FREEZE_VERSION_STATUS_LABELS, status, '待确认');
+}
+
+export function freezeVersionStatusSeverityOrFallback(status: string | null | undefined): UiTagSeverityValue {
+    return severityOrFallback(FREEZE_VERSION_STATUS_SEVERITIES, status);
+}
+
+export function commissionRuleStageLabel(status: CommissionRuleStageCode): string {
+    return knownLabel(COMMISSION_RULE_STAGE_LABELS, status);
+}
+
+export function commissionRuleStageLabelOrFallback(status: string | null | undefined): string {
+    return labelOrFallback(COMMISSION_RULE_STAGE_LABELS, status, '待判断');
+}
+
+export function gateDecisionLabel(code: GateDecisionCode): string {
+    return knownLabel(COMMISSION_GATE_DECISION_LABELS, code);
+}
+
+export function gateDecisionLabelOrFallback(code: string | null | undefined): string {
+    return labelOrFallback(COMMISSION_GATE_DECISION_LABELS, code, '待判断');
+}
+
+export function gateDecisionSeverity(code: GateDecisionCode): UiTagSeverityValue {
+    if (code.startsWith('BLOCK')) {
+        return 'danger';
     }
-    return BASELINE_SELECTION_SOURCE_LABELS[source] ?? source;
-}
-
-export function freezeVersionStatusLabel(status: string | null | undefined): string {
-    if (!status) {
-        return '待确认';
+    if (code.startsWith('READY') || code === 'SETTLED') {
+        return 'success';
     }
-    return FREEZE_VERSION_STATUS_LABELS[status] ?? status;
+
+    return 'secondary';
 }
 
-export function freezeVersionStatusSeverity(status: string | null | undefined): UiTagSeverity {
-    if (!status) {
-        return 'secondary';
-    }
-    return FREEZE_VERSION_STATUS_SEVERITIES[status] ?? 'secondary';
-}
-
-export function commissionRuleStageLabel(status: string | null | undefined): string {
-    if (!status) {
-        return '待判断';
-    }
-    return COMMISSION_RULE_STAGE_LABELS[status] ?? status;
-}
-
-export function gateDecisionLabel(code: string | null | undefined): string {
-    if (!code) {
-        return '待判断';
-    }
-    return COMMISSION_GATE_DECISION_LABELS[code] ?? code;
-}
-
-export function gateDecisionSeverity(code: string | null | undefined): UiTagSeverity {
+export function gateDecisionSeverityOrFallback(code: string | null | undefined): UiTagSeverityValue {
     if (!code) {
         return 'secondary';
     }
@@ -256,10 +275,7 @@ export function formatAmount(value: string | null | undefined): string {
     });
 }
 
-export function projectOwnerSummary(project: {
-    ownerUserId?: string | null;
-    ownerOrgId?: string | null;
-}): string {
+export function projectOwnerSummary(project: { ownerUserId?: string | null; ownerOrgId?: string | null }): string {
     if (project.ownerUserId) {
         return `用户 ${project.ownerUserId}`;
     }
@@ -269,12 +285,7 @@ export function projectOwnerSummary(project: {
     return '待指定';
 }
 
-export function projectWorkspaceGuide(project: {
-    currentStage: string;
-    status: string;
-    ownerUserId?: string | null;
-    ownerOrgId?: string | null;
-}): ProjectWorkspaceGuide {
+export function projectWorkspaceGuide(project: { currentStage: string; status: string; ownerUserId?: string | null; ownerOrgId?: string | null }): ProjectWorkspaceGuide {
     if (project.status === 'blocked') {
         return {
             currentStep: '先消除当前阻塞',
