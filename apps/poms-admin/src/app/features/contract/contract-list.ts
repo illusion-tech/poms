@@ -3,7 +3,8 @@ import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { ContractStore, type ContractStatus, type ContractSummary } from '@poms/admin-data-access';
+import { ContractStore, ProjectStore, type ContractStatus, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -17,8 +18,8 @@ import { TagModule } from 'primeng/tag';
 @Component({
     selector: 'app-contract-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MenuModule, MessageModule],
-    providers: [ContractStore],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MenuModule, MessageModule, AutoCompleteModule],
+    providers: [ContractStore, ProjectStore],
     template: `
         <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
             <!-- Header -->
@@ -124,12 +125,63 @@ import { TagModule } from 'primeng/tag';
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
                     <div class="flex flex-col gap-2">
-                        <label for="projectId" class="text-surface-900 dark:text-surface-0 font-medium">关联项目 ID <span class="text-red-500">*</span></label>
-                        <input pInputText id="projectId" [(ngModel)]="createForm.projectId" class="w-full" [class.border-red-500]="createSubmitAttempted && !createForm.projectId.trim()" placeholder="请输入项目 UUID" />
-                        @if (createSubmitAttempted && !createForm.projectId.trim()) {
-                            <span class="text-red-500 text-xs">请填写关联项目 ID</span>
+                        <label for="contractProjectSelector" class="text-surface-900 dark:text-surface-0 font-medium">关联项目 <span class="text-red-500">*</span></label>
+                        <p-autocomplete
+                            inputId="contractProjectSelector"
+                            [(ngModel)]="selectedProject"
+                            [suggestions]="projectSuggestions"
+                            optionLabel="projectName"
+                            [dropdown]="true"
+                            [forceSelection]="true"
+                            [showClear]="true"
+                            [completeOnFocus]="true"
+                            emptyMessage="没有匹配项目"
+                            placeholder="搜索项目编号、项目名称或客户"
+                            styleClass="w-full"
+                            inputStyleClass="w-full"
+                            appendTo="body"
+                            (completeMethod)="filterProjects($event)"
+                            (onSelect)="selectProject($event.value)"
+                            (onClear)="selectProject(null)"
+                        >
+                            <ng-template #selecteditem let-project>
+                                <span>{{ project.projectNo }} · {{ project.projectName }}</span>
+                            </ng-template>
+                            <ng-template #item let-project>
+                                <div class="flex flex-col gap-1 py-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-medium text-surface-950 dark:text-surface-0">{{ project.projectNo }}</span>
+                                        <span class="text-sm text-surface-700 dark:text-surface-200">{{ project.projectName }}</span>
+                                    </div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }} · {{ getProjectStageName(project.currentStage) }} · {{ getProjectStatusName(project.status) }}</div>
+                                </div>
+                            </ng-template>
+                        </p-autocomplete>
+                        @if (createSubmitAttempted && !selectedProject) {
+                            <span class="text-red-500 text-xs">请选择关联项目</span>
                         }
                     </div>
+
+                    @if (selectedProject; as project) {
+                        <div class="rounded-[8px] border border-surface-200 bg-surface-50 px-3 py-3 dark:border-surface-700 dark:bg-surface-800">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">已选择项目</div>
+                                    <div class="mt-1 text-sm font-semibold text-surface-950 dark:text-surface-0">{{ project.projectNo }} · {{ project.projectName }}</div>
+                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }}</div>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" styleClass="rounded-[6px]!" />
+                                    <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" styleClass="rounded-[6px]!" />
+                                </div>
+                            </div>
+                            @if (project.customerProjectNo) {
+                                <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">客户项目编号：{{ project.customerProjectNo }}</div>
+                            }
+                        </div>
+                    } @else if (!loadingProjects() && projects().length === 0) {
+                        <p-message severity="warn" text="当前没有可选择的项目，请先完成项目创建或刷新后重试。" styleClass="w-full" />
+                    }
 
                     <p-message severity="info" text="POMS 合同编号将在创建成功后由系统生成。" styleClass="w-full" />
 
@@ -167,10 +219,13 @@ export class ContractList implements OnInit {
     @ViewChild('actionMenu') actionMenu!: Menu;
 
     readonly #contractStore = inject(ContractStore);
+    readonly #projectStore = inject(ProjectStore);
     readonly #router = inject(Router);
 
     readonly contracts = this.#contractStore.contracts;
+    readonly projects = this.#projectStore.projects;
     readonly loading = this.#contractStore.loading;
+    readonly loadingProjects = this.#projectStore.loading;
     readonly creating = this.#contractStore.saving;
 
     searchValue = '';
@@ -181,6 +236,8 @@ export class ContractList implements OnInit {
     createDialogVisible = false;
     createSubmitAttempted = false;
     createForm = { projectId: '', customerContractNo: '', signedAmount: '', currencyCode: 'CNY' };
+    selectedProject: ProjectListView | null = null;
+    projectSuggestions: ProjectListView[] = [];
 
     currencyOptions = [
         { label: '人民币 (CNY)', value: 'CNY' },
@@ -201,7 +258,7 @@ export class ContractList implements OnInit {
     });
 
     ngOnInit() {
-        void this.#contractStore.loadContracts();
+        void Promise.all([this.#contractStore.loadContracts(), this.#projectStore.loadProjects()]);
     }
 
     toggleMenu(event: Event, contract: ContractSummary) {
@@ -223,33 +280,58 @@ export class ContractList implements OnInit {
 
     showCreateDialog() {
         this.createForm = { projectId: '', customerContractNo: '', signedAmount: '', currencyCode: 'CNY' };
+        this.selectedProject = null;
+        this.projectSuggestions = this.projects().slice(0, 20);
         this.createSubmitAttempted = false;
         this.createDialogVisible = true;
+
+        if (this.projects().length === 0) {
+            void this.#projectStore.loadProjects().then((projects) => {
+                this.projectSuggestions = projects.slice(0, 20);
+            });
+        }
     }
 
     cancelCreate() {
         this.createSubmitAttempted = false;
         this.createDialogVisible = false;
+        this.selectedProject = null;
     }
 
     async createContract() {
         this.createSubmitAttempted = true;
-        if (!this.createForm.projectId.trim() || !this.isValidAmount(this.createForm.signedAmount)) {
+        if (!this.selectedProject || !this.isValidAmount(this.createForm.signedAmount)) {
             return;
         }
 
         try {
             await this.#contractStore.createContract({
-                projectId: this.createForm.projectId.trim(),
+                projectId: this.selectedProject.id,
                 customerContractNo: this.optionalText(this.createForm.customerContractNo),
                 signedAmount: this.createForm.signedAmount.trim(),
                 currencyCode: this.createForm.currencyCode
             });
             this.createDialogVisible = false;
             this.createSubmitAttempted = false;
+            this.selectedProject = null;
         } catch {
             return;
         }
+    }
+
+    filterProjects(event: AutoCompleteCompleteEvent) {
+        const query = event.query.trim().toLowerCase();
+        const projects = this.projects();
+        this.projectSuggestions = (query ? projects.filter((project) => this.projectSearchText(project).includes(query)) : projects).slice(0, 20);
+    }
+
+    selectProject(project: ProjectListView | null) {
+        this.selectedProject = project;
+        this.createForm.projectId = project?.id ?? '';
+    }
+
+    projectSearchText(project: ProjectListView): string {
+        return [project.projectNo, project.projectName, project.customerName, project.customerProjectNo, this.getProjectStageName(project.currentStage), this.getProjectStatusName(project.status)].filter(Boolean).join(' ').toLowerCase();
     }
 
     optionalText(value: string): string | null {
@@ -277,5 +359,65 @@ export class ContractList implements OnInit {
             completed: 'contrast'
         };
         return map[status];
+    }
+
+    getProjectStageName(stage: string): string {
+        const map: Record<string, string> = {
+            assessment: '立项评估',
+            'scope-confirmation': '范围确认',
+            'commercial-closure': '商务收口',
+            contracting: '签约中',
+            handover: '项目移交',
+            execution: '正式执行',
+            acceptance: '验收确认',
+            completed: '已完成',
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止'
+        };
+        return map[stage] ?? stage;
+    }
+
+    getProjectStageSeverity(stage: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
+        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
+            assessment: 'secondary',
+            'scope-confirmation': 'info',
+            'commercial-closure': 'warn',
+            contracting: 'warn',
+            handover: 'warn',
+            execution: 'success',
+            acceptance: 'info',
+            completed: 'contrast',
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger'
+        };
+        return map[stage] ?? 'secondary';
+    }
+
+    getProjectStatusName(status: string): string {
+        const map: Record<string, string> = {
+            active: '进行中',
+            'pending-approval': '待审批',
+            blocked: '阻塞中',
+            'on-hold': '已挂起',
+            completed: '已完成',
+            closed: '已关闭',
+            'closed-lost': '已丢单',
+            'closed-terminated': '已终止'
+        };
+        return map[status] ?? status;
+    }
+
+    getProjectStatusSeverity(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
+        const map: Record<string, 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast'> = {
+            active: 'info',
+            'pending-approval': 'secondary',
+            blocked: 'warn',
+            'on-hold': 'warn',
+            completed: 'success',
+            closed: 'contrast',
+            'closed-lost': 'danger',
+            'closed-terminated': 'danger'
+        };
+        return map[status] ?? 'secondary';
     }
 }
