@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
@@ -152,6 +152,7 @@ describe('ProjectDetail', () => {
     let timelineErrorSignal: ReturnType<typeof signal<string | null>>;
     let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
+    let authStoreMock: { hasAnyPermission: jest.Mock };
     let projectStoreMock: {
         loadProject: jest.Mock;
         loadProjectTimeline: jest.Mock;
@@ -166,17 +167,27 @@ describe('ProjectDetail', () => {
         timelineError: ReturnType<typeof signal<string | null>>;
         archiveRecordsError: ReturnType<typeof signal<string | null>>;
         updateProject: jest.Mock;
+        createProjectArchiveRecord: jest.Mock;
         replaceProjectArchiveRecord: jest.Mock;
         voidProjectArchiveRecord: jest.Mock;
     };
 
-    async function setup(project: ProjectDetailView | null = createProject(), timeline: ProjectTimelineView | null = null, timelineError: string | null = null, archiveRecords: ProjectArchiveRecordSummary[] = []) {
+    async function setup(
+        project: ProjectDetailView | null = createProject(),
+        timeline: ProjectTimelineView | null = null,
+        timelineError: string | null = null,
+        archiveRecords: ProjectArchiveRecordSummary[] = [],
+        canWriteProject = true
+    ) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
         archiveRecordsSignal = signal<ProjectArchiveRecordSummary[]>(archiveRecords);
         timelineErrorSignal = signal<string | null>(timelineError);
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
+        authStoreMock = {
+            hasAnyPermission: jest.fn(() => canWriteProject)
+        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
@@ -191,6 +202,7 @@ describe('ProjectDetail', () => {
             timelineError: timelineErrorSignal,
             archiveRecordsError: archiveRecordsErrorSignal,
             updateProject: jest.fn().mockResolvedValue(project),
+            createProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
             replaceProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
             voidProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord())
         };
@@ -209,6 +221,10 @@ describe('ProjectDetail', () => {
                 {
                     provide: Router,
                     useValue: routerMock
+                },
+                {
+                    provide: AuthStore,
+                    useValue: authStoreMock
                 }
             ]
         })
@@ -598,6 +614,80 @@ describe('ProjectDetail', () => {
         expect(fixture.nativeElement.textContent).not.toContain('替代归档');
         expect(fixture.nativeElement.textContent).not.toContain('撤销归档');
         expect(fixture.nativeElement.textContent).toContain('当前账号不能维护归档记录');
+    });
+
+    it('shows archive create action when terminal project has no current archive record and the user can write projects', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+
+        await setup(project, createTimeline());
+
+        expect(component.canCreateArchiveRecord(project)).toBe(true);
+        expect(fixture.nativeElement.textContent).toContain('创建归档记录');
+    });
+
+    it('hides archive create action when the user cannot write projects', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+
+        await setup(project, createTimeline(), null, [], false);
+
+        expect(component.canCreateArchiveRecord(project)).toBe(false);
+        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button')).map((button: Element) => button.textContent ?? '').join(' ');
+        expect(buttonText).not.toContain('创建归档记录');
+        expect(fixture.nativeElement.textContent).toContain('当前账号不能创建归档记录');
+    });
+
+    it('submits first archive record through the project store', async () => {
+        const project = createProject({
+            currentStage: 'completed',
+            status: 'completed',
+            stageSummary: {
+                currentStage: 'completed',
+                status: 'completed',
+                plannedSignAt: null,
+                closedAt: null,
+                closedReason: null,
+                blockingReasons: []
+            }
+        });
+        await setup(project, createTimeline());
+
+        component.openCreateArchiveDialog(project);
+        component.createArchiveForm = {
+            archivedAt: '2026-04-26T10:30:00.000Z',
+            archiveSummary: '  首次归档结论  ',
+            evidenceSummary: '  首次归档清单  '
+        };
+
+        await component.createArchiveRecord();
+
+        expect(projectStoreMock.createProjectArchiveRecord).toHaveBeenCalledWith('project-1', {
+            archivedAt: '2026-04-26T10:30:00.000Z',
+            archiveSummary: '首次归档结论',
+            evidenceSummary: '首次归档清单'
+        });
+        expect(component.createArchiveDialogVisible).toBe(false);
     });
 
     it('submits archive replacement with expectedVersion from the selected record', async () => {

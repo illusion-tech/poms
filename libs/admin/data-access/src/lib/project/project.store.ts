@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type {
+    CreateProjectArchiveRecordRequest,
     CreateProjectRequest,
     ProjectArchiveRecordSummary,
     ProjectDetailView,
@@ -150,6 +151,23 @@ export class ProjectStore {
             return project;
         } finally {
             this.#saving.set(false);
+        }
+    }
+
+    async createProjectArchiveRecord(projectId: string, request: CreateProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectControllerCreateProjectArchiveRecord({
+                    projectId,
+                    createProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
         }
     }
 

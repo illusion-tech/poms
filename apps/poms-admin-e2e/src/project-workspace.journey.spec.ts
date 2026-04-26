@@ -195,6 +195,117 @@ async function mockProjectArchiveHistory(page: Page): Promise<void> {
     });
 }
 
+async function mockProjectArchiveCreateFlow(page: Page): Promise<void> {
+    const createdArchiveRecord = {
+        id: '38000000-0000-4000-8000-000000000301',
+        projectId: WORKSPACE_PROJECT_ID,
+        archiveAnchorStage: 'completed',
+        archiveAnchorSourceType: 'project-completion-record',
+        archiveAnchorSourceId: '37000000-0000-4000-8000-000000000301',
+        status: 'recorded',
+        archivedAt: '2026-04-26T10:30:00.000Z',
+        archivedBy: '10000000-0000-4000-8000-000000000001',
+        archivedByName: '归档负责人',
+        archiveSummary: 'e2e 首次归档结论',
+        evidenceSummary: 'e2e 首次归档清单',
+        supersedesArchiveRecordId: null,
+        replacementReason: null,
+        voidedAt: null,
+        voidedBy: null,
+        voidedByName: null,
+        voidReason: null,
+        createdAt: '2026-04-26T10:30:00.000Z',
+        createdBy: '10000000-0000-4000-8000-000000000001',
+        updatedAt: '2026-04-26T10:30:00.000Z',
+        updatedBy: '10000000-0000-4000-8000-000000000001',
+        rowVersion: 1,
+        allowedActions: ['replace-project-archive-record', 'void-project-archive-record']
+    };
+    let archiveCreated = false;
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}`, async (route) => {
+        const response = await route.fetch();
+        const project = (await response.json()) as {
+            allowedActions?: string[];
+            currentStage?: string;
+            stageSummary?: {
+                currentStage?: string;
+                status?: string;
+                blockingReasons?: string[];
+            };
+            status?: string;
+        };
+        project.currentStage = 'completed';
+        project.status = 'completed';
+        project.stageSummary = {
+            ...(project.stageSummary ?? {}),
+            currentStage: 'completed',
+            status: 'completed',
+            blockingReasons: []
+        };
+        project.allowedActions = [...new Set([...(project.allowedActions ?? []), 'edit-project-basic-info'])];
+
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify(project)
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/timeline`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify({
+                projectId: WORKSPACE_PROJECT_ID,
+                events: [
+                    {
+                        eventKey: 'project-completion:37000000-0000-4000-8000-000000000301',
+                        stage: 'completed',
+                        stageLabel: '已完成',
+                        eventType: 'stage-completed',
+                        occurredAt: '2026-04-25T09:00:00.000Z',
+                        actorUserId: '10000000-0000-4000-8000-000000000001',
+                        actorName: '交付负责人',
+                        resultLabel: '项目完成已确认',
+                        sourceType: 'project-completion-record',
+                        sourceId: '37000000-0000-4000-8000-000000000301',
+                        evidenceLabel: '项目完成确认单',
+                        isAuthoritative: true
+                    }
+                ],
+                generatedAt: '2026-04-26T10:00:00.000Z'
+            })
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/archive-records`, async (route) => {
+        if (route.request().method() === 'POST') {
+            const requestBody = route.request().postDataJSON() as {
+                archivedAt: string;
+                archiveSummary: string;
+                evidenceSummary: string;
+            };
+            archiveCreated = true;
+            await route.fulfill({
+                status: 201,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    ...createdArchiveRecord,
+                    archivedAt: requestBody.archivedAt,
+                    archiveSummary: requestBody.archiveSummary,
+                    evidenceSummary: requestBody.evidenceSummary,
+                    allowedActions: []
+                })
+            });
+            return;
+        }
+
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify(archiveCreated ? [createdArchiveRecord] : [])
+        });
+    });
+}
+
 test.describe('poms-admin project workspace journey', () => {
     test('admin can enter from the project list and traverse the workspace through real links', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
@@ -369,6 +480,32 @@ test.describe('poms-admin project workspace journey', () => {
 
         await page.getByRole('button', { name: '撤销归档' }).click();
         await expect(page.getByRole('dialog', { name: '撤销归档记录' })).toBeVisible();
+    });
+
+    test('admin can create the first archive record from project detail opened from the project list in archive audit flow', async ({ page }) => {
+        await mockProjectArchiveCreateFlow(page);
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openProjectDetailFromList(page);
+
+        await expect(page.getByText('项目归档')).toBeVisible();
+        await expect(page.getByText('尚未形成归档记录')).toBeVisible();
+
+        await page.getByRole('button', { name: '创建归档记录' }).click();
+        const dialog = page.getByRole('dialog', { name: '创建归档记录' });
+        await expect(dialog).toBeVisible();
+        await dialog.getByLabel('归档时间').fill('2026-04-26T10:30');
+        await dialog.getByLabel('归档结论').fill('e2e 首次归档结论');
+        await dialog.getByLabel('证据摘要').fill('e2e 首次归档清单');
+        await dialog.getByRole('button', { name: '提交归档' }).click();
+
+        await expect(dialog).toBeHidden();
+        await expect(page.getByText('e2e 首次归档结论').first()).toBeVisible();
+        await expect(page.getByText('e2e 首次归档清单').first()).toBeVisible();
+        await expect(page.getByText('归档历史')).toBeVisible();
+        await expect(page.getByRole('button', { name: '替代归档' })).toBeVisible();
+        await expect(page.getByRole('button', { name: '撤销归档' })).toBeVisible();
     });
 
     test('admin can use the core workspace chain on a mobile viewport', async ({ page }) => {

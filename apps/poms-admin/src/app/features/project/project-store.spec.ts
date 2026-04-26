@@ -243,6 +243,50 @@ describe('ProjectStore', () => {
         expect(store.archiveRecordsError()).toBeNull();
     });
 
+    it('creates project archive records through generated client and refreshes detail context', async () => {
+        const detail = createDetail({ currentStage: 'completed', status: 'completed' });
+        const timeline = createTimeline();
+        const archiveRecord = createArchiveRecord();
+        const projectApiMock = {
+            projectControllerCreateProjectArchiveRecord: jest.fn().mockReturnValue(of(archiveRecord)),
+            projectControllerGetById: jest.fn().mockReturnValue(of(detail)),
+            projectControllerGetTimeline: jest.fn().mockReturnValue(of(timeline)),
+            projectControllerListProjectArchiveRecords: jest.fn().mockReturnValue(of([archiveRecord]))
+        };
+
+        TestBed.configureTestingModule({
+            providers: [
+                ProjectStore,
+                {
+                    provide: ProjectApi,
+                    useValue: projectApiMock
+                }
+            ]
+        });
+
+        const store = TestBed.inject(ProjectStore);
+
+        const result = await store.createProjectArchiveRecord('project-1', {
+            archivedAt: '2026-04-26T10:30:00.000Z',
+            archiveSummary: '首次归档结论',
+            evidenceSummary: '首次归档清单'
+        });
+
+        expect(projectApiMock.projectControllerCreateProjectArchiveRecord).toHaveBeenCalledWith({
+            projectId: 'project-1',
+            createProjectArchiveRecordRequest: {
+                archivedAt: '2026-04-26T10:30:00.000Z',
+                archiveSummary: '首次归档结论',
+                evidenceSummary: '首次归档清单'
+            }
+        });
+        expect(projectApiMock.projectControllerGetById).toHaveBeenCalledWith({ id: 'project-1' });
+        expect(projectApiMock.projectControllerGetTimeline).toHaveBeenCalledWith({ projectId: 'project-1' });
+        expect(projectApiMock.projectControllerListProjectArchiveRecords).toHaveBeenCalledWith({ projectId: 'project-1' });
+        expect(result).toEqual(archiveRecord);
+        expect(store.selectedProjectArchiveRecords()).toEqual([archiveRecord]);
+    });
+
     it('replaces project archive records through generated client and refreshes detail context', async () => {
         const detail = createDetail({ currentStage: 'completed' });
         const timeline = createTimeline();

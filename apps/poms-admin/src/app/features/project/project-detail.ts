@@ -2,7 +2,7 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -28,6 +28,12 @@ interface ReplaceArchiveForm {
     archiveSummary: string;
     evidenceSummary: string;
     replacementReason: string;
+}
+
+interface CreateArchiveForm {
+    archivedAt: string;
+    archiveSummary: string;
+    evidenceSummary: string;
 }
 
 interface VoidArchiveForm {
@@ -286,8 +292,20 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                             }
                         } @else if (archiveRecords().length > 0) {
                             <app-workspace-feedback class="mt-4 block" severity="info" summary="当前没有有效归档记录" detail="历史归档已被撤销或替代，当前项目仍需形成新的有效归档记录。" />
+                            @if (canCreateArchiveRecord(project)) {
+                                <div class="mt-4">
+                                    <p-button label="创建归档记录" icon="pi pi-plus" styleClass="rounded-md!" (onClick)="openCreateArchiveDialog(project)" />
+                                </div>
+                            } @else {
+                                <app-workspace-feedback class="mt-4 block" severity="secondary" summary="当前账号不能创建归档记录" detail="如需形成新的有效归档，请联系具备项目维护权限的负责人处理。" />
+                            }
                         } @else if (timelineError()) {
                             <app-workspace-feedback class="mt-4 block" severity="warn" summary="归档事实暂时不可用" detail="时间线读取失败，当前无法判断是否已经形成正式归档记录。" />
+                            @if (canCreateArchiveRecord(project)) {
+                                <div class="mt-4">
+                                    <p-button label="创建归档记录" icon="pi pi-plus" styleClass="rounded-md!" (onClick)="openCreateArchiveDialog(project)" />
+                                </div>
+                            }
                         } @else if (archiveSummary(project, projectTimeline()); as archive) {
                             <div class="mt-4 flex flex-wrap items-center gap-2">
                                 <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
@@ -302,6 +320,13 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                             <app-workspace-fact-grid class="mt-4 block" [items]="archiveFactItems(archive)" [columns]="4" />
                         } @else {
                             <app-workspace-feedback class="mt-4 block" severity="secondary" summary="尚未形成归档记录" [detail]="archiveGapDetail(project)" />
+                            @if (canCreateArchiveRecord(project)) {
+                                <div class="mt-4">
+                                    <p-button label="创建归档记录" icon="pi pi-plus" styleClass="rounded-md!" (onClick)="openCreateArchiveDialog(project)" />
+                                </div>
+                            } @else {
+                                <app-workspace-feedback class="mt-4 block" severity="secondary" summary="当前账号不能创建归档记录" detail="如需形成正式归档，请联系具备项目维护权限的负责人处理。" />
+                            }
                         }
 
                         @if (!archiveRecordsError() && archiveRecords().length > 0) {
@@ -545,6 +570,47 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                 </ng-template>
             </p-dialog>
 
+            <p-dialog [(visible)]="createArchiveDialogVisible" [modal]="true" header="创建归档记录" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (createArchiveError) {
+                        <app-workspace-feedback severity="error" summary="创建归档失败" [detail]="createArchiveError" />
+                    }
+
+                    <app-workspace-feedback severity="info" summary="创建后将形成当前有效归档" detail="系统会以服务端项目终态事实作为归档锚点，前端不手动选择生命周期阶段。" />
+
+                    <div class="flex flex-col gap-2">
+                        <label for="createArchiveAt" class="text-sm font-medium text-surface-900 dark:text-surface-0">归档时间</label>
+                        <input pInputText id="createArchiveAt" type="datetime-local" [(ngModel)]="createArchiveForm.archivedAt" class="w-full rounded-md!" />
+                        @if (createArchiveAttempted && !createArchiveForm.archivedAt.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写归档时间。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="createArchiveSummary" class="text-sm font-medium text-surface-900 dark:text-surface-0">归档结论</label>
+                        <textarea pTextarea id="createArchiveSummary" [(ngModel)]="createArchiveForm.archiveSummary" rows="4" class="w-full rounded-md!" placeholder="说明本次归档结论。"></textarea>
+                        @if (createArchiveAttempted && !createArchiveForm.archiveSummary.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写归档结论。</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="createArchiveEvidence" class="text-sm font-medium text-surface-900 dark:text-surface-0">证据摘要</label>
+                        <textarea pTextarea id="createArchiveEvidence" [(ngModel)]="createArchiveForm.evidenceSummary" rows="3" class="w-full rounded-md!" placeholder="说明本次归档依据。"></textarea>
+                        @if (createArchiveAttempted && !createArchiveForm.evidenceSummary.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写证据摘要。</span>
+                        }
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="closeCreateArchiveDialog()" />
+                        <p-button label="提交归档" [loading]="savingArchiveCommand()" styleClass="rounded-md!" (onClick)="createArchiveRecord()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
             <p-dialog [(visible)]="replaceArchiveDialogVisible" [modal]="true" header="替代归档记录" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-2">
                     @if (replaceArchiveError) {
@@ -633,6 +699,7 @@ export class ProjectDetail implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #projectStore = inject(ProjectStore);
+    readonly #authStore = inject(AuthStore);
 
     readonly project = this.#projectStore.selectedProject;
     readonly projectTimeline = this.#projectStore.selectedProjectTimeline;
@@ -648,6 +715,14 @@ export class ProjectDetail implements OnInit {
     editAttempted = false;
     editError: string | null = null;
     editForm: EditProjectForm = { customerName: '', customerProjectNo: '', projectName: '' };
+    createArchiveDialogVisible = false;
+    createArchiveAttempted = false;
+    createArchiveError: string | null = null;
+    createArchiveForm: CreateArchiveForm = {
+        archivedAt: '',
+        archiveSummary: '',
+        evidenceSummary: ''
+    };
     replaceArchiveDialogVisible = false;
     replaceArchiveAttempted = false;
     replaceArchiveError: string | null = null;
@@ -740,6 +815,56 @@ export class ProjectDetail implements OnInit {
             this.closeEditDialog();
         } catch {
             this.editError = '项目基本信息没有保存成功，请稍后重试。';
+        }
+    }
+
+    openCreateArchiveDialog(project: ProjectDetailView) {
+        if (!this.canCreateArchiveRecord(project)) {
+            return;
+        }
+
+        this.createArchiveForm = {
+            archivedAt: this.toDateTimeInputValue(new Date().toISOString()),
+            archiveSummary: '',
+            evidenceSummary: ''
+        };
+        this.createArchiveAttempted = false;
+        this.createArchiveError = null;
+        this.createArchiveDialogVisible = true;
+    }
+
+    closeCreateArchiveDialog() {
+        this.createArchiveDialogVisible = false;
+        this.createArchiveError = null;
+    }
+
+    async createArchiveRecord() {
+        const project = this.project();
+        if (!project || !this.canCreateArchiveRecord(project)) {
+            return;
+        }
+
+        this.createArchiveAttempted = true;
+        const archivedAt = this.normalizeDateTimeInput(this.createArchiveForm.archivedAt);
+        const archiveSummary = this.createArchiveForm.archiveSummary.trim();
+        const evidenceSummary = this.createArchiveForm.evidenceSummary.trim();
+
+        if (!archivedAt || !archiveSummary || !evidenceSummary) {
+            if (!archivedAt && this.createArchiveForm.archivedAt.trim()) {
+                this.createArchiveError = '归档时间格式不正确，请重新选择。';
+            }
+            return;
+        }
+
+        try {
+            await this.#projectStore.createProjectArchiveRecord(project.id, {
+                archivedAt,
+                archiveSummary,
+                evidenceSummary
+            });
+            this.closeCreateArchiveDialog();
+        } catch {
+            this.createArchiveError = '归档记录没有创建成功，请确认项目是否已具备有效终态事实后重试。';
         }
     }
 
@@ -856,6 +981,10 @@ export class ProjectDetail implements OnInit {
 
     canManageCommission(project: ProjectDetailView): boolean {
         return project.allowedActions.includes(PROJECT_ACTIONS.manageCommission);
+    }
+
+    canCreateArchiveRecord(project: ProjectDetailView): boolean {
+        return this.isTerminalStage(project.stageSummary.currentStage) && !this.currentArchiveRecord(this.archiveRecords()) && this.#authStore.hasAnyPermission(['project:write'] as const);
     }
 
     canReplaceArchiveRecord(record: ProjectArchiveRecordSummary): boolean {
