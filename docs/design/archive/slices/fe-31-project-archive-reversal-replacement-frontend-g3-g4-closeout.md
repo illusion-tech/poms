@@ -66,16 +66,16 @@ G4 文档收口后补充执行:
 
 ## 5. 例外关闭与转交
 
-| Exception ID                      | Status                 | Notes                                                                                                        |
-| --------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `EX34-E2-FRONTEND-DEFERRED`       | Closed                 | FE-31 已补前端入口、审计呈现、权限显隐和浏览器入口验证。                                                     |
-| `EX34A-E1-NO-FRONTEND-ENTRY`      | Closed                 | EX-34A runtime 的前端入口已由 FE-31 交付。                                                                   |
-| `FE31-E1-DETAIL-ACTION-PROXY`     | Accepted / transferred | 当前没有 dedicated archive action key；UI 使用详情页既有写动作 gate 做保守显隐，后续对象动作治理可单独拆片。 |
-| `FE31-E2-NO-ARCHIVE-CREATE-ENTRY` | Transferred            | 首次创建归档入口不属于撤销 / 替代闭环；如需产品化归档创建入口，应另开前端切片。                              |
+| Exception ID                      | Status         | Notes                                                                                  |
+| --------------------------------- | -------------- | -------------------------------------------------------------------------------------- |
+| `EX34-E2-FRONTEND-DEFERRED`       | Closed         | FE-31 已补前端入口、审计呈现、权限显隐和浏览器入口验证。                               |
+| `EX34A-E1-NO-FRONTEND-ENTRY`      | Closed         | EX-34A runtime 的前端入口已由 FE-31 交付。                                             |
+| `FE31-E1-DETAIL-ACTION-PROXY`     | Closed post-G4 | 已由 `EX-36` 关闭；项目详情归档按钮消费 `ProjectArchiveRecordSummary.allowedActions`。 |
+| `FE31-E2-NO-ARCHIVE-CREATE-ENTRY` | Closed post-G4 | 已由 `FE-32` 关闭；项目详情已提供首次创建归档入口、表单、刷新和浏览器入口链验证。      |
 
 ## 6. G4 结论
 
 - `FE-31` 可标记 `Done`。
 - 下游可以依赖项目详情页的归档审计呈现、replace / void 前端入口和 `expectedVersion=rowVersion` 提交流程。
 - `EX34-E2-FRONTEND-DEFERRED` 与 `EX34A-E1-NO-FRONTEND-ENTRY` 已由本片关闭。
-- 剩余前端产品化方向不是本片阻塞项：object-action 细粒度授权治理、首次创建归档入口。
+- 后续 `EX-36` 与 `FE-32` 已分别关闭 object-action 细粒度授权治理和首次创建归档入口缺口。
