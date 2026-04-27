@@ -4,7 +4,17 @@ import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
 const CONTRACT_ID = '31000000-0000-4000-8000-000000000421';
 
-async function mockContractList(page: Page): Promise<void> {
+function sensitiveProjection(value: string | null) {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode: value === null ? 'masked' : 'full',
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
+async function mockContractList(page: Page, signedAmount: string | null = '660000.00'): Promise<void> {
     await page.route('**/api/contracts', async (route) => {
         if (route.request().method() !== 'GET') {
             await route.fallback();
@@ -22,7 +32,8 @@ async function mockContractList(page: Page): Promise<void> {
                     contractNo: 'CT-FE42-MATRIX',
                     customerContractNo: 'KH-FE42-MATRIX',
                     status: 'active',
-                    signedAmount: '660000.00',
+                    signedAmount,
+                    signedAmountProjection: sensitiveProjection(signedAmount),
                     currencyCode: 'CNY',
                     currentSnapshotId: null,
                     signedAt: '2026-04-28T00:00:00.000Z',
@@ -78,7 +89,7 @@ test.describe('poms-admin frontend permission and sensitive visibility matrix', 
 
     test('admin can see contract finance fields from the contract menu entrance', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
-        await mockContractList(page);
+        await mockContractList(page, '660000.00');
 
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);
@@ -90,7 +101,7 @@ test.describe('poms-admin frontend permission and sensitive visibility matrix', 
 
     test('viewer can enter contracts but sees masked finance fields and no create action', async ({ page }) => {
         await login(page, VIEWER_CREDENTIALS);
-        await mockContractList(page);
+        await mockContractList(page, null);
 
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);

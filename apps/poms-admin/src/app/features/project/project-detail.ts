@@ -1,5 +1,5 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
@@ -28,7 +28,7 @@ import {
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
+import { formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 
 interface EditProjectForm {
     customerName: string;
@@ -370,11 +370,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                             </div>
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">签约金额</div>
-                                @if (canViewFinancialSensitiveFields()) {
-                                    <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ formatAmount(project.currentContractSummary.signedAmount, project.currentContractSummary.currencyCode) }}</div>
-                                } @else {
-                                    <div class="mt-1 text-sm text-surface-500 dark:text-surface-400">{{ sensitiveFieldHiddenText }}</div>
-                                }
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(project.currentContractSummary.signedAmountProjection, project.currentContractSummary.currencyCode) }}</div>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700 sm:col-span-2">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">签约时间</div>
@@ -621,8 +617,7 @@ export class ProjectDetail implements OnInit {
     readonly savingArchiveCommand = this.#projectStore.savingArchiveCommand;
     readonly timelineError = this.#projectStore.timelineError;
     readonly archiveRecordsError = this.#projectStore.archiveRecordsError;
-    readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
-    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
+    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
 
     editDialogVisible = false;
     editAttempted = false;

@@ -6,6 +6,16 @@ import type { DomainApprovalRecord } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { ContractDetail } from './contract-detail';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 function createContract(overrides: Partial<ContractDetailView> = {}): ContractDetailView {
     return {
         id: 'contract-1',
@@ -16,6 +26,7 @@ function createContract(overrides: Partial<ContractDetailView> = {}): ContractDe
         customerContractNo: 'KH-HT-2026-01',
         status: 'draft',
         signedAmount: '1200000.00',
+        signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,
         signedAt: null,
@@ -141,6 +152,12 @@ describe('ContractDetail', () => {
             ...user,
             permissions: ['project:read']
         });
+        selectedContract.set(
+            createContract({
+                signedAmount: null,
+                signedAmountProjection: sensitiveProjection(null)
+            })
+        );
         fixture.detectChanges();
 
         const text = fixture.nativeElement.textContent;

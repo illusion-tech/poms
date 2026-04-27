@@ -1,8 +1,18 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { AuthStore, type ContractHandoverSummaryView, type ProjectHandoverDetailView, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { type ContractHandoverSummaryView, type ProjectHandoverDetailView, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { ProjectContractHandover } from './project-contract-handover';
+
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
 
 function createContractHandoverSummary(): ContractHandoverSummaryView {
     return {
@@ -14,6 +24,7 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
             activeContractIds: ['contract-1'],
             contractNos: ['HT-001'],
             totalSignedAmount: '200000.00',
+            totalSignedAmountProjection: sensitiveProjection('200000.00'),
             currencyCodes: ['CNY'],
             earliestSignedAt: '2026-04-20T08:00:00.000Z',
             latestSignedAt: '2026-04-20T08:00:00.000Z',
@@ -23,6 +34,7 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
                     contractNo: 'HT-001',
                     status: 'active',
                     signedAmount: '200000.00',
+                    signedAmountProjection: sensitiveProjection('200000.00'),
                     currencyCode: 'CNY',
                     currentSnapshotId: 'snapshot-1',
                     signedAt: '2026-04-20T08:00:00.000Z'
@@ -124,7 +136,6 @@ describe('ProjectContractHandover', () => {
     let projectHandoverDetailSignal: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
-    let financeVisible: ReturnType<typeof signal<boolean>>;
     let workspaceStoreMock: {
         contractHandoverSummary: ReturnType<typeof signal<ContractHandoverSummaryView | null>>;
         projectHandoverDetail: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
@@ -138,7 +149,6 @@ describe('ProjectContractHandover', () => {
         projectHandoverDetailSignal = signal<ProjectHandoverDetailView | null>(summary ? createProjectHandoverDetail(summary) : null);
         loadingSignal = signal(false);
         errorSignal = signal(error);
-        financeVisible = signal(true);
         workspaceStoreMock = {
             contractHandoverSummary: contractHandoverSummarySignal,
             projectHandoverDetail: projectHandoverDetailSignal,
@@ -167,12 +177,6 @@ describe('ProjectContractHandover', () => {
                 {
                     provide: ProjectWorkspaceStore,
                     useValue: workspaceStoreMock
-                },
-                {
-                    provide: AuthStore,
-                    useValue: {
-                        hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('contract:finance:manage') && financeVisible())
-                    }
                 }
             ]
         }).compileComponents();
@@ -200,10 +204,14 @@ describe('ProjectContractHandover', () => {
         expect(text).toContain('仍有一名参与人待确认');
     });
 
-    it('masks contract set amount when the user lacks finance permission', async () => {
-        await setup();
-        financeVisible.set(false);
-        fixture.detectChanges();
+    it('renders contract set amount from backend projection', async () => {
+        const summary = createContractHandoverSummary();
+        summary.effectiveContractSetSummary.totalSignedAmount = null;
+        summary.effectiveContractSetSummary.totalSignedAmountProjection = sensitiveProjection(null);
+        summary.effectiveContractSetSummary.contracts[0].signedAmount = null;
+        summary.effectiveContractSetSummary.contracts[0].signedAmountProjection = sensitiveProjection(null);
+
+        await setup(summary);
 
         const text = fixture.nativeElement.textContent;
 

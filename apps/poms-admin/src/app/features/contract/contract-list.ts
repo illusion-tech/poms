@@ -14,7 +14,7 @@ import { Menu, MenuModule } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 const CONTRACT_STATUS_FILTER_VALUES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const satisfies readonly ContractStatus[];
@@ -134,11 +134,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                                 <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.customerName ?? '-' }}</span>
                             </td>
                             <td>
-                                @if (canViewFinancialSensitiveFields()) {
-                                    <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ contract.signedAmount | number: '1.2-2' }} {{ contract.currencyCode }}</span>
-                                } @else {
-                                    <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ sensitiveFieldHiddenText }}</span>
-                                }
+                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</span>
                             </td>
                             <td>
                                 <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="px-2 py-1 rounded-[6px]" />
@@ -283,7 +279,7 @@ export class ContractList implements OnInit {
     rows = 10;
     selectedContract = signal<ContractSummary | null>(null);
     readonly statusColumnFilterOptions = CONTRACT_STATUS_FILTER_OPTIONS;
-    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
+    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
     readonly canManageContractFinance = this.canViewFinancialSensitiveFields;
 

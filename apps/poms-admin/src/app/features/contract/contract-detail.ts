@@ -13,7 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT, formatSensitiveAmountProjection, isSensitiveProjectionFull } from '../../shared/ui/sensitive-visibility';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 @Component({
@@ -112,11 +112,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">签约金额</span>
-                                @if (canReadContractSignedAmount()) {
-                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.signedAmount | number: '1.2-2' }} {{ contract()!.currencyCode }}</span>
-                                } @else {
-                                    <span class="text-sm text-surface-500 dark:text-surface-400">{{ sensitiveFieldHiddenText }}</span>
-                                }
+                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(contract()!.signedAmountProjection, contract()!.currencyCode) }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">合同状态</span>
@@ -189,38 +185,36 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                     <!-- Audit Info -->
                     <section-card class="xl:col-span-2">
                         <ng-template #title>核心条款</ng-template>
-                        @if (!canViewFinancialSensitiveFields()) {
-                            <p-message severity="info" [text]="sensitiveFieldHiddenText" styleClass="mt-4 w-full" />
-                        } @else if (contract()!.currentTermSnapshot; as snapshot) {
+                        @if (contract()!.currentTermSnapshot; as snapshot) {
                             <div class="grid grid-cols-2 gap-4 mt-4">
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.taxRate ? (+snapshot.taxRate * 100 | number: '1.2-2') + '%' : '-' }}
+                                        {{ canManageContractFinance() ? (snapshot.taxRate ? (+snapshot.taxRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">含税金额</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.amountTaxInclusive ?? '-' }}
+                                        {{ formatSensitiveAmountProjection(snapshot.amountTaxInclusiveProjection, contract()!.currencyCode) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">未税金额</span>
                                     <span class="text-sm text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.amountTaxExclusive ?? '-' }}
+                                        {{ formatSensitiveAmountProjection(snapshot.amountTaxExclusiveProjection, contract()!.currencyCode) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">首付款比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.downPaymentRate ? (+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%' : '-' }}
+                                        {{ canManageContractFinance() ? (snapshot.downPaymentRate ? (+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">质保金比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.retentionRate ? (+snapshot.retentionRate * 100 | number: '1.2-2') + '%' : '-' }}
+                                        {{ canManageContractFinance() ? (snapshot.retentionRate ? (+snapshot.retentionRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
@@ -232,7 +226,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                                 <div class="flex flex-col gap-1 xl:col-span-2">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">付款条款</span>
                                     <span class="text-sm text-surface-950 dark:text-surface-0 whitespace-pre-wrap">
-                                        {{ snapshot.paymentTerms ?? '-' }}
+                                        {{ canManageContractFinance() ? (snapshot.paymentTerms ?? '-') : sensitiveFieldHiddenText }}
                                     </span>
                                 </div>
                             </div>
@@ -406,14 +400,15 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly saving = this.#contractStore.saving;
     readonly currentUser = computed(() => this.#authStore.currentUser());
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
-    readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
+    readonly canManageContractFinance = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
     readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
-    readonly canReadContractSignedAmount = computed(() => this.canViewFinancialSensitiveFields() && typeof this.contract()?.signedAmount === 'string');
-    readonly canEditContract = computed(() => this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
-    readonly canSubmitReview = computed(() => this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
+    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
+    readonly canReadContractSignedAmount = computed(() => isSensitiveProjectionFull(this.contract()?.signedAmountProjection));
+    readonly canEditContract = computed(() => this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
+    readonly canSubmitReview = computed(() => this.canManageContractFinance() && this.contract()?.status === 'draft');
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
-    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.canViewFinancialSensitiveFields());
+    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.canManageContractFinance());
     readonly approvalStatusLabel = computed(() => {
         const status = this.currentApproval()?.currentStatus;
         return status ? this.getApprovalStatusName(status) : null;

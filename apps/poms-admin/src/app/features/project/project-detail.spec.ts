@@ -4,6 +4,16 @@ import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
@@ -48,6 +58,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
             latestContractNo: 'HT-2026-001',
             latestContractStatus: 'active',
             signedAmount: '123456.78',
+            signedAmountProjection: sensitiveProjection('123456.78'),
             currencyCode: 'CNY',
             signedAt: '2026-04-18T00:00:00.000Z',
             currentSnapshotId: 'snapshot-1'
@@ -348,8 +359,21 @@ describe('ProjectDetail', () => {
         expect(routerMock.navigate).not.toHaveBeenCalledWith(['/projects', 'project-1', 'commission', 'operations']);
     });
 
-    it('masks current contract amount when the user lacks finance permission', async () => {
-        await setup(createProject(), null, null, [], true, false);
+    it('renders current contract amount from backend projection', async () => {
+        await setup(
+            createProject({
+                currentContractSummary: {
+                    ...createProject().currentContractSummary,
+                    signedAmount: null,
+                    signedAmountProjection: sensitiveProjection(null)
+                }
+            }),
+            null,
+            null,
+            [],
+            true,
+            true
+        );
 
         const text = fixture.nativeElement.textContent;
 

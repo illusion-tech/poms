@@ -5,6 +5,16 @@ import { AuthStore, ContractStore, ProjectStore, type ContractSummary, type Proj
 import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 function createContract(overrides: Partial<ContractSummary> = {}): ContractSummary {
     return {
         id: 'contract-1',
@@ -15,6 +25,7 @@ function createContract(overrides: Partial<ContractSummary> = {}): ContractSumma
         customerContractNo: 'KH-HT-2026-01',
         status: 'draft',
         signedAmount: '1200000.00',
+        signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,
         signedAt: null,
@@ -145,7 +156,13 @@ describe('ContractList', () => {
         ]);
     });
 
-    it('masks contract amount and hides creation when the user lacks finance permission', () => {
+    it('renders contract amount from backend projection and hides creation by command permission', () => {
+        contractStoreMock.contracts.set([
+            createContract({
+                signedAmount: null,
+                signedAmountProjection: sensitiveProjection(null)
+            })
+        ]);
         financeVisible.set(false);
         fixture.detectChanges();
 
