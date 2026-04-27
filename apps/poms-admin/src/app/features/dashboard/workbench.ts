@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore, ProjectStore, TodoItemSummary } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, type TodoItemSummary } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { resolveTodoNavigationTarget } from '../../shared/navigation/todo-navigation';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
@@ -81,8 +82,10 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                             </div>
                         } @else {
                             @for (todo of myTodos(); track todo.id) {
-                                <div
-                                    class="flex items-start gap-3 p-3 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors cursor-pointer"
+                                <button
+                                    type="button"
+                                    class="flex w-full items-start gap-3 rounded-xl border border-surface-200 bg-surface-50 p-3 text-left transition-colors enabled:cursor-pointer enabled:hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-70 dark:border-surface-700 dark:bg-surface-800 dark:enabled:hover:bg-surface-700"
+                                    [disabled]="!canNavigateTodo(todo)"
                                     (click)="navigateToTodo(todo)"
                                 >
                                     <div class="w-8 h-8 flex items-center justify-center rounded-lg shrink-0" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
@@ -97,8 +100,11 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                                                 <span class="text-xs text-surface-400 dark:text-surface-500 truncate">{{ todo.targetTitle }}</span>
                                             }
                                         </div>
+                                        @if (todoNavigationHint(todo); as hint) {
+                                            <span class="mt-1 block text-xs text-surface-400 dark:text-surface-500">{{ hint }}</span>
+                                        }
                                     </div>
-                                </div>
+                                </button>
                             }
                         }
                     </div>
@@ -134,25 +140,21 @@ export class Workbench implements OnInit {
     }
 
     navigateToTodo(todo: TodoItemSummary) {
-        if (todo.targetObjectType === 'Contract') {
-            this.#router.navigate(['/contracts', todo.targetObjectId]);
-        } else if (todo.targetObjectType === 'Project') {
-            this.#router.navigate(['/projects', todo.targetObjectId]);
-        } else if (todo.targetObjectType === 'CommissionPayout' && todo.projectId) {
-            this.#router.navigate(['/projects', todo.projectId, 'commission'], {
-                queryParams: {
-                    payoutId: todo.targetObjectId,
-                    approvalRecordId: todo.sourceType === 'ApprovalRecord' ? todo.sourceId : null
-                }
-            });
-        } else if (todo.targetObjectType === 'CommissionAdjustment' && todo.projectId) {
-            this.#router.navigate(['/projects', todo.projectId, 'commission'], {
-                queryParams: {
-                    adjustmentId: todo.targetObjectId,
-                    approvalRecordId: todo.sourceType === 'ApprovalRecord' ? todo.sourceId : null
-                }
-            });
+        const target = resolveTodoNavigationTarget(todo);
+        if (!target.navigable) {
+            return;
         }
+
+        this.#router.navigate(target.commands, target.queryParams ? { queryParams: target.queryParams } : undefined);
+    }
+
+    canNavigateTodo(todo: TodoItemSummary) {
+        return resolveTodoNavigationTarget(todo).navigable;
+    }
+
+    todoNavigationHint(todo: TodoItemSummary) {
+        const target = resolveTodoNavigationTarget(todo);
+        return target.navigable ? null : target.reason;
     }
 
     getStageName(stage: string): string {

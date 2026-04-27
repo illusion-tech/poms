@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthStore, TodoItemSummary } from '@poms/admin-data-access';
+import { AuthStore, type TodoItemSummary } from '@poms/admin-data-access';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
+import { resolveTodoNavigationTarget } from '../../shared/navigation/todo-navigation';
 import { LayoutService } from '../service/layout.service';
 import { AppBreadcrumb } from './app.breadcrumb';
 
@@ -35,7 +36,16 @@ import { AppBreadcrumb } from './app.breadcrumb';
                     <button class="app-config-button" (click)="onConfigButtonClick()"><i class="pi pi-cog"></i></button>
                 </li>
                 <li class="right-sidebar-item static sm:relative">
-                    <a class="right-sidebar-button relative z-50" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveActiveClass="animate-fadeout" leaveToClass="hidden" [hideOnOutsideClick]="true">
+                    <a
+                        class="right-sidebar-button relative z-50"
+                        aria-label="待办事项"
+                        pStyleClass="@next"
+                        enterFromClass="hidden"
+                        enterActiveClass="animate-scalein"
+                        leaveActiveClass="animate-fadeout"
+                        leaveToClass="hidden"
+                        [hideOnOutsideClick]="true"
+                    >
                         @if (openTodosCount() > 0) {
                             <span class="w-2 h-2 rounded-full bg-red-500 absolute top-2 right-2.5"></span>
                         }
@@ -59,30 +69,38 @@ import { AppBreadcrumb } from './app.breadcrumb';
                         } @else {
                             <ul class="flex flex-col gap-4 max-h-80 overflow-y-auto">
                                 @for (todo of myTodos(); track todo.id) {
-                                    <li
-                                        class="flex gap-3 p-3 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors cursor-pointer"
-                                        (click)="navigateToTodo(todo)"
-                                    >
-                                        <div class="flex items-start pt-0.5">
-                                            <div class="w-8 h-8 flex items-center justify-center rounded-lg" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
-                                                <i class="pi text-sm" [ngClass]="todo.status === 'open' ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="flex w-full gap-3 rounded-xl border border-surface-200 bg-surface-50 p-3 text-left transition-colors enabled:cursor-pointer enabled:hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-70 dark:border-surface-700 dark:bg-surface-800 dark:enabled:hover:bg-surface-700"
+                                            [disabled]="!canNavigateTodo(todo)"
+                                            [attr.aria-label]="todo.title"
+                                            (click)="navigateToTodo(todo)"
+                                        >
+                                            <div class="flex items-start pt-0.5">
+                                                <div class="w-8 h-8 flex items-center justify-center rounded-lg" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
+                                                    <i class="pi text-sm" [ngClass]="todo.status === 'open' ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center justify-between gap-2">
-                                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ todo.title }}</span>
-                                            </div>
-                                            @if (todo.currentNodeName) {
-                                                <span class="text-xs text-surface-500 dark:text-surface-400">{{ todo.currentNodeName }}</span>
-                                            }
-                                            <div class="flex items-center gap-2 mt-1.5">
-                                                <span class="text-xs text-surface-400 dark:text-surface-500">{{ todo.businessDomain }}</span>
-                                                @if (todo.targetTitle) {
-                                                    <span class="text-xs text-surface-300 dark:text-surface-600">&middot;</span>
-                                                    <span class="text-xs text-surface-400 dark:text-surface-500 truncate">{{ todo.targetTitle }}</span>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between gap-2">
+                                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate">{{ todo.title }}</span>
+                                                </div>
+                                                @if (todo.currentNodeName) {
+                                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ todo.currentNodeName }}</span>
+                                                }
+                                                <div class="flex items-center gap-2 mt-1.5">
+                                                    <span class="text-xs text-surface-400 dark:text-surface-500">{{ todo.businessDomain }}</span>
+                                                    @if (todo.targetTitle) {
+                                                        <span class="text-xs text-surface-300 dark:text-surface-600">&middot;</span>
+                                                        <span class="text-xs text-surface-400 dark:text-surface-500 truncate">{{ todo.targetTitle }}</span>
+                                                    }
+                                                </div>
+                                                @if (todoNavigationHint(todo); as hint) {
+                                                    <span class="mt-1 block text-xs text-surface-400 dark:text-surface-500">{{ hint }}</span>
                                                 }
                                             </div>
-                                        </div>
+                                        </button>
                                     </li>
                                 }
                             </ul>
@@ -150,11 +168,21 @@ export class AppTopbar {
     }
 
     navigateToTodo(todo: TodoItemSummary) {
-        if (todo.targetObjectType === 'Contract') {
-            this.#router.navigate(['/contracts', todo.targetObjectId]);
-        } else if (todo.targetObjectType === 'Project') {
-            this.#router.navigate(['/projects', todo.targetObjectId]);
+        const target = resolveTodoNavigationTarget(todo);
+        if (!target.navigable) {
+            return;
         }
+
+        this.#router.navigate(target.commands, target.queryParams ? { queryParams: target.queryParams } : undefined);
+    }
+
+    canNavigateTodo(todo: TodoItemSummary) {
+        return resolveTodoNavigationTarget(todo).navigable;
+    }
+
+    todoNavigationHint(todo: TodoItemSummary) {
+        const target = resolveTodoNavigationTarget(todo);
+        return target.navigable ? null : target.reason;
     }
 
     @ViewChild('menubutton') menuButton!: ElementRef;

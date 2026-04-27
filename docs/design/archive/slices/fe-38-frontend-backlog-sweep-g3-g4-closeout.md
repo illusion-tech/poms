@@ -22,11 +22,11 @@
 
 ## 2. G4 判定
 
-| 项目 | 结果 | 证据 |
-| --- | --- | --- |
-| Committed boundary | Pass | `9955cb8` 已提交 `FE-38` G1/G3 sweep、tracker 和 progress 回写。 |
-| Tracker update | Pass | `FE-38` 标记为 `Done / G4`；`FE-39` 到 `FE-42` 保持 `Todo / G0`。 |
-| Runtime drift | Pass | 本片不改 runtime code，无 API / route / permission / data-access drift。 |
+| 项目                 | 结果 | 证据                                                                                         |
+| -------------------- | ---- | -------------------------------------------------------------------------------------------- |
+| Committed boundary   | Pass | `9955cb8` 已提交 `FE-38` G1/G3 sweep、tracker 和 progress 回写。                             |
+| Tracker update       | Pass | `FE-38` 标记为 `Done / G4`；`FE-39` 到 `FE-42` 保持 `Todo / G0`。                            |
+| Runtime drift        | Pass | 本片不改 runtime code，无 API / route / permission / data-access drift。                     |
 | Downstream readiness | Pass | `FE-39` 可作为下一片进入 `G1`；`FE-40`、`FE-41`、`FE-42` 已有 tracker 行但仍需各自 G1 冻结。 |
 
 ---
@@ -44,9 +44,9 @@
 
 ## 4. 例外与风险
 
-| ID | 状态 | 说明 |
-| --- | --- | --- |
-| 无 | N/A | `FE-38` 不保留开放例外。 |
+| ID  | 状态 | 说明                     |
+| --- | ---- | ------------------------ |
+| 无  | N/A  | `FE-38` 不保留开放例外。 |
 
 ---
 
