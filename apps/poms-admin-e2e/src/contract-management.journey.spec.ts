@@ -36,7 +36,27 @@ async function mockContractProjectPickerFlow(page: Page): Promise<{ createBody: 
         if (route.request().method() === 'GET') {
             await route.fulfill({
                 contentType: 'application/json',
-                body: JSON.stringify([])
+                body: JSON.stringify([
+                    {
+                        id: 'contract-list-1',
+                        projectId: PICKER_PROJECT_ID,
+                        projectName: project.projectName,
+                        customerName: project.customerName,
+                        contractNo: 'CT-E2E-LIST',
+                        customerContractNo: 'KH-E2E-LIST',
+                        status: 'active',
+                        signedAmount: '660000.00',
+                        currencyCode: 'CNY',
+                        currentSnapshotId: null,
+                        signedAt: '2026-04-26T00:00:00.000Z',
+                        retentionDueDate: null,
+                        rowVersion: 2,
+                        createdAt: '2026-04-26T09:00:00.000Z',
+                        createdBy: '10000000-0000-4000-8000-000000000001',
+                        updatedAt: '2026-04-26T09:30:00.000Z',
+                        updatedBy: '10000000-0000-4000-8000-000000000001'
+                    }
+                ])
             });
             return;
         }
@@ -86,17 +106,27 @@ test.describe('poms-admin contract management journey', () => {
 
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);
+        await expect(page.getByRole('button', { name: '清空筛选' })).toBeVisible();
+        await expect(page.getByPlaceholder('搜索合同、项目、客户')).toBeVisible();
+        await expect(page.getByText('CT-E2E-LIST')).toBeVisible();
+
+        await page.getByPlaceholder('搜索合同、项目、客户').fill('KH-E2E-LIST');
+        await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('KH-E2E-LIST');
+        await expect(page.getByText('KH-E2E-LIST')).toBeVisible();
+        await page.getByRole('button', { name: '清空筛选' }).click();
+        await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('');
 
         await page.getByRole('button', { name: '新建合同' }).click();
-        await expect(page.getByRole('dialog', { name: '新建合同' })).toBeVisible();
+        const createDialog = page.getByRole('dialog', { name: '新建合同' });
+        await expect(createDialog).toBeVisible();
         await expect(page.getByText('关联项目 ID')).toHaveCount(0);
         await expect(page.getByPlaceholder('请输入项目 UUID')).toHaveCount(0);
 
         await page.getByLabel('关联项目').fill('P-E2E-PICKER');
         await page.locator('li').filter({ hasText: 'P-E2E-PICKER' }).first().click();
-        await expect(page.getByText('P-E2E-PICKER · 合同选择器项目')).toBeVisible();
-        await expect(page.getByText('合同客户集团', { exact: true })).toBeVisible();
-        await expect(page.getByText('项目移交', { exact: true })).toBeVisible();
+        await expect(createDialog.getByText('P-E2E-PICKER · 合同选择器项目')).toBeVisible();
+        await expect(createDialog.getByText('合同客户集团', { exact: true })).toBeVisible();
+        await expect(createDialog.getByText('项目移交', { exact: true })).toBeVisible();
 
         await page.getByLabel('客户合同编号').fill('KH-E2E-PICKER');
         await page.getByLabel('签约金额').fill('880000.00');

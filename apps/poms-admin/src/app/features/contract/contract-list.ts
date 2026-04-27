@@ -16,6 +16,12 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
+const CONTRACT_STATUS_FILTER_VALUES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const satisfies readonly ContractStatus[];
+const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value) => ({
+    label: contractStatusLabelOrFallback(value),
+    value
+}));
+
 @Component({
     selector: 'app-contract-list',
     standalone: true,
@@ -28,11 +34,6 @@ import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projec
                 <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">合同管理</h1>
 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                    <p-iconfield class="w-full sm:w-[217px]">
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同" class="w-full! py-2! rounded-xl!" />
-                    </p-iconfield>
-
                     <p-button icon="pi pi-plus" label="新建合同" severity="primary" [rounded]="true" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
                 </div>
             </div>
@@ -46,35 +47,70 @@ import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projec
                     [paginator]="true"
                     [rows]="rows"
                     [first]="first"
+                    [rowHover]="true"
+                    [showGridlines]="true"
+                    dataKey="id"
                     sortMode="multiple"
-                    [tableStyle]="{ width: '100%' }"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{ width: '100%', 'min-width': '76rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
                     [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
                     class="bg-surface-0 dark:bg-surface-800 overflow-hidden"
-                    [pt]="{ pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
+                    <ng-template #caption>
+                        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
+                                <p-iconfield class="w-full sm:w-80">
+                                    <p-inputicon class="pi pi-search" />
+                                    <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同、项目、客户" class="w-full! rounded-md! py-2!" />
+                                </p-iconfield>
+                            </div>
+                            <div class="text-sm text-surface-500 dark:text-surface-400">当前共 {{ contracts().length }} 份合同</div>
+                        </div>
+                    </ng-template>
                     <ng-template #header>
                         <tr>
-                            <th pSortableColumn="contractNo" class="flex-1">
-                                <span class="flex items-center gap-2">POMS 合同编号 <p-sortIcon field="contractNo" /></span>
+                            <th pSortableColumn="contractNo" class="min-w-48">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">POMS 合同编号 <p-sortIcon field="contractNo" /></span>
+                                    <p-columnFilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
+                                </div>
                             </th>
-                            <th pSortableColumn="customerContractNo" class="flex-1">
-                                <span class="flex items-center gap-2">客户合同编号 <p-sortIcon field="customerContractNo" /></span>
+                            <th pSortableColumn="customerContractNo" class="min-w-48">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">客户合同编号 <p-sortIcon field="customerContractNo" /></span>
+                                    <p-columnFilter type="text" field="customerContractNo" display="menu" placeholder="按客户编号筛选" />
+                                </div>
                             </th>
-                            <th pSortableColumn="projectName" class="flex-1">
-                                <span class="flex items-center gap-2">项目名称 <p-sortIcon field="projectName" /></span>
+                            <th pSortableColumn="projectName" class="min-w-56">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">项目名称 <p-sortIcon field="projectName" /></span>
+                                    <p-columnFilter type="text" field="projectName" display="menu" placeholder="按项目筛选" />
+                                </div>
                             </th>
-                            <th pSortableColumn="customerName" class="flex-1">
-                                <span class="flex items-center gap-2">客户名称 <p-sortIcon field="customerName" /></span>
+                            <th pSortableColumn="customerName" class="min-w-48">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">客户名称 <p-sortIcon field="customerName" /></span>
+                                    <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
+                                </div>
                             </th>
-                            <th pSortableColumn="signedAmount" class="flex-1">
+                            <th pSortableColumn="signedAmount" class="min-w-40">
                                 <span class="flex items-center gap-2">签约金额 <p-sortIcon field="signedAmount" /></span>
                             </th>
-                            <th pSortableColumn="status" class="flex-1">
-                                <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                            <th pSortableColumn="status" class="min-w-40">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                                    <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template #filter let-value let-filter="filterCallback">
+                                            <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-44" />
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
                             </th>
-                            <th pSortableColumn="signedAt" class="flex-1">
+                            <th pSortableColumn="signedAt" class="min-w-40">
                                 <span class="flex items-center gap-2">签约日期 <p-sortIcon field="signedAt" /></span>
                             </th>
                             <th style="width: 6rem">操作</th>
@@ -114,8 +150,13 @@ import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projec
                         <tr>
                             <td colspan="8" class="text-center py-8">
                                 <i class="pi pi-inbox text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
-                                <span class="text-surface-500 dark:text-surface-400">暂无合同数据</span>
+                                <span class="text-surface-500 dark:text-surface-400">暂无匹配合同</span>
                             </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #loadingbody>
+                        <tr>
+                            <td colspan="8" class="py-8 text-center text-surface-500 dark:text-surface-400">正在读取合同列表</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -233,6 +274,7 @@ export class ContractList implements OnInit {
     first = 0;
     rows = 10;
     selectedContract = signal<ContractSummary | null>(null);
+    readonly statusColumnFilterOptions = CONTRACT_STATUS_FILTER_OPTIONS;
 
     createDialogVisible = false;
     createSubmitAttempted = false;
@@ -269,6 +311,13 @@ export class ContractList implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        this.first = 0;
+    }
+
+    clearFilters(table: Table) {
+        this.searchValue = '';
+        this.first = 0;
+        table.clear();
     }
 
     navigateToDetail(contract: ContractSummary) {

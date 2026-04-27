@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
 function createContract(overrides: Partial<ContractSummary> = {}): ContractSummary {
@@ -112,10 +113,38 @@ describe('ContractList', () => {
 
         expect(contractStoreMock.loadContracts).toHaveBeenCalled();
         expect(projectStoreMock.loadProjects).toHaveBeenCalled();
+        expect(text).toContain('清空筛选');
+        expect(fixture.nativeElement.querySelector('input[placeholder="搜索合同、项目、客户"]')).not.toBeNull();
         expect(text).toContain('POMS 合同编号');
         expect(text).toContain('客户合同编号');
         expect(text).toContain('CT-2026-000001');
         expect(text).toContain('KH-HT-2026-01');
+    });
+
+    it('uses the table-demo filter baseline inside the PrimeNG table', () => {
+        const columnFilters = fixture.nativeElement.querySelectorAll('p-columnfilter');
+
+        expect(columnFilters.length).toBeGreaterThanOrEqual(5);
+        expect(fixture.nativeElement.textContent).toContain('当前共 1 份合同');
+        expect(component.statusColumnFilterOptions).toEqual([
+            { label: '草稿', value: 'draft' },
+            { label: '待审核', value: 'pending-review' },
+            { label: '已生效', value: 'active' },
+            { label: '已终止', value: 'terminated' },
+            { label: '已完成', value: 'completed' }
+        ]);
+    });
+
+    it('clears table filters and resets pagination state', () => {
+        const table = { clear: jest.fn() } as unknown as Table;
+        component.searchValue = 'KH-HT';
+        component.first = 10;
+
+        component.clearFilters(table);
+
+        expect(component.searchValue).toBe('');
+        expect(component.first).toBe(0);
+        expect(table.clear).toHaveBeenCalled();
     });
 
     it('renders project picker context without exposing a raw project UUID input', () => {
