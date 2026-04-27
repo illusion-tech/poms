@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit, signal, type WritableSignal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal, type WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -45,6 +46,7 @@ import {
 } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { buildCommissionTodoDeepLinkContext, type CommissionTodoDeepLinkQuery } from './commission-todo-deeplink';
 
 type CommissionPayoutRow = ReturnType<CommissionStore['payouts']>[number];
 type CommissionAdjustmentRow = ReturnType<CommissionStore['adjustments']>[number];
@@ -77,6 +79,33 @@ const TEMPLATE = `
                     <p-button label="刷新" icon="pi pi-refresh" severity="secondary" [outlined]="true" [rounded]="true" (onClick)="reload()" class="cursor-pointer" />
                 </div>
             </div>
+
+            @if (todoDeepLinkContext(); as context) {
+                <section-card data-testid="commission-todo-context">
+                    <ng-template #title>待办上下文</ng-template>
+                    <div class="mt-4 flex flex-col gap-4">
+                        <app-workspace-feedback [severity]="context.targetFound ? 'info' : 'warn'" [summary]="context.summary" [detail]="context.detail" />
+                        <div class="grid grid-cols-1 gap-3 md:grid-cols-4">
+                            <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-700 dark:bg-surface-900">
+                                <div class="text-xs text-surface-400 dark:text-surface-500">目标类型</div>
+                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ context.targetLabel }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-700 dark:bg-surface-900">
+                                <div class="text-xs text-surface-400 dark:text-surface-500">目标对象</div>
+                                <div class="mt-1 break-all font-medium text-surface-950 dark:text-surface-0">{{ context.todoTargetTitle ?? context.targetId }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-700 dark:bg-surface-900">
+                                <div class="text-xs text-surface-400 dark:text-surface-500">审批记录</div>
+                                <div class="mt-1 break-all font-medium text-surface-950 dark:text-surface-0">{{ context.approvalRecordId ?? '暂无' }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-700 dark:bg-surface-900">
+                                <div class="text-xs text-surface-400 dark:text-surface-500">当前节点</div>
+                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ context.currentNodeName ?? '暂无待办摘要' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </section-card>
+            }
 
             <section-card>
                 <ng-template #title>当前状态</ng-template>
@@ -172,7 +201,7 @@ const TEMPLATE = `
                         </ng-template>
                         <ng-template #header><tr><th>阶段</th><th>档位</th><th>理论上限</th><th>状态</th><th style="width: 7rem">操作</th></tr></ng-template>
                         <ng-template #body let-item>
-                            <tr [ngClass]="highlightedPayoutId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
+                            <tr [attr.data-testid]="highlightedPayoutId() === item.id ? 'commission-payout-highlighted-row' : null" [ngClass]="highlightedPayoutId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                                 <td><div class="flex flex-col gap-2"><span>{{ getStageLabel(item.stageType) }}</span><p-tag [value]="getPayoutKindLabel(item.payoutKind)" severity="secondary" /></div></td>
                                 <td>{{ getTierLabel(item.selectedTier) }}</td>
                                 <td>{{ formatAmount(item.theoreticalCapAmount) }}</td>
@@ -218,7 +247,7 @@ const TEMPLATE = `
                     </ng-template>
                     <ng-template #header><tr><th>类型</th><th>关联对象</th><th>金额</th><th>状态</th><th>原因</th><th style="width: 7rem">操作</th></tr></ng-template>
                     <ng-template #body let-item>
-                        <tr [ngClass]="highlightedAdjustmentId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
+                        <tr [attr.data-testid]="highlightedAdjustmentId() === item.id ? 'commission-adjustment-highlighted-row' : null" [ngClass]="highlightedAdjustmentId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                             <td>{{ getAdjustmentTypeLabel(item.adjustmentType) }}</td>
                             <td>{{ getAdjustmentTargetLabel(item.relatedPayoutId, item.relatedCalculationId) }}</td>
                             <td>{{ formatAmount(item.amount) }}</td>
@@ -311,6 +340,7 @@ const TEMPLATE = `
 export class ProjectCommission implements OnInit, OnDestroy {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
+    readonly #destroyRef = inject(DestroyRef);
     readonly #messageService = inject(MessageService);
     readonly #authStore = inject(AuthStore);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
@@ -390,8 +420,21 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly adjustmentSearchValue = signal('');
     readonly payoutActionItems = signal<MenuItem[]>([]);
     readonly adjustmentActionItems = signal<MenuItem[]>([]);
-    readonly highlightedPayoutId = signal<string | null>(null);
-    readonly highlightedAdjustmentId = signal<string | null>(null);
+    readonly todoDeepLinkQuery = signal<CommissionTodoDeepLinkQuery>({
+        payoutId: null,
+        adjustmentId: null,
+        approvalRecordId: null
+    });
+    readonly todoDeepLinkContext = computed(() =>
+        buildCommissionTodoDeepLinkContext({
+            query: this.todoDeepLinkQuery(),
+            todos: this.#authStore.myTodos(),
+            payoutIds: new Set(this.payouts().map((item) => item.id)),
+            adjustmentIds: new Set(this.adjustments().map((item) => item.id))
+        })
+    );
+    readonly highlightedPayoutId = computed(() => this.todoDeepLinkContext()?.highlightPayoutId ?? null);
+    readonly highlightedAdjustmentId = computed(() => this.todoDeepLinkContext()?.highlightAdjustmentId ?? null);
     triggerDialogVisible = false;
     recalculateDialogVisible = false;
     createPayoutDialogVisible = false;
@@ -414,10 +457,13 @@ export class ProjectCommission implements OnInit, OnDestroy {
 
     ngOnInit() {
         const projectId = this.projectId();
-        const payoutId = this.#route.snapshot.queryParamMap.get('payoutId');
-        const adjustmentId = this.#route.snapshot.queryParamMap.get('adjustmentId');
-        if (payoutId) this.highlightedPayoutId.set(payoutId);
-        if (adjustmentId) this.highlightedAdjustmentId.set(adjustmentId);
+        this.#route.queryParamMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
+            this.todoDeepLinkQuery.set({
+                payoutId: params.get('payoutId'),
+                adjustmentId: params.get('adjustmentId'),
+                approvalRecordId: params.get('approvalRecordId')
+            });
+        });
         if (projectId) {
             void this.commissionStore.reload(projectId);
             void this.#workspaceStore.loadCommissionFinalSettlement(projectId).catch(() => undefined);

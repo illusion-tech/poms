@@ -50,16 +50,16 @@
 
 ## 3. 正式输入
 
-| 输入 | 文件 / 证据 | 当前事实 | FE-39 使用方式 |
-| --- | --- | --- | --- |
-| Tracker | `phase2-development-execution-tracker.md` | `FE-39` 已由 `FE-38` 创建为 `Todo / G0`。 | 本基线通过后转为 `Doing / G1`。 |
-| 前置 sweep | `fe-38-frontend-backlog-sweep-g1-g3.md` | 已确认工作台 / 顶栏待办行为不一致。 | 作为 FE-39 问题来源。 |
-| Todo contract | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/shared/api-client/model/todo-item-summary.ts` | `targetObjectType`、`sourceType`、`status` 仍是 plain string；`projectId` 可为 null。 | 前端 helper 必须显式白名单解析并处理不可导航状态。 |
-| Auth store | `libs/admin/data-access/src/lib/auth/auth.store.ts` | `AuthStore` 在 login / initialize 时加载 `/me/todos`，并提供 `myTodos()` 与 `openTodosCount()`。 | 不新增 store；工作台和顶栏继续消费现有状态。 |
-| Workbench | `apps/poms-admin/src/app/features/dashboard/workbench.ts` | 支持四类 target，但提成 target route 不精确。 | 改为消费共享 helper。 |
-| Topbar | `apps/poms-admin/src/app/layout/components/app.topbar.ts` | 只支持 `Contract` / `Project`。 | 改为消费共享 helper。 |
-| Commission operations | `apps/poms-admin/src/app/features/commission/project-commission.ts` | 已读取 `payoutId` / `adjustmentId` query params 并设置高亮 signal。 | FE-39 只保证 URL 进入 operations，体验深化留给 FE-40。 |
-| Routes | `apps/poms-admin/src/app.routes.ts` | `/projects/:id/commission/operations` 是提成操作正式子路由。 | 作为提成待办导航目标。 |
+| 输入                  | 文件 / 证据                                                                                              | 当前事实                                                                                         | FE-39 使用方式                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| Tracker               | `phase2-development-execution-tracker.md`                                                                | `FE-39` 已由 `FE-38` 创建为 `Todo / G0`。                                                        | 本基线通过后转为 `Doing / G1`。                        |
+| 前置 sweep            | `fe-38-frontend-backlog-sweep-g1-g3.md`                                                                  | 已确认工作台 / 顶栏待办行为不一致。                                                              | 作为 FE-39 问题来源。                                  |
+| Todo contract         | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/shared/api-client/model/todo-item-summary.ts` | `targetObjectType`、`sourceType`、`status` 仍是 plain string；`projectId` 可为 null。            | 前端 helper 必须显式白名单解析并处理不可导航状态。     |
+| Auth store            | `libs/admin/data-access/src/lib/auth/auth.store.ts`                                                      | `AuthStore` 在 login / initialize 时加载 `/me/todos`，并提供 `myTodos()` 与 `openTodosCount()`。 | 不新增 store；工作台和顶栏继续消费现有状态。           |
+| Workbench             | `apps/poms-admin/src/app/features/dashboard/workbench.ts`                                                | 支持四类 target，但提成 target route 不精确。                                                    | 改为消费共享 helper。                                  |
+| Topbar                | `apps/poms-admin/src/app/layout/components/app.topbar.ts`                                                | 只支持 `Contract` / `Project`。                                                                  | 改为消费共享 helper。                                  |
+| Commission operations | `apps/poms-admin/src/app/features/commission/project-commission.ts`                                      | 已读取 `payoutId` / `adjustmentId` query params 并设置高亮 signal。                              | FE-39 只保证 URL 进入 operations，体验深化留给 FE-40。 |
+| Routes                | `apps/poms-admin/src/app.routes.ts`                                                                      | `/projects/:id/commission/operations` 是提成操作正式子路由。                                     | 作为提成待办导航目标。                                 |
 
 ---
 
@@ -69,22 +69,22 @@
 
 `FE-39` 不允许把 `targetObjectType: string` 当成开放路由表。实现中应建立本地已知 target 常量或 literal union，例如：
 
-| Target | Required fields | Commands | Query Params |
-| --- | --- | --- | --- |
-| `Contract` | `targetObjectId` | `['/contracts', targetObjectId]` | none |
-| `Project` | `targetObjectId` | `['/projects', targetObjectId]` | none |
-| `CommissionPayout` | `targetObjectId`, `projectId` | `['/projects', projectId, 'commission', 'operations']` | `payoutId`, optional `approvalRecordId` |
+| Target                 | Required fields               | Commands                                               | Query Params                                |
+| ---------------------- | ----------------------------- | ------------------------------------------------------ | ------------------------------------------- |
+| `Contract`             | `targetObjectId`              | `['/contracts', targetObjectId]`                       | none                                        |
+| `Project`              | `targetObjectId`              | `['/projects', targetObjectId]`                        | none                                        |
+| `CommissionPayout`     | `targetObjectId`, `projectId` | `['/projects', projectId, 'commission', 'operations']` | `payoutId`, optional `approvalRecordId`     |
 | `CommissionAdjustment` | `targetObjectId`, `projectId` | `['/projects', projectId, 'commission', 'operations']` | `adjustmentId`, optional `approvalRecordId` |
 
 未知 target 或缺少 required fields 时，helper 返回 `null` 或 `{ navigable: false }`，由 UI 显示不可跳转状态。
 
 ### 4.2 组件职责
 
-| 组件 | 职责 | 不再承担 |
-| --- | --- | --- |
-| `todo-navigation` helper | target 白名单、Router commands、query params、不可导航原因 | UI 展示和权限判断 |
-| `Workbench` | 展示近期项目、待办和工作台入口；点击时调用 helper | 手写 target route 分支 |
-| `AppTopbar` | 展示全局待办；点击时调用 helper | 手写 target route 分支 |
+| 组件                     | 职责                                                       | 不再承担               |
+| ------------------------ | ---------------------------------------------------------- | ---------------------- |
+| `todo-navigation` helper | target 白名单、Router commands、query params、不可导航原因 | UI 展示和权限判断      |
+| `Workbench`              | 展示近期项目、待办和工作台入口；点击时调用 helper          | 手写 target route 分支 |
+| `AppTopbar`              | 展示全局待办；点击时调用 helper                            | 手写 target route 分支 |
 
 ### 4.3 权限边界
 
@@ -143,9 +143,9 @@ Not required unless implementation touches the corresponding layer:
 
 ## 7. 例外与风险
 
-| ID | Level | Scope | Owner | Cleanup Due | Decision |
-| --- | --- | --- | --- | --- | --- |
-| `FE39-R1-TODO-TARGET-PLAIN-STRING` | Low | Todo target typing | Codex | 当后端决定把 target 类型收敛为 enum 时 | Accepted for FE-39：前端用显式白名单解析，不扩大后端契约。 |
+| ID                                 | Level | Scope              | Owner | Cleanup Due                            | Decision                                                   |
+| ---------------------------------- | ----- | ------------------ | ----- | -------------------------------------- | ---------------------------------------------------------- |
+| `FE39-R1-TODO-TARGET-PLAIN-STRING` | Low   | Todo target typing | Codex | 当后端决定把 target 类型收敛为 enum 时 | Accepted for FE-39：前端用显式白名单解析，不扩大后端契约。 |
 
 ---
 

@@ -3,6 +3,7 @@ import { ADMIN_CREDENTIALS, login } from './support/auth';
 
 const WORKSPACE_PROJECT_ID = '21000000-0000-4000-8000-000000000201';
 const CONTRACT_ID = '31000000-0000-4000-8000-000000000391';
+const CALCULATION_ID = '53000000-0000-4000-8000-000000000391';
 const PAYOUT_ID = '51000000-0000-4000-8000-000000000391';
 const ADJUSTMENT_ID = '52000000-0000-4000-8000-000000000391';
 const PAYOUT_APPROVAL_ID = '61000000-0000-4000-8000-000000000391';
@@ -79,6 +80,66 @@ async function mockWorkbenchTodos(page: Page): Promise<void> {
             ])
         });
     });
+
+    await mockCommissionOperationsData(page);
+}
+
+async function mockCommissionOperationsData(page: Page): Promise<void> {
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify(createProjectDetail())
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/workspace-guidance`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify(createWorkspaceGuidance())
+        });
+    });
+
+    await page.route('**/api/commission-rule-versions', async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify([])
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/commission-calculations`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify([createCalculation()])
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/commission-payouts`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify([createPayout()])
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/commission-adjustments`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify([createAdjustment()])
+        });
+    });
+
+    await page.route(`**/api/projects/${WORKSPACE_PROJECT_ID}/commission-final-settlement`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify({
+                projectId: WORKSPACE_PROJECT_ID,
+                summarySnapshotId: '71000000-0000-4000-8000-000000000391',
+                summaryPackageKey: 'commission-final-settlement',
+                projectionLevel: 'commission-final-settlement',
+                exportPolicy: 'internal',
+                generatedAt: '2026-04-28T09:00:00.000Z'
+            })
+        });
+    });
 }
 
 test.describe('poms-admin workbench todo entry journey', () => {
@@ -104,6 +165,10 @@ test.describe('poms-admin workbench todo entry journey', () => {
         await page.goto('/dashboard');
         await page.getByRole('button', { name: /FE39 工作台提成发放审批/ }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/operations\\?payoutId=${PAYOUT_ID}&approvalRecordId=${PAYOUT_APPROVAL_ID}$`));
+        await expect(page.getByTestId('commission-todo-context')).toContainText('已定位提成发放待办');
+        await expect(page.getByTestId('commission-todo-context')).toContainText('FE39 工作台提成发放审批');
+        await expect(page.getByTestId('commission-todo-context')).toContainText(PAYOUT_APPROVAL_ID);
+        await expect(page.getByTestId('commission-payout-highlighted-row')).toContainText('首期发放');
     });
 
     test('admin opens a commission adjustment todo from the topbar', async ({ page }) => {
@@ -117,8 +182,174 @@ test.describe('poms-admin workbench todo entry journey', () => {
         await page.getByLabel('待办事项').click();
         await page.locator('.topbar-menu').getByRole('button', { name: 'FE39 顶栏提成调整审批' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}/commission/operations\\?adjustmentId=${ADJUSTMENT_ID}&approvalRecordId=${ADJUSTMENT_APPROVAL_ID}$`));
+        await expect(page.getByTestId('commission-todo-context')).toContainText('已定位提成调整待办');
+        await expect(page.getByTestId('commission-todo-context')).toContainText('FE39 顶栏提成调整审批');
+        await expect(page.getByTestId('commission-todo-context')).toContainText(ADJUSTMENT_APPROVAL_ID);
+        await expect(page.getByTestId('commission-adjustment-highlighted-row')).toContainText('扣回');
     });
 });
+
+function createProjectDetail() {
+    return {
+        id: WORKSPACE_PROJECT_ID,
+        projectNo: 'E2E-OSG-FXT-MAIN',
+        projectName: 'E2E EX-13B main',
+        customerId: null,
+        customerName: 'FE39 客户',
+        customerProjectNo: 'CUS-FE39',
+        status: 'active',
+        currentStage: 'handover',
+        ownerOrgId: 'org-1',
+        ownerUserId: 'user-1',
+        plannedSignAt: null,
+        closedAt: null,
+        closedReason: null,
+        rowVersion: 3,
+        createdAt: '2026-04-20T09:00:00.000Z',
+        createdBy: 'system',
+        updatedAt: '2026-04-28T09:00:00.000Z',
+        updatedBy: 'admin',
+        ownerName: 'FE39 Owner',
+        ownerOrgName: 'FE39 事业部',
+        stageSummary: {
+            currentStage: 'handover',
+            status: 'active',
+            plannedSignAt: null,
+            closedAt: null,
+            closedReason: null,
+            blockingReasons: []
+        },
+        currentBidSummary: {
+            bidProcessId: null,
+            bidStatus: 'not_configured',
+            resultStatus: null,
+            summary: null
+        },
+        currentContractSummary: {
+            activeContractCount: 1,
+            latestContractId: CONTRACT_ID,
+            latestContractNo: 'HT-FE39',
+            latestContractStatus: 'active',
+            signedAmount: '100000.00',
+            currencyCode: 'CNY',
+            signedAt: '2026-04-20T00:00:00.000Z',
+            currentSnapshotId: 'snapshot-1'
+        },
+        currentApprovalSummary: {
+            summarySnapshotId: 'summary-1',
+            summaryPackageKey: 'project-detail',
+            projectionLevel: 'project',
+            exportPolicy: 'internal',
+            generatedAt: '2026-04-28T09:00:00.000Z'
+        },
+        currentConfirmationSummary: {
+            confirmationRecordId: null,
+            status: 'not_configured',
+            requiredCount: 0,
+            confirmedCount: 0,
+            pendingCount: 0,
+            confirmedAt: null
+        },
+        summarySnapshotId: 'summary-1',
+        projectionLevel: 'project',
+        exportPolicy: 'internal',
+        allowedActions: ['view-project-workspace', 'manage-project-commission'],
+        generatedAt: '2026-04-28T09:00:00.000Z'
+    };
+}
+
+function createWorkspaceGuidance() {
+    return {
+        projectId: WORKSPACE_PROJECT_ID,
+        currentStage: 'handover',
+        status: 'active',
+        currentStageLabel: '项目移交',
+        statusLabel: '正常推进',
+        headline: 'FE40 提成工作区',
+        currentFocus: '处理待办深链',
+        currentGap: '无',
+        nextStep: '处理提成审批待办',
+        ownerLabel: '提成负责人',
+        blockingReasons: [],
+        basisSummary: {
+            summarySnapshotId: 'summary-1',
+            projectionLevel: 'workspace-guidance',
+            exportPolicy: 'internal',
+            generatedAt: '2026-04-28T09:00:00.000Z'
+        },
+        recommendedEntries: [
+            {
+                key: 'commission-operations',
+                label: '提成操作',
+                description: '处理提成规则、计算、发放和调整。',
+                route: `/projects/${WORKSPACE_PROJECT_ID}/commission/operations`,
+                enabled: true,
+                disabledReason: null,
+                actionKey: 'manage-project-commission'
+            }
+        ],
+        generatedAt: '2026-04-28T09:00:00.000Z'
+    };
+}
+
+function createCalculation() {
+    return {
+        id: CALCULATION_ID,
+        projectId: WORKSPACE_PROJECT_ID,
+        ruleVersionId: '54000000-0000-4000-8000-000000000391',
+        version: 1,
+        rowVersion: 1,
+        isCurrent: true,
+        status: 'effective',
+        recognizedRevenueTaxExclusive: '100000.00',
+        recognizedCostTaxExclusive: '60000.00',
+        contributionMargin: '40000.00',
+        contributionMarginRate: '0.4000',
+        commissionPool: '12000.00',
+        recalculatedFromId: null,
+        approvedAt: '2026-04-28T09:00:00.000Z',
+        createdAt: '2026-04-28T08:00:00.000Z',
+        updatedAt: '2026-04-28T09:00:00.000Z'
+    };
+}
+
+function createPayout() {
+    return {
+        id: PAYOUT_ID,
+        projectId: WORKSPACE_PROJECT_ID,
+        calculationId: CALCULATION_ID,
+        rowVersion: 2,
+        stageType: 'first',
+        payoutKind: 'primary',
+        sourcePayoutId: null,
+        selectedTier: 'basic',
+        theoreticalCapAmount: '5000.00',
+        approvedAmount: null,
+        paidRecordAmount: null,
+        status: 'pending-approval',
+        approvedAt: null,
+        handledAt: null,
+        createdAt: '2026-04-28T08:10:00.000Z',
+        updatedAt: '2026-04-28T09:00:00.000Z'
+    };
+}
+
+function createAdjustment() {
+    return {
+        id: ADJUSTMENT_ID,
+        projectId: WORKSPACE_PROJECT_ID,
+        rowVersion: 2,
+        adjustmentType: 'clawback',
+        relatedPayoutId: PAYOUT_ID,
+        relatedCalculationId: CALCULATION_ID,
+        amount: '800.00',
+        reason: 'FE40 调整审批上下文',
+        status: 'pending-approval',
+        executedAt: null,
+        createdAt: '2026-04-28T08:20:00.000Z',
+        updatedAt: '2026-04-28T09:00:00.000Z'
+    };
+}
 
 function createTodo(overrides: Record<string, unknown>) {
     return {
