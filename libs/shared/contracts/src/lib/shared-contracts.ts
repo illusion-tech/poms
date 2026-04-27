@@ -18,6 +18,11 @@ export const PERMISSION_KEYS = [
     'commission:adjustments:manage',
     // 合同资金
     'contract:finance:manage',
+    'contract:finance:sensitive:read',
+    'operating:finance:sensitive:read',
+    'commission:amount:sensitive:read',
+    'labor-cost-rate:sensitive:read',
+    'exception-approval-opinion:sensitive:read',
     // 线索
     'lead:read',
     'lead:write',
@@ -52,6 +57,11 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'commission:payouts:manage': { description: '管理提成发放', group: '提成治理' },
     'commission:adjustments:manage': { description: '管理提成调整', group: '提成治理' },
     'contract:finance:manage': { description: '管理合同资金事实', group: '合同资金' },
+    'contract:finance:sensitive:read': { description: '查看合同资金敏感字段', group: '敏感字段' },
+    'operating:finance:sensitive:read': { description: '查看经营核算敏感字段', group: '敏感字段' },
+    'commission:amount:sensitive:read': { description: '查看提成金额敏感字段', group: '敏感字段' },
+    'labor-cost-rate:sensitive:read': { description: '查看人力成本率敏感字段', group: '敏感字段' },
+    'exception-approval-opinion:sensitive:read': { description: '查看例外审批与保留意见敏感字段', group: '敏感字段' },
     'lead:read': { description: '查看销售线索', group: '线索' },
     'lead:write': { description: '登记/维护销售线索', group: '线索' },
     'project:read': { description: '查看项目', group: '项目' },
@@ -64,6 +74,71 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'nav:contracts:view': { description: '查看合同菜单', group: '导航' },
     'nav:profile:view': { description: '查看个人中心菜单', group: '导航' }
 };
+
+// ---------------------------------------------------------------------------
+// Sensitive Field Projection
+// ---------------------------------------------------------------------------
+
+export const SENSITIVE_FIELD_PACKAGE_KEYS = [
+    'contract-finance',
+    'operating-finance',
+    'commission-compensation',
+    'labor-cost-rate',
+    'exception-approval-opinion'
+] as const;
+
+export type SensitiveFieldPackageKey = (typeof SENSITIVE_FIELD_PACKAGE_KEYS)[number];
+
+export const SensitiveFieldPackageKeySchema = z.enum(SENSITIVE_FIELD_PACKAGE_KEYS).meta({ id: 'SensitiveFieldPackageKey' });
+
+export const SENSITIVE_FIELD_PACKAGE_REQUIRED_PERMISSIONS: Record<SensitiveFieldPackageKey, PermissionKey> = {
+    'contract-finance': 'contract:finance:sensitive:read',
+    'operating-finance': 'operating:finance:sensitive:read',
+    'commission-compensation': 'commission:amount:sensitive:read',
+    'labor-cost-rate': 'labor-cost-rate:sensitive:read',
+    'exception-approval-opinion': 'exception-approval-opinion:sensitive:read'
+};
+
+export const SENSITIVE_PROJECTION_MODES = ['full', 'summary', 'masked', 'denied'] as const;
+
+export type SensitiveProjectionMode = (typeof SENSITIVE_PROJECTION_MODES)[number];
+
+export const SensitiveProjectionModeSchema = z.enum(SENSITIVE_PROJECTION_MODES).meta({ id: 'SensitiveProjectionMode' });
+
+export const SENSITIVE_PROJECTION_REASON_CODES = ['allowed', 'summary-only', 'missing-sensitive-read-permission', 'field-package-not-applicable'] as const;
+
+export type SensitiveProjectionReasonCode = (typeof SENSITIVE_PROJECTION_REASON_CODES)[number];
+
+export const SensitiveProjectionReasonCodeSchema = z.enum(SENSITIVE_PROJECTION_REASON_CODES).meta({ id: 'SensitiveProjectionReasonCode' });
+
+export const SensitiveStringFieldProjectionSchema = z
+    .object({
+        fieldPackageKey: SensitiveFieldPackageKeySchema,
+        mode: SensitiveProjectionModeSchema,
+        value: z.string().nullable(),
+        displayText: z.string().min(1).max(2000),
+        reasonCode: SensitiveProjectionReasonCodeSchema
+    })
+    .superRefine((input, ctx) => {
+        if ((input.mode === 'masked' || input.mode === 'denied') && input.value !== null) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['value'],
+                message: 'value must be null when sensitive projection mode is masked or denied'
+            });
+        }
+
+        if ((input.mode === 'masked' || input.mode === 'denied') && input.reasonCode === 'allowed') {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['reasonCode'],
+                message: 'reasonCode cannot be allowed when sensitive projection mode is masked or denied'
+            });
+        }
+    })
+    .meta({ id: 'SensitiveStringFieldProjection' });
+
+export type SensitiveStringFieldProjection = z.infer<typeof SensitiveStringFieldProjectionSchema>;
 
 // ---------------------------------------------------------------------------
 // Role

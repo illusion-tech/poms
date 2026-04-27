@@ -8,3 +8,4 @@ export * from './lib/contract/contract.dto';
 export * from './lib/contract-finance/contract-finance.dto';
 export * from './lib/project-cost/project-cost.dto';
 export * from './lib/runtime-audit/runtime-audit.dto';
+export * from './lib/sensitive-field-projection/sensitive-field-projection.dto';

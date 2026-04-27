@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
 import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
+import { SensitiveFieldProjectionModule } from './core/sensitive-field-projection/sensitive-field-projection.module';
 import { ApprovalModule } from './features/approval/approval.module';
 import { ApprovalSummaryModule } from './features/approval-summary/approval-summary.module';
 import { CommissionModule } from './features/commission/commission.module';
@@ -23,6 +24,7 @@ import { ProjectHandoverModule } from './features/project-handover/project-hando
     imports: [
         PersistenceModule,
         RuntimeAuditModule,
+        SensitiveFieldProjectionModule,
         AuthModule,
         NavigationModule,
         PlatformModule,

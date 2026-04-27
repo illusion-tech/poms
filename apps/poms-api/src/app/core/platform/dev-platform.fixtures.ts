@@ -6,6 +6,14 @@ const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_
 const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS];
 const PROJECT_READ_PERMISSIONS: PermissionKey[] = ['project:read', ...BUSINESS_NAVIGATION_PERMISSIONS];
 const PROJECT_WRITE_PERMISSIONS: PermissionKey[] = ['project:read', 'project:write', ...BUSINESS_NAVIGATION_PERMISSIONS];
+const CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read'];
+const FINANCE_SENSITIVE_READ_PERMISSIONS: PermissionKey[] = [
+    'contract:finance:sensitive:read',
+    'operating:finance:sensitive:read',
+    'commission:amount:sensitive:read',
+    'labor-cost-rate:sensitive:read',
+    'exception-approval-opinion:sensitive:read'
+];
 
 export interface DevRoleFixture {
     id: string;
@@ -111,7 +119,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '商务行政',
         description: '开发环境默认商务行政角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage', 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000007',
@@ -119,7 +127,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '商务负责人',
         description: '开发环境默认商务负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000008',
@@ -151,7 +159,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售助理',
         description: '开发环境默认销售助理角色',
         isSystemRole: false,
-        permissions: [...PROJECT_READ_PERMISSIONS, ...LEAD_READ_PERMISSIONS, 'contract:finance:manage']
+        permissions: [...PROJECT_READ_PERMISSIONS, ...LEAD_READ_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000012',
@@ -170,6 +178,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         permissions: [
             ...PROJECT_READ_PERMISSIONS,
             'contract:finance:manage',
+            ...FINANCE_SENSITIVE_READ_PERMISSIONS,
             'commission:calculations:manage',
             'commission:payouts:manage',
             'commission:adjustments:manage'
@@ -184,6 +193,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         permissions: [
             ...PROJECT_WRITE_PERMISSIONS,
             'contract:finance:manage',
+            ...FINANCE_SENSITIVE_READ_PERMISSIONS,
             'commission:rule-versions:manage',
             'commission:calculations:manage',
             'commission:payouts:manage',
