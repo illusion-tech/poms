@@ -13,6 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 @Component({
@@ -111,7 +112,11 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">签约金额</span>
-                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.signedAmount | number: '1.2-2' }} {{ contract()!.currencyCode }}</span>
+                                @if (canViewFinancialSensitiveFields()) {
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.signedAmount | number: '1.2-2' }} {{ contract()!.currencyCode }}</span>
+                                } @else {
+                                    <span class="text-sm text-surface-500 dark:text-surface-400">{{ sensitiveFieldHiddenText }}</span>
+                                }
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">合同状态</span>
@@ -184,7 +189,9 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                     <!-- Audit Info -->
                     <section-card class="xl:col-span-2">
                         <ng-template #title>核心条款</ng-template>
-                        @if (contract()!.currentTermSnapshot; as snapshot) {
+                        @if (!canViewFinancialSensitiveFields()) {
+                            <p-message severity="info" [text]="sensitiveFieldHiddenText" styleClass="mt-4 w-full" />
+                        } @else if (contract()!.currentTermSnapshot; as snapshot) {
                             <div class="grid grid-cols-2 gap-4 mt-4">
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
@@ -399,11 +406,13 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly saving = this.#contractStore.saving;
     readonly currentUser = computed(() => this.#authStore.currentUser());
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
-    readonly canEditContract = computed(() => this.contract()?.status === 'draft');
-    readonly canSubmitReview = computed(() => this.contract()?.status === 'draft');
+    readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
+    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
+    readonly canEditContract = computed(() => this.canViewFinancialSensitiveFields() && this.contract()?.status === 'draft');
+    readonly canSubmitReview = computed(() => this.canViewFinancialSensitiveFields() && this.contract()?.status === 'draft');
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
-    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.#authStore.hasAnyPermission(['contract:finance:manage']));
+    readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.canViewFinancialSensitiveFields());
     readonly approvalStatusLabel = computed(() => {
         const status = this.currentApproval()?.currentStatus;
         return status ? this.getApprovalStatusName(status) : null;

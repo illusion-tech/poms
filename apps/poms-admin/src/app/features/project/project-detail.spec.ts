@@ -177,7 +177,8 @@ describe('ProjectDetail', () => {
         timeline: ProjectTimelineView | null = null,
         timelineError: string | null = null,
         archiveRecords: ProjectArchiveRecordSummary[] = [],
-        canWriteProject = true
+        canWriteProject = true,
+        canViewFinance = true
     ) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
@@ -186,7 +187,17 @@ describe('ProjectDetail', () => {
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
         authStoreMock = {
-            hasAnyPermission: jest.fn(() => canWriteProject)
+            hasAnyPermission: jest.fn((permissions: readonly string[]) => {
+                if (permissions.includes('project:write')) {
+                    return canWriteProject;
+                }
+
+                if (permissions.includes('contract:finance:manage')) {
+                    return canViewFinance;
+                }
+
+                return false;
+            })
         };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
@@ -335,6 +346,15 @@ describe('ProjectDetail', () => {
         component.goToCommission();
 
         expect(routerMock.navigate).not.toHaveBeenCalledWith(['/projects', 'project-1', 'commission', 'operations']);
+    });
+
+    it('masks current contract amount when the user lacks finance permission', async () => {
+        await setup(createProject(), null, null, [], true, false);
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('经营敏感字段已隐藏');
+        expect(text).not.toContain('123,456.78 CNY');
     });
 
     it('submits trimmed basic info and allows clearing customer name', async () => {

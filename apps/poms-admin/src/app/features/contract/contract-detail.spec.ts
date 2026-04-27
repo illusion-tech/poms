@@ -132,6 +132,26 @@ describe('ContractDetail', () => {
         expect(text).toContain('KH-HT-2026-01');
     });
 
+    it('masks finance fields and draft actions when the user lacks contract finance permission', () => {
+        const user = currentUser();
+        if (!user) {
+            throw new Error('current user is required');
+        }
+        currentUser.set({
+            ...user,
+            permissions: ['project:read']
+        });
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button')).map((button: Element) => button.textContent ?? '').join(' ');
+
+        expect(text).toContain('经营敏感字段已隐藏');
+        expect(text).not.toContain('1,200,000.00 CNY');
+        expect(buttonText).not.toContain('编辑');
+        expect(buttonText).not.toContain('提交审核');
+    });
+
     it('updates customer contract number without sending an internal contract number', async () => {
         component.showEditDialog();
         component.editForm = {

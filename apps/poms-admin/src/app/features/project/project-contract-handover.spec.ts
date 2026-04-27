@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { type ContractHandoverSummaryView, type ProjectHandoverDetailView, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { AuthStore, type ContractHandoverSummaryView, type ProjectHandoverDetailView, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { ProjectContractHandover } from './project-contract-handover';
 
 function createContractHandoverSummary(): ContractHandoverSummaryView {
@@ -124,6 +124,7 @@ describe('ProjectContractHandover', () => {
     let projectHandoverDetailSignal: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
+    let financeVisible: ReturnType<typeof signal<boolean>>;
     let workspaceStoreMock: {
         contractHandoverSummary: ReturnType<typeof signal<ContractHandoverSummaryView | null>>;
         projectHandoverDetail: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
@@ -137,6 +138,7 @@ describe('ProjectContractHandover', () => {
         projectHandoverDetailSignal = signal<ProjectHandoverDetailView | null>(summary ? createProjectHandoverDetail(summary) : null);
         loadingSignal = signal(false);
         errorSignal = signal(error);
+        financeVisible = signal(true);
         workspaceStoreMock = {
             contractHandoverSummary: contractHandoverSummarySignal,
             projectHandoverDetail: projectHandoverDetailSignal,
@@ -165,6 +167,12 @@ describe('ProjectContractHandover', () => {
                 {
                     provide: ProjectWorkspaceStore,
                     useValue: workspaceStoreMock
+                },
+                {
+                    provide: AuthStore,
+                    useValue: {
+                        hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('contract:finance:manage') && financeVisible())
+                    }
                 }
             ]
         }).compileComponents();
@@ -190,6 +198,17 @@ describe('ProjectContractHandover', () => {
         expect(text).toContain('合同承接基线已稳定');
         expect(text).toContain('回款计划已初始化');
         expect(text).toContain('仍有一名参与人待确认');
+    });
+
+    it('masks contract set amount when the user lacks finance permission', async () => {
+        await setup();
+        financeVisible.set(false);
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('经营敏感字段已隐藏');
+        expect(text).not.toContain('200,000.00 CNY');
     });
 
     it('shows user-readable error feedback when the handover view is unavailable', async () => {

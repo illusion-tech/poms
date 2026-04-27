@@ -3,7 +3,7 @@ import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { ContractStore, ProjectStore, type ContractStatus, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStore, ProjectStore, type ContractStatus, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -14,6 +14,7 @@ import { Menu, MenuModule } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 const CONTRACT_STATUS_FILTER_VALUES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const satisfies readonly ContractStatus[];
@@ -34,7 +35,9 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                 <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">合同管理</h1>
 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                    <p-button icon="pi pi-plus" label="新建合同" severity="primary" [rounded]="true" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
+                    @if (canManageContractFinance()) {
+                        <p-button icon="pi pi-plus" label="新建合同" severity="primary" [rounded]="true" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
+                    }
                 </div>
             </div>
 
@@ -131,7 +134,11 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                                 <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.customerName ?? '-' }}</span>
                             </td>
                             <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ contract.signedAmount | number: '1.2-2' }} {{ contract.currencyCode }}</span>
+                                @if (canViewFinancialSensitiveFields()) {
+                                    <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ contract.signedAmount | number: '1.2-2' }} {{ contract.currencyCode }}</span>
+                                } @else {
+                                    <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ sensitiveFieldHiddenText }}</span>
+                                }
                             </td>
                             <td>
                                 <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="px-2 py-1 rounded-[6px]" />
@@ -263,6 +270,7 @@ export class ContractList implements OnInit {
     readonly #contractStore = inject(ContractStore);
     readonly #projectStore = inject(ProjectStore);
     readonly #router = inject(Router);
+    readonly #authStore = inject(AuthStore);
 
     readonly contracts = this.#contractStore.contracts;
     readonly projects = this.#projectStore.projects;
@@ -275,6 +283,9 @@ export class ContractList implements OnInit {
     rows = 10;
     selectedContract = signal<ContractSummary | null>(null);
     readonly statusColumnFilterOptions = CONTRACT_STATUS_FILTER_OPTIONS;
+    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
+    readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
+    readonly canManageContractFinance = this.canViewFinancialSensitiveFields;
 
     createDialogVisible = false;
     createSubmitAttempted = false;

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { type ContractHandoverSummaryView, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { AuthStore, type ContractHandoverSummaryView, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -10,6 +10,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback as sharedContractStatusLabel, contractStatusSeverityOrFallback as sharedContractStatusSeverity } from '../../shared/ui/status-presentation';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
@@ -106,7 +107,7 @@ const RECEIPT_JUDGMENT_STATUS_LABELS: Record<string, string> = {
                                 <td>
                                     <p-tag [value]="contractStatusLabel(contract.status)" [severity]="contractStatusSeverity(contract.status)" styleClass="rounded-[6px]!" />
                                 </td>
-                                <td>{{ formatMoney(contract.signedAmount, contract.currencyCode) }}</td>
+                                <td>{{ formatSensitiveMoney(contract.signedAmount, contract.currencyCode) }}</td>
                                 <td>{{ formatDateTime(contract.signedAt) }}</td>
                                 <td>{{ contract.currentSnapshotId ?? '待确认' }}</td>
                             </tr>
@@ -152,11 +153,14 @@ const RECEIPT_JUDGMENT_STATUS_LABELS: Record<string, string> = {
 export class ProjectContractHandover implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
+    readonly #authStore = inject(AuthStore);
 
     readonly summary = this.#workspaceStore.contractHandoverSummary;
     readonly handover = this.#workspaceStore.projectHandoverDetail;
     readonly loading = this.#workspaceStore.loadingContractHandover;
     readonly error = this.#workspaceStore.contractHandoverError;
+    readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
+    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
 
     readonly handoverCommandItems = computed<WorkspaceCommandPanelItem[]>(() => {
         const summary = this.summary();
@@ -230,7 +234,7 @@ export class ProjectContractHandover implements OnInit {
             },
             {
                 label: '有效合同额',
-                value: this.formatMoney(contractSet.totalSignedAmount, contractSet.currencyCodes.join(' / ')),
+                value: this.formatSensitiveMoney(contractSet.totalSignedAmount, contractSet.currencyCodes.join(' / ')),
                 emphasis: true
             },
             {
@@ -396,6 +400,10 @@ export class ProjectContractHandover implements OnInit {
     formatMoney(value: string | null | undefined, currencyCode: string | null | undefined): string {
         const amount = formatAmount(value);
         return currencyCode ? `${amount} ${currencyCode}` : amount;
+    }
+
+    formatSensitiveMoney(value: string | null | undefined, currencyCode: string | null | undefined): string {
+        return this.canViewFinancialSensitiveFields() ? this.formatMoney(value, currencyCode) : this.sensitiveFieldHiddenText;
     }
 
     formatDateTime(value: string | null | undefined): string {

@@ -71,7 +71,7 @@ test.describe('poms-admin project workspace smoke', () => {
 
     test('viewer can enter the workspace shell but is blocked from finance pages and commission operations', async ({ page }) => {
         const token = await loginForApi(page, VIEWER_CREDENTIALS);
-        const projectId = await getProjectIdByCode(page, token, WORKSPACE_PROJECT_CODE);
+        const projectId = await getProjectIdByNo(page, token, WORKSPACE_PROJECT_NO);
 
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);

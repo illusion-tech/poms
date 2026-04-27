@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
@@ -60,6 +60,8 @@ describe('ContractList', () => {
         loading: ReturnType<typeof signal<boolean>>;
         loadProjects: jest.Mock;
     };
+    let financeVisible: ReturnType<typeof signal<boolean>>;
+    let authStoreMock: { hasAnyPermission: jest.Mock };
     let routerMock: { navigate: jest.Mock };
 
     beforeEach(async () => {
@@ -76,6 +78,10 @@ describe('ContractList', () => {
             loading: signal(false),
             loadProjects: jest.fn().mockResolvedValue([project])
         };
+        financeVisible = signal(true);
+        authStoreMock = {
+            hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('contract:finance:manage') && financeVisible())
+        };
         routerMock = { navigate: jest.fn() };
 
         await TestBed.configureTestingModule({
@@ -84,6 +90,10 @@ describe('ContractList', () => {
                 {
                     provide: Router,
                     useValue: routerMock
+                },
+                {
+                    provide: AuthStore,
+                    useValue: authStoreMock
                 }
             ]
         })
@@ -133,6 +143,17 @@ describe('ContractList', () => {
             { label: '已终止', value: 'terminated' },
             { label: '已完成', value: 'completed' }
         ]);
+    });
+
+    it('masks contract amount and hides creation when the user lacks finance permission', () => {
+        financeVisible.set(false);
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('经营敏感字段已隐藏');
+        expect(text).not.toContain('1,200,000.00 CNY');
+        expect(text).not.toContain('新建合同');
     });
 
     it('clears table filters and resets pagination state', () => {
