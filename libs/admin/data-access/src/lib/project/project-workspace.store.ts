@@ -53,7 +53,9 @@ export class ProjectWorkspaceStore {
     readonly #contractReadiness = signal<ContractReadinessDetail | null>(null);
     readonly #technicalCostWorkspace = signal<ProjectTechnicalCostWorkspaceView | null>(null);
     readonly #bidCommercialWorkspace = signal<ProjectBidCommercialWorkspaceView | null>(null);
+    readonly #bidCommercialProcessHistory = signal<ProjectBidCommercialProcessSummary[]>([]);
     readonly #pricingMarginWorkspace = signal<ProjectPricingMarginWorkspaceView | null>(null);
+    readonly #pricingMarginReviewHistory = signal<ProjectPricingMarginReviewSummary[]>([]);
     readonly #businessOutcomeOverview = signal<ProjectBusinessOutcomeOverviewView | null>(null);
     readonly #unifiedAccounting = signal<ProjectUnifiedAccountingView | null>(null);
     readonly #varianceRiskExplanation = signal<ProjectVarianceRiskExplanationView | null>(null);
@@ -68,7 +70,9 @@ export class ProjectWorkspaceStore {
     readonly #loadingPreSigning = signal(false);
     readonly #loadingTechnicalCost = signal(false);
     readonly #loadingBidCommercial = signal(false);
+    readonly #loadingBidCommercialHistory = signal(false);
     readonly #loadingPricingMargin = signal(false);
+    readonly #loadingPricingMarginHistory = signal(false);
     readonly #savingBidCommercial = signal(false);
     readonly #savingPricingMargin = signal(false);
     readonly #loadingOperatingOverview = signal(false);
@@ -83,7 +87,9 @@ export class ProjectWorkspaceStore {
     readonly #preSigningError = signal<string | null>(null);
     readonly #technicalCostError = signal<string | null>(null);
     readonly #bidCommercialError = signal<string | null>(null);
+    readonly #bidCommercialHistoryError = signal<string | null>(null);
     readonly #pricingMarginError = signal<string | null>(null);
+    readonly #pricingMarginHistoryError = signal<string | null>(null);
     readonly #operatingOverviewError = signal<string | null>(null);
     readonly #varianceRiskError = signal<string | null>(null);
     readonly #commissionGateError = signal<string | null>(null);
@@ -97,7 +103,9 @@ export class ProjectWorkspaceStore {
     readonly contractReadiness = this.#contractReadiness.asReadonly();
     readonly technicalCostWorkspace = this.#technicalCostWorkspace.asReadonly();
     readonly bidCommercialWorkspace = this.#bidCommercialWorkspace.asReadonly();
+    readonly bidCommercialProcessHistory = this.#bidCommercialProcessHistory.asReadonly();
     readonly pricingMarginWorkspace = this.#pricingMarginWorkspace.asReadonly();
+    readonly pricingMarginReviewHistory = this.#pricingMarginReviewHistory.asReadonly();
     readonly businessOutcomeOverview = this.#businessOutcomeOverview.asReadonly();
     readonly unifiedAccounting = this.#unifiedAccounting.asReadonly();
     readonly varianceRiskExplanation = this.#varianceRiskExplanation.asReadonly();
@@ -112,7 +120,9 @@ export class ProjectWorkspaceStore {
     readonly loadingPreSigning = this.#loadingPreSigning.asReadonly();
     readonly loadingTechnicalCost = this.#loadingTechnicalCost.asReadonly();
     readonly loadingBidCommercial = this.#loadingBidCommercial.asReadonly();
+    readonly loadingBidCommercialHistory = this.#loadingBidCommercialHistory.asReadonly();
     readonly loadingPricingMargin = this.#loadingPricingMargin.asReadonly();
+    readonly loadingPricingMarginHistory = this.#loadingPricingMarginHistory.asReadonly();
     readonly savingBidCommercial = this.#savingBidCommercial.asReadonly();
     readonly savingPricingMargin = this.#savingPricingMargin.asReadonly();
     readonly loadingOperatingOverview = this.#loadingOperatingOverview.asReadonly();
@@ -127,7 +137,9 @@ export class ProjectWorkspaceStore {
     readonly preSigningError = this.#preSigningError.asReadonly();
     readonly technicalCostError = this.#technicalCostError.asReadonly();
     readonly bidCommercialError = this.#bidCommercialError.asReadonly();
+    readonly bidCommercialHistoryError = this.#bidCommercialHistoryError.asReadonly();
     readonly pricingMarginError = this.#pricingMarginError.asReadonly();
+    readonly pricingMarginHistoryError = this.#pricingMarginHistoryError.asReadonly();
     readonly operatingOverviewError = this.#operatingOverviewError.asReadonly();
     readonly varianceRiskError = this.#varianceRiskError.asReadonly();
     readonly commissionGateError = this.#commissionGateError.asReadonly();
@@ -140,13 +152,13 @@ export class ProjectWorkspaceStore {
     readonly hasContractReadiness = computed(() => this.#contractReadiness() !== null);
     readonly hasTechnicalCostWorkspace = computed(() => this.#technicalCostWorkspace() !== null);
     readonly hasBidCommercialWorkspace = computed(() => this.#bidCommercialWorkspace() !== null);
+    readonly hasBidCommercialProcessHistory = computed(() => this.#bidCommercialProcessHistory().length > 0);
     readonly hasPricingMarginWorkspace = computed(() => this.#pricingMarginWorkspace() !== null);
+    readonly hasPricingMarginReviewHistory = computed(() => this.#pricingMarginReviewHistory().length > 0);
     readonly hasOperatingOverview = computed(() => this.#businessOutcomeOverview() !== null && this.#unifiedAccounting() !== null);
     readonly hasVarianceRisk = computed(() => this.#varianceRiskExplanation() !== null);
     readonly hasCommissionGateOverview = computed(() => this.#commissionGateOverview() !== null);
-    readonly hasCommissionFreezeBinding = computed(
-        () => this.#commissionFreezeBindingSummary() !== null || this.#commissionFreezeBindingDetail() !== null || this.#projectHandoverDetail() !== null
-    );
+    readonly hasCommissionFreezeBinding = computed(() => this.#commissionFreezeBindingSummary() !== null || this.#commissionFreezeBindingDetail() !== null || this.#projectHandoverDetail() !== null);
     readonly hasCommissionFinalSettlement = computed(() => this.#commissionFinalSettlement() !== null);
     readonly hasCommissionRuleExplanation = computed(() => this.#commissionRuleExplanation() !== null);
 
@@ -271,6 +283,27 @@ export class ProjectWorkspaceStore {
         }
     }
 
+    async loadBidCommercialProcessHistory(projectId: string): Promise<ProjectBidCommercialProcessSummary[]> {
+        this.#loadingBidCommercialHistory.set(true);
+        this.#bidCommercialHistoryError.set(null);
+
+        try {
+            const processes = await firstValueFrom(
+                this.#projectApi.projectControllerListProjectBidCommercialProcesses({
+                    projectId
+                })
+            );
+            this.#bidCommercialProcessHistory.set(processes);
+            return processes;
+        } catch (error) {
+            this.#bidCommercialProcessHistory.set([]);
+            this.#bidCommercialHistoryError.set(this.#readWorkspaceError(error, 'bid-commercial'));
+            throw error;
+        } finally {
+            this.#loadingBidCommercialHistory.set(false);
+        }
+    }
+
     async createBidCommercialProcess(projectId: string, request: CreateProjectBidCommercialProcessRequest): Promise<ProjectBidCommercialProcessSummary> {
         this.#savingBidCommercial.set(true);
         this.#bidCommercialError.set(null);
@@ -282,7 +315,7 @@ export class ProjectWorkspaceStore {
                     createProjectBidCommercialProcessRequest: request
                 })
             );
-            await this.loadBidCommercialWorkspace(projectId);
+            await Promise.all([this.loadBidCommercialWorkspace(projectId), this.loadBidCommercialProcessHistory(projectId)]);
             return result;
         } catch (error) {
             this.#bidCommercialError.set(this.#readWorkspaceError(error, 'bid-commercial'));
@@ -313,6 +346,27 @@ export class ProjectWorkspaceStore {
         }
     }
 
+    async loadPricingMarginReviewHistory(projectId: string): Promise<ProjectPricingMarginReviewSummary[]> {
+        this.#loadingPricingMarginHistory.set(true);
+        this.#pricingMarginHistoryError.set(null);
+
+        try {
+            const reviews = await firstValueFrom(
+                this.#projectApi.projectControllerListProjectPricingMarginReviews({
+                    projectId
+                })
+            );
+            this.#pricingMarginReviewHistory.set(reviews);
+            return reviews;
+        } catch (error) {
+            this.#pricingMarginReviewHistory.set([]);
+            this.#pricingMarginHistoryError.set(this.#readWorkspaceError(error, 'pricing-margin'));
+            throw error;
+        } finally {
+            this.#loadingPricingMarginHistory.set(false);
+        }
+    }
+
     async createPricingMarginReview(projectId: string, request: CreateProjectPricingMarginReviewRequest): Promise<ProjectPricingMarginReviewSummary> {
         this.#savingPricingMargin.set(true);
         this.#pricingMarginError.set(null);
@@ -324,7 +378,7 @@ export class ProjectWorkspaceStore {
                     createProjectPricingMarginReviewRequest: request
                 })
             );
-            await this.loadPricingMarginWorkspace(projectId);
+            await Promise.all([this.loadPricingMarginWorkspace(projectId), this.loadPricingMarginReviewHistory(projectId)]);
             return result;
         } catch (error) {
             this.#pricingMarginError.set(this.#readWorkspaceError(error, 'pricing-margin'));
@@ -425,14 +479,8 @@ export class ProjectWorkspaceStore {
                 )
             ]);
 
-            const currentRoleAssignment =
-                currentRoleAssignmentResult.status === 'fulfilled'
-                    ? currentRoleAssignmentResult.value
-                    : this.#throwUnlessMissing(currentRoleAssignmentResult.reason);
-            const projectHandoverDetail =
-                projectHandoverResult.status === 'fulfilled'
-                    ? projectHandoverResult.value
-                    : this.#throwUnlessMissing(projectHandoverResult.reason);
+            const currentRoleAssignment = currentRoleAssignmentResult.status === 'fulfilled' ? currentRoleAssignmentResult.value : this.#throwUnlessMissing(currentRoleAssignmentResult.reason);
+            const projectHandoverDetail = projectHandoverResult.status === 'fulfilled' ? projectHandoverResult.value : this.#throwUnlessMissing(projectHandoverResult.reason);
 
             let roleAssignmentDetail: CommissionRoleAssignmentDetailView | null = null;
             if (currentRoleAssignment?.id) {
@@ -512,7 +560,9 @@ export class ProjectWorkspaceStore {
         this.#contractReadiness.set(null);
         this.#technicalCostWorkspace.set(null);
         this.#bidCommercialWorkspace.set(null);
+        this.#bidCommercialProcessHistory.set([]);
         this.#pricingMarginWorkspace.set(null);
+        this.#pricingMarginReviewHistory.set([]);
         this.#businessOutcomeOverview.set(null);
         this.#unifiedAccounting.set(null);
         this.#varianceRiskExplanation.set(null);
@@ -526,7 +576,9 @@ export class ProjectWorkspaceStore {
         this.#loadingPreSigning.set(false);
         this.#loadingTechnicalCost.set(false);
         this.#loadingBidCommercial.set(false);
+        this.#loadingBidCommercialHistory.set(false);
         this.#loadingPricingMargin.set(false);
+        this.#loadingPricingMarginHistory.set(false);
         this.#savingBidCommercial.set(false);
         this.#savingPricingMargin.set(false);
         this.#loadingOperatingOverview.set(false);
@@ -540,7 +592,9 @@ export class ProjectWorkspaceStore {
         this.#preSigningError.set(null);
         this.#technicalCostError.set(null);
         this.#bidCommercialError.set(null);
+        this.#bidCommercialHistoryError.set(null);
         this.#pricingMarginError.set(null);
+        this.#pricingMarginHistoryError.set(null);
         this.#operatingOverviewError.set(null);
         this.#varianceRiskError.set(null);
         this.#commissionGateError.set(null);

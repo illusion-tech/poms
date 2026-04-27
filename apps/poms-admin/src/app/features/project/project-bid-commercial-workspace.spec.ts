@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectWorkspaceStore, type ProjectBidCommercialWorkspaceView } from '@poms/admin-data-access';
+import { ProjectWorkspaceStore, type ProjectBidCommercialProcessSummary, type ProjectBidCommercialWorkspaceView } from '@poms/admin-data-access';
 import { ProjectBidCommercialWorkspace } from './project-bid-commercial-workspace';
 
 function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> = {}): ProjectBidCommercialWorkspaceView {
@@ -71,21 +71,53 @@ function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> =
     };
 }
 
+function createHistory(workspace: ProjectBidCommercialWorkspaceView): ProjectBidCommercialProcessSummary[] {
+    const current = workspace.currentProcess;
+    if (!current) {
+        return [];
+    }
+
+    return [
+        current,
+        {
+            ...current,
+            id: 'bid-process-0',
+            version: current.version - 1,
+            isCurrent: false,
+            supersedesId: null,
+            status: 'superseded',
+            processSummary: '旧版竞标过程已被替代。',
+            createdBy: null,
+            updatedBy: null,
+            rowVersion: 1
+        }
+    ];
+}
+
 describe('ProjectBidCommercialWorkspace', () => {
     let fixture: ComponentFixture<ProjectBidCommercialWorkspace>;
     let workspaceSignal: ReturnType<typeof signal<ProjectBidCommercialWorkspaceView | null>>;
+    let historySignal: ReturnType<typeof signal<ProjectBidCommercialProcessSummary[]>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
+    let loadingHistorySignal: ReturnType<typeof signal<boolean>>;
     let savingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
+    let historyErrorSignal: ReturnType<typeof signal<string | null>>;
     let loadBidCommercialWorkspace: jest.Mock;
+    let loadBidCommercialProcessHistory: jest.Mock;
     let createBidCommercialProcess: jest.Mock;
 
     async function setup(workspace: ProjectBidCommercialWorkspaceView | null = createWorkspace()) {
+        const history = workspace ? createHistory(workspace) : [];
         workspaceSignal = signal<ProjectBidCommercialWorkspaceView | null>(workspace);
+        historySignal = signal<ProjectBidCommercialProcessSummary[]>(history);
         loadingSignal = signal(false);
+        loadingHistorySignal = signal(false);
         savingSignal = signal(false);
         errorSignal = signal<string | null>(null);
+        historyErrorSignal = signal<string | null>(null);
         loadBidCommercialWorkspace = jest.fn().mockResolvedValue(workspace);
+        loadBidCommercialProcessHistory = jest.fn().mockResolvedValue(history);
         createBidCommercialProcess = jest.fn().mockResolvedValue(workspace?.currentProcess ?? null);
 
         await TestBed.configureTestingModule({
@@ -109,10 +141,14 @@ describe('ProjectBidCommercialWorkspace', () => {
                     provide: ProjectWorkspaceStore,
                     useValue: {
                         bidCommercialWorkspace: workspaceSignal,
+                        bidCommercialProcessHistory: historySignal,
                         loadingBidCommercial: loadingSignal,
+                        loadingBidCommercialHistory: loadingHistorySignal,
                         savingBidCommercial: savingSignal,
                         bidCommercialError: errorSignal,
+                        bidCommercialHistoryError: historyErrorSignal,
                         loadBidCommercialWorkspace,
+                        loadBidCommercialProcessHistory,
                         createBidCommercialProcess
                     }
                 }
@@ -135,6 +171,7 @@ describe('ProjectBidCommercialWorkspace', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(loadBidCommercialWorkspace).toHaveBeenCalledWith('project-1');
+        expect(loadBidCommercialProcessHistory).toHaveBeenCalledWith('project-1');
         expect(text).toContain('招投标 / 商务竞标');
         expect(text).toContain('公开招标');
         expect(text).toContain('TB-2026-001');
@@ -144,6 +181,9 @@ describe('ProjectBidCommercialWorkspace', () => {
         expect(text).toContain('投标文件');
         expect(text).toContain('补齐投标报价附件');
         expect(text).toContain('投标提交');
+        expect(text).toContain('竞标版本历史');
+        expect(text).toContain('已被替代');
+        expect(text).toContain('系统 / 未记录');
         expect(text).toContain('等待客户确认竞标结果，再进入报价与毛利评审。');
     });
 

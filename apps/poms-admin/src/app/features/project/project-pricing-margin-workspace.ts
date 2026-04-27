@@ -31,6 +31,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { WorkspaceVersionHistory, type WorkspaceVersionHistoryRow } from '../../shared/ui/workspace-version-history';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
 const PRICING_PATH_LABELS: Record<string, string> = {
@@ -162,7 +163,8 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
         WorkspaceCommandPanel,
         WorkspaceFactGrid,
         WorkspaceFeedback,
-        WorkspaceLoading
+        WorkspaceLoading,
+        WorkspaceVersionHistory
     ],
     template: `
         @if (loading()) {
@@ -184,11 +186,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
 
                     @if (canWritePricingMargin(currentWorkspace)) {
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <p-button
-                                [label]="currentWorkspace.currentReview ? '编辑当前评审' : '创建报价评审'"
-                                icon="pi pi-pencil"
-                                (onClick)="openPricingDialog(currentWorkspace, currentWorkspace.currentReview ? 'edit' : 'create')"
-                            />
+                            <p-button [label]="currentWorkspace.currentReview ? '编辑当前评审' : '创建报价评审'" icon="pi pi-pencil" (onClick)="openPricingDialog(currentWorkspace, currentWorkspace.currentReview ? 'edit' : 'create')" />
                             @if (currentWorkspace.currentReview) {
                                 <p-button label="创建新评审" icon="pi pi-plus" severity="secondary" [outlined]="true" (onClick)="openPricingDialog(currentWorkspace, 'create')" />
                             }
@@ -303,6 +301,20 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                         </app-workspace-feedback>
                     </section-card>
                 }
+
+                <app-workspace-version-history
+                    title="报价评审版本历史"
+                    description="查看当前 / 历史报价评审、替代链和审计 metadata。"
+                    primaryColumnHeader="报价版本"
+                    secondaryColumnHeader="毛利判断"
+                    outcomeColumnHeader="评审结论"
+                    emptyMessage="当前没有报价评审历史版本。"
+                    loadingMessage="正在读取报价评审历史"
+                    [summaryItems]="pricingHistorySummaryItems()"
+                    [rows]="pricingHistoryRows()"
+                    [loading]="loadingHistory()"
+                    [error]="historyError()"
+                />
 
                 <section-card>
                     <ng-template #title>下一步</ng-template>
@@ -466,8 +478,11 @@ export class ProjectPricingMarginWorkspace implements OnInit {
 
     readonly workspace = this.#workspaceStore.pricingMarginWorkspace;
     readonly loading = this.#workspaceStore.loadingPricingMargin;
+    readonly history = this.#workspaceStore.pricingMarginReviewHistory;
+    readonly loadingHistory = this.#workspaceStore.loadingPricingMarginHistory;
     readonly saving = this.#workspaceStore.savingPricingMargin;
     readonly error = this.#workspaceStore.pricingMarginError;
+    readonly historyError = this.#workspaceStore.pricingMarginHistoryError;
 
     pricingDialogVisible = false;
     pricingDialogMode: PricingMarginDialogMode = 'create';
@@ -510,6 +525,7 @@ export class ProjectPricingMarginWorkspace implements OnInit {
         const projectId = this.projectId();
         if (projectId) {
             void this.#workspaceStore.loadPricingMarginWorkspace(projectId).catch(() => undefined);
+            void this.#workspaceStore.loadPricingMarginReviewHistory(projectId).catch(() => undefined);
         }
     }
 
@@ -734,6 +750,60 @@ export class ProjectPricingMarginWorkspace implements OnInit {
         return [...workspace.conditionItems].sort((left, right) => left.sortOrder - right.sortOrder);
     }
 
+    pricingHistoryRows(): WorkspaceVersionHistoryRow[] {
+        return this.sortedPricingHistory().map((review) => ({
+            id: review.id,
+            versionLabel: `V${review.version}`,
+            isCurrent: review.isCurrent,
+            statusLabel: this.versionStatusLabel(review.status),
+            statusSeverity: this.versionStatusSeverity(review.status),
+            primaryLabel: '报价版本',
+            primaryValue: review.quoteVersion,
+            secondaryLabel: '毛利判断',
+            secondaryValue: this.grossMarginBandLabel(review.grossMarginBand),
+            secondarySeverity: this.grossMarginBandSeverity(review.grossMarginBand),
+            outcomeLabel: '评审结论',
+            outcomeValue: this.pricingDecisionLabel(review.decision),
+            outcomeSeverity: this.pricingDecisionSeverity(review.decision),
+            effectiveAt: this.formatDateTime(review.effectiveAt),
+            createdAt: this.formatDateTime(review.createdAt),
+            createdBy: this.operatorIdText(review.createdBy),
+            updatedAt: this.formatDateTime(review.updatedAt),
+            updatedBy: this.operatorIdText(review.updatedBy),
+            supersedesLabel: this.supersedesText(review.supersedesId),
+            rowVersionLabel: String(review.rowVersion)
+        }));
+    }
+
+    pricingHistorySummaryItems(): WorkspaceFactGridItem[] {
+        const records = this.sortedPricingHistory();
+        const current = records.find((record) => record.isCurrent) ?? this.workspace()?.currentReview ?? null;
+        const historicalCount = records.filter((record) => !record.isCurrent).length;
+
+        return [
+            {
+                label: '当前版本',
+                value: current ? `V${current.version}` : '待形成',
+                detail: current?.quoteVersion ?? null,
+                severity: current ? 'success' : 'secondary'
+            },
+            {
+                label: '历史版本',
+                value: historicalCount,
+                detail: '不含当前版本'
+            },
+            {
+                label: '最近生效',
+                value: this.formatDateTime(current?.effectiveAt ?? records[0]?.effectiveAt)
+            },
+            {
+                label: '上一版本',
+                value: this.supersedesText(current?.supersedesId ?? null),
+                detail: current?.rowVersion ? `Row version ${current.rowVersion}` : null
+            }
+        ];
+    }
+
     pricingPathLabel(value: string): string {
         return PRICING_PATH_LABELS[value] ?? value;
     }
@@ -770,6 +840,26 @@ export class ProjectPricingMarginWorkspace implements OnInit {
             return 'danger';
         }
         return 'secondary';
+    }
+
+    versionStatusLabel(value: string): string {
+        if (value === 'effective') {
+            return '生效中';
+        }
+        if (value === 'superseded') {
+            return '已被替代';
+        }
+        return value;
+    }
+
+    versionStatusSeverity(value: string): UiTagSeverity {
+        if (value === 'effective') {
+            return 'success';
+        }
+        if (value === 'superseded') {
+            return 'secondary';
+        }
+        return 'info';
     }
 
     conditionTypeLabel(value: string): string {
@@ -855,6 +945,22 @@ export class ProjectPricingMarginWorkspace implements OnInit {
             hour: '2-digit',
             minute: '2-digit'
         });
+    }
+
+    operatorIdText(value: string | null | undefined): string {
+        return value?.trim() ? value : '系统 / 未记录';
+    }
+
+    supersedesText(value: string | null | undefined): string {
+        return value ? `替代 ${this.shortId(value)}` : '无上一版本';
+    }
+
+    shortId(value: string): string {
+        return value.length > 12 ? `${value.slice(0, 8)}...` : value;
+    }
+
+    sortedPricingHistory(): ProjectPricingMarginReviewSummary[] {
+        return [...this.history()].sort((left, right) => right.version - left.version);
     }
 
     createEmptyPricingForm(workspace: ProjectPricingMarginWorkspaceView | null): PricingMarginForm {
@@ -990,18 +1096,20 @@ export class ProjectPricingMarginWorkspace implements OnInit {
             projectionLevel: this.blankToNull(this.pricingForm.projectionLevel),
             exportPolicy: this.blankToNull(this.pricingForm.exportPolicy),
             ownerRole: this.blankToNull(this.pricingForm.ownerRole),
-            conditionItems: this.pricingForm.conditionItems.map((item, index): ProjectPricingMarginConditionItemInput => ({
-                conditionKey: item.conditionKey.trim() || `condition-${index + 1}`,
-                conditionType: item.conditionType,
-                label: item.label.trim() || `条件项 ${index + 1}`,
-                conditionSummary: item.conditionSummary.trim() || `条件项 ${index + 1}`,
-                conditionStatus: item.conditionStatus,
-                requiredForContracting: item.requiredForContracting,
-                responsibleRole: this.blankToNull(item.responsibleRole),
-                dueAt: this.blankToNull(item.dueAt),
-                resolutionSummary: this.blankToNull(item.resolutionSummary),
-                sortOrder: index + 1
-            }))
+            conditionItems: this.pricingForm.conditionItems.map(
+                (item, index): ProjectPricingMarginConditionItemInput => ({
+                    conditionKey: item.conditionKey.trim() || `condition-${index + 1}`,
+                    conditionType: item.conditionType,
+                    label: item.label.trim() || `条件项 ${index + 1}`,
+                    conditionSummary: item.conditionSummary.trim() || `条件项 ${index + 1}`,
+                    conditionStatus: item.conditionStatus,
+                    requiredForContracting: item.requiredForContracting,
+                    responsibleRole: this.blankToNull(item.responsibleRole),
+                    dueAt: this.blankToNull(item.dueAt),
+                    resolutionSummary: this.blankToNull(item.resolutionSummary),
+                    sortOrder: index + 1
+                })
+            )
         };
     }
 

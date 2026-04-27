@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectWorkspaceStore, type ProjectPricingMarginWorkspaceView } from '@poms/admin-data-access';
+import { ProjectWorkspaceStore, type ProjectPricingMarginReviewSummary, type ProjectPricingMarginWorkspaceView } from '@poms/admin-data-access';
 import { ProjectPricingMarginWorkspace } from './project-pricing-margin-workspace';
 
 function createWorkspace(overrides: Partial<ProjectPricingMarginWorkspaceView> = {}): ProjectPricingMarginWorkspaceView {
@@ -121,21 +121,54 @@ function createWorkspace(overrides: Partial<ProjectPricingMarginWorkspaceView> =
     };
 }
 
+function createHistory(workspace: ProjectPricingMarginWorkspaceView): ProjectPricingMarginReviewSummary[] {
+    const current = workspace.currentReview;
+    if (!current) {
+        return [];
+    }
+
+    return [
+        current,
+        {
+            ...current,
+            id: 'pricing-review-0',
+            version: current.version - 1,
+            isCurrent: false,
+            supersedesId: null,
+            status: 'superseded',
+            quoteVersion: 'Q-2026-000',
+            decisionSummary: '旧版报价评审已被替代。',
+            createdBy: null,
+            updatedBy: null,
+            rowVersion: 1
+        }
+    ];
+}
+
 describe('ProjectPricingMarginWorkspace', () => {
     let fixture: ComponentFixture<ProjectPricingMarginWorkspace>;
     let workspaceSignal: ReturnType<typeof signal<ProjectPricingMarginWorkspaceView | null>>;
+    let historySignal: ReturnType<typeof signal<ProjectPricingMarginReviewSummary[]>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
+    let loadingHistorySignal: ReturnType<typeof signal<boolean>>;
     let savingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
+    let historyErrorSignal: ReturnType<typeof signal<string | null>>;
     let loadPricingMarginWorkspace: jest.Mock;
+    let loadPricingMarginReviewHistory: jest.Mock;
     let createPricingMarginReview: jest.Mock;
 
     async function setup(workspace: ProjectPricingMarginWorkspaceView | null = createWorkspace()) {
+        const history = workspace ? createHistory(workspace) : [];
         workspaceSignal = signal<ProjectPricingMarginWorkspaceView | null>(workspace);
+        historySignal = signal<ProjectPricingMarginReviewSummary[]>(history);
         loadingSignal = signal(false);
+        loadingHistorySignal = signal(false);
         savingSignal = signal(false);
         errorSignal = signal<string | null>(null);
+        historyErrorSignal = signal<string | null>(null);
         loadPricingMarginWorkspace = jest.fn().mockResolvedValue(workspace);
+        loadPricingMarginReviewHistory = jest.fn().mockResolvedValue(history);
         createPricingMarginReview = jest.fn().mockResolvedValue(workspace?.currentReview ?? null);
 
         await TestBed.configureTestingModule({
@@ -159,10 +192,14 @@ describe('ProjectPricingMarginWorkspace', () => {
                     provide: ProjectWorkspaceStore,
                     useValue: {
                         pricingMarginWorkspace: workspaceSignal,
+                        pricingMarginReviewHistory: historySignal,
                         loadingPricingMargin: loadingSignal,
+                        loadingPricingMarginHistory: loadingHistorySignal,
                         savingPricingMargin: savingSignal,
                         pricingMarginError: errorSignal,
+                        pricingMarginHistoryError: historyErrorSignal,
                         loadPricingMarginWorkspace,
+                        loadPricingMarginReviewHistory,
                         createPricingMarginReview
                     }
                 }
@@ -185,8 +222,10 @@ describe('ProjectPricingMarginWorkspace', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(loadPricingMarginWorkspace).toHaveBeenCalledWith('project-1');
+        expect(loadPricingMarginReviewHistory).toHaveBeenCalledWith('project-1');
         expect(text).toContain('报价与毛利评审');
         expect(text).toContain('Q-2026-001');
+        expect(text).toContain('Q-2026-000');
         expect(text).toContain('有条件放行');
         expect(text).toContain('毛利达到目标区间。');
         expect(text).toContain('250,000.00 CNY');
@@ -194,6 +233,9 @@ describe('ProjectPricingMarginWorkspace', () => {
         expect(text).toContain('成本版本');
         expect(text).toContain('客户已确认中标。');
         expect(text).toContain('付款条件确认');
+        expect(text).toContain('报价评审版本历史');
+        expect(text).toContain('已被替代');
+        expect(text).toContain('系统 / 未记录');
         expect(text).toContain('先关闭付款条件确认，再进入签约就绪承接。');
     });
 

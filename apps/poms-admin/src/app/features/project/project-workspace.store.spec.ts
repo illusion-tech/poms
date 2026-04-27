@@ -291,11 +291,45 @@ describe('ProjectWorkspaceStore', () => {
         allowedActions: ['view-pricing-margin-workspace'],
         generatedAt: '2026-04-24T08:25:00.000Z'
     };
+    const bidCommercialProcess = bidCommercialWorkspace.currentProcess;
+    const pricingMarginReview = pricingMarginWorkspace.currentReview;
+    if (!bidCommercialProcess || !pricingMarginReview) {
+        throw new Error('Project workspace store fixtures must include current bid and pricing records.');
+    }
+    const bidCommercialProcessHistory = [
+        bidCommercialProcess,
+        {
+            ...bidCommercialProcess,
+            id: 'bid-process-0',
+            version: 1,
+            isCurrent: false,
+            supersedesId: null,
+            status: 'superseded' as const,
+            processSummary: '旧版竞标过程。',
+            rowVersion: 1
+        }
+    ];
+    const pricingMarginReviewHistory = [
+        pricingMarginReview,
+        {
+            ...pricingMarginReview,
+            id: 'pricing-review-0',
+            version: 1,
+            isCurrent: false,
+            supersedesId: null,
+            status: 'superseded' as const,
+            quoteVersion: 'Q-2026-000',
+            decisionSummary: '旧版报价评审。',
+            rowVersion: 1
+        }
+    ];
     let projectApiMock: {
         projectControllerGetWorkspaceGuidance: jest.Mock;
         projectControllerGetProjectTechnicalCostWorkspace: jest.Mock;
         projectControllerGetProjectBidCommercialWorkspace: jest.Mock;
+        projectControllerListProjectBidCommercialProcesses: jest.Mock;
         projectControllerGetProjectPricingMarginWorkspace: jest.Mock;
+        projectControllerListProjectPricingMarginReviews: jest.Mock;
         projectControllerCreateProjectBidCommercialProcess: jest.Mock;
         projectControllerCreateProjectPricingMarginReview: jest.Mock;
     };
@@ -326,7 +360,9 @@ describe('ProjectWorkspaceStore', () => {
             projectControllerGetWorkspaceGuidance: jest.fn(),
             projectControllerGetProjectTechnicalCostWorkspace: jest.fn(),
             projectControllerGetProjectBidCommercialWorkspace: jest.fn(),
+            projectControllerListProjectBidCommercialProcesses: jest.fn(),
             projectControllerGetProjectPricingMarginWorkspace: jest.fn(),
+            projectControllerListProjectPricingMarginReviews: jest.fn(),
             projectControllerCreateProjectBidCommercialProcess: jest.fn(),
             projectControllerCreateProjectPricingMarginReview: jest.fn()
         };
@@ -509,7 +545,38 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.bidCommercialError()).toBe('当前项目还没有形成招投标 / 商务竞标工作区，请先补齐竞标形态、材料和结果事实。');
     });
 
-    it('creates a bid commercial process and refreshes the workspace projection', async () => {
+    it('loads bid commercial process history into shared state', async () => {
+        projectApiMock.projectControllerListProjectBidCommercialProcesses.mockReturnValue(of(bidCommercialProcessHistory));
+
+        await expect(store.loadBidCommercialProcessHistory('project-1')).resolves.toEqual(bidCommercialProcessHistory);
+
+        expect(projectApiMock.projectControllerListProjectBidCommercialProcesses).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.bidCommercialProcessHistory()).toEqual(bidCommercialProcessHistory);
+        expect(store.hasBidCommercialProcessHistory()).toBe(true);
+        expect(store.bidCommercialHistoryError()).toBeNull();
+    });
+
+    it('maps missing bid commercial history responses to a user-readable message', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        projectApiMock.projectControllerListProjectBidCommercialProcesses.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadBidCommercialProcessHistory('project-empty')).rejects.toBe(notFound);
+
+        expect(store.bidCommercialProcessHistory()).toEqual([]);
+        expect(store.hasBidCommercialProcessHistory()).toBe(false);
+        expect(store.bidCommercialHistoryError()).toBe('当前项目还没有形成招投标 / 商务竞标工作区，请先补齐竞标形态、材料和结果事实。');
+    });
+
+    it('creates a bid commercial process and refreshes the workspace projection and history', async () => {
         const request = {
             bidMode: CreateProjectBidCommercialProcessRequestBidModeEnum.PublicTender,
             currentStage: CreateProjectBidCommercialProcessRequestCurrentStageEnum.Submitted,
@@ -522,6 +589,7 @@ describe('ProjectWorkspaceStore', () => {
 
         projectApiMock.projectControllerCreateProjectBidCommercialProcess.mockReturnValue(of(bidCommercialWorkspace.currentProcess));
         projectApiMock.projectControllerGetProjectBidCommercialWorkspace.mockReturnValue(of(bidCommercialWorkspace));
+        projectApiMock.projectControllerListProjectBidCommercialProcesses.mockReturnValue(of(bidCommercialProcessHistory));
 
         await expect(store.createBidCommercialProcess('project-1', request)).resolves.toEqual(bidCommercialWorkspace.currentProcess);
 
@@ -532,7 +600,11 @@ describe('ProjectWorkspaceStore', () => {
         expect(projectApiMock.projectControllerGetProjectBidCommercialWorkspace).toHaveBeenCalledWith({
             projectId: 'project-1'
         });
+        expect(projectApiMock.projectControllerListProjectBidCommercialProcesses).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
         expect(store.bidCommercialWorkspace()).toEqual(bidCommercialWorkspace);
+        expect(store.bidCommercialProcessHistory()).toEqual(bidCommercialProcessHistory);
         expect(store.savingBidCommercial()).toBe(false);
         expect(store.bidCommercialError()).toBeNull();
     });
@@ -568,7 +640,38 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.pricingMarginError()).toBe('当前项目还没有形成报价与毛利评审工作区，请先补齐报价、成本版本、税务和回款条件。');
     });
 
-    it('creates a pricing margin review and refreshes the workspace projection', async () => {
+    it('loads pricing margin review history into shared state', async () => {
+        projectApiMock.projectControllerListProjectPricingMarginReviews.mockReturnValue(of(pricingMarginReviewHistory));
+
+        await expect(store.loadPricingMarginReviewHistory('project-1')).resolves.toEqual(pricingMarginReviewHistory);
+
+        expect(projectApiMock.projectControllerListProjectPricingMarginReviews).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.pricingMarginReviewHistory()).toEqual(pricingMarginReviewHistory);
+        expect(store.hasPricingMarginReviewHistory()).toBe(true);
+        expect(store.pricingMarginHistoryError()).toBeNull();
+    });
+
+    it('maps missing pricing margin history responses to a user-readable message', async () => {
+        const notFound = new HttpErrorResponse({
+            status: 404,
+            statusText: 'Not Found',
+            error: {
+                message: 'not found'
+            }
+        });
+
+        projectApiMock.projectControllerListProjectPricingMarginReviews.mockReturnValue(throwError(() => notFound));
+
+        await expect(store.loadPricingMarginReviewHistory('project-empty')).rejects.toBe(notFound);
+
+        expect(store.pricingMarginReviewHistory()).toEqual([]);
+        expect(store.hasPricingMarginReviewHistory()).toBe(false);
+        expect(store.pricingMarginHistoryError()).toBe('当前项目还没有形成报价与毛利评审工作区，请先补齐报价、成本版本、税务和回款条件。');
+    });
+
+    it('creates a pricing margin review and refreshes the workspace projection and history', async () => {
         const request = {
             technicalCostPackageId: 'technical-package-1',
             bidCommercialProcessId: 'bid-process-1',
@@ -589,6 +692,7 @@ describe('ProjectWorkspaceStore', () => {
 
         projectApiMock.projectControllerCreateProjectPricingMarginReview.mockReturnValue(of(pricingMarginWorkspace.currentReview));
         projectApiMock.projectControllerGetProjectPricingMarginWorkspace.mockReturnValue(of(pricingMarginWorkspace));
+        projectApiMock.projectControllerListProjectPricingMarginReviews.mockReturnValue(of(pricingMarginReviewHistory));
 
         await expect(store.createPricingMarginReview('project-1', request)).resolves.toEqual(pricingMarginWorkspace.currentReview);
 
@@ -599,7 +703,11 @@ describe('ProjectWorkspaceStore', () => {
         expect(projectApiMock.projectControllerGetProjectPricingMarginWorkspace).toHaveBeenCalledWith({
             projectId: 'project-1'
         });
+        expect(projectApiMock.projectControllerListProjectPricingMarginReviews).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
         expect(store.pricingMarginWorkspace()).toEqual(pricingMarginWorkspace);
+        expect(store.pricingMarginReviewHistory()).toEqual(pricingMarginReviewHistory);
         expect(store.savingPricingMargin()).toBe(false);
         expect(store.pricingMarginError()).toBeNull();
     });
@@ -789,9 +897,7 @@ describe('ProjectWorkspaceStore', () => {
             }
         });
 
-        projectCostApiMock.projectCostControllerGetProjectVarianceRiskExplanation.mockReturnValue(
-            throwError(() => notFound)
-        );
+        projectCostApiMock.projectCostControllerGetProjectVarianceRiskExplanation.mockReturnValue(throwError(() => notFound));
 
         await expect(store.loadVarianceRisk('project-404')).rejects.toBe(notFound);
 
@@ -806,9 +912,7 @@ describe('ProjectWorkspaceStore', () => {
             statusText: 'Forbidden'
         });
 
-        projectCostApiMock.projectCostControllerGetBusinessAccountingFeedback.mockReturnValue(
-            throwError(() => forbidden)
-        );
+        projectCostApiMock.projectCostControllerGetBusinessAccountingFeedback.mockReturnValue(throwError(() => forbidden));
 
         await expect(store.loadCommissionGateOverview('project-1')).rejects.toBe(forbidden);
 
@@ -956,9 +1060,7 @@ describe('ProjectWorkspaceStore', () => {
         });
 
         commissionApiMock.commissionControllerGetCurrentRoleAssignment.mockReturnValue(throwError(() => forbidden));
-        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(
-            throwError(() => forbidden)
-        );
+        projectHandoverApiMock.projectHandoverControllerGetProjectHandoverDetailByProject.mockReturnValue(throwError(() => forbidden));
 
         await expect(store.loadCommissionFreezeBinding('project-1')).rejects.toBe(forbidden);
 
@@ -1011,17 +1113,13 @@ describe('ProjectWorkspaceStore', () => {
             }
         });
 
-        commissionApiMock.commissionControllerGetCommissionRuleExplanation.mockReturnValue(
-            throwError(() => notFound)
-        );
+        commissionApiMock.commissionControllerGetCommissionRuleExplanation.mockReturnValue(throwError(() => notFound));
 
         await expect(store.loadCommissionRuleExplanation('project-404')).rejects.toBe(notFound);
 
         expect(store.commissionRuleExplanation()).toBeNull();
         expect(store.hasCommissionRuleExplanation()).toBe(false);
-        expect(store.commissionRuleExplanationError()).toBe(
-            '当前项目还没有形成可读取的规则解释快照，先完成最终结算收口链和规则解释快照生成。'
-        );
+        expect(store.commissionRuleExplanationError()).toBe('当前项目还没有形成可读取的规则解释快照，先完成最终结算收口链和规则解释快照生成。');
     });
 
     it('clears all workspace state when clear is called', async () => {

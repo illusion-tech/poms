@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-24
+**最后更新**: 2026-04-27
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -352,6 +352,8 @@
 - 2026-04-27 已完成 `FE-34` 本地 `G3`：签约前招投标 / 商务竞标与报价 / 毛利评审工作区已新增 `allowedActions` 控制的 create / edit-as-new-version PrimeNG dialog 表单，`ProjectWorkspaceStore` 已补 create command wrapper 与 saving 状态，提交后刷新 workspace projection；focused page/store tests、admin / data-access lint、admin build 与登录后从项目详情按钮进入工作区再打开 bid/pricing 写入弹窗并提交的 targeted Playwright journey 均通过。`G4` 等待本地改动提交后关闭 `FE30-E1`、`FE34-E1` 与 `FE34-E2`。
 - 2026-04-27 已完成 `FE-34` G4 收口：运行提交 `86c9ca1` 已落地，G3/G4 close-out 已归档；招投标 / 商务竞标与报价 / 毛利评审写入体验已成为签约前工作区稳定前端能力，`FE30-E1-BID-WRITE-ENTRY-DEFERRED`、`FE34-E1-APPEND-ONLY-EDIT-SEMANTICS` 与 `FE34-E2-PRICING-UPSTREAM-FACTS` 已关闭，`FE34-E3-HISTORY-LIST-NOT-PRIMARY` 保留为未来审计 / 历史列表增强边界。
 - 2026-04-27 已将 `FE-34` / `FE-35` close-out 中的 future scope 正式转入 tracker backlog：新增 `FE-36` 签约前竞标 / 报价版本历史与审计呈现，承接 `FE34-E3`；新增 `FE-37` Admin 模板 / Demo severity 字面量清理，承接 `FE35-E1` / `FE35-E2`。两项均为 `Todo / G0`，尚未进入 `G1` 或实现。
+- 2026-04-27 已将 `FE-36` 推入 `G1`：新增签约前竞标 / 报价版本历史与审计呈现实施基线，确认现有 `listProjectBidCommercialProcesses` / `listProjectPricingMarginReviews` routes 与 generated summary DTO 已足够支撑首版版本历史、替代链、current/status、created/effective metadata、actor ID 与 rowVersion 展示；本片定位为 frontend-only read-only implementation，不新增后端 API / OpenAPI / DTO / DDL，不做字段级 diff、恢复旧版本、审计中心或操作人姓名 enrichment。
+- 2026-04-27 已完成 `FE-36` 本地 `G3`：新增共享 `WorkspaceVersionHistory`、`ProjectWorkspaceStore` bid/pricing 历史列表 selectors 与加载方法，并在签约前竞标 / 报价两个工作区展示 current / historical 标记、`effective` / `superseded` 状态、替代链、created / effective metadata、操作人 ID fallback 与 `rowVersion`；focused page/store tests、poms-admin lint/build、admin-data-access lint、Markdown check 与 `git diff --check` 均通过。`G4` 等本地提交后关闭 `FE34-E3`，`FE36-E1` / `FE36-E2` / `FE36-E3` 作为首版范围边界保留。
 - 2026-04-24 已冻结 `FE-10` 的 `G1` 基线并确认原始前端片不能直接编码：仓内缺少技术确认、范围边界、风险 / 保留意见、前期成本清单、税务成本和成本估算版本的正式 query contract / generated client，因此新增前置后端切片 `EX-26`，禁止前端用静态文案、本地常量或执行期实际成本接口伪造签约前估算事实。
 - 2026-04-24 `EX-26` 已完成 local `G3`：新增签约前技术与成本版本包事实源、`POST/GET /projects/{projectId}/technical-cost-packages` 与 `GET /projects/{projectId}/technical-cost-workspace`、shared contract / DTO / OpenAPI / generated client、migration、service/query 和 focused backend tests。迁移检查中发现的 child table column comment drift 已按 `new-real-drift` 记录并修复；本片暂不进 `G4`，等待与后续 `FE-10` 前端改动同批提交。
 - 2026-04-24 `FE-10` 已完成 local `G3`：新增 `/projects/:id/workspace/technical-cost` 读取页、`ProjectWorkspaceStore.loadTechnicalCostWorkspace(projectId)`、签约前入口从占位切到真实 route，并覆盖页面、store、route、签约前入口与登录后真实入口链 E2E。验证通过 `poms-api` lint/build、`poms-admin` lint/build、`admin-data-access` lint、focused unit tests、`shared-api-client:check`、`migration-check` 与 `project-workspace.journey` 5 条 Playwright journey；本轮还修复了 `poms-api` build target 对 `webpack-cli 7.0.2` 的 `--config-node-env` 参数漂移。`FE-10` 暂不 G4，等待 `EX-26` + `FE-10` 同批提交后关闭。

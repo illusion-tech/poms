@@ -32,6 +32,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { WorkspaceVersionHistory, type WorkspaceVersionHistoryRow } from '../../shared/ui/workspace-version-history';
 import type { UiTagSeverity } from './project-presentation';
 
 const BID_MODE_LABELS: Record<string, string> = {
@@ -149,7 +150,8 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
         WorkspaceCommandPanel,
         WorkspaceFactGrid,
         WorkspaceFeedback,
-        WorkspaceLoading
+        WorkspaceLoading,
+        WorkspaceVersionHistory
     ],
     template: `
         @if (loading()) {
@@ -171,11 +173,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
 
                     @if (canWriteBidCommercial(currentWorkspace)) {
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <p-button
-                                [label]="currentWorkspace.currentProcess ? '编辑当前过程' : '创建竞标过程'"
-                                icon="pi pi-pencil"
-                                (onClick)="openBidDialog(currentWorkspace, currentWorkspace.currentProcess ? 'edit' : 'create')"
-                            />
+                            <p-button [label]="currentWorkspace.currentProcess ? '编辑当前过程' : '创建竞标过程'" icon="pi pi-pencil" (onClick)="openBidDialog(currentWorkspace, currentWorkspace.currentProcess ? 'edit' : 'create')" />
                             @if (currentWorkspace.currentProcess) {
                                 <p-button label="创建新过程" icon="pi pi-plus" severity="secondary" [outlined]="true" (onClick)="openBidDialog(currentWorkspace, 'create')" />
                             }
@@ -306,6 +304,20 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                         </app-workspace-feedback>
                     </section-card>
                 }
+
+                <app-workspace-version-history
+                    title="竞标版本历史"
+                    description="查看当前 / 历史竞标过程、替代链和审计 metadata。"
+                    primaryColumnHeader="过程阶段"
+                    secondaryColumnHeader="参与决策"
+                    outcomeColumnHeader="竞标结果"
+                    emptyMessage="当前没有竞标过程历史版本。"
+                    loadingMessage="正在读取竞标过程历史"
+                    [summaryItems]="bidHistorySummaryItems()"
+                    [rows]="bidHistoryRows()"
+                    [loading]="loadingHistory()"
+                    [error]="historyError()"
+                />
 
                 <section-card>
                     <ng-template #title>下一步</ng-template>
@@ -480,8 +492,11 @@ export class ProjectBidCommercialWorkspace implements OnInit {
 
     readonly workspace = this.#workspaceStore.bidCommercialWorkspace;
     readonly loading = this.#workspaceStore.loadingBidCommercial;
+    readonly history = this.#workspaceStore.bidCommercialProcessHistory;
+    readonly loadingHistory = this.#workspaceStore.loadingBidCommercialHistory;
     readonly saving = this.#workspaceStore.savingBidCommercial;
     readonly error = this.#workspaceStore.bidCommercialError;
+    readonly historyError = this.#workspaceStore.bidCommercialHistoryError;
 
     bidDialogVisible = false;
     bidDialogMode: BidCommercialDialogMode = 'create';
@@ -535,6 +550,7 @@ export class ProjectBidCommercialWorkspace implements OnInit {
         const projectId = this.projectId();
         if (projectId) {
             void this.#workspaceStore.loadBidCommercialWorkspace(projectId).catch(() => undefined);
+            void this.#workspaceStore.loadBidCommercialProcessHistory(projectId).catch(() => undefined);
         }
     }
 
@@ -687,6 +703,61 @@ export class ProjectBidCommercialWorkspace implements OnInit {
         return [...workspace.timelineItems].sort((left, right) => left.sortOrder - right.sortOrder);
     }
 
+    bidHistoryRows(): WorkspaceVersionHistoryRow[] {
+        return this.sortedBidHistory().map((process) => ({
+            id: process.id,
+            versionLabel: `V${process.version}`,
+            isCurrent: process.isCurrent,
+            statusLabel: this.versionStatusLabel(process.status),
+            statusSeverity: this.versionStatusSeverity(process.status),
+            primaryLabel: '过程阶段',
+            primaryValue: this.bidStageLabel(process.currentStage),
+            primarySeverity: this.bidStageSeverity(process.currentStage),
+            secondaryLabel: '参与决策',
+            secondaryValue: this.bidDecisionLabel(process.decision),
+            secondarySeverity: this.bidDecisionSeverity(process.decision),
+            outcomeLabel: '竞标结果',
+            outcomeValue: this.bidResultLabel(process.resultStatus),
+            outcomeSeverity: this.bidResultSeverity(process.resultStatus),
+            effectiveAt: this.formatDateTime(process.effectiveAt),
+            createdAt: this.formatDateTime(process.createdAt),
+            createdBy: this.operatorIdText(process.createdBy),
+            updatedAt: this.formatDateTime(process.updatedAt),
+            updatedBy: this.operatorIdText(process.updatedBy),
+            supersedesLabel: this.supersedesText(process.supersedesId),
+            rowVersionLabel: String(process.rowVersion)
+        }));
+    }
+
+    bidHistorySummaryItems(): WorkspaceFactGridItem[] {
+        const records = this.sortedBidHistory();
+        const current = records.find((record) => record.isCurrent) ?? this.workspace()?.currentProcess ?? null;
+        const historicalCount = records.filter((record) => !record.isCurrent).length;
+
+        return [
+            {
+                label: '当前版本',
+                value: current ? `V${current.version}` : '待形成',
+                detail: current?.id ? this.shortId(current.id) : null,
+                severity: current ? 'success' : 'secondary'
+            },
+            {
+                label: '历史版本',
+                value: historicalCount,
+                detail: '不含当前版本'
+            },
+            {
+                label: '最近生效',
+                value: this.formatDateTime(current?.effectiveAt ?? records[0]?.effectiveAt)
+            },
+            {
+                label: '上一版本',
+                value: this.supersedesText(current?.supersedesId ?? null),
+                detail: current?.rowVersion ? `Row version ${current.rowVersion}` : null
+            }
+        ];
+    }
+
     bidModeLabel(value: string): string {
         return BID_MODE_LABELS[value] ?? value;
     }
@@ -743,6 +814,26 @@ export class ProjectBidCommercialWorkspace implements OnInit {
         return 'secondary';
     }
 
+    versionStatusLabel(value: string): string {
+        if (value === 'effective') {
+            return '生效中';
+        }
+        if (value === 'superseded') {
+            return '已被替代';
+        }
+        return value;
+    }
+
+    versionStatusSeverity(value: string): UiTagSeverity {
+        if (value === 'effective') {
+            return 'success';
+        }
+        if (value === 'superseded') {
+            return 'secondary';
+        }
+        return 'info';
+    }
+
     materialStatusLabel(value: string): string {
         return MATERIAL_STATUS_LABELS[value] ?? value;
     }
@@ -791,6 +882,22 @@ export class ProjectBidCommercialWorkspace implements OnInit {
             hour: '2-digit',
             minute: '2-digit'
         });
+    }
+
+    operatorIdText(value: string | null | undefined): string {
+        return value?.trim() ? value : '系统 / 未记录';
+    }
+
+    supersedesText(value: string | null | undefined): string {
+        return value ? `替代 ${this.shortId(value)}` : '无上一版本';
+    }
+
+    shortId(value: string): string {
+        return value.length > 12 ? `${value.slice(0, 8)}...` : value;
+    }
+
+    sortedBidHistory(): ProjectBidCommercialProcessSummary[] {
+        return [...this.history()].sort((left, right) => right.version - left.version);
     }
 
     createEmptyBidForm(): BidCommercialForm {
@@ -893,26 +1000,30 @@ export class ProjectBidCommercialWorkspace implements OnInit {
             tenderNo: this.blankToNull(this.bidForm.tenderNo),
             bidPackageNo: this.blankToNull(this.bidForm.bidPackageNo),
             ownerRole: this.blankToNull(this.bidForm.ownerRole),
-            materialItems: this.bidForm.materialItems.map((item, index): ProjectBidCommercialMaterialItemInput => ({
-                materialKey: item.materialKey.trim() || `material-${index + 1}`,
-                label: item.label.trim() || `材料项 ${index + 1}`,
-                materialStatus: item.materialStatus,
-                responsibleRole: this.blankToNull(item.responsibleRole),
-                dueAt: this.blankToNull(item.dueAt),
-                blocksNextStep: item.blocksNextStep,
-                navigationHint: this.blankToNull(item.navigationHint),
-                sortOrder: index + 1
-            })),
-            timelineItems: this.bidForm.timelineItems.map((item, index): ProjectBidCommercialTimelineItemInput => ({
-                eventKey: item.eventKey.trim() || `event-${index + 1}`,
-                label: item.label.trim() || `节点 ${index + 1}`,
-                summary: this.blankToNull(item.summary),
-                timelineStatus: item.timelineStatus,
-                occurredAt: this.blankToNull(item.occurredAt),
-                dueAt: this.blankToNull(item.dueAt),
-                responsibleRole: this.blankToNull(item.responsibleRole),
-                sortOrder: index + 1
-            }))
+            materialItems: this.bidForm.materialItems.map(
+                (item, index): ProjectBidCommercialMaterialItemInput => ({
+                    materialKey: item.materialKey.trim() || `material-${index + 1}`,
+                    label: item.label.trim() || `材料项 ${index + 1}`,
+                    materialStatus: item.materialStatus,
+                    responsibleRole: this.blankToNull(item.responsibleRole),
+                    dueAt: this.blankToNull(item.dueAt),
+                    blocksNextStep: item.blocksNextStep,
+                    navigationHint: this.blankToNull(item.navigationHint),
+                    sortOrder: index + 1
+                })
+            ),
+            timelineItems: this.bidForm.timelineItems.map(
+                (item, index): ProjectBidCommercialTimelineItemInput => ({
+                    eventKey: item.eventKey.trim() || `event-${index + 1}`,
+                    label: item.label.trim() || `节点 ${index + 1}`,
+                    summary: this.blankToNull(item.summary),
+                    timelineStatus: item.timelineStatus,
+                    occurredAt: this.blankToNull(item.occurredAt),
+                    dueAt: this.blankToNull(item.dueAt),
+                    responsibleRole: this.blankToNull(item.responsibleRole),
+                    sortOrder: index + 1
+                })
+            )
         };
     }
 
