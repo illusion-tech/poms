@@ -55,6 +55,8 @@ import type {
     UserPayload
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectBidCommercialProcess } from './project-bid-commercial-process.entity';
@@ -206,8 +208,8 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取项目详情' })
     @ApiOkResponse({ type: ProjectDetailViewDto })
-    async getById(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<ProjectDetailView> {
-        return this.projectQueryService.getProjectDetail(id, req.user);
+    async getById(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectDetailView> {
+        return this.projectQueryService.getProjectDetail(id, req.user, buildSensitiveFieldProjectionRequestContext(req, `/projects/${id}`));
     }
 
     @Post()

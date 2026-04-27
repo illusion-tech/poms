@@ -33,6 +33,7 @@ import type {
     UserPayload
 } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
+import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { Contract } from '../contract/contract.entity';
 import { Lead } from '../lead/lead.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
@@ -202,7 +203,8 @@ const PROJECT_WORKSPACE_STAGE_GUIDANCE: Record<string, ProjectWorkspaceGuidanceT
 export class ProjectQueryService {
     constructor(
         private readonly projectRepository: ProjectRepository,
-        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository
+        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     async listProjects(query: ProjectListQuery): Promise<ProjectListView[]> {
@@ -258,7 +260,11 @@ export class ProjectQueryService {
             });
     }
 
-    async getProjectDetail(id: string, user: UserPayload): Promise<ProjectDetailView> {
+    async getProjectDetail(
+        id: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-detail:${id}` }
+    ): Promise<ProjectDetailView> {
         const project = await this.projectRepository.findById(id);
         if (!project) {
             throw new NotFoundException(`Project ${id} not found`);
@@ -281,6 +287,7 @@ export class ProjectQueryService {
         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
         const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
         const sourceLead = sourceLeads[0] ?? null;
+        const currentContractSummary = await this.buildContractSummary(contracts, user, requestContext, project.id);
         const currentApprovalSummary: ProjectDetailView['currentApprovalSummary'] = approvalSummarySnapshot
             ? {
                   summarySnapshotId: approvalSummarySnapshot.id,
@@ -322,7 +329,7 @@ export class ProjectQueryService {
             sourceLeadSummary: this.buildSourceLeadSummary(sourceLead),
             stageSummary: this.buildStageSummary(project),
             currentBidSummary: this.buildBidSummary(currentBidCommercialProcess),
-            currentContractSummary: this.buildContractSummary(contracts),
+            currentContractSummary,
             currentApprovalSummary,
             currentConfirmationSummary: this.buildConfirmationSummary(),
             summarySnapshotId: approvalSummarySnapshot?.id ?? null,
@@ -1304,16 +1311,31 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private buildContractSummary(contracts: Contract[]): ProjectDetailView['currentContractSummary'] {
+    private async buildContractSummary(
+        contracts: Contract[],
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        projectId: string
+    ): Promise<ProjectDetailView['currentContractSummary']> {
         const activeContracts = contracts.filter((contract) => contract.status === 'active');
         const latestContract = contracts[0] ?? null;
+        const signedAmountProjection = await this.sensitiveFieldProjectionService.projectStringField({
+            fieldPackageKey: 'contract-finance',
+            rawValue: latestContract?.signedAmount ?? null,
+            displayTextWhenFull: latestContract ? `${latestContract.signedAmount} ${latestContract.currencyCode}` : null,
+            user,
+            targetType: 'Project',
+            targetId: projectId,
+            requestContext
+        });
 
         return {
             activeContractCount: activeContracts.length,
             latestContractId: latestContract?.id ?? null,
             latestContractNo: latestContract?.contractNo ?? null,
             latestContractStatus: latestContract?.status ?? null,
-            signedAmount: latestContract?.signedAmount ?? null,
+            signedAmount: signedAmountProjection.value,
+            signedAmountProjection,
             currencyCode: latestContract?.currencyCode ?? null,
             signedAt: latestContract?.signedAt?.toISOString() ?? null,
             currentSnapshotId: latestContract?.currentSnapshotId ?? null

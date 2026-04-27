@@ -8,6 +8,16 @@ describe('ProjectHandoverQueryService', () => {
     const snapshotId = '60000000-0000-4000-8000-000000000001';
     const handoverId = '70000000-0000-4000-8000-000000000001';
     const rebaselineId = '80000000-0000-4000-8000-000000000001';
+    const financeUser = {
+        sub: '00000000-0000-4000-8000-000000000001',
+        username: 'finance-user',
+        permissions: ['project:read', 'contract:finance:sensitive:read']
+    };
+    const viewerUser = {
+        sub: '00000000-0000-4000-8000-000000000002',
+        username: 'viewer',
+        permissions: ['project:read']
+    };
 
     let service: ProjectHandoverQueryService;
     let projectService: { findById: jest.Mock };
@@ -19,6 +29,7 @@ describe('ProjectHandoverQueryService', () => {
     let contractHandoverRebaselineRecordRepository: { findById: jest.Mock; findLatestByProjectId: jest.Mock };
     let handoverBaselineImpactItemRepository: { findByRebaselineRecordId: jest.Mock };
     let projectReceiptJudgmentFreezeRepository: { findCurrentByProjectId: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
 
     beforeEach(() => {
         projectService = { findById: jest.fn() };
@@ -30,6 +41,28 @@ describe('ProjectHandoverQueryService', () => {
         contractHandoverRebaselineRecordRepository = { findById: jest.fn(), findLatestByProjectId: jest.fn() };
         handoverBaselineImpactItemRepository = { findByRebaselineRecordId: jest.fn() };
         projectReceiptJudgmentFreezeRepository = { findCurrentByProjectId: jest.fn() };
+        sensitiveFieldProjectionService = {
+            projectStringField: jest.fn(async (input) => {
+                if (input.rawValue === null) {
+                    return {
+                        fieldPackageKey: input.fieldPackageKey,
+                        mode: 'full',
+                        value: null,
+                        displayText: '-',
+                        reasonCode: 'field-package-not-applicable'
+                    };
+                }
+
+                const canRead = input.user?.permissions?.includes('contract:finance:sensitive:read') ?? false;
+                return {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: canRead ? 'full' : 'masked',
+                    value: canRead ? input.rawValue : null,
+                    displayText: canRead ? (input.displayTextWhenFull ?? input.rawValue) : '敏感字段已隐藏',
+                    reasonCode: canRead ? 'allowed' : 'missing-sensitive-read-permission'
+                };
+            })
+        };
 
         service = new ProjectHandoverQueryService(
             projectService as never,
@@ -40,7 +73,8 @@ describe('ProjectHandoverQueryService', () => {
             projectHandoverRepository as never,
             contractHandoverRebaselineRecordRepository as never,
             handoverBaselineImpactItemRepository as never,
-            projectReceiptJudgmentFreezeRepository as never
+            projectReceiptJudgmentFreezeRepository as never,
+            sensitiveFieldProjectionService as never
         );
 
         projectService.findById.mockResolvedValue(makeProject());
@@ -57,7 +91,7 @@ describe('ProjectHandoverQueryService', () => {
     });
 
     it('returns a ready contract handover summary view for an initialized project', async () => {
-        const result = await service.getContractHandoverSummary(projectId);
+        const result = await service.getContractHandoverSummary(projectId, financeUser as never);
 
         expect(contractService.findMany).toHaveBeenCalledWith({ projectId, status: 'active' });
         expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith(
@@ -69,6 +103,7 @@ describe('ProjectHandoverQueryService', () => {
         expect(result.projectId).toBe(projectId);
         expect(result.effectiveContractSetSummary.activeContractCount).toBe(1);
         expect(result.effectiveContractSetSummary.totalSignedAmount).toBe('12345.67');
+        expect(result.effectiveContractSetSummary.totalSignedAmountProjection.mode).toBe('full');
         expect(result.contractBaselineValidationSummary.status).toBe('ready');
         expect(result.currentHandoverBaselineSummary.baselineSnapshotId).toBe('50000000-0000-4000-8000-000000000101');
         expect(result.receivablePlanInitSummary.status).toBe('initialized');
@@ -77,10 +112,26 @@ describe('ProjectHandoverQueryService', () => {
         expect(result.blockingReasons).toEqual([]);
     });
 
+    it('masks effective contract amounts when the caller lacks sensitive read permission', async () => {
+        const result = await service.getContractHandoverSummary(projectId, viewerUser as never);
+
+        expect(result.effectiveContractSetSummary.totalSignedAmount).toBeNull();
+        expect(result.effectiveContractSetSummary.totalSignedAmountProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(result.effectiveContractSetSummary.contracts[0]?.signedAmount).toBeNull();
+        expect(result.effectiveContractSetSummary.contracts[0]?.signedAmountProjection.mode).toBe('masked');
+    });
+
     it('keeps the query read-only when the contract summary snapshot has not been generated', async () => {
         approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue(null);
 
-        const result = await service.getContractHandoverSummary(projectId);
+        const result = await service.getContractHandoverSummary(projectId, financeUser as never);
 
         expect(result.contractSummarySnapshotId).toBeNull();
         expect(result.allowedActions).toEqual(['generate-contract-handover-summary-snapshot']);
@@ -90,7 +141,7 @@ describe('ProjectHandoverQueryService', () => {
     it('throws when the project does not exist', async () => {
         projectService.findById.mockResolvedValue(null);
 
-        await expect(service.getContractHandoverSummary(projectId)).rejects.toThrow(NotFoundException);
+        await expect(service.getContractHandoverSummary(projectId, financeUser as never)).rejects.toThrow(NotFoundException);
     });
 
     it('reports a linked pending rebaseline record as a handover blocker', async () => {
@@ -111,7 +162,7 @@ describe('ProjectHandoverQueryService', () => {
             { impactType: 'scope', impactSummary: '范围快照待更新' }
         ]);
 
-        const result = await service.getContractHandoverSummary(projectId);
+        const result = await service.getContractHandoverSummary(projectId, financeUser as never);
 
         expect(result.latestHandoverRebaselineSummary.status).toBe('processing');
         expect(result.latestHandoverRebaselineSummary.blockingStatus).toBe('blocking');
@@ -123,7 +174,7 @@ describe('ProjectHandoverQueryService', () => {
     it('returns the latest project handover detail with summary and participant confirmation chains', async () => {
         projectHandoverRepository.findByProjectId.mockResolvedValue([makeHandover()]);
 
-        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+        const result = await service.getProjectHandoverDetailByProjectId(projectId, financeUser as never);
 
         expect(approvalSummarySnapshotRepository.findById).toHaveBeenCalledWith('60000000-0000-4000-8000-000000000201');
         expect(confirmationService.findLatestConfirmationProgressByTarget).toHaveBeenCalledWith(
@@ -152,7 +203,7 @@ describe('ProjectHandoverQueryService', () => {
             sourceId: handoverId
         });
 
-        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+        const result = await service.getProjectHandoverDetailByProjectId(projectId, financeUser as never);
 
         expect(result.receiptJudgmentModeSummary).toEqual({
             status: 'frozen',
@@ -164,7 +215,7 @@ describe('ProjectHandoverQueryService', () => {
     });
 
     it('returns a controlled project handover placeholder when no handover record exists', async () => {
-        const result = await service.getProjectHandoverDetailByProjectId(projectId);
+        const result = await service.getProjectHandoverDetailByProjectId(projectId, financeUser as never);
 
         expect(result.handoverId).toBeNull();
         expect(result.handoverStatus).toBe('not_started');
@@ -177,7 +228,7 @@ describe('ProjectHandoverQueryService', () => {
     it('throws when the requested handover does not exist', async () => {
         projectHandoverRepository.findById.mockResolvedValue(null);
 
-        await expect(service.getProjectHandoverDetailByHandoverId(handoverId)).rejects.toThrow(NotFoundException);
+        await expect(service.getProjectHandoverDetailByHandoverId(handoverId, financeUser as never)).rejects.toThrow(NotFoundException);
     });
 
     function makeProject() {

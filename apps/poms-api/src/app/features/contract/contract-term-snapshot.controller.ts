@@ -1,8 +1,11 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContractTermSnapshotSummaryDto } from '@poms/api-contracts';
-import type { ContractTermSnapshotSummary } from '@poms/shared-contracts';
+import type { ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
+import { SensitiveFieldProjectionService } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { mapSnapshotToSummary } from './contract.controller';
 import { ContractTermSnapshotRepository } from './contract.repository';
 
@@ -10,17 +13,28 @@ import { ContractTermSnapshotRepository } from './contract.repository';
 @ApiBearerAuth()
 @Controller('contract-term-snapshots')
 export class ContractTermSnapshotController {
-    constructor(private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository) {}
+    constructor(
+        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+    ) {}
 
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取合同条款快照' })
     @ApiOkResponse({ type: ContractTermSnapshotSummaryDto })
-    async getById(@Param('id') id: string): Promise<ContractTermSnapshotSummary> {
+    async getById(
+        @Param('id') id: string,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ContractTermSnapshotSummary> {
         const snapshot = await this.contractTermSnapshotRepository.findById(id);
         if (!snapshot) {
             throw new NotFoundException(`ContractTermSnapshot ${id} not found`);
         }
-        return mapSnapshotToSummary(snapshot);
+        return mapSnapshotToSummary(
+            snapshot,
+            this.sensitiveFieldProjectionService,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/contract-term-snapshots/${id}`)
+        );
     }
 }

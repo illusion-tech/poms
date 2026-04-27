@@ -112,7 +112,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                             </div>
                             <div class="flex flex-col gap-1">
                                 <span class="text-xs text-surface-500 dark:text-surface-400">签约金额</span>
-                                @if (canViewFinancialSensitiveFields()) {
+                                @if (canReadContractSignedAmount()) {
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.signedAmount | number: '1.2-2' }} {{ contract()!.currencyCode }}</span>
                                 } @else {
                                     <span class="text-sm text-surface-500 dark:text-surface-400">{{ sensitiveFieldHiddenText }}</span>
@@ -408,8 +408,9 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
     readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
     readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
-    readonly canEditContract = computed(() => this.canViewFinancialSensitiveFields() && this.contract()?.status === 'draft');
-    readonly canSubmitReview = computed(() => this.canViewFinancialSensitiveFields() && this.contract()?.status === 'draft');
+    readonly canReadContractSignedAmount = computed(() => this.canViewFinancialSensitiveFields() && typeof this.contract()?.signedAmount === 'string');
+    readonly canEditContract = computed(() => this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
+    readonly canSubmitReview = computed(() => this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.canViewFinancialSensitiveFields());
@@ -485,7 +486,7 @@ export class ContractDetail implements OnInit, OnDestroy {
     showEditDialog() {
         const c = this.contract();
         if (!c) return;
-        this.editForm = { signedAmount: c.signedAmount, currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
+        this.editForm = { signedAmount: c.signedAmount ?? '', currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
         this.editSubmitAttempted = false;
         this.editDialogVisible = true;
     }

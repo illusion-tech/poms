@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface ContractTermSnapshotSummary {
@@ -16,7 +17,9 @@ export interface ContractTermSnapshotSummary {
     effectiveBy: string | null;
     retentionDueDate: string | null;
     amountTaxInclusive: string | null;
+    amountTaxInclusiveProjection: SensitiveStringFieldProjection;
     amountTaxExclusive: string | null;
+    amountTaxExclusiveProjection: SensitiveStringFieldProjection;
     taxRate: string | null;
     downPaymentRate: string | null;
     retentionRate: string | null;

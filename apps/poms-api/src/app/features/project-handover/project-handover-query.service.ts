@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import type { ContractHandoverSummaryView, ContractReadinessDetail, ProjectHandoverDetailView } from '@poms/shared-contracts';
+import type { UserPayload } from '@poms/shared-contracts';
+import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { ConfirmationService, type ConfirmationProgress } from '../approval/confirmation.service';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
@@ -31,24 +33,37 @@ export class ProjectHandoverQueryService {
         private readonly projectHandoverRepository: ProjectHandoverRepository,
         private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
         private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
-        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository
+        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
-    async getContractHandoverSummary(projectId: string): Promise<ContractHandoverSummaryView> {
+    async getContractHandoverSummary(
+        projectId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `contract-handover:${projectId}` }
+    ): Promise<ContractHandoverSummaryView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
-        return this.buildContractHandoverSummary(project, latestHandover);
+        return this.buildContractHandoverSummary(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByProjectId(projectId: string): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByProjectId(
+        projectId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${projectId}` }
+    ): Promise<ProjectHandoverDetailView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
-        return this.buildProjectHandoverDetail(project, latestHandover);
+        return this.buildProjectHandoverDetail(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByHandoverId(handoverId: string): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByHandoverId(
+        handoverId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${handoverId}` }
+    ): Promise<ProjectHandoverDetailView> {
         const handover = await this.projectHandoverRepository.findById(handoverId);
         if (!handover) {
             throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
@@ -56,10 +71,15 @@ export class ProjectHandoverQueryService {
 
         const project = await this.findProjectOrThrow(handover.projectId);
 
-        return this.buildProjectHandoverDetail(project, handover);
+        return this.buildProjectHandoverDetail(project, handover, user, requestContext);
     }
 
-    private async buildContractHandoverSummary(project: Project, latestHandover: ProjectHandover | null): Promise<ContractHandoverSummaryView> {
+    private async buildContractHandoverSummary(
+        project: Project,
+        latestHandover: ProjectHandover | null,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<ContractHandoverSummaryView> {
         const projectId = project.id;
         const [activeContracts, readiness, contractSummarySnapshot, handovers] = await Promise.all([
             this.contractService.findMany({ projectId, status: 'active' }),
@@ -80,7 +100,7 @@ export class ProjectHandoverQueryService {
             : [];
 
         const blockingReasons = this.buildBlockingReasons(activeContracts, readiness, contractSummarySnapshot, latestRebaseline);
-        const effectiveContractSetSummary = this.buildEffectiveContractSetSummary(activeContracts);
+        const effectiveContractSetSummary = await this.buildEffectiveContractSetSummary(activeContracts, user, requestContext, project.id);
         const contractBaselineValidationSummary = this.buildBaselineValidationSummary(readiness);
         const latestHandoverRebaselineSummary = this.buildLatestRebaselineSummary(latestRebaseline, impactItems);
         const currentHandoverBaselineSummary = this.buildCurrentHandoverBaselineSummary(readiness, selectedHandover, latestRebaseline);
@@ -104,9 +124,14 @@ export class ProjectHandoverQueryService {
         };
     }
 
-    private async buildProjectHandoverDetail(project: Project, handover: ProjectHandover | null): Promise<ProjectHandoverDetailView> {
+    private async buildProjectHandoverDetail(
+        project: Project,
+        handover: ProjectHandover | null,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<ProjectHandoverDetailView> {
         const [contractHandoverSummary, handoverSummarySnapshot, confirmationProgress] = await Promise.all([
-            this.buildContractHandoverSummary(project, handover),
+            this.buildContractHandoverSummary(project, handover, user, requestContext),
             handover?.summarySnapshotId ? this.approvalSummarySnapshotRepository.findById(handover.summarySnapshotId) : Promise.resolve(null),
             handover
                 ? this.confirmationService.findLatestConfirmationProgressByTarget(
@@ -306,25 +331,58 @@ export class ProjectHandoverQueryService {
             : null;
     }
 
-    private buildEffectiveContractSetSummary(activeContracts: Contract[]): ContractHandoverSummaryView['effectiveContractSetSummary'] {
+    private async buildEffectiveContractSetSummary(
+        activeContracts: Contract[],
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        projectId: string
+    ): Promise<ContractHandoverSummaryView['effectiveContractSetSummary']> {
         const signedDates = activeContracts
             .map((contract) => contract.signedAt)
             .filter((signedAt): signedAt is Date => Boolean(signedAt))
             .sort((a, b) => a.getTime() - b.getTime());
+        const totalSignedAmount = sumMoneyStrings(activeContracts.map((contract) => contract.signedAmount));
+        const currencyCodes = [...new Set(activeContracts.map((contract) => contract.currencyCode))].sort();
+        const [totalSignedAmountProjection, contractProjections] = await Promise.all([
+            this.sensitiveFieldProjectionService.projectStringField({
+                fieldPackageKey: 'contract-finance',
+                rawValue: activeContracts.length > 0 ? totalSignedAmount : null,
+                displayTextWhenFull: activeContracts.length > 0 ? `${totalSignedAmount} ${currencyCodes.join(' / ')}` : null,
+                user,
+                targetType: 'Project',
+                targetId: projectId,
+                requestContext
+            }),
+            Promise.all(
+                activeContracts.map((contract) =>
+                    this.sensitiveFieldProjectionService.projectStringField({
+                        fieldPackageKey: 'contract-finance',
+                        rawValue: contract.signedAmount,
+                        displayTextWhenFull: `${contract.signedAmount} ${contract.currencyCode}`,
+                        user,
+                        targetType: 'Contract',
+                        targetId: contract.id,
+                        requestContext
+                    })
+                )
+            )
+        ]);
 
         return {
             activeContractCount: activeContracts.length,
             activeContractIds: activeContracts.map((contract) => contract.id),
             contractNos: activeContracts.map((contract) => contract.contractNo),
-            totalSignedAmount: sumMoneyStrings(activeContracts.map((contract) => contract.signedAmount)),
-            currencyCodes: [...new Set(activeContracts.map((contract) => contract.currencyCode))].sort(),
+            totalSignedAmount: totalSignedAmountProjection.value,
+            totalSignedAmountProjection,
+            currencyCodes,
             earliestSignedAt: signedDates[0]?.toISOString() ?? null,
             latestSignedAt: signedDates.length > 0 ? signedDates[signedDates.length - 1].toISOString() : null,
-            contracts: activeContracts.map((contract) => ({
+            contracts: activeContracts.map((contract, index) => ({
                 id: contract.id,
                 contractNo: contract.contractNo,
                 status: contract.status,
-                signedAmount: contract.signedAmount,
+                signedAmount: contractProjections[index]?.value ?? null,
+                signedAmountProjection: contractProjections[index] ?? totalSignedAmountProjection,
                 currencyCode: contract.currencyCode,
                 currentSnapshotId: contract.currentSnapshotId ?? null,
                 signedAt: contract.signedAt?.toISOString() ?? null

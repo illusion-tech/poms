@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { ContractTermSnapshotSummary } from './contract-term-snapshot-summary';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { ContractStatus } from './contract-status';
 
 
@@ -19,7 +20,8 @@ export interface ContractDetailView {
     contractNo: string;
     customerContractNo: string | null;
     status: ContractStatus;
-    signedAmount: string;
+    signedAmount: string | null;
+    signedAmountProjection: SensitiveStringFieldProjection;
     currencyCode: string;
     currentSnapshotId: string | null;
     signedAt: string | null;

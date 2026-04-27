@@ -102,7 +102,14 @@ describe('ProjectHandoverCommandService', () => {
 
         const result = await service.confirmProjectHandover(handoverId, actorUserId, makeInput());
 
-        expect(projectHandoverQueryService.getProjectHandoverDetailByHandoverId).toHaveBeenCalledWith(handoverId);
+        expect(projectHandoverQueryService.getProjectHandoverDetailByHandoverId).toHaveBeenCalledWith(
+            handoverId,
+            expect.objectContaining({
+                sub: actorUserId,
+                permissions: expect.arrayContaining(['contract:finance:sensitive:read'])
+            }),
+            expect.objectContaining({ method: 'COMMAND' })
+        );
         expect(projectHandoverRepository.save).toHaveBeenCalledWith(handover);
         expect(handover.status).toBe('confirmed');
         expect(handover.confirmedAt).toBeInstanceOf(Date);

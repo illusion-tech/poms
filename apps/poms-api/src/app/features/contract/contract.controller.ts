@@ -3,6 +3,9 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags
 import { ActivateContractRequestDto, ApprovalRecordDto, CommandResultDto, ContractDetailViewDto, ContractDto, ContractListDto, ContractListQueryDto, CreateContractRequestDto, SubmitContractReviewRequestDto, UpdateContractBasicInfoRequestDto } from '@poms/api-contracts';
 import type { ApprovalRecordSummary, CommandResult, ContractDetailView, ContractListQuery, ContractSummary, ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
+import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { ApprovalService } from '../approval/approval.service';
 import { Project } from '../project/project.entity';
 import { ProjectService } from '../project/project.service';
@@ -18,14 +21,18 @@ export class ContractController {
         private readonly contractService: ContractService,
         private readonly approvalService: ApprovalService,
         private readonly projectService: ProjectService,
-        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository
+        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     @Get()
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取合同列表' })
     @ApiOkResponse({ type: ContractListDto })
-    async list(@Query() query: ContractListQueryDto): Promise<ContractSummary[]> {
+    async list(
+        @Query() query: ContractListQueryDto,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ContractSummary[]> {
         const listQuery: ContractListQuery = {
             projectId: query.projectId,
             status: query.status,
@@ -36,15 +43,20 @@ export class ContractController {
         const projectIds = [...new Set(contracts.map((c) => c.projectId))];
         const projects = await this.projectService.findByIds(projectIds);
         const projectMap = new Map(projects.map((p) => [p.id, p]));
+        const requestContext = buildSensitiveFieldProjectionRequestContext(req, '/contracts');
 
-        return contracts.map((c) => mapContractToSummary(c, projectMap.get(c.projectId) ?? null));
+        return Promise.all(
+            contracts.map((c) =>
+                mapContractToSummary(c, projectMap.get(c.projectId) ?? null, this.sensitiveFieldProjectionService, req.user, requestContext)
+            )
+        );
     }
 
     @Get('no/:contractNo')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按合同编号获取详情' })
     @ApiOkResponse({ type: ContractDetailViewDto })
-    async getByNo(@Param('contractNo') contractNo: string): Promise<ContractDetailView> {
+    async getByNo(@Param('contractNo') contractNo: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ContractDetailView> {
         const contract = await this.contractService.findByNo(contractNo);
         if (!contract) {
             throw new NotFoundException(`Contract no ${contractNo} not found`);
@@ -54,14 +66,21 @@ export class ContractController {
             this.projectService.findById(contract.projectId),
             contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)
         ]);
-        return mapContractToDetailView(contract, project, snapshot);
+        return mapContractToDetailView(
+            contract,
+            project,
+            snapshot,
+            this.sensitiveFieldProjectionService,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/contracts/no/${contractNo}`)
+        );
     }
 
     @Get(':id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '按 ID 获取合同详情' })
     @ApiOkResponse({ type: ContractDetailViewDto })
-    async getById(@Param('id') id: string): Promise<ContractDetailView> {
+    async getById(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ContractDetailView> {
         const contract = await this.contractService.findById(id);
         if (!contract) {
             throw new NotFoundException(`Contract ${id} not found`);
@@ -71,7 +90,14 @@ export class ContractController {
             this.projectService.findById(contract.projectId),
             contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)
         ]);
-        return mapContractToDetailView(contract, project, snapshot);
+        return mapContractToDetailView(
+            contract,
+            project,
+            snapshot,
+            this.sensitiveFieldProjectionService,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/contracts/${id}`)
+        );
     }
 
     @Get(':id/approval-record')
@@ -91,7 +117,7 @@ export class ContractController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建合同基础台账' })
     @ApiCreatedResponse({ type: ContractDto })
-    async create(@Body() body: CreateContractRequestDto): Promise<ContractSummary> {
+    async create(@Body() body: CreateContractRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ContractSummary> {
         const contract = await this.contractService.createAndSave({
             projectId: body.projectId,
             customerContractNo: body.customerContractNo,
@@ -105,14 +131,24 @@ export class ContractController {
         });
 
         const project = await this.projectService.findById(contract.projectId);
-        return mapContractToSummary(contract, project);
+        return mapContractToSummary(
+            contract,
+            project,
+            this.sensitiveFieldProjectionService,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, '/contracts')
+        );
     }
 
     @Patch(':id')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新合同基础信息' })
     @ApiOkResponse({ type: ContractDto })
-    async updateBasicInfo(@Param('id') id: string, @Body() body: UpdateContractBasicInfoRequestDto): Promise<ContractSummary> {
+    async updateBasicInfo(
+        @Param('id') id: string,
+        @Body() body: UpdateContractBasicInfoRequestDto,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ContractSummary> {
         const contract = await this.contractService.updateBasicInfo(id, {
             customerContractNo: body.customerContractNo,
             signedAmount: body.signedAmount,
@@ -123,7 +159,13 @@ export class ContractController {
         });
 
         const project = await this.projectService.findById(contract.projectId);
-        return mapContractToSummary(contract, project);
+        return mapContractToSummary(
+            contract,
+            project,
+            this.sensitiveFieldProjectionService,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/contracts/${id}`)
+        );
     }
 
     @Post(':id\\:submitReview')
@@ -145,7 +187,23 @@ export class ContractController {
     }
 }
 
-function mapContractToSummary(contract: Contract, project: Project | null): ContractSummary {
+async function mapContractToSummary(
+    contract: Contract,
+    project: Project | null,
+    sensitiveFieldProjectionService: SensitiveFieldProjectionService,
+    user: UserPayload,
+    requestContext: SensitiveFieldProjectionRequestContext
+): Promise<ContractSummary> {
+    const signedAmountProjection = await sensitiveFieldProjectionService.projectStringField({
+        fieldPackageKey: 'contract-finance',
+        rawValue: contract.signedAmount,
+        displayTextWhenFull: `${contract.signedAmount} ${contract.currencyCode}`,
+        user,
+        targetType: 'Contract',
+        targetId: contract.id,
+        requestContext
+    });
+
     return {
         id: contract.id,
         projectId: contract.projectId,
@@ -154,7 +212,8 @@ function mapContractToSummary(contract: Contract, project: Project | null): Cont
         contractNo: contract.contractNo,
         customerContractNo: contract.customerContractNo ?? null,
         status: contract.status,
-        signedAmount: contract.signedAmount,
+        signedAmount: signedAmountProjection.value,
+        signedAmountProjection,
         currencyCode: contract.currencyCode,
         currentSnapshotId: contract.currentSnapshotId ?? null,
         signedAt: contract.signedAt?.toISOString() ?? null,
@@ -167,15 +226,43 @@ function mapContractToSummary(contract: Contract, project: Project | null): Cont
     };
 }
 
-export function mapSnapshotToSummary(snapshot: ContractTermSnapshot): ContractTermSnapshotSummary {
+export async function mapSnapshotToSummary(
+    snapshot: ContractTermSnapshot,
+    sensitiveFieldProjectionService: SensitiveFieldProjectionService,
+    user: UserPayload,
+    requestContext: SensitiveFieldProjectionRequestContext
+): Promise<ContractTermSnapshotSummary> {
+    const [amountTaxInclusiveProjection, amountTaxExclusiveProjection] = await Promise.all([
+        sensitiveFieldProjectionService.projectStringField({
+            fieldPackageKey: 'contract-finance',
+            rawValue: snapshot.amountTaxInclusive ?? null,
+            displayTextWhenFull: snapshot.amountTaxInclusive ?? null,
+            user,
+            targetType: 'ContractSnapshot',
+            targetId: snapshot.id,
+            requestContext
+        }),
+        sensitiveFieldProjectionService.projectStringField({
+            fieldPackageKey: 'contract-finance',
+            rawValue: snapshot.amountTaxExclusive ?? null,
+            displayTextWhenFull: snapshot.amountTaxExclusive ?? null,
+            user,
+            targetType: 'ContractSnapshot',
+            targetId: snapshot.id,
+            requestContext
+        })
+    ]);
+
     return {
         id: snapshot.id,
         contractId: snapshot.contractId,
         effectiveAt: snapshot.effectiveAt.toISOString(),
         effectiveBy: snapshot.effectiveBy ?? null,
         retentionDueDate: snapshot.retentionDueDate ?? null,
-        amountTaxInclusive: snapshot.amountTaxInclusive ?? null,
-        amountTaxExclusive: snapshot.amountTaxExclusive ?? null,
+        amountTaxInclusive: amountTaxInclusiveProjection.value,
+        amountTaxInclusiveProjection,
+        amountTaxExclusive: amountTaxExclusiveProjection.value,
+        amountTaxExclusiveProjection,
         taxRate: snapshot.taxRate ?? null,
         downPaymentRate: snapshot.downPaymentRate ?? null,
         retentionRate: snapshot.retentionRate ?? null,
@@ -190,9 +277,16 @@ export function mapSnapshotToSummary(snapshot: ContractTermSnapshot): ContractTe
     };
 }
 
-function mapContractToDetailView(contract: Contract, project: Project | null, snapshot: ContractTermSnapshot | null): ContractDetailView {
+async function mapContractToDetailView(
+    contract: Contract,
+    project: Project | null,
+    snapshot: ContractTermSnapshot | null,
+    sensitiveFieldProjectionService: SensitiveFieldProjectionService,
+    user: UserPayload,
+    requestContext: SensitiveFieldProjectionRequestContext
+): Promise<ContractDetailView> {
     return {
-        ...mapContractToSummary(contract, project),
-        currentTermSnapshot: snapshot ? mapSnapshotToSummary(snapshot) : null
+        ...(await mapContractToSummary(contract, project, sensitiveFieldProjectionService, user, requestContext)),
+        currentTermSnapshot: snapshot ? await mapSnapshotToSummary(snapshot, sensitiveFieldProjectionService, user, requestContext) : null
     };
 }

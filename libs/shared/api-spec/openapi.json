@@ -11584,6 +11584,9 @@
             "type": "string",
             "nullable": true
           },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
           "currencyCode": {
             "type": "string",
             "nullable": true
@@ -11607,9 +11610,68 @@
           "latestContractNo",
           "latestContractStatus",
           "signedAmount",
+          "signedAmountProjection",
           "currencyCode",
           "signedAt",
           "currentSnapshotId"
+        ]
+      },
+      "SensitiveStringFieldProjection": {
+        "type": "object",
+        "properties": {
+          "fieldPackageKey": {
+            "$ref": "#/components/schemas/SensitiveFieldPackageKey"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/SensitiveProjectionMode"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayText": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "reasonCode": {
+            "$ref": "#/components/schemas/SensitiveProjectionReasonCode"
+          }
+        },
+        "required": [
+          "fieldPackageKey",
+          "mode",
+          "value",
+          "displayText",
+          "reasonCode"
+        ]
+      },
+      "SensitiveFieldPackageKey": {
+        "type": "string",
+        "enum": [
+          "contract-finance",
+          "operating-finance",
+          "commission-compensation",
+          "labor-cost-rate",
+          "exception-approval-opinion"
+        ]
+      },
+      "SensitiveProjectionMode": {
+        "type": "string",
+        "enum": [
+          "full",
+          "summary",
+          "masked",
+          "denied"
+        ]
+      },
+      "SensitiveProjectionReasonCode": {
+        "type": "string",
+        "enum": [
+          "allowed",
+          "summary-only",
+          "missing-sensitive-read-permission",
+          "field-package-not-applicable"
         ]
       },
       "ProjectDetailApprovalSummary": {
@@ -17664,7 +17726,11 @@
             }
           },
           "totalSignedAmount": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "totalSignedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "currencyCodes": {
             "type": "array",
@@ -17696,6 +17762,7 @@
           "activeContractIds",
           "contractNos",
           "totalSignedAmount",
+          "totalSignedAmountProjection",
           "currencyCodes",
           "earliestSignedAt",
           "latestSignedAt",
@@ -17717,7 +17784,11 @@
             "$ref": "#/components/schemas/ContractStatus"
           },
           "signedAmount": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "currencyCode": {
             "type": "string"
@@ -17740,6 +17811,7 @@
           "contractNo",
           "status",
           "signedAmount",
+          "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",
           "signedAt"
@@ -18960,7 +19032,11 @@
             "$ref": "#/components/schemas/ContractStatus"
           },
           "signedAmount": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "currencyCode": {
             "type": "string"
@@ -19020,6 +19096,7 @@
           "customerContractNo",
           "status",
           "signedAmount",
+          "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",
           "signedAt",
@@ -19071,9 +19148,15 @@
             "type": "string",
             "nullable": true
           },
+          "amountTaxInclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
           "amountTaxExclusive": {
             "type": "string",
             "nullable": true
+          },
+          "amountTaxExclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "taxRate": {
             "type": "string",
@@ -19140,7 +19223,9 @@
           "effectiveBy",
           "retentionDueDate",
           "amountTaxInclusive",
+          "amountTaxInclusiveProjection",
           "amountTaxExclusive",
+          "amountTaxExclusiveProjection",
           "taxRate",
           "downPaymentRate",
           "retentionRate",
@@ -19185,7 +19270,11 @@
             "$ref": "#/components/schemas/ContractStatus"
           },
           "signedAmount": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "currencyCode": {
             "type": "string"
@@ -19253,6 +19342,7 @@
           "customerContractNo",
           "status",
           "signedAmount",
+          "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",
           "signedAt",

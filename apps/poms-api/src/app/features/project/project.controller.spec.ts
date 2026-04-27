@@ -117,7 +117,11 @@ describe('ProjectController', () => {
         projectQueryService.getProjectDetail.mockResolvedValue(detail as never);
 
         await expect(controller.getById(projectId, { user } as never)).resolves.toBe(detail);
-        expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(projectId, user);
+        expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(
+            projectId,
+            user,
+            expect.objectContaining({ path: `/projects/${projectId}` })
+        );
     });
 
     it('returns project workspace guidance through the query service', async () => {

@@ -8,13 +8,15 @@
  * Do not edit the class manually.
  */
 import { ContractHandoverContractItemSummary } from './contract-handover-contract-item-summary';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface ContractHandoverEffectiveContractSetSummary {
     activeContractCount: number;
     activeContractIds: Array<string>;
     contractNos: Array<string>;
-    totalSignedAmount: string;
+    totalSignedAmount: string | null;
+    totalSignedAmountProjection: SensitiveStringFieldProjection;
     currencyCodes: Array<string>;
     earliestSignedAt: string | null;
     latestSignedAt: string | null;

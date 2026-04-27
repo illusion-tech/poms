@@ -32,6 +32,16 @@ export class SensitiveFieldProjectionService {
     constructor(private readonly runtimeAuditService: RuntimeAuditService) {}
 
     async projectStringField(input: ProjectSensitiveStringFieldInput): Promise<SensitiveStringFieldProjection> {
+        if (input.rawValue === null) {
+            return {
+                fieldPackageKey: input.fieldPackageKey,
+                mode: 'full',
+                value: null,
+                displayText: input.displayTextWhenFull ?? '-',
+                reasonCode: 'field-package-not-applicable'
+            };
+        }
+
         const userPermissions = (input.user?.permissions ?? []) as PermissionKey[];
         if (canReadFullSensitiveFieldPackage(userPermissions, input.fieldPackageKey)) {
             const value = input.rawValue;

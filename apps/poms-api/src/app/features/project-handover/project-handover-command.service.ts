@@ -56,7 +56,15 @@ export class ProjectHandoverCommandService {
             throw new BadRequestException('Contract summary snapshot does not match the project handover record');
         }
 
-        const detail = await this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(handoverId);
+        const detail = await this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(
+            handoverId,
+            {
+                sub: actorUserId,
+                username: 'project-handover-command',
+                permissions: ['project:read', 'contract:finance:sensitive:read']
+            },
+            { path: `project-handover-command:${handoverId}`, method: 'COMMAND' }
+        );
         this.assertConfirmableDetail(handoverId, handover, detail);
         this.assertParticipantConfirmations(
             detail.participantConfirmationSummary.participants,

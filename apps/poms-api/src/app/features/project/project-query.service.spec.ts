@@ -33,6 +33,7 @@ describe('ProjectQueryService', () => {
         findProjectTechnicalCostItemsByPackageIds: jest.Mock;
     };
     let approvalSummarySnapshotRepository: { findActiveByTarget: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
 
     beforeEach(() => {
         projectRepository = {
@@ -71,8 +72,30 @@ describe('ProjectQueryService', () => {
         projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue(null);
         projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(null);
         approvalSummarySnapshotRepository = { findActiveByTarget: jest.fn() };
+        sensitiveFieldProjectionService = {
+            projectStringField: jest.fn(async (input) => {
+                if (input.rawValue === null) {
+                    return {
+                        fieldPackageKey: input.fieldPackageKey,
+                        mode: 'full',
+                        value: null,
+                        displayText: '-',
+                        reasonCode: 'field-package-not-applicable'
+                    };
+                }
 
-        service = new ProjectQueryService(projectRepository as never, approvalSummarySnapshotRepository as never);
+                const canRead = input.user?.permissions?.includes('contract:finance:sensitive:read') ?? false;
+                return {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: canRead ? 'full' : 'masked',
+                    value: canRead ? input.rawValue : null,
+                    displayText: canRead ? (input.displayTextWhenFull ?? input.rawValue) : '敏感字段已隐藏',
+                    reasonCode: canRead ? 'allowed' : 'missing-sensitive-read-permission'
+                };
+            })
+        };
+
+        service = new ProjectQueryService(projectRepository as never, approvalSummarySnapshotRepository as never, sensitiveFieldProjectionService as never);
     });
 
     it('builds project list views with business names and latest milestone time', async () => {
@@ -199,7 +222,13 @@ describe('ProjectQueryService', () => {
             latestContractId: '30000000-0000-4000-8000-000000000001',
             latestContractNo: 'CT-2026-001',
             latestContractStatus: 'active',
-            signedAmount: '12345.67',
+            signedAmount: null,
+            signedAmountProjection: expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            }),
             currencyCode: 'CNY',
             signedAt: '2026-04-18T08:00:00.000Z',
             currentSnapshotId: '31000000-0000-4000-8000-000000000001'

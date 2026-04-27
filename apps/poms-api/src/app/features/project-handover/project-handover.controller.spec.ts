@@ -18,6 +18,11 @@ describe('ProjectHandoverController', () => {
         confirmProjectHandover: jest.Mock;
         rebaselineContractHandover: jest.Mock;
     };
+    const viewerRequest = {
+        user: { sub: actorUserId, username: 'viewer', permissions: ['project:read'] },
+        originalUrl: '/projects/20000000-0000-4000-8000-000000000001/contract-handover',
+        method: 'GET'
+    };
 
     beforeEach(() => {
         queryService = {
@@ -36,24 +41,36 @@ describe('ProjectHandoverController', () => {
         const summary = { projectId, allowedActions: ['confirm-project-handover'] };
         queryService.getContractHandoverSummary.mockResolvedValue(summary);
 
-        await expect(controller.getContractHandoverSummary(projectId)).resolves.toBe(summary);
-        expect(queryService.getContractHandoverSummary).toHaveBeenCalledWith(projectId);
+        await expect(controller.getContractHandoverSummary(projectId, viewerRequest as never)).resolves.toBe(summary);
+        expect(queryService.getContractHandoverSummary).toHaveBeenCalledWith(
+            projectId,
+            viewerRequest.user,
+            expect.objectContaining({ path: viewerRequest.originalUrl })
+        );
     });
 
     it('delegates latest project handover detail queries by project id', async () => {
         const detail = { handoverId, projectId, handoverStatus: 'draft' };
         queryService.getProjectHandoverDetailByProjectId.mockResolvedValue(detail);
 
-        await expect(controller.getProjectHandoverDetailByProject(projectId)).resolves.toBe(detail);
-        expect(queryService.getProjectHandoverDetailByProjectId).toHaveBeenCalledWith(projectId);
+        await expect(controller.getProjectHandoverDetailByProject(projectId, viewerRequest as never)).resolves.toBe(detail);
+        expect(queryService.getProjectHandoverDetailByProjectId).toHaveBeenCalledWith(
+            projectId,
+            viewerRequest.user,
+            expect.objectContaining({ path: viewerRequest.originalUrl })
+        );
     });
 
     it('delegates project handover detail queries by handover id', async () => {
         const detail = { handoverId, projectId, handoverStatus: 'draft' };
         queryService.getProjectHandoverDetailByHandoverId.mockResolvedValue(detail);
 
-        await expect(controller.getProjectHandoverDetailByHandover(handoverId)).resolves.toBe(detail);
-        expect(queryService.getProjectHandoverDetailByHandoverId).toHaveBeenCalledWith(handoverId);
+        await expect(controller.getProjectHandoverDetailByHandover(handoverId, viewerRequest as never)).resolves.toBe(detail);
+        expect(queryService.getProjectHandoverDetailByHandoverId).toHaveBeenCalledWith(
+            handoverId,
+            viewerRequest.user,
+            expect.objectContaining({ path: viewerRequest.originalUrl })
+        );
     });
 
     it('passes actor id and request body to confirmProjectHandover', async () => {

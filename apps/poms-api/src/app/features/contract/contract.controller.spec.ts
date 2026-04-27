@@ -13,6 +13,8 @@ describe('ContractController', () => {
     let contractService: jest.Mocked<ContractService>;
     let approvalService: jest.Mocked<ApprovalService>;
     let projectService: jest.Mocked<ProjectService>;
+    let contractTermSnapshotRepository: { findById: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
 
     beforeEach(() => {
         contractService = {
@@ -31,8 +33,37 @@ describe('ContractController', () => {
             findById: jest.fn().mockResolvedValue(null),
             findByIds: jest.fn().mockResolvedValue([])
         } as unknown as jest.Mocked<ProjectService>;
+        contractTermSnapshotRepository = { findById: jest.fn() };
+        sensitiveFieldProjectionService = {
+            projectStringField: jest.fn(async (input) => {
+                if (input.rawValue === null) {
+                    return {
+                        fieldPackageKey: input.fieldPackageKey,
+                        mode: 'full',
+                        value: null,
+                        displayText: '-',
+                        reasonCode: 'field-package-not-applicable'
+                    };
+                }
 
-        controller = new ContractController(contractService, approvalService, projectService);
+                const canRead = input.user?.permissions?.includes('contract:finance:sensitive:read') ?? false;
+                return {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: canRead ? 'full' : 'masked',
+                    value: canRead ? input.rawValue : null,
+                    displayText: canRead ? (input.displayTextWhenFull ?? input.rawValue) : '敏感字段已隐藏',
+                    reasonCode: canRead ? 'allowed' : 'missing-sensitive-read-permission'
+                };
+            })
+        };
+
+        controller = new ContractController(
+            contractService,
+            approvalService,
+            projectService,
+            contractTermSnapshotRepository as never,
+            sensitiveFieldProjectionService as never
+        );
     });
 
     it('maps create payload signedAt into Date', async () => {
@@ -43,14 +74,17 @@ describe('ContractController', () => {
             })
         );
 
-        await controller.create({
-            projectId,
-            contractNo: 'HT-2026-001',
-            signedAmount: '880000.00',
-            signedAt,
-            createdBy: userId,
-            updatedBy: userId
-        });
+        await controller.create(
+            {
+                projectId,
+                contractNo: 'HT-2026-001',
+                signedAmount: '880000.00',
+                signedAt,
+                createdBy: userId,
+                updatedBy: userId
+            },
+            makeRequest()
+        );
 
         expect(contractService.createAndSave).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -66,10 +100,14 @@ describe('ContractController', () => {
             })
         );
 
-        await controller.updateBasicInfo(contractId, {
-            signedAt: null,
-            updatedBy: userId
-        });
+        await controller.updateBasicInfo(
+            contractId,
+            {
+                signedAt: null,
+                updatedBy: userId
+            },
+            makeRequest()
+        );
 
         expect(contractService.updateBasicInfo).toHaveBeenCalledWith(
             contractId,
@@ -83,9 +121,13 @@ describe('ContractController', () => {
     it('leaves update payload signedAt undefined when not provided', async () => {
         contractService.updateBasicInfo.mockResolvedValue(createContractEntity());
 
-        await controller.updateBasicInfo(contractId, {
-            updatedBy: userId
-        });
+        await controller.updateBasicInfo(
+            contractId,
+            {
+                updatedBy: userId
+            },
+            makeRequest()
+        );
 
         expect(contractService.updateBasicInfo).toHaveBeenCalledWith(
             contractId,
@@ -151,6 +193,23 @@ describe('ContractController', () => {
         expect(approvalService.findLatestApprovalForTarget).toHaveBeenCalledWith('Contract', contractId);
     });
 
+    it('projects contract list signed amount for callers without sensitive read permission', async () => {
+        contractService.findMany.mockResolvedValue([createContractEntity()]);
+        projectService.findByIds.mockResolvedValue([{ id: projectId, projectName: 'POMS 项目', customerName: '华南地铁集团' }] as never);
+
+        const result = await controller.list({}, makeRequest(['project:read']));
+
+        expect(result[0]?.signedAmount).toBeNull();
+        expect(result[0]?.signedAmountProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+    });
+
     it('activates contract with current user identity', async () => {
         contractService.activate.mockResolvedValue({
             targetId: contractId,
@@ -195,5 +254,13 @@ describe('ContractController', () => {
             updatedBy: userId,
             ...overrides
         };
+    }
+
+    function makeRequest(permissions: string[] = ['project:read', 'contract:finance:sensitive:read']) {
+        return {
+            user: { sub: userId, username: 'admin', permissions },
+            originalUrl: '/contracts',
+            method: 'GET'
+        } as never;
     }
 });

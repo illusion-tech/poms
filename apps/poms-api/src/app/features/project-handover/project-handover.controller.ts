@@ -16,6 +16,8 @@ import type {
     UserPayload
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { ProjectHandoverCommandService } from './project-handover-command.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 
@@ -32,24 +34,45 @@ export class ProjectHandoverController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目合同承接摘要' })
     @ApiOkResponse({ type: ContractHandoverSummaryViewDto })
-    getContractHandoverSummary(@Param('projectId') projectId: string): Promise<ContractHandoverSummaryView> {
-        return this.projectHandoverQueryService.getContractHandoverSummary(projectId);
+    getContractHandoverSummary(
+        @Param('projectId') projectId: string,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ContractHandoverSummaryView> {
+        return this.projectHandoverQueryService.getContractHandoverSummary(
+            projectId,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/contract-handover`)
+        );
     }
 
     @Get('projects/:projectId/project-handover')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目最新移交详情' })
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
-    getProjectHandoverDetailByProject(@Param('projectId') projectId: string): Promise<ProjectHandoverDetailView> {
-        return this.projectHandoverQueryService.getProjectHandoverDetailByProjectId(projectId);
+    getProjectHandoverDetailByProject(
+        @Param('projectId') projectId: string,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ProjectHandoverDetailView> {
+        return this.projectHandoverQueryService.getProjectHandoverDetailByProjectId(
+            projectId,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/project-handover`)
+        );
     }
 
     @Get('project-handovers/:handoverId')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取指定移交详情' })
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
-    getProjectHandoverDetailByHandover(@Param('handoverId') handoverId: string): Promise<ProjectHandoverDetailView> {
-        return this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(handoverId);
+    getProjectHandoverDetailByHandover(
+        @Param('handoverId') handoverId: string,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<ProjectHandoverDetailView> {
+        return this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(
+            handoverId,
+            req.user,
+            buildSensitiveFieldProjectionRequestContext(req, `/project-handovers/${handoverId}`)
+        );
     }
 
     @Post('project-handovers/:handoverId\\:confirm')

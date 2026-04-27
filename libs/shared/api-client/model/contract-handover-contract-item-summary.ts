@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { ContractStatus } from './contract-status';
 
 
@@ -14,7 +15,8 @@ export interface ContractHandoverContractItemSummary {
     id: string;
     contractNo: string;
     status: ContractStatus;
-    signedAmount: string;
+    signedAmount: string | null;
+    signedAmountProjection: SensitiveStringFieldProjection;
     currencyCode: string;
     currentSnapshotId: string | null;
     signedAt: string | null;
