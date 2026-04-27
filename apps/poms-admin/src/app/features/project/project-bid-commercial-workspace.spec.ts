@@ -75,14 +75,18 @@ describe('ProjectBidCommercialWorkspace', () => {
     let fixture: ComponentFixture<ProjectBidCommercialWorkspace>;
     let workspaceSignal: ReturnType<typeof signal<ProjectBidCommercialWorkspaceView | null>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
+    let savingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
     let loadBidCommercialWorkspace: jest.Mock;
+    let createBidCommercialProcess: jest.Mock;
 
     async function setup(workspace: ProjectBidCommercialWorkspaceView | null = createWorkspace()) {
         workspaceSignal = signal<ProjectBidCommercialWorkspaceView | null>(workspace);
         loadingSignal = signal(false);
+        savingSignal = signal(false);
         errorSignal = signal<string | null>(null);
         loadBidCommercialWorkspace = jest.fn().mockResolvedValue(workspace);
+        createBidCommercialProcess = jest.fn().mockResolvedValue(workspace?.currentProcess ?? null);
 
         await TestBed.configureTestingModule({
             imports: [ProjectBidCommercialWorkspace],
@@ -106,8 +110,10 @@ describe('ProjectBidCommercialWorkspace', () => {
                     useValue: {
                         bidCommercialWorkspace: workspaceSignal,
                         loadingBidCommercial: loadingSignal,
+                        savingBidCommercial: savingSignal,
                         bidCommercialError: errorSignal,
-                        loadBidCommercialWorkspace
+                        loadBidCommercialWorkspace,
+                        createBidCommercialProcess
                     }
                 }
             ]
@@ -139,6 +145,54 @@ describe('ProjectBidCommercialWorkspace', () => {
         expect(text).toContain('补齐投标报价附件');
         expect(text).toContain('投标提交');
         expect(text).toContain('等待客户确认竞标结果，再进入报价与毛利评审。');
+    });
+
+    it('shows write entry from allowedActions and submits edit as a new current version', async () => {
+        const workspace = createWorkspace({
+            allowedActions: ['view-bid-commercial-workspace', 'create-bid-commercial-process']
+        });
+        await setup(workspace);
+
+        const component = fixture.componentInstance;
+
+        expect(fixture.nativeElement.textContent).toContain('编辑当前过程');
+
+        component.openBidDialog(workspace, 'edit');
+        component.bidForm.tenderNo = 'TB-2026-EDIT';
+        component.bidForm.processSummary = '更新竞标过程说明。';
+        await component.submitBidProcess();
+
+        expect(createBidCommercialProcess).toHaveBeenCalledWith(
+            'project-1',
+            expect.objectContaining({
+                tenderNo: 'TB-2026-EDIT',
+                bidPackageNo: '包件-02',
+                processSummary: '更新竞标过程说明。',
+                materialItems: [
+                    expect.objectContaining({
+                        materialKey: 'tender-document',
+                        label: '投标文件',
+                        blocksNextStep: true
+                    })
+                ],
+                timelineItems: [
+                    expect.objectContaining({
+                        eventKey: 'submitted',
+                        label: '投标提交'
+                    })
+                ]
+            })
+        );
+    });
+
+    it('keeps write entry hidden when allowedActions does not include create action', async () => {
+        await setup();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('当前只读');
+        expect(text).toContain('没有招投标 / 商务竞标写入权限');
+        expect(text).not.toContain('编辑当前过程');
     });
 
     it('renders an empty business gap when current process is missing', async () => {

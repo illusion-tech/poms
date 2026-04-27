@@ -8,9 +8,13 @@ import type {
     CommissionRuleExplanationView,
     ContractHandoverSummaryView,
     ContractReadinessDetail,
+    CreateProjectBidCommercialProcessRequest,
+    CreateProjectPricingMarginReviewRequest,
+    ProjectBidCommercialProcessSummary,
     ProjectHandoverDetailView,
     ProjectBidCommercialWorkspaceView,
     ProjectBusinessOutcomeOverviewView,
+    ProjectPricingMarginReviewSummary,
     ProjectPricingMarginWorkspaceView,
     ProjectTechnicalCostWorkspaceView,
     ProjectUnifiedAccountingView,
@@ -65,6 +69,8 @@ export class ProjectWorkspaceStore {
     readonly #loadingTechnicalCost = signal(false);
     readonly #loadingBidCommercial = signal(false);
     readonly #loadingPricingMargin = signal(false);
+    readonly #savingBidCommercial = signal(false);
+    readonly #savingPricingMargin = signal(false);
     readonly #loadingOperatingOverview = signal(false);
     readonly #loadingVarianceRisk = signal(false);
     readonly #loadingCommissionGate = signal(false);
@@ -107,6 +113,8 @@ export class ProjectWorkspaceStore {
     readonly loadingTechnicalCost = this.#loadingTechnicalCost.asReadonly();
     readonly loadingBidCommercial = this.#loadingBidCommercial.asReadonly();
     readonly loadingPricingMargin = this.#loadingPricingMargin.asReadonly();
+    readonly savingBidCommercial = this.#savingBidCommercial.asReadonly();
+    readonly savingPricingMargin = this.#savingPricingMargin.asReadonly();
     readonly loadingOperatingOverview = this.#loadingOperatingOverview.asReadonly();
     readonly loadingVarianceRisk = this.#loadingVarianceRisk.asReadonly();
     readonly loadingCommissionGate = this.#loadingCommissionGate.asReadonly();
@@ -263,6 +271,27 @@ export class ProjectWorkspaceStore {
         }
     }
 
+    async createBidCommercialProcess(projectId: string, request: CreateProjectBidCommercialProcessRequest): Promise<ProjectBidCommercialProcessSummary> {
+        this.#savingBidCommercial.set(true);
+        this.#bidCommercialError.set(null);
+
+        try {
+            const result = await firstValueFrom(
+                this.#projectApi.projectControllerCreateProjectBidCommercialProcess({
+                    projectId,
+                    createProjectBidCommercialProcessRequest: request
+                })
+            );
+            await this.loadBidCommercialWorkspace(projectId);
+            return result;
+        } catch (error) {
+            this.#bidCommercialError.set(this.#readWorkspaceError(error, 'bid-commercial'));
+            throw error;
+        } finally {
+            this.#savingBidCommercial.set(false);
+        }
+    }
+
     async loadPricingMarginWorkspace(projectId: string): Promise<ProjectPricingMarginWorkspaceView> {
         this.#loadingPricingMargin.set(true);
         this.#pricingMarginError.set(null);
@@ -281,6 +310,27 @@ export class ProjectWorkspaceStore {
             throw error;
         } finally {
             this.#loadingPricingMargin.set(false);
+        }
+    }
+
+    async createPricingMarginReview(projectId: string, request: CreateProjectPricingMarginReviewRequest): Promise<ProjectPricingMarginReviewSummary> {
+        this.#savingPricingMargin.set(true);
+        this.#pricingMarginError.set(null);
+
+        try {
+            const result = await firstValueFrom(
+                this.#projectApi.projectControllerCreateProjectPricingMarginReview({
+                    projectId,
+                    createProjectPricingMarginReviewRequest: request
+                })
+            );
+            await this.loadPricingMarginWorkspace(projectId);
+            return result;
+        } catch (error) {
+            this.#pricingMarginError.set(this.#readWorkspaceError(error, 'pricing-margin'));
+            throw error;
+        } finally {
+            this.#savingPricingMargin.set(false);
         }
     }
 
@@ -477,6 +527,8 @@ export class ProjectWorkspaceStore {
         this.#loadingTechnicalCost.set(false);
         this.#loadingBidCommercial.set(false);
         this.#loadingPricingMargin.set(false);
+        this.#savingBidCommercial.set(false);
+        this.#savingPricingMargin.set(false);
         this.#loadingOperatingOverview.set(false);
         this.#loadingVarianceRisk.set(false);
         this.#loadingCommissionGate.set(false);

@@ -55,6 +55,7 @@ export type {
     CreateContractRequest,
     CreateLeadRequest,
     ConvertLeadToProjectRequest,
+    CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
     CreateProjectRequest,
     LeadDetailView,
@@ -63,7 +64,9 @@ export type {
     LeadSummary,
     QualifyLeadRequest,
     ProjectBidCommercialMaterialItemView,
+    ProjectBidCommercialMaterialItemInput,
     ProjectBidCommercialProcessSummary,
+    ProjectBidCommercialTimelineItemInput,
     ProjectBidCommercialTimelineItemView,
     ProjectBidCommercialWorkspaceView,
     ProjectArchiveRecordSummary,
@@ -99,6 +102,19 @@ export type {
     UpdateLeadRequest,
     UpdateProjectBasicInfoRequest,
     VoidProjectArchiveRecordRequest
+} from '@poms/shared-api-client';
+export {
+    CreateProjectBidCommercialProcessRequestBidModeEnum,
+    CreateProjectBidCommercialProcessRequestCurrentStageEnum,
+    CreateProjectBidCommercialProcessRequestDecisionEnum,
+    CreateProjectBidCommercialProcessRequestResultStatusEnum,
+    CreateProjectPricingMarginReviewRequestDecisionEnum,
+    CreateProjectPricingMarginReviewRequestGrossMarginBandEnum,
+    CreateProjectPricingMarginReviewRequestPricingPathEnum,
+    ProjectBidCommercialMaterialItemInputMaterialStatusEnum,
+    ProjectBidCommercialTimelineItemInputTimelineStatusEnum,
+    ProjectPricingMarginConditionItemInputConditionStatusEnum,
+    ProjectPricingMarginConditionItemInputConditionTypeEnum
 } from '@poms/shared-api-client';
 export type {
     PlatformUserSummary,

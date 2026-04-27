@@ -306,6 +306,172 @@ async function mockProjectArchiveCreateFlow(page: Page): Promise<void> {
     });
 }
 
+async function mockBidPricingWriteFlow(page: Page): Promise<void> {
+    let tenderNo = 'E2E-TENDER-001';
+    let quoteVersion = 'E2E-Q-001';
+
+    const bidProcess = () => ({
+        id: '23000000-0000-4000-8000-000000000301',
+        projectId: PRESIGNING_PROJECT_ID,
+        version: tenderNo === 'E2E-TENDER-UPDATED' ? 2 : 1,
+        isCurrent: true,
+        supersedesId: null,
+        status: 'effective',
+        bidMode: 'public-tender',
+        currentStage: 'submitted',
+        decision: 'participate',
+        resultStatus: 'pending',
+        processSummary: 'e2e 竞标过程已提交。',
+        decisionSummary: 'e2e 决定参与投标。',
+        resultSummary: null,
+        tenderNo,
+        bidPackageNo: 'E2E-PKG-01',
+        ownerRole: '商务负责人',
+        blockerCount: 0,
+        effectiveAt: '2026-04-27T08:00:00.000Z',
+        createdAt: '2026-04-27T08:00:00.000Z',
+        createdBy: '10000000-0000-4000-8000-000000000001',
+        updatedAt: '2026-04-27T08:00:00.000Z',
+        updatedBy: '10000000-0000-4000-8000-000000000001',
+        rowVersion: 1
+    });
+
+    const pricingReview = () => ({
+        id: '24000000-0000-4000-8000-000000000301',
+        projectId: PRESIGNING_PROJECT_ID,
+        version: quoteVersion === 'E2E-Q-UPDATED' ? 2 : 1,
+        isCurrent: true,
+        supersedesId: null,
+        status: 'effective',
+        technicalCostPackageId: '22000000-0000-4000-8000-000000000301',
+        bidCommercialProcessId: '23000000-0000-4000-8000-000000000301',
+        commercialReleaseBaselineId: null,
+        pricingPath: 'bid',
+        quoteVersion,
+        currencyCode: 'CNY',
+        quoteAmountTaxInclusive: '250000.00',
+        quoteAmountTaxExclusive: '235849.06',
+        taxRate: '0.0600',
+        taxConditionSummary: 'e2e 按 6% 增值税测算。',
+        paymentTermsSummary: 'e2e 首付款 30%，验收后 70%。',
+        grossMarginRate: '0.3200',
+        grossMarginBand: 'target',
+        grossMarginSummary: 'e2e 毛利达到目标区间。',
+        decision: 'conditional-release',
+        decisionSummary: 'e2e 报价有条件放行。',
+        approvalScenarioKey: 'pricing-margin-review',
+        summaryPackageKey: 'pricing-margin-summary',
+        summarySnapshotId: null,
+        projectionLevel: 'pricing-margin',
+        exportPolicy: 'internal',
+        readyForContracting: false,
+        ownerRole: '商务负责人',
+        blockerCount: 0,
+        effectiveAt: '2026-04-27T08:10:00.000Z',
+        createdAt: '2026-04-27T08:10:00.000Z',
+        createdBy: '10000000-0000-4000-8000-000000000001',
+        updatedAt: '2026-04-27T08:10:00.000Z',
+        updatedBy: '10000000-0000-4000-8000-000000000001',
+        rowVersion: 1
+    });
+
+    const technicalCostPackage = {
+        id: '22000000-0000-4000-8000-000000000301',
+        projectId: PRESIGNING_PROJECT_ID,
+        version: 1,
+        isCurrent: true,
+        supersedesId: null,
+        status: 'effective',
+        technicalFeasibilityDecision: 'conditional',
+        technicalConclusionSummary: 'e2e 技术可行但需持续跟踪风险。',
+        allowNextStage: true,
+        currencyCode: 'CNY',
+        totalEstimatedAmountExcludingTax: '150000.00',
+        totalTaxCostAmount: '9000.00',
+        totalEstimatedAmountIncludingTax: '159000.00',
+        taxAssumptionSummary: 'e2e 按 6% 增值税估算。',
+        taxReviewStatus: 'reviewed',
+        highestRiskLevel: 'R2',
+        blockerCount: 0,
+        effectiveAt: '2026-04-27T07:50:00.000Z',
+        createdAt: '2026-04-27T07:50:00.000Z',
+        createdBy: '10000000-0000-4000-8000-000000000001',
+        updatedAt: '2026-04-27T07:50:00.000Z',
+        updatedBy: '10000000-0000-4000-8000-000000000001',
+        rowVersion: 1
+    };
+
+    await page.route(`**/api/projects/${PRESIGNING_PROJECT_ID}/bid-commercial-workspace`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify({
+                projectId: PRESIGNING_PROJECT_ID,
+                currentStage: 'commercial-closure',
+                status: 'active',
+                currentProcess: bidProcess(),
+                materialItems: [],
+                timelineItems: [],
+                blockingReasons: [],
+                nextStep: '进入报价与毛利评审。',
+                ownerLabel: '商务负责人',
+                allowedActions: ['view-bid-commercial-workspace', 'create-bid-commercial-process'],
+                generatedAt: '2026-04-27T08:15:00.000Z'
+            })
+        });
+    });
+
+    await page.route(`**/api/projects/${PRESIGNING_PROJECT_ID}/bid-commercial-processes`, async (route) => {
+        if (route.request().method() === 'POST') {
+            const requestBody = route.request().postDataJSON() as { tenderNo?: string | null };
+            tenderNo = requestBody.tenderNo ?? tenderNo;
+            await route.fulfill({
+                status: 201,
+                contentType: 'application/json',
+                body: JSON.stringify(bidProcess())
+            });
+            return;
+        }
+
+        await route.fallback();
+    });
+
+    await page.route(`**/api/projects/${PRESIGNING_PROJECT_ID}/pricing-margin-workspace`, async (route) => {
+        await route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify({
+                projectId: PRESIGNING_PROJECT_ID,
+                currentStage: 'commercial-closure',
+                status: 'active',
+                currentReview: pricingReview(),
+                technicalCostPackage,
+                bidCommercialProcess: bidProcess(),
+                conditionItems: [],
+                blockingReasons: [],
+                nextStep: '进入签约就绪承接。',
+                readyForContracting: false,
+                ownerLabel: '商务负责人',
+                allowedActions: ['view-pricing-margin-workspace', 'create-pricing-margin-review'],
+                generatedAt: '2026-04-27T08:20:00.000Z'
+            })
+        });
+    });
+
+    await page.route(`**/api/projects/${PRESIGNING_PROJECT_ID}/pricing-margin-reviews`, async (route) => {
+        if (route.request().method() === 'POST') {
+            const requestBody = route.request().postDataJSON() as { quoteVersion?: string };
+            quoteVersion = requestBody.quoteVersion ?? quoteVersion;
+            await route.fulfill({
+                status: 201,
+                contentType: 'application/json',
+                body: JSON.stringify(pricingReview())
+            });
+            return;
+        }
+
+        await route.fallback();
+    });
+}
+
 test.describe('poms-admin project workspace journey', () => {
     test('admin can enter from the project list and traverse the workspace through real links', async ({ page }) => {
         await login(page, ADMIN_CREDENTIALS);
@@ -424,6 +590,44 @@ test.describe('poms-admin project workspace journey', () => {
 
         await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin`);
         await expect(page.getByText(/缺少正式报价评审事实|当前报价评审/)).toBeVisible();
+    });
+
+    test('admin can open bid and pricing write dialogs from the signed-in workspace chain', async ({ page }) => {
+        await mockBidPricingWriteFlow(page);
+        await login(page, ADMIN_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openProjectDetailByNo(page, PRESIGNING_PROJECT_NO, PRESIGNING_PROJECT_ID, 'POMS 首期项目主链路样例');
+        await page.getByRole('button', { name: '项目工作区' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace$`));
+
+        await openWorkspaceHomeEntry(page, '招投标 / 商务竞标');
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/bid-commercial$`));
+        await expect(page.getByText('E2E-TENDER-001')).toBeVisible();
+
+        await page.getByRole('button', { name: '编辑当前过程' }).click();
+        const bidDialog = page.getByRole('dialog', { name: '编辑竞标过程' });
+        await expect(bidDialog).toBeVisible();
+        await bidDialog.getByLabel('招标编号').fill('E2E-TENDER-UPDATED');
+        await bidDialog.getByLabel('过程摘要').fill('e2e 更新竞标过程。');
+        await bidDialog.getByRole('button', { name: '保存为当前版本' }).click();
+
+        await expect(bidDialog).toBeHidden();
+        await expect(page.getByText('E2E-TENDER-UPDATED')).toBeVisible();
+
+        await page.getByRole('link', { name: '进入报价与毛利评审' }).click();
+        await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin$`));
+        await expect(page.getByText('E2E-Q-001')).toBeVisible();
+
+        await page.getByRole('button', { name: '编辑当前评审' }).click();
+        const pricingDialog = page.getByRole('dialog', { name: '编辑报价评审' });
+        await expect(pricingDialog).toBeVisible();
+        await pricingDialog.getByLabel('报价版本').fill('E2E-Q-UPDATED');
+        await pricingDialog.getByLabel('结论说明').fill('e2e 更新报价与毛利评审。');
+        await pricingDialog.getByRole('button', { name: '保存为当前版本' }).click();
+
+        await expect(pricingDialog).toBeHidden();
+        await expect(page.getByText('E2E-Q-UPDATED')).toBeVisible();
     });
 
     test('admin can move between project detail workspace and commission pages with real buttons', async ({ page }) => {

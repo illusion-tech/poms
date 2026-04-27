@@ -125,14 +125,18 @@ describe('ProjectPricingMarginWorkspace', () => {
     let fixture: ComponentFixture<ProjectPricingMarginWorkspace>;
     let workspaceSignal: ReturnType<typeof signal<ProjectPricingMarginWorkspaceView | null>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
+    let savingSignal: ReturnType<typeof signal<boolean>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
     let loadPricingMarginWorkspace: jest.Mock;
+    let createPricingMarginReview: jest.Mock;
 
     async function setup(workspace: ProjectPricingMarginWorkspaceView | null = createWorkspace()) {
         workspaceSignal = signal<ProjectPricingMarginWorkspaceView | null>(workspace);
         loadingSignal = signal(false);
+        savingSignal = signal(false);
         errorSignal = signal<string | null>(null);
         loadPricingMarginWorkspace = jest.fn().mockResolvedValue(workspace);
+        createPricingMarginReview = jest.fn().mockResolvedValue(workspace?.currentReview ?? null);
 
         await TestBed.configureTestingModule({
             imports: [ProjectPricingMarginWorkspace],
@@ -156,8 +160,10 @@ describe('ProjectPricingMarginWorkspace', () => {
                     useValue: {
                         pricingMarginWorkspace: workspaceSignal,
                         loadingPricingMargin: loadingSignal,
+                        savingPricingMargin: savingSignal,
                         pricingMarginError: errorSignal,
-                        loadPricingMarginWorkspace
+                        loadPricingMarginWorkspace,
+                        createPricingMarginReview
                     }
                 }
             ]
@@ -189,6 +195,49 @@ describe('ProjectPricingMarginWorkspace', () => {
         expect(text).toContain('客户已确认中标。');
         expect(text).toContain('付款条件确认');
         expect(text).toContain('先关闭付款条件确认，再进入签约就绪承接。');
+    });
+
+    it('shows write entry from allowedActions and submits edit as a new current version', async () => {
+        const workspace = createWorkspace({
+            allowedActions: ['view-pricing-margin-workspace', 'create-pricing-margin-review']
+        });
+        await setup(workspace);
+
+        const component = fixture.componentInstance;
+
+        expect(fixture.nativeElement.textContent).toContain('编辑当前评审');
+
+        component.openPricingDialog(workspace, 'edit');
+        component.pricingForm.quoteVersion = 'Q-2026-EDIT';
+        component.pricingForm.decisionSummary = '更新报价与毛利评审说明。';
+        await component.submitPricingReview();
+
+        expect(createPricingMarginReview).toHaveBeenCalledWith(
+            'project-1',
+            expect.objectContaining({
+                technicalCostPackageId: 'technical-package-1',
+                bidCommercialProcessId: 'bid-process-1',
+                quoteVersion: 'Q-2026-EDIT',
+                decisionSummary: '更新报价与毛利评审说明。',
+                conditionItems: [
+                    expect.objectContaining({
+                        conditionKey: 'payment-term-confirmation',
+                        label: '付款条件确认',
+                        requiredForContracting: true
+                    })
+                ]
+            })
+        );
+    });
+
+    it('keeps write entry hidden when allowedActions does not include create action', async () => {
+        await setup();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('当前只读');
+        expect(text).toContain('没有报价 / 毛利评审写入权限');
+        expect(text).not.toContain('编辑当前评审');
     });
 
     it('renders an empty business gap when current review is missing', async () => {

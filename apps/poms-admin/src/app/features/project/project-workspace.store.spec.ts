@@ -4,6 +4,13 @@ import {
     CommissionApi,
     CommissionRoleAssignmentsApi,
     ContractReadinessApi,
+    CreateProjectBidCommercialProcessRequestBidModeEnum,
+    CreateProjectBidCommercialProcessRequestCurrentStageEnum,
+    CreateProjectBidCommercialProcessRequestDecisionEnum,
+    CreateProjectBidCommercialProcessRequestResultStatusEnum,
+    CreateProjectPricingMarginReviewRequestDecisionEnum,
+    CreateProjectPricingMarginReviewRequestGrossMarginBandEnum,
+    CreateProjectPricingMarginReviewRequestPricingPathEnum,
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,
@@ -289,6 +296,8 @@ describe('ProjectWorkspaceStore', () => {
         projectControllerGetProjectTechnicalCostWorkspace: jest.Mock;
         projectControllerGetProjectBidCommercialWorkspace: jest.Mock;
         projectControllerGetProjectPricingMarginWorkspace: jest.Mock;
+        projectControllerCreateProjectBidCommercialProcess: jest.Mock;
+        projectControllerCreateProjectPricingMarginReview: jest.Mock;
     };
     let projectCostApiMock: {
         projectCostControllerGetProjectBusinessOutcomeOverview: jest.Mock;
@@ -317,7 +326,9 @@ describe('ProjectWorkspaceStore', () => {
             projectControllerGetWorkspaceGuidance: jest.fn(),
             projectControllerGetProjectTechnicalCostWorkspace: jest.fn(),
             projectControllerGetProjectBidCommercialWorkspace: jest.fn(),
-            projectControllerGetProjectPricingMarginWorkspace: jest.fn()
+            projectControllerGetProjectPricingMarginWorkspace: jest.fn(),
+            projectControllerCreateProjectBidCommercialProcess: jest.fn(),
+            projectControllerCreateProjectPricingMarginReview: jest.fn()
         };
         projectCostApiMock = {
             projectCostControllerGetProjectBusinessOutcomeOverview: jest.fn(),
@@ -498,6 +509,34 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.bidCommercialError()).toBe('当前项目还没有形成招投标 / 商务竞标工作区，请先补齐竞标形态、材料和结果事实。');
     });
 
+    it('creates a bid commercial process and refreshes the workspace projection', async () => {
+        const request = {
+            bidMode: CreateProjectBidCommercialProcessRequestBidModeEnum.PublicTender,
+            currentStage: CreateProjectBidCommercialProcessRequestCurrentStageEnum.Submitted,
+            decision: CreateProjectBidCommercialProcessRequestDecisionEnum.Participate,
+            resultStatus: CreateProjectBidCommercialProcessRequestResultStatusEnum.Pending,
+            processSummary: '公开招标已提交。',
+            materialItems: [],
+            timelineItems: []
+        };
+
+        projectApiMock.projectControllerCreateProjectBidCommercialProcess.mockReturnValue(of(bidCommercialWorkspace.currentProcess));
+        projectApiMock.projectControllerGetProjectBidCommercialWorkspace.mockReturnValue(of(bidCommercialWorkspace));
+
+        await expect(store.createBidCommercialProcess('project-1', request)).resolves.toEqual(bidCommercialWorkspace.currentProcess);
+
+        expect(projectApiMock.projectControllerCreateProjectBidCommercialProcess).toHaveBeenCalledWith({
+            projectId: 'project-1',
+            createProjectBidCommercialProcessRequest: request
+        });
+        expect(projectApiMock.projectControllerGetProjectBidCommercialWorkspace).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.bidCommercialWorkspace()).toEqual(bidCommercialWorkspace);
+        expect(store.savingBidCommercial()).toBe(false);
+        expect(store.bidCommercialError()).toBeNull();
+    });
+
     it('loads pricing margin workspace into shared state', async () => {
         projectApiMock.projectControllerGetProjectPricingMarginWorkspace.mockReturnValue(of(pricingMarginWorkspace));
 
@@ -527,6 +566,42 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.pricingMarginWorkspace()).toBeNull();
         expect(store.hasPricingMarginWorkspace()).toBe(false);
         expect(store.pricingMarginError()).toBe('当前项目还没有形成报价与毛利评审工作区，请先补齐报价、成本版本、税务和回款条件。');
+    });
+
+    it('creates a pricing margin review and refreshes the workspace projection', async () => {
+        const request = {
+            technicalCostPackageId: 'technical-package-1',
+            bidCommercialProcessId: 'bid-process-1',
+            pricingPath: CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid,
+            quoteVersion: 'Q-2026-001',
+            currencyCode: 'CNY',
+            quoteAmountTaxInclusive: '250000.00',
+            quoteAmountTaxExclusive: '235849.06',
+            taxRate: '0.0600',
+            taxConditionSummary: '按 6% 增值税测算。',
+            paymentTermsSummary: '首付款 30%，验收后 70%。',
+            grossMarginBand: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target,
+            grossMarginSummary: '毛利达到目标区间。',
+            decision: CreateProjectPricingMarginReviewRequestDecisionEnum.Released,
+            decisionSummary: '报价与毛利已放行。',
+            conditionItems: []
+        };
+
+        projectApiMock.projectControllerCreateProjectPricingMarginReview.mockReturnValue(of(pricingMarginWorkspace.currentReview));
+        projectApiMock.projectControllerGetProjectPricingMarginWorkspace.mockReturnValue(of(pricingMarginWorkspace));
+
+        await expect(store.createPricingMarginReview('project-1', request)).resolves.toEqual(pricingMarginWorkspace.currentReview);
+
+        expect(projectApiMock.projectControllerCreateProjectPricingMarginReview).toHaveBeenCalledWith({
+            projectId: 'project-1',
+            createProjectPricingMarginReviewRequest: request
+        });
+        expect(projectApiMock.projectControllerGetProjectPricingMarginWorkspace).toHaveBeenCalledWith({
+            projectId: 'project-1'
+        });
+        expect(store.pricingMarginWorkspace()).toEqual(pricingMarginWorkspace);
+        expect(store.savingPricingMargin()).toBe(false);
+        expect(store.pricingMarginError()).toBeNull();
     });
 
     it('loads contract handover and project handover detail into shared state', async () => {

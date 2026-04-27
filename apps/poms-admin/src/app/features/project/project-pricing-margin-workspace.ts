@@ -1,16 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
+    CreateProjectPricingMarginReviewRequestDecisionEnum,
+    CreateProjectPricingMarginReviewRequestGrossMarginBandEnum,
+    CreateProjectPricingMarginReviewRequestPricingPathEnum,
     ProjectWorkspaceStore,
     type ProjectBidCommercialProcessSummary,
+    type CreateProjectPricingMarginReviewRequest,
+    type ProjectPricingMarginConditionItemInput,
+    ProjectPricingMarginConditionItemInputConditionStatusEnum,
+    ProjectPricingMarginConditionItemInputConditionTypeEnum,
     type ProjectPricingMarginConditionItemView,
     type ProjectPricingMarginReviewSummary,
     type ProjectPricingMarginWorkspaceView,
     type ProjectTechnicalCostPackageSummary
 } from '@poms/admin-data-access';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../shared/ui/workspace-command-panel';
@@ -78,10 +92,78 @@ const TECHNICAL_DECISION_LABELS: Record<string, string> = {
     'not-feasible': '暂不可行'
 };
 
+type Option<T> = {
+    label: string;
+    value: T;
+};
+
+type PricingMarginDialogMode = 'create' | 'edit';
+
+type PricingMarginConditionForm = {
+    conditionKey: string;
+    conditionType: ProjectPricingMarginConditionItemInputConditionTypeEnum;
+    label: string;
+    conditionSummary: string;
+    conditionStatus: ProjectPricingMarginConditionItemInputConditionStatusEnum;
+    requiredForContracting: boolean;
+    responsibleRole: string;
+    dueAt: string;
+    resolutionSummary: string;
+    sortOrder: number;
+};
+
+type PricingMarginForm = {
+    technicalCostPackageId: string;
+    bidCommercialProcessId: string;
+    commercialReleaseBaselineId: string;
+    pricingPath: CreateProjectPricingMarginReviewRequestPricingPathEnum;
+    quoteVersion: string;
+    currencyCode: string;
+    quoteAmountTaxInclusive: string;
+    quoteAmountTaxExclusive: string;
+    taxRate: string;
+    taxConditionSummary: string;
+    paymentTermsSummary: string;
+    grossMarginRate: string;
+    grossMarginBand: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum;
+    grossMarginSummary: string;
+    decision: CreateProjectPricingMarginReviewRequestDecisionEnum;
+    decisionSummary: string;
+    approvalScenarioKey: string;
+    summaryPackageKey: string;
+    summarySnapshotId: string;
+    projectionLevel: string;
+    exportPolicy: string;
+    ownerRole: string;
+    conditionItems: PricingMarginConditionForm[];
+};
+
+const BOOLEAN_OPTIONS: Option<boolean>[] = [
+    { label: '是', value: true },
+    { label: '否', value: false }
+];
+
 @Component({
     selector: 'app-project-pricing-margin-workspace',
     standalone: true,
-    imports: [CommonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SectionCard,
+        ButtonModule,
+        DialogModule,
+        InputTextModule,
+        MessageModule,
+        SelectModule,
+        TableModule,
+        TagModule,
+        TextareaModule,
+        WorkspaceActionLink,
+        WorkspaceCommandPanel,
+        WorkspaceFactGrid,
+        WorkspaceFeedback,
+        WorkspaceLoading
+    ],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取报价与毛利评审" />
@@ -95,6 +177,26 @@ const TECHNICAL_DECISION_LABELS: Record<string, string> = {
         } @else if (workspace(); as currentWorkspace) {
             <div class="flex flex-col gap-6">
                 <app-workspace-command-panel heading="报价与毛利评审" caption="先确认报价、成本版本、税务回款条件和放行结论。" [items]="commandItems(currentWorkspace)" />
+
+                <section-card>
+                    <ng-template #title>评审维护</ng-template>
+                    <ng-template #description>新增或编辑当前报价评审会提交新的当前版本，历史版本由后端保留。</ng-template>
+
+                    @if (canWritePricingMargin(currentWorkspace)) {
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <p-button
+                                [label]="currentWorkspace.currentReview ? '编辑当前评审' : '创建报价评审'"
+                                icon="pi pi-pencil"
+                                (onClick)="openPricingDialog(currentWorkspace, currentWorkspace.currentReview ? 'edit' : 'create')"
+                            />
+                            @if (currentWorkspace.currentReview) {
+                                <p-button label="创建新评审" icon="pi pi-plus" severity="secondary" [outlined]="true" (onClick)="openPricingDialog(currentWorkspace, 'create')" />
+                            }
+                        </div>
+                    } @else {
+                        <app-workspace-feedback class="mt-4 block" severity="info" summary="当前只读" [detail]="pricingWriteDisabledReason(currentWorkspace)" />
+                    }
+                </section-card>
 
                 @if (currentWorkspace.currentReview; as currentReview) {
                     <section-card>
@@ -214,6 +316,148 @@ const TECHNICAL_DECISION_LABELS: Record<string, string> = {
                 </section-card>
             </div>
         }
+
+        <p-dialog [(visible)]="pricingDialogVisible" [modal]="true" [header]="pricingDialogMode === 'edit' ? '编辑报价评审' : '创建报价评审'" [style]="{ width: 'min(58rem, 94vw)' }" styleClass="p-fluid">
+            <div class="flex flex-col gap-5 py-4">
+                <p-message severity="info" text="保存后会生成新的当前版本，原当前版本由后端标记为 superseded。" styleClass="w-full" />
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div class="flex flex-col gap-2">
+                        <label for="pricingPath" class="font-medium">报价路径</label>
+                        <p-select id="pricingPath" [(ngModel)]="pricingForm.pricingPath" [options]="pricingPathOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="pricingDecision" class="font-medium">评审结论</label>
+                        <p-select id="pricingDecision" [(ngModel)]="pricingForm.decision" [options]="pricingDecisionOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="quoteVersion" class="font-medium">报价版本 <span class="text-red-500">*</span></label>
+                        <input pInputText id="quoteVersion" [(ngModel)]="pricingForm.quoteVersion" placeholder="例如 Q-2026-001" />
+                        @if (pricingSubmitAttempted && !pricingForm.quoteVersion.trim()) {
+                            <span class="text-red-500 text-xs">请填写报价版本</span>
+                        }
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="pricingCurrency" class="font-medium">币种</label>
+                        <input pInputText id="pricingCurrency" [(ngModel)]="pricingForm.currencyCode" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="quoteTaxInclusive" class="font-medium">含税报价 <span class="text-red-500">*</span></label>
+                        <input pInputText id="quoteTaxInclusive" [(ngModel)]="pricingForm.quoteAmountTaxInclusive" placeholder="数字字符串" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="quoteTaxExclusive" class="font-medium">不含税报价 <span class="text-red-500">*</span></label>
+                        <input pInputText id="quoteTaxExclusive" [(ngModel)]="pricingForm.quoteAmountTaxExclusive" placeholder="数字字符串" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="taxRate" class="font-medium">税率 <span class="text-red-500">*</span></label>
+                        <input pInputText id="taxRate" [(ngModel)]="pricingForm.taxRate" placeholder="例如 0.0600" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="grossMarginRate" class="font-medium">毛利率</label>
+                        <input pInputText id="grossMarginRate" [(ngModel)]="pricingForm.grossMarginRate" placeholder="例如 0.3200，可为空" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="grossMarginBand" class="font-medium">毛利区间</label>
+                        <p-select id="grossMarginBand" [(ngModel)]="pricingForm.grossMarginBand" [options]="grossMarginBandOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="pricingOwnerRole" class="font-medium">责任角色</label>
+                        <input pInputText id="pricingOwnerRole" [(ngModel)]="pricingForm.ownerRole" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="technicalCostPackageId" class="font-medium">技术成本版本</label>
+                        <input pInputText id="technicalCostPackageId" [(ngModel)]="pricingForm.technicalCostPackageId" readonly />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="bidCommercialProcessId" class="font-medium">竞标过程引用</label>
+                        <input pInputText id="bidCommercialProcessId" [(ngModel)]="pricingForm.bidCommercialProcessId" readonly />
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="taxConditionSummary" class="font-medium">税务条件 <span class="text-red-500">*</span></label>
+                        <textarea pTextarea id="taxConditionSummary" [(ngModel)]="pricingForm.taxConditionSummary" rows="3"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="paymentTermsSummary" class="font-medium">回款条件 <span class="text-red-500">*</span></label>
+                        <textarea pTextarea id="paymentTermsSummary" [(ngModel)]="pricingForm.paymentTermsSummary" rows="3"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="grossMarginSummary" class="font-medium">毛利说明 <span class="text-red-500">*</span></label>
+                        <textarea pTextarea id="grossMarginSummary" [(ngModel)]="pricingForm.grossMarginSummary" rows="3"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="decisionSummary" class="font-medium">结论说明 <span class="text-red-500">*</span></label>
+                        <textarea pTextarea id="decisionSummary" [(ngModel)]="pricingForm.decisionSummary" rows="3"></textarea>
+                    </div>
+                </div>
+
+                @if (pricingSubmitAttempted && !isPricingFormValid()) {
+                    <p-message severity="warn" text="请补齐报价版本、金额、税率、税务条件、回款条件、毛利说明和结论说明。" styleClass="w-full" />
+                }
+
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <h3 class="text-base font-semibold text-surface-950 dark:text-surface-0">条件项</h3>
+                        <p-button label="新增条件项" icon="pi pi-plus" severity="secondary" [outlined]="true" size="small" (onClick)="addConditionItem()" />
+                    </div>
+
+                    @for (item of pricingForm.conditionItems; track $index; let index = $index) {
+                        <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                            <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionKey' + index" class="font-medium">条件键</label>
+                                    <input pInputText [id]="'conditionKey' + index" [(ngModel)]="item.conditionKey" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionLabel' + index" class="font-medium">条件名称</label>
+                                    <input pInputText [id]="'conditionLabel' + index" [(ngModel)]="item.label" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionType' + index" class="font-medium">类型</label>
+                                    <p-select [id]="'conditionType' + index" [(ngModel)]="item.conditionType" [options]="conditionTypeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionStatus' + index" class="font-medium">状态</label>
+                                    <p-select [id]="'conditionStatus' + index" [(ngModel)]="item.conditionStatus" [options]="conditionStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionRequired' + index" class="font-medium">签约前必须完成</label>
+                                    <p-select [id]="'conditionRequired' + index" [(ngModel)]="item.requiredForContracting" [options]="booleanOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionRole' + index" class="font-medium">责任角色</label>
+                                    <input pInputText [id]="'conditionRole' + index" [(ngModel)]="item.responsibleRole" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label [for]="'conditionDueAt' + index" class="font-medium">截止时间</label>
+                                    <input pInputText [id]="'conditionDueAt' + index" [(ngModel)]="item.dueAt" placeholder="ISO 时间，可为空" />
+                                </div>
+                                <div class="flex flex-col gap-2 md:col-span-2">
+                                    <label [for]="'conditionSummary' + index" class="font-medium">条件说明</label>
+                                    <input pInputText [id]="'conditionSummary' + index" [(ngModel)]="item.conditionSummary" />
+                                </div>
+                                <div class="flex flex-col gap-2 md:col-span-2">
+                                    <label [for]="'conditionResolution' + index" class="font-medium">处理说明</label>
+                                    <input pInputText [id]="'conditionResolution' + index" [(ngModel)]="item.resolutionSummary" />
+                                </div>
+                                <div class="flex items-end justify-end">
+                                    <p-button label="删除" icon="pi pi-trash" severity="danger" [outlined]="true" size="small" (onClick)="removeConditionItem(index)" />
+                                </div>
+                            </div>
+                        </div>
+                    } @empty {
+                        <p-message severity="secondary" text="暂无条件项，保存时会提交空数组。" styleClass="w-full" />
+                    }
+                </div>
+            </div>
+
+            <ng-template #footer>
+                <div class="flex justify-end gap-2">
+                    <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closePricingDialog()" />
+                    <p-button label="保存为当前版本" (onClick)="submitPricingReview()" [loading]="saving()" />
+                </div>
+            </ng-template>
+        </p-dialog>
     `
 })
 export class ProjectPricingMarginWorkspace implements OnInit {
@@ -222,7 +466,45 @@ export class ProjectPricingMarginWorkspace implements OnInit {
 
     readonly workspace = this.#workspaceStore.pricingMarginWorkspace;
     readonly loading = this.#workspaceStore.loadingPricingMargin;
+    readonly saving = this.#workspaceStore.savingPricingMargin;
     readonly error = this.#workspaceStore.pricingMarginError;
+
+    pricingDialogVisible = false;
+    pricingDialogMode: PricingMarginDialogMode = 'create';
+    pricingSubmitAttempted = false;
+    pricingForm: PricingMarginForm = this.createEmptyPricingForm(null);
+
+    readonly booleanOptions = BOOLEAN_OPTIONS;
+    readonly pricingPathOptions: Option<CreateProjectPricingMarginReviewRequestPricingPathEnum>[] = [
+        { label: '竞标承接', value: CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid },
+        { label: '直接商务', value: CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial }
+    ];
+    readonly pricingDecisionOptions: Option<CreateProjectPricingMarginReviewRequestDecisionEnum>[] = [
+        { label: '待评审', value: CreateProjectPricingMarginReviewRequestDecisionEnum.Pending },
+        { label: '已放行', value: CreateProjectPricingMarginReviewRequestDecisionEnum.Released },
+        { label: '有条件放行', value: CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease },
+        { label: '已驳回', value: CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected },
+        { label: '需升级', value: CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired }
+    ];
+    readonly grossMarginBandOptions: Option<CreateProjectPricingMarginReviewRequestGrossMarginBandEnum>[] = [
+        { label: '低于红线', value: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline },
+        { label: '需关注', value: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch },
+        { label: '达到目标', value: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target },
+        { label: '未计算', value: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated }
+    ];
+    readonly conditionTypeOptions: Option<ProjectPricingMarginConditionItemInputConditionTypeEnum>[] = [
+        { label: '财务', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Financial },
+        { label: '税务', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Tax },
+        { label: '回款', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment },
+        { label: '范围', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Scope },
+        { label: '风险', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk },
+        { label: '审批', value: ProjectPricingMarginConditionItemInputConditionTypeEnum.Approval }
+    ];
+    readonly conditionStatusOptions: Option<ProjectPricingMarginConditionItemInputConditionStatusEnum>[] = [
+        { label: '打开', value: ProjectPricingMarginConditionItemInputConditionStatusEnum.Open },
+        { label: '已关闭', value: ProjectPricingMarginConditionItemInputConditionStatusEnum.Closed },
+        { label: '已豁免', value: ProjectPricingMarginConditionItemInputConditionStatusEnum.Waived }
+    ];
 
     ngOnInit() {
         const projectId = this.projectId();
@@ -233,6 +515,58 @@ export class ProjectPricingMarginWorkspace implements OnInit {
 
     projectId(): string {
         return this.#route.parent?.snapshot.paramMap.get('id') ?? this.#route.snapshot.paramMap.get('id') ?? '';
+    }
+
+    canWritePricingMargin(workspace: ProjectPricingMarginWorkspaceView): boolean {
+        return workspace.allowedActions.includes('create-pricing-margin-review') && workspace.technicalCostPackage !== null;
+    }
+
+    pricingWriteDisabledReason(workspace: ProjectPricingMarginWorkspaceView): string {
+        if (!workspace.allowedActions.includes('create-pricing-margin-review')) {
+            return '当前用户、项目阶段或项目状态没有报价 / 毛利评审写入权限。';
+        }
+
+        if (!workspace.technicalCostPackage) {
+            return '当前缺少可引用的技术与成本版本，需先完成技术与成本工作区。';
+        }
+
+        return '当前工作区暂不允许写入。';
+    }
+
+    openPricingDialog(workspace: ProjectPricingMarginWorkspaceView, mode: PricingMarginDialogMode): void {
+        this.pricingDialogMode = mode;
+        this.pricingSubmitAttempted = false;
+        this.pricingForm = mode === 'edit' && workspace.currentReview ? this.createPricingFormFromWorkspace(workspace) : this.createEmptyPricingForm(workspace);
+        this.pricingDialogVisible = true;
+    }
+
+    closePricingDialog(): void {
+        this.pricingDialogVisible = false;
+        this.pricingSubmitAttempted = false;
+    }
+
+    addConditionItem(): void {
+        this.pricingForm.conditionItems = [...this.pricingForm.conditionItems, this.createEmptyConditionItem(this.pricingForm.conditionItems.length + 1)];
+    }
+
+    removeConditionItem(index: number): void {
+        this.pricingForm.conditionItems = this.pricingForm.conditionItems.filter((_, currentIndex) => currentIndex !== index);
+    }
+
+    async submitPricingReview(): Promise<void> {
+        this.pricingSubmitAttempted = true;
+        const request = this.buildPricingRequest();
+
+        if (!request) {
+            return;
+        }
+
+        try {
+            await this.#workspaceStore.createPricingMarginReview(this.projectId(), request);
+            this.closePricingDialog();
+        } catch {
+            // Store exposes the backend error in the page feedback.
+        }
     }
 
     commandItems(workspace: ProjectPricingMarginWorkspaceView): WorkspaceCommandPanelItem[] {
@@ -521,5 +855,233 @@ export class ProjectPricingMarginWorkspace implements OnInit {
             hour: '2-digit',
             minute: '2-digit'
         });
+    }
+
+    createEmptyPricingForm(workspace: ProjectPricingMarginWorkspaceView | null): PricingMarginForm {
+        const technicalCostPackage = workspace?.technicalCostPackage ?? null;
+        const bidCommercialProcess = workspace?.bidCommercialProcess ?? null;
+
+        return {
+            technicalCostPackageId: technicalCostPackage?.id ?? '',
+            bidCommercialProcessId: bidCommercialProcess?.id ?? '',
+            commercialReleaseBaselineId: '',
+            pricingPath: bidCommercialProcess ? CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid : CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial,
+            quoteVersion: '',
+            currencyCode: technicalCostPackage?.currencyCode ?? 'CNY',
+            quoteAmountTaxInclusive: '',
+            quoteAmountTaxExclusive: '',
+            taxRate: '',
+            taxConditionSummary: technicalCostPackage?.taxAssumptionSummary ?? '',
+            paymentTermsSummary: '',
+            grossMarginRate: '',
+            grossMarginBand: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated,
+            grossMarginSummary: '',
+            decision: CreateProjectPricingMarginReviewRequestDecisionEnum.Pending,
+            decisionSummary: '',
+            approvalScenarioKey: 'pricing-margin-review',
+            summaryPackageKey: 'pricing-margin-summary',
+            summarySnapshotId: '',
+            projectionLevel: 'pricing-margin',
+            exportPolicy: 'internal',
+            ownerRole: workspace?.ownerLabel ?? '',
+            conditionItems: []
+        };
+    }
+
+    createPricingFormFromWorkspace(workspace: ProjectPricingMarginWorkspaceView): PricingMarginForm {
+        const currentReview = workspace.currentReview;
+        if (!currentReview) {
+            return this.createEmptyPricingForm(workspace);
+        }
+
+        return {
+            technicalCostPackageId: currentReview.technicalCostPackageId,
+            bidCommercialProcessId: currentReview.bidCommercialProcessId ?? '',
+            commercialReleaseBaselineId: currentReview.commercialReleaseBaselineId ?? '',
+            pricingPath: this.toPricingPath(currentReview.pricingPath),
+            quoteVersion: currentReview.quoteVersion,
+            currencyCode: currentReview.currencyCode,
+            quoteAmountTaxInclusive: currentReview.quoteAmountTaxInclusive,
+            quoteAmountTaxExclusive: currentReview.quoteAmountTaxExclusive,
+            taxRate: currentReview.taxRate,
+            taxConditionSummary: currentReview.taxConditionSummary,
+            paymentTermsSummary: currentReview.paymentTermsSummary,
+            grossMarginRate: currentReview.grossMarginRate ?? '',
+            grossMarginBand: this.toGrossMarginBand(currentReview.grossMarginBand),
+            grossMarginSummary: currentReview.grossMarginSummary,
+            decision: this.toPricingDecision(currentReview.decision),
+            decisionSummary: currentReview.decisionSummary,
+            approvalScenarioKey: currentReview.approvalScenarioKey ?? 'pricing-margin-review',
+            summaryPackageKey: currentReview.summaryPackageKey ?? 'pricing-margin-summary',
+            summarySnapshotId: currentReview.summarySnapshotId ?? '',
+            projectionLevel: currentReview.projectionLevel ?? 'pricing-margin',
+            exportPolicy: currentReview.exportPolicy ?? 'internal',
+            ownerRole: currentReview.ownerRole ?? workspace.ownerLabel,
+            conditionItems: this.conditionItems(workspace).map((item, index) => ({
+                conditionKey: item.conditionKey,
+                conditionType: this.toConditionType(item.conditionType),
+                label: item.label,
+                conditionSummary: item.conditionSummary,
+                conditionStatus: this.toConditionStatus(item.conditionStatus),
+                requiredForContracting: item.requiredForContracting,
+                responsibleRole: item.responsibleRole ?? '',
+                dueAt: item.dueAt ?? '',
+                resolutionSummary: item.resolutionSummary ?? '',
+                sortOrder: item.sortOrder ?? index + 1
+            }))
+        };
+    }
+
+    createEmptyConditionItem(sortOrder: number): PricingMarginConditionForm {
+        return {
+            conditionKey: '',
+            conditionType: ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment,
+            label: '',
+            conditionSummary: '',
+            conditionStatus: ProjectPricingMarginConditionItemInputConditionStatusEnum.Open,
+            requiredForContracting: true,
+            responsibleRole: '',
+            dueAt: '',
+            resolutionSummary: '',
+            sortOrder
+        };
+    }
+
+    isPricingFormValid(): boolean {
+        return (
+            this.pricingForm.technicalCostPackageId.trim().length > 0 &&
+            this.pricingForm.quoteVersion.trim().length > 0 &&
+            this.pricingForm.currencyCode.trim().length > 0 &&
+            this.pricingForm.quoteAmountTaxInclusive.trim().length > 0 &&
+            this.pricingForm.quoteAmountTaxExclusive.trim().length > 0 &&
+            this.pricingForm.taxRate.trim().length > 0 &&
+            this.pricingForm.taxConditionSummary.trim().length > 0 &&
+            this.pricingForm.paymentTermsSummary.trim().length > 0 &&
+            this.pricingForm.grossMarginSummary.trim().length > 0 &&
+            this.pricingForm.decisionSummary.trim().length > 0
+        );
+    }
+
+    buildPricingRequest(): CreateProjectPricingMarginReviewRequest | null {
+        if (!this.isPricingFormValid()) {
+            return null;
+        }
+
+        return {
+            technicalCostPackageId: this.pricingForm.technicalCostPackageId.trim(),
+            bidCommercialProcessId: this.blankToNull(this.pricingForm.bidCommercialProcessId),
+            commercialReleaseBaselineId: this.blankToNull(this.pricingForm.commercialReleaseBaselineId),
+            pricingPath: this.pricingForm.pricingPath,
+            quoteVersion: this.pricingForm.quoteVersion.trim(),
+            currencyCode: this.pricingForm.currencyCode.trim(),
+            quoteAmountTaxInclusive: this.pricingForm.quoteAmountTaxInclusive.trim(),
+            quoteAmountTaxExclusive: this.pricingForm.quoteAmountTaxExclusive.trim(),
+            taxRate: this.pricingForm.taxRate.trim(),
+            taxConditionSummary: this.pricingForm.taxConditionSummary.trim(),
+            paymentTermsSummary: this.pricingForm.paymentTermsSummary.trim(),
+            grossMarginRate: this.blankToNull(this.pricingForm.grossMarginRate),
+            grossMarginBand: this.pricingForm.grossMarginBand,
+            grossMarginSummary: this.pricingForm.grossMarginSummary.trim(),
+            decision: this.pricingForm.decision,
+            decisionSummary: this.pricingForm.decisionSummary.trim(),
+            approvalScenarioKey: this.blankToNull(this.pricingForm.approvalScenarioKey),
+            summaryPackageKey: this.blankToNull(this.pricingForm.summaryPackageKey),
+            summarySnapshotId: this.blankToNull(this.pricingForm.summarySnapshotId),
+            projectionLevel: this.blankToNull(this.pricingForm.projectionLevel),
+            exportPolicy: this.blankToNull(this.pricingForm.exportPolicy),
+            ownerRole: this.blankToNull(this.pricingForm.ownerRole),
+            conditionItems: this.pricingForm.conditionItems.map((item, index): ProjectPricingMarginConditionItemInput => ({
+                conditionKey: item.conditionKey.trim() || `condition-${index + 1}`,
+                conditionType: item.conditionType,
+                label: item.label.trim() || `条件项 ${index + 1}`,
+                conditionSummary: item.conditionSummary.trim() || `条件项 ${index + 1}`,
+                conditionStatus: item.conditionStatus,
+                requiredForContracting: item.requiredForContracting,
+                responsibleRole: this.blankToNull(item.responsibleRole),
+                dueAt: this.blankToNull(item.dueAt),
+                resolutionSummary: this.blankToNull(item.resolutionSummary),
+                sortOrder: index + 1
+            }))
+        };
+    }
+
+    blankToNull(value: string): string | null {
+        const normalized = value.trim();
+        return normalized.length > 0 ? normalized : null;
+    }
+
+    toPricingPath(value: string): CreateProjectPricingMarginReviewRequestPricingPathEnum {
+        switch (value) {
+            case CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid:
+                return CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid;
+            case CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial:
+                return CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial;
+            default:
+                return CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial;
+        }
+    }
+
+    toGrossMarginBand(value: string): CreateProjectPricingMarginReviewRequestGrossMarginBandEnum {
+        switch (value) {
+            case CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline:
+                return CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline;
+            case CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch:
+                return CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch;
+            case CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target:
+                return CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target;
+            case CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated:
+                return CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated;
+            default:
+                return CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated;
+        }
+    }
+
+    toPricingDecision(value: string): CreateProjectPricingMarginReviewRequestDecisionEnum {
+        switch (value) {
+            case CreateProjectPricingMarginReviewRequestDecisionEnum.Pending:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.Pending;
+            case CreateProjectPricingMarginReviewRequestDecisionEnum.Released:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.Released;
+            case CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease;
+            case CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected;
+            case CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired;
+            default:
+                return CreateProjectPricingMarginReviewRequestDecisionEnum.Pending;
+        }
+    }
+
+    toConditionType(value: string): ProjectPricingMarginConditionItemInputConditionTypeEnum {
+        switch (value) {
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Financial:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Financial;
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Tax:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Tax;
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment;
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Scope:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Scope;
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk;
+            case ProjectPricingMarginConditionItemInputConditionTypeEnum.Approval:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Approval;
+            default:
+                return ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk;
+        }
+    }
+
+    toConditionStatus(value: string): ProjectPricingMarginConditionItemInputConditionStatusEnum {
+        switch (value) {
+            case ProjectPricingMarginConditionItemInputConditionStatusEnum.Open:
+                return ProjectPricingMarginConditionItemInputConditionStatusEnum.Open;
+            case ProjectPricingMarginConditionItemInputConditionStatusEnum.Closed:
+                return ProjectPricingMarginConditionItemInputConditionStatusEnum.Closed;
+            case ProjectPricingMarginConditionItemInputConditionStatusEnum.Waived:
+                return ProjectPricingMarginConditionItemInputConditionStatusEnum.Waived;
+            default:
+                return ProjectPricingMarginConditionItemInputConditionStatusEnum.Open;
+        }
     }
 }
