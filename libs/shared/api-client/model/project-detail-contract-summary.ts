@@ -15,7 +15,6 @@ export interface ProjectDetailContractSummary {
     latestContractId: string | null;
     latestContractNo: string | null;
     latestContractStatus: string | null;
-    signedAmount: string | null;
     signedAmountProjection: SensitiveStringFieldProjection;
     currencyCode: string | null;
     signedAt: string | null;

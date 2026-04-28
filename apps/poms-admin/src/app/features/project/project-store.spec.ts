@@ -2,6 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { ProjectApi, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectSummary, type ProjectTimelineView } from '@poms/admin-data-access';
 import { of } from 'rxjs';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
@@ -44,7 +54,7 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
             latestContractId: null,
             latestContractNo: null,
             latestContractStatus: null,
-            signedAmount: null,
+            signedAmountProjection: sensitiveProjection(null),
             currencyCode: null,
             signedAt: null,
             currentSnapshotId: null

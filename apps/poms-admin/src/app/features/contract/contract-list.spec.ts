@@ -24,7 +24,6 @@ function createContract(overrides: Partial<ContractSummary> = {}): ContractSumma
         contractNo: 'CT-2026-000001',
         customerContractNo: 'KH-HT-2026-01',
         status: 'draft',
-        signedAmount: '1200000.00',
         signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,
@@ -159,7 +158,6 @@ describe('ContractList', () => {
     it('renders contract amount from backend projection and hides creation by command permission', () => {
         contractStoreMock.contracts.set([
             createContract({
-                signedAmount: null,
                 signedAmountProjection: sensitiveProjection(null)
             })
         ]);

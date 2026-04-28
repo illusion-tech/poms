@@ -57,7 +57,6 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
             latestContractId: 'contract-1',
             latestContractNo: 'HT-2026-001',
             latestContractStatus: 'active',
-            signedAmount: '123456.78',
             signedAmountProjection: sensitiveProjection('123456.78'),
             currencyCode: 'CNY',
             signedAt: '2026-04-18T00:00:00.000Z',
@@ -364,7 +363,6 @@ describe('ProjectDetail', () => {
             createProject({
                 currentContractSummary: {
                     ...createProject().currentContractSummary,
-                    signedAmount: null,
                     signedAmountProjection: sensitiveProjection(null)
                 }
             }),

@@ -15,7 +15,6 @@ export interface ContractHandoverContractItemSummary {
     id: string;
     contractNo: string;
     status: ContractStatus;
-    signedAmount: string | null;
     signedAmountProjection: SensitiveStringFieldProjection;
     currencyCode: string;
     currentSnapshotId: string | null;

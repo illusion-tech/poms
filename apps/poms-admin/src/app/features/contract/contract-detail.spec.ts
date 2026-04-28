@@ -25,7 +25,6 @@ function createContract(overrides: Partial<ContractDetailView> = {}): ContractDe
         contractNo: 'CT-2026-000001',
         customerContractNo: 'KH-HT-2026-01',
         status: 'draft',
-        signedAmount: '1200000.00',
         signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,
@@ -154,7 +153,6 @@ describe('ContractDetail', () => {
         });
         selectedContract.set(
             createContract({
-                signedAmount: null,
                 signedAmountProjection: sensitiveProjection(null)
             })
         );

@@ -15,7 +15,6 @@ export interface ContractHandoverEffectiveContractSetSummary {
     activeContractCount: number;
     activeContractIds: Array<string>;
     contractNos: Array<string>;
-    totalSignedAmount: string | null;
     totalSignedAmountProjection: SensitiveStringFieldProjection;
     currencyCodes: Array<string>;
     earliestSignedAt: string | null;

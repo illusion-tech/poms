@@ -19,7 +19,6 @@ export interface ContractSummary {
     contractNo: string;
     customerContractNo: string | null;
     status: ContractStatus;
-    signedAmount: string | null;
     signedAmountProjection: SensitiveStringFieldProjection;
     currencyCode: string;
     currentSnapshotId: string | null;

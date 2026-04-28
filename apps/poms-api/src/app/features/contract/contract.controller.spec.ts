@@ -199,7 +199,7 @@ describe('ContractController', () => {
 
         const result = await controller.list({}, makeRequest(['project:read']));
 
-        expect(result[0]?.signedAmount).toBeNull();
+        expect(result[0]).not.toHaveProperty('signedAmount');
         expect(result[0]?.signedAmountProjection).toEqual(
             expect.objectContaining({
                 fieldPackageKey: 'contract-finance',

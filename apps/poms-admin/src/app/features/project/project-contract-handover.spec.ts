@@ -23,7 +23,6 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
             activeContractCount: 1,
             activeContractIds: ['contract-1'],
             contractNos: ['HT-001'],
-            totalSignedAmount: '200000.00',
             totalSignedAmountProjection: sensitiveProjection('200000.00'),
             currencyCodes: ['CNY'],
             earliestSignedAt: '2026-04-20T08:00:00.000Z',
@@ -33,7 +32,6 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
                     id: 'contract-1',
                     contractNo: 'HT-001',
                     status: 'active',
-                    signedAmount: '200000.00',
                     signedAmountProjection: sensitiveProjection('200000.00'),
                     currencyCode: 'CNY',
                     currentSnapshotId: 'snapshot-1',
@@ -206,9 +204,7 @@ describe('ProjectContractHandover', () => {
 
     it('renders contract set amount from backend projection', async () => {
         const summary = createContractHandoverSummary();
-        summary.effectiveContractSetSummary.totalSignedAmount = null;
         summary.effectiveContractSetSummary.totalSignedAmountProjection = sensitiveProjection(null);
-        summary.effectiveContractSetSummary.contracts[0].signedAmount = null;
         summary.effectiveContractSetSummary.contracts[0].signedAmountProjection = sensitiveProjection(null);
 
         await setup(summary);

@@ -4,6 +4,16 @@ import { ActivatedRoute, convertToParamMap, provideRouter, Router } from '@angul
 import { ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectWorkspaceShell } from './project-workspace-shell';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
@@ -44,7 +54,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
             latestContractId: 'contract-1',
             latestContractNo: 'HT-2026-001',
             latestContractStatus: 'active',
-            signedAmount: '123456.78',
+            signedAmountProjection: sensitiveProjection('123456.78'),
             currencyCode: 'CNY',
             signedAt: '2026-04-18T00:00:00.000Z',
             currentSnapshotId: 'snapshot-1'

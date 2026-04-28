@@ -1334,7 +1334,6 @@ export class ProjectQueryService {
             latestContractId: latestContract?.id ?? null,
             latestContractNo: latestContract?.contractNo ?? null,
             latestContractStatus: latestContract?.status ?? null,
-            signedAmount: signedAmountProjection.value,
             signedAmountProjection,
             currencyCode: latestContract?.currencyCode ?? null,
             signedAt: latestContract?.signedAt?.toISOString() ?? null,

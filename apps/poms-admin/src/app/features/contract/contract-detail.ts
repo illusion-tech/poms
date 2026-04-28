@@ -481,7 +481,7 @@ export class ContractDetail implements OnInit, OnDestroy {
     showEditDialog() {
         const c = this.contract();
         if (!c) return;
-        this.editForm = { signedAmount: c.signedAmount ?? '', currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
+        this.editForm = { signedAmount: c.signedAmountProjection.value ?? '', currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
         this.editSubmitAttempted = false;
         this.editDialogVisible = true;
     }

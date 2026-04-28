@@ -43,6 +43,16 @@ function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = val
     };
 }
 
+function contractSensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'contract-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 describe('ProjectWorkspaceStore', () => {
     let store: ProjectWorkspaceStore;
     const freezeVersionSummary = {
@@ -731,7 +741,7 @@ describe('ProjectWorkspaceStore', () => {
                 activeContractCount: 1,
                 activeContractIds: ['contract-1'],
                 contractNos: ['HT-001'],
-                totalSignedAmount: '200000.00',
+                totalSignedAmountProjection: contractSensitiveProjection('200000.00'),
                 currencyCodes: ['CNY'],
                 earliestSignedAt: '2026-04-20T08:00:00.000Z',
                 latestSignedAt: '2026-04-20T08:00:00.000Z',
@@ -740,7 +750,7 @@ describe('ProjectWorkspaceStore', () => {
                         id: 'contract-1',
                         contractNo: 'HT-001',
                         status: 'active',
-                        signedAmount: '200000.00',
+                        signedAmountProjection: contractSensitiveProjection('200000.00'),
                         currencyCode: 'CNY',
                         currentSnapshotId: 'snapshot-1',
                         signedAt: '2026-04-20T08:00:00.000Z'
@@ -946,7 +956,7 @@ describe('ProjectWorkspaceStore', () => {
                 activeContractCount: 1,
                 activeContractIds: ['contract-1'],
                 contractNos: ['HT-001'],
-                totalSignedAmount: '200000.00',
+                totalSignedAmountProjection: contractSensitiveProjection('200000.00'),
                 currencyCodes: ['CNY'],
                 earliestSignedAt: '2026-04-20T08:00:00.000Z',
                 latestSignedAt: '2026-04-20T08:00:00.000Z',
@@ -1015,7 +1025,7 @@ describe('ProjectWorkspaceStore', () => {
                 activeContractCount: 1,
                 activeContractIds: ['contract-1'],
                 contractNos: ['HT-001'],
-                totalSignedAmount: '200000.00',
+                totalSignedAmountProjection: contractSensitiveProjection('200000.00'),
                 currencyCodes: ['CNY'],
                 earliestSignedAt: '2026-04-20T08:00:00.000Z',
                 latestSignedAt: '2026-04-20T08:00:00.000Z',

@@ -102,7 +102,7 @@ describe('ProjectHandoverQueryService', () => {
         );
         expect(result.projectId).toBe(projectId);
         expect(result.effectiveContractSetSummary.activeContractCount).toBe(1);
-        expect(result.effectiveContractSetSummary.totalSignedAmount).toBe('12345.67');
+        expect(result.effectiveContractSetSummary).not.toHaveProperty('totalSignedAmount');
         expect(result.effectiveContractSetSummary.totalSignedAmountProjection.mode).toBe('full');
         expect(result.contractBaselineValidationSummary.status).toBe('ready');
         expect(result.currentHandoverBaselineSummary.baselineSnapshotId).toBe('50000000-0000-4000-8000-000000000101');
@@ -115,7 +115,7 @@ describe('ProjectHandoverQueryService', () => {
     it('masks effective contract amounts when the caller lacks sensitive read permission', async () => {
         const result = await service.getContractHandoverSummary(projectId, viewerUser as never);
 
-        expect(result.effectiveContractSetSummary.totalSignedAmount).toBeNull();
+        expect(result.effectiveContractSetSummary).not.toHaveProperty('totalSignedAmount');
         expect(result.effectiveContractSetSummary.totalSignedAmountProjection).toEqual(
             expect.objectContaining({
                 fieldPackageKey: 'contract-finance',
@@ -124,7 +124,7 @@ describe('ProjectHandoverQueryService', () => {
                 reasonCode: 'missing-sensitive-read-permission'
             })
         );
-        expect(result.effectiveContractSetSummary.contracts[0]?.signedAmount).toBeNull();
+        expect(result.effectiveContractSetSummary.contracts[0]).not.toHaveProperty('signedAmount');
         expect(result.effectiveContractSetSummary.contracts[0]?.signedAmountProjection.mode).toBe('masked');
     });
 

@@ -16,9 +16,7 @@ export interface ContractTermSnapshotSummary {
     effectiveAt: string;
     effectiveBy: string | null;
     retentionDueDate: string | null;
-    amountTaxInclusive: string | null;
     amountTaxInclusiveProjection: SensitiveStringFieldProjection;
-    amountTaxExclusive: string | null;
     amountTaxExclusiveProjection: SensitiveStringFieldProjection;
     taxRate: string | null;
     downPaymentRate: string | null;

@@ -11580,10 +11580,6 @@
             "type": "string",
             "nullable": true
           },
-          "signedAmount": {
-            "type": "string",
-            "nullable": true
-          },
           "signedAmountProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
@@ -11609,7 +11605,6 @@
           "latestContractId",
           "latestContractNo",
           "latestContractStatus",
-          "signedAmount",
           "signedAmountProjection",
           "currencyCode",
           "signedAt",
@@ -17723,10 +17718,6 @@
               "type": "string"
             }
           },
-          "totalSignedAmount": {
-            "type": "string",
-            "nullable": true
-          },
           "totalSignedAmountProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
@@ -17759,7 +17750,6 @@
           "activeContractCount",
           "activeContractIds",
           "contractNos",
-          "totalSignedAmount",
           "totalSignedAmountProjection",
           "currencyCodes",
           "earliestSignedAt",
@@ -17780,10 +17770,6 @@
           },
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
-          },
-          "signedAmount": {
-            "type": "string",
-            "nullable": true
           },
           "signedAmountProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
@@ -17808,7 +17794,6 @@
           "id",
           "contractNo",
           "status",
-          "signedAmount",
           "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",
@@ -19029,10 +19014,6 @@
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
           },
-          "signedAmount": {
-            "type": "string",
-            "nullable": true
-          },
           "signedAmountProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
@@ -19093,7 +19074,6 @@
           "contractNo",
           "customerContractNo",
           "status",
-          "signedAmount",
           "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",
@@ -19142,16 +19122,8 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
-          "amountTaxInclusive": {
-            "type": "string",
-            "nullable": true
-          },
           "amountTaxInclusiveProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
-          },
-          "amountTaxExclusive": {
-            "type": "string",
-            "nullable": true
           },
           "amountTaxExclusiveProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
@@ -19220,9 +19192,7 @@
           "effectiveAt",
           "effectiveBy",
           "retentionDueDate",
-          "amountTaxInclusive",
           "amountTaxInclusiveProjection",
-          "amountTaxExclusive",
           "amountTaxExclusiveProjection",
           "taxRate",
           "downPaymentRate",
@@ -19266,10 +19236,6 @@
           },
           "status": {
             "$ref": "#/components/schemas/ContractStatus"
-          },
-          "signedAmount": {
-            "type": "string",
-            "nullable": true
           },
           "signedAmountProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
@@ -19339,7 +19305,6 @@
           "contractNo",
           "customerContractNo",
           "status",
-          "signedAmount",
           "signedAmountProjection",
           "currencyCode",
           "currentSnapshotId",

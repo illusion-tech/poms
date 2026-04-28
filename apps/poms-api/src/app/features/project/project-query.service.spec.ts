@@ -222,7 +222,6 @@ describe('ProjectQueryService', () => {
             latestContractId: '30000000-0000-4000-8000-000000000001',
             latestContractNo: 'CT-2026-001',
             latestContractStatus: 'active',
-            signedAmount: null,
             signedAmountProjection: expect.objectContaining({
                 fieldPackageKey: 'contract-finance',
                 mode: 'masked',
