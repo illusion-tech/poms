@@ -1,7 +1,7 @@
 # POMS 项目生命周期设计
 
 **文档状态**: Draft
-**最后更新**: 2026-03-16
+**最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段销售流程域中的 `Project` 主对象生命周期
 **关联文档**:
 
@@ -71,6 +71,7 @@
 - **主对象与子流程分层**: `Project` 负责表达主业务推进位置，`BidProcess` 负责表达投标细节事实与结果
 - **阶段与审批分层**: 阶段表达“当前处于哪一步”，审批表达“当前动作能否放行”
 - **成交路径显式化**: 是否采用招投标、框架下单或直接商务谈判，应作为签约前商务收口阶段的显式语义存在
+- **登记人与销售主责分层**: 登记人属于审计事实，销售主责属于业务责任归属；两者默认可以相同，但设计、接口和页面不得混用
 - **里程碑显式化**: 合同生效、移交完成、验收确认等关键事实必须独立留痕，不应只靠普通字段覆盖
 - **阻断优先**: 关键阶段未满足前置条件时，系统必须明确阻断推进，而不是默许跳过
 
@@ -152,6 +153,16 @@ flowchart LR
 - 一个 `Project` 在任一时点通常只有一个“当前有效 `BidProcess`”
 - `BidProcess` 记录投标决策、标书准备、递交、澄清、定标结果等细节事实
 - `Project` 只引用当前有效 `bidProcessId` 与关键结果，不复制全部投标细节状态
+
+### 5.5 `Lead` / `Project` 责任归属与登记人分层
+
+`Lead -> Project` 转化链路必须区分"谁登记了事实"和"谁对后续推进负责"：
+
+- `createdBy`、`updatedBy`、`convertedBy` 是审计字段，只回答登记人、修改人、转化人是谁。
+- `Lead.ownerUserId / ownerOrgId` 是线索销售主责人和线索主责组织，登记时可默认当前用户，但允许在 `registered / qualified` 且未关闭、未转项目前维护。
+- `Project.ownerUserId / ownerOrgId` 是项目销售主责人和项目销售主责组织，转项目时默认继承 `Lead.owner*`，并应在转化入口显式确认。
+- `ProjectHandover` 中的执行负责人 / 项目负责人属于移交和执行承接角色，不替代 `Project.owner*` 的销售主责语义。
+- `Project` 创建后的销售主责变更是受控动作，不属于普通基础信息编辑，必须通过专用命令留存变更原因、前后主责、操作者和时间。
 
 ---
 
@@ -270,15 +281,16 @@ flowchart LR
 第一阶段至少固定以下阻断规则：
 
 1. 未形成有效 `Lead`，不得创建 `Project`。
-2. 立项未通过，不得进入范围确认。
-3. 范围未确认，不得进入商务收口。
-4. 未形成有效 `QuotationReview` 结论，不得完成商务收口。
-5. 当 `commercialMode = bidding` 时，未形成有效 `BidProcess` 不得进入签约。
-6. 当 `BidProcess.result != won` 时，不得进入 `contracting`。
-7. 合同未形成有效台账，不得进入正式收付款与发票跟踪。
-8. 项目移交未完成，不得进入正式执行态。
-9. 提成角色与权重未冻结，不得完成移交。
-10. 无有效验收确认，不得进入完成态，也不得作为后续相关提成发放条件的前置依据。
+2. 正式用户入口不得在未明确销售主责的情况下把 `Lead` 转为 `Project`。
+3. 立项未通过，不得进入范围确认。
+4. 范围未确认，不得进入商务收口。
+5. 未形成有效 `QuotationReview` 结论，不得完成商务收口。
+6. 当 `commercialMode = bidding` 时，未形成有效 `BidProcess` 不得进入签约。
+7. 当 `BidProcess.result != won` 时，不得进入 `contracting`。
+8. 合同未形成有效台账，不得进入正式收付款与发票跟踪。
+9. 项目移交未完成，不得进入正式执行态。
+10. 提成角色与权重未冻结，不得完成移交。
+11. 无有效验收确认，不得进入完成态，也不得作为后续相关提成发放条件的前置依据。
 
 ---
 
@@ -294,6 +306,7 @@ flowchart LR
 - `bid-won`
 - `contract-signed`
 - `contract-ledger-established`
+- `project-sales-owner-reassigned`
 - `handover-completed`
 - `commission-role-freeze-version-created`
 - `acceptance-confirmed`
@@ -318,7 +331,14 @@ flowchart LR
 - `name`
 - `customerName`
 - `ownerUserId`
-- `primaryOrgUnitId`
+- `ownerOrgId`
+- `sourceLeadId`
+
+说明：
+
+- `ownerUserId / ownerOrgId` 在本生命周期设计中表达项目销售主责人和项目销售主责组织。
+- 移交后的执行负责人应由 `ProjectHandover` 及其参与人事实表达，不在 `Project.owner*` 字段上混写。
+- `ownerUserId / ownerOrgId` 创建后如需变更，应通过受控命令和动作记录处理，不进入普通基础信息编辑。
 
 ### 11.2 生命周期字段
 
@@ -390,6 +410,7 @@ flowchart LR
 - 登记投标结果
 - 发起高层介入申请
 - 提交签约登记
+- 变更项目销售主责
 - 完成项目移交
 - 确认验收
 - 关闭项目

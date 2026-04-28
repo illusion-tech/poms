@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-27
+**最后更新**: 2026-04-29
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -401,6 +401,7 @@
 - 2026-04-28 已完成 `EX-38` 本地 `G3`：`SensitiveFieldProjectionService.projectStringFields()` 已落地，单字段路径委托到批量路径；合同条款快照、L4 经营读取页和 L5 calculation / payout / adjustment / shared evidence package grouped projection 已改为单次 grouped security event。验证通过 `poms-api` 全量 Jest 40 suites / 507 tests、`poms-api` lint/build、Markdown check 与 `git diff --check`；`EX37B-R3` / `EX37C2-R2` 已在本地 G3 关闭，提交后做 G4。
 - 2026-04-29 已完成 `EX-38` G4 收口：运行提交 `69055b5` 已落地，G4 close-out 已归档；`EX37B-R3` 与 `EX37C2-R2` 已正式关闭，`EX-37B` / `EX-37C` / `EX-37C2` 当前执行板例外列已清空。当前执行任务板不再保留敏感字段投影链路的开放例外。
 - 2026-04-29 已完成 `EX-40` G4 收口：当前执行板无 `Todo` / `Doing` / `Blocked` 的真实工程任务，无开放例外 ID；归档中的旧 `Open downstream` 文案已按后续 G4 记录区分为已关闭历史留痕或 accepted future boundary。当前 Phase 2 execution backlog 已清空，下一步需先做新的产品 / 体验优先级决策，而不是继续从旧 tracker 自动挑任务。
+- 2026-04-29 已基于线索登记到转项目的产品复核新增 `EX-41`：冻结登记人、线索销售主责、项目销售主责和移交执行负责人的分层口径，并在执行板拆出 `EX-41A` 后端受控命令 / 审计记录与 `FE-45` 前端入口收口两个后续切片。`EX-41` 当前处于 `Doing / G3`，后续需提交后完成 G4 close-out。
 - 2026-04-24 已冻结 `FE-10` 的 `G1` 基线并确认原始前端片不能直接编码：仓内缺少技术确认、范围边界、风险 / 保留意见、前期成本清单、税务成本和成本估算版本的正式 query contract / generated client，因此新增前置后端切片 `EX-26`，禁止前端用静态文案、本地常量或执行期实际成本接口伪造签约前估算事实。
 - 2026-04-24 `EX-26` 已完成 local `G3`：新增签约前技术与成本版本包事实源、`POST/GET /projects/{projectId}/technical-cost-packages` 与 `GET /projects/{projectId}/technical-cost-workspace`、shared contract / DTO / OpenAPI / generated client、migration、service/query 和 focused backend tests。迁移检查中发现的 child table column comment drift 已按 `new-real-drift` 记录并修复；本片暂不进 `G4`，等待与后续 `FE-10` 前端改动同批提交。
 - 2026-04-24 `FE-10` 已完成 local `G3`：新增 `/projects/:id/workspace/technical-cost` 读取页、`ProjectWorkspaceStore.loadTechnicalCostWorkspace(projectId)`、签约前入口从占位切到真实 route，并覆盖页面、store、route、签约前入口与登录后真实入口链 E2E。验证通过 `poms-api` lint/build、`poms-admin` lint/build、`admin-data-access` lint、focused unit tests、`shared-api-client:check`、`migration-check` 与 `project-workspace.journey` 5 条 Playwright journey；本轮还修复了 `poms-api` build target 对 `webpack-cli 7.0.2` 的 `--config-node-env` 参数漂移。`FE-10` 暂不 G4，等待 `EX-26` + `FE-10` 同批提交后关闭。
@@ -474,11 +475,12 @@
 
 ### 第二阶段受控待办
 
-为避免后续讨论偏离，当前待办只固定三件事：
+为避免后续讨论偏离，当前待办只固定四件事：
 
 1. 当前统一工程顺序仍是：平台治理补齐切片 -> `L1 / L2` 可信源与快照基础切片 -> `L3` 收口链切片 -> 提成治理主机制切片 -> `L4 / L5` 联动链。
 2. 当前历史回溯入口固定为：`archive/control-history/`、`archive/mainline-closure/`、`archive/phase2-batches/`。
 3. 当前主线导航入口固定为：`phase2-mainline-delivery-plan.md`、`phase2-lx-t04-full-mainline-development-decision.md`、`phase2-detailed-design-index-map.md`、`implementation-delivery-guide.md` 与 `phase2-development-execution-tracker.md`。
+4. 当前新增产品治理待办为：先完成 `EX-41` 文档 G3 / G4，再进入 `EX-41A` 后端命令和 `FE-45` 前端入口两个独立实现切片。
 
 ---
 

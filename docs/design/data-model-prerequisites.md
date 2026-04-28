@@ -1,7 +1,7 @@
 # POMS 数据模型冻结前提
 
 **文档状态**: Active
-**最后更新**: 2026-04-04
+**最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段数据模型冻结前提，以及第二阶段第一批、第二批、第三批实现映射写回前的数据模型补点基线
 **关联文档**:
 
@@ -63,17 +63,18 @@
 
 ### 3.1 销售流程域
 
-| 对象                         | 建议落表类型 | 建模前提摘要                                     | 冻结前需确认                         |
-| ---------------------------- | ------------ | ------------------------------------------------ | ------------------------------------ |
-| `Lead`                       | 主表         | 线索是 `Project` 创建前的事实源                  | 是否保留更细线索来源字典             |
-| `Project`                    | 主表         | 承载主生命周期、主责组织、关键引用               | 主状态字段与关闭语义字典是否已稳定   |
-| `ProjectAssessment`          | 动作记录表   | 属于评估提交与审批结论事实，不建议揉进 `Project` | 是否需要评估版本号                   |
-| `ScopeConfirmation`          | 版本表       | 已确认后不应原地覆盖，建议支持版本化             | 新版本与旧版本的替代关系字段         |
-| `QuotationReview`            | 动作记录表   | 报价评审是审批批次事实                           | 报价输入快照是否内嵌还是外链         |
-| `BidProcess`                 | 主表         | 是 `Project` 下第一类受控子流程                  | 历史 `BidProcess` 串行版本是否冻结   |
-| `ExecutiveEscalationRequest` | 动作记录表   | 高层介入属于例外审批事实                         | 是否需要与 `ApprovalRecord` 一一对应 |
-| `ProjectHandover`            | 动作记录表   | 移交完成是里程碑事实                             | 多方确认明细是否拆子表               |
-| `AcceptanceRecord`           | 动作记录表   | 验收结论需独立留痕                               | 阶段验收与最终验收是否共用一张表     |
+| 对象                             | 建议落表类型 | 建模前提摘要                                               | 冻结前需确认                         |
+| -------------------------------- | ------------ | ---------------------------------------------------------- | ------------------------------------ |
+| `Lead`                           | 主表         | 线索是 `Project` 创建前的事实源，`owner*` 表达线索销售主责 | 是否保留更细线索来源字典             |
+| `Project`                        | 主表         | 承载主生命周期、销售主责组织、关键引用                     | 主状态字段与关闭语义字典是否已稳定   |
+| `ProjectOwnerReassignmentRecord` | 动作记录表   | 项目销售主责变更必须独立留痕，不通过普通字段静默覆盖       | 是否需要审批链或仅受控命令           |
+| `ProjectAssessment`              | 动作记录表   | 属于评估提交与审批结论事实，不建议揉进 `Project`           | 是否需要评估版本号                   |
+| `ScopeConfirmation`              | 版本表       | 已确认后不应原地覆盖，建议支持版本化                       | 新版本与旧版本的替代关系字段         |
+| `QuotationReview`                | 动作记录表   | 报价评审是审批批次事实                                     | 报价输入快照是否内嵌还是外链         |
+| `BidProcess`                     | 主表         | 是 `Project` 下第一类受控子流程                            | 历史 `BidProcess` 串行版本是否冻结   |
+| `ExecutiveEscalationRequest`     | 动作记录表   | 高层介入属于例外审批事实                                   | 是否需要与 `ApprovalRecord` 一一对应 |
+| `ProjectHandover`                | 动作记录表   | 移交完成是里程碑事实                                       | 多方确认明细是否拆子表               |
+| `AcceptanceRecord`               | 动作记录表   | 验收结论需独立留痕                                         | 阶段验收与最终验收是否共用一张表     |
 
 ### 3.2 合同资金域
 
@@ -132,14 +133,16 @@
 第一阶段建议至少固定以下关系前提：
 
 1. `Project` 是销售主链路主对象，签约前后都不被 `Contract` 替代。
-2. `BidProcess` 通过 `projectId` 归属 `Project`，且 `Project` 可引用当前有效 `activeBidProcessId`。
-3. `Contract` 通过 `projectId` 归属 `Project`。
-4. `ContractTermSnapshot` 通过 `contractId` 归属 `Contract`，并可被 `ReceivablePlan`、`CommissionCalculation` 引用。
-5. `ReceiptRecord` 可关联 `contractId` 与 `projectId`，但生效口径以确认后的记录事实为准。
-6. `CommissionRoleAssignment`、`CommissionCalculation`、`CommissionPayout`、`CommissionAdjustment` 均需保留 `projectId`。
-7. `ApprovalRecord` 与 `ConfirmationRecord` 应保留 `targetType + targetId` 的通用引用组合。
-8. `User` 必须保留 `primaryOrgUnitId`，但用户与组织、用户与角色的正式关系仍应以下游关系表为准。
-9. `CommissionRoleAssignment` 应保留 `userId` 与 `projectId`，以保证提成参与人与平台正式用户主数据对齐。
+2. `Project.ownerUserId / ownerOrgId` 表达项目销售主责，不表达移交后的执行负责人。
+3. `ProjectOwnerReassignmentRecord` 通过 `projectId` 归属 `Project`，记录销售主责前后变化、原因和操作者。
+4. `BidProcess` 通过 `projectId` 归属 `Project`，且 `Project` 可引用当前有效 `activeBidProcessId`。
+5. `Contract` 通过 `projectId` 归属 `Project`。
+6. `ContractTermSnapshot` 通过 `contractId` 归属 `Contract`，并可被 `ReceivablePlan`、`CommissionCalculation` 引用。
+7. `ReceiptRecord` 可关联 `contractId` 与 `projectId`，但生效口径以确认后的记录事实为准。
+8. `CommissionRoleAssignment`、`CommissionCalculation`、`CommissionPayout`、`CommissionAdjustment` 均需保留 `projectId`。
+9. `ApprovalRecord` 与 `ConfirmationRecord` 应保留 `targetType + targetId` 的通用引用组合。
+10. `User` 必须保留 `primaryOrgUnitId`，但用户与组织、用户与角色的正式关系仍应以下游关系表为准。
+11. `CommissionRoleAssignment` 应保留 `userId` 与 `projectId`，以保证提成参与人与平台正式用户主数据对齐。
 
 ---
 

@@ -1,7 +1,7 @@
 # POMS Schema 与 DDL 细化设计
 
 **文档状态**: Active
-**最后更新**: 2026-04-04
+**最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DDL 补点输入
 **关联文档**:
 
@@ -246,6 +246,9 @@
 - `project.status`
 - `project.current_stage`
 - `project.owner_org_id`
+- `project.owner_user_id`
+- `project_owner_reassignment_record.project_id + reassigned_at`
+- `project_owner_reassignment_record.reassigned_by`
 - `platform_user.username`
 - `platform_user.is_active`
 - `platform_user.primary_org_unit_id`
@@ -323,6 +326,28 @@
 - 主键：`id`
 - 唯一：`project_code`
 - 索引：`status`、`current_stage`、`owner_org_id`
+
+### 7.1A `project_owner_reassignment_record`
+
+建议最小字段：
+
+- `id`
+- `project_id`
+- `previous_owner_org_id`
+- `previous_owner_user_id`
+- `new_owner_org_id`
+- `new_owner_user_id`
+- `reason`
+- `reassigned_at`
+- `reassigned_by`
+- `created_at`
+- `created_by`
+
+约束建议：
+
+- 主键：`id`
+- 外键：`project_id -> project.id`
+- 索引：`project_id + reassigned_at`、`reassigned_by`
 
 ### 7.2 `contract`
 
