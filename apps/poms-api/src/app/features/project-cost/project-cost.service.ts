@@ -1581,7 +1581,7 @@ export class ProjectCostService {
         const grossMarginAmount = this.toNullableDecimal(context.snapshot.grossMarginAmount) ?? '0.0000';
         const grossMarginRate = this.toNullableDecimal(context.snapshot.grossMarginRate);
         const taxImpactSummary = context.snapshot.taxImpactSummary;
-        const [
+        const {
             effectiveContractSetSummaryProjection,
             receivableConfirmedAmountSummaryProjection,
             includedCostTotalSummaryProjection,
@@ -1589,14 +1589,14 @@ export class ProjectCostService {
             grossMarginAmountProjection,
             grossMarginRateProjection,
             taxImpactSummaryProjection
-        ] = await Promise.all([
-            this.projectOperatingFinanceField(projectId, effectiveContractSetSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, grossMarginAmount, user, requestContext),
-            this.projectOperatingFinanceField(projectId, grossMarginRate, user, requestContext),
-            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext)
+        } = await this.projectOperatingFinanceFields(projectId, user, requestContext, [
+            { key: 'effectiveContractSetSummaryProjection', rawValue: effectiveContractSetSummary },
+            { key: 'receivableConfirmedAmountSummaryProjection', rawValue: receivableConfirmedAmountSummary },
+            { key: 'includedCostTotalSummaryProjection', rawValue: includedCostTotalSummary },
+            { key: 'currentEffectiveBaselineCostSummaryProjection', rawValue: currentEffectiveBaselineCostSummary },
+            { key: 'grossMarginAmountProjection', rawValue: grossMarginAmount },
+            { key: 'grossMarginRateProjection', rawValue: grossMarginRate },
+            { key: 'taxImpactSummaryProjection', rawValue: taxImpactSummary }
         ]);
 
         return {
@@ -1626,14 +1626,14 @@ export class ProjectCostService {
         const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000';
         const taxImpactSummary = context.snapshot.taxImpactSummary;
         const taxImpactPendingAmount = this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? '0.0000';
-        const [originalBaselineCostSummaryProjection, currentEffectiveBaselineCostSummaryProjection, includedCostTotalSummaryProjection, receivableConfirmedAmountSummaryProjection, taxImpactSummaryProjection, taxImpactPendingAmountProjection] =
-            await Promise.all([
-                this.projectOperatingFinanceField(projectId, originalBaselineCostSummary, user, requestContext),
-                this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
-                this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
-                this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
-                this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
-                this.projectOperatingFinanceField(projectId, taxImpactPendingAmount, user, requestContext)
+        const { originalBaselineCostSummaryProjection, currentEffectiveBaselineCostSummaryProjection, includedCostTotalSummaryProjection, receivableConfirmedAmountSummaryProjection, taxImpactSummaryProjection, taxImpactPendingAmountProjection } =
+            await this.projectOperatingFinanceFields(projectId, user, requestContext, [
+                { key: 'originalBaselineCostSummaryProjection', rawValue: originalBaselineCostSummary },
+                { key: 'currentEffectiveBaselineCostSummaryProjection', rawValue: currentEffectiveBaselineCostSummary },
+                { key: 'includedCostTotalSummaryProjection', rawValue: includedCostTotalSummary },
+                { key: 'receivableConfirmedAmountSummaryProjection', rawValue: receivableConfirmedAmountSummary },
+                { key: 'taxImpactSummaryProjection', rawValue: taxImpactSummary },
+                { key: 'taxImpactPendingAmountProjection', rawValue: taxImpactPendingAmount }
             ]);
 
         return {
@@ -1663,9 +1663,9 @@ export class ProjectCostService {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
         const varianceSourceSummary = context.evaluation.varianceSourceSummary;
         const taxImpactSummary = context.evaluation.taxImpactSummary;
-        const [varianceSourceSummaryProjection, taxImpactSummaryProjection] = await Promise.all([
-            this.projectOperatingFinanceField(projectId, varianceSourceSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext)
+        const { varianceSourceSummaryProjection, taxImpactSummaryProjection } = await this.projectOperatingFinanceFields(projectId, user, requestContext, [
+            { key: 'varianceSourceSummaryProjection', rawValue: varianceSourceSummary },
+            { key: 'taxImpactSummaryProjection', rawValue: taxImpactSummary }
         ]);
 
         return {
@@ -1707,10 +1707,10 @@ export class ProjectCostService {
         const taxImpactSummary = selectedBinding.taxImpactSummary;
         const nextActionSummary = this.combineSummaries(mostSevereBindings.map((binding) => binding.nextActionSummary ?? null));
         const downstreamConsumerSummary = this.combineSummaries(mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null));
-        const [taxImpactSummaryProjection, nextActionSummaryProjection, downstreamConsumerSummaryProjection] = await Promise.all([
-            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, nextActionSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, downstreamConsumerSummary, user, requestContext)
+        const { taxImpactSummaryProjection, nextActionSummaryProjection, downstreamConsumerSummaryProjection } = await this.projectOperatingFinanceFields(projectId, user, requestContext, [
+            { key: 'taxImpactSummaryProjection', rawValue: taxImpactSummary },
+            { key: 'nextActionSummaryProjection', rawValue: nextActionSummary },
+            { key: 'downstreamConsumerSummaryProjection', rawValue: downstreamConsumerSummary }
         ]);
 
         return {
@@ -2597,10 +2597,15 @@ export class ProjectCostService {
         return selectedBinding;
     }
 
-    private projectOperatingFinanceField(projectId: string, rawValue: string | null, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<SensitiveStringFieldProjection> {
-        return this.sensitiveFieldProjectionService.projectStringField({
+    private projectOperatingFinanceFields<TKey extends string>(
+        projectId: string,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        fields: readonly { key: TKey; rawValue: string | null }[]
+    ): Promise<Record<TKey, SensitiveStringFieldProjection>> {
+        return this.sensitiveFieldProjectionService.projectStringFields({
             fieldPackageKey: 'operating-finance',
-            rawValue,
+            fields,
             user,
             targetType: 'Project',
             targetId: projectId,

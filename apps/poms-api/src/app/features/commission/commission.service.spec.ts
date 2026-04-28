@@ -424,13 +424,22 @@ const makeMaskedSensitiveProjection = (fieldPackageKey: string) => ({
 describe('CommissionService', () => {
     let service: CommissionService;
     let repo: jest.Mocked<CommissionRepository>;
-    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock; projectStringFields: jest.Mock };
 
     beforeEach(() => {
+        const projectStringField = jest.fn(async (input: { fieldPackageKey: string; rawValue: string | null }) => makeSensitiveProjection(input.fieldPackageKey, input.rawValue));
         sensitiveFieldProjectionService = {
-            projectStringField: jest.fn(async (input: { fieldPackageKey: string; rawValue: string | null }) =>
-                makeSensitiveProjection(input.fieldPackageKey, input.rawValue)
-            )
+            projectStringField,
+            projectStringFields: jest.fn(async (input: { fields: Array<{ key: string; rawValue: string | null }>; fieldPackageKey: string }) => {
+                const projections: Record<string, unknown> = {};
+                for (const field of input.fields) {
+                    projections[field.key] = await projectStringField({
+                        fieldPackageKey: input.fieldPackageKey,
+                        rawValue: field.rawValue
+                    });
+                }
+                return projections;
+            })
         };
 
         repo = {
@@ -497,130 +506,123 @@ describe('CommissionService', () => {
             createPayout: jest.fn(),
             persistAndFlushPayout: jest.fn(),
             flushPayout: jest.fn(),
-            transactional: jest.fn(async (work) => work({
-                findOne: jest.fn(async (entity, where) => {
-                    if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
-                        if (where.id === ASSIGNMENT_ID) {
-                            return makeDraftAssignment({ status: 'frozen' });
+            transactional: jest.fn(async (work) =>
+                work({
+                    findOne: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            if (where.id === ASSIGNMENT_ID) {
+                                return makeDraftAssignment({ status: 'frozen' });
+                            }
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? makeDraftAssignment({ status: 'frozen' }) : null;
                         }
-                        return where.projectId === PROJECT_ID && where.isCurrent === true
-                            ? makeDraftAssignment({ status: 'frozen' })
-                            : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
-                        return where.id === ADJUSTMENT_ID ? makeDraftAdjustment({ status: 'approved' }) : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
-                        return where.id === PAYOUT_ID ? makeDraftPayout({ status: 'approved' }) : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionCalculation') {
-                        return where.id === CALCULATION_ID ? makeCalculatedResult({ status: 'effective' }) : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionRuleVersion') {
-                        return makeDraftRule({ status: 'active' });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
-                        return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
-                        return where.projectId === PROJECT_ID && where.isCurrent === true
-                            ? makeDepartureExceptionDecision()
-                            : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'ReceiptRecord') {
-                        return where.id === RETENTION_RECEIPT_ID ? makeRetentionReceipt() : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
-                        if (where.id === FINAL_SETTLEMENT_SNAPSHOT_ID) {
-                            return makeFinalSettlementSnapshot();
+                        if ((entity as { name?: string })?.name === 'CommissionAdjustment') {
+                            return where.id === ADJUSTMENT_ID ? makeDraftAdjustment({ status: 'approved' }) : null;
                         }
-                        return where.projectId === PROJECT_ID && where.isCurrent === true ? makeFinalSettlementSnapshot() : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionRuleExplanationSnapshot') {
-                        return where.projectId === PROJECT_ID && where.isCurrent === true ? makeRuleExplanationSnapshot() : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'OperatingSignalToCommissionGateBinding') {
-                        return where.id === '59100000-0000-4000-8000-000000000001' ||
-                            (where.projectId === PROJECT_ID && where.gateStageType === 'final')
-                            ? makeFinalGateBinding()
-                            : null;
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionGateReviewRecord') {
-                        return where.id === GATE_REVIEW_RECORD_ID || where.bindingId === '59100000-0000-4000-8000-000000000001'
-                            ? makeFinalGateReview()
-                            : null;
-                    }
-                    return null;
-                }),
-                create: jest.fn((entity, input) => {
-                    if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
-                        return makeDraftAssignment({
-                            id: ASSIGNMENT_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionCalculation') {
-                        return makeCalculatedResult({
-                            id: CALCULATION_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
-                        return makeDraftPayout({
-                            id: PAYOUT_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
-                        return makeFinalSettlementSnapshot({
-                            id: NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
-                        return makeDepartureExceptionDecision({
-                            id: NEXT_DEPARTURE_EXCEPTION_DECISION_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionRuleExplanationSnapshot') {
-                        return makeRuleExplanationSnapshot({
-                            id: RULE_EXPLANATION_SNAPSHOT_ID,
-                            rowVersion: 1,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            ...input
-                        });
-                    }
-                    return { id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input };
-                }),
-                persist: jest.fn(),
-                find: jest.fn(async (entity, where) => {
-                    if ((entity as { name?: string })?.name === 'ReceiptRecord' && where.projectId === PROJECT_ID) {
-                        return [makeRetentionReceipt()];
-                    }
-                    if ((entity as { name?: string })?.name === 'CommissionPayout') {
-                        return where.projectId === PROJECT_ID ? [makeDraftPayout({ status: 'approved' })] : [];
-                    }
-                    return [];
-                }),
-                flush: jest.fn()
-            })),
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.id === PAYOUT_ID ? makeDraftPayout({ status: 'approved' }) : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionCalculation') {
+                            return where.id === CALCULATION_ID ? makeCalculatedResult({ status: 'effective' }) : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRuleVersion') {
+                            return makeDraftRule({ status: 'active' });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFreezeDisputeRecord') {
+                            return where.id === DISPUTE_ID ? makeFreezeDisputeRecord() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? makeDepartureExceptionDecision() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'ReceiptRecord') {
+                            return where.id === RETENTION_RECEIPT_ID ? makeRetentionReceipt() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            if (where.id === FINAL_SETTLEMENT_SNAPSHOT_ID) {
+                                return makeFinalSettlementSnapshot();
+                            }
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? makeFinalSettlementSnapshot() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRuleExplanationSnapshot') {
+                            return where.projectId === PROJECT_ID && where.isCurrent === true ? makeRuleExplanationSnapshot() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'OperatingSignalToCommissionGateBinding') {
+                            return where.id === '59100000-0000-4000-8000-000000000001' || (where.projectId === PROJECT_ID && where.gateStageType === 'final') ? makeFinalGateBinding() : null;
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionGateReviewRecord') {
+                            return where.id === GATE_REVIEW_RECORD_ID || where.bindingId === '59100000-0000-4000-8000-000000000001' ? makeFinalGateReview() : null;
+                        }
+                        return null;
+                    }),
+                    create: jest.fn((entity, input) => {
+                        if ((entity as { name?: string })?.name === 'CommissionRoleAssignment') {
+                            return makeDraftAssignment({
+                                id: ASSIGNMENT_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionCalculation') {
+                            return makeCalculatedResult({
+                                id: CALCULATION_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return makeDraftPayout({
+                                id: PAYOUT_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionFinalSettlementSnapshot') {
+                            return makeFinalSettlementSnapshot({
+                                id: NEXT_FINAL_SETTLEMENT_SNAPSHOT_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
+                            return makeDepartureExceptionDecision({
+                                id: NEXT_DEPARTURE_EXCEPTION_DECISION_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionRuleExplanationSnapshot') {
+                            return makeRuleExplanationSnapshot({
+                                id: RULE_EXPLANATION_SNAPSHOT_ID,
+                                rowVersion: 1,
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                ...input
+                            });
+                        }
+                        return { id: ADJUSTMENT_ID, rowVersion: 1, createdAt: new Date(), updatedAt: new Date(), ...input };
+                    }),
+                    persist: jest.fn(),
+                    find: jest.fn(async (entity, where) => {
+                        if ((entity as { name?: string })?.name === 'ReceiptRecord' && where.projectId === PROJECT_ID) {
+                            return [makeRetentionReceipt()];
+                        }
+                        if ((entity as { name?: string })?.name === 'CommissionPayout') {
+                            return where.projectId === PROJECT_ID ? [makeDraftPayout({ status: 'approved' })] : [];
+                        }
+                        return [];
+                    }),
+                    flush: jest.fn()
+                })
+            ),
             findAdjustmentById: jest.fn(),
             findAdjustmentsForProject: jest.fn(),
             createAdjustment: jest.fn(),
@@ -777,16 +779,10 @@ describe('CommissionService', () => {
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
             );
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
-            repo.findContractTermSnapshotById.mockResolvedValue(
-                makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never);
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
-            repo.findGateBindingById.mockResolvedValue(
-                makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never
-            );
+            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never);
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
@@ -820,9 +816,7 @@ describe('CommissionService', () => {
 
         it('throws NotFoundException when the linked freeze version is no longer current frozen', async () => {
             repo.findCurrentFinalSettlementSnapshot.mockResolvedValue(makeFinalSettlementSnapshot() as never);
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'superseded', isCurrent: false }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'superseded', isCurrent: false }) as never);
 
             await expect(service.getCommissionFinalSettlement(PROJECT_ID)).rejects.toThrow(NotFoundException);
         });
@@ -869,16 +863,10 @@ describe('CommissionService', () => {
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
             );
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
-            repo.findContractTermSnapshotById.mockResolvedValue(
-                makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never);
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
-            repo.findGateBindingById.mockResolvedValue(
-                makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never
-            );
+            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never);
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
@@ -905,18 +893,14 @@ describe('CommissionService', () => {
 
         it('throws NotFoundException when the linked final settlement snapshot is no longer current', async () => {
             repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(makeRuleExplanationSnapshot() as never);
-            repo.findFinalSettlementSnapshotById.mockResolvedValue(
-                makeFinalSettlementSnapshot({ isCurrent: false, status: 'superseded' }) as never
-            );
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(makeFinalSettlementSnapshot({ isCurrent: false, status: 'superseded' }) as never);
 
             await expect(service.getCommissionRuleExplanation(PROJECT_ID)).rejects.toThrow(NotFoundException);
         });
 
         it('throws NotFoundException when the linked final settlement snapshot belongs to another project', async () => {
             repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(makeRuleExplanationSnapshot() as never);
-            repo.findFinalSettlementSnapshotById.mockResolvedValue(
-                makeFinalSettlementSnapshot({ projectId: '00000000-0000-4000-8000-000000000099' }) as never
-            );
+            repo.findFinalSettlementSnapshotById.mockResolvedValue(makeFinalSettlementSnapshot({ projectId: '00000000-0000-4000-8000-000000000099' }) as never);
 
             await expect(service.getCommissionRuleExplanation(PROJECT_ID)).rejects.toThrow(NotFoundException);
         });
@@ -1040,9 +1024,7 @@ describe('CommissionService', () => {
 
         it('rejects freeze when handover summary snapshot mismatches the requested chain', async () => {
             repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
-            repo.findProjectHandoverById.mockResolvedValue(
-                makeConfirmedHandover({ summarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never
-            );
+            repo.findProjectHandoverById.mockResolvedValue(makeConfirmedHandover({ summarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never);
 
             await expect(
                 service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
@@ -1056,9 +1038,7 @@ describe('CommissionService', () => {
             repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment() as never);
             repo.findProjectHandoverById.mockResolvedValue(makeConfirmedHandover() as never);
             repo.findApprovalSummarySnapshotById.mockResolvedValue(makeApprovalSummarySnapshot() as never);
-            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(
-                makeReceiptJudgmentFreeze({ sourceHandoverSummarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never
-            );
+            repo.findCurrentReceiptJudgmentFreeze.mockResolvedValue(makeReceiptJudgmentFreeze({ sourceHandoverSummarySnapshotId: '62000000-0000-4000-8000-000000000099' }) as never);
 
             await expect(
                 service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
@@ -1069,9 +1049,7 @@ describe('CommissionService', () => {
         });
 
         it('rejects freeze when the assignment is a stale non-current draft', async () => {
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ isCurrent: false }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ isCurrent: false }) as never);
 
             await expect(
                 service.freezeCommissionRoleAssignment(ASSIGNMENT_ID, 'user-1', {
@@ -1079,9 +1057,7 @@ describe('CommissionService', () => {
                     handoverSummarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
                     expectedVersion: 1
                 })
-            ).rejects.toThrow(
-                new UnprocessableEntityException('只有当前有效的角色分配草稿可以冻结，当前版本已不是 current')
-            );
+            ).rejects.toThrow(new UnprocessableEntityException('只有当前有效的角色分配草稿可以冻结，当前版本已不是 current'));
         });
     });
 
@@ -1556,9 +1532,15 @@ describe('CommissionService', () => {
         });
 
         it('returns masked projection when the sensitive projection service denies field access', async () => {
-            sensitiveFieldProjectionService.projectStringField.mockImplementation(async (input: { fieldPackageKey: string }) =>
-                makeMaskedSensitiveProjection(input.fieldPackageKey)
-            );
+            const deniedProjection = jest.fn(async (input: { fieldPackageKey: string }) => makeMaskedSensitiveProjection(input.fieldPackageKey));
+            sensitiveFieldProjectionService.projectStringField.mockImplementation(deniedProjection);
+            sensitiveFieldProjectionService.projectStringFields.mockImplementation(async (input: { fields: Array<{ key: string }>; fieldPackageKey: string }) => {
+                const projections: Record<string, unknown> = {};
+                for (const field of input.fields) {
+                    projections[field.key] = await deniedProjection(input);
+                }
+                return projections;
+            });
             repo.findCalculationsForProject.mockResolvedValue([makeCalculatedResult() as never]);
 
             const result = await service.listCalculations(PROJECT_ID, {
@@ -1583,13 +1565,18 @@ describe('CommissionService', () => {
                     reasonCode: 'missing-sensitive-read-permission'
                 })
             );
-            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
                 expect.objectContaining({
                     targetType: 'CommissionCalculation',
                     targetId: CALCULATION_ID,
                     fieldPackageKey: 'commission-compensation',
-                    rawValue: '2400.00',
-                    user: expect.objectContaining({ sub: 'user-1' })
+                    user: expect.objectContaining({ sub: 'user-1' }),
+                    fields: expect.arrayContaining([
+                        expect.objectContaining({
+                            key: 'commissionPoolProjection',
+                            rawValue: '2400.00'
+                        })
+                    ])
                 })
             );
         });
@@ -1794,9 +1781,7 @@ describe('CommissionService', () => {
         it('rejects supplement payout submission', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ payoutKind: 'supplement' }) as never);
 
-            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'first' })).rejects.toThrow(
-                UnprocessableEntityException
-            );
+            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'first' })).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('requires payout stage when submitting payout approval', async () => {
@@ -1815,9 +1800,7 @@ describe('CommissionService', () => {
                     retentionSettlementStatus: 'waiting-retention'
                 }) as never
             );
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.flushPayout.mockResolvedValue();
 
@@ -1837,16 +1820,10 @@ describe('CommissionService', () => {
                     retentionSettlementStatus: 'waiting-retention'
                 }) as never
             );
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
-            repo.findContractTermSnapshotById.mockResolvedValue(
-                makeContractTermSnapshot({ retentionDueDate: '2099-01-01' }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
+            repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot({ retentionDueDate: '2099-01-01' }) as never);
 
-            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'retention' })).rejects.toThrow(
-                UnprocessableEntityException
-            );
+            await expect(service.submitPayoutApproval(PAYOUT_ID, { payoutStage: 'retention' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 
@@ -1873,9 +1850,7 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
@@ -1954,27 +1929,19 @@ describe('CommissionService', () => {
 
         it('throws if paid amount exceeds approved amount', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
-            await expect(
-                service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '500.00' })
-            ).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '500.00' })).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('rejects supplement payout registration', async () => {
-            repo.findPayoutById.mockResolvedValue(
-                makeDraftPayout({ status: 'approved', payoutKind: 'supplement', approvedAmount: '120.00' }) as never
-            );
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', payoutKind: 'supplement', approvedAmount: '120.00' }) as never);
 
-            await expect(
-                service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '120.00' })
-            ).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '120.00' })).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('requires payout stage when registering payout', async () => {
             repo.findPayoutById.mockResolvedValue(makeDraftPayout({ status: 'approved', approvedAmount: '480.00' }) as never);
 
-            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' } as never)).rejects.toThrow(
-                BadRequestException
-            );
+            await expect(service.registerPayout(PAYOUT_ID, { paidRecordAmount: '400.00' } as never)).rejects.toThrow(BadRequestException);
         });
 
         it('supersedes the current final settlement snapshot when final payout registration is completed', async () => {
@@ -1992,9 +1959,7 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
@@ -2089,9 +2054,7 @@ describe('CommissionService', () => {
             const createdRuleExplanations: Record<string, unknown>[] = [];
 
             repo.findPayoutById.mockResolvedValue(payout as never);
-            repo.findRoleAssignmentById.mockResolvedValue(
-                makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never
-            );
+            repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot() as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
@@ -2148,11 +2111,7 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            const result = await service.registerPayout(
-                PAYOUT_ID,
-                { payoutStage: 'retention', paidRecordAmount: '360.00', summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID },
-                'user-1'
-            );
+            const result = await service.registerPayout(PAYOUT_ID, { payoutStage: 'retention', paidRecordAmount: '360.00', summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID }, 'user-1');
 
             expect(createdSnapshots[0]).toEqual(
                 expect.objectContaining({
@@ -2176,9 +2135,7 @@ describe('CommissionService', () => {
         });
 
         it('blocks final payout registration when the current final settlement snapshot is missing', async () => {
-            repo.findPayoutById.mockResolvedValue(
-                makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never
-            );
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
                     findOne: jest.fn(async (entity, where) => {
@@ -2197,15 +2154,11 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            await expect(
-                service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })
-            ).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
         });
 
         it('blocks final payout registration when the linked freeze version is no longer current frozen', async () => {
-            repo.findPayoutById.mockResolvedValue(
-                makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never
-            );
+            repo.findPayoutById.mockResolvedValue(makeDraftPayout({ stageType: 'final', status: 'approved', approvedAmount: '480.00' }) as never);
             repo.transactional.mockImplementationOnce(async (work) =>
                 work({
                     findOne: jest.fn(async (entity, where) => {
@@ -2227,9 +2180,7 @@ describe('CommissionService', () => {
                 } as never)
             );
 
-            await expect(
-                service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })
-            ).rejects.toThrow(UnprocessableEntityException);
+            await expect(service.registerPayout(PAYOUT_ID, { payoutStage: 'final', paidRecordAmount: '400.00' })).rejects.toThrow(UnprocessableEntityException);
         });
     });
 

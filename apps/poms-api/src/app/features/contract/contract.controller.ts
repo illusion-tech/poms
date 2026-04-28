@@ -193,62 +193,45 @@ export async function mapSnapshotToSummary(
     user: UserPayload,
     requestContext: SensitiveFieldProjectionRequestContext
 ): Promise<ContractTermSnapshotSummary> {
-    const [amountTaxInclusiveProjection, amountTaxExclusiveProjection, taxRateProjection, downPaymentRateProjection, retentionRateProjection, paymentTermsProjection] = await Promise.all([
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.amountTaxInclusive ?? null,
-            displayTextWhenFull: snapshot.amountTaxInclusive ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        }),
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.amountTaxExclusive ?? null,
-            displayTextWhenFull: snapshot.amountTaxExclusive ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        }),
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.taxRate ?? null,
-            displayTextWhenFull: snapshot.taxRate ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        }),
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.downPaymentRate ?? null,
-            displayTextWhenFull: snapshot.downPaymentRate ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        }),
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.retentionRate ?? null,
-            displayTextWhenFull: snapshot.retentionRate ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        }),
-        sensitiveFieldProjectionService.projectStringField({
-            fieldPackageKey: 'contract-finance',
-            rawValue: snapshot.paymentTerms ?? null,
-            displayTextWhenFull: snapshot.paymentTerms ?? null,
-            user,
-            targetType: 'ContractSnapshot',
-            targetId: snapshot.id,
-            requestContext
-        })
-    ]);
+    const { amountTaxInclusiveProjection, amountTaxExclusiveProjection, taxRateProjection, downPaymentRateProjection, retentionRateProjection, paymentTermsProjection } = await sensitiveFieldProjectionService.projectStringFields({
+        fieldPackageKey: 'contract-finance',
+        user,
+        targetType: 'ContractSnapshot',
+        targetId: snapshot.id,
+        requestContext,
+        fields: [
+            {
+                key: 'amountTaxInclusiveProjection',
+                rawValue: snapshot.amountTaxInclusive ?? null,
+                displayTextWhenFull: snapshot.amountTaxInclusive ?? null
+            },
+            {
+                key: 'amountTaxExclusiveProjection',
+                rawValue: snapshot.amountTaxExclusive ?? null,
+                displayTextWhenFull: snapshot.amountTaxExclusive ?? null
+            },
+            {
+                key: 'taxRateProjection',
+                rawValue: snapshot.taxRate ?? null,
+                displayTextWhenFull: snapshot.taxRate ?? null
+            },
+            {
+                key: 'downPaymentRateProjection',
+                rawValue: snapshot.downPaymentRate ?? null,
+                displayTextWhenFull: snapshot.downPaymentRate ?? null
+            },
+            {
+                key: 'retentionRateProjection',
+                rawValue: snapshot.retentionRate ?? null,
+                displayTextWhenFull: snapshot.retentionRate ?? null
+            },
+            {
+                key: 'paymentTermsProjection',
+                rawValue: snapshot.paymentTerms ?? null,
+                displayTextWhenFull: snapshot.paymentTerms ?? null
+            }
+        ]
+    });
 
     return {
         id: snapshot.id,

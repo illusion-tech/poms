@@ -14,7 +14,7 @@ describe('ContractController', () => {
     let approvalService: jest.Mocked<ApprovalService>;
     let projectService: jest.Mocked<ProjectService>;
     let contractTermSnapshotRepository: { findById: jest.Mock };
-    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock; projectStringFields: jest.Mock };
 
     beforeEach(() => {
         contractService = {
@@ -34,26 +34,38 @@ describe('ContractController', () => {
             findByIds: jest.fn().mockResolvedValue([])
         } as unknown as jest.Mocked<ProjectService>;
         contractTermSnapshotRepository = { findById: jest.fn() };
-        sensitiveFieldProjectionService = {
-            projectStringField: jest.fn(async (input) => {
-                if (input.rawValue === null) {
-                    return {
-                        fieldPackageKey: input.fieldPackageKey,
-                        mode: 'full',
-                        value: null,
-                        displayText: '-',
-                        reasonCode: 'field-package-not-applicable'
-                    };
-                }
-
-                const canRead = input.user?.permissions?.includes('contract:finance:sensitive:read') ?? false;
+        const projectStringField = jest.fn(async (input) => {
+            if (input.rawValue === null) {
                 return {
                     fieldPackageKey: input.fieldPackageKey,
-                    mode: canRead ? 'full' : 'masked',
-                    value: canRead ? input.rawValue : null,
-                    displayText: canRead ? (input.displayTextWhenFull ?? input.rawValue) : '敏感字段已隐藏',
-                    reasonCode: canRead ? 'allowed' : 'missing-sensitive-read-permission'
+                    mode: 'full',
+                    value: null,
+                    displayText: '-',
+                    reasonCode: 'field-package-not-applicable'
                 };
+            }
+
+            const canRead = input.user?.permissions?.includes('contract:finance:sensitive:read') ?? false;
+            return {
+                fieldPackageKey: input.fieldPackageKey,
+                mode: canRead ? 'full' : 'masked',
+                value: canRead ? input.rawValue : null,
+                displayText: canRead ? (input.displayTextWhenFull ?? input.rawValue) : '敏感字段已隐藏',
+                reasonCode: canRead ? 'allowed' : 'missing-sensitive-read-permission'
+            };
+        });
+        sensitiveFieldProjectionService = {
+            projectStringField,
+            projectStringFields: jest.fn(async (input) => {
+                const projections: Record<string, unknown> = {};
+                for (const field of input.fields) {
+                    projections[field.key] = await projectStringField({
+                        ...input,
+                        rawValue: field.rawValue,
+                        displayTextWhenFull: field.displayTextWhenFull
+                    });
+                }
+                return projections;
             })
         };
 
@@ -248,21 +260,31 @@ describe('ContractController', () => {
                 reasonCode: 'missing-sensitive-read-permission'
             })
         );
-        expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+        expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
             expect.objectContaining({
                 fieldPackageKey: 'contract-finance',
-                rawValue: '0.13',
                 user: expect.objectContaining({ permissions: ['project:read'] }),
                 targetType: 'ContractSnapshot',
-                targetId: snapshotId
+                targetId: snapshotId,
+                fields: expect.arrayContaining([
+                    expect.objectContaining({
+                        key: 'taxRateProjection',
+                        rawValue: '0.13'
+                    })
+                ])
             })
         );
-        expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+        expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
             expect.objectContaining({
                 fieldPackageKey: 'contract-finance',
-                rawValue: '30% 首付，65% 阶段款，5% 质保金',
                 targetType: 'ContractSnapshot',
-                targetId: snapshotId
+                targetId: snapshotId,
+                fields: expect.arrayContaining([
+                    expect.objectContaining({
+                        key: 'paymentTermsProjection',
+                        rawValue: '30% 首付，65% 阶段款，5% 质保金'
+                    })
+                ])
             })
         );
     });

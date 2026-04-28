@@ -27,48 +27,105 @@ export type ProjectSensitiveStringFieldInput = {
     deniedDisplayText?: string;
 };
 
+export type ProjectSensitiveStringFieldBatchItem<TKey extends string = string> = {
+    key: TKey;
+    rawValue: string | null;
+    displayTextWhenFull?: string | null;
+    maskedDisplayText?: string;
+    deniedDisplayText?: string;
+};
+
+export type ProjectSensitiveStringFieldsInput<TKey extends string = string> = {
+    fieldPackageKey: SensitiveFieldPackageKey;
+    fields: readonly ProjectSensitiveStringFieldBatchItem<TKey>[];
+    user: Pick<UserPayload, 'sub' | 'username' | 'permissions'> | null;
+    targetType: string;
+    targetId: string;
+    requestContext: SensitiveFieldProjectionRequestContext;
+    modeWhenUnauthorized?: Extract<SensitiveProjectionMode, 'masked' | 'denied'>;
+    maskedDisplayText?: string;
+    deniedDisplayText?: string;
+};
+
 @Injectable()
 export class SensitiveFieldProjectionService {
     constructor(private readonly runtimeAuditService: RuntimeAuditService) {}
 
     async projectStringField(input: ProjectSensitiveStringFieldInput): Promise<SensitiveStringFieldProjection> {
-        if (input.rawValue === null) {
-            return {
-                fieldPackageKey: input.fieldPackageKey,
-                mode: 'full',
-                value: null,
-                displayText: input.displayTextWhenFull ?? '-',
-                reasonCode: 'field-package-not-applicable'
-            };
-        }
+        const projections = await this.projectStringFields({
+            fieldPackageKey: input.fieldPackageKey,
+            fields: [
+                {
+                    key: 'field',
+                    rawValue: input.rawValue,
+                    displayTextWhenFull: input.displayTextWhenFull,
+                    maskedDisplayText: input.maskedDisplayText,
+                    deniedDisplayText: input.deniedDisplayText
+                }
+            ],
+            user: input.user,
+            targetType: input.targetType,
+            targetId: input.targetId,
+            requestContext: input.requestContext,
+            modeWhenUnauthorized: input.modeWhenUnauthorized,
+            maskedDisplayText: input.maskedDisplayText,
+            deniedDisplayText: input.deniedDisplayText
+        });
 
+        return projections.field;
+    }
+
+    async projectStringFields<TKey extends string>(input: ProjectSensitiveStringFieldsInput<TKey>): Promise<Record<TKey, SensitiveStringFieldProjection>> {
         const userPermissions = (input.user?.permissions ?? []) as PermissionKey[];
+        const projections = {} as Record<TKey, SensitiveStringFieldProjection>;
+
         if (canReadFullSensitiveFieldPackage(userPermissions, input.fieldPackageKey)) {
-            const value = input.rawValue;
-            return {
-                fieldPackageKey: input.fieldPackageKey,
-                mode: 'full',
-                value,
-                displayText: input.displayTextWhenFull ?? value ?? '-',
-                reasonCode: 'allowed'
-            };
+            for (const field of input.fields) {
+                const value = field.rawValue;
+                projections[field.key] = {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: 'full',
+                    value,
+                    displayText: field.displayTextWhenFull ?? value ?? '-',
+                    reasonCode: value === null ? 'field-package-not-applicable' : 'allowed'
+                };
+            }
+            return projections;
         }
 
         const mode = input.modeWhenUnauthorized ?? 'masked';
-        const projection: SensitiveStringFieldProjection = {
-            fieldPackageKey: input.fieldPackageKey,
-            mode,
-            value: null,
-            displayText: mode === 'denied' ? (input.deniedDisplayText ?? DEFAULT_SENSITIVE_FIELD_DENIED_TEXT) : (input.maskedDisplayText ?? DEFAULT_SENSITIVE_FIELD_MASKED_TEXT),
-            reasonCode: 'missing-sensitive-read-permission'
-        };
+        const hiddenFieldKeys: TKey[] = [];
 
-        await this.#recordSensitiveProjectionEvent(input, mode);
+        for (const field of input.fields) {
+            if (field.rawValue === null) {
+                projections[field.key] = {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: 'full',
+                    value: null,
+                    displayText: field.displayTextWhenFull ?? '-',
+                    reasonCode: 'field-package-not-applicable'
+                };
+                continue;
+            }
 
-        return projection;
+            projections[field.key] = {
+                fieldPackageKey: input.fieldPackageKey,
+                mode,
+                value: null,
+                displayText: mode === 'denied' ? (field.deniedDisplayText ?? input.deniedDisplayText ?? DEFAULT_SENSITIVE_FIELD_DENIED_TEXT) : (field.maskedDisplayText ?? input.maskedDisplayText ?? DEFAULT_SENSITIVE_FIELD_MASKED_TEXT),
+                reasonCode: 'missing-sensitive-read-permission'
+            };
+            hiddenFieldKeys.push(field.key);
+        }
+
+        if (hiddenFieldKeys.length > 0) {
+            await this.#recordSensitiveProjectionEvent(input, mode, hiddenFieldKeys);
+        }
+
+        return projections;
     }
 
-    async #recordSensitiveProjectionEvent(input: ProjectSensitiveStringFieldInput, mode: Extract<SensitiveProjectionMode, 'masked' | 'denied'>): Promise<void> {
+    async #recordSensitiveProjectionEvent<TKey extends string>(input: ProjectSensitiveStringFieldsInput<TKey>, mode: Extract<SensitiveProjectionMode, 'masked' | 'denied'>, hiddenFieldKeys: readonly TKey[]): Promise<void> {
         const requiredPermission = requiredPermissionForSensitiveFieldPackage(input.fieldPackageKey);
         await this.runtimeAuditService.recordSecurityEvent({
             eventType: mode === 'denied' ? 'sensitive_field.denied' : 'sensitive_field.masked',
@@ -87,8 +144,13 @@ export class SensitiveFieldProjectionService {
                 projectionMode: mode,
                 targetType: input.targetType,
                 targetId: input.targetId,
+                targetCount: 1,
+                sampleTargetIds: [input.targetId],
+                fieldKeys: hiddenFieldKeys,
+                hiddenFieldCount: hiddenFieldKeys.length,
                 reasonCode: 'missing-sensitive-read-permission',
-                requiredPermission
+                requiredPermission,
+                auditAggregationMode: 'sensitive-field-batch'
             }
         });
     }

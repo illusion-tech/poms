@@ -184,11 +184,7 @@ export class CommissionService {
         return entity ? this.#toRoleAssignmentSummary(entity) : null;
     }
 
-    async getCommissionFinalSettlement(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-final-settlement:${projectId}` }
-    ): Promise<CommissionFinalSettlementView> {
+    async getCommissionFinalSettlement(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-final-settlement:${projectId}` }): Promise<CommissionFinalSettlementView> {
         const { snapshot, freezeVersion } = await this.#getCurrentFinalSettlementContext(projectId);
         const liveRetentionQueryState = await this.#loadLiveRetentionQueryState(snapshot, freezeVersion);
         const liveDraft = liveRetentionQueryState.draft;
@@ -200,24 +196,17 @@ export class CommissionService {
             retentionSettlementStatus: liveDraft ? liveDraft.retentionSettlementStatus : snapshot.retentionSettlementStatus,
             retentionDueDate: liveRetentionQueryState.retentionDue.retentionDueDate,
             retentionDueStatus: liveRetentionQueryState.retentionDue.retentionDueStatus,
-            retentionRequirementSummary: liveDraft ? liveDraft.retentionRequirementSummary : snapshot.retentionRequirementSummary ?? null,
-            retentionReceiptSummary: liveDraft ? liveDraft.retentionReceiptSummary : snapshot.retentionReceiptSummary ?? null,
-            departureExceptionSummary: liveDraft ? liveDraft.departureExceptionSummary : snapshot.departureExceptionSummary ?? null,
+            retentionRequirementSummary: liveDraft ? liveDraft.retentionRequirementSummary : (snapshot.retentionRequirementSummary ?? null),
+            retentionReceiptSummary: liveDraft ? liveDraft.retentionReceiptSummary : (snapshot.retentionReceiptSummary ?? null),
+            departureExceptionSummary: liveDraft ? liveDraft.departureExceptionSummary : (snapshot.departureExceptionSummary ?? null),
             ...(await this.#buildCommissionSharedEvidencePackage(snapshot, freezeVersion, user, requestContext)),
             allowedActions: []
         };
     }
 
-    async getCommissionRuleExplanation(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-rule-explanation:${projectId}` }
-    ): Promise<CommissionRuleExplanationView> {
+    async getCommissionRuleExplanation(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-rule-explanation:${projectId}` }): Promise<CommissionRuleExplanationView> {
         const snapshot = await this.#getCurrentRuleExplanationSnapshot(projectId);
-        const { snapshot: finalSettlementSnapshot, freezeVersion } = await this.#getCurrentFinalSettlementContextById(
-            projectId,
-            snapshot.finalSettlementSnapshotId
-        );
+        const { snapshot: finalSettlementSnapshot, freezeVersion } = await this.#getCurrentFinalSettlementContextById(projectId, snapshot.finalSettlementSnapshotId);
         const liveRetentionQueryState = await this.#loadLiveRetentionQueryState(finalSettlementSnapshot, freezeVersion);
         const liveRuleExplanation = liveRetentionQueryState.draft?.ruleExplanation;
 
@@ -225,17 +214,11 @@ export class CommissionService {
             projectId,
             currentStageStatus: liveRuleExplanation ? liveRuleExplanation.currentStageStatus : snapshot.currentStageStatus,
             gateDecisionCode: liveRuleExplanation ? liveRuleExplanation.gateDecisionCode : snapshot.gateDecisionCode,
-            blockingReasonCategory: liveRuleExplanation ? liveRuleExplanation.blockingReasonCategory : snapshot.blockingReasonCategory ?? null,
-            blockingReasonCode: liveRuleExplanation ? liveRuleExplanation.blockingReasonCode : snapshot.blockingReasonCode ?? null,
-            blockingReasonSummary: liveRuleExplanation ? liveRuleExplanation.blockingReasonSummary : snapshot.blockingReasonSummary ?? null,
+            blockingReasonCategory: liveRuleExplanation ? liveRuleExplanation.blockingReasonCategory : (snapshot.blockingReasonCategory ?? null),
+            blockingReasonCode: liveRuleExplanation ? liveRuleExplanation.blockingReasonCode : (snapshot.blockingReasonCode ?? null),
+            blockingReasonSummary: liveRuleExplanation ? liveRuleExplanation.blockingReasonSummary : (snapshot.blockingReasonSummary ?? null),
             gateDecisionSummary: liveRuleExplanation ? liveRuleExplanation.gateDecisionSummary : snapshot.gateDecisionSummary,
-            nextActionSummaryProjection: await this.#projectCommissionSensitiveField(
-                projectId,
-                liveRuleExplanation ? liveRuleExplanation.nextActionSummary : snapshot.nextActionSummary ?? null,
-                user,
-                requestContext,
-                'commission-compensation'
-            ),
+            nextActionSummaryProjection: await this.#projectCommissionSensitiveField(projectId, liveRuleExplanation ? liveRuleExplanation.nextActionSummary : (snapshot.nextActionSummary ?? null), user, requestContext, 'commission-compensation'),
             ...(await this.#buildCommissionSharedEvidencePackage(finalSettlementSnapshot, freezeVersion, user, requestContext)),
             allowedActions: []
         };
@@ -248,13 +231,9 @@ export class CommissionService {
         }
 
         const [handoverSummarySnapshot, receiptJudgmentFreeze, openDispute] = await Promise.all([
-            entity.handoverSummarySnapshotId
-                ? this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
-                : Promise.resolve(null),
+            entity.handoverSummarySnapshotId ? this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId) : Promise.resolve(null),
             this.repo.findCurrentReceiptJudgmentFreeze(entity.projectId),
-            entity.status === 'frozen' && entity.isCurrent
-                ? this.repo.findOpenFreezeDisputeByFreezeVersionId(entity.id)
-                : Promise.resolve(null)
+            entity.status === 'frozen' && entity.isCurrent ? this.repo.findOpenFreezeDisputeByFreezeVersionId(entity.id) : Promise.resolve(null)
         ]);
 
         return {
@@ -319,11 +298,7 @@ export class CommissionService {
         }
     }
 
-    async freezeCommissionRoleAssignment(
-        id: string,
-        actorUserId: string,
-        dto: FreezeCommissionRoleAssignmentRequest
-    ): Promise<FreezeCommissionRoleAssignmentResult> {
+    async freezeCommissionRoleAssignment(id: string, actorUserId: string, dto: FreezeCommissionRoleAssignmentRequest): Promise<FreezeCommissionRoleAssignmentResult> {
         const entity = await this.repo.findRoleAssignmentById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionRoleAssignment ${id} not found`);
@@ -384,10 +359,7 @@ export class CommissionService {
         };
     }
 
-    async submitCommissionFreezeDispute(
-        actorUserId: string,
-        dto: SubmitCommissionFreezeDisputeRequest
-    ): Promise<SubmitCommissionFreezeDisputeResult> {
+    async submitCommissionFreezeDispute(actorUserId: string, dto: SubmitCommissionFreezeDisputeRequest): Promise<SubmitCommissionFreezeDisputeResult> {
         const freezeVersion = await this.repo.findRoleAssignmentById(dto.freezeVersionId);
         if (!freezeVersion) {
             throw new NotFoundException(`CommissionRoleAssignment ${dto.freezeVersionId} not found`);
@@ -402,14 +374,8 @@ export class CommissionService {
         }
 
         const summarySnapshot = await this.#findFreezeSummarySnapshot(freezeVersion);
-        const affectedAssignmentSummary = this.#buildAffectedAssignmentSummary(
-            freezeVersion,
-            dto.affectedAssignmentIds
-        );
-        const impactSummaries = await this.#buildFreezeImpactSummaries(
-            freezeVersion.projectId,
-            dto.recalculationImpactMode
-        );
+        const affectedAssignmentSummary = this.#buildAffectedAssignmentSummary(freezeVersion, dto.affectedAssignmentIds);
+        const impactSummaries = await this.#buildFreezeImpactSummaries(freezeVersion.projectId, dto.recalculationImpactMode);
 
         const disputeRecord = this.repo.createFreezeDisputeRecord({
             projectId: freezeVersion.projectId,
@@ -464,19 +430,12 @@ export class CommissionService {
             exportPolicy: disputeRecord.exportPolicy,
             status: disputeRecord.status,
             handledAt: disputeRecord.handledAt.toISOString(),
-            allowedActions:
-                disputeRecord.status === 'submitted' && disputeRecord.arbitrationStatus === 'pending'
-                    ? [ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION]
-                    : [],
+            allowedActions: disputeRecord.status === 'submitted' && disputeRecord.arbitrationStatus === 'pending' ? [ARBITRATE_COMMISSION_FREEZE_DISPUTE_ACTION] : [],
             generatedAt: new Date().toISOString()
         };
     }
 
-    async arbitrateCommissionFreezeDispute(
-        id: string,
-        actorUserId: string,
-        dto: ArbitrateCommissionFreezeDisputeRequest
-    ): Promise<ArbitrateCommissionFreezeDisputeResult> {
+    async arbitrateCommissionFreezeDispute(id: string, actorUserId: string, dto: ArbitrateCommissionFreezeDisputeRequest): Promise<ArbitrateCommissionFreezeDisputeResult> {
         try {
             return await this.repo.transactional(async (em) => {
                 const disputeRecord = await em.findOne(CommissionFreezeDisputeRecord, { id });
@@ -497,11 +456,7 @@ export class CommissionService {
                     isCurrent: true
                 });
                 const payouts = await em.find(CommissionPayout, { projectId: disputeRecord.projectId });
-                const impactSummaries = this.#buildFreezeImpactSummariesFromState(
-                    currentCalculation,
-                    payouts,
-                    dto.recalculationImpactMode
-                );
+                const impactSummaries = this.#buildFreezeImpactSummariesFromState(currentCalculation, payouts, dto.recalculationImpactMode);
 
                 let replacementFreezeVersion: CommissionRoleAssignment | null = null;
                 if (dto.replacementAssignmentPayload) {
@@ -613,11 +568,7 @@ export class CommissionService {
         };
     }
 
-    async createDepartureExceptionDecision(
-        projectId: string,
-        actorUserId: string,
-        dto: CreateCommissionDepartureExceptionDecisionRequest
-    ): Promise<CommissionDepartureExceptionDecisionSummary> {
+    async createDepartureExceptionDecision(projectId: string, actorUserId: string, dto: CreateCommissionDepartureExceptionDecisionRequest): Promise<CommissionDepartureExceptionDecisionSummary> {
         await this.#assertProjectExists(projectId);
 
         try {
@@ -632,11 +583,7 @@ export class CommissionService {
 
                 this.#assertRoleAssignmentEligibleForDepartureExceptionDecision(freezeVersion);
 
-                const summarySnapshot = await this.#findMatchedFreezeSummarySnapshot(
-                    freezeVersion,
-                    dto.summarySnapshotId,
-                    '离职 / 特例结论链'
-                );
+                const summarySnapshot = await this.#findMatchedFreezeSummarySnapshot(freezeVersion, dto.summarySnapshotId, '离职 / 特例结论链');
 
                 const currentDecision = await em.findOne(CommissionDepartureExceptionDecision, {
                     projectId,
@@ -703,16 +650,7 @@ export class CommissionService {
                                   this.#buildFinalSettlementEvidenceFromSnapshot(currentFinalSettlementSnapshot),
                                   currentFinalSettlementSnapshot,
                                   {
-                                      ...this.#toFinalSettlementStatusPatch(
-                                          this.#buildRetentionSettlementDraft(
-                                              gateBindingAction,
-                                              gateReview,
-                                              entity,
-                                              latestRetentionReceipt,
-                                              retentionDue,
-                                              Boolean(openDispute)
-                                          )
-                                      ),
+                                      ...this.#toFinalSettlementStatusPatch(this.#buildRetentionSettlementDraft(gateBindingAction, gateReview, entity, latestRetentionReceipt, retentionDue, Boolean(openDispute))),
                                       retentionReceiptRecordId: latestRetentionReceipt?.id ?? null,
                                       departureExceptionDecisionId: entity.id
                                   },
@@ -740,14 +678,7 @@ export class CommissionService {
                         projectId,
                         nextSnapshot.id,
                         currentFinalSettlementSnapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION
-                            ? this.#buildRetentionSettlementDraft(
-                                  gateBindingAction,
-                                  gateReview,
-                                  entity,
-                                  latestRetentionReceipt,
-                                  retentionDue,
-                                  Boolean(openDispute)
-                              ).ruleExplanation
+                            ? this.#buildRetentionSettlementDraft(gateBindingAction, gateReview, entity, latestRetentionReceipt, retentionDue, Boolean(openDispute)).ruleExplanation
                             : buildPendingFinalRuleExplanation(),
                         actorUserId
                     );
@@ -762,11 +693,7 @@ export class CommissionService {
 
     // ── Calculations ────────────────────────────────────────────────────────
 
-    async listCalculations(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${projectId}` }
-    ): Promise<CommissionCalculationSummary[]> {
+    async listCalculations(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${projectId}` }): Promise<CommissionCalculationSummary[]> {
         const entities = await this.repo.findCalculationsForProject(projectId);
         return Promise.all(entities.map((entity) => this.#toCalculationSummary(entity, user, requestContext)));
     }
@@ -863,11 +790,7 @@ export class CommissionService {
 
     // ── Payouts ─────────────────────────────────────────────────────────────
 
-    async listPayouts(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${projectId}` }
-    ): Promise<CommissionPayoutSummary[]> {
+    async listPayouts(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${projectId}` }): Promise<CommissionPayoutSummary[]> {
         const entities = await this.repo.findPayoutsForProject(projectId);
         return Promise.all(entities.map((entity) => this.#toPayoutSummary(entity, user, requestContext)));
     }
@@ -940,11 +863,7 @@ export class CommissionService {
         return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async getPayoutById(
-        id: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}` }
-    ): Promise<CommissionPayoutSummary> {
+    async getPayoutById(id: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}` }): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -988,13 +907,7 @@ export class CommissionService {
             }
             if (dto.departureExceptionDecisionId) {
                 const decision = await this.repo.findDepartureExceptionDecisionById(dto.departureExceptionDecisionId);
-                if (
-                    !decision ||
-                    decision.projectId !== entity.projectId ||
-                    decision.freezeVersionId !== currentSnapshot.freezeVersionId ||
-                    !decision.isCurrent ||
-                    decision.status !== 'active'
-                ) {
+                if (!decision || decision.projectId !== entity.projectId || decision.freezeVersionId !== currentSnapshot.freezeVersionId || !decision.isCurrent || decision.status !== 'active') {
                     throw new BadRequestException('departureExceptionDecisionId must reference the current active departure decision');
                 }
             }
@@ -1011,12 +924,7 @@ export class CommissionService {
         return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async approvePayout(
-        id: string,
-        dto: ApproveCommissionPayoutRequest,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}:approve` }
-    ): Promise<CommissionPayoutSummary> {
+    async approvePayout(id: string, dto: ApproveCommissionPayoutRequest, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}:approve` }): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -1082,13 +990,7 @@ export class CommissionService {
                         },
                         null
                     );
-                    await this.#writeCurrentRuleExplanationSnapshot(
-                        em,
-                        payout.projectId,
-                        nextSnapshot.id,
-                        buildPendingFinalRuleExplanation(),
-                        null
-                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(em, payout.projectId, nextSnapshot.id, buildPendingFinalRuleExplanation(), null);
                 } else {
                     const currentSnapshot = await em.findOne(CommissionFinalSettlementSnapshot, {
                         projectId: payout.projectId,
@@ -1102,17 +1004,8 @@ export class CommissionService {
                     }
 
                     const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
-                    const retentionReceipt = await this.#findConfirmedReceiptById(
-                        em,
-                        retentionReceiptRecordId,
-                        payout.projectId
-                    );
-                    const departureDecision = await this.#findActiveDepartureDecisionById(
-                        em,
-                        departureExceptionDecisionId,
-                        payout.projectId,
-                        currentSnapshot.freezeVersionId
-                    );
+                    const retentionReceipt = await this.#findConfirmedReceiptById(em, retentionReceiptRecordId, payout.projectId);
+                    const departureDecision = await this.#findActiveDepartureDecisionById(em, departureExceptionDecisionId, payout.projectId, currentSnapshot.freezeVersionId);
                     const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
                         freezeVersionId: currentSnapshot.freezeVersionId,
                         status: 'submitted'
@@ -1127,14 +1020,7 @@ export class CommissionService {
                     this.#assertRetentionDueReady(retentionDue, payout.id, '批准质保金发放');
                     const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
 
-                    const retentionDraft = this.#buildRetentionSettlementDraft(
-                        gateBindingAction,
-                        gateReview,
-                        departureDecision,
-                        retentionReceipt,
-                        retentionDue,
-                        false
-                    );
+                    const retentionDraft = this.#buildRetentionSettlementDraft(gateBindingAction, gateReview, departureDecision, retentionReceipt, retentionDue, false);
                     if (retentionDraft.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY) {
                         throw new UnprocessableEntityException('当前项目尚未处于可批准的质保金结算状态');
                     }
@@ -1150,13 +1036,7 @@ export class CommissionService {
                         },
                         null
                     );
-                    await this.#writeCurrentRuleExplanationSnapshot(
-                        em,
-                        payout.projectId,
-                        nextSnapshot.id,
-                        retentionDraft.ruleExplanation,
-                        null
-                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(em, payout.projectId, nextSnapshot.id, retentionDraft.ruleExplanation, null);
                 }
 
                 em.persist(payout);
@@ -1221,18 +1101,11 @@ export class CommissionService {
                     isCurrent: true
                 });
                 if (!currentSnapshot || currentSnapshot.status !== 'active') {
-                    throw new UnprocessableEntityException(
-                        `当前项目缺少有效的最终结算快照，无法登记 ${payout.stageType === 'final' ? 'final' : 'retention'} 阶段发放`
-                    );
+                    throw new UnprocessableEntityException(`当前项目缺少有效的最终结算快照，无法登记 ${payout.stageType === 'final' ? 'final' : 'retention'} 阶段发放`);
                 }
 
                 const freezeVersion = await em.findOne(CommissionRoleAssignment, { id: currentSnapshot.freezeVersionId });
-                if (
-                    !freezeVersion ||
-                    freezeVersion.projectId !== payout.projectId ||
-                    !freezeVersion.isCurrent ||
-                    freezeVersion.status !== 'frozen'
-                ) {
+                if (!freezeVersion || freezeVersion.projectId !== payout.projectId || !freezeVersion.isCurrent || freezeVersion.status !== 'frozen') {
                     throw new UnprocessableEntityException('当前项目缺少有效的冻结提成角色版本，无法登记 final 阶段发放');
                 }
 
@@ -1248,25 +1121,14 @@ export class CommissionService {
                     }
                     const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
                     const latestRetentionReceipt = await this.#findLatestConfirmedRetentionReceipt(em, payout.projectId);
-                    const currentDepartureDecision = await this.#findCurrentActiveDepartureDecision(
-                        em,
-                        payout.projectId,
-                        currentSnapshot.freezeVersionId
-                    );
+                    const currentDepartureDecision = await this.#findCurrentActiveDepartureDecision(em, payout.projectId, currentSnapshot.freezeVersionId);
                     const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
                         freezeVersionId: currentSnapshot.freezeVersionId,
                         status: 'submitted'
                     });
                     const retentionDue = await this.#loadRetentionDueEvaluationFromFreezeVersionId(currentSnapshot.freezeVersionId);
                     const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
-                    const retentionDraft = this.#buildRetentionSettlementDraft(
-                        gateBindingAction,
-                        gateReview,
-                        currentDepartureDecision,
-                        latestRetentionReceipt,
-                        retentionDue,
-                        Boolean(openDispute)
-                    );
+                    const retentionDraft = this.#buildRetentionSettlementDraft(gateBindingAction, gateReview, currentDepartureDecision, latestRetentionReceipt, retentionDue, Boolean(openDispute));
                     const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
                         em,
                         this.#buildFinalSettlementEvidenceFromSnapshot(currentSnapshot),
@@ -1278,13 +1140,7 @@ export class CommissionService {
                         },
                         actorUserId ?? null
                     );
-                    await this.#writeCurrentRuleExplanationSnapshot(
-                        em,
-                        payout.projectId,
-                        nextSnapshot.id,
-                        retentionDraft.ruleExplanation,
-                        actorUserId ?? null
-                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(em, payout.projectId, nextSnapshot.id, retentionDraft.ruleExplanation, actorUserId ?? null);
                 } else {
                     this.#assertRetentionSnapshotReadyForRegistration(payout, currentSnapshot, dto.summarySnapshotId ?? null);
                     const retentionReceiptRecordId = currentSnapshot.retentionReceiptRecordId;
@@ -1293,17 +1149,8 @@ export class CommissionService {
                         throw new UnprocessableEntityException('当前项目缺少完整的质保金到账或离职 / 特例结论引用');
                     }
                     const gateReview = await this.#findGateReviewById(em, currentSnapshot.gateReviewRecordId);
-                    const retentionReceipt = await this.#findConfirmedReceiptById(
-                        em,
-                        retentionReceiptRecordId,
-                        payout.projectId
-                    );
-                    const departureDecision = await this.#findActiveDepartureDecisionById(
-                        em,
-                        departureExceptionDecisionId,
-                        payout.projectId,
-                        currentSnapshot.freezeVersionId
-                    );
+                    const retentionReceipt = await this.#findConfirmedReceiptById(em, retentionReceiptRecordId, payout.projectId);
+                    const departureDecision = await this.#findActiveDepartureDecisionById(em, departureExceptionDecisionId, payout.projectId, currentSnapshot.freezeVersionId);
                     const openDispute = await em.findOne(CommissionFreezeDisputeRecord, {
                         freezeVersionId: currentSnapshot.freezeVersionId,
                         status: 'submitted'
@@ -1315,15 +1162,7 @@ export class CommissionService {
                     this.#assertRetentionDueReady(retentionDue, payout.id, '登记质保金发放');
                     const gateBindingAction = await this.#findGateBindingActionByReview(em, gateReview);
 
-                    const retentionDraft = this.#buildRetentionSettlementDraft(
-                        gateBindingAction,
-                        gateReview,
-                        departureDecision,
-                        retentionReceipt,
-                        retentionDue,
-                        false,
-                        true
-                    );
+                    const retentionDraft = this.#buildRetentionSettlementDraft(gateBindingAction, gateReview, departureDecision, retentionReceipt, retentionDue, false, true);
                     const nextSnapshot = await this.#writeCurrentFinalSettlementSnapshot(
                         em,
                         this.#buildFinalSettlementEvidenceFromSnapshot(currentSnapshot),
@@ -1335,13 +1174,7 @@ export class CommissionService {
                         },
                         actorUserId ?? null
                     );
-                    await this.#writeCurrentRuleExplanationSnapshot(
-                        em,
-                        payout.projectId,
-                        nextSnapshot.id,
-                        retentionDraft.ruleExplanation,
-                        actorUserId ?? null
-                    );
+                    await this.#writeCurrentRuleExplanationSnapshot(em, payout.projectId, nextSnapshot.id, retentionDraft.ruleExplanation, actorUserId ?? null);
                 }
 
                 em.persist(payout);
@@ -1360,11 +1193,7 @@ export class CommissionService {
 
     // ── Adjustments ────────────────────────────────────────────────────────
 
-    async listAdjustments(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${projectId}` }
-    ): Promise<CommissionAdjustmentSummary[]> {
+    async listAdjustments(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${projectId}` }): Promise<CommissionAdjustmentSummary[]> {
         const entities = await this.repo.findAdjustmentsForProject(projectId);
         return Promise.all(entities.map((entity) => this.#toAdjustmentSummary(entity, user, requestContext)));
     }
@@ -1404,11 +1233,7 @@ export class CommissionService {
         return this.#toAdjustmentSummary(entity, user, requestContext);
     }
 
-    async getAdjustmentById(
-        id: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${id}` }
-    ): Promise<CommissionAdjustmentSummary> {
+    async getAdjustmentById(id: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${id}` }): Promise<CommissionAdjustmentSummary> {
         const entity = await this.repo.findAdjustmentById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionAdjustment ${id} not found`);
@@ -1461,9 +1286,7 @@ export class CommissionService {
                 const clawbackAmount = this.#requireAdjustmentAmount(adjustment, '扣回');
                 const paidAmount = this.#requirePaidPayoutAmount(payout, '扣回');
                 if (clawbackAmount > paidAmount) {
-                    throw new UnprocessableEntityException(
-                        `扣回金额不能超过原发放登记金额 ${this.#formatAmount(paidAmount)}`
-                    );
+                    throw new UnprocessableEntityException(`扣回金额不能超过原发放登记金额 ${this.#formatAmount(paidAmount)}`);
                 }
 
                 payout.status = clawbackAmount === paidAmount ? 'reversed' : 'suspended';
@@ -1533,12 +1356,8 @@ export class CommissionService {
                     throw new UnprocessableEntityException(`提成规则版本 ${current.ruleVersionId} 不存在，无法触发重算`);
                 }
 
-                const revenue = dto.recognizedRevenueTaxExclusive
-                    ? this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive')
-                    : this.#toNumber(current.recognizedRevenueTaxExclusive);
-                const cost = dto.recognizedCostTaxExclusive
-                    ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive')
-                    : this.#toNumber(current.recognizedCostTaxExclusive);
+                const revenue = dto.recognizedRevenueTaxExclusive ? this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive') : this.#toNumber(current.recognizedRevenueTaxExclusive);
+                const cost = dto.recognizedCostTaxExclusive ? this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive') : this.#toNumber(current.recognizedCostTaxExclusive);
                 await this.#assertEffectiveContractFacts(current.projectId, revenue, cost);
                 const contributionMargin = revenue - cost;
                 const contributionMarginRate = revenue <= 0 ? 0 : contributionMargin / revenue;
@@ -1618,9 +1437,7 @@ export class CommissionService {
         updatedAt: e.updatedAt.toISOString()
     });
 
-    readonly #toDepartureExceptionDecisionSummary = (
-        e: CommissionDepartureExceptionDecision
-    ): CommissionDepartureExceptionDecisionSummary => ({
+    readonly #toDepartureExceptionDecisionSummary = (e: CommissionDepartureExceptionDecision): CommissionDepartureExceptionDecisionSummary => ({
         id: e.id,
         projectId: e.projectId,
         freezeVersionId: e.freezeVersionId,
@@ -1641,58 +1458,37 @@ export class CommissionService {
         updatedAt: e.updatedAt.toISOString()
     });
 
-    readonly #toCalculationSummary = async (
-        e: CommissionCalculation,
-        user: SensitiveProjectionUser,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<CommissionCalculationSummary> => {
-        const [
-            recognizedRevenueTaxExclusiveProjection,
-            recognizedCostTaxExclusiveProjection,
-            contributionMarginProjection,
-            contributionMarginRateProjection,
-            commissionPoolProjection
-        ] = await Promise.all([
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.recognizedRevenueTaxExclusive),
-                user,
-                requestContext,
-                'operating-finance',
-                'CommissionCalculation'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.recognizedCostTaxExclusive),
-                user,
-                requestContext,
-                'operating-finance',
-                'CommissionCalculation'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.contributionMargin),
-                user,
-                requestContext,
-                'operating-finance',
-                'CommissionCalculation'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.contributionMarginRate),
-                user,
-                requestContext,
-                'operating-finance',
-                'CommissionCalculation'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.commissionPool),
-                user,
-                requestContext,
-                'commission-compensation',
-                'CommissionCalculation'
-            )
+    readonly #toCalculationSummary = async (e: CommissionCalculation, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<CommissionCalculationSummary> => {
+        const { recognizedRevenueTaxExclusiveProjection, recognizedCostTaxExclusiveProjection, contributionMarginProjection, contributionMarginRateProjection } = await this.#projectCommissionSensitiveFields(
+            e.id,
+            user,
+            requestContext,
+            'operating-finance',
+            'CommissionCalculation',
+            [
+                {
+                    key: 'recognizedRevenueTaxExclusiveProjection',
+                    rawValue: this.#stringifyDecimal(e.recognizedRevenueTaxExclusive)
+                },
+                {
+                    key: 'recognizedCostTaxExclusiveProjection',
+                    rawValue: this.#stringifyDecimal(e.recognizedCostTaxExclusive)
+                },
+                {
+                    key: 'contributionMarginProjection',
+                    rawValue: this.#stringifyDecimal(e.contributionMargin)
+                },
+                {
+                    key: 'contributionMarginRateProjection',
+                    rawValue: this.#stringifyDecimal(e.contributionMarginRate)
+                }
+            ]
+        );
+        const { commissionPoolProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'CommissionCalculation', [
+            {
+                key: 'commissionPoolProjection',
+                rawValue: this.#stringifyDecimal(e.commissionPool)
+            }
         ]);
 
         return {
@@ -1715,36 +1511,20 @@ export class CommissionService {
         };
     };
 
-    readonly #toPayoutSummary = async (
-        e: CommissionPayout,
-        user: SensitiveProjectionUser,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<CommissionPayoutSummary> => {
-        const [theoreticalCapAmountProjection, approvedAmountProjection, paidRecordAmountProjection] = await Promise.all([
-            this.#projectCommissionSensitiveField(
-                e.id,
-                this.#stringifyDecimal(e.theoreticalCapAmount),
-                user,
-                requestContext,
-                'commission-compensation',
-                'CommissionPayout'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                e.approvedAmount ? this.#stringifyDecimal(e.approvedAmount) : null,
-                user,
-                requestContext,
-                'commission-compensation',
-                'CommissionPayout'
-            ),
-            this.#projectCommissionSensitiveField(
-                e.id,
-                e.paidRecordAmount ? this.#stringifyDecimal(e.paidRecordAmount) : null,
-                user,
-                requestContext,
-                'commission-compensation',
-                'CommissionPayout'
-            )
+    readonly #toPayoutSummary = async (e: CommissionPayout, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<CommissionPayoutSummary> => {
+        const { theoreticalCapAmountProjection, approvedAmountProjection, paidRecordAmountProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'CommissionPayout', [
+            {
+                key: 'theoreticalCapAmountProjection',
+                rawValue: this.#stringifyDecimal(e.theoreticalCapAmount)
+            },
+            {
+                key: 'approvedAmountProjection',
+                rawValue: e.approvedAmount ? this.#stringifyDecimal(e.approvedAmount) : null
+            },
+            {
+                key: 'paidRecordAmountProjection',
+                rawValue: e.paidRecordAmount ? this.#stringifyDecimal(e.paidRecordAmount) : null
+            }
         ]);
 
         return {
@@ -1767,21 +1547,16 @@ export class CommissionService {
         };
     };
 
-    readonly #toAdjustmentSummary = async (
-        e: CommissionAdjustment,
-        user: SensitiveProjectionUser,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<CommissionAdjustmentSummary> => {
-        const [amountProjection, reasonProjection] = await Promise.all([
-            this.#projectCommissionSensitiveField(
-                e.id,
-                e.amount ? this.#stringifyDecimal(e.amount) : null,
-                user,
-                requestContext,
-                'commission-compensation',
-                'CommissionAdjustment'
-            ),
-            this.#projectCommissionSensitiveField(e.id, e.reason, user, requestContext, 'commission-compensation', 'CommissionAdjustment')
+    readonly #toAdjustmentSummary = async (e: CommissionAdjustment, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<CommissionAdjustmentSummary> => {
+        const { amountProjection, reasonProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'CommissionAdjustment', [
+            {
+                key: 'amountProjection',
+                rawValue: e.amount ? this.#stringifyDecimal(e.amount) : null
+            },
+            {
+                key: 'reasonProjection',
+                rawValue: e.reason
+            }
         ]);
 
         return {
@@ -1831,15 +1606,8 @@ export class CommissionService {
         }
 
         const freezeVersion = await this.repo.findRoleAssignmentById(snapshot.freezeVersionId);
-        if (
-            !freezeVersion ||
-            freezeVersion.projectId !== projectId ||
-            !freezeVersion.isCurrent ||
-            freezeVersion.status !== 'frozen'
-        ) {
-            throw new NotFoundException(
-                `Current frozen CommissionRoleAssignment ${snapshot.freezeVersionId} not found for project ${projectId}`
-            );
+        if (!freezeVersion || freezeVersion.projectId !== projectId || !freezeVersion.isCurrent || freezeVersion.status !== 'frozen') {
+            throw new NotFoundException(`Current frozen CommissionRoleAssignment ${snapshot.freezeVersionId} not found for project ${projectId}`);
         }
 
         return { snapshot, freezeVersion };
@@ -1853,9 +1621,7 @@ export class CommissionService {
         return snapshot;
     }
 
-    async #loadRetentionDueEvaluationFromFreezeVersion(
-        freezeVersion: Pick<CommissionRoleAssignment, 'effectiveHandoverBaselineSnapshotId'>
-    ): Promise<RetentionDueEvaluation> {
+    async #loadRetentionDueEvaluationFromFreezeVersion(freezeVersion: Pick<CommissionRoleAssignment, 'effectiveHandoverBaselineSnapshotId'>): Promise<RetentionDueEvaluation> {
         if (!freezeVersion.effectiveHandoverBaselineSnapshotId) {
             return evaluateRetentionDueDate(null);
         }
@@ -1875,14 +1641,7 @@ export class CommissionService {
     async #loadLiveRetentionQueryState(
         snapshot: Pick<
             CommissionFinalSettlementSnapshot,
-            | 'projectId'
-            | 'freezeVersionId'
-            | 'gateReviewRecordId'
-            | 'retentionReceiptRecordId'
-            | 'departureExceptionDecisionId'
-            | 'currentActionLevel'
-            | 'finalSettlementStatus'
-            | 'retentionSettlementStatus'
+            'projectId' | 'freezeVersionId' | 'gateReviewRecordId' | 'retentionReceiptRecordId' | 'departureExceptionDecisionId' | 'currentActionLevel' | 'finalSettlementStatus' | 'retentionSettlementStatus'
         >,
         freezeVersion: CommissionRoleAssignment
     ): Promise<{
@@ -1897,11 +1656,7 @@ export class CommissionService {
         const [gateReview, openDispute, departureDecision, retentionReceipt] = await Promise.all([
             this.repo.findGateReviewRecordById(snapshot.gateReviewRecordId),
             this.repo.findOpenFreezeDisputeByFreezeVersionId(snapshot.freezeVersionId),
-            this.#loadRetentionDepartureDecisionForRead(
-                snapshot.projectId,
-                snapshot.freezeVersionId,
-                snapshot.departureExceptionDecisionId ?? null
-            ),
+            this.#loadRetentionDepartureDecisionForRead(snapshot.projectId, snapshot.freezeVersionId, snapshot.departureExceptionDecisionId ?? null),
             this.#loadRetentionReceiptForRead(snapshot.projectId, snapshot.retentionReceiptRecordId ?? null)
         ]);
         const gateBindingAction = await this.#loadGateBindingActionForReview(gateReview);
@@ -1915,8 +1670,7 @@ export class CommissionService {
                 retentionReceipt,
                 retentionDue,
                 Boolean(openDispute),
-                snapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_SETTLED_ALL ||
-                    snapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED
+                snapshot.finalSettlementStatus === FINAL_SETTLEMENT_STATUS_SETTLED_ALL || snapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED
             )
         };
     }
@@ -1937,23 +1691,13 @@ export class CommissionService {
         return receipt;
     }
 
-    async #loadRetentionDepartureDecisionForRead(
-        projectId: string,
-        freezeVersionId: string,
-        departureExceptionDecisionId: string | null
-    ): Promise<CommissionDepartureExceptionDecision | null> {
+    async #loadRetentionDepartureDecisionForRead(projectId: string, freezeVersionId: string, departureExceptionDecisionId: string | null): Promise<CommissionDepartureExceptionDecision | null> {
         if (!departureExceptionDecisionId) {
             return null;
         }
 
         const decision = await this.repo.findDepartureExceptionDecisionById(departureExceptionDecisionId);
-        if (
-            !decision ||
-            decision.projectId !== projectId ||
-            decision.freezeVersionId !== freezeVersionId ||
-            !decision.isCurrent ||
-            decision.status !== 'active'
-        ) {
+        if (!decision || decision.projectId !== projectId || decision.freezeVersionId !== freezeVersionId || !decision.isCurrent || decision.status !== 'active') {
             return null;
         }
         return decision;
@@ -1964,9 +1708,7 @@ export class CommissionService {
             throw new UnprocessableEntityException(`CommissionPayout ${payoutId} 当前缺少正式质保期届满日期，无法${actionName}`);
         }
         if (retentionDue.retentionDueStatus === 'pending') {
-            throw new UnprocessableEntityException(
-                `CommissionPayout ${payoutId} 当前质保期尚未届满（${retentionDue.retentionDueDate}），无法${actionName}`
-            );
+            throw new UnprocessableEntityException(`CommissionPayout ${payoutId} 当前质保期尚未届满（${retentionDue.retentionDueDate}），无法${actionName}`);
         }
     }
 
@@ -1976,21 +1718,15 @@ export class CommissionService {
         user: SensitiveProjectionUser,
         requestContext: SensitiveFieldProjectionRequestContext
     ): Promise<CommissionSharedEvidencePackage> {
-        const [taxImpactSummaryProjection, taxImpactPendingAmountProjection] = await Promise.all([
-            this.#projectCommissionSensitiveField(
-                snapshot.projectId,
-                snapshot.taxImpactSummary,
-                user,
-                requestContext,
-                'operating-finance'
-            ),
-            this.#projectCommissionSensitiveField(
-                snapshot.projectId,
-                this.#stringifyDecimal(snapshot.taxImpactPendingAmount),
-                user,
-                requestContext,
-                'operating-finance'
-            )
+        const { taxImpactSummaryProjection, taxImpactPendingAmountProjection } = await this.#projectCommissionSensitiveFields(snapshot.projectId, user, requestContext, 'operating-finance', 'Project', [
+            {
+                key: 'taxImpactSummaryProjection',
+                rawValue: snapshot.taxImpactSummary
+            },
+            {
+                key: 'taxImpactPendingAmountProjection',
+                rawValue: this.#stringifyDecimal(snapshot.taxImpactPendingAmount)
+            }
         ]);
 
         return {
@@ -2021,6 +1757,24 @@ export class CommissionService {
         return this.sensitiveFieldProjectionService.projectStringField({
             fieldPackageKey,
             rawValue,
+            user,
+            targetType,
+            targetId,
+            requestContext
+        });
+    }
+
+    #projectCommissionSensitiveFields<TKey extends string>(
+        targetId: string,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        fieldPackageKey: SensitiveFieldPackageKey,
+        targetType: string,
+        fields: readonly { key: TKey; rawValue: string | null }[]
+    ): Promise<Record<TKey, SensitiveStringFieldProjection>> {
+        return this.sensitiveFieldProjectionService.projectStringFields({
+            fieldPackageKey,
+            fields,
             user,
             targetType,
             targetId,
@@ -2070,9 +1824,7 @@ export class CommissionService {
         }
     }
 
-    #buildEffectiveHandoverBaselineSummary(
-        entity: CommissionRoleAssignment
-    ): CommissionRoleAssignmentDetailView['effectiveHandoverBaselineSummary'] {
+    #buildEffectiveHandoverBaselineSummary(entity: CommissionRoleAssignment): CommissionRoleAssignmentDetailView['effectiveHandoverBaselineSummary'] {
         if (!entity.effectiveHandoverBaselineSnapshotId) {
             return {
                 status: 'missing',
@@ -2084,33 +1836,23 @@ export class CommissionService {
         }
 
         const sourceId = entity.sourceHandoverRebaselineRecordId ?? entity.sourceHandoverId ?? null;
-        const sourceType =
-            entity.sourceHandoverRebaselineRecordId
-                ? 'handover-rebaseline'
-                : entity.sourceHandoverId
-                    ? 'project-handover'
-                    : 'none';
+        const sourceType = entity.sourceHandoverRebaselineRecordId ? 'handover-rebaseline' : entity.sourceHandoverId ? 'project-handover' : 'none';
 
         return {
             status: 'available',
             baselineSnapshotId: entity.effectiveHandoverBaselineSnapshotId,
             sourceType,
             sourceId,
-            summary:
-                sourceType === 'handover-rebaseline'
-                    ? `Effective handover baseline is frozen from rebaseline ${entity.sourceHandoverRebaselineRecordId}`
-                    : `Effective handover baseline is frozen from project handover ${entity.sourceHandoverId}`
+            summary: sourceType === 'handover-rebaseline' ? `Effective handover baseline is frozen from rebaseline ${entity.sourceHandoverRebaselineRecordId}` : `Effective handover baseline is frozen from project handover ${entity.sourceHandoverId}`
         };
     }
 
     #buildReceiptJudgmentModeSummary(
-        freeze:
-            | {
-                  receiptJudgmentMode: string;
-                  sourceType: 'project-handover' | 'project-receipt-judgment-freeze';
-                  sourceId: string;
-              }
-            | null
+        freeze: {
+            receiptJudgmentMode: string;
+            sourceType: 'project-handover' | 'project-receipt-judgment-freeze';
+            sourceId: string;
+        } | null
     ): CommissionRoleAssignmentDetailView['receiptJudgmentModeSummary'] {
         if (!freeze) {
             return {
@@ -2149,9 +1891,7 @@ export class CommissionService {
 
     #assertCurrentFrozenRoleAssignmentWithSummary(entity: CommissionRoleAssignment, chainLabel: string): void {
         if (!entity.isCurrent || entity.status !== 'frozen') {
-            throw new UnprocessableEntityException(
-                `只有当前有效且已冻结的角色分配可以进入${chainLabel}，当前状态: ${entity.status}`
-            );
+            throw new UnprocessableEntityException(`只有当前有效且已冻结的角色分配可以进入${chainLabel}，当前状态: ${entity.status}`);
         }
         if (!entity.handoverSummarySnapshotId) {
             throw new BadRequestException(`当前冻结版本缺少移交确认摘要快照，无法进入${chainLabel}`);
@@ -2167,20 +1907,14 @@ export class CommissionService {
     }
 
     async #findFreezeSummarySnapshot(entity: CommissionRoleAssignment, chainLabel = '争议链') {
-        const summarySnapshot = entity.handoverSummarySnapshotId
-            ? await this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId)
-            : null;
+        const summarySnapshot = entity.handoverSummarySnapshotId ? await this.repo.findApprovalSummarySnapshotById(entity.handoverSummarySnapshotId) : null;
         if (!summarySnapshot || summarySnapshot.status !== 'active') {
             throw new BadRequestException(`当前冻结版本缺少有效摘要快照，无法进入${chainLabel}`);
         }
         return summarySnapshot;
     }
 
-    async #findMatchedFreezeSummarySnapshot(
-        entity: CommissionRoleAssignment,
-        requestedSummarySnapshotId: string,
-        chainLabel: string
-    ) {
+    async #findMatchedFreezeSummarySnapshot(entity: CommissionRoleAssignment, requestedSummarySnapshotId: string, chainLabel: string) {
         const summarySnapshot = await this.#findFreezeSummarySnapshot(entity, chainLabel);
         if (summarySnapshot.id !== requestedSummarySnapshotId) {
             throw new BadRequestException('请求摘要快照必须与当前冻结版本绑定的移交确认摘要快照一致');
@@ -2190,33 +1924,19 @@ export class CommissionService {
 
     #buildAffectedAssignmentSummary(entity: CommissionRoleAssignment, affectedAssignmentIds: string[]): string {
         const affectedIdSet = new Set(affectedAssignmentIds);
-        const affectedParticipants = (entity.participantsJson ?? []).filter((participant) =>
-            affectedIdSet.has(participant.userId)
-        );
+        const affectedParticipants = (entity.participantsJson ?? []).filter((participant) => affectedIdSet.has(participant.userId));
 
         if (affectedParticipants.length !== affectedIdSet.size) {
             throw new BadRequestException('affectedAssignmentIds 必须全部命中当前冻结版本中的参与角色');
         }
 
-        return affectedParticipants
-            .map(
-                (participant) =>
-                    `${participant.displayName}(${participant.roleType}, weight=${participant.weight})`
-            )
-            .join('; ');
+        return affectedParticipants.map((participant) => `${participant.displayName}(${participant.roleType}, weight=${participant.weight})`).join('; ');
     }
 
     async #buildFreezeImpactSummaries(projectId: string, recalculationImpactMode: string) {
-        const [currentCalculation, payouts] = await Promise.all([
-            this.repo.findCurrentCalculation(projectId),
-            this.repo.findPayoutsForProject(projectId)
-        ]);
+        const [currentCalculation, payouts] = await Promise.all([this.repo.findCurrentCalculation(projectId), this.repo.findPayoutsForProject(projectId)]);
 
-        return this.#buildFreezeImpactSummariesFromState(
-            currentCalculation,
-            payouts,
-            recalculationImpactMode
-        );
+        return this.#buildFreezeImpactSummariesFromState(currentCalculation, payouts, recalculationImpactMode);
     }
 
     #buildFreezeImpactSummariesFromState(
@@ -2229,13 +1949,8 @@ export class CommissionService {
         affectedPayoutSummary: string | null;
         riskFlagSummary: string | null;
     } {
-        const affectedCalculationSummary = currentCalculation
-            ? `Current calculation ${currentCalculation.id} (${currentCalculation.status}) may require ${recalculationImpactMode}`
-            : null;
-        const affectedPayoutSummary =
-            payouts.length > 0
-                ? `Payout count=${payouts.length}; statuses=${payouts.map((item) => item.status).join(',')}`
-                : null;
+        const affectedCalculationSummary = currentCalculation ? `Current calculation ${currentCalculation.id} (${currentCalculation.status}) may require ${recalculationImpactMode}` : null;
+        const affectedPayoutSummary = payouts.length > 0 ? `Payout count=${payouts.length}; statuses=${payouts.map((item) => item.status).join(',')}` : null;
 
         const riskFlags: string[] = [];
         if (currentCalculation?.status === 'effective') {
@@ -2249,12 +1964,7 @@ export class CommissionService {
         }
 
         const riskFlagSummary = riskFlags.length > 0 ? riskFlags.join(', ') : 'no-downstream-risk-detected';
-        const impactAssessmentSummary = [
-            `recalculationImpactMode=${recalculationImpactMode}`,
-            affectedCalculationSummary ?? 'no-current-calculation',
-            affectedPayoutSummary ?? 'no-payout-records',
-            `riskFlags=${riskFlagSummary}`
-        ].join('; ');
+        const impactAssessmentSummary = [`recalculationImpactMode=${recalculationImpactMode}`, affectedCalculationSummary ?? 'no-current-calculation', affectedPayoutSummary ?? 'no-payout-records', `riskFlags=${riskFlagSummary}`].join('; ');
 
         return {
             impactAssessmentSummary,
@@ -2266,9 +1976,7 @@ export class CommissionService {
 
     #assertDisputeRecordPending(disputeRecord: CommissionFreezeDisputeRecord): void {
         if (disputeRecord.status !== 'submitted' || disputeRecord.arbitrationStatus !== 'pending') {
-            throw new UnprocessableEntityException(
-                `只有待仲裁争议记录可以执行仲裁，当前状态: ${disputeRecord.status}/${disputeRecord.arbitrationStatus}`
-            );
+            throw new UnprocessableEntityException(`只有待仲裁争议记录可以执行仲裁，当前状态: ${disputeRecord.status}/${disputeRecord.arbitrationStatus}`);
         }
     }
 
@@ -2279,34 +1987,19 @@ export class CommissionService {
         }
 
         const confirmedReceipts = await this.repo.findConfirmedReceiptsForProject(projectId);
-        const confirmedReceiptAmount = confirmedReceipts.reduce(
-            (sum, item) => sum + this.#toNumber(item.receiptAmount),
-            0
-        );
+        const confirmedReceiptAmount = confirmedReceipts.reduce((sum, item) => sum + this.#toNumber(item.receiptAmount), 0);
         if (revenue > 0 && confirmedReceiptAmount < revenue) {
-            throw new UnprocessableEntityException(
-                `当前项目已确认回款不足以支撑本次提成收入口径，已确认回款 ${this.#formatAmount(confirmedReceiptAmount)}，请求收入 ${this.#formatAmount(revenue)}`
-            );
+            throw new UnprocessableEntityException(`当前项目已确认回款不足以支撑本次提成收入口径，已确认回款 ${this.#formatAmount(confirmedReceiptAmount)}，请求收入 ${this.#formatAmount(revenue)}`);
         }
 
         const confirmedPayments = await this.repo.findConfirmedPaymentsForProject(projectId);
-        const confirmedPaymentAmount = confirmedPayments.reduce(
-            (sum, item) => sum + this.#toNumber(item.amountExcludingTax),
-            0
-        );
+        const confirmedPaymentAmount = confirmedPayments.reduce((sum, item) => sum + this.#toNumber(item.amountExcludingTax), 0);
         if (cost > 0 && confirmedPaymentAmount < cost) {
-            throw new UnprocessableEntityException(
-                `当前项目已确认成本不足以支撑本次提成成本口径，已确认成本 ${this.#formatAmount(confirmedPaymentAmount)}，请求成本 ${this.#formatAmount(cost)}`
-            );
+            throw new UnprocessableEntityException(`当前项目已确认成本不足以支撑本次提成成本口径，已确认成本 ${this.#formatAmount(confirmedPaymentAmount)}，请求成本 ${this.#formatAmount(cost)}`);
         }
     }
 
-    #assertAdjustmentLinks(
-        projectId: string,
-        adjustmentType: CreateCommissionAdjustmentRequest['adjustmentType'],
-        payout: CommissionPayout | null,
-        calculation: CommissionCalculation | null
-    ): void {
+    #assertAdjustmentLinks(projectId: string, adjustmentType: CreateCommissionAdjustmentRequest['adjustmentType'], payout: CommissionPayout | null, calculation: CommissionCalculation | null): void {
         if (adjustmentType === 'recalculate') {
             throw new UnprocessableEntityException('重算请使用专用重算命令，不应通过普通调整草稿创建');
         }
@@ -2346,10 +2039,7 @@ export class CommissionService {
         if (this.#matchesUniqueConstraint(error, COMMISSION_CALCULATION_PROJECT_CURRENT_UNIQUE)) {
             return new ConflictException('当前项目的提成计算 current 版本已发生变化，请刷新后重试');
         }
-        if (
-            this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_CURRENT_UNIQUE) ||
-            this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_VERSION_UNIQUE)
-        ) {
+        if (this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_CURRENT_UNIQUE) || this.#matchesUniqueConstraint(error, COMMISSION_DEPARTURE_EXCEPTION_DECISION_PROJECT_VERSION_UNIQUE)) {
             return new ConflictException('当前项目的离职 / 特例结论 current 版本已发生变化，请刷新后重试');
         }
         throw error;
@@ -2375,10 +2065,7 @@ export class CommissionService {
         while (current && typeof current === 'object' && !seen.has(current)) {
             seen.add(current);
             candidates.push(current as Record<string, unknown>);
-            current =
-                (current as { driverException?: unknown; cause?: unknown }).driverException ??
-                (current as { cause?: unknown }).cause ??
-                null;
+            current = (current as { driverException?: unknown; cause?: unknown }).driverException ?? (current as { cause?: unknown }).cause ?? null;
         }
 
         return candidates;
@@ -2457,19 +2144,9 @@ export class CommissionService {
         freezeVersion: Pick<CommissionRoleAssignment, 'id'>,
         binding: Pick<
             OperatingSignalToCommissionGateBinding,
-            | 'baselineSelectionSource'
-            | 'taxImpactSummary'
-            | 'taxImpactPendingAmount'
-            | 'dataMaturityLevel'
-            | 'costActionRecommendation'
-            | 'currentActionLevel'
-            | 'referencedBaselineVersion'
-            | 'referencedSnapshotVersion'
+            'baselineSelectionSource' | 'taxImpactSummary' | 'taxImpactPendingAmount' | 'dataMaturityLevel' | 'costActionRecommendation' | 'currentActionLevel' | 'referencedBaselineVersion' | 'referencedSnapshotVersion'
         >,
-        gateReview: Pick<
-            CommissionGateReviewRecord,
-            'id' | 'summaryPackageKey' | 'summarySnapshotId' | 'projectionLevel' | 'exportPolicy'
-        >
+        gateReview: Pick<CommissionGateReviewRecord, 'id' | 'summaryPackageKey' | 'summarySnapshotId' | 'projectionLevel' | 'exportPolicy'>
     ) {
         return {
             projectId,
@@ -2588,13 +2265,7 @@ export class CommissionService {
         return nextSnapshot;
     }
 
-    async #writeCurrentRuleExplanationSnapshot(
-        em: EntityManager,
-        projectId: string,
-        finalSettlementSnapshotId: string,
-        explanation: RuleExplanationDraft,
-        actorUserId: string | null
-    ): Promise<CommissionRuleExplanationSnapshot> {
+    async #writeCurrentRuleExplanationSnapshot(em: EntityManager, projectId: string, finalSettlementSnapshotId: string, explanation: RuleExplanationDraft, actorUserId: string | null): Promise<CommissionRuleExplanationSnapshot> {
         const currentRuleExplanation = (await em.findOne(CommissionRuleExplanationSnapshot, {
             projectId,
             isCurrent: true
@@ -2632,17 +2303,11 @@ export class CommissionService {
         return nextRuleExplanation;
     }
 
-    async #findGateReviewById(
-        em: EntityManager,
-        gateReviewRecordId: string
-    ): Promise<CommissionGateReviewRecord | null> {
+    async #findGateReviewById(em: EntityManager, gateReviewRecordId: string): Promise<CommissionGateReviewRecord | null> {
         return (await em.findOne(CommissionGateReviewRecord, { id: gateReviewRecordId })) as CommissionGateReviewRecord | null;
     }
 
-    async #findGateBindingActionByReview(
-        em: EntityManager,
-        gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null
-    ): Promise<string | null> {
+    async #findGateBindingActionByReview(em: EntityManager, gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null): Promise<string | null> {
         if (!gateReview) {
             return null;
         }
@@ -2653,9 +2318,7 @@ export class CommissionService {
         return binding?.bindingAction ?? null;
     }
 
-    async #loadGateBindingActionForReview(
-        gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null
-    ): Promise<string | null> {
+    async #loadGateBindingActionForReview(gateReview: Pick<CommissionGateReviewRecord, 'bindingId'> | null): Promise<string | null> {
         if (!gateReview) {
             return null;
         }
@@ -2664,14 +2327,12 @@ export class CommissionService {
         return binding?.bindingAction ?? null;
     }
 
-    async #findLatestConfirmedRetentionReceipt(
-        em: EntityManager,
-        projectId: string
-    ): Promise<ReceiptRecord | null> {
-        const receipts = ((await em.find(ReceiptRecord, {
-            projectId,
-            status: 'confirmed'
-        })) as ReceiptRecord[] | null) ?? [];
+    async #findLatestConfirmedRetentionReceipt(em: EntityManager, projectId: string): Promise<ReceiptRecord | null> {
+        const receipts =
+            ((await em.find(ReceiptRecord, {
+                projectId,
+                status: 'confirmed'
+            })) as ReceiptRecord[] | null) ?? [];
         if (receipts.length === 0) {
             return null;
         }
@@ -2683,11 +2344,7 @@ export class CommissionService {
         })[0];
     }
 
-    async #findConfirmedReceiptById(
-        em: EntityManager,
-        receiptRecordId: string,
-        projectId: string
-    ): Promise<ReceiptRecord> {
+    async #findConfirmedReceiptById(em: EntityManager, receiptRecordId: string, projectId: string): Promise<ReceiptRecord> {
         const receipt = (await em.findOne(ReceiptRecord, { id: receiptRecordId })) as ReceiptRecord | null;
         if (!receipt || receipt.projectId !== projectId || receipt.status !== 'confirmed') {
             throw new UnprocessableEntityException(`当前质保金到账记录 ${receiptRecordId} 无效`);
@@ -2695,11 +2352,7 @@ export class CommissionService {
         return receipt;
     }
 
-    async #findCurrentActiveDepartureDecision(
-        em: EntityManager,
-        projectId: string,
-        freezeVersionId: string
-    ): Promise<CommissionDepartureExceptionDecision | null> {
+    async #findCurrentActiveDepartureDecision(em: EntityManager, projectId: string, freezeVersionId: string): Promise<CommissionDepartureExceptionDecision | null> {
         const decision = (await em.findOne(CommissionDepartureExceptionDecision, {
             projectId,
             isCurrent: true
@@ -2710,22 +2363,11 @@ export class CommissionService {
         return decision;
     }
 
-    async #findActiveDepartureDecisionById(
-        em: EntityManager,
-        departureExceptionDecisionId: string,
-        projectId: string,
-        freezeVersionId: string
-    ): Promise<CommissionDepartureExceptionDecision> {
+    async #findActiveDepartureDecisionById(em: EntityManager, departureExceptionDecisionId: string, projectId: string, freezeVersionId: string): Promise<CommissionDepartureExceptionDecision> {
         const decision = (await em.findOne(CommissionDepartureExceptionDecision, {
             id: departureExceptionDecisionId
         })) as CommissionDepartureExceptionDecision | null;
-        if (
-            !decision ||
-            decision.projectId !== projectId ||
-            decision.freezeVersionId !== freezeVersionId ||
-            !decision.isCurrent ||
-            decision.status !== 'active'
-        ) {
+        if (!decision || decision.projectId !== projectId || decision.freezeVersionId !== freezeVersionId || !decision.isCurrent || decision.status !== 'active') {
             throw new UnprocessableEntityException(`当前离职 / 特例结论 ${departureExceptionDecisionId} 无效`);
         }
         return decision;
@@ -2776,13 +2418,7 @@ export class CommissionService {
 
     #calculateRemainingRetentionCap(calculationId: string, commissionPool: string | number, payouts: CommissionPayout[]): number {
         const nonRetentionPaidAmount = payouts.reduce((sum, payout) => {
-            if (
-                payout.calculationId !== calculationId ||
-                payout.payoutKind !== 'primary' ||
-                payout.stageType === 'retention' ||
-                payout.status !== 'paid' ||
-                !payout.paidRecordAmount
-            ) {
+            if (payout.calculationId !== calculationId || payout.payoutKind !== 'primary' || payout.stageType === 'retention' || payout.status !== 'paid' || !payout.paidRecordAmount) {
                 return sum;
             }
             return sum + this.#toNumber(payout.paidRecordAmount);
@@ -2791,17 +2427,11 @@ export class CommissionService {
         return Math.max(0, this.#toNumber(commissionPool) - nonRetentionPaidAmount);
     }
 
-    #assertRetentionSnapshotEligibleForSubmit(
-        payout: CommissionPayout,
-        currentSnapshot: CommissionFinalSettlementSnapshot | null
-    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+    #assertRetentionSnapshotEligibleForSubmit(payout: CommissionPayout, currentSnapshot: CommissionFinalSettlementSnapshot | null): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
         if (!currentSnapshot || !currentSnapshot.isCurrent || currentSnapshot.status !== 'active') {
             throw new UnprocessableEntityException(`当前项目缺少有效的最终结算快照，无法提交质保金发放审批`);
         }
-        if (
-            currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION ||
-            currentSnapshot.nonRetentionSettlementStatus !== NON_RETENTION_SETTLEMENT_STATUS_SETTLED
-        ) {
+        if (currentSnapshot.finalSettlementStatus !== FINAL_SETTLEMENT_STATUS_PENDING_RETENTION || currentSnapshot.nonRetentionSettlementStatus !== NON_RETENTION_SETTLEMENT_STATUS_SETTLED) {
             throw new UnprocessableEntityException(`当前项目尚未完成非质保结算，不能提交质保金发放审批`);
         }
         if (currentSnapshot.retentionSettlementStatus === RETENTION_SETTLEMENT_STATUS_SETTLED) {
@@ -2809,25 +2439,14 @@ export class CommissionService {
         }
     }
 
-    #assertRetentionSnapshotReadyForApproval(
-        payout: CommissionPayout,
-        currentSnapshot: CommissionFinalSettlementSnapshot | null
-    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+    #assertRetentionSnapshotReadyForApproval(payout: CommissionPayout, currentSnapshot: CommissionFinalSettlementSnapshot | null): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
         this.#assertRetentionSnapshotEligibleForSubmit(payout, currentSnapshot);
-        if (
-            currentSnapshot.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY ||
-            !currentSnapshot.retentionReceiptRecordId ||
-            !currentSnapshot.departureExceptionDecisionId
-        ) {
+        if (currentSnapshot.retentionSettlementStatus !== RETENTION_SETTLEMENT_STATUS_READY || !currentSnapshot.retentionReceiptRecordId || !currentSnapshot.departureExceptionDecisionId) {
             throw new UnprocessableEntityException(`当前项目尚未进入可批准的质保金结算状态`);
         }
     }
 
-    #assertRetentionSnapshotReadyForRegistration(
-        payout: CommissionPayout,
-        currentSnapshot: CommissionFinalSettlementSnapshot | null,
-        requestedSummarySnapshotId: string | null
-    ): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
+    #assertRetentionSnapshotReadyForRegistration(payout: CommissionPayout, currentSnapshot: CommissionFinalSettlementSnapshot | null, requestedSummarySnapshotId: string | null): asserts currentSnapshot is CommissionFinalSettlementSnapshot {
         this.#assertRetentionSnapshotReadyForApproval(payout, currentSnapshot);
         if (!requestedSummarySnapshotId) {
             throw new BadRequestException('summarySnapshotId is required for retention payout registration');
@@ -2867,9 +2486,7 @@ export class CommissionService {
     }
 
     #isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
-        return [bindingAction, gateReviewDecision]
-            .map((value) => value?.trim().toUpperCase())
-            .some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
+        return [bindingAction, gateReviewDecision].map((value) => value?.trim().toUpperCase()).some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
     }
 
     #requireAdjustmentAmount(adjustment: CommissionAdjustment, actionName: '扣回' | '补发'): number {

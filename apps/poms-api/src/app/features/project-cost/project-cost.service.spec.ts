@@ -515,7 +515,7 @@ describe('ProjectCostService', () => {
     let operatingSignalToCommissionGateBindingRepository: jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
     let commissionGateReviewRecordRepository: jest.Mocked<CommissionGateReviewRecordRepository>;
     let approvalSummarySnapshotRepository: jest.Mocked<ApprovalSummarySnapshotRepository>;
-    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock; projectStringFields: jest.Mock };
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
     let transactionalEntityManager: {
         nativeUpdate: jest.Mock;
@@ -722,33 +722,45 @@ describe('ProjectCostService', () => {
                 return `${prefixes[scope] ?? 'AC'}-2026-000001`;
             })
         };
-        const mockSensitiveFieldProjectionService = {
-            projectStringField: jest.fn(async (input) => {
-                if (input.rawValue === null) {
-                    return {
-                        fieldPackageKey: input.fieldPackageKey,
-                        mode: 'full',
-                        value: null,
-                        displayText: '-',
-                        reasonCode: 'field-package-not-applicable'
-                    };
-                }
-                if (input.user?.permissions?.includes('operating:finance:sensitive:read')) {
-                    return {
-                        fieldPackageKey: input.fieldPackageKey,
-                        mode: 'full',
-                        value: input.rawValue,
-                        displayText: input.rawValue,
-                        reasonCode: 'allowed'
-                    };
-                }
+        const projectStringField = jest.fn(async (input) => {
+            if (input.rawValue === null) {
                 return {
                     fieldPackageKey: input.fieldPackageKey,
-                    mode: 'masked',
+                    mode: 'full',
                     value: null,
-                    displayText: '敏感字段已隐藏',
-                    reasonCode: 'missing-sensitive-read-permission'
+                    displayText: '-',
+                    reasonCode: 'field-package-not-applicable'
                 };
+            }
+            if (input.user?.permissions?.includes('operating:finance:sensitive:read')) {
+                return {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: 'full',
+                    value: input.rawValue,
+                    displayText: input.rawValue,
+                    reasonCode: 'allowed'
+                };
+            }
+            return {
+                fieldPackageKey: input.fieldPackageKey,
+                mode: 'masked',
+                value: null,
+                displayText: '敏感字段已隐藏',
+                reasonCode: 'missing-sensitive-read-permission'
+            };
+        });
+        const mockSensitiveFieldProjectionService = {
+            projectStringField,
+            projectStringFields: jest.fn(async (input) => {
+                const projections: Record<string, unknown> = {};
+                for (const field of input.fields) {
+                    projections[field.key] = await projectStringField({
+                        ...input,
+                        rawValue: field.rawValue,
+                        displayTextWhenFull: field.displayTextWhenFull
+                    });
+                }
+                return projections;
             })
         };
 
@@ -2533,35 +2545,50 @@ describe('ProjectCostService', () => {
                 value: null,
                 reasonCode: 'missing-sensitive-read-permission'
             });
-            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
-                    rawValue: '200000.0000',
                     user: OPERATING_FINANCE_MASKED_USER,
                     targetType: 'Project',
                     targetId: PROJECT_ID,
                     requestContext: expect.objectContaining({
                         path: `/projects/${PROJECT_ID}/business-outcome-overview`,
                         method: 'GET'
-                    })
+                    }),
+                    fields: expect.arrayContaining([
+                        expect.objectContaining({
+                            key: 'effectiveContractSetSummaryProjection',
+                            rawValue: '200000.0000'
+                        })
+                    ])
                 })
             );
-            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
-                    rawValue: '80000.0000',
                     user: OPERATING_FINANCE_MASKED_USER,
                     targetType: 'Project',
-                    targetId: PROJECT_ID
+                    targetId: PROJECT_ID,
+                    fields: expect.arrayContaining([
+                        expect.objectContaining({
+                            key: 'grossMarginAmountProjection',
+                            rawValue: '80000.0000'
+                        })
+                    ])
                 })
             );
-            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect(sensitiveFieldProjectionService.projectStringFields).toHaveBeenCalledWith(
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
-                    rawValue: '0.400000',
                     user: OPERATING_FINANCE_MASKED_USER,
                     targetType: 'Project',
-                    targetId: PROJECT_ID
+                    targetId: PROJECT_ID,
+                    fields: expect.arrayContaining([
+                        expect.objectContaining({
+                            key: 'grossMarginRateProjection',
+                            rawValue: '0.400000'
+                        })
+                    ])
                 })
             );
         });

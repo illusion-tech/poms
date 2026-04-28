@@ -1,9 +1,4 @@
-import {
-    SENSITIVE_FIELD_PACKAGE_REQUIRED_PERMISSIONS,
-    SensitiveStringFieldProjectionSchema,
-    type PermissionKey,
-    type UserPayload
-} from '@poms/shared-contracts';
+import { SENSITIVE_FIELD_PACKAGE_REQUIRED_PERMISSIONS, SensitiveStringFieldProjectionSchema, type PermissionKey, type UserPayload } from '@poms/shared-contracts';
 import { canReadFullSensitiveFieldPackage, requiredPermissionForSensitiveFieldPackage } from './sensitive-field-projection.policy';
 import { SensitiveFieldProjectionService } from './sensitive-field-projection.service';
 
@@ -128,6 +123,113 @@ describe('Sensitive field projection', () => {
                 })
             })
         );
+    });
+
+    it('batches masked sensitive field events for grouped projections', async () => {
+        const projections = await service.projectStringFields({
+            fieldPackageKey: 'contract-finance',
+            fields: [
+                {
+                    key: 'amountTaxInclusiveProjection',
+                    rawValue: '1200000.00'
+                },
+                {
+                    key: 'taxRateProjection',
+                    rawValue: '0.13'
+                },
+                {
+                    key: 'retentionRateProjection',
+                    rawValue: null
+                }
+            ],
+            user: buildUser(['project:read']),
+            targetType: 'ContractSnapshot',
+            targetId,
+            requestContext: {
+                requestId: 'req-sensitive-batch',
+                path: '/contracts/contract-id',
+                method: 'GET'
+            }
+        });
+
+        expect(projections.amountTaxInclusiveProjection).toEqual(
+            expect.objectContaining({
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(projections.taxRateProjection).toEqual(
+            expect.objectContaining({
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(projections.retentionRateProjection).toEqual(
+            expect.objectContaining({
+                mode: 'full',
+                value: null,
+                reasonCode: 'field-package-not-applicable'
+            })
+        );
+        expect(runtimeAuditService.recordSecurityEvent).toHaveBeenCalledTimes(1);
+        expect(runtimeAuditService.recordSecurityEvent).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'sensitive_field.masked',
+                severity: 'info',
+                permissionKey: 'contract:finance:sensitive:read',
+                details: expect.objectContaining({
+                    fieldPackageKey: 'contract-finance',
+                    projectionMode: 'masked',
+                    targetType: 'ContractSnapshot',
+                    targetId,
+                    targetCount: 1,
+                    sampleTargetIds: [targetId],
+                    fieldKeys: ['amountTaxInclusiveProjection', 'taxRateProjection'],
+                    hiddenFieldCount: 2,
+                    auditAggregationMode: 'sensitive-field-batch'
+                })
+            })
+        );
+    });
+
+    it('does not record batch events when all grouped fields are not applicable', async () => {
+        const projections = await service.projectStringFields({
+            fieldPackageKey: 'contract-finance',
+            fields: [
+                {
+                    key: 'amountTaxInclusiveProjection',
+                    rawValue: null
+                },
+                {
+                    key: 'taxRateProjection',
+                    rawValue: null
+                }
+            ],
+            user: buildUser(['project:read']),
+            targetType: 'ContractSnapshot',
+            targetId,
+            requestContext: {
+                path: '/contracts/contract-id'
+            }
+        });
+
+        expect(projections.amountTaxInclusiveProjection).toEqual(
+            expect.objectContaining({
+                mode: 'full',
+                value: null,
+                reasonCode: 'field-package-not-applicable'
+            })
+        );
+        expect(projections.taxRateProjection).toEqual(
+            expect.objectContaining({
+                mode: 'full',
+                value: null,
+                reasonCode: 'field-package-not-applicable'
+            })
+        );
+        expect(runtimeAuditService.recordSecurityEvent).not.toHaveBeenCalled();
     });
 
     it('denies values and records warning severity when the caller asks for denied projection', async () => {
