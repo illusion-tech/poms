@@ -123,7 +123,8 @@ async function mockL4L5ProjectionViews(page: Page): Promise<void> {
                 receivableConfirmedAmountSummaryProjection: operatingProjection(null),
                 includedCostTotalSummaryProjection: operatingProjection('530000.00'),
                 currentEffectiveBaselineCostSummaryProjection: operatingProjection('500000.00'),
-                grossMarginSummaryProjection: operatingProjection('FE44 毛利可见'),
+                grossMarginAmountProjection: operatingProjection('FE44 毛利可见'),
+                grossMarginRateProjection: operatingProjection('0.320000'),
                 taxImpactSummaryProjection: operatingProjection(null),
                 allocationStabilitySummary: 'FE44 分摊稳定性 residual 说明',
                 unmappedCostSummary: 'FE44 未映射成本 residual 说明',
@@ -423,10 +424,6 @@ test.describe('poms-admin frontend permission and sensitive visibility matrix', 
         await expect(page).toHaveURL(new RegExp(`/auth/login\\?returnUrl=%2Fprojects%2F${WORKSPACE_PROJECT_ID}%2Fcommission%2Frule-explanation$`));
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}/commission/operations?payoutId=51000000-0000-4000-8000-000000000421`);
-        await expect(page).toHaveURL(
-            new RegExp(
-                `/auth/login\\?returnUrl=%2Fprojects%2F${WORKSPACE_PROJECT_ID}%2Fcommission%2Foperations%3FpayoutId%3D51000000-0000-4000-8000-000000000421$`
-            )
-        );
+        await expect(page).toHaveURL(new RegExp(`/auth/login\\?returnUrl=%2Fprojects%2F${WORKSPACE_PROJECT_ID}%2Fcommission%2Foperations%3FpayoutId%3D51000000-0000-4000-8000-000000000421$`));
     });
 });

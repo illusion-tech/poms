@@ -764,21 +764,14 @@ describe('ProjectCostService', () => {
         sharedCostAllocationResultRepository = mockSharedCostAllocationResultRepository as unknown as jest.Mocked<SharedCostAllocationResultRepository>;
         costStageAttributionSnapshotRepository = mockCostStageAttributionSnapshotRepository as unknown as jest.Mocked<CostStageAttributionSnapshotRepository>;
         accountingTaxTreatmentSnapshotRepository = mockAccountingTaxTreatmentSnapshotRepository as unknown as jest.Mocked<AccountingTaxTreatmentSnapshotRepository>;
-        contractHandoverRebaselineRecordRepository =
-            mockContractHandoverRebaselineRecordRepository as unknown as jest.Mocked<ContractHandoverRebaselineRecordRepository>;
+        contractHandoverRebaselineRecordRepository = mockContractHandoverRebaselineRecordRepository as unknown as jest.Mocked<ContractHandoverRebaselineRecordRepository>;
         businessNumberService = mockBusinessNumberService as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
-        dataMaturityEvaluationResultRepository =
-            mockDataMaturityEvaluationResultRepository as unknown as jest.Mocked<DataMaturityEvaluationResultRepository>;
-        operatingSignalEvaluationResultRepository =
-            mockOperatingSignalEvaluationResultRepository as unknown as jest.Mocked<OperatingSignalEvaluationResultRepository>;
-        operatingSignalReviewRecordRepository =
-            mockOperatingSignalReviewRecordRepository as unknown as jest.Mocked<OperatingSignalReviewRecordRepository>;
-        operatingSignalToCommissionGateBindingRepository =
-            mockOperatingSignalToCommissionGateBindingRepository as unknown as jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
-        commissionGateReviewRecordRepository =
-            mockCommissionGateReviewRecordRepository as unknown as jest.Mocked<CommissionGateReviewRecordRepository>;
-        approvalSummarySnapshotRepository =
-            mockApprovalSummarySnapshotRepository as unknown as jest.Mocked<ApprovalSummarySnapshotRepository>;
+        dataMaturityEvaluationResultRepository = mockDataMaturityEvaluationResultRepository as unknown as jest.Mocked<DataMaturityEvaluationResultRepository>;
+        operatingSignalEvaluationResultRepository = mockOperatingSignalEvaluationResultRepository as unknown as jest.Mocked<OperatingSignalEvaluationResultRepository>;
+        operatingSignalReviewRecordRepository = mockOperatingSignalReviewRecordRepository as unknown as jest.Mocked<OperatingSignalReviewRecordRepository>;
+        operatingSignalToCommissionGateBindingRepository = mockOperatingSignalToCommissionGateBindingRepository as unknown as jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
+        commissionGateReviewRecordRepository = mockCommissionGateReviewRecordRepository as unknown as jest.Mocked<CommissionGateReviewRecordRepository>;
+        approvalSummarySnapshotRepository = mockApprovalSummarySnapshotRepository as unknown as jest.Mocked<ApprovalSummarySnapshotRepository>;
         sensitiveFieldProjectionService = mockSensitiveFieldProjectionService;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
@@ -973,9 +966,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks mapping for non-verified invoice status', async () => {
-            contractFinanceRepository.findInvoiceById.mockResolvedValue(
-                makeInvoiceRecord({ status: 'received' }) as never
-            );
+            contractFinanceRepository.findInvoiceById.mockResolvedValue(makeInvoiceRecord({ status: 'received' }) as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             await expect(
@@ -1068,9 +1059,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks duplicate current EXPENSE mapping for the same expense source', async () => {
-            expenseRecordRepository.findById.mockResolvedValue(
-                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
-            );
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
 
             await expect(
@@ -1104,11 +1093,7 @@ describe('ProjectCostService', () => {
                 USER_ID
             );
 
-            expect(projectActualCostRecordRepository.findCurrentEffectiveBySource).toHaveBeenCalledWith(
-                'PAYABLE_RECORD',
-                PAYABLE_RECORD_ID,
-                ['REGISTERED', 'CONFIRMED', 'INCLUDED']
-            );
+            expect(projectActualCostRecordRepository.findCurrentEffectiveBySource).toHaveBeenCalledWith('PAYABLE_RECORD', PAYABLE_RECORD_ID, ['REGISTERED', 'CONFIRMED', 'INCLUDED']);
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     costType: 'PROCUREMENT',
@@ -1128,9 +1113,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks procurement mapping for non-formal payable states', async () => {
-            contractFinanceRepository.findPayableById.mockResolvedValue(
-                makePayableRecord({ status: 'draft' }) as never
-            );
+            contractFinanceRepository.findPayableById.mockResolvedValue(makePayableRecord({ status: 'draft' }) as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
             await expect(
@@ -1151,20 +1134,17 @@ describe('ProjectCostService', () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
             contractFinanceRepository.findContractById.mockResolvedValue(makeContract() as never);
 
-            const result = await service.createExpenseRecord(
-                PROJECT_ID,
-                {
-                    contractId: CONTRACT_ID,
-                    expenseCategory: 'travel',
-                    expenseDescription: ' Taxi reimbursement ',
-                    expenseDate: '2023-05-10',
-                    amountIncludingTax: '1234.56',
-                    taxAmount: '123.45',
-                    amountExcludingTax: '1111.11',
-                    evidenceSummary: 'receipt attached',
-                    attachmentCount: 2
-                }
-            );
+            const result = await service.createExpenseRecord(PROJECT_ID, {
+                contractId: CONTRACT_ID,
+                expenseCategory: 'travel',
+                expenseDescription: ' Taxi reimbursement ',
+                expenseDate: '2023-05-10',
+                amountIncludingTax: '1234.56',
+                taxAmount: '123.45',
+                amountExcludingTax: '1111.11',
+                evidenceSummary: 'receipt attached',
+                attachmentCount: 2
+            });
 
             expect(expenseRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -1189,17 +1169,14 @@ describe('ProjectCostService', () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
 
             await expect(
-                service.createExpenseRecord(
-                    PROJECT_ID,
-                    {
-                        expenseCategory: 'travel',
-                        expenseDescription: 'Taxi reimbursement',
-                        expenseDate: '2023-05-10',
-                        amountIncludingTax: '1234.56',
-                        taxAmount: '100.00',
-                        amountExcludingTax: '1000.00'
-                    }
-                )
+                service.createExpenseRecord(PROJECT_ID, {
+                    expenseCategory: 'travel',
+                    expenseDescription: 'Taxi reimbursement',
+                    expenseDate: '2023-05-10',
+                    amountIncludingTax: '1234.56',
+                    taxAmount: '100.00',
+                    amountExcludingTax: '1000.00'
+                })
             ).rejects.toThrow(UnprocessableEntityException);
         });
 
@@ -1242,9 +1219,7 @@ describe('ProjectCostService', () => {
         });
 
         it('voids an expense record with appended reason/comment', async () => {
-            expenseRecordRepository.findById.mockResolvedValue(
-                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
-            );
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never);
 
             const result = await service.voidExpenseRecord(EXPENSE_RECORD_ID, {
                 reason: 'duplicate',
@@ -1258,9 +1233,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks voiding a mapped expense record', async () => {
-            expenseRecordRepository.findById.mockResolvedValue(
-                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
-            );
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
 
             await expect(
@@ -1272,9 +1245,7 @@ describe('ProjectCostService', () => {
         });
 
         it('hides expense actions once a current project cost mapping exists', async () => {
-            expenseRecordRepository.findById.mockResolvedValue(
-                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
-            );
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
 
             const result = await service.getExpenseRecordDetail(EXPENSE_RECORD_ID);
@@ -1348,61 +1319,59 @@ describe('ProjectCostService', () => {
 
     describe('getProjectActualCostRecordDetail', () => {
         it('returns labor detail with replacement chain and allowed actions', async () => {
-            projectActualCostRecordRepository.findById.mockResolvedValue(
-                {
-                    id: RECORD_ID,
-                    projectId: PROJECT_ID,
-                    recordNo: 'LABOR-1',
-                    costType: 'LABOR',
-                    costSubtype: null,
-                    occurredOn: '2023-01-01',
-                    accountingPeriod: null,
-                    registeredAt: new Date('2023-01-31T12:00:00.000Z'),
-                    confirmedAt: null,
-                    includedAt: null,
-                    executionStageCode: null,
-                    stageDerivedFromType: null,
-                    stageDerivedFromId: null,
-                    stageDerivedAt: null,
-                    stageLockedAt: null,
-                    currency: 'CNY',
-                    amountExcludingTax: '20000.0000',
-                    taxCostAmount: '0.0000',
-                    amountIncludingTax: '20000.0000',
-                    recordStatus: 'REGISTERED',
-                    isIncludedInProjectCost: false,
-                    isHighRisk: false,
-                    sourceType: 'LABOR',
-                    sourceId: RATE_VERSION_ID,
-                    sourceRefNo: 'ROLE:dev:DAY',
-                    evidenceSummary: null,
-                    attachmentCount: 0,
-                    registeredBy: USER_ID,
-                    confirmedBy: null,
-                    includedBy: null,
-                    ownerRole: null,
-                    costDescription: null,
-                    taxImpactSummary: null,
-                    riskNote: null,
-                    supersedesRecordId: null,
-                    voidReason: null,
-                    laborPersonId: null,
-                    laborRole: 'dev',
-                    laborPeriodType: 'MONTH',
-                    laborPeriodStart: '2023-01-01',
-                    laborPeriodEnd: '2023-01-31',
-                    actualHours: null,
-                    actualPersonDays: '20',
-                    internalCostRate: '1000.0000',
-                    laborAmount: '20000.0000',
-                    workSummary: 'delivery support',
-                    deliveryStage: null,
-                    rateVersionId: RATE_VERSION_ID,
-                    rowVersion: 1,
-                    createdAt: new Date('2023-01-31T12:00:00.000Z'),
-                    updatedAt: new Date('2023-01-31T12:00:00.000Z')
-                } as never
-            );
+            projectActualCostRecordRepository.findById.mockResolvedValue({
+                id: RECORD_ID,
+                projectId: PROJECT_ID,
+                recordNo: 'LABOR-1',
+                costType: 'LABOR',
+                costSubtype: null,
+                occurredOn: '2023-01-01',
+                accountingPeriod: null,
+                registeredAt: new Date('2023-01-31T12:00:00.000Z'),
+                confirmedAt: null,
+                includedAt: null,
+                executionStageCode: null,
+                stageDerivedFromType: null,
+                stageDerivedFromId: null,
+                stageDerivedAt: null,
+                stageLockedAt: null,
+                currency: 'CNY',
+                amountExcludingTax: '20000.0000',
+                taxCostAmount: '0.0000',
+                amountIncludingTax: '20000.0000',
+                recordStatus: 'REGISTERED',
+                isIncludedInProjectCost: false,
+                isHighRisk: false,
+                sourceType: 'LABOR',
+                sourceId: RATE_VERSION_ID,
+                sourceRefNo: 'ROLE:dev:DAY',
+                evidenceSummary: null,
+                attachmentCount: 0,
+                registeredBy: USER_ID,
+                confirmedBy: null,
+                includedBy: null,
+                ownerRole: null,
+                costDescription: null,
+                taxImpactSummary: null,
+                riskNote: null,
+                supersedesRecordId: null,
+                voidReason: null,
+                laborPersonId: null,
+                laborRole: 'dev',
+                laborPeriodType: 'MONTH',
+                laborPeriodStart: '2023-01-01',
+                laborPeriodEnd: '2023-01-31',
+                actualHours: null,
+                actualPersonDays: '20',
+                internalCostRate: '1000.0000',
+                laborAmount: '20000.0000',
+                workSummary: 'delivery support',
+                deliveryStage: null,
+                rateVersionId: RATE_VERSION_ID,
+                rowVersion: 1,
+                createdAt: new Date('2023-01-31T12:00:00.000Z'),
+                updatedAt: new Date('2023-01-31T12:00:00.000Z')
+            } as never);
             internalCostRateVersionRepository.findById.mockResolvedValue(makeRateVersion() as never);
             projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue({ id: REPLACEMENT_RECORD_ID } as never);
 
@@ -1421,61 +1390,59 @@ describe('ProjectCostService', () => {
         });
 
         it('returns invoice detail with source summary', async () => {
-            projectActualCostRecordRepository.findById.mockResolvedValue(
-                {
-                    id: RECORD_ID,
-                    projectId: PROJECT_ID,
-                    recordNo: 'INVOICE-1',
-                    costType: 'INVOICE',
-                    costSubtype: 'input',
-                    occurredOn: '2023-04-02',
-                    accountingPeriod: null,
-                    registeredAt: new Date('2023-04-03T10:00:00.000Z'),
-                    confirmedAt: new Date('2023-04-03T10:00:00.000Z'),
-                    includedAt: null,
-                    executionStageCode: null,
-                    stageDerivedFromType: null,
-                    stageDerivedFromId: null,
-                    stageDerivedAt: null,
-                    stageLockedAt: null,
-                    currency: 'CNY',
-                    amountExcludingTax: null,
-                    taxCostAmount: null,
-                    amountIncludingTax: '3210.5000',
-                    recordStatus: 'CONFIRMED',
-                    isIncludedInProjectCost: false,
-                    isHighRisk: false,
-                    sourceType: 'INVOICE_RECORD',
-                    sourceId: INVOICE_RECORD_ID,
-                    sourceRefNo: 'INV-2026-0001',
-                    evidenceSummary: 'invoice pdf archived',
-                    attachmentCount: 0,
-                    registeredBy: USER_ID,
-                    confirmedBy: USER_ID,
-                    includedBy: null,
-                    ownerRole: null,
-                    costDescription: 'mapped from verified invoice',
-                    taxImpactSummary: 'vat pending deduction',
-                    riskNote: null,
-                    supersedesRecordId: null,
-                    voidReason: null,
-                    laborPersonId: null,
-                    laborRole: null,
-                    laborPeriodType: null,
-                    laborPeriodStart: null,
-                    laborPeriodEnd: null,
-                    actualHours: null,
-                    actualPersonDays: null,
-                    internalCostRate: null,
-                    laborAmount: null,
-                    workSummary: null,
-                    deliveryStage: null,
-                    rateVersionId: null,
-                    rowVersion: 1,
-                    createdAt: new Date('2023-04-03T10:00:00.000Z'),
-                    updatedAt: new Date('2023-04-03T10:00:00.000Z')
-                } as never
-            );
+            projectActualCostRecordRepository.findById.mockResolvedValue({
+                id: RECORD_ID,
+                projectId: PROJECT_ID,
+                recordNo: 'INVOICE-1',
+                costType: 'INVOICE',
+                costSubtype: 'input',
+                occurredOn: '2023-04-02',
+                accountingPeriod: null,
+                registeredAt: new Date('2023-04-03T10:00:00.000Z'),
+                confirmedAt: new Date('2023-04-03T10:00:00.000Z'),
+                includedAt: null,
+                executionStageCode: null,
+                stageDerivedFromType: null,
+                stageDerivedFromId: null,
+                stageDerivedAt: null,
+                stageLockedAt: null,
+                currency: 'CNY',
+                amountExcludingTax: null,
+                taxCostAmount: null,
+                amountIncludingTax: '3210.5000',
+                recordStatus: 'CONFIRMED',
+                isIncludedInProjectCost: false,
+                isHighRisk: false,
+                sourceType: 'INVOICE_RECORD',
+                sourceId: INVOICE_RECORD_ID,
+                sourceRefNo: 'INV-2026-0001',
+                evidenceSummary: 'invoice pdf archived',
+                attachmentCount: 0,
+                registeredBy: USER_ID,
+                confirmedBy: USER_ID,
+                includedBy: null,
+                ownerRole: null,
+                costDescription: 'mapped from verified invoice',
+                taxImpactSummary: 'vat pending deduction',
+                riskNote: null,
+                supersedesRecordId: null,
+                voidReason: null,
+                laborPersonId: null,
+                laborRole: null,
+                laborPeriodType: null,
+                laborPeriodStart: null,
+                laborPeriodEnd: null,
+                actualHours: null,
+                actualPersonDays: null,
+                internalCostRate: null,
+                laborAmount: null,
+                workSummary: null,
+                deliveryStage: null,
+                rateVersionId: null,
+                rowVersion: 1,
+                createdAt: new Date('2023-04-03T10:00:00.000Z'),
+                updatedAt: new Date('2023-04-03T10:00:00.000Z')
+            } as never);
             contractFinanceRepository.findInvoiceById.mockResolvedValue(makeInvoiceRecord() as never);
             projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
 
@@ -1488,64 +1455,60 @@ describe('ProjectCostService', () => {
         });
 
         it('returns expense detail with source summary', async () => {
-            projectActualCostRecordRepository.findById.mockResolvedValue(
-                {
-                    id: RECORD_ID,
-                    projectId: PROJECT_ID,
-                    recordNo: 'EXPENSE-1',
-                    costType: 'EXPENSE',
-                    costSubtype: 'travel',
-                    occurredOn: '2023-05-10',
-                    accountingPeriod: null,
-                    registeredAt: new Date('2023-05-11T10:00:00.000Z'),
-                    confirmedAt: new Date('2023-05-11T10:00:00.000Z'),
-                    includedAt: null,
-                    executionStageCode: null,
-                    stageDerivedFromType: null,
-                    stageDerivedFromId: null,
-                    stageDerivedAt: null,
-                    stageLockedAt: null,
-                    currency: 'CNY',
-                    amountExcludingTax: '1111.1100',
-                    taxCostAmount: '123.4500',
-                    amountIncludingTax: '1234.5600',
-                    recordStatus: 'CONFIRMED',
-                    isIncludedInProjectCost: false,
-                    isHighRisk: false,
-                    sourceType: 'EXPENSE_RECORD',
-                    sourceId: EXPENSE_RECORD_ID,
-                    sourceRefNo: EXPENSE_RECORD_ID,
-                    evidenceSummary: 'receipt archived',
-                    attachmentCount: 2,
-                    registeredBy: USER_ID,
-                    confirmedBy: USER_ID,
-                    includedBy: null,
-                    ownerRole: null,
-                    costDescription: 'mapped from confirmed expense',
-                    taxImpactSummary: 'manual expense pending tax review',
-                    riskNote: null,
-                    supersedesRecordId: null,
-                    voidReason: null,
-                    laborPersonId: null,
-                    laborRole: null,
-                    laborPeriodType: null,
-                    laborPeriodStart: null,
-                    laborPeriodEnd: null,
-                    actualHours: null,
-                    actualPersonDays: null,
-                    internalCostRate: null,
-                    laborAmount: null,
-                    workSummary: null,
-                    deliveryStage: null,
-                    rateVersionId: null,
-                    rowVersion: 1,
-                    createdAt: new Date('2023-05-11T10:00:00.000Z'),
-                    updatedAt: new Date('2023-05-11T10:00:00.000Z')
-                } as never
-            );
-            expenseRecordRepository.findById.mockResolvedValue(
-                makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never
-            );
+            projectActualCostRecordRepository.findById.mockResolvedValue({
+                id: RECORD_ID,
+                projectId: PROJECT_ID,
+                recordNo: 'EXPENSE-1',
+                costType: 'EXPENSE',
+                costSubtype: 'travel',
+                occurredOn: '2023-05-10',
+                accountingPeriod: null,
+                registeredAt: new Date('2023-05-11T10:00:00.000Z'),
+                confirmedAt: new Date('2023-05-11T10:00:00.000Z'),
+                includedAt: null,
+                executionStageCode: null,
+                stageDerivedFromType: null,
+                stageDerivedFromId: null,
+                stageDerivedAt: null,
+                stageLockedAt: null,
+                currency: 'CNY',
+                amountExcludingTax: '1111.1100',
+                taxCostAmount: '123.4500',
+                amountIncludingTax: '1234.5600',
+                recordStatus: 'CONFIRMED',
+                isIncludedInProjectCost: false,
+                isHighRisk: false,
+                sourceType: 'EXPENSE_RECORD',
+                sourceId: EXPENSE_RECORD_ID,
+                sourceRefNo: EXPENSE_RECORD_ID,
+                evidenceSummary: 'receipt archived',
+                attachmentCount: 2,
+                registeredBy: USER_ID,
+                confirmedBy: USER_ID,
+                includedBy: null,
+                ownerRole: null,
+                costDescription: 'mapped from confirmed expense',
+                taxImpactSummary: 'manual expense pending tax review',
+                riskNote: null,
+                supersedesRecordId: null,
+                voidReason: null,
+                laborPersonId: null,
+                laborRole: null,
+                laborPeriodType: null,
+                laborPeriodStart: null,
+                laborPeriodEnd: null,
+                actualHours: null,
+                actualPersonDays: null,
+                internalCostRate: null,
+                laborAmount: null,
+                workSummary: null,
+                deliveryStage: null,
+                rateVersionId: null,
+                rowVersion: 1,
+                createdAt: new Date('2023-05-11T10:00:00.000Z'),
+                updatedAt: new Date('2023-05-11T10:00:00.000Z')
+            } as never);
+            expenseRecordRepository.findById.mockResolvedValue(makeExpenseRecord({ status: 'confirmed', confirmedAt: new Date(), confirmedBy: USER_ID }) as never);
             projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
 
             const result = await service.getProjectActualCostRecordDetail(RECORD_ID);
@@ -1557,64 +1520,60 @@ describe('ProjectCostService', () => {
         });
 
         it('returns procurement detail with source summary', async () => {
-            projectActualCostRecordRepository.findById.mockResolvedValue(
-                {
-                    id: RECORD_ID,
-                    projectId: PROJECT_ID,
-                    recordNo: 'PROCUREMENT-1',
-                    costType: 'PROCUREMENT',
-                    costSubtype: 'hardware',
-                    occurredOn: '2023-06-15',
-                    accountingPeriod: null,
-                    registeredAt: new Date('2023-06-01T10:00:00.000Z'),
-                    confirmedAt: null,
-                    includedAt: null,
-                    executionStageCode: null,
-                    stageDerivedFromType: null,
-                    stageDerivedFromId: null,
-                    stageDerivedAt: null,
-                    stageLockedAt: null,
-                    currency: 'CNY',
-                    amountExcludingTax: '4567.8900',
-                    taxCostAmount: null,
-                    amountIncludingTax: null,
-                    recordStatus: 'REGISTERED',
-                    isIncludedInProjectCost: false,
-                    isHighRisk: false,
-                    sourceType: 'PAYABLE_RECORD',
-                    sourceId: PAYABLE_RECORD_ID,
-                    sourceRefNo: PAYABLE_RECORD_ID,
-                    evidenceSummary: 'quotation archived',
-                    attachmentCount: 1,
-                    registeredBy: USER_ID,
-                    confirmedBy: null,
-                    includedBy: null,
-                    ownerRole: null,
-                    costDescription: 'mapped from approved commitment',
-                    taxImpactSummary: 'tax impact pending invoice',
-                    riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
-                    supersedesRecordId: null,
-                    voidReason: null,
-                    laborPersonId: null,
-                    laborRole: null,
-                    laborPeriodType: null,
-                    laborPeriodStart: null,
-                    laborPeriodEnd: null,
-                    actualHours: null,
-                    actualPersonDays: null,
-                    internalCostRate: null,
-                    laborAmount: null,
-                    workSummary: null,
-                    deliveryStage: null,
-                    rateVersionId: null,
-                    rowVersion: 1,
-                    createdAt: new Date('2023-06-01T10:00:00.000Z'),
-                    updatedAt: new Date('2023-06-01T10:00:00.000Z')
-                } as never
-            );
-            contractFinanceRepository.findPayableById.mockResolvedValue(
-                makePayableRecord({ status: 'partially-paid' }) as never
-            );
+            projectActualCostRecordRepository.findById.mockResolvedValue({
+                id: RECORD_ID,
+                projectId: PROJECT_ID,
+                recordNo: 'PROCUREMENT-1',
+                costType: 'PROCUREMENT',
+                costSubtype: 'hardware',
+                occurredOn: '2023-06-15',
+                accountingPeriod: null,
+                registeredAt: new Date('2023-06-01T10:00:00.000Z'),
+                confirmedAt: null,
+                includedAt: null,
+                executionStageCode: null,
+                stageDerivedFromType: null,
+                stageDerivedFromId: null,
+                stageDerivedAt: null,
+                stageLockedAt: null,
+                currency: 'CNY',
+                amountExcludingTax: '4567.8900',
+                taxCostAmount: null,
+                amountIncludingTax: null,
+                recordStatus: 'REGISTERED',
+                isIncludedInProjectCost: false,
+                isHighRisk: false,
+                sourceType: 'PAYABLE_RECORD',
+                sourceId: PAYABLE_RECORD_ID,
+                sourceRefNo: PAYABLE_RECORD_ID,
+                evidenceSummary: 'quotation archived',
+                attachmentCount: 1,
+                registeredBy: USER_ID,
+                confirmedBy: null,
+                includedBy: null,
+                ownerRole: null,
+                costDescription: 'mapped from approved commitment',
+                taxImpactSummary: 'tax impact pending invoice',
+                riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
+                supersedesRecordId: null,
+                voidReason: null,
+                laborPersonId: null,
+                laborRole: null,
+                laborPeriodType: null,
+                laborPeriodStart: null,
+                laborPeriodEnd: null,
+                actualHours: null,
+                actualPersonDays: null,
+                internalCostRate: null,
+                laborAmount: null,
+                workSummary: null,
+                deliveryStage: null,
+                rateVersionId: null,
+                rowVersion: 1,
+                createdAt: new Date('2023-06-01T10:00:00.000Z'),
+                updatedAt: new Date('2023-06-01T10:00:00.000Z')
+            } as never);
+            contractFinanceRepository.findPayableById.mockResolvedValue(makePayableRecord({ status: 'partially-paid' }) as never);
             projectActualCostRecordRepository.findReplacementBySupersedesRecordId.mockResolvedValue(null);
 
             const result = await service.getProjectActualCostRecordDetail(RECORD_ID);
@@ -1729,9 +1688,7 @@ describe('ProjectCostService', () => {
         it('requires an effective project-owned handover rebaseline record for period closing snapshots', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
             periodClosingSnapshotRepository.findActiveByProjectAndPeriod.mockResolvedValue(null);
-            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(
-                { id: HANDOVER_REBASELINE_RECORD_ID, projectId: PROJECT_ID, status: 'effective' } as never
-            );
+            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue({ id: HANDOVER_REBASELINE_RECORD_ID, projectId: PROJECT_ID, status: 'effective' } as never);
 
             const result = await service.createPeriodClosingSnapshot(
                 {
@@ -1818,9 +1775,7 @@ describe('ProjectCostService', () => {
 
         it('rejects handover rebaseline snapshot creation when the record belongs to another project', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
-            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(
-                { id: HANDOVER_REBASELINE_RECORD_ID, projectId: '99999999-0000-4000-8000-000000000000', status: 'effective' } as never
-            );
+            contractHandoverRebaselineRecordRepository.findById.mockResolvedValue({ id: HANDOVER_REBASELINE_RECORD_ID, projectId: '99999999-0000-4000-8000-000000000000', status: 'effective' } as never);
 
             await expect(
                 service.createProjectOperatingSnapshot(
@@ -1982,13 +1937,16 @@ describe('ProjectCostService', () => {
             const superseded = makeSharedCostAllocationResult({ rowVersion: 2 });
             sharedCostAllocationResultRepository.findById.mockResolvedValue(superseded as never);
             sharedCostAllocationResultRepository.findActiveByBasisAndProject.mockResolvedValue(superseded as never);
-            sharedCostAllocationResultRepository.create.mockImplementation((input) => ({
-                id: REPLACEMENT_SHARED_COST_RESULT_ID,
-                rowVersion: 1,
-                createdAt: new Date('2023-08-04T00:00:00.000Z'),
-                updatedAt: new Date('2023-08-04T00:00:00.000Z'),
-                ...input
-            }) as never);
+            sharedCostAllocationResultRepository.create.mockImplementation(
+                (input) =>
+                    ({
+                        id: REPLACEMENT_SHARED_COST_RESULT_ID,
+                        rowVersion: 1,
+                        createdAt: new Date('2023-08-04T00:00:00.000Z'),
+                        updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+                        ...input
+                    }) as never
+            );
 
             const result = await service.replaceSharedCostAllocationResult(
                 SHARED_COST_RESULT_ID,
@@ -2013,11 +1971,7 @@ describe('ProjectCostService', () => {
                 })
             );
             expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
-            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
-                expect.any(Function),
-                { id: SHARED_COST_RESULT_ID },
-                { status: 'superseded', updatedBy: USER_ID }
-            );
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(expect.any(Function), { id: SHARED_COST_RESULT_ID }, { status: 'superseded', updatedBy: USER_ID });
             expect(result.targetType).toBe('SharedCostAllocationResult');
             expect(result.targetId).toEqual(expect.any(String));
         });
@@ -2075,13 +2029,16 @@ describe('ProjectCostService', () => {
             };
             costStageAttributionSnapshotRepository.findById.mockResolvedValue(superseded as never);
             projectActualCostRecordRepository.findById.mockResolvedValue(costRecord as never);
-            costStageAttributionSnapshotRepository.create.mockImplementation((input) => ({
-                id: RECLASSIFIED_STAGE_ATTRIBUTION_ID,
-                rowVersion: 1,
-                createdAt: new Date('2023-08-04T00:00:00.000Z'),
-                updatedAt: new Date('2023-08-04T00:00:00.000Z'),
-                ...input
-            }) as never);
+            costStageAttributionSnapshotRepository.create.mockImplementation(
+                (input) =>
+                    ({
+                        id: RECLASSIFIED_STAGE_ATTRIBUTION_ID,
+                        rowVersion: 1,
+                        createdAt: new Date('2023-08-04T00:00:00.000Z'),
+                        updatedAt: new Date('2023-08-04T00:00:00.000Z'),
+                        ...input
+                    }) as never
+            );
 
             const result = await service.reclassifyCostStageAttribution(
                 STAGE_ATTRIBUTION_ID,
@@ -2104,11 +2061,7 @@ describe('ProjectCostService', () => {
             expect(costRecord.executionStageCode).toBe('acceptance');
             expect(costRecord.stageDerivedFromId).toBe(result.targetId);
             expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
-            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
-                expect.any(Function),
-                { id: STAGE_ATTRIBUTION_ID },
-                { status: 'superseded', updatedBy: USER_ID }
-            );
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(expect.any(Function), { id: STAGE_ATTRIBUTION_ID }, { status: 'superseded', updatedBy: USER_ID });
             expect(result.targetType).toBe('CostStageAttributionSnapshot');
         });
 
@@ -2150,13 +2103,16 @@ describe('ProjectCostService', () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
             accountingTaxTreatmentSnapshotRepository.findById.mockResolvedValue(superseded as never);
             accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType.mockResolvedValue(superseded as never);
-            accountingTaxTreatmentSnapshotRepository.create.mockImplementation((input) => ({
-                id: REPLACEMENT_TAX_TREATMENT_ID,
-                rowVersion: 1,
-                createdAt: new Date('2023-08-05T00:00:00.000Z'),
-                updatedAt: new Date('2023-08-05T00:00:00.000Z'),
-                ...input
-            }) as never);
+            accountingTaxTreatmentSnapshotRepository.create.mockImplementation(
+                (input) =>
+                    ({
+                        id: REPLACEMENT_TAX_TREATMENT_ID,
+                        rowVersion: 1,
+                        createdAt: new Date('2023-08-05T00:00:00.000Z'),
+                        updatedAt: new Date('2023-08-05T00:00:00.000Z'),
+                        ...input
+                    }) as never
+            );
 
             const result = await service.replaceAccountingTaxTreatment(
                 TAX_TREATMENT_ID,
@@ -2186,11 +2142,7 @@ describe('ProjectCostService', () => {
                 })
             );
             expect(projectActualCostRecordRepository.transactional).toHaveBeenCalled();
-            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(
-                expect.any(Function),
-                { id: TAX_TREATMENT_ID },
-                { status: 'superseded', updatedBy: USER_ID }
-            );
+            expect(transactionalEntityManager.nativeUpdate).toHaveBeenCalledWith(expect.any(Function), { id: TAX_TREATMENT_ID }, { status: 'superseded', updatedBy: USER_ID });
             expect(result.targetType).toBe('AccountingTaxTreatmentSnapshot');
             expect(result.targetId).toEqual(expect.any(String));
         });
@@ -2285,9 +2237,7 @@ describe('ProjectCostService', () => {
         });
 
         it('rejects stale operating signal reviews when expectedVersion is outdated', async () => {
-            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(
-                makeOperatingSignalEvaluationResult({ rowVersion: 4 }) as never
-            );
+            operatingSignalEvaluationResultRepository.findById.mockResolvedValue(makeOperatingSignalEvaluationResult({ rowVersion: 4 }) as never);
 
             await expect(
                 service.reviewOperatingSignalEvaluation(
@@ -2437,9 +2387,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks commission gate review payloads that omit blockingReasonCode for BLOCK', async () => {
-            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(
-                makeOperatingSignalToCommissionGateBinding({ rowVersion: 2, bindingAction: 'REVIEW' }) as never
-            );
+            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(makeOperatingSignalToCommissionGateBinding({ rowVersion: 2, bindingAction: 'REVIEW' }) as never);
 
             await expect(
                 service.reviewCommissionGateBinding(
@@ -2558,19 +2506,28 @@ describe('ProjectCostService', () => {
             dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(dataMaturity as never);
             operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(evaluation as never);
 
-            const result = await service.getProjectBusinessOutcomeOverview(
-                PROJECT_ID,
-                OPERATING_FINANCE_MASKED_USER,
-                { path: `/projects/${PROJECT_ID}/business-outcome-overview`, method: 'GET' }
-            );
+            const result = await service.getProjectBusinessOutcomeOverview(PROJECT_ID, OPERATING_FINANCE_MASKED_USER, { path: `/projects/${PROJECT_ID}/business-outcome-overview`, method: 'GET' });
 
             expect(result).not.toHaveProperty('effectiveContractSetSummary');
             expect(result).not.toHaveProperty('receivableConfirmedAmountSummary');
             expect(result).not.toHaveProperty('includedCostTotalSummary');
             expect(result).not.toHaveProperty('currentEffectiveBaselineCostSummary');
             expect(result).not.toHaveProperty('grossMarginSummary');
+            expect(result).not.toHaveProperty('grossMarginSummaryProjection');
             expect(result).not.toHaveProperty('taxImpactSummary');
             expect(result.effectiveContractSetSummaryProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            });
+            expect(result.grossMarginAmountProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            });
+            expect(result.grossMarginRateProjection).toMatchObject({
                 fieldPackageKey: 'operating-finance',
                 mode: 'masked',
                 value: null,
@@ -2589,6 +2546,24 @@ describe('ProjectCostService', () => {
                     })
                 })
             );
+            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    fieldPackageKey: 'operating-finance',
+                    rawValue: '80000.0000',
+                    user: OPERATING_FINANCE_MASKED_USER,
+                    targetType: 'Project',
+                    targetId: PROJECT_ID
+                })
+            );
+            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    fieldPackageKey: 'operating-finance',
+                    rawValue: '0.400000',
+                    user: OPERATING_FINANCE_MASKED_USER,
+                    targetType: 'Project',
+                    targetId: PROJECT_ID
+                })
+            );
         });
 
         it('returns full projection fields for unified accounting and variance views with sensitive permission', async () => {
@@ -2605,16 +2580,8 @@ describe('ProjectCostService', () => {
             dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(dataMaturity as never);
             operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(evaluation as never);
 
-            const unifiedAccounting = await service.getProjectUnifiedAccounting(
-                PROJECT_ID,
-                OPERATING_FINANCE_USER,
-                { path: `/projects/${PROJECT_ID}/unified-accounting`, method: 'GET' }
-            );
-            const varianceRisk = await service.getProjectVarianceRiskExplanation(
-                PROJECT_ID,
-                OPERATING_FINANCE_USER,
-                { path: `/projects/${PROJECT_ID}/variance-risk-explanation`, method: 'GET' }
-            );
+            const unifiedAccounting = await service.getProjectUnifiedAccounting(PROJECT_ID, OPERATING_FINANCE_USER, { path: `/projects/${PROJECT_ID}/unified-accounting`, method: 'GET' });
+            const varianceRisk = await service.getProjectVarianceRiskExplanation(PROJECT_ID, OPERATING_FINANCE_USER, { path: `/projects/${PROJECT_ID}/variance-risk-explanation`, method: 'GET' });
 
             expect(unifiedAccounting).toMatchObject({
                 originalBaselineCostSummaryProjection: {
@@ -2714,9 +2681,7 @@ describe('ProjectCostService', () => {
         });
 
         it('blocks labor records that cross the selected rate version period', async () => {
-            internalCostRateVersionRepository.findById.mockResolvedValue(
-                makeRateVersion({ effectiveTo: new Date('2023-01-15T00:00:00.000Z') }) as never
-            );
+            internalCostRateVersionRepository.findById.mockResolvedValue(makeRateVersion({ effectiveTo: new Date('2023-01-15T00:00:00.000Z') }) as never);
 
             await expect(
                 service.registerLaborCostRecord(

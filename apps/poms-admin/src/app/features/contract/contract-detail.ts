@@ -13,7 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { SectionCard } from '../../shared/ui/sectioncard';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT, formatSensitiveAmountProjection, isSensitiveProjectionFull } from '../../shared/ui/sensitive-visibility';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 @Component({
@@ -190,7 +190,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ canManageContractFinance() ? (snapshot.taxRate ? (+snapshot.taxRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
+                                        {{ formatSensitiveRatioProjection(snapshot.taxRateProjection) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
@@ -208,13 +208,13 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">首付款比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ canManageContractFinance() ? (snapshot.downPaymentRate ? (+snapshot.downPaymentRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
+                                        {{ formatSensitiveRatioProjection(snapshot.downPaymentRateProjection) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">质保金比例</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
-                                        {{ canManageContractFinance() ? (snapshot.retentionRate ? (+snapshot.retentionRate * 100 | number: '1.2-2') + '%' : '-') : sensitiveFieldHiddenText }}
+                                        {{ formatSensitiveRatioProjection(snapshot.retentionRateProjection) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
@@ -226,7 +226,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                                 <div class="flex flex-col gap-1 xl:col-span-2">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">付款条款</span>
                                     <span class="text-sm text-surface-950 dark:text-surface-0 whitespace-pre-wrap">
-                                        {{ canManageContractFinance() ? (snapshot.paymentTerms ?? '-') : sensitiveFieldHiddenText }}
+                                        {{ sensitiveProjectionDisplayText(snapshot.paymentTermsProjection, '-') }}
                                     </span>
                                 </div>
                             </div>
@@ -401,8 +401,9 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly currentUser = computed(() => this.#authStore.currentUser());
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
     readonly canManageContractFinance = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
-    readonly sensitiveFieldHiddenText = FINANCIAL_SENSITIVE_FIELD_HIDDEN_TEXT;
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
+    readonly formatSensitiveRatioProjection = formatSensitiveRatioProjection;
+    readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
     readonly canReadContractSignedAmount = computed(() => isSensitiveProjectionFull(this.contract()?.signedAmountProjection));
     readonly canEditContract = computed(() => this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
     readonly canSubmitReview = computed(() => this.canManageContractFinance() && this.contract()?.status === 'draft');

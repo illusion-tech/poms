@@ -164,12 +164,7 @@ export class ProjectCostService {
             throw new ConflictException(`Rate key ${rateKey} already has a current version; publish a superseding version instead`);
         }
 
-        const overlapping = await this.internalCostRateVersionRepository.findOverlappingActiveVersion(
-            rateKey,
-            effectiveFrom,
-            effectiveTo,
-            supersededRateVersion?.id
-        );
+        const overlapping = await this.internalCostRateVersionRepository.findOverlappingActiveVersion(rateKey, effectiveFrom, effectiveTo, supersededRateVersion?.id);
         if (overlapping) {
             throw new ConflictException(`A rate version is already active for this period`);
         }
@@ -219,11 +214,7 @@ export class ProjectCostService {
         };
     }
 
-    async createProjectActualCostRecord(
-        projectId: string,
-        input: CreateProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async createProjectActualCostRecord(projectId: string, input: CreateProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         switch (input.costType) {
             case 'PAYMENT_FACT':
                 return this.registerPaymentFactCostRecord(projectId, input, userId);
@@ -238,11 +229,7 @@ export class ProjectCostService {
         }
     }
 
-    async registerPaymentFactCostRecord(
-        projectId: string,
-        input: CreatePaymentFactProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async registerPaymentFactCostRecord(projectId: string, input: CreatePaymentFactProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         const paymentRecord = await this.contractFinanceRepository.findPaymentById(input.paymentRecordId);
         if (!paymentRecord) {
             throw new NotFoundException(`PaymentRecord ${input.paymentRecordId} not found`);
@@ -306,11 +293,7 @@ export class ProjectCostService {
         };
     }
 
-    async registerInvoiceCostRecord(
-        projectId: string,
-        input: CreateInvoiceProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async registerInvoiceCostRecord(projectId: string, input: CreateInvoiceProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         const invoiceRecord = await this.contractFinanceRepository.findInvoiceById(input.invoiceRecordId);
         if (!invoiceRecord) {
             throw new NotFoundException(`InvoiceRecord ${input.invoiceRecordId} not found`);
@@ -373,11 +356,7 @@ export class ProjectCostService {
         };
     }
 
-    async registerExpenseCostRecord(
-        projectId: string,
-        input: CreateExpenseProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async registerExpenseCostRecord(projectId: string, input: CreateExpenseProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         const expenseRecord = await this.expenseRecordRepository.findById(input.expenseRecordId);
         if (!expenseRecord) {
             throw new NotFoundException(`ExpenseRecord ${input.expenseRecordId} not found`);
@@ -440,11 +419,7 @@ export class ProjectCostService {
         };
     }
 
-    async registerProcurementCostRecord(
-        projectId: string,
-        input: CreateProcurementProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async registerProcurementCostRecord(projectId: string, input: CreateProcurementProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         const payableRecord = await this.contractFinanceRepository.findPayableById(input.payableRecordId);
         if (!payableRecord) {
             throw new NotFoundException(`PayableRecord ${input.payableRecordId} not found`);
@@ -460,11 +435,7 @@ export class ProjectCostService {
 
         this.assertPayableEligibleForCostMapping(payableRecord);
 
-        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(
-            'PAYABLE_RECORD',
-            payableRecord.id,
-            ['REGISTERED', 'CONFIRMED', 'INCLUDED']
-        );
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('PAYABLE_RECORD', payableRecord.id, ['REGISTERED', 'CONFIRMED', 'INCLUDED']);
         if (existing) {
             throw new ConflictException(`PayableRecord ${input.payableRecordId} already has a current procurement mapping`);
         }
@@ -521,10 +492,7 @@ export class ProjectCostService {
         if (!record) {
             throw new NotFoundException(`ExpenseRecord ${id} not found`);
         }
-        const hasCurrentCostMapping =
-            record.status === 'confirmed'
-                ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id))
-                : false;
+        const hasCurrentCostMapping = record.status === 'confirmed' ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id)) : false;
 
         return {
             ...this.toExpenseRecordSummary(record),
@@ -532,10 +500,7 @@ export class ProjectCostService {
         };
     }
 
-    async createExpenseRecord(
-        projectId: string,
-        input: CreateExpenseRecordRequest
-    ): Promise<ExpenseRecordSummary> {
+    async createExpenseRecord(projectId: string, input: CreateExpenseRecordRequest): Promise<ExpenseRecordSummary> {
         await this.assertExpenseProjectAndContract(projectId, input.contractId ?? null);
         this.assertExpenseAmountsConsistent(input.amountIncludingTax, input.taxAmount, input.amountExcludingTax);
 
@@ -614,11 +579,7 @@ export class ProjectCostService {
         return this.toExpenseRecordSummary(record);
     }
 
-    async confirmExpenseRecord(
-        id: string,
-        userId: string,
-        input: ConfirmExpenseRecordRequest
-    ): Promise<ExpenseRecordSummary> {
+    async confirmExpenseRecord(id: string, userId: string, input: ConfirmExpenseRecordRequest): Promise<ExpenseRecordSummary> {
         const record = await this.expenseRecordRepository.findById(id);
         if (!record) {
             throw new NotFoundException(`ExpenseRecord ${id} not found`);
@@ -626,9 +587,7 @@ export class ProjectCostService {
 
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
         if (record.status !== 'recorded') {
-            throw new UnprocessableEntityException(
-                `Only recorded expense records can be confirmed, current status: ${record.status}`
-            );
+            throw new UnprocessableEntityException(`Only recorded expense records can be confirmed, current status: ${record.status}`);
         }
 
         record.status = 'confirmed';
@@ -648,14 +607,9 @@ export class ProjectCostService {
         if (record.status === 'voided') {
             throw new UnprocessableEntityException(`ExpenseRecord ${id} is already voided`);
         }
-        const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(
-            'EXPENSE_RECORD',
-            record.id
-        );
+        const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', record.id);
         if (currentMapping) {
-            throw new UnprocessableEntityException(
-                `EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`
-            );
+            throw new UnprocessableEntityException(`EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`);
         }
 
         record.status = 'voided';
@@ -677,18 +631,10 @@ export class ProjectCostService {
         }
 
         const [paymentRecord, invoiceRecord, expenseRecord, payableRecord, rateVersion, replacementRecord] = await Promise.all([
-            record.sourceType === 'PAYMENT_RECORD' && record.sourceId
-                ? this.contractFinanceRepository.findPaymentById(record.sourceId)
-                : Promise.resolve(null),
-            record.sourceType === 'INVOICE_RECORD' && record.sourceId
-                ? this.contractFinanceRepository.findInvoiceById(record.sourceId)
-                : Promise.resolve(null),
-            record.sourceType === 'EXPENSE_RECORD' && record.sourceId
-                ? this.expenseRecordRepository.findById(record.sourceId)
-                : Promise.resolve(null),
-            record.sourceType === 'PAYABLE_RECORD' && record.sourceId
-                ? this.contractFinanceRepository.findPayableById(record.sourceId)
-                : Promise.resolve(null),
+            record.sourceType === 'PAYMENT_RECORD' && record.sourceId ? this.contractFinanceRepository.findPaymentById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === 'INVOICE_RECORD' && record.sourceId ? this.contractFinanceRepository.findInvoiceById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === 'EXPENSE_RECORD' && record.sourceId ? this.expenseRecordRepository.findById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === 'PAYABLE_RECORD' && record.sourceId ? this.contractFinanceRepository.findPayableById(record.sourceId) : Promise.resolve(null),
             record.rateVersionId ? this.internalCostRateVersionRepository.findById(record.rateVersionId) : Promise.resolve(null),
             this.projectActualCostRecordRepository.findReplacementBySupersedesRecordId(record.id)
         ]);
@@ -734,10 +680,7 @@ export class ProjectCostService {
         }
 
         const originalBaselineCost = this.parseNonNegativeDecimal(input.originalBaselineCost, 'originalBaselineCost');
-        const changePackageTotal = (input.changePackages ?? []).reduce(
-            (sum, item, index) => sum + this.parseDecimal(item.changeAmount, `changePackages[${index}].changeAmount`),
-            0
-        );
+        const changePackageTotal = (input.changePackages ?? []).reduce((sum, item, index) => sum + this.parseDecimal(item.changeAmount, `changePackages[${index}].changeAmount`), 0);
         const currentEffectiveBaselineCost = originalBaselineCost + changePackageTotal;
         if (currentEffectiveBaselineCost < 0) {
             throw new UnprocessableEntityException('currentEffectiveBaselineCost must be greater than or equal to 0');
@@ -777,11 +720,7 @@ export class ProjectCostService {
         );
         await this.projectActualCostRecordRepository.transactional(async (em) => {
             if (current) {
-                await em.nativeUpdate(
-                    OperatingBaselinePackage,
-                    { id: current.id },
-                    { isCurrent: false, status: 'superseded', updatedBy: userId }
-                );
+                await em.nativeUpdate(OperatingBaselinePackage, { id: current.id }, { isCurrent: false, status: 'superseded', updatedBy: userId });
             }
 
             await em.persist([baselinePackage, ...changeBaselines]).flush();
@@ -817,11 +756,7 @@ export class ProjectCostService {
             throw new NotFoundException(`Project ${input.projectId} not found`);
         }
         this.assertNullableDateRange(input.sourceWindowStart ?? null, input.sourceWindowEnd ?? null, 'sourceWindowStart', 'sourceWindowEnd');
-        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(
-            input.projectId,
-            input.baselineSelectionSource,
-            input.handoverRebaselineRecordId ?? null
-        );
+        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(input.projectId, input.baselineSelectionSource, input.handoverRebaselineRecordId ?? null);
 
         const calculated = this.calculateOperatingSnapshotAmounts(input);
         const entity = this.projectOperatingSnapshotRepository.create({
@@ -878,11 +813,7 @@ export class ProjectCostService {
             this.assertExpectedVersion(current.rowVersion, input.expectedCurrentSnapshotVersion, 'PeriodClosingSnapshot');
             throw new ConflictException(`Project ${input.projectId} already has an active period closing snapshot for ${input.periodKey}`);
         }
-        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(
-            input.projectId,
-            input.baselineSelectionSource,
-            input.handoverRebaselineRecordId ?? null
-        );
+        const handoverRebaselineRecordId = await this.assertValidHandoverRebaselineReference(input.projectId, input.baselineSelectionSource, input.handoverRebaselineRecordId ?? null);
 
         const calculated = this.calculateOperatingSnapshotAmounts(input);
         const entity = this.periodClosingSnapshotRepository.create({
@@ -1028,18 +959,13 @@ export class ProjectCostService {
         return this.toOperatingRestatementSummary(record);
     }
 
-    async confirmSharedCostAllocationBasis(
-        input: ConfirmSharedCostAllocationBasisRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async confirmSharedCostAllocationBasis(input: ConfirmSharedCostAllocationBasisRequest, userId: string): Promise<CommandResult> {
         const uniqueSourceCostRecordIds = [...new Set(input.sourceCostRecordIds)].sort();
         if (uniqueSourceCostRecordIds.length !== input.sourceCostRecordIds.length) {
             throw new UnprocessableEntityException('sourceCostRecordIds must not contain duplicates');
         }
 
-        const sourceRecords = await Promise.all(
-            uniqueSourceCostRecordIds.map((id) => this.projectActualCostRecordRepository.findById(id))
-        );
+        const sourceRecords = await Promise.all(uniqueSourceCostRecordIds.map((id) => this.projectActualCostRecordRepository.findById(id)));
         const missingRecordId = uniqueSourceCostRecordIds[sourceRecords.findIndex((record) => !record)];
         if (missingRecordId) {
             throw new NotFoundException(`ProjectActualCostRecord ${missingRecordId} not found`);
@@ -1126,11 +1052,7 @@ export class ProjectCostService {
         return results.map((result) => this.toSharedCostAllocationResultSummary(result));
     }
 
-    async replaceSharedCostAllocationResult(
-        supersededAllocationResultId: string,
-        input: ReplaceSharedCostAllocationResultRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async replaceSharedCostAllocationResult(supersededAllocationResultId: string, input: ReplaceSharedCostAllocationResultRequest, userId: string): Promise<CommandResult> {
         const superseded = await this.sharedCostAllocationResultRepository.findById(supersededAllocationResultId);
         if (!superseded) {
             throw new NotFoundException(`SharedCostAllocationResult ${supersededAllocationResultId} not found`);
@@ -1140,10 +1062,7 @@ export class ProjectCostService {
         }
         this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'SharedCostAllocationResult');
 
-        const active = await this.sharedCostAllocationResultRepository.findActiveByBasisAndProject(
-            superseded.basisId,
-            superseded.projectId
-        );
+        const active = await this.sharedCostAllocationResultRepository.findActiveByBasisAndProject(superseded.basisId, superseded.projectId);
         if (active && active.id !== superseded.id) {
             throw new ConflictException(`Another active allocation result already exists for the same basis and project`);
         }
@@ -1162,11 +1081,7 @@ export class ProjectCostService {
             updatedBy: userId
         });
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(
-                SharedCostAllocationResult,
-                { id: superseded.id },
-                { status: 'superseded', updatedBy: userId }
-            );
+            await em.nativeUpdate(SharedCostAllocationResult, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
             await em.persist(replacement).flush();
         });
         superseded.status = 'superseded';
@@ -1183,11 +1098,7 @@ export class ProjectCostService {
         };
     }
 
-    async confirmCostStageAttribution(
-        costRecordId: string,
-        input: ConfirmCostStageAttributionRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async confirmCostStageAttribution(costRecordId: string, input: ConfirmCostStageAttributionRequest, userId: string): Promise<CommandResult> {
         const costRecord = await this.projectActualCostRecordRepository.findById(costRecordId);
         if (!costRecord) {
             throw new NotFoundException(`ProjectActualCostRecord ${costRecordId} not found`);
@@ -1235,11 +1146,7 @@ export class ProjectCostService {
         };
     }
 
-    async reclassifyCostStageAttribution(
-        supersededAttributionId: string,
-        input: ReclassifyCostStageAttributionRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async reclassifyCostStageAttribution(supersededAttributionId: string, input: ReclassifyCostStageAttributionRequest, userId: string): Promise<CommandResult> {
         const superseded = await this.costStageAttributionSnapshotRepository.findById(supersededAttributionId);
         if (!superseded) {
             throw new NotFoundException(`CostStageAttributionSnapshot ${supersededAttributionId} not found`);
@@ -1276,11 +1183,7 @@ export class ProjectCostService {
         costRecord.stageLockedAt = replacement.lockedBySnapshotId ? now : null;
         costRecord.updatedBy = userId;
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(
-                CostStageAttributionSnapshot,
-                { id: superseded.id },
-                { status: 'superseded', updatedBy: userId }
-            );
+            await em.nativeUpdate(CostStageAttributionSnapshot, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
             await em.persist([replacement, costRecord]).flush();
         });
         superseded.status = 'superseded';
@@ -1314,24 +1217,15 @@ export class ProjectCostService {
         return this.toCostStageAttributionSnapshotSummary(snapshot);
     }
 
-    async confirmAccountingTaxTreatment(
-        projectId: string,
-        input: ConfirmAccountingTaxTreatmentRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async confirmAccountingTaxTreatment(projectId: string, input: ConfirmAccountingTaxTreatmentRequest, userId: string): Promise<CommandResult> {
         const project = await this.contractFinanceRepository.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
-            projectId,
-            input.taxTreatmentType
-        );
+        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(projectId, input.taxTreatmentType);
         if (activeSnapshot) {
-            throw new ConflictException(
-                `Project ${projectId} already has an active tax treatment snapshot for ${input.taxTreatmentType}; replace it instead`
-            );
+            throw new ConflictException(`Project ${projectId} already has an active tax treatment snapshot for ${input.taxTreatmentType}; replace it instead`);
         }
 
         const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
@@ -1365,11 +1259,7 @@ export class ProjectCostService {
         };
     }
 
-    async replaceAccountingTaxTreatment(
-        supersededTaxTreatmentSnapshotId: string,
-        input: ReplaceAccountingTaxTreatmentRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async replaceAccountingTaxTreatment(supersededTaxTreatmentSnapshotId: string, input: ReplaceAccountingTaxTreatmentRequest, userId: string): Promise<CommandResult> {
         const superseded = await this.accountingTaxTreatmentSnapshotRepository.findById(supersededTaxTreatmentSnapshotId);
         if (!superseded) {
             throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${supersededTaxTreatmentSnapshotId} not found`);
@@ -1384,14 +1274,9 @@ export class ProjectCostService {
             throw new NotFoundException(`Project ${superseded.projectId} not found`);
         }
 
-        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(
-            superseded.projectId,
-            input.taxTreatmentType
-        );
+        const activeSnapshot = await this.accountingTaxTreatmentSnapshotRepository.findActiveByProjectAndTaxTreatmentType(superseded.projectId, input.taxTreatmentType);
         if (activeSnapshot && activeSnapshot.id !== superseded.id) {
-            throw new ConflictException(
-                `Project ${superseded.projectId} already has another active tax treatment snapshot for ${input.taxTreatmentType}`
-            );
+            throw new ConflictException(`Project ${superseded.projectId} already has another active tax treatment snapshot for ${input.taxTreatmentType}`);
         }
 
         const snapshot = this.accountingTaxTreatmentSnapshotRepository.create({
@@ -1413,11 +1298,7 @@ export class ProjectCostService {
         });
 
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(
-                AccountingTaxTreatmentSnapshot,
-                { id: superseded.id },
-                { status: 'superseded', updatedBy: userId }
-            );
+            await em.nativeUpdate(AccountingTaxTreatmentSnapshot, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
             await em.persist(snapshot).flush();
         });
         superseded.status = 'superseded';
@@ -1451,11 +1332,7 @@ export class ProjectCostService {
         return this.toAccountingTaxTreatmentSnapshotSummary(snapshot);
     }
 
-    async reviewOperatingSignalEvaluation(
-        id: string,
-        input: ReviewOperatingSignalEvaluationRequest,
-        userId: string
-    ): Promise<ReviewOperatingSignalEvaluationResult> {
+    async reviewOperatingSignalEvaluation(id: string, input: ReviewOperatingSignalEvaluationRequest, userId: string): Promise<ReviewOperatingSignalEvaluationResult> {
         const evaluation = await this.operatingSignalEvaluationResultRepository.findById(id);
         if (!evaluation) {
             throw new NotFoundException(`OperatingSignalEvaluationResult ${id} not found`);
@@ -1468,18 +1345,11 @@ export class ProjectCostService {
 
         const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
         if (!dataMaturity) {
-            throw new NotFoundException(
-                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`
-            );
+            throw new NotFoundException(`DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`);
         }
 
         const activeReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
-        const resolvedCurrentActionLevel = this.resolveReviewedCurrentActionLevel(
-            evaluation,
-            dataMaturity,
-            input.resolvedDataMaturityLevel,
-            input.costActionRecommendation
-        );
+        const resolvedCurrentActionLevel = this.resolveReviewedCurrentActionLevel(evaluation, dataMaturity, input.resolvedDataMaturityLevel, input.costActionRecommendation);
 
         const reviewRecord = this.operatingSignalReviewRecordRepository.create({
             id: randomUUID(),
@@ -1528,9 +1398,7 @@ export class ProjectCostService {
 
         const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
         if (!dataMaturity) {
-            throw new NotFoundException(
-                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`
-            );
+            throw new NotFoundException(`DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for signal evaluation ${id}`);
         }
 
         const activeReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
@@ -1542,8 +1410,7 @@ export class ProjectCostService {
             formulaBoundaryAction: evaluation.formulaBoundaryAction,
             signalLevel: evaluation.signalLevel,
             taxImpactSummary: evaluation.taxImpactSummary,
-            allocationStabilitySummary:
-                evaluation.allocationStabilitySummary ?? dataMaturity.allocationStabilitySummary ?? null,
+            allocationStabilitySummary: evaluation.allocationStabilitySummary ?? dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: evaluation.unmappedCostSummary ?? dataMaturity.unmappedCostSummary ?? null,
             dataMaturityLevel: resolvedSignalInput.dataMaturityLevel,
             costActionRecommendation: resolvedSignalInput.costActionRecommendation,
@@ -1555,11 +1422,7 @@ export class ProjectCostService {
         };
     }
 
-    async reviewCommissionGateBinding(
-        id: string,
-        input: ReviewCommissionGateBindingRequest,
-        userId: string
-    ): Promise<ReviewCommissionGateBindingResult> {
+    async reviewCommissionGateBinding(id: string, input: ReviewCommissionGateBindingRequest, userId: string): Promise<ReviewCommissionGateBindingResult> {
         const binding = await this.operatingSignalToCommissionGateBindingRepository.findById(id);
         if (!binding) {
             throw new NotFoundException(`OperatingSignalToCommissionGateBinding ${id} not found`);
@@ -1584,21 +1447,14 @@ export class ProjectCostService {
 
         const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
         if (!dataMaturity) {
-            throw new NotFoundException(
-                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`
-            );
+            throw new NotFoundException(`DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`);
         }
 
         this.assertApprovalSummarySnapshot(summarySnapshot, input.summaryPackageKey, input.summarySnapshotId);
 
         const activeSignalReview = await this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id);
         const resolvedSignalInput = this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeSignalReview);
-        const nextActionSummary = this.buildCommissionGateNextActionSummary(
-            input.bindingAction,
-            input.gateReviewDecision,
-            input.blockingReasonCode ?? null,
-            binding.nextActionSummary ?? null
-        );
+        const nextActionSummary = this.buildCommissionGateNextActionSummary(input.bindingAction, input.gateReviewDecision, input.blockingReasonCode ?? null, binding.nextActionSummary ?? null);
 
         binding.bindingAction = input.bindingAction;
         binding.baselineSelectionSource = input.baselineSelectionSource;
@@ -1645,8 +1501,7 @@ export class ProjectCostService {
             dataMaturityLevel: binding.dataMaturityLevel,
             costActionRecommendation: binding.costActionRecommendation as ReviewCommissionGateBindingResult['costActionRecommendation'],
             currentActionLevel: binding.currentActionLevel as ReviewCommissionGateBindingResult['currentActionLevel'],
-            baselineSelectionSource:
-                binding.baselineSelectionSource as ReviewCommissionGateBindingResult['baselineSelectionSource'],
+            baselineSelectionSource: binding.baselineSelectionSource as ReviewCommissionGateBindingResult['baselineSelectionSource'],
             referencedBaselineVersion: binding.referencedBaselineVersion,
             referencedSnapshotVersion: binding.referencedSnapshotVersion,
             summaryPackageKey: reviewRecord.summaryPackageKey,
@@ -1671,15 +1526,10 @@ export class ProjectCostService {
 
         const dataMaturity = await this.dataMaturityEvaluationResultRepository.findById(evaluation.dataMaturityEvaluationId);
         if (!dataMaturity) {
-            throw new NotFoundException(
-                `DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`
-            );
+            throw new NotFoundException(`DataMaturityEvaluationResult ${evaluation.dataMaturityEvaluationId} not found for binding ${id}`);
         }
 
-        const [activeSignalReview, reviewRecords] = await Promise.all([
-            this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id),
-            this.commissionGateReviewRecordRepository.findByBindingId(binding.id)
-        ]);
+        const [activeSignalReview, reviewRecords] = await Promise.all([this.operatingSignalReviewRecordRepository.findActiveBySignalEvaluationId(evaluation.id), this.commissionGateReviewRecordRepository.findByBindingId(binding.id)]);
         const latestGateReview = this.selectLatestCommissionGateReview(reviewRecords);
         const resolvedSignalInput = this.resolveSignalEvaluationInput(evaluation, dataMaturity, activeSignalReview);
 
@@ -1727,23 +1577,25 @@ export class ProjectCostService {
         const effectiveContractSetSummary = this.toNullableDecimal(context.snapshot.effectiveContractTotal) ?? '0.0000';
         const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000';
         const includedCostTotalSummary = this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000';
-        const currentEffectiveBaselineCostSummary =
-            this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
-        const grossMarginSummary = this.buildGrossMarginSummary(context.snapshot);
+        const currentEffectiveBaselineCostSummary = this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
+        const grossMarginAmount = this.toNullableDecimal(context.snapshot.grossMarginAmount) ?? '0.0000';
+        const grossMarginRate = this.toNullableDecimal(context.snapshot.grossMarginRate);
         const taxImpactSummary = context.snapshot.taxImpactSummary;
         const [
             effectiveContractSetSummaryProjection,
             receivableConfirmedAmountSummaryProjection,
             includedCostTotalSummaryProjection,
             currentEffectiveBaselineCostSummaryProjection,
-            grossMarginSummaryProjection,
+            grossMarginAmountProjection,
+            grossMarginRateProjection,
             taxImpactSummaryProjection
         ] = await Promise.all([
             this.projectOperatingFinanceField(projectId, effectiveContractSetSummary, user, requestContext),
             this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
             this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
             this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, grossMarginSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, grossMarginAmount, user, requestContext),
+            this.projectOperatingFinanceField(projectId, grossMarginRate, user, requestContext),
             this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext)
         ]);
 
@@ -1753,50 +1605,36 @@ export class ProjectCostService {
             receivableConfirmedAmountSummaryProjection,
             includedCostTotalSummaryProjection,
             currentEffectiveBaselineCostSummaryProjection,
-            grossMarginSummaryProjection,
+            grossMarginAmountProjection,
+            grossMarginRateProjection,
             taxImpactSummaryProjection,
-            allocationStabilitySummary:
-                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            allocationStabilitySummary: context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
             dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
             currentActionLevel: context.resolvedSignalInput.currentActionLevel,
             referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
             referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
-            allowedActions: this.buildOperatingSignalAllowedActions(
-                context.evaluation.reviewRequired,
-                context.resolvedSignalInput.currentActionLevel
-            )
+            allowedActions: this.buildOperatingSignalAllowedActions(context.evaluation.reviewRequired, context.resolvedSignalInput.currentActionLevel)
         };
     }
 
-    async getProjectUnifiedAccounting(
-        projectId: string,
-        user: SensitiveProjectionUser = null,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-unified-accounting:${projectId}` }
-    ): Promise<ProjectUnifiedAccountingView> {
+    async getProjectUnifiedAccounting(projectId: string, user: SensitiveProjectionUser = null, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-unified-accounting:${projectId}` }): Promise<ProjectUnifiedAccountingView> {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
         const originalBaselineCostSummary = this.toNullableDecimal(context.snapshot.originalBaselineCost) ?? '0.0000';
-        const currentEffectiveBaselineCostSummary =
-            this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
+        const currentEffectiveBaselineCostSummary = this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
         const includedCostTotalSummary = this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000';
         const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000';
         const taxImpactSummary = context.snapshot.taxImpactSummary;
         const taxImpactPendingAmount = this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? '0.0000';
-        const [
-            originalBaselineCostSummaryProjection,
-            currentEffectiveBaselineCostSummaryProjection,
-            includedCostTotalSummaryProjection,
-            receivableConfirmedAmountSummaryProjection,
-            taxImpactSummaryProjection,
-            taxImpactPendingAmountProjection
-        ] = await Promise.all([
-            this.projectOperatingFinanceField(projectId, originalBaselineCostSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
-            this.projectOperatingFinanceField(projectId, taxImpactPendingAmount, user, requestContext)
-        ]);
+        const [originalBaselineCostSummaryProjection, currentEffectiveBaselineCostSummaryProjection, includedCostTotalSummaryProjection, receivableConfirmedAmountSummaryProjection, taxImpactSummaryProjection, taxImpactPendingAmountProjection] =
+            await Promise.all([
+                this.projectOperatingFinanceField(projectId, originalBaselineCostSummary, user, requestContext),
+                this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
+                this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
+                this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
+                this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
+                this.projectOperatingFinanceField(projectId, taxImpactPendingAmount, user, requestContext)
+            ]);
 
         return {
             projectId,
@@ -1807,17 +1645,13 @@ export class ProjectCostService {
             receivableConfirmedAmountSummaryProjection,
             taxImpactSummaryProjection,
             taxImpactPendingAmountProjection,
-            allocationStabilitySummary:
-                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            allocationStabilitySummary: context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
             dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
             costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
             referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
             referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
-            allowedActions: this.buildOperatingSignalAllowedActions(
-                context.evaluation.reviewRequired,
-                context.resolvedSignalInput.currentActionLevel
-            )
+            allowedActions: this.buildOperatingSignalAllowedActions(context.evaluation.reviewRequired, context.resolvedSignalInput.currentActionLevel)
         };
     }
 
@@ -1840,8 +1674,7 @@ export class ProjectCostService {
             varianceSourceSummaryProjection,
             riskLevel: context.evaluation.riskLevel,
             taxImpactSummaryProjection,
-            allocationStabilitySummary:
-                context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
+            allocationStabilitySummary: context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
             dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
             costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
@@ -1849,10 +1682,7 @@ export class ProjectCostService {
             referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
             referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
             recommendedActionSummary: context.evaluation.recommendedActionSummary ?? null,
-            allowedActions: this.buildOperatingSignalAllowedActions(
-                context.evaluation.reviewRequired,
-                context.resolvedSignalInput.currentActionLevel
-            )
+            allowedActions: this.buildOperatingSignalAllowedActions(context.evaluation.reviewRequired, context.resolvedSignalInput.currentActionLevel)
         };
     }
 
@@ -1870,19 +1700,13 @@ export class ProjectCostService {
         const selectedBinding = this.selectMostSevereBinding(bindings);
         const selectedEvaluation = await this.operatingSignalEvaluationResultRepository.findById(selectedBinding.signalEvaluationId);
         if (!selectedEvaluation) {
-            throw new NotFoundException(
-                `OperatingSignalEvaluationResult ${selectedBinding.signalEvaluationId} not found for project ${projectId}`
-            );
+            throw new NotFoundException(`OperatingSignalEvaluationResult ${selectedBinding.signalEvaluationId} not found for project ${projectId}`);
         }
 
-        const mostSevereBindings = bindings.filter(
-            (binding) => this.getActionSeverity(binding.bindingAction) === this.getActionSeverity(selectedBinding.bindingAction)
-        );
+        const mostSevereBindings = bindings.filter((binding) => this.getActionSeverity(binding.bindingAction) === this.getActionSeverity(selectedBinding.bindingAction));
         const taxImpactSummary = selectedBinding.taxImpactSummary;
         const nextActionSummary = this.combineSummaries(mostSevereBindings.map((binding) => binding.nextActionSummary ?? null));
-        const downstreamConsumerSummary = this.combineSummaries(
-            mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null)
-        );
+        const downstreamConsumerSummary = this.combineSummaries(mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null));
         const [taxImpactSummaryProjection, nextActionSummaryProjection, downstreamConsumerSummaryProjection] = await Promise.all([
             this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
             this.projectOperatingFinanceField(projectId, nextActionSummary, user, requestContext),
@@ -1913,11 +1737,7 @@ export class ProjectCostService {
         };
     }
 
-    async registerLaborCostRecord(
-        projectId: string,
-        input: CreateLaborProjectActualCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async registerLaborCostRecord(projectId: string, input: CreateLaborProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
         this.assertDateRange(laborPeriodStart, laborPeriodEnd, 'laborPeriodStart', 'laborPeriodEnd');
@@ -1979,11 +1799,7 @@ export class ProjectCostService {
         };
     }
 
-    async replaceLaborCostRecord(
-        supersededRecordId: string,
-        input: ReplaceLaborCostRecordRequest,
-        userId: string
-    ): Promise<CommandResult> {
+    async replaceLaborCostRecord(supersededRecordId: string, input: ReplaceLaborCostRecordRequest, userId: string): Promise<CommandResult> {
         const laborPeriodStart = this.parseDateOnly(input.laborPeriodStart, 'laborPeriodStart');
         const laborPeriodEnd = this.parseDateOnly(input.laborPeriodEnd, 'laborPeriodEnd');
         this.assertDateRange(laborPeriodStart, laborPeriodEnd, 'laborPeriodStart', 'laborPeriodEnd');
@@ -2133,19 +1949,13 @@ export class ProjectCostService {
         }
     }
 
-    private assertExpenseAmountsConsistent(
-        amountIncludingTax: string | number,
-        taxAmount: string | number | null | undefined,
-        amountExcludingTax: string | number | null | undefined
-    ): void {
+    private assertExpenseAmountsConsistent(amountIncludingTax: string | number, taxAmount: string | number | null | undefined, amountExcludingTax: string | number | null | undefined): void {
         const total = this.parsePositiveDecimal(amountIncludingTax, 'amountIncludingTax');
         const tax = taxAmount == null ? null : this.parseNonNegativeDecimal(taxAmount, 'taxAmount');
         const excluding = amountExcludingTax == null ? null : this.parseNonNegativeDecimal(amountExcludingTax, 'amountExcludingTax');
 
         if (tax !== null && excluding !== null && Math.abs(total - (tax + excluding)) > 0.0001) {
-            throw new UnprocessableEntityException(
-                'amountIncludingTax must equal taxAmount + amountExcludingTax when both fields are provided'
-            );
+            throw new UnprocessableEntityException('amountIncludingTax must equal taxAmount + amountExcludingTax when both fields are provided');
         }
     }
 
@@ -2350,10 +2160,7 @@ export class ProjectCostService {
         };
     }
 
-    private toSharedCostAllocationBasisSummary(
-        entity: SharedCostAllocationBasis,
-        results: SharedCostAllocationResult[]
-    ): SharedCostAllocationBasisSummary {
+    private toSharedCostAllocationBasisSummary(entity: SharedCostAllocationBasis, results: SharedCostAllocationResult[]): SharedCostAllocationBasisSummary {
         return {
             id: entity.id,
             sourceCostScopeKey: entity.sourceCostScopeKey,
@@ -2406,9 +2213,7 @@ export class ProjectCostService {
         };
     }
 
-    private toAccountingTaxTreatmentSnapshotSummary(
-        entity: AccountingTaxTreatmentSnapshot
-    ): AccountingTaxTreatmentSnapshotSummary {
+    private toAccountingTaxTreatmentSnapshotSummary(entity: AccountingTaxTreatmentSnapshot): AccountingTaxTreatmentSnapshotSummary {
         return {
             id: entity.id,
             projectId: entity.projectId,
@@ -2429,13 +2234,7 @@ export class ProjectCostService {
         };
     }
 
-    private calculateOperatingSnapshotAmounts(input: {
-        effectiveContractTotal: string;
-        receivableConfirmedTotal: string;
-        includedCostTotal: string;
-        originalBaselineCost: string;
-        currentEffectiveBaselineCost: string;
-    }): {
+    private calculateOperatingSnapshotAmounts(input: { effectiveContractTotal: string; receivableConfirmedTotal: string; includedCostTotal: string; originalBaselineCost: string; currentEffectiveBaselineCost: string }): {
         effectiveContractTotal: string;
         receivableConfirmedTotal: string;
         includedCostTotal: string;
@@ -2495,36 +2294,16 @@ export class ProjectCostService {
 
         return {
             ...calculated,
-            sourceWindowStart:
-                overrides.sourceWindowStart === undefined
-                    ? this.toNullableDate(current.sourceWindowStart)
-                    : overrides.sourceWindowStart,
-            sourceWindowEnd:
-                overrides.sourceWindowEnd === undefined
-                    ? this.toNullableDate(current.sourceWindowEnd)
-                    : overrides.sourceWindowEnd,
+            sourceWindowStart: overrides.sourceWindowStart === undefined ? this.toNullableDate(current.sourceWindowStart) : overrides.sourceWindowStart,
+            sourceWindowEnd: overrides.sourceWindowEnd === undefined ? this.toNullableDate(current.sourceWindowEnd) : overrides.sourceWindowEnd,
             taxImpactSummary: overrides.taxImpactSummary ?? current.taxImpactSummary,
-            taxImpactPendingAmount: this.formatAmount(
-                this.parseNonNegativeDecimal(
-                    overrides.taxImpactPendingAmount ?? this.toNullableDecimal(current.taxImpactPendingAmount) ?? '0',
-                    'taxImpactPendingAmount'
-                )
-            ),
-            allocationStabilitySummary:
-                overrides.allocationStabilitySummary === undefined
-                    ? current.allocationStabilitySummary ?? null
-                    : overrides.allocationStabilitySummary,
-            unmappedCostSummary:
-                overrides.unmappedCostSummary === undefined
-                    ? current.unmappedCostSummary ?? null
-                    : overrides.unmappedCostSummary,
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(overrides.taxImpactPendingAmount ?? this.toNullableDecimal(current.taxImpactPendingAmount) ?? '0', 'taxImpactPendingAmount')),
+            allocationStabilitySummary: overrides.allocationStabilitySummary === undefined ? (current.allocationStabilitySummary ?? null) : overrides.allocationStabilitySummary,
+            unmappedCostSummary: overrides.unmappedCostSummary === undefined ? (current.unmappedCostSummary ?? null) : overrides.unmappedCostSummary,
             currentActionLevel: overrides.currentActionLevel ?? current.currentActionLevel,
             referencedBaselineVersion: overrides.referencedBaselineVersion ?? current.referencedBaselineVersion,
             baselineSelectionSource: overrides.baselineSelectionSource ?? current.baselineSelectionSource,
-            handoverRebaselineRecordId:
-                overrides.handoverRebaselineRecordId === undefined
-                    ? current.handoverRebaselineRecordId ?? null
-                    : overrides.handoverRebaselineRecordId
+            handoverRebaselineRecordId: overrides.handoverRebaselineRecordId === undefined ? (current.handoverRebaselineRecordId ?? null) : overrides.handoverRebaselineRecordId
         };
     }
 
@@ -2586,13 +2365,7 @@ export class ProjectCostService {
         return null;
     }
 
-    private buildMeasurementBasisSummary(
-        record: ProjectActualCostRecord,
-        paymentRecord: PaymentRecord | null,
-        invoiceRecord: InvoiceRecord | null,
-        expenseRecord: ExpenseRecord | null,
-        payableRecord: PayableRecord | null
-    ): string | null {
+    private buildMeasurementBasisSummary(record: ProjectActualCostRecord, paymentRecord: PaymentRecord | null, invoiceRecord: InvoiceRecord | null, expenseRecord: ExpenseRecord | null, payableRecord: PayableRecord | null): string | null {
         if (paymentRecord) {
             return `${this.formatAmount(this.toNumber(paymentRecord.amountExcludingTax))} ${record.currency} ex-tax @ ${this.toIsoDate(paymentRecord.paymentDate)}`;
         }
@@ -2657,10 +2430,8 @@ export class ProjectCostService {
     } {
         return {
             dataMaturityLevel: reviewRecord?.resolvedDataMaturityLevel ?? dataMaturity.dataMaturityLevel,
-            costActionRecommendation: (reviewRecord?.resolvedCostActionRecommendation ??
-                dataMaturity.costActionRecommendation) as OperatingSignalEvaluationView['costActionRecommendation'],
-            currentActionLevel: (reviewRecord?.resolvedCurrentActionLevel ??
-                evaluation.currentActionLevel) as OperatingSignalEvaluationView['currentActionLevel'],
+            costActionRecommendation: (reviewRecord?.resolvedCostActionRecommendation ?? dataMaturity.costActionRecommendation) as OperatingSignalEvaluationView['costActionRecommendation'],
+            currentActionLevel: (reviewRecord?.resolvedCurrentActionLevel ?? evaluation.currentActionLevel) as OperatingSignalEvaluationView['currentActionLevel'],
             referencedBaselineVersion: reviewRecord?.referencedBaselineVersion ?? evaluation.referencedBaselineVersion,
             referencedSnapshotVersion: reviewRecord?.referencedSnapshotVersion ?? evaluation.referencedSnapshotVersion
         };
@@ -2689,12 +2460,9 @@ export class ProjectCostService {
             return null;
         }
 
-        const segments = [
-            reviewRecord.reviewDecision,
-            reviewRecord.resolvedDataMaturityLevel ?? null,
-            reviewRecord.resolvedCostActionRecommendation ?? null,
-            reviewRecord.reviewComment ?? null
-        ].filter((value): value is string => Boolean(value && value.trim().length > 0));
+        const segments = [reviewRecord.reviewDecision, reviewRecord.resolvedDataMaturityLevel ?? null, reviewRecord.resolvedCostActionRecommendation ?? null, reviewRecord.reviewComment ?? null].filter((value): value is string =>
+            Boolean(value && value.trim().length > 0)
+        );
 
         return segments.length === 0 ? null : segments.join(' | ');
     }
@@ -2712,11 +2480,7 @@ export class ProjectCostService {
         }
     }
 
-    private assertApprovalSummarySnapshot(
-        summarySnapshot: ApprovalSummarySnapshot | null,
-        summaryPackageKey: string,
-        summarySnapshotId: string
-    ): asserts summarySnapshot is ApprovalSummarySnapshot {
+    private assertApprovalSummarySnapshot(summarySnapshot: ApprovalSummarySnapshot | null, summaryPackageKey: string, summarySnapshotId: string): asserts summarySnapshot is ApprovalSummarySnapshot {
         if (!summarySnapshot) {
             throw new NotFoundException(`ApprovalSummarySnapshot ${summarySnapshotId} not found`);
         }
@@ -2728,16 +2492,9 @@ export class ProjectCostService {
         }
     }
 
-    private buildCommissionGateNextActionSummary(
-        bindingAction: ReviewCommissionGateBindingRequest['bindingAction'],
-        gateReviewDecision: string,
-        blockingReasonCode: string | null,
-        fallbackSummary: string | null
-    ): string | null {
+    private buildCommissionGateNextActionSummary(bindingAction: ReviewCommissionGateBindingRequest['bindingAction'], gateReviewDecision: string, blockingReasonCode: string | null, fallbackSummary: string | null): string | null {
         if (bindingAction === 'BLOCK') {
-            return blockingReasonCode
-                ? `BLOCK: ${blockingReasonCode}`
-                : fallbackSummary ?? `BLOCK: ${gateReviewDecision}`;
+            return blockingReasonCode ? `BLOCK: ${blockingReasonCode}` : (fallbackSummary ?? `BLOCK: ${gateReviewDecision}`);
         }
 
         if (bindingAction === 'REVIEW') {
@@ -2796,12 +2553,6 @@ export class ProjectCostService {
         };
     }
 
-    private buildGrossMarginSummary(snapshot: ProjectOperatingSnapshot): string {
-        const grossMarginAmount = this.toNullableDecimal(snapshot.grossMarginAmount) ?? '0.0000';
-        const grossMarginRate = this.toNullableDecimal(snapshot.grossMarginRate);
-        return grossMarginRate ? `${grossMarginAmount} (${grossMarginRate})` : grossMarginAmount;
-    }
-
     private buildOperatingSignalAllowedActions(reviewRequired: boolean, currentActionLevel: string): string[] {
         if (reviewRequired || this.getActionSeverity(currentActionLevel) >= this.getActionSeverity('REVIEW')) {
             return ['reviewOperatingSignalEvaluation'];
@@ -2817,13 +2568,7 @@ export class ProjectCostService {
         referencedBaselineVersion: string | null,
         referencedSnapshotVersion: string | null
     ): string[] {
-        const hasStablePackage = Boolean(
-            taxImpactSummary &&
-                dataMaturityLevel &&
-                costActionRecommendation &&
-                referencedBaselineVersion &&
-                referencedSnapshotVersion
-        );
+        const hasStablePackage = Boolean(taxImpactSummary && dataMaturityLevel && costActionRecommendation && referencedBaselineVersion && referencedSnapshotVersion);
 
         if (!hasStablePackage) {
             return ['reviewCommissionGateBinding'];
@@ -2836,9 +2581,7 @@ export class ProjectCostService {
         return [];
     }
 
-    private selectMostSevereBinding(
-        bindings: OperatingSignalToCommissionGateBinding[]
-    ): OperatingSignalToCommissionGateBinding {
+    private selectMostSevereBinding(bindings: OperatingSignalToCommissionGateBinding[]): OperatingSignalToCommissionGateBinding {
         const [selectedBinding] = [...bindings].sort((left, right) => {
             const severityDiff = this.getActionSeverity(right.bindingAction) - this.getActionSeverity(left.bindingAction);
             if (severityDiff !== 0) {
@@ -2854,12 +2597,7 @@ export class ProjectCostService {
         return selectedBinding;
     }
 
-    private projectOperatingFinanceField(
-        projectId: string,
-        rawValue: string | null,
-        user: SensitiveProjectionUser,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<SensitiveStringFieldProjection> {
+    private projectOperatingFinanceField(projectId: string, rawValue: string | null, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<SensitiveStringFieldProjection> {
         return this.sensitiveFieldProjectionService.projectStringField({
             fieldPackageKey: 'operating-finance',
             rawValue,
@@ -2917,14 +2655,8 @@ export class ProjectCostService {
         return null;
     }
 
-    private resolveHighestActionLevel(
-        candidates: Array<OperatingSignalEvaluationView['currentActionLevel'] | null>
-    ): OperatingSignalEvaluationView['currentActionLevel'] {
-        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>(
-            (current, candidate) =>
-                this.getActionSeverity(candidate) > this.getActionSeverity(current) ? candidate ?? current : current,
-            'PROMPT'
-        );
+    private resolveHighestActionLevel(candidates: Array<OperatingSignalEvaluationView['currentActionLevel'] | null>): OperatingSignalEvaluationView['currentActionLevel'] {
+        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>((current, candidate) => (this.getActionSeverity(candidate) > this.getActionSeverity(current) ? (candidate ?? current) : current), 'PROMPT');
     }
 
     private getActionSeverity(value: string | null | undefined): number {
@@ -2940,16 +2672,10 @@ export class ProjectCostService {
         }
     }
 
-    private async assertValidHandoverRebaselineReference(
-        projectId: string,
-        baselineSelectionSource: string,
-        handoverRebaselineRecordId: string | null
-    ): Promise<string | null> {
+    private async assertValidHandoverRebaselineReference(projectId: string, baselineSelectionSource: string, handoverRebaselineRecordId: string | null): Promise<string | null> {
         if (baselineSelectionSource === 'original') {
             if (handoverRebaselineRecordId) {
-                throw new UnprocessableEntityException(
-                    'handoverRebaselineRecordId must be null when baselineSelectionSource is original'
-                );
+                throw new UnprocessableEntityException('handoverRebaselineRecordId must be null when baselineSelectionSource is original');
             }
             return null;
         }
@@ -2959,9 +2685,7 @@ export class ProjectCostService {
         }
 
         if (!handoverRebaselineRecordId) {
-            throw new UnprocessableEntityException(
-                'handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline'
-            );
+            throw new UnprocessableEntityException('handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline');
         }
 
         const record = await this.contractHandoverRebaselineRecordRepository.findById(handoverRebaselineRecordId);
@@ -2969,14 +2693,10 @@ export class ProjectCostService {
             throw new NotFoundException(`ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} not found`);
         }
         if (record.projectId !== projectId) {
-            throw new ConflictException(
-                `ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} does not belong to project ${projectId}`
-            );
+            throw new ConflictException(`ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} does not belong to project ${projectId}`);
         }
         if (record.status !== 'effective') {
-            throw new ConflictException(
-                `ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} is not effective`
-            );
+            throw new ConflictException(`ContractHandoverRebaselineRecord ${handoverRebaselineRecordId} is not effective`);
         }
 
         return record.id;

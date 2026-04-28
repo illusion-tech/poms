@@ -18,10 +18,10 @@ export interface ContractTermSnapshotSummary {
     retentionDueDate: string | null;
     amountTaxInclusiveProjection: SensitiveStringFieldProjection;
     amountTaxExclusiveProjection: SensitiveStringFieldProjection;
-    taxRate: string | null;
-    downPaymentRate: string | null;
-    retentionRate: string | null;
-    paymentTerms: string | null;
+    taxRateProjection: SensitiveStringFieldProjection;
+    downPaymentRateProjection: SensitiveStringFieldProjection;
+    retentionRateProjection: SensitiveStringFieldProjection;
+    paymentTermsProjection: SensitiveStringFieldProjection;
     sourceReadinessId: string | null;
     sourceBaselineId: string | null;
     version: number;

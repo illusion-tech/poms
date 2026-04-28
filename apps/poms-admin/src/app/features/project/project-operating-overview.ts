@@ -7,14 +7,8 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-import {
-    formatSensitiveAmountProjection,
-    sensitiveProjectionDisplayText
-} from '../../shared/ui/sensitive-visibility';
-import {
-    actionLevelLabel,
-    actionLevelSeverity
-} from './project-presentation';
+import { formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
+import { actionLevelLabel, actionLevelSeverity } from './project-presentation';
 
 @Component({
     selector: 'app-project-operating-overview',
@@ -115,7 +109,7 @@ export class ProjectOperatingOverview implements OnInit {
             { label: '已归集成本', value: formatSensitiveAmountProjection(overview.includedCostTotalSummaryProjection), emphasis: true },
             { label: '原始基线成本', value: formatSensitiveAmountProjection(accounting.originalBaselineCostSummaryProjection), emphasis: true },
             { label: '当前有效基线成本', value: formatSensitiveAmountProjection(accounting.currentEffectiveBaselineCostSummaryProjection), emphasis: true },
-            { label: '毛利摘要', value: sensitiveProjectionDisplayText(overview.grossMarginSummaryProjection), emphasis: true }
+            { label: '毛利摘要', value: this.formatGrossMarginSummary(), emphasis: true }
         ];
     });
 
@@ -154,6 +148,21 @@ export class ProjectOperatingOverview implements OnInit {
         if (projectId) {
             void this.#workspaceStore.loadOperatingOverview(projectId).catch(() => undefined);
         }
+    }
+
+    formatGrossMarginSummary(): string {
+        const overview = this.overview();
+        if (!overview) {
+            return '--';
+        }
+
+        const amountText = formatSensitiveAmountProjection(overview.grossMarginAmountProjection);
+        if (!isSensitiveProjectionFull(overview.grossMarginAmountProjection)) {
+            return amountText;
+        }
+
+        const rateText = formatSensitiveRatioProjection(overview.grossMarginRateProjection);
+        return rateText === '-' ? amountText : `${amountText} (${rateText})`;
     }
 
     projectId(): string {

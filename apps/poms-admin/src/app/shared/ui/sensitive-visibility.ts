@@ -44,3 +44,18 @@ export function formatSensitiveAmountProjection(projection: SensitiveStringField
 
     return `${amount} ${currencyCode ?? ''}`.trim();
 }
+
+export function formatSensitiveRatioProjection(projection: SensitiveStringFieldProjectionView | null | undefined): string {
+    if (!isSensitiveProjectionFull(projection)) {
+        return sensitiveProjectionDisplayText(projection);
+    }
+
+    const value = projection?.value ?? '';
+    const parsed = Number(value);
+    return Number.isFinite(parsed)
+        ? `${(parsed * 100).toLocaleString('zh-CN', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+          })}%`
+        : value;
+}

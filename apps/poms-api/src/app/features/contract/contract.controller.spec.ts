@@ -57,13 +57,7 @@ describe('ContractController', () => {
             })
         };
 
-        controller = new ContractController(
-            contractService,
-            approvalService,
-            projectService,
-            contractTermSnapshotRepository as never,
-            sensitiveFieldProjectionService as never
-        );
+        controller = new ContractController(contractService, approvalService, projectService, contractTermSnapshotRepository as never, sensitiveFieldProjectionService as never);
     });
 
     it('maps create payload signedAt into Date', async () => {
@@ -210,6 +204,69 @@ describe('ContractController', () => {
         );
     });
 
+    it('projects current term snapshot commercial terms for callers without sensitive read permission', async () => {
+        const snapshotId = '60000000-0000-4000-8000-000000000001';
+        contractService.findById.mockResolvedValue(createContractEntity({ currentSnapshotId: snapshotId }));
+        projectService.findById.mockResolvedValue({ id: projectId, projectName: 'POMS 项目', customerName: '华南地铁集团' } as never);
+        contractTermSnapshotRepository.findById.mockResolvedValue(createTermSnapshot({ id: snapshotId }) as never);
+
+        const result = await controller.getById(contractId, makeRequest(['project:read']));
+
+        expect(result.currentTermSnapshot).not.toHaveProperty('taxRate');
+        expect(result.currentTermSnapshot).not.toHaveProperty('downPaymentRate');
+        expect(result.currentTermSnapshot).not.toHaveProperty('retentionRate');
+        expect(result.currentTermSnapshot).not.toHaveProperty('paymentTerms');
+        expect(result.currentTermSnapshot?.taxRateProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(result.currentTermSnapshot?.downPaymentRateProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(result.currentTermSnapshot?.retentionRateProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(result.currentTermSnapshot?.paymentTermsProjection).toEqual(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            })
+        );
+        expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                rawValue: '0.13',
+                user: expect.objectContaining({ permissions: ['project:read'] }),
+                targetType: 'ContractSnapshot',
+                targetId: snapshotId
+            })
+        );
+        expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+            expect.objectContaining({
+                fieldPackageKey: 'contract-finance',
+                rawValue: '30% 首付，65% 阶段款，5% 质保金',
+                targetType: 'ContractSnapshot',
+                targetId: snapshotId
+            })
+        );
+    });
+
     it('activates contract with current user identity', async () => {
         contractService.activate.mockResolvedValue({
             targetId: contractId,
@@ -247,6 +304,32 @@ describe('ContractController', () => {
             currentSnapshotId: null,
             signedAt: null,
             retentionDueDate: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
+            updatedBy: userId,
+            ...overrides
+        };
+    }
+
+    function createTermSnapshot(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '60000000-0000-4000-8000-000000000001',
+            contractId,
+            effectiveAt: baseDate,
+            effectiveBy: userId,
+            retentionDueDate: '2026-12-31',
+            amountTaxInclusive: '880000.00',
+            amountTaxExclusive: '778761.06',
+            taxRate: '0.13',
+            downPaymentRate: '0.30',
+            retentionRate: '0.05',
+            paymentTerms: '30% 首付，65% 阶段款，5% 质保金',
+            sourceReadinessId: null,
+            sourceBaselineId: null,
+            version: 1,
+            snapshotStatus: 'active',
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

@@ -15207,7 +15207,10 @@
           "currentEffectiveBaselineCostSummaryProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "grossMarginSummaryProjection": {
+          "grossMarginAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "grossMarginRateProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "taxImpactSummaryProjection": {
@@ -15246,7 +15249,8 @@
           "receivableConfirmedAmountSummaryProjection",
           "includedCostTotalSummaryProjection",
           "currentEffectiveBaselineCostSummaryProjection",
-          "grossMarginSummaryProjection",
+          "grossMarginAmountProjection",
+          "grossMarginRateProjection",
           "taxImpactSummaryProjection",
           "allocationStabilitySummary",
           "unmappedCostSummary",
@@ -19128,21 +19132,17 @@
           "amountTaxExclusiveProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxRate": {
-            "type": "string",
-            "nullable": true
+          "taxRateProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "downPaymentRate": {
-            "type": "string",
-            "nullable": true
+          "downPaymentRateProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "retentionRate": {
-            "type": "string",
-            "nullable": true
+          "retentionRateProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "paymentTerms": {
-            "type": "string",
-            "nullable": true
+          "paymentTermsProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "sourceReadinessId": {
             "type": "string",
@@ -19194,10 +19194,10 @@
           "retentionDueDate",
           "amountTaxInclusiveProjection",
           "amountTaxExclusiveProjection",
-          "taxRate",
-          "downPaymentRate",
-          "retentionRate",
-          "paymentTerms",
+          "taxRateProjection",
+          "downPaymentRateProjection",
+          "retentionRateProjection",
+          "paymentTermsProjection",
           "sourceReadinessId",
           "sourceBaselineId",
           "version",

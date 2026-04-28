@@ -79,13 +79,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
 // Sensitive Field Projection
 // ---------------------------------------------------------------------------
 
-export const SENSITIVE_FIELD_PACKAGE_KEYS = [
-    'contract-finance',
-    'operating-finance',
-    'commission-compensation',
-    'labor-cost-rate',
-    'exception-approval-opinion'
-] as const;
+export const SENSITIVE_FIELD_PACKAGE_KEYS = ['contract-finance', 'operating-finance', 'commission-compensation', 'labor-cost-rate', 'exception-approval-opinion'] as const;
 
 export type SensitiveFieldPackageKey = (typeof SENSITIVE_FIELD_PACKAGE_KEYS)[number];
 
@@ -797,17 +791,9 @@ export const UpdateLeadRequestSchema = z
         ownerOrgId: z.uuid().nullable().optional(),
         ownerUserId: z.uuid().nullable().optional()
     })
-    .refine(
-        (value) =>
-            value.leadName !== undefined ||
-            value.customerName !== undefined ||
-            value.sourceChannel !== undefined ||
-            value.ownerOrgId !== undefined ||
-            value.ownerUserId !== undefined,
-        {
-            message: 'At least one field is required for update'
-        }
-    )
+    .refine((value) => value.leadName !== undefined || value.customerName !== undefined || value.sourceChannel !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined, {
+        message: 'At least one field is required for update'
+    })
     .meta({ id: 'UpdateLeadRequest' });
 
 export type UpdateLeadRequest = z.infer<typeof UpdateLeadRequestSchema>;
@@ -852,18 +838,7 @@ export type LeadListQuery = z.infer<typeof LeadListQuerySchema>;
 // Project
 // ---------------------------------------------------------------------------
 
-export const PROJECT_STAGES = [
-    'assessment',
-    'scope-confirmation',
-    'commercial-closure',
-    'contracting',
-    'handover',
-    'execution',
-    'acceptance',
-    'completed',
-    'closed-lost',
-    'closed-terminated'
-] as const;
+export const PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'] as const;
 
 export type ProjectStage = (typeof PROJECT_STAGES)[number];
 
@@ -1233,9 +1208,7 @@ export const ProjectTechnicalCostPackageSummarySchema = z
 
 export type ProjectTechnicalCostPackageSummary = z.infer<typeof ProjectTechnicalCostPackageSummarySchema>;
 
-export const ProjectTechnicalCostPackageListSchema = z
-    .array(ProjectTechnicalCostPackageSummarySchema)
-    .meta({ id: 'ProjectTechnicalCostPackageList' });
+export const ProjectTechnicalCostPackageListSchema = z.array(ProjectTechnicalCostPackageSummarySchema).meta({ id: 'ProjectTechnicalCostPackageList' });
 
 export type ProjectTechnicalCostPackageList = z.infer<typeof ProjectTechnicalCostPackageListSchema>;
 
@@ -1258,26 +1231,11 @@ export const ProjectTechnicalCostWorkspaceViewSchema = z
 
 export type ProjectTechnicalCostWorkspaceView = z.infer<typeof ProjectTechnicalCostWorkspaceViewSchema>;
 
-export const BID_COMMERCIAL_MODES = [
-    'public-tender',
-    'invitation',
-    'comparison',
-    'commercial-negotiation',
-    'competitive-negotiation',
-    'direct-commercial',
-    'not-required'
-] as const;
+export const BID_COMMERCIAL_MODES = ['public-tender', 'invitation', 'comparison', 'commercial-negotiation', 'competitive-negotiation', 'direct-commercial', 'not-required'] as const;
 
 export type BidCommercialMode = (typeof BID_COMMERCIAL_MODES)[number];
 
-export const BID_COMMERCIAL_STAGES = [
-    'not-started',
-    'preparation',
-    'submitted',
-    'negotiating',
-    'result-confirmed',
-    'closed'
-] as const;
+export const BID_COMMERCIAL_STAGES = ['not-started', 'preparation', 'submitted', 'negotiating', 'result-confirmed', 'closed'] as const;
 
 export type BidCommercialStage = (typeof BID_COMMERCIAL_STAGES)[number];
 
@@ -1404,9 +1362,7 @@ export const ProjectBidCommercialProcessSummarySchema = z
 
 export type ProjectBidCommercialProcessSummary = z.infer<typeof ProjectBidCommercialProcessSummarySchema>;
 
-export const ProjectBidCommercialProcessListSchema = z
-    .array(ProjectBidCommercialProcessSummarySchema)
-    .meta({ id: 'ProjectBidCommercialProcessList' });
+export const ProjectBidCommercialProcessListSchema = z.array(ProjectBidCommercialProcessSummarySchema).meta({ id: 'ProjectBidCommercialProcessList' });
 
 export type ProjectBidCommercialProcessList = z.infer<typeof ProjectBidCommercialProcessListSchema>;
 
@@ -1554,9 +1510,7 @@ export const ProjectPricingMarginReviewSummarySchema = z
 
 export type ProjectPricingMarginReviewSummary = z.infer<typeof ProjectPricingMarginReviewSummarySchema>;
 
-export const ProjectPricingMarginReviewListSchema = z
-    .array(ProjectPricingMarginReviewSummarySchema)
-    .meta({ id: 'ProjectPricingMarginReviewList' });
+export const ProjectPricingMarginReviewListSchema = z.array(ProjectPricingMarginReviewSummarySchema).meta({ id: 'ProjectPricingMarginReviewList' });
 
 export type ProjectPricingMarginReviewList = z.infer<typeof ProjectPricingMarginReviewListSchema>;
 
@@ -1876,10 +1830,10 @@ export const ContractTermSnapshotSummarySchema = z
         retentionDueDate: z.iso.date().nullable(),
         amountTaxInclusiveProjection: SensitiveStringFieldProjectionSchema,
         amountTaxExclusiveProjection: SensitiveStringFieldProjectionSchema,
-        taxRate: z.string().nullable(),
-        downPaymentRate: z.string().nullable(),
-        retentionRate: z.string().nullable(),
-        paymentTerms: z.string().nullable(),
+        taxRateProjection: SensitiveStringFieldProjectionSchema,
+        downPaymentRateProjection: SensitiveStringFieldProjectionSchema,
+        retentionRateProjection: SensitiveStringFieldProjectionSchema,
+        paymentTermsProjection: SensitiveStringFieldProjectionSchema,
         sourceReadinessId: z.uuid().nullable(),
         sourceBaselineId: z.uuid().nullable(),
         version: z.number().int(),
@@ -1933,18 +1887,9 @@ export const UpdateContractBasicInfoRequestSchema = z
         retentionDueDate: z.iso.date().nullable().optional(),
         updatedBy: z.uuid().nullable().optional()
     })
-    .refine(
-        (value) =>
-            value.customerContractNo !== undefined ||
-            value.signedAmount !== undefined ||
-            value.currencyCode !== undefined ||
-            value.signedAt !== undefined ||
-            value.retentionDueDate !== undefined ||
-            value.updatedBy !== undefined,
-        {
-            message: 'At least one field is required for update'
-        }
-    )
+    .refine((value) => value.customerContractNo !== undefined || value.signedAmount !== undefined || value.currencyCode !== undefined || value.signedAt !== undefined || value.retentionDueDate !== undefined || value.updatedBy !== undefined, {
+        message: 'At least one field is required for update'
+    })
     .meta({ id: 'UpdateContractBasicInfoRequest' });
 
 export type UpdateContractBasicInfoRequest = z.infer<typeof UpdateContractBasicInfoRequestSchema>;
@@ -1966,17 +1911,13 @@ export type CommercialDiffLevel = z.infer<typeof CommercialDiffLevelSchema>;
 
 export const COMMERCIAL_DIFF_REVIEW_STATUSES = ['not-required', 'pending-review', 'approved', 'rejected'] as const;
 
-export const CommercialDiffReviewStatusSchema = z
-    .enum(COMMERCIAL_DIFF_REVIEW_STATUSES)
-    .meta({ id: 'CommercialDiffReviewStatus' });
+export const CommercialDiffReviewStatusSchema = z.enum(COMMERCIAL_DIFF_REVIEW_STATUSES).meta({ id: 'CommercialDiffReviewStatus' });
 
 export type CommercialDiffReviewStatus = z.infer<typeof CommercialDiffReviewStatusSchema>;
 
 export const COMMERCIAL_BASELINE_REVIEW_DECISIONS = ['approved', 'rejected'] as const;
 
-export const CommercialBaselineReviewDecisionSchema = z
-    .enum(COMMERCIAL_BASELINE_REVIEW_DECISIONS)
-    .meta({ id: 'CommercialBaselineReviewDecision' });
+export const CommercialBaselineReviewDecisionSchema = z.enum(COMMERCIAL_BASELINE_REVIEW_DECISIONS).meta({ id: 'CommercialBaselineReviewDecision' });
 
 export type CommercialBaselineReviewDecision = z.infer<typeof CommercialBaselineReviewDecisionSchema>;
 
@@ -1988,25 +1929,19 @@ export type ContractReadinessStatus = z.infer<typeof ContractReadinessStatusSche
 
 export const CONTRACT_READINESS_GUARD_DECISIONS = ['allowed', 'review-required', 'blocked'] as const;
 
-export const ContractReadinessGuardDecisionSchema = z
-    .enum(CONTRACT_READINESS_GUARD_DECISIONS)
-    .meta({ id: 'ContractReadinessGuardDecision' });
+export const ContractReadinessGuardDecisionSchema = z.enum(CONTRACT_READINESS_GUARD_DECISIONS).meta({ id: 'ContractReadinessGuardDecision' });
 
 export type ContractReadinessGuardDecision = z.infer<typeof ContractReadinessGuardDecisionSchema>;
 
 export const CONTRACT_READINESS_ITEM_TYPES = ['checklist', 'reusable-fact', 'blocking-reason', 'receivable-seed'] as const;
 
-export const ContractReadinessItemTypeSchema = z
-    .enum(CONTRACT_READINESS_ITEM_TYPES)
-    .meta({ id: 'ContractReadinessItemType' });
+export const ContractReadinessItemTypeSchema = z.enum(CONTRACT_READINESS_ITEM_TYPES).meta({ id: 'ContractReadinessItemType' });
 
 export type ContractReadinessItemType = z.infer<typeof ContractReadinessItemTypeSchema>;
 
 export const CONTRACT_READINESS_ITEM_STATUSES = ['ready', 'conditional', 'blocked', 'not-applicable'] as const;
 
-export const ContractReadinessItemStatusSchema = z
-    .enum(CONTRACT_READINESS_ITEM_STATUSES)
-    .meta({ id: 'ContractReadinessItemStatus' });
+export const ContractReadinessItemStatusSchema = z.enum(CONTRACT_READINESS_ITEM_STATUSES).meta({ id: 'ContractReadinessItemStatus' });
 
 export type ContractReadinessItemStatus = z.infer<typeof ContractReadinessItemStatusSchema>;
 
@@ -2041,9 +1976,7 @@ export const CommercialBaselineReviewRecordSummarySchema = z
 
 export type CommercialBaselineReviewRecordSummary = z.infer<typeof CommercialBaselineReviewRecordSummarySchema>;
 
-export const CommercialBaselineReviewHistorySchema = z
-    .array(CommercialBaselineReviewRecordSummarySchema)
-    .meta({ id: 'CommercialBaselineReviewHistory' });
+export const CommercialBaselineReviewHistorySchema = z.array(CommercialBaselineReviewRecordSummarySchema).meta({ id: 'CommercialBaselineReviewHistory' });
 
 export type CommercialBaselineReviewHistory = z.infer<typeof CommercialBaselineReviewHistorySchema>;
 
@@ -2319,9 +2252,7 @@ export const ConfirmProjectHandoverParticipantConfirmationInputSchema = z
     })
     .meta({ id: 'ConfirmProjectHandoverParticipantConfirmationInput' });
 
-export type ConfirmProjectHandoverParticipantConfirmationInput = z.infer<
-    typeof ConfirmProjectHandoverParticipantConfirmationInputSchema
->;
+export type ConfirmProjectHandoverParticipantConfirmationInput = z.infer<typeof ConfirmProjectHandoverParticipantConfirmationInputSchema>;
 
 export const ConfirmProjectHandoverRequestSchema = z
     .object({
@@ -2501,17 +2432,9 @@ export const ReadinessInitializationResultSchema = z
 
 export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializationResultSchema>;
 
-export const RECEIPT_RECORD_STATUSES = [
-    'draft',
-    'pending-confirmation',
-    'confirmed',
-    'reversed',
-    'void'
-] as const;
+export const RECEIPT_RECORD_STATUSES = ['draft', 'pending-confirmation', 'confirmed', 'reversed', 'void'] as const;
 
-export const ReceiptRecordStatusSchema = z
-    .enum(RECEIPT_RECORD_STATUSES)
-    .meta({ id: 'ReceiptRecordStatus' });
+export const ReceiptRecordStatusSchema = z.enum(RECEIPT_RECORD_STATUSES).meta({ id: 'ReceiptRecordStatus' });
 
 export type ReceiptRecordStatus = z.infer<typeof ReceiptRecordStatusSchema>;
 
@@ -2534,9 +2457,7 @@ export const ReceiptRecordSummarySchema = z
 
 export type ReceiptRecordSummary = z.infer<typeof ReceiptRecordSummarySchema>;
 
-export const ReceiptRecordListSchema = z
-    .array(ReceiptRecordSummarySchema)
-    .meta({ id: 'ReceiptRecordList' });
+export const ReceiptRecordListSchema = z.array(ReceiptRecordSummarySchema).meta({ id: 'ReceiptRecordList' });
 
 export type ReceiptRecordList = z.infer<typeof ReceiptRecordListSchema>;
 
@@ -2560,9 +2481,7 @@ export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordReq
 
 export const PAYABLE_RECORD_STATUSES = ['draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'] as const;
 
-export const PayableRecordStatusSchema = z
-    .enum(PAYABLE_RECORD_STATUSES)
-    .meta({ id: 'PayableRecordStatus' });
+export const PayableRecordStatusSchema = z.enum(PAYABLE_RECORD_STATUSES).meta({ id: 'PayableRecordStatus' });
 
 export type PayableRecordStatus = z.infer<typeof PayableRecordStatusSchema>;
 
@@ -2595,9 +2514,7 @@ export const PayableRecordSummarySchema = z
 
 export type PayableRecordSummary = z.infer<typeof PayableRecordSummarySchema>;
 
-export const PayableRecordListSchema = z
-    .array(PayableRecordSummarySchema)
-    .meta({ id: 'PayableRecordList' });
+export const PayableRecordListSchema = z.array(PayableRecordSummarySchema).meta({ id: 'PayableRecordList' });
 
 export type PayableRecordList = z.infer<typeof PayableRecordListSchema>;
 
@@ -2683,9 +2600,7 @@ export type VoidPayableRecordRequest = z.infer<typeof VoidPayableRecordRequestSc
 
 export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'void'] as const;
 
-export const PaymentRecordStatusSchema = z
-    .enum(PAYMENT_RECORD_STATUSES)
-    .meta({ id: 'PaymentRecordStatus' });
+export const PaymentRecordStatusSchema = z.enum(PAYMENT_RECORD_STATUSES).meta({ id: 'PaymentRecordStatus' });
 
 export type PaymentRecordStatus = z.infer<typeof PaymentRecordStatusSchema>;
 
@@ -2713,9 +2628,7 @@ export const PaymentRecordSummarySchema = z
 
 export type PaymentRecordSummary = z.infer<typeof PaymentRecordSummarySchema>;
 
-export const PaymentRecordListSchema = z
-    .array(PaymentRecordSummarySchema)
-    .meta({ id: 'PaymentRecordList' });
+export const PaymentRecordListSchema = z.array(PaymentRecordSummarySchema).meta({ id: 'PaymentRecordList' });
 
 export type PaymentRecordList = z.infer<typeof PaymentRecordListSchema>;
 
@@ -2745,25 +2658,19 @@ export type ConfirmPaymentRecordRequest = z.infer<typeof ConfirmPaymentRecordReq
 
 export const INVOICE_RECORD_TYPES = ['input', 'output'] as const;
 
-export const InvoiceRecordTypeSchema = z
-    .enum(INVOICE_RECORD_TYPES)
-    .meta({ id: 'InvoiceRecordType' });
+export const InvoiceRecordTypeSchema = z.enum(INVOICE_RECORD_TYPES).meta({ id: 'InvoiceRecordType' });
 
 export type InvoiceRecordType = z.infer<typeof InvoiceRecordTypeSchema>;
 
 export const INVOICE_RECORD_STATUSES = ['draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'] as const;
 
-export const InvoiceRecordStatusSchema = z
-    .enum(INVOICE_RECORD_STATUSES)
-    .meta({ id: 'InvoiceRecordStatus' });
+export const InvoiceRecordStatusSchema = z.enum(INVOICE_RECORD_STATUSES).meta({ id: 'InvoiceRecordStatus' });
 
 export type InvoiceRecordStatus = z.infer<typeof InvoiceRecordStatusSchema>;
 
 export const INVOICE_RECORD_EXCEPTION_STATUSES = ['none', 'open', 'resolved'] as const;
 
-export const InvoiceRecordExceptionStatusSchema = z
-    .enum(INVOICE_RECORD_EXCEPTION_STATUSES)
-    .meta({ id: 'InvoiceRecordExceptionStatus' });
+export const InvoiceRecordExceptionStatusSchema = z.enum(INVOICE_RECORD_EXCEPTION_STATUSES).meta({ id: 'InvoiceRecordExceptionStatus' });
 
 export type InvoiceRecordExceptionStatus = z.infer<typeof InvoiceRecordExceptionStatusSchema>;
 
@@ -2790,9 +2697,7 @@ export const InvoiceRecordSummarySchema = z
 
 export type InvoiceRecordSummary = z.infer<typeof InvoiceRecordSummarySchema>;
 
-export const InvoiceRecordListSchema = z
-    .array(InvoiceRecordSummarySchema)
-    .meta({ id: 'InvoiceRecordList' });
+export const InvoiceRecordListSchema = z.array(InvoiceRecordSummarySchema).meta({ id: 'InvoiceRecordList' });
 
 export type InvoiceRecordList = z.infer<typeof InvoiceRecordListSchema>;
 
@@ -2825,17 +2730,9 @@ export const UpdateInvoiceRecordRequestSchema = z
         status: InvoiceRecordPatchableStatusSchema.optional(),
         expectedVersion: z.number().int().positive().optional()
     })
-    .refine(
-        (value) =>
-            value.contractId !== undefined ||
-            value.invoiceNumber !== undefined ||
-            value.invoiceAmount !== undefined ||
-            value.invoiceDate !== undefined ||
-            value.status !== undefined,
-        {
-            message: 'At least one updatable field is required'
-        }
-    )
+    .refine((value) => value.contractId !== undefined || value.invoiceNumber !== undefined || value.invoiceAmount !== undefined || value.invoiceDate !== undefined || value.status !== undefined, {
+        message: 'At least one updatable field is required'
+    })
     .meta({ id: 'UpdateInvoiceRecordRequest' });
 
 export type UpdateInvoiceRecordRequest = z.infer<typeof UpdateInvoiceRecordRequestSchema>;
@@ -2872,25 +2769,19 @@ export type CloseInvoiceRecordRequest = z.infer<typeof CloseInvoiceRecordRequest
 
 export const EXPENSE_CATEGORIES = ['travel', 'onsite-service', 'deployment-logistics', 'temporary-spend', 'misc'] as const;
 
-export const ExpenseCategorySchema = z
-    .enum(EXPENSE_CATEGORIES)
-    .meta({ id: 'ExpenseCategory' });
+export const ExpenseCategorySchema = z.enum(EXPENSE_CATEGORIES).meta({ id: 'ExpenseCategory' });
 
 export type ExpenseCategory = z.infer<typeof ExpenseCategorySchema>;
 
 export const EXPENSE_SOURCE_TYPES = ['manual', 'reimbursement', 'import'] as const;
 
-export const ExpenseSourceTypeSchema = z
-    .enum(EXPENSE_SOURCE_TYPES)
-    .meta({ id: 'ExpenseSourceType' });
+export const ExpenseSourceTypeSchema = z.enum(EXPENSE_SOURCE_TYPES).meta({ id: 'ExpenseSourceType' });
 
 export type ExpenseSourceType = z.infer<typeof ExpenseSourceTypeSchema>;
 
 export const EXPENSE_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
 
-export const ExpenseRecordStatusSchema = z
-    .enum(EXPENSE_RECORD_STATUSES)
-    .meta({ id: 'ExpenseRecordStatus' });
+export const ExpenseRecordStatusSchema = z.enum(EXPENSE_RECORD_STATUSES).meta({ id: 'ExpenseRecordStatus' });
 
 export type ExpenseRecordStatus = z.infer<typeof ExpenseRecordStatusSchema>;
 
@@ -2922,9 +2813,7 @@ export const ExpenseRecordSummarySchema = z
 
 export type ExpenseRecordSummary = z.infer<typeof ExpenseRecordSummarySchema>;
 
-export const ExpenseRecordListSchema = z
-    .array(ExpenseRecordSummarySchema)
-    .meta({ id: 'ExpenseRecordList' });
+export const ExpenseRecordListSchema = z.array(ExpenseRecordSummarySchema).meta({ id: 'ExpenseRecordList' });
 
 export type ExpenseRecordList = z.infer<typeof ExpenseRecordListSchema>;
 
@@ -3260,9 +3149,7 @@ export const CommissionRoleAssignmentDetailViewSchema = z
 
 export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
-export const CommissionDepartureExceptionDecisionStatusSchema = z
-    .enum(['active', 'superseded', 'voided'])
-    .meta({ id: 'CommissionDepartureExceptionDecisionStatus' });
+export const CommissionDepartureExceptionDecisionStatusSchema = z.enum(['active', 'superseded', 'voided']).meta({ id: 'CommissionDepartureExceptionDecisionStatus' });
 
 export type CommissionDepartureExceptionDecisionStatus = z.infer<typeof CommissionDepartureExceptionDecisionStatusSchema>;
 
@@ -3304,9 +3191,7 @@ export const CreateCommissionDepartureExceptionDecisionRequestSchema = z
 
 export type CreateCommissionDepartureExceptionDecisionRequest = z.infer<typeof CreateCommissionDepartureExceptionDecisionRequestSchema>;
 
-export const CommissionFreezeDisputeArbitrationStatusSchema = z
-    .enum(['pending', 'arbitrated'])
-    .meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
+export const CommissionFreezeDisputeArbitrationStatusSchema = z.enum(['pending', 'arbitrated']).meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
 
 export type CommissionFreezeDisputeArbitrationStatus = z.infer<typeof CommissionFreezeDisputeArbitrationStatusSchema>;
 
@@ -3539,9 +3424,7 @@ export const SubmitNonRetentionCommissionPayoutApprovalRequestSchema = SubmitCom
     departureExceptionDecisionId: z.uuid().optional()
 }).meta({ id: 'SubmitNonRetentionCommissionPayoutApprovalRequest' });
 
-export const SubmitCommissionPayoutApprovalRequestSchema = z
-    .union([SubmitRetentionCommissionPayoutApprovalRequestSchema, SubmitNonRetentionCommissionPayoutApprovalRequestSchema])
-    .meta({ id: 'SubmitCommissionPayoutApprovalRequest' });
+export const SubmitCommissionPayoutApprovalRequestSchema = z.union([SubmitRetentionCommissionPayoutApprovalRequestSchema, SubmitNonRetentionCommissionPayoutApprovalRequestSchema]).meta({ id: 'SubmitCommissionPayoutApprovalRequest' });
 
 export type SubmitRetentionCommissionPayoutApprovalRequest = z.infer<typeof SubmitRetentionCommissionPayoutApprovalRequestSchema>;
 
@@ -3576,9 +3459,7 @@ export const RegisterNonRetentionCommissionPayoutRequestSchema = RegisterCommiss
     summarySnapshotId: z.uuid().optional()
 }).meta({ id: 'RegisterNonRetentionCommissionPayoutRequest' });
 
-export const RegisterCommissionPayoutRequestSchema = z
-    .union([RegisterRetentionCommissionPayoutRequestSchema, RegisterNonRetentionCommissionPayoutRequestSchema])
-    .meta({ id: 'RegisterCommissionPayoutRequest' });
+export const RegisterCommissionPayoutRequestSchema = z.union([RegisterRetentionCommissionPayoutRequestSchema, RegisterNonRetentionCommissionPayoutRequestSchema]).meta({ id: 'RegisterCommissionPayoutRequest' });
 
 export type RegisterRetentionCommissionPayoutRequest = z.infer<typeof RegisterRetentionCommissionPayoutRequestSchema>;
 
@@ -3590,9 +3471,7 @@ export type RegisterCommissionPayoutRequest = z.infer<typeof RegisterCommissionP
 // Commission — Adjustment
 // ---------------------------------------------------------------------------
 
-export const CommissionAdjustmentTypeSchema = z
-    .enum(['suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'])
-    .meta({ id: 'CommissionAdjustmentType' });
+export const CommissionAdjustmentTypeSchema = z.enum(['suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate']).meta({ id: 'CommissionAdjustmentType' });
 
 export type CommissionAdjustmentType = z.infer<typeof CommissionAdjustmentTypeSchema>;
 
@@ -3658,9 +3537,7 @@ export type RecalculateCommissionRequest = z.infer<typeof RecalculateCommissionR
 // Project Cost
 // ---------------------------------------------------------------------------
 
-export const InternalCostRateVersionStatusSchema = z
-    .enum(['active', 'superseded', 'retired'])
-    .meta({ id: 'InternalCostRateVersionStatus' });
+export const InternalCostRateVersionStatusSchema = z.enum(['active', 'superseded', 'retired']).meta({ id: 'InternalCostRateVersionStatus' });
 
 export type InternalCostRateVersionStatus = z.infer<typeof InternalCostRateVersionStatusSchema>;
 
@@ -3754,9 +3631,7 @@ export const ProjectActualCostRecordSummarySchema = z
 
 export type ProjectActualCostRecordSummary = z.infer<typeof ProjectActualCostRecordSummarySchema>;
 
-export const ProjectActualCostRecordListViewSchema = z
-    .array(ProjectActualCostRecordSummarySchema)
-    .meta({ id: 'ProjectActualCostRecordListView' });
+export const ProjectActualCostRecordListViewSchema = z.array(ProjectActualCostRecordSummarySchema).meta({ id: 'ProjectActualCostRecordListView' });
 
 export type ProjectActualCostRecordListView = z.infer<typeof ProjectActualCostRecordListViewSchema>;
 
@@ -3782,15 +3657,11 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
 
-export const BaselineSelectionSourceSchema = z
-    .enum(['original', 'handover_rebaseline'])
-    .meta({ id: 'BaselineSelectionSource' });
+export const BaselineSelectionSourceSchema = z.enum(['original', 'handover_rebaseline']).meta({ id: 'BaselineSelectionSource' });
 
 export type BaselineSelectionSource = z.infer<typeof BaselineSelectionSourceSchema>;
 
-export const OperatingSnapshotActionLevelSchema = z
-    .enum(['PROMPT', 'REVIEW', 'BLOCK'])
-    .meta({ id: 'OperatingSnapshotActionLevel' });
+export const OperatingSnapshotActionLevelSchema = z.enum(['PROMPT', 'REVIEW', 'BLOCK']).meta({ id: 'OperatingSnapshotActionLevel' });
 
 export type OperatingSnapshotActionLevel = z.infer<typeof OperatingSnapshotActionLevelSchema>;
 
@@ -3903,10 +3774,7 @@ const OperatingSnapshotAmountInputSchema = z.object({
     handoverRebaselineRecordId: z.uuid().nullable().optional()
 });
 
-function assertOperatingSnapshotBaselineSelection(
-    input: { baselineSelectionSource: 'original' | 'handover_rebaseline'; handoverRebaselineRecordId?: string | null },
-    ctx: z.RefinementCtx
-) {
+function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSource: 'original' | 'handover_rebaseline'; handoverRebaselineRecordId?: string | null }, ctx: z.RefinementCtx) {
     if (input.baselineSelectionSource === 'handover_rebaseline' && !input.handoverRebaselineRecordId) {
         ctx.addIssue({
             code: 'custom',
@@ -4048,9 +3916,7 @@ export const OperatingRestatementSummarySchema = z
 
 export type OperatingRestatementSummary = z.infer<typeof OperatingRestatementSummarySchema>;
 
-export const OperatingRestatementListViewSchema = z
-    .array(OperatingRestatementSummarySchema)
-    .meta({ id: 'OperatingRestatementListView' });
+export const OperatingRestatementListViewSchema = z.array(OperatingRestatementSummarySchema).meta({ id: 'OperatingRestatementListView' });
 
 export type OperatingRestatementListView = z.infer<typeof OperatingRestatementListViewSchema>;
 
@@ -4126,9 +3992,7 @@ export const SharedCostAllocationBasisSummarySchema = z
 
 export type SharedCostAllocationBasisSummary = z.infer<typeof SharedCostAllocationBasisSummarySchema>;
 
-export const SharedCostAllocationResultListViewSchema = z
-    .array(SharedCostAllocationResultSummarySchema)
-    .meta({ id: 'SharedCostAllocationResultListView' });
+export const SharedCostAllocationResultListViewSchema = z.array(SharedCostAllocationResultSummarySchema).meta({ id: 'SharedCostAllocationResultListView' });
 
 export type SharedCostAllocationResultListView = z.infer<typeof SharedCostAllocationResultListViewSchema>;
 
@@ -4177,9 +4041,7 @@ export const CostStageAttributionSnapshotSummarySchema = z
 
 export type CostStageAttributionSnapshotSummary = z.infer<typeof CostStageAttributionSnapshotSummarySchema>;
 
-export const CostStageAttributionHistoryViewSchema = z
-    .array(CostStageAttributionSnapshotSummarySchema)
-    .meta({ id: 'CostStageAttributionHistoryView' });
+export const CostStageAttributionHistoryViewSchema = z.array(CostStageAttributionSnapshotSummarySchema).meta({ id: 'CostStageAttributionHistoryView' });
 
 export type CostStageAttributionHistoryView = z.infer<typeof CostStageAttributionHistoryViewSchema>;
 
@@ -4235,9 +4097,7 @@ export const AccountingTaxTreatmentSnapshotSummarySchema = z
 
 export type AccountingTaxTreatmentSnapshotSummary = z.infer<typeof AccountingTaxTreatmentSnapshotSummarySchema>;
 
-export const AccountingTaxTreatmentListViewSchema = z
-    .array(AccountingTaxTreatmentSnapshotSummarySchema)
-    .meta({ id: 'AccountingTaxTreatmentListView' });
+export const AccountingTaxTreatmentListViewSchema = z.array(AccountingTaxTreatmentSnapshotSummarySchema).meta({ id: 'AccountingTaxTreatmentListView' });
 
 export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatmentListViewSchema>;
 
@@ -4372,7 +4232,8 @@ export const ProjectBusinessOutcomeOverviewViewSchema = z
         receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjectionSchema,
         includedCostTotalSummaryProjection: SensitiveStringFieldProjectionSchema,
         currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjectionSchema,
-        grossMarginSummaryProjection: SensitiveStringFieldProjectionSchema,
+        grossMarginAmountProjection: SensitiveStringFieldProjectionSchema,
+        grossMarginRateProjection: SensitiveStringFieldProjectionSchema,
         taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),

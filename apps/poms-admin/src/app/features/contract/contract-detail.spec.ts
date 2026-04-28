@@ -40,6 +40,30 @@ function createContract(overrides: Partial<ContractDetailView> = {}): ContractDe
     };
 }
 
+function createTermSnapshot(overrides: Partial<NonNullable<ContractDetailView['currentTermSnapshot']>> = {}): NonNullable<ContractDetailView['currentTermSnapshot']> {
+    return {
+        id: 'snapshot-1',
+        contractId: 'contract-1',
+        effectiveAt: '2026-04-26T08:00:00.000Z',
+        effectiveBy: 'user-1',
+        retentionDueDate: '2026-12-31',
+        amountTaxInclusiveProjection: sensitiveProjection('1200000.00'),
+        amountTaxExclusiveProjection: sensitiveProjection('1061946.90'),
+        taxRateProjection: sensitiveProjection('0.13'),
+        downPaymentRateProjection: sensitiveProjection('0.30'),
+        retentionRateProjection: sensitiveProjection('0.05'),
+        paymentTermsProjection: sensitiveProjection('30% 首付，65% 阶段款，5% 质保金'),
+        sourceReadinessId: null,
+        sourceBaselineId: null,
+        version: 1,
+        snapshotStatus: 'active',
+        createdAt: '2026-04-26T08:00:00.000Z',
+        createdBy: 'user-1',
+        rowVersion: 1,
+        ...overrides
+    };
+}
+
 describe('ContractDetail', () => {
     let fixture: ComponentFixture<ContractDetail>;
     let component: ContractDetail;
@@ -159,12 +183,47 @@ describe('ContractDetail', () => {
         fixture.detectChanges();
 
         const text = fixture.nativeElement.textContent;
-        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button')).map((button: Element) => button.textContent ?? '').join(' ');
+        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
+            .map((button: Element) => button.textContent ?? '')
+            .join(' ');
 
         expect(text).toContain('经营敏感字段已隐藏');
         expect(text).not.toContain('1,200,000.00 CNY');
         expect(buttonText).not.toContain('编辑');
         expect(buttonText).not.toContain('提交审核');
+    });
+
+    it('renders contract term projections without frontend permission inference', () => {
+        selectedContract.set(
+            createContract({
+                currentTermSnapshot: createTermSnapshot()
+            })
+        );
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('13.00%');
+        expect(text).toContain('30.00%');
+        expect(text).toContain('5.00%');
+        expect(text).toContain('30% 首付，65% 阶段款，5% 质保金');
+
+        selectedContract.set(
+            createContract({
+                currentTermSnapshot: createTermSnapshot({
+                    taxRateProjection: sensitiveProjection(null),
+                    downPaymentRateProjection: sensitiveProjection(null),
+                    retentionRateProjection: sensitiveProjection(null),
+                    paymentTermsProjection: sensitiveProjection(null)
+                })
+            })
+        );
+        fixture.detectChanges();
+
+        const maskedText = fixture.nativeElement.textContent;
+        expect(maskedText).toContain('经营敏感字段已隐藏');
+        expect(maskedText).not.toContain('13.00%');
+        expect(maskedText).not.toContain('30% 首付，65% 阶段款，5% 质保金');
     });
 
     it('updates customer contract number without sending an internal contract number', async () => {

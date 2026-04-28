@@ -17,7 +17,8 @@ export interface ProjectBusinessOutcomeOverviewView {
     receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjection;
     includedCostTotalSummaryProjection: SensitiveStringFieldProjection;
     currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjection;
-    grossMarginSummaryProjection: SensitiveStringFieldProjection;
+    grossMarginAmountProjection: SensitiveStringFieldProjection;
+    grossMarginRateProjection: SensitiveStringFieldProjection;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
