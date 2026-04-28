@@ -22,12 +22,14 @@ import {
     ProjectPricingMarginReviewListSchema,
     ProjectPricingMarginReviewSummarySchema,
     ProjectPricingMarginWorkspaceViewSchema,
+    ProjectOwnerReassignmentResultSchema,
     ProjectSummarySchema,
     ProjectTechnicalCostPackageListSchema,
     ProjectTechnicalCostPackageSummarySchema,
     ProjectTechnicalCostWorkspaceViewSchema,
     ProjectTimelineViewSchema,
     ProjectWorkspaceGuidanceViewSchema,
+    ReassignProjectOwnerRequestSchema,
     VoidProjectArchiveRecordRequestSchema,
     UpdateProjectBasicInfoRequestSchema
 } from '@poms/shared-contracts';
@@ -94,3 +96,7 @@ export class ProjectListQueryDto extends createZodDto(ProjectListQuerySchema) {}
 export class CreateProjectRequestDto extends createZodDto(CreateProjectRequestSchema) {}
 
 export class UpdateProjectBasicInfoRequestDto extends createZodDto(UpdateProjectBasicInfoRequestSchema) {}
+
+export class ReassignProjectOwnerRequestDto extends createZodDto(ReassignProjectOwnerRequestSchema) {}
+
+export class ProjectOwnerReassignmentResultDto extends createZodDto(ProjectOwnerReassignmentResultSchema) {}

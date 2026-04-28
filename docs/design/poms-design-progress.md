@@ -481,6 +481,8 @@
 2. 当前历史回溯入口固定为：`archive/control-history/`、`archive/mainline-closure/`、`archive/phase2-batches/`。
 3. 当前主线导航入口固定为：`phase2-mainline-delivery-plan.md`、`phase2-lx-t04-full-mainline-development-decision.md`、`phase2-detailed-design-index-map.md`、`implementation-delivery-guide.md` 与 `phase2-development-execution-tracker.md`。
 4. 当前新增产品治理待办为：先完成 `EX-41` 文档 G3 / G4，再进入 `EX-41A` 后端命令和 `FE-45` 前端入口两个独立实现切片。
+5. 2026-04-29 已完成 `EX-41` 的 `G4` 收口，提交 `66ef6b6` 固定 Lead / Project 销售主责与登记人分离口径；`EX-41A` 已进入 `G1`，本片只落地项目创建后的销售主责变更命令、动作记录、契约、OpenAPI / generated client 与后端测试，不改转项目 DTO。
+6. 2026-04-29 `EX-41A` 已完成本地 `G3`：`POST /projects/{id}:reassignOwner`、`ProjectOwnerReassignmentRecord`、shared contract / OpenAPI / generated client、详情 `reassign-project-owner` action projection 和 focused backend tests 已落地；`migration-up` 与 `migration-check` 均通过。`EX41-E1` / `EX41-E2` 继续作为后续授权和转项目覆盖口径例外保留，提交后可进入 `G4`。
 
 ---
 

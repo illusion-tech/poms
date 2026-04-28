@@ -1783,6 +1783,31 @@ export const UpdateProjectBasicInfoRequestSchema = z
 
 export type UpdateProjectBasicInfoRequest = z.infer<typeof UpdateProjectBasicInfoRequestSchema>;
 
+export const ReassignProjectOwnerRequestSchema = z
+    .object({
+        ownerUserId: z.uuid(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        reason: z.string().trim().min(1).max(1000),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ReassignProjectOwnerRequest' });
+
+export type ReassignProjectOwnerRequest = z.infer<typeof ReassignProjectOwnerRequestSchema>;
+
+export const ProjectOwnerReassignmentResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        projectOwnerReassignmentRecordId: z.uuid(),
+        previousOwnerUserId: z.uuid().nullable(),
+        previousOwnerOrgId: z.uuid().nullable(),
+        newOwnerUserId: z.uuid(),
+        newOwnerOrgId: z.uuid().nullable(),
+        businessStatusAfter: z.enum(PROJECT_STATUSES)
+    })
+    .meta({ id: 'ProjectOwnerReassignmentResult' });
+
+export type ProjectOwnerReassignmentResult = z.infer<typeof ProjectOwnerReassignmentResultSchema>;
+
 // ---------------------------------------------------------------------------
 // Contract
 // ---------------------------------------------------------------------------

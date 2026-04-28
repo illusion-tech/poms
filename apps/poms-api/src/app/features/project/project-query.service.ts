@@ -38,22 +38,10 @@ import { Contract } from '../contract/contract.entity';
 import { Lead } from '../lead/lead.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
-import {
-    ProjectBidCommercialMaterialItem,
-    ProjectBidCommercialProcess,
-    ProjectBidCommercialTimelineItem
-} from './project-bid-commercial-process.entity';
+import { ProjectBidCommercialMaterialItem, ProjectBidCommercialProcess, ProjectBidCommercialTimelineItem } from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
-import {
-    ProjectPricingMarginConditionItem,
-    ProjectPricingMarginReview
-} from './project-pricing-margin-review.entity';
-import {
-    ProjectTechnicalCostItem,
-    ProjectTechnicalCostPackage,
-    ProjectTechnicalRiskItem,
-    ProjectTechnicalScopeItem
-} from './project-technical-cost-package.entity';
+import { ProjectPricingMarginConditionItem, ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
+import { ProjectTechnicalCostItem, ProjectTechnicalCostPackage, ProjectTechnicalRiskItem, ProjectTechnicalScopeItem } from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
 import { ProjectRepository } from './project.repository';
 
@@ -65,13 +53,7 @@ const PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS: PermissionKey[] = ['project:read
 const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 'contract:finance:manage'];
 const PROJECT_WORKSPACE_PAYOUT_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:payouts:manage'];
 const PROJECT_WORKSPACE_COMMISSION_FREEZE_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:assignments:manage'];
-const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = [
-    'project:read',
-    'commission:rule-versions:manage',
-    'commission:calculations:manage',
-    'commission:payouts:manage',
-    'commission:adjustments:manage'
-];
+const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:rule-versions:manage', 'commission:calculations:manage', 'commission:payouts:manage', 'commission:adjustments:manage'];
 const PROJECT_WORKSPACE_FINANCE_STAGES = ['execution', 'acceptance', 'completed'];
 const PROJECT_WORKSPACE_COMMISSION_STAGES = ['handover', 'execution', 'acceptance', 'completed'];
 const PROJECT_WORKSPACE_SETTLEMENT_STAGES = ['acceptance', 'completed'];
@@ -225,9 +207,7 @@ export class ProjectQueryService {
         return projects
             .map<ProjectListView>((project) => {
                 const signedAt = latestSignedAtByProjectId.get(project.id) ?? null;
-                const latestMilestoneAt = [project.closedAt, signedAt]
-                    .filter((candidate): candidate is Date => candidate instanceof Date)
-                    .sort((left, right) => right.getTime() - left.getTime())[0];
+                const latestMilestoneAt = [project.closedAt, signedAt].filter((candidate): candidate is Date => candidate instanceof Date).sort((left, right) => right.getTime() - left.getTime())[0];
 
                 return {
                     id: project.id,
@@ -260,11 +240,7 @@ export class ProjectQueryService {
             });
     }
 
-    async getProjectDetail(
-        id: string,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-detail:${id}` }
-    ): Promise<ProjectDetailView> {
+    async getProjectDetail(id: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-detail:${id}` }): Promise<ProjectDetailView> {
         const project = await this.projectRepository.findById(id);
         if (!project) {
             throw new NotFoundException(`Project ${id} not found`);
@@ -274,12 +250,7 @@ export class ProjectQueryService {
             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
             this.projectRepository.findContractsByProjectId(project.id),
-            this.approvalSummarySnapshotRepository.findActiveByTarget(
-                PROJECT_DETAIL_TARGET_TYPE,
-                project.id,
-                PROJECT_DETAIL_SUMMARY_SCENARIO_KEY,
-                PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL
-            ),
+            this.approvalSummarySnapshotRepository.findActiveByTarget(PROJECT_DETAIL_TARGET_TYPE, project.id, PROJECT_DETAIL_SUMMARY_SCENARIO_KEY, PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL),
             this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id),
             project.sourceLeadId ? this.projectRepository.findLeadsByIds([project.sourceLeadId]) : Promise.resolve([])
         ]);
@@ -349,12 +320,7 @@ export class ProjectQueryService {
         const [ownerUsers, ownerOrgUnits, approvalSummarySnapshot] = await Promise.all([
             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
-            this.approvalSummarySnapshotRepository.findActiveByTarget(
-                PROJECT_DETAIL_TARGET_TYPE,
-                project.id,
-                PROJECT_DETAIL_SUMMARY_SCENARIO_KEY,
-                PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL
-            )
+            this.approvalSummarySnapshotRepository.findActiveByTarget(PROJECT_DETAIL_TARGET_TYPE, project.id, PROJECT_DETAIL_SUMMARY_SCENARIO_KEY, PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL)
         ]);
         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
         const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
@@ -415,9 +381,7 @@ export class ProjectQueryService {
         }
 
         const records = await this.projectRepository.findProjectArchiveRecordsByProjectId(project.id);
-        const archivedByIds = [
-            ...new Set(records.flatMap((record) => [record.archivedBy, record.voidedBy]).filter((id): id is string => Boolean(id)))
-        ];
+        const archivedByIds = [...new Set(records.flatMap((record) => [record.archivedBy, record.voidedBy]).filter((id): id is string => Boolean(id)))];
         const users = await this.projectRepository.findPlatformUsersByIds(archivedByIds);
         const userNameById = new Map(users.map((user) => [user.id, user.displayName] as const));
         return records.map((record) => this.mapProjectArchiveRecord(record, userNameById, project, user.permissions));
@@ -518,12 +482,8 @@ export class ProjectQueryService {
                 currentStage: project.currentStage,
                 status: project.status,
                 currentReview: null,
-                technicalCostPackage: currentTechnicalCostPackage
-                    ? this.mapProjectTechnicalCostPackage(currentTechnicalCostPackage)
-                    : null,
-                bidCommercialProcess: currentBidCommercialProcess
-                    ? this.mapProjectBidCommercialProcess(currentBidCommercialProcess)
-                    : null,
+                technicalCostPackage: currentTechnicalCostPackage ? this.mapProjectTechnicalCostPackage(currentTechnicalCostPackage) : null,
+                bidCommercialProcess: currentBidCommercialProcess ? this.mapProjectBidCommercialProcess(currentBidCommercialProcess) : null,
                 conditionItems: [],
                 blockingReasons: blockingReasons.length > 0 ? blockingReasons : ['尚未形成报价与毛利评审记录。'],
                 nextStep: this.buildPricingMarginEmptyNextStep(currentTechnicalCostPackage, currentBidCommercialProcess),
@@ -537,9 +497,7 @@ export class ProjectQueryService {
         const [conditionItems, technicalCostPackage, bidCommercialProcess] = await Promise.all([
             this.projectRepository.findProjectPricingMarginConditionItemsByReviewIds([currentReview.id]),
             this.projectRepository.findProjectTechnicalCostPackageById(currentReview.technicalCostPackageId),
-            currentReview.bidCommercialProcessId
-                ? this.projectRepository.findProjectBidCommercialProcessById(currentReview.bidCommercialProcessId)
-                : Promise.resolve(null)
+            currentReview.bidCommercialProcessId ? this.projectRepository.findProjectBidCommercialProcessById(currentReview.bidCommercialProcessId) : Promise.resolve(null)
         ]);
 
         return {
@@ -636,10 +594,7 @@ export class ProjectQueryService {
             this.projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId(project.id),
             this.projectRepository.findLatestRecordedProjectArchiveRecordByProjectId(project.id)
         ]);
-        const firstSignedContract =
-            contracts
-                .filter((contract): contract is Contract & { signedAt: Date } => contract.signedAt instanceof Date)
-                .sort((left, right) => left.signedAt.getTime() - right.signedAt.getTime())[0] ?? null;
+        const firstSignedContract = contracts.filter((contract): contract is Contract & { signedAt: Date } => contract.signedAt instanceof Date).sort((left, right) => left.signedAt.getTime() - right.signedAt.getTime())[0] ?? null;
         const actorUserIds = [
             project.createdBy,
             firstSignedContract?.updatedBy ?? firstSignedContract?.createdBy ?? null,
@@ -787,12 +742,7 @@ export class ProjectQueryService {
         };
     }
 
-    private mapProjectArchiveRecord(
-        record: ProjectArchiveRecord,
-        userNameById: Map<string, string> = new Map(),
-        project?: Project,
-        permissions: PermissionKey[] = []
-    ): ProjectArchiveRecordSummary {
+    private mapProjectArchiveRecord(record: ProjectArchiveRecord, userNameById: Map<string, string> = new Map(), project?: Project, permissions: PermissionKey[] = []): ProjectArchiveRecordSummary {
         return {
             id: record.id,
             projectId: record.projectId,
@@ -1058,21 +1008,14 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-bid-commercial-workspace'];
 
-        if (
-            !this.isClosedProject(project) &&
-            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
-            permissionSet.has('project:write')
-        ) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
             actions.push('create-bid-commercial-process');
         }
 
         return actions;
     }
 
-    private buildBidCommercialBlockingReasons(
-        currentProcess: ProjectBidCommercialProcess,
-        materialItems: ProjectBidCommercialMaterialItem[]
-    ): string[] {
+    private buildBidCommercialBlockingReasons(currentProcess: ProjectBidCommercialProcess, materialItems: ProjectBidCommercialMaterialItem[]): string[] {
         const reasons: string[] = [];
 
         if (currentProcess.decision === 'pending') {
@@ -1096,10 +1039,7 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private buildBidCommercialNextStep(
-        currentProcess: ProjectBidCommercialProcess,
-        materialItems: ProjectBidCommercialMaterialItem[]
-    ): string {
+    private buildBidCommercialNextStep(currentProcess: ProjectBidCommercialProcess, materialItems: ProjectBidCommercialMaterialItem[]): string {
         const blockingReasons = this.buildBidCommercialBlockingReasons(currentProcess, materialItems);
         if (blockingReasons.length > 0) {
             return '先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。';
@@ -1124,21 +1064,14 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-pricing-margin-workspace'];
 
-        if (
-            !this.isClosedProject(project) &&
-            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
-            permissionSet.has('project:write')
-        ) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
             actions.push('create-pricing-margin-review');
         }
 
         return actions;
     }
 
-    private buildPricingMarginPrerequisiteBlockingReasons(
-        technicalCostPackage: ProjectTechnicalCostPackage | null,
-        bidCommercialProcess: ProjectBidCommercialProcess | null
-    ): string[] {
+    private buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage: ProjectTechnicalCostPackage | null, bidCommercialProcess: ProjectBidCommercialProcess | null): string[] {
         const reasons: string[] = [];
 
         if (!technicalCostPackage) {
@@ -1160,11 +1093,7 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private buildPricingMarginBlockingReasons(
-        currentReview: ProjectPricingMarginReview,
-        conditionItems: ProjectPricingMarginConditionItem[],
-        technicalCostPackage: ProjectTechnicalCostPackage | null
-    ): string[] {
+    private buildPricingMarginBlockingReasons(currentReview: ProjectPricingMarginReview, conditionItems: ProjectPricingMarginConditionItem[], technicalCostPackage: ProjectTechnicalCostPackage | null): string[] {
         const reasons: string[] = [];
 
         if (!technicalCostPackage) {
@@ -1192,10 +1121,7 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private buildPricingMarginEmptyNextStep(
-        technicalCostPackage: ProjectTechnicalCostPackage | null,
-        bidCommercialProcess: ProjectBidCommercialProcess | null
-    ): string {
+    private buildPricingMarginEmptyNextStep(technicalCostPackage: ProjectTechnicalCostPackage | null, bidCommercialProcess: ProjectBidCommercialProcess | null): string {
         const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage, bidCommercialProcess);
         if (blockingReasons.length > 0) {
             return '先补齐技术成本、税务复核或商务路径依据，再发起报价与毛利评审。';
@@ -1204,11 +1130,7 @@ export class ProjectQueryService {
         return '基于当前技术成本和商务路径，形成报价、税务条件、回款条件与毛利评审结论。';
     }
 
-    private buildPricingMarginNextStep(
-        currentReview: ProjectPricingMarginReview,
-        conditionItems: ProjectPricingMarginConditionItem[],
-        technicalCostPackage: ProjectTechnicalCostPackage | null
-    ): string {
+    private buildPricingMarginNextStep(currentReview: ProjectPricingMarginReview, conditionItems: ProjectPricingMarginConditionItem[], technicalCostPackage: ProjectTechnicalCostPackage | null): string {
         const blockingReasons = this.buildPricingMarginBlockingReasons(currentReview, conditionItems, technicalCostPackage);
         if (blockingReasons.length > 0) {
             return '先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。';
@@ -1225,21 +1147,14 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-technical-cost-workspace'];
 
-        if (
-            !this.isClosedProject(project) &&
-            PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) &&
-            permissionSet.has('project:write')
-        ) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
             actions.push('create-technical-cost-package');
         }
 
         return actions;
     }
 
-    private buildTechnicalCostBlockingReasons(
-        currentPackage: ProjectTechnicalCostPackage,
-        riskItems: ProjectTechnicalRiskItem[]
-    ): string[] {
+    private buildTechnicalCostBlockingReasons(currentPackage: ProjectTechnicalCostPackage, riskItems: ProjectTechnicalRiskItem[]): string[] {
         const reasons: string[] = [];
 
         if (!currentPackage.allowNextStage) {
@@ -1259,10 +1174,7 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private buildTechnicalCostNextStep(
-        currentPackage: ProjectTechnicalCostPackage,
-        riskItems: ProjectTechnicalRiskItem[]
-    ): string {
+    private buildTechnicalCostNextStep(currentPackage: ProjectTechnicalCostPackage, riskItems: ProjectTechnicalRiskItem[]): string {
         if (currentPackage.allowNextStage && riskItems.every((item) => !item.blocksNextStage || item.riskStatus === 'closed')) {
             return '进入商务收口前，保持当前版本包作为报价和签约前判断依据。';
         }
@@ -1311,12 +1223,7 @@ export class ProjectQueryService {
         return reasons;
     }
 
-    private async buildContractSummary(
-        contracts: Contract[],
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext,
-        projectId: string
-    ): Promise<ProjectDetailView['currentContractSummary']> {
+    private async buildContractSummary(contracts: Contract[], user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext, projectId: string): Promise<ProjectDetailView['currentContractSummary']> {
         const activeContracts = contracts.filter((contract) => contract.status === 'active');
         const latestContract = contracts[0] ?? null;
         const signedAmountProjection = await this.sensitiveFieldProjectionService.projectStringField({
@@ -1392,19 +1299,18 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-project-workspace'];
         const isClosed = project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated';
+        const canWriteProject = permissionSet.has('project:write');
 
-        if (!isClosed && permissionSet.has('project:write')) {
+        if (!isClosed && canWriteProject) {
             actions.push('edit-project-basic-info');
         }
 
+        if (['active', 'blocked'].includes(project.status) && canWriteProject) {
+            actions.push('reassign-project-owner');
+        }
+
         const commissionStageReady = ['handover', 'execution', 'acceptance', 'completed'].includes(project.currentStage);
-        const commissionPermissions: PermissionKey[] = [
-            'commission:assignments:manage',
-            'commission:calculations:manage',
-            'commission:payouts:manage',
-            'commission:adjustments:manage',
-            'commission:rule-versions:manage'
-        ];
+        const commissionPermissions: PermissionKey[] = ['commission:assignments:manage', 'commission:calculations:manage', 'commission:payouts:manage', 'commission:adjustments:manage', 'commission:rule-versions:manage'];
         const canManageCommission = commissionPermissions.some((permission) => permissionSet.has(permission));
 
         if (!isClosed && commissionStageReady && canManageCommission) {
@@ -1482,20 +1388,18 @@ export class ProjectQueryService {
             };
         }
 
-        return PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage] ?? {
-            headline: `${stageLabel}正在推进。`,
-            currentFocus: '确认当前阶段事实和下一步责任。',
-            currentGap: '需要补齐当前阶段的业务依据。',
-            nextStep: '依据当前阶段结果推进到下一步。',
-            ownerFallback: '项目负责人'
-        };
+        return (
+            PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage] ?? {
+                headline: `${stageLabel}正在推进。`,
+                currentFocus: '确认当前阶段事实和下一步责任。',
+                currentGap: '需要补齐当前阶段的业务依据。',
+                nextStep: '依据当前阶段结果推进到下一步。',
+                ownerFallback: '项目负责人'
+            }
+        );
     }
 
-    private buildWorkspaceEntries(
-        project: Project,
-        permissions: PermissionKey[],
-        allowedActions: string[]
-    ): ProjectWorkspaceGuidanceView['recommendedEntries'] {
+    private buildWorkspaceEntries(project: Project, permissions: PermissionKey[], allowedActions: string[]): ProjectWorkspaceGuidanceView['recommendedEntries'] {
         const permissionSet = new Set<PermissionKey>(permissions);
         const hasAllPermissions = (requiredPermissions: PermissionKey[]) => requiredPermissions.every((permission) => permissionSet.has(permission));
         const isClosed = this.isClosedProject(project);
@@ -1723,13 +1627,7 @@ export class ProjectQueryService {
         return entries;
     }
 
-    private buildWorkspaceEntryDisabledReason(input: {
-        isClosed: boolean;
-        stageReady: boolean;
-        permissionReady: boolean;
-        stageReason: string;
-        permissionReason: string;
-    }): string | null {
+    private buildWorkspaceEntryDisabledReason(input: { isClosed: boolean; stageReady: boolean; permissionReady: boolean; stageReason: string; permissionReason: string }): string | null {
         if (input.isClosed) {
             return '项目已关闭，只能查看归档信息。';
         }

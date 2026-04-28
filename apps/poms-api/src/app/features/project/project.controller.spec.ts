@@ -35,6 +35,7 @@ describe('ProjectController', () => {
             createProjectArchiveRecord: jest.fn(),
             replaceProjectArchiveRecord: jest.fn(),
             voidProjectArchiveRecord: jest.fn(),
+            reassignOwner: jest.fn(),
             updateBasicInfo: jest.fn(),
             findAll: jest.fn()
         } as unknown as jest.Mocked<ProjectService>;
@@ -79,9 +80,13 @@ describe('ProjectController', () => {
             })
         );
 
-        await controller.updateBasicInfo(projectId, {
-            plannedSignAt: null
-        }, { user: { sub: userId } } as never);
+        await controller.updateBasicInfo(
+            projectId,
+            {
+                plannedSignAt: null
+            },
+            { user: { sub: userId } } as never
+        );
 
         expect(projectService.updateBasicInfo).toHaveBeenCalledWith(
             projectId,
@@ -106,6 +111,44 @@ describe('ProjectController', () => {
         );
     });
 
+    it('reassigns project owner with operator id', async () => {
+        const targetOwnerId = '00000000-0000-4000-8000-000000000002';
+        const targetOrgId = '10000000-0000-4000-8000-000000000002';
+        const resultPayload = {
+            targetId: projectId,
+            projectOwnerReassignmentRecordId: '39000000-0000-4000-8000-000000000001',
+            previousOwnerUserId: userId,
+            previousOwnerOrgId: null,
+            newOwnerUserId: targetOwnerId,
+            newOwnerOrgId: targetOrgId,
+            businessStatusAfter: 'active'
+        };
+        projectService.reassignOwner.mockResolvedValue(resultPayload as never);
+
+        const result = await controller.reassignOwner(
+            projectId,
+            {
+                ownerUserId: targetOwnerId,
+                ownerOrgId: targetOrgId,
+                reason: '客户经理调整',
+                expectedVersion: 2
+            },
+            { user: { sub: userId } } as never
+        );
+
+        expect(projectService.reassignOwner).toHaveBeenCalledWith(
+            projectId,
+            {
+                ownerUserId: targetOwnerId,
+                ownerOrgId: targetOrgId,
+                reason: '客户经理调整',
+                expectedVersion: 2
+            },
+            userId
+        );
+        expect(result).toBe(resultPayload);
+    });
+
     it('returns project detail through the query service', async () => {
         const detail = {
             id: projectId,
@@ -117,11 +160,7 @@ describe('ProjectController', () => {
         projectQueryService.getProjectDetail.mockResolvedValue(detail as never);
 
         await expect(controller.getById(projectId, { user } as never)).resolves.toBe(detail);
-        expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(
-            projectId,
-            user,
-            expect.objectContaining({ path: `/projects/${projectId}` })
-        );
+        expect(projectQueryService.getProjectDetail).toHaveBeenCalledWith(projectId, user, expect.objectContaining({ path: `/projects/${projectId}` }));
     });
 
     it('returns project workspace guidance through the query service', async () => {

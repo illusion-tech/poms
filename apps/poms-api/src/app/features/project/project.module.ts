@@ -10,21 +10,10 @@ import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
-import {
-    ProjectPricingMarginConditionItem,
-    ProjectPricingMarginReview
-} from './project-pricing-margin-review.entity';
-import {
-    ProjectBidCommercialMaterialItem,
-    ProjectBidCommercialProcess,
-    ProjectBidCommercialTimelineItem
-} from './project-bid-commercial-process.entity';
-import {
-    ProjectTechnicalCostItem,
-    ProjectTechnicalCostPackage,
-    ProjectTechnicalRiskItem,
-    ProjectTechnicalScopeItem
-} from './project-technical-cost-package.entity';
+import { ProjectOwnerReassignmentRecord } from './project-owner-reassignment-record.entity';
+import { ProjectPricingMarginConditionItem, ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
+import { ProjectBidCommercialMaterialItem, ProjectBidCommercialProcess, ProjectBidCommercialTimelineItem } from './project-bid-commercial-process.entity';
+import { ProjectTechnicalCostItem, ProjectTechnicalCostPackage, ProjectTechnicalRiskItem, ProjectTechnicalScopeItem } from './project-technical-cost-package.entity';
 import { ProjectArchiveRecordController, ProjectController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
@@ -43,6 +32,7 @@ import { ProjectService } from './project.service';
             AcceptanceRecord,
             ProjectCompletionRecord,
             ProjectArchiveRecord,
+            ProjectOwnerReassignmentRecord,
             ProjectBidCommercialProcess,
             ProjectBidCommercialMaterialItem,
             ProjectBidCommercialTimelineItem,

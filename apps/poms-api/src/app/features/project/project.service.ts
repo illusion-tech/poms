@@ -9,12 +9,15 @@ import type {
     CreateProjectTechnicalCostPackageRequest,
     PreSigningRiskLevel,
     ProjectCompletionRecordResult,
+    ProjectOwnerReassignmentResult,
+    ProjectStatus,
     ProjectStage
 } from '@poms/shared-contracts';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectBidCommercialProcess } from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
+import { ProjectOwnerReassignmentRecord } from './project-owner-reassignment-record.entity';
 import { ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
 import { ProjectTechnicalCostPackage } from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
@@ -41,6 +44,13 @@ export interface UpdateProjectBasicInfoRecord {
     customerName?: string | null;
     customerProjectNo?: string | null;
     plannedSignAt?: Date | null;
+}
+
+export interface ReassignProjectOwnerRecord {
+    ownerUserId: string;
+    ownerOrgId?: string | null;
+    reason: string;
+    expectedVersion?: number;
 }
 
 export interface CreateAcceptanceRecordInput {
@@ -153,9 +163,7 @@ export class ProjectService {
         }
 
         if (!['active', 'blocked'].includes(project.status)) {
-            throw new BadRequestException(
-                `Project ${id} cannot be edited in status ${project.status}`
-            );
+            throw new BadRequestException(`Project ${id} cannot be edited in status ${project.status}`);
         }
 
         if (input.projectName !== undefined) {
@@ -181,6 +189,71 @@ export class ProjectService {
         return project;
     }
 
+    async reassignOwner(id: string, input: ReassignProjectOwnerRecord, operatorUserId: string): Promise<ProjectOwnerReassignmentResult> {
+        const project = await this.projectRepository.findById(id);
+        if (!project) {
+            throw new NotFoundException(`Project ${id} not found`);
+        }
+
+        this.assertExpectedVersion(project.rowVersion, input.expectedVersion, 'Project');
+
+        if (!['active', 'blocked'].includes(project.status)) {
+            throw new BadRequestException(`Project ${id} cannot reassign owner in status ${project.status}`);
+        }
+
+        const targetOwner = await this.projectRepository.findPlatformUserById(input.ownerUserId);
+        if (!targetOwner) {
+            throw new NotFoundException(`Platform user ${input.ownerUserId} not found`);
+        }
+        if (targetOwner.isActive === false) {
+            throw new BadRequestException(`Platform user ${input.ownerUserId} is not active`);
+        }
+
+        const nextOwnerOrgId = input.ownerOrgId === undefined ? (targetOwner.primaryOrgUnitId ?? null) : (input.ownerOrgId ?? null);
+
+        if (nextOwnerOrgId) {
+            const targetOrg = await this.projectRepository.findOrgUnitById(nextOwnerOrgId);
+            if (!targetOrg) {
+                throw new NotFoundException(`Org unit ${nextOwnerOrgId} not found`);
+            }
+            if (targetOrg.isActive === false) {
+                throw new BadRequestException(`Org unit ${nextOwnerOrgId} is not active`);
+            }
+        }
+
+        if (project.ownerUserId === input.ownerUserId && (project.ownerOrgId ?? null) === nextOwnerOrgId) {
+            throw new BadRequestException(`Project ${id} already has the requested owner`);
+        }
+
+        const previousOwnerUserId = project.ownerUserId ?? null;
+        const previousOwnerOrgId = project.ownerOrgId ?? null;
+        const now = new Date();
+        const record = this.projectRepository.createProjectOwnerReassignmentRecord({
+            id: randomUUID(),
+            projectId: project.id,
+            previousOwnerOrgId,
+            previousOwnerUserId,
+            newOwnerOrgId: nextOwnerOrgId,
+            newOwnerUserId: input.ownerUserId,
+            reason: input.reason.trim(),
+            reassignedAt: now,
+            reassignedBy: operatorUserId,
+            createdAt: now,
+            createdBy: operatorUserId
+        });
+
+        project.ownerUserId = input.ownerUserId;
+        project.ownerOrgId = nextOwnerOrgId;
+        project.updatedBy = operatorUserId;
+
+        await this.projectRepository.saveProjectOwnerReassignment({
+            project,
+            record
+        });
+
+        return this.mapProjectOwnerReassignmentResult(project, record);
+    }
+
     async createAcceptanceRecord(projectId: string, input: CreateAcceptanceRecordInput, operatorUserId: string): Promise<AcceptanceRecord> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
@@ -188,9 +261,7 @@ export class ProjectService {
         }
 
         if (project.currentStage !== 'acceptance') {
-            throw new BadRequestException(
-                `Project ${projectId} cannot record acceptance in stage ${project.currentStage}`
-            );
+            throw new BadRequestException(`Project ${projectId} cannot record acceptance in stage ${project.currentStage}`);
         }
 
         const now = new Date();
@@ -225,9 +296,7 @@ export class ProjectService {
         }
 
         if (project.currentStage !== 'acceptance') {
-            throw new BadRequestException(
-                `Project ${projectId} cannot record completion in stage ${project.currentStage}`
-            );
+            throw new BadRequestException(`Project ${projectId} cannot record completion in stage ${project.currentStage}`);
         }
 
         const acceptanceRecord = await this.projectRepository.findAcceptanceRecordById(input.acceptanceRecordId);
@@ -397,20 +466,14 @@ export class ProjectService {
         return record;
     }
 
-    async createProjectBidCommercialProcess(
-        projectId: string,
-        input: CreateProjectBidCommercialProcessRequest,
-        operatorUserId: string
-    ): Promise<ProjectBidCommercialProcess> {
+    async createProjectBidCommercialProcess(projectId: string, input: CreateProjectBidCommercialProcessRequest, operatorUserId: string): Promise<ProjectBidCommercialProcess> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
         if (project.status === 'closed' || !BID_COMMERCIAL_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(
-                `Project ${projectId} cannot record bid commercial process in stage ${project.currentStage}`
-            );
+            throw new BadRequestException(`Project ${projectId} cannot record bid commercial process in stage ${project.currentStage}`);
         }
 
         this.assertBidCommercialPathConsistent(input);
@@ -482,20 +545,14 @@ export class ProjectService {
         return currentProcess;
     }
 
-    async createProjectPricingMarginReview(
-        projectId: string,
-        input: CreateProjectPricingMarginReviewRequest,
-        operatorUserId: string
-    ): Promise<ProjectPricingMarginReview> {
+    async createProjectPricingMarginReview(projectId: string, input: CreateProjectPricingMarginReviewRequest, operatorUserId: string): Promise<ProjectPricingMarginReview> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
         if (project.status === 'closed' || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(
-                `Project ${projectId} cannot record pricing margin review in stage ${project.currentStage}`
-            );
+            throw new BadRequestException(`Project ${projectId} cannot record pricing margin review in stage ${project.currentStage}`);
         }
 
         const currentTechnicalCostPackage = await this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(projectId);
@@ -504,9 +561,7 @@ export class ProjectService {
         }
 
         if (currentTechnicalCostPackage.currencyCode !== input.currencyCode) {
-            throw new BadRequestException(
-                `currencyCode must equal technical cost package currencyCode ${currentTechnicalCostPackage.currencyCode}`
-            );
+            throw new BadRequestException(`currencyCode must equal technical cost package currencyCode ${currentTechnicalCostPackage.currencyCode}`);
         }
 
         const currentBidCommercialProcess = await this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(projectId);
@@ -583,35 +638,22 @@ export class ProjectService {
         return currentReview;
     }
 
-    async createProjectTechnicalCostPackage(
-        projectId: string,
-        input: CreateProjectTechnicalCostPackageRequest,
-        operatorUserId: string
-    ): Promise<ProjectTechnicalCostPackage> {
+    async createProjectTechnicalCostPackage(projectId: string, input: CreateProjectTechnicalCostPackageRequest, operatorUserId: string): Promise<ProjectTechnicalCostPackage> {
         const project = await this.projectRepository.findById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
         if (project.status === 'closed' || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(
-                `Project ${projectId} cannot record technical cost package in stage ${project.currentStage}`
-            );
+            throw new BadRequestException(`Project ${projectId} cannot record technical cost package in stage ${project.currentStage}`);
         }
 
         for (const [index, item] of input.costItems.entries()) {
             if (item.currencyCode !== input.currencyCode) {
-                throw new BadRequestException(
-                    `costItems[${index}].currencyCode must equal package currencyCode ${input.currencyCode}`
-                );
+                throw new BadRequestException(`costItems[${index}].currencyCode must equal package currencyCode ${input.currencyCode}`);
             }
 
-            this.assertMoneyConsistent(
-                item.amountExcludingTax,
-                item.taxCostAmount,
-                item.amountIncludingTax,
-                `costItems[${index}]`
-            );
+            this.assertMoneyConsistent(item.amountExcludingTax, item.taxCostAmount, item.amountIncludingTax, `costItems[${index}]`);
         }
 
         const previousPackage = await this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(projectId);
@@ -634,9 +676,7 @@ export class ProjectService {
             }
         );
         const highestRiskLevel = this.resolveHighestRiskLevel(input.riskItems.map((item) => item.riskLevel));
-        const blockerCount =
-            input.riskItems.filter((item) => item.blocksNextStage && item.riskStatus !== 'closed').length +
-            (input.allowNextStage ? 0 : 1);
+        const blockerCount = input.riskItems.filter((item) => item.blocksNextStage && item.riskStatus !== 'closed').length + (input.allowNextStage ? 0 : 1);
         const now = new Date();
         const currentPackageId = randomUUID();
         const currentPackage = this.projectRepository.createProjectTechnicalCostPackage({
@@ -734,19 +774,14 @@ export class ProjectService {
     }
 
     private countBidCommercialBlockers(input: CreateProjectBidCommercialProcessRequest): number {
-        const materialBlockers = input.materialItems.filter(
-            (item) => item.blocksNextStep && !['ready', 'not-required'].includes(item.materialStatus)
-        ).length;
+        const materialBlockers = input.materialItems.filter((item) => item.blocksNextStep && !['ready', 'not-required'].includes(item.materialStatus)).length;
         const decisionBlocker = input.decision === 'pending' || input.decision === 'no-bid' ? 1 : 0;
         const resultBlocker = ['lost', 'cancelled'].includes(input.resultStatus) ? 1 : 0;
 
         return materialBlockers + decisionBlocker + resultBlocker;
     }
 
-    private assertPricingMarginReferencesConsistent(
-        input: CreateProjectPricingMarginReviewRequest,
-        currentBidCommercialProcess: ProjectBidCommercialProcess | null
-    ): void {
+    private assertPricingMarginReferencesConsistent(input: CreateProjectPricingMarginReviewRequest, currentBidCommercialProcess: ProjectBidCommercialProcess | null): void {
         if (input.pricingPath === 'bid') {
             if (!input.bidCommercialProcessId) {
                 throw new BadRequestException('bid pricingPath requires bidCommercialProcessId');
@@ -772,19 +807,10 @@ export class ProjectService {
         }
 
         if (['released', 'conditional-release', 'escalation-required'].includes(input.decision)) {
-            const missingApprovalReference = [
-                input.commercialReleaseBaselineId,
-                input.approvalScenarioKey,
-                input.summaryPackageKey,
-                input.summarySnapshotId,
-                input.projectionLevel,
-                input.exportPolicy
-            ].some((value) => !value);
+            const missingApprovalReference = [input.commercialReleaseBaselineId, input.approvalScenarioKey, input.summaryPackageKey, input.summarySnapshotId, input.projectionLevel, input.exportPolicy].some((value) => !value);
 
             if (missingApprovalReference) {
-                throw new BadRequestException(
-                    'released, conditional-release and escalation-required decisions require commercial baseline and approval summary references'
-                );
+                throw new BadRequestException('released, conditional-release and escalation-required decisions require commercial baseline and approval summary references');
             }
         }
 
@@ -808,20 +834,13 @@ export class ProjectService {
     }
 
     private countPricingMarginBlockers(input: CreateProjectPricingMarginReviewRequest): number {
-        const conditionBlockers = input.conditionItems.filter(
-            (item) => item.requiredForContracting && item.conditionStatus === 'open'
-        ).length;
+        const conditionBlockers = input.conditionItems.filter((item) => item.requiredForContracting && item.conditionStatus === 'open').length;
         const decisionBlocker = ['pending', 'rejected', 'escalation-required'].includes(input.decision) ? 1 : 0;
 
         return conditionBlockers + decisionBlocker;
     }
 
-    private assertMoneyConsistent(
-        amountExcludingTax: string,
-        taxCostAmount: string,
-        amountIncludingTax: string,
-        fieldPrefix: string
-    ): void {
+    private assertMoneyConsistent(amountExcludingTax: string, taxCostAmount: string, amountIncludingTax: string, fieldPrefix: string): void {
         const excluding = this.parseNonNegativeDecimal(amountExcludingTax, `${fieldPrefix}.amountExcludingTax`);
         const tax = this.parseNonNegativeDecimal(taxCostAmount, `${fieldPrefix}.taxCostAmount`);
         const including = this.parseNonNegativeDecimal(amountIncludingTax, `${fieldPrefix}.amountIncludingTax`);
@@ -864,6 +883,18 @@ export class ProjectService {
         if (expectedVersion !== undefined && currentVersion !== expectedVersion) {
             throw new ConflictException(`${targetType} version ${expectedVersion} does not match current version ${currentVersion}`);
         }
+    }
+
+    private mapProjectOwnerReassignmentResult(project: Project, record: ProjectOwnerReassignmentRecord): ProjectOwnerReassignmentResult {
+        return {
+            targetId: project.id,
+            projectOwnerReassignmentRecordId: record.id,
+            previousOwnerUserId: record.previousOwnerUserId ?? null,
+            previousOwnerOrgId: record.previousOwnerOrgId ?? null,
+            newOwnerUserId: record.newOwnerUserId,
+            newOwnerOrgId: record.newOwnerOrgId ?? null,
+            businessStatusAfter: project.status as ProjectStatus
+        };
     }
 
     private appendComment(value: string, comment: string | null | undefined): string {

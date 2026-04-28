@@ -114,15 +114,9 @@ describe('ProjectQueryService', () => {
                 createdAt: new Date('2026-04-01T00:00:00.000Z')
             }
         ]);
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
-        projectRepository.findLatestSignedContractAtByProjectIds.mockResolvedValue(
-            new Map([['20000000-0000-4000-8000-000000000001', new Date('2026-04-18T08:00:00.000Z')]])
-        );
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
+        projectRepository.findLatestSignedContractAtByProjectIds.mockResolvedValue(new Map([['20000000-0000-4000-8000-000000000001', new Date('2026-04-18T08:00:00.000Z')]]));
 
         await expect(service.listProjects({ keyword: 'POMS' })).resolves.toEqual([
             {
@@ -162,12 +156,8 @@ describe('ProjectQueryService', () => {
             updatedAt: new Date('2026-04-18T08:00:00.000Z'),
             updatedBy: '00000000-0000-4000-8000-000000000002'
         });
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
         projectRepository.findLeadsByIds.mockResolvedValue([
             {
                 id: '50000000-0000-4000-8000-000000000001',
@@ -202,12 +192,7 @@ describe('ProjectQueryService', () => {
             permissions: ['project:read', 'project:write', 'commission:payouts:manage']
         });
 
-        expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith(
-            'Project',
-            '20000000-0000-4000-8000-000000000001',
-            'project-detail',
-            'project-detail'
-        );
+        expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith('Project', '20000000-0000-4000-8000-000000000001', 'project-detail', 'project-detail');
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
         expect(result.sourceLeadSummary).toEqual({
@@ -256,7 +241,7 @@ describe('ProjectQueryService', () => {
             confirmedAt: null
         });
         expect(result.summarySnapshotId).toBe('37000000-0000-4000-8000-000000000001');
-        expect(result.allowedActions).toEqual(['view-project-workspace', 'edit-project-basic-info', 'manage-project-commission']);
+        expect(result.allowedActions).toEqual(['view-project-workspace', 'edit-project-basic-info', 'reassign-project-owner', 'manage-project-commission']);
     });
 
     it('builds project detail bid summary from the current bid commercial process', async () => {
@@ -368,12 +353,8 @@ describe('ProjectQueryService', () => {
             updatedAt: new Date('2026-04-18T08:00:00.000Z'),
             updatedBy: null
         });
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
         approvalSummarySnapshotRepository.findActiveByTarget.mockResolvedValue({
             id: '37000000-0000-4000-8000-000000000003',
             summaryPackageKey: 'project-detail',
@@ -588,12 +569,7 @@ describe('ProjectQueryService', () => {
         const result = await service.getProjectTimeline('20000000-0000-4000-8000-000000000005');
 
         expect(projectRepository.findLatestConfirmedHandoverByProjectId).toHaveBeenCalledWith('20000000-0000-4000-8000-000000000005');
-        expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith([
-            '00000000-0000-4000-8000-000000000001',
-            '00000000-0000-4000-8000-000000000002',
-            '00000000-0000-4000-8000-000000000003',
-            '00000000-0000-4000-8000-000000000004'
-        ]);
+        expect(projectRepository.findPlatformUsersByIds).toHaveBeenCalledWith(['00000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000002', '00000000-0000-4000-8000-000000000003', '00000000-0000-4000-8000-000000000004']);
         expect(result.projectId).toBe('20000000-0000-4000-8000-000000000005');
         expect(result.generatedAt).toEqual(expect.any(String));
         expect(result.events).toEqual([
@@ -726,9 +702,7 @@ describe('ProjectQueryService', () => {
                 rowVersion: 1
             }
         ]);
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }]);
 
         await expect(service.listProjectCompletionRecords('20000000-0000-4000-8000-000000000009')).resolves.toEqual([
             {
@@ -778,9 +752,7 @@ describe('ProjectQueryService', () => {
                 rowVersion: 1
             }
         ]);
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000003', displayName: '项目经理' }]);
 
         await expect(
             service.listProjectArchiveRecords('20000000-0000-4000-8000-000000000011', {
@@ -917,12 +889,8 @@ describe('ProjectQueryService', () => {
             ownerOrgId: '10000000-0000-4000-8000-000000000001',
             ownerUserId: '00000000-0000-4000-8000-000000000001'
         });
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
         projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(
             createBidCommercialProcess({
                 id: processId,
@@ -1061,12 +1029,8 @@ describe('ProjectQueryService', () => {
             ownerOrgId: '10000000-0000-4000-8000-000000000001',
             ownerUserId: '00000000-0000-4000-8000-000000000001'
         });
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
         projectRepository.findCurrentProjectPricingMarginReviewByProjectId.mockResolvedValue(
             createPricingMarginReview({
                 id: reviewId,
@@ -1232,12 +1196,8 @@ describe('ProjectQueryService', () => {
             ownerOrgId: '10000000-0000-4000-8000-000000000001',
             ownerUserId: '00000000-0000-4000-8000-000000000001'
         });
-        projectRepository.findPlatformUsersByIds.mockResolvedValue([
-            { id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }
-        ]);
-        projectRepository.findOrgUnitsByIds.mockResolvedValue([
-            { id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }
-        ]);
+        projectRepository.findPlatformUsersByIds.mockResolvedValue([{ id: '00000000-0000-4000-8000-000000000001', displayName: '销售人员' }]);
+        projectRepository.findOrgUnitsByIds.mockResolvedValue([{ id: '10000000-0000-4000-8000-000000000001', name: '华南销售一部' }]);
         projectRepository.findCurrentProjectTechnicalCostPackageByProjectId.mockResolvedValue({
             id: packageId,
             projectId: '20000000-0000-4000-8000-000000000015',
@@ -1319,11 +1279,13 @@ describe('ProjectQueryService', () => {
         expect(projectRepository.findProjectTechnicalScopeItemsByPackageIds).toHaveBeenCalledWith([packageId]);
         expect(projectRepository.findProjectTechnicalRiskItemsByPackageIds).toHaveBeenCalledWith([packageId]);
         expect(projectRepository.findProjectTechnicalCostItemsByPackageIds).toHaveBeenCalledWith([packageId]);
-        expect(result.currentPackage).toEqual(expect.objectContaining({
-            id: packageId,
-            totalEstimatedAmountIncludingTax: '15900.00',
-            blockerCount: 2
-        }));
+        expect(result.currentPackage).toEqual(
+            expect.objectContaining({
+                id: packageId,
+                totalEstimatedAmountIncludingTax: '15900.00',
+                blockerCount: 2
+            })
+        );
         expect(result.scopeItems).toEqual([
             expect.objectContaining({
                 scopeType: 'in-scope',
@@ -1342,11 +1304,7 @@ describe('ProjectQueryService', () => {
                 amountIncludingTax: '15900.00'
             })
         ]);
-        expect(result.blockingReasons).toEqual([
-            '技术与成本版本包尚未允许进入下一阶段。',
-            '集成风险：客户接口文档尚未冻结。',
-            '税务成本假设仍待复核。'
-        ]);
+        expect(result.blockingReasons).toEqual(['技术与成本版本包尚未允许进入下一阶段。', '集成风险：客户接口文档尚未冻结。', '税务成本假设仍待复核。']);
         expect(result.nextStep).toBe('先完成税务成本复核，再判断是否进入商务收口。');
         expect(result.ownerLabel).toBe('销售人员 / 华南销售一部');
         expect(result.allowedActions).toEqual(['view-technical-cost-workspace', 'create-technical-cost-package']);
@@ -1545,9 +1503,7 @@ describe('ProjectQueryService', () => {
     it('rejects project timeline when project does not exist', async () => {
         projectRepository.findById.mockResolvedValue(null);
 
-        await expect(service.getProjectTimeline('20000000-0000-4000-8000-000000000006')).rejects.toThrow(
-            'Project 20000000-0000-4000-8000-000000000006 not found'
-        );
+        await expect(service.getProjectTimeline('20000000-0000-4000-8000-000000000006')).rejects.toThrow('Project 20000000-0000-4000-8000-000000000006 not found');
     });
 
     function createTechnicalCostPackage(overrides: Record<string, unknown> = {}) {

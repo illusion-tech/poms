@@ -25,11 +25,13 @@ import {
     ProjectPricingMarginReviewDto,
     ProjectPricingMarginReviewListDto,
     ProjectPricingMarginWorkspaceViewDto,
+    ProjectOwnerReassignmentResultDto,
     ProjectTechnicalCostPackageDto,
     ProjectTechnicalCostPackageListDto,
     ProjectTechnicalCostWorkspaceViewDto,
     ProjectTimelineViewDto,
     ProjectWorkspaceGuidanceViewDto,
+    ReassignProjectOwnerRequestDto,
     UpdateProjectBasicInfoRequestDto,
     VoidProjectArchiveRecordRequestDto
 } from '@poms/api-contracts';
@@ -43,6 +45,7 @@ import type {
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
+    ProjectOwnerReassignmentResult,
     ProjectPricingMarginReviewList,
     ProjectPricingMarginReviewSummary,
     ProjectPricingMarginWorkspaceView,
@@ -108,10 +111,7 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目工作区引导' })
     @ApiOkResponse({ type: ProjectWorkspaceGuidanceViewDto })
-    async getWorkspaceGuidance(
-        @Param('projectId') projectId: string,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectWorkspaceGuidanceView> {
+    async getWorkspaceGuidance(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectWorkspaceGuidanceView> {
         return this.projectQueryService.getProjectWorkspaceGuidance(projectId, req.user);
     }
 
@@ -159,10 +159,7 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目签约前招投标与商务竞标工作区' })
     @ApiOkResponse({ type: ProjectBidCommercialWorkspaceViewDto })
-    async getProjectBidCommercialWorkspace(
-        @Param('projectId') projectId: string,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectBidCommercialWorkspaceView> {
+    async getProjectBidCommercialWorkspace(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectBidCommercialWorkspaceView> {
         return this.projectQueryService.getProjectBidCommercialWorkspace(projectId, req.user);
     }
 
@@ -178,10 +175,7 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目签约前报价与毛利评审工作区' })
     @ApiOkResponse({ type: ProjectPricingMarginWorkspaceViewDto })
-    async getProjectPricingMarginWorkspace(
-        @Param('projectId') projectId: string,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectPricingMarginWorkspaceView> {
+    async getProjectPricingMarginWorkspace(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectPricingMarginWorkspaceView> {
         return this.projectQueryService.getProjectPricingMarginWorkspace(projectId, req.user);
     }
 
@@ -197,10 +191,7 @@ export class ProjectController {
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目签约前技术与成本工作区' })
     @ApiOkResponse({ type: ProjectTechnicalCostWorkspaceViewDto })
-    async getProjectTechnicalCostWorkspace(
-        @Param('projectId') projectId: string,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectTechnicalCostWorkspaceView> {
+    async getProjectTechnicalCostWorkspace(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectTechnicalCostWorkspaceView> {
         return this.projectQueryService.getProjectTechnicalCostWorkspace(projectId, req.user);
     }
 
@@ -216,37 +207,54 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目基础台账' })
     @ApiCreatedResponse({ type: ProjectDto })
-    async create(
-        @Body() body: CreateProjectRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectSummary> {
-        const project = await this.projectService.createAndSave({
-            projectName: body.projectName,
-            customerName: body.customerName,
-            customerProjectNo: body.customerProjectNo,
-            currentStage: body.currentStage,
-            plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
-        }, req.user.sub);
+    async create(@Body() body: CreateProjectRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
+        const project = await this.projectService.createAndSave(
+            {
+                projectName: body.projectName,
+                customerName: body.customerName,
+                customerProjectNo: body.customerProjectNo,
+                currentStage: body.currentStage,
+                plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
+            },
+            req.user.sub
+        );
 
         return mapProjectToSummary(project);
+    }
+
+    @Post(':id\\:reassignOwner')
+    @HasPermissions('project:write')
+    @ApiOperation({ summary: '变更项目销售主责' })
+    @ApiOkResponse({ type: ProjectOwnerReassignmentResultDto })
+    async reassignOwner(@Param('id') id: string, @Body() body: ReassignProjectOwnerRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectOwnerReassignmentResult> {
+        return this.projectService.reassignOwner(
+            id,
+            {
+                ownerUserId: body.ownerUserId,
+                ownerOrgId: body.ownerOrgId,
+                reason: body.reason,
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub
+        );
     }
 
     @Post(':projectId/acceptance-records')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目验收确认记录' })
     @ApiCreatedResponse({ type: AcceptanceRecordDto })
-    async createAcceptanceRecord(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateAcceptanceRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<AcceptanceRecordSummary> {
-        const record = await this.projectService.createAcceptanceRecord(projectId, {
-            acceptanceType: body.acceptanceType,
-            acceptanceResult: body.acceptanceResult,
-            scopeSummary: body.scopeSummary,
-            evidenceSummary: body.evidenceSummary,
-            comment: body.comment
-        }, req.user.sub);
+    async createAcceptanceRecord(@Param('projectId') projectId: string, @Body() body: CreateAcceptanceRecordRequestDto, @Request() req: { user: UserPayload }): Promise<AcceptanceRecordSummary> {
+        const record = await this.projectService.createAcceptanceRecord(
+            projectId,
+            {
+                acceptanceType: body.acceptanceType,
+                acceptanceResult: body.acceptanceResult,
+                scopeSummary: body.scopeSummary,
+                evidenceSummary: body.evidenceSummary,
+                comment: body.comment
+            },
+            req.user.sub
+        );
 
         return mapAcceptanceRecordToSummary(record);
     }
@@ -255,18 +263,18 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目完成确认记录' })
     @ApiCreatedResponse({ type: ProjectCompletionRecordDto })
-    async createProjectCompletionRecord(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateProjectCompletionRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectCompletionRecordSummary> {
-        const record = await this.projectService.createProjectCompletionRecord(projectId, {
-            acceptanceRecordId: body.acceptanceRecordId,
-            completionResult: body.completionResult,
-            completedAt: new Date(body.completedAt),
-            completionSummary: body.completionSummary,
-            evidenceSummary: body.evidenceSummary
-        }, req.user.sub);
+    async createProjectCompletionRecord(@Param('projectId') projectId: string, @Body() body: CreateProjectCompletionRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectCompletionRecordSummary> {
+        const record = await this.projectService.createProjectCompletionRecord(
+            projectId,
+            {
+                acceptanceRecordId: body.acceptanceRecordId,
+                completionResult: body.completionResult,
+                completedAt: new Date(body.completedAt),
+                completionSummary: body.completionSummary,
+                evidenceSummary: body.evidenceSummary
+            },
+            req.user.sub
+        );
 
         return mapProjectCompletionRecordToSummary(record);
     }
@@ -275,16 +283,16 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目归档记录' })
     @ApiCreatedResponse({ type: ProjectArchiveRecordDto })
-    async createProjectArchiveRecord(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateProjectArchiveRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectArchiveRecordSummary> {
-        const record = await this.projectService.createProjectArchiveRecord(projectId, {
-            archivedAt: new Date(body.archivedAt),
-            archiveSummary: body.archiveSummary,
-            evidenceSummary: body.evidenceSummary
-        }, req.user.sub);
+    async createProjectArchiveRecord(@Param('projectId') projectId: string, @Body() body: CreateProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+        const record = await this.projectService.createProjectArchiveRecord(
+            projectId,
+            {
+                archivedAt: new Date(body.archivedAt),
+                archiveSummary: body.archiveSummary,
+                evidenceSummary: body.evidenceSummary
+            },
+            req.user.sub
+        );
 
         return mapProjectArchiveRecordToSummary(record);
     }
@@ -293,11 +301,7 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目签约前招投标与商务竞标过程版本' })
     @ApiCreatedResponse({ type: ProjectBidCommercialProcessDto })
-    async createProjectBidCommercialProcess(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateProjectBidCommercialProcessRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectBidCommercialProcessSummary> {
+    async createProjectBidCommercialProcess(@Param('projectId') projectId: string, @Body() body: CreateProjectBidCommercialProcessRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectBidCommercialProcessSummary> {
         const record = await this.projectService.createProjectBidCommercialProcess(projectId, body, req.user.sub);
 
         return mapProjectBidCommercialProcessToSummary(record);
@@ -307,11 +311,7 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目签约前报价与毛利评审版本' })
     @ApiCreatedResponse({ type: ProjectPricingMarginReviewDto })
-    async createProjectPricingMarginReview(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateProjectPricingMarginReviewRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectPricingMarginReviewSummary> {
+    async createProjectPricingMarginReview(@Param('projectId') projectId: string, @Body() body: CreateProjectPricingMarginReviewRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectPricingMarginReviewSummary> {
         const record = await this.projectService.createProjectPricingMarginReview(projectId, body, req.user.sub);
 
         return mapProjectPricingMarginReviewToSummary(record);
@@ -321,11 +321,7 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目签约前技术与成本版本包' })
     @ApiCreatedResponse({ type: ProjectTechnicalCostPackageDto })
-    async createProjectTechnicalCostPackage(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateProjectTechnicalCostPackageRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectTechnicalCostPackageSummary> {
+    async createProjectTechnicalCostPackage(@Param('projectId') projectId: string, @Body() body: CreateProjectTechnicalCostPackageRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectTechnicalCostPackageSummary> {
         const record = await this.projectService.createProjectTechnicalCostPackage(projectId, body, req.user.sub);
 
         return mapProjectTechnicalCostPackageToSummary(record);
@@ -335,11 +331,7 @@ export class ProjectController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '更新项目基础信息' })
     @ApiOkResponse({ type: ProjectDto })
-    async updateBasicInfo(
-        @Param('id') id: string,
-        @Body() body: UpdateProjectBasicInfoRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectSummary> {
+    async updateBasicInfo(@Param('id') id: string, @Body() body: UpdateProjectBasicInfoRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
         let plannedSignAt: Date | null | undefined;
         if (body.plannedSignAt === undefined) {
             plannedSignAt = undefined;
@@ -349,12 +341,16 @@ export class ProjectController {
             plannedSignAt = new Date(body.plannedSignAt);
         }
 
-        const project = await this.projectService.updateBasicInfo(id, {
-            projectName: body.projectName,
-            customerName: body.customerName,
-            customerProjectNo: body.customerProjectNo,
-            plannedSignAt
-        }, req.user.sub);
+        const project = await this.projectService.updateBasicInfo(
+            id,
+            {
+                projectName: body.projectName,
+                customerName: body.customerName,
+                customerProjectNo: body.customerProjectNo,
+                plannedSignAt
+            },
+            req.user.sub
+        );
 
         return mapProjectToSummary(project);
     }
@@ -370,18 +366,18 @@ export class ProjectArchiveRecordController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '替代项目归档记录' })
     @ApiOkResponse({ type: ProjectArchiveRecordDto })
-    async replaceProjectArchiveRecord(
-        @Param('id') id: string,
-        @Body() body: ReplaceProjectArchiveRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectArchiveRecordSummary> {
-        const record = await this.projectService.replaceProjectArchiveRecord(id, {
-            archivedAt: new Date(body.archivedAt),
-            archiveSummary: body.archiveSummary,
-            evidenceSummary: body.evidenceSummary,
-            replacementReason: body.replacementReason,
-            expectedVersion: body.expectedVersion
-        }, req.user.sub);
+    async replaceProjectArchiveRecord(@Param('id') id: string, @Body() body: ReplaceProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+        const record = await this.projectService.replaceProjectArchiveRecord(
+            id,
+            {
+                archivedAt: new Date(body.archivedAt),
+                archiveSummary: body.archiveSummary,
+                evidenceSummary: body.evidenceSummary,
+                replacementReason: body.replacementReason,
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub
+        );
 
         return mapProjectArchiveRecordToSummary(record);
     }
@@ -390,16 +386,16 @@ export class ProjectArchiveRecordController {
     @HasPermissions('project:write')
     @ApiOperation({ summary: '撤销项目归档记录' })
     @ApiOkResponse({ type: ProjectArchiveRecordDto })
-    async voidProjectArchiveRecord(
-        @Param('id') id: string,
-        @Body() body: VoidProjectArchiveRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectArchiveRecordSummary> {
-        const record = await this.projectService.voidProjectArchiveRecord(id, {
-            reason: body.reason,
-            comment: body.comment,
-            expectedVersion: body.expectedVersion
-        }, req.user.sub);
+    async voidProjectArchiveRecord(@Param('id') id: string, @Body() body: VoidProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+        const record = await this.projectService.voidProjectArchiveRecord(
+            id,
+            {
+                reason: body.reason,
+                comment: body.comment,
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub
+        );
 
         return mapProjectArchiveRecordToSummary(record);
     }

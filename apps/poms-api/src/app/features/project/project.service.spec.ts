@@ -17,6 +17,7 @@ describe('ProjectService', () => {
         findMany: jest.Mock;
         getEntityManager: jest.Mock;
         findPlatformUserById: jest.Mock;
+        findOrgUnitById: jest.Mock;
         findAcceptanceRecordById: jest.Mock;
         createAcceptanceRecord: jest.Mock;
         saveAcceptanceRecord: jest.Mock;
@@ -28,6 +29,8 @@ describe('ProjectService', () => {
         createProjectArchiveRecord: jest.Mock;
         saveProjectArchiveRecord: jest.Mock;
         saveProjectArchiveRecordReplacement: jest.Mock;
+        createProjectOwnerReassignmentRecord: jest.Mock;
+        saveProjectOwnerReassignment: jest.Mock;
         findCurrentProjectBidCommercialProcessByProjectId: jest.Mock;
         createProjectBidCommercialProcess: jest.Mock;
         createProjectBidCommercialMaterialItem: jest.Mock;
@@ -68,6 +71,7 @@ describe('ProjectService', () => {
                 transactional: jest.fn((work) => work(entityManager))
             })),
             findPlatformUserById: jest.fn(),
+            findOrgUnitById: jest.fn(),
             findAcceptanceRecordById: jest.fn(),
             createAcceptanceRecord: jest.fn(),
             saveAcceptanceRecord: jest.fn(),
@@ -79,6 +83,8 @@ describe('ProjectService', () => {
             createProjectArchiveRecord: jest.fn(),
             saveProjectArchiveRecord: jest.fn(),
             saveProjectArchiveRecordReplacement: jest.fn(),
+            createProjectOwnerReassignmentRecord: jest.fn(),
+            saveProjectOwnerReassignment: jest.fn(),
             findCurrentProjectBidCommercialProcessByProjectId: jest.fn(),
             createProjectBidCommercialProcess: jest.fn(),
             createProjectBidCommercialMaterialItem: jest.fn(),
@@ -108,30 +114,30 @@ describe('ProjectService', () => {
             primaryOrgUnitId: '10000000-0000-4000-8000-000000000001'
         });
 
-        const result = await service.createAndSave({
-            projectName: 'POMS 首期项目主链路样例',
-            customerName: '华南地铁集团'
-        }, userId);
+        const result = await service.createAndSave(
+            {
+                projectName: 'POMS 首期项目主链路样例',
+                customerName: '华南地铁集团'
+            },
+            userId
+        );
 
         expect(businessNumberService.next).toHaveBeenCalledWith('project', expect.any(Date), entityManager);
-        expect(entityManager.create).toHaveBeenCalledWith(
-            Project,
-            {
-                projectNo: 'PRJ-2026-000001',
-                projectName: 'POMS 首期项目主链路样例',
-                sourceLeadId: null,
-                customerName: '华南地铁集团',
-                customerProjectNo: null,
-                status: 'active',
-                currentStage: 'assessment',
-                customerId: null,
-                ownerOrgId: '10000000-0000-4000-8000-000000000001',
-                ownerUserId: userId,
-                plannedSignAt: null,
-                createdBy: userId,
-                updatedBy: userId
-            }
-        );
+        expect(entityManager.create).toHaveBeenCalledWith(Project, {
+            projectNo: 'PRJ-2026-000001',
+            projectName: 'POMS 首期项目主链路样例',
+            sourceLeadId: null,
+            customerName: '华南地铁集团',
+            customerProjectNo: null,
+            status: 'active',
+            currentStage: 'assessment',
+            customerId: null,
+            ownerOrgId: '10000000-0000-4000-8000-000000000001',
+            ownerUserId: userId,
+            plannedSignAt: null,
+            createdBy: userId,
+            updatedBy: userId
+        });
         expect(entityManager.persist).toHaveBeenCalledWith(result);
         expect(entityManager.flush).toHaveBeenCalled();
     });
@@ -140,10 +146,13 @@ describe('ProjectService', () => {
         projectRepository.findPlatformUserById.mockResolvedValue(null);
 
         await expect(
-            service.createAndSave({
-                projectName: 'Duplicate',
-                customerName: '重复客户'
-            }, userId)
+            service.createAndSave(
+                {
+                    projectName: 'Duplicate',
+                    customerName: '重复客户'
+                },
+                userId
+            )
         ).rejects.toThrow(NotFoundException);
 
         expect(businessNumberService.next).not.toHaveBeenCalled();
@@ -172,11 +181,15 @@ describe('ProjectService', () => {
         projectRepository.findById.mockResolvedValue(project);
         projectRepository.save.mockResolvedValue(undefined);
 
-        const result = await service.updateBasicInfo(projectId, {
-            projectName: 'Updated project name',
-            customerName: '新的客户名称',
-            plannedSignAt: null
-        }, userId);
+        const result = await service.updateBasicInfo(
+            projectId,
+            {
+                projectName: 'Updated project name',
+                customerName: '新的客户名称',
+                plannedSignAt: null
+            },
+            userId
+        );
 
         expect(project.projectName).toBe('Updated project name');
         expect(project.customerName).toBe('新的客户名称');
@@ -194,8 +207,7 @@ describe('ProjectService', () => {
         projectRepository.findById.mockResolvedValue(project);
         projectRepository.save.mockResolvedValue(undefined);
 
-        await service.updateBasicInfo(projectId, {
-        }, userId);
+        await service.updateBasicInfo(projectId, {}, userId);
 
         expect(project.plannedSignAt).toBe(plannedSignAt);
     });
@@ -203,9 +215,176 @@ describe('ProjectService', () => {
     it('throws when updating a missing project', async () => {
         projectRepository.findById.mockResolvedValue(null);
 
-        await expect(service.updateBasicInfo(projectId, {}, userId)).rejects.toThrow(
-            NotFoundException
+        await expect(service.updateBasicInfo(projectId, {}, userId)).rejects.toThrow(NotFoundException);
+    });
+
+    it('reassigns project owner and appends an owner reassignment record', async () => {
+        const targetOwnerId = '00000000-0000-4000-8000-000000000002';
+        const targetOrgId = '10000000-0000-4000-8000-000000000002';
+        const previousOwnerUserId = '00000000-0000-4000-8000-000000000003';
+        const previousOwnerOrgId = '10000000-0000-4000-8000-000000000003';
+        const project = createProjectEntity({
+            ownerUserId: previousOwnerUserId,
+            ownerOrgId: previousOwnerOrgId,
+            rowVersion: 4
+        });
+        projectRepository.findById.mockResolvedValue(project);
+        projectRepository.findPlatformUserById.mockResolvedValue({
+            id: targetOwnerId,
+            primaryOrgUnitId: targetOrgId
+        });
+        projectRepository.findOrgUnitById.mockResolvedValue({
+            id: targetOrgId,
+            name: '华南销售二部'
+        });
+        projectRepository.createProjectOwnerReassignmentRecord.mockImplementation((input) => input);
+        projectRepository.saveProjectOwnerReassignment.mockResolvedValue(undefined);
+
+        const result = await service.reassignOwner(
+            projectId,
+            {
+                ownerUserId: targetOwnerId,
+                reason: '  客户经理调整  ',
+                expectedVersion: 4
+            },
+            userId
         );
+
+        expect(projectRepository.findOrgUnitById).toHaveBeenCalledWith(targetOrgId);
+        expect(projectRepository.createProjectOwnerReassignmentRecord).toHaveBeenCalledWith(
+            expect.objectContaining({
+                id: expect.any(String),
+                projectId,
+                previousOwnerUserId,
+                previousOwnerOrgId,
+                newOwnerUserId: targetOwnerId,
+                newOwnerOrgId: targetOrgId,
+                reason: '客户经理调整',
+                reassignedAt: expect.any(Date),
+                reassignedBy: userId,
+                createdBy: userId
+            })
+        );
+        expect(project.ownerUserId).toBe(targetOwnerId);
+        expect(project.ownerOrgId).toBe(targetOrgId);
+        expect(project.updatedBy).toBe(userId);
+        expect(projectRepository.saveProjectOwnerReassignment).toHaveBeenCalledWith({
+            project,
+            record: expect.objectContaining({
+                newOwnerUserId: targetOwnerId
+            })
+        });
+        expect(result).toEqual({
+            targetId: projectId,
+            projectOwnerReassignmentRecordId: expect.any(String),
+            previousOwnerUserId,
+            previousOwnerOrgId,
+            newOwnerUserId: targetOwnerId,
+            newOwnerOrgId: targetOrgId,
+            businessStatusAfter: 'active'
+        });
+    });
+
+    it('rejects owner reassignment when project version is stale', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ rowVersion: 5 }));
+
+        await expect(
+            service.reassignOwner(
+                projectId,
+                {
+                    ownerUserId: '00000000-0000-4000-8000-000000000002',
+                    reason: '客户经理调整',
+                    expectedVersion: 4
+                },
+                userId
+            )
+        ).rejects.toThrow(ConflictException);
+
+        expect(projectRepository.findPlatformUserById).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectOwnerReassignmentRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects owner reassignment for non-active project status', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity({ status: 'completed' }));
+
+        await expect(
+            service.reassignOwner(
+                projectId,
+                {
+                    ownerUserId: '00000000-0000-4000-8000-000000000002',
+                    reason: '客户经理调整'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.findPlatformUserById).not.toHaveBeenCalled();
+        expect(projectRepository.createProjectOwnerReassignmentRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects owner reassignment when the target owner does not exist', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity());
+        projectRepository.findPlatformUserById.mockResolvedValue(null);
+
+        await expect(
+            service.reassignOwner(
+                projectId,
+                {
+                    ownerUserId: '00000000-0000-4000-8000-000000000002',
+                    reason: '客户经理调整'
+                },
+                userId
+            )
+        ).rejects.toThrow(NotFoundException);
+
+        expect(projectRepository.createProjectOwnerReassignmentRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects owner reassignment when the target owner is inactive', async () => {
+        projectRepository.findById.mockResolvedValue(createProjectEntity());
+        projectRepository.findPlatformUserById.mockResolvedValue({
+            id: '00000000-0000-4000-8000-000000000002',
+            primaryOrgUnitId: null,
+            isActive: false
+        });
+
+        await expect(
+            service.reassignOwner(
+                projectId,
+                {
+                    ownerUserId: '00000000-0000-4000-8000-000000000002',
+                    reason: '客户经理调整'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
+
+        expect(projectRepository.createProjectOwnerReassignmentRecord).not.toHaveBeenCalled();
+    });
+
+    it('rejects owner reassignment when the target owner org does not exist', async () => {
+        const targetOrgId = '10000000-0000-4000-8000-000000000002';
+        projectRepository.findById.mockResolvedValue(createProjectEntity());
+        projectRepository.findPlatformUserById.mockResolvedValue({
+            id: '00000000-0000-4000-8000-000000000002',
+            primaryOrgUnitId: null
+        });
+        projectRepository.findOrgUnitById.mockResolvedValue(null);
+
+        await expect(
+            service.reassignOwner(
+                projectId,
+                {
+                    ownerUserId: '00000000-0000-4000-8000-000000000002',
+                    ownerOrgId: targetOrgId,
+                    reason: '客户经理调整'
+                },
+                userId
+            )
+        ).rejects.toThrow(NotFoundException);
+
+        expect(projectRepository.findOrgUnitById).toHaveBeenCalledWith(targetOrgId);
+        expect(projectRepository.createProjectOwnerReassignmentRecord).not.toHaveBeenCalled();
     });
 
     it('creates a confirmed acceptance record only from acceptance stage', async () => {
@@ -220,13 +399,17 @@ describe('ProjectService', () => {
         projectRepository.createAcceptanceRecord.mockReturnValue(record);
         projectRepository.saveAcceptanceRecord.mockResolvedValue(undefined);
 
-        const result = await service.createAcceptanceRecord(projectId, {
-            acceptanceType: 'stage-acceptance',
-            acceptanceResult: 'accepted',
-            scopeSummary: '阶段成果验收范围',
-            evidenceSummary: '客户验收单',
-            comment: ' 确认通过 '
-        }, userId);
+        const result = await service.createAcceptanceRecord(
+            projectId,
+            {
+                acceptanceType: 'stage-acceptance',
+                acceptanceResult: 'accepted',
+                scopeSummary: '阶段成果验收范围',
+                evidenceSummary: '客户验收单',
+                comment: ' 确认通过 '
+            },
+            userId
+        );
 
         expect(projectRepository.createAcceptanceRecord).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -251,12 +434,18 @@ describe('ProjectService', () => {
     it('rejects acceptance record creation before acceptance stage', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution' }));
 
-        await expect(service.createAcceptanceRecord(projectId, {
-            acceptanceType: 'stage-acceptance',
-            acceptanceResult: 'accepted',
-            scopeSummary: '阶段成果验收范围',
-            evidenceSummary: '客户验收单'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createAcceptanceRecord(
+                projectId,
+                {
+                    acceptanceType: 'stage-acceptance',
+                    acceptanceResult: 'accepted',
+                    scopeSummary: '阶段成果验收范围',
+                    evidenceSummary: '客户验收单'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.createAcceptanceRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveAcceptanceRecord).not.toHaveBeenCalled();
@@ -282,13 +471,17 @@ describe('ProjectService', () => {
         projectRepository.createProjectCompletionRecord.mockReturnValue(record);
         projectRepository.saveProjectCompletionRecord.mockResolvedValue(undefined);
 
-        const result = await service.createProjectCompletionRecord(projectId, {
-            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
-            completionResult: 'completed',
-            completedAt,
-            completionSummary: '项目交付完成',
-            evidenceSummary: '完成确认单'
-        }, userId);
+        const result = await service.createProjectCompletionRecord(
+            projectId,
+            {
+                acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                completionResult: 'completed',
+                completedAt,
+                completionSummary: '项目交付完成',
+                evidenceSummary: '完成确认单'
+            },
+            userId
+        );
 
         expect(projectRepository.createProjectCompletionRecord).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -320,13 +513,19 @@ describe('ProjectService', () => {
             acceptanceResult: 'rejected'
         });
 
-        await expect(service.createProjectCompletionRecord(projectId, {
-            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
-            completionResult: 'completed',
-            completedAt: new Date('2026-04-20T10:00:00.000Z'),
-            completionSummary: '项目交付完成',
-            evidenceSummary: '完成确认单'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectCompletionRecord(
+                projectId,
+                {
+                    acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                    completionResult: 'completed',
+                    completedAt: new Date('2026-04-20T10:00:00.000Z'),
+                    completionSummary: '项目交付完成',
+                    evidenceSummary: '完成确认单'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.createProjectCompletionRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectCompletionRecord).not.toHaveBeenCalled();
@@ -335,13 +534,19 @@ describe('ProjectService', () => {
     it('rejects completion record creation before acceptance stage', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
 
-        await expect(service.createProjectCompletionRecord(projectId, {
-            acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
-            completionResult: 'completed',
-            completedAt: new Date('2026-04-20T10:00:00.000Z'),
-            completionSummary: '项目交付完成',
-            evidenceSummary: '完成确认单'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectCompletionRecord(
+                projectId,
+                {
+                    acceptanceRecordId: '36000000-0000-4000-8000-000000000001',
+                    completionResult: 'completed',
+                    completedAt: new Date('2026-04-20T10:00:00.000Z'),
+                    completionSummary: '项目交付完成',
+                    evidenceSummary: '完成确认单'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findAcceptanceRecordById).not.toHaveBeenCalled();
         expect(projectRepository.createProjectCompletionRecord).not.toHaveBeenCalled();
@@ -369,11 +574,15 @@ describe('ProjectService', () => {
         projectRepository.createProjectArchiveRecord.mockReturnValue(archiveRecord);
         projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
 
-        const result = await service.createProjectArchiveRecord(projectId, {
-            archivedAt,
-            archiveSummary: '项目资料归档完成',
-            evidenceSummary: '归档清单与交付包'
-        }, userId);
+        const result = await service.createProjectArchiveRecord(
+            projectId,
+            {
+                archivedAt,
+                archiveSummary: '项目资料归档完成',
+                evidenceSummary: '归档清单与交付包'
+            },
+            userId
+        );
 
         expect(projectRepository.createProjectArchiveRecord).toHaveBeenCalledWith({
             projectId,
@@ -411,11 +620,15 @@ describe('ProjectService', () => {
         projectRepository.createProjectArchiveRecord.mockReturnValue(archiveRecord);
         projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
 
-        const result = await service.createProjectArchiveRecord(projectId, {
-            archivedAt,
-            archiveSummary: '终止项目资料归档完成',
-            evidenceSummary: '终止结论与归档清单'
-        }, userId);
+        const result = await service.createProjectArchiveRecord(
+            projectId,
+            {
+                archivedAt,
+                archiveSummary: '终止项目资料归档完成',
+                evidenceSummary: '终止结论与归档清单'
+            },
+            userId
+        );
 
         expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectArchiveRecord).toHaveBeenCalledWith({
@@ -443,11 +656,17 @@ describe('ProjectService', () => {
             status: 'recorded'
         });
 
-        await expect(service.createProjectArchiveRecord(projectId, {
-            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
-            archiveSummary: '项目资料归档完成',
-            evidenceSummary: '归档清单与交付包'
-        }, userId)).rejects.toThrow(ConflictException);
+        await expect(
+            service.createProjectArchiveRecord(
+                projectId,
+                {
+                    archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                    archiveSummary: '项目资料归档完成',
+                    evidenceSummary: '归档清单与交付包'
+                },
+                userId
+            )
+        ).rejects.toThrow(ConflictException);
 
         expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
@@ -476,13 +695,17 @@ describe('ProjectService', () => {
         projectRepository.createProjectArchiveRecord.mockReturnValue(replacementRecord);
         projectRepository.saveProjectArchiveRecordReplacement.mockResolvedValue(undefined);
 
-        const result = await service.replaceProjectArchiveRecord(supersededRecord.id, {
-            archivedAt,
-            archiveSummary: '归档包已更新',
-            evidenceSummary: '新版归档清单',
-            replacementReason: '归档资料补充',
-            expectedVersion: 3
-        }, userId);
+        const result = await service.replaceProjectArchiveRecord(
+            supersededRecord.id,
+            {
+                archivedAt,
+                archiveSummary: '归档包已更新',
+                evidenceSummary: '新版归档清单',
+                replacementReason: '归档资料补充',
+                expectedVersion: 3
+            },
+            userId
+        );
 
         expect(supersededRecord.status).toBe('superseded');
         expect(supersededRecord.updatedBy).toBe(userId);
@@ -523,11 +746,15 @@ describe('ProjectService', () => {
         projectRepository.findLatestRecordedProjectArchiveRecordByProjectId.mockResolvedValue(record);
         projectRepository.saveProjectArchiveRecord.mockResolvedValue(undefined);
 
-        const result = await service.voidProjectArchiveRecord(record.id, {
-            reason: '客户要求重新归档',
-            comment: '资料包撤回',
-            expectedVersion: 2
-        }, userId);
+        const result = await service.voidProjectArchiveRecord(
+            record.id,
+            {
+                reason: '客户要求重新归档',
+                comment: '资料包撤回',
+                expectedVersion: 2
+            },
+            userId
+        );
 
         expect(record.status).toBe('voided');
         expect(record.voidedAt).toEqual(expect.any(Date));
@@ -546,13 +773,19 @@ describe('ProjectService', () => {
             rowVersion: 4
         });
 
-        await expect(service.replaceProjectArchiveRecord('38000000-0000-4000-8000-000000000001', {
-            archivedAt: new Date('2026-04-23T10:00:00.000Z'),
-            archiveSummary: '归档包已更新',
-            evidenceSummary: '新版归档清单',
-            replacementReason: '归档资料补充',
-            expectedVersion: 3
-        }, userId)).rejects.toThrow(ConflictException);
+        await expect(
+            service.replaceProjectArchiveRecord(
+                '38000000-0000-4000-8000-000000000001',
+                {
+                    archivedAt: new Date('2026-04-23T10:00:00.000Z'),
+                    archiveSummary: '归档包已更新',
+                    evidenceSummary: '新版归档清单',
+                    replacementReason: '归档资料补充',
+                    expectedVersion: 3
+                },
+                userId
+            )
+        ).rejects.toThrow(ConflictException);
 
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
     });
@@ -561,28 +794,42 @@ describe('ProjectService', () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'completed', status: 'completed' }));
         projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId.mockResolvedValue(null);
 
-        await expect(service.createProjectArchiveRecord(projectId, {
-            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
-            archiveSummary: '项目资料归档完成',
-            evidenceSummary: '归档清单与交付包'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectArchiveRecord(
+                projectId,
+                {
+                    archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                    archiveSummary: '项目资料归档完成',
+                    evidenceSummary: '归档清单与交付包'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
     });
 
     it('rejects archive record creation when closed project has no effective close fact', async () => {
-        projectRepository.findById.mockResolvedValue(createProjectEntity({
-            currentStage: 'closed-lost',
-            status: 'closed',
-            closedAt: null
-        }));
+        projectRepository.findById.mockResolvedValue(
+            createProjectEntity({
+                currentStage: 'closed-lost',
+                status: 'closed',
+                closedAt: null
+            })
+        );
 
-        await expect(service.createProjectArchiveRecord(projectId, {
-            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
-            archiveSummary: '丢单项目资料归档完成',
-            evidenceSummary: '丢单结论与归档清单'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectArchiveRecord(
+                projectId,
+                {
+                    archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                    archiveSummary: '丢单项目资料归档完成',
+                    evidenceSummary: '丢单结论与归档清单'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectArchiveRecord).not.toHaveBeenCalled();
@@ -591,11 +838,17 @@ describe('ProjectService', () => {
     it('rejects archive record creation for non-terminal project stage', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
 
-        await expect(service.createProjectArchiveRecord(projectId, {
-            archivedAt: new Date('2026-04-22T10:00:00.000Z'),
-            archiveSummary: '项目资料归档完成',
-            evidenceSummary: '归档清单与交付包'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectArchiveRecord(
+                projectId,
+                {
+                    archivedAt: new Date('2026-04-22T10:00:00.000Z'),
+                    archiveSummary: '项目资料归档完成',
+                    evidenceSummary: '归档清单与交付包'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findLatestConfirmedProjectCompletionRecordByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectArchiveRecord).not.toHaveBeenCalled();
@@ -623,35 +876,39 @@ describe('ProjectService', () => {
         projectRepository.createProjectBidCommercialTimelineItem.mockImplementation((input) => input);
         projectRepository.saveProjectBidCommercialProcess.mockResolvedValue(undefined);
 
-        const result = await service.createProjectBidCommercialProcess(projectId, {
-            bidMode: 'public-tender',
-            currentStage: 'preparation',
-            decision: 'participate',
-            resultStatus: 'pending',
-            processSummary: '公开招标资料准备中。',
-            decisionSummary: '客户要求正式投标，决定参与。',
-            resultSummary: null,
-            ownerRole: '商务负责人',
-            materialItems: [
-                {
-                    materialKey: 'bid-bond',
-                    label: '投标保证金确认',
-                    materialStatus: 'in-progress',
-                    responsibleRole: '商务负责人',
-                    blocksNextStep: true,
-                    navigationHint: '/projects/current/workspace/bid-commercial'
-                }
-            ],
-            timelineItems: [
-                {
-                    eventKey: 'tender-announced',
-                    label: '招标公告',
-                    summary: '客户已发布招标公告。',
-                    timelineStatus: 'done',
-                    occurredAt: '2026-04-24T02:00:00.000Z'
-                }
-            ]
-        }, userId);
+        const result = await service.createProjectBidCommercialProcess(
+            projectId,
+            {
+                bidMode: 'public-tender',
+                currentStage: 'preparation',
+                decision: 'participate',
+                resultStatus: 'pending',
+                processSummary: '公开招标资料准备中。',
+                decisionSummary: '客户要求正式投标，决定参与。',
+                resultSummary: null,
+                ownerRole: '商务负责人',
+                materialItems: [
+                    {
+                        materialKey: 'bid-bond',
+                        label: '投标保证金确认',
+                        materialStatus: 'in-progress',
+                        responsibleRole: '商务负责人',
+                        blocksNextStep: true,
+                        navigationHint: '/projects/current/workspace/bid-commercial'
+                    }
+                ],
+                timelineItems: [
+                    {
+                        eventKey: 'tender-announced',
+                        label: '招标公告',
+                        summary: '客户已发布招标公告。',
+                        timelineStatus: 'done',
+                        occurredAt: '2026-04-24T02:00:00.000Z'
+                    }
+                ]
+            },
+            userId
+        );
 
         expect(previousProcess).toEqual(
             expect.objectContaining({
@@ -703,13 +960,19 @@ describe('ProjectService', () => {
     it('rejects inconsistent not-required bid commercial process input', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'assessment', status: 'active' }));
 
-        await expect(service.createProjectBidCommercialProcess(projectId, {
-            bidMode: 'not-required',
-            currentStage: 'closed',
-            decision: 'participate',
-            resultStatus: 'not-applicable',
-            processSummary: '项目不需要竞标。'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectBidCommercialProcess(
+                projectId,
+                {
+                    bidMode: 'not-required',
+                    currentStage: 'closed',
+                    decision: 'participate',
+                    resultStatus: 'not-applicable',
+                    processSummary: '项目不需要竞标。'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectBidCommercialProcess).not.toHaveBeenCalled();
@@ -718,13 +981,19 @@ describe('ProjectService', () => {
     it('rejects bid commercial process creation outside pre-signing stages', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
 
-        await expect(service.createProjectBidCommercialProcess(projectId, {
-            bidMode: 'direct-commercial',
-            currentStage: 'not-started',
-            decision: 'participate',
-            resultStatus: 'pending',
-            processSummary: '执行期不应补签约前竞标过程。'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectBidCommercialProcess(
+                projectId,
+                {
+                    bidMode: 'direct-commercial',
+                    currentStage: 'not-started',
+                    decision: 'participate',
+                    resultStatus: 'pending',
+                    processSummary: '执行期不应补签约前竞标过程。'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectBidCommercialProcess).not.toHaveBeenCalled();
@@ -767,41 +1036,45 @@ describe('ProjectService', () => {
         projectRepository.createProjectPricingMarginConditionItem.mockImplementation((input) => input);
         projectRepository.saveProjectPricingMarginReview.mockResolvedValue(undefined);
 
-        const result = await service.createProjectPricingMarginReview(projectId, {
-            technicalCostPackageId: technicalCostPackage.id,
-            bidCommercialProcessId: bidCommercialProcess.id,
-            commercialReleaseBaselineId: '33000000-0000-4000-8000-000000000001',
-            pricingPath: 'bid',
-            quoteVersion: 'Q-2026-001',
-            currencyCode: 'CNY',
-            quoteAmountTaxInclusive: '11300.00',
-            quoteAmountTaxExclusive: '10000.00',
-            taxRate: '0.13000000',
-            taxConditionSummary: '按 13% 增值税报价。',
-            paymentTermsSummary: '首付款 30%，验收后 60%，质保金 10%。',
-            grossMarginRate: '0.28000000',
-            grossMarginBand: 'watch',
-            grossMarginSummary: '毛利率处于关注区间，需要关闭回款条件项。',
-            decision: 'conditional-release',
-            decisionSummary: '条件放行，需补齐低首付风险说明。',
-            approvalScenarioKey: 'pricing-margin-review',
-            summaryPackageKey: 'pricing-margin-summary',
-            summarySnapshotId: '37000000-0000-4000-8000-000000000001',
-            projectionLevel: 'manager',
-            exportPolicy: 'controlled',
-            ownerRole: '销售 / 财务',
-            conditionItems: [
-                {
-                    conditionKey: 'down-payment-risk',
-                    conditionType: 'payment',
-                    label: '首付款条件确认',
-                    conditionSummary: '首付款比例低于标准，需要财务确认。',
-                    conditionStatus: 'open',
-                    requiredForContracting: true,
-                    responsibleRole: '财务'
-                }
-            ]
-        }, userId);
+        const result = await service.createProjectPricingMarginReview(
+            projectId,
+            {
+                technicalCostPackageId: technicalCostPackage.id,
+                bidCommercialProcessId: bidCommercialProcess.id,
+                commercialReleaseBaselineId: '33000000-0000-4000-8000-000000000001',
+                pricingPath: 'bid',
+                quoteVersion: 'Q-2026-001',
+                currencyCode: 'CNY',
+                quoteAmountTaxInclusive: '11300.00',
+                quoteAmountTaxExclusive: '10000.00',
+                taxRate: '0.13000000',
+                taxConditionSummary: '按 13% 增值税报价。',
+                paymentTermsSummary: '首付款 30%，验收后 60%，质保金 10%。',
+                grossMarginRate: '0.28000000',
+                grossMarginBand: 'watch',
+                grossMarginSummary: '毛利率处于关注区间，需要关闭回款条件项。',
+                decision: 'conditional-release',
+                decisionSummary: '条件放行，需补齐低首付风险说明。',
+                approvalScenarioKey: 'pricing-margin-review',
+                summaryPackageKey: 'pricing-margin-summary',
+                summarySnapshotId: '37000000-0000-4000-8000-000000000001',
+                projectionLevel: 'manager',
+                exportPolicy: 'controlled',
+                ownerRole: '销售 / 财务',
+                conditionItems: [
+                    {
+                        conditionKey: 'down-payment-risk',
+                        conditionType: 'payment',
+                        label: '首付款条件确认',
+                        conditionSummary: '首付款比例低于标准，需要财务确认。',
+                        conditionStatus: 'open',
+                        requiredForContracting: true,
+                        responsibleRole: '财务'
+                    }
+                ]
+            },
+            userId
+        );
 
         expect(previousReview).toEqual(expect.objectContaining({ isCurrent: false, status: 'superseded', updatedBy: userId }));
         expect(projectRepository.createProjectPricingMarginReview).toHaveBeenCalledWith(
@@ -846,21 +1119,27 @@ describe('ProjectService', () => {
             currencyCode: 'CNY'
         });
 
-        await expect(service.createProjectPricingMarginReview(projectId, {
-            technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
-            pricingPath: 'direct-commercial',
-            quoteVersion: 'Q-2026-001',
-            currencyCode: 'CNY',
-            quoteAmountTaxInclusive: '11300.00',
-            quoteAmountTaxExclusive: '10000.00',
-            taxRate: '0.13000000',
-            taxConditionSummary: '按 13% 增值税报价。',
-            paymentTermsSummary: '首付款 30%。',
-            grossMarginBand: 'target',
-            grossMarginSummary: '毛利达标。',
-            decision: 'pending',
-            decisionSummary: '待评审。'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectPricingMarginReview(
+                projectId,
+                {
+                    technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+                    pricingPath: 'direct-commercial',
+                    quoteVersion: 'Q-2026-001',
+                    currencyCode: 'CNY',
+                    quoteAmountTaxInclusive: '11300.00',
+                    quoteAmountTaxExclusive: '10000.00',
+                    taxRate: '0.13000000',
+                    taxConditionSummary: '按 13% 增值税报价。',
+                    paymentTermsSummary: '首付款 30%。',
+                    grossMarginBand: 'target',
+                    grossMarginSummary: '毛利达标。',
+                    decision: 'pending',
+                    decisionSummary: '待评审。'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findCurrentProjectBidCommercialProcessByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectPricingMarginReview).not.toHaveBeenCalled();
@@ -875,22 +1154,28 @@ describe('ProjectService', () => {
         });
         projectRepository.findCurrentProjectBidCommercialProcessByProjectId.mockResolvedValue(null);
 
-        await expect(service.createProjectPricingMarginReview(projectId, {
-            technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
-            pricingPath: 'direct-commercial',
-            quoteVersion: 'Q-2026-001',
-            currencyCode: 'CNY',
-            quoteAmountTaxInclusive: '11300.00',
-            quoteAmountTaxExclusive: '10000.00',
-            taxRate: '0.13000000',
-            taxConditionSummary: '按 13% 增值税报价。',
-            paymentTermsSummary: '首付款 30%。',
-            grossMarginRate: '0.32000000',
-            grossMarginBand: 'target',
-            grossMarginSummary: '毛利达标。',
-            decision: 'released',
-            decisionSummary: '可放行。'
-        }, userId)).rejects.toThrow(BadRequestException);
+        await expect(
+            service.createProjectPricingMarginReview(
+                projectId,
+                {
+                    technicalCostPackageId: '39000000-0000-4000-8000-000000000003',
+                    pricingPath: 'direct-commercial',
+                    quoteVersion: 'Q-2026-001',
+                    currencyCode: 'CNY',
+                    quoteAmountTaxInclusive: '11300.00',
+                    quoteAmountTaxExclusive: '10000.00',
+                    taxRate: '0.13000000',
+                    taxConditionSummary: '按 13% 增值税报价。',
+                    paymentTermsSummary: '首付款 30%。',
+                    grossMarginRate: '0.32000000',
+                    grossMarginBand: 'target',
+                    grossMarginSummary: '毛利达标。',
+                    decision: 'released',
+                    decisionSummary: '可放行。'
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findCurrentProjectPricingMarginReviewByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectPricingMarginReview).not.toHaveBeenCalled();
@@ -918,51 +1203,55 @@ describe('ProjectService', () => {
         projectRepository.createProjectTechnicalCostItem.mockImplementation((input) => input);
         projectRepository.saveProjectTechnicalCostPackage.mockResolvedValue(undefined);
 
-        const result = await service.createProjectTechnicalCostPackage(projectId, {
-            technicalFeasibilityDecision: 'conditional',
-            technicalConclusionSummary: '范围可实施，但集成风险需要持续跟踪。',
-            allowNextStage: false,
-            currencyCode: 'CNY',
-            taxAssumptionSummary: '按 6% 增值税估算。',
-            taxReviewStatus: 'pending',
-            scopeItems: [
-                {
-                    scopeType: 'in-scope',
-                    label: '核心接口联调',
-                    description: '覆盖合同签约前必须确认的接口范围。'
-                }
-            ],
-            riskItems: [
-                {
-                    riskCategory: '集成风险',
-                    riskLevel: 'R3',
-                    riskDescription: '客户接口文档尚未冻结。',
-                    impactScope: '影响报价边界和交付计划。',
-                    mitigationPlan: '由售前推动接口清单冻结。',
-                    ownerRole: '售前技术负责人',
-                    riskStatus: 'open',
-                    blocksNextStage: true
-                }
-            ],
-            costItems: [
-                {
-                    costCategory: '人力',
-                    costSubcategory: '售前支持',
-                    costDescription: '售前技术方案与接口联调评估。',
-                    estimationBasis: '2 人 5 天。',
-                    quantity: '10.0000',
-                    unit: 'person-day',
-                    unitPrice: '1500.0000',
-                    amountExcludingTax: '15000.00',
-                    taxCostAmount: '900.00',
-                    amountIncludingTax: '15900.00',
-                    currencyCode: 'CNY',
-                    confidenceLevel: 'medium',
-                    highUncertainty: true,
-                    responsibleRole: '售前技术负责人'
-                }
-            ]
-        }, userId);
+        const result = await service.createProjectTechnicalCostPackage(
+            projectId,
+            {
+                technicalFeasibilityDecision: 'conditional',
+                technicalConclusionSummary: '范围可实施，但集成风险需要持续跟踪。',
+                allowNextStage: false,
+                currencyCode: 'CNY',
+                taxAssumptionSummary: '按 6% 增值税估算。',
+                taxReviewStatus: 'pending',
+                scopeItems: [
+                    {
+                        scopeType: 'in-scope',
+                        label: '核心接口联调',
+                        description: '覆盖合同签约前必须确认的接口范围。'
+                    }
+                ],
+                riskItems: [
+                    {
+                        riskCategory: '集成风险',
+                        riskLevel: 'R3',
+                        riskDescription: '客户接口文档尚未冻结。',
+                        impactScope: '影响报价边界和交付计划。',
+                        mitigationPlan: '由售前推动接口清单冻结。',
+                        ownerRole: '售前技术负责人',
+                        riskStatus: 'open',
+                        blocksNextStage: true
+                    }
+                ],
+                costItems: [
+                    {
+                        costCategory: '人力',
+                        costSubcategory: '售前支持',
+                        costDescription: '售前技术方案与接口联调评估。',
+                        estimationBasis: '2 人 5 天。',
+                        quantity: '10.0000',
+                        unit: 'person-day',
+                        unitPrice: '1500.0000',
+                        amountExcludingTax: '15000.00',
+                        taxCostAmount: '900.00',
+                        amountIncludingTax: '15900.00',
+                        currencyCode: 'CNY',
+                        confidenceLevel: 'medium',
+                        highUncertainty: true,
+                        responsibleRole: '售前技术负责人'
+                    }
+                ]
+            },
+            userId
+        );
 
         expect(previousPackage).toEqual(
             expect.objectContaining({
@@ -1021,29 +1310,35 @@ describe('ProjectService', () => {
     it('rejects a technical cost package when cost item currency differs from the package currency', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'scope-confirmation', status: 'active' }));
 
-        await expect(service.createProjectTechnicalCostPackage(projectId, {
-            technicalFeasibilityDecision: 'feasible',
-            technicalConclusionSummary: '技术可行。',
-            allowNextStage: true,
-            currencyCode: 'CNY',
-            taxAssumptionSummary: '无需额外税务成本。',
-            taxReviewStatus: 'reviewed',
-            scopeItems: [],
-            riskItems: [],
-            costItems: [
+        await expect(
+            service.createProjectTechnicalCostPackage(
+                projectId,
                 {
-                    costCategory: '外采',
-                    costDescription: '外部组件预估。',
-                    estimationBasis: '供应商初步报价。',
-                    amountExcludingTax: '1000.00',
-                    taxCostAmount: '60.00',
-                    amountIncludingTax: '1060.00',
-                    currencyCode: 'USD',
-                    confidenceLevel: 'high',
-                    highUncertainty: false
-                }
-            ]
-        }, userId)).rejects.toThrow(BadRequestException);
+                    technicalFeasibilityDecision: 'feasible',
+                    technicalConclusionSummary: '技术可行。',
+                    allowNextStage: true,
+                    currencyCode: 'CNY',
+                    taxAssumptionSummary: '无需额外税务成本。',
+                    taxReviewStatus: 'reviewed',
+                    scopeItems: [],
+                    riskItems: [],
+                    costItems: [
+                        {
+                            costCategory: '外采',
+                            costDescription: '外部组件预估。',
+                            estimationBasis: '供应商初步报价。',
+                            amountExcludingTax: '1000.00',
+                            taxCostAmount: '60.00',
+                            amountIncludingTax: '1060.00',
+                            currencyCode: 'USD',
+                            confidenceLevel: 'high',
+                            highUncertainty: false
+                        }
+                    ]
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.createProjectTechnicalCostPackage).not.toHaveBeenCalled();
         expect(projectRepository.saveProjectTechnicalCostPackage).not.toHaveBeenCalled();
@@ -1052,29 +1347,35 @@ describe('ProjectService', () => {
     it('rejects technical cost package creation outside pre-signing stages', async () => {
         projectRepository.findById.mockResolvedValue(createProjectEntity({ currentStage: 'execution', status: 'active' }));
 
-        await expect(service.createProjectTechnicalCostPackage(projectId, {
-            technicalFeasibilityDecision: 'feasible',
-            technicalConclusionSummary: '技术可行。',
-            allowNextStage: true,
-            currencyCode: 'CNY',
-            taxAssumptionSummary: '无需额外税务成本。',
-            taxReviewStatus: 'reviewed',
-            scopeItems: [],
-            riskItems: [],
-            costItems: [
+        await expect(
+            service.createProjectTechnicalCostPackage(
+                projectId,
                 {
-                    costCategory: '人力',
-                    costDescription: '执行期成本不应进入签约前估算。',
-                    estimationBasis: '测试数据。',
-                    amountExcludingTax: '1000.00',
-                    taxCostAmount: '60.00',
-                    amountIncludingTax: '1060.00',
+                    technicalFeasibilityDecision: 'feasible',
+                    technicalConclusionSummary: '技术可行。',
+                    allowNextStage: true,
                     currencyCode: 'CNY',
-                    confidenceLevel: 'high',
-                    highUncertainty: false
-                }
-            ]
-        }, userId)).rejects.toThrow(BadRequestException);
+                    taxAssumptionSummary: '无需额外税务成本。',
+                    taxReviewStatus: 'reviewed',
+                    scopeItems: [],
+                    riskItems: [],
+                    costItems: [
+                        {
+                            costCategory: '人力',
+                            costDescription: '执行期成本不应进入签约前估算。',
+                            estimationBasis: '测试数据。',
+                            amountExcludingTax: '1000.00',
+                            taxCostAmount: '60.00',
+                            amountIncludingTax: '1060.00',
+                            currencyCode: 'CNY',
+                            confidenceLevel: 'high',
+                            highUncertainty: false
+                        }
+                    ]
+                },
+                userId
+            )
+        ).rejects.toThrow(BadRequestException);
 
         expect(projectRepository.findCurrentProjectTechnicalCostPackageByProjectId).not.toHaveBeenCalled();
         expect(projectRepository.createProjectTechnicalCostPackage).not.toHaveBeenCalled();

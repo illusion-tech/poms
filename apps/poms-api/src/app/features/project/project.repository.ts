@@ -8,22 +8,11 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
-import {
-    ProjectBidCommercialMaterialItem,
-    ProjectBidCommercialProcess,
-    ProjectBidCommercialTimelineItem
-} from './project-bid-commercial-process.entity';
+import { ProjectBidCommercialMaterialItem, ProjectBidCommercialProcess, ProjectBidCommercialTimelineItem } from './project-bid-commercial-process.entity';
 import { ProjectCompletionRecord } from './project-completion-record.entity';
-import {
-    ProjectPricingMarginConditionItem,
-    ProjectPricingMarginReview
-} from './project-pricing-margin-review.entity';
-import {
-    ProjectTechnicalCostItem,
-    ProjectTechnicalCostPackage,
-    ProjectTechnicalRiskItem,
-    ProjectTechnicalScopeItem
-} from './project-technical-cost-package.entity';
+import { ProjectOwnerReassignmentRecord } from './project-owner-reassignment-record.entity';
+import { ProjectPricingMarginConditionItem, ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
+import { ProjectTechnicalCostItem, ProjectTechnicalCostPackage, ProjectTechnicalRiskItem, ProjectTechnicalScopeItem } from './project-technical-cost-package.entity';
 import { Project } from './project.entity';
 
 @Injectable()
@@ -47,6 +36,8 @@ export class ProjectRepository {
         private readonly projectCompletionRecordRepository: EntityRepository<ProjectCompletionRecord>,
         @InjectRepository(ProjectArchiveRecord)
         private readonly projectArchiveRecordRepository: EntityRepository<ProjectArchiveRecord>,
+        @InjectRepository(ProjectOwnerReassignmentRecord)
+        private readonly projectOwnerReassignmentRecordRepository: EntityRepository<ProjectOwnerReassignmentRecord>,
         @InjectRepository(ProjectBidCommercialProcess)
         private readonly projectBidCommercialProcessRepository: EntityRepository<ProjectBidCommercialProcess>,
         @InjectRepository(ProjectBidCommercialMaterialItem)
@@ -73,12 +64,7 @@ export class ProjectRepository {
         });
     }
 
-    async findMany(input: {
-        status?: string;
-        currentStage?: string;
-        ownerOrgId?: string;
-        keyword?: string;
-    }): Promise<Project[]> {
+    async findMany(input: { status?: string; currentStage?: string; ownerOrgId?: string; keyword?: string }): Promise<Project[]> {
         const where: FilterQuery<Project> = {};
 
         if (input.status) {
@@ -94,11 +80,7 @@ export class ProjectRepository {
         }
 
         if (input.keyword) {
-            (where as FilterQuery<Project> & { $or?: FilterQuery<Project>[] }).$or = [
-                { projectNo: { $ilike: `%${input.keyword}%` } },
-                { projectName: { $ilike: `%${input.keyword}%` } },
-                { customerProjectNo: { $ilike: `%${input.keyword}%` } }
-            ];
+            (where as FilterQuery<Project> & { $or?: FilterQuery<Project>[] }).$or = [{ projectNo: { $ilike: `%${input.keyword}%` } }, { projectName: { $ilike: `%${input.keyword}%` } }, { customerProjectNo: { $ilike: `%${input.keyword}%` } }];
         }
 
         return this.projectRepository.find(where, {
@@ -147,6 +129,10 @@ export class ProjectRepository {
         }
 
         return this.orgUnitRepository.find({ id: { $in: ids } });
+    }
+
+    async findOrgUnitById(id: string): Promise<OrgUnit | null> {
+        return this.orgUnitRepository.findOne({ id });
     }
 
     async findLatestSignedContractAtByProjectIds(projectIds: string[]): Promise<Map<string, Date>> {
@@ -304,10 +290,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectBidCommercialMaterialItemRepository.find(
-            { processId: { $in: processIds } },
-            { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectBidCommercialMaterialItemRepository.find({ processId: { $in: processIds } }, { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     async findProjectBidCommercialTimelineItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialTimelineItem[]> {
@@ -315,10 +298,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectBidCommercialTimelineItemRepository.find(
-            { processId: { $in: processIds } },
-            { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectBidCommercialTimelineItemRepository.find({ processId: { $in: processIds } }, { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     async findProjectTechnicalCostPackagesByProjectId(projectId: string): Promise<ProjectTechnicalCostPackage[]> {
@@ -374,10 +354,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectPricingMarginConditionItemRepository.find(
-            { reviewId: { $in: reviewIds } },
-            { orderBy: { reviewId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectPricingMarginConditionItemRepository.find({ reviewId: { $in: reviewIds } }, { orderBy: { reviewId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     async findProjectTechnicalScopeItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalScopeItem[]> {
@@ -385,10 +362,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectTechnicalScopeItemRepository.find(
-            { packageId: { $in: packageIds } },
-            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectTechnicalScopeItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     async findProjectTechnicalRiskItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalRiskItem[]> {
@@ -396,10 +370,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectTechnicalRiskItemRepository.find(
-            { packageId: { $in: packageIds } },
-            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectTechnicalRiskItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     async findProjectTechnicalCostItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalCostItem[]> {
@@ -407,10 +378,7 @@ export class ProjectRepository {
             return [];
         }
 
-        return this.projectTechnicalCostItemRepository.find(
-            { packageId: { $in: packageIds } },
-            { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } }
-        );
+        return this.projectTechnicalCostItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
     }
 
     create(input: ConstructorParameters<typeof Project>[0]): Project {
@@ -429,6 +397,10 @@ export class ProjectRepository {
         return this.projectArchiveRecordRepository.create(input);
     }
 
+    createProjectOwnerReassignmentRecord(input: ConstructorParameters<typeof ProjectOwnerReassignmentRecord>[0]): ProjectOwnerReassignmentRecord {
+        return this.projectOwnerReassignmentRecordRepository.create(input);
+    }
+
     createProjectBidCommercialProcess(input: ConstructorParameters<typeof ProjectBidCommercialProcess>[0]): ProjectBidCommercialProcess {
         return this.projectBidCommercialProcessRepository.create(input);
     }
@@ -445,9 +417,7 @@ export class ProjectRepository {
         return this.projectPricingMarginReviewRepository.create(input);
     }
 
-    createProjectPricingMarginConditionItem(
-        input: ConstructorParameters<typeof ProjectPricingMarginConditionItem>[0]
-    ): ProjectPricingMarginConditionItem {
+    createProjectPricingMarginConditionItem(input: ConstructorParameters<typeof ProjectPricingMarginConditionItem>[0]): ProjectPricingMarginConditionItem {
         return this.projectPricingMarginConditionItemRepository.create(input);
     }
 
@@ -483,14 +453,12 @@ export class ProjectRepository {
         await this.projectArchiveRecordRepository.getEntityManager().persist(record).flush();
     }
 
-    async saveProjectArchiveRecordReplacement(input: {
-        supersededRecord: ProjectArchiveRecord;
-        replacementRecord: ProjectArchiveRecord;
-    }): Promise<void> {
-        await this.projectArchiveRecordRepository.getEntityManager().persist([
-            input.supersededRecord,
-            input.replacementRecord
-        ]).flush();
+    async saveProjectArchiveRecordReplacement(input: { supersededRecord: ProjectArchiveRecord; replacementRecord: ProjectArchiveRecord }): Promise<void> {
+        await this.projectArchiveRecordRepository.getEntityManager().persist([input.supersededRecord, input.replacementRecord]).flush();
+    }
+
+    async saveProjectOwnerReassignment(input: { project: Project; record: ProjectOwnerReassignmentRecord }): Promise<void> {
+        await this.projectOwnerReassignmentRecordRepository.getEntityManager().persist([input.project, input.record]).flush();
     }
 
     async saveProjectBidCommercialProcess(input: {
@@ -499,11 +467,7 @@ export class ProjectRepository {
         materialItems: ProjectBidCommercialMaterialItem[];
         timelineItems: ProjectBidCommercialTimelineItem[];
     }): Promise<void> {
-        const entities = [
-            input.currentProcess,
-            ...input.materialItems,
-            ...input.timelineItems
-        ];
+        const entities = [input.currentProcess, ...input.materialItems, ...input.timelineItems];
         if (input.previousProcess) {
             entities.push(input.previousProcess);
         }
@@ -511,11 +475,7 @@ export class ProjectRepository {
         await this.projectBidCommercialProcessRepository.getEntityManager().persist(entities).flush();
     }
 
-    async saveProjectPricingMarginReview(input: {
-        currentReview: ProjectPricingMarginReview;
-        previousReview: ProjectPricingMarginReview | null;
-        conditionItems: ProjectPricingMarginConditionItem[];
-    }): Promise<void> {
+    async saveProjectPricingMarginReview(input: { currentReview: ProjectPricingMarginReview; previousReview: ProjectPricingMarginReview | null; conditionItems: ProjectPricingMarginConditionItem[] }): Promise<void> {
         const entities: object[] = [input.currentReview, ...input.conditionItems];
         if (input.previousReview) {
             entities.push(input.previousReview);
@@ -531,12 +491,7 @@ export class ProjectRepository {
         riskItems: ProjectTechnicalRiskItem[];
         costItems: ProjectTechnicalCostItem[];
     }): Promise<void> {
-        const entities = [
-            input.currentPackage,
-            ...input.scopeItems,
-            ...input.riskItems,
-            ...input.costItems
-        ];
+        const entities = [input.currentPackage, ...input.scopeItems, ...input.riskItems, ...input.costItems];
         if (input.previousPackage) {
             entities.push(input.previousPackage);
         }
