@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type PlatformOrgUnitSummary, type PlatformUserSummary, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { LeadList } from './lead-list';
 
 function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
@@ -69,34 +69,23 @@ function createProjectSummary(overrides: Partial<ProjectSummary> = {}): ProjectS
     };
 }
 
-function createPlatformUser(overrides: Partial<PlatformUserSummary> = {}): PlatformUserSummary {
+function createPlatformUser(overrides: Partial<OwnerReferenceUser> = {}): OwnerReferenceUser {
     return {
         id: 'user-1',
-        username: 'sales_rep',
         displayName: '张销售',
-        email: 'sales@example.com',
-        phone: null,
         isActive: true,
         primaryOrgUnitId: 'org-1',
         primaryOrgUnitName: '华南销售一部',
-        roleNames: ['销售人员'],
-        createdAt: '2026-04-25T09:00:00.000Z',
-        updatedAt: '2026-04-25T09:00:00.000Z',
         ...overrides
     };
 }
 
-function createOrgUnit(overrides: Partial<PlatformOrgUnitSummary> = {}): PlatformOrgUnitSummary {
+function createOrgUnit(overrides: Partial<OwnerReferenceOrgUnit> = {}): OwnerReferenceOrgUnit {
     return {
         id: 'org-1',
         name: '华南销售一部',
         code: 'SALES-SOUTH-1',
-        description: null,
-        parentId: null,
         isActive: true,
-        displayOrder: 1,
-        createdAt: '2026-04-25T09:00:00.000Z',
-        updatedAt: '2026-04-25T09:00:00.000Z',
         ...overrides
     };
 }
@@ -108,8 +97,8 @@ describe('LeadList', () => {
     let selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
     let routerMock: { navigate: jest.Mock };
-    let users: ReturnType<typeof signal<PlatformUserSummary[]>>;
-    let orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
+    let ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
+    let ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
     let leadStoreMock: {
         leads: ReturnType<typeof signal<LeadListView[]>>;
         selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
@@ -129,22 +118,19 @@ describe('LeadList', () => {
         clearSelectedLead: jest.Mock;
     };
     let platformStoreMock: {
-        users: ReturnType<typeof signal<PlatformUserSummary[]>>;
-        orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
-        loadingUsers: ReturnType<typeof signal<boolean>>;
-        loadingOrgUnits: ReturnType<typeof signal<boolean>>;
-        loadedUsers: ReturnType<typeof signal<boolean>>;
-        loadedOrgUnits: ReturnType<typeof signal<boolean>>;
-        loadUsers: jest.Mock;
-        loadOrgUnits: jest.Mock;
+        ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
+        ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
+        loadingOwnerReferenceData: ReturnType<typeof signal<boolean>>;
+        loadedOwnerReferenceData: ReturnType<typeof signal<boolean>>;
+        loadOwnerReferenceData: jest.Mock;
     };
 
     beforeEach(async () => {
         leads = signal([createLead()]);
         selectedLead = signal<LeadDetailView | null>(null);
         canWriteLead = signal(true);
-        users = signal<PlatformUserSummary[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', username: 'sales_manager', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
-        orgUnits = signal<PlatformOrgUnitSummary[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
+        ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
+        ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
         routerMock = { navigate: jest.fn() };
         leadStoreMock = {
             leads,
@@ -169,14 +155,11 @@ describe('LeadList', () => {
             clearSelectedLead: jest.fn()
         };
         platformStoreMock = {
-            users,
-            orgUnits,
-            loadingUsers: signal(false),
-            loadingOrgUnits: signal(false),
-            loadedUsers: signal(true),
-            loadedOrgUnits: signal(true),
-            loadUsers: jest.fn().mockResolvedValue(users()),
-            loadOrgUnits: jest.fn().mockResolvedValue(orgUnits())
+            ownerUsers,
+            ownerOrgUnits,
+            loadingOwnerReferenceData: signal(false),
+            loadedOwnerReferenceData: signal(true),
+            loadOwnerReferenceData: jest.fn().mockResolvedValue({ users: ownerUsers(), orgUnits: ownerOrgUnits() })
         };
 
         await TestBed.configureTestingModule({

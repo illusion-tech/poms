@@ -11,6 +11,7 @@ describe('PlatformController', () => {
     beforeEach(() => {
         service = {
             listUsers: jest.fn(),
+            listOwnerReferenceData: jest.fn(),
             getSanitizedUserProfile: jest.fn(),
             listRoles: jest.fn(),
             listPermissions: jest.fn(),
@@ -64,6 +65,34 @@ describe('PlatformController', () => {
 
         expect(service.listUsers).toHaveBeenCalled();
         expect(result).toHaveLength(1);
+    });
+
+    it('returns owner reference data from service', async () => {
+        service.listOwnerReferenceData.mockResolvedValue({
+            users: [
+                {
+                    id: '00000000-0000-4000-8000-000000000001',
+                    displayName: '张销售',
+                    isActive: true,
+                    primaryOrgUnitId: '10000000-0000-4000-8000-000000000001',
+                    primaryOrgUnitName: '销售管理中心'
+                }
+            ],
+            orgUnits: [
+                {
+                    id: '10000000-0000-4000-8000-000000000001',
+                    name: '销售管理中心',
+                    code: 'SALES-HQ',
+                    isActive: true
+                }
+            ]
+        });
+
+        const result = await controller.listOwnerReferenceData();
+
+        expect(service.listOwnerReferenceData).toHaveBeenCalled();
+        expect(result.users).toHaveLength(1);
+        expect(result.orgUnits).toHaveLength(1);
     });
 
     it('returns platform roles from service', async () => {

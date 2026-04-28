@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
+import { ADMIN_CREDENTIALS, login, SALES_CREDENTIALS, VIEWER_CREDENTIALS } from './support/auth';
 
 function uniqueSuffix(): string {
     return Date.now().toString(36);
@@ -136,6 +136,23 @@ test.describe('poms-admin lead bootstrap journey', () => {
 
         await expect(page).toHaveURL(new RegExp('/auth/access\\?returnUrl='));
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
+    });
+
+    test('sales writer can load owner candidates without platform management permission', async ({ page }) => {
+        await login(page, SALES_CREDENTIALS);
+        await expect(page).toHaveURL(/\/dashboard$/);
+
+        await openLeadsFromMenu(page);
+        await page.getByRole('button', { name: '登记线索' }).click();
+
+        const dialog = page.getByRole('dialog').filter({ hasText: '登记线索' }).last();
+        await expect(dialog).toBeVisible();
+
+        await dialog.getByRole('combobox').first().click();
+        await expect(page.getByRole('option', { name: /销售人员.*华南销售一部/ })).toBeVisible();
+
+        await dialog.getByRole('combobox').nth(1).click();
+        await expect(page.getByRole('option', { name: '华南销售一部', exact: true })).toBeVisible();
     });
 
     test('anonymous direct lead access keeps the returnUrl through login', async ({ page }) => {

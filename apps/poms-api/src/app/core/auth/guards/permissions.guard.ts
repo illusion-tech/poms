@@ -4,6 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { RuntimeAuditService } from '../../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../../runtime-audit/runtime-audit-request.utils';
 import { IS_AUTHENTICATED_KEY } from '../decorators/authenticated.decorator';
+import { ANY_PERMISSIONS_KEY } from '../decorators/has-any-permissions.decorator';
 import { PERMISSIONS_KEY } from '../decorators/has-permissions.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
@@ -23,23 +24,26 @@ export class PermissionsGuard implements CanActivate {
 
         const isAuthenticated = this.#reflector.getAllAndOverride<boolean>(IS_AUTHENTICATED_KEY, [context.getHandler(), context.getClass()]);
 
-        const requiredPermissions = this.#reflector.getAllAndOverride<PermissionKey[]>(PERMISSIONS_KEY, [context.getHandler(), context.getClass()]);
+        const requiredPermissions = this.#reflector.getAllAndOverride<PermissionKey[]>(PERMISSIONS_KEY, [context.getHandler(), context.getClass()]) ?? [];
+        const requiredAnyPermissions = this.#reflector.getAllAndOverride<PermissionKey[]>(ANY_PERMISSIONS_KEY, [context.getHandler(), context.getClass()]) ?? [];
+        const hasPermissionRequirement = requiredPermissions.length > 0 || requiredAnyPermissions.length > 0;
 
         // 默认拒绝策略：非 @Public() 的路由必须显式声明 @Authenticated() 或 @HasPermissions()
-        if (!isAuthenticated && (!requiredPermissions || requiredPermissions.length === 0)) {
+        if (!isAuthenticated && !hasPermissionRequirement) {
             throw new ForbiddenException('Route must be decorated with @Authenticated() or @HasPermissions()');
         }
 
         // 仅需登录，无需特定权限
-        if (isAuthenticated && (!requiredPermissions || requiredPermissions.length === 0)) {
+        if (isAuthenticated && !hasPermissionRequirement) {
             return true;
         }
 
         const request = context.switchToHttp().getRequest<RuntimeAuditRequestLike & { user?: UserPayload }>();
         const userPermissions = request.user?.permissions ?? [];
 
-        const hasAll = requiredPermissions.every((p) => userPermissions.includes(p));
-        if (hasAll) return true;
+        const hasAll = requiredPermissions.length === 0 || requiredPermissions.every((p) => userPermissions.includes(p));
+        const hasAny = requiredAnyPermissions.length === 0 || requiredAnyPermissions.some((p) => userPermissions.includes(p));
+        if (hasAll && hasAny) return true;
 
         await this.#runtimeAuditService.recordSecurityEvent({
             eventType: 'authz.permission.denied',
@@ -49,14 +53,20 @@ export class PermissionsGuard implements CanActivate {
             requestId: getRequestId(request),
             path: getRequestPath(request),
             method: getRequestMethod(request),
-            permissionKey: requiredPermissions[0] ?? null,
+            permissionKey: requiredPermissions[0] ?? requiredAnyPermissions[0] ?? null,
             result: 'blocked',
             ip: getRequestIp(request),
             userAgent: getRequestUserAgent(request),
-            details: {
-                requiredPermissions,
-                userPermissions
-            }
+            details: requiredAnyPermissions.length
+                ? {
+                      requiredPermissions,
+                      requiredAnyPermissions,
+                      userPermissions
+                  }
+                : {
+                      requiredPermissions,
+                      userPermissions
+                  }
         });
         throw new ForbiddenException('Insufficient permissions');
     }

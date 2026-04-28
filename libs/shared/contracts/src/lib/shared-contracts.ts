@@ -323,6 +323,38 @@ export const PlatformOrgUnitListSchema = z.array(PlatformOrgUnitSummarySchema).m
 
 export type PlatformOrgUnitList = z.infer<typeof PlatformOrgUnitListSchema>;
 
+export const OwnerReferenceUserSchema = z
+    .object({
+        id: z.uuid(),
+        displayName: z.string(),
+        isActive: z.boolean(),
+        primaryOrgUnitId: z.uuid().nullable(),
+        primaryOrgUnitName: z.string().nullable()
+    })
+    .meta({ id: 'OwnerReferenceUser' });
+
+export type OwnerReferenceUser = z.infer<typeof OwnerReferenceUserSchema>;
+
+export const OwnerReferenceOrgUnitSchema = z
+    .object({
+        id: z.uuid(),
+        name: z.string(),
+        code: z.string(),
+        isActive: z.boolean()
+    })
+    .meta({ id: 'OwnerReferenceOrgUnit' });
+
+export type OwnerReferenceOrgUnit = z.infer<typeof OwnerReferenceOrgUnitSchema>;
+
+export const OwnerReferenceDataSchema = z
+    .object({
+        users: z.array(OwnerReferenceUserSchema),
+        orgUnits: z.array(OwnerReferenceOrgUnitSchema)
+    })
+    .meta({ id: 'OwnerReferenceData' });
+
+export type OwnerReferenceData = z.infer<typeof OwnerReferenceDataSchema>;
+
 export const PlatformOrgUnitDetailSchema = PlatformOrgUnitSummarySchema.extend({
     childCount: z.number().int().nonnegative(),
     activeMembershipCount: z.number().int().nonnegative(),

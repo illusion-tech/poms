@@ -1,5 +1,6 @@
 import { ForbiddenException, type ExecutionContext, type Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ANY_PERMISSIONS_KEY } from '../decorators/has-any-permissions.decorator';
 import { PERMISSIONS_KEY } from '../decorators/has-permissions.decorator';
 import { PermissionsGuard } from './permissions.guard';
 
@@ -78,6 +79,60 @@ describe('PermissionsGuard', () => {
 
         expect(allowed).toBe(true);
         expect(runtimeAuditService.recordSecurityEvent).not.toHaveBeenCalled();
+    });
+
+    it('allows the request when the user has one accepted permission', async () => {
+        const handler = () => undefined;
+        const controllerClass = class TestController {};
+        Reflect.defineMetadata(ANY_PERMISSIONS_KEY, ['lead:write', 'project:write'], handler);
+
+        const allowed = await guard.canActivate(
+            createContext(handler, controllerClass, {
+                method: 'GET',
+                originalUrl: '/platform/owner-reference',
+                headers: {},
+                user: {
+                    sub: '00000000-0000-4000-8000-000000000001',
+                    username: 'sales',
+                    permissions: ['lead:write']
+                }
+            })
+        );
+
+        expect(allowed).toBe(true);
+        expect(runtimeAuditService.recordSecurityEvent).not.toHaveBeenCalled();
+    });
+
+    it('records a security event when none of the accepted permissions are present', async () => {
+        const handler = () => undefined;
+        const controllerClass = class TestController {};
+        Reflect.defineMetadata(ANY_PERMISSIONS_KEY, ['lead:write', 'project:write'], handler);
+
+        await expect(
+            guard.canActivate(
+                createContext(handler, controllerClass, {
+                    method: 'GET',
+                    originalUrl: '/platform/owner-reference',
+                    headers: {},
+                    user: {
+                        sub: '00000000-0000-4000-8000-000000000001',
+                        username: 'viewer',
+                        permissions: ['project:read']
+                    }
+                })
+            )
+        ).rejects.toThrow(ForbiddenException);
+
+        expect(runtimeAuditService.recordSecurityEvent).toHaveBeenCalledWith(
+            expect.objectContaining({
+                permissionKey: 'lead:write',
+                details: {
+                    requiredPermissions: [],
+                    requiredAnyPermissions: ['lead:write', 'project:write'],
+                    userPermissions: ['project:read']
+                }
+            })
+        );
     });
 });
 

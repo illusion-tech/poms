@@ -7,6 +7,8 @@ import type {
     CreatePlatformUserRequest,
     CreateRoleRequest,
     MoveOrgUnitRequest,
+    OwnerReferenceOrgUnit,
+    OwnerReferenceUser,
     PlatformPermissionSummary,
     PlatformOrgUnitSummary,
     PlatformRoleDetail,
@@ -32,6 +34,10 @@ export class PlatformStore {
     readonly #loadingUsers = signal(false);
     readonly #loadedUsers = signal(false);
     readonly #savingUser = signal(false);
+    readonly #ownerUsers = signal<OwnerReferenceUser[]>([]);
+    readonly #ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([]);
+    readonly #loadingOwnerReferenceData = signal(false);
+    readonly #loadedOwnerReferenceData = signal(false);
     readonly #activeUserDetail = signal<PlatformUserDetail | null>(null);
     readonly #loadingUserDetail = signal(false);
     readonly #savingUserDetail = signal(false);
@@ -40,6 +46,10 @@ export class PlatformStore {
     readonly loadingUsers = this.#loadingUsers.asReadonly();
     readonly loadedUsers = this.#loadedUsers.asReadonly();
     readonly savingUser = this.#savingUser.asReadonly();
+    readonly ownerUsers = this.#ownerUsers.asReadonly();
+    readonly ownerOrgUnits = this.#ownerOrgUnits.asReadonly();
+    readonly loadingOwnerReferenceData = this.#loadingOwnerReferenceData.asReadonly();
+    readonly loadedOwnerReferenceData = this.#loadedOwnerReferenceData.asReadonly();
     readonly activeUserDetail = this.#activeUserDetail.asReadonly();
     readonly loadingUserDetail = this.#loadingUserDetail.asReadonly();
     readonly savingUserDetail = this.#savingUserDetail.asReadonly();
@@ -54,6 +64,19 @@ export class PlatformStore {
             return users;
         } finally {
             this.#loadingUsers.set(false);
+        }
+    }
+
+    async loadOwnerReferenceData() {
+        this.#loadingOwnerReferenceData.set(true);
+        try {
+            const referenceData = await firstValueFrom(this.#platformApi.platformControllerListOwnerReferenceData());
+            this.#ownerUsers.set(referenceData?.users ?? []);
+            this.#ownerOrgUnits.set(referenceData?.orgUnits ?? []);
+            this.#loadedOwnerReferenceData.set(true);
+            return referenceData;
+        } finally {
+            this.#loadingOwnerReferenceData.set(false);
         }
     }
 

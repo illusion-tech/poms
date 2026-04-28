@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type LeadStatus, type PlatformUserSummary } from '@poms/admin-data-access';
+import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type LeadStatus, type OwnerReferenceUser } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -543,7 +543,7 @@ export class LeadList implements OnInit {
 
     readonly ownerUserOptions = computed<LeadOwnerUserOption[]>(() =>
         this.#platformStore
-            .users()
+            .ownerUsers()
             .filter((user) => user.isActive)
             .map((user) => ({
                 label: this.ownerUserLabel(user),
@@ -554,7 +554,7 @@ export class LeadList implements OnInit {
 
     readonly ownerOrgOptions = computed<LeadFilterOption[]>(() =>
         this.#platformStore
-            .orgUnits()
+            .ownerOrgUnits()
             .filter((orgUnit) => orgUnit.isActive)
             .map((orgUnit) => ({
                 label: orgUnit.name,
@@ -562,7 +562,7 @@ export class LeadList implements OnInit {
             }))
     );
 
-    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingUsers() || this.#platformStore.loadingOrgUnits());
+    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
 
@@ -882,18 +882,20 @@ export class LeadList implements OnInit {
 
     private async loadOwnerReferenceData(): Promise<void> {
         try {
-            await Promise.all([this.#platformStore.loadedUsers() ? Promise.resolve() : this.#platformStore.loadUsers(), this.#platformStore.loadedOrgUnits() ? Promise.resolve() : this.#platformStore.loadOrgUnits()]);
+            if (!this.#platformStore.loadedOwnerReferenceData()) {
+                await this.#platformStore.loadOwnerReferenceData();
+            }
         } catch {
             this.pageError.set('销售主责候选没有读取成功，请稍后重试。');
         }
     }
 
-    private ownerUserLabel(user: PlatformUserSummary): string {
+    private ownerUserLabel(user: OwnerReferenceUser): string {
         return user.primaryOrgUnitName ? `${user.displayName}（${user.primaryOrgUnitName}）` : user.displayName;
     }
 
-    private findOwnerUser(id: string): PlatformUserSummary | null {
-        return this.#platformStore.users().find((user) => user.id === id) ?? null;
+    private findOwnerUser(id: string): OwnerReferenceUser | null {
+        return this.#platformStore.ownerUsers().find((user) => user.id === id) ?? null;
     }
 
     private leadSearchText(lead: LeadListView): string {

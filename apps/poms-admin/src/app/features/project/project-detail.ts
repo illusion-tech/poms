@@ -2,7 +2,7 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, PlatformStore, ProjectStore, type PlatformUserSummary, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, PlatformStore, ProjectStore, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -713,7 +713,7 @@ export class ProjectDetail implements OnInit {
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly ownerUserOptions = computed<OwnerUserOption[]>(() =>
         this.#platformStore
-            .users()
+            .ownerUsers()
             .filter((user) => user.isActive)
             .map((user) => ({
                 label: this.ownerUserLabel(user),
@@ -723,14 +723,14 @@ export class ProjectDetail implements OnInit {
     );
     readonly ownerOrgOptions = computed<OwnerOption[]>(() =>
         this.#platformStore
-            .orgUnits()
+            .ownerOrgUnits()
             .filter((orgUnit) => orgUnit.isActive)
             .map((orgUnit) => ({
                 label: orgUnit.name,
                 value: orgUnit.id
             }))
     );
-    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingUsers() || this.#platformStore.loadingOrgUnits());
+    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
 
     editDialogVisible = false;
     editAttempted = false;
@@ -1224,15 +1224,17 @@ export class ProjectDetail implements OnInit {
     }
 
     private async loadOwnerReferenceData(): Promise<void> {
-        await Promise.all([this.#platformStore.loadedUsers() ? Promise.resolve() : this.#platformStore.loadUsers(), this.#platformStore.loadedOrgUnits() ? Promise.resolve() : this.#platformStore.loadOrgUnits()]).catch(() => undefined);
+        if (!this.#platformStore.loadedOwnerReferenceData()) {
+            await this.#platformStore.loadOwnerReferenceData().catch(() => undefined);
+        }
     }
 
-    private ownerUserLabel(user: PlatformUserSummary): string {
+    private ownerUserLabel(user: OwnerReferenceUser): string {
         return user.primaryOrgUnitName ? `${user.displayName}（${user.primaryOrgUnitName}）` : user.displayName;
     }
 
-    private findOwnerUser(id: string): PlatformUserSummary | null {
-        return this.#platformStore.users().find((user) => user.id === id) ?? null;
+    private findOwnerUser(id: string): OwnerReferenceUser | null {
+        return this.#platformStore.ownerUsers().find((user) => user.id === id) ?? null;
     }
 
     private timelineEventByStage(timeline: ProjectTimelineView | null): Map<ProjectLifecycleStage, ProjectTimelineEvent> {

@@ -7,6 +7,7 @@ import type {
     CreateRoleRequest,
     MoveOrgUnitRequest,
     NavigationSyncSummary,
+    OwnerReferenceData,
     OrgUnitTreeNode,
     PermissionKey,
     PlatformPermissionList,
@@ -119,6 +120,29 @@ export class PlatformService {
             createdAt: user.createdAt.toISOString(),
             updatedAt: user.updatedAt.toISOString()
         }));
+    }
+
+    async listOwnerReferenceData(): Promise<OwnerReferenceData> {
+        const { users, orgUnits, orgUnitMap, primaryOrgByUserId } = await this.#loadUserAggregationContext();
+
+        return {
+            users: users.map((user) => {
+                const primaryOrgUnitId = primaryOrgByUserId.get(user.id) ?? user.primaryOrgUnitId ?? null;
+                return {
+                    id: user.id,
+                    displayName: user.displayName,
+                    isActive: user.isActive,
+                    primaryOrgUnitId,
+                    primaryOrgUnitName: primaryOrgUnitId ? (orgUnitMap.get(primaryOrgUnitId)?.name ?? null) : null
+                };
+            }),
+            orgUnits: orgUnits.map((orgUnit) => ({
+                id: orgUnit.id,
+                name: orgUnit.name,
+                code: orgUnit.code,
+                isActive: orgUnit.isActive
+            }))
+        };
     }
 
     async getSanitizedUserProfile(
@@ -907,7 +931,7 @@ export class PlatformService {
             primaryOrgByUserId.set(membership.userId, membership.orgUnitId);
         }
 
-        return { users, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships };
+        return { users, orgUnits, orgUnitMap, roleNamesByUserId, primaryOrgByUserId, userOrgMemberships };
     }
 
     #applyUserProfileUpdate(

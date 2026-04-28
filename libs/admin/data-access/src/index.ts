@@ -120,6 +120,8 @@ export {
 export type {
     PlatformUserSummary,
     PlatformUserDetail,
+    OwnerReferenceUser,
+    OwnerReferenceOrgUnit,
     PlatformRoleSummary,
     PlatformOrgUnitSummary,
     CreatePlatformUserRequest,

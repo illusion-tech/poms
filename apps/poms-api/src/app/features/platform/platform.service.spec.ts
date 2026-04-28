@@ -111,6 +111,53 @@ describe('PlatformService', () => {
         ]);
     });
 
+    it('returns minimal owner reference data without platform management fields', async () => {
+        repository.findAllUsers.mockResolvedValue([
+            createUser({
+                id: '00000000-0000-4000-8000-000000000001',
+                username: 'sales',
+                displayName: '张销售',
+                email: 'sales@example.com',
+                phone: '13800000000',
+                primaryOrgUnitId: '10000000-0000-4000-8000-000000000001'
+            })
+        ]);
+        repository.findAllRoles.mockResolvedValue([
+            createRole({ id: '30000000-0000-4000-8000-000000000001', name: '销售人员' })
+        ]);
+        repository.findAllOrgUnits.mockResolvedValue([
+            createOrgUnit({ id: '10000000-0000-4000-8000-000000000001', name: '销售管理中心', code: 'SALES-HQ' })
+        ]);
+        repository.findActiveUserRoleAssignments.mockResolvedValue([
+            { userId: '00000000-0000-4000-8000-000000000001', roleId: '30000000-0000-4000-8000-000000000001' }
+        ]);
+        repository.findActiveUserOrgMemberships.mockResolvedValue([
+            { userId: '00000000-0000-4000-8000-000000000001', orgUnitId: '10000000-0000-4000-8000-000000000001', membershipType: 'primary' }
+        ]);
+
+        const result = await service.listOwnerReferenceData();
+
+        expect(result).toEqual({
+            users: [
+                {
+                    id: '00000000-0000-4000-8000-000000000001',
+                    displayName: '张销售',
+                    isActive: true,
+                    primaryOrgUnitId: '10000000-0000-4000-8000-000000000001',
+                    primaryOrgUnitName: '销售管理中心'
+                }
+            ],
+            orgUnits: [
+                {
+                    id: '10000000-0000-4000-8000-000000000001',
+                    name: '销售管理中心',
+                    code: 'SALES-HQ',
+                    isActive: true
+                }
+            ]
+        });
+    });
+
     it('returns sanitized profile from real platform data when user exists', async () => {
         repository.findAllUsers.mockResolvedValue([]);
         repository.findAllRoles.mockResolvedValue([

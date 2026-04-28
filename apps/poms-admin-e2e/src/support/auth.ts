@@ -15,6 +15,11 @@ export const VIEWER_CREDENTIALS: UiCredentials = {
     password: 'viewer123'
 };
 
+export const SALES_CREDENTIALS: UiCredentials = {
+    username: 'sales_rep',
+    password: 'sales_rep123'
+};
+
 async function openLoginPage(page: Page): Promise<void> {
     const loginHeading = page.getByRole('heading', { name: '登录' });
 

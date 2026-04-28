@@ -10,6 +10,9 @@ import {
     NavigationItemSchema,
     NavigationSyncSummarySchema,
     MoveOrgUnitRequestSchema,
+    OwnerReferenceDataSchema,
+    OwnerReferenceOrgUnitSchema,
+    OwnerReferenceUserSchema,
     OrgUnitTreeNodeSchema,
     PlatformOrgUnitDetailSchema,
     PlatformOrgUnitListSchema,
@@ -74,6 +77,12 @@ export class PlatformRoleDetailDto extends createZodDto(PlatformRoleDetailSchema
 export class PlatformOrgUnitSummaryDto extends createZodDto(PlatformOrgUnitSummarySchema) {}
 
 export class PlatformOrgUnitListDto extends createZodDto(PlatformOrgUnitListSchema) {}
+
+export class OwnerReferenceUserDto extends createZodDto(OwnerReferenceUserSchema) {}
+
+export class OwnerReferenceOrgUnitDto extends createZodDto(OwnerReferenceOrgUnitSchema) {}
+
+export class OwnerReferenceDataDto extends createZodDto(OwnerReferenceDataSchema) {}
 
 export class PlatformOrgUnitDetailDto extends createZodDto(PlatformOrgUnitDetailSchema) {}
 

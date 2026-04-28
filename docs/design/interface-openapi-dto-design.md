@@ -128,6 +128,7 @@
 - `PATCH /auth/profile` 新增独立请求 DTO：`UpdateCurrentUserProfileRequest`，即使局部字段与 `UpdatePlatformUserRequest` 重叠，也不直接复用类型名。
 - `UpdateCurrentUserProfileRequest` 首版仅承载 `displayName`、`email`、`phone`；`avatarUrl` 不进入当前用户自助更新请求体。
 - 当 `email` 或 `phone` 值发生变化时，响应 DTO 中对应 `emailVerified / phoneVerified` 必须反映为 `false`。
+- `GET /platform/owner-reference` 使用独立 `OwnerReferenceData` 响应 DTO，只暴露可选销售主责所需的用户 `id / displayName / isActive / primaryOrgUnit*` 与组织 `id / name / code / isActive`，不得复用含邮箱、电话、角色名的平台用户管理列表 DTO。
 
 ### 4.1 第二阶段第一批补充禁止输入字段
 

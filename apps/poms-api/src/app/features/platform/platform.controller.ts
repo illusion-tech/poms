@@ -2,6 +2,7 @@ import type {
     MoveOrgUnitRequest,
     NavigationItem,
     NavigationSyncSummary,
+    OwnerReferenceData,
     PlatformPermissionList,
     PlatformOrgUnitDetail,
     PlatformOrgUnitSummary,
@@ -24,6 +25,7 @@ import {
     MoveOrgUnitRequestDto,
     NavigationListDto,
     NavigationSyncSummaryDto,
+    OwnerReferenceDataDto,
     PlatformPermissionListDto,
     PlatformOrgUnitDetailDto,
     PlatformOrgUnitListDto,
@@ -44,6 +46,7 @@ import {
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { NavigationService } from '../navigation/navigation.service';
@@ -64,6 +67,14 @@ export class PlatformController {
     @ApiOkResponse({ type: PlatformUserListDto })
     listUsers(): Promise<PlatformUserList> {
         return this.platformService.listUsers();
+    }
+
+    @Get('owner-reference')
+    @HasAnyPermissions('lead:write', 'project:write', 'platform:users:manage', 'platform:org-units:manage')
+    @ApiOperation({ summary: '获取销售主责候选只读列表' })
+    @ApiOkResponse({ type: OwnerReferenceDataDto })
+    listOwnerReferenceData(): Promise<OwnerReferenceData> {
+        return this.platformService.listOwnerReferenceData();
     }
 
     @Get('users/:id')

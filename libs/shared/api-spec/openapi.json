@@ -423,6 +423,33 @@
         ]
       }
     },
+    "/api/platform/owner-reference": {
+      "get": {
+        "operationId": "PlatformController_listOwnerReferenceData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerReferenceData"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取销售主责候选只读列表",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
     "/api/platform/users/{id}": {
       "get": {
         "operationId": "PlatformController_getUser",
@@ -7812,6 +7839,85 @@
         "items": {
           "$ref": "#/components/schemas/PlatformUserSummary"
         }
+      },
+      "OwnerReferenceUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "primaryOrgUnitName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "isActive",
+          "primaryOrgUnitId",
+          "primaryOrgUnitName"
+        ]
+      },
+      "OwnerReferenceOrgUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "isActive"
+        ]
+      },
+      "OwnerReferenceData": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OwnerReferenceUser"
+            }
+          },
+          "orgUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OwnerReferenceOrgUnit"
+            }
+          }
+        },
+        "required": [
+          "users",
+          "orgUnits"
+        ]
       },
       "PlatformUserDetail": {
         "type": "object",
