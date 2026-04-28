@@ -46,6 +46,11 @@ import {
 } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import {
+    formatSensitiveAmountProjection,
+    sensitiveProjectionDisplayText,
+    type SensitiveStringFieldProjectionView
+} from '../../shared/ui/sensitive-visibility';
 import { buildCommissionTodoDeepLinkContext, type CommissionTodoDeepLinkQuery } from './commission-todo-deeplink';
 
 type CommissionPayoutRow = ReturnType<CommissionStore['payouts']>[number];
@@ -135,7 +140,7 @@ const TEMPLATE = `
                         [rows]="tableRows"
                         [rowHover]="true"
                         [showGridlines]="true"
-                        [globalFilterFields]="['version', 'status']"
+                        [globalFilterFields]="['version', 'status', 'commissionPoolProjection.displayText']"
                         responsiveLayout="scroll"
                         [tableStyle]="{ width: '100%', 'min-width': '42rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -155,13 +160,13 @@ const TEMPLATE = `
                         <ng-template #header><tr><th>版本</th><th>提成池</th><th>状态</th><th>操作</th></tr></ng-template>
                         <ng-template #body let-item>
                             <tr>
-                                <td><div class="flex flex-col gap-1"><span class="font-medium text-surface-950 dark:text-surface-0">V{{ item.version }}</span><span class="text-xs text-surface-400 dark:text-surface-500">{{ formatRate(item.contributionMarginRate) }}</span></div></td>
-                                <td>{{ formatAmount(item.commissionPool) }}</td>
+                                <td><div class="flex flex-col gap-1"><span class="font-medium text-surface-950 dark:text-surface-0">V{{ item.version }}</span><span class="text-xs text-surface-400 dark:text-surface-500">{{ formatSensitiveRateProjection(item.contributionMarginRateProjection) }}</span></div></td>
+                                <td>{{ formatSensitiveAmountProjection(item.commissionPoolProjection) }}</td>
                                 <td><p-tag [value]="getCalculationStatusName(item.status)" [severity]="getCalculationStatusSeverity(item.status)" /></td>
                                 <td>
                                     <div class="flex flex-wrap gap-2">
                                         @if (item.status === calculationStatus.Calculated) { <p-button label="确认生效" size="small" severity="success" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="confirmCalculation(item.id, item.rowVersion)" class="cursor-pointer" /> }
-                                        @if (item.status === calculationStatus.Effective && item.isCurrent) { <p-button label="重算" size="small" severity="warn" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRecalculateDialog(item.id, item.rowVersion, item.recognizedRevenueTaxExclusive, item.recognizedCostTaxExclusive)" class="cursor-pointer" /> }
+                                        @if (item.status === calculationStatus.Effective && item.isCurrent) { <p-button label="重算" size="small" severity="warn" [outlined]="true" [rounded]="true" [loading]="commissionStore.saving()" (onClick)="openRecalculateDialog(item.id, item.rowVersion, sensitiveProjectionValue(item.recognizedRevenueTaxExclusiveProjection), sensitiveProjectionValue(item.recognizedCostTaxExclusiveProjection))" class="cursor-pointer" /> }
                                     </div>
                                 </td>
                             </tr>
@@ -182,7 +187,7 @@ const TEMPLATE = `
                         [rows]="tableRows"
                         [rowHover]="true"
                         [showGridlines]="true"
-                        [globalFilterFields]="['stageType', 'selectedTier', 'status', 'payoutKind']"
+                        [globalFilterFields]="['stageType', 'selectedTier', 'status', 'payoutKind', 'theoreticalCapAmountProjection.displayText']"
                         responsiveLayout="scroll"
                         [tableStyle]="{ width: '100%', 'min-width': '54rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -204,7 +209,7 @@ const TEMPLATE = `
                             <tr [attr.data-testid]="highlightedPayoutId() === item.id ? 'commission-payout-highlighted-row' : null" [ngClass]="highlightedPayoutId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                                 <td><div class="flex flex-col gap-2"><span>{{ getStageLabel(item.stageType) }}</span><p-tag [value]="getPayoutKindLabel(item.payoutKind)" severity="secondary" /></div></td>
                                 <td>{{ getTierLabel(item.selectedTier) }}</td>
-                                <td>{{ formatAmount(item.theoreticalCapAmount) }}</td>
+                                <td>{{ formatSensitiveAmountProjection(item.theoreticalCapAmountProjection) }}</td>
                                 <td><div class="flex flex-col gap-2"><p-tag [value]="getPayoutStatusName(item.status)" [severity]="getPayoutStatusSeverity(item.status)" /> @if (todoForPayout(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
                                 <td>
                                     <p-button icon="pi pi-ellipsis-h" label="操作" size="small" severity="secondary" [outlined]="true" [rounded]="true" [disabled]="!hasPayoutActions(item)" (onClick)="openPayoutActions($event, item, payoutActionMenu)" class="cursor-pointer" />
@@ -228,7 +233,7 @@ const TEMPLATE = `
                     [rows]="tableRows"
                     [rowHover]="true"
                     [showGridlines]="true"
-                    [globalFilterFields]="['adjustmentType', 'status', 'reason']"
+                    [globalFilterFields]="['adjustmentType', 'status', 'reasonProjection.displayText']"
                     responsiveLayout="scroll"
                     [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -250,9 +255,9 @@ const TEMPLATE = `
                         <tr [attr.data-testid]="highlightedAdjustmentId() === item.id ? 'commission-adjustment-highlighted-row' : null" [ngClass]="highlightedAdjustmentId() === item.id ? 'bg-primary-50/70 dark:bg-primary-950/20' : ''">
                             <td>{{ getAdjustmentTypeLabel(item.adjustmentType) }}</td>
                             <td>{{ getAdjustmentTargetLabel(item.relatedPayoutId, item.relatedCalculationId) }}</td>
-                            <td>{{ formatAmount(item.amount) }}</td>
+                            <td>{{ formatSensitiveAmountProjection(item.amountProjection) }}</td>
                             <td><div class="flex flex-col gap-2"><p-tag [value]="getAdjustmentStatusName(item.status)" [severity]="getAdjustmentStatusSeverity(item.status)" /> @if (todoForAdjustment(item.id)) { <span class="text-[11px] text-primary-600 dark:text-primary-300">你有待处理审批</span> }</div></td>
-                            <td class="max-w-80"><span class="line-clamp-2">{{ item.reason }}</span></td>
+                            <td class="max-w-80"><span class="line-clamp-2">{{ sensitiveProjectionDisplayText(item.reasonProjection) }}</span></td>
                             <td>
                                 <p-button icon="pi pi-ellipsis-h" label="操作" size="small" severity="secondary" [outlined]="true" [rounded]="true" [disabled]="!hasAdjustmentActions(item)" (onClick)="openAdjustmentActions($event, item, adjustmentActionMenu)" class="cursor-pointer" />
                             </td>
@@ -354,8 +359,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly loading = computed(() => this.projectStore.loading() || this.commissionStore.loadingRuleVersions() || this.commissionStore.loadingCalculations() || this.commissionStore.loadingPayouts() || this.commissionStore.loadingAdjustments());
     readonly currentPool = computed(() => {
         const currentCalculation = this.commissionStore.currentEffectiveCalculation();
-        return currentCalculation ? this.formatAmount(currentCalculation.commissionPool) : '--';
+        return currentCalculation ? this.formatSensitiveAmountProjection(currentCalculation.commissionPoolProjection) : '--';
     });
+    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
+    readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
     readonly calculationStatus = CommissionCalculationSummaryStatusEnum;
     readonly payoutStageEnum = CommissionPayoutStage;
     readonly payoutStatus = CommissionPayoutSummaryStatusEnum;
@@ -405,11 +412,14 @@ export class ProjectCommission implements OnInit, OnDestroy {
     readonly effectiveCalculationOptions = computed(() =>
         this.calculations()
             .filter((item) => item.status === this.calculationStatus.Effective)
-            .map((item) => ({ label: `V${item.version} · 提成池 ${this.formatAmount(item.commissionPool)}`, value: item.id }))
+            .map((item) => ({
+                label: `V${item.version} · 提成池 ${this.formatSensitiveAmountProjection(item.commissionPoolProjection)}`,
+                value: item.id
+            }))
     );
     readonly payoutOptions = computed(() =>
         this.primaryPayouts().map((item) => ({
-            label: `${this.getStageLabel(item.stageType)} · ${this.getPayoutStatusName(item.status)} · ${this.formatAmount(item.theoreticalCapAmount)}`,
+            label: `${this.getStageLabel(item.stageType)} · ${this.getPayoutStatusName(item.status)} · ${this.formatSensitiveAmountProjection(item.theoreticalCapAmountProjection)}`,
             value: item.id
         }))
     );
@@ -815,7 +825,14 @@ export class ProjectCommission implements OnInit, OnDestroy {
                 label: '登记发放',
                 icon: 'pi pi-wallet',
                 disabled: saving,
-                command: () => this.openRegisterDialog(item.id, item.stageType, item.approvedAmount ?? item.theoreticalCapAmount, item.rowVersion)
+                command: () =>
+                    this.openRegisterDialog(
+                        item.id,
+                        item.stageType,
+                        this.sensitiveProjectionValue(item.approvedAmountProjection) ||
+                            this.sensitiveProjectionValue(item.theoreticalCapAmountProjection),
+                        item.rowVersion
+                    )
             });
         }
 
@@ -880,6 +897,14 @@ export class ProjectCommission implements OnInit, OnDestroy {
     formatRate(value: string) {
         const parsed = Number(value);
         return Number.isFinite(parsed) ? `${(parsed * 100).toFixed(2)}%` : value;
+    }
+    formatSensitiveRateProjection(projection: SensitiveStringFieldProjectionView | null | undefined) {
+        const value = this.sensitiveProjectionValue(projection);
+        if (!value) return sensitiveProjectionDisplayText(projection);
+        return this.formatRate(value);
+    }
+    sensitiveProjectionValue(projection: SensitiveStringFieldProjectionView | null | undefined) {
+        return projection?.mode === 'full' && typeof projection.value === 'string' ? projection.value : '';
     }
     getCalculationStatusName(status: CommissionCalculationSummaryStatusEnum) {
         return commissionCalculationStatusLabelOrFallback(status);

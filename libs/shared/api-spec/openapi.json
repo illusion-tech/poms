@@ -20702,11 +20702,11 @@
           "baselineSelectionSource": {
             "$ref": "#/components/schemas/BaselineSelectionSource"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxImpactPendingAmount": {
-            "type": "string"
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "dataMaturityLevel": {
             "type": "string"
@@ -20756,8 +20756,8 @@
           "departureExceptionSummary",
           "freezeVersionSummary",
           "baselineSelectionSource",
-          "taxImpactSummary",
-          "taxImpactPendingAmount",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
           "dataMaturityLevel",
           "costActionRecommendation",
           "currentActionLevel",
@@ -20799,9 +20799,8 @@
           "gateDecisionSummary": {
             "type": "string"
           },
-          "nextActionSummary": {
-            "type": "string",
-            "nullable": true
+          "nextActionSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "freezeVersionSummary": {
             "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
@@ -20809,11 +20808,11 @@
           "baselineSelectionSource": {
             "$ref": "#/components/schemas/BaselineSelectionSource"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxImpactPendingAmount": {
-            "type": "string"
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "dataMaturityLevel": {
             "type": "string"
@@ -20859,11 +20858,11 @@
           "blockingReasonCode",
           "blockingReasonSummary",
           "gateDecisionSummary",
-          "nextActionSummary",
+          "nextActionSummaryProjection",
           "freezeVersionSummary",
           "baselineSelectionSource",
-          "taxImpactSummary",
-          "taxImpactPendingAmount",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
           "dataMaturityLevel",
           "costActionRecommendation",
           "currentActionLevel",
@@ -20957,20 +20956,20 @@
               "superseded"
             ]
           },
-          "recognizedRevenueTaxExclusive": {
-            "type": "string"
+          "recognizedRevenueTaxExclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "recognizedCostTaxExclusive": {
-            "type": "string"
+          "recognizedCostTaxExclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "contributionMargin": {
-            "type": "string"
+          "contributionMarginProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "contributionMarginRate": {
-            "type": "string"
+          "contributionMarginRateProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "commissionPool": {
-            "type": "string"
+          "commissionPoolProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "recalculatedFromId": {
             "type": "string",
@@ -21003,11 +21002,11 @@
           "rowVersion",
           "isCurrent",
           "status",
-          "recognizedRevenueTaxExclusive",
-          "recognizedCostTaxExclusive",
-          "contributionMargin",
-          "contributionMarginRate",
-          "commissionPool",
+          "recognizedRevenueTaxExclusiveProjection",
+          "recognizedCostTaxExclusiveProjection",
+          "contributionMarginProjection",
+          "contributionMarginRateProjection",
+          "commissionPoolProjection",
           "recalculatedFromId",
           "approvedAt",
           "createdAt",
@@ -21121,16 +21120,14 @@
           "selectedTier": {
             "$ref": "#/components/schemas/CommissionPayoutTier"
           },
-          "theoreticalCapAmount": {
-            "type": "string"
+          "theoreticalCapAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "approvedAmount": {
-            "type": "string",
-            "nullable": true
+          "approvedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "paidRecordAmount": {
-            "type": "string",
-            "nullable": true
+          "paidRecordAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "status": {
             "type": "string",
@@ -21175,9 +21172,9 @@
           "payoutKind",
           "sourcePayoutId",
           "selectedTier",
-          "theoreticalCapAmount",
-          "approvedAmount",
-          "paidRecordAmount",
+          "theoreticalCapAmountProjection",
+          "approvedAmountProjection",
+          "paidRecordAmountProjection",
           "status",
           "approvedAt",
           "handledAt",
@@ -21491,12 +21488,11 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           },
-          "amount": {
-            "type": "string",
-            "nullable": true
+          "amountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "reason": {
-            "type": "string"
+          "reasonProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "status": {
             "type": "string",
@@ -21533,8 +21529,8 @@
           "adjustmentType",
           "relatedPayoutId",
           "relatedCalculationId",
-          "amount",
-          "reason",
+          "amountProjection",
+          "reasonProjection",
           "status",
           "executedAt",
           "createdAt",

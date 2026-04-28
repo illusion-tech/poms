@@ -7,13 +7,13 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { formatSensitiveAmountProjection, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import {
     actionLevelLabel,
     actionLevelSeverity,
     baselineSelectionSourceLabel,
     commissionSettlementStatusLabelOrFallback,
     commissionSettlementStatusSeverityOrFallback,
-    formatAmount,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity
 } from '../project/project-presentation';
@@ -152,8 +152,8 @@ export class ProjectCommissionFinalSettlement implements OnInit {
             { label: '离场例外', value: current.departureExceptionSummary ?? '当前无离场例外说明' },
             {
                 label: '税务影响',
-                value: current.taxImpactSummary,
-                detail: `待明确金额 ${formatAmount(current.taxImpactPendingAmount)}`
+                value: sensitiveProjectionDisplayText(current.taxImpactSummaryProjection),
+                detail: `待明确金额 ${formatSensitiveAmountProjection(current.taxImpactPendingAmountProjection)}`
             }
         ];
     });

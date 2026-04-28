@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface CommissionCalculationSummary {
@@ -17,11 +18,11 @@ export interface CommissionCalculationSummary {
     rowVersion: number;
     isCurrent: boolean;
     status: CommissionCalculationSummaryStatusEnum;
-    recognizedRevenueTaxExclusive: string;
-    recognizedCostTaxExclusive: string;
-    contributionMargin: string;
-    contributionMarginRate: string;
-    commissionPool: string;
+    recognizedRevenueTaxExclusiveProjection: SensitiveStringFieldProjection;
+    recognizedCostTaxExclusiveProjection: SensitiveStringFieldProjection;
+    contributionMarginProjection: SensitiveStringFieldProjection;
+    contributionMarginRateProjection: SensitiveStringFieldProjection;
+    commissionPoolProjection: SensitiveStringFieldProjection;
     recalculatedFromId: string | null;
     approvedAt: string | null;
     createdAt: string;

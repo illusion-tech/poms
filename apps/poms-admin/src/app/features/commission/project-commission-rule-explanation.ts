@@ -7,12 +7,12 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { formatSensitiveAmountProjection, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import {
     actionLevelLabel,
     actionLevelSeverity,
     baselineSelectionSourceLabel,
     commissionRuleStageLabelOrFallback,
-    formatAmount,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity,
     gateDecisionLabelOrFallback,
@@ -157,7 +157,7 @@ export class ProjectCommissionRuleExplanation implements OnInit {
             { label: '阻塞分类', value: current.blockingReasonCategory ?? '当前无额外阻塞分类' },
             { label: '阻塞编码', value: current.blockingReasonCode ?? '当前无额外阻塞编码' },
             { label: '阻塞说明', value: current.blockingReasonSummary ?? '当前无额外阻塞说明' },
-            { label: '下一步', value: current.nextActionSummary ?? this.fallbackNextAction() }
+            { label: '下一步', value: sensitiveProjectionDisplayText(current.nextActionSummaryProjection, this.fallbackNextAction()) }
         ];
     });
 
@@ -177,8 +177,8 @@ export class ProjectCommissionRuleExplanation implements OnInit {
             { label: '基线选择', value: baselineSelectionSourceLabel(current.baselineSelectionSource) },
             {
                 label: '税务影响',
-                value: current.taxImpactSummary,
-                detail: `待明确金额 ${formatAmount(current.taxImpactPendingAmount)}`
+                value: sensitiveProjectionDisplayText(current.taxImpactSummaryProjection),
+                detail: `待明确金额 ${formatSensitiveAmountProjection(current.taxImpactPendingAmountProjection)}`
             },
             { label: '数据成熟度', value: current.dataMaturityLevel },
             { label: '版本锚点', value: `${current.referencedBaselineVersion} / ${current.referencedSnapshotVersion}` },

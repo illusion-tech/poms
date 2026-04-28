@@ -45,8 +45,14 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } fro
 import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
 import { ApprovalService } from '../approval/approval.service';
 import { CommissionService } from './commission.service';
+
+interface AuthenticatedRequest extends RuntimeAuditRequestLike {
+    user?: UserPayload;
+}
 
 @ApiTags('Commission')
 @ApiBearerAuth()
@@ -107,16 +113,30 @@ export class CommissionController {
     @HasPermissions('commission:payouts:manage')
     @ApiOperation({ summary: '获取项目最终结算与质保金结算视图' })
     @ApiOkResponse({ type: CommissionFinalSettlementViewDto })
-    getCommissionFinalSettlement(@Param('projectId') projectId: string): Promise<CommissionFinalSettlementView> {
-        return this.commissionService.getCommissionFinalSettlement(projectId);
+    getCommissionFinalSettlement(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommissionFinalSettlementView> {
+        return this.commissionService.getCommissionFinalSettlement(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-final-settlement`)
+        );
     }
 
     @Get('projects/:projectId/commission-rule-explanation')
     @HasPermissions('commission:payouts:manage')
     @ApiOperation({ summary: '获取项目统一提成规则解释视图' })
     @ApiOkResponse({ type: CommissionRuleExplanationViewDto })
-    getCommissionRuleExplanation(@Param('projectId') projectId: string): Promise<CommissionRuleExplanationView> {
-        return this.commissionService.getCommissionRuleExplanation(projectId);
+    getCommissionRuleExplanation(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommissionRuleExplanationView> {
+        return this.commissionService.getCommissionRuleExplanation(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-rule-explanation`)
+        );
     }
 
     @Post('projects/:projectId/commission-role-assignments')
@@ -136,8 +156,15 @@ export class CommissionController {
     @HasPermissions('commission:calculations:manage')
     @ApiOperation({ summary: '获取项目提成计算结果列表' })
     @ApiOkResponse({ type: CommissionCalculationListDto })
-    listCalculations(@Param('projectId') projectId: string): Promise<CommissionCalculationSummary[]> {
-        return this.commissionService.listCalculations(projectId);
+    listCalculations(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommissionCalculationSummary[]> {
+        return this.commissionService.listCalculations(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-calculations`)
+        );
     }
 
     @Post('projects/:projectId/commission-calculations')
@@ -146,9 +173,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionCalculationSummaryDto })
     createCalculation(
         @Param('projectId') projectId: string,
-        @Body() body: CreateCommissionCalculationRequestDto
+        @Body() body: CreateCommissionCalculationRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionCalculationSummary> {
-        return this.commissionService.createCalculation(projectId, body);
+        return this.commissionService.createCalculation(
+            projectId,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-calculations`)
+        );
     }
 
     @Post('commission-calculations/:id\\:approve')
@@ -158,9 +191,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionCalculationSummaryDto })
     approveCalculation(
         @Param('id') id: string,
-        @Body() body: ConfirmCommissionCalculationRequestDto
+        @Body() body: ConfirmCommissionCalculationRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionCalculationSummary> {
-        return this.commissionService.approveCalculation(id, body);
+        return this.commissionService.approveCalculation(
+            id,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/commission-calculations/${id}:approve`)
+        );
     }
 
     @Post('commission-calculations/:id\\:recalculate')
@@ -170,9 +209,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionCalculationSummaryDto })
     recalculateCalculation(
         @Param('id') id: string,
-        @Body() body: RecalculateCommissionRequestDto
+        @Body() body: RecalculateCommissionRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionCalculationSummary> {
-        return this.commissionService.recalculateCalculation(id, body);
+        return this.commissionService.recalculateCalculation(
+            id,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/commission-calculations/${id}:recalculate`)
+        );
     }
 
     // ── Payouts ─────────────────────────────────────────────────────────────
@@ -181,8 +226,15 @@ export class CommissionController {
     @HasPermissions('commission:payouts:manage')
     @ApiOperation({ summary: '获取项目提成发放记录列表' })
     @ApiOkResponse({ type: CommissionPayoutListDto })
-    listPayouts(@Param('projectId') projectId: string): Promise<CommissionPayoutSummary[]> {
-        return this.commissionService.listPayouts(projectId);
+    listPayouts(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommissionPayoutSummary[]> {
+        return this.commissionService.listPayouts(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-payouts`)
+        );
     }
 
     @Post('projects/:projectId/commission-payouts')
@@ -191,9 +243,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     createPayout(
         @Param('projectId') projectId: string,
-        @Body() body: CreateCommissionPayoutRequestDto
+        @Body() body: CreateCommissionPayoutRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionPayoutSummary> {
-        return this.commissionService.createPayout(projectId, body);
+        return this.commissionService.createPayout(
+            projectId,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-payouts`)
+        );
     }
 
     @Post('commission-payouts/:id\\:submitApproval')
@@ -225,11 +283,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     submitPayoutApproval(
         @Param('id') id: string,
-        @Request() req: { user: UserPayload },
+        @Request() req: AuthenticatedRequest,
         @Body(new ZodValidationPipe(SubmitCommissionPayoutApprovalRequestSchema)) body: SubmitCommissionPayoutApprovalRequest
     ): Promise<CommissionPayoutSummary> {
-        return this.approvalService.submitCommissionPayoutApproval(id, req.user.sub, body).then(async () => {
-            return this.commissionService.getPayoutById(id);
+        return this.approvalService.submitCommissionPayoutApproval(id, req.user?.sub ?? 'system', body).then(async () => {
+            return this.commissionService.getPayoutById(
+                id,
+                req.user ?? null,
+                buildSensitiveFieldProjectionRequestContext(req, `/commission-payouts/${id}:submitApproval`)
+            );
         });
     }
 
@@ -240,9 +302,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     approvePayout(
         @Param('id') id: string,
-        @Body() body: ApproveCommissionPayoutRequestDto
+        @Body() body: ApproveCommissionPayoutRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionPayoutSummary> {
-        return this.commissionService.approvePayout(id, body);
+        return this.commissionService.approvePayout(
+            id,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/commission-payouts/${id}:approve`)
+        );
     }
 
     @Post('commission-payouts/:id\\:registerPayout')
@@ -271,10 +339,16 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionPayoutSummaryDto })
     registerPayout(
         @Param('id') id: string,
-        @Request() req: { user: UserPayload },
+        @Request() req: AuthenticatedRequest,
         @Body(new ZodValidationPipe(RegisterCommissionPayoutRequestSchema)) body: RegisterCommissionPayoutRequest
     ): Promise<CommissionPayoutSummary> {
-        return this.commissionService.registerPayout(id, body, req.user.sub);
+        return this.commissionService.registerPayout(
+            id,
+            body,
+            req.user?.sub ?? 'system',
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/commission-payouts/${id}:registerPayout`)
+        );
     }
 
     // ── Adjustments ────────────────────────────────────────────────────────
@@ -283,8 +357,15 @@ export class CommissionController {
     @HasPermissions('commission:adjustments:manage')
     @ApiOperation({ summary: '获取项目提成调整列表' })
     @ApiOkResponse({ type: CommissionAdjustmentListDto })
-    listAdjustments(@Param('projectId') projectId: string): Promise<CommissionAdjustmentSummary[]> {
-        return this.commissionService.listAdjustments(projectId);
+    listAdjustments(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<CommissionAdjustmentSummary[]> {
+        return this.commissionService.listAdjustments(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-adjustments`)
+        );
     }
 
     @Post('projects/:projectId/commission-adjustments')
@@ -293,9 +374,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
     createAdjustment(
         @Param('projectId') projectId: string,
-        @Body() body: CreateCommissionAdjustmentRequestDto
+        @Body() body: CreateCommissionAdjustmentRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionAdjustmentSummary> {
-        return this.commissionService.createAdjustment(projectId, body);
+        return this.commissionService.createAdjustment(
+            projectId,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-adjustments`)
+        );
     }
 
     @Post('commission-adjustments/:id\\:submitApproval')
@@ -305,11 +392,15 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
     submitAdjustmentApproval(
         @Param('id') id: string,
-        @Request() req: { user: UserPayload },
+        @Request() req: AuthenticatedRequest,
         @Body() body: SubmitCommissionAdjustmentApprovalRequestDto
     ): Promise<CommissionAdjustmentSummary> {
-        return this.approvalService.submitCommissionAdjustmentApproval(id, req.user.sub, body).then(async () => {
-            return this.commissionService.getAdjustmentById(id);
+        return this.approvalService.submitCommissionAdjustmentApproval(id, req.user?.sub ?? 'system', body).then(async () => {
+            return this.commissionService.getAdjustmentById(
+                id,
+                req.user ?? null,
+                buildSensitiveFieldProjectionRequestContext(req, `/commission-adjustments/${id}:submitApproval`)
+            );
         });
     }
 
@@ -320,8 +411,14 @@ export class CommissionController {
     @ApiOkResponse({ type: CommissionAdjustmentSummaryDto })
     executeAdjustment(
         @Param('id') id: string,
-        @Body() body: ExecuteCommissionAdjustmentRequestDto
+        @Body() body: ExecuteCommissionAdjustmentRequestDto,
+        @Request() req: AuthenticatedRequest
     ): Promise<CommissionAdjustmentSummary> {
-        return this.commissionService.executeAdjustment(id, body);
+        return this.commissionService.executeAdjustment(
+            id,
+            body,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/commission-adjustments/${id}:execute`)
+        );
     }
 }

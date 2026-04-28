@@ -9,6 +9,7 @@
  */
 import { CommissionPayoutTier } from './commission-payout-tier';
 import { CommissionPayoutKind } from './commission-payout-kind';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { CommissionPayoutStage } from './commission-payout-stage';
 
 
@@ -21,9 +22,9 @@ export interface CommissionPayoutSummary {
     payoutKind: CommissionPayoutKind;
     sourcePayoutId: string | null;
     selectedTier: CommissionPayoutTier;
-    theoreticalCapAmount: string;
-    approvedAmount: string | null;
-    paidRecordAmount: string | null;
+    theoreticalCapAmountProjection: SensitiveStringFieldProjection;
+    approvedAmountProjection: SensitiveStringFieldProjection;
+    paidRecordAmountProjection: SensitiveStringFieldProjection;
     status: CommissionPayoutSummaryStatusEnum;
     approvedAt: string | null;
     handledAt: string | null;

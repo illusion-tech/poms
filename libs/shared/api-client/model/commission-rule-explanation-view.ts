@@ -10,6 +10,7 @@
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
 import { CommissionRoleAssignmentSummary } from './commission-role-assignment-summary';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface CommissionRuleExplanationView {
@@ -20,11 +21,11 @@ export interface CommissionRuleExplanationView {
     blockingReasonCode: string | null;
     blockingReasonSummary: string | null;
     gateDecisionSummary: string;
-    nextActionSummary: string | null;
+    nextActionSummaryProjection: SensitiveStringFieldProjection;
     freezeVersionSummary: CommissionRoleAssignmentSummary;
     baselineSelectionSource: BaselineSelectionSource;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
     dataMaturityLevel: string;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;

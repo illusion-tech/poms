@@ -1,3 +1,4 @@
+import type { SensitiveFieldPackageKey } from '@poms/shared-contracts';
 import { CommissionController } from './commission.controller';
 import { ApprovalService } from '../approval/approval.service';
 import { CommissionService } from './commission.service';
@@ -9,6 +10,22 @@ const PAYOUT_ID = '53000000-0000-4000-8000-000000000001';
 const ADJUSTMENT_ID = '54000000-0000-4000-8000-000000000001';
 const PROJECT_ID = '00000000-0000-4000-8000-000000000001';
 const SUMMARY_SNAPSHOT_ID = '62000000-0000-4000-8000-000000000001';
+
+const sensitiveProjection = (value: string | null, fieldPackageKey: SensitiveFieldPackageKey = 'commission-compensation') => ({
+    fieldPackageKey,
+    mode: 'full' as const,
+    value,
+    displayText: value ?? '-',
+    reasonCode: 'allowed' as const
+});
+
+const operatingProjection = (value: string | null) => sensitiveProjection(value, 'operating-finance');
+
+const authReq = {
+    user: { sub: 'user-1', username: 'tester', permissions: [] },
+    method: 'GET',
+    headers: {}
+};
 
 const stubRuleVersion = {
     id: RULE_VERSION_ID,
@@ -56,8 +73,8 @@ const stubFinalSettlementView = {
     departureExceptionSummary: null,
     freezeVersionSummary: stubFreezeVersionSummary,
     baselineSelectionSource: 'original' as const,
-    taxImpactSummary: '税务影响待闭合',
-    taxImpactPendingAmount: '1200.00',
+    taxImpactSummaryProjection: operatingProjection('税务影响待闭合'),
+    taxImpactPendingAmountProjection: operatingProjection('1200.00'),
     dataMaturityLevel: 'stable',
     costActionRecommendation: 'REVIEW' as const,
     currentActionLevel: 'BLOCK' as const,
@@ -78,11 +95,11 @@ const stubRuleExplanationView = {
     blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
     blockingReasonSummary: '质保金尚未到账',
     gateDecisionSummary: '当前暂不能进入质保金结算',
-    nextActionSummary: '请财务确认质保金到账后再复核',
+    nextActionSummaryProjection: sensitiveProjection('请财务确认质保金到账后再复核'),
     freezeVersionSummary: stubFreezeVersionSummary,
     baselineSelectionSource: 'original' as const,
-    taxImpactSummary: '税务影响待闭合',
-    taxImpactPendingAmount: '1200.00',
+    taxImpactSummaryProjection: operatingProjection('税务影响待闭合'),
+    taxImpactPendingAmountProjection: operatingProjection('1200.00'),
     dataMaturityLevel: 'stable',
     costActionRecommendation: 'REVIEW' as const,
     currentActionLevel: 'BLOCK' as const,
@@ -103,11 +120,11 @@ const stubCalculation = {
     rowVersion: 1,
     isCurrent: true,
     status: 'calculated' as const,
-    recognizedRevenueTaxExclusive: '100000.00',
-    recognizedCostTaxExclusive: '70000.00',
-    contributionMargin: '30000.00',
-    contributionMarginRate: '0.3000',
-    commissionPool: '2400.00',
+    recognizedRevenueTaxExclusiveProjection: operatingProjection('100000.00'),
+    recognizedCostTaxExclusiveProjection: operatingProjection('70000.00'),
+    contributionMarginProjection: operatingProjection('30000.00'),
+    contributionMarginRateProjection: operatingProjection('0.3000'),
+    commissionPoolProjection: sensitiveProjection('2400.00'),
     recalculatedFromId: null,
     approvedAt: null,
     createdAt: '2026-03-25T10:00:00.000Z',
@@ -123,9 +140,9 @@ const stubPayout = {
     payoutKind: 'primary' as const,
     sourcePayoutId: null,
     selectedTier: 'basic' as const,
-    theoreticalCapAmount: '480.00',
-    approvedAmount: null,
-    paidRecordAmount: null,
+    theoreticalCapAmountProjection: sensitiveProjection('480.00'),
+    approvedAmountProjection: sensitiveProjection(null),
+    paidRecordAmountProjection: sensitiveProjection(null),
     status: 'draft' as const,
     approvedAt: null,
     handledAt: null,
@@ -140,8 +157,8 @@ const stubAdjustment = {
     adjustmentType: 'suspend-payout' as const,
     relatedPayoutId: PAYOUT_ID,
     relatedCalculationId: CALCULATION_ID,
-    amount: null,
-    reason: '客户退款待核实',
+    amountProjection: sensitiveProjection(null),
+    reasonProjection: sensitiveProjection('客户退款待核实'),
     status: 'draft' as const,
     executedAt: null,
     createdAt: '2026-03-25T10:00:00.000Z',
@@ -227,15 +244,23 @@ describe('CommissionController', () => {
 
     it('returns final settlement view from service', async () => {
         service.getCommissionFinalSettlement.mockResolvedValue(stubFinalSettlementView);
-        const result = await controller.getCommissionFinalSettlement(PROJECT_ID);
-        expect(service.getCommissionFinalSettlement).toHaveBeenCalledWith(PROJECT_ID);
+        const result = await controller.getCommissionFinalSettlement(PROJECT_ID, authReq as never);
+        expect(service.getCommissionFinalSettlement).toHaveBeenCalledWith(
+            PROJECT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-final-settlement` })
+        );
         expect(result).toBe(stubFinalSettlementView);
     });
 
     it('returns rule explanation view from service', async () => {
         service.getCommissionRuleExplanation.mockResolvedValue(stubRuleExplanationView);
-        const result = await controller.getCommissionRuleExplanation(PROJECT_ID);
-        expect(service.getCommissionRuleExplanation).toHaveBeenCalledWith(PROJECT_ID);
+        const result = await controller.getCommissionRuleExplanation(PROJECT_ID, authReq as never);
+        expect(service.getCommissionRuleExplanation).toHaveBeenCalledWith(
+            PROJECT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-rule-explanation` })
+        );
         expect(result).toBe(stubRuleExplanationView);
     });
 
@@ -249,8 +274,12 @@ describe('CommissionController', () => {
 
     it('returns calculation list from service', async () => {
         service.listCalculations.mockResolvedValue([stubCalculation]);
-        const result = await controller.listCalculations(PROJECT_ID);
-        expect(service.listCalculations).toHaveBeenCalledWith(PROJECT_ID);
+        const result = await controller.listCalculations(PROJECT_ID, authReq as never);
+        expect(service.listCalculations).toHaveBeenCalledWith(
+            PROJECT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-calculations` })
+        );
         expect(result).toHaveLength(1);
     });
 
@@ -261,38 +290,62 @@ describe('CommissionController', () => {
             recognizedRevenueTaxExclusive: '100000.00',
             recognizedCostTaxExclusive: '70000.00'
         };
-        const result = await controller.createCalculation(PROJECT_ID, body as never);
-        expect(service.createCalculation).toHaveBeenCalledWith(PROJECT_ID, body);
+        const result = await controller.createCalculation(PROJECT_ID, body as never, authReq as never);
+        expect(service.createCalculation).toHaveBeenCalledWith(
+            PROJECT_ID,
+            body,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-calculations` })
+        );
         expect(result).toBe(stubCalculation);
     });
 
     it('delegates approveCalculation to service', async () => {
         service.approveCalculation.mockResolvedValue({ ...stubCalculation, status: 'effective', approvedAt: '2026-03-25T10:10:00.000Z' });
-        const result = await controller.approveCalculation(CALCULATION_ID, {} as never);
-        expect(service.approveCalculation).toHaveBeenCalledWith(CALCULATION_ID, {});
+        const result = await controller.approveCalculation(CALCULATION_ID, {} as never, authReq as never);
+        expect(service.approveCalculation).toHaveBeenCalledWith(
+            CALCULATION_ID,
+            {},
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-calculations/${CALCULATION_ID}:approve` })
+        );
         expect(result.status).toBe('effective');
     });
 
     it('delegates recalculateCalculation to service', async () => {
         service.recalculateCalculation.mockResolvedValue({ ...stubCalculation, id: '52000000-0000-4000-8000-000000000002', version: 2, status: 'calculated' });
         const body = { reason: '回款冲减', expectedVersion: 1 };
-        const result = await controller.recalculateCalculation(CALCULATION_ID, body as never);
-        expect(service.recalculateCalculation).toHaveBeenCalledWith(CALCULATION_ID, body);
+        const result = await controller.recalculateCalculation(CALCULATION_ID, body as never, authReq as never);
+        expect(service.recalculateCalculation).toHaveBeenCalledWith(
+            CALCULATION_ID,
+            body,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-calculations/${CALCULATION_ID}:recalculate` })
+        );
         expect(result.version).toBe(2);
     });
 
     it('returns payout list from service', async () => {
         service.listPayouts.mockResolvedValue([stubPayout]);
-        const result = await controller.listPayouts(PROJECT_ID);
-        expect(service.listPayouts).toHaveBeenCalledWith(PROJECT_ID);
+        const result = await controller.listPayouts(PROJECT_ID, authReq as never);
+        expect(service.listPayouts).toHaveBeenCalledWith(
+            PROJECT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-payouts` })
+        );
         expect(result).toHaveLength(1);
     });
 
     it('delegates createPayout to service', async () => {
         service.createPayout.mockResolvedValue(stubPayout);
         const body = { calculationId: CALCULATION_ID, stageType: 'first', selectedTier: 'basic' };
-        const result = await controller.createPayout(PROJECT_ID, body as never);
-        expect(service.createPayout).toHaveBeenCalledWith(PROJECT_ID, body);
+        const result = await controller.createPayout(PROJECT_ID, body as never, authReq as never);
+        expect(service.createPayout).toHaveBeenCalledWith(
+            PROJECT_ID,
+            body,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-payouts` })
+        );
         expect(result).toBe(stubPayout);
     });
 
@@ -313,37 +366,70 @@ describe('CommissionController', () => {
         const result = await controller.submitPayoutApproval(PAYOUT_ID, { user: { sub: 'user-1' } } as never, body as never);
 
         expect(approvalService.submitCommissionPayoutApproval).toHaveBeenCalledWith(PAYOUT_ID, 'user-1', body);
-        expect(service.getPayoutById).toHaveBeenCalledWith(PAYOUT_ID);
+        expect(service.getPayoutById).toHaveBeenCalledWith(
+            PAYOUT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-payouts/${PAYOUT_ID}:submitApproval` })
+        );
         expect(result.status).toBe('pending-approval');
     });
 
     it('delegates approvePayout to service', async () => {
-        service.approvePayout.mockResolvedValue({ ...stubPayout, status: 'approved', approvedAmount: '480.00' });
-        const result = await controller.approvePayout(PAYOUT_ID, {} as never);
-        expect(service.approvePayout).toHaveBeenCalledWith(PAYOUT_ID, {});
+        service.approvePayout.mockResolvedValue({
+            ...stubPayout,
+            status: 'approved',
+            approvedAmountProjection: sensitiveProjection('480.00')
+        });
+        const result = await controller.approvePayout(PAYOUT_ID, {} as never, authReq as never);
+        expect(service.approvePayout).toHaveBeenCalledWith(
+            PAYOUT_ID,
+            {},
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-payouts/${PAYOUT_ID}:approve` })
+        );
         expect(result.status).toBe('approved');
     });
 
     it('delegates registerPayout to service', async () => {
-        service.registerPayout.mockResolvedValue({ ...stubPayout, status: 'paid', approvedAmount: '480.00', paidRecordAmount: '400.00' });
+        service.registerPayout.mockResolvedValue({
+            ...stubPayout,
+            status: 'paid',
+            approvedAmountProjection: sensitiveProjection('480.00'),
+            paidRecordAmountProjection: sensitiveProjection('400.00')
+        });
         const body = { payoutStage: 'first', paidRecordAmount: '400.00' };
         const result = await controller.registerPayout(PAYOUT_ID, { user: { sub: 'user-1' } } as never, body as never);
-        expect(service.registerPayout).toHaveBeenCalledWith(PAYOUT_ID, body, 'user-1');
+        expect(service.registerPayout).toHaveBeenCalledWith(
+            PAYOUT_ID,
+            body,
+            'user-1',
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-payouts/${PAYOUT_ID}:registerPayout` })
+        );
         expect(result.status).toBe('paid');
     });
 
     it('returns adjustment list from service', async () => {
         service.listAdjustments.mockResolvedValue([stubAdjustment]);
-        const result = await controller.listAdjustments(PROJECT_ID);
-        expect(service.listAdjustments).toHaveBeenCalledWith(PROJECT_ID);
+        const result = await controller.listAdjustments(PROJECT_ID, authReq as never);
+        expect(service.listAdjustments).toHaveBeenCalledWith(
+            PROJECT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-adjustments` })
+        );
         expect(result).toHaveLength(1);
     });
 
     it('delegates createAdjustment to service', async () => {
         const body = { adjustmentType: 'suspend-payout', relatedPayoutId: PAYOUT_ID, reason: '客户退款待核实' };
         service.createAdjustment.mockResolvedValue(stubAdjustment);
-        const result = await controller.createAdjustment(PROJECT_ID, body as never);
-        expect(service.createAdjustment).toHaveBeenCalledWith(PROJECT_ID, body);
+        const result = await controller.createAdjustment(PROJECT_ID, body as never, authReq as never);
+        expect(service.createAdjustment).toHaveBeenCalledWith(
+            PROJECT_ID,
+            body,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/projects/${PROJECT_ID}/commission-adjustments` })
+        );
         expect(result).toBe(stubAdjustment);
     });
 
@@ -363,14 +449,23 @@ describe('CommissionController', () => {
         const result = await controller.submitAdjustmentApproval(ADJUSTMENT_ID, { user: { sub: 'user-1' } } as never, {} as never);
 
         expect(approvalService.submitCommissionAdjustmentApproval).toHaveBeenCalledWith(ADJUSTMENT_ID, 'user-1', {});
-        expect(service.getAdjustmentById).toHaveBeenCalledWith(ADJUSTMENT_ID);
+        expect(service.getAdjustmentById).toHaveBeenCalledWith(
+            ADJUSTMENT_ID,
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-adjustments/${ADJUSTMENT_ID}:submitApproval` })
+        );
         expect(result.status).toBe('pending-approval');
     });
 
     it('delegates executeAdjustment to service', async () => {
         service.executeAdjustment.mockResolvedValue({ ...stubAdjustment, status: 'executed', executedAt: '2026-03-25T10:20:00.000Z' });
-        const result = await controller.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 } as never);
-        expect(service.executeAdjustment).toHaveBeenCalledWith(ADJUSTMENT_ID, { expectedVersion: 1 });
+        const result = await controller.executeAdjustment(ADJUSTMENT_ID, { expectedVersion: 1 } as never, authReq as never);
+        expect(service.executeAdjustment).toHaveBeenCalledWith(
+            ADJUSTMENT_ID,
+            { expectedVersion: 1 },
+            expect.objectContaining({ sub: 'user-1' }),
+            expect.objectContaining({ path: `/commission-adjustments/${ADJUSTMENT_ID}:execute` })
+        );
         expect(result.status).toBe('executed');
     });
 });

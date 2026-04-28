@@ -405,11 +405,34 @@ const makeDraftAdjustment = (overrides: Record<string, unknown> = {}) => ({
     ...overrides
 });
 
+const makeSensitiveProjection = (fieldPackageKey: string, rawValue: string | null) => ({
+    fieldPackageKey,
+    mode: 'full',
+    value: rawValue,
+    displayText: rawValue ?? '-',
+    reasonCode: 'allowed'
+});
+
+const makeMaskedSensitiveProjection = (fieldPackageKey: string) => ({
+    fieldPackageKey,
+    mode: 'denied',
+    value: null,
+    displayText: '敏感字段已隐藏',
+    reasonCode: 'missing-sensitive-read-permission'
+});
+
 describe('CommissionService', () => {
     let service: CommissionService;
     let repo: jest.Mocked<CommissionRepository>;
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
 
     beforeEach(() => {
+        sensitiveFieldProjectionService = {
+            projectStringField: jest.fn(async (input: { fieldPackageKey: string; rawValue: string | null }) =>
+                makeSensitiveProjection(input.fieldPackageKey, input.rawValue)
+            )
+        };
+
         repo = {
             findProjectById: jest.fn(),
             findActiveContractsForProject: jest.fn(),
@@ -605,7 +628,7 @@ describe('CommissionService', () => {
             flushAdjustment: jest.fn()
         } as unknown as jest.Mocked<CommissionRepository>;
 
-        service = new CommissionService(repo);
+        service = new CommissionService(repo, sensitiveFieldProjectionService as never);
         repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding() as never);
     });
 
@@ -817,7 +840,7 @@ describe('CommissionService', () => {
             expect(result.gateDecisionCode).toBe('BLOCK_RETENTION');
             expect(result.blockingReasonCode).toBe('RETENTION_RECEIPT_PENDING');
             expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
-            expect(result.taxImpactSummary).toBe('税务影响待闭合');
+            expect(result.taxImpactSummaryProjection.value).toBe('税务影响待闭合');
             expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
             expect(result.allowedActions).toEqual([]);
         });
@@ -1529,7 +1552,46 @@ describe('CommissionService', () => {
             repo.findCalculationsForProject.mockResolvedValue([makeCalculatedResult() as never]);
             const result = await service.listCalculations(PROJECT_ID);
             expect(result).toHaveLength(1);
-            expect(result[0].commissionPool).toBe('2400.00');
+            expect(result[0].commissionPoolProjection.value).toBe('2400.00');
+        });
+
+        it('returns masked projection when the sensitive projection service denies field access', async () => {
+            sensitiveFieldProjectionService.projectStringField.mockImplementation(async (input: { fieldPackageKey: string }) =>
+                makeMaskedSensitiveProjection(input.fieldPackageKey)
+            );
+            repo.findCalculationsForProject.mockResolvedValue([makeCalculatedResult() as never]);
+
+            const result = await service.listCalculations(PROJECT_ID, {
+                sub: 'user-1',
+                username: 'viewer',
+                permissions: []
+            });
+
+            expect(result[0].commissionPoolProjection).toEqual(
+                expect.objectContaining({
+                    fieldPackageKey: 'commission-compensation',
+                    mode: 'denied',
+                    value: null,
+                    reasonCode: 'missing-sensitive-read-permission'
+                })
+            );
+            expect(result[0].recognizedRevenueTaxExclusiveProjection).toEqual(
+                expect.objectContaining({
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'denied',
+                    value: null,
+                    reasonCode: 'missing-sensitive-read-permission'
+                })
+            );
+            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    targetType: 'CommissionCalculation',
+                    targetId: CALCULATION_ID,
+                    fieldPackageKey: 'commission-compensation',
+                    rawValue: '2400.00',
+                    user: expect.objectContaining({ sub: 'user-1' })
+                })
+            );
         });
     });
 
@@ -1547,8 +1609,8 @@ describe('CommissionService', () => {
 
             expect(repo.findRuleVersionById).toHaveBeenCalledWith(RULE_VERSION_ID);
             expect(repo.transactional).toHaveBeenCalled();
-            expect(result.contributionMargin).toBe('30000.00');
-            expect(result.commissionPool).toBe('2400.00');
+            expect(result.contributionMarginProjection.value).toBe('30000.00');
+            expect(result.commissionPoolProjection.value).toBe('2400.00');
         });
 
         it('throws if requested rule version does not exist', async () => {
@@ -1641,7 +1703,7 @@ describe('CommissionService', () => {
             repo.findPayoutsForProject.mockResolvedValue([makeDraftPayout() as never]);
             const result = await service.listPayouts(PROJECT_ID);
             expect(result).toHaveLength(1);
-            expect(result[0].theoreticalCapAmount).toBe('480.00');
+            expect(result[0].theoreticalCapAmountProjection.value).toBe('480.00');
         });
     });
 
@@ -1713,7 +1775,7 @@ describe('CommissionService', () => {
 
             expect(repo.createPayout).toHaveBeenCalledWith(expect.objectContaining({ stageType: 'retention', theoreticalCapAmount: '960.00' }));
             expect(result.stageType).toBe('retention');
-            expect(result.theoreticalCapAmount).toBe('960.00');
+            expect(result.theoreticalCapAmountProjection.value).toBe('960.00');
         });
     });
 
@@ -1797,7 +1859,7 @@ describe('CommissionService', () => {
             const result = await service.approvePayout(PAYOUT_ID, {});
 
             expect(payout.status).toBe('approved');
-            expect(result.approvedAmount).toBe('480.00');
+            expect(result.approvedAmountProjection.value).toBe('480.00');
         });
 
         it('throws if approved amount is above cap', async () => {
@@ -1887,7 +1949,7 @@ describe('CommissionService', () => {
             const result = await service.registerPayout(PAYOUT_ID, { payoutStage: 'first', paidRecordAmount: '400.00' });
 
             expect(payout.status).toBe('paid');
-            expect(result.paidRecordAmount).toBe('400.00');
+            expect(result.paidRecordAmountProjection.value).toBe('400.00');
         });
 
         it('throws if paid amount exceeds approved amount', async () => {
@@ -2005,7 +2067,7 @@ describe('CommissionService', () => {
                 })
             );
             expect(result.status).toBe('paid');
-            expect(result.paidRecordAmount).toBe('400.00');
+            expect(result.paidRecordAmountProjection.value).toBe('400.00');
         });
 
         it('settles the current final settlement snapshot when retention payout registration is completed', async () => {
@@ -2110,7 +2172,7 @@ describe('CommissionService', () => {
                 })
             );
             expect(result.status).toBe('paid');
-            expect(result.paidRecordAmount).toBe('360.00');
+            expect(result.paidRecordAmountProjection.value).toBe('360.00');
         });
 
         it('blocks final payout registration when the current final settlement snapshot is missing', async () => {

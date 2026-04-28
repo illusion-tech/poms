@@ -30,9 +30,12 @@ import type {
     FreezeCommissionRoleAssignmentResult,
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
+    SensitiveFieldPackageKey,
+    SensitiveStringFieldProjection,
     SubmitCommissionFreezeDisputeRequest,
     SubmitCommissionFreezeDisputeResult,
-    SubmitCommissionPayoutApprovalRequest
+    SubmitCommissionPayoutApprovalRequest,
+    UserPayload
 } from '@poms/shared-contracts';
 import { BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
@@ -48,6 +51,7 @@ import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
+import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { CommissionRepository } from './commission.repository';
 import {
     buildPendingFinalRuleExplanation,
@@ -88,8 +92,8 @@ type CommissionSharedEvidencePackage = Pick<
     CommissionFinalSettlementView,
     | 'freezeVersionSummary'
     | 'baselineSelectionSource'
-    | 'taxImpactSummary'
-    | 'taxImpactPendingAmount'
+    | 'taxImpactSummaryProjection'
+    | 'taxImpactPendingAmountProjection'
     | 'dataMaturityLevel'
     | 'costActionRecommendation'
     | 'currentActionLevel'
@@ -101,9 +105,14 @@ type CommissionSharedEvidencePackage = Pick<
     | 'exportPolicy'
 >;
 
+type SensitiveProjectionUser = Pick<UserPayload, 'sub' | 'username' | 'permissions'> | null;
+
 @Injectable()
 export class CommissionService {
-    constructor(private readonly repo: CommissionRepository) {}
+    constructor(
+        private readonly repo: CommissionRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+    ) {}
 
     // ── Rule Versions ────────────────────────────────────────────────────────
 
@@ -175,7 +184,11 @@ export class CommissionService {
         return entity ? this.#toRoleAssignmentSummary(entity) : null;
     }
 
-    async getCommissionFinalSettlement(projectId: string): Promise<CommissionFinalSettlementView> {
+    async getCommissionFinalSettlement(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-final-settlement:${projectId}` }
+    ): Promise<CommissionFinalSettlementView> {
         const { snapshot, freezeVersion } = await this.#getCurrentFinalSettlementContext(projectId);
         const liveRetentionQueryState = await this.#loadLiveRetentionQueryState(snapshot, freezeVersion);
         const liveDraft = liveRetentionQueryState.draft;
@@ -190,12 +203,16 @@ export class CommissionService {
             retentionRequirementSummary: liveDraft ? liveDraft.retentionRequirementSummary : snapshot.retentionRequirementSummary ?? null,
             retentionReceiptSummary: liveDraft ? liveDraft.retentionReceiptSummary : snapshot.retentionReceiptSummary ?? null,
             departureExceptionSummary: liveDraft ? liveDraft.departureExceptionSummary : snapshot.departureExceptionSummary ?? null,
-            ...this.#buildCommissionSharedEvidencePackage(snapshot, freezeVersion),
+            ...(await this.#buildCommissionSharedEvidencePackage(snapshot, freezeVersion, user, requestContext)),
             allowedActions: []
         };
     }
 
-    async getCommissionRuleExplanation(projectId: string): Promise<CommissionRuleExplanationView> {
+    async getCommissionRuleExplanation(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-rule-explanation:${projectId}` }
+    ): Promise<CommissionRuleExplanationView> {
         const snapshot = await this.#getCurrentRuleExplanationSnapshot(projectId);
         const { snapshot: finalSettlementSnapshot, freezeVersion } = await this.#getCurrentFinalSettlementContextById(
             projectId,
@@ -212,8 +229,14 @@ export class CommissionService {
             blockingReasonCode: liveRuleExplanation ? liveRuleExplanation.blockingReasonCode : snapshot.blockingReasonCode ?? null,
             blockingReasonSummary: liveRuleExplanation ? liveRuleExplanation.blockingReasonSummary : snapshot.blockingReasonSummary ?? null,
             gateDecisionSummary: liveRuleExplanation ? liveRuleExplanation.gateDecisionSummary : snapshot.gateDecisionSummary,
-            nextActionSummary: liveRuleExplanation ? liveRuleExplanation.nextActionSummary : snapshot.nextActionSummary ?? null,
-            ...this.#buildCommissionSharedEvidencePackage(finalSettlementSnapshot, freezeVersion),
+            nextActionSummaryProjection: await this.#projectCommissionSensitiveField(
+                projectId,
+                liveRuleExplanation ? liveRuleExplanation.nextActionSummary : snapshot.nextActionSummary ?? null,
+                user,
+                requestContext,
+                'commission-compensation'
+            ),
+            ...(await this.#buildCommissionSharedEvidencePackage(finalSettlementSnapshot, freezeVersion, user, requestContext)),
             allowedActions: []
         };
     }
@@ -739,12 +762,21 @@ export class CommissionService {
 
     // ── Calculations ────────────────────────────────────────────────────────
 
-    async listCalculations(projectId: string): Promise<CommissionCalculationSummary[]> {
+    async listCalculations(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${projectId}` }
+    ): Promise<CommissionCalculationSummary[]> {
         const entities = await this.repo.findCalculationsForProject(projectId);
-        return entities.map(this.#toCalculationSummary);
+        return Promise.all(entities.map((entity) => this.#toCalculationSummary(entity, user, requestContext)));
     }
 
-    async createCalculation(projectId: string, dto: CreateCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
+    async createCalculation(
+        projectId: string,
+        dto: CreateCommissionCalculationRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${projectId}` }
+    ): Promise<CommissionCalculationSummary> {
         await this.#assertProjectExists(projectId);
         const revenue = this.#parseDecimal(dto.recognizedRevenueTaxExclusive, 'recognizedRevenueTaxExclusive');
         const cost = this.#parseDecimal(dto.recognizedCostTaxExclusive, 'recognizedCostTaxExclusive');
@@ -800,14 +832,19 @@ export class CommissionService {
 
                 em.persist(entity);
                 await em.flush();
-                return this.#toCalculationSummary(entity);
+                return this.#toCalculationSummary(entity, user, requestContext);
             });
         } catch (error) {
             throw this.#mapSingleCurrentConflict(error);
         }
     }
 
-    async approveCalculation(id: string, dto: ConfirmCommissionCalculationRequest): Promise<CommissionCalculationSummary> {
+    async approveCalculation(
+        id: string,
+        dto: ConfirmCommissionCalculationRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${id}:approve` }
+    ): Promise<CommissionCalculationSummary> {
         const entity = await this.repo.findCalculationById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionCalculation ${id} not found`);
@@ -821,17 +858,26 @@ export class CommissionService {
         entity.status = 'effective';
         entity.approvedAt = new Date();
         await this.repo.flushCalculation();
-        return this.#toCalculationSummary(entity);
+        return this.#toCalculationSummary(entity, user, requestContext);
     }
 
     // ── Payouts ─────────────────────────────────────────────────────────────
 
-    async listPayouts(projectId: string): Promise<CommissionPayoutSummary[]> {
+    async listPayouts(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${projectId}` }
+    ): Promise<CommissionPayoutSummary[]> {
         const entities = await this.repo.findPayoutsForProject(projectId);
-        return entities.map(this.#toPayoutSummary);
+        return Promise.all(entities.map((entity) => this.#toPayoutSummary(entity, user, requestContext)));
     }
 
-    async createPayout(projectId: string, dto: CreateCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
+    async createPayout(
+        projectId: string,
+        dto: CreateCommissionPayoutRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${projectId}` }
+    ): Promise<CommissionPayoutSummary> {
         await this.#assertProjectExists(projectId);
 
         const calculation = await this.repo.findCalculationById(dto.calculationId);
@@ -891,19 +937,28 @@ export class CommissionService {
         });
 
         await this.repo.persistAndFlushPayout(entity);
-        return this.#toPayoutSummary(entity);
+        return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async getPayoutById(id: string): Promise<CommissionPayoutSummary> {
+    async getPayoutById(
+        id: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}` }
+    ): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
 
-        return this.#toPayoutSummary(entity);
+        return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async submitPayoutApproval(id: string, dto: SubmitCommissionPayoutApprovalRequest): Promise<CommissionPayoutSummary> {
+    async submitPayoutApproval(
+        id: string,
+        dto: SubmitCommissionPayoutApprovalRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}:submitApproval` }
+    ): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -953,10 +1008,15 @@ export class CommissionService {
 
         entity.status = 'pending-approval';
         await this.repo.flushPayout();
-        return this.#toPayoutSummary(entity);
+        return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async approvePayout(id: string, dto: ApproveCommissionPayoutRequest): Promise<CommissionPayoutSummary> {
+    async approvePayout(
+        id: string,
+        dto: ApproveCommissionPayoutRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}:approve` }
+    ): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -1101,7 +1161,7 @@ export class CommissionService {
 
                 em.persist(payout);
                 await em.flush();
-                return this.#toPayoutSummary(payout);
+                return this.#toPayoutSummary(payout, user, requestContext);
             });
         }
 
@@ -1109,10 +1169,16 @@ export class CommissionService {
         entity.approvedAmount = this.#formatAmount(approvedAmount);
         entity.approvedAt = new Date();
         await this.repo.flushPayout();
-        return this.#toPayoutSummary(entity);
+        return this.#toPayoutSummary(entity, user, requestContext);
     }
 
-    async registerPayout(id: string, dto: RegisterCommissionPayoutRequest, actorUserId?: string): Promise<CommissionPayoutSummary> {
+    async registerPayout(
+        id: string,
+        dto: RegisterCommissionPayoutRequest,
+        actorUserId?: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-payouts:${id}:registerPayout` }
+    ): Promise<CommissionPayoutSummary> {
         const entity = await this.repo.findPayoutById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
@@ -1280,7 +1346,7 @@ export class CommissionService {
 
                 em.persist(payout);
                 await em.flush();
-                return this.#toPayoutSummary(payout);
+                return this.#toPayoutSummary(payout, user, requestContext);
             });
         }
 
@@ -1289,17 +1355,26 @@ export class CommissionService {
         entity.handledAt = new Date();
         entity.handledBy = actorUserId ?? null;
         await this.repo.flushPayout();
-        return this.#toPayoutSummary(entity);
+        return this.#toPayoutSummary(entity, user, requestContext);
     }
 
     // ── Adjustments ────────────────────────────────────────────────────────
 
-    async listAdjustments(projectId: string): Promise<CommissionAdjustmentSummary[]> {
+    async listAdjustments(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${projectId}` }
+    ): Promise<CommissionAdjustmentSummary[]> {
         const entities = await this.repo.findAdjustmentsForProject(projectId);
-        return entities.map(this.#toAdjustmentSummary);
+        return Promise.all(entities.map((entity) => this.#toAdjustmentSummary(entity, user, requestContext)));
     }
 
-    async createAdjustment(projectId: string, dto: CreateCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
+    async createAdjustment(
+        projectId: string,
+        dto: CreateCommissionAdjustmentRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${projectId}` }
+    ): Promise<CommissionAdjustmentSummary> {
         await this.#assertProjectExists(projectId);
 
         const payout = dto.relatedPayoutId ? await this.repo.findPayoutById(dto.relatedPayoutId) : null;
@@ -1326,19 +1401,28 @@ export class CommissionService {
         });
 
         await this.repo.persistAndFlushAdjustment(entity);
-        return this.#toAdjustmentSummary(entity);
+        return this.#toAdjustmentSummary(entity, user, requestContext);
     }
 
-    async getAdjustmentById(id: string): Promise<CommissionAdjustmentSummary> {
+    async getAdjustmentById(
+        id: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${id}` }
+    ): Promise<CommissionAdjustmentSummary> {
         const entity = await this.repo.findAdjustmentById(id);
         if (!entity) {
             throw new NotFoundException(`CommissionAdjustment ${id} not found`);
         }
 
-        return this.#toAdjustmentSummary(entity);
+        return this.#toAdjustmentSummary(entity, user, requestContext);
     }
 
-    async executeAdjustment(id: string, dto: ExecuteCommissionAdjustmentRequest): Promise<CommissionAdjustmentSummary> {
+    async executeAdjustment(
+        id: string,
+        dto: ExecuteCommissionAdjustmentRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-adjustments:${id}:execute` }
+    ): Promise<CommissionAdjustmentSummary> {
         return this.repo.transactional(async (em) => {
             const adjustment = await em.findOne(CommissionAdjustment, { id });
             if (!adjustment) {
@@ -1422,11 +1506,16 @@ export class CommissionService {
             em.persist(persistTargets);
             await em.flush();
 
-            return this.#toAdjustmentSummary(adjustment);
+            return this.#toAdjustmentSummary(adjustment, user, requestContext);
         });
     }
 
-    async recalculateCalculation(id: string, dto: RecalculateCommissionRequest): Promise<CommissionCalculationSummary> {
+    async recalculateCalculation(
+        id: string,
+        dto: RecalculateCommissionRequest,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `commission-calculations:${id}:recalculate` }
+    ): Promise<CommissionCalculationSummary> {
         try {
             return await this.repo.transactional(async (em) => {
                 const current = await em.findOne(CommissionCalculation, { id });
@@ -1491,7 +1580,7 @@ export class CommissionService {
                 em.persist([nextCalculation, adjustment]);
                 await em.flush();
 
-                return this.#toCalculationSummary(nextCalculation);
+                return this.#toCalculationSummary(nextCalculation, user, requestContext);
             });
         } catch (error) {
             throw this.#mapSingleCurrentConflict(error);
@@ -1552,58 +1641,164 @@ export class CommissionService {
         updatedAt: e.updatedAt.toISOString()
     });
 
-    readonly #toCalculationSummary = (e: CommissionCalculation): CommissionCalculationSummary => ({
-        id: e.id,
-        projectId: e.projectId,
-        ruleVersionId: e.ruleVersionId,
-        version: e.version,
-        rowVersion: e.rowVersion,
-        isCurrent: e.isCurrent,
-        status: e.status as CommissionCalculationSummary['status'],
-        recognizedRevenueTaxExclusive: this.#stringifyDecimal(e.recognizedRevenueTaxExclusive),
-        recognizedCostTaxExclusive: this.#stringifyDecimal(e.recognizedCostTaxExclusive),
-        contributionMargin: this.#stringifyDecimal(e.contributionMargin),
-        contributionMarginRate: this.#stringifyDecimal(e.contributionMarginRate),
-        commissionPool: this.#stringifyDecimal(e.commissionPool),
-        recalculatedFromId: e.recalculatedFromId ?? null,
-        approvedAt: e.approvedAt ? e.approvedAt.toISOString() : null,
-        createdAt: e.createdAt.toISOString(),
-        updatedAt: e.updatedAt.toISOString()
-    });
+    readonly #toCalculationSummary = async (
+        e: CommissionCalculation,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<CommissionCalculationSummary> => {
+        const [
+            recognizedRevenueTaxExclusiveProjection,
+            recognizedCostTaxExclusiveProjection,
+            contributionMarginProjection,
+            contributionMarginRateProjection,
+            commissionPoolProjection
+        ] = await Promise.all([
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.recognizedRevenueTaxExclusive),
+                user,
+                requestContext,
+                'operating-finance',
+                'CommissionCalculation'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.recognizedCostTaxExclusive),
+                user,
+                requestContext,
+                'operating-finance',
+                'CommissionCalculation'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.contributionMargin),
+                user,
+                requestContext,
+                'operating-finance',
+                'CommissionCalculation'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.contributionMarginRate),
+                user,
+                requestContext,
+                'operating-finance',
+                'CommissionCalculation'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.commissionPool),
+                user,
+                requestContext,
+                'commission-compensation',
+                'CommissionCalculation'
+            )
+        ]);
 
-    readonly #toPayoutSummary = (e: CommissionPayout): CommissionPayoutSummary => ({
-        id: e.id,
-        projectId: e.projectId,
-        calculationId: e.calculationId,
-        rowVersion: e.rowVersion,
-        stageType: e.stageType as CommissionPayoutSummary['stageType'],
-        payoutKind: e.payoutKind as CommissionPayoutSummary['payoutKind'],
-        sourcePayoutId: e.sourcePayoutId ?? null,
-        selectedTier: e.selectedTier as CommissionPayoutSummary['selectedTier'],
-        theoreticalCapAmount: this.#stringifyDecimal(e.theoreticalCapAmount),
-        approvedAmount: e.approvedAmount ? this.#stringifyDecimal(e.approvedAmount) : null,
-        paidRecordAmount: e.paidRecordAmount ? this.#stringifyDecimal(e.paidRecordAmount) : null,
-        status: e.status as CommissionPayoutSummary['status'],
-        approvedAt: e.approvedAt ? e.approvedAt.toISOString() : null,
-        handledAt: e.handledAt ? e.handledAt.toISOString() : null,
-        createdAt: e.createdAt.toISOString(),
-        updatedAt: e.updatedAt.toISOString()
-    });
+        return {
+            id: e.id,
+            projectId: e.projectId,
+            ruleVersionId: e.ruleVersionId,
+            version: e.version,
+            rowVersion: e.rowVersion,
+            isCurrent: e.isCurrent,
+            status: e.status as CommissionCalculationSummary['status'],
+            recognizedRevenueTaxExclusiveProjection,
+            recognizedCostTaxExclusiveProjection,
+            contributionMarginProjection,
+            contributionMarginRateProjection,
+            commissionPoolProjection,
+            recalculatedFromId: e.recalculatedFromId ?? null,
+            approvedAt: e.approvedAt ? e.approvedAt.toISOString() : null,
+            createdAt: e.createdAt.toISOString(),
+            updatedAt: e.updatedAt.toISOString()
+        };
+    };
 
-    readonly #toAdjustmentSummary = (e: CommissionAdjustment): CommissionAdjustmentSummary => ({
-        id: e.id,
-        projectId: e.projectId,
-        rowVersion: e.rowVersion,
-        adjustmentType: e.adjustmentType as CommissionAdjustmentType,
-        relatedPayoutId: e.relatedPayoutId ?? null,
-        relatedCalculationId: e.relatedCalculationId ?? null,
-        amount: e.amount ? this.#stringifyDecimal(e.amount) : null,
-        reason: e.reason,
-        status: e.status as CommissionAdjustmentSummary['status'],
-        executedAt: e.executedAt ? e.executedAt.toISOString() : null,
-        createdAt: e.createdAt.toISOString(),
-        updatedAt: e.updatedAt.toISOString()
-    });
+    readonly #toPayoutSummary = async (
+        e: CommissionPayout,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<CommissionPayoutSummary> => {
+        const [theoreticalCapAmountProjection, approvedAmountProjection, paidRecordAmountProjection] = await Promise.all([
+            this.#projectCommissionSensitiveField(
+                e.id,
+                this.#stringifyDecimal(e.theoreticalCapAmount),
+                user,
+                requestContext,
+                'commission-compensation',
+                'CommissionPayout'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                e.approvedAmount ? this.#stringifyDecimal(e.approvedAmount) : null,
+                user,
+                requestContext,
+                'commission-compensation',
+                'CommissionPayout'
+            ),
+            this.#projectCommissionSensitiveField(
+                e.id,
+                e.paidRecordAmount ? this.#stringifyDecimal(e.paidRecordAmount) : null,
+                user,
+                requestContext,
+                'commission-compensation',
+                'CommissionPayout'
+            )
+        ]);
+
+        return {
+            id: e.id,
+            projectId: e.projectId,
+            calculationId: e.calculationId,
+            rowVersion: e.rowVersion,
+            stageType: e.stageType as CommissionPayoutSummary['stageType'],
+            payoutKind: e.payoutKind as CommissionPayoutSummary['payoutKind'],
+            sourcePayoutId: e.sourcePayoutId ?? null,
+            selectedTier: e.selectedTier as CommissionPayoutSummary['selectedTier'],
+            theoreticalCapAmountProjection,
+            approvedAmountProjection,
+            paidRecordAmountProjection,
+            status: e.status as CommissionPayoutSummary['status'],
+            approvedAt: e.approvedAt ? e.approvedAt.toISOString() : null,
+            handledAt: e.handledAt ? e.handledAt.toISOString() : null,
+            createdAt: e.createdAt.toISOString(),
+            updatedAt: e.updatedAt.toISOString()
+        };
+    };
+
+    readonly #toAdjustmentSummary = async (
+        e: CommissionAdjustment,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<CommissionAdjustmentSummary> => {
+        const [amountProjection, reasonProjection] = await Promise.all([
+            this.#projectCommissionSensitiveField(
+                e.id,
+                e.amount ? this.#stringifyDecimal(e.amount) : null,
+                user,
+                requestContext,
+                'commission-compensation',
+                'CommissionAdjustment'
+            ),
+            this.#projectCommissionSensitiveField(e.id, e.reason, user, requestContext, 'commission-compensation', 'CommissionAdjustment')
+        ]);
+
+        return {
+            id: e.id,
+            projectId: e.projectId,
+            rowVersion: e.rowVersion,
+            adjustmentType: e.adjustmentType as CommissionAdjustmentType,
+            relatedPayoutId: e.relatedPayoutId ?? null,
+            relatedCalculationId: e.relatedCalculationId ?? null,
+            amountProjection,
+            reasonProjection,
+            status: e.status as CommissionAdjustmentSummary['status'],
+            executedAt: e.executedAt ? e.executedAt.toISOString() : null,
+            createdAt: e.createdAt.toISOString(),
+            updatedAt: e.updatedAt.toISOString()
+        };
+    };
 
     async #getCurrentFinalSettlementContext(projectId: string): Promise<{
         snapshot: CommissionFinalSettlementSnapshot;
@@ -1775,15 +1970,34 @@ export class CommissionService {
         }
     }
 
-    #buildCommissionSharedEvidencePackage(
+    async #buildCommissionSharedEvidencePackage(
         snapshot: CommissionFinalSettlementSnapshot,
-        freezeVersion: CommissionRoleAssignment
-    ): CommissionSharedEvidencePackage {
+        freezeVersion: CommissionRoleAssignment,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<CommissionSharedEvidencePackage> {
+        const [taxImpactSummaryProjection, taxImpactPendingAmountProjection] = await Promise.all([
+            this.#projectCommissionSensitiveField(
+                snapshot.projectId,
+                snapshot.taxImpactSummary,
+                user,
+                requestContext,
+                'operating-finance'
+            ),
+            this.#projectCommissionSensitiveField(
+                snapshot.projectId,
+                this.#stringifyDecimal(snapshot.taxImpactPendingAmount),
+                user,
+                requestContext,
+                'operating-finance'
+            )
+        ]);
+
         return {
             freezeVersionSummary: this.#toRoleAssignmentSummary(freezeVersion),
             baselineSelectionSource: snapshot.baselineSelectionSource as CommissionFinalSettlementView['baselineSelectionSource'],
-            taxImpactSummary: snapshot.taxImpactSummary,
-            taxImpactPendingAmount: this.#stringifyDecimal(snapshot.taxImpactPendingAmount),
+            taxImpactSummaryProjection,
+            taxImpactPendingAmountProjection,
             dataMaturityLevel: snapshot.dataMaturityLevel,
             costActionRecommendation: snapshot.costActionRecommendation as CommissionFinalSettlementView['costActionRecommendation'],
             currentActionLevel: snapshot.currentActionLevel as CommissionFinalSettlementView['currentActionLevel'],
@@ -1794,6 +2008,24 @@ export class CommissionService {
             projectionLevel: snapshot.projectionLevel,
             exportPolicy: snapshot.exportPolicy
         };
+    }
+
+    #projectCommissionSensitiveField(
+        targetId: string,
+        rawValue: string | null,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        fieldPackageKey: SensitiveFieldPackageKey,
+        targetType = 'Project'
+    ): Promise<SensitiveStringFieldProjection> {
+        return this.sensitiveFieldProjectionService.projectStringField({
+            fieldPackageKey,
+            rawValue,
+            user,
+            targetType,
+            targetId,
+            requestContext
+        });
     }
 
     async #assertProjectExists(projectId: string): Promise<void> {

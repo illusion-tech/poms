@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { CommissionAdjustmentType } from './commission-adjustment-type';
 
 
@@ -17,8 +18,8 @@ export interface CommissionAdjustmentSummary {
     adjustmentType: CommissionAdjustmentType;
     relatedPayoutId: string | null;
     relatedCalculationId: string | null;
-    amount: string | null;
-    reason: string;
+    amountProjection: SensitiveStringFieldProjection;
+    reasonProjection: SensitiveStringFieldProjection;
     status: CommissionAdjustmentSummaryStatusEnum;
     executedAt: string | null;
     createdAt: string;
