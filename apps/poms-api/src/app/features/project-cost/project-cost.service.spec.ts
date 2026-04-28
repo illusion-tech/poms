@@ -1,4 +1,5 @@
 import { ConflictException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import type { UserPayload } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
@@ -63,6 +64,16 @@ const REVIEW_GATE_BINDING_ID = '27272727-2727-4272-8272-272727272727';
 const COMMISSION_GATE_REVIEW_RECORD_ID = '28282828-2828-4282-8282-282828282828';
 const SUPERSEDED_GATE_REVIEW_RECORD_ID = '29292929-2929-4292-8292-292929292929';
 const SUMMARY_SNAPSHOT_ID = '30303030-3030-4030-8030-303030303030';
+const OPERATING_FINANCE_USER: UserPayload = {
+    sub: USER_ID,
+    username: 'finance_ops',
+    permissions: ['contract:finance:manage', 'operating:finance:sensitive:read']
+};
+const OPERATING_FINANCE_MASKED_USER: UserPayload = {
+    sub: USER_ID,
+    username: 'finance_viewer',
+    permissions: ['contract:finance:manage']
+};
 
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
@@ -504,6 +515,7 @@ describe('ProjectCostService', () => {
     let operatingSignalToCommissionGateBindingRepository: jest.Mocked<OperatingSignalToCommissionGateBindingRepository>;
     let commissionGateReviewRecordRepository: jest.Mocked<CommissionGateReviewRecordRepository>;
     let approvalSummarySnapshotRepository: jest.Mocked<ApprovalSummarySnapshotRepository>;
+    let sensitiveFieldProjectionService: { projectStringField: jest.Mock };
     let contractFinanceRepository: jest.Mocked<ContractFinanceRepository>;
     let transactionalEntityManager: {
         nativeUpdate: jest.Mock;
@@ -710,6 +722,35 @@ describe('ProjectCostService', () => {
                 return `${prefixes[scope] ?? 'AC'}-2026-000001`;
             })
         };
+        const mockSensitiveFieldProjectionService = {
+            projectStringField: jest.fn(async (input) => {
+                if (input.rawValue === null) {
+                    return {
+                        fieldPackageKey: input.fieldPackageKey,
+                        mode: 'full',
+                        value: null,
+                        displayText: '-',
+                        reasonCode: 'field-package-not-applicable'
+                    };
+                }
+                if (input.user?.permissions?.includes('operating:finance:sensitive:read')) {
+                    return {
+                        fieldPackageKey: input.fieldPackageKey,
+                        mode: 'full',
+                        value: input.rawValue,
+                        displayText: input.rawValue,
+                        reasonCode: 'allowed'
+                    };
+                }
+                return {
+                    fieldPackageKey: input.fieldPackageKey,
+                    mode: 'masked',
+                    value: null,
+                    displayText: '敏感字段已隐藏',
+                    reasonCode: 'missing-sensitive-read-permission'
+                };
+            })
+        };
 
         expenseRecordRepository = mockExpenseRecordRepository as unknown as jest.Mocked<ExpenseRecordRepository>;
         internalCostRateVersionRepository = mockInternalCostRateVersionRepository as unknown as jest.Mocked<InternalCostRateVersionRepository>;
@@ -738,6 +779,7 @@ describe('ProjectCostService', () => {
             mockCommissionGateReviewRecordRepository as unknown as jest.Mocked<CommissionGateReviewRecordRepository>;
         approvalSummarySnapshotRepository =
             mockApprovalSummarySnapshotRepository as unknown as jest.Mocked<ApprovalSummarySnapshotRepository>;
+        sensitiveFieldProjectionService = mockSensitiveFieldProjectionService;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
         service = new ProjectCostService(
             expenseRecordRepository,
@@ -760,7 +802,8 @@ describe('ProjectCostService', () => {
             operatingSignalReviewRecordRepository,
             operatingSignalToCommissionGateBindingRepository,
             commissionGateReviewRecordRepository,
-            approvalSummarySnapshotRepository
+            approvalSummarySnapshotRepository,
+            sensitiveFieldProjectionService as never
         );
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
         projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(null);
@@ -2469,21 +2512,149 @@ describe('ProjectCostService', () => {
             operatingSignalToCommissionGateBindingRepository.findActiveByProject.mockResolvedValue(bindings as never);
             operatingSignalEvaluationResultRepository.findById.mockResolvedValue(evaluation as never);
 
-            const result = await service.getBusinessAccountingFeedback(PROJECT_ID);
+            const result = await service.getBusinessAccountingFeedback(PROJECT_ID, OPERATING_FINANCE_USER);
 
             expect(result).toMatchObject({
                 projectId: PROJECT_ID,
                 signalLevel: 'ALERT',
                 currentActionLevel: 'REVIEW',
-                taxImpactSummary: 'Tax package stalled',
                 dataMaturityLevel: '成熟',
                 costActionRecommendation: 'PROMPT',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
-                nextActionSummary: 'Close tax gap；Freeze commission payout',
-                downstreamConsumerSummary: 'Finance settlement hold；Approval board escalation',
                 allowedActions: ['reviewCommissionGateBinding']
             });
+            expect(result.taxImpactSummaryProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'full',
+                value: 'Tax package stalled'
+            });
+            expect(result.nextActionSummaryProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'full',
+                value: 'Close tax gap；Freeze commission payout'
+            });
+            expect(result.downstreamConsumerSummaryProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'full',
+                value: 'Finance settlement hold；Approval board escalation'
+            });
+            expect(result).not.toHaveProperty('taxImpactSummary');
+            expect(result).not.toHaveProperty('nextActionSummary');
+            expect(result).not.toHaveProperty('downstreamConsumerSummary');
+        });
+
+        it('masks business outcome operating finance fields without sensitive permission', async () => {
+            const snapshot = makeProjectOperatingSnapshot();
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                referencedSnapshotId: snapshot.id
+            });
+            const evaluation = makeOperatingSignalEvaluationResult({
+                referencedSnapshotId: snapshot.id,
+                dataMaturityEvaluationId: dataMaturity.id
+            });
+
+            projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(snapshot as never);
+            dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(dataMaturity as never);
+            operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(evaluation as never);
+
+            const result = await service.getProjectBusinessOutcomeOverview(
+                PROJECT_ID,
+                OPERATING_FINANCE_MASKED_USER,
+                { path: `/projects/${PROJECT_ID}/business-outcome-overview`, method: 'GET' }
+            );
+
+            expect(result).not.toHaveProperty('effectiveContractSetSummary');
+            expect(result).not.toHaveProperty('receivableConfirmedAmountSummary');
+            expect(result).not.toHaveProperty('includedCostTotalSummary');
+            expect(result).not.toHaveProperty('currentEffectiveBaselineCostSummary');
+            expect(result).not.toHaveProperty('grossMarginSummary');
+            expect(result).not.toHaveProperty('taxImpactSummary');
+            expect(result.effectiveContractSetSummaryProjection).toMatchObject({
+                fieldPackageKey: 'operating-finance',
+                mode: 'masked',
+                value: null,
+                reasonCode: 'missing-sensitive-read-permission'
+            });
+            expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    fieldPackageKey: 'operating-finance',
+                    rawValue: '200000.0000',
+                    user: OPERATING_FINANCE_MASKED_USER,
+                    targetType: 'Project',
+                    targetId: PROJECT_ID,
+                    requestContext: expect.objectContaining({
+                        path: `/projects/${PROJECT_ID}/business-outcome-overview`,
+                        method: 'GET'
+                    })
+                })
+            );
+        });
+
+        it('returns full projection fields for unified accounting and variance views with sensitive permission', async () => {
+            const snapshot = makeProjectOperatingSnapshot();
+            const dataMaturity = makeDataMaturityEvaluationResult({
+                referencedSnapshotId: snapshot.id
+            });
+            const evaluation = makeOperatingSignalEvaluationResult({
+                referencedSnapshotId: snapshot.id,
+                dataMaturityEvaluationId: dataMaturity.id
+            });
+
+            projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(snapshot as never);
+            dataMaturityEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(dataMaturity as never);
+            operatingSignalEvaluationResultRepository.findActiveByProjectAndSnapshot.mockResolvedValue(evaluation as never);
+
+            const unifiedAccounting = await service.getProjectUnifiedAccounting(
+                PROJECT_ID,
+                OPERATING_FINANCE_USER,
+                { path: `/projects/${PROJECT_ID}/unified-accounting`, method: 'GET' }
+            );
+            const varianceRisk = await service.getProjectVarianceRiskExplanation(
+                PROJECT_ID,
+                OPERATING_FINANCE_USER,
+                { path: `/projects/${PROJECT_ID}/variance-risk-explanation`, method: 'GET' }
+            );
+
+            expect(unifiedAccounting).toMatchObject({
+                originalBaselineCostSummaryProjection: {
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'full',
+                    value: '100000.0000',
+                    reasonCode: 'allowed'
+                },
+                taxImpactSummaryProjection: {
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'full',
+                    value: 'input tax pending',
+                    reasonCode: 'allowed'
+                },
+                taxImpactPendingAmountProjection: {
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'full',
+                    value: '3000.0000',
+                    reasonCode: 'allowed'
+                }
+            });
+            expect(unifiedAccounting).not.toHaveProperty('originalBaselineCostSummary');
+            expect(unifiedAccounting).not.toHaveProperty('taxImpactSummary');
+            expect(unifiedAccounting).not.toHaveProperty('taxImpactPendingAmount');
+            expect(varianceRisk).toMatchObject({
+                varianceSourceSummaryProjection: {
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'full',
+                    value: 'Margin deviation requires validation',
+                    reasonCode: 'allowed'
+                },
+                taxImpactSummaryProjection: {
+                    fieldPackageKey: 'operating-finance',
+                    mode: 'full',
+                    value: 'Tax package is pending closeout',
+                    reasonCode: 'allowed'
+                }
+            });
+            expect(varianceRisk).not.toHaveProperty('varianceSourceSummary');
+            expect(varianceRisk).not.toHaveProperty('taxImpactSummary');
         });
     });
 

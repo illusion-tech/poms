@@ -7,6 +7,7 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import { actionLevelLabel, actionLevelSeverity, signalLevelLabelOrFallback } from '../project/project-presentation';
 
 @Component({
@@ -91,7 +92,7 @@ export class ProjectCommissionGateOverview implements OnInit {
         }
 
         return [
-            { label: '税务影响', value: current.taxImpactSummary },
+            { label: '税务影响', value: sensitiveProjectionDisplayText(current.taxImpactSummaryProjection) },
             { label: '分摊稳定性', value: current.allocationStabilitySummary ?? '当前无额外说明' },
             { label: '未映射成本', value: current.unmappedCostSummary ?? '当前无未映射成本提示' },
             { label: '版本锚点', value: `${current.referencedBaselineVersion} / ${current.referencedSnapshotVersion}` }
@@ -105,8 +106,8 @@ export class ProjectCommissionGateOverview implements OnInit {
         }
 
         return [
-            { label: '下一步', value: current.nextActionSummary ?? this.fallbackNextAction() },
-            { label: '影响下游', value: current.downstreamConsumerSummary ?? '当前无额外下游影响说明' }
+            { label: '下一步', value: sensitiveProjectionDisplayText(current.nextActionSummaryProjection, this.fallbackNextAction()) },
+            { label: '影响下游', value: sensitiveProjectionDisplayText(current.downstreamConsumerSummaryProjection, '当前无额外下游影响说明') }
         ];
     });
 

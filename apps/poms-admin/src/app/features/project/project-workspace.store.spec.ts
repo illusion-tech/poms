@@ -33,6 +33,16 @@ import {
 } from '@poms/admin-data-access';
 import { of, throwError } from 'rxjs';
 
+function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
+    return {
+        fieldPackageKey: 'operating-finance',
+        mode,
+        value,
+        displayText: value ?? '经营敏感字段已隐藏',
+        reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
 describe('ProjectWorkspaceStore', () => {
     let store: ProjectWorkspaceStore;
     const freezeVersionSummary = {
@@ -845,12 +855,12 @@ describe('ProjectWorkspaceStore', () => {
     it('loads operating overview and unified accounting into shared state', async () => {
         const overview: ProjectBusinessOutcomeOverviewView = {
             projectId: 'project-1',
-            effectiveContractSetSummary: '200000.00',
-            receivableConfirmedAmountSummary: '80000.00',
-            includedCostTotalSummary: '120000.00',
-            currentEffectiveBaselineCostSummary: '105000.00',
-            grossMarginSummary: '毛利正常',
-            taxImpactSummary: 'Tax package is pending closeout',
+            effectiveContractSetSummaryProjection: sensitiveProjection('200000.00'),
+            receivableConfirmedAmountSummaryProjection: sensitiveProjection('80000.00'),
+            includedCostTotalSummaryProjection: sensitiveProjection('120000.00'),
+            currentEffectiveBaselineCostSummaryProjection: sensitiveProjection('105000.00'),
+            grossMarginSummaryProjection: sensitiveProjection('毛利正常'),
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
             allocationStabilitySummary: 'Allocation basis shifted after restatement',
             unmappedCostSummary: 'Unmapped delivery cost detected',
             dataMaturityLevel: '数据不足',
@@ -862,12 +872,12 @@ describe('ProjectWorkspaceStore', () => {
         const accounting: ProjectUnifiedAccountingView = {
             projectId: 'project-1',
             snapshotId: 'snapshot-1',
-            originalBaselineCostSummary: '100000.00',
-            currentEffectiveBaselineCostSummary: '105000.00',
-            includedCostTotalSummary: '120000.00',
-            receivableConfirmedAmountSummary: '80000.00',
-            taxImpactSummary: 'Tax package is pending closeout',
-            taxImpactPendingAmount: '1200.00',
+            originalBaselineCostSummaryProjection: sensitiveProjection('100000.00'),
+            currentEffectiveBaselineCostSummaryProjection: sensitiveProjection('105000.00'),
+            includedCostTotalSummaryProjection: sensitiveProjection('120000.00'),
+            receivableConfirmedAmountSummaryProjection: sensitiveProjection('80000.00'),
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
+            taxImpactPendingAmountProjection: sensitiveProjection('1200.00'),
             allocationStabilitySummary: 'Allocation basis shifted after restatement',
             unmappedCostSummary: 'Unmapped delivery cost detected',
             dataMaturityLevel: '数据不足',
@@ -1125,12 +1135,12 @@ describe('ProjectWorkspaceStore', () => {
     it('clears all workspace state when clear is called', async () => {
         const overview: ProjectBusinessOutcomeOverviewView = {
             projectId: 'project-1',
-            effectiveContractSetSummary: '200000.00',
-            receivableConfirmedAmountSummary: '80000.00',
-            includedCostTotalSummary: '120000.00',
-            currentEffectiveBaselineCostSummary: '105000.00',
-            grossMarginSummary: '毛利正常',
-            taxImpactSummary: 'Tax package is pending closeout',
+            effectiveContractSetSummaryProjection: sensitiveProjection('200000.00'),
+            receivableConfirmedAmountSummaryProjection: sensitiveProjection('80000.00'),
+            includedCostTotalSummaryProjection: sensitiveProjection('120000.00'),
+            currentEffectiveBaselineCostSummaryProjection: sensitiveProjection('105000.00'),
+            grossMarginSummaryProjection: sensitiveProjection('毛利正常'),
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
             allocationStabilitySummary: null,
             unmappedCostSummary: null,
             dataMaturityLevel: '数据不足',
@@ -1142,12 +1152,12 @@ describe('ProjectWorkspaceStore', () => {
         const accounting: ProjectUnifiedAccountingView = {
             projectId: 'project-1',
             snapshotId: 'snapshot-1',
-            originalBaselineCostSummary: '100000.00',
-            currentEffectiveBaselineCostSummary: '105000.00',
-            includedCostTotalSummary: '120000.00',
-            receivableConfirmedAmountSummary: '80000.00',
-            taxImpactSummary: 'Tax package is pending closeout',
-            taxImpactPendingAmount: '1200.00',
+            originalBaselineCostSummaryProjection: sensitiveProjection('100000.00'),
+            currentEffectiveBaselineCostSummaryProjection: sensitiveProjection('105000.00'),
+            includedCostTotalSummaryProjection: sensitiveProjection('120000.00'),
+            receivableConfirmedAmountSummaryProjection: sensitiveProjection('80000.00'),
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
+            taxImpactPendingAmountProjection: sensitiveProjection('1200.00'),
             allocationStabilitySummary: null,
             unmappedCostSummary: null,
             dataMaturityLevel: '数据不足',
@@ -1159,9 +1169,9 @@ describe('ProjectWorkspaceStore', () => {
         const varianceRisk: ProjectVarianceRiskExplanationView = {
             projectId: 'project-1',
             signalEvaluationId: 'signal-1',
-            varianceSourceSummary: 'Gross margin deviates from baseline expectation',
+            varianceSourceSummaryProjection: sensitiveProjection('Gross margin deviates from baseline expectation'),
             riskLevel: 'ATTENTION',
-            taxImpactSummary: 'Tax package is pending closeout',
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
             allocationStabilitySummary: null,
             unmappedCostSummary: null,
             dataMaturityLevel: '数据不足',
@@ -1176,15 +1186,15 @@ describe('ProjectWorkspaceStore', () => {
             projectId: 'project-1',
             signalLevel: 'ATTENTION',
             currentActionLevel: 'REVIEW',
-            taxImpactSummary: 'Tax package is pending closeout',
+            taxImpactSummaryProjection: sensitiveProjection('Tax package is pending closeout'),
             allocationStabilitySummary: null,
             unmappedCostSummary: null,
             dataMaturityLevel: '数据不足',
             costActionRecommendation: 'REVIEW',
             referencedBaselineVersion: 'baseline-v1',
             referencedSnapshotVersion: 'snapshot-v1',
-            nextActionSummary: 'Review commission settlement package',
-            downstreamConsumerSummary: 'Commission payout workflow',
+            nextActionSummaryProjection: sensitiveProjection('Review commission settlement package'),
+            downstreamConsumerSummaryProjection: sensitiveProjection('Commission payout workflow'),
             allowedActions: ['reviewCommissionGateBinding']
         };
         const finalSettlement: CommissionFinalSettlementView = {

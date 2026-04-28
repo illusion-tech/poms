@@ -86,16 +86,17 @@ import type {
     ReviewCommissionGateBindingResult,
     ReviewOperatingSignalEvaluationResult,
     SharedCostAllocationBasisSummary,
-    SharedCostAllocationResultListView
+    SharedCostAllocationResultListView,
+    UserPayload
 } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
+import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { ProjectCostService } from './project-cost.service';
 
-interface AuthenticatedRequest extends Request {
-    user?: {
-        sub: string;
-    };
+interface AuthenticatedRequest extends RuntimeAuditRequestLike {
+    user?: UserPayload;
 }
 
 interface ProjectActualCostRecordListQuery {
@@ -425,16 +426,30 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目经营结果总览' })
     @ApiOkResponse({ type: ProjectBusinessOutcomeOverviewViewDto })
-    async getProjectBusinessOutcomeOverview(@Param('projectId') projectId: string): Promise<ProjectBusinessOutcomeOverviewView> {
-        return this.projectCostService.getProjectBusinessOutcomeOverview(projectId);
+    async getProjectBusinessOutcomeOverview(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ProjectBusinessOutcomeOverviewView> {
+        return this.projectCostService.getProjectBusinessOutcomeOverview(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-outcome-overview`)
+        );
     }
 
     @Get('projects/:projectId/unified-accounting')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目统一核算视图' })
     @ApiOkResponse({ type: ProjectUnifiedAccountingViewDto })
-    async getProjectUnifiedAccounting(@Param('projectId') projectId: string): Promise<ProjectUnifiedAccountingView> {
-        return this.projectCostService.getProjectUnifiedAccounting(projectId);
+    async getProjectUnifiedAccounting(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<ProjectUnifiedAccountingView> {
+        return this.projectCostService.getProjectUnifiedAccounting(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/unified-accounting`)
+        );
     }
 
     @Get('projects/:projectId/variance-risk-explanation')
@@ -442,17 +457,29 @@ export class ProjectCostController {
     @ApiOperation({ summary: '获取项目偏差与风险解释' })
     @ApiOkResponse({ type: ProjectVarianceRiskExplanationViewDto })
     async getProjectVarianceRiskExplanation(
-        @Param('projectId') projectId: string
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
     ): Promise<ProjectVarianceRiskExplanationView> {
-        return this.projectCostService.getProjectVarianceRiskExplanation(projectId);
+        return this.projectCostService.getProjectVarianceRiskExplanation(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/variance-risk-explanation`)
+        );
     }
 
     @Get('projects/:projectId/business-accounting-feedback')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目经营核算反哺视图' })
     @ApiOkResponse({ type: BusinessAccountingFeedbackViewDto })
-    async getBusinessAccountingFeedback(@Param('projectId') projectId: string): Promise<BusinessAccountingFeedbackView> {
-        return this.projectCostService.getBusinessAccountingFeedback(projectId);
+    async getBusinessAccountingFeedback(
+        @Param('projectId') projectId: string,
+        @Request() req: AuthenticatedRequest
+    ): Promise<BusinessAccountingFeedbackView> {
+        return this.projectCostService.getBusinessAccountingFeedback(
+            projectId,
+            req.user ?? null,
+            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-accounting-feedback`)
+        );
     }
 
     @Get('projects/:projectId/expense-records')

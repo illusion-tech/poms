@@ -8,20 +8,21 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface BusinessAccountingFeedbackView {
     projectId: string;
     signalLevel: string;
     currentActionLevel: OperatingSnapshotActionLevel;
-    taxImpactSummary: string;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
     dataMaturityLevel: string;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
-    nextActionSummary: string | null;
-    downstreamConsumerSummary: string | null;
+    nextActionSummaryProjection: SensitiveStringFieldProjection;
+    downstreamConsumerSummaryProjection: SensitiveStringFieldProjection;
     allowedActions: Array<string>;
 }

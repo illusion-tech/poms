@@ -15200,23 +15200,23 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "effectiveContractSetSummary": {
-            "type": "string"
+          "effectiveContractSetSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "receivableConfirmedAmountSummary": {
-            "type": "string"
+          "receivableConfirmedAmountSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "includedCostTotalSummary": {
-            "type": "string"
+          "includedCostTotalSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "currentEffectiveBaselineCostSummary": {
-            "type": "string"
+          "currentEffectiveBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "grossMarginSummary": {
-            "type": "string"
+          "grossMarginSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "allocationStabilitySummary": {
             "type": "string",
@@ -15247,12 +15247,12 @@
         },
         "required": [
           "projectId",
-          "effectiveContractSetSummary",
-          "receivableConfirmedAmountSummary",
-          "includedCostTotalSummary",
-          "currentEffectiveBaselineCostSummary",
-          "grossMarginSummary",
-          "taxImpactSummary",
+          "effectiveContractSetSummaryProjection",
+          "receivableConfirmedAmountSummaryProjection",
+          "includedCostTotalSummaryProjection",
+          "currentEffectiveBaselineCostSummaryProjection",
+          "grossMarginSummaryProjection",
+          "taxImpactSummaryProjection",
           "allocationStabilitySummary",
           "unmappedCostSummary",
           "dataMaturityLevel",
@@ -15275,23 +15275,23 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "originalBaselineCostSummary": {
-            "type": "string"
+          "originalBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "currentEffectiveBaselineCostSummary": {
-            "type": "string"
+          "currentEffectiveBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "includedCostTotalSummary": {
-            "type": "string"
+          "includedCostTotalSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "receivableConfirmedAmountSummary": {
-            "type": "string"
+          "receivableConfirmedAmountSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "taxImpactPendingAmount": {
-            "type": "string"
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "allocationStabilitySummary": {
             "type": "string",
@@ -15323,12 +15323,12 @@
         "required": [
           "projectId",
           "snapshotId",
-          "originalBaselineCostSummary",
-          "currentEffectiveBaselineCostSummary",
-          "includedCostTotalSummary",
-          "receivableConfirmedAmountSummary",
-          "taxImpactSummary",
-          "taxImpactPendingAmount",
+          "originalBaselineCostSummaryProjection",
+          "currentEffectiveBaselineCostSummaryProjection",
+          "includedCostTotalSummaryProjection",
+          "receivableConfirmedAmountSummaryProjection",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
           "allocationStabilitySummary",
           "unmappedCostSummary",
           "dataMaturityLevel",
@@ -15351,14 +15351,14 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "varianceSourceSummary": {
-            "type": "string"
+          "varianceSourceSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "riskLevel": {
             "type": "string"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "allocationStabilitySummary": {
             "type": "string",
@@ -15397,9 +15397,9 @@
         "required": [
           "projectId",
           "signalEvaluationId",
-          "varianceSourceSummary",
+          "varianceSourceSummaryProjection",
           "riskLevel",
-          "taxImpactSummary",
+          "taxImpactSummaryProjection",
           "allocationStabilitySummary",
           "unmappedCostSummary",
           "dataMaturityLevel",
@@ -15425,8 +15425,8 @@
           "currentActionLevel": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
           },
-          "taxImpactSummary": {
-            "type": "string"
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "allocationStabilitySummary": {
             "type": "string",
@@ -15448,13 +15448,11 @@
           "referencedSnapshotVersion": {
             "type": "string"
           },
-          "nextActionSummary": {
-            "type": "string",
-            "nullable": true
+          "nextActionSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
-          "downstreamConsumerSummary": {
-            "type": "string",
-            "nullable": true
+          "downstreamConsumerSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "allowedActions": {
             "type": "array",
@@ -15467,15 +15465,15 @@
           "projectId",
           "signalLevel",
           "currentActionLevel",
-          "taxImpactSummary",
+          "taxImpactSummaryProjection",
           "allocationStabilitySummary",
           "unmappedCostSummary",
           "dataMaturityLevel",
           "costActionRecommendation",
           "referencedBaselineVersion",
           "referencedSnapshotVersion",
-          "nextActionSummary",
-          "downstreamConsumerSummary",
+          "nextActionSummaryProjection",
+          "downstreamConsumerSummaryProjection",
           "allowedActions"
         ]
       },

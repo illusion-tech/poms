@@ -47,12 +47,15 @@ import type {
     SharedCostAllocationBasisSummary,
     SharedCostAllocationResultListView,
     SharedCostAllocationResultSummary,
+    SensitiveStringFieldProjection,
     UpdateExpenseRecordRequest,
+    UserPayload,
     VoidExpenseRecordRequest
 } from '@poms/shared-contracts';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
+import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import type { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import type { CommissionGateReviewRecord } from './commission-gate-review-record.entity';
@@ -101,6 +104,8 @@ interface ProjectActualCostRecordFilters {
     sourceType?: string;
 }
 
+type SensitiveProjectionUser = Pick<UserPayload, 'sub' | 'username' | 'permissions'> | null;
+
 @Injectable()
 export class ProjectCostService {
     constructor(
@@ -124,7 +129,8 @@ export class ProjectCostService {
         private readonly operatingSignalReviewRecordRepository: OperatingSignalReviewRecordRepository,
         private readonly operatingSignalToCommissionGateBindingRepository: OperatingSignalToCommissionGateBindingRepository,
         private readonly commissionGateReviewRecordRepository: CommissionGateReviewRecordRepository,
-        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository
+        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -1712,18 +1718,43 @@ export class ProjectCostService {
         };
     }
 
-    async getProjectBusinessOutcomeOverview(projectId: string): Promise<ProjectBusinessOutcomeOverviewView> {
+    async getProjectBusinessOutcomeOverview(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-business-outcome-overview:${projectId}` }
+    ): Promise<ProjectBusinessOutcomeOverviewView> {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+        const effectiveContractSetSummary = this.toNullableDecimal(context.snapshot.effectiveContractTotal) ?? '0.0000';
+        const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000';
+        const includedCostTotalSummary = this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000';
+        const currentEffectiveBaselineCostSummary =
+            this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
+        const grossMarginSummary = this.buildGrossMarginSummary(context.snapshot);
+        const taxImpactSummary = context.snapshot.taxImpactSummary;
+        const [
+            effectiveContractSetSummaryProjection,
+            receivableConfirmedAmountSummaryProjection,
+            includedCostTotalSummaryProjection,
+            currentEffectiveBaselineCostSummaryProjection,
+            grossMarginSummaryProjection,
+            taxImpactSummaryProjection
+        ] = await Promise.all([
+            this.projectOperatingFinanceField(projectId, effectiveContractSetSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, grossMarginSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext)
+        ]);
 
         return {
             projectId,
-            effectiveContractSetSummary: this.toNullableDecimal(context.snapshot.effectiveContractTotal) ?? '0.0000',
-            receivableConfirmedAmountSummary: this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000',
-            includedCostTotalSummary: this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000',
-            currentEffectiveBaselineCostSummary:
-                this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000',
-            grossMarginSummary: this.buildGrossMarginSummary(context.snapshot),
-            taxImpactSummary: context.snapshot.taxImpactSummary,
+            effectiveContractSetSummaryProjection,
+            receivableConfirmedAmountSummaryProjection,
+            includedCostTotalSummaryProjection,
+            currentEffectiveBaselineCostSummaryProjection,
+            grossMarginSummaryProjection,
+            taxImpactSummaryProjection,
             allocationStabilitySummary:
                 context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
@@ -1738,19 +1769,44 @@ export class ProjectCostService {
         };
     }
 
-    async getProjectUnifiedAccounting(projectId: string): Promise<ProjectUnifiedAccountingView> {
+    async getProjectUnifiedAccounting(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-unified-accounting:${projectId}` }
+    ): Promise<ProjectUnifiedAccountingView> {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+        const originalBaselineCostSummary = this.toNullableDecimal(context.snapshot.originalBaselineCost) ?? '0.0000';
+        const currentEffectiveBaselineCostSummary =
+            this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000';
+        const includedCostTotalSummary = this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000';
+        const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000';
+        const taxImpactSummary = context.snapshot.taxImpactSummary;
+        const taxImpactPendingAmount = this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? '0.0000';
+        const [
+            originalBaselineCostSummaryProjection,
+            currentEffectiveBaselineCostSummaryProjection,
+            includedCostTotalSummaryProjection,
+            receivableConfirmedAmountSummaryProjection,
+            taxImpactSummaryProjection,
+            taxImpactPendingAmountProjection
+        ] = await Promise.all([
+            this.projectOperatingFinanceField(projectId, originalBaselineCostSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, currentEffectiveBaselineCostSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, includedCostTotalSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, receivableConfirmedAmountSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, taxImpactPendingAmount, user, requestContext)
+        ]);
 
         return {
             projectId,
             snapshotId: context.snapshot.id,
-            originalBaselineCostSummary: this.toNullableDecimal(context.snapshot.originalBaselineCost) ?? '0.0000',
-            currentEffectiveBaselineCostSummary:
-                this.toNullableDecimal(context.snapshot.currentEffectiveBaselineCost) ?? '0.0000',
-            includedCostTotalSummary: this.toNullableDecimal(context.snapshot.includedCostTotal) ?? '0.0000',
-            receivableConfirmedAmountSummary: this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? '0.0000',
-            taxImpactSummary: context.snapshot.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? '0.0000',
+            originalBaselineCostSummaryProjection,
+            currentEffectiveBaselineCostSummaryProjection,
+            includedCostTotalSummaryProjection,
+            receivableConfirmedAmountSummaryProjection,
+            taxImpactSummaryProjection,
+            taxImpactPendingAmountProjection,
             allocationStabilitySummary:
                 context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
@@ -1765,15 +1821,25 @@ export class ProjectCostService {
         };
     }
 
-    async getProjectVarianceRiskExplanation(projectId: string): Promise<ProjectVarianceRiskExplanationView> {
+    async getProjectVarianceRiskExplanation(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-variance-risk-explanation:${projectId}` }
+    ): Promise<ProjectVarianceRiskExplanationView> {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
+        const varianceSourceSummary = context.evaluation.varianceSourceSummary;
+        const taxImpactSummary = context.evaluation.taxImpactSummary;
+        const [varianceSourceSummaryProjection, taxImpactSummaryProjection] = await Promise.all([
+            this.projectOperatingFinanceField(projectId, varianceSourceSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext)
+        ]);
 
         return {
             projectId,
             signalEvaluationId: context.evaluation.id,
-            varianceSourceSummary: context.evaluation.varianceSourceSummary,
+            varianceSourceSummaryProjection,
             riskLevel: context.evaluation.riskLevel,
-            taxImpactSummary: context.evaluation.taxImpactSummary,
+            taxImpactSummaryProjection,
             allocationStabilitySummary:
                 context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
@@ -1790,7 +1856,11 @@ export class ProjectCostService {
         };
     }
 
-    async getBusinessAccountingFeedback(projectId: string): Promise<BusinessAccountingFeedbackView> {
+    async getBusinessAccountingFeedback(
+        projectId: string,
+        user: SensitiveProjectionUser = null,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `business-accounting-feedback:${projectId}` }
+    ): Promise<BusinessAccountingFeedbackView> {
         const context = await this.getCurrentProjectOperatingSignalContext(projectId);
         const bindings = await this.operatingSignalToCommissionGateBindingRepository.findActiveByProject(projectId);
         if (bindings.length === 0) {
@@ -1808,24 +1878,30 @@ export class ProjectCostService {
         const mostSevereBindings = bindings.filter(
             (binding) => this.getActionSeverity(binding.bindingAction) === this.getActionSeverity(selectedBinding.bindingAction)
         );
+        const taxImpactSummary = selectedBinding.taxImpactSummary;
+        const nextActionSummary = this.combineSummaries(mostSevereBindings.map((binding) => binding.nextActionSummary ?? null));
+        const downstreamConsumerSummary = this.combineSummaries(
+            mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null)
+        );
+        const [taxImpactSummaryProjection, nextActionSummaryProjection, downstreamConsumerSummaryProjection] = await Promise.all([
+            this.projectOperatingFinanceField(projectId, taxImpactSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, nextActionSummary, user, requestContext),
+            this.projectOperatingFinanceField(projectId, downstreamConsumerSummary, user, requestContext)
+        ]);
 
         return {
             projectId,
             signalLevel: selectedEvaluation.signalLevel,
             currentActionLevel: context.resolvedSignalInput.currentActionLevel,
-            taxImpactSummary: selectedBinding.taxImpactSummary,
+            taxImpactSummaryProjection,
             allocationStabilitySummary: selectedBinding.allocationStabilitySummary ?? null,
             unmappedCostSummary: selectedBinding.unmappedCostSummary ?? null,
             dataMaturityLevel: context.resolvedSignalInput.dataMaturityLevel,
             costActionRecommendation: context.resolvedSignalInput.costActionRecommendation,
             referencedBaselineVersion: context.resolvedSignalInput.referencedBaselineVersion,
             referencedSnapshotVersion: context.resolvedSignalInput.referencedSnapshotVersion,
-            nextActionSummary: this.combineSummaries(
-                mostSevereBindings.map((binding) => binding.nextActionSummary ?? null)
-            ),
-            downstreamConsumerSummary: this.combineSummaries(
-                mostSevereBindings.map((binding) => binding.downstreamConsumerSummary ?? null)
-            ),
+            nextActionSummaryProjection,
+            downstreamConsumerSummaryProjection,
             allowedActions: this.buildCommissionGateAllowedActions(
                 selectedBinding.bindingAction,
                 selectedBinding.taxImpactSummary,
@@ -2776,6 +2852,22 @@ export class ProjectCostService {
         }
 
         return selectedBinding;
+    }
+
+    private projectOperatingFinanceField(
+        projectId: string,
+        rawValue: string | null,
+        user: SensitiveProjectionUser,
+        requestContext: SensitiveFieldProjectionRequestContext
+    ): Promise<SensitiveStringFieldProjection> {
+        return this.sensitiveFieldProjectionService.projectStringField({
+            fieldPackageKey: 'operating-finance',
+            rawValue,
+            user,
+            targetType: 'Project',
+            targetId: projectId,
+            requestContext
+        });
     }
 
     private combineSummaries(summaries: Array<string | null>): string | null {

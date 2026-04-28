@@ -8,9 +8,12 @@ import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/w
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import {
+    formatSensitiveAmountProjection,
+    sensitiveProjectionDisplayText
+} from '../../shared/ui/sensitive-visibility';
+import {
     actionLevelLabel,
-    actionLevelSeverity,
-    formatAmount
+    actionLevelSeverity
 } from './project-presentation';
 
 @Component({
@@ -107,12 +110,12 @@ export class ProjectOperatingOverview implements OnInit {
         }
 
         return [
-            { label: '有效合同额', value: formatAmount(overview.effectiveContractSetSummary), emphasis: true },
-            { label: '确认回款', value: formatAmount(overview.receivableConfirmedAmountSummary), emphasis: true },
-            { label: '已归集成本', value: formatAmount(overview.includedCostTotalSummary), emphasis: true },
-            { label: '原始基线成本', value: formatAmount(accounting.originalBaselineCostSummary), emphasis: true },
-            { label: '当前有效基线成本', value: formatAmount(accounting.currentEffectiveBaselineCostSummary), emphasis: true },
-            { label: '毛利摘要', value: overview.grossMarginSummary, emphasis: true }
+            { label: '有效合同额', value: formatSensitiveAmountProjection(overview.effectiveContractSetSummaryProjection), emphasis: true },
+            { label: '确认回款', value: formatSensitiveAmountProjection(overview.receivableConfirmedAmountSummaryProjection), emphasis: true },
+            { label: '已归集成本', value: formatSensitiveAmountProjection(overview.includedCostTotalSummaryProjection), emphasis: true },
+            { label: '原始基线成本', value: formatSensitiveAmountProjection(accounting.originalBaselineCostSummaryProjection), emphasis: true },
+            { label: '当前有效基线成本', value: formatSensitiveAmountProjection(accounting.currentEffectiveBaselineCostSummaryProjection), emphasis: true },
+            { label: '毛利摘要', value: sensitiveProjectionDisplayText(overview.grossMarginSummaryProjection), emphasis: true }
         ];
     });
 
@@ -126,8 +129,8 @@ export class ProjectOperatingOverview implements OnInit {
         return [
             {
                 label: '税务影响',
-                value: overview.taxImpactSummary,
-                detail: `待明确金额 ${formatAmount(accounting.taxImpactPendingAmount)}`
+                value: sensitiveProjectionDisplayText(overview.taxImpactSummaryProjection),
+                detail: `待明确金额 ${formatSensitiveAmountProjection(accounting.taxImpactPendingAmountProjection)}`
             },
             {
                 label: '建议动作',

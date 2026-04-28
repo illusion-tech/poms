@@ -8,14 +8,15 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface ProjectVarianceRiskExplanationView {
     projectId: string;
     signalEvaluationId: string;
-    varianceSourceSummary: string;
+    varianceSourceSummaryProjection: SensitiveStringFieldProjection;
     riskLevel: string;
-    taxImpactSummary: string;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
     dataMaturityLevel: string;

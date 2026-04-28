@@ -7,6 +7,7 @@ import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import { actionLevelLabel, actionLevelSeverity, signalLevelLabelOrFallback } from './project-presentation';
 
 @Component({
@@ -91,9 +92,9 @@ export class ProjectVarianceRisk implements OnInit {
         }
 
         return [
-            { label: '偏差来源', value: current.varianceSourceSummary },
+            { label: '偏差来源', value: sensitiveProjectionDisplayText(current.varianceSourceSummaryProjection) },
             { label: '推荐动作说明', value: current.recommendedActionSummary ?? this.fallbackRecommendation() },
-            { label: '税务影响', value: current.taxImpactSummary },
+            { label: '税务影响', value: sensitiveProjectionDisplayText(current.taxImpactSummaryProjection) },
             { label: '版本锚点', value: `${current.referencedBaselineVersion} / ${current.referencedSnapshotVersion}` }
         ];
     });

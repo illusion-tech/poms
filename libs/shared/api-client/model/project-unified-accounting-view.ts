@@ -8,17 +8,18 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface ProjectUnifiedAccountingView {
     projectId: string;
     snapshotId: string;
-    originalBaselineCostSummary: string;
-    currentEffectiveBaselineCostSummary: string;
-    includedCostTotalSummary: string;
-    receivableConfirmedAmountSummary: string;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
+    originalBaselineCostSummaryProjection: SensitiveStringFieldProjection;
+    currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjection;
+    includedCostTotalSummaryProjection: SensitiveStringFieldProjection;
+    receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
     dataMaturityLevel: string;

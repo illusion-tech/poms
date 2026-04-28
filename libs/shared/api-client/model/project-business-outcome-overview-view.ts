@@ -8,16 +8,17 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface ProjectBusinessOutcomeOverviewView {
     projectId: string;
-    effectiveContractSetSummary: string;
-    receivableConfirmedAmountSummary: string;
-    includedCostTotalSummary: string;
-    currentEffectiveBaselineCostSummary: string;
-    grossMarginSummary: string;
-    taxImpactSummary: string;
+    effectiveContractSetSummaryProjection: SensitiveStringFieldProjection;
+    receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjection;
+    includedCostTotalSummaryProjection: SensitiveStringFieldProjection;
+    currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjection;
+    grossMarginSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
     dataMaturityLevel: string;
