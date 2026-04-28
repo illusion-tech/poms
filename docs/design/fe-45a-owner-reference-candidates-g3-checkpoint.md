@@ -6,7 +6,7 @@
 - Slice Type: `cross-layer corrective`
 - Checkpoint Date: `2026-04-29`
 - Tracker Link / Row: `docs/design/phase2-development-execution-tracker.md` / `FE-45A`
-- Runtime Commit: `Pending`
+- Runtime Commit: `9b6fcb9 feat(project): 完成 FE-45A 销售负责人候选查询闭环`
 
 ## 1. Problem Summary
 
@@ -61,7 +61,7 @@
 ## 6. G3 Conclusion
 
 - Gate Status: `Pass`
-- Commit / G4 Status: `Pending`
+- Commit / G4 Status: closed by `9b6fcb9` and `docs/design/archive/slices/fe-45a-owner-reference-candidates-g4-closeout.md`
 - Conditions:
-  1. 提交后可将 `FE-45A` 从 `Doing / G3` 推进到 `Done / G4`。
+  1. `FE-45A` 已从 `Doing / G3` 推进到 `Done / G4`。
   2. `GET /platform/owner-reference` 保持只读最小字段，不得扩展为平台用户管理列表替代品。

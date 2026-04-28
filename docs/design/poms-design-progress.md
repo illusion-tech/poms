@@ -487,7 +487,7 @@
 8. 2026-04-29 `FE-45` 已完成 `G1` 冻结：线索登记默认当前用户并允许选择销售主责，转项目只展示继承的销售主责，项目详情通过 `reassign-project-owner` action key 暴露受控变更入口；本片不改 `ConvertLeadToProjectRequest`。
 9. 2026-04-29 `FE-45` 已完成本地 `G3`：线索登记销售主责选择、确认有效 / 转项目 owner 展示、项目详情受控变更入口、`ProjectStore.reassignProjectOwner`、focused unit 和 targeted Playwright journey 均已通过；提交后可推进 `G4`。
 10. 2026-04-29 已完成 `FE-45` 的 `G4` 收口，提交 `7d80276` 固定线索登记销售主责选择、转项目继承展示和项目详情受控变更入口；`FE45-E1-CONVERSION-OWNER-OVERRIDE-DEFERRED` 继续作为后续 DTO 决策留存。
-11. 2026-04-29 用户验收发现销售账号登记线索时销售主责 / 主责组织下拉为空，根因是前端误用平台管理用户 / 组织列表；`FE-45A` 已完成本地 `G3`，新增 `GET /platform/owner-reference` 最小只读候选接口、`HasAnyPermissions` 权限边界、前端 owner reference store，并用销售账号 Playwright 回归验证下拉候选可见，提交后可进入 `G4`。
+11. 2026-04-29 用户验收发现销售账号登记线索时销售主责 / 主责组织下拉为空，根因是前端误用平台管理用户 / 组织列表；`FE-45A` 已完成 `G4` 收口，提交 `9b6fcb9` 落地 `GET /platform/owner-reference` 最小只读候选接口、`HasAnyPermissions` 权限边界、前端 owner reference store，并用销售账号 Playwright 回归验证下拉候选可见。
 
 ---
 
