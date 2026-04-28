@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, type LeadDetailView, type LeadListView, type LeadStatus } from '@poms/admin-data-access';
+import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type LeadStatus, type PlatformUserSummary } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -32,10 +32,16 @@ interface LeadSummaryItem {
     hint: string;
 }
 
+interface LeadOwnerUserOption extends LeadFilterOption {
+    primaryOrgUnitId: string | null;
+}
+
 interface CreateLeadForm {
     leadName: string;
     customerName: string;
     sourceChannel: string;
+    ownerUserId: string | null;
+    ownerOrgId: string | null;
 }
 
 interface ConvertProjectForm {
@@ -58,7 +64,9 @@ const LEAD_STATUS = {
 const EMPTY_CREATE_FORM: CreateLeadForm = {
     leadName: '',
     customerName: '',
-    sourceChannel: ''
+    sourceChannel: '',
+    ownerUserId: null,
+    ownerOrgId: null
 };
 
 const EMPTY_CONVERT_FORM: ConvertProjectForm = {
@@ -137,7 +145,7 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
 
                                     <p-iconfield class="w-full md:w-80">
                                         <p-inputicon class="pi pi-search" />
-                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、负责人" class="w-full! rounded-md! py-2!" />
+                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
                                     </p-iconfield>
 
                                     <p-select
@@ -185,8 +193,8 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
                                 </th>
                                 <th pSortableColumn="ownerName" class="min-w-52">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">负责人 <p-sortIcon field="ownerName" /></span>
-                                        <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按负责人筛选" />
+                                        <span class="flex items-center gap-2">销售主责 <p-sortIcon field="ownerName" /></span>
+                                        <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按销售主责筛选" />
                                     </div>
                                 </th>
                                 <th pSortableColumn="updatedAt" class="min-w-44">
@@ -269,6 +277,44 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
                         <label for="sourceChannel" class="text-sm font-medium text-surface-900 dark:text-surface-0">来源渠道</label>
                         <input pInputText id="sourceChannel" [ngModel]="createForm().sourceChannel" (ngModelChange)="updateCreateField('sourceChannel', $event)" placeholder="例如：客户拜访、老客户转介绍" class="w-full rounded-md!" />
                     </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <label for="leadOwnerUserId" class="text-sm font-medium text-surface-900 dark:text-surface-0">销售主责</label>
+                            <p-select
+                                inputId="leadOwnerUserId"
+                                [ngModel]="createForm().ownerUserId"
+                                (ngModelChange)="updateCreateOwnerUser($event)"
+                                [options]="ownerUserOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="选择销售主责"
+                                styleClass="w-full rounded-md!"
+                            />
+                            @if (createAttempted() && !createForm().ownerUserId) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择销售主责。</span>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="leadOwnerOrgId" class="text-sm font-medium text-surface-900 dark:text-surface-0">主责组织</label>
+                            <p-select
+                                inputId="leadOwnerOrgId"
+                                [ngModel]="createForm().ownerOrgId"
+                                (ngModelChange)="updateCreateOwnerOrg($event)"
+                                [options]="ownerOrgOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [showClear]="true"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="可留空"
+                                styleClass="w-full rounded-md!"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <ng-template #footer>
@@ -301,7 +347,7 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
                                 <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ displayText(lead.sourceChannel, '未填写') }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                                <dt class="text-xs text-surface-500 dark:text-surface-400">负责人</dt>
+                                <dt class="text-xs text-surface-500 dark:text-surface-400">销售主责</dt>
                                 <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ displayText(lead.ownerName, '未分配') }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
@@ -355,6 +401,18 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
             <p-dialog [(visible)]="qualifyDialogVisible" [modal]="true" header="确认线索有效" [style]="{ width: '32rem' }" (onHide)="resetQualifyDialog()">
                 <div class="flex flex-col gap-3 py-2">
                     <p class="m-0 text-sm text-surface-600 dark:text-surface-300">说明为什么这条线索可以进入正式项目推进。</p>
+                    @if (actionTarget(); as lead) {
+                        <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
+                            <div>
+                                <div class="text-xs text-surface-500 dark:text-surface-400">当前销售主责</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerName, '未分配') }}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-surface-500 dark:text-surface-400">主责组织</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerOrgName, '未归属组织') }}</div>
+                            </div>
+                        </div>
+                    }
                     <textarea pTextarea rows="5" [ngModel]="qualificationSummary()" (ngModelChange)="qualificationSummary.set($event)" class="w-full rounded-md!" placeholder="例如：客户预算明确，已确认采购意向。"></textarea>
                     @if (actionAttempted() && !qualificationSummary().trim()) {
                         <span class="text-xs text-red-600 dark:text-red-300">请填写有效性说明。</span>
@@ -372,6 +430,16 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
                 <div class="flex flex-col gap-4 py-2">
                     @if (actionTarget(); as lead) {
                         <app-workspace-feedback severity="info" summary="将有效线索转为正式项目" [detail]="lead.customerName + ' · ' + lead.leadName" />
+                        <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
+                            <div>
+                                <div class="text-xs text-surface-500 dark:text-surface-400">项目销售主责（继承线索）</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerName, '未分配') }}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-surface-500 dark:text-surface-400">项目主责组织</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerOrgName, '未归属组织') }}</div>
+                            </div>
+                        </div>
                     }
 
                     @if (convertError()) {
@@ -439,6 +507,7 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
 export class LeadList implements OnInit {
     readonly #authStore = inject(AuthStore);
     readonly #leadStore = inject(LeadStore);
+    readonly #platformStore = inject(PlatformStore);
     readonly #router = inject(Router);
 
     readonly leads = this.#leadStore.leads;
@@ -472,6 +541,29 @@ export class LeadList implements OnInit {
 
     readonly statusColumnFilterOptions: LeadColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
+    readonly ownerUserOptions = computed<LeadOwnerUserOption[]>(() =>
+        this.#platformStore
+            .users()
+            .filter((user) => user.isActive)
+            .map((user) => ({
+                label: this.ownerUserLabel(user),
+                value: user.id,
+                primaryOrgUnitId: user.primaryOrgUnitId
+            }))
+    );
+
+    readonly ownerOrgOptions = computed<LeadFilterOption[]>(() =>
+        this.#platformStore
+            .orgUnits()
+            .filter((orgUnit) => orgUnit.isActive)
+            .map((orgUnit) => ({
+                label: orgUnit.name,
+                value: orgUnit.id
+            }))
+    );
+
+    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingUsers() || this.#platformStore.loadingOrgUnits());
+
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
 
     readonly visibleLeads = computed(() => {
@@ -501,11 +593,12 @@ export class LeadList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.leadName.trim() && form.customerName.trim());
+        return Boolean(form.leadName.trim() && form.customerName.trim() && form.ownerUserId);
     });
 
     ngOnInit() {
         void this.ensureAuthReady();
+        void this.loadOwnerReferenceData();
         void this.loadLeads();
     }
 
@@ -550,7 +643,7 @@ export class LeadList implements OnInit {
             return;
         }
 
-        this.createForm.set({ ...EMPTY_CREATE_FORM });
+        this.createForm.set(this.defaultCreateForm());
         this.createAttempted.set(false);
         this.createError.set(null);
         this.createDialogVisible = true;
@@ -566,10 +659,29 @@ export class LeadList implements OnInit {
         this.createError.set(null);
     }
 
-    updateCreateField(field: keyof CreateLeadForm, value: string) {
+    updateCreateField(field: 'leadName' | 'customerName' | 'sourceChannel', value: string) {
         this.createForm.update((form) => ({
             ...form,
             [field]: value
+        }));
+        this.createError.set(null);
+    }
+
+    updateCreateOwnerUser(value: string | null | undefined) {
+        const ownerUserId = value ?? null;
+        const owner = ownerUserId ? this.findOwnerUser(ownerUserId) : null;
+        this.createForm.update((form) => ({
+            ...form,
+            ownerUserId,
+            ownerOrgId: owner?.primaryOrgUnitId ?? null
+        }));
+        this.createError.set(null);
+    }
+
+    updateCreateOwnerOrg(value: string | null | undefined) {
+        this.createForm.update((form) => ({
+            ...form,
+            ownerOrgId: value ?? null
         }));
         this.createError.set(null);
     }
@@ -582,12 +694,19 @@ export class LeadList implements OnInit {
         }
 
         const form = this.createForm();
+        const ownerUserId = form.ownerUserId;
+
+        if (!ownerUserId) {
+            return;
+        }
 
         try {
             await this.#leadStore.createLead({
                 leadName: form.leadName.trim(),
                 customerName: form.customerName.trim(),
-                sourceChannel: this.optionalText(form.sourceChannel)
+                sourceChannel: this.optionalText(form.sourceChannel),
+                ownerUserId,
+                ownerOrgId: form.ownerOrgId ?? null
             });
             this.closeCreateDialog();
         } catch {
@@ -748,6 +867,33 @@ export class LeadList implements OnInit {
 
     displayText(value: string | null | undefined, fallback: string): string {
         return value?.trim() ? value : fallback;
+    }
+
+    private defaultCreateForm(): CreateLeadForm {
+        const currentUser = this.#authStore.currentUser();
+        const primaryOrg = currentUser?.orgUnits.find((org) => org.membershipType === 'primary') ?? null;
+
+        return {
+            ...EMPTY_CREATE_FORM,
+            ownerUserId: currentUser?.id ?? null,
+            ownerOrgId: primaryOrg?.id ?? null
+        };
+    }
+
+    private async loadOwnerReferenceData(): Promise<void> {
+        try {
+            await Promise.all([this.#platformStore.loadedUsers() ? Promise.resolve() : this.#platformStore.loadUsers(), this.#platformStore.loadedOrgUnits() ? Promise.resolve() : this.#platformStore.loadOrgUnits()]);
+        } catch {
+            this.pageError.set('销售主责候选没有读取成功，请稍后重试。');
+        }
+    }
+
+    private ownerUserLabel(user: PlatformUserSummary): string {
+        return user.primaryOrgUnitName ? `${user.displayName}（${user.primaryOrgUnitName}）` : user.displayName;
+    }
+
+    private findOwnerUser(id: string): PlatformUserSummary | null {
+        return this.#platformStore.users().find((user) => user.id === id) ?? null;
     }
 
     private leadSearchText(lead: LeadListView): string {

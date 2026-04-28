@@ -1,11 +1,12 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, PlatformStore, ProjectStore, type PlatformUserSummary, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
@@ -36,6 +37,21 @@ interface EditProjectForm {
     projectName: string;
 }
 
+interface OwnerOption {
+    label: string;
+    value: string;
+}
+
+interface OwnerUserOption extends OwnerOption {
+    primaryOrgUnitId: string | null;
+}
+
+interface ReassignOwnerForm {
+    ownerUserId: string | null;
+    ownerOrgId: string | null;
+    reason: string;
+}
+
 interface ReplaceArchiveForm {
     archivedAt: string;
     archiveSummary: string;
@@ -57,6 +73,7 @@ interface VoidArchiveForm {
 const PROJECT_ACTIONS = {
     editBasicInfo: 'edit-project-basic-info',
     manageCommission: 'manage-project-commission',
+    reassignOwner: 'reassign-project-owner',
     viewWorkspace: 'view-project-workspace'
 } as const;
 
@@ -99,7 +116,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, TextareaModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, SelectModule, TextareaModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
     providers: [ProjectStore],
     template: `
         @if (loading()) {
@@ -124,6 +141,9 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                             }
                             @if (canManageCommission(project)) {
                                 <p-button label="提成操作" icon="pi pi-wallet" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToCommission()" />
+                            }
+                            @if (canReassignOwner(project)) {
+                                <p-button label="变更销售主责" icon="pi pi-user-edit" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showReassignOwnerDialog()" />
                             }
                             @if (canEdit(project)) {
                                 <p-button label="编辑基本信息" icon="pi pi-pencil" severity="primary" styleClass="rounded-md!" (onClick)="showEditDialog()" />
@@ -299,7 +319,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                         <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.customerProjectNo, '未提供') }}</div>
                     </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">负责人</div>
+                        <div class="text-sm text-surface-500 dark:text-surface-400">销售主责</div>
                         <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</div>
                     </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -477,6 +497,78 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                 </ng-template>
             </p-dialog>
 
+            <p-dialog [(visible)]="reassignOwnerDialogVisible" [modal]="true" header="变更销售主责" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (reassignOwnerError) {
+                        <app-workspace-feedback severity="error" summary="变更失败" [detail]="reassignOwnerError" />
+                    }
+
+                    <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
+                        <div>
+                            <div class="text-xs text-surface-500 dark:text-surface-400">当前销售主责</div>
+                            <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-surface-500 dark:text-surface-400">当前主责组织</div>
+                            <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(project.ownerOrgName, '待归属组织') }}</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <label for="reassignOwnerUserId" class="text-sm font-medium text-surface-900 dark:text-surface-0">新的销售主责</label>
+                            <p-select
+                                inputId="reassignOwnerUserId"
+                                [ngModel]="reassignOwnerForm.ownerUserId"
+                                (ngModelChange)="updateReassignOwnerUser($event)"
+                                [options]="ownerUserOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="选择销售主责"
+                                class="w-full"
+                            />
+                            @if (reassignOwnerAttempted && !reassignOwnerForm.ownerUserId) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择新的销售主责。</span>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="reassignOwnerOrgId" class="text-sm font-medium text-surface-900 dark:text-surface-0">新的主责组织</label>
+                            <p-select
+                                inputId="reassignOwnerOrgId"
+                                [ngModel]="reassignOwnerForm.ownerOrgId"
+                                (ngModelChange)="updateReassignOwnerOrg($event)"
+                                [options]="ownerOrgOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [showClear]="true"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="可留空"
+                                class="w-full"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="reassignOwnerReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">变更原因</label>
+                        <textarea pTextarea id="reassignOwnerReason" [(ngModel)]="reassignOwnerForm.reason" rows="4" class="w-full rounded-md!" placeholder="说明销售责任归属调整原因。"></textarea>
+                        @if (reassignOwnerAttempted && !reassignOwnerForm.reason.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写变更原因。</span>
+                        }
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="closeReassignOwnerDialog()" />
+                        <p-button label="提交变更" icon="pi pi-check" severity="primary" [loading]="saving()" styleClass="rounded-md!" (onClick)="saveProjectOwner()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
             <p-dialog [(visible)]="createArchiveDialogVisible" [modal]="true" header="创建归档记录" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-2">
                     @if (createArchiveError) {
@@ -607,6 +699,7 @@ export class ProjectDetail implements OnInit {
     readonly #router = inject(Router);
     readonly #projectStore = inject(ProjectStore);
     readonly #authStore = inject(AuthStore);
+    readonly #platformStore = inject(PlatformStore);
 
     readonly project = this.#projectStore.selectedProject;
     readonly projectTimeline = this.#projectStore.selectedProjectTimeline;
@@ -618,11 +711,35 @@ export class ProjectDetail implements OnInit {
     readonly timelineError = this.#projectStore.timelineError;
     readonly archiveRecordsError = this.#projectStore.archiveRecordsError;
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
+    readonly ownerUserOptions = computed<OwnerUserOption[]>(() =>
+        this.#platformStore
+            .users()
+            .filter((user) => user.isActive)
+            .map((user) => ({
+                label: this.ownerUserLabel(user),
+                value: user.id,
+                primaryOrgUnitId: user.primaryOrgUnitId
+            }))
+    );
+    readonly ownerOrgOptions = computed<OwnerOption[]>(() =>
+        this.#platformStore
+            .orgUnits()
+            .filter((orgUnit) => orgUnit.isActive)
+            .map((orgUnit) => ({
+                label: orgUnit.name,
+                value: orgUnit.id
+            }))
+    );
+    readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingUsers() || this.#platformStore.loadingOrgUnits());
 
     editDialogVisible = false;
     editAttempted = false;
     editError: string | null = null;
     editForm: EditProjectForm = { customerName: '', customerProjectNo: '', projectName: '' };
+    reassignOwnerDialogVisible = false;
+    reassignOwnerAttempted = false;
+    reassignOwnerError: string | null = null;
+    reassignOwnerForm: ReassignOwnerForm = { ownerUserId: null, ownerOrgId: null, reason: '' };
     createArchiveDialogVisible = false;
     createArchiveAttempted = false;
     createArchiveError: string | null = null;
@@ -648,6 +765,7 @@ export class ProjectDetail implements OnInit {
     voidArchiveForm: VoidArchiveForm = { reason: '', comment: '' };
 
     ngOnInit() {
+        void this.loadOwnerReferenceData();
         const id = this.#route.snapshot.paramMap.get('id');
         if (id) {
             void this.#projectStore.loadProject(id);
@@ -723,6 +841,74 @@ export class ProjectDetail implements OnInit {
             this.closeEditDialog();
         } catch {
             this.editError = '项目基本信息没有保存成功，请稍后重试。';
+        }
+    }
+
+    showReassignOwnerDialog() {
+        const project = this.project();
+        if (!project || !this.canReassignOwner(project)) {
+            return;
+        }
+
+        this.reassignOwnerForm = {
+            ownerUserId: project.ownerUserId,
+            ownerOrgId: project.ownerOrgId,
+            reason: ''
+        };
+        this.reassignOwnerAttempted = false;
+        this.reassignOwnerError = null;
+        this.reassignOwnerDialogVisible = true;
+        void this.loadOwnerReferenceData();
+    }
+
+    closeReassignOwnerDialog() {
+        this.reassignOwnerDialogVisible = false;
+        this.reassignOwnerError = null;
+    }
+
+    updateReassignOwnerUser(value: string | null | undefined) {
+        const ownerUserId = value ?? null;
+        const owner = ownerUserId ? this.findOwnerUser(ownerUserId) : null;
+        this.reassignOwnerForm = {
+            ...this.reassignOwnerForm,
+            ownerUserId,
+            ownerOrgId: owner?.primaryOrgUnitId ?? null
+        };
+        this.reassignOwnerError = null;
+    }
+
+    updateReassignOwnerOrg(value: string | null | undefined) {
+        this.reassignOwnerForm = {
+            ...this.reassignOwnerForm,
+            ownerOrgId: value ?? null
+        };
+        this.reassignOwnerError = null;
+    }
+
+    async saveProjectOwner() {
+        const project = this.project();
+        if (!project || !this.canReassignOwner(project)) {
+            return;
+        }
+
+        this.reassignOwnerAttempted = true;
+        const ownerUserId = this.reassignOwnerForm.ownerUserId;
+        const reason = this.reassignOwnerForm.reason.trim();
+
+        if (!ownerUserId || !reason) {
+            return;
+        }
+
+        try {
+            await this.#projectStore.reassignProjectOwner(project.id, {
+                ownerUserId,
+                ownerOrgId: this.reassignOwnerForm.ownerOrgId ?? null,
+                reason,
+                expectedVersion: project.rowVersion
+            });
+            this.closeReassignOwnerDialog();
+        } catch {
+            this.reassignOwnerError = '销售主责没有变更成功，请确认项目未被其他人更新后重试。';
         }
     }
 
@@ -887,6 +1073,10 @@ export class ProjectDetail implements OnInit {
         return project.allowedActions.includes(PROJECT_ACTIONS.editBasicInfo);
     }
 
+    canReassignOwner(project: ProjectDetailView): boolean {
+        return project.allowedActions.includes(PROJECT_ACTIONS.reassignOwner);
+    }
+
     canManageCommission(project: ProjectDetailView): boolean {
         return project.allowedActions.includes(PROJECT_ACTIONS.manageCommission);
     }
@@ -904,7 +1094,7 @@ export class ProjectDetail implements OnInit {
     }
 
     availableActionCount(project: ProjectDetailView): number {
-        return [this.canOpenWorkspace(project), this.canEdit(project), this.canManageCommission(project)].filter(Boolean).length;
+        return [this.canOpenWorkspace(project), this.canEdit(project), this.canReassignOwner(project), this.canManageCommission(project)].filter(Boolean).length;
     }
 
     hasApprovalSummary(project: ProjectDetailView): boolean {
@@ -1031,6 +1221,18 @@ export class ProjectDetail implements OnInit {
                 ...this.lifecycleMilestoneDetail(milestone)
             };
         });
+    }
+
+    private async loadOwnerReferenceData(): Promise<void> {
+        await Promise.all([this.#platformStore.loadedUsers() ? Promise.resolve() : this.#platformStore.loadUsers(), this.#platformStore.loadedOrgUnits() ? Promise.resolve() : this.#platformStore.loadOrgUnits()]).catch(() => undefined);
+    }
+
+    private ownerUserLabel(user: PlatformUserSummary): string {
+        return user.primaryOrgUnitName ? `${user.displayName}（${user.primaryOrgUnitName}）` : user.displayName;
+    }
+
+    private findOwnerUser(id: string): PlatformUserSummary | null {
+        return this.#platformStore.users().find((user) => user.id === id) ?? null;
     }
 
     private timelineEventByStage(timeline: ProjectTimelineView | null): Map<ProjectLifecycleStage, ProjectTimelineEvent> {

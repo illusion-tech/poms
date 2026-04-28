@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, PlatformStore, ProjectStore, type PlatformOrgUnitSummary, type PlatformUserSummary, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -80,7 +80,7 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         summarySnapshotId: '11111111-2222-3333-4444-555555555555',
         projectionLevel: 'project',
         exportPolicy: 'internal',
-        allowedActions: ['view-project-workspace', 'edit-project-basic-info', 'manage-project-commission'],
+        allowedActions: ['view-project-workspace', 'edit-project-basic-info', 'manage-project-commission', 'reassign-project-owner'],
         generatedAt: '2026-04-20T08:00:00.000Z',
         ...overrides
     };
@@ -153,6 +153,38 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
     } as ProjectArchiveRecordSummary;
 }
 
+function createPlatformUser(overrides: Partial<PlatformUserSummary> = {}): PlatformUserSummary {
+    return {
+        id: 'user-1',
+        username: 'sales_rep',
+        displayName: '张销售',
+        email: 'sales@example.com',
+        phone: null,
+        isActive: true,
+        primaryOrgUnitId: 'org-1',
+        primaryOrgUnitName: '华南销售一部',
+        roleNames: ['销售人员'],
+        createdAt: '2026-04-19T10:00:00.000Z',
+        updatedAt: '2026-04-19T10:00:00.000Z',
+        ...overrides
+    };
+}
+
+function createOrgUnit(overrides: Partial<PlatformOrgUnitSummary> = {}): PlatformOrgUnitSummary {
+    return {
+        id: 'org-1',
+        name: '华南销售一部',
+        code: 'SALES-SOUTH-1',
+        description: null,
+        parentId: null,
+        isActive: true,
+        displayOrder: 1,
+        createdAt: '2026-04-19T10:00:00.000Z',
+        updatedAt: '2026-04-19T10:00:00.000Z',
+        ...overrides
+    };
+}
+
 describe('ProjectDetail', () => {
     let fixture: ComponentFixture<ProjectDetail>;
     let component: ProjectDetail;
@@ -163,6 +195,16 @@ describe('ProjectDetail', () => {
     let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
     let authStoreMock: { hasAnyPermission: jest.Mock };
+    let platformStoreMock: {
+        users: ReturnType<typeof signal<PlatformUserSummary[]>>;
+        orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
+        loadingUsers: ReturnType<typeof signal<boolean>>;
+        loadingOrgUnits: ReturnType<typeof signal<boolean>>;
+        loadedUsers: ReturnType<typeof signal<boolean>>;
+        loadedOrgUnits: ReturnType<typeof signal<boolean>>;
+        loadUsers: jest.Mock;
+        loadOrgUnits: jest.Mock;
+    };
     let projectStoreMock: {
         loadProject: jest.Mock;
         loadProjectTimeline: jest.Mock;
@@ -177,6 +219,7 @@ describe('ProjectDetail', () => {
         timelineError: ReturnType<typeof signal<string | null>>;
         archiveRecordsError: ReturnType<typeof signal<string | null>>;
         updateProject: jest.Mock;
+        reassignProjectOwner: jest.Mock;
         createProjectArchiveRecord: jest.Mock;
         replaceProjectArchiveRecord: jest.Mock;
         voidProjectArchiveRecord: jest.Mock;
@@ -196,6 +239,16 @@ describe('ProjectDetail', () => {
         timelineErrorSignal = signal<string | null>(timelineError);
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
+        platformStoreMock = {
+            users: signal<PlatformUserSummary[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', username: 'sales_manager', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]),
+            orgUnits: signal<PlatformOrgUnitSummary[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]),
+            loadingUsers: signal(false),
+            loadingOrgUnits: signal(false),
+            loadedUsers: signal(true),
+            loadedOrgUnits: signal(true),
+            loadUsers: jest.fn().mockResolvedValue([]),
+            loadOrgUnits: jest.fn().mockResolvedValue([])
+        };
         authStoreMock = {
             hasAnyPermission: jest.fn((permissions: readonly string[]) => {
                 if (permissions.includes('project:write')) {
@@ -223,6 +276,15 @@ describe('ProjectDetail', () => {
             timelineError: timelineErrorSignal,
             archiveRecordsError: archiveRecordsErrorSignal,
             updateProject: jest.fn().mockResolvedValue(project),
+            reassignProjectOwner: jest.fn().mockResolvedValue({
+                targetId: 'project-1',
+                projectOwnerReassignmentRecordId: 'owner-record-1',
+                previousOwnerUserId: 'user-1',
+                previousOwnerOrgId: 'org-1',
+                newOwnerUserId: 'user-2',
+                newOwnerOrgId: 'org-2',
+                businessStatusAfter: 'blocked'
+            }),
             createProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
             replaceProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
             voidProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord())
@@ -246,6 +308,10 @@ describe('ProjectDetail', () => {
                 {
                     provide: AuthStore,
                     useValue: authStoreMock
+                },
+                {
+                    provide: PlatformStore,
+                    useValue: platformStoreMock
                 }
             ]
         })
@@ -352,6 +418,7 @@ describe('ProjectDetail', () => {
         expect(text).toContain('项目工作区');
         expect(text).not.toContain('编辑基本信息');
         expect(text).not.toContain('提成操作');
+        expect(text).not.toContain('变更销售主责');
 
         component.goToCommission();
 
@@ -397,6 +464,23 @@ describe('ProjectDetail', () => {
             customerProjectNo: 'CUS-PRJ-NEW'
         });
         expect(component.editDialogVisible).toBe(false);
+    });
+
+    it('submits project owner reassignment through the controlled command', async () => {
+        await setup();
+
+        component.showReassignOwnerDialog();
+        component.updateReassignOwnerUser('user-2');
+        component.reassignOwnerForm.reason = '  区域销售责任调整  ';
+        await component.saveProjectOwner();
+
+        expect(projectStoreMock.reassignProjectOwner).toHaveBeenCalledWith('project-1', {
+            ownerUserId: 'user-2',
+            ownerOrgId: 'org-2',
+            reason: '区域销售责任调整',
+            expectedVersion: 3
+        });
+        expect(component.reassignOwnerDialogVisible).toBe(false);
     });
 
     it('maps authoritative timeline events into lifecycle detail and tooltip text', async () => {
@@ -695,7 +779,9 @@ describe('ProjectDetail', () => {
         await setup(project, createTimeline(), null, [], false);
 
         expect(component.canCreateArchiveRecord(project)).toBe(false);
-        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button')).map((button: Element) => button.textContent ?? '').join(' ');
+        const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
+            .map((button: Element) => button.textContent ?? '')
+            .join(' ');
         expect(buttonText).not.toContain('创建归档记录');
         expect(fixture.nativeElement.textContent).toContain('当前账号不能创建归档记录');
     });

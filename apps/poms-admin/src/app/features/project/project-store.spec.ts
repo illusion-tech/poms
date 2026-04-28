@@ -197,6 +197,61 @@ describe('ProjectStore', () => {
         expect(store.selectedProject()?.currentContractSummary).toEqual(refreshedDetail.currentContractSummary);
     });
 
+    it('reassigns project owner through generated client and refreshes selected detail', async () => {
+        const refreshedDetail = createDetail({
+            ownerUserId: 'user-2',
+            ownerOrgId: 'org-2',
+            ownerName: '李经理',
+            ownerOrgName: '华东销售部',
+            rowVersion: 4
+        });
+        const result = {
+            targetId: 'project-1',
+            projectOwnerReassignmentRecordId: 'owner-record-1',
+            previousOwnerUserId: 'user-1',
+            previousOwnerOrgId: 'org-1',
+            newOwnerUserId: 'user-2',
+            newOwnerOrgId: 'org-2',
+            businessStatusAfter: 'active'
+        };
+        const projectApiMock = {
+            projectControllerGetById: jest.fn().mockReturnValue(of(refreshedDetail)),
+            projectControllerReassignOwner: jest.fn().mockReturnValue(of(result))
+        };
+
+        TestBed.configureTestingModule({
+            providers: [
+                ProjectStore,
+                {
+                    provide: ProjectApi,
+                    useValue: projectApiMock
+                }
+            ]
+        });
+
+        const store = TestBed.inject(ProjectStore);
+
+        const ownerResult = await store.reassignProjectOwner('project-1', {
+            ownerUserId: 'user-2',
+            ownerOrgId: 'org-2',
+            reason: '区域销售责任调整',
+            expectedVersion: 3
+        });
+
+        expect(projectApiMock.projectControllerReassignOwner).toHaveBeenCalledWith({
+            id: 'project-1',
+            reassignProjectOwnerRequest: {
+                ownerUserId: 'user-2',
+                ownerOrgId: 'org-2',
+                reason: '区域销售责任调整',
+                expectedVersion: 3
+            }
+        });
+        expect(projectApiMock.projectControllerGetById).toHaveBeenCalledWith({ id: 'project-1' });
+        expect(ownerResult).toEqual(result);
+        expect(store.selectedProject()).toEqual(refreshedDetail);
+    });
+
     it('loads project timeline without replacing selected project detail', async () => {
         const detail = createDetail();
         const timeline = createTimeline();

@@ -483,6 +483,9 @@
 4. 当前新增产品治理待办为：先完成 `EX-41` 文档 G3 / G4，再进入 `EX-41A` 后端命令和 `FE-45` 前端入口两个独立实现切片。
 5. 2026-04-29 已完成 `EX-41` 的 `G4` 收口，提交 `66ef6b6` 固定 Lead / Project 销售主责与登记人分离口径；`EX-41A` 已进入 `G1`，本片只落地项目创建后的销售主责变更命令、动作记录、契约、OpenAPI / generated client 与后端测试，不改转项目 DTO。
 6. 2026-04-29 `EX-41A` 已完成本地 `G3`：`POST /projects/{id}:reassignOwner`、`ProjectOwnerReassignmentRecord`、shared contract / OpenAPI / generated client、详情 `reassign-project-owner` action projection 和 focused backend tests 已落地；`migration-up` 与 `migration-check` 均通过。`EX41-E1` / `EX41-E2` 继续作为后续授权和转项目覆盖口径例外保留，提交后可进入 `G4`。
+7. 2026-04-29 已完成 `EX-41A` 的 `G4` 收口，提交 `b5a444e` 可作为 `FE-45` 输入；下一步前端只需消费后端 reassignment 命令和详情 action key，不再等待后端路由 / client。
+8. 2026-04-29 `FE-45` 已完成 `G1` 冻结：线索登记默认当前用户并允许选择销售主责，转项目只展示继承的销售主责，项目详情通过 `reassign-project-owner` action key 暴露受控变更入口；本片不改 `ConvertLeadToProjectRequest`。
+9. 2026-04-29 `FE-45` 已完成本地 `G3`：线索登记销售主责选择、确认有效 / 转项目 owner 展示、项目详情受控变更入口、`ProjectStore.reassignProjectOwner`、focused unit 和 targeted Playwright journey 均已通过；提交后可推进 `G4`。
 
 ---
 

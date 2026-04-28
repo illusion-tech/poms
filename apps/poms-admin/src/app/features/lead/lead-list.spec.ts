@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, type LeadDetailView, type LeadListView, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type PlatformOrgUnitSummary, type PlatformUserSummary, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { LeadList } from './lead-list';
 
 function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
@@ -69,6 +69,38 @@ function createProjectSummary(overrides: Partial<ProjectSummary> = {}): ProjectS
     };
 }
 
+function createPlatformUser(overrides: Partial<PlatformUserSummary> = {}): PlatformUserSummary {
+    return {
+        id: 'user-1',
+        username: 'sales_rep',
+        displayName: '张销售',
+        email: 'sales@example.com',
+        phone: null,
+        isActive: true,
+        primaryOrgUnitId: 'org-1',
+        primaryOrgUnitName: '华南销售一部',
+        roleNames: ['销售人员'],
+        createdAt: '2026-04-25T09:00:00.000Z',
+        updatedAt: '2026-04-25T09:00:00.000Z',
+        ...overrides
+    };
+}
+
+function createOrgUnit(overrides: Partial<PlatformOrgUnitSummary> = {}): PlatformOrgUnitSummary {
+    return {
+        id: 'org-1',
+        name: '华南销售一部',
+        code: 'SALES-SOUTH-1',
+        description: null,
+        parentId: null,
+        isActive: true,
+        displayOrder: 1,
+        createdAt: '2026-04-25T09:00:00.000Z',
+        updatedAt: '2026-04-25T09:00:00.000Z',
+        ...overrides
+    };
+}
+
 describe('LeadList', () => {
     let fixture: ComponentFixture<LeadList>;
     let component: LeadList;
@@ -76,6 +108,8 @@ describe('LeadList', () => {
     let selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
     let routerMock: { navigate: jest.Mock };
+    let users: ReturnType<typeof signal<PlatformUserSummary[]>>;
+    let orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
     let leadStoreMock: {
         leads: ReturnType<typeof signal<LeadListView[]>>;
         selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
@@ -94,11 +128,23 @@ describe('LeadList', () => {
         convertLeadToProject: jest.Mock;
         clearSelectedLead: jest.Mock;
     };
+    let platformStoreMock: {
+        users: ReturnType<typeof signal<PlatformUserSummary[]>>;
+        orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
+        loadingUsers: ReturnType<typeof signal<boolean>>;
+        loadingOrgUnits: ReturnType<typeof signal<boolean>>;
+        loadedUsers: ReturnType<typeof signal<boolean>>;
+        loadedOrgUnits: ReturnType<typeof signal<boolean>>;
+        loadUsers: jest.Mock;
+        loadOrgUnits: jest.Mock;
+    };
 
     beforeEach(async () => {
         leads = signal([createLead()]);
         selectedLead = signal<LeadDetailView | null>(null);
         canWriteLead = signal(true);
+        users = signal<PlatformUserSummary[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', username: 'sales_manager', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
+        orgUnits = signal<PlatformOrgUnitSummary[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
         routerMock = { navigate: jest.fn() };
         leadStoreMock = {
             leads,
@@ -122,6 +168,16 @@ describe('LeadList', () => {
             convertLeadToProject: jest.fn().mockResolvedValue(createProjectSummary()),
             clearSelectedLead: jest.fn()
         };
+        platformStoreMock = {
+            users,
+            orgUnits,
+            loadingUsers: signal(false),
+            loadingOrgUnits: signal(false),
+            loadedUsers: signal(true),
+            loadedOrgUnits: signal(true),
+            loadUsers: jest.fn().mockResolvedValue(users()),
+            loadOrgUnits: jest.fn().mockResolvedValue(orgUnits())
+        };
 
         await TestBed.configureTestingModule({
             imports: [LeadList],
@@ -142,7 +198,15 @@ describe('LeadList', () => {
                             emailVerified: false,
                             phoneVerified: false,
                             phone: null,
-                            orgUnits: []
+                            orgUnits: [
+                                {
+                                    id: 'org-1',
+                                    name: '华南销售一部',
+                                    code: 'SALES-SOUTH-1',
+                                    description: null,
+                                    membershipType: 'primary' as SanitizedUserWithOrgUnits['orgUnits'][number]['membershipType']
+                                }
+                            ]
                         }),
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
@@ -152,6 +216,10 @@ describe('LeadList', () => {
                 {
                     provide: Router,
                     useValue: routerMock
+                },
+                {
+                    provide: PlatformStore,
+                    useValue: platformStoreMock
                 }
             ]
         })
@@ -194,8 +262,26 @@ describe('LeadList', () => {
         expect(leadStoreMock.createLead).toHaveBeenCalledWith({
             leadName: '城市交通机会',
             customerName: '城市交通集团',
-            sourceChannel: '老客户转介绍'
+            sourceChannel: '老客户转介绍',
+            ownerUserId: 'user-1',
+            ownerOrgId: 'org-1'
         });
+    });
+
+    it('updates the selected sales owner and defaults the owner org from the chosen user', async () => {
+        component.showCreateDialog();
+        component.updateCreateField('leadName', '城市交通机会');
+        component.updateCreateField('customerName', '城市交通集团');
+        component.updateCreateOwnerUser('user-2');
+
+        await component.createLead();
+
+        expect(leadStoreMock.createLead).toHaveBeenCalledWith(
+            expect.objectContaining({
+                ownerUserId: 'user-2',
+                ownerOrgId: 'org-2'
+            })
+        );
     });
 
     it('does not expose write actions when the user only has read access', () => {
@@ -227,6 +313,7 @@ describe('LeadList', () => {
         const lead = createLead({ status: 'qualified' });
 
         component.showConvertDialog(lead);
+        fixture.detectChanges();
         component.updateConvertField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateConvertField('projectName', '  城市交通项目  ');
         component.updateConvertDate(new Date(2026, 4, 1));

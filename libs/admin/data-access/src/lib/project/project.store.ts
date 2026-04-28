@@ -5,6 +5,7 @@ import type {
     ProjectArchiveRecordSummary,
     ProjectDetailView,
     ProjectListView,
+    ReassignProjectOwnerRequest,
     ProjectTimelineView,
     ReplaceProjectArchiveRecordRequest,
     UpdateProjectBasicInfoRequest,
@@ -149,6 +150,26 @@ export class ProjectStore {
                 await this.loadProjects();
             }
             return project;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async reassignProjectOwner(id: string, request: ReassignProjectOwnerRequest) {
+        this.#saving.set(true);
+
+        try {
+            const result = await firstValueFrom(
+                this.#projectApi.projectControllerReassignOwner({
+                    id,
+                    reassignProjectOwnerRequest: request
+                })
+            );
+            await this.loadProject(id);
+            if (this.#loaded()) {
+                await this.loadProjects();
+            }
+            return result;
         } finally {
             this.#saving.set(false);
         }

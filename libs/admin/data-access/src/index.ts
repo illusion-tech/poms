@@ -93,6 +93,7 @@ export type {
     ProjectWorkspaceEntryView,
     ProjectWorkspaceGuidanceView,
     RegisterCommissionPayoutRequest,
+    ReassignProjectOwnerRequest,
     ReplaceProjectArchiveRecordRequest,
     SanitizedUserWithOrgUnits,
     SubmitCommissionPayoutApprovalRequest,
