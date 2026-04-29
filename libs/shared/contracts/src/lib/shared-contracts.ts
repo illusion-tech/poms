@@ -1206,6 +1206,149 @@ export const CreateSalesFollowUpRecordRequestSchema = z
 export type CreateSalesFollowUpRecordRequest = z.infer<typeof CreateSalesFollowUpRecordRequestSchema>;
 
 // ---------------------------------------------------------------------------
+// Attachment
+// ---------------------------------------------------------------------------
+
+export const ATTACHMENT_CATEGORIES = [
+    'customer_profile',
+    'demand',
+    'communication',
+    'technical',
+    'solution',
+    'quotation',
+    'bid',
+    'contract',
+    'delivery',
+    'acceptance',
+    'finance',
+    'internal_assessment',
+    'other'
+] as const;
+
+export type AttachmentCategory = (typeof ATTACHMENT_CATEGORIES)[number];
+
+export const AttachmentCategorySchema = z.enum(ATTACHMENT_CATEGORIES).meta({ id: 'AttachmentCategory' });
+
+export const ATTACHMENT_SECURITY_LEVELS = ['normal', 'internal', 'sensitive', 'confidential', 'restricted'] as const;
+
+export type AttachmentSecurityLevel = (typeof ATTACHMENT_SECURITY_LEVELS)[number];
+
+export const AttachmentSecurityLevelSchema = z.enum(ATTACHMENT_SECURITY_LEVELS).meta({ id: 'AttachmentSecurityLevel' });
+
+export const ATTACHMENT_STATUSES = ['active', 'voided', 'deleted', 'failed'] as const;
+
+export type AttachmentStatus = (typeof ATTACHMENT_STATUSES)[number];
+
+export const AttachmentStatusSchema = z.enum(ATTACHMENT_STATUSES).meta({ id: 'AttachmentStatus' });
+
+export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales_follow_up'] as const;
+
+export type AttachmentTargetType = (typeof ATTACHMENT_TARGET_TYPES)[number];
+
+export const AttachmentTargetTypeSchema = z.enum(ATTACHMENT_TARGET_TYPES).meta({ id: 'AttachmentTargetType' });
+
+export const ATTACHMENT_RELATION_TYPES = ['normal', 'source', 'evidence', 'final', 'handover'] as const;
+
+export type AttachmentRelationType = (typeof ATTACHMENT_RELATION_TYPES)[number];
+
+export const AttachmentRelationTypeSchema = z.enum(ATTACHMENT_RELATION_TYPES).meta({ id: 'AttachmentRelationType' });
+
+export const ATTACHMENT_LINK_STATUSES = ['active', 'unlinked'] as const;
+
+export type AttachmentLinkStatus = (typeof ATTACHMENT_LINK_STATUSES)[number];
+
+export const AttachmentLinkStatusSchema = z.enum(ATTACHMENT_LINK_STATUSES).meta({ id: 'AttachmentLinkStatus' });
+
+export const AttachmentLinkSummarySchema = z
+    .object({
+        id: z.uuid(),
+        attachmentId: z.uuid(),
+        targetType: AttachmentTargetTypeSchema,
+        targetId: z.uuid(),
+        relationType: AttachmentRelationTypeSchema,
+        status: AttachmentLinkStatusSchema,
+        linkedBy: z.uuid().nullable(),
+        linkedAt: z.iso.datetime(),
+        unlinkedBy: z.uuid().nullable(),
+        unlinkedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'AttachmentLinkSummary' });
+
+export type AttachmentLinkSummary = z.infer<typeof AttachmentLinkSummarySchema>;
+
+export const AttachmentSummarySchema = z
+    .object({
+        id: z.uuid(),
+        originalName: z.string(),
+        displayName: z.string(),
+        extension: z.string(),
+        mimeType: z.string(),
+        sizeBytes: z.number().int().nonnegative(),
+        checksumSha256: z.string().length(64),
+        category: AttachmentCategorySchema,
+        securityLevel: AttachmentSecurityLevelSchema,
+        status: AttachmentStatusSchema,
+        description: z.string().nullable(),
+        versionGroupId: z.uuid().nullable(),
+        versionNo: z.number().int().positive(),
+        isLatest: z.boolean(),
+        isFinal: z.boolean(),
+        uploadedBy: z.uuid().nullable(),
+        uploadedByName: z.string().nullable(),
+        uploadedAt: z.iso.datetime(),
+        updatedAt: z.iso.datetime(),
+        deletedAt: z.iso.datetime().nullable(),
+        links: z.array(AttachmentLinkSummarySchema)
+    })
+    .meta({ id: 'AttachmentSummary' });
+
+export type AttachmentSummary = z.infer<typeof AttachmentSummarySchema>;
+
+export const AttachmentListSchema = z.array(AttachmentSummarySchema).meta({ id: 'AttachmentList' });
+
+export type AttachmentList = z.infer<typeof AttachmentListSchema>;
+
+export const AttachmentListQuerySchema = z
+    .object({
+        targetType: AttachmentTargetTypeSchema,
+        targetId: z.uuid(),
+        category: AttachmentCategorySchema.optional(),
+        status: AttachmentStatusSchema.optional()
+    })
+    .meta({ id: 'AttachmentListQuery' });
+
+export type AttachmentListQuery = z.infer<typeof AttachmentListQuerySchema>;
+
+export const UpdateAttachmentRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(255).optional(),
+        category: AttachmentCategorySchema.optional(),
+        securityLevel: AttachmentSecurityLevelSchema.optional(),
+        description: z.string().trim().max(4000).nullable().optional()
+    })
+    .meta({ id: 'UpdateAttachmentRequest' });
+
+export type UpdateAttachmentRequest = z.infer<typeof UpdateAttachmentRequestSchema>;
+
+export const CreateAttachmentLinkRequestSchema = z
+    .object({
+        targetType: AttachmentTargetTypeSchema,
+        targetId: z.uuid(),
+        relationType: AttachmentRelationTypeSchema.default('normal')
+    })
+    .meta({ id: 'CreateAttachmentLinkRequest' });
+
+export type CreateAttachmentLinkRequest = z.infer<typeof CreateAttachmentLinkRequestSchema>;
+
+export const VoidAttachmentRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000)
+    })
+    .meta({ id: 'VoidAttachmentRequest' });
+
+export type VoidAttachmentRequest = z.infer<typeof VoidAttachmentRequestSchema>;
+
+// ---------------------------------------------------------------------------
 // Project
 // ---------------------------------------------------------------------------
 

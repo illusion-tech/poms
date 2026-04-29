@@ -1,4 +1,5 @@
 export * from './lib/auth/auth.store';
+export * from './lib/attachment/attachment.store';
 export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
@@ -13,6 +14,12 @@ export * from './lib/sales-follow-up/sales-follow-up.store';
 
 export {
     ApprovalApi,
+    AttachmentApi,
+    AttachmentCategory,
+    AttachmentRelationType,
+    AttachmentSecurityLevel,
+    AttachmentStatus,
+    AttachmentTargetType,
     AuthApi,
     CommissionApi,
     CommissionRoleAssignmentsApi,
@@ -44,6 +51,7 @@ export {
 export type {
     ActivateContractRequest,
     ApprovalRecordSummary,
+    AttachmentSummary,
     BusinessAccountingFeedbackView,
     CommissionRoleAssignmentDetailView,
     CommissionRoleAssignmentSummary,
@@ -55,6 +63,7 @@ export type {
     ConfirmCommissionCalculationRequest,
     ContractSummary,
     CreateCustomerAliasRequest,
+    CreateAttachmentLinkRequest,
     CreateCustomerRequest,
     ContractReadinessDetail,
     ContractReadinessItem,
@@ -125,8 +134,10 @@ export type {
     TodoItemSummary,
     UpdateCurrentUserProfileRequest,
     UpdateCustomerRequest,
+    UpdateAttachmentRequest,
     UpdateLeadRequest,
     UpdateProjectBasicInfoRequest,
+    VoidAttachmentRequest,
     VoidProjectArchiveRecordRequest
 } from '@poms/shared-api-client';
 export {

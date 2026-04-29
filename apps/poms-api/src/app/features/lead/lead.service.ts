@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import type { LeadBudgetStatus, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
+import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
@@ -66,7 +67,8 @@ export class LeadService {
     constructor(
         private readonly leadRepository: LeadRepository,
         private readonly businessNumberService: BusinessNumberService,
-        private readonly customerService: CustomerService
+        private readonly customerService: CustomerService,
+        private readonly attachmentService: AttachmentService
     ) {}
 
     async createLeadSource(input: CreateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
@@ -298,6 +300,14 @@ export class LeadService {
             lead.updatedBy = operator.id;
 
             em.persist([lead, project]);
+            await this.attachmentService.copyActiveLinksToTarget({
+                from: { targetType: 'lead', targetId: lead.id },
+                to: { targetType: 'project', targetId: project.id },
+                relationType: 'source',
+                operatorUserId: operator.id,
+                entityManager: em,
+                excludeCategories: ['finance', 'internal_assessment']
+            });
             await em.flush();
             return project;
         });

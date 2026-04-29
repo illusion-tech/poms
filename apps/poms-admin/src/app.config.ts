@@ -1,7 +1,8 @@
-import { APP_INITIALIZER, ApplicationConfig, inject, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
 import { AuthStore, PlatformStore, providePomsApiClient } from '@poms/admin-data-access';
+import type { Translation } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { definePreset } from '@primeuix/themes';
@@ -66,6 +67,36 @@ const MyPreset = definePreset(Aura, {
     }
 });
 
+const POMS_PRIMENG_TRANSLATION_ZH_CN: Translation = {
+    firstDayOfWeek: 1,
+    dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+    dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    today: '今天',
+    clear: '清空',
+    dateFormat: 'yy-mm-dd',
+    weekHeader: '周',
+    chooseDate: '选择日期',
+    chooseMonth: '选择月份',
+    chooseYear: '选择年份',
+    prevDecade: '上十年',
+    nextDecade: '下十年',
+    prevYear: '上一年',
+    nextYear: '下一年',
+    prevMonth: '上个月',
+    nextMonth: '下个月',
+    prevHour: '上一小时',
+    nextHour: '下一小时',
+    prevMinute: '上一分钟',
+    nextMinute: '下一分钟',
+    prevSecond: '上一秒',
+    nextSecond: '下一秒',
+    am: '上午',
+    pm: '下午'
+};
+
 function resolveApiBasePath(): string {
     const runtimeConfig = globalThis as typeof globalThis & {
         __POMS_API_BASE_URL__?: string;
@@ -88,14 +119,12 @@ export const appConfig: ApplicationConfig = {
             basePath: resolveApiBasePath(),
             getAccessToken: () => inject(AuthStore).token() ?? undefined
         }),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (authStore: AuthStore) => () => authStore.initialize(),
-            deps: [AuthStore],
-            multi: true
-        },
+        provideAppInitializer(() => inject(AuthStore).initialize()),
         PlatformStore,
         provideZonelessChangeDetection(),
-        providePrimeNG({ theme: { preset: MyPreset, options: { darkModeSelector: '.app-dark' } } })
+        providePrimeNG({
+            theme: { preset: MyPreset, options: { darkModeSelector: '.app-dark' } },
+            translation: POMS_PRIMENG_TRANSLATION_ZH_CN
+        })
     ]
 };

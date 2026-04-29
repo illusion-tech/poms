@@ -321,10 +321,23 @@
 
 ### 6.13 EX-44 Sales Follow Up Record
 
-| Domain            | Capability                  | Canonical Route                  | Current Implemented Route        | Current Design Route             | Authority                       | Drift Type | Action                                                                 | Batch | Status    |
-| ----------------- | --------------------------- | -------------------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ---------- | ---------------------------------------------------------------------- | ----- | --------- |
-| `sales-follow-up` | `listSalesFollowUpRecords`  | `GET /sales-follow-up-records`   | `GET /sales-follow-up-records`   | `GET /sales-follow-up-records`   | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增客户 / 线索 / 项目共享销售跟进记录集合查询，不混入项目生命周期线。 | `B8`  | `aligned` |
-| `sales-follow-up` | `createSalesFollowUpRecord` | `POST /sales-follow-up-records`  | `POST /sales-follow-up-records`  | `POST /sales-follow-up-records`  | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增共享销售跟进记录创建；customerId 为必填总线，lead/project 为上下文锚点。 | `B8`  | `aligned` |
+| Domain            | Capability                  | Canonical Route                 | Current Implemented Route       | Current Design Route            | Authority                       | Drift Type | Action                                                                       | Batch | Status    |
+| ----------------- | --------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ---------- | ---------------------------------------------------------------------------- | ----- | --------- |
+| `sales-follow-up` | `listSalesFollowUpRecords`  | `GET /sales-follow-up-records`  | `GET /sales-follow-up-records`  | `GET /sales-follow-up-records`  | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增客户 / 线索 / 项目共享销售跟进记录集合查询，不混入项目生命周期线。       | `B8`  | `aligned` |
+| `sales-follow-up` | `createSalesFollowUpRecord` | `POST /sales-follow-up-records` | `POST /sales-follow-up-records` | `POST /sales-follow-up-records` | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增共享销售跟进记录创建；customerId 为必填总线，lead/project 为上下文锚点。 | `B8`  | `aligned` |
+
+### 6.14 EX-45 Attachment Evidence Repository
+
+| Domain       | Capability                 | Canonical Route                           | Current Implemented Route                 | Current Design Route                      | Authority                       | Drift Type | Action                                                        | Batch | Status    |
+| ------------ | -------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------------------- | ---------- | ------------------------------------------------------------- | ----- | --------- |
+| `attachment` | `uploadAttachment`         | `POST /attachments`                       | `POST /attachments`                       | `POST /attachments`                       | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件上传，创建附件元数据和首个业务对象关联。              | `B9`  | `aligned` |
+| `attachment` | `listAttachments`          | `GET /attachments`                        | `GET /attachments`                        | `GET /attachments`                        | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增按 targetType + targetId 查询附件集合，不做全局网盘列表。 | `B9`  | `aligned` |
+| `attachment` | `getAttachment`            | `GET /attachments/{id}`                   | `GET /attachments/{id}`                   | `GET /attachments/{id}`                   | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件元数据详情读取，必须经过业务对象权限和安全等级校验。  | `B9`  | `aligned` |
+| `attachment` | `downloadAttachment`       | `GET /attachments/{id}/download`          | `GET /attachments/{id}/download`          | `GET /attachments/{id}/download`          | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增后端鉴权下载，避免暴露永久公开文件 URL。                  | `B9`  | `aligned` |
+| `attachment` | `updateAttachmentMetadata` | `PATCH /attachments/{id}`                 | `PATCH /attachments/{id}`                 | `PATCH /attachments/{id}`                 | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件展示名、分类、安全等级与说明维护。                    | `B9`  | `aligned` |
+| `attachment` | `voidAttachment`           | `POST /attachments/{id}:void`             | `POST /attachments/{id}:void`             | `POST /attachments/{id}:void`             | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件作废命令；不提供物理删除公共 API。                    | `B9`  | `aligned` |
+| `attachment` | `linkAttachmentToTarget`   | `POST /attachments/{id}/links`            | `POST /attachments/{id}/links`            | `POST /attachments/{id}/links`            | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件复用关联，用于线索转项目来源附件挂接。                | `B9`  | `aligned` |
+| `attachment` | `unlinkAttachment`         | `DELETE /attachments/{id}/links/{linkId}` | `DELETE /attachments/{id}/links/{linkId}` | `DELETE /attachments/{id}/links/{linkId}` | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增取消业务对象关联；不删除文件本体。                        | `B9`  | `aligned` |
 
 ## 7. 批次推进原则
 

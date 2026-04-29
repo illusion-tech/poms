@@ -9,6 +9,7 @@ import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
 import { SensitiveFieldProjectionModule } from './core/sensitive-field-projection/sensitive-field-projection.module';
 import { ApprovalModule } from './features/approval/approval.module';
 import { ApprovalSummaryModule } from './features/approval-summary/approval-summary.module';
+import { AttachmentModule } from './features/attachment/attachment.module';
 import { CommissionModule } from './features/commission/commission.module';
 import { ContractModule } from './features/contract/contract.module';
 import { ContractReadinessModule } from './features/contract-readiness/contract-readiness.module';
@@ -30,6 +31,7 @@ import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.
         AuthModule,
         NavigationModule,
         PlatformModule,
+        AttachmentModule,
         CustomerModule,
         LeadModule,
         ProjectModule,

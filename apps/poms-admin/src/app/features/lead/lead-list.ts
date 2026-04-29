@@ -3,6 +3,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
+    AttachmentTargetType,
     AuthStore,
     CustomerStatus,
     CustomerStore,
@@ -32,6 +33,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -195,7 +197,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, WorkspaceFeedback],
     providers: [LeadStore, CustomerStore, SalesFollowUpStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -748,6 +750,14 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                             </div>
                         }
 
+                        <app-attachment-panel
+                            [targetType]="leadAttachmentTargetType"
+                            [targetId]="lead.id"
+                            [canWrite]="canWriteLead()"
+                            title="线索附件"
+                            description="保存客户需求、沟通截图、会议纪要和线索判断材料。线索转入项目后会作为来源附件继续关联。"
+                        />
+
                         <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
                             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                 <div>
@@ -854,6 +864,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                     (ngModelChange)="updateFollowUpDate('occurredAt', $event)"
                                     [showButtonBar]="true"
                                     [showTime]="true"
+                                    hourFormat="24"
                                     appendTo="body"
                                     dateFormat="yy-mm-dd"
                                     styleClass="w-full"
@@ -909,6 +920,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                     (ngModelChange)="updateFollowUpDate('nextFollowUpAt', $event)"
                                     [showButtonBar]="true"
                                     [showTime]="true"
+                                    hourFormat="24"
                                     appendTo="body"
                                     dateFormat="yy-mm-dd"
                                     placeholder="可留空"
@@ -1109,6 +1121,8 @@ export class LeadList implements OnInit {
     readonly followUpTypeOptions: LeadFilterOption[] = Object.entries(SALES_FOLLOW_UP_TYPE_LABELS).map(([value, label]) => ({ label, value }));
 
     readonly followUpOutcomeOptions: LeadFilterOption[] = Object.entries(SALES_FOLLOW_UP_OUTCOME_LABELS).map(([value, label]) => ({ label, value }));
+
+    readonly leadAttachmentTargetType = AttachmentTargetType.Lead;
 
     readonly ownerUserOptions = computed<LeadOwnerUserOption[]>(() =>
         this.#platformStore

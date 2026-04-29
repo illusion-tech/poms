@@ -1,5 +1,6 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
+import { AttachmentModule } from '../attachment/attachment.module';
 import { BusinessNumberModule } from '../business-number/business-number.module';
 import { CustomerModule } from '../customer/customer.module';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -13,7 +14,7 @@ import { LeadRepository } from './lead.repository';
 import { LeadService } from './lead.service';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Lead, LeadSource, Project, PlatformUser, OrgUnit]), BusinessNumberModule, CustomerModule],
+    imports: [MikroOrmModule.forFeature([Lead, LeadSource, Project, PlatformUser, OrgUnit]), AttachmentModule, BusinessNumberModule, CustomerModule],
     controllers: [LeadController, LeadSourceController],
     providers: [LeadRepository, LeadQueryService, LeadService],
     exports: [LeadRepository, LeadQueryService, LeadService]

@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
@@ -19,6 +20,7 @@ describe('LeadService', () => {
     let leadRepository: jest.Mocked<LeadRepository>;
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
+    let attachmentService: jest.Mocked<Pick<AttachmentService, 'copyActiveLinksToTarget'>>;
     let entityManager: {
         create: jest.Mock;
         persist: jest.Mock;
@@ -52,6 +54,9 @@ describe('LeadService', () => {
         customerService = {
             requireActiveCustomer: jest.fn(async () => ({ id: customerId, displayName: '华南地铁集团' }) as never)
         };
+        attachmentService = {
+            copyActiveLinksToTarget: jest.fn().mockResolvedValue(undefined)
+        };
 
         leadRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
@@ -60,7 +65,7 @@ describe('LeadService', () => {
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
-        service = new LeadService(leadRepository, businessNumberService as never, customerService as never);
+        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never);
     });
 
     it('creates an active lead source dictionary item', async () => {
@@ -234,6 +239,14 @@ describe('LeadService', () => {
             })
         );
         expect(result.sourceLeadId).toBe(leadId);
+        expect(attachmentService.copyActiveLinksToTarget).toHaveBeenCalledWith({
+            from: { targetType: 'lead', targetId: leadId },
+            to: { targetType: 'project', targetId: result.id },
+            relationType: 'source',
+            operatorUserId: userId,
+            entityManager,
+            excludeCategories: ['finance', 'internal_assessment']
+        });
         expect(lead.status).toBe('converted');
         expect(lead.convertedProjectId).toBe(result.id);
         expect(lead.convertedAt).toBeInstanceOf(Date);
