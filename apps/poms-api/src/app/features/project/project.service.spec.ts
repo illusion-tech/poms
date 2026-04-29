@@ -1,10 +1,13 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { CustomerService } from '../customer/customer.service';
 import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
     const projectId = '20000000-0000-4000-8000-000000000001';
+    const customerId = '11000000-0000-4000-8000-000000000001';
+    const nextCustomerId = '11000000-0000-4000-8000-000000000002';
     const userId = '00000000-0000-4000-8000-000000000001';
 
     let service: ProjectService;
@@ -48,6 +51,7 @@ describe('ProjectService', () => {
         saveProjectTechnicalCostPackage: jest.Mock;
     };
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+    let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let entityManager: {
         create: jest.Mock;
         persist: jest.Mock;
@@ -104,8 +108,14 @@ describe('ProjectService', () => {
         businessNumberService = {
             next: jest.fn(async () => 'PRJ-2026-000001')
         } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+        customerService = {
+            requireActiveCustomer: jest.fn(async (id: string) => ({
+                id,
+                displayName: id === nextCustomerId ? '新的客户名称' : '华南地铁集团'
+            }) as never)
+        };
 
-        service = new ProjectService(projectRepository as never, businessNumberService as never);
+        service = new ProjectService(projectRepository as never, businessNumberService as never, customerService as never);
     });
 
     it('creates a project with default assessment stage and operator ownership', async () => {
@@ -117,21 +127,22 @@ describe('ProjectService', () => {
         const result = await service.createAndSave(
             {
                 projectName: 'POMS 首期项目主链路样例',
-                customerName: '华南地铁集团'
+                customerId
             },
             userId
         );
 
+        expect(customerService.requireActiveCustomer).toHaveBeenCalledWith(customerId);
         expect(businessNumberService.next).toHaveBeenCalledWith('project', expect.any(Date), entityManager);
         expect(entityManager.create).toHaveBeenCalledWith(Project, {
             projectNo: 'PRJ-2026-000001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: null,
+            customerId,
             customerName: '华南地铁集团',
             customerProjectNo: null,
             status: 'active',
             currentStage: 'assessment',
-            customerId: null,
             ownerOrgId: '10000000-0000-4000-8000-000000000001',
             ownerUserId: userId,
             plannedSignAt: null,
@@ -149,12 +160,13 @@ describe('ProjectService', () => {
             service.createAndSave(
                 {
                     projectName: 'Duplicate',
-                    customerName: '重复客户'
+                    customerId
                 },
                 userId
             )
         ).rejects.toThrow(NotFoundException);
 
+        expect(customerService.requireActiveCustomer).not.toHaveBeenCalled();
         expect(businessNumberService.next).not.toHaveBeenCalled();
         expect(entityManager.persist).not.toHaveBeenCalled();
     });
@@ -185,13 +197,15 @@ describe('ProjectService', () => {
             projectId,
             {
                 projectName: 'Updated project name',
-                customerName: '新的客户名称',
+                customerId: nextCustomerId,
                 plannedSignAt: null
             },
             userId
         );
 
+        expect(customerService.requireActiveCustomer).toHaveBeenCalledWith(nextCustomerId);
         expect(project.projectName).toBe('Updated project name');
+        expect(project.customerId).toBe(nextCustomerId);
         expect(project.customerName).toBe('新的客户名称');
         expect(project.plannedSignAt).toBeNull();
         expect(project.updatedBy).toBe(userId);
@@ -1387,7 +1401,7 @@ describe('ProjectService', () => {
             projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: null,
-            customerId: null,
+            customerId,
             customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'commercial-closure',

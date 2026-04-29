@@ -3,7 +3,7 @@ import { Seeder } from '@mikro-orm/seeder';
 import { hashSync } from 'bcryptjs';
 import { DEV_ORG_UNITS, DEV_ROLES, DEV_USERS } from '../app/core/platform/dev-platform.fixtures';
 import { loadValidatedEnv } from '../config/load-env';
-import { DEV_CONTRACT_SEEDS, DEV_PROJECT_SEEDS } from './dev-seed-data';
+import { DEV_CONTRACT_SEEDS, DEV_CUSTOMER_SEEDS, DEV_PROJECT_SEEDS } from './dev-seed-data';
 
 export class DatabaseSeeder extends Seeder {
     async run(em: EntityManager): Promise<void> {
@@ -13,6 +13,7 @@ export class DatabaseSeeder extends Seeder {
         const seededRoleKeys = DEV_ROLES.map((role) => sqlValue(role.roleKey)).join(', ');
         const seededOrgCodes = DEV_ORG_UNITS.map((orgUnit) => sqlValue(orgUnit.code)).join(', ');
         const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectNo)).join(', ');
+        const seededCustomerNos = DEV_CUSTOMER_SEEDS.map((customer) => sqlValue(customer.customerNo)).join(', ');
         const roleByKey = new Map(DEV_ROLES.map((role) => [role.roleKey, role]));
         const localCredentialValues = DEV_USERS.map((user, index) => {
             const credentialId = `70000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`;
@@ -858,6 +859,102 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."project"
             where "project_no" in (${seededProjectCodes});
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."customer_alias"
+            where "customer_id" in (
+                select "id" from "${schema}"."customer"
+                where "customer_no" in (${seededCustomerNos})
+            );
+        `);
+
+        await connection.execute(`
+            delete from "${schema}"."customer"
+            where "customer_no" in (${seededCustomerNos});
+        `);
+
+        for (const customer of DEV_CUSTOMER_SEEDS) {
+            await connection.execute(`
+                insert into "${schema}"."customer" (
+                    "id",
+                    "customer_no",
+                    "display_name",
+                    "legal_name",
+                    "short_name",
+                    "status",
+                    "owner_org_id",
+                    "owner_user_id",
+                    "source_channel",
+                    "created_by",
+                    "updated_by"
+                )
+                values (
+                    ${sqlValue(customer.id)},
+                    ${sqlValue(customer.customerNo)},
+                    ${sqlValue(customer.displayName)},
+                    ${customer.legalName ? sqlValue(customer.legalName) : 'null'},
+                    ${customer.shortName ? sqlValue(customer.shortName) : 'null'},
+                    'active',
+                    null,
+                    null,
+                    ${customer.sourceChannel ? sqlValue(customer.sourceChannel) : 'null'},
+                    ${sqlUuid(customer.createdBy)},
+                    ${sqlUuid(customer.updatedBy)}
+                )
+                on conflict ("customer_no") do update
+                set
+                    "display_name" = excluded."display_name",
+                    "legal_name" = excluded."legal_name",
+                    "short_name" = excluded."short_name",
+                    "status" = excluded."status",
+                    "owner_org_id" = excluded."owner_org_id",
+                    "owner_user_id" = excluded."owner_user_id",
+                    "source_channel" = excluded."source_channel",
+                    "updated_by" = excluded."updated_by",
+                    "updated_at" = now();
+            `);
+
+            await connection.execute(`
+                insert into "${schema}"."customer_alias" (
+                    "customer_id",
+                    "alias_name",
+                    "alias_type",
+                    "normalized_name",
+                    "is_primary",
+                    "created_by"
+                )
+                values (
+                    ${sqlValue(customer.id)},
+                    ${sqlValue(customer.displayName)},
+                    'alias',
+                    ${sqlValue(customer.displayName.trim().replace(/\s+/g, ' ').toLowerCase())},
+                    true,
+                    ${sqlUuid(customer.createdBy)}
+                )
+                on conflict ("customer_id", "normalized_name", "alias_type") do nothing;
+            `);
+        }
+
+        await connection.execute(`
+            insert into "${schema}"."business_number_sequence" ("scope", "period", "next_value", "prefix", "padding", "description")
+            select 'customer', "period", max("sequence_value")::int + 1, 'CUST', 6, '客户编号'
+            from (
+                select
+                    substring("customer_no" from '^CUST-([0-9]{4})-') as "period",
+                    substring("customer_no" from '^CUST-[0-9]{4}-([0-9]+)$')::int as "sequence_value"
+                from "${schema}"."customer"
+                where "customer_no" ~ '^CUST-[0-9]{4}-[0-9]+$'
+            ) numbered
+            where "period" is not null and "sequence_value" is not null
+            group by "period"
+            on conflict ("scope", "period") do update
+            set
+                "next_value" = greatest("${schema}"."business_number_sequence"."next_value", excluded."next_value"),
+                "prefix" = excluded."prefix",
+                "padding" = excluded."padding",
+                "description" = excluded."description",
+                "updated_at" = now();
         `);
 
         for (const project of DEV_PROJECT_SEEDS) {

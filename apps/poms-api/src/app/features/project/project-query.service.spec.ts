@@ -1,6 +1,8 @@
 import { ProjectQueryService } from './project-query.service';
 
 describe('ProjectQueryService', () => {
+    const customerId = '11000000-0000-4000-8000-000000000001';
+
     let service: ProjectQueryService;
     let projectRepository: {
         findById: jest.Mock;
@@ -104,6 +106,7 @@ describe('ProjectQueryService', () => {
                 id: '20000000-0000-4000-8000-000000000001',
                 projectNo: 'PRJ-2026-001',
                 projectName: 'POMS 首期项目主链路样例',
+                customerId,
                 customerName: '华南地铁集团',
                 customerProjectNo: null,
                 currentStage: 'contracting',
@@ -123,6 +126,7 @@ describe('ProjectQueryService', () => {
                 id: '20000000-0000-4000-8000-000000000001',
                 projectNo: 'PRJ-2026-001',
                 projectName: 'POMS 首期项目主链路样例',
+                customerId,
                 customerName: '华南地铁集团',
                 customerProjectNo: null,
                 currentStage: 'contracting',
@@ -141,7 +145,7 @@ describe('ProjectQueryService', () => {
             projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: '50000000-0000-4000-8000-000000000001',
-            customerId: null,
+            customerId,
             customerName: '华南地铁集团',
             currentStage: 'execution',
             status: 'active',
@@ -163,6 +167,7 @@ describe('ProjectQueryService', () => {
                 id: '50000000-0000-4000-8000-000000000001',
                 leadNo: 'LEAD-2026-001',
                 leadName: '华南地铁线索',
+                customerId,
                 customerName: '华南地铁集团',
                 status: 'converted'
             }
@@ -199,6 +204,7 @@ describe('ProjectQueryService', () => {
             id: '50000000-0000-4000-8000-000000000001',
             leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
+            customerId,
             customerName: '华南地铁集团',
             status: 'converted'
         });

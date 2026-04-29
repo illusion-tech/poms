@@ -11,7 +11,7 @@
 
 export interface CreateProjectRequest {
     projectName: string;
-    customerName: string;
+    customerId: string;
     customerProjectNo?: string | null;
     currentStage?: CreateProjectRequestCurrentStageEnum;
     plannedSignAt?: string | null;

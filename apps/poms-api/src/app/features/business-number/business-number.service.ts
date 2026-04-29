@@ -8,6 +8,7 @@ interface BusinessNumberEntityManager {
 }
 
 export type BusinessNumberScope =
+    | 'customer'
     | 'lead'
     | 'project'
     | 'contract'
@@ -24,6 +25,7 @@ interface BusinessNumberSpec {
 }
 
 const BUSINESS_NUMBER_SPECS: Record<BusinessNumberScope, BusinessNumberSpec> = {
+    customer: { prefix: 'CUST', padding: 6, description: '客户编号' },
     lead: { prefix: 'LD', padding: 6, description: '线索编号' },
     project: { prefix: 'PRJ', padding: 6, description: '项目编号' },
     contract: { prefix: 'CT', padding: 6, description: '合同编号' },

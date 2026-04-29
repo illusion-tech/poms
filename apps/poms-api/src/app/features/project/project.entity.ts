@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 
 const p = defineEntity.properties;
@@ -11,6 +12,7 @@ export const ProjectSchema = defineEntity({
     indexes: [
         { name: 'idx_project_status', properties: ['status'] },
         { name: 'idx_project_current_stage', properties: ['currentStage'] },
+        { name: 'idx_project_customer_id', properties: ['customerId'] },
         { name: 'idx_project_owner_org_id', properties: ['ownerOrgId'] },
         { name: 'idx_project_source_lead_id', properties: ['sourceLeadId'] }
     ],
@@ -19,7 +21,7 @@ export const ProjectSchema = defineEntity({
         projectNo: p.string().length(64).unique().fieldName('project_no').comment('项目编号'),
         projectName: p.string().length(255).fieldName('project_name').comment('项目名称'),
         sourceLeadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('source_lead_id').foreignKeyName('project_source_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目来源线索标识'),
-        customerId: p.uuid().nullable().fieldName('customer_id').comment('客户标识，第一阶段先保留业务引用'),
+        customerId: () => p.manyToOne(Customer).mapToPk().nullable().fieldName('customer_id').foreignKeyName('project_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),
         customerName: p.string().length(255).nullable().fieldName('customer_name').comment('客户名称'),
         customerProjectNo: p.string().length(128).nullable().fieldName('customer_project_no').comment('客户项目编号'),
         status: p.string().length(32).comment('项目当前主状态'),

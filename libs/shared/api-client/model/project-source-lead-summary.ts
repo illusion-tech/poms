@@ -14,6 +14,7 @@ export interface ProjectSourceLeadSummary {
     id: string;
     leadNo: string;
     leadName: string;
+    customerId: string;
     customerName: string;
     status: LeadStatus;
 }

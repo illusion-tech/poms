@@ -11,7 +11,7 @@
 
 export interface UpdateLeadRequest {
     leadName?: string;
-    customerName?: string;
+    customerId?: string;
     sourceChannel?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;

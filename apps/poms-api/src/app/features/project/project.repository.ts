@@ -80,7 +80,12 @@ export class ProjectRepository {
         }
 
         if (input.keyword) {
-            (where as FilterQuery<Project> & { $or?: FilterQuery<Project>[] }).$or = [{ projectNo: { $ilike: `%${input.keyword}%` } }, { projectName: { $ilike: `%${input.keyword}%` } }, { customerProjectNo: { $ilike: `%${input.keyword}%` } }];
+            (where as FilterQuery<Project> & { $or?: FilterQuery<Project>[] }).$or = [
+                { projectNo: { $ilike: `%${input.keyword}%` } },
+                { projectName: { $ilike: `%${input.keyword}%` } },
+                { customerName: { $ilike: `%${input.keyword}%` } },
+                { customerProjectNo: { $ilike: `%${input.keyword}%` } }
+            ];
         }
 
         return this.projectRepository.find(where, {

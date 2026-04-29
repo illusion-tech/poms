@@ -1,14 +1,42 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, LeadStore, PlatformStore, type CustomerListView, type LeadDetailView, type LeadListView, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { LeadList } from './lead-list';
+
+function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
+    return {
+        id: 'customer-1',
+        customerNo: 'CUST-2026-001',
+        displayName: '华南地铁集团',
+        legalName: null,
+        shortName: null,
+        status: CustomerStatus.Active,
+        ownerOrgId: 'org-1',
+        ownerUserId: 'user-1',
+        ownerName: '张销售',
+        ownerOrgName: '华南销售一部',
+        sourceChannel: null,
+        remark: null,
+        mergedIntoCustomerId: null,
+        leadCount: 1,
+        projectCount: 1,
+        contractCount: 0,
+        rowVersion: 1,
+        createdAt: '2026-04-25T08:00:00.000Z',
+        createdBy: 'user-1',
+        updatedAt: '2026-04-25T08:00:00.000Z',
+        updatedBy: 'user-1',
+        ...overrides
+    };
+}
 
 function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
     return {
         id: 'lead-1',
         leadNo: 'L-2026-001',
         leadName: '华南地铁线索',
+        customerId: 'customer-1',
         customerName: '华南地铁集团',
         sourceChannel: '客户拜访',
         status: 'registered',
@@ -50,7 +78,7 @@ function createProjectSummary(overrides: Partial<ProjectSummary> = {}): ProjectS
         projectNo: 'P-2026-001',
         projectName: '华南地铁项目',
         sourceLeadId: 'lead-1',
-        customerId: null,
+        customerId: 'customer-1',
         customerName: '华南地铁集团',
         customerProjectNo: null,
         status: 'active',
@@ -99,6 +127,7 @@ describe('LeadList', () => {
     let routerMock: { navigate: jest.Mock };
     let ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
     let ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
+    let customers: ReturnType<typeof signal<CustomerListView[]>>;
     let leadStoreMock: {
         leads: ReturnType<typeof signal<LeadListView[]>>;
         selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
@@ -124,6 +153,12 @@ describe('LeadList', () => {
         loadedOwnerReferenceData: ReturnType<typeof signal<boolean>>;
         loadOwnerReferenceData: jest.Mock;
     };
+    let customerStoreMock: {
+        activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadCustomers: jest.Mock;
+    };
 
     beforeEach(async () => {
         leads = signal([createLead()]);
@@ -131,6 +166,7 @@ describe('LeadList', () => {
         canWriteLead = signal(true);
         ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
         ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
+        customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
         routerMock = { navigate: jest.fn() };
         leadStoreMock = {
             leads,
@@ -160,6 +196,12 @@ describe('LeadList', () => {
             loadingOwnerReferenceData: signal(false),
             loadedOwnerReferenceData: signal(true),
             loadOwnerReferenceData: jest.fn().mockResolvedValue({ users: ownerUsers(), orgUnits: ownerOrgUnits() })
+        };
+        customerStoreMock = {
+            activeCustomers: computed(() => customers().filter((customer) => customer.status === 'active')),
+            loading: signal(false),
+            loaded: signal(false),
+            loadCustomers: jest.fn().mockResolvedValue(customers())
         };
 
         await TestBed.configureTestingModule({
@@ -212,6 +254,10 @@ describe('LeadList', () => {
                         {
                             provide: LeadStore,
                             useValue: leadStoreMock
+                        },
+                        {
+                            provide: CustomerStore,
+                            useValue: customerStoreMock
                         }
                     ]
                 }
@@ -237,24 +283,25 @@ describe('LeadList', () => {
     it('creates a lead with the generated request shape', async () => {
         component.showCreateDialog();
         component.updateCreateField('leadName', '  城市交通机会  ');
-        component.updateCreateField('customerName', '  城市交通集团  ');
+        component.updateCreateCustomer('customer-2');
         component.updateCreateField('sourceChannel', '  老客户转介绍  ');
 
         await component.createLead();
 
         expect(leadStoreMock.createLead).toHaveBeenCalledWith({
             leadName: '城市交通机会',
-            customerName: '城市交通集团',
+            customerId: 'customer-2',
             sourceChannel: '老客户转介绍',
             ownerUserId: 'user-1',
             ownerOrgId: 'org-1'
         });
+        expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
     });
 
     it('updates the selected sales owner and defaults the owner org from the chosen user', async () => {
         component.showCreateDialog();
         component.updateCreateField('leadName', '城市交通机会');
-        component.updateCreateField('customerName', '城市交通集团');
+        component.updateCreateCustomer('customer-1');
         component.updateCreateOwnerUser('user-2');
 
         await component.createLead();

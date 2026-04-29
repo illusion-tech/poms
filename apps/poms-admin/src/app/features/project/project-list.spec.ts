@@ -1,14 +1,42 @@
-import { signal } from '@angular/core';
+import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectListView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectStore, type CustomerListView, type ProjectListView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { ProjectList } from './project-list';
+
+function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
+    return {
+        id: 'customer-1',
+        customerNo: 'CUST-2026-001',
+        displayName: '华南地铁集团',
+        legalName: null,
+        shortName: null,
+        status: CustomerStatus.Active,
+        ownerOrgId: null,
+        ownerUserId: null,
+        sourceChannel: null,
+        remark: null,
+        mergedIntoCustomerId: null,
+        rowVersion: 1,
+        createdAt: '2026-04-19T08:00:00.000Z',
+        createdBy: null,
+        updatedAt: '2026-04-19T08:00:00.000Z',
+        updatedBy: null,
+        ownerName: null,
+        ownerOrgName: null,
+        leadCount: 0,
+        projectCount: 1,
+        contractCount: 0,
+        ...overrides
+    };
+}
 
 function createProject(overrides: Partial<ProjectListView> = {}): ProjectListView {
     return {
         id: 'project-1',
         projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
+        customerId: 'customer-1',
         customerName: '华南地铁集团',
         customerProjectNo: null,
         currentStage: 'commercial-closure',
@@ -34,7 +62,14 @@ describe('ProjectList', () => {
     let currentUser: ReturnType<typeof signal<SanitizedUserWithOrgUnits | null>>;
     let canCreateProject: ReturnType<typeof signal<boolean>>;
     let canCreateLead: ReturnType<typeof signal<boolean>>;
+    let customers: ReturnType<typeof signal<CustomerListView[]>>;
     let routerMock: { navigate: jest.Mock };
+    let customerStoreMock: {
+        activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadCustomers: jest.Mock;
+    };
 
     beforeEach(async () => {
         projectStoreMock = {
@@ -61,7 +96,14 @@ describe('ProjectList', () => {
         });
         canCreateProject = signal(true);
         canCreateLead = signal(true);
+        customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
         routerMock = { navigate: jest.fn() };
+        customerStoreMock = {
+            activeCustomers: computed(() => customers().filter((customer) => customer.status === CustomerStatus.Active)),
+            loading: signal(false),
+            loaded: signal(false),
+            loadCustomers: jest.fn().mockResolvedValue(customers())
+        };
 
         await TestBed.configureTestingModule({
             imports: [ProjectList],
@@ -95,6 +137,10 @@ describe('ProjectList', () => {
                         {
                             provide: ProjectStore,
                             useValue: projectStoreMock
+                        },
+                        {
+                            provide: CustomerStore,
+                            useValue: customerStoreMock
                         }
                     ]
                 }
@@ -122,15 +168,16 @@ describe('ProjectList', () => {
         component.showCreateDialog();
         component.updateCreateField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateCreateField('projectName', '  城市交通项目  ');
-        component.updateCreateField('customerName', '  城市交通集团  ');
+        component.updateCreateCustomer('customer-2');
 
         await component.createProject();
 
         expect(projectStoreMock.createProject).toHaveBeenCalledWith({
             projectName: '城市交通项目',
-            customerName: '城市交通集团',
+            customerId: 'customer-2',
             customerProjectNo: 'CUS-PRJ-NEW'
         });
+        expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
     });
 
     it('uses the lead conversion chain as the visible project creation entry', () => {

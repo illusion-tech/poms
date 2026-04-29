@@ -1,7 +1,7 @@
-import { signal } from '@angular/core';
+import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AuthStore, PlatformStore, ProjectStore, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, PlatformStore, ProjectStore, type CustomerListView, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ProjectDetail } from './project-detail';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -14,13 +14,40 @@ function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = val
     };
 }
 
+function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
+    return {
+        id: 'customer-1',
+        customerNo: 'CUST-2026-001',
+        displayName: '华南地铁集团',
+        legalName: null,
+        shortName: null,
+        status: CustomerStatus.Active,
+        ownerOrgId: 'org-1',
+        ownerUserId: 'user-1',
+        sourceChannel: null,
+        remark: null,
+        mergedIntoCustomerId: null,
+        rowVersion: 1,
+        createdAt: '2026-04-19T08:00:00.000Z',
+        createdBy: 'user-1',
+        updatedAt: '2026-04-19T08:00:00.000Z',
+        updatedBy: 'user-1',
+        ownerName: '张销售',
+        ownerOrgName: '华南销售一部',
+        leadCount: 1,
+        projectCount: 1,
+        contractCount: 0,
+        ...overrides
+    };
+}
+
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
     return {
         id: 'project-1',
         projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         sourceLeadId: null,
-        customerId: null,
+        customerId: 'customer-1',
         customerName: '华南地铁集团',
         customerProjectNo: 'CUS-PRJ-2026-01',
         status: 'blocked',
@@ -184,6 +211,12 @@ describe('ProjectDetail', () => {
     let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
     let authStoreMock: { hasAnyPermission: jest.Mock };
+    let customerStoreMock: {
+        activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadCustomers: jest.Mock;
+    };
     let platformStoreMock: {
         ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
         ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
@@ -225,6 +258,7 @@ describe('ProjectDetail', () => {
         timelineErrorSignal = signal<string | null>(timelineError);
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
+        const customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
         const ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
         const ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
         platformStoreMock = {
@@ -233,6 +267,12 @@ describe('ProjectDetail', () => {
             loadingOwnerReferenceData: signal(false),
             loadedOwnerReferenceData: signal(true),
             loadOwnerReferenceData: jest.fn().mockResolvedValue({ users: ownerUsers(), orgUnits: ownerOrgUnits() })
+        };
+        customerStoreMock = {
+            activeCustomers: computed(() => customers().filter((customer) => customer.status === CustomerStatus.Active)),
+            loading: signal(false),
+            loaded: signal(false),
+            loadCustomers: jest.fn().mockResolvedValue(customers())
         };
         authStoreMock = {
             hasAnyPermission: jest.fn((permissions: readonly string[]) => {
@@ -297,6 +337,10 @@ describe('ProjectDetail', () => {
                 {
                     provide: PlatformStore,
                     useValue: platformStoreMock
+                },
+                {
+                    provide: CustomerStore,
+                    useValue: customerStoreMock
                 }
             ]
         })
@@ -376,6 +420,7 @@ describe('ProjectDetail', () => {
                     id: 'lead-1',
                     leadNo: 'L-2026-001',
                     leadName: '华南地铁线索',
+                    customerId: 'customer-1',
                     customerName: '华南地铁集团',
                     status: 'converted'
                 }
@@ -431,13 +476,13 @@ describe('ProjectDetail', () => {
         expect(text).not.toContain('123,456.78 CNY');
     });
 
-    it('submits trimmed basic info and allows clearing customer name', async () => {
+    it('submits trimmed basic info with customer master binding', async () => {
         await setup();
 
         component.showEditDialog();
         component.editForm = {
             projectName: '  更新后的项目  ',
-            customerName: '   ',
+            customerId: 'customer-2',
             customerProjectNo: '  CUS-PRJ-NEW  '
         };
 
@@ -445,9 +490,10 @@ describe('ProjectDetail', () => {
 
         expect(projectStoreMock.updateProject).toHaveBeenCalledWith('project-1', {
             projectName: '更新后的项目',
-            customerName: null,
+            customerId: 'customer-2',
             customerProjectNo: 'CUS-PRJ-NEW'
         });
+        expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
         expect(component.editDialogVisible).toBe(false);
     });
 

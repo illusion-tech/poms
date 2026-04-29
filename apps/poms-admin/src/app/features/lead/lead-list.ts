@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, LeadStore, PlatformStore, type LeadDetailView, type LeadListView, type LeadStatus, type OwnerReferenceUser } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, LeadStore, PlatformStore, type CustomerListView, type LeadDetailView, type LeadListView, type LeadStatus, type OwnerReferenceUser } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -36,9 +36,13 @@ interface LeadOwnerUserOption extends LeadFilterOption {
     primaryOrgUnitId: string | null;
 }
 
+interface CustomerOption extends LeadFilterOption {
+    customer: CustomerListView;
+}
+
 interface CreateLeadForm {
     leadName: string;
-    customerName: string;
+    customerId: string | null;
     sourceChannel: string;
     ownerUserId: string | null;
     ownerOrgId: string | null;
@@ -63,7 +67,7 @@ const LEAD_STATUS = {
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
     leadName: '',
-    customerName: '',
+    customerId: null,
     sourceChannel: '',
     ownerUserId: null,
     ownerOrgId: null
@@ -79,7 +83,7 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
     selector: 'app-lead-list',
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, WorkspaceFeedback],
-    providers: [LeadStore],
+    providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
             <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
@@ -266,10 +270,26 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="leadCustomerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
-                        <input pInputText id="leadCustomerName" [ngModel]="createForm().customerName" (ngModelChange)="updateCreateField('customerName', $event)" placeholder="填写客户公司或单位名称" class="w-full rounded-md!" />
-                        @if (createAttempted() && !createForm().customerName.trim()) {
-                            <span class="text-xs text-red-600 dark:text-red-300">请填写客户名称。</span>
+                        <div class="flex items-center justify-between gap-3">
+                            <label for="leadCustomerId" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户</label>
+                            <button pButton type="button" label="客户管理" icon="pi pi-building" severity="secondary" [text]="true" class="rounded-md! px-2! py-1!" (click)="goToCustomers()"></button>
+                        </div>
+                        <p-select
+                            inputId="leadCustomerId"
+                            [ngModel]="createForm().customerId"
+                            (ngModelChange)="updateCreateCustomer($event)"
+                            [options]="customerOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            [filter]="true"
+                            filterBy="label"
+                            [loading]="customerLoading()"
+                            appendTo="body"
+                            placeholder="选择客户主数据"
+                            styleClass="w-full rounded-md!"
+                        />
+                        @if (createAttempted() && !createForm().customerId) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请选择客户。</span>
                         }
                     </div>
 
@@ -506,6 +526,7 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
 })
 export class LeadList implements OnInit {
     readonly #authStore = inject(AuthStore);
+    readonly #customerStore = inject(CustomerStore);
     readonly #leadStore = inject(LeadStore);
     readonly #platformStore = inject(PlatformStore);
     readonly #router = inject(Router);
@@ -515,6 +536,7 @@ export class LeadList implements OnInit {
     readonly loading = this.#leadStore.loading;
     readonly loadingDetail = this.#leadStore.loadingDetail;
     readonly saving = this.#leadStore.saving;
+    readonly customerLoading = this.#customerStore.loading;
 
     readonly searchValue = signal('');
     readonly statusFilter = signal(ALL_FILTER_VALUE);
@@ -563,6 +585,13 @@ export class LeadList implements OnInit {
     );
 
     readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
+    readonly customerOptions = computed<CustomerOption[]>(() =>
+        this.#customerStore.activeCustomers().map((customer) => ({
+            label: `${customer.displayName}（${customer.customerNo}）`,
+            value: customer.id,
+            customer
+        }))
+    );
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
 
@@ -593,11 +622,12 @@ export class LeadList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.leadName.trim() && form.customerName.trim() && form.ownerUserId);
+        return Boolean(form.leadName.trim() && form.customerId && form.ownerUserId);
     });
 
     ngOnInit() {
         void this.ensureAuthReady();
+        void this.loadCustomers();
         void this.loadOwnerReferenceData();
         void this.loadLeads();
     }
@@ -613,6 +643,10 @@ export class LeadList implements OnInit {
 
     goToProjects() {
         this.#router.navigate(['/projects']);
+    }
+
+    goToCustomers() {
+        this.#router.navigate(['/customers']);
     }
 
     goToProject(projectId: string | null | undefined) {
@@ -659,10 +693,18 @@ export class LeadList implements OnInit {
         this.createError.set(null);
     }
 
-    updateCreateField(field: 'leadName' | 'customerName' | 'sourceChannel', value: string) {
+    updateCreateField(field: 'leadName' | 'sourceChannel', value: string) {
         this.createForm.update((form) => ({
             ...form,
             [field]: value
+        }));
+        this.createError.set(null);
+    }
+
+    updateCreateCustomer(value: string | null | undefined) {
+        this.createForm.update((form) => ({
+            ...form,
+            customerId: value ?? null
         }));
         this.createError.set(null);
     }
@@ -695,15 +737,16 @@ export class LeadList implements OnInit {
 
         const form = this.createForm();
         const ownerUserId = form.ownerUserId;
+        const customerId = form.customerId;
 
-        if (!ownerUserId) {
+        if (!ownerUserId || !customerId) {
             return;
         }
 
         try {
             await this.#leadStore.createLead({
                 leadName: form.leadName.trim(),
-                customerName: form.customerName.trim(),
+                customerId,
                 sourceChannel: this.optionalText(form.sourceChannel),
                 ownerUserId,
                 ownerOrgId: form.ownerOrgId ?? null
@@ -887,6 +930,16 @@ export class LeadList implements OnInit {
             }
         } catch {
             this.pageError.set('销售主责候选没有读取成功，请稍后重试。');
+        }
+    }
+
+    private async loadCustomers(): Promise<void> {
+        try {
+            if (!this.#customerStore.loaded()) {
+                await this.#customerStore.loadCustomers({ status: CustomerStatus.Active });
+            }
+        } catch {
+            this.pageError.set('客户候选没有读取成功，请稍后重试。');
         }
     }
 

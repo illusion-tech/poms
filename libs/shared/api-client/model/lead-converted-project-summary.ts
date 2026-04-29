@@ -13,6 +13,7 @@ export interface LeadConvertedProjectSummary {
     id: string;
     projectNo: string;
     projectName: string;
+    customerId: string | null;
     status: string;
     currentStage: string;
 }

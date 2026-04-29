@@ -7,6 +7,7 @@ import { LeadService } from './lead.service';
 describe('LeadController', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
+    const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -54,7 +55,7 @@ describe('LeadController', () => {
         const result = await controller.create(
             {
                 leadName: '华南地铁线索',
-                customerName: '华南地铁集团',
+                customerId,
                 sourceChannel: '展会',
                 ownerOrgId: orgId,
                 ownerUserId: userId
@@ -65,7 +66,7 @@ describe('LeadController', () => {
         expect(leadService.createLead).toHaveBeenCalledWith(
             {
                 leadName: '华南地铁线索',
-                customerName: '华南地铁集团',
+                customerId,
                 sourceChannel: '展会',
                 ownerOrgId: orgId,
                 ownerUserId: userId
@@ -163,6 +164,7 @@ describe('LeadController', () => {
             id: leadId,
             leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
+            customerId,
             customerName: '华南地铁集团',
             sourceChannel: '展会',
             status: 'registered',
@@ -192,7 +194,7 @@ describe('LeadController', () => {
             projectNo: 'PRJ-2026-101',
             projectName: '华南地铁项目',
             sourceLeadId: leadId,
-            customerId: null,
+            customerId,
             customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'assessment',

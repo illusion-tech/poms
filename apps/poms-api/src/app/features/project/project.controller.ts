@@ -211,7 +211,7 @@ export class ProjectController {
         const project = await this.projectService.createAndSave(
             {
                 projectName: body.projectName,
-                customerName: body.customerName,
+                customerId: body.customerId,
                 customerProjectNo: body.customerProjectNo,
                 currentStage: body.currentStage,
                 plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
@@ -345,7 +345,7 @@ export class ProjectController {
             id,
             {
                 projectName: body.projectName,
-                customerName: body.customerName,
+                customerId: body.customerId,
                 customerProjectNo: body.customerProjectNo,
                 plannedSignAt
             },

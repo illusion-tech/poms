@@ -60,7 +60,7 @@ export class LeadController {
     ): Promise<LeadSummary> {
         const lead = await this.leadService.createLead({
             leadName: body.leadName,
-            customerName: body.customerName,
+            customerId: body.customerId,
             sourceChannel: body.sourceChannel,
             ownerOrgId: body.ownerOrgId,
             ownerUserId: body.ownerUserId
@@ -80,7 +80,7 @@ export class LeadController {
     ): Promise<LeadSummary> {
         const lead = await this.leadService.updateLead(id, {
             leadName: body.leadName,
-            customerName: body.customerName,
+            customerId: body.customerId,
             sourceChannel: body.sourceChannel,
             ownerOrgId: body.ownerOrgId,
             ownerUserId: body.ownerUserId

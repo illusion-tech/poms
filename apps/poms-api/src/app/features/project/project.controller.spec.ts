@@ -6,6 +6,7 @@ import { ProjectService } from './project.service';
 
 describe('ProjectController', () => {
     const projectId = '20000000-0000-4000-8000-000000000001';
+    const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000001';
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
@@ -55,7 +56,7 @@ describe('ProjectController', () => {
         await controller.create(
             {
                 projectName: 'POMS 首期项目主链路样例',
-                customerName: '华南地铁集团',
+                customerId,
                 customerProjectNo: 'CUS-PRJ-001',
                 currentStage: 'commercial-closure',
                 plannedSignAt
@@ -65,7 +66,7 @@ describe('ProjectController', () => {
 
         expect(projectService.createAndSave).toHaveBeenCalledWith(
             expect.objectContaining({
-                customerName: '华南地铁集团',
+                customerId,
                 customerProjectNo: 'CUS-PRJ-001',
                 plannedSignAt: new Date(plannedSignAt)
             }),
@@ -548,7 +549,7 @@ describe('ProjectController', () => {
             projectNo: 'PRJ-2026-001',
             projectName: 'POMS 首期项目主链路样例',
             sourceLeadId: null,
-            customerId: null,
+            customerId,
             customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'commercial-closure',

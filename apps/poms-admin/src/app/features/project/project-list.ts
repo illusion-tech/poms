@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, ProjectStore, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -30,8 +30,12 @@ interface ProjectSummaryItem {
     hint: string;
 }
 
+interface CustomerOption extends ProjectFilterOption {
+    customer: CustomerListView;
+}
+
 interface CreateProjectForm {
-    customerName: string;
+    customerId: string | null;
     customerProjectNo: string;
     projectName: string;
 }
@@ -39,7 +43,7 @@ interface CreateProjectForm {
 const ALL_FILTER_VALUE = 'all';
 
 const EMPTY_CREATE_FORM: CreateProjectForm = {
-    customerName: '',
+    customerId: null,
     customerProjectNo: '',
     projectName: ''
 };
@@ -48,7 +52,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
     selector: 'app-project-list',
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, WorkspaceFeedback],
-    providers: [ProjectStore],
+    providers: [ProjectStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
             <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
@@ -267,10 +271,26 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="customerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
-                        <input pInputText id="customerName" [ngModel]="createForm().customerName" (ngModelChange)="updateCreateField('customerName', $event)" placeholder="填写客户公司或单位名称" class="w-full rounded-md!" />
-                        @if (createAttempted() && !createForm().customerName.trim()) {
-                            <span class="text-xs text-red-600 dark:text-red-300">请填写客户名称。</span>
+                        <div class="flex items-center justify-between gap-3">
+                            <label for="projectCustomerId" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户</label>
+                            <button pButton type="button" label="客户管理" icon="pi pi-building" severity="secondary" [text]="true" class="rounded-md! px-2! py-1!" (click)="navigateToCustomers()"></button>
+                        </div>
+                        <p-select
+                            inputId="projectCustomerId"
+                            [ngModel]="createForm().customerId"
+                            (ngModelChange)="updateCreateCustomer($event)"
+                            [options]="customerOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            [filter]="true"
+                            filterBy="label"
+                            [loading]="customerLoading()"
+                            appendTo="body"
+                            placeholder="选择客户主数据"
+                            styleClass="w-full rounded-md!"
+                        />
+                        @if (createAttempted() && !createForm().customerId) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请选择客户。</span>
                         }
                     </div>
                 </div>
@@ -287,12 +307,14 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
 })
 export class ProjectList implements OnInit {
     readonly #authStore = inject(AuthStore);
+    readonly #customerStore = inject(CustomerStore);
     readonly #projectStore = inject(ProjectStore);
     readonly #router = inject(Router);
 
     readonly projects = this.#projectStore.projects;
     readonly loading = this.#projectStore.loading;
     readonly creating = this.#projectStore.saving;
+    readonly customerLoading = this.#customerStore.loading;
 
     readonly searchValue = signal('');
     readonly stageFilter = signal(ALL_FILTER_VALUE);
@@ -315,6 +337,13 @@ export class ProjectList implements OnInit {
 
     readonly canCreateProject = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canCreateLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
+    readonly customerOptions = computed<CustomerOption[]>(() =>
+        this.#customerStore.activeCustomers().map((customer) => ({
+            label: `${customer.displayName}（${customer.customerNo}）`,
+            value: customer.id,
+            customer
+        }))
+    );
 
     readonly visibleProjects = computed(() => {
         const keyword = this.normalize(this.searchValue());
@@ -354,11 +383,12 @@ export class ProjectList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.projectName.trim() && form.customerName.trim());
+        return Boolean(form.projectName.trim() && form.customerId);
     });
 
     ngOnInit() {
         void this.ensureAuthReady();
+        void this.loadCustomers();
         void this.#projectStore.loadProjects();
     }
 
@@ -372,6 +402,10 @@ export class ProjectList implements OnInit {
 
     navigateToLeadEntry() {
         this.#router.navigate(['/leads']);
+    }
+
+    navigateToCustomers() {
+        this.#router.navigate(['/customers']);
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -421,6 +455,14 @@ export class ProjectList implements OnInit {
         this.createError.set(null);
     }
 
+    updateCreateCustomer(value: string | null | undefined) {
+        this.createForm.update((form) => ({
+            ...form,
+            customerId: value ?? null
+        }));
+        this.createError.set(null);
+    }
+
     async createProject() {
         this.createAttempted.set(true);
 
@@ -429,11 +471,16 @@ export class ProjectList implements OnInit {
         }
 
         const form = this.createForm();
+        const customerId = form.customerId;
+
+        if (!customerId) {
+            return;
+        }
 
         try {
             await this.#projectStore.createProject({
                 projectName: form.projectName.trim(),
-                customerName: form.customerName.trim(),
+                customerId,
                 customerProjectNo: this.optionalText(form.customerProjectNo)
             });
             this.closeCreateDialog();
@@ -473,6 +520,16 @@ export class ProjectList implements OnInit {
 
     private normalize(value: string): string {
         return value.trim().toLowerCase();
+    }
+
+    private async loadCustomers(): Promise<void> {
+        try {
+            if (!this.#customerStore.loaded()) {
+                await this.#customerStore.loadCustomers({ status: CustomerStatus.Active });
+            }
+        } catch {
+            this.createError.set('客户候选没有读取成功，请稍后重试。');
+        }
     }
 
     private async ensureAuthReady(): Promise<void> {

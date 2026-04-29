@@ -2,7 +2,7 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, PlatformStore, ProjectStore, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, PlatformStore, ProjectStore, type CustomerListView, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -32,7 +32,7 @@ import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 
 interface EditProjectForm {
-    customerName: string;
+    customerId: string | null;
     customerProjectNo: string;
     projectName: string;
 }
@@ -44,6 +44,10 @@ interface OwnerOption {
 
 interface OwnerUserOption extends OwnerOption {
     primaryOrgUnitId: string | null;
+}
+
+interface CustomerOption extends OwnerOption {
+    customer: CustomerListView;
 }
 
 interface ReassignOwnerForm {
@@ -117,7 +121,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
     selector: 'app-project-detail',
     standalone: true,
     imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, SelectModule, TextareaModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
-    providers: [ProjectStore],
+    providers: [ProjectStore, CustomerStore],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目详情" />
@@ -478,8 +482,24 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="editCustomerName" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户名称</label>
-                        <input pInputText id="editCustomerName" [(ngModel)]="editForm.customerName" class="w-full rounded-md!" placeholder="可留空" />
+                        <div class="flex items-center justify-between gap-3">
+                            <label for="editCustomerId" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户</label>
+                            <p-button label="客户管理" icon="pi pi-building" severity="secondary" [text]="true" styleClass="rounded-md! px-2! py-1!" (onClick)="goToCustomers()" />
+                        </div>
+                        <p-select
+                            inputId="editCustomerId"
+                            [(ngModel)]="editForm.customerId"
+                            [options]="customerOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            [filter]="true"
+                            filterBy="label"
+                            [showClear]="true"
+                            [loading]="customerLoading()"
+                            appendTo="body"
+                            placeholder="选择客户主数据"
+                            styleClass="w-full rounded-md!"
+                        />
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -697,6 +717,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 export class ProjectDetail implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
+    readonly #customerStore = inject(CustomerStore);
     readonly #projectStore = inject(ProjectStore);
     readonly #authStore = inject(AuthStore);
     readonly #platformStore = inject(PlatformStore);
@@ -708,6 +729,7 @@ export class ProjectDetail implements OnInit {
     readonly saving = this.#projectStore.saving;
     readonly loadingArchiveRecords = this.#projectStore.loadingArchiveRecords;
     readonly savingArchiveCommand = this.#projectStore.savingArchiveCommand;
+    readonly customerLoading = this.#customerStore.loading;
     readonly timelineError = this.#projectStore.timelineError;
     readonly archiveRecordsError = this.#projectStore.archiveRecordsError;
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
@@ -730,12 +752,19 @@ export class ProjectDetail implements OnInit {
                 value: orgUnit.id
             }))
     );
+    readonly customerOptions = computed<CustomerOption[]>(() =>
+        this.#customerStore.activeCustomers().map((customer) => ({
+            label: `${customer.displayName}（${customer.customerNo}）`,
+            value: customer.id,
+            customer
+        }))
+    );
     readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
 
     editDialogVisible = false;
     editAttempted = false;
     editError: string | null = null;
-    editForm: EditProjectForm = { customerName: '', customerProjectNo: '', projectName: '' };
+    editForm: EditProjectForm = { customerId: null, customerProjectNo: '', projectName: '' };
     reassignOwnerDialogVisible = false;
     reassignOwnerAttempted = false;
     reassignOwnerError: string | null = null;
@@ -796,6 +825,10 @@ export class ProjectDetail implements OnInit {
         this.#router.navigate(['/leads']);
     }
 
+    goToCustomers() {
+        this.#router.navigate(['/customers']);
+    }
+
     showEditDialog() {
         const project = this.project();
         if (!project || !this.canEdit(project)) {
@@ -803,13 +836,14 @@ export class ProjectDetail implements OnInit {
         }
 
         this.editForm = {
-            customerName: project.customerName ?? '',
+            customerId: project.customerId ?? null,
             customerProjectNo: project.customerProjectNo ?? '',
             projectName: project.projectName
         };
         this.editAttempted = false;
         this.editError = null;
         this.editDialogVisible = true;
+        void this.loadCustomers();
     }
 
     closeEditDialog() {
@@ -829,13 +863,12 @@ export class ProjectDetail implements OnInit {
             return;
         }
 
-        const customerName = this.editForm.customerName.trim();
         const customerProjectNo = this.editForm.customerProjectNo.trim();
 
         try {
             await this.#projectStore.updateProject(project.id, {
                 projectName,
-                customerName: customerName || null,
+                customerId: this.editForm.customerId ?? undefined,
                 customerProjectNo: customerProjectNo || null
             });
             this.closeEditDialog();
@@ -1226,6 +1259,14 @@ export class ProjectDetail implements OnInit {
     private async loadOwnerReferenceData(): Promise<void> {
         if (!this.#platformStore.loadedOwnerReferenceData()) {
             await this.#platformStore.loadOwnerReferenceData().catch(() => undefined);
+        }
+    }
+
+    private async loadCustomers(): Promise<void> {
+        if (!this.#customerStore.loaded()) {
+            await this.#customerStore.loadCustomers({ status: CustomerStatus.Active }).catch(() => {
+                this.editError = '客户候选没有读取成功，请稍后重试。';
+            });
         }
     }
 

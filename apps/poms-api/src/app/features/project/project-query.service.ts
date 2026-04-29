@@ -213,6 +213,7 @@ export class ProjectQueryService {
                     id: project.id,
                     projectNo: project.projectNo,
                     projectName: project.projectName,
+                    customerId: project.customerId ?? null,
                     customerName: project.customerName ?? null,
                     customerProjectNo: project.customerProjectNo ?? null,
                     currentStage: project.currentStage,
@@ -1290,6 +1291,7 @@ export class ProjectQueryService {
             id: lead.id,
             leadNo: lead.leadNo,
             leadName: lead.leadName,
+            customerId: lead.customerId,
             customerName: lead.customerName,
             status: lead.status
         };

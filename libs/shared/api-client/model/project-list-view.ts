@@ -13,6 +13,7 @@ export interface ProjectListView {
     id: string;
     projectNo: string;
     projectName: string;
+    customerId: string | null;
     customerName: string | null;
     customerProjectNo: string | null;
     currentStage: string;

@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { CustomerService } from '../customer/customer.service';
 import type {
     AcceptanceRecordResult,
     AcceptanceRecordType,
@@ -25,7 +26,7 @@ import { ProjectRepository } from './project.repository';
 
 export interface CreateProjectRecord {
     projectName: string;
-    customerName: string;
+    customerId: string;
     customerProjectNo?: string | null;
     sourceLeadId?: string | null;
     currentStage?: ProjectStage;
@@ -41,7 +42,7 @@ export interface FindProjectsQuery {
 
 export interface UpdateProjectBasicInfoRecord {
     projectName?: string;
-    customerName?: string | null;
+    customerId?: string;
     customerProjectNo?: string | null;
     plannedSignAt?: Date | null;
 }
@@ -103,7 +104,8 @@ const RISK_LEVEL_WEIGHT: Record<PreSigningRiskLevel, number> = {
 export class ProjectService {
     constructor(
         private readonly projectRepository: ProjectRepository,
-        private readonly businessNumberService: BusinessNumberService
+        private readonly businessNumberService: BusinessNumberService,
+        private readonly customerService: CustomerService
     ) {}
 
     async findAll(): Promise<Project[]> {
@@ -132,6 +134,7 @@ export class ProjectService {
             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
         }
 
+        const customer = await this.customerService.requireActiveCustomer(input.customerId);
         return this.projectRepository.getEntityManager().transactional(async (em) => {
             const projectNo = await this.businessNumberService.next('project', new Date(), em);
             const project = em.create(Project, {
@@ -140,8 +143,8 @@ export class ProjectService {
                 sourceLeadId: input.sourceLeadId ?? null,
                 status: 'active',
                 currentStage: input.currentStage ?? 'assessment',
-                customerId: null,
-                customerName: input.customerName,
+                customerId: customer.id,
+                customerName: customer.displayName,
                 customerProjectNo: input.customerProjectNo?.trim() || null,
                 ownerOrgId: operator.primaryOrgUnitId ?? null,
                 ownerUserId: operator.id,
@@ -170,8 +173,10 @@ export class ProjectService {
             project.projectName = input.projectName;
         }
 
-        if (input.customerName !== undefined) {
-            project.customerName = input.customerName;
+        if (input.customerId !== undefined) {
+            const customer = await this.customerService.requireActiveCustomer(input.customerId);
+            project.customerId = customer.id;
+            project.customerName = customer.displayName;
         }
 
         if (input.customerProjectNo !== undefined) {

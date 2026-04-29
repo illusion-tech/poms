@@ -1,13 +1,14 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 
 export interface CreateLeadRecord {
     leadName: string;
-    customerName: string;
+    customerId: string;
     sourceChannel?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;
@@ -15,7 +16,7 @@ export interface CreateLeadRecord {
 
 export interface UpdateLeadRecord {
     leadName?: string;
-    customerName?: string;
+    customerId?: string;
     sourceChannel?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;
@@ -39,7 +40,8 @@ export interface ConvertLeadToProjectRecord {
 export class LeadService {
     constructor(
         private readonly leadRepository: LeadRepository,
-        private readonly businessNumberService: BusinessNumberService
+        private readonly businessNumberService: BusinessNumberService,
+        private readonly customerService: CustomerService
     ) {}
 
     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
@@ -49,12 +51,14 @@ export class LeadService {
         }
 
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator);
+        const customer = await this.customerService.requireActiveCustomer(input.customerId);
         return this.leadRepository.getEntityManager().transactional(async (em) => {
             const leadNo = await this.businessNumberService.next('lead', new Date(), em);
             const lead = em.create(Lead, {
                 leadNo,
                 leadName: input.leadName,
-                customerName: input.customerName,
+                customerId: customer.id,
+                customerName: customer.displayName,
                 sourceChannel: input.sourceChannel?.trim() || null,
                 status: 'registered',
                 ownerOrgId: owner.ownerOrgId,
@@ -86,8 +90,10 @@ export class LeadService {
             lead.leadName = input.leadName;
         }
 
-        if (input.customerName !== undefined) {
-            lead.customerName = input.customerName;
+        if (input.customerId !== undefined) {
+            const customer = await this.customerService.requireActiveCustomer(input.customerId);
+            lead.customerId = customer.id;
+            lead.customerName = customer.displayName;
         }
 
         if (input.sourceChannel !== undefined) {
@@ -170,7 +176,7 @@ export class LeadService {
                 sourceLeadId: lead.id,
                 status: 'active',
                 currentStage: 'assessment',
-                customerId: null,
+                customerId: lead.customerId,
                 customerName: lead.customerName,
                 customerProjectNo: input.customerProjectNo?.trim() || null,
                 ownerOrgId: lead.ownerOrgId ?? null,

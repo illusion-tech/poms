@@ -12,17 +12,19 @@ import type {
     SanitizedUserWithOrgUnits
 } from './types';
 
+export const DEFAULT_E2E_CUSTOMER_ID = '11000000-0000-4000-8000-000000000001';
+
 export function makeUniqueSuffix(prefix: string): string {
     return `${prefix}-${Date.now()}-${randomUUID().slice(0, 8)}`.toUpperCase();
 }
 
 export function buildProjectInput(
-    profile: SanitizedUserWithOrgUnits,
+    _profile: SanitizedUserWithOrgUnits,
     overrides: Partial<CreateProjectRequest> & { projectName: string; customerProjectNo?: string | null }
 ): CreateProjectRequest {
     return {
         projectName: overrides.projectName,
-        customerName: overrides.customerName ?? `${profile.displayName} 客户`,
+        customerId: overrides.customerId ?? DEFAULT_E2E_CUSTOMER_ID,
         customerProjectNo: overrides.customerProjectNo ?? null,
         currentStage: overrides.currentStage ?? 'assessment',
         plannedSignAt: overrides.plannedSignAt ?? undefined

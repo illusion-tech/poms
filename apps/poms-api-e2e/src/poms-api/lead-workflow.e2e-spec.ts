@@ -1,4 +1,5 @@
 import { loginAsAdmin } from '../support/api-client';
+import { createCustomer } from '../support/customer-api';
 import { expectErrorStatus, expectStatus } from '../support/http';
 import { convertLeadToProject, createLead, getLead, qualifyLead } from '../support/lead-api';
 import { makeUniqueSuffix } from '../support/test-data';
@@ -11,9 +12,13 @@ describe('poms-api lead workflow e2e', () => {
         const { client, profile } = await loginAsAdmin();
         const unique = makeUniqueSuffix('lead-convert');
         const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
+        const customer = await createCustomer(client, {
+            displayName: `E2E 客户 ${unique}`,
+            sourceChannel: 'e2e'
+        });
         const lead = await createLead(client, {
             leadName: `E2E 线索转项目 ${unique}`,
-            customerName: `E2E 客户 ${unique}`,
+            customerId: customer.id,
             sourceChannel: 'e2e',
             ownerOrgId: primaryOrgId,
             ownerUserId: profile.id
@@ -31,7 +36,7 @@ describe('poms-api lead workflow e2e', () => {
         });
 
         expect(project.sourceLeadId).toBe(lead.id);
-        expect(project.customerName).toBe(`E2E 客户 ${unique}`);
+        expect(project.customerName).toBe(customer.displayName);
         expect(project.ownerOrgId).toBe(primaryOrgId);
         expect(project.ownerUserId).toBe(profile.id);
         expect(project.currentStage).toBe('assessment');

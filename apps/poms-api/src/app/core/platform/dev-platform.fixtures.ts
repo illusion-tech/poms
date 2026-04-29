@@ -1,6 +1,8 @@
 import { PERMISSION_KEYS, type PermissionKey, type UserOrgUnitSummary } from '@poms/shared-contracts';
 
-const BUSINESS_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'];
+const BUSINESS_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:dashboard:view', 'nav:customers:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'];
+const CUSTOMER_READ_PERMISSIONS: PermissionKey[] = ['customer:read', 'nav:customers:view'];
+const CUSTOMER_WRITE_PERMISSIONS: PermissionKey[] = ['customer:read', 'customer:write', 'nav:customers:view'];
 const LEAD_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:leads:view'];
 const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_PERMISSIONS];
 const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS];
@@ -87,7 +89,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '项目只读角色',
         description: '开发环境默认项目只读角色',
         isSystemRole: true,
-        permissions: [...PROJECT_READ_PERMISSIONS]
+        permissions: [...PROJECT_READ_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000003',
@@ -95,7 +97,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售人员',
         description: '开发环境默认销售人员角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000004',
@@ -103,7 +105,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售负责人',
         description: '开发环境默认销售负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000005',
@@ -111,7 +113,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '售前支持',
         description: '开发环境默认售前支持角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000006',
@@ -119,7 +121,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '商务行政',
         description: '开发环境默认商务行政角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS, 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000007',
@@ -127,7 +129,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '商务负责人',
         description: '开发环境默认商务负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000008',
@@ -135,7 +137,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '流程负责人',
         description: '开发环境默认副总经理 / 流程负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000009',
@@ -143,7 +145,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '公司高层',
         description: '开发环境默认公司高层角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000010',
@@ -151,7 +153,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '项目负责人',
         description: '开发环境默认项目负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS]
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000011',
@@ -159,7 +161,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售助理',
         description: '开发环境默认销售助理角色',
         isSystemRole: false,
-        permissions: [...PROJECT_READ_PERMISSIONS, ...LEAD_READ_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
+        permissions: [...PROJECT_READ_PERMISSIONS, ...LEAD_READ_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS, 'contract:finance:manage', ...CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS]
     },
     {
         id: '30000000-0000-4000-8000-000000000012',
@@ -167,7 +169,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '制度维护角色',
         description: '开发环境默认提成制度维护角色',
         isSystemRole: false,
-        permissions: [...PROJECT_READ_PERMISSIONS, 'commission:rule-versions:manage']
+        permissions: [...PROJECT_READ_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS, 'commission:rule-versions:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000013',
@@ -177,6 +179,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         isSystemRole: false,
         permissions: [
             ...PROJECT_READ_PERMISSIONS,
+            ...CUSTOMER_READ_PERMISSIONS,
             'contract:finance:manage',
             ...FINANCE_SENSITIVE_READ_PERMISSIONS,
             'commission:calculations:manage',
@@ -192,6 +195,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         isSystemRole: false,
         permissions: [
             ...PROJECT_WRITE_PERMISSIONS,
+            ...CUSTOMER_READ_PERMISSIONS,
             'contract:finance:manage',
             ...FINANCE_SENSITIVE_READ_PERMISSIONS,
             'commission:rule-versions:manage',
@@ -206,7 +210,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '审计观察',
         description: '开发环境默认审计只读角色',
         isSystemRole: false,
-        permissions: [...PROJECT_READ_PERMISSIONS]
+        permissions: [...PROJECT_READ_PERMISSIONS, ...CUSTOMER_READ_PERMISSIONS]
     }
 ];
 

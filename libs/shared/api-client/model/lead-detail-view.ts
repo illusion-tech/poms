@@ -15,6 +15,7 @@ export interface LeadDetailView {
     id: string;
     leadNo: string;
     leadName: string;
+    customerId: string;
     customerName: string;
     sourceChannel: string | null;
     status: LeadStatus;

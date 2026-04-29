@@ -300,6 +300,17 @@
 | `project` | `listProjects`         | `GET /projects`                     | `GET /projects`                     | `GET /projects`                     | `ADR-015` + `EX-17`                                                                      | `N/A`      | 保持；列表继续返回 `ProjectListView[]`。                                                                                                | `B4`  | `aligned` |
 | `project` | `reassignProjectOwner` | `POST /projects/{id}:reassignOwner` | `POST /projects/{id}:reassignOwner` | `POST /projects/{id}:reassignOwner` | `ADR-015` + `project-lifecycle-design.md` + `business-authorization-matrix.md` + `EX-41` | `N/A`      | `EX-41A` 已落地受控命令、审计记录、OpenAPI 与 generated client；不进入普通 `PATCH /projects/{id}`。                                     | `B5`  | `aligned` |
 
+### 6.11 EX-42 Customer Master Data
+
+| Domain     | Capability              | Canonical Route                | Current Implemented Route      | Current Design Route           | Authority                         | Drift Type | Action                                                                     | Batch | Status    |
+| ---------- | ----------------------- | ------------------------------ | ------------------------------ | ------------------------------ | --------------------------------- | ---------- | -------------------------------------------------------------------------- | ----- | --------- |
+| `customer` | `listCustomers`         | `GET /customers`               | `GET /customers`               | `GET /customers`               | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户主档集合查询，作为 Lead / Project 客户选择器与客户管理列表事实源。 | `B6`  | `aligned` |
+| `customer` | `createCustomer`        | `POST /customers`              | `POST /customers`              | `POST /customers`              | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户主档创建；名称快照由业务对象在创建时复制，不反向改写历史快照。     | `B6`  | `aligned` |
+| `customer` | `getCustomer`           | `GET /customers/{id}`          | `GET /customers/{id}`          | `GET /customers/{id}`          | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户详情，返回主档、owner 名称和最小关联计数。                         | `B6`  | `aligned` |
+| `customer` | `updateCustomer`        | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户基础信息更新；不得静默合并客户。                                   | `B6`  | `aligned` |
+| `customer` | `listCustomerAliases`   | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户别名集合查询，用于名称匹配和历史输入追溯。                         | `B6`  | `aligned` |
+| `customer` | `createCustomerAlias`   | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户别名创建；别名不等价于客户合并。                                   | `B6`  | `aligned` |
+
 ## 7. 批次推进原则
 
 1. `B1` 先处理 `EX-08`、`EX-09` 与 commission 相关高优先级能力。

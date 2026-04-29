@@ -10,6 +10,9 @@ export const PERMISSION_KEYS = [
     'platform:roles:manage',
     'platform:navigation:manage',
     'platform:org-units:manage',
+    // 客户主数据
+    'customer:read',
+    'customer:write',
     // 提成治理
     'commission:rule-versions:manage',
     'commission:assignments:manage',
@@ -32,6 +35,7 @@ export const PERMISSION_KEYS = [
     'project:delete',
     // 导航可见性（仅影响菜单展示，不代替后端业务权限）
     'nav:dashboard:view',
+    'nav:customers:view',
     'nav:platform:view',
     'nav:leads:view',
     'nav:projects:view',
@@ -51,6 +55,8 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:roles:manage': { description: '管理角色与权限', group: '平台管理' },
     'platform:navigation:manage': { description: '管理导航菜单', group: '平台管理' },
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
+    'customer:read': { description: '查看客户主数据', group: '客户' },
+    'customer:write': { description: '创建/维护客户主数据', group: '客户' },
     'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
     'commission:assignments:manage': { description: '管理提成角色分配', group: '提成治理' },
     'commission:calculations:manage': { description: '管理提成计算结果', group: '提成治理' },
@@ -68,6 +74,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'project:write': { description: '创建/编辑项目', group: '项目' },
     'project:delete': { description: '删除项目', group: '项目' },
     'nav:dashboard:view': { description: '查看工作台菜单', group: '导航' },
+    'nav:customers:view': { description: '查看客户菜单', group: '导航' },
     'nav:platform:view': { description: '查看平台管理菜单', group: '导航' },
     'nav:leads:view': { description: '查看线索菜单', group: '导航' },
     'nav:projects:view': { description: '查看项目菜单', group: '导航' },
@@ -721,6 +728,146 @@ export const RecordRouteDeniedSecurityEventRequestSchema = z
 export type RecordRouteDeniedSecurityEventRequest = z.infer<typeof RecordRouteDeniedSecurityEventRequestSchema>;
 
 // ---------------------------------------------------------------------------
+// Customer
+// ---------------------------------------------------------------------------
+
+export const CUSTOMER_STATUSES = ['active', 'inactive', 'merged'] as const;
+
+export type CustomerStatus = (typeof CUSTOMER_STATUSES)[number];
+
+export const CustomerStatusSchema = z.enum(CUSTOMER_STATUSES).meta({ id: 'CustomerStatus' });
+
+export const CUSTOMER_ALIAS_TYPES = ['legal_name', 'short_name', 'legacy_input', 'import_name', 'alias'] as const;
+
+export type CustomerAliasType = (typeof CUSTOMER_ALIAS_TYPES)[number];
+
+export const CustomerAliasTypeSchema = z.enum(CUSTOMER_ALIAS_TYPES).meta({ id: 'CustomerAliasType' });
+
+export const CustomerSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerNo: z.string(),
+        displayName: z.string(),
+        legalName: z.string().nullable(),
+        shortName: z.string().nullable(),
+        status: CustomerStatusSchema,
+        ownerOrgId: z.uuid().nullable(),
+        ownerUserId: z.uuid().nullable(),
+        sourceChannel: z.string().nullable(),
+        remark: z.string().nullable(),
+        mergedIntoCustomerId: z.uuid().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'CustomerSummary' });
+
+export type CustomerSummary = z.infer<typeof CustomerSummarySchema>;
+
+export const CustomerListViewSchema = CustomerSummarySchema.extend({
+    ownerName: z.string().nullable(),
+    ownerOrgName: z.string().nullable(),
+    leadCount: z.number().int().nonnegative(),
+    projectCount: z.number().int().nonnegative(),
+    contractCount: z.number().int().nonnegative()
+}).meta({ id: 'CustomerListView' });
+
+export type CustomerListView = z.infer<typeof CustomerListViewSchema>;
+
+export const CustomerListSchema = z.array(CustomerListViewSchema).meta({ id: 'CustomerList' });
+
+export type CustomerList = z.infer<typeof CustomerListSchema>;
+
+export const CustomerAliasSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerId: z.uuid(),
+        aliasName: z.string(),
+        aliasType: CustomerAliasTypeSchema,
+        normalizedName: z.string(),
+        isPrimary: z.boolean(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable()
+    })
+    .meta({ id: 'CustomerAliasSummary' });
+
+export type CustomerAliasSummary = z.infer<typeof CustomerAliasSummarySchema>;
+
+export const CustomerAliasListSchema = z.array(CustomerAliasSummarySchema).meta({ id: 'CustomerAliasList' });
+
+export type CustomerAliasList = z.infer<typeof CustomerAliasListSchema>;
+
+export const CustomerDetailViewSchema = CustomerListViewSchema.extend({
+    aliases: CustomerAliasListSchema
+}).meta({ id: 'CustomerDetailView' });
+
+export type CustomerDetailView = z.infer<typeof CustomerDetailViewSchema>;
+
+export const CustomerListQuerySchema = z
+    .object({
+        status: CustomerStatusSchema.optional(),
+        ownerOrgId: z.uuid().optional(),
+        keyword: z.string().trim().min(1).max(128).optional()
+    })
+    .meta({ id: 'CustomerListQuery' });
+
+export type CustomerListQuery = z.infer<typeof CustomerListQuerySchema>;
+
+export const CreateCustomerRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(255),
+        legalName: z.string().trim().min(1).max(255).nullable().optional(),
+        shortName: z.string().trim().min(1).max(128).nullable().optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional(),
+        sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
+        remark: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .meta({ id: 'CreateCustomerRequest' });
+
+export type CreateCustomerRequest = z.infer<typeof CreateCustomerRequestSchema>;
+
+export const UpdateCustomerRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(255).optional(),
+        legalName: z.string().trim().min(1).max(255).nullable().optional(),
+        shortName: z.string().trim().min(1).max(128).nullable().optional(),
+        status: z.enum(['active', 'inactive']).optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional(),
+        sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
+        remark: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.displayName !== undefined ||
+            value.legalName !== undefined ||
+            value.shortName !== undefined ||
+            value.status !== undefined ||
+            value.ownerOrgId !== undefined ||
+            value.ownerUserId !== undefined ||
+            value.sourceChannel !== undefined ||
+            value.remark !== undefined,
+        {
+            message: 'At least one field is required for update'
+        }
+    )
+    .meta({ id: 'UpdateCustomerRequest' });
+
+export type UpdateCustomerRequest = z.infer<typeof UpdateCustomerRequestSchema>;
+
+export const CreateCustomerAliasRequestSchema = z
+    .object({
+        aliasName: z.string().trim().min(1).max(255),
+        aliasType: CustomerAliasTypeSchema.optional()
+    })
+    .meta({ id: 'CreateCustomerAliasRequest' });
+
+export type CreateCustomerAliasRequest = z.infer<typeof CreateCustomerAliasRequestSchema>;
+
+// ---------------------------------------------------------------------------
 // Lead
 // ---------------------------------------------------------------------------
 
@@ -735,6 +882,7 @@ export const LeadSummarySchema = z
         id: z.uuid(),
         leadNo: z.string(),
         leadName: z.string(),
+        customerId: z.uuid(),
         customerName: z.string(),
         sourceChannel: z.string().nullable(),
         status: LeadStatusSchema,
@@ -764,6 +912,7 @@ export const LeadListViewSchema = z
         id: z.uuid(),
         leadNo: z.string(),
         leadName: z.string(),
+        customerId: z.uuid(),
         customerName: z.string(),
         sourceChannel: z.string().nullable(),
         status: LeadStatusSchema,
@@ -787,6 +936,7 @@ export const LeadConvertedProjectSummarySchema = z
         id: z.uuid(),
         projectNo: z.string(),
         projectName: z.string(),
+        customerId: z.uuid().nullable(),
         status: z.string(),
         currentStage: z.string()
     })
@@ -806,7 +956,7 @@ export type LeadDetailView = z.infer<typeof LeadDetailViewSchema>;
 export const CreateLeadRequestSchema = z
     .object({
         leadName: z.string().trim().min(1).max(255),
-        customerName: z.string().trim().min(1).max(255),
+        customerId: z.uuid(),
         sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
         ownerOrgId: z.uuid().nullable().optional(),
         ownerUserId: z.uuid().nullable().optional()
@@ -818,12 +968,12 @@ export type CreateLeadRequest = z.infer<typeof CreateLeadRequestSchema>;
 export const UpdateLeadRequestSchema = z
     .object({
         leadName: z.string().trim().min(1).max(255).optional(),
-        customerName: z.string().trim().min(1).max(255).optional(),
+        customerId: z.uuid().optional(),
         sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
         ownerOrgId: z.uuid().nullable().optional(),
         ownerUserId: z.uuid().nullable().optional()
     })
-    .refine((value) => value.leadName !== undefined || value.customerName !== undefined || value.sourceChannel !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined, {
+    .refine((value) => value.leadName !== undefined || value.customerId !== undefined || value.sourceChannel !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateLeadRequest' });
@@ -909,6 +1059,7 @@ export const ProjectListViewSchema = z
         id: z.uuid(),
         projectNo: z.string(),
         projectName: z.string(),
+        customerId: z.uuid().nullable(),
         customerName: z.string().nullable(),
         customerProjectNo: z.string().nullable(),
         currentStage: z.string(),
@@ -997,6 +1148,7 @@ export const ProjectSourceLeadSummarySchema = z
         id: z.uuid(),
         leadNo: z.string(),
         leadName: z.string(),
+        customerId: z.uuid(),
         customerName: z.string(),
         status: LeadStatusSchema
     })
@@ -1781,7 +1933,7 @@ export type ProjectTimelineView = z.infer<typeof ProjectTimelineViewSchema>;
 export const CreateProjectRequestSchema = z
     .object({
         projectName: z.string().trim().min(1).max(255),
-        customerName: z.string().trim().min(1).max(255),
+        customerId: z.uuid(),
         customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
         currentStage: z.enum(PROJECT_STAGES).optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
@@ -1804,11 +1956,11 @@ export type ProjectListQuery = z.infer<typeof ProjectListQuerySchema>;
 export const UpdateProjectBasicInfoRequestSchema = z
     .object({
         projectName: z.string().trim().min(1).max(255).optional(),
-        customerName: z.string().trim().min(1).max(255).nullable().optional(),
+        customerId: z.uuid().optional(),
         customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
     })
-    .refine((value) => value.projectName !== undefined || value.customerName !== undefined || value.customerProjectNo !== undefined || value.plannedSignAt !== undefined, {
+    .refine((value) => value.projectName !== undefined || value.customerId !== undefined || value.customerProjectNo !== undefined || value.plannedSignAt !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateProjectBasicInfoRequest' });

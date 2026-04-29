@@ -1,6 +1,7 @@
 export * from './lib/auth/auth.store';
 export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
+export * from './lib/customer/customer.store';
 export * from './lib/poms-api/poms-api.tokens';
 export * from './lib/poms-api/poms-auth.interceptor';
 export * from './lib/poms-api/provide-poms-api-client';
@@ -14,6 +15,7 @@ export {
     AuthApi,
     CommissionApi,
     CommissionRoleAssignmentsApi,
+    CustomerApi,
     LeadApi,
     ContractReadinessApi,
     NavigationApi,
@@ -30,7 +32,10 @@ export {
     CommissionPayoutStage,
     CommissionPayoutSummaryStatusEnum,
     CommissionPayoutTier,
-    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum
+    CustomerAliasType,
+    CustomerStatus,
+    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum,
+    UpdateCustomerRequestStatusEnum
 } from '@poms/shared-api-client';
 
 export type {
@@ -46,6 +51,8 @@ export type {
     CommissionRuleExplanationView,
     ConfirmCommissionCalculationRequest,
     ContractSummary,
+    CreateCustomerAliasRequest,
+    CreateCustomerRequest,
     ContractReadinessDetail,
     ContractReadinessItem,
     ContractHandoverSummaryView,
@@ -58,6 +65,10 @@ export type {
     CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
     CreateProjectRequest,
+    CustomerAliasSummary,
+    CustomerDetailView,
+    CustomerListView,
+    CustomerSummary,
     LeadDetailView,
     LeadListView,
     LeadStatus,
@@ -100,6 +111,7 @@ export type {
     SubmitContractReviewRequest,
     TodoItemSummary,
     UpdateCurrentUserProfileRequest,
+    UpdateCustomerRequest,
     UpdateLeadRequest,
     UpdateProjectBasicInfoRequest,
     VoidProjectArchiveRecordRequest

@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
@@ -8,6 +9,7 @@ import { LeadService } from './lead.service';
 describe('LeadService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
+    const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -15,6 +17,7 @@ describe('LeadService', () => {
     let service: LeadService;
     let leadRepository: jest.Mocked<LeadRepository>;
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+    let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let entityManager: {
         create: jest.Mock;
         persist: jest.Mock;
@@ -41,6 +44,9 @@ describe('LeadService', () => {
         businessNumberService = {
             next: jest.fn(async (scope: string) => scope === 'lead' ? 'LD-2026-000001' : 'PRJ-2026-000001')
         } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+        customerService = {
+            requireActiveCustomer: jest.fn(async () => ({ id: customerId, displayName: '华南地铁集团' }) as never)
+        };
 
         leadRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
@@ -48,25 +54,28 @@ describe('LeadService', () => {
         } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
 
-        service = new LeadService(leadRepository, businessNumberService as never);
+        service = new LeadService(leadRepository, businessNumberService as never, customerService as never);
     });
 
     it('creates a registered lead with default owner from operator', async () => {
         const lead = await service.createLead(
             {
                 leadName: '华南地铁线索',
-                customerName: '华南地铁集团',
+                customerId,
                 sourceChannel: '展会'
             },
             userId
         );
 
+        expect(customerService.requireActiveCustomer).toHaveBeenCalledWith(customerId);
         expect(businessNumberService.next).toHaveBeenCalledWith('lead', expect.any(Date), entityManager);
         expect(entityManager.create).toHaveBeenCalledWith(
             Lead,
             expect.objectContaining({
                 leadNo: 'LD-2026-000001',
                 status: 'registered',
+                customerId,
+                customerName: '华南地铁集团',
                 ownerUserId: userId,
                 ownerOrgId: orgId,
                 convertedProjectId: null
@@ -84,11 +93,12 @@ describe('LeadService', () => {
             service.createLead(
                 {
                     leadName: '重复线索',
-                    customerName: '客户'
+                    customerId
                 },
                 userId
             )
         ).rejects.toThrow(NotFoundException);
+        expect(customerService.requireActiveCustomer).not.toHaveBeenCalled();
         expect(businessNumberService.next).not.toHaveBeenCalled();
     });
 
@@ -150,6 +160,7 @@ describe('LeadService', () => {
                 projectNo: 'PRJ-2026-000001',
                 projectName: '华南地铁线索',
                 sourceLeadId: leadId,
+                customerId,
                 customerName: '华南地铁集团',
                 customerProjectNo: 'CUS-PRJ-001',
                 ownerOrgId: orgId,
@@ -215,6 +226,7 @@ describe('LeadService', () => {
             id: leadId,
             leadNo: 'LEAD-2026-001',
             leadName: '华南地铁线索',
+            customerId,
             customerName: '华南地铁集团',
             sourceChannel: null,
             status: 'registered',
@@ -244,7 +256,7 @@ describe('LeadService', () => {
             projectNo: 'PRJ-2026-101',
             projectName: '华南地铁线索',
             sourceLeadId: leadId,
-            customerId: null,
+            customerId,
             customerName: '华南地铁集团',
             status: 'active',
             currentStage: 'assessment',

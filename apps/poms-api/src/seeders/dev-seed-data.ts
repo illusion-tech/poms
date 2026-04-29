@@ -1,5 +1,18 @@
 import { requireDevOrgUnitByCode, requireDevUserByUsername } from '../app/core/platform/dev-platform.fixtures';
 
+export interface CustomerSeedRecord {
+    id: string;
+    customerNo: string;
+    displayName: string;
+    legalName: string | null;
+    shortName: string | null;
+    ownerOrgId: string | null;
+    ownerUserId: string | null;
+    sourceChannel: string | null;
+    createdBy: string | null;
+    updatedBy: string | null;
+}
+
 export interface ProjectSeedRecord {
     id: string;
     projectNo: string;
@@ -35,12 +48,39 @@ const businessAdminUser = requireDevUserByUsername('biz_admin');
 const salesSouthOrgUnit = requireDevOrgUnitByCode('SALES-SOUTH-1');
 const salesHqOrgUnit = requireDevOrgUnitByCode('SALES-HQ');
 
+export const DEV_CUSTOMER_SEEDS: CustomerSeedRecord[] = [
+    {
+        id: '11000000-0000-4000-8000-000000000001',
+        customerNo: 'CUST-2026-000001',
+        displayName: '华南地铁集团',
+        legalName: '华南地铁集团有限公司',
+        shortName: '华南地铁',
+        ownerOrgId: salesSouthOrgUnit.id,
+        ownerUserId: salesRepUser.id,
+        sourceChannel: 'seed',
+        createdBy: salesRepUser.id,
+        updatedBy: salesRepUser.id
+    },
+    {
+        id: '11000000-0000-4000-8000-000000000002',
+        customerNo: 'CUST-2026-000002',
+        displayName: '北城建设集团',
+        legalName: '北城建设集团有限公司',
+        shortName: '北城建设',
+        ownerOrgId: salesHqOrgUnit.id,
+        ownerUserId: salesLeadUser.id,
+        sourceChannel: 'seed',
+        createdBy: salesLeadUser.id,
+        updatedBy: salesLeadUser.id
+    }
+];
+
 export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
     {
         id: '20000000-0000-4000-8000-000000000001',
         projectNo: 'PRJ-2026-001',
         projectName: 'POMS 首期项目主链路样例',
-        customerId: null,
+        customerId: DEV_CUSTOMER_SEEDS[0].id,
         customerName: '华南地铁集团',
         status: 'active',
         currentStage: 'commercial-closure',
@@ -54,7 +94,7 @@ export const DEV_PROJECT_SEEDS: ProjectSeedRecord[] = [
         id: '20000000-0000-4000-8000-000000000002',
         projectNo: 'PRJ-2026-002',
         projectName: 'POMS 审批与导航联调样例',
-        customerId: null,
+        customerId: DEV_CUSTOMER_SEEDS[1].id,
         customerName: '北城建设集团',
         status: 'blocked',
         currentStage: 'handover',

@@ -1,5 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
 import type { LeadStatus } from '@poms/shared-contracts';
+import { Customer } from '../customer/customer.entity';
 
 const p = defineEntity.properties;
 
@@ -10,6 +11,7 @@ export const LeadSchema = defineEntity({
     comment: 'POMS 销售线索最小事实源表',
     indexes: [
         { name: 'idx_lead_status', properties: ['status'] },
+        { name: 'idx_lead_customer_id', properties: ['customerId'] },
         { name: 'idx_lead_owner_org_id', properties: ['ownerOrgId'] },
         { name: 'idx_lead_owner_user_id', properties: ['ownerUserId'] },
         { name: 'idx_lead_converted_project_id', properties: ['convertedProjectId'] }
@@ -24,6 +26,7 @@ export const LeadSchema = defineEntity({
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('线索主键'),
         leadNo: p.string().length(64).unique().fieldName('lead_no').comment('线索编号'),
         leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),
+        customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('lead_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),
         customerName: p.string().length(255).fieldName('customer_name').comment('客户名称'),
         sourceChannel: p.string().length(64).nullable().fieldName('source_channel').comment('线索来源渠道'),
         status: p.string().$type<LeadStatus>().length(32).default('registered').comment('线索状态'),

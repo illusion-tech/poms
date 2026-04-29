@@ -9,6 +9,7 @@ export function mapLeadToSummary(lead: Lead): LeadSummary {
         id: lead.id,
         leadNo: lead.leadNo,
         leadName: lead.leadName,
+        customerId: lead.customerId,
         customerName: lead.customerName,
         sourceChannel: lead.sourceChannel ?? null,
         status: lead.status,
@@ -40,6 +41,7 @@ export function mapLeadToListView(
         id: lead.id,
         leadNo: lead.leadNo,
         leadName: lead.leadName,
+        customerId: lead.customerId,
         customerName: lead.customerName,
         sourceChannel: lead.sourceChannel ?? null,
         status: lead.status,
@@ -68,6 +70,7 @@ export function mapLeadToDetailView(
                   id: convertedProject.id,
                   projectNo: convertedProject.projectNo,
                   projectName: convertedProject.projectName,
+                  customerId: convertedProject.customerId ?? null,
                   status: convertedProject.status,
                   currentStage: convertedProject.currentStage
               }

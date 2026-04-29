@@ -3,6 +3,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';
 import { BusinessNumberModule } from '../business-number/business-number.module';
 import { Contract } from '../contract/contract.entity';
+import { CustomerModule } from '../customer/customer.module';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -44,7 +45,8 @@ import { ProjectService } from './project.service';
             ProjectTechnicalCostItem
         ]),
         ApprovalSummaryModule,
-        BusinessNumberModule
+        BusinessNumberModule,
+        CustomerModule
     ],
     controllers: [ProjectController, ProjectArchiveRecordController],
     providers: [ProjectRepository, ProjectQueryService, ProjectService],
