@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, NotFoundException } from '@nest
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
-import { Lead } from './lead.entity';
+import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 import { LeadService } from './lead.service';
 
@@ -10,6 +10,7 @@ describe('LeadService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
     const customerId = '11000000-0000-4000-8000-000000000001';
+    const sourceId = '51000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -34,6 +35,10 @@ describe('LeadService', () => {
         };
         leadRepository = {
             findById: jest.fn(),
+            findLeadSourceById: jest.fn(),
+            findLeadSourceByCode: jest.fn(),
+            createLeadSource: jest.fn((input) => Object.assign(new LeadSource(), createLeadSourceEntity(input as Partial<LeadSource>))),
+            saveLeadSource: jest.fn(),
             findPlatformUserById: jest.fn(),
             findOrgUnitById: jest.fn(),
             getEntityManager: jest.fn(() => ({
@@ -53,8 +58,36 @@ describe('LeadService', () => {
             primaryOrgUnitId: orgId
         } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
         service = new LeadService(leadRepository, businessNumberService as never, customerService as never);
+    });
+
+    it('creates an active lead source dictionary item', async () => {
+        leadRepository.findLeadSourceByCode.mockResolvedValue(null);
+
+        const source = await service.createLeadSource(
+            {
+                code: 'industry-event',
+                name: '行业活动',
+                description: '行业活动来源',
+                sortOrder: 80
+            },
+            userId
+        );
+
+        expect(leadRepository.createLeadSource).toHaveBeenCalledWith(
+            expect.objectContaining({
+                code: 'industry-event',
+                name: '行业活动',
+                description: '行业活动来源',
+                status: 'active',
+                sortOrder: 80,
+                createdBy: userId,
+                updatedBy: userId
+            })
+        );
+        expect(leadRepository.saveLeadSource).toHaveBeenCalledWith(source);
     });
 
     it('creates a registered lead with default owner from operator', async () => {
@@ -62,7 +95,11 @@ describe('LeadService', () => {
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceChannel: '展会'
+                sourceId,
+                demandDescription: '客户需要站点设备更新',
+                budgetStatus: 'rough-budget',
+                estimatedAmount: '1200000.00',
+                urgency: 'high'
             },
             userId
         );
@@ -76,6 +113,12 @@ describe('LeadService', () => {
                 status: 'registered',
                 customerId,
                 customerName: '华南地铁集团',
+                sourceId,
+                sourceChannel: '客户拜访',
+                demandDescription: '客户需要站点设备更新',
+                budgetStatus: 'rough-budget',
+                estimatedAmount: '1200000.00',
+                urgency: 'high',
                 ownerUserId: userId,
                 ownerOrgId: orgId,
                 convertedProjectId: null
@@ -93,7 +136,12 @@ describe('LeadService', () => {
             service.createLead(
                 {
                     leadName: '重复线索',
-                    customerId
+                    customerId,
+                    sourceId,
+                    demandDescription: '客户需要站点设备更新',
+                    budgetStatus: 'rough-budget',
+                    estimatedAmount: '1200000.00',
+                    urgency: 'high'
                 },
                 userId
             )
@@ -103,7 +151,12 @@ describe('LeadService', () => {
     });
 
     it('qualifies only registered leads', async () => {
-        const lead = createLeadEntity({ status: 'registered' });
+        const lead = createLeadEntity({
+            status: 'registered',
+            demandDescription: '客户预算和需求明确',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00'
+        });
         leadRepository.findById.mockResolvedValue(lead);
 
         const result = await service.qualifyLead(leadId, { qualificationSummary: '客户预算和需求明确' }, userId);
@@ -123,6 +176,14 @@ describe('LeadService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
+    it('rejects qualifying a lead that is missing budget and amount gate facts', async () => {
+        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'registered', budgetStatus: 'unknown', estimatedAmount: null }));
+
+        await expect(
+            service.qualifyLead(leadId, { qualificationSummary: '预算还没判断' }, userId)
+        ).rejects.toThrow(BadRequestException);
+    });
+
     it('closes a qualified lead with close fact', async () => {
         const lead = createLeadEntity({ status: 'qualified' });
         leadRepository.findById.mockResolvedValue(lead);
@@ -139,6 +200,9 @@ describe('LeadService', () => {
         const lead = createLeadEntity({
             status: 'qualified',
             qualificationSummary: '需求和预算明确',
+            demandDescription: '客户需求明确',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00',
             qualifiedAt: new Date('2026-04-25T11:00:00.000Z'),
             qualifiedBy: userId
         });
@@ -229,6 +293,12 @@ describe('LeadService', () => {
             customerId,
             customerName: '华南地铁集团',
             sourceChannel: null,
+            sourceId,
+            demandDescription: '客户需求明确',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00',
+            urgency: 'normal',
+            expectedDecisionDate: null,
             status: 'registered',
             ownerOrgId: orgId,
             ownerUserId: userId,
@@ -270,6 +340,23 @@ describe('LeadService', () => {
             createdBy: userId,
             updatedAt: baseDate,
             updatedBy: userId,
+            ...overrides
+        });
+    }
+
+    function createLeadSourceEntity(overrides: Partial<LeadSource> = {}): LeadSource {
+        return Object.assign(new LeadSource(), {
+            id: sourceId,
+            code: 'customer-visit',
+            name: '客户拜访',
+            description: '销售主动拜访或客户现场接触产生的线索',
+            status: 'active',
+            sortOrder: 10,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: null,
+            updatedAt: baseDate,
+            updatedBy: null,
             ...overrides
         });
     }

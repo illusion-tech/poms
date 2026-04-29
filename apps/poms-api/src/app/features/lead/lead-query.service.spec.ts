@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { Project } from '../project/project.entity';
-import { Lead } from './lead.entity';
+import { Lead, LeadSource } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
 import { LeadRepository } from './lead.repository';
 
@@ -9,6 +9,7 @@ describe('LeadQueryService', () => {
     const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
+    const sourceId = '51000000-0000-4000-8000-000000000001';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
 
     let service: LeadQueryService;
@@ -18,6 +19,7 @@ describe('LeadQueryService', () => {
         leadRepository = {
             findMany: jest.fn(),
             findById: jest.fn(),
+            findLeadSourceById: jest.fn(),
             findPlatformUserById: jest.fn(),
             findPlatformUsersByIds: jest.fn(),
             findProjectsByIds: jest.fn(),
@@ -34,6 +36,7 @@ describe('LeadQueryService', () => {
             qualifiedAt: new Date('2026-04-25T11:00:00.000Z')
         });
         leadRepository.findMany.mockResolvedValue([lead]);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({ name: '展会' }));
         leadRepository.findPlatformUsersByIds.mockResolvedValue([{ id: userId, displayName: '销售人员' }] as never);
         leadRepository.findOrgUnitsByIds.mockResolvedValue([{ id: orgId, name: '华南销售一部' }] as never);
 
@@ -52,7 +55,13 @@ describe('LeadQueryService', () => {
             expect.objectContaining({
                 id: leadId,
                 leadNo: 'LEAD-2026-001',
+                sourceId,
+                sourceName: '展会',
                 sourceChannel: '展会',
+                demandDescription: '客户需要建设地铁运维平台。',
+                budgetStatus: 'budget-confirmed',
+                estimatedAmount: '1000000.00',
+                urgency: 'high',
                 ownerName: '销售人员',
                 ownerOrgName: '华南销售一部',
                 qualifiedAt: '2026-04-25T11:00:00.000Z'
@@ -63,6 +72,7 @@ describe('LeadQueryService', () => {
     it('returns detail view with source summary', async () => {
         const lead = createLeadEntity({ sourceChannel: '转介绍' });
         leadRepository.findById.mockResolvedValue(lead);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({ name: '转介绍' }));
         leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
 
@@ -82,6 +92,7 @@ describe('LeadQueryService', () => {
             convertedBy: userId
         });
         leadRepository.findById.mockResolvedValue(lead);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity());
         leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findProjectsByIds.mockResolvedValue([
@@ -118,7 +129,13 @@ describe('LeadQueryService', () => {
             leadName: '华南地铁线索',
             customerId,
             customerName: '华南地铁集团',
+            sourceId,
             sourceChannel: null,
+            demandDescription: '客户需要建设地铁运维平台。',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00',
+            urgency: 'high',
+            expectedDecisionDate: '2026-05-01',
             status: 'registered',
             ownerOrgId: orgId,
             ownerUserId: userId,
@@ -131,6 +148,23 @@ describe('LeadQueryService', () => {
             convertedProjectId: null,
             convertedAt: null,
             convertedBy: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
+            updatedBy: userId,
+            ...overrides
+        });
+    }
+
+    function createLeadSourceEntity(overrides: Partial<LeadSource> = {}): LeadSource {
+        return Object.assign(new LeadSource(), {
+            id: sourceId,
+            code: 'customer-visit',
+            name: '客户拜访',
+            description: '客户拜访来源',
+            status: 'active',
+            sortOrder: 10,
             rowVersion: 1,
             createdAt: baseDate,
             createdBy: userId,

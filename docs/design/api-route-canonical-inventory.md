@@ -302,14 +302,29 @@
 
 ### 6.11 EX-42 Customer Master Data
 
-| Domain     | Capability              | Canonical Route                | Current Implemented Route      | Current Design Route           | Authority                         | Drift Type | Action                                                                     | Batch | Status    |
-| ---------- | ----------------------- | ------------------------------ | ------------------------------ | ------------------------------ | --------------------------------- | ---------- | -------------------------------------------------------------------------- | ----- | --------- |
-| `customer` | `listCustomers`         | `GET /customers`               | `GET /customers`               | `GET /customers`               | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户主档集合查询，作为 Lead / Project 客户选择器与客户管理列表事实源。 | `B6`  | `aligned` |
-| `customer` | `createCustomer`        | `POST /customers`              | `POST /customers`              | `POST /customers`              | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户主档创建；名称快照由业务对象在创建时复制，不反向改写历史快照。     | `B6`  | `aligned` |
-| `customer` | `getCustomer`           | `GET /customers/{id}`          | `GET /customers/{id}`          | `GET /customers/{id}`          | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户详情，返回主档、owner 名称和最小关联计数。                         | `B6`  | `aligned` |
-| `customer` | `updateCustomer`        | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户基础信息更新；不得静默合并客户。                                   | `B6`  | `aligned` |
-| `customer` | `listCustomerAliases`   | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户别名集合查询，用于名称匹配和历史输入追溯。                         | `B6`  | `aligned` |
-| `customer` | `createCustomerAlias`   | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `ADR-015` + `EX-42` G1 baseline   | `N/A`      | 新增客户别名创建；别名不等价于客户合并。                                   | `B6`  | `aligned` |
+| Domain     | Capability            | Canonical Route                | Current Implemented Route      | Current Design Route           | Authority                       | Drift Type | Action                                                                     | Batch | Status    |
+| ---------- | --------------------- | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------- | ---------- | -------------------------------------------------------------------------- | ----- | --------- |
+| `customer` | `listCustomers`       | `GET /customers`               | `GET /customers`               | `GET /customers`               | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户主档集合查询，作为 Lead / Project 客户选择器与客户管理列表事实源。 | `B6`  | `aligned` |
+| `customer` | `createCustomer`      | `POST /customers`              | `POST /customers`              | `POST /customers`              | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户主档创建；名称快照由业务对象在创建时复制，不反向改写历史快照。     | `B6`  | `aligned` |
+| `customer` | `getCustomer`         | `GET /customers/{id}`          | `GET /customers/{id}`          | `GET /customers/{id}`          | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户详情，返回主档、owner 名称和最小关联计数。                         | `B6`  | `aligned` |
+| `customer` | `updateCustomer`      | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `PATCH /customers/{id}`        | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户基础信息更新；不得静默合并客户。                                   | `B6`  | `aligned` |
+| `customer` | `listCustomerAliases` | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `GET /customers/{id}/aliases`  | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户别名集合查询，用于名称匹配和历史输入追溯。                         | `B6`  | `aligned` |
+| `customer` | `createCustomerAlias` | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `POST /customers/{id}/aliases` | `ADR-015` + `EX-42` G1 baseline | `N/A`      | 新增客户别名创建；别名不等价于客户合并。                                   | `B6`  | `aligned` |
+
+### 6.12 EX-43 Lead Source And Profile Enrichment
+
+| Domain        | Capability         | Canonical Route            | Current Implemented Route  | Current Design Route       | Authority                       | Drift Type | Action                                                   | Batch | Status    |
+| ------------- | ------------------ | -------------------------- | -------------------------- | -------------------------- | ------------------------------- | ---------- | -------------------------------------------------------- | ----- | --------- |
+| `lead-source` | `listLeadSources`  | `GET /lead-sources`        | `GET /lead-sources`        | `GET /lead-sources`        | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源字典集合查询，供线索登记和来源维护使用。     | `B7`  | `aligned` |
+| `lead-source` | `createLeadSource` | `POST /lead-sources`       | `POST /lead-sources`       | `POST /lead-sources`       | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源字典创建；code 作为稳定来源身份。            | `B7`  | `aligned` |
+| `lead-source` | `updateLeadSource` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源基础信息与启停维护；不提供物理删除公共 API。 | `B7`  | `aligned` |
+
+### 6.13 EX-44 Sales Follow Up Record
+
+| Domain            | Capability                  | Canonical Route                  | Current Implemented Route        | Current Design Route             | Authority                       | Drift Type | Action                                                                 | Batch | Status    |
+| ----------------- | --------------------------- | -------------------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ---------- | ---------------------------------------------------------------------- | ----- | --------- |
+| `sales-follow-up` | `listSalesFollowUpRecords`  | `GET /sales-follow-up-records`   | `GET /sales-follow-up-records`   | `GET /sales-follow-up-records`   | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增客户 / 线索 / 项目共享销售跟进记录集合查询，不混入项目生命周期线。 | `B8`  | `aligned` |
+| `sales-follow-up` | `createSalesFollowUpRecord` | `POST /sales-follow-up-records`  | `POST /sales-follow-up-records`  | `POST /sales-follow-up-records`  | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增共享销售跟进记录创建；customerId 为必填总线，lead/project 为上下文锚点。 | `B8`  | `aligned` |
 
 ## 7. 批次推进原则
 

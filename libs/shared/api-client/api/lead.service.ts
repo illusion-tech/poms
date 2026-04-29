@@ -23,6 +23,8 @@ import { ConvertLeadToProjectRequest } from '../model/convert-lead-to-project-re
 // @ts-ignore
 import { CreateLeadRequest } from '../model/create-lead-request';
 // @ts-ignore
+import { LeadBudgetStatus } from '../model/lead-budget-status';
+// @ts-ignore
 import { LeadDetailView } from '../model/lead-detail-view';
 // @ts-ignore
 import { LeadListView } from '../model/lead-list-view';
@@ -30,6 +32,8 @@ import { LeadListView } from '../model/lead-list-view';
 import { LeadStatus } from '../model/lead-status';
 // @ts-ignore
 import { LeadSummary } from '../model/lead-summary';
+// @ts-ignore
+import { LeadUrgency } from '../model/lead-urgency';
 // @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
@@ -63,6 +67,9 @@ export interface LeadControllerGetByIdRequestParams {
 
 export interface LeadControllerListRequestParams {
     status?: LeadStatus;
+    sourceId?: string;
+    budgetStatus?: LeadBudgetStatus;
+    urgency?: LeadUrgency;
     ownerOrgId?: string;
     keyword?: string;
 }
@@ -378,6 +385,9 @@ export class LeadApi extends BaseService {
     public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<LeadListView>>>;
     public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const status = requestParameters?.status;
+        const sourceId = requestParameters?.sourceId;
+        const budgetStatus = requestParameters?.budgetStatus;
+        const urgency = requestParameters?.urgency;
         const ownerOrgId = requestParameters?.ownerOrgId;
         const keyword = requestParameters?.keyword;
 
@@ -387,6 +397,33 @@ export class LeadApi extends BaseService {
             localVarQueryParameters,
             'status',
             <any>status,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'sourceId',
+            <any>sourceId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'budgetStatus',
+            <any>budgetStatus,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'urgency',
+            <any>urgency,
             QueryParamStyle.Form,
             true,
         );

@@ -16,6 +16,7 @@ api/contract-finance.service.ts
 api/contract-readiness.service.ts
 api/contract.service.ts
 api/customer.service.ts
+api/lead-source.service.ts
 api/lead.service.ts
 api/navigation.service.ts
 api/platform.service.ts
@@ -23,6 +24,7 @@ api/project-cost.service.ts
 api/project-handover.service.ts
 api/project.service.ts
 api/runtime-audit.service.ts
+api/sales-follow-up.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -127,6 +129,7 @@ model/create-invoice-project-actual-cost-record-request.ts
 model/create-invoice-record-request.ts
 model/create-labor-project-actual-cost-record-request.ts
 model/create-lead-request.ts
+model/create-lead-source-request.ts
 model/create-operating-restatement-request-restated-values.ts
 model/create-operating-restatement-request.ts
 model/create-org-unit-request.ts
@@ -146,6 +149,7 @@ model/create-project-request.ts
 model/create-project-technical-cost-package-request.ts
 model/create-receipt-record-request.ts
 model/create-role-request.ts
+model/create-sales-follow-up-record-request.ts
 model/customer-alias-summary.ts
 model/customer-alias-type.ts
 model/customer-detail-view.ts
@@ -167,11 +171,15 @@ model/invoice-record-exception-status.ts
 model/invoice-record-status.ts
 model/invoice-record-summary.ts
 model/invoice-record-type.ts
+model/lead-budget-status.ts
 model/lead-converted-project-summary.ts
 model/lead-detail-view.ts
 model/lead-list-view.ts
+model/lead-source-status.ts
+model/lead-source-summary.ts
 model/lead-status.ts
 model/lead-summary.ts
+model/lead-urgency.ts
 model/login-request.ts
 model/login-response.ts
 model/mark-invoice-exception-request.ts
@@ -271,6 +279,9 @@ model/review-commission-gate-binding-request.ts
 model/review-commission-gate-binding-result.ts
 model/review-operating-signal-evaluation-request.ts
 model/review-operating-signal-evaluation-result.ts
+model/sales-follow-up-outcome.ts
+model/sales-follow-up-record-summary.ts
+model/sales-follow-up-type.ts
 model/sanitized-user-with-org-units.ts
 model/security-event-result.ts
 model/security-event-severity.ts
@@ -295,6 +306,7 @@ model/update-customer-request.ts
 model/update-expense-record-request.ts
 model/update-invoice-record-request.ts
 model/update-lead-request.ts
+model/update-lead-source-request.ts
 model/update-org-unit-activation-request.ts
 model/update-org-unit-request.ts
 model/update-payable-record-request.ts

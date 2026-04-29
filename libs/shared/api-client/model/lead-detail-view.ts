@@ -8,6 +8,8 @@
  * Do not edit the class manually.
  */
 import { LeadConvertedProjectSummary } from './lead-converted-project-summary';
+import { LeadUrgency } from './lead-urgency';
+import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
 
 
@@ -17,7 +19,14 @@ export interface LeadDetailView {
     leadName: string;
     customerId: string;
     customerName: string;
+    sourceId: string;
+    sourceName: string | null;
     sourceChannel: string | null;
+    demandDescription: string | null;
+    budgetStatus: LeadBudgetStatus;
+    estimatedAmount: string | null;
+    urgency: LeadUrgency;
+    expectedDecisionDate: string | null;
     status: LeadStatus;
     ownerOrgId: string | null;
     ownerUserId: string | null;

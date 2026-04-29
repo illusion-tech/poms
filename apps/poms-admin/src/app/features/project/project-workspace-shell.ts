@@ -16,11 +16,26 @@ import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-n
     standalone: true,
     imports: [CommonModule, RouterModule, ButtonModule, ProjectContextHeader, SectionCard, WorkspaceCommandPanel, WorkspaceFeedback, WorkspaceLoading, WorkspaceNav],
     providers: [ProjectStore, ProjectWorkspaceStore],
+    styles: [
+        `
+            :host {
+                display: block;
+            }
+
+            :host ::ng-deep .project-workspace-page .card {
+                border: 1px solid var(--surface-border);
+                border-radius: 8px;
+                box-shadow:
+                    0 1px 2px rgba(18, 18, 23, 0.04),
+                    0 0 0 1px rgba(18, 18, 23, 0.01);
+            }
+        `
+    ],
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目工作区" />
         } @else if (project()) {
-            <div class="flex flex-col gap-6">
+            <div class="project-workspace-page flex flex-col gap-6">
                 <app-project-context-header
                     eyebrow="项目工作区"
                     [title]="workspaceTitle()"

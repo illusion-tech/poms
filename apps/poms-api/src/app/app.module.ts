@@ -20,6 +20,7 @@ import { PlatformModule } from './features/platform/platform.module';
 import { ProjectModule } from './features/project/project.module';
 import { ProjectCostModule } from './features/project-cost/project-cost.module';
 import { ProjectHandoverModule } from './features/project-handover/project-handover.module';
+import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { ProjectHandoverModule } from './features/project-handover/project-hando
         ProjectModule,
         ProjectCostModule,
         ProjectHandoverModule,
+        SalesFollowUpModule,
         ApprovalModule,
         ApprovalSummaryModule,
         ContractReadinessModule,

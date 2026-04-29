@@ -10,6 +10,7 @@ describe('LeadController', () => {
     const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
+    const sourceId = '51000000-0000-4000-8000-000000000001';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
 
     let controller: LeadController;
@@ -38,12 +39,18 @@ describe('LeadController', () => {
 
         await controller.list({
             status: 'registered',
+            sourceId,
+            budgetStatus: 'budget-confirmed',
+            urgency: 'high',
             ownerOrgId: orgId,
             keyword: '地铁'
         });
 
         expect(leadQueryService.listLeads).toHaveBeenCalledWith({
             status: 'registered',
+            sourceId,
+            budgetStatus: 'budget-confirmed',
+            urgency: 'high',
             ownerOrgId: orgId,
             keyword: '地铁'
         });
@@ -56,7 +63,12 @@ describe('LeadController', () => {
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceChannel: '展会',
+                sourceId,
+                demandDescription: '客户需要建设地铁运维平台。',
+                budgetStatus: 'budget-confirmed',
+                estimatedAmount: '1000000.00',
+                urgency: 'high',
+                expectedDecisionDate: '2026-05-01',
                 ownerOrgId: orgId,
                 ownerUserId: userId
             },
@@ -67,7 +79,12 @@ describe('LeadController', () => {
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceChannel: '展会',
+                sourceId,
+                demandDescription: '客户需要建设地铁运维平台。',
+                budgetStatus: 'budget-confirmed',
+                estimatedAmount: '1000000.00',
+                urgency: 'high',
+                expectedDecisionDate: '2026-05-01',
                 ownerOrgId: orgId,
                 ownerUserId: userId
             },
@@ -166,7 +183,13 @@ describe('LeadController', () => {
             leadName: '华南地铁线索',
             customerId,
             customerName: '华南地铁集团',
+            sourceId,
             sourceChannel: '展会',
+            demandDescription: '客户需要建设地铁运维平台。',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00',
+            urgency: 'high',
+            expectedDecisionDate: '2026-05-01',
             status: 'registered',
             ownerOrgId: orgId,
             ownerUserId: userId,

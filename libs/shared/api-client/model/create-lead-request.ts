@@ -7,12 +7,19 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LeadUrgency } from './lead-urgency';
+import { LeadBudgetStatus } from './lead-budget-status';
 
 
 export interface CreateLeadRequest {
     leadName: string;
     customerId: string;
-    sourceChannel?: string | null;
+    sourceId: string;
+    demandDescription: string;
+    budgetStatus: LeadBudgetStatus;
+    estimatedAmount?: string | null;
+    urgency: LeadUrgency;
+    expectedDecisionDate?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;
 }

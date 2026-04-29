@@ -6,6 +6,7 @@ const CUSTOMER_WRITE_PERMISSIONS: PermissionKey[] = ['customer:read', 'customer:
 const LEAD_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:leads:view'];
 const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_PERMISSIONS];
 const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS];
+const LEAD_SOURCE_MANAGE_PERMISSIONS: PermissionKey[] = ['lead:source:manage'];
 const PROJECT_READ_PERMISSIONS: PermissionKey[] = ['project:read', ...BUSINESS_NAVIGATION_PERMISSIONS];
 const PROJECT_WRITE_PERMISSIONS: PermissionKey[] = ['project:read', 'project:write', ...BUSINESS_NAVIGATION_PERMISSIONS];
 const CONTRACT_FINANCE_SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read'];
@@ -105,7 +106,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售负责人',
         description: '开发环境默认销售负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...LEAD_SOURCE_MANAGE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000005',

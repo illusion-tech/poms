@@ -1,15 +1,35 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import type { LeadBudgetStatus, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
-import { Lead } from './lead.entity';
+import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+
+export interface CreateLeadSourceRecord {
+    code: string;
+    name: string;
+    description?: string | null;
+    sortOrder?: number;
+}
+
+export interface UpdateLeadSourceRecord {
+    name?: string;
+    description?: string | null;
+    status?: LeadSourceStatus;
+    sortOrder?: number;
+}
 
 export interface CreateLeadRecord {
     leadName: string;
     customerId: string;
-    sourceChannel?: string | null;
+    sourceId: string;
+    demandDescription: string;
+    budgetStatus: LeadBudgetStatus;
+    estimatedAmount?: string | null;
+    urgency: LeadUrgency;
+    expectedDecisionDate?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;
 }
@@ -17,7 +37,12 @@ export interface CreateLeadRecord {
 export interface UpdateLeadRecord {
     leadName?: string;
     customerId?: string;
-    sourceChannel?: string | null;
+    sourceId?: string;
+    demandDescription?: string;
+    budgetStatus?: LeadBudgetStatus;
+    estimatedAmount?: string | null;
+    urgency?: LeadUrgency;
+    expectedDecisionDate?: string | null;
     ownerOrgId?: string | null;
     ownerUserId?: string | null;
 }
@@ -44,6 +69,54 @@ export class LeadService {
         private readonly customerService: CustomerService
     ) {}
 
+    async createLeadSource(input: CreateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
+        const code = input.code.trim();
+        const existing = await this.leadRepository.findLeadSourceByCode(code);
+        if (existing) {
+            throw new ConflictException(`Lead source code ${code} already exists`);
+        }
+
+        const source = this.leadRepository.createLeadSource({
+            code,
+            name: input.name.trim(),
+            description: input.description?.trim() || null,
+            status: 'active',
+            sortOrder: input.sortOrder ?? 100,
+            createdBy: operatorUserId,
+            updatedBy: operatorUserId
+        });
+
+        await this.leadRepository.saveLeadSource(source);
+        return source;
+    }
+
+    async updateLeadSource(id: string, input: UpdateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
+        const source = await this.leadRepository.findLeadSourceById(id);
+        if (!source) {
+            throw new NotFoundException(`Lead source ${id} not found`);
+        }
+
+        if (input.name !== undefined) {
+            source.name = input.name.trim();
+        }
+
+        if (input.description !== undefined) {
+            source.description = input.description?.trim() || null;
+        }
+
+        if (input.status !== undefined) {
+            source.status = input.status;
+        }
+
+        if (input.sortOrder !== undefined) {
+            source.sortOrder = input.sortOrder;
+        }
+
+        source.updatedBy = operatorUserId;
+        await this.leadRepository.saveLeadSource(source);
+        return source;
+    }
+
     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
         if (!operator) {
@@ -52,6 +125,7 @@ export class LeadService {
 
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator);
         const customer = await this.customerService.requireActiveCustomer(input.customerId);
+        const source = await this.requireActiveLeadSource(input.sourceId);
         return this.leadRepository.getEntityManager().transactional(async (em) => {
             const leadNo = await this.businessNumberService.next('lead', new Date(), em);
             const lead = em.create(Lead, {
@@ -59,7 +133,13 @@ export class LeadService {
                 leadName: input.leadName,
                 customerId: customer.id,
                 customerName: customer.displayName,
-                sourceChannel: input.sourceChannel?.trim() || null,
+                sourceId: source.id,
+                sourceChannel: source.name,
+                demandDescription: input.demandDescription.trim(),
+                budgetStatus: input.budgetStatus,
+                estimatedAmount: this.normalizeEstimatedAmount(input.estimatedAmount),
+                urgency: input.urgency,
+                expectedDecisionDate: this.normalizeDateOnly(input.expectedDecisionDate),
                 status: 'registered',
                 ownerOrgId: owner.ownerOrgId,
                 ownerUserId: owner.ownerUserId,
@@ -96,8 +176,30 @@ export class LeadService {
             lead.customerName = customer.displayName;
         }
 
-        if (input.sourceChannel !== undefined) {
-            lead.sourceChannel = input.sourceChannel?.trim() || null;
+        if (input.sourceId !== undefined) {
+            const source = await this.requireActiveLeadSource(input.sourceId);
+            lead.sourceId = source.id;
+            lead.sourceChannel = source.name;
+        }
+
+        if (input.demandDescription !== undefined) {
+            lead.demandDescription = input.demandDescription.trim();
+        }
+
+        if (input.budgetStatus !== undefined) {
+            lead.budgetStatus = input.budgetStatus;
+        }
+
+        if (input.estimatedAmount !== undefined) {
+            lead.estimatedAmount = this.normalizeEstimatedAmount(input.estimatedAmount);
+        }
+
+        if (input.urgency !== undefined) {
+            lead.urgency = input.urgency;
+        }
+
+        if (input.expectedDecisionDate !== undefined) {
+            lead.expectedDecisionDate = this.normalizeDateOnly(input.expectedDecisionDate);
         }
 
         if (input.ownerUserId !== undefined || input.ownerOrgId !== undefined) {
@@ -117,6 +219,7 @@ export class LeadService {
         if (lead.status !== 'registered') {
             throw new BadRequestException(`Lead ${id} cannot be qualified in status ${lead.status}`);
         }
+        this.assertLeadReadyForQualified(lead);
 
         const now = new Date();
         lead.status = 'qualified';
@@ -167,6 +270,7 @@ export class LeadService {
             if (lead.status !== 'qualified') {
                 throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
             }
+            this.assertLeadReadyForProject(lead);
 
             const projectNo = await this.businessNumberService.next('project', new Date(), em);
             const project = em.create(Project, {
@@ -208,10 +312,61 @@ export class LeadService {
         return lead;
     }
 
+    private async requireActiveLeadSource(id: string): Promise<LeadSource> {
+        const source = await this.leadRepository.findLeadSourceById(id);
+        if (!source) {
+            throw new NotFoundException(`Lead source ${id} not found`);
+        }
+
+        if (source.status !== 'active') {
+            throw new ConflictException(`Lead source ${id} is inactive`);
+        }
+
+        return source;
+    }
+
     private assertLeadEditable(lead: Lead): void {
         if (!['registered', 'qualified'].includes(lead.status)) {
             throw new BadRequestException(`Lead ${lead.id} cannot be edited in status ${lead.status}`);
         }
+    }
+
+    private assertLeadReadyForQualified(lead: Lead): void {
+        const missing = this.collectLeadGateMissingItems(lead);
+        if (missing.length > 0) {
+            throw new BadRequestException(`Lead ${lead.id} is missing required qualification facts: ${missing.join(', ')}`);
+        }
+    }
+
+    private assertLeadReadyForProject(lead: Lead): void {
+        const missing = this.collectLeadGateMissingItems(lead);
+        if (missing.length > 0) {
+            throw new BadRequestException(`Lead ${lead.id} is missing required conversion facts: ${missing.join(', ')}`);
+        }
+    }
+
+    private collectLeadGateMissingItems(lead: Lead): string[] {
+        const missing: string[] = [];
+
+        if (!lead.sourceId) missing.push('sourceId');
+        if (!lead.demandDescription?.trim()) missing.push('demandDescription');
+        if (lead.budgetStatus === 'unknown' || lead.budgetStatus === 'no-budget') missing.push('budgetStatus');
+        if (!lead.estimatedAmount || Number(lead.estimatedAmount) <= 0) missing.push('estimatedAmount');
+        if (!lead.urgency) missing.push('urgency');
+        if (!lead.ownerUserId) missing.push('ownerUserId');
+        if (!lead.ownerOrgId) missing.push('ownerOrgId');
+
+        return missing;
+    }
+
+    private normalizeEstimatedAmount(value: string | null | undefined): string | null {
+        const normalized = value?.trim();
+        return normalized ? normalized : null;
+    }
+
+    private normalizeDateOnly(value: string | null | undefined): string | null {
+        const normalized = value?.trim();
+        return normalized ? normalized.slice(0, 10) : null;
     }
 
     private async resolveOwner(

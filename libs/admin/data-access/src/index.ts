@@ -9,6 +9,7 @@ export * from './lib/platform/platform.store';
 export * from './lib/project/project.store';
 export * from './lib/project/project-workspace.store';
 export * from './lib/lead/lead.store';
+export * from './lib/sales-follow-up/sales-follow-up.store';
 
 export {
     ApprovalApi,
@@ -17,12 +18,14 @@ export {
     CommissionRoleAssignmentsApi,
     CustomerApi,
     LeadApi,
+    LeadSourceApi,
     ContractReadinessApi,
     NavigationApi,
     PlatformApi,
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,
+    SalesFollowUpApi,
     AssignRolePermissionsRequestPermissionKeysEnum,
     CommissionAdjustmentSummaryStatusEnum,
     CommissionAdjustmentType,
@@ -61,6 +64,7 @@ export type {
     CreateCommissionPayoutRequest,
     CreateContractRequest,
     CreateLeadRequest,
+    CreateSalesFollowUpRecordRequest,
     ConvertLeadToProjectRequest,
     CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
@@ -72,8 +76,17 @@ export type {
     LeadDetailView,
     LeadListView,
     LeadStatus,
+    LeadBudgetStatus,
     LeadSummary,
+    LeadSourceSummary,
+    LeadSourceStatus,
+    LeadUrgency,
     QualifyLeadRequest,
+    SalesFollowUpOutcome,
+    SalesFollowUpRecordSummary,
+    SalesFollowUpType,
+    CreateLeadSourceRequest,
+    UpdateLeadSourceRequest,
     ProjectBidCommercialMaterialItemView,
     ProjectBidCommercialMaterialItemInput,
     ProjectBidCommercialProcessSummary,

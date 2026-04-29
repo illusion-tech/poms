@@ -3,7 +3,7 @@ import { createCustomer } from '../support/customer-api';
 import { expectErrorStatus, expectStatus } from '../support/http';
 import { convertLeadToProject, createLead, getLead, qualifyLead } from '../support/lead-api';
 import { makeUniqueSuffix } from '../support/test-data';
-import type { ProjectDetailView } from '../support/types';
+import type { CreateSalesFollowUpRecordRequest, LeadSourceSummary, ProjectDetailView, SalesFollowUpRecordSummary } from '../support/types';
 
 jest.setTimeout(120_000);
 
@@ -12,6 +12,10 @@ describe('poms-api lead workflow e2e', () => {
         const { client, profile } = await loginAsAdmin();
         const unique = makeUniqueSuffix('lead-convert');
         const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
+        const sourceResponse = await client.get<LeadSourceSummary[]>('/lead-sources');
+        const leadSources = expectStatus(sourceResponse, 200);
+        const leadSource = leadSources.find((source) => source.status === 'active');
+        expect(leadSource).toBeDefined();
         const customer = await createCustomer(client, {
             displayName: `E2E 客户 ${unique}`,
             sourceChannel: 'e2e'
@@ -19,7 +23,12 @@ describe('poms-api lead workflow e2e', () => {
         const lead = await createLead(client, {
             leadName: `E2E 线索转项目 ${unique}`,
             customerId: customer.id,
-            sourceChannel: 'e2e',
+            sourceId: leadSource!.id,
+            demandDescription: '客户需要验证预算、范围和转项目链路。',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1200000.00',
+            urgency: 'high',
+            expectedDecisionDate: '2026-05-01',
             ownerOrgId: primaryOrgId,
             ownerUserId: profile.id
         });
@@ -59,6 +68,48 @@ describe('poms-api lead workflow e2e', () => {
                 leadNo: lead.leadNo,
                 status: 'converted'
             })
+        );
+
+        const followUpPayload: CreateSalesFollowUpRecordRequest = {
+            customerId: customer.id,
+            leadId: null,
+            projectId: project.id,
+            followUpType: 'meeting',
+            occurredAt: '2026-05-02T03:00:00.000Z',
+            summary: '完成转项目后的第一次销售跟进',
+            detail: '客户确认继续推进正式项目范围。',
+            outcome: 'progress',
+            nextFollowUpAt: '2026-05-03T03:00:00.000Z'
+        };
+        const followUpResponse = await client.post<SalesFollowUpRecordSummary>('/sales-follow-up-records', followUpPayload);
+        const followUp = expectStatus(followUpResponse, 201);
+        expect(followUp).toEqual(
+            expect.objectContaining({
+                customerId: customer.id,
+                leadId: null,
+                projectId: project.id,
+                summary: followUpPayload.summary,
+                outcome: 'progress'
+            })
+        );
+
+        const followUpListResponse = await client.get<SalesFollowUpRecordSummary[]>('/sales-follow-up-records', {
+            params: {
+                customerId: customer.id,
+                leadId: lead.id,
+                projectId: project.id
+            }
+        });
+        const followUps = expectStatus(followUpListResponse, 200);
+        expect(followUps).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: followUp.id,
+                    customerName: customer.displayName,
+                    projectId: project.id,
+                    projectName: project.projectName
+                })
+            ])
         );
 
         const duplicateResponse = await client.post(`/leads/${lead.id}:convertToProject`, {

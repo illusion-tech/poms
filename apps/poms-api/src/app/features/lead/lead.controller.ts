@@ -35,6 +35,9 @@ export class LeadController {
     async list(@Query() query: LeadListQueryDto): Promise<LeadListView[]> {
         const listQuery: LeadListQuery = {
             status: query.status,
+            sourceId: query.sourceId,
+            budgetStatus: query.budgetStatus,
+            urgency: query.urgency,
             ownerOrgId: query.ownerOrgId,
             keyword: query.keyword
         };
@@ -61,7 +64,12 @@ export class LeadController {
         const lead = await this.leadService.createLead({
             leadName: body.leadName,
             customerId: body.customerId,
-            sourceChannel: body.sourceChannel,
+            sourceId: body.sourceId,
+            demandDescription: body.demandDescription,
+            budgetStatus: body.budgetStatus,
+            estimatedAmount: body.estimatedAmount,
+            urgency: body.urgency,
+            expectedDecisionDate: body.expectedDecisionDate,
             ownerOrgId: body.ownerOrgId,
             ownerUserId: body.ownerUserId
         }, req.user.sub);
@@ -81,7 +89,12 @@ export class LeadController {
         const lead = await this.leadService.updateLead(id, {
             leadName: body.leadName,
             customerId: body.customerId,
-            sourceChannel: body.sourceChannel,
+            sourceId: body.sourceId,
+            demandDescription: body.demandDescription,
+            budgetStatus: body.budgetStatus,
+            estimatedAmount: body.estimatedAmount,
+            urgency: body.urgency,
+            expectedDecisionDate: body.expectedDecisionDate,
             ownerOrgId: body.ownerOrgId,
             ownerUserId: body.ownerUserId
         }, req.user.sub);

@@ -1673,6 +1673,32 @@
             }
           },
           {
+            "name": "sourceId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "budgetStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadBudgetStatus"
+            }
+          },
+          {
+            "name": "urgency",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadUrgency"
+            }
+          },
+          {
             "name": "ownerOrgId",
             "required": false,
             "in": "query",
@@ -1966,6 +1992,133 @@
         "summary": "将有效线索转为项目",
         "tags": [
           "Lead"
+        ]
+      }
+    },
+    "/api/lead-sources": {
+      "get": {
+        "operationId": "LeadSourceController_list",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadSourceStatus"
+            }
+          },
+          {
+            "name": "keyword",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadSourceList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取线索来源列表",
+        "tags": [
+          "LeadSource"
+        ]
+      },
+      "post": {
+        "operationId": "LeadSourceController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLeadSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadSourceSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建线索来源",
+        "tags": [
+          "LeadSource"
+        ]
+      }
+    },
+    "/api/lead-sources/{id}": {
+      "patch": {
+        "operationId": "LeadSourceController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLeadSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadSourceSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "更新线索来源",
+        "tags": [
+          "LeadSource"
         ]
       }
     },
@@ -6381,6 +6534,99 @@
         ]
       }
     },
+    "/api/sales-follow-up-records": {
+      "get": {
+        "operationId": "SalesFollowUpController_list",
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesFollowUpRecordList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取销售跟进记录列表",
+        "tags": [
+          "SalesFollowUp"
+        ]
+      },
+      "post": {
+        "operationId": "SalesFollowUpController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesFollowUpRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "登记销售跟进记录",
+        "tags": [
+          "SalesFollowUp"
+        ]
+      }
+    },
     "/api/commission-rule-versions": {
       "get": {
         "operationId": "CommissionController_listRuleVersions",
@@ -7808,6 +8054,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:source:manage",
                 "project:read",
                 "project:write",
                 "project:delete",
@@ -7934,6 +8181,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:source:manage",
                 "project:read",
                 "project:write",
                 "project:delete",
@@ -8501,6 +8749,7 @@
               "exception-approval-opinion:sensitive:read",
               "lead:read",
               "lead:write",
+              "lead:source:manage",
               "project:read",
               "project:write",
               "project:delete",
@@ -8561,6 +8810,7 @@
               "exception-approval-opinion:sensitive:read",
               "lead:read",
               "lead:write",
+              "lead:source:manage",
               "project:read",
               "project:write",
               "project:delete",
@@ -8655,6 +8905,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:source:manage",
                 "project:read",
                 "project:write",
                 "project:delete",
@@ -8782,6 +9033,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:source:manage",
                 "project:read",
                 "project:write",
                 "project:delete",
@@ -9194,6 +9446,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:source:manage",
                 "project:read",
                 "project:write",
                 "project:delete",
@@ -9874,8 +10127,37 @@
           "customerName": {
             "type": "string"
           },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceName": {
+            "type": "string",
+            "nullable": true
+          },
           "sourceChannel": {
             "type": "string",
+            "nullable": true
+          },
+          "demandDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "budgetStatus": {
+            "$ref": "#/components/schemas/LeadBudgetStatus"
+          },
+          "estimatedAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/LeadUrgency"
+          },
+          "expectedDecisionDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
           "status": {
@@ -9918,7 +10200,14 @@
           "leadName",
           "customerId",
           "customerName",
+          "sourceId",
+          "sourceName",
           "sourceChannel",
+          "demandDescription",
+          "budgetStatus",
+          "estimatedAmount",
+          "urgency",
+          "expectedDecisionDate",
           "status",
           "ownerName",
           "ownerOrgName",
@@ -9926,6 +10215,25 @@
           "convertedProjectId",
           "createdAt",
           "updatedAt"
+        ]
+      },
+      "LeadBudgetStatus": {
+        "type": "string",
+        "enum": [
+          "unknown",
+          "no-budget",
+          "rough-budget",
+          "budget-confirmed",
+          "budget-approved"
+        ]
+      },
+      "LeadUrgency": {
+        "type": "string",
+        "enum": [
+          "low",
+          "normal",
+          "high",
+          "critical"
         ]
       },
       "LeadStatus": {
@@ -10001,8 +10309,37 @@
           "customerName": {
             "type": "string"
           },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceName": {
+            "type": "string",
+            "nullable": true
+          },
           "sourceChannel": {
             "type": "string",
+            "nullable": true
+          },
+          "demandDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "budgetStatus": {
+            "$ref": "#/components/schemas/LeadBudgetStatus"
+          },
+          "estimatedAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/LeadUrgency"
+          },
+          "expectedDecisionDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
           "status": {
@@ -10124,7 +10461,14 @@
           "leadName",
           "customerId",
           "customerName",
+          "sourceId",
+          "sourceName",
           "sourceChannel",
+          "demandDescription",
+          "budgetStatus",
+          "estimatedAmount",
+          "urgency",
+          "expectedDecisionDate",
           "status",
           "ownerOrgId",
           "ownerUserId",
@@ -10161,10 +10505,31 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "sourceChannel": {
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "demandDescription": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 64,
+            "maxLength": 4000
+          },
+          "budgetStatus": {
+            "$ref": "#/components/schemas/LeadBudgetStatus"
+          },
+          "estimatedAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$",
+            "nullable": true
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/LeadUrgency"
+          },
+          "expectedDecisionDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
           "ownerOrgId": {
@@ -10182,7 +10547,11 @@
         },
         "required": [
           "leadName",
-          "customerId"
+          "customerId",
+          "sourceId",
+          "demandDescription",
+          "budgetStatus",
+          "urgency"
         ]
       },
       "LeadSummary": {
@@ -10207,8 +10576,37 @@
           "customerName": {
             "type": "string"
           },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceName": {
+            "type": "string",
+            "nullable": true
+          },
           "sourceChannel": {
             "type": "string",
+            "nullable": true
+          },
+          "demandDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "budgetStatus": {
+            "$ref": "#/components/schemas/LeadBudgetStatus"
+          },
+          "estimatedAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/LeadUrgency"
+          },
+          "expectedDecisionDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
           "status": {
@@ -10310,7 +10708,14 @@
           "leadName",
           "customerId",
           "customerName",
+          "sourceId",
+          "sourceName",
           "sourceChannel",
+          "demandDescription",
+          "budgetStatus",
+          "estimatedAmount",
+          "urgency",
+          "expectedDecisionDate",
           "status",
           "ownerOrgId",
           "ownerUserId",
@@ -10343,10 +10748,31 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
-          "sourceChannel": {
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "demandDescription": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 64,
+            "maxLength": 4000
+          },
+          "budgetStatus": {
+            "$ref": "#/components/schemas/LeadBudgetStatus"
+          },
+          "estimatedAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$",
+            "nullable": true
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/LeadUrgency"
+          },
+          "expectedDecisionDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
           "ownerOrgId": {
@@ -10528,6 +10954,148 @@
           "updatedAt",
           "updatedBy"
         ]
+      },
+      "LeadSourceSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadSourceStatus"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "usageCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "name",
+          "description",
+          "status",
+          "sortOrder",
+          "usageCount",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "LeadSourceStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      },
+      "LeadSourceList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/LeadSourceSummary"
+        }
+      },
+      "CreateLeadSourceRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "UpdateLeadSourceRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadSourceStatus"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999
+          }
+        }
       },
       "ProjectListView": {
         "type": "object",
@@ -21420,6 +21988,237 @@
             "maximum": 9007199254740991
           }
         }
+      },
+      "SalesFollowUpRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "leadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "leadName": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectName": {
+            "type": "string",
+            "nullable": true
+          },
+          "followUpType": {
+            "$ref": "#/components/schemas/SalesFollowUpType"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/SalesFollowUpOutcome"
+          },
+          "nextFollowUpAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerOrgName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "customerId",
+          "customerName",
+          "leadId",
+          "leadName",
+          "projectId",
+          "projectName",
+          "followUpType",
+          "occurredAt",
+          "summary",
+          "detail",
+          "outcome",
+          "nextFollowUpAt",
+          "ownerOrgId",
+          "ownerOrgName",
+          "ownerUserId",
+          "ownerName",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "SalesFollowUpType": {
+        "type": "string",
+        "enum": [
+          "phone",
+          "meeting",
+          "wechat",
+          "email",
+          "onsite",
+          "other"
+        ]
+      },
+      "SalesFollowUpOutcome": {
+        "type": "string",
+        "enum": [
+          "progress",
+          "waiting-customer",
+          "risk-discovered",
+          "deferred",
+          "close-recommended",
+          "no-response",
+          "other"
+        ]
+      },
+      "SalesFollowUpRecordList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SalesFollowUpRecordSummary"
+        }
+      },
+      "CreateSalesFollowUpRecordRequest": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "leadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "followUpType": {
+            "$ref": "#/components/schemas/SalesFollowUpType"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000,
+            "nullable": true
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/SalesFollowUpOutcome"
+          },
+          "nextFollowUpAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "customerId",
+          "followUpType",
+          "occurredAt",
+          "summary",
+          "outcome"
+        ]
       },
       "CommissionRuleVersionSummary": {
         "type": "object",

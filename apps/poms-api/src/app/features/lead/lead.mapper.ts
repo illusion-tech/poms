@@ -1,17 +1,42 @@
-import type { LeadDetailView, LeadListView, LeadSummary } from '@poms/shared-contracts';
+import type { LeadDetailView, LeadListView, LeadSourceSummary, LeadSummary } from '@poms/shared-contracts';
+import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
-import { Lead } from './lead.entity';
+import { Lead, LeadSource } from './lead.entity';
 
-export function mapLeadToSummary(lead: Lead): LeadSummary {
+export function mapLeadSourceToSummary(source: LeadSource, usageCount = 0): LeadSourceSummary {
+    return {
+        id: source.id,
+        code: source.code,
+        name: source.name,
+        description: source.description ?? null,
+        status: source.status,
+        sortOrder: source.sortOrder,
+        usageCount,
+        rowVersion: source.rowVersion,
+        createdAt: source.createdAt.toISOString(),
+        createdBy: source.createdBy ?? null,
+        updatedAt: source.updatedAt.toISOString(),
+        updatedBy: source.updatedBy ?? null
+    };
+}
+
+export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null): LeadSummary {
     return {
         id: lead.id,
         leadNo: lead.leadNo,
         leadName: lead.leadName,
         customerId: lead.customerId,
         customerName: lead.customerName,
+        sourceId: lead.sourceId,
+        sourceName: source?.name ?? lead.sourceChannel ?? null,
         sourceChannel: lead.sourceChannel ?? null,
+        demandDescription: lead.demandDescription ?? null,
+        budgetStatus: lead.budgetStatus,
+        estimatedAmount: lead.estimatedAmount ?? null,
+        urgency: lead.urgency,
+        expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
         status: lead.status,
         ownerOrgId: lead.ownerOrgId ?? null,
         ownerUserId: lead.ownerUserId ?? null,
@@ -34,6 +59,7 @@ export function mapLeadToSummary(lead: Lead): LeadSummary {
 
 export function mapLeadToListView(
     lead: Lead,
+    source: LeadSource | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null
 ): LeadListView {
@@ -43,7 +69,14 @@ export function mapLeadToListView(
         leadName: lead.leadName,
         customerId: lead.customerId,
         customerName: lead.customerName,
+        sourceId: lead.sourceId,
+        sourceName: source?.name ?? lead.sourceChannel ?? null,
         sourceChannel: lead.sourceChannel ?? null,
+        demandDescription: lead.demandDescription ?? null,
+        budgetStatus: lead.budgetStatus,
+        estimatedAmount: lead.estimatedAmount ?? null,
+        urgency: lead.urgency,
+        expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
         status: lead.status,
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
@@ -56,12 +89,13 @@ export function mapLeadToListView(
 
 export function mapLeadToDetailView(
     lead: Lead,
+    source: LeadSource | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
     convertedProject: Project | null
 ): LeadDetailView {
     return {
-        ...mapLeadToSummary(lead),
+        ...mapLeadToSummary(lead, source),
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
         sourceSummary: lead.sourceChannel ? `来源渠道：${lead.sourceChannel}` : null,

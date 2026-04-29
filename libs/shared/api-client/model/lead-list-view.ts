@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LeadUrgency } from './lead-urgency';
+import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
 
 
@@ -16,7 +18,14 @@ export interface LeadListView {
     leadName: string;
     customerId: string;
     customerName: string;
+    sourceId: string;
+    sourceName: string | null;
     sourceChannel: string | null;
+    demandDescription: string | null;
+    budgetStatus: LeadBudgetStatus;
+    estimatedAmount: string | null;
+    urgency: LeadUrgency;
+    expectedDecisionDate: string | null;
     status: LeadStatus;
     ownerName: string | null;
     ownerOrgName: string | null;
