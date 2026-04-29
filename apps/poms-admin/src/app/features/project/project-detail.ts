@@ -2,13 +2,26 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, PlatformStore, ProjectStore, type CustomerListView, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import {
+    AttachmentTargetType,
+    AuthStore,
+    CustomerStatus,
+    CustomerStore,
+    PlatformStore,
+    ProjectStore,
+    type CustomerListView,
+    type OwnerReferenceUser,
+    type ProjectArchiveRecordSummary,
+    type ProjectDetailView,
+    type ProjectTimelineView
+} from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -120,7 +133,23 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 @Component({
     selector: 'app-project-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, DialogModule, SelectModule, TextareaModule, ProjectContextHeader, ProjectLifecycleTimeline, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SectionCard,
+        TagModule,
+        ButtonModule,
+        InputTextModule,
+        DialogModule,
+        SelectModule,
+        TextareaModule,
+        AttachmentPanel,
+        ProjectContextHeader,
+        ProjectLifecycleTimeline,
+        WorkspaceFactGrid,
+        WorkspaceFeedback,
+        WorkspaceLoading
+    ],
     providers: [ProjectStore, CustomerStore],
     template: `
         @if (loading()) {
@@ -339,6 +368,14 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                         <div class="mt-2 text-sm font-medium text-surface-950 dark:text-surface-0">{{ project.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</div>
                     </div>
                 </div>
+
+                <app-attachment-panel
+                    [targetType]="projectAttachmentTargetType"
+                    [targetId]="project.id"
+                    [canWrite]="canWriteProjectAttachment()"
+                    title="项目附件"
+                    description="保存项目启动、需求确认、设计、交付、验收、变更和归档相关资料。"
+                />
 
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
                     <section-card>
@@ -760,6 +797,8 @@ export class ProjectDetail implements OnInit {
         }))
     );
     readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
+    readonly projectAttachmentTargetType = AttachmentTargetType.Project;
+    readonly canWriteProjectAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
 
     editDialogVisible = false;
     editAttempted = false;

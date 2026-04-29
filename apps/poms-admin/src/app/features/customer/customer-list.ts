@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CustomerAliasType, CustomerStatus, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
+import { AttachmentTargetType, AuthStore, CustomerAliasType, CustomerStatus, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -11,6 +11,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface CustomerFilterOption {
@@ -84,7 +85,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 @Component({
     selector: 'app-customer-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, WorkspaceFeedback],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -257,7 +258,16 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                     @if (mode === 'edit') {
                         <div class="flex flex-col gap-2">
                             <label for="customerStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                            <p-select inputId="customerStatus" [ngModel]="editForm().status" (ngModelChange)="updateStatusField($event)" [options]="editableStatusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                            <p-select
+                                inputId="customerStatus"
+                                [ngModel]="editForm().status"
+                                (ngModelChange)="updateStatusField($event)"
+                                [options]="editableStatusOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                styleClass="w-full rounded-md!"
+                            />
                         </div>
                     }
 
@@ -333,6 +343,14 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                 }
                             </div>
                         </div>
+
+                        <app-attachment-panel
+                            [targetType]="customerAttachmentTargetType"
+                            [targetId]="customer.id"
+                            [canWrite]="canWriteCustomerAttachment()"
+                            title="客户附件"
+                            description="保存客户资质、开票资料、采购制度、框架协议和长期合作资料。"
+                        />
                     </div>
                 }
             </p-dialog>
@@ -341,6 +359,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 })
 export class CustomerList implements OnInit {
     readonly #customerStore = inject(CustomerStore);
+    readonly #authStore = inject(AuthStore);
 
     readonly customers = this.#customerStore.customers;
     readonly selectedCustomer = this.#customerStore.selectedCustomer;
@@ -369,6 +388,7 @@ export class CustomerList implements OnInit {
     readonly statusOptions = CUSTOMER_STATUS_OPTIONS;
     readonly editableStatusOptions = EDITABLE_STATUS_OPTIONS;
     readonly aliasTypeOptions = CUSTOMER_ALIAS_TYPE_OPTIONS;
+    readonly customerAttachmentTargetType = AttachmentTargetType.Customer;
 
     readonly visibleCustomers = computed(() => {
         const keyword = this.normalize(this.searchValue());
@@ -389,6 +409,7 @@ export class CustomerList implements OnInit {
 
     readonly isCreateFormValid = computed(() => Boolean(this.createForm().displayName.trim()));
     readonly isEditFormValid = computed(() => Boolean(this.editForm().displayName.trim()));
+    readonly canWriteCustomerAttachment = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
 
     ngOnInit() {
         void this.loadCustomers();

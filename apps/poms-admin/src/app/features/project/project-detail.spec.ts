@@ -1,7 +1,23 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, PlatformStore, ProjectStore, type CustomerListView, type OwnerReferenceOrgUnit, type OwnerReferenceUser, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectTimelineView } from '@poms/admin-data-access';
+import {
+    AttachmentStore,
+    AttachmentTargetType,
+    AuthStore,
+    CustomerStatus,
+    CustomerStore,
+    PlatformStore,
+    ProjectStore,
+    type AttachmentSummary,
+    type CustomerListView,
+    type OwnerReferenceOrgUnit,
+    type OwnerReferenceUser,
+    type ProjectArchiveRecordSummary,
+    type ProjectDetailView,
+    type ProjectTimelineView
+} from '@poms/admin-data-access';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { ProjectDetail } from './project-detail';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -211,6 +227,17 @@ describe('ProjectDetail', () => {
     let archiveRecordsErrorSignal: ReturnType<typeof signal<string | null>>;
     let routerMock: { navigate: jest.Mock };
     let authStoreMock: { hasAnyPermission: jest.Mock };
+    let attachmentStoreMock: {
+        attachments: ReturnType<typeof signal<AttachmentSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadAttachments: jest.Mock;
+        uploadAttachment: jest.Mock;
+        voidAttachment: jest.Mock;
+        downloadAttachment: jest.Mock;
+        clearAttachments: jest.Mock;
+    };
     let customerStoreMock: {
         activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
         loading: ReturnType<typeof signal<boolean>>;
@@ -287,6 +314,17 @@ describe('ProjectDetail', () => {
                 return false;
             })
         };
+        attachmentStoreMock = {
+            attachments: signal<AttachmentSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadAttachments: jest.fn().mockResolvedValue([]),
+            uploadAttachment: jest.fn(),
+            voidAttachment: jest.fn(),
+            downloadAttachment: jest.fn(),
+            clearAttachments: jest.fn()
+        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
@@ -354,6 +392,16 @@ describe('ProjectDetail', () => {
                     ]
                 }
             })
+            .overrideComponent(AttachmentPanel, {
+                set: {
+                    providers: [
+                        {
+                            provide: AttachmentStore,
+                            useValue: attachmentStoreMock
+                        }
+                    ]
+                }
+            })
             .compileComponents();
 
         fixture = TestBed.createComponent(ProjectDetail);
@@ -389,6 +437,11 @@ describe('ProjectDetail', () => {
         expect(text).toContain('审批摘要已形成');
         expect(text).toContain('暂未形成确认记录');
         expect(text).toContain('暂未形成正式投标事实');
+        expect(text).toContain('项目附件');
+        expect(attachmentStoreMock.loadAttachments).toHaveBeenCalledWith({
+            targetType: AttachmentTargetType.Project,
+            targetId: 'project-1'
+        });
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
         expect(text).not.toContain('allowedActions');

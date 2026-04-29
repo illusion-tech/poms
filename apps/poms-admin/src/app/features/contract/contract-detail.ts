@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthStore, ContractStore, type ContractStatus } from '@poms/admin-data-access';
+import { AttachmentTargetType, AuthStore, ContractStore, type ContractStatus } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -12,6 +12,7 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
@@ -19,7 +20,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
 @Component({
     selector: 'app-contract-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, MessageModule, SelectModule, DialogModule, TextareaModule, ToastModule],
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, MessageModule, SelectModule, DialogModule, TextareaModule, ToastModule, AttachmentPanel],
     providers: [ContractStore, MessageService],
     template: `
         <p-toast />
@@ -240,6 +241,17 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                         }
                     </section-card>
 
+                    @if (canReadContractAttachment()) {
+                        <app-attachment-panel
+                            class="xl:col-span-3"
+                            [targetType]="contractAttachmentTargetType"
+                            [targetId]="contract()!.id"
+                            [canWrite]="canWriteContractAttachment()"
+                            title="合同附件"
+                            description="保存合同草案、法务修订版、盖章合同、补充协议、中标通知和履约资料。"
+                        />
+                    }
+
                     <section-card class="xl:col-span-3">
                         <ng-template #title>审计追踪</ng-template>
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mt-4">
@@ -410,6 +422,9 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly canApprove = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'pending' && this.isCurrentApprover());
     readonly canActivate = computed(() => this.contract()?.status === 'pending-review' && this.currentApproval()?.currentStatus === 'approved' && this.canManageContractFinance());
+    readonly contractAttachmentTargetType = AttachmentTargetType.Contract;
+    readonly canReadContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:read'] as const));
+    readonly canWriteContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly approvalStatusLabel = computed(() => {
         const status = this.currentApproval()?.currentStatus;
         return status ? this.getApprovalStatusName(status) : null;
