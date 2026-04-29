@@ -84,8 +84,8 @@ describe('poms-api operating signal workflow e2e', () => {
         expect(feedbackBeforeGateReview.dataMaturityLevel).toBe('成熟');
         expect(feedbackBeforeGateReview.costActionRecommendation).toBe('PROMPT');
         expect(feedbackBeforeGateReview.currentActionLevel).toBe('REVIEW');
-        expect(feedbackBeforeGateReview.nextActionSummary).toBe('Review commission settlement package');
-        expect(feedbackBeforeGateReview.downstreamConsumerSummary).toBe('Commission payout workflow');
+        expect(feedbackBeforeGateReview.nextActionSummaryProjection.value).toBe('Review commission settlement package');
+        expect(feedbackBeforeGateReview.downstreamConsumerSummaryProjection.value).toBe('Commission payout workflow');
         expect(feedbackBeforeGateReview.allowedActions).toEqual(['reviewCommissionGateBinding']);
 
         const gateReviewResult = await reviewCommissionGateBinding(client, fixture.gateBindingId, {
@@ -126,8 +126,8 @@ describe('poms-api operating signal workflow e2e', () => {
         expect(feedbackAfterGateReview.currentActionLevel).toBe('REVIEW');
         expect(feedbackAfterGateReview.referencedBaselineVersion).toBe(fixture.baselinePackageId);
         expect(feedbackAfterGateReview.referencedSnapshotVersion).toBe(fixture.operatingSnapshotId);
-        expect(feedbackAfterGateReview.nextActionSummary).toBe('BLOCK: tax_gap');
-        expect(feedbackAfterGateReview.downstreamConsumerSummary).toBe('Commission payout workflow');
+        expect(feedbackAfterGateReview.nextActionSummaryProjection.value).toBe('BLOCK: tax_gap');
+        expect(feedbackAfterGateReview.downstreamConsumerSummaryProjection.value).toBe('Commission payout workflow');
         expect(feedbackAfterGateReview.allowedActions).toEqual(['reviewCommissionGateBinding']);
     });
 

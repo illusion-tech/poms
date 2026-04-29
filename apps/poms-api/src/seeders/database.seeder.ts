@@ -13,7 +13,6 @@ export class DatabaseSeeder extends Seeder {
         const seededRoleKeys = DEV_ROLES.map((role) => sqlValue(role.roleKey)).join(', ');
         const seededOrgCodes = DEV_ORG_UNITS.map((orgUnit) => sqlValue(orgUnit.code)).join(', ');
         const seededProjectCodes = DEV_PROJECT_SEEDS.map((project) => sqlValue(project.projectNo)).join(', ');
-        const seededCustomerNos = DEV_CUSTOMER_SEEDS.map((customer) => sqlValue(customer.customerNo)).join(', ');
         const roleByKey = new Map(DEV_ROLES.map((role) => [role.roleKey, role]));
         const localCredentialValues = DEV_USERS.map((user, index) => {
             const credentialId = `70000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`;
@@ -57,7 +56,7 @@ export class DatabaseSeeder extends Seeder {
             })
         ).join(',\n            ');
         const rolePermissionAssignmentValues = DEV_ROLES.flatMap((role) =>
-            role.permissions.map(
+            [...new Set(role.permissions)].map(
                 (permissionKey, index) =>
                     `(${sqlValue(
                         `60000000-0000-4000-8000-${String(rolePermissionAssignmentIndex(role.id, index)).padStart(12, '0')}`
@@ -861,19 +860,6 @@ export class DatabaseSeeder extends Seeder {
             where "project_no" in (${seededProjectCodes});
         `);
 
-        await connection.execute(`
-            delete from "${schema}"."customer_alias"
-            where "customer_id" in (
-                select "id" from "${schema}"."customer"
-                where "customer_no" in (${seededCustomerNos})
-            );
-        `);
-
-        await connection.execute(`
-            delete from "${schema}"."customer"
-            where "customer_no" in (${seededCustomerNos});
-        `);
-
         for (const customer of DEV_CUSTOMER_SEEDS) {
             await connection.execute(`
                 insert into "${schema}"."customer" (
@@ -904,6 +890,7 @@ export class DatabaseSeeder extends Seeder {
                 )
                 on conflict ("customer_no") do update
                 set
+                    "id" = excluded."id",
                     "display_name" = excluded."display_name",
                     "legal_name" = excluded."legal_name",
                     "short_name" = excluded."short_name",

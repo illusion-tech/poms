@@ -1,8 +1,13 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { Customer, CustomerAlias } from './customer.entity';
 import { CustomerRepository } from './customer.repository';
 import { CustomerService } from './customer.service';
+
+jest.mock('node:crypto', () => ({
+    randomUUID: jest.fn()
+}));
 
 describe('CustomerService', () => {
     const customerId = '11000000-0000-4000-8000-000000000001';
@@ -34,8 +39,11 @@ describe('CustomerService', () => {
         persist: jest.Mock;
         flush: jest.Mock;
     };
+    let randomUUIDMock: jest.MockedFunction<typeof randomUUID>;
 
     beforeEach(() => {
+        randomUUIDMock = jest.mocked(randomUUID);
+        randomUUIDMock.mockReturnValue(customerId as ReturnType<typeof randomUUID>);
         entityManager = {
             create: jest.fn((entity, input) => entity === Customer ? createCustomer(input as Partial<Customer>) : createAlias(input as Partial<CustomerAlias>)),
             persist: jest.fn(),

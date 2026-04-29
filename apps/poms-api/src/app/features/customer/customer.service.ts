@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import type {
     CreateCustomerAliasRequest,
     CreateCustomerRequest,
@@ -68,6 +69,7 @@ export class CustomerService {
         return this.customerRepository.getEntityManager().transactional(async (em) => {
             const customerNo = await this.businessNumberService.next('customer', now, em);
             const customer = em.create(Customer, {
+                id: randomUUID(),
                 customerNo,
                 displayName: input.displayName,
                 legalName: input.legalName?.trim() || null,

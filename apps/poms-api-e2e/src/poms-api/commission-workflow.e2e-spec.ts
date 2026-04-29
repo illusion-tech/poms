@@ -57,7 +57,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         expect(scenario.calculation.status).toBe('effective');
-        expect(scenario.calculation.commissionPool).toBe('2400.00');
+        expect(scenario.calculation.commissionPoolProjection.value).toBe('2400.00');
 
         const payout = await createPayout(
             client,
@@ -65,7 +65,7 @@ describe('poms-api commission workflow e2e', () => {
             buildPayoutInput(scenario.calculation.id)
         );
         expect(payout.status).toBe('draft');
-        expect(payout.theoreticalCapAmount).toBe('480.00');
+        expect(payout.theoreticalCapAmountProjection.value).toBe('480.00');
 
         const submittedPayout = await submitPayoutApproval(client, payout.id, {
             payoutStage: payout.stageType,
@@ -82,7 +82,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
         expect(approvedPayout.status).toBe('approved');
-        expect(approvedPayout.approvedAmount).toBe('480.00');
+        expect(approvedPayout.approvedAmountProjection.value).toBe('480.00');
 
         const paidPayout = await registerPayout(client, payout.id, {
             payoutStage: approvedPayout.stageType,
@@ -90,7 +90,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: approvedPayout.rowVersion
         });
         expect(paidPayout.status).toBe('paid');
-        expect(paidPayout.paidRecordAmount).toBe('400.00');
+        expect(paidPayout.paidRecordAmountProjection.value).toBe('400.00');
 
         const adjustment = await createAdjustment(
             client,
@@ -203,7 +203,7 @@ describe('poms-api commission workflow e2e', () => {
             fixture.projectId,
             buildPayoutInput(effectiveCalculation.id, { stageType: 'final' })
         );
-        expect(finalPayout.theoreticalCapAmount).toBe('2400.00');
+        expect(finalPayout.theoreticalCapAmountProjection.value).toBe('2400.00');
 
         const submittedFinalPayout = await submitPayoutApproval(client, finalPayout.id, {
             payoutStage: finalPayout.stageType,
@@ -219,7 +219,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedFinalPayout = await getPayout(client, fixture.projectId, finalPayout.id);
         expect(approvedFinalPayout.status).toBe('approved');
-        expect(approvedFinalPayout.approvedAmount).toBe('2400.00');
+        expect(approvedFinalPayout.approvedAmountProjection.value).toBe('2400.00');
 
         const pendingFinalSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
         expect(pendingFinalSettlement.finalSettlementStatus).toBe('pending-final-settlement');
@@ -238,7 +238,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: approvedFinalPayout.rowVersion
         });
         expect(paidFinalPayout.status).toBe('paid');
-        expect(paidFinalPayout.paidRecordAmount).toBe('2040.00');
+        expect(paidFinalPayout.paidRecordAmountProjection.value).toBe('2040.00');
 
         const pendingRetentionSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
         expect(pendingRetentionSettlement.finalSettlementStatus).toBe('pending-retention-settlement');
@@ -255,7 +255,7 @@ describe('poms-api commission workflow e2e', () => {
             fixture.projectId,
             buildPayoutInput(effectiveCalculation.id, { stageType: 'retention' })
         );
-        expect(retentionPayout.theoreticalCapAmount).toBe('360.00');
+        expect(retentionPayout.theoreticalCapAmountProjection.value).toBe('360.00');
 
         const retentionReceipt = await createReceipt(client, fixture.contractId, {
             receiptAmount: '360.00',
@@ -307,7 +307,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedRetentionPayout = await getPayout(client, fixture.projectId, retentionPayout.id);
         expect(approvedRetentionPayout.status).toBe('approved');
-        expect(approvedRetentionPayout.approvedAmount).toBe('360.00');
+        expect(approvedRetentionPayout.approvedAmountProjection.value).toBe('360.00');
 
         const paidRetentionPayout = await registerPayout(client, retentionPayout.id, {
             payoutStage: 'retention',
@@ -316,7 +316,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: approvedRetentionPayout.rowVersion
         });
         expect(paidRetentionPayout.status).toBe('paid');
-        expect(paidRetentionPayout.paidRecordAmount).toBe('360.00');
+        expect(paidRetentionPayout.paidRecordAmountProjection.value).toBe('360.00');
 
         const settledFinalSettlement = await getCommissionFinalSettlement(client, fixture.projectId);
         expect(settledFinalSettlement.finalSettlementStatus).toBe('settled-all');
@@ -400,8 +400,8 @@ describe('poms-api commission workflow e2e', () => {
                     item.payoutKind === 'supplement' &&
                     item.sourcePayoutId === payout.id &&
                     item.status === 'paid' &&
-                    item.approvedAmount === '80.00' &&
-                    item.paidRecordAmount === '80.00'
+                    item.approvedAmountProjection.value === '80.00' &&
+                    item.paidRecordAmountProjection.value === '80.00'
             )
         ).toBe(true);
     });
@@ -563,7 +563,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const rejectedPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
         expect(rejectedPayout.status).toBe('draft');
-        expect(rejectedPayout.approvedAmount).toBeNull();
+        expect(rejectedPayout.approvedAmountProjection.value).toBeNull();
         expect(rejectedPayout.approvedAt).toBeNull();
     });
 
