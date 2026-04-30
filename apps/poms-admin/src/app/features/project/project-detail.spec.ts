@@ -9,15 +9,18 @@ import {
     CustomerStore,
     PlatformStore,
     ProjectStore,
+    SalesFollowUpStore,
     type AttachmentSummary,
     type CustomerListView,
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
     type ProjectArchiveRecordSummary,
     type ProjectDetailView,
-    type ProjectTimelineView
+    type ProjectTimelineView,
+    type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { ProjectDetail } from './project-detail';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -238,6 +241,15 @@ describe('ProjectDetail', () => {
         downloadAttachment: jest.Mock;
         clearAttachments: jest.Mock;
     };
+    let salesFollowUpStoreMock: {
+        followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadFollowUps: jest.Mock;
+        createFollowUp: jest.Mock;
+        clearFollowUps: jest.Mock;
+    };
     let customerStoreMock: {
         activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
         loading: ReturnType<typeof signal<boolean>>;
@@ -325,6 +337,15 @@ describe('ProjectDetail', () => {
             downloadAttachment: jest.fn(),
             clearAttachments: jest.fn()
         };
+        salesFollowUpStoreMock = {
+            followUps: signal<SalesFollowUpRecordSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadFollowUps: jest.fn().mockResolvedValue([]),
+            createFollowUp: jest.fn(),
+            clearFollowUps: jest.fn()
+        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
@@ -402,6 +423,16 @@ describe('ProjectDetail', () => {
                     ]
                 }
             })
+            .overrideComponent(SalesFollowUpPanel, {
+                set: {
+                    providers: [
+                        {
+                            provide: SalesFollowUpStore,
+                            useValue: salesFollowUpStoreMock
+                        }
+                    ]
+                }
+            })
             .compileComponents();
 
         fixture = TestBed.createComponent(ProjectDetail);
@@ -441,6 +472,11 @@ describe('ProjectDetail', () => {
         expect(attachmentStoreMock.loadAttachments).toHaveBeenCalledWith({
             targetType: AttachmentTargetType.Project,
             targetId: 'project-1'
+        });
+        expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: undefined,
+            projectId: 'project-1'
         });
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
@@ -487,6 +523,11 @@ describe('ProjectDetail', () => {
         expect(text).toContain('华南地铁线索');
         expect(text).toContain('已转项目');
         expect(text).toContain('查看线索列表');
+        expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: 'lead-1',
+            projectId: 'project-1'
+        });
     });
 
     it('hides edit and commission actions when allowedActions only permits workspace access', async () => {

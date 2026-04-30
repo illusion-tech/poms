@@ -1,7 +1,21 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AttachmentStore, AttachmentTargetType, AuthStore, CustomerAliasType, CustomerStatus, CustomerStore, type AttachmentSummary, type CustomerAliasSummary, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
+import {
+    AttachmentStore,
+    AttachmentTargetType,
+    AuthStore,
+    CustomerAliasType,
+    CustomerStatus,
+    CustomerStore,
+    SalesFollowUpStore,
+    type AttachmentSummary,
+    type CustomerAliasSummary,
+    type CustomerDetailView,
+    type CustomerListView,
+    type SalesFollowUpRecordSummary
+} from '@poms/admin-data-access';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { CustomerList } from './customer-list';
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
@@ -71,6 +85,15 @@ describe('CustomerList', () => {
         downloadAttachment: jest.Mock;
         clearAttachments: jest.Mock;
     };
+    let salesFollowUpStoreMock: {
+        followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadFollowUps: jest.Mock;
+        createFollowUp: jest.Mock;
+        clearFollowUps: jest.Mock;
+    };
     let customerStoreMock: {
         customers: typeof customers;
         selectedCustomer: typeof selectedCustomer;
@@ -102,6 +125,15 @@ describe('CustomerList', () => {
             voidAttachment: jest.fn(),
             downloadAttachment: jest.fn(),
             clearAttachments: jest.fn()
+        };
+        salesFollowUpStoreMock = {
+            followUps: signal<SalesFollowUpRecordSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadFollowUps: jest.fn().mockResolvedValue([]),
+            createFollowUp: jest.fn(),
+            clearFollowUps: jest.fn()
         };
         customerStoreMock = {
             customers,
@@ -159,6 +191,17 @@ describe('CustomerList', () => {
                     ]
                 }
             })
+            .overrideComponent(SalesFollowUpPanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
+                        {
+                            provide: SalesFollowUpStore,
+                            useValue: salesFollowUpStoreMock
+                        }
+                    ]
+                }
+            })
             .compileComponents();
 
         fixture = TestBed.createComponent(CustomerList);
@@ -179,6 +222,11 @@ describe('CustomerList', () => {
         expect(attachmentStoreMock.loadAttachments).toHaveBeenCalledWith({
             targetType: AttachmentTargetType.Customer,
             targetId: 'customer-1'
+        });
+        expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: undefined,
+            projectId: undefined
         });
     });
 });

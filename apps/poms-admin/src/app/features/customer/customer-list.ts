@@ -12,6 +12,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface CustomerFilterOption {
@@ -85,7 +86,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 @Component({
     selector: 'app-customer-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, SalesFollowUpPanel, WorkspaceFeedback],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -344,6 +345,14 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             </div>
                         </div>
 
+                        <app-sales-follow-up-panel
+                            [customerId]="customer.id"
+                            [canWrite]="canWriteCustomerFollowUp()"
+                            title="客户销售跟进"
+                            description="沉淀客户级沟通、长期采购信息、合作机会和下一步动作。"
+                            createContextDetail="本次记录会挂到当前客户，用于跨线索和跨项目查看客户销售过程。"
+                        />
+
                         <app-attachment-panel
                             [targetType]="customerAttachmentTargetType"
                             [targetId]="customer.id"
@@ -409,6 +418,7 @@ export class CustomerList implements OnInit {
 
     readonly isCreateFormValid = computed(() => Boolean(this.createForm().displayName.trim()));
     readonly isEditFormValid = computed(() => Boolean(this.editForm().displayName.trim()));
+    readonly canWriteCustomerFollowUp = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
     readonly canWriteCustomerAttachment = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
 
     ngOnInit() {

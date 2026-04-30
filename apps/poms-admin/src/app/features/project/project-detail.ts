@@ -24,6 +24,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import {
     archiveStatusLabelOrFallback,
@@ -146,6 +147,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
         AttachmentPanel,
         ProjectContextHeader,
         ProjectLifecycleTimeline,
+        SalesFollowUpPanel,
         WorkspaceFactGrid,
         WorkspaceFeedback,
         WorkspaceLoading
@@ -375,6 +377,16 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     [canWrite]="canWriteProjectAttachment()"
                     title="项目附件"
                     description="保存项目启动、需求确认、设计、交付、验收、变更和归档相关资料。"
+                />
+
+                <app-sales-follow-up-panel
+                    [customerId]="project.customerId"
+                    [leadId]="project.sourceLeadId"
+                    [projectId]="project.id"
+                    [canWrite]="canWriteProjectFollowUp()"
+                    title="项目销售跟进"
+                    description="承接来源线索、客户沟通和项目推进中的销售动作。"
+                    createContextDetail="本次记录会挂到当前项目，同时保留客户维度；来源线索记录会在列表中连续展示。"
                 />
 
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -798,6 +810,7 @@ export class ProjectDetail implements OnInit {
     );
     readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
     readonly projectAttachmentTargetType = AttachmentTargetType.Project;
+    readonly canWriteProjectFollowUp = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canWriteProjectAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
 
     editDialogVisible = false;
