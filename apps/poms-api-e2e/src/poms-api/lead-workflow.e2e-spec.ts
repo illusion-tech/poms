@@ -94,26 +94,89 @@ describe('poms-api lead workflow e2e', () => {
                 leadId: null,
                 projectId: project.id,
                 summary: followUpPayload.summary,
+                status: 'active',
                 outcome: 'progress'
             })
         );
 
-        const followUpListResponse = await client.get<SalesFollowUpRecordSummary[]>('/sales-follow-up-records', {
+        const replacementResponse = await client.post<SalesFollowUpRecordSummary>(`/sales-follow-up-records/${followUp.id}:replace`, {
+            followUpType: 'email',
+            occurredAt: '2026-05-02T04:00:00.000Z',
+            summary: '补充转项目后的邮件确认记录',
+            detail: '客户邮件确认继续推进正式项目范围。',
+            outcome: 'progress',
+            nextFollowUpAt: null,
+            replacementReason: 'E2E 更正第一次销售跟进摘要',
+            expectedVersion: followUp.rowVersion
+        });
+        const replacement = expectStatus(replacementResponse, 200);
+        expect(replacement).toEqual(
+            expect.objectContaining({
+                customerId: customer.id,
+                projectId: project.id,
+                status: 'active',
+                supersedesId: followUp.id,
+                replacementReason: 'E2E 更正第一次销售跟进摘要'
+            })
+        );
+
+        const activeAfterReplaceResponse = await client.get<SalesFollowUpRecordSummary[]>('/sales-follow-up-records', {
             params: {
                 customerId: customer.id,
                 leadId: lead.id,
                 projectId: project.id
             }
         });
-        const followUps = expectStatus(followUpListResponse, 200);
-        expect(followUps).toEqual(
+        const activeAfterReplace = expectStatus(activeAfterReplaceResponse, 200);
+        expect(activeAfterReplace).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    id: followUp.id,
+                    id: replacement.id,
                     customerName: customer.displayName,
                     projectId: project.id,
                     projectName: project.projectName
                 })
+            ])
+        );
+        expect(activeAfterReplace.some((record) => record.id === followUp.id)).toBe(false);
+
+        const voidResponse = await client.post<SalesFollowUpRecordSummary>(`/sales-follow-up-records/${replacement.id}:void`, {
+            reason: 'E2E 作废更正后的跟进记录',
+            comment: '验证作废后默认列表不再返回',
+            expectedVersion: replacement.rowVersion
+        });
+        const voided = expectStatus(voidResponse, 200);
+        expect(voided).toEqual(
+            expect.objectContaining({
+                id: replacement.id,
+                status: 'voided',
+                voidReason: 'E2E 作废更正后的跟进记录: 验证作废后默认列表不再返回'
+            })
+        );
+
+        const activeAfterVoidResponse = await client.get<SalesFollowUpRecordSummary[]>('/sales-follow-up-records', {
+            params: {
+                customerId: customer.id,
+                leadId: lead.id,
+                projectId: project.id
+            }
+        });
+        const activeAfterVoid = expectStatus(activeAfterVoidResponse, 200);
+        expect(activeAfterVoid.some((record) => record.id === replacement.id)).toBe(false);
+
+        const historyResponse = await client.get<SalesFollowUpRecordSummary[]>('/sales-follow-up-records', {
+            params: {
+                customerId: customer.id,
+                leadId: lead.id,
+                projectId: project.id,
+                lifecycleScope: 'all'
+            }
+        });
+        const history = expectStatus(historyResponse, 200);
+        expect(history).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ id: followUp.id, status: 'superseded', replacedById: replacement.id }),
+                expect.objectContaining({ id: replacement.id, status: 'voided', supersedesId: followUp.id })
             ])
         );
 

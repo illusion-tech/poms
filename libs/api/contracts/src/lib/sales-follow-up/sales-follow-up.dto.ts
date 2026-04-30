@@ -1,8 +1,10 @@
 import {
     CreateSalesFollowUpRecordRequestSchema,
+    ReplaceSalesFollowUpRecordRequestSchema,
     SalesFollowUpRecordListQuerySchema,
     SalesFollowUpRecordListSchema,
-    SalesFollowUpRecordSummarySchema
+    SalesFollowUpRecordSummarySchema,
+    VoidSalesFollowUpRecordRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
 
@@ -13,3 +15,7 @@ export class SalesFollowUpRecordListDto extends createZodDto(SalesFollowUpRecord
 export class SalesFollowUpRecordListQueryDto extends createZodDto(SalesFollowUpRecordListQuerySchema) {}
 
 export class CreateSalesFollowUpRecordRequestDto extends createZodDto(CreateSalesFollowUpRecordRequestSchema) {}
+
+export class ReplaceSalesFollowUpRecordRequestDto extends createZodDto(ReplaceSalesFollowUpRecordRequestSchema) {}
+
+export class VoidSalesFollowUpRecordRequestDto extends createZodDto(VoidSalesFollowUpRecordRequestSchema) {}

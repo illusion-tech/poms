@@ -12,6 +12,7 @@ export interface SalesFollowUpRecordContext {
     project: Project | null;
     ownerUser: PlatformUser | null;
     ownerOrg: OrgUnit | null;
+    voidedByUser?: PlatformUser | null;
 }
 
 export function mapSalesFollowUpRecordToSummary(record: SalesFollowUpRecord, context: SalesFollowUpRecordContext): SalesFollowUpRecordSummary {
@@ -24,6 +25,7 @@ export function mapSalesFollowUpRecordToSummary(record: SalesFollowUpRecord, con
         projectId: record.projectId ?? null,
         projectName: context.project?.projectName ?? null,
         followUpType: record.followUpType,
+        status: record.status,
         occurredAt: record.occurredAt.toISOString(),
         summary: record.summary,
         detail: record.detail ?? null,
@@ -33,6 +35,13 @@ export function mapSalesFollowUpRecordToSummary(record: SalesFollowUpRecord, con
         ownerOrgName: context.ownerOrg?.name ?? null,
         ownerUserId: record.ownerUserId ?? null,
         ownerName: context.ownerUser?.displayName ?? null,
+        supersedesId: record.supersedesRecordId ?? null,
+        replacedById: record.replacedByRecordId ?? null,
+        replacementReason: record.replacementReason ?? null,
+        voidedAt: record.voidedAt?.toISOString() ?? null,
+        voidedBy: record.voidedBy ?? null,
+        voidedByName: context.voidedByUser?.displayName ?? null,
+        voidReason: record.voidReason ?? null,
         rowVersion: record.rowVersion,
         createdAt: record.createdAt.toISOString(),
         createdBy: record.createdBy ?? null,

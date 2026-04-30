@@ -1,6 +1,7 @@
 import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import type { SalesFollowUpRecordLifecycleScope } from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -12,6 +13,7 @@ export interface SalesFollowUpRecordFilters {
     customerId?: string;
     leadId?: string;
     projectId?: string;
+    lifecycleScope?: SalesFollowUpRecordLifecycleScope;
 }
 
 @Injectable()
@@ -47,6 +49,10 @@ export class SalesFollowUpRepository {
             where.customerId = filters.customerId;
         }
 
+        if ((filters.lifecycleScope ?? 'active') === 'active') {
+            where.status = 'active';
+        }
+
         if (anchorFilters.length > 0) {
             (where as FilterQuery<SalesFollowUpRecord> & { $or: FilterQuery<SalesFollowUpRecord>[] }).$or = anchorFilters;
         }
@@ -60,8 +66,16 @@ export class SalesFollowUpRepository {
         return this.followUpRepository.create(input);
     }
 
+    async findById(id: string): Promise<SalesFollowUpRecord | null> {
+        return this.followUpRepository.findOne({ id });
+    }
+
     async save(record: SalesFollowUpRecord): Promise<void> {
         await this.followUpRepository.getEntityManager().persist(record).flush();
+    }
+
+    async saveReplacement(input: { supersededRecord: SalesFollowUpRecord; replacementRecord: SalesFollowUpRecord }): Promise<void> {
+        await this.followUpRepository.getEntityManager().persist([input.supersededRecord, input.replacementRecord]).flush();
     }
 
     async findCustomerById(id: string): Promise<Customer | null> {

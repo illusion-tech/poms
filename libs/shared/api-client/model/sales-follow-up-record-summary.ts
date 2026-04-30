@@ -9,6 +9,7 @@
  */
 import { SalesFollowUpType } from './sales-follow-up-type';
 import { SalesFollowUpOutcome } from './sales-follow-up-outcome';
+import { SalesFollowUpRecordStatus } from './sales-follow-up-record-status';
 
 
 export interface SalesFollowUpRecordSummary {
@@ -20,6 +21,7 @@ export interface SalesFollowUpRecordSummary {
     projectId: string | null;
     projectName: string | null;
     followUpType: SalesFollowUpType;
+    status: SalesFollowUpRecordStatus;
     occurredAt: string;
     summary: string;
     detail: string | null;
@@ -29,6 +31,13 @@ export interface SalesFollowUpRecordSummary {
     ownerOrgName: string | null;
     ownerUserId: string | null;
     ownerName: string | null;
+    supersedesId: string | null;
+    replacedById: string | null;
+    replacementReason: string | null;
+    voidedAt: string | null;
+    voidedBy: string | null;
+    voidedByName: string | null;
+    voidReason: string | null;
     rowVersion: number;
     createdAt: string;
     createdBy: string | null;

@@ -7069,6 +7069,14 @@
               "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
               "type": "string"
             }
+          },
+          {
+            "name": "lifecycleScope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SalesFollowUpRecordLifecycleScope"
+            }
           }
         ],
         "responses": {
@@ -7124,6 +7132,98 @@
           }
         ],
         "summary": "登记销售跟进记录",
+        "tags": [
+          "SalesFollowUp"
+        ]
+      }
+    },
+    "/api/sales-follow-up-records/{id}:replace": {
+      "post": {
+        "operationId": "SalesFollowUpController_replace",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesFollowUpRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "替代销售跟进记录",
+        "tags": [
+          "SalesFollowUp"
+        ]
+      }
+    },
+    "/api/sales-follow-up-records/{id}:void": {
+      "post": {
+        "operationId": "SalesFollowUpController_void",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesFollowUpRecordSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "作废销售跟进记录",
         "tags": [
           "SalesFollowUp"
         ]
@@ -23115,6 +23215,9 @@
           "followUpType": {
             "$ref": "#/components/schemas/SalesFollowUpType"
           },
+          "status": {
+            "$ref": "#/components/schemas/SalesFollowUpRecordStatus"
+          },
           "occurredAt": {
             "type": "string",
             "format": "date-time",
@@ -23156,6 +23259,42 @@
             "type": "string",
             "nullable": true
           },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "replacedById": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "replacementReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "voidedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "voidedByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidReason": {
+            "type": "string",
+            "nullable": true
+          },
           "rowVersion": {
             "type": "integer",
             "minimum": -9007199254740991,
@@ -23193,6 +23332,7 @@
           "projectId",
           "projectName",
           "followUpType",
+          "status",
           "occurredAt",
           "summary",
           "detail",
@@ -23202,6 +23342,13 @@
           "ownerOrgName",
           "ownerUserId",
           "ownerName",
+          "supersedesId",
+          "replacedById",
+          "replacementReason",
+          "voidedAt",
+          "voidedBy",
+          "voidedByName",
+          "voidReason",
           "rowVersion",
           "createdAt",
           "createdBy",
@@ -23218,6 +23365,14 @@
           "email",
           "onsite",
           "other"
+        ]
+      },
+      "SalesFollowUpRecordStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "superseded",
+          "voided"
         ]
       },
       "SalesFollowUpOutcome": {
@@ -23305,6 +23460,93 @@
           "occurredAt",
           "summary",
           "outcome"
+        ]
+      },
+      "ReplaceSalesFollowUpRecordRequest": {
+        "type": "object",
+        "properties": {
+          "followUpType": {
+            "$ref": "#/components/schemas/SalesFollowUpType"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000,
+            "nullable": true
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/SalesFollowUpOutcome"
+          },
+          "nextFollowUpAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "replacementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "followUpType",
+          "occurredAt",
+          "summary",
+          "outcome",
+          "replacementReason",
+          "expectedVersion"
+        ]
+      },
+      "VoidSalesFollowUpRecordRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "reason",
+          "expectedVersion"
         ]
       },
       "CommissionRuleVersionSummary": {
@@ -25339,6 +25581,13 @@
           "all",
           "mine",
           "public-pool"
+        ]
+      },
+      "SalesFollowUpRecordLifecycleScope": {
+        "type": "string",
+        "enum": [
+          "active",
+          "all"
         ]
       }
     }

@@ -323,10 +323,12 @@
 
 ### 6.13 EX-44 Sales Follow Up Record
 
-| Domain            | Capability                  | Canonical Route                 | Current Implemented Route       | Current Design Route            | Authority                       | Drift Type | Action                                                                       | Batch | Status    |
-| ----------------- | --------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ---------- | ---------------------------------------------------------------------------- | ----- | --------- |
-| `sales-follow-up` | `listSalesFollowUpRecords`  | `GET /sales-follow-up-records`  | `GET /sales-follow-up-records`  | `GET /sales-follow-up-records`  | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增客户 / 线索 / 项目共享销售跟进记录集合查询，不混入项目生命周期线。       | `B8`  | `aligned` |
-| `sales-follow-up` | `createSalesFollowUpRecord` | `POST /sales-follow-up-records` | `POST /sales-follow-up-records` | `POST /sales-follow-up-records` | `ADR-015` + `EX-44` G1 baseline | `N/A`      | 新增共享销售跟进记录创建；customerId 为必填总线，lead/project 为上下文锚点。 | `B8`  | `aligned` |
+| Domain            | Capability                   | Canonical Route                              | Current Implemented Route                    | Current Design Route                         | Authority                             | Drift Type | Action                                                                       | Batch | Status    |
+| ----------------- | ---------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------- | ---------- | ---------------------------------------------------------------------------- | ----- | --------- |
+| `sales-follow-up` | `listSalesFollowUpRecords`   | `GET /sales-follow-up-records`               | `GET /sales-follow-up-records`               | `GET /sales-follow-up-records`               | `ADR-015` + `EX-44` G1 baseline       | `N/A`      | 新增客户 / 线索 / 项目共享销售跟进记录集合查询，不混入项目生命周期线。       | `B8`  | `aligned` |
+| `sales-follow-up` | `createSalesFollowUpRecord`  | `POST /sales-follow-up-records`              | `POST /sales-follow-up-records`              | `POST /sales-follow-up-records`              | `ADR-015` + `EX-44` G1 baseline       | `N/A`      | 新增共享销售跟进记录创建；customerId 为必填总线，lead/project 为上下文锚点。 | `B8`  | `aligned` |
+| `sales-follow-up` | `replaceSalesFollowUpRecord` | `POST /sales-follow-up-records/{id}:replace` | `POST /sales-follow-up-records/{id}:replace` | `POST /sales-follow-up-records/{id}:replace` | `ADR-015` + `EX-48A` runtime baseline | `N/A`      | 已落地销售跟进记录追加式替代命令；path `{id}` 是被替代记录 identity。        | `B8`  | `aligned` |
+| `sales-follow-up` | `voidSalesFollowUpRecord`    | `POST /sales-follow-up-records/{id}:void`    | `POST /sales-follow-up-records/{id}:void`    | `POST /sales-follow-up-records/{id}:void`    | `ADR-015` + `EX-48A` runtime baseline | `N/A`      | 已落地销售跟进记录作废命令；不提供物理删除公共 API。                         | `B8`  | `aligned` |
 
 ### 6.14 EX-45 Attachment Evidence Repository
 

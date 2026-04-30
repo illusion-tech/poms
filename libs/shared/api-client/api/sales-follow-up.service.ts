@@ -19,7 +19,13 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CreateSalesFollowUpRecordRequest } from '../model/create-sales-follow-up-record-request';
 // @ts-ignore
+import { ReplaceSalesFollowUpRecordRequest } from '../model/replace-sales-follow-up-record-request';
+// @ts-ignore
+import { SalesFollowUpRecordLifecycleScope } from '../model/sales-follow-up-record-lifecycle-scope';
+// @ts-ignore
 import { SalesFollowUpRecordSummary } from '../model/sales-follow-up-record-summary';
+// @ts-ignore
+import { VoidSalesFollowUpRecordRequest } from '../model/void-sales-follow-up-record-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -35,6 +41,17 @@ export interface SalesFollowUpControllerListRequestParams {
     customerId?: string;
     leadId?: string;
     projectId?: string;
+    lifecycleScope?: SalesFollowUpRecordLifecycleScope;
+}
+
+export interface SalesFollowUpControllerReplaceRequestParams {
+    id: string;
+    replaceSalesFollowUpRecordRequest: ReplaceSalesFollowUpRecordRequest;
+}
+
+export interface SalesFollowUpControllerVoidRequestParams {
+    id: string;
+    voidSalesFollowUpRecordRequest: VoidSalesFollowUpRecordRequest;
 }
 
 
@@ -132,6 +149,7 @@ export class SalesFollowUpApi extends BaseService {
         const customerId = requestParameters?.customerId;
         const leadId = requestParameters?.leadId;
         const projectId = requestParameters?.projectId;
+        const lifecycleScope = requestParameters?.lifecycleScope;
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 
@@ -157,6 +175,15 @@ export class SalesFollowUpApi extends BaseService {
             localVarQueryParameters,
             'projectId',
             <any>projectId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'lifecycleScope',
+            <any>lifecycleScope,
             QueryParamStyle.Form,
             true,
         );
@@ -196,6 +223,154 @@ export class SalesFollowUpApi extends BaseService {
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters.toHttpParams(),
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 替代销售跟进记录
+     * @endpoint post /api/sales-follow-up-records/{id}:replace
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public salesFollowUpControllerReplace(requestParameters: SalesFollowUpControllerReplaceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SalesFollowUpRecordSummary>;
+    public salesFollowUpControllerReplace(requestParameters: SalesFollowUpControllerReplaceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SalesFollowUpRecordSummary>>;
+    public salesFollowUpControllerReplace(requestParameters: SalesFollowUpControllerReplaceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SalesFollowUpRecordSummary>>;
+    public salesFollowUpControllerReplace(requestParameters: SalesFollowUpControllerReplaceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling salesFollowUpControllerReplace.');
+        }
+        const replaceSalesFollowUpRecordRequest = requestParameters?.replaceSalesFollowUpRecordRequest;
+        if (replaceSalesFollowUpRecordRequest === null || replaceSalesFollowUpRecordRequest === undefined) {
+            throw new Error('Required parameter replaceSalesFollowUpRecordRequest was null or undefined when calling salesFollowUpControllerReplace.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/sales-follow-up-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<SalesFollowUpRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: replaceSalesFollowUpRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 作废销售跟进记录
+     * @endpoint post /api/sales-follow-up-records/{id}:void
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public salesFollowUpControllerVoid(requestParameters: SalesFollowUpControllerVoidRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SalesFollowUpRecordSummary>;
+    public salesFollowUpControllerVoid(requestParameters: SalesFollowUpControllerVoidRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SalesFollowUpRecordSummary>>;
+    public salesFollowUpControllerVoid(requestParameters: SalesFollowUpControllerVoidRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SalesFollowUpRecordSummary>>;
+    public salesFollowUpControllerVoid(requestParameters: SalesFollowUpControllerVoidRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling salesFollowUpControllerVoid.');
+        }
+        const voidSalesFollowUpRecordRequest = requestParameters?.voidSalesFollowUpRecordRequest;
+        if (voidSalesFollowUpRecordRequest === null || voidSalesFollowUpRecordRequest === undefined) {
+            throw new Error('Required parameter voidSalesFollowUpRecordRequest was null or undefined when calling salesFollowUpControllerVoid.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/sales-follow-up-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:void`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<SalesFollowUpRecordSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: voidSalesFollowUpRecordRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

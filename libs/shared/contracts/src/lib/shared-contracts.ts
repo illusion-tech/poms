@@ -1248,6 +1248,18 @@ export type SalesFollowUpOutcome = (typeof SALES_FOLLOW_UP_OUTCOMES)[number];
 
 export const SalesFollowUpOutcomeSchema = z.enum(SALES_FOLLOW_UP_OUTCOMES).meta({ id: 'SalesFollowUpOutcome' });
 
+export const SALES_FOLLOW_UP_RECORD_STATUSES = ['active', 'superseded', 'voided'] as const;
+
+export type SalesFollowUpRecordStatus = (typeof SALES_FOLLOW_UP_RECORD_STATUSES)[number];
+
+export const SalesFollowUpRecordStatusSchema = z.enum(SALES_FOLLOW_UP_RECORD_STATUSES).meta({ id: 'SalesFollowUpRecordStatus' });
+
+export const SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES = ['active', 'all'] as const;
+
+export type SalesFollowUpRecordLifecycleScope = (typeof SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES)[number];
+
+export const SalesFollowUpRecordLifecycleScopeSchema = z.enum(SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES).meta({ id: 'SalesFollowUpRecordLifecycleScope' });
+
 export const SalesFollowUpRecordSummarySchema = z
     .object({
         id: z.uuid(),
@@ -1258,6 +1270,7 @@ export const SalesFollowUpRecordSummarySchema = z
         projectId: z.uuid().nullable(),
         projectName: z.string().nullable(),
         followUpType: SalesFollowUpTypeSchema,
+        status: SalesFollowUpRecordStatusSchema,
         occurredAt: z.iso.datetime(),
         summary: z.string(),
         detail: z.string().nullable(),
@@ -1267,6 +1280,13 @@ export const SalesFollowUpRecordSummarySchema = z
         ownerOrgName: z.string().nullable(),
         ownerUserId: z.uuid().nullable(),
         ownerName: z.string().nullable(),
+        supersedesId: z.uuid().nullable(),
+        replacedById: z.uuid().nullable(),
+        replacementReason: z.string().nullable(),
+        voidedAt: z.iso.datetime().nullable(),
+        voidedBy: z.uuid().nullable(),
+        voidedByName: z.string().nullable(),
+        voidReason: z.string().nullable(),
         rowVersion: z.number().int(),
         createdAt: z.iso.datetime(),
         createdBy: z.uuid().nullable(),
@@ -1285,7 +1305,8 @@ export const SalesFollowUpRecordListQuerySchema = z
     .object({
         customerId: z.uuid().optional(),
         leadId: z.uuid().optional(),
-        projectId: z.uuid().optional()
+        projectId: z.uuid().optional(),
+        lifecycleScope: SalesFollowUpRecordLifecycleScopeSchema.optional()
     })
     .refine((value) => value.customerId !== undefined || value.leadId !== undefined || value.projectId !== undefined, {
         message: 'At least one anchor is required for sales follow-up query'
@@ -1311,6 +1332,33 @@ export const CreateSalesFollowUpRecordRequestSchema = z
     .meta({ id: 'CreateSalesFollowUpRecordRequest' });
 
 export type CreateSalesFollowUpRecordRequest = z.infer<typeof CreateSalesFollowUpRecordRequestSchema>;
+
+export const ReplaceSalesFollowUpRecordRequestSchema = z
+    .object({
+        followUpType: SalesFollowUpTypeSchema,
+        occurredAt: z.iso.datetime(),
+        summary: z.string().trim().min(1).max(2000),
+        detail: z.string().trim().min(1).max(8000).nullable().optional(),
+        outcome: SalesFollowUpOutcomeSchema,
+        nextFollowUpAt: z.iso.datetime().nullable().optional(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        ownerUserId: z.uuid().nullable().optional(),
+        replacementReason: z.string().trim().min(1).max(1000),
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'ReplaceSalesFollowUpRecordRequest' });
+
+export type ReplaceSalesFollowUpRecordRequest = z.infer<typeof ReplaceSalesFollowUpRecordRequestSchema>;
+
+export const VoidSalesFollowUpRecordRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        comment: z.string().trim().max(1000).nullable().optional(),
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'VoidSalesFollowUpRecordRequest' });
+
+export type VoidSalesFollowUpRecordRequest = z.infer<typeof VoidSalesFollowUpRecordRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // Attachment
