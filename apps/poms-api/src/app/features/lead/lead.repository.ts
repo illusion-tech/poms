@@ -7,6 +7,7 @@ import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
+import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 
 @Injectable()
 export class LeadRepository {
@@ -15,6 +16,8 @@ export class LeadRepository {
         private readonly leadRepository: EntityRepository<Lead>,
         @InjectRepository(LeadSource)
         private readonly leadSourceRepository: EntityRepository<LeadSource>,
+        @InjectRepository(LeadOwnerAssignmentRecord)
+        private readonly leadOwnerAssignmentRecordRepository: EntityRepository<LeadOwnerAssignmentRecord>,
         @InjectRepository(Project)
         private readonly projectRepository: EntityRepository<Project>,
         @InjectRepository(PlatformUser)
@@ -29,6 +32,8 @@ export class LeadRepository {
         budgetStatus?: LeadBudgetStatus;
         urgency?: LeadUrgency;
         ownerOrgId?: string;
+        ownerUserId?: string;
+        unassignedOnly?: boolean;
         keyword?: string;
     }): Promise<Lead[]> {
         const where: FilterQuery<Lead> = {};
@@ -51,6 +56,14 @@ export class LeadRepository {
 
         if (input.ownerOrgId) {
             where.ownerOrgId = input.ownerOrgId;
+        }
+
+        if (input.ownerUserId) {
+            where.ownerUserId = input.ownerUserId;
+        }
+
+        if (input.unassignedOnly) {
+            where.ownerUserId = null;
         }
 
         if (input.keyword) {
@@ -171,6 +184,10 @@ export class LeadRepository {
         return this.projectRepository.create(input);
     }
 
+    createLeadOwnerAssignmentRecord(input: ConstructorParameters<typeof LeadOwnerAssignmentRecord>[0]): LeadOwnerAssignmentRecord {
+        return this.leadOwnerAssignmentRecordRepository.create(input);
+    }
+
     async save(lead: Lead): Promise<void> {
         await this.leadRepository.getEntityManager().persist(lead).flush();
     }
@@ -181,6 +198,10 @@ export class LeadRepository {
 
     async saveLeadAndProject(lead: Lead, project: Project): Promise<void> {
         await this.leadRepository.getEntityManager().persist([lead, project]).flush();
+    }
+
+    async saveLeadOwnerAssignment(input: { lead: Lead; record: LeadOwnerAssignmentRecord }): Promise<void> {
+        await this.leadOwnerAssignmentRecordRepository.getEntityManager().persist([input.lead, input.record]).flush();
     }
 
     getEntityManager(): EntityManager {

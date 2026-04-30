@@ -5,6 +5,8 @@ import {
     AuthStore,
     CustomerStatus,
     CustomerStore,
+    LeadAllowedAction,
+    LeadOwnershipScope,
     LeadStore,
     PlatformStore,
     SalesFollowUpStore,
@@ -63,12 +65,16 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         urgency: 'high',
         expectedDecisionDate: '2026-05-01',
         status: 'registered',
+        ownerOrgId: 'org-1',
+        ownerUserId: 'user-1',
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
         qualifiedAt: null,
         convertedProjectId: null,
+        rowVersion: 1,
         createdAt: '2026-04-25T09:00:00.000Z',
         updatedAt: '2026-04-25T10:00:00.000Z',
+        allowedActions: [LeadAllowedAction.AssignLeadOwner],
         ...overrides
     };
 }
@@ -195,6 +201,7 @@ describe('LeadList', () => {
     let selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
+    let canAssignLead: ReturnType<typeof signal<boolean>>;
     let routerMock: { navigate: jest.Mock };
     let ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
     let ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
@@ -221,6 +228,8 @@ describe('LeadList', () => {
         qualifyLead: jest.Mock;
         closeLead: jest.Mock;
         convertLeadToProject: jest.Mock;
+        claimLeadOwner: jest.Mock;
+        assignLeadOwner: jest.Mock;
         clearSelectedLead: jest.Mock;
     };
     let platformStoreMock: {
@@ -252,6 +261,7 @@ describe('LeadList', () => {
         selectedLead = signal<LeadDetailView | null>(null);
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
         canWriteLead = signal(true);
+        canAssignLead = signal(true);
         ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
         ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
         customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
@@ -282,6 +292,8 @@ describe('LeadList', () => {
             qualifyLead: jest.fn().mockResolvedValue(createLead({ status: 'qualified' })),
             closeLead: jest.fn().mockResolvedValue(createLead({ status: 'closed' })),
             convertLeadToProject: jest.fn().mockResolvedValue(createProjectSummary()),
+            claimLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'claimed' }),
+            assignLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'assigned' }),
             clearSelectedLead: jest.fn()
         };
         platformStoreMock = {
@@ -338,7 +350,9 @@ describe('LeadList', () => {
                         }),
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
-                        hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:source:manage')))
+                        hasAnyPermission: jest.fn((permissions: readonly string[]) =>
+                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:source:manage'))
+                        )
                     }
                 },
                 {
@@ -445,6 +459,64 @@ describe('LeadList', () => {
         });
         expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
         expect(leadStoreMock.loadLeadSources).toHaveBeenCalled();
+    });
+
+    it('can create a lead into public pool when owner is cleared', async () => {
+        component.showCreateDialog();
+        component.updateCreateField('leadName', '公共池机会');
+        component.updateCreateCustomer('customer-1');
+        component.updateCreateSource('source-1');
+        component.updateCreateField('demandDescription', '客户先留下需求。');
+        component.updateCreateOwnerUser(null);
+
+        await component.createLead();
+
+        expect(leadStoreMock.createLead).toHaveBeenCalledWith(
+            expect.objectContaining({
+                ownerUserId: null,
+                ownerOrgId: null
+            })
+        );
+    });
+
+    it('loads public pool scope and claims an unassigned lead', async () => {
+        component.setOwnershipFilter(LeadOwnershipScope.PublicPool);
+
+        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ ownershipScope: 'public-pool' });
+
+        const publicLead = createLead({
+            ownerUserId: null,
+            ownerOrgId: null,
+            ownerName: null,
+            ownerOrgName: null,
+            allowedActions: [LeadAllowedAction.ClaimLeadOwner, LeadAllowedAction.AssignLeadOwner]
+        });
+
+        await component.claimLeadOwner(publicLead);
+
+        expect(leadStoreMock.claimLeadOwner).toHaveBeenCalledWith('lead-1', { expectedVersion: 1 });
+    });
+
+    it('assigns lead owner with reason through controlled command', async () => {
+        const publicLead = createLead({
+            ownerUserId: null,
+            ownerOrgId: null,
+            ownerName: null,
+            ownerOrgName: null,
+            allowedActions: [LeadAllowedAction.AssignLeadOwner]
+        });
+
+        component.showAssignOwnerDialog(publicLead);
+        component.updateAssignmentOwnerUser('user-2');
+        component.updateAssignmentReason('  主管分配给华东销售  ');
+        await component.assignLeadOwner();
+
+        expect(leadStoreMock.assignLeadOwner).toHaveBeenCalledWith('lead-1', {
+            ownerUserId: 'user-2',
+            ownerOrgId: 'org-2',
+            reason: '主管分配给华东销售',
+            expectedVersion: 1
+        });
     });
 
     it('records project-context follow-up after a lead has been converted', async () => {

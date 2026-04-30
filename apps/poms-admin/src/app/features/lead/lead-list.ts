@@ -7,6 +7,8 @@ import {
     AuthStore,
     CustomerStatus,
     CustomerStore,
+    LeadAllowedAction,
+    LeadOwnershipScope,
     LeadStore,
     PlatformStore,
     SalesFollowUpStore,
@@ -104,6 +106,12 @@ interface SalesFollowUpForm {
     nextFollowUpAt: Date | null;
 }
 
+interface AssignmentForm {
+    ownerUserId: string | null;
+    ownerOrgId: string | null;
+    reason: string;
+}
+
 type LeadActionTarget = LeadListView | LeadDetailView;
 
 const ALL_FILTER_VALUE = 'all';
@@ -158,6 +166,7 @@ const DEFAULT_BUDGET_STATUS = 'unknown' as LeadBudgetStatus;
 const DEFAULT_URGENCY = 'normal' as LeadUrgency;
 const DEFAULT_FOLLOW_UP_TYPE = 'meeting' as SalesFollowUpType;
 const DEFAULT_FOLLOW_UP_OUTCOME = 'progress' as SalesFollowUpOutcome;
+const DEFAULT_OWNERSHIP_SCOPE = LeadOwnershipScope.All;
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
     leadName: '',
@@ -192,6 +201,12 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     detail: '',
     outcome: DEFAULT_FOLLOW_UP_OUTCOME,
     nextFollowUpAt: null
+};
+
+const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
+    ownerUserId: null,
+    ownerOrgId: null,
+    reason: ''
 };
 
 @Component({
@@ -310,6 +325,17 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                         ariaLabel="按状态筛选"
                                         styleClass="w-full md:w-40 rounded-md!"
                                     />
+
+                                    <p-select
+                                        [ngModel]="ownershipFilter()"
+                                        (ngModelChange)="setOwnershipFilter($event)"
+                                        [options]="ownershipOptions"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        appendTo="body"
+                                        ariaLabel="按归属筛选"
+                                        styleClass="w-full md:w-36 rounded-md!"
+                                    />
                                 </div>
 
                                 <div class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleLeads().length }} 条线索</div>
@@ -381,7 +407,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                 <td>{{ getUrgencyName(lead.urgency) }}</td>
                                 <td>
                                     <div class="flex flex-col gap-1">
-                                        <span>{{ displayText(lead.ownerName, '未分配') }}</span>
+                                        <span>{{ displayText(lead.ownerName, '公共池') }}</span>
                                         <span class="text-xs text-surface-500 dark:text-surface-400">{{ displayText(lead.ownerOrgName, '未归属组织') }}</span>
                                     </div>
                                 </td>
@@ -389,6 +415,12 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                 <td>
                                     <div class="flex flex-wrap gap-2">
                                         <p-button label="查看" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openLeadDetail(lead)" />
+                                        @if (canClaimLead(lead)) {
+                                            <p-button label="申领" icon="pi pi-user-plus" size="small" severity="primary" [outlined]="true" styleClass="rounded-md!" [loading]="saving()" (onClick)="claimLeadOwner(lead)" />
+                                        }
+                                        @if (canAssignLeadOwner(lead)) {
+                                            <p-button [label]="lead.ownerUserId ? '改派' : '分配'" icon="pi pi-users" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showAssignOwnerDialog(lead)" />
+                                        }
                                         @if (canQualifyLead(lead)) {
                                             <p-button label="确认有效" icon="pi pi-check" size="small" severity="success" [outlined]="true" styleClass="rounded-md!" (onClick)="showQualifyDialog(lead)" />
                                         }
@@ -565,14 +597,13 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                 [options]="ownerUserOptions()"
                                 optionLabel="label"
                                 optionValue="value"
+                                [showClear]="true"
                                 [loading]="ownerReferenceLoading()"
                                 appendTo="body"
-                                placeholder="选择销售主责"
+                                placeholder="留空进入公共池"
                                 styleClass="w-full rounded-md!"
                             />
-                            @if (createAttempted() && !createForm().ownerUserId) {
-                                <span class="text-xs text-red-600 dark:text-red-300">请选择销售主责。</span>
-                            }
+                            <span class="text-xs text-surface-500 dark:text-surface-400">留空后进入公共池，后续可由销售申领或主管分配。</span>
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -713,7 +744,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">销售主责</dt>
-                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ displayText(lead.ownerName, '未分配') }}</dd>
+                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ displayText(lead.ownerName, '公共池') }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">主责组织</dt>
@@ -810,6 +841,12 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
 
                     <ng-template #footer>
                         <div class="flex flex-wrap justify-end gap-2">
+                            @if (canClaimLead(lead)) {
+                                <p-button label="申领" icon="pi pi-user-plus" severity="primary" [outlined]="true" [loading]="saving()" styleClass="rounded-md!" (onClick)="claimLeadOwner(lead)" />
+                            }
+                            @if (canAssignLeadOwner(lead)) {
+                                <p-button [label]="lead.ownerUserId ? '改派主责' : '分配主责'" icon="pi pi-users" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showAssignOwnerDialog(lead)" />
+                            }
                             @if (canQualifyLead(lead)) {
                                 <p-button label="确认有效" icon="pi pi-check" severity="success" [outlined]="true" styleClass="rounded-md!" (onClick)="showQualifyDialog(lead)" />
                             }
@@ -936,6 +973,80 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                     <div class="flex justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="followUpDialogVisible = false" />
                         <p-button label="保存跟进" [loading]="followUpSaving()" [disabled]="!isFollowUpFormValid()" styleClass="rounded-md!" (onClick)="createFollowUp()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="assignOwnerDialogVisible" [modal]="true" header="分配线索主责" [style]="{ width: '34rem' }" styleClass="p-fluid" (onHide)="resetAssignOwnerDialog()">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (actionTarget(); as lead) {
+                        <app-workspace-feedback severity="info" summary="线索归属" [detail]="displayText(lead.ownerName, '当前在公共池') + ' · ' + lead.leadName" />
+                    }
+                    @if (assignmentError()) {
+                        <app-workspace-feedback severity="error" summary="线索主责没有更新" [detail]="assignmentError()" />
+                    }
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <label for="assignOwnerUserId" class="text-sm font-medium text-surface-900 dark:text-surface-0">销售主责</label>
+                            <p-select
+                                inputId="assignOwnerUserId"
+                                [ngModel]="assignmentForm().ownerUserId"
+                                (ngModelChange)="updateAssignmentOwnerUser($event)"
+                                [options]="ownerUserOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [filter]="true"
+                                filterBy="label"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="选择销售主责"
+                                styleClass="w-full rounded-md!"
+                            />
+                            @if (assignmentAttempted() && !assignmentForm().ownerUserId) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择销售主责。</span>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="assignOwnerOrgId" class="text-sm font-medium text-surface-900 dark:text-surface-0">主责组织</label>
+                            <p-select
+                                inputId="assignOwnerOrgId"
+                                [ngModel]="assignmentForm().ownerOrgId"
+                                (ngModelChange)="updateAssignmentOwnerOrg($event)"
+                                [options]="ownerOrgOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [showClear]="true"
+                                [loading]="ownerReferenceLoading()"
+                                appendTo="body"
+                                placeholder="可留空"
+                                styleClass="w-full rounded-md!"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="assignmentReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">分配原因</label>
+                        <textarea
+                            pTextarea
+                            id="assignmentReason"
+                            rows="3"
+                            [ngModel]="assignmentForm().reason"
+                            (ngModelChange)="updateAssignmentReason($event)"
+                            placeholder="说明申领、分配或改派原因"
+                            class="w-full rounded-md!"
+                        ></textarea>
+                        @if (assignmentAttempted() && !assignmentForm().reason.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写分配原因。</span>
+                        }
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="assignOwnerDialogVisible = false" />
+                        <p-button label="保存分配" [loading]="saving()" [disabled]="!isAssignmentFormValid()" styleClass="rounded-md!" (onClick)="assignLeadOwner()" />
                     </div>
                 </ng-template>
             </p-dialog>
@@ -1082,17 +1193,21 @@ export class LeadList implements OnInit {
 
     readonly searchValue = signal('');
     readonly statusFilter = signal(ALL_FILTER_VALUE);
+    readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
     readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
     readonly convertForm = signal<ConvertProjectForm>(EMPTY_CONVERT_FORM);
     readonly followUpForm = signal<SalesFollowUpForm>({ ...EMPTY_FOLLOW_UP_FORM });
+    readonly assignmentForm = signal<AssignmentForm>({ ...EMPTY_ASSIGNMENT_FORM });
     readonly createAttempted = signal(false);
     readonly sourceAttempted = signal(false);
     readonly followUpAttempted = signal(false);
+    readonly assignmentAttempted = signal(false);
     readonly actionAttempted = signal(false);
     readonly createError = signal<string | null>(null);
     readonly sourceError = signal<string | null>(null);
     readonly followUpError = signal<string | null>(null);
+    readonly assignmentError = signal<string | null>(null);
     readonly qualificationError = signal<string | null>(null);
     readonly convertError = signal<string | null>(null);
     readonly pageError = signal<string | null>(null);
@@ -1106,11 +1221,18 @@ export class LeadList implements OnInit {
     sourceDialogVisible = false;
     detailDialogVisible = false;
     followUpDialogVisible = false;
+    assignOwnerDialogVisible = false;
     qualifyDialogVisible = false;
     convertDialogVisible = false;
     closeDialogVisible = false;
 
     readonly statusOptions: LeadFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+
+    readonly ownershipOptions: Array<{ label: string; value: LeadOwnershipScope }> = [
+        { label: '全部', value: LeadOwnershipScope.All },
+        { label: '我的', value: LeadOwnershipScope.Mine },
+        { label: '公共池', value: LeadOwnershipScope.PublicPool }
+    ];
 
     readonly statusColumnFilterOptions: LeadColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
 
@@ -1155,6 +1277,7 @@ export class LeadList implements OnInit {
     );
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
+    readonly canAssignLead = computed(() => this.#authStore.hasAnyPermission(['lead:assign'] as const));
     readonly canManageLeadSources = computed(() => this.#authStore.hasAnyPermission(['lead:source:manage'] as const));
 
     readonly leadSourceOptions = computed<LeadFilterOption[]>(() =>
@@ -1197,12 +1320,17 @@ export class LeadList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.leadName.trim() && form.customerId && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency && form.ownerUserId);
+        return Boolean(form.leadName.trim() && form.customerId && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
     });
 
     readonly isFollowUpFormValid = computed(() => {
         const form = this.followUpForm();
         return Boolean(form.followUpType && form.occurredAt && form.summary.trim() && form.outcome);
+    });
+
+    readonly isAssignmentFormValid = computed(() => {
+        const form = this.assignmentForm();
+        return Boolean(form.ownerUserId && form.reason.trim());
     });
 
     ngOnInit() {
@@ -1216,7 +1344,9 @@ export class LeadList implements OnInit {
     async loadLeads() {
         this.pageError.set(null);
         try {
-            await this.#leadStore.loadLeads();
+            await this.#leadStore.loadLeads({
+                ownershipScope: this.ownershipFilter()
+            });
         } catch {
             this.pageError.set('线索列表没有读取成功，请稍后重试。');
         }
@@ -1252,13 +1382,21 @@ export class LeadList implements OnInit {
     clearFilters(table: Table) {
         this.searchValue.set('');
         this.statusFilter.set(ALL_FILTER_VALUE);
+        this.ownershipFilter.set(DEFAULT_OWNERSHIP_SCOPE);
         this.first = 0;
         table.clear();
+        void this.loadLeads();
     }
 
     setStatusFilter(value: string) {
         this.statusFilter.set(value);
         this.first = 0;
+    }
+
+    setOwnershipFilter(value: LeadOwnershipScope | null | undefined) {
+        this.ownershipFilter.set(value ?? DEFAULT_OWNERSHIP_SCOPE);
+        this.first = 0;
+        void this.loadLeads();
     }
 
     showCreateDialog() {
@@ -1447,11 +1585,10 @@ export class LeadList implements OnInit {
         }
 
         const form = this.createForm();
-        const ownerUserId = form.ownerUserId;
         const customerId = form.customerId;
         const sourceId = form.sourceId;
 
-        if (!ownerUserId || !customerId || !sourceId) {
+        if (!customerId || !sourceId) {
             return;
         }
 
@@ -1465,8 +1602,8 @@ export class LeadList implements OnInit {
                 estimatedAmount: this.optionalText(form.estimatedAmount),
                 urgency: form.urgency,
                 expectedDecisionDate: form.expectedDecisionDate ? this.toIsoDate(form.expectedDecisionDate) : null,
-                ownerUserId,
-                ownerOrgId: form.ownerOrgId ?? null
+                ownerUserId: form.ownerUserId,
+                ownerOrgId: form.ownerUserId ? form.ownerOrgId ?? null : null
             });
             this.closeCreateDialog();
         } catch {
@@ -1492,6 +1629,8 @@ export class LeadList implements OnInit {
         this.#leadStore.clearSelectedLead();
         this.#salesFollowUpStore.clearFollowUps();
         this.followUpDialogVisible = false;
+        this.assignOwnerDialogVisible = false;
+        this.resetAssignOwnerDialog();
         this.resetFollowUpDialog();
     }
 
@@ -1571,6 +1710,89 @@ export class LeadList implements OnInit {
             this.followUpDialogVisible = false;
         } catch {
             this.followUpError.set('请确认线索、客户或项目仍然有效，或稍后重试。');
+        }
+    }
+
+    async claimLeadOwner(lead: LeadActionTarget) {
+        if (!this.canClaimLead(lead)) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.claimLeadOwner(lead.id, { expectedVersion: lead.rowVersion });
+        } catch {
+            this.pageError.set('线索没有申领成功，请确认它仍在公共池。');
+        }
+    }
+
+    showAssignOwnerDialog(lead: LeadActionTarget) {
+        if (!this.canAssignLeadOwner(lead)) {
+            return;
+        }
+
+        this.actionTarget.set(lead);
+        this.assignmentForm.set({
+            ownerUserId: lead.ownerUserId ?? null,
+            ownerOrgId: lead.ownerOrgId ?? null,
+            reason: lead.ownerUserId ? '销售主责改派' : '公共池线索分配'
+        });
+        this.assignmentAttempted.set(false);
+        this.assignmentError.set(null);
+        this.assignOwnerDialogVisible = true;
+    }
+
+    resetAssignOwnerDialog() {
+        this.assignmentAttempted.set(false);
+        this.assignmentError.set(null);
+        this.assignmentForm.set({ ...EMPTY_ASSIGNMENT_FORM });
+    }
+
+    updateAssignmentOwnerUser(value: string | null | undefined) {
+        const ownerUserId = value ?? null;
+        const owner = ownerUserId ? this.findOwnerUser(ownerUserId) : null;
+        this.assignmentForm.update((form) => ({
+            ...form,
+            ownerUserId,
+            ownerOrgId: owner?.primaryOrgUnitId ?? null
+        }));
+        this.assignmentError.set(null);
+    }
+
+    updateAssignmentOwnerOrg(value: string | null | undefined) {
+        this.assignmentForm.update((form) => ({
+            ...form,
+            ownerOrgId: value ?? null
+        }));
+        this.assignmentError.set(null);
+    }
+
+    updateAssignmentReason(value: string) {
+        this.assignmentForm.update((form) => ({
+            ...form,
+            reason: value
+        }));
+        this.assignmentError.set(null);
+    }
+
+    async assignLeadOwner() {
+        this.assignmentAttempted.set(true);
+        const target = this.actionTarget();
+        const form = this.assignmentForm();
+
+        if (!target || !this.canAssignLeadOwner(target) || !form.ownerUserId || !form.reason.trim()) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.assignLeadOwner(target.id, {
+                ownerUserId: form.ownerUserId,
+                ownerOrgId: form.ownerOrgId ?? null,
+                reason: form.reason.trim(),
+                expectedVersion: target.rowVersion
+            });
+            this.assignOwnerDialogVisible = false;
+        } catch {
+            this.assignmentError.set('请确认目标销售和组织仍然有效，且线索状态允许分配。');
         }
     }
 
@@ -1696,6 +1918,14 @@ export class LeadList implements OnInit {
         this.closeDialogVisible = false;
     }
 
+    canClaimLead(lead: LeadActionTarget): boolean {
+        return this.canWriteLead() && (lead.allowedActions ?? []).includes(LeadAllowedAction.ClaimLeadOwner);
+    }
+
+    canAssignLeadOwner(lead: LeadActionTarget): boolean {
+        return this.canAssignLead() && (lead.allowedActions ?? []).includes(LeadAllowedAction.AssignLeadOwner);
+    }
+
     canQualifyLead(lead: LeadActionTarget): boolean {
         return this.canWriteLead() && lead.status === LEAD_STATUS.registered && this.hasLeadGateFacts(lead);
     }
@@ -1795,10 +2025,10 @@ export class LeadList implements OnInit {
         if (!lead.urgency) {
             missing.push('紧迫程度');
         }
-        if (!lead.ownerName?.trim()) {
+        if (!lead.ownerUserId) {
             missing.push('销售主责');
         }
-        if (!lead.ownerOrgName?.trim()) {
+        if (!lead.ownerOrgId) {
             missing.push('主责组织');
         }
 

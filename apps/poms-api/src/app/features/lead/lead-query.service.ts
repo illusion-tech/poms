@@ -1,5 +1,5 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
-import type { LeadDetailView, LeadListQuery, LeadListView, LeadSourceListQuery, LeadSourceSummary } from '@poms/shared-contracts';
+import type { LeadAllowedAction, LeadDetailView, LeadListQuery, LeadListView, LeadSourceListQuery, LeadSourceSummary, UserPayload } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { mapLeadSourceToSummary, mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
@@ -22,8 +22,8 @@ export class LeadQueryService {
         return usageCounts.get(sourceId) ?? 0;
     }
 
-    async listLeads(query: LeadListQuery): Promise<LeadListView[]> {
-        const leads = await this.leadRepository.findMany(query);
+    async listLeads(query: LeadListQuery, user: UserPayload): Promise<LeadListView[]> {
+        const leads = await this.leadRepository.findMany(this.resolveLeadListRepositoryQuery(query, user));
         const context = await this.loadListContext(leads);
 
         return leads.map((lead) =>
@@ -31,12 +31,13 @@ export class LeadQueryService {
                 lead,
                 context.sourceMap.get(lead.sourceId) ?? null,
                 lead.ownerUserId ? context.userMap.get(lead.ownerUserId) ?? null : null,
-                lead.ownerOrgId ? context.orgUnitMap.get(lead.ownerOrgId) ?? null : null
+                lead.ownerOrgId ? context.orgUnitMap.get(lead.ownerOrgId) ?? null : null,
+                this.resolveAllowedActions(lead, user)
             )
         );
     }
 
-    async getLead(id: string): Promise<LeadDetailView> {
+    async getLead(id: string, user: UserPayload): Promise<LeadDetailView> {
         const lead = await this.leadRepository.findById(id);
         if (!lead) {
             throw new NotFoundException(`Lead ${id} not found`);
@@ -49,7 +50,43 @@ export class LeadQueryService {
             lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([])
         ]);
 
-        return mapLeadToDetailView(lead, source, owner, ownerOrg, convertedProjects[0] ?? null);
+        return mapLeadToDetailView(lead, source, owner, ownerOrg, convertedProjects[0] ?? null, this.resolveAllowedActions(lead, user));
+    }
+
+    private resolveLeadListRepositoryQuery(query: LeadListQuery, user: UserPayload): LeadListQuery & { unassignedOnly?: boolean } {
+        if (query.ownershipScope === 'mine') {
+            return {
+                ...query,
+                ownerUserId: user.sub,
+                unassignedOnly: false
+            };
+        }
+
+        if (query.ownershipScope === 'public-pool') {
+            return {
+                ...query,
+                ownerUserId: undefined,
+                unassignedOnly: true
+            };
+        }
+
+        return query;
+    }
+
+    private resolveAllowedActions(lead: { status: string; ownerUserId?: string | null }, user: UserPayload): LeadAllowedAction[] {
+        const permissions = new Set(user.permissions);
+        const isAssignableStatus = ['registered', 'qualified'].includes(lead.status);
+        const actions: LeadAllowedAction[] = [];
+
+        if (isAssignableStatus && !lead.ownerUserId && permissions.has('lead:write')) {
+            actions.push('claim-lead-owner');
+        }
+
+        if (isAssignableStatus && permissions.has('lead:assign')) {
+            actions.push('assign-lead-owner');
+        }
+
+        return actions;
     }
 
     private async loadListContext(leads: { sourceId: string; ownerUserId?: string | null; ownerOrgId?: string | null }[]): Promise<{

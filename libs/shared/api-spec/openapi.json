@@ -2093,6 +2093,24 @@
             }
           },
           {
+            "name": "ownerUserId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ownershipScope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadOwnershipScope"
+            }
+          },
+          {
             "name": "keyword",
             "required": false,
             "in": "query",
@@ -2236,6 +2254,98 @@
           }
         ],
         "summary": "更新线索基础信息",
+        "tags": [
+          "Lead"
+        ]
+      }
+    },
+    "/api/leads/{id}:claim": {
+      "post": {
+        "operationId": "LeadController_claimOwner",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimLeadOwnerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadOwnerAssignmentResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "申领公共池线索",
+        "tags": [
+          "Lead"
+        ]
+      }
+    },
+    "/api/leads/{id}:assignOwner": {
+      "post": {
+        "operationId": "LeadController_assignOwner",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignLeadOwnerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadOwnerAssignmentResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "分配或改派线索销售主责",
         "tags": [
           "Lead"
         ]
@@ -8438,6 +8548,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:assign",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -8565,6 +8676,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:assign",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -9133,6 +9245,7 @@
               "exception-approval-opinion:sensitive:read",
               "lead:read",
               "lead:write",
+              "lead:assign",
               "lead:source:manage",
               "project:read",
               "project:write",
@@ -9194,6 +9307,7 @@
               "exception-approval-opinion:sensitive:read",
               "lead:read",
               "lead:write",
+              "lead:assign",
               "lead:source:manage",
               "project:read",
               "project:write",
@@ -9289,6 +9403,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:assign",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -9417,6 +9532,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:assign",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -9830,6 +9946,7 @@
                 "exception-approval-opinion:sensitive:read",
                 "lead:read",
                 "lead:write",
+                "lead:assign",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -10853,6 +10970,18 @@
           "status": {
             "$ref": "#/components/schemas/LeadStatus"
           },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "ownerName": {
             "type": "string",
             "nullable": true
@@ -10873,6 +11002,11 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -10882,6 +11016,12 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadAllowedAction"
+            }
           }
         },
         "required": [
@@ -10899,12 +11039,16 @@
           "urgency",
           "expectedDecisionDate",
           "status",
+          "ownerOrgId",
+          "ownerUserId",
           "ownerName",
           "ownerOrgName",
           "qualifiedAt",
           "convertedProjectId",
+          "rowVersion",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "allowedActions"
         ]
       },
       "LeadBudgetStatus": {
@@ -10933,6 +11077,13 @@
           "qualified",
           "converted",
           "closed"
+        ]
+      },
+      "LeadAllowedAction": {
+        "type": "string",
+        "enum": [
+          "claim-lead-owner",
+          "assign-lead-owner"
         ]
       },
       "LeadList": {
@@ -11143,6 +11294,12 @@
               }
             ],
             "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadAllowedAction"
+            }
           }
         },
         "required": [
@@ -11179,7 +11336,8 @@
           "ownerName",
           "ownerOrgName",
           "sourceSummary",
-          "convertedProjectSummary"
+          "convertedProjectSummary",
+          "allowedActions"
         ]
       },
       "CreateLeadRequest": {
@@ -11425,6 +11583,108 @@
           "updatedBy"
         ]
       },
+      "ClaimLeadOwnerRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "LeadOwnerAssignmentType": {
+        "type": "string",
+        "enum": [
+          "claimed",
+          "assigned",
+          "reassigned"
+        ]
+      },
+      "LeadOwnerAssignmentResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "leadOwnerAssignmentRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "previousOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "previousOwnerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "newOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "newOwnerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "assignmentType": {
+            "$ref": "#/components/schemas/LeadOwnerAssignmentType"
+          },
+          "businessStatusAfter": {
+            "$ref": "#/components/schemas/LeadStatus"
+          }
+        },
+        "required": [
+          "targetId",
+          "leadOwnerAssignmentRecordId",
+          "previousOwnerUserId",
+          "previousOwnerOrgId",
+          "newOwnerUserId",
+          "newOwnerOrgId",
+          "assignmentType",
+          "businessStatusAfter"
+        ]
+      },
+      "AssignLeadOwnerRequest": {
+        "type": "object",
+        "properties": {
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "ownerUserId",
+          "reason"
+        ]
+      },
       "UpdateLeadRequest": {
         "type": "object",
         "properties": {
@@ -11463,18 +11723,6 @@
             "type": "string",
             "format": "date",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
-            "nullable": true
-          },
-          "ownerOrgId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "ownerUserId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           }
         }
@@ -24934,6 +25182,14 @@
           "status",
           "handledAt",
           "generatedAt"
+        ]
+      },
+      "LeadOwnershipScope": {
+        "type": "string",
+        "enum": [
+          "all",
+          "mine",
+          "public-pool"
         ]
       }
     }

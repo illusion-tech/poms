@@ -1,6 +1,8 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+    AssignLeadOwnerRequestDto,
+    ClaimLeadOwnerRequestDto,
     CloseLeadRequestDto,
     ConvertLeadToProjectRequestDto,
     CreateLeadRequestDto,
@@ -8,11 +10,12 @@ import {
     LeadDto,
     LeadListDto,
     LeadListQueryDto,
+    LeadOwnerAssignmentResultDto,
     ProjectDto,
     QualifyLeadRequestDto,
     UpdateLeadRequestDto
 } from '@poms/api-contracts';
-import type { LeadDetailView, LeadListQuery, LeadListView, LeadSummary, ProjectSummary, UserPayload } from '@poms/shared-contracts';
+import type { LeadDetailView, LeadListQuery, LeadListView, LeadOwnerAssignmentResult, LeadSummary, ProjectSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { mapLeadToSummary } from './lead.mapper';
 import { LeadQueryService } from './lead-query.service';
@@ -32,25 +35,27 @@ export class LeadController {
     @HasPermissions('lead:read')
     @ApiOperation({ summary: '获取线索列表' })
     @ApiOkResponse({ type: LeadListDto })
-    async list(@Query() query: LeadListQueryDto): Promise<LeadListView[]> {
+    async list(@Query() query: LeadListQueryDto, @Request() req: { user: UserPayload }): Promise<LeadListView[]> {
         const listQuery: LeadListQuery = {
             status: query.status,
             sourceId: query.sourceId,
             budgetStatus: query.budgetStatus,
             urgency: query.urgency,
             ownerOrgId: query.ownerOrgId,
+            ownerUserId: query.ownerUserId,
+            ownershipScope: query.ownershipScope,
             keyword: query.keyword
         };
 
-        return this.leadQueryService.listLeads(listQuery);
+        return this.leadQueryService.listLeads(listQuery, req.user);
     }
 
     @Get(':id')
     @HasPermissions('lead:read')
     @ApiOperation({ summary: '获取线索详情' })
     @ApiOkResponse({ type: LeadDetailViewDto })
-    getById(@Param('id') id: string): Promise<LeadDetailView> {
-        return this.leadQueryService.getLead(id);
+    getById(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<LeadDetailView> {
+        return this.leadQueryService.getLead(id, req.user);
     }
 
     @Post()
@@ -77,6 +82,39 @@ export class LeadController {
         return mapLeadToSummary(lead);
     }
 
+    @Post(':id\\:claim')
+    @HasPermissions('lead:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '申领公共池线索' })
+    @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
+    claimOwner(
+        @Param('id') id: string,
+        @Body() body: ClaimLeadOwnerRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<LeadOwnerAssignmentResult> {
+        return this.leadService.claimLeadOwner(id, {
+            expectedVersion: body.expectedVersion
+        }, req.user.sub);
+    }
+
+    @Post(':id\\:assignOwner')
+    @HasPermissions('lead:assign')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '分配或改派线索销售主责' })
+    @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
+    assignOwner(
+        @Param('id') id: string,
+        @Body() body: AssignLeadOwnerRequestDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<LeadOwnerAssignmentResult> {
+        return this.leadService.assignLeadOwner(id, {
+            ownerUserId: body.ownerUserId,
+            ownerOrgId: body.ownerOrgId,
+            reason: body.reason,
+            expectedVersion: body.expectedVersion
+        }, req.user.sub);
+    }
+
     @Patch(':id')
     @HasPermissions('lead:write')
     @ApiOperation({ summary: '更新线索基础信息' })
@@ -94,9 +132,7 @@ export class LeadController {
             budgetStatus: body.budgetStatus,
             estimatedAmount: body.estimatedAmount,
             urgency: body.urgency,
-            expectedDecisionDate: body.expectedDecisionDate,
-            ownerOrgId: body.ownerOrgId,
-            ownerUserId: body.ownerUserId
+            expectedDecisionDate: body.expectedDecisionDate
         }, req.user.sub);
 
         return mapLeadToSummary(lead);

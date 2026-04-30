@@ -20,6 +20,4 @@ export interface UpdateLeadRequest {
     estimatedAmount?: string | null;
     urgency?: LeadUrgency;
     expectedDecisionDate?: string | null;
-    ownerOrgId?: string | null;
-    ownerUserId?: string | null;
 }

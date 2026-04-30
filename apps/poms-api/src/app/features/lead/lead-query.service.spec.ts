@@ -14,6 +14,7 @@ describe('LeadQueryService', () => {
 
     let service: LeadQueryService;
     let leadRepository: jest.Mocked<LeadRepository>;
+    const currentUser = { sub: userId, username: 'sales_rep', permissions: ['lead:read', 'lead:write', 'lead:assign'] } as never;
 
     beforeEach(() => {
         leadRepository = {
@@ -40,11 +41,14 @@ describe('LeadQueryService', () => {
         leadRepository.findPlatformUsersByIds.mockResolvedValue([{ id: userId, displayName: '销售人员' }] as never);
         leadRepository.findOrgUnitsByIds.mockResolvedValue([{ id: orgId, name: '华南销售一部' }] as never);
 
-        const result = await service.listLeads({
-            status: 'qualified',
-            ownerOrgId: orgId,
-            keyword: '地铁'
-        });
+        const result = await service.listLeads(
+            {
+                status: 'qualified',
+                ownerOrgId: orgId,
+                keyword: '地铁'
+            },
+            currentUser
+        );
 
         expect(leadRepository.findMany).toHaveBeenCalledWith({
             status: 'qualified',
@@ -62,11 +66,49 @@ describe('LeadQueryService', () => {
                 budgetStatus: 'budget-confirmed',
                 estimatedAmount: '1000000.00',
                 urgency: 'high',
+                ownerOrgId: orgId,
+                ownerUserId: userId,
                 ownerName: '销售人员',
                 ownerOrgName: '华南销售一部',
-                qualifiedAt: '2026-04-25T11:00:00.000Z'
+                qualifiedAt: '2026-04-25T11:00:00.000Z',
+                rowVersion: 1,
+                allowedActions: ['assign-lead-owner']
             })
         ]);
+    });
+
+    it('uses current user for mine scope and exposes claim action for public pool leads', async () => {
+        const lead = createLeadEntity({
+            ownerUserId: null,
+            ownerOrgId: null
+        });
+        leadRepository.findMany.mockResolvedValue([lead]);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity());
+        leadRepository.findPlatformUsersByIds.mockResolvedValue([]);
+        leadRepository.findOrgUnitsByIds.mockResolvedValue([]);
+
+        const result = await service.listLeads({ ownershipScope: 'public-pool' }, currentUser);
+
+        expect(leadRepository.findMany).toHaveBeenCalledWith({
+            ownershipScope: 'public-pool',
+            ownerUserId: undefined,
+            unassignedOnly: true
+        });
+        expect(result[0]).toEqual(
+            expect.objectContaining({
+                ownerUserId: null,
+                ownerOrgId: null,
+                ownerName: null,
+                allowedActions: ['claim-lead-owner', 'assign-lead-owner']
+            })
+        );
+
+        await service.listLeads({ ownershipScope: 'mine' }, currentUser);
+        expect(leadRepository.findMany).toHaveBeenLastCalledWith({
+            ownershipScope: 'mine',
+            ownerUserId: userId,
+            unassignedOnly: false
+        });
     });
 
     it('returns detail view with source summary', async () => {
@@ -76,7 +118,7 @@ describe('LeadQueryService', () => {
         leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
 
-        const result = await service.getLead(leadId);
+        const result = await service.getLead(leadId, currentUser);
 
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
@@ -103,7 +145,7 @@ describe('LeadQueryService', () => {
             })
         ]);
 
-        const result = await service.getLead(leadId);
+        const result = await service.getLead(leadId, currentUser);
 
         expect(leadRepository.findProjectsByIds).toHaveBeenCalledWith(['20000000-0000-4000-8000-000000000001']);
         expect(result.convertedProjectSummary).toEqual({
@@ -119,7 +161,7 @@ describe('LeadQueryService', () => {
     it('throws when detail lead is missing', async () => {
         leadRepository.findById.mockResolvedValue(null);
 
-        await expect(service.getLead(leadId)).rejects.toThrow(NotFoundException);
+        await expect(service.getLead(leadId, currentUser)).rejects.toThrow(NotFoundException);
     });
 
     function createLeadEntity(overrides: Partial<Lead> = {}): Lead {

@@ -1,10 +1,11 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import type { LeadBudgetStatus, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
+import type { LeadBudgetStatus, LeadOwnerAssignmentResult, LeadOwnerAssignmentType, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
 import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
+import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 
@@ -44,8 +45,17 @@ export interface UpdateLeadRecord {
     estimatedAmount?: string | null;
     urgency?: LeadUrgency;
     expectedDecisionDate?: string | null;
+}
+
+export interface ClaimLeadOwnerRecord {
+    expectedVersion?: number;
+}
+
+export interface AssignLeadOwnerRecord {
+    ownerUserId: string;
     ownerOrgId?: string | null;
-    ownerUserId?: string | null;
+    reason: string;
+    expectedVersion?: number;
 }
 
 export interface QualifyLeadRecord {
@@ -204,16 +214,70 @@ export class LeadService {
             lead.expectedDecisionDate = this.normalizeDateOnly(input.expectedDecisionDate);
         }
 
-        if (input.ownerUserId !== undefined || input.ownerOrgId !== undefined) {
-            const owner = await this.resolveOwnerUpdate(lead, input.ownerUserId, input.ownerOrgId);
-            lead.ownerUserId = owner.ownerUserId;
-            lead.ownerOrgId = owner.ownerOrgId;
-        }
-
         lead.updatedBy = operatorUserId;
         await this.leadRepository.save(lead);
 
         return lead;
+    }
+
+    async claimLeadOwner(id: string, input: ClaimLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
+        const lead = await this.requireLead(id);
+        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'Lead');
+        this.assertLeadAssignable(lead);
+
+        if (lead.ownerUserId) {
+            throw new ConflictException(`Lead ${id} already has owner ${lead.ownerUserId}`);
+        }
+
+        const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
+        if (!operator) {
+            throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+        }
+        if (operator.isActive === false) {
+            throw new BadRequestException(`Platform user ${operatorUserId} is not active`);
+        }
+
+        const nextOwnerOrgId = operator.primaryOrgUnitId ?? null;
+        await this.assertActiveOrgExists(nextOwnerOrgId);
+
+        return this.applyLeadOwnerAssignment({
+            lead,
+            operatorUserId,
+            ownerUserId: operator.id,
+            ownerOrgId: nextOwnerOrgId,
+            assignmentType: 'claimed',
+            reason: null
+        });
+    }
+
+    async assignLeadOwner(id: string, input: AssignLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
+        const lead = await this.requireLead(id);
+        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'Lead');
+        this.assertLeadAssignable(lead);
+
+        const targetOwner = await this.leadRepository.findPlatformUserById(input.ownerUserId);
+        if (!targetOwner) {
+            throw new NotFoundException(`Platform user ${input.ownerUserId} not found`);
+        }
+        if (targetOwner.isActive === false) {
+            throw new BadRequestException(`Platform user ${input.ownerUserId} is not active`);
+        }
+
+        const nextOwnerOrgId = input.ownerOrgId === undefined ? (targetOwner.primaryOrgUnitId ?? null) : (input.ownerOrgId ?? null);
+        await this.assertActiveOrgExists(nextOwnerOrgId);
+
+        if (lead.ownerUserId === targetOwner.id && (lead.ownerOrgId ?? null) === nextOwnerOrgId) {
+            throw new BadRequestException(`Lead ${id} already has the requested owner`);
+        }
+
+        return this.applyLeadOwnerAssignment({
+            lead,
+            operatorUserId,
+            ownerUserId: targetOwner.id,
+            ownerOrgId: nextOwnerOrgId,
+            assignmentType: lead.ownerUserId ? 'reassigned' : 'assigned',
+            reason: input.reason.trim()
+        });
     }
 
     async qualifyLead(id: string, input: QualifyLeadRecord, operatorUserId: string): Promise<Lead> {
@@ -341,6 +405,12 @@ export class LeadService {
         }
     }
 
+    private assertLeadAssignable(lead: Lead): void {
+        if (!['registered', 'qualified'].includes(lead.status)) {
+            throw new BadRequestException(`Lead ${lead.id} cannot assign owner in status ${lead.status}`);
+        }
+    }
+
     private assertLeadReadyForQualified(lead: Lead): void {
         const missing = this.collectLeadGateMissingItems(lead);
         if (missing.length > 0) {
@@ -393,31 +463,10 @@ export class LeadService {
             };
         }
 
-        const ownerUser = ownerUserId ? await this.leadRepository.findPlatformUserById(ownerUserId) : null;
-        if (ownerUserId && !ownerUser) {
-            throw new NotFoundException(`Platform user ${ownerUserId} not found`);
-        }
-
-        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? null : ownerOrgId;
-        await this.assertOrgExists(resolvedOrgId);
-
-        return {
-            ownerUserId: ownerUser?.id ?? null,
-            ownerOrgId: resolvedOrgId
-        };
-    }
-
-    private async resolveOwnerUpdate(
-        lead: Lead,
-        ownerUserId: string | null | undefined,
-        ownerOrgId: string | null | undefined
-    ): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
-        if (ownerUserId === undefined) {
-            const resolvedOrgId = ownerOrgId === undefined ? lead.ownerOrgId ?? null : ownerOrgId;
-            await this.assertOrgExists(resolvedOrgId);
+        if (ownerUserId === null) {
             return {
-                ownerUserId: lead.ownerUserId ?? null,
-                ownerOrgId: resolvedOrgId
+                ownerUserId: null,
+                ownerOrgId: null
             };
         }
 
@@ -426,7 +475,7 @@ export class LeadService {
             throw new NotFoundException(`Platform user ${ownerUserId} not found`);
         }
 
-        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? lead.ownerOrgId ?? null : ownerOrgId;
+        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? null : ownerOrgId;
         await this.assertOrgExists(resolvedOrgId);
 
         return {
@@ -444,5 +493,76 @@ export class LeadService {
         if (!orgUnit) {
             throw new NotFoundException(`Org unit ${orgUnitId} not found`);
         }
+    }
+
+    private async assertActiveOrgExists(orgUnitId: string | null): Promise<void> {
+        if (!orgUnitId) {
+            return;
+        }
+
+        const orgUnit = await this.leadRepository.findOrgUnitById(orgUnitId);
+        if (!orgUnit) {
+            throw new NotFoundException(`Org unit ${orgUnitId} not found`);
+        }
+        if (orgUnit.isActive === false) {
+            throw new BadRequestException(`Org unit ${orgUnitId} is not active`);
+        }
+    }
+
+    private async applyLeadOwnerAssignment(input: {
+        lead: Lead;
+        operatorUserId: string;
+        ownerUserId: string;
+        ownerOrgId: string | null;
+        assignmentType: LeadOwnerAssignmentType;
+        reason: string | null;
+    }): Promise<LeadOwnerAssignmentResult> {
+        const previousOwnerUserId = input.lead.ownerUserId ?? null;
+        const previousOwnerOrgId = input.lead.ownerOrgId ?? null;
+        const now = new Date();
+        const record = this.leadRepository.createLeadOwnerAssignmentRecord({
+            id: randomUUID(),
+            leadId: input.lead.id,
+            previousOwnerOrgId,
+            previousOwnerUserId,
+            newOwnerOrgId: input.ownerOrgId,
+            newOwnerUserId: input.ownerUserId,
+            assignmentType: input.assignmentType,
+            reason: input.reason,
+            assignedAt: now,
+            assignedBy: input.operatorUserId,
+            createdAt: now,
+            createdBy: input.operatorUserId
+        });
+
+        input.lead.ownerUserId = input.ownerUserId;
+        input.lead.ownerOrgId = input.ownerOrgId;
+        input.lead.updatedBy = input.operatorUserId;
+
+        await this.leadRepository.saveLeadOwnerAssignment({
+            lead: input.lead,
+            record
+        });
+
+        return this.mapLeadOwnerAssignmentResult(input.lead, record);
+    }
+
+    private assertExpectedVersion(currentVersion: number, expectedVersion: number | undefined, targetType: string): void {
+        if (expectedVersion !== undefined && currentVersion !== expectedVersion) {
+            throw new ConflictException(`${targetType} version ${expectedVersion} does not match current version ${currentVersion}`);
+        }
+    }
+
+    private mapLeadOwnerAssignmentResult(lead: Lead, record: LeadOwnerAssignmentRecord): LeadOwnerAssignmentResult {
+        return {
+            targetId: lead.id,
+            leadOwnerAssignmentRecordId: record.id,
+            previousOwnerUserId: record.previousOwnerUserId ?? null,
+            previousOwnerOrgId: record.previousOwnerOrgId ?? null,
+            newOwnerUserId: record.newOwnerUserId,
+            newOwnerOrgId: record.newOwnerOrgId ?? null,
+            assignmentType: record.assignmentType,
+            businessStatusAfter: lead.status
+        };
     }
 }

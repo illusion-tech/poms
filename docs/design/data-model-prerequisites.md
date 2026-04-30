@@ -67,6 +67,7 @@
 | -------------------------------- | ------------ | ---------------------------------------------------------- | ------------------------------------ |
 | `Lead`                           | 主表         | 线索是 `Project` 创建前的事实源，`owner*` 表达线索销售主责 | 是否保留更细线索来源字典             |
 | `Project`                        | 主表         | 承载主生命周期、销售主责组织、关键引用                     | 主状态字段与关闭语义字典是否已稳定   |
+| `LeadOwnerAssignmentRecord`      | 动作记录表   | 线索公共池申领、主管分配和改派必须独立留痕                 | 是否需要释放回池或审批链             |
 | `ProjectOwnerReassignmentRecord` | 动作记录表   | 项目销售主责变更必须独立留痕，不通过普通字段静默覆盖       | 是否需要审批链或仅受控命令           |
 | `ProjectAssessment`              | 动作记录表   | 属于评估提交与审批结论事实，不建议揉进 `Project`           | 是否需要评估版本号                   |
 | `ScopeConfirmation`              | 版本表       | 已确认后不应原地覆盖，建议支持版本化                       | 新版本与旧版本的替代关系字段         |
@@ -134,15 +135,16 @@
 
 1. `Project` 是销售主链路主对象，签约前后都不被 `Contract` 替代。
 2. `Project.ownerUserId / ownerOrgId` 表达项目销售主责，不表达移交后的执行负责人。
-3. `ProjectOwnerReassignmentRecord` 通过 `projectId` 归属 `Project`，记录销售主责前后变化、原因和操作者。
-4. `BidProcess` 通过 `projectId` 归属 `Project`，且 `Project` 可引用当前有效 `activeBidProcessId`。
-5. `Contract` 通过 `projectId` 归属 `Project`。
-6. `ContractTermSnapshot` 通过 `contractId` 归属 `Contract`，并可被 `ReceivablePlan`、`CommissionCalculation` 引用。
-7. `ReceiptRecord` 可关联 `contractId` 与 `projectId`，但生效口径以确认后的记录事实为准。
-8. `CommissionRoleAssignment`、`CommissionCalculation`、`CommissionPayout`、`CommissionAdjustment` 均需保留 `projectId`。
-9. `ApprovalRecord` 与 `ConfirmationRecord` 应保留 `targetType + targetId` 的通用引用组合。
-10. `User` 必须保留 `primaryOrgUnitId`，但用户与组织、用户与角色的正式关系仍应以下游关系表为准。
-11. `CommissionRoleAssignment` 应保留 `userId` 与 `projectId`，以保证提成参与人与平台正式用户主数据对齐。
+3. `LeadOwnerAssignmentRecord` 通过 `leadId` 归属 `Lead`，记录公共池申领、分配、改派的前后负责人、原因和操作者。
+4. `ProjectOwnerReassignmentRecord` 通过 `projectId` 归属 `Project`，记录销售主责前后变化、原因和操作者。
+5. `BidProcess` 通过 `projectId` 归属 `Project`，且 `Project` 可引用当前有效 `activeBidProcessId`。
+6. `Contract` 通过 `projectId` 归属 `Project`。
+7. `ContractTermSnapshot` 通过 `contractId` 归属 `Contract`，并可被 `ReceivablePlan`、`CommissionCalculation` 引用。
+8. `ReceiptRecord` 可关联 `contractId` 与 `projectId`，但生效口径以确认后的记录事实为准。
+9. `CommissionRoleAssignment`、`CommissionCalculation`、`CommissionPayout`、`CommissionAdjustment` 均需保留 `projectId`。
+10. `ApprovalRecord` 与 `ConfirmationRecord` 应保留 `targetType + targetId` 的通用引用组合。
+11. `User` 必须保留 `primaryOrgUnitId`，但用户与组织、用户与角色的正式关系仍应以下游关系表为准。
+12. `CommissionRoleAssignment` 应保留 `userId` 与 `projectId`，以保证提成参与人与平台正式用户主数据对齐。
 
 ---
 

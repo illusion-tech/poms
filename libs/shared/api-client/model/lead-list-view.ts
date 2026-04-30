@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LeadAllowedAction } from './lead-allowed-action';
 import { LeadUrgency } from './lead-urgency';
 import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
@@ -27,10 +28,14 @@ export interface LeadListView {
     urgency: LeadUrgency;
     expectedDecisionDate: string | null;
     status: LeadStatus;
+    ownerOrgId: string | null;
+    ownerUserId: string | null;
     ownerName: string | null;
     ownerOrgName: string | null;
     qualifiedAt: string | null;
     convertedProjectId: string | null;
+    rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    allowedActions: Array<LeadAllowedAction>;
 }

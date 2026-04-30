@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadBudgetStatus, LeadDetailView, LeadListView, LeadSourceStatus, LeadSourceSummary, LeadStatus, LeadUrgency, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
+import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadBudgetStatus, LeadDetailView, LeadListView, LeadOwnershipScope, LeadSourceStatus, LeadSourceSummary, LeadStatus, LeadUrgency, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
 import { LeadApi, LeadSourceApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -9,6 +9,8 @@ export interface LeadListFilters {
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
     ownerOrgId?: string;
+    ownerUserId?: string;
+    ownershipScope?: LeadOwnershipScope;
     keyword?: string;
 }
 
@@ -38,6 +40,7 @@ export class LeadStore {
     readonly #saving = signal(false);
     readonly #loaded = signal(false);
     readonly #loadedSources = signal(false);
+    #lastLeadFilters: LeadListFilters = {};
 
     readonly leads = this.#leads.asReadonly();
     readonly leadSources = this.#leadSources.asReadonly();
@@ -54,7 +57,8 @@ export class LeadStore {
     readonly convertedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.converted).length);
     readonly closedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.closed).length);
 
-    async loadLeads(filters: LeadListFilters = {}) {
+    async loadLeads(filters: LeadListFilters = this.#lastLeadFilters) {
+        this.#lastLeadFilters = { ...filters };
         this.#loading.set(true);
         try {
             const leads = await firstValueFrom(
@@ -64,6 +68,8 @@ export class LeadStore {
                     budgetStatus: filters.budgetStatus,
                     urgency: filters.urgency,
                     ownerOrgId: filters.ownerOrgId,
+                    ownerUserId: filters.ownerUserId,
+                    ownershipScope: filters.ownershipScope,
                     keyword: filters.keyword
                 })
             );
@@ -153,6 +159,38 @@ export class LeadStore {
                 await this.loadLeads();
             }
             return lead;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async claimLeadOwner(id: string, request: ClaimLeadOwnerRequest = {}) {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadControllerClaimOwner({ id, claimLeadOwnerRequest: request }));
+            if (this.#selectedLead()?.id === id) {
+                await this.loadLead(id);
+            }
+            if (this.#loaded()) {
+                await this.loadLeads();
+            }
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async assignLeadOwner(id: string, request: AssignLeadOwnerRequest) {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadControllerAssignOwner({ id, assignLeadOwnerRequest: request }));
+            if (this.#selectedLead()?.id === id) {
+                await this.loadLead(id);
+            }
+            if (this.#loaded()) {
+                await this.loadLeads();
+            }
+            return result;
         } finally {
             this.#saving.set(false);
         }

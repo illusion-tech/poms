@@ -1,21 +1,26 @@
 import { loginAsAdmin } from '../support/api-client';
 import { createCustomer } from '../support/customer-api';
 import { expectErrorStatus, expectStatus } from '../support/http';
-import { convertLeadToProject, createLead, getLead, qualifyLead } from '../support/lead-api';
+import { assignLeadOwner, claimLeadOwner, convertLeadToProject, createLead, getLead, listLeads, qualifyLead } from '../support/lead-api';
 import { makeUniqueSuffix } from '../support/test-data';
 import type { CreateSalesFollowUpRecordRequest, LeadSourceSummary, ProjectDetailView, SalesFollowUpRecordSummary } from '../support/types';
 
 jest.setTimeout(120_000);
 
 describe('poms-api lead workflow e2e', () => {
-    it('converts a qualified lead into a project and exposes source summaries', async () => {
-        const { client, profile } = await loginAsAdmin();
-        const unique = makeUniqueSuffix('lead-convert');
-        const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
+    async function getActiveLeadSourceId(client: Awaited<ReturnType<typeof loginAsAdmin>>['client']): Promise<string> {
         const sourceResponse = await client.get<LeadSourceSummary[]>('/lead-sources');
         const leadSources = expectStatus(sourceResponse, 200);
         const leadSource = leadSources.find((source) => source.status === 'active');
         expect(leadSource).toBeDefined();
+        return leadSource!.id;
+    }
+
+    it('converts a qualified lead into a project and exposes source summaries', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('lead-convert');
+        const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
+        const leadSourceId = await getActiveLeadSourceId(client);
         const customer = await createCustomer(client, {
             displayName: `E2E 客户 ${unique}`,
             sourceChannel: 'e2e'
@@ -23,7 +28,7 @@ describe('poms-api lead workflow e2e', () => {
         const lead = await createLead(client, {
             leadName: `E2E 线索转项目 ${unique}`,
             customerId: customer.id,
-            sourceId: leadSource!.id,
+            sourceId: leadSourceId,
             demandDescription: '客户需要验证预算、范围和转项目链路。',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1200000.00',
@@ -116,5 +121,90 @@ describe('poms-api lead workflow e2e', () => {
             customerProjectNo: `E2E-PRJ-DUP-${unique}`
         });
         expectErrorStatus(duplicateResponse, 409);
+    });
+
+    it('supports public pool claim and supervisor assignment commands', async () => {
+        const { client, profile } = await loginAsAdmin();
+        const unique = makeUniqueSuffix('lead-pool');
+        const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
+        const leadSourceId = await getActiveLeadSourceId(client);
+        const customer = await createCustomer(client, {
+            displayName: `E2E 公共池客户 ${unique}`,
+            sourceChannel: 'e2e'
+        });
+
+        const publicLead = await createLead(client, {
+            leadName: `E2E 公共池线索 ${unique}`,
+            customerId: customer.id,
+            sourceId: leadSourceId,
+            demandDescription: '客户先登记为公共池线索，等待销售申领。',
+            budgetStatus: 'rough-budget',
+            estimatedAmount: '800000.00',
+            urgency: 'normal',
+            ownerUserId: null,
+            ownerOrgId: primaryOrgId
+        });
+        expect(publicLead.ownerUserId).toBeNull();
+        expect(publicLead.ownerOrgId).toBeNull();
+
+        const publicPoolLeads = await listLeads(client, { ownershipScope: 'public-pool', keyword: unique });
+        expect(publicPoolLeads).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: publicLead.id,
+                    ownerUserId: null,
+                    allowedActions: expect.arrayContaining(['claim-lead-owner', 'assign-lead-owner'])
+                })
+            ])
+        );
+
+        const claimResult = await claimLeadOwner(client, publicLead.id, { expectedVersion: publicLead.rowVersion });
+        expect(claimResult).toEqual(
+            expect.objectContaining({
+                targetId: publicLead.id,
+                previousOwnerUserId: null,
+                newOwnerUserId: profile.id,
+                assignmentType: 'claimed'
+            })
+        );
+
+        const claimedDetail = await getLead(client, publicLead.id);
+        expect(claimedDetail.ownerUserId).toBe(profile.id);
+        expect(claimedDetail.ownerOrgId).toBe(primaryOrgId);
+
+        const duplicateClaimResponse = await client.post(`/leads/${publicLead.id}:claim`, {
+            expectedVersion: claimedDetail.rowVersion
+        });
+        expectErrorStatus(duplicateClaimResponse, 409);
+
+        const assignedLead = await createLead(client, {
+            leadName: `E2E 主管分配线索 ${unique}`,
+            customerId: customer.id,
+            sourceId: leadSourceId,
+            demandDescription: '客户由主管分配销售主责。',
+            budgetStatus: 'budget-confirmed',
+            estimatedAmount: '1000000.00',
+            urgency: 'high',
+            ownerUserId: null,
+            ownerOrgId: null
+        });
+
+        const assignmentResult = await assignLeadOwner(client, assignedLead.id, {
+            ownerUserId: profile.id,
+            ownerOrgId: primaryOrgId,
+            reason: 'E2E 主管分配公共池线索',
+            expectedVersion: assignedLead.rowVersion
+        });
+        expect(assignmentResult).toEqual(
+            expect.objectContaining({
+                targetId: assignedLead.id,
+                previousOwnerUserId: null,
+                newOwnerUserId: profile.id,
+                assignmentType: 'assigned'
+            })
+        );
+
+        const mineLeads = await listLeads(client, { ownershipScope: 'mine', keyword: unique });
+        expect(mineLeads.map((lead) => lead.id)).toEqual(expect.arrayContaining([publicLead.id, assignedLead.id]));
     });
 });

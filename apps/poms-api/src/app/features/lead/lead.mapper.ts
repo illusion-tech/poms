@@ -1,4 +1,4 @@
-import type { LeadDetailView, LeadListView, LeadSourceSummary, LeadSummary } from '@poms/shared-contracts';
+import type { LeadAllowedAction, LeadDetailView, LeadListView, LeadSourceSummary, LeadSummary } from '@poms/shared-contracts';
 import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -61,7 +61,8 @@ export function mapLeadToListView(
     lead: Lead,
     source: LeadSource | null,
     owner: PlatformUser | null,
-    ownerOrg: OrgUnit | null
+    ownerOrg: OrgUnit | null,
+    allowedActions: LeadAllowedAction[] = []
 ): LeadListView {
     return {
         id: lead.id,
@@ -78,12 +79,16 @@ export function mapLeadToListView(
         urgency: lead.urgency,
         expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
         status: lead.status,
+        ownerOrgId: lead.ownerOrgId ?? null,
+        ownerUserId: lead.ownerUserId ?? null,
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
         qualifiedAt: lead.qualifiedAt?.toISOString() ?? null,
         convertedProjectId: lead.convertedProjectId ?? null,
+        rowVersion: lead.rowVersion,
         createdAt: lead.createdAt.toISOString(),
-        updatedAt: lead.updatedAt.toISOString()
+        updatedAt: lead.updatedAt.toISOString(),
+        allowedActions
     };
 }
 
@@ -92,7 +97,8 @@ export function mapLeadToDetailView(
     source: LeadSource | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
-    convertedProject: Project | null
+    convertedProject: Project | null,
+    allowedActions: LeadAllowedAction[] = []
 ): LeadDetailView {
     return {
         ...mapLeadToSummary(lead, source),
@@ -108,6 +114,7 @@ export function mapLeadToDetailView(
                   status: convertedProject.status,
                   currentStage: convertedProject.currentStage
               }
-            : null
+            : null,
+        allowedActions
     };
 }

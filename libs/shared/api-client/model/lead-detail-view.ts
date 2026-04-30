@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { LeadConvertedProjectSummary } from './lead-converted-project-summary';
+import { LeadAllowedAction } from './lead-allowed-action';
 import { LeadUrgency } from './lead-urgency';
 import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
@@ -48,4 +49,5 @@ export interface LeadDetailView {
     ownerOrgName: string | null;
     sourceSummary: string | null;
     convertedProjectSummary: LeadConvertedProjectSummary | null;
+    allowedActions: Array<LeadAllowedAction>;
 }

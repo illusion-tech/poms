@@ -26,6 +26,8 @@ describe('LeadController', () => {
         leadService = {
             createLead: jest.fn(),
             updateLead: jest.fn(),
+            claimLeadOwner: jest.fn(),
+            assignLeadOwner: jest.fn(),
             qualifyLead: jest.fn(),
             convertToProject: jest.fn(),
             closeLead: jest.fn()
@@ -37,23 +39,34 @@ describe('LeadController', () => {
     it('passes list filters to query service', async () => {
         leadQueryService.listLeads.mockResolvedValue([]);
 
-        await controller.list({
-            status: 'registered',
-            sourceId,
-            budgetStatus: 'budget-confirmed',
-            urgency: 'high',
-            ownerOrgId: orgId,
-            keyword: '地铁'
-        });
+        const req = { user: { sub: userId, username: 'sales_rep', permissions: ['lead:read', 'lead:write'] } } as never;
 
-        expect(leadQueryService.listLeads).toHaveBeenCalledWith({
-            status: 'registered',
-            sourceId,
-            budgetStatus: 'budget-confirmed',
-            urgency: 'high',
-            ownerOrgId: orgId,
-            keyword: '地铁'
-        });
+        await controller.list(
+            {
+                status: 'registered',
+                sourceId,
+                budgetStatus: 'budget-confirmed',
+                urgency: 'high',
+                ownerOrgId: orgId,
+                ownershipScope: 'mine',
+                keyword: '地铁'
+            },
+            req
+        );
+
+        expect(leadQueryService.listLeads).toHaveBeenCalledWith(
+            {
+                status: 'registered',
+                sourceId,
+                budgetStatus: 'budget-confirmed',
+                urgency: 'high',
+                ownerOrgId: orgId,
+                ownerUserId: undefined,
+                ownershipScope: 'mine',
+                keyword: '地铁'
+            },
+            expect.objectContaining({ sub: userId })
+        );
     });
 
     it('creates lead with operator id and maps summary', async () => {
@@ -92,6 +105,50 @@ describe('LeadController', () => {
         );
         expect(result.id).toBe(leadId);
         expect(result.createdAt).toBe('2026-04-25T10:00:00.000Z');
+    });
+
+    it('claims public pool lead through service', async () => {
+        leadService.claimLeadOwner.mockResolvedValue({
+            targetId: leadId,
+            leadOwnerAssignmentRecordId: '53000000-0000-4000-8000-000000000001',
+            previousOwnerUserId: null,
+            previousOwnerOrgId: null,
+            newOwnerUserId: userId,
+            newOwnerOrgId: orgId,
+            assignmentType: 'claimed',
+            businessStatusAfter: 'registered'
+        });
+
+        const result = await controller.claimOwner(
+            leadId,
+            { expectedVersion: 1 },
+            { user: { sub: userId } } as never
+        );
+
+        expect(leadService.claimLeadOwner).toHaveBeenCalledWith(leadId, { expectedVersion: 1 }, userId);
+        expect(result.assignmentType).toBe('claimed');
+    });
+
+    it('assigns lead owner through service', async () => {
+        leadService.assignLeadOwner.mockResolvedValue({
+            targetId: leadId,
+            leadOwnerAssignmentRecordId: '53000000-0000-4000-8000-000000000002',
+            previousOwnerUserId: null,
+            previousOwnerOrgId: null,
+            newOwnerUserId: userId,
+            newOwnerOrgId: orgId,
+            assignmentType: 'assigned',
+            businessStatusAfter: 'registered'
+        });
+
+        const result = await controller.assignOwner(
+            leadId,
+            { ownerUserId: userId, ownerOrgId: orgId, reason: '公共池分配', expectedVersion: 1 },
+            { user: { sub: userId } } as never
+        );
+
+        expect(leadService.assignLeadOwner).toHaveBeenCalledWith(leadId, { ownerUserId: userId, ownerOrgId: orgId, reason: '公共池分配', expectedVersion: 1 }, userId);
+        expect(result.assignmentType).toBe('assigned');
     });
 
     it('qualifies lead through service', async () => {

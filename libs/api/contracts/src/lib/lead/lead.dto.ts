@@ -1,4 +1,6 @@
 import {
+    AssignLeadOwnerRequestSchema,
+    ClaimLeadOwnerRequestSchema,
     CloseLeadRequestSchema,
     ConvertLeadToProjectRequestSchema,
     CreateLeadSourceRequestSchema,
@@ -6,6 +8,7 @@ import {
     LeadDetailViewSchema,
     LeadListQuerySchema,
     LeadListSchema,
+    LeadOwnerAssignmentResultSchema,
     LeadSourceListQuerySchema,
     LeadSourceListSchema,
     LeadSourceSummarySchema,
@@ -37,6 +40,12 @@ export class UpdateLeadSourceRequestDto extends createZodDto(UpdateLeadSourceReq
 export class CreateLeadRequestDto extends createZodDto(CreateLeadRequestSchema) {}
 
 export class UpdateLeadRequestDto extends createZodDto(UpdateLeadRequestSchema) {}
+
+export class ClaimLeadOwnerRequestDto extends createZodDto(ClaimLeadOwnerRequestSchema) {}
+
+export class AssignLeadOwnerRequestDto extends createZodDto(AssignLeadOwnerRequestSchema) {}
+
+export class LeadOwnerAssignmentResultDto extends createZodDto(LeadOwnerAssignmentResultSchema) {}
 
 export class QualifyLeadRequestDto extends createZodDto(QualifyLeadRequestSchema) {}
 

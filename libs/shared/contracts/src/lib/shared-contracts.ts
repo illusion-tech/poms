@@ -29,6 +29,7 @@ export const PERMISSION_KEYS = [
     // 线索
     'lead:read',
     'lead:write',
+    'lead:assign',
     'lead:source:manage',
     // 项目
     'project:read',
@@ -71,6 +72,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'exception-approval-opinion:sensitive:read': { description: '查看例外审批与保留意见敏感字段', group: '敏感字段' },
     'lead:read': { description: '查看销售线索', group: '线索' },
     'lead:write': { description: '登记/维护销售线索', group: '线索' },
+    'lead:assign': { description: '分配/改派销售线索负责人', group: '线索' },
     'lead:source:manage': { description: '管理线索来源字典', group: '线索' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
@@ -897,6 +899,24 @@ export type LeadUrgency = (typeof LEAD_URGENCIES)[number];
 
 export const LeadUrgencySchema = z.enum(LEAD_URGENCIES).meta({ id: 'LeadUrgency' });
 
+export const LEAD_OWNERSHIP_SCOPES = ['all', 'mine', 'public-pool'] as const;
+
+export type LeadOwnershipScope = (typeof LEAD_OWNERSHIP_SCOPES)[number];
+
+export const LeadOwnershipScopeSchema = z.enum(LEAD_OWNERSHIP_SCOPES).meta({ id: 'LeadOwnershipScope' });
+
+export const LEAD_ALLOWED_ACTIONS = ['claim-lead-owner', 'assign-lead-owner'] as const;
+
+export type LeadAllowedAction = (typeof LEAD_ALLOWED_ACTIONS)[number];
+
+export const LeadAllowedActionSchema = z.enum(LEAD_ALLOWED_ACTIONS).meta({ id: 'LeadAllowedAction' });
+
+export const LEAD_OWNER_ASSIGNMENT_TYPES = ['claimed', 'assigned', 'reassigned'] as const;
+
+export type LeadOwnerAssignmentType = (typeof LEAD_OWNER_ASSIGNMENT_TYPES)[number];
+
+export const LeadOwnerAssignmentTypeSchema = z.enum(LEAD_OWNER_ASSIGNMENT_TYPES).meta({ id: 'LeadOwnerAssignmentType' });
+
 const LeadEstimatedAmountStringSchema = z
     .string()
     .trim()
@@ -1012,12 +1032,16 @@ export const LeadListViewSchema = z
         urgency: LeadUrgencySchema,
         expectedDecisionDate: z.iso.date().nullable(),
         status: LeadStatusSchema,
+        ownerOrgId: z.uuid().nullable(),
+        ownerUserId: z.uuid().nullable(),
         ownerName: z.string().nullable(),
         ownerOrgName: z.string().nullable(),
         qualifiedAt: z.iso.datetime().nullable(),
         convertedProjectId: z.uuid().nullable(),
+        rowVersion: z.number().int(),
         createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime()
+        updatedAt: z.iso.datetime(),
+        allowedActions: z.array(LeadAllowedActionSchema)
     })
     .meta({ id: 'LeadListView' });
 
@@ -1044,7 +1068,8 @@ export const LeadDetailViewSchema = LeadSummarySchema.extend({
     ownerName: z.string().nullable(),
     ownerOrgName: z.string().nullable(),
     sourceSummary: z.string().nullable(),
-    convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable()
+    convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable(),
+    allowedActions: z.array(LeadAllowedActionSchema)
 }).meta({ id: 'LeadDetailView' });
 
 export type LeadDetailView = z.infer<typeof LeadDetailViewSchema>;
@@ -1075,11 +1100,9 @@ export const UpdateLeadRequestSchema = z
         budgetStatus: LeadBudgetStatusSchema.optional(),
         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
         urgency: LeadUrgencySchema.optional(),
-        expectedDecisionDate: z.iso.date().nullable().optional(),
-        ownerOrgId: z.uuid().nullable().optional(),
-        ownerUserId: z.uuid().nullable().optional()
+        expectedDecisionDate: z.iso.date().nullable().optional()
     })
-    .refine((value) => value.leadName !== undefined || value.customerId !== undefined || value.sourceId !== undefined || value.demandDescription !== undefined || value.budgetStatus !== undefined || value.estimatedAmount !== undefined || value.urgency !== undefined || value.expectedDecisionDate !== undefined || value.ownerOrgId !== undefined || value.ownerUserId !== undefined, {
+    .refine((value) => value.leadName !== undefined || value.customerId !== undefined || value.sourceId !== undefined || value.demandDescription !== undefined || value.budgetStatus !== undefined || value.estimatedAmount !== undefined || value.urgency !== undefined || value.expectedDecisionDate !== undefined, {
         message: 'At least one field is required for update'
     })
     .meta({ id: 'UpdateLeadRequest' });
@@ -1112,6 +1135,40 @@ export const ConvertLeadToProjectRequestSchema = z
 
 export type ConvertLeadToProjectRequest = z.infer<typeof ConvertLeadToProjectRequestSchema>;
 
+export const ClaimLeadOwnerRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ClaimLeadOwnerRequest' });
+
+export type ClaimLeadOwnerRequest = z.infer<typeof ClaimLeadOwnerRequestSchema>;
+
+export const AssignLeadOwnerRequestSchema = z
+    .object({
+        ownerUserId: z.uuid(),
+        ownerOrgId: z.uuid().nullable().optional(),
+        reason: z.string().trim().min(1).max(1000),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'AssignLeadOwnerRequest' });
+
+export type AssignLeadOwnerRequest = z.infer<typeof AssignLeadOwnerRequestSchema>;
+
+export const LeadOwnerAssignmentResultSchema = z
+    .object({
+        targetId: z.uuid(),
+        leadOwnerAssignmentRecordId: z.uuid(),
+        previousOwnerUserId: z.uuid().nullable(),
+        previousOwnerOrgId: z.uuid().nullable(),
+        newOwnerUserId: z.uuid(),
+        newOwnerOrgId: z.uuid().nullable(),
+        assignmentType: LeadOwnerAssignmentTypeSchema,
+        businessStatusAfter: LeadStatusSchema
+    })
+    .meta({ id: 'LeadOwnerAssignmentResult' });
+
+export type LeadOwnerAssignmentResult = z.infer<typeof LeadOwnerAssignmentResultSchema>;
+
 export const LeadListQuerySchema = z
     .object({
         status: LeadStatusSchema.optional(),
@@ -1119,6 +1176,8 @@ export const LeadListQuerySchema = z
         budgetStatus: LeadBudgetStatusSchema.optional(),
         urgency: LeadUrgencySchema.optional(),
         ownerOrgId: z.uuid().optional(),
+        ownerUserId: z.uuid().optional(),
+        ownershipScope: LeadOwnershipScopeSchema.optional(),
         keyword: z.string().trim().min(1).max(128).optional()
     })
     .meta({ id: 'LeadListQuery' });

@@ -41,6 +41,8 @@ describe('LeadService', () => {
             findLeadSourceByCode: jest.fn(),
             createLeadSource: jest.fn((input) => Object.assign(new LeadSource(), createLeadSourceEntity(input as Partial<LeadSource>))),
             saveLeadSource: jest.fn(),
+            createLeadOwnerAssignmentRecord: jest.fn((input) => input),
+            saveLeadOwnerAssignment: jest.fn(),
             findPlatformUserById: jest.fn(),
             findOrgUnitById: jest.fn(),
             getEntityManager: jest.fn(() => ({
@@ -132,6 +134,33 @@ describe('LeadService', () => {
         expect(entityManager.persist).toHaveBeenCalledWith(lead);
         expect(entityManager.flush).toHaveBeenCalled();
         expect(lead.status).toBe('registered');
+    });
+
+    it('creates a public pool lead when owner is explicitly empty', async () => {
+        const lead = await service.createLead(
+            {
+                leadName: '公共池线索',
+                customerId,
+                sourceId,
+                demandDescription: '客户先留下需求',
+                budgetStatus: 'rough-budget',
+                estimatedAmount: '1200000.00',
+                urgency: 'normal',
+                ownerUserId: null,
+                ownerOrgId: orgId
+            },
+            userId
+        );
+
+        expect(entityManager.create).toHaveBeenCalledWith(
+            Lead,
+            expect.objectContaining({
+                ownerUserId: null,
+                ownerOrgId: null
+            })
+        );
+        expect(lead.ownerUserId).toBeNull();
+        expect(lead.ownerOrgId).toBeNull();
     });
 
     it('rejects creating a lead when operator user does not exist', async () => {
@@ -290,6 +319,72 @@ describe('LeadService', () => {
         await expect(
             service.updateLead(leadId, { leadName: '不可编辑' }, userId)
         ).rejects.toThrow(BadRequestException);
+    });
+
+    it('claims a public pool lead and writes assignment record', async () => {
+        const lead = createLeadEntity({ ownerUserId: null, ownerOrgId: null });
+        leadRepository.findById.mockResolvedValue(lead);
+
+        const result = await service.claimLeadOwner(leadId, { expectedVersion: 1 }, userId);
+
+        expect(leadRepository.createLeadOwnerAssignmentRecord).toHaveBeenCalledWith(
+            expect.objectContaining({
+                leadId,
+                previousOwnerUserId: null,
+                previousOwnerOrgId: null,
+                newOwnerUserId: userId,
+                newOwnerOrgId: orgId,
+                assignmentType: 'claimed',
+                reason: null,
+                assignedBy: userId,
+                createdBy: userId
+            })
+        );
+        expect(leadRepository.saveLeadOwnerAssignment).toHaveBeenCalledWith({
+            lead,
+            record: expect.objectContaining({
+                assignmentType: 'claimed'
+            })
+        });
+        expect(lead.ownerUserId).toBe(userId);
+        expect(lead.ownerOrgId).toBe(orgId);
+        expect(result.assignmentType).toBe('claimed');
+    });
+
+    it('assigns a public pool lead to target owner', async () => {
+        const lead = createLeadEntity({ ownerUserId: null, ownerOrgId: null });
+        leadRepository.findById.mockResolvedValue(lead);
+
+        const result = await service.assignLeadOwner(
+            leadId,
+            {
+                ownerUserId: userId,
+                ownerOrgId: orgId,
+                reason: '主管分配',
+                expectedVersion: 1
+            },
+            userId
+        );
+
+        expect(leadRepository.createLeadOwnerAssignmentRecord).toHaveBeenCalledWith(
+            expect.objectContaining({
+                assignmentType: 'assigned',
+                previousOwnerUserId: null,
+                previousOwnerOrgId: null,
+                newOwnerUserId: userId,
+                newOwnerOrgId: orgId,
+                reason: '主管分配'
+            })
+        );
+        expect(leadRepository.saveLeadOwnerAssignment).toHaveBeenCalled();
+        expect(result.assignmentType).toBe('assigned');
+    });
+
+    it('rejects claiming a lead that already has owner', async () => {
+        leadRepository.findById.mockResolvedValue(createLeadEntity());
+
+        await expect(service.claimLeadOwner(leadId, { expectedVersion: 1 }, userId)).rejects.toThrow(ConflictException);
+        expect(leadRepository.createLeadOwnerAssignmentRecord).not.toHaveBeenCalled();
     });
 
     it('throws not found when lead does not exist', async () => {

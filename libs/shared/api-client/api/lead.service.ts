@@ -17,6 +17,10 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { AssignLeadOwnerRequest } from '../model/assign-lead-owner-request';
+// @ts-ignore
+import { ClaimLeadOwnerRequest } from '../model/claim-lead-owner-request';
+// @ts-ignore
 import { CloseLeadRequest } from '../model/close-lead-request';
 // @ts-ignore
 import { ConvertLeadToProjectRequest } from '../model/convert-lead-to-project-request';
@@ -28,6 +32,10 @@ import { LeadBudgetStatus } from '../model/lead-budget-status';
 import { LeadDetailView } from '../model/lead-detail-view';
 // @ts-ignore
 import { LeadListView } from '../model/lead-list-view';
+// @ts-ignore
+import { LeadOwnerAssignmentResult } from '../model/lead-owner-assignment-result';
+// @ts-ignore
+import { LeadOwnershipScope } from '../model/lead-ownership-scope';
 // @ts-ignore
 import { LeadStatus } from '../model/lead-status';
 // @ts-ignore
@@ -46,6 +54,16 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { PomsApiConfiguration }                                     from '../configuration';
 import { BaseService } from '../api.base.service';
 
+
+export interface LeadControllerAssignOwnerRequestParams {
+    id: string;
+    assignLeadOwnerRequest: AssignLeadOwnerRequest;
+}
+
+export interface LeadControllerClaimOwnerRequestParams {
+    id: string;
+    claimLeadOwnerRequest: ClaimLeadOwnerRequest;
+}
 
 export interface LeadControllerCloseRequestParams {
     id: string;
@@ -71,6 +89,8 @@ export interface LeadControllerListRequestParams {
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
     ownerOrgId?: string;
+    ownerUserId?: string;
+    ownershipScope?: LeadOwnershipScope;
     keyword?: string;
 }
 
@@ -92,6 +112,154 @@ export class LeadApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 分配或改派线索销售主责
+     * @endpoint post /api/leads/{id}:assignOwner
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadControllerAssignOwner(requestParameters: LeadControllerAssignOwnerRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadOwnerAssignmentResult>;
+    public leadControllerAssignOwner(requestParameters: LeadControllerAssignOwnerRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadOwnerAssignmentResult>>;
+    public leadControllerAssignOwner(requestParameters: LeadControllerAssignOwnerRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadOwnerAssignmentResult>>;
+    public leadControllerAssignOwner(requestParameters: LeadControllerAssignOwnerRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadControllerAssignOwner.');
+        }
+        const assignLeadOwnerRequest = requestParameters?.assignLeadOwnerRequest;
+        if (assignLeadOwnerRequest === null || assignLeadOwnerRequest === undefined) {
+            throw new Error('Required parameter assignLeadOwnerRequest was null or undefined when calling leadControllerAssignOwner.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/leads/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:assignOwner`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadOwnerAssignmentResult>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: assignLeadOwnerRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 申领公共池线索
+     * @endpoint post /api/leads/{id}:claim
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadControllerClaimOwner(requestParameters: LeadControllerClaimOwnerRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadOwnerAssignmentResult>;
+    public leadControllerClaimOwner(requestParameters: LeadControllerClaimOwnerRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadOwnerAssignmentResult>>;
+    public leadControllerClaimOwner(requestParameters: LeadControllerClaimOwnerRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadOwnerAssignmentResult>>;
+    public leadControllerClaimOwner(requestParameters: LeadControllerClaimOwnerRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadControllerClaimOwner.');
+        }
+        const claimLeadOwnerRequest = requestParameters?.claimLeadOwnerRequest;
+        if (claimLeadOwnerRequest === null || claimLeadOwnerRequest === undefined) {
+            throw new Error('Required parameter claimLeadOwnerRequest was null or undefined when calling leadControllerClaimOwner.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/leads/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:claim`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadOwnerAssignmentResult>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: claimLeadOwnerRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -389,6 +557,8 @@ export class LeadApi extends BaseService {
         const budgetStatus = requestParameters?.budgetStatus;
         const urgency = requestParameters?.urgency;
         const ownerOrgId = requestParameters?.ownerOrgId;
+        const ownerUserId = requestParameters?.ownerUserId;
+        const ownershipScope = requestParameters?.ownershipScope;
         const keyword = requestParameters?.keyword;
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
@@ -433,6 +603,24 @@ export class LeadApi extends BaseService {
             localVarQueryParameters,
             'ownerOrgId',
             <any>ownerOrgId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'ownerUserId',
+            <any>ownerUserId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'ownershipScope',
+            <any>ownershipScope,
             QueryParamStyle.Form,
             true,
         );

@@ -34,6 +34,7 @@ export enum RecordRouteDeniedSecurityEventRequestRequiredPermissionsEnum {
     ExceptionApprovalOpinionSensitiveRead = 'exception-approval-opinion:sensitive:read',
     LeadRead = 'lead:read',
     LeadWrite = 'lead:write',
+    LeadAssign = 'lead:assign',
     LeadSourceManage = 'lead:source:manage',
     ProjectRead = 'project:read',
     ProjectWrite = 'project:write',

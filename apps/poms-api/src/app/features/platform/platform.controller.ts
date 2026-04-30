@@ -70,7 +70,7 @@ export class PlatformController {
     }
 
     @Get('owner-reference')
-    @HasAnyPermissions('lead:write', 'project:write', 'platform:users:manage', 'platform:org-units:manage')
+    @HasAnyPermissions('lead:write', 'lead:assign', 'project:write', 'platform:users:manage', 'platform:org-units:manage')
     @ApiOperation({ summary: '获取销售主责候选只读列表' })
     @ApiOkResponse({ type: OwnerReferenceDataDto })
     listOwnerReferenceData(): Promise<OwnerReferenceData> {
