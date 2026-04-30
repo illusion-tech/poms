@@ -4,6 +4,7 @@ import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
+import { buildLeadGateSummary } from './lead-scoring';
 
 export function mapLeadSourceToSummary(source: LeadSource, usageCount = 0): LeadSourceSummary {
     return {
@@ -37,6 +38,11 @@ export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null): 
         estimatedAmount: lead.estimatedAmount ?? null,
         urgency: lead.urgency,
         expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
+        score: lead.score,
+        rating: lead.rating,
+        scoreReason: lead.scoreReason,
+        scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+        gateSummary: buildLeadGateSummary(lead),
         status: lead.status,
         ownerOrgId: lead.ownerOrgId ?? null,
         ownerUserId: lead.ownerUserId ?? null,
@@ -78,6 +84,11 @@ export function mapLeadToListView(
         estimatedAmount: lead.estimatedAmount ?? null,
         urgency: lead.urgency,
         expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
+        score: lead.score,
+        rating: lead.rating,
+        scoreReason: lead.scoreReason,
+        scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+        gateSummary: buildLeadGateSummary(lead),
         status: lead.status,
         ownerOrgId: lead.ownerOrgId ?? null,
         ownerUserId: lead.ownerUserId ?? null,

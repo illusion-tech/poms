@@ -2083,6 +2083,14 @@
             }
           },
           {
+            "name": "rating",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadRating"
+            }
+          },
+          {
             "name": "ownerOrgId",
             "required": false,
             "in": "query",
@@ -10967,6 +10975,25 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "scoreReason": {
+            "type": "string"
+          },
+          "scoreUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "gateSummary": {
+            "$ref": "#/components/schemas/LeadGateSummary"
+          },
           "status": {
             "$ref": "#/components/schemas/LeadStatus"
           },
@@ -11038,6 +11065,11 @@
           "estimatedAmount",
           "urgency",
           "expectedDecisionDate",
+          "score",
+          "rating",
+          "scoreReason",
+          "scoreUpdatedAt",
+          "gateSummary",
           "status",
           "ownerOrgId",
           "ownerUserId",
@@ -11068,6 +11100,75 @@
           "normal",
           "high",
           "critical"
+        ]
+      },
+      "LeadRating": {
+        "type": "string",
+        "enum": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "LeadGateSummary": {
+        "type": "object",
+        "properties": {
+          "qualification": {
+            "$ref": "#/components/schemas/LeadGateCheck"
+          },
+          "conversion": {
+            "$ref": "#/components/schemas/LeadGateCheck"
+          }
+        },
+        "required": [
+          "qualification",
+          "conversion"
+        ]
+      },
+      "LeadGateCheck": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/LeadGateStatus"
+          },
+          "missingItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadGateMissingItem"
+            }
+          },
+          "explanation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "missingItems",
+          "explanation"
+        ]
+      },
+      "LeadGateStatus": {
+        "type": "string",
+        "enum": [
+          "ready",
+          "blocked"
+        ]
+      },
+      "LeadGateMissingItem": {
+        "type": "string",
+        "enum": [
+          "source",
+          "demand-description",
+          "budget",
+          "estimated-amount",
+          "urgency",
+          "owner",
+          "owner-org",
+          "registered-status",
+          "qualified-status",
+          "not-converted",
+          "not-closed"
         ]
       },
       "LeadStatus": {
@@ -11182,6 +11283,25 @@
             "format": "date",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "scoreReason": {
+            "type": "string"
+          },
+          "scoreUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "gateSummary": {
+            "$ref": "#/components/schemas/LeadGateSummary"
           },
           "status": {
             "$ref": "#/components/schemas/LeadStatus"
@@ -11316,6 +11436,11 @@
           "estimatedAmount",
           "urgency",
           "expectedDecisionDate",
+          "score",
+          "rating",
+          "scoreReason",
+          "scoreUpdatedAt",
+          "gateSummary",
           "status",
           "ownerOrgId",
           "ownerUserId",
@@ -11457,6 +11582,25 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "scoreReason": {
+            "type": "string"
+          },
+          "scoreUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "gateSummary": {
+            "$ref": "#/components/schemas/LeadGateSummary"
+          },
           "status": {
             "$ref": "#/components/schemas/LeadStatus"
           },
@@ -11564,6 +11708,11 @@
           "estimatedAmount",
           "urgency",
           "expectedDecisionDate",
+          "score",
+          "rating",
+          "scoreReason",
+          "scoreUpdatedAt",
+          "gateSummary",
           "status",
           "ownerOrgId",
           "ownerUserId",

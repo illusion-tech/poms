@@ -7,7 +7,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LeadRating } from './lead-rating';
 import { LeadAllowedAction } from './lead-allowed-action';
+import { LeadGateSummary } from './lead-gate-summary';
 import { LeadUrgency } from './lead-urgency';
 import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
@@ -27,6 +29,11 @@ export interface LeadListView {
     estimatedAmount: string | null;
     urgency: LeadUrgency;
     expectedDecisionDate: string | null;
+    score: number;
+    rating: LeadRating;
+    scoreReason: string;
+    scoreUpdatedAt: string;
+    gateSummary: LeadGateSummary;
     status: LeadStatus;
     ownerOrgId: string | null;
     ownerUserId: string | null;

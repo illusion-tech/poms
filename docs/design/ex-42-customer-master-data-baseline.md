@@ -27,14 +27,14 @@
 
 ## 3. SSOT
 
-| Concern | Source Of Truth | Rule |
-| --- | --- | --- |
-| Customer identity | `customer.id` | `customerId` 表示客户身份，不能由名称推断替代。 |
-| Customer display name | `customer.display_name` | 新建业务对象时以当前客户展示名写入快照。 |
-| Historical snapshot | `lead.customer_name` / `project.customer_name` | 表达业务发生时的客户名称快照，保留审计价值。 |
-| Alias matching | `customer_alias.normalized_name` | 只作为搜索和去重辅助，不自动合并客户。 |
-| Lead -> Project inheritance | `Lead.customerId` | 转项目时 Project 必须继承 Lead 的客户身份。 |
-| Project bootstrap | `CreateProjectRequest.customerId` | 直接项目创建仅作为受控 bootstrap，仍必须绑定客户。 |
+| Concern                     | Source Of Truth                                | Rule                                               |
+| --------------------------- | ---------------------------------------------- | -------------------------------------------------- |
+| Customer identity           | `customer.id`                                  | `customerId` 表示客户身份，不能由名称推断替代。    |
+| Customer display name       | `customer.display_name`                        | 新建业务对象时以当前客户展示名写入快照。           |
+| Historical snapshot         | `lead.customer_name` / `project.customer_name` | 表达业务发生时的客户名称快照，保留审计价值。       |
+| Alias matching              | `customer_alias.normalized_name`               | 只作为搜索和去重辅助，不自动合并客户。             |
+| Lead -> Project inheritance | `Lead.customerId`                              | 转项目时 Project 必须继承 Lead 的客户身份。        |
+| Project bootstrap           | `CreateProjectRequest.customerId`              | 直接项目创建仅作为受控 bootstrap，仍必须绑定客户。 |
 
 ## 4. Persistence Boundary
 
@@ -74,13 +74,13 @@
 
 ## 5. API Boundary
 
-| Capability | Route | Request | Response | Guard |
-| --- | --- | --- | --- | --- |
-| `listCustomers` | `GET /customers` | `CustomerListQuery` | `CustomerList` | `customer:read` |
-| `getCustomer` | `GET /customers/{id}` | path `id` | `CustomerDetailView` | `customer:read` |
-| `createCustomer` | `POST /customers` | `CreateCustomerRequest` | `CustomerSummary` | `customer:write` |
-| `updateCustomer` | `PATCH /customers/{id}` | `UpdateCustomerRequest` | `CustomerDetailView` | `customer:write` |
-| `listCustomerAliases` | `GET /customers/{id}/aliases` | path `id` | `CustomerAliasList` | `customer:read` |
+| Capability            | Route                          | Request                      | Response               | Guard            |
+| --------------------- | ------------------------------ | ---------------------------- | ---------------------- | ---------------- |
+| `listCustomers`       | `GET /customers`               | `CustomerListQuery`          | `CustomerList`         | `customer:read`  |
+| `getCustomer`         | `GET /customers/{id}`          | path `id`                    | `CustomerDetailView`   | `customer:read`  |
+| `createCustomer`      | `POST /customers`              | `CreateCustomerRequest`      | `CustomerSummary`      | `customer:write` |
+| `updateCustomer`      | `PATCH /customers/{id}`        | `UpdateCustomerRequest`      | `CustomerDetailView`   | `customer:write` |
+| `listCustomerAliases` | `GET /customers/{id}/aliases`  | path `id`                    | `CustomerAliasList`    | `customer:read`  |
 | `createCustomerAlias` | `POST /customers/{id}/aliases` | `CreateCustomerAliasRequest` | `CustomerAliasSummary` | `customer:write` |
 
 Existing DTO changes:
@@ -118,10 +118,10 @@ If full matrix is too slow locally, G3 may record an explicit `E1` for deferred 
 
 ## 8. Exceptions
 
-| ID | Level | Area | Owner | Cleanup Due | Decision |
-| --- | --- | --- | --- | --- | --- |
-| `EX42-E1-CONTRACT-PARTY-DEFERRED` | `E1` | Contract party modeling | Codex | Future contract party slice | 本片不建合同签约主体 / 付款方 / 最终用户多 party 模型；合同继续通过 Project 客户投影展示。 |
-| `EX42-E2-MERGE-COMMAND-DEFERRED` | `E2` | Customer merge | Codex | Future customer dedupe slice | 本片保留 `merged_into_customer_id` 与 alias 基础能力，不提供客户合并命令。 |
+| ID                                | Level | Area                    | Owner | Cleanup Due                  | Decision                                                                                   |
+| --------------------------------- | ----- | ----------------------- | ----- | ---------------------------- | ------------------------------------------------------------------------------------------ |
+| `EX42-E1-CONTRACT-PARTY-DEFERRED` | `E1`  | Contract party modeling | Codex | Future contract party slice  | 本片不建合同签约主体 / 付款方 / 最终用户多 party 模型；合同继续通过 Project 客户投影展示。 |
+| `EX42-E2-MERGE-COMMAND-DEFERRED`  | `E2`  | Customer merge          | Codex | Future customer dedupe slice | 本片保留 `merged_into_customer_id` 与 alias 基础能力，不提供客户合并命令。                 |
 
 ## 9. G1 Decision
 

@@ -41,6 +41,7 @@ export class LeadController {
             sourceId: query.sourceId,
             budgetStatus: query.budgetStatus,
             urgency: query.urgency,
+            rating: query.rating,
             ownerOrgId: query.ownerOrgId,
             ownerUserId: query.ownerUserId,
             ownershipScope: query.ownershipScope,

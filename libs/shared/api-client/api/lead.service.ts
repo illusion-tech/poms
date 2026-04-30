@@ -37,6 +37,8 @@ import { LeadOwnerAssignmentResult } from '../model/lead-owner-assignment-result
 // @ts-ignore
 import { LeadOwnershipScope } from '../model/lead-ownership-scope';
 // @ts-ignore
+import { LeadRating } from '../model/lead-rating';
+// @ts-ignore
 import { LeadStatus } from '../model/lead-status';
 // @ts-ignore
 import { LeadSummary } from '../model/lead-summary';
@@ -88,6 +90,7 @@ export interface LeadControllerListRequestParams {
     sourceId?: string;
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
+    rating?: LeadRating;
     ownerOrgId?: string;
     ownerUserId?: string;
     ownershipScope?: LeadOwnershipScope;
@@ -556,6 +559,7 @@ export class LeadApi extends BaseService {
         const sourceId = requestParameters?.sourceId;
         const budgetStatus = requestParameters?.budgetStatus;
         const urgency = requestParameters?.urgency;
+        const rating = requestParameters?.rating;
         const ownerOrgId = requestParameters?.ownerOrgId;
         const ownerUserId = requestParameters?.ownerUserId;
         const ownershipScope = requestParameters?.ownershipScope;
@@ -594,6 +598,15 @@ export class LeadApi extends BaseService {
             localVarQueryParameters,
             'urgency',
             <any>urgency,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'rating',
+            <any>rating,
             QueryParamStyle.Form,
             true,
         );

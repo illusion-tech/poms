@@ -2,7 +2,7 @@ import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { LeadStatus } from '@poms/shared-contracts';
-import type { LeadBudgetStatus, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
+import type { LeadBudgetStatus, LeadRating, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
@@ -31,6 +31,7 @@ export class LeadRepository {
         sourceId?: string;
         budgetStatus?: LeadBudgetStatus;
         urgency?: LeadUrgency;
+        rating?: LeadRating;
         ownerOrgId?: string;
         ownerUserId?: string;
         unassignedOnly?: boolean;
@@ -52,6 +53,10 @@ export class LeadRepository {
 
         if (input.urgency) {
             where.urgency = input.urgency;
+        }
+
+        if (input.rating) {
+            where.rating = input.rating;
         }
 
         if (input.ownerOrgId) {

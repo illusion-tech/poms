@@ -8,6 +8,7 @@ import { Project } from '../project/project.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
 
 export interface CreateLeadSourceRecord {
     code: string;
@@ -168,6 +169,7 @@ export class LeadService {
                 updatedBy: operator.id
             });
 
+            this.refreshLeadScore(lead);
             em.persist(lead);
             await em.flush();
             return lead;
@@ -215,6 +217,7 @@ export class LeadService {
         }
 
         lead.updatedBy = operatorUserId;
+        this.refreshLeadScore(lead);
         await this.leadRepository.save(lead);
 
         return lead;
@@ -412,31 +415,17 @@ export class LeadService {
     }
 
     private assertLeadReadyForQualified(lead: Lead): void {
-        const missing = this.collectLeadGateMissingItems(lead);
+        const missing = collectLeadGateMissingItems(lead, 'qualification');
         if (missing.length > 0) {
             throw new BadRequestException(`Lead ${lead.id} is missing required qualification facts: ${missing.join(', ')}`);
         }
     }
 
     private assertLeadReadyForProject(lead: Lead): void {
-        const missing = this.collectLeadGateMissingItems(lead);
+        const missing = collectLeadGateMissingItems(lead, 'conversion');
         if (missing.length > 0) {
             throw new BadRequestException(`Lead ${lead.id} is missing required conversion facts: ${missing.join(', ')}`);
         }
-    }
-
-    private collectLeadGateMissingItems(lead: Lead): string[] {
-        const missing: string[] = [];
-
-        if (!lead.sourceId) missing.push('sourceId');
-        if (!lead.demandDescription?.trim()) missing.push('demandDescription');
-        if (lead.budgetStatus === 'unknown' || lead.budgetStatus === 'no-budget') missing.push('budgetStatus');
-        if (!lead.estimatedAmount || Number(lead.estimatedAmount) <= 0) missing.push('estimatedAmount');
-        if (!lead.urgency) missing.push('urgency');
-        if (!lead.ownerUserId) missing.push('ownerUserId');
-        if (!lead.ownerOrgId) missing.push('ownerOrgId');
-
-        return missing;
     }
 
     private normalizeEstimatedAmount(value: string | null | undefined): string | null {
@@ -538,6 +527,7 @@ export class LeadService {
         input.lead.ownerUserId = input.ownerUserId;
         input.lead.ownerOrgId = input.ownerOrgId;
         input.lead.updatedBy = input.operatorUserId;
+        this.refreshLeadScore(input.lead);
 
         await this.leadRepository.saveLeadOwnerAssignment({
             lead: input.lead,
@@ -564,5 +554,13 @@ export class LeadService {
             assignmentType: record.assignmentType,
             businessStatusAfter: lead.status
         };
+    }
+
+    private refreshLeadScore(lead: Lead): void {
+        const snapshot = calculateLeadScore(lead);
+        lead.score = snapshot.score;
+        lead.rating = snapshot.rating;
+        lead.scoreReason = snapshot.scoreReason;
+        lead.scoreUpdatedAt = new Date();
     }
 }

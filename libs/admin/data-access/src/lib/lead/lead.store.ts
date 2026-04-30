@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadBudgetStatus, LeadDetailView, LeadListView, LeadOwnershipScope, LeadSourceStatus, LeadSourceSummary, LeadStatus, LeadUrgency, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
+import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadBudgetStatus, LeadDetailView, LeadListView, LeadOwnershipScope, LeadRating, LeadSourceStatus, LeadSourceSummary, LeadStatus, LeadUrgency, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
 import { LeadApi, LeadSourceApi } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -8,6 +8,7 @@ export interface LeadListFilters {
     sourceId?: string;
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
+    rating?: LeadRating;
     ownerOrgId?: string;
     ownerUserId?: string;
     ownershipScope?: LeadOwnershipScope;
@@ -67,6 +68,7 @@ export class LeadStore {
                     sourceId: filters.sourceId,
                     budgetStatus: filters.budgetStatus,
                     urgency: filters.urgency,
+                    rating: filters.rating,
                     ownerOrgId: filters.ownerOrgId,
                     ownerUserId: filters.ownerUserId,
                     ownershipScope: filters.ownershipScope,

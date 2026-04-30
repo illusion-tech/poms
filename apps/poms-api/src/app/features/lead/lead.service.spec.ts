@@ -134,6 +134,8 @@ describe('LeadService', () => {
         expect(entityManager.persist).toHaveBeenCalledWith(lead);
         expect(entityManager.flush).toHaveBeenCalled();
         expect(lead.status).toBe('registered');
+        expect(lead.score).toBeGreaterThan(0);
+        expect(lead.rating).toBe('B');
     });
 
     it('creates a public pool lead when owner is explicitly empty', async () => {
@@ -407,6 +409,10 @@ describe('LeadService', () => {
             estimatedAmount: '1000000.00',
             urgency: 'normal',
             expectedDecisionDate: null,
+            score: 80,
+            rating: 'A',
+            scoreReason: '来源+10；需求+10；预算+20；金额+15；紧迫+10；主责+10',
+            scoreUpdatedAt: baseDate,
             status: 'registered',
             ownerOrgId: orgId,
             ownerUserId: userId,

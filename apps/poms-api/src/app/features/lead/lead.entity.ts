@@ -1,5 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { LeadBudgetStatus, LeadSourceStatus, LeadStatus, LeadUrgency } from '@poms/shared-contracts';
+import type { LeadBudgetStatus, LeadRating, LeadSourceStatus, LeadStatus, LeadUrgency } from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 
 const p = defineEntity.properties;
@@ -53,6 +53,7 @@ export const LeadSchema = defineEntity({
         { name: 'idx_lead_source_id', properties: ['sourceId'] },
         { name: 'idx_lead_budget_status', properties: ['budgetStatus'] },
         { name: 'idx_lead_urgency', properties: ['urgency'] },
+        { name: 'idx_lead_rating_score', properties: ['rating', 'score'] },
         { name: 'idx_lead_owner_org_id', properties: ['ownerOrgId'] },
         { name: 'idx_lead_owner_user_id', properties: ['ownerUserId'] },
         { name: 'idx_lead_converted_project_id', properties: ['convertedProjectId'] }
@@ -73,6 +74,14 @@ export const LeadSchema = defineEntity({
         {
             name: 'chk_lead_estimated_amount_non_negative',
             expression: `"estimated_amount" is null or "estimated_amount" >= 0`
+        },
+        {
+            name: 'chk_lead_score_range',
+            expression: `"score" >= 0 and "score" <= 100`
+        },
+        {
+            name: 'chk_lead_rating',
+            expression: `"rating" in ('A', 'B', 'C', 'D')`
         }
     ],
     properties: {
@@ -88,6 +97,15 @@ export const LeadSchema = defineEntity({
         estimatedAmount: p.string().columnType('numeric(18,2)').nullable().fieldName('estimated_amount').comment('预计金额'),
         urgency: p.string().$type<LeadUrgency>().length(32).default('normal').comment('紧迫程度'),
         expectedDecisionDate: p.date().nullable().fieldName('expected_decision_date').comment('预计决策日期'),
+        score: p.integer().default(0).comment('线索评分，范围 0-100'),
+        rating: p.string().$type<LeadRating>().length(8).default('D').comment('线索评级'),
+        scoreReason: p.text().default('暂无有效评分事实').fieldName('score_reason').comment('线索评分说明'),
+        scoreUpdatedAt: p
+            .datetime()
+            .defaultRaw('now()')
+            .onCreate(() => new Date())
+            .fieldName('score_updated_at')
+            .comment('线索评分更新时间'),
         status: p.string().$type<LeadStatus>().length(32).default('registered').comment('线索状态'),
         ownerOrgId: p.uuid().nullable().fieldName('owner_org_id').comment('线索销售主责组织标识，可为空表示公共池'),
         ownerUserId: p.uuid().nullable().fieldName('owner_user_id').comment('线索销售主责人标识，可为空表示公共池'),

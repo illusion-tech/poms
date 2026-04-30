@@ -899,6 +899,24 @@ export type LeadUrgency = (typeof LEAD_URGENCIES)[number];
 
 export const LeadUrgencySchema = z.enum(LEAD_URGENCIES).meta({ id: 'LeadUrgency' });
 
+export const LEAD_RATINGS = ['A', 'B', 'C', 'D'] as const;
+
+export type LeadRating = (typeof LEAD_RATINGS)[number];
+
+export const LeadRatingSchema = z.enum(LEAD_RATINGS).meta({ id: 'LeadRating' });
+
+export const LEAD_GATE_STATUSES = ['ready', 'blocked'] as const;
+
+export type LeadGateStatus = (typeof LEAD_GATE_STATUSES)[number];
+
+export const LeadGateStatusSchema = z.enum(LEAD_GATE_STATUSES).meta({ id: 'LeadGateStatus' });
+
+export const LEAD_GATE_MISSING_ITEMS = ['source', 'demand-description', 'budget', 'estimated-amount', 'urgency', 'owner', 'owner-org', 'registered-status', 'qualified-status', 'not-converted', 'not-closed'] as const;
+
+export type LeadGateMissingItem = (typeof LEAD_GATE_MISSING_ITEMS)[number];
+
+export const LeadGateMissingItemSchema = z.enum(LEAD_GATE_MISSING_ITEMS).meta({ id: 'LeadGateMissingItem' });
+
 export const LEAD_OWNERSHIP_SCOPES = ['all', 'mine', 'public-pool'] as const;
 
 export type LeadOwnershipScope = (typeof LEAD_OWNERSHIP_SCOPES)[number];
@@ -921,6 +939,25 @@ const LeadEstimatedAmountStringSchema = z
     .string()
     .trim()
     .regex(/^\d+(\.\d{1,2})?$/);
+
+export const LeadGateCheckSchema = z
+    .object({
+        status: LeadGateStatusSchema,
+        missingItems: z.array(LeadGateMissingItemSchema),
+        explanation: z.string()
+    })
+    .meta({ id: 'LeadGateCheck' });
+
+export type LeadGateCheck = z.infer<typeof LeadGateCheckSchema>;
+
+export const LeadGateSummarySchema = z
+    .object({
+        qualification: LeadGateCheckSchema,
+        conversion: LeadGateCheckSchema
+    })
+    .meta({ id: 'LeadGateSummary' });
+
+export type LeadGateSummary = z.infer<typeof LeadGateSummarySchema>;
 
 export const LeadSourceSummarySchema = z
     .object({
@@ -994,6 +1031,11 @@ export const LeadSummarySchema = z
         estimatedAmount: z.string().nullable(),
         urgency: LeadUrgencySchema,
         expectedDecisionDate: z.iso.date().nullable(),
+        score: z.number().int().min(0).max(100),
+        rating: LeadRatingSchema,
+        scoreReason: z.string(),
+        scoreUpdatedAt: z.iso.datetime(),
+        gateSummary: LeadGateSummarySchema,
         status: LeadStatusSchema,
         ownerOrgId: z.uuid().nullable(),
         ownerUserId: z.uuid().nullable(),
@@ -1031,6 +1073,11 @@ export const LeadListViewSchema = z
         estimatedAmount: z.string().nullable(),
         urgency: LeadUrgencySchema,
         expectedDecisionDate: z.iso.date().nullable(),
+        score: z.number().int().min(0).max(100),
+        rating: LeadRatingSchema,
+        scoreReason: z.string(),
+        scoreUpdatedAt: z.iso.datetime(),
+        gateSummary: LeadGateSummarySchema,
         status: LeadStatusSchema,
         ownerOrgId: z.uuid().nullable(),
         ownerUserId: z.uuid().nullable(),
@@ -1175,6 +1222,7 @@ export const LeadListQuerySchema = z
         sourceId: z.uuid().optional(),
         budgetStatus: LeadBudgetStatusSchema.optional(),
         urgency: LeadUrgencySchema.optional(),
+        rating: LeadRatingSchema.optional(),
         ownerOrgId: z.uuid().optional(),
         ownerUserId: z.uuid().optional(),
         ownershipScope: LeadOwnershipScopeSchema.optional(),

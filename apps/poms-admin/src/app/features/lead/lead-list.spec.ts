@@ -6,7 +6,10 @@ import {
     CustomerStatus,
     CustomerStore,
     LeadAllowedAction,
+    LeadGateMissingItem,
+    LeadGateStatus,
     LeadOwnershipScope,
+    LeadRating,
     LeadStore,
     PlatformStore,
     SalesFollowUpStore,
@@ -64,6 +67,22 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         estimatedAmount: '1000000.00',
         urgency: 'high',
         expectedDecisionDate: '2026-05-01',
+        score: 95,
+        rating: LeadRating.A,
+        scoreReason: '来源+10；需求+15；预算+20；金额+15；紧迫+15；决策日期+10；主责+10',
+        scoreUpdatedAt: '2026-04-25T10:00:00.000Z',
+        gateSummary: {
+            qualification: {
+                status: LeadGateStatus.Ready,
+                missingItems: [],
+                explanation: '已满足确认有效硬闸口'
+            },
+            conversion: {
+                status: LeadGateStatus.Blocked,
+                missingItems: [LeadGateMissingItem.QualifiedStatus],
+                explanation: '缺少：已确认有效状态'
+            }
+        },
         status: 'registered',
         ownerOrgId: 'org-1',
         ownerUserId: 'user-1',
@@ -76,6 +95,21 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         updatedAt: '2026-04-25T10:00:00.000Z',
         allowedActions: [LeadAllowedAction.AssignLeadOwner],
         ...overrides
+    };
+}
+
+function readyConversionGate(): LeadListView['gateSummary'] {
+    return {
+        qualification: {
+            status: LeadGateStatus.Blocked,
+            missingItems: [LeadGateMissingItem.RegisteredStatus],
+            explanation: '缺少：待确认状态'
+        },
+        conversion: {
+            status: LeadGateStatus.Ready,
+            missingItems: [],
+            explanation: '已满足转项目硬闸口'
+        }
     };
 }
 
@@ -616,7 +650,7 @@ describe('LeadList', () => {
     });
 
     it('converts a qualified lead into a project and navigates to the created project', async () => {
-        const lead = createLead({ status: 'qualified' });
+        const lead = createLead({ status: 'qualified', gateSummary: readyConversionGate() });
 
         component.showConvertDialog(lead);
         fixture.detectChanges();
@@ -636,6 +670,6 @@ describe('LeadList', () => {
     it('does not expose project conversion for registered or converted leads', () => {
         expect(component.canConvertLead(createLead({ status: 'registered' }))).toBe(false);
         expect(component.canConvertLead(createLead({ status: 'converted', convertedProjectId: 'project-1' }))).toBe(false);
-        expect(component.canConvertLead(createLead({ status: 'qualified' }))).toBe(true);
+        expect(component.canConvertLead(createLead({ status: 'qualified', gateSummary: readyConversionGate() }))).toBe(true);
     });
 });

@@ -45,6 +45,7 @@ describe('LeadQueryService', () => {
             {
                 status: 'qualified',
                 ownerOrgId: orgId,
+                rating: 'A',
                 keyword: '地铁'
             },
             currentUser
@@ -53,6 +54,7 @@ describe('LeadQueryService', () => {
         expect(leadRepository.findMany).toHaveBeenCalledWith({
             status: 'qualified',
             ownerOrgId: orgId,
+            rating: 'A',
             keyword: '地铁'
         });
         expect(result).toEqual([
@@ -178,6 +180,10 @@ describe('LeadQueryService', () => {
             estimatedAmount: '1000000.00',
             urgency: 'high',
             expectedDecisionDate: '2026-05-01',
+            score: 95,
+            rating: 'A',
+            scoreReason: '来源+10；需求+15；预算+20；金额+15；紧迫+15；决策日期+10；主责+10',
+            scoreUpdatedAt: baseDate,
             status: 'registered',
             ownerOrgId: orgId,
             ownerUserId: userId,

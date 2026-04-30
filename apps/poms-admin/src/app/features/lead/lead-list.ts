@@ -9,6 +9,7 @@ import {
     CustomerStore,
     LeadAllowedAction,
     LeadOwnershipScope,
+    LeadRating,
     LeadStore,
     PlatformStore,
     SalesFollowUpStore,
@@ -136,6 +137,13 @@ const LEAD_URGENCY_LABELS: Record<LeadUrgency, string> = {
     normal: '一般',
     high: '高',
     critical: '紧急'
+};
+
+const LEAD_RATING_LABELS: Record<LeadRating, string> = {
+    [LeadRating.A]: 'A级',
+    [LeadRating.B]: 'B级',
+    [LeadRating.C]: 'C级',
+    [LeadRating.D]: 'D级'
 };
 
 const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
@@ -299,8 +307,8 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'status', 'ownerName', 'ownerOrgName']"
-                        [tableStyle]="{ width: '100%', 'min-width': '94rem' }"
+                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'status', 'ownerName', 'ownerOrgName']"
+                        [tableStyle]="{ width: '100%', 'min-width': '102rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
@@ -324,6 +332,17 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                         appendTo="body"
                                         ariaLabel="按状态筛选"
                                         styleClass="w-full md:w-40 rounded-md!"
+                                    />
+
+                                    <p-select
+                                        [ngModel]="ratingFilter()"
+                                        (ngModelChange)="setRatingFilter($event)"
+                                        [options]="ratingOptions"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        appendTo="body"
+                                        ariaLabel="按评级筛选"
+                                        styleClass="w-full md:w-36 rounded-md!"
                                     />
 
                                     <p-select
@@ -366,6 +385,9 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                         </p-columnFilter>
                                     </div>
                                 </th>
+                                <th pSortableColumn="score" class="min-w-36">
+                                    <span class="flex items-center gap-2">评分 <p-sortIcon field="score" /></span>
+                                </th>
                                 <th pSortableColumn="sourceName" class="min-w-40">
                                     <span class="flex items-center gap-2">来源 <p-sortIcon field="sourceName" /></span>
                                 </th>
@@ -401,6 +423,13 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 </td>
                                 <td>{{ lead.customerName }}</td>
                                 <td><p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" /></td>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ lead.score }}</span>
+                                        <p-tag [value]="getLeadRatingName(lead.rating)" [severity]="getLeadRatingSeverity(lead.rating)" styleClass="rounded-[6px]" />
+                                    </div>
+                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ lead.gateSummary.conversion.explanation }}</div>
+                                </td>
                                 <td>{{ getLeadSourceName(lead) }}</td>
                                 <td>{{ getBudgetStatusName(lead.budgetStatus) }}</td>
                                 <td>{{ formatAmount(lead.estimatedAmount) }}</td>
@@ -440,7 +469,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 
                         <ng-template #emptymessage>
                             <tr>
-                                <td colspan="10" class="py-8 text-center text-surface-400">{{ loading() ? '线索读取中...' : '暂无匹配线索' }}</td>
+                                <td colspan="11" class="py-8 text-center text-surface-400">{{ loading() ? '线索读取中...' : '暂无匹配线索' }}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -735,6 +764,17 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ getBudgetStatusName(lead.budgetStatus) }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                <dt class="text-xs text-surface-500 dark:text-surface-400">评分评级</dt>
+                                <dd class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
+                                    <span class="font-semibold">{{ lead.score }}</span>
+                                    <p-tag [value]="getLeadRatingName(lead.rating)" [severity]="getLeadRatingSeverity(lead.rating)" styleClass="rounded-[6px]" />
+                                </dd>
+                            </div>
+                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                <dt class="text-xs text-surface-500 dark:text-surface-400">转项目闸口</dt>
+                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ lead.gateSummary.conversion.status === 'ready' ? '已满足' : '待补齐' }}</dd>
+                            </div>
+                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">预计金额</dt>
                                 <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ formatAmount(lead.estimatedAmount) }}</dd>
                             </div>
@@ -760,8 +800,10 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             <app-workspace-feedback severity="info" summary="需求描述" [detail]="lead.demandDescription" />
                         }
 
-                        @if (leadGateMissingItems(lead).length) {
-                            <app-workspace-feedback severity="warn" summary="转项目前缺口" [detail]="leadGateMissingItems(lead).join('、')" />
+                        <app-workspace-feedback severity="info" summary="评分说明" [detail]="lead.scoreReason" />
+
+                        @if (lead.gateSummary.conversion.status === 'blocked') {
+                            <app-workspace-feedback severity="warn" summary="转项目前缺口" [detail]="lead.gateSummary.conversion.explanation" />
                         }
 
                         @if (lead.qualificationSummary) {
@@ -1073,8 +1115,8 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerOrgName, '未归属组织') }}</div>
                             </div>
                         </div>
-                        @if (leadGateMissingItems(lead).length) {
-                            <app-workspace-feedback severity="warn" summary="确认有效前请补齐" [detail]="leadGateMissingItems(lead).join('、')" />
+                        @if (lead.gateSummary.qualification.status === 'blocked') {
+                            <app-workspace-feedback severity="warn" summary="确认有效前请补齐" [detail]="lead.gateSummary.qualification.explanation" />
                         }
                     }
                     @if (qualificationError()) {
@@ -1097,6 +1139,9 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                 <div class="flex flex-col gap-4 py-2">
                     @if (actionTarget(); as lead) {
                         <app-workspace-feedback severity="info" summary="将有效线索转为正式项目" [detail]="lead.customerName + ' · ' + lead.leadName" />
+                        @if (lead.gateSummary.conversion.status === 'blocked') {
+                            <app-workspace-feedback severity="warn" summary="转项目前请补齐" [detail]="lead.gateSummary.conversion.explanation" />
+                        }
                         <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
                             <div>
                                 <div class="text-xs text-surface-500 dark:text-surface-400">项目销售主责（继承线索）</div>
@@ -1193,6 +1238,7 @@ export class LeadList implements OnInit {
 
     readonly searchValue = signal('');
     readonly statusFilter = signal(ALL_FILTER_VALUE);
+    readonly ratingFilter = signal<LeadRating | typeof ALL_FILTER_VALUE>(ALL_FILTER_VALUE);
     readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
     readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
@@ -1227,6 +1273,8 @@ export class LeadList implements OnInit {
     closeDialogVisible = false;
 
     readonly statusOptions: LeadFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+
+    readonly ratingOptions: LeadFilterOption[] = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_RATING_LABELS).map(([value, label]) => ({ label, value }))];
 
     readonly ownershipOptions: Array<{ label: string; value: LeadOwnershipScope }> = [
         { label: '全部', value: LeadOwnershipScope.All },
@@ -1343,10 +1391,15 @@ export class LeadList implements OnInit {
 
     async loadLeads() {
         this.pageError.set(null);
+        const rating = this.ratingFilter();
+        const filters: Parameters<LeadStore['loadLeads']>[0] = {
+            ownershipScope: this.ownershipFilter()
+        };
+        if (rating !== ALL_FILTER_VALUE) {
+            filters.rating = rating;
+        }
         try {
-            await this.#leadStore.loadLeads({
-                ownershipScope: this.ownershipFilter()
-            });
+            await this.#leadStore.loadLeads(filters);
         } catch {
             this.pageError.set('线索列表没有读取成功，请稍后重试。');
         }
@@ -1382,6 +1435,7 @@ export class LeadList implements OnInit {
     clearFilters(table: Table) {
         this.searchValue.set('');
         this.statusFilter.set(ALL_FILTER_VALUE);
+        this.ratingFilter.set(ALL_FILTER_VALUE);
         this.ownershipFilter.set(DEFAULT_OWNERSHIP_SCOPE);
         this.first = 0;
         table.clear();
@@ -1391,6 +1445,12 @@ export class LeadList implements OnInit {
     setStatusFilter(value: string) {
         this.statusFilter.set(value);
         this.first = 0;
+    }
+
+    setRatingFilter(value: LeadRating | typeof ALL_FILTER_VALUE | null | undefined) {
+        this.ratingFilter.set(value ?? ALL_FILTER_VALUE);
+        this.first = 0;
+        void this.loadLeads();
     }
 
     setOwnershipFilter(value: LeadOwnershipScope | null | undefined) {
@@ -1927,7 +1987,7 @@ export class LeadList implements OnInit {
     }
 
     canQualifyLead(lead: LeadActionTarget): boolean {
-        return this.canWriteLead() && lead.status === LEAD_STATUS.registered && this.hasLeadGateFacts(lead);
+        return this.canWriteLead() && lead.gateSummary.qualification.status === 'ready';
     }
 
     canCloseLead(lead: Pick<LeadActionTarget, 'status'>): boolean {
@@ -1935,7 +1995,7 @@ export class LeadList implements OnInit {
     }
 
     canConvertLead(lead: LeadActionTarget): boolean {
-        return this.canWriteLead() && lead.status === LEAD_STATUS.qualified && !lead.convertedProjectId && this.hasLeadGateFacts(lead);
+        return this.canWriteLead() && lead.gateSummary.conversion.status === 'ready';
     }
 
     getStatusName(status: string): string {
@@ -1960,6 +2020,23 @@ export class LeadList implements OnInit {
 
     getUrgencyName(urgency: LeadUrgency | string | null | undefined): string {
         return urgency ? (LEAD_URGENCY_LABELS[urgency as LeadUrgency] ?? urgency) : '未填写';
+    }
+
+    getLeadRatingName(rating: LeadRating | string | null | undefined): string {
+        return rating ? (LEAD_RATING_LABELS[rating as LeadRating] ?? rating) : '未评级';
+    }
+
+    getLeadRatingSeverity(rating: LeadRating | string | null | undefined) {
+        switch (rating) {
+            case LeadRating.A:
+                return 'success';
+            case LeadRating.B:
+                return 'info';
+            case LeadRating.C:
+                return 'warn';
+            default:
+                return 'secondary';
+        }
     }
 
     getSourceStatusName(status: LeadSourceStatus): string {
@@ -2005,34 +2082,6 @@ export class LeadList implements OnInit {
             currency: 'CNY',
             maximumFractionDigits: 2
         }).format(amount);
-    }
-
-    leadGateMissingItems(lead: LeadActionTarget): string[] {
-        const missing: string[] = [];
-
-        if (!lead.sourceId) {
-            missing.push('来源');
-        }
-        if (!lead.demandDescription?.trim()) {
-            missing.push('需求描述');
-        }
-        if (!lead.budgetStatus || lead.budgetStatus === 'unknown' || lead.budgetStatus === 'no-budget') {
-            missing.push('预算确认');
-        }
-        if (!this.hasPositiveAmount(lead.estimatedAmount)) {
-            missing.push('预计金额');
-        }
-        if (!lead.urgency) {
-            missing.push('紧迫程度');
-        }
-        if (!lead.ownerUserId) {
-            missing.push('销售主责');
-        }
-        if (!lead.ownerOrgId) {
-            missing.push('主责组织');
-        }
-
-        return missing;
     }
 
     private buildLeadDistributionItem(label: string, value: number, hint: string, color: string, shadowColor: string, total: number): LeadDistributionItem {
@@ -2110,7 +2159,7 @@ export class LeadList implements OnInit {
     }
 
     private leadSearchText(lead: LeadListView): string {
-        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceName, lead.sourceChannel, this.getBudgetStatusName(lead.budgetStatus), this.getUrgencyName(lead.urgency), lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
+        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceName, lead.sourceChannel, this.getBudgetStatusName(lead.budgetStatus), this.getUrgencyName(lead.urgency), this.getLeadRatingName(lead.rating), String(lead.score), lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
     }
 
     private normalize(value: string): string {
@@ -2120,14 +2169,6 @@ export class LeadList implements OnInit {
     private optionalText(value: string): string | null {
         const normalized = value.trim();
         return normalized ? normalized : null;
-    }
-
-    private hasLeadGateFacts(lead: LeadActionTarget): boolean {
-        return this.leadGateMissingItems(lead).length === 0;
-    }
-
-    private hasPositiveAmount(value: string | null | undefined): boolean {
-        return value !== null && value !== undefined && Number(value) > 0;
     }
 
     private formatPercentage(value: number, total: number): string {
