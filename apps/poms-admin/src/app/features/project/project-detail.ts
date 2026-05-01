@@ -1,5 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -86,6 +87,11 @@ interface CreateArchiveForm {
 interface VoidArchiveForm {
     reason: string;
     comment: string;
+}
+
+interface FollowUpReminderEntry {
+    followUpId: string;
+    todoId: string | null;
 }
 
 const PROJECT_ACTIONS = {
@@ -378,6 +384,10 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     title="项目附件"
                     description="保存项目启动、需求确认、设计、交付、验收、变更和归档相关资料。"
                 />
+
+                @if (followUpReminderEntry()) {
+                    <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方项目销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
+                }
 
                 <app-sales-follow-up-panel
                     [customerId]="project.customerId"
@@ -766,6 +776,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
 export class ProjectDetail implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
+    readonly #destroyRef = inject(DestroyRef);
     readonly #customerStore = inject(CustomerStore);
     readonly #projectStore = inject(ProjectStore);
     readonly #authStore = inject(AuthStore);
@@ -812,6 +823,7 @@ export class ProjectDetail implements OnInit {
     readonly projectAttachmentTargetType = AttachmentTargetType.Project;
     readonly canWriteProjectFollowUp = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canWriteProjectAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
+    readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
 
     editDialogVisible = false;
     editAttempted = false;
@@ -847,6 +859,10 @@ export class ProjectDetail implements OnInit {
 
     ngOnInit() {
         void this.loadOwnerReferenceData();
+        this.#route.queryParamMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
+            const followUpId = params.get('followUpId');
+            this.followUpReminderEntry.set(followUpId ? { followUpId, todoId: params.get('todoId') } : null);
+        });
         const id = this.#route.snapshot.paramMap.get('id');
         if (id) {
             void this.#projectStore.loadProject(id);

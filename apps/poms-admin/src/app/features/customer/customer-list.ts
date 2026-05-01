@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AttachmentTargetType, AuthStore, CustomerAliasType, CustomerStatus, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -35,6 +37,11 @@ interface CustomerEditForm extends CustomerCreateForm {
 interface CustomerAliasForm {
     aliasName: string;
     aliasType: 'legal_name' | 'short_name' | 'legacy_input' | 'import_name' | 'alias';
+}
+
+interface FollowUpReminderEntry {
+    followUpId: string;
+    todoId: string | null;
 }
 
 const ALL_FILTER_VALUE = 'all';
@@ -345,6 +352,10 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             </div>
                         </div>
 
+                        @if (followUpReminderEntry()) {
+                            <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方客户销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
+                        }
+
                         <app-sales-follow-up-panel
                             [customerId]="customer.id"
                             [canWrite]="canWriteCustomerFollowUp()"
@@ -369,6 +380,9 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 export class CustomerList implements OnInit {
     readonly #customerStore = inject(CustomerStore);
     readonly #authStore = inject(AuthStore);
+    readonly #route = inject(ActivatedRoute);
+    readonly #router = inject(Router);
+    readonly #destroyRef = inject(DestroyRef);
 
     readonly customers = this.#customerStore.customers;
     readonly selectedCustomer = this.#customerStore.selectedCustomer;
@@ -387,6 +401,8 @@ export class CustomerList implements OnInit {
     readonly formAttempted = signal(false);
     readonly formError = signal<string | null>(null);
     readonly pageError = signal<string | null>(null);
+    readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
+    readonly queryOpenedCustomerId = signal<string | null>(null);
 
     readonly rows = 10;
     first = 0;
@@ -422,6 +438,15 @@ export class CustomerList implements OnInit {
     readonly canWriteCustomerAttachment = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
 
     ngOnInit() {
+        this.#route.queryParamMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
+            const customerId = params.get('customerId');
+            const followUpId = params.get('followUpId');
+            this.queryOpenedCustomerId.set(customerId);
+            this.followUpReminderEntry.set(followUpId ? { followUpId, todoId: params.get('todoId') } : null);
+            if (customerId) {
+                void this.openDetailById(customerId);
+            }
+        });
         void this.loadCustomers();
     }
 
@@ -548,11 +573,17 @@ export class CustomerList implements OnInit {
     }
 
     async openDetail(customer: CustomerListView) {
+        this.followUpReminderEntry.set(null);
+        this.queryOpenedCustomerId.set(null);
+        await this.openDetailById(customer.id);
+    }
+
+    async openDetailById(customerId: string) {
         this.detailDialogVisible = true;
         this.pageError.set(null);
         this.aliasForm.set({ ...EMPTY_ALIAS_FORM });
         try {
-            await this.#customerStore.loadCustomer(customer.id);
+            await this.#customerStore.loadCustomer(customerId);
         } catch {
             this.pageError.set('客户详情没有读取成功，请稍后重试。');
         }
@@ -561,6 +592,26 @@ export class CustomerList implements OnInit {
     clearDetail() {
         this.#customerStore.clearSelectedCustomer();
         this.aliasForm.set({ ...EMPTY_ALIAS_FORM });
+        this.clearFollowUpReminderQuery();
+    }
+
+    clearFollowUpReminderQuery() {
+        if (!this.followUpReminderEntry() && !this.queryOpenedCustomerId()) {
+            return;
+        }
+
+        this.followUpReminderEntry.set(null);
+        this.queryOpenedCustomerId.set(null);
+        void this.#router.navigate([], {
+            relativeTo: this.#route,
+            queryParams: {
+                customerId: null,
+                followUpId: null,
+                todoId: null
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl: true
+        });
     }
 
     updateAliasName(value: string) {

@@ -1,6 +1,8 @@
 import type { TodoItemSummary } from '@poms/admin-data-access';
 
 export const TODO_TARGET_OBJECT_TYPE = {
+    Customer: 'Customer',
+    Lead: 'Lead',
     Contract: 'Contract',
     Project: 'Project',
     CommissionPayout: 'CommissionPayout',
@@ -20,12 +22,26 @@ export type TodoNavigationTarget =
           reason: string;
       };
 
-type TodoNavigationInput = Pick<TodoItemSummary, 'targetObjectType' | 'targetObjectId' | 'projectId' | 'sourceType' | 'sourceId'>;
+type TodoNavigationInput = Pick<TodoItemSummary, 'id' | 'targetObjectType' | 'targetObjectId' | 'projectId' | 'sourceType' | 'sourceId' | 'todoType'>;
 
 const APPROVAL_RECORD_SOURCE_TYPE = 'ApprovalRecord';
+const SALES_FOLLOW_UP_RECORD_SOURCE_TYPE = 'SalesFollowUpRecord';
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
 
 export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavigationTarget {
     switch (todo.targetObjectType) {
+        case TODO_TARGET_OBJECT_TYPE.Customer:
+            return {
+                navigable: true,
+                commands: ['/customers'],
+                queryParams: salesFollowUpReminderQueryParams(todo, 'customerId')
+            };
+        case TODO_TARGET_OBJECT_TYPE.Lead:
+            return {
+                navigable: true,
+                commands: ['/leads'],
+                queryParams: salesFollowUpReminderQueryParams(todo, 'leadId')
+            };
         case TODO_TARGET_OBJECT_TYPE.Contract:
             return {
                 navigable: true,
@@ -34,7 +50,8 @@ export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavi
         case TODO_TARGET_OBJECT_TYPE.Project:
             return {
                 navigable: true,
-                commands: ['/projects', todo.targetObjectId]
+                commands: ['/projects', todo.targetObjectId],
+                queryParams: salesFollowUpReminderQueryParams(todo)
             };
         case TODO_TARGET_OBJECT_TYPE.CommissionPayout:
             return commissionNavigationTarget(todo, 'payoutId');
@@ -46,6 +63,24 @@ export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavi
                 reason: '暂不支持打开此类待办'
             };
     }
+}
+
+function salesFollowUpReminderQueryParams(todo: TodoNavigationInput, targetQueryParam?: 'customerId' | 'leadId'): Record<string, string> | undefined {
+    if (todo.sourceType !== SALES_FOLLOW_UP_RECORD_SOURCE_TYPE || todo.todoType !== SALES_FOLLOW_UP_REMINDER_TODO_TYPE) {
+        return targetQueryParam ? { [targetQueryParam]: todo.targetObjectId } : undefined;
+    }
+
+    const queryParams: Record<string, string> = {
+        followUpId: todo.sourceId
+    };
+
+    queryParams['todoId'] = todo.id;
+
+    if (targetQueryParam) {
+        queryParams[targetQueryParam] = todo.targetObjectId;
+    }
+
+    return queryParams;
 }
 
 function commissionNavigationTarget(todo: TodoNavigationInput, targetQueryParam: 'payoutId' | 'adjustmentId'): TodoNavigationTarget {

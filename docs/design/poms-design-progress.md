@@ -490,6 +490,7 @@
 11. 2026-04-29 用户验收发现销售账号登记线索时销售主责 / 主责组织下拉为空，根因是前端误用平台管理用户 / 组织列表；`FE-45A` 已完成 `G4` 收口，提交 `9b6fcb9` 落地 `GET /platform/owner-reference` 最小只读候选接口、`HasAnyPermissions` 权限边界、前端 owner reference store，并用销售账号 Playwright 回归验证下拉候选可见。
 12. 2026-05-01 已完成 `EX-49` 的 `G4` 基线：销售跟进提醒统一使用既有 `TodoItem` 派生，不新增提醒表；冻结 active 跟进记录、`nextFollowUpAt`、owner、stream 幂等、create / replace / void 清理、Customer / Lead / Project deep-link 与权限边界；执行板新增 `EX-49A` 运行时派生和 `FE-51` 前端导航展示两个后续切片。
 13. 2026-05-01 已完成 `EX-49A` 的 `G4` 收口：销售跟进 create / replace / void 已同步派生或关闭 `TodoItem` 提醒，`GET /me/todos` 已补 Project / Lead / Customer 销售提醒摘要；未新增 public route、DTO、OpenAPI、generated client、DDL 或推送通知，前端入口继续由 `FE-51` 承接。
+14. 2026-05-01 已完成 `FE-51` 的 `G4` 收口：工作台 / 顶栏销售跟进待办可 deep-link 到 Project / Lead / Customer 上下文，客户 / 线索列表页支持 query 自动打开详情，项目详情展示从提醒进入的处理提示；未新增后端、合同、迁移或推送能力。
 
 ---
 

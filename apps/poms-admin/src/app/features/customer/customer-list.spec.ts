@@ -1,5 +1,6 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import {
     AttachmentStore,
     AttachmentTargetType,
@@ -14,6 +15,7 @@ import {
     type CustomerListView,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
+import { BehaviorSubject } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { CustomerList } from './customer-list';
@@ -71,6 +73,8 @@ function createCustomerDetail(overrides: Partial<CustomerDetailView> = {}): Cust
 describe('CustomerList', () => {
     let fixture: ComponentFixture<CustomerList>;
     let component: CustomerList;
+    let queryParamMap: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
+    let routerMock: { navigate: jest.Mock };
     let customers: ReturnType<typeof signal<CustomerListView[]>>;
     let selectedCustomer: ReturnType<typeof signal<CustomerDetailView | null>>;
     let aliases: ReturnType<typeof signal<CustomerAliasSummary[]>>;
@@ -117,6 +121,8 @@ describe('CustomerList', () => {
         customers = signal<CustomerListView[]>([createCustomer()]);
         selectedCustomer = signal<CustomerDetailView | null>(null);
         aliases = signal<CustomerAliasSummary[]>([]);
+        queryParamMap = new BehaviorSubject(convertToParamMap({}));
+        routerMock = { navigate: jest.fn().mockResolvedValue(true) };
         attachmentStoreMock = {
             attachments: signal<AttachmentSummary[]>([]),
             loading: signal(false),
@@ -172,6 +178,16 @@ describe('CustomerList', () => {
                     useValue: {
                         hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('customer:write'))
                     }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        queryParamMap: queryParamMap.asObservable()
+                    }
+                },
+                {
+                    provide: Router,
+                    useValue: routerMock
                 }
             ]
         })
@@ -233,5 +249,32 @@ describe('CustomerList', () => {
             projectId: undefined,
             lifecycleScope: 'active'
         });
+    });
+
+    it('opens customer detail from a sales follow-up reminder query', async () => {
+        queryParamMap.next(convertToParamMap({ customerId: 'customer-1', followUpId: 'follow-up-1', todoId: 'todo-1' }));
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        expect(customerStoreMock.loadCustomer).toHaveBeenCalledWith('customer-1');
+        expect(component.detailDialogVisible).toBe(true);
+        expect(component.followUpReminderEntry()).toEqual({ followUpId: 'follow-up-1', todoId: 'todo-1' });
+        expect(fixture.nativeElement.textContent).toContain('从销售跟进待办进入');
+
+        component.clearDetail();
+
+        expect(routerMock.navigate).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+                queryParams: {
+                    customerId: null,
+                    followUpId: null,
+                    todoId: null
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true
+            })
+        );
     });
 });

@@ -19,6 +19,7 @@ import {
     type ProjectTimelineView,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
+import { of } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { ProjectDetail } from './project-detail';
@@ -291,7 +292,8 @@ describe('ProjectDetail', () => {
         timelineError: string | null = null,
         archiveRecords: ProjectArchiveRecordSummary[] = [],
         canWriteProject = true,
-        canViewFinance = true
+        canViewFinance = true,
+        queryParams: Record<string, string> = {}
     ) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
@@ -386,7 +388,8 @@ describe('ProjectDetail', () => {
                     useValue: {
                         snapshot: {
                             paramMap: convertToParamMap({ id: 'project-1' })
-                        }
+                        },
+                        queryParamMap: of(convertToParamMap(queryParams))
                     }
                 },
                 {
@@ -486,6 +489,16 @@ describe('ProjectDetail', () => {
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
         expect(text).not.toContain('allowedActions');
+    });
+
+    it('shows sales follow-up reminder context from todo query params', async () => {
+        await setup(createProject(), null, null, [], true, true, { followUpId: 'follow-up-1', todoId: 'todo-1' });
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(component.followUpReminderEntry()).toEqual({ followUpId: 'follow-up-1', todoId: 'todo-1' });
+        expect(text).toContain('从销售跟进待办进入');
+        expect(text).toContain('请在下方项目销售跟进中登记本次处理结果');
     });
 
     it('renders project detail bid summary when the backend provides a current bid process', async () => {

@@ -1,7 +1,8 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import {
+    AttachmentStore,
     AuthStore,
     CustomerStatus,
     CustomerStore,
@@ -13,6 +14,7 @@ import {
     LeadStore,
     PlatformStore,
     SalesFollowUpStore,
+    type AttachmentSummary,
     type CustomerListView,
     type LeadDetailView,
     type LeadListView,
@@ -23,6 +25,8 @@ import {
     type SalesFollowUpRecordSummary,
     type SanitizedUserWithOrgUnits
 } from '@poms/admin-data-access';
+import { BehaviorSubject } from 'rxjs';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { LeadList } from './lead-list';
 
@@ -245,6 +249,7 @@ describe('LeadList', () => {
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
     let canAssignLead: ReturnType<typeof signal<boolean>>;
+    let queryParamMap: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
     let routerMock: { navigate: jest.Mock };
     let ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
     let ownerOrgUnits: ReturnType<typeof signal<OwnerReferenceOrgUnit[]>>;
@@ -288,6 +293,17 @@ describe('LeadList', () => {
         loaded: ReturnType<typeof signal<boolean>>;
         loadCustomers: jest.Mock;
     };
+    let attachmentStoreMock: {
+        attachments: ReturnType<typeof signal<AttachmentSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadAttachments: jest.Mock;
+        uploadAttachment: jest.Mock;
+        voidAttachment: jest.Mock;
+        downloadAttachment: jest.Mock;
+        clearAttachments: jest.Mock;
+    };
     let salesFollowUpStoreMock: {
         followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
         loading: ReturnType<typeof signal<boolean>>;
@@ -327,6 +343,7 @@ describe('LeadList', () => {
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
         canWriteLead = signal(true);
         canAssignLead = signal(true);
+        queryParamMap = new BehaviorSubject(convertToParamMap({}));
         ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
         ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
         customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
@@ -373,6 +390,17 @@ describe('LeadList', () => {
             loading: signal(false),
             loaded: signal(false),
             loadCustomers: jest.fn().mockResolvedValue(customers())
+        };
+        attachmentStoreMock = {
+            attachments: signal<AttachmentSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadAttachments: jest.fn().mockResolvedValue([]),
+            uploadAttachment: jest.fn(),
+            voidAttachment: jest.fn(),
+            downloadAttachment: jest.fn(),
+            clearAttachments: jest.fn()
         };
         salesFollowUpStoreMock = {
             followUps,
@@ -427,6 +455,12 @@ describe('LeadList', () => {
                     useValue: routerMock
                 },
                 {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        queryParamMap: queryParamMap.asObservable()
+                    }
+                },
+                {
                     provide: PlatformStore,
                     useValue: platformStoreMock
                 }
@@ -442,6 +476,16 @@ describe('LeadList', () => {
                         {
                             provide: CustomerStore,
                             useValue: customerStoreMock
+                        }
+                    ]
+                }
+            })
+            .overrideComponent(AttachmentPanel, {
+                set: {
+                    providers: [
+                        {
+                            provide: AttachmentStore,
+                            useValue: attachmentStoreMock
                         }
                     ]
                 }
@@ -490,6 +534,33 @@ describe('LeadList', () => {
             projectId: undefined,
             lifecycleScope: 'active'
         });
+    });
+
+    it('opens lead detail from a sales follow-up reminder query', async () => {
+        queryParamMap.next(convertToParamMap({ leadId: 'lead-1', followUpId: 'follow-up-1', todoId: 'todo-1' }));
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        expect(leadStoreMock.loadLead).toHaveBeenCalledWith('lead-1');
+        expect(component.detailDialogVisible).toBe(true);
+        expect(component.followUpReminderEntry()).toEqual({ followUpId: 'follow-up-1', todoId: 'todo-1' });
+        expect(fixture.nativeElement.textContent).toContain('从销售跟进待办进入');
+
+        component.clearDetail();
+
+        expect(routerMock.navigate).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+                queryParams: {
+                    leadId: null,
+                    followUpId: null,
+                    todoId: null
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true
+            })
+        );
     });
 
     it('includes the converted project anchor when loading follow-ups for converted leads', async () => {

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     AttachmentTargetType,
     AuthStore,
@@ -99,6 +100,11 @@ interface AssignmentForm {
     ownerUserId: string | null;
     ownerOrgId: string | null;
     reason: string;
+}
+
+interface FollowUpReminderEntry {
+    followUpId: string;
+    todoId: string | null;
 }
 
 type LeadActionTarget = LeadListView | LeadDetailView;
@@ -789,6 +795,10 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             description="保存客户需求、沟通截图、会议纪要和线索判断材料。线索转入项目后会作为来源附件继续关联。"
                         />
 
+                        @if (followUpReminderEntry()) {
+                            <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
+                        }
+
                         <app-sales-follow-up-panel
                             [customerId]="lead.customerId"
                             [leadId]="lead.id"
@@ -1028,7 +1038,9 @@ export class LeadList implements OnInit {
     readonly #customerStore = inject(CustomerStore);
     readonly #leadStore = inject(LeadStore);
     readonly #platformStore = inject(PlatformStore);
+    readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
+    readonly #destroyRef = inject(DestroyRef);
 
     readonly leads = this.#leadStore.leads;
     readonly leadSources = this.#leadStore.leadSources;
@@ -1059,6 +1071,8 @@ export class LeadList implements OnInit {
     readonly qualificationSummary = signal('');
     readonly closedReason = signal('');
     readonly actionTarget = signal<LeadActionTarget | null>(null);
+    readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
+    readonly queryOpenedLeadId = signal<string | null>(null);
 
     readonly rows = 10;
     first = 0;
@@ -1171,6 +1185,15 @@ export class LeadList implements OnInit {
     });
 
     ngOnInit() {
+        this.#route.queryParamMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
+            const leadId = params.get('leadId');
+            const followUpId = params.get('followUpId');
+            this.queryOpenedLeadId.set(leadId);
+            this.followUpReminderEntry.set(followUpId ? { followUpId, todoId: params.get('todoId') } : null);
+            if (leadId) {
+                void this.openLeadDetailById(leadId);
+            }
+        });
         void this.ensureAuthReady();
         void this.loadCustomers();
         void this.loadOwnerReferenceData();
@@ -1461,11 +1484,17 @@ export class LeadList implements OnInit {
     }
 
     async openLeadDetail(lead: LeadListView) {
+        this.followUpReminderEntry.set(null);
+        this.queryOpenedLeadId.set(null);
+        await this.openLeadDetailById(lead.id);
+    }
+
+    async openLeadDetailById(leadId: string) {
         this.detailDialogVisible = true;
         this.pageError.set(null);
 
         try {
-            await this.#leadStore.loadLead(lead.id);
+            await this.#leadStore.loadLead(leadId);
         } catch {
             this.pageError.set('线索详情没有读取成功，请稍后重试。');
         }
@@ -1475,6 +1504,26 @@ export class LeadList implements OnInit {
         this.#leadStore.clearSelectedLead();
         this.assignOwnerDialogVisible = false;
         this.resetAssignOwnerDialog();
+        this.clearFollowUpReminderQuery();
+    }
+
+    clearFollowUpReminderQuery() {
+        if (!this.followUpReminderEntry() && !this.queryOpenedLeadId()) {
+            return;
+        }
+
+        this.followUpReminderEntry.set(null);
+        this.queryOpenedLeadId.set(null);
+        void this.#router.navigate([], {
+            relativeTo: this.#route,
+            queryParams: {
+                leadId: null,
+                followUpId: null,
+                todoId: null
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl: true
+        });
     }
 
     async claimLeadOwner(lead: LeadActionTarget) {

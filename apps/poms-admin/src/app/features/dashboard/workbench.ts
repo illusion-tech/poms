@@ -100,6 +100,9 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                                                 <span class="text-xs text-surface-400 dark:text-surface-500 truncate">{{ todo.targetTitle }}</span>
                                             }
                                         </div>
+                                        @if (todo.currentNodeName) {
+                                            <span class="mt-1 block text-xs font-medium text-surface-500 dark:text-surface-400">{{ todo.currentNodeName }}</span>
+                                        }
                                         @if (todoNavigationHint(todo); as hint) {
                                             <span class="mt-1 block text-xs text-surface-400 dark:text-surface-500">{{ hint }}</span>
                                         }

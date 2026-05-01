@@ -16,7 +16,76 @@ describe('resolveTodoNavigationTarget', () => {
 
         expect(result).toEqual({
             navigable: true,
-            commands: ['/projects', 'project-1']
+            commands: ['/projects', 'project-1'],
+            queryParams: undefined
+        });
+    });
+
+    it('routes project sales follow-up reminders with follow-up query params', () => {
+        const result = resolveTodoNavigationTarget(
+            createTodo({
+                id: 'todo-1',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: 'follow-up-1',
+                todoType: 'sales_follow_up_reminder',
+                targetObjectType: 'Project',
+                targetObjectId: 'project-1'
+            })
+        );
+
+        expect(result).toEqual({
+            navigable: true,
+            commands: ['/projects', 'project-1'],
+            queryParams: {
+                followUpId: 'follow-up-1',
+                todoId: 'todo-1'
+            }
+        });
+    });
+
+    it('routes lead sales follow-up reminders to the lead list detail context', () => {
+        const result = resolveTodoNavigationTarget(
+            createTodo({
+                id: 'todo-2',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: 'follow-up-2',
+                todoType: 'sales_follow_up_reminder',
+                targetObjectType: 'Lead',
+                targetObjectId: 'lead-1'
+            })
+        );
+
+        expect(result).toEqual({
+            navigable: true,
+            commands: ['/leads'],
+            queryParams: {
+                leadId: 'lead-1',
+                followUpId: 'follow-up-2',
+                todoId: 'todo-2'
+            }
+        });
+    });
+
+    it('routes customer sales follow-up reminders to the customer list detail context', () => {
+        const result = resolveTodoNavigationTarget(
+            createTodo({
+                id: 'todo-3',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: 'follow-up-3',
+                todoType: 'sales_follow_up_reminder',
+                targetObjectType: 'Customer',
+                targetObjectId: 'customer-1'
+            })
+        );
+
+        expect(result).toEqual({
+            navigable: true,
+            commands: ['/customers'],
+            queryParams: {
+                customerId: 'customer-1',
+                followUpId: 'follow-up-3',
+                todoId: 'todo-3'
+            }
         });
     });
 
