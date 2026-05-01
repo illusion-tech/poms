@@ -8,7 +8,7 @@ import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/w
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
-import { actionLevelLabel, actionLevelSeverity, signalLevelLabelOrFallback } from './project-presentation';
+import { actionLevelLabel, actionLevelSeverity, dataMaturityLevelLabelOrFallback, signalLevelLabelOrFallback } from './project-presentation';
 
 @Component({
     selector: 'app-project-variance-risk',
@@ -81,7 +81,7 @@ export class ProjectVarianceRisk implements OnInit {
                 value: actionLevelLabel(current.costActionRecommendation),
                 severity: actionLevelSeverity(current.costActionRecommendation)
             },
-            { label: '数据成熟度', value: current.dataMaturityLevel }
+            { label: '数据成熟度', value: dataMaturityLevelLabelOrFallback(current.dataMaturityLevel) }
         ];
     });
 

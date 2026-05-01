@@ -7,12 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingSignalReviewDecision } from './operating-signal-review-decision';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 
 
 export interface ReviewOperatingSignalEvaluationRequest {
-    reviewDecision: string;
-    resolvedDataMaturityLevel: string;
+    reviewDecision: OperatingSignalReviewDecision;
+    resolvedDataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;

@@ -8,17 +8,19 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface BusinessAccountingFeedbackView {
     projectId: string;
-    signalLevel: string;
+    signalLevel: OperatingSignalLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;

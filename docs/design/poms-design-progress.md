@@ -497,7 +497,8 @@
 16. 2026-05-01 `EX-56B` 已完成 `G4`，提交 `3466860`：待办、审批、业务域和业务对象类型已从 shared contract、entity / DB check、OpenAPI / generated client、API 写入路径到 Admin enum 消费完成收口；本片不新增 public route，不收窄 `CommandResult.resultStatus` / `businessStatusAfter`。
 17. 2026-05-02 `EX-56C` 已完成 `G4`，提交 `cca50c0`：客户、线索、附件、销售跟进域已收敛到 shared value object / generated enum 消费；`customer_alias.alias_type` check 与附件 status 默认值迁移已落地。
 18. 2026-05-02 `EX-56D` 已进入父级 `G1` 拆分：因财务、项目成本、提成覆盖面过大，先拆为 `EX-56D1` 合同与财务台账、`EX-56D2` 项目成本与经营快照、`EX-56D3` 提成计算 / 发放 / 调整 / 结算三个可执行子切片；父任务不直接写代码。当前从 `EX-56D1` 开始。
-19. 2026-05-02 `EX-56D1` 已完成 `G3`：合同与财务台账状态 / 类型已补齐 shared value object、entity check、开发库 DB check、migration、OpenAPI / generated client 与最小 Admin generated enum 消费；`source_type` 开放来源语义保留，项目成本和提成枚举继续由 `EX-56D2` / `EX-56D3` 承接，待提交后 G4。
+19. 2026-05-02 `EX-56D1` 已完成 `G4`，提交 `212ba15`：合同与财务台账状态 / 类型已补齐 shared value object、entity check、开发库 DB check、migration、OpenAPI / generated client 与最小 Admin generated enum 消费；`source_type` 开放来源语义保留，项目成本和提成枚举继续由 `EX-56D2` / `EX-56D3` 承接。
+20. 2026-05-02 `EX-56D2` 已完成 `G3` 待提交：项目实际成本、经营基线 / 快照、期间关账、重述、共享成本分摊、成本归属、税务处理、数据成熟度、经营信号和 gate 绑定的闭合字段已收敛到 shared value object、entity check、OpenAPI / generated client 与 Admin label 展示；其中 `dataMaturityLevel` 坚持使用代码值 `INSUFFICIENT/PRELIMINARY/MATURE`，中文只在展示层映射，migration 按开发期 direct cutover，不保留兼容映射。
 
 ---
 

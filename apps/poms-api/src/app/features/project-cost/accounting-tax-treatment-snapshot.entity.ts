@@ -1,7 +1,16 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES,
+    OPERATING_PENDING_LIFECYCLE_STATUSES,
+    AccountingTaxDeductibilityStatusValue,
+    OperatingPendingLifecycleStatusValue,
+    type AccountingTaxDeductibilityStatus,
+    type OperatingPendingLifecycleStatus
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
     name: 'AccountingTaxTreatmentSnapshot',
@@ -16,20 +25,30 @@ export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
         {
             name: 'uq_atts_project_type_active',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.taxTreatmentType}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.taxTreatmentType}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_accounting_tax_treatment_snapshot_deductibility_status',
+            expression: `"deductibility_status" in (${toSqlStringList(ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES)})`
+        },
+        {
+            name: 'chk_accounting_tax_treatment_snapshot_status',
+            expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
         }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
         taxTreatmentType: p.string().length(64).fieldName('tax_treatment_type').comment('税务处理类型'),
-        deductibilityStatus: p.string().length(32).fieldName('deductibility_status').comment('可抵扣状态'),
+        deductibilityStatus: p.string().$type<AccountingTaxDeductibilityStatus>().length(32).default(AccountingTaxDeductibilityStatusValue.Pending).fieldName('deductibility_status').comment('可抵扣状态'),
         taxImpactAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_amount').comment('税务影响金额'),
         taxPendingFlag: p.boolean().default(false).fieldName('tax_pending_flag').comment('是否存在待确认税务影响'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要（供 L4/L5 稳定消费）'),
         taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),
         basisSummary: p.text().nullable().fieldName('basis_summary').comment('判断依据摘要'),
-        status: p.string().length(32).default('pending').comment('状态：pending/active/superseded/voided'),
+        status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
         supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧税务处理快照 ID'),
         confirmedAt: p.datetime().nullable().fieldName('confirmed_at').comment('确认时间'),
         confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),

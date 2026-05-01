@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingPendingLifecycleStatus } from './operating-pending-lifecycle-status';
 
 
 export interface SharedCostAllocationResultSummary {
@@ -16,16 +17,10 @@ export interface SharedCostAllocationResultSummary {
     allocatedAmount: string;
     allocationRatio: string | null;
     allocationSummary: string | null;
-    status: SharedCostAllocationResultSummaryStatusEnum;
+    status: OperatingPendingLifecycleStatus;
     effectiveAt: string | null;
     supersedesId: string | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
 }
-export enum SharedCostAllocationResultSummaryStatusEnum {
-    Pending = 'pending',
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

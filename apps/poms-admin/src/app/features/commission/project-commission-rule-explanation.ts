@@ -13,6 +13,7 @@ import {
     actionLevelSeverity,
     baselineSelectionSourceLabel,
     commissionRuleStageLabelOrFallback,
+    dataMaturityLevelLabelOrFallback,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity,
     gateDecisionLabelOrFallback,
@@ -180,7 +181,7 @@ export class ProjectCommissionRuleExplanation implements OnInit {
                 value: sensitiveProjectionDisplayText(current.taxImpactSummaryProjection),
                 detail: `待明确金额 ${formatSensitiveAmountProjection(current.taxImpactPendingAmountProjection)}`
             },
-            { label: '数据成熟度', value: current.dataMaturityLevel },
+            { label: '数据成熟度', value: dataMaturityLevelLabelOrFallback(current.dataMaturityLevel) },
             { label: '版本锚点', value: `${current.referencedBaselineVersion} / ${current.referencedSnapshotVersion}` },
             { label: '投影视角', value: current.projectionLevel },
             { label: '导出策略', value: current.exportPolicy },

@@ -7,13 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LaborCostPeriodType } from './labor-cost-period-type';
 
 
 export interface CreateLaborProjectActualCostRecordRequest {
     costType: CreateLaborProjectActualCostRecordRequestCostTypeEnum;
     laborPersonId?: string | null;
     laborRole?: string | null;
-    laborPeriodType: CreateLaborProjectActualCostRecordRequestLaborPeriodTypeEnum;
+    laborPeriodType: LaborCostPeriodType;
     laborPeriodStart: string;
     laborPeriodEnd: string;
     actualHours?: string | null;
@@ -25,8 +26,4 @@ export interface CreateLaborProjectActualCostRecordRequest {
 }
 export enum CreateLaborProjectActualCostRecordRequestCostTypeEnum {
     Labor = 'LABOR'
-};
-export enum CreateLaborProjectActualCostRecordRequestLaborPeriodTypeEnum {
-    Week = 'WEEK',
-    Month = 'MONTH'
 };

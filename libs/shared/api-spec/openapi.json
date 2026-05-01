@@ -15957,6 +15957,13 @@
         ],
         "additionalProperties": false
       },
+      "LaborCostPeriodType": {
+        "type": "string",
+        "enum": [
+          "WEEK",
+          "MONTH"
+        ]
+      },
       "CreateLaborProjectActualCostRecordRequest": {
         "type": "object",
         "properties": {
@@ -15977,11 +15984,7 @@
             "nullable": true
           },
           "laborPeriodType": {
-            "type": "string",
-            "enum": [
-              "WEEK",
-              "MONTH"
-            ]
+            "$ref": "#/components/schemas/LaborCostPeriodType"
           },
           "laborPeriodStart": {
             "type": "string",
@@ -16120,6 +16123,14 @@
           "originalBaselineCost"
         ]
       },
+      "OperatingBaselinePackageStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "superseded"
+        ]
+      },
       "OperatingBaselinePackageSummary": {
         "type": "object",
         "properties": {
@@ -16159,12 +16170,7 @@
             "type": "boolean"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "active",
-              "superseded"
-            ]
+            "$ref": "#/components/schemas/OperatingBaselinePackageStatus"
           },
           "effectiveAt": {
             "type": "string",
@@ -16211,6 +16217,13 @@
           "PROMPT",
           "REVIEW",
           "BLOCK"
+        ]
+      },
+      "CreatableOperatingSnapshotMode": {
+        "type": "string",
+        "enum": [
+          "realtime",
+          "period-end"
         ]
       },
       "CreateProjectOperatingSnapshotRequest": {
@@ -16287,11 +16300,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "snapshotMode": {
-            "type": "string",
-            "enum": [
-              "realtime",
-              "period-end"
-            ]
+            "$ref": "#/components/schemas/CreatableOperatingSnapshotMode"
           },
           "sourceWindowStart": {
             "type": "string",
@@ -16320,6 +16329,22 @@
           "snapshotMode"
         ]
       },
+      "OperatingSnapshotMode": {
+        "type": "string",
+        "enum": [
+          "realtime",
+          "period-end",
+          "restated"
+        ]
+      },
+      "OperatingLifecycleStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "superseded",
+          "voided"
+        ]
+      },
       "ProjectOperatingSnapshotSummary": {
         "type": "object",
         "properties": {
@@ -16334,12 +16359,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "snapshotMode": {
-            "type": "string",
-            "enum": [
-              "realtime",
-              "period-end",
-              "restated"
-            ]
+            "$ref": "#/components/schemas/OperatingSnapshotMode"
           },
           "snapshotAt": {
             "type": "string",
@@ -16410,12 +16430,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
           },
           "supersedesId": {
             "type": "string",
@@ -16645,12 +16660,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
           },
           "rowVersion": {
             "type": "integer",
@@ -16855,12 +16865,7 @@
             "type": "string"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
           },
           "handledAt": {
             "type": "string",
@@ -16988,6 +16993,15 @@
           "projectShareItems"
         ]
       },
+      "OperatingPendingLifecycleStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "active",
+          "superseded",
+          "voided"
+        ]
+      },
       "SharedCostAllocationResultSummary": {
         "type": "object",
         "properties": {
@@ -17018,13 +17032,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
           },
           "effectiveAt": {
             "type": "string",
@@ -17091,13 +17099,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
           },
           "effectiveAt": {
             "type": "string",
@@ -17203,15 +17205,18 @@
           "replacementReason"
         ]
       },
+      "ConfirmCostStageAttributionMode": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "manual"
+        ]
+      },
       "ConfirmCostStageAttributionRequest": {
         "type": "object",
         "properties": {
           "stageAttributionMode": {
-            "type": "string",
-            "enum": [
-              "auto",
-              "manual"
-            ]
+            "$ref": "#/components/schemas/ConfirmCostStageAttributionMode"
           },
           "attributedStage": {
             "type": "string",
@@ -17300,12 +17305,7 @@
             "type": "string"
           },
           "attributionMode": {
-            "type": "string",
-            "enum": [
-              "auto",
-              "manual",
-              "reclassified"
-            ]
+            "$ref": "#/components/schemas/CostStageAttributionMode"
           },
           "lockedBySnapshotId": {
             "type": "string",
@@ -17318,12 +17318,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
           },
           "supersedesId": {
             "type": "string",
@@ -17375,11 +17370,27 @@
           "updatedAt"
         ]
       },
+      "CostStageAttributionMode": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "manual",
+          "reclassified"
+        ]
+      },
       "CostStageAttributionHistoryView": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/CostStageAttributionSnapshotSummary"
         }
+      },
+      "AccountingTaxDeductibilityStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "deductible",
+          "non-deductible"
+        ]
       },
       "ConfirmAccountingTaxTreatmentRequest": {
         "type": "object",
@@ -17390,9 +17401,7 @@
             "maxLength": 64
           },
           "deductibilityStatus": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 32
+            "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
           },
           "taxImpactAmount": {
             "type": "string",
@@ -17437,9 +17446,7 @@
             "maxLength": 64
           },
           "deductibilityStatus": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 32
+            "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
           },
           "taxImpactAmount": {
             "type": "string",
@@ -17497,7 +17504,7 @@
             "type": "string"
           },
           "deductibilityStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
           },
           "taxImpactAmount": {
             "type": "string"
@@ -17516,13 +17523,7 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "active",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
           },
           "supersedesId": {
             "type": "string",
@@ -17583,18 +17584,29 @@
           "$ref": "#/components/schemas/AccountingTaxTreatmentSnapshotSummary"
         }
       },
+      "OperatingSignalReviewDecision": {
+        "type": "string",
+        "enum": [
+          "APPROVE",
+          "MANUAL_CONFIRMED"
+        ]
+      },
+      "OperatingDataMaturityLevel": {
+        "type": "string",
+        "enum": [
+          "INSUFFICIENT",
+          "PRELIMINARY",
+          "MATURE"
+        ]
+      },
       "ReviewOperatingSignalEvaluationRequest": {
         "type": "object",
         "properties": {
           "reviewDecision": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 32
+            "$ref": "#/components/schemas/OperatingSignalReviewDecision"
           },
           "resolvedDataMaturityLevel": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 32
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -17651,7 +17663,7 @@
             "type": "string"
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -17683,6 +17695,13 @@
           "resultStatus"
         ]
       },
+      "OperatingSignalLevel": {
+        "type": "string",
+        "enum": [
+          "ATTENTION",
+          "ALERT"
+        ]
+      },
       "OperatingSignalEvaluationView": {
         "type": "object",
         "properties": {
@@ -17697,10 +17716,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "formulaBoundaryAction": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
           },
           "signalLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingSignalLevel"
           },
           "taxImpactSummary": {
             "type": "string"
@@ -17714,7 +17733,7 @@
             "nullable": true
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -17840,7 +17859,7 @@
             "type": "string"
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -17922,7 +17941,7 @@
             "type": "string"
           },
           "signalLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingSignalLevel"
           },
           "taxImpactSummary": {
             "type": "string"
@@ -17931,7 +17950,7 @@
             "type": "string"
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18065,7 +18084,7 @@
             "nullable": true
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "currentActionLevel": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18141,7 +18160,7 @@
             "nullable": true
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18177,6 +18196,13 @@
           "allowedActions"
         ]
       },
+      "OperatingRiskLevel": {
+        "type": "string",
+        "enum": [
+          "ATTENTION",
+          "RISK"
+        ]
+      },
       "ProjectVarianceRiskExplanationView": {
         "type": "object",
         "properties": {
@@ -18194,7 +18220,7 @@
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "riskLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingRiskLevel"
           },
           "taxImpactSummaryProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
@@ -18208,7 +18234,7 @@
             "nullable": true
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18259,7 +18285,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "signalLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingSignalLevel"
           },
           "currentActionLevel": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18276,7 +18302,7 @@
             "nullable": true
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -18780,14 +18806,7 @@
             "type": "string"
           },
           "costType": {
-            "type": "string",
-            "enum": [
-              "PROCUREMENT",
-              "INVOICE",
-              "EXPENSE",
-              "PAYMENT_FACT",
-              "LABOR"
-            ]
+            "$ref": "#/components/schemas/ProjectActualCostType"
           },
           "costSubtype": {
             "type": "string",
@@ -18862,15 +18881,7 @@
             "nullable": true
           },
           "recordStatus": {
-            "type": "string",
-            "enum": [
-              "DRAFT",
-              "REGISTERED",
-              "CONFIRMED",
-              "INCLUDED",
-              "VOIDED",
-              "REPLACED"
-            ]
+            "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
           },
           "isIncludedInProjectCost": {
             "type": "boolean"
@@ -18879,7 +18890,11 @@
             "type": "boolean"
           },
           "sourceType": {
-            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectActualCostSourceType"
+              }
+            ],
             "nullable": true
           },
           "sourceId": {
@@ -19002,6 +19017,37 @@
           "updatedAt"
         ]
       },
+      "ProjectActualCostType": {
+        "type": "string",
+        "enum": [
+          "PROCUREMENT",
+          "INVOICE",
+          "EXPENSE",
+          "PAYMENT_FACT",
+          "LABOR"
+        ]
+      },
+      "ProjectActualCostRecordStatus": {
+        "type": "string",
+        "enum": [
+          "DRAFT",
+          "REGISTERED",
+          "CONFIRMED",
+          "INCLUDED",
+          "VOIDED",
+          "REPLACED"
+        ]
+      },
+      "ProjectActualCostSourceType": {
+        "type": "string",
+        "enum": [
+          "PAYMENT_RECORD",
+          "INVOICE_RECORD",
+          "EXPENSE_RECORD",
+          "PAYABLE_RECORD",
+          "LABOR"
+        ]
+      },
       "ProjectActualCostRecordListView": {
         "type": "array",
         "items": {
@@ -19025,14 +19071,7 @@
             "type": "string"
           },
           "costType": {
-            "type": "string",
-            "enum": [
-              "PROCUREMENT",
-              "INVOICE",
-              "EXPENSE",
-              "PAYMENT_FACT",
-              "LABOR"
-            ]
+            "$ref": "#/components/schemas/ProjectActualCostType"
           },
           "costSubtype": {
             "type": "string",
@@ -19107,15 +19146,7 @@
             "nullable": true
           },
           "recordStatus": {
-            "type": "string",
-            "enum": [
-              "DRAFT",
-              "REGISTERED",
-              "CONFIRMED",
-              "INCLUDED",
-              "VOIDED",
-              "REPLACED"
-            ]
+            "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
           },
           "isIncludedInProjectCost": {
             "type": "boolean"
@@ -19124,7 +19155,11 @@
             "type": "boolean"
           },
           "sourceType": {
-            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectActualCostSourceType"
+              }
+            ],
             "nullable": true
           },
           "sourceId": {
@@ -19237,10 +19272,10 @@
             "nullable": true
           },
           "laborPeriodType": {
-            "type": "string",
-            "enum": [
-              "WEEK",
-              "MONTH"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LaborCostPeriodType"
+              }
             ],
             "nullable": true
           },
@@ -24010,7 +24045,7 @@
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
@@ -24116,7 +24151,7 @@
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "dataMaturityLevel": {
-            "type": "string"
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
           },
           "costActionRecommendation": {
             "$ref": "#/components/schemas/OperatingSnapshotActionLevel"

@@ -8,13 +8,15 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingSnapshotMode } from './operating-snapshot-mode';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingLifecycleStatus } from './operating-lifecycle-status';
 
 
 export interface ProjectOperatingSnapshotSummary {
     id: string;
     projectId: string;
-    snapshotMode: ProjectOperatingSnapshotSummarySnapshotModeEnum;
+    snapshotMode: OperatingSnapshotMode;
     snapshotAt: string;
     sourceWindowStart: string | null;
     sourceWindowEnd: string | null;
@@ -33,19 +35,9 @@ export interface ProjectOperatingSnapshotSummary {
     referencedBaselineVersion: string;
     baselineSelectionSource: BaselineSelectionSource;
     handoverRebaselineRecordId: string | null;
-    status: ProjectOperatingSnapshotSummaryStatusEnum;
+    status: OperatingLifecycleStatus;
     supersedesId: string | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
 }
-export enum ProjectOperatingSnapshotSummarySnapshotModeEnum {
-    Realtime = 'realtime',
-    PeriodEnd = 'period-end',
-    Restated = 'restated'
-};
-export enum ProjectOperatingSnapshotSummaryStatusEnum {
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

@@ -4679,12 +4679,66 @@ export const PublishInternalCostRateVersionRequestSchema = z
 
 export type PublishInternalCostRateVersionRequest = z.infer<typeof PublishInternalCostRateVersionRequestSchema>;
 
+export const PROJECT_ACTUAL_COST_TYPES = ['PROCUREMENT', 'INVOICE', 'EXPENSE', 'PAYMENT_FACT', 'LABOR'] as const;
+
+export type ProjectActualCostType = (typeof PROJECT_ACTUAL_COST_TYPES)[number];
+
+export const ProjectActualCostTypeSchema = z.enum(PROJECT_ACTUAL_COST_TYPES).meta({ id: 'ProjectActualCostType' });
+
+export const ProjectActualCostTypeValue = {
+    Procurement: 'PROCUREMENT',
+    Invoice: 'INVOICE',
+    Expense: 'EXPENSE',
+    PaymentFact: 'PAYMENT_FACT',
+    Labor: 'LABOR'
+} as const satisfies Record<string, ProjectActualCostType>;
+
+export const PROJECT_ACTUAL_COST_RECORD_STATUSES = ['DRAFT', 'REGISTERED', 'CONFIRMED', 'INCLUDED', 'VOIDED', 'REPLACED'] as const;
+
+export type ProjectActualCostRecordStatus = (typeof PROJECT_ACTUAL_COST_RECORD_STATUSES)[number];
+
+export const ProjectActualCostRecordStatusSchema = z.enum(PROJECT_ACTUAL_COST_RECORD_STATUSES).meta({ id: 'ProjectActualCostRecordStatus' });
+
+export const ProjectActualCostRecordStatusValue = {
+    Draft: 'DRAFT',
+    Registered: 'REGISTERED',
+    Confirmed: 'CONFIRMED',
+    Included: 'INCLUDED',
+    Voided: 'VOIDED',
+    Replaced: 'REPLACED'
+} as const satisfies Record<string, ProjectActualCostRecordStatus>;
+
+export const PROJECT_ACTUAL_COST_SOURCE_TYPES = ['PAYMENT_RECORD', 'INVOICE_RECORD', 'EXPENSE_RECORD', 'PAYABLE_RECORD', 'LABOR'] as const;
+
+export type ProjectActualCostSourceType = (typeof PROJECT_ACTUAL_COST_SOURCE_TYPES)[number];
+
+export const ProjectActualCostSourceTypeSchema = z.enum(PROJECT_ACTUAL_COST_SOURCE_TYPES).meta({ id: 'ProjectActualCostSourceType' });
+
+export const ProjectActualCostSourceTypeValue = {
+    PaymentRecord: 'PAYMENT_RECORD',
+    InvoiceRecord: 'INVOICE_RECORD',
+    ExpenseRecord: 'EXPENSE_RECORD',
+    PayableRecord: 'PAYABLE_RECORD',
+    Labor: 'LABOR'
+} as const satisfies Record<string, ProjectActualCostSourceType>;
+
+export const LABOR_COST_PERIOD_TYPES = ['WEEK', 'MONTH'] as const;
+
+export type LaborCostPeriodType = (typeof LABOR_COST_PERIOD_TYPES)[number];
+
+export const LaborCostPeriodTypeSchema = z.enum(LABOR_COST_PERIOD_TYPES).meta({ id: 'LaborCostPeriodType' });
+
+export const LaborCostPeriodTypeValue = {
+    Week: 'WEEK',
+    Month: 'MONTH'
+} as const satisfies Record<string, LaborCostPeriodType>;
+
 export const ProjectActualCostRecordSummarySchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
         recordNo: z.string(),
-        costType: z.enum(['PROCUREMENT', 'INVOICE', 'EXPENSE', 'PAYMENT_FACT', 'LABOR']),
+        costType: ProjectActualCostTypeSchema,
         costSubtype: z.string().nullable(),
         occurredOn: z.iso.date().nullable(),
         accountingPeriod: z.string().nullable(),
@@ -4700,10 +4754,10 @@ export const ProjectActualCostRecordSummarySchema = z
         amountExcludingTax: z.string().nullable(),
         taxCostAmount: z.string().nullable(),
         amountIncludingTax: z.string().nullable(),
-        recordStatus: z.enum(['DRAFT', 'REGISTERED', 'CONFIRMED', 'INCLUDED', 'VOIDED', 'REPLACED']),
+        recordStatus: ProjectActualCostRecordStatusSchema,
         isIncludedInProjectCost: z.boolean(),
         isHighRisk: z.boolean(),
-        sourceType: z.string().nullable(),
+        sourceType: ProjectActualCostSourceTypeSchema.nullable(),
         sourceId: z.string().max(64).nullable(),
         sourceRefNo: z.string().nullable(),
         evidenceSummary: z.string().nullable(),
@@ -4737,7 +4791,7 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
     allowedActions: z.array(z.string()),
     laborPersonId: z.uuid().nullable(),
     laborRole: z.string().nullable(),
-    laborPeriodType: z.enum(['WEEK', 'MONTH']).nullable(),
+    laborPeriodType: LaborCostPeriodTypeSchema.nullable(),
     laborPeriodStart: z.iso.date().nullable(),
     laborPeriodEnd: z.iso.date().nullable(),
     actualHours: z.string().nullable(),
@@ -4751,20 +4805,176 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
 
-export const BaselineSelectionSourceSchema = z.enum(['original', 'handover_rebaseline']).meta({ id: 'BaselineSelectionSource' });
+export const BASELINE_SELECTION_SOURCES = ['original', 'handover_rebaseline'] as const;
 
-export type BaselineSelectionSource = z.infer<typeof BaselineSelectionSourceSchema>;
+export type BaselineSelectionSource = (typeof BASELINE_SELECTION_SOURCES)[number];
 
-export const OperatingSnapshotActionLevelSchema = z.enum(['PROMPT', 'REVIEW', 'BLOCK']).meta({ id: 'OperatingSnapshotActionLevel' });
+export const BaselineSelectionSourceSchema = z.enum(BASELINE_SELECTION_SOURCES).meta({ id: 'BaselineSelectionSource' });
 
-export type OperatingSnapshotActionLevel = z.infer<typeof OperatingSnapshotActionLevelSchema>;
+export const BaselineSelectionSourceValue = {
+    Original: 'original',
+    HandoverRebaseline: 'handover_rebaseline'
+} as const satisfies Record<string, BaselineSelectionSource>;
+
+export const OPERATING_SNAPSHOT_ACTION_LEVELS = ['PROMPT', 'REVIEW', 'BLOCK'] as const;
+
+export type OperatingSnapshotActionLevel = (typeof OPERATING_SNAPSHOT_ACTION_LEVELS)[number];
+
+export const OperatingSnapshotActionLevelSchema = z.enum(OPERATING_SNAPSHOT_ACTION_LEVELS).meta({ id: 'OperatingSnapshotActionLevel' });
+
+export const OperatingSnapshotActionLevelValue = {
+    Prompt: 'PROMPT',
+    Review: 'REVIEW',
+    Block: 'BLOCK'
+} as const satisfies Record<string, OperatingSnapshotActionLevel>;
+
+export const OPERATING_BASELINE_PACKAGE_STATUSES = ['draft', 'active', 'superseded'] as const;
+
+export type OperatingBaselinePackageStatus = (typeof OPERATING_BASELINE_PACKAGE_STATUSES)[number];
+
+export const OperatingBaselinePackageStatusSchema = z.enum(OPERATING_BASELINE_PACKAGE_STATUSES).meta({ id: 'OperatingBaselinePackageStatus' });
+
+export const OperatingBaselinePackageStatusValue = {
+    Draft: 'draft',
+    Active: 'active',
+    Superseded: 'superseded'
+} as const satisfies Record<string, OperatingBaselinePackageStatus>;
+
+export const CHANGE_PACKAGE_BASELINE_STATUSES = ['active', 'voided'] as const;
+
+export type ChangePackageBaselineStatus = (typeof CHANGE_PACKAGE_BASELINE_STATUSES)[number];
+
+export const ChangePackageBaselineStatusSchema = z.enum(CHANGE_PACKAGE_BASELINE_STATUSES).meta({ id: 'ChangePackageBaselineStatus' });
+
+export const ChangePackageBaselineStatusValue = {
+    Active: 'active',
+    Voided: 'voided'
+} as const satisfies Record<string, ChangePackageBaselineStatus>;
+
+export const OPERATING_LIFECYCLE_STATUSES = ['active', 'superseded', 'voided'] as const;
+
+export type OperatingLifecycleStatus = (typeof OPERATING_LIFECYCLE_STATUSES)[number];
+
+export const OperatingLifecycleStatusSchema = z.enum(OPERATING_LIFECYCLE_STATUSES).meta({ id: 'OperatingLifecycleStatus' });
+
+export const OperatingLifecycleStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, OperatingLifecycleStatus>;
+
+export const OPERATING_PENDING_LIFECYCLE_STATUSES = ['pending', 'active', 'superseded', 'voided'] as const;
+
+export type OperatingPendingLifecycleStatus = (typeof OPERATING_PENDING_LIFECYCLE_STATUSES)[number];
+
+export const OperatingPendingLifecycleStatusSchema = z.enum(OPERATING_PENDING_LIFECYCLE_STATUSES).meta({ id: 'OperatingPendingLifecycleStatus' });
+
+export const OperatingPendingLifecycleStatusValue = {
+    Pending: 'pending',
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, OperatingPendingLifecycleStatus>;
+
+export const OPERATING_SNAPSHOT_MODES = ['realtime', 'period-end', 'restated'] as const;
+
+export type OperatingSnapshotMode = (typeof OPERATING_SNAPSHOT_MODES)[number];
+
+export const OperatingSnapshotModeSchema = z.enum(OPERATING_SNAPSHOT_MODES).meta({ id: 'OperatingSnapshotMode' });
+
+export const OperatingSnapshotModeValue = {
+    Realtime: 'realtime',
+    PeriodEnd: 'period-end',
+    Restated: 'restated'
+} as const satisfies Record<string, OperatingSnapshotMode>;
+
+export const CREATABLE_OPERATING_SNAPSHOT_MODES = [OperatingSnapshotModeValue.Realtime, OperatingSnapshotModeValue.PeriodEnd] as const;
+
+export type CreatableOperatingSnapshotMode = (typeof CREATABLE_OPERATING_SNAPSHOT_MODES)[number];
+
+export const CreatableOperatingSnapshotModeSchema = z.enum(CREATABLE_OPERATING_SNAPSHOT_MODES).meta({ id: 'CreatableOperatingSnapshotMode' });
+
+export const COST_STAGE_ATTRIBUTION_MODES = ['auto', 'manual', 'reclassified'] as const;
+
+export type CostStageAttributionMode = (typeof COST_STAGE_ATTRIBUTION_MODES)[number];
+
+export const CostStageAttributionModeSchema = z.enum(COST_STAGE_ATTRIBUTION_MODES).meta({ id: 'CostStageAttributionMode' });
+
+export const CostStageAttributionModeValue = {
+    Auto: 'auto',
+    Manual: 'manual',
+    Reclassified: 'reclassified'
+} as const satisfies Record<string, CostStageAttributionMode>;
+
+export const CONFIRM_COST_STAGE_ATTRIBUTION_MODES = [CostStageAttributionModeValue.Auto, CostStageAttributionModeValue.Manual] as const;
+
+export type ConfirmCostStageAttributionMode = (typeof CONFIRM_COST_STAGE_ATTRIBUTION_MODES)[number];
+
+export const ConfirmCostStageAttributionModeSchema = z.enum(CONFIRM_COST_STAGE_ATTRIBUTION_MODES).meta({ id: 'ConfirmCostStageAttributionMode' });
+
+export const OPERATING_DATA_MATURITY_LEVELS = ['INSUFFICIENT', 'PRELIMINARY', 'MATURE'] as const;
+
+export type OperatingDataMaturityLevel = (typeof OPERATING_DATA_MATURITY_LEVELS)[number];
+
+export const OperatingDataMaturityLevelSchema = z.enum(OPERATING_DATA_MATURITY_LEVELS).meta({ id: 'OperatingDataMaturityLevel' });
+
+export const OperatingDataMaturityLevelValue = {
+    Insufficient: 'INSUFFICIENT',
+    Preliminary: 'PRELIMINARY',
+    Mature: 'MATURE'
+} as const satisfies Record<string, OperatingDataMaturityLevel>;
+
+export const OPERATING_SIGNAL_LEVELS = ['ATTENTION', 'ALERT'] as const;
+
+export type OperatingSignalLevel = (typeof OPERATING_SIGNAL_LEVELS)[number];
+
+export const OperatingSignalLevelSchema = z.enum(OPERATING_SIGNAL_LEVELS).meta({ id: 'OperatingSignalLevel' });
+
+export const OperatingSignalLevelValue = {
+    Attention: 'ATTENTION',
+    Alert: 'ALERT'
+} as const satisfies Record<string, OperatingSignalLevel>;
+
+export const OPERATING_RISK_LEVELS = ['ATTENTION', 'RISK'] as const;
+
+export type OperatingRiskLevel = (typeof OPERATING_RISK_LEVELS)[number];
+
+export const OperatingRiskLevelSchema = z.enum(OPERATING_RISK_LEVELS).meta({ id: 'OperatingRiskLevel' });
+
+export const OperatingRiskLevelValue = {
+    Attention: 'ATTENTION',
+    Risk: 'RISK'
+} as const satisfies Record<string, OperatingRiskLevel>;
+
+export const OPERATING_SIGNAL_REVIEW_DECISIONS = ['APPROVE', 'MANUAL_CONFIRMED'] as const;
+
+export type OperatingSignalReviewDecision = (typeof OPERATING_SIGNAL_REVIEW_DECISIONS)[number];
+
+export const OperatingSignalReviewDecisionSchema = z.enum(OPERATING_SIGNAL_REVIEW_DECISIONS).meta({ id: 'OperatingSignalReviewDecision' });
+
+export const OperatingSignalReviewDecisionValue = {
+    Approve: 'APPROVE',
+    ManualConfirmed: 'MANUAL_CONFIRMED'
+} as const satisfies Record<string, OperatingSignalReviewDecision>;
+
+export const ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES = ['pending', 'deductible', 'non-deductible'] as const;
+
+export type AccountingTaxDeductibilityStatus = (typeof ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES)[number];
+
+export const AccountingTaxDeductibilityStatusSchema = z.enum(ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES).meta({ id: 'AccountingTaxDeductibilityStatus' });
+
+export const AccountingTaxDeductibilityStatusValue = {
+    Pending: 'pending',
+    Deductible: 'deductible',
+    NonDeductible: 'non-deductible'
+} as const satisfies Record<string, AccountingTaxDeductibilityStatus>;
 
 const CommissionSharedEvidencePackageShape = {
     freezeVersionSummary: CommissionRoleAssignmentSummarySchema,
     baselineSelectionSource: BaselineSelectionSourceSchema,
     taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
     taxImpactPendingAmountProjection: SensitiveStringFieldProjectionSchema,
-    dataMaturityLevel: z.string(),
+    dataMaturityLevel: OperatingDataMaturityLevelSchema,
     costActionRecommendation: OperatingSnapshotActionLevelSchema,
     currentActionLevel: OperatingSnapshotActionLevelSchema,
     referencedBaselineVersion: z.string(),
@@ -4821,7 +5031,7 @@ export const ActivateOperatingBaselinePackageRequestSchema = z
     .object({
         projectId: z.uuid(),
         originalBaselineCost: z.string().trim().min(1).max(64),
-        baselineSelectionSource: BaselineSelectionSourceSchema.default('original'),
+        baselineSelectionSource: BaselineSelectionSourceSchema.default(BaselineSelectionSourceValue.Original),
         effectiveOperatingBaselineId: z.uuid().nullable().optional(),
         baselineSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         changePackages: z.array(ChangePackageBaselineInputSchema).default([]),
@@ -4842,7 +5052,7 @@ export const OperatingBaselinePackageSummarySchema = z
         effectiveOperatingBaselineId: z.uuid().nullable(),
         baselineSummary: z.string().nullable(),
         isCurrent: z.boolean(),
-        status: z.enum(['draft', 'active', 'superseded']),
+        status: OperatingBaselinePackageStatusSchema,
         effectiveAt: z.iso.datetime().nullable(),
         rowVersion: z.number().int().positive(),
         createdAt: z.iso.datetime(),
@@ -4868,8 +5078,8 @@ const OperatingSnapshotAmountInputSchema = z.object({
     handoverRebaselineRecordId: z.uuid().nullable().optional()
 });
 
-function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSource: 'original' | 'handover_rebaseline'; handoverRebaselineRecordId?: string | null }, ctx: z.RefinementCtx) {
-    if (input.baselineSelectionSource === 'handover_rebaseline' && !input.handoverRebaselineRecordId) {
+function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSource: BaselineSelectionSource; handoverRebaselineRecordId?: string | null }, ctx: z.RefinementCtx) {
+    if (input.baselineSelectionSource === BaselineSelectionSourceValue.HandoverRebaseline && !input.handoverRebaselineRecordId) {
         ctx.addIssue({
             code: 'custom',
             path: ['handoverRebaselineRecordId'],
@@ -4877,7 +5087,7 @@ function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSour
         });
     }
 
-    if (input.baselineSelectionSource === 'original' && input.handoverRebaselineRecordId) {
+    if (input.baselineSelectionSource === BaselineSelectionSourceValue.Original && input.handoverRebaselineRecordId) {
         ctx.addIssue({
             code: 'custom',
             path: ['handoverRebaselineRecordId'],
@@ -4888,7 +5098,7 @@ function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSour
 
 export const CreateProjectOperatingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
     projectId: z.uuid(),
-    snapshotMode: z.enum(['realtime', 'period-end']),
+    snapshotMode: CreatableOperatingSnapshotModeSchema,
     sourceWindowStart: z.iso.date().nullable().optional(),
     sourceWindowEnd: z.iso.date().nullable().optional()
 })
@@ -4901,7 +5111,7 @@ export const ProjectOperatingSnapshotSummarySchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
-        snapshotMode: z.enum(['realtime', 'period-end', 'restated']),
+        snapshotMode: OperatingSnapshotModeSchema,
         snapshotAt: z.iso.datetime(),
         sourceWindowStart: z.iso.date().nullable(),
         sourceWindowEnd: z.iso.date().nullable(),
@@ -4920,7 +5130,7 @@ export const ProjectOperatingSnapshotSummarySchema = z
         referencedBaselineVersion: z.string(),
         baselineSelectionSource: BaselineSelectionSourceSchema,
         handoverRebaselineRecordId: z.uuid().nullable(),
-        status: z.enum(['active', 'superseded', 'voided']),
+        status: OperatingLifecycleStatusSchema,
         supersedesId: z.uuid().nullable(),
         rowVersion: z.number().int().positive(),
         createdAt: z.iso.datetime(),
@@ -4945,7 +5155,7 @@ export const PeriodClosingSnapshotSummarySchema = z
         id: z.uuid(),
         projectId: z.uuid(),
         periodKey: z.string(),
-        snapshotMode: z.literal('period-end'),
+        snapshotMode: z.literal(OperatingSnapshotModeValue.PeriodEnd),
         snapshotAt: z.iso.datetime(),
         effectiveContractTotal: z.string(),
         receivableConfirmedTotal: z.string(),
@@ -4962,7 +5172,7 @@ export const PeriodClosingSnapshotSummarySchema = z
         referencedBaselineVersion: z.string(),
         baselineSelectionSource: BaselineSelectionSourceSchema,
         handoverRebaselineRecordId: z.uuid().nullable(),
-        status: z.enum(['active', 'superseded', 'voided']),
+        status: OperatingLifecycleStatusSchema,
         rowVersion: z.number().int().positive(),
         createdAt: z.iso.datetime(),
         updatedAt: z.iso.datetime()
@@ -4999,7 +5209,7 @@ export const OperatingRestatementSummarySchema = z
         restatedSnapshotId: z.uuid(),
         restatementReason: z.string(),
         restatementSummary: z.string(),
-        status: z.enum(['active', 'superseded', 'voided']),
+        status: OperatingLifecycleStatusSchema,
         handledAt: z.iso.datetime(),
         handledBy: z.uuid().nullable(),
         rowVersion: z.number().int().positive(),
@@ -5055,7 +5265,7 @@ export const SharedCostAllocationResultSummarySchema = z
         allocatedAmount: z.string(),
         allocationRatio: z.string().nullable(),
         allocationSummary: z.string().nullable(),
-        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        status: OperatingPendingLifecycleStatusSchema,
         effectiveAt: z.iso.datetime().nullable(),
         supersedesId: z.uuid().nullable(),
         rowVersion: z.number().int().positive(),
@@ -5073,7 +5283,7 @@ export const SharedCostAllocationBasisSummarySchema = z
         basisType: z.string(),
         allocationMethod: z.string(),
         basisSummary: z.string().nullable(),
-        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        status: OperatingPendingLifecycleStatusSchema,
         effectiveAt: z.iso.datetime().nullable(),
         effectiveBy: z.uuid().nullable(),
         supersedesId: z.uuid().nullable(),
@@ -5092,7 +5302,7 @@ export type SharedCostAllocationResultListView = z.infer<typeof SharedCostAlloca
 
 export const ConfirmCostStageAttributionRequestSchema = z
     .object({
-        stageAttributionMode: z.enum(['auto', 'manual']),
+        stageAttributionMode: ConfirmCostStageAttributionModeSchema,
         attributedStage: z.string().trim().min(1).max(64),
         lockedBySnapshotId: z.uuid().nullable().optional(),
         attributionSummary: z.string().trim().min(1).max(2000).nullable().optional(),
@@ -5120,10 +5330,10 @@ export const CostStageAttributionSnapshotSummarySchema = z
         id: z.uuid(),
         costRecordId: z.uuid(),
         attributedStage: z.string(),
-        attributionMode: z.enum(['auto', 'manual', 'reclassified']),
+        attributionMode: CostStageAttributionModeSchema,
         lockedBySnapshotId: z.uuid().nullable(),
         attributionSummary: z.string().nullable(),
-        status: z.enum(['active', 'superseded', 'voided']),
+        status: OperatingLifecycleStatusSchema,
         supersedesId: z.uuid().nullable(),
         handledAt: z.iso.datetime().nullable(),
         handledBy: z.uuid().nullable(),
@@ -5142,7 +5352,7 @@ export type CostStageAttributionHistoryView = z.infer<typeof CostStageAttributio
 export const ConfirmAccountingTaxTreatmentRequestSchema = z
     .object({
         taxTreatmentType: z.string().trim().min(1).max(64),
-        deductibilityStatus: z.string().trim().min(1).max(32),
+        deductibilityStatus: AccountingTaxDeductibilityStatusSchema,
         taxImpactAmount: z.string().trim().min(1).max(64),
         taxImpactSummary: z.string().trim().min(1).max(2000),
         taxPendingFlag: z.boolean().default(false),
@@ -5156,7 +5366,7 @@ export type ConfirmAccountingTaxTreatmentRequest = z.infer<typeof ConfirmAccount
 export const ReplaceAccountingTaxTreatmentRequestSchema = z
     .object({
         taxTreatmentType: z.string().trim().min(1).max(64),
-        deductibilityStatus: z.string().trim().min(1).max(32),
+        deductibilityStatus: AccountingTaxDeductibilityStatusSchema,
         taxImpactAmount: z.string().trim().min(1).max(64),
         taxImpactSummary: z.string().trim().min(1).max(2000),
         taxPendingFlag: z.boolean().default(false),
@@ -5173,13 +5383,13 @@ export const AccountingTaxTreatmentSnapshotSummarySchema = z
         id: z.uuid(),
         projectId: z.uuid(),
         taxTreatmentType: z.string(),
-        deductibilityStatus: z.string(),
+        deductibilityStatus: AccountingTaxDeductibilityStatusSchema,
         taxImpactAmount: z.string(),
         taxPendingFlag: z.boolean(),
         taxImpactSummary: z.string(),
         taxImpactPendingAmount: z.string(),
         basisSummary: z.string().nullable(),
-        status: z.enum(['pending', 'active', 'superseded', 'voided']),
+        status: OperatingPendingLifecycleStatusSchema,
         supersedesId: z.uuid().nullable(),
         confirmedAt: z.iso.datetime().nullable(),
         confirmedBy: z.uuid().nullable(),
@@ -5197,8 +5407,8 @@ export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatme
 
 export const ReviewOperatingSignalEvaluationRequestSchema = z
     .object({
-        reviewDecision: z.string().trim().min(1).max(32),
-        resolvedDataMaturityLevel: z.string().trim().min(1).max(32),
+        reviewDecision: OperatingSignalReviewDecisionSchema,
+        resolvedDataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string().trim().min(1).max(64),
         referencedSnapshotVersion: z.string().trim().min(1).max(64),
@@ -5215,7 +5425,7 @@ export const ReviewOperatingSignalEvaluationResultSchema = z
         signalEvaluationId: z.uuid(),
         reviewRecordId: z.uuid(),
         taxImpactSummary: z.string(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
@@ -5230,12 +5440,12 @@ export const OperatingSignalEvaluationViewSchema = z
     .object({
         signalEvaluationId: z.uuid(),
         projectId: z.uuid(),
-        formulaBoundaryAction: z.string(),
-        signalLevel: z.string(),
+        formulaBoundaryAction: OperatingSnapshotActionLevelSchema,
+        signalLevel: OperatingSignalLevelSchema,
         taxImpactSummary: z.string(),
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
@@ -5271,7 +5481,7 @@ export const ReviewCommissionGateBindingResultSchema = z
         gateReviewRecordId: z.uuid(),
         taxImpactSummary: z.string(),
         taxImpactPendingAmount: z.string(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         baselineSelectionSource: BaselineSelectionSourceSchema,
@@ -5294,10 +5504,10 @@ export const CommissionGateBindingHistoryViewSchema = z
         projectId: z.uuid(),
         signalEvaluationId: z.uuid(),
         gateStageType: z.string(),
-        signalLevel: z.string(),
+        signalLevel: OperatingSignalLevelSchema,
         taxImpactSummary: z.string(),
         taxImpactPendingAmount: z.string(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         baselineSelectionSource: BaselineSelectionSourceSchema,
@@ -5331,7 +5541,7 @@ export const ProjectBusinessOutcomeOverviewViewSchema = z
         taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
         referencedSnapshotVersion: z.string(),
@@ -5353,7 +5563,7 @@ export const ProjectUnifiedAccountingViewSchema = z
         taxImpactPendingAmountProjection: SensitiveStringFieldProjectionSchema,
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
         referencedSnapshotVersion: z.string(),
@@ -5368,11 +5578,11 @@ export const ProjectVarianceRiskExplanationViewSchema = z
         projectId: z.uuid(),
         signalEvaluationId: z.uuid(),
         varianceSourceSummaryProjection: SensitiveStringFieldProjectionSchema,
-        riskLevel: z.string(),
+        riskLevel: OperatingRiskLevelSchema,
         taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
@@ -5387,12 +5597,12 @@ export type ProjectVarianceRiskExplanationView = z.infer<typeof ProjectVarianceR
 export const BusinessAccountingFeedbackViewSchema = z
     .object({
         projectId: z.uuid(),
-        signalLevel: z.string(),
+        signalLevel: OperatingSignalLevelSchema,
         currentActionLevel: OperatingSnapshotActionLevelSchema,
         taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
         allocationStabilitySummary: z.string().nullable(),
         unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: z.string(),
+        dataMaturityLevel: OperatingDataMaturityLevelSchema,
         costActionRecommendation: OperatingSnapshotActionLevelSchema,
         referencedBaselineVersion: z.string(),
         referencedSnapshotVersion: z.string(),
@@ -5406,7 +5616,7 @@ export type BusinessAccountingFeedbackView = z.infer<typeof BusinessAccountingFe
 
 export const CreatePaymentFactProjectActualCostRecordRequestSchema = z
     .object({
-        costType: z.literal('PAYMENT_FACT'),
+        costType: z.literal(ProjectActualCostTypeValue.PaymentFact),
         paymentRecordId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
@@ -5419,7 +5629,7 @@ export type CreatePaymentFactProjectActualCostRecordRequest = z.infer<typeof Cre
 
 export const CreateInvoiceProjectActualCostRecordRequestSchema = z
     .object({
-        costType: z.literal('INVOICE'),
+        costType: z.literal(ProjectActualCostTypeValue.Invoice),
         invoiceRecordId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
@@ -5433,7 +5643,7 @@ export type CreateInvoiceProjectActualCostRecordRequest = z.infer<typeof CreateI
 
 export const CreateExpenseProjectActualCostRecordRequestSchema = z
     .object({
-        costType: z.literal('EXPENSE'),
+        costType: z.literal(ProjectActualCostTypeValue.Expense),
         expenseRecordId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
@@ -5447,7 +5657,7 @@ export type CreateExpenseProjectActualCostRecordRequest = z.infer<typeof CreateE
 
 export const CreateProcurementProjectActualCostRecordRequestSchema = z
     .object({
-        costType: z.literal('PROCUREMENT'),
+        costType: z.literal(ProjectActualCostTypeValue.Procurement),
         payableRecordId: z.uuid(),
         costDescription: z.string().trim().min(1).max(1000).nullable().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
@@ -5461,10 +5671,10 @@ export type CreateProcurementProjectActualCostRecordRequest = z.infer<typeof Cre
 
 export const CreateLaborProjectActualCostRecordRequestSchema = z
     .object({
-        costType: z.literal('LABOR'),
+        costType: z.literal(ProjectActualCostTypeValue.Labor),
         laborPersonId: z.uuid().nullable().optional(),
         laborRole: z.string().nullable().optional(),
-        laborPeriodType: z.enum(['WEEK', 'MONTH']),
+        laborPeriodType: LaborCostPeriodTypeSchema,
         laborPeriodStart: z.iso.date(),
         laborPeriodEnd: z.iso.date(),
         actualHours: z.string().trim().min(1).max(64).nullable().optional(),

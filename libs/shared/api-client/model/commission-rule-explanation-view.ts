@@ -10,6 +10,7 @@
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
 import { CommissionRoleAssignmentSummary } from './commission-role-assignment-summary';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
@@ -26,7 +27,7 @@ export interface CommissionRuleExplanationView {
     baselineSelectionSource: BaselineSelectionSource;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
     taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;

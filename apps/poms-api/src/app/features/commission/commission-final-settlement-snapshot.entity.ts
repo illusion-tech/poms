@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { OPERATING_DATA_MATURITY_LEVELS, type OperatingDataMaturityLevel } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
@@ -9,6 +10,7 @@ import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 export type CommissionFinalSettlementSnapshotStatus = 'active' | 'superseded' | 'voided';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionFinalSettlementSnapshotSchema = defineEntity({
     name: 'CommissionFinalSettlementSnapshot',
@@ -33,6 +35,12 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             name: 'uq_cfss_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_cfss_data_maturity_level',
+            expression: `"data_maturity_level" in (${toSqlStringList(OPERATING_DATA_MATURITY_LEVELS)})`
         }
     ],
     properties: {
@@ -107,7 +115,7 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .default(0)
             .fieldName('tax_impact_pending_amount')
             .comment('待闭合税务影响金额'),
-        dataMaturityLevel: p.string().length(32).fieldName('data_maturity_level').comment('数据成熟度等级'),
+        dataMaturityLevel: p.string().$type<OperatingDataMaturityLevel>().length(32).fieldName('data_maturity_level').comment('数据成熟度等级'),
         costActionRecommendation: p.string().length(32).fieldName('cost_action_recommendation').comment('成本侧动作建议'),
         currentActionLevel: p.string().length(32).fieldName('current_action_level').comment('当前动作等级'),
         referencedBaselineVersion: p.string().length(64).fieldName('referenced_baseline_version').comment('引用基线版本'),

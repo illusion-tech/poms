@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 
 
 export interface ReviewOperatingSignalEvaluationResult {
@@ -15,7 +16,7 @@ export interface ReviewOperatingSignalEvaluationResult {
     signalEvaluationId: string;
     reviewRecordId: string;
     taxImpactSummary: string;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;

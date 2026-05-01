@@ -1,6 +1,14 @@
 import { EntityManager, EntityRepository, QueryOrder, type FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import {
+    OperatingLifecycleStatusValue,
+    OperatingPendingLifecycleStatusValue,
+    OperatingSnapshotModeValue,
+    ProjectActualCostRecordStatusValue,
+    type ProjectActualCostRecordStatus,
+    type ProjectActualCostSourceType
+} from '@poms/shared-contracts';
 import { AccountingTaxTreatmentSnapshot } from './accounting-tax-treatment-snapshot.entity';
 import { ChangePackageBaseline } from './change-package-baseline.entity';
 import { CommissionGateReviewRecord } from './commission-gate-review-record.entity';
@@ -177,9 +185,9 @@ export class ProjectActualCostRecordRepository {
     }
 
     async findCurrentEffectiveBySource(
-        sourceType: string,
+        sourceType: ProjectActualCostSourceType,
         sourceId: string,
-        activeStatuses: string[] = ['CONFIRMED', 'INCLUDED']
+        activeStatuses: ProjectActualCostRecordStatus[] = [ProjectActualCostRecordStatusValue.Confirmed, ProjectActualCostRecordStatusValue.Included]
     ): Promise<ProjectActualCostRecord | null> {
         return this.repository.findOne(
             {
@@ -280,7 +288,7 @@ export class ProjectOperatingSnapshotRepository {
 
     async findLatestActiveByProject(projectId: string): Promise<ProjectOperatingSnapshot | null> {
         return this.repository.findOne(
-            { projectId, status: 'active' },
+            { projectId, status: OperatingLifecycleStatusValue.Active },
             { orderBy: { snapshotAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
         );
     }
@@ -313,7 +321,7 @@ export class DataMaturityEvaluationResultRepository {
         projectId: string,
         referencedSnapshotId: string
     ): Promise<DataMaturityEvaluationResult | null> {
-        return this.repository.findOne({ projectId, referencedSnapshotId, status: 'active' });
+        return this.repository.findOne({ projectId, referencedSnapshotId, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof DataMaturityEvaluationResult>[0]): DataMaturityEvaluationResult {
@@ -344,7 +352,7 @@ export class OperatingSignalEvaluationResultRepository {
         projectId: string,
         referencedSnapshotId: string
     ): Promise<OperatingSignalEvaluationResult | null> {
-        return this.repository.findOne({ projectId, referencedSnapshotId, status: 'active' });
+        return this.repository.findOne({ projectId, referencedSnapshotId, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof OperatingSignalEvaluationResult>[0]): OperatingSignalEvaluationResult {
@@ -372,7 +380,7 @@ export class OperatingSignalReviewRecordRepository {
     }
 
     async findActiveBySignalEvaluationId(signalEvaluationId: string): Promise<OperatingSignalReviewRecord | null> {
-        return this.repository.findOne({ signalEvaluationId, status: 'active' });
+        return this.repository.findOne({ signalEvaluationId, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof OperatingSignalReviewRecord>[0]): OperatingSignalReviewRecord {
@@ -401,7 +409,7 @@ export class OperatingSignalToCommissionGateBindingRepository {
 
     async findActiveByProject(projectId: string): Promise<OperatingSignalToCommissionGateBinding[]> {
         return this.repository.find(
-            { projectId, status: 'active' },
+            { projectId, status: OperatingLifecycleStatusValue.Active },
             { orderBy: { generatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
         );
     }
@@ -410,7 +418,7 @@ export class OperatingSignalToCommissionGateBindingRepository {
         projectId: string,
         gateStageType: string
     ): Promise<OperatingSignalToCommissionGateBinding | null> {
-        return this.repository.findOne({ projectId, gateStageType, status: 'active' });
+        return this.repository.findOne({ projectId, gateStageType, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof OperatingSignalToCommissionGateBinding>[0]): OperatingSignalToCommissionGateBinding {
@@ -469,7 +477,7 @@ export class PeriodClosingSnapshotRepository {
     }
 
     async findActiveByProjectAndPeriod(projectId: string, periodKey: string): Promise<PeriodClosingSnapshot | null> {
-        return this.repository.findOne({ projectId, periodKey, snapshotMode: 'period-end', status: 'active' });
+        return this.repository.findOne({ projectId, periodKey, snapshotMode: OperatingSnapshotModeValue.PeriodEnd, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof PeriodClosingSnapshot>[0]): PeriodClosingSnapshot {
@@ -500,7 +508,7 @@ export class OperatingRestatementRecordRepository {
     }
 
     async findActiveByRestatesSnapshotId(restatesSnapshotId: string): Promise<OperatingRestatementRecord | null> {
-        return this.repository.findOne({ restatesSnapshotId, status: 'active' });
+        return this.repository.findOne({ restatesSnapshotId, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof OperatingRestatementRecord>[0]): OperatingRestatementRecord {
@@ -525,7 +533,7 @@ export class SharedCostAllocationBasisRepository {
 
     async findActiveByScopeKey(sourceCostScopeKey: string): Promise<SharedCostAllocationBasis | null> {
         return this.repository.findOne(
-            { sourceCostScopeKey, status: 'active' },
+            { sourceCostScopeKey, status: OperatingPendingLifecycleStatusValue.Active },
             { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
         );
     }
@@ -558,7 +566,7 @@ export class SharedCostAllocationResultRepository {
     }
 
     async findActiveByBasisAndProject(basisId: string, projectId: string): Promise<SharedCostAllocationResult | null> {
-        return this.repository.findOne({ basisId, projectId, status: 'active' });
+        return this.repository.findOne({ basisId, projectId, status: OperatingPendingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof SharedCostAllocationResult>[0]): SharedCostAllocationResult {
@@ -592,7 +600,7 @@ export class CostStageAttributionSnapshotRepository {
     }
 
     async findActiveByCostRecordId(costRecordId: string): Promise<CostStageAttributionSnapshot | null> {
-        return this.repository.findOne({ costRecordId, status: 'active' });
+        return this.repository.findOne({ costRecordId, status: OperatingLifecycleStatusValue.Active });
     }
 
     create(input: ConstructorParameters<typeof CostStageAttributionSnapshot>[0]): CostStageAttributionSnapshot {
@@ -631,7 +639,7 @@ export class AccountingTaxTreatmentSnapshotRepository {
         taxTreatmentType: string
     ): Promise<AccountingTaxTreatmentSnapshot | null> {
         return this.repository.findOne(
-            { projectId, taxTreatmentType, status: 'active' },
+            { projectId, taxTreatmentType, status: OperatingPendingLifecycleStatusValue.Active },
             { orderBy: { confirmedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
         );
     }

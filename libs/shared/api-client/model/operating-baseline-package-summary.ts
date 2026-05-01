@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingBaselinePackageStatus } from './operating-baseline-package-status';
 
 
 export interface OperatingBaselinePackageSummary {
@@ -20,14 +21,9 @@ export interface OperatingBaselinePackageSummary {
     effectiveOperatingBaselineId: string | null;
     baselineSummary: string | null;
     isCurrent: boolean;
-    status: OperatingBaselinePackageSummaryStatusEnum;
+    status: OperatingBaselinePackageStatus;
     effectiveAt: string | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
 }
-export enum OperatingBaselinePackageSummaryStatusEnum {
-    Draft = 'draft',
-    Active = 'active',
-    Superseded = 'superseded'
-};

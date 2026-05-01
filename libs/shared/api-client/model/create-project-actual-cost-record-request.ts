@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LaborCostPeriodType } from './labor-cost-period-type';
 import { CreateExpenseProjectActualCostRecordRequest } from './create-expense-project-actual-cost-record-request';
 import { CreateLaborProjectActualCostRecordRequest } from './create-labor-project-actual-cost-record-request';
 import { CreatePaymentFactProjectActualCostRecordRequest } from './create-payment-fact-project-actual-cost-record-request';

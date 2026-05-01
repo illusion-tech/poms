@@ -8,7 +8,7 @@ import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/w
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
-import { actionLevelLabel, actionLevelSeverity } from './project-presentation';
+import { actionLevelLabel, actionLevelSeverity, dataMaturityLevelLabelOrFallback } from './project-presentation';
 
 @Component({
     selector: 'app-project-operating-overview',
@@ -83,7 +83,7 @@ export class ProjectOperatingOverview implements OnInit {
             },
             {
                 label: '数据成熟度',
-                value: overview.dataMaturityLevel
+                value: dataMaturityLevelLabelOrFallback(overview.dataMaturityLevel)
             },
             {
                 label: '基线版本',

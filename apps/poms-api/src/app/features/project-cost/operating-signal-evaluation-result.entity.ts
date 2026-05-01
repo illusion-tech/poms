@@ -1,9 +1,24 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    OPERATING_LIFECYCLE_STATUSES,
+    OPERATING_RISK_LEVELS,
+    OPERATING_SIGNAL_LEVELS,
+    OPERATING_SNAPSHOT_ACTION_LEVELS,
+    OperatingLifecycleStatusValue,
+    OperatingRiskLevelValue,
+    OperatingSignalLevelValue,
+    OperatingSnapshotActionLevelValue,
+    type OperatingLifecycleStatus,
+    type OperatingRiskLevel,
+    type OperatingSignalLevel,
+    type OperatingSnapshotActionLevel
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { DataMaturityEvaluationResult } from './data-maturity-evaluation-result.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const OperatingSignalEvaluationResultSchema = defineEntity({
     name: 'OperatingSignalEvaluationResult',
@@ -24,7 +39,29 @@ export const OperatingSignalEvaluationResultSchema = defineEntity({
         {
             name: 'uq_oser_project_snapshot_active',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.referencedSnapshotId}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.referencedSnapshotId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_operating_signal_evaluation_result_signal_level',
+            expression: `"signal_level" in (${toSqlStringList(OPERATING_SIGNAL_LEVELS)})`
+        },
+        {
+            name: 'chk_operating_signal_evaluation_result_risk_level',
+            expression: `"risk_level" in (${toSqlStringList(OPERATING_RISK_LEVELS)})`
+        },
+        {
+            name: 'chk_operating_signal_evaluation_result_formula_boundary_action',
+            expression: `"formula_boundary_action" in (${toSqlStringList(OPERATING_SNAPSHOT_ACTION_LEVELS)})`
+        },
+        {
+            name: 'chk_operating_signal_evaluation_result_current_action_level',
+            expression: `"current_action_level" in (${toSqlStringList(OPERATING_SNAPSHOT_ACTION_LEVELS)})`
+        },
+        {
+            name: 'chk_operating_signal_evaluation_result_status',
+            expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
         }
     ],
     properties: {
@@ -44,20 +81,20 @@ export const OperatingSignalEvaluationResultSchema = defineEntity({
                 .fieldName('data_maturity_evaluation_id')
                 .foreignKeyName('oser_data_maturity_evaluation_fk')
                 .comment('引用数据成熟度结果'),
-        signalLevel: p.string().length(32).fieldName('signal_level').comment('经营信号等级'),
-        riskLevel: p.string().length(32).fieldName('risk_level').comment('风险等级'),
-        formulaBoundaryAction: p.string().length(32).fieldName('formula_boundary_action').comment('公式边界动作'),
+        signalLevel: p.string().$type<OperatingSignalLevel>().length(32).default(OperatingSignalLevelValue.Attention).fieldName('signal_level').comment('经营信号等级'),
+        riskLevel: p.string().$type<OperatingRiskLevel>().length(32).default(OperatingRiskLevelValue.Attention).fieldName('risk_level').comment('风险等级'),
+        formulaBoundaryAction: p.string().$type<OperatingSnapshotActionLevel>().length(32).default(OperatingSnapshotActionLevelValue.Prompt).fieldName('formula_boundary_action').comment('公式边界动作'),
         varianceSourceSummary: p.text().fieldName('variance_source_summary').comment('偏差来源摘要'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
         allocationStabilitySummary: p.text().nullable().fieldName('allocation_stability_summary').comment('分摊稳定性摘要'),
         unmappedCostSummary: p.text().nullable().fieldName('unmapped_cost_summary').comment('未映射成本摘要'),
-        currentActionLevel: p.string().length(32).fieldName('current_action_level').comment('当前动作等级'),
+        currentActionLevel: p.string().$type<OperatingSnapshotActionLevel>().length(32).default(OperatingSnapshotActionLevelValue.Review).fieldName('current_action_level').comment('当前动作等级'),
         recommendedActionSummary: p.text().nullable().fieldName('recommended_action_summary').comment('建议动作摘要'),
         referencedBaselineVersion: p.string().length(64).fieldName('referenced_baseline_version').comment('引用基线版本'),
         referencedSnapshotVersion: p.string().length(64).fieldName('referenced_snapshot_version').comment('引用快照版本'),
         reviewRequired: p.boolean().default(false).fieldName('review_required').comment('是否需要人工复核'),
         evaluatedAt: p.datetime().defaultRaw('now()').fieldName('evaluated_at').comment('评估时间'),
-        status: p.string().length(32).default('active').comment('状态：active/superseded/voided'),
+        status: p.string().$type<OperatingLifecycleStatus>().length(32).default(OperatingLifecycleStatusValue.Active).comment('状态：active/superseded/voided'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),

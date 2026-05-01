@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingLifecycleStatus } from './operating-lifecycle-status';
 
 
 export interface OperatingRestatementSummary {
@@ -17,15 +18,10 @@ export interface OperatingRestatementSummary {
     restatedSnapshotId: string;
     restatementReason: string;
     restatementSummary: string;
-    status: OperatingRestatementSummaryStatusEnum;
+    status: OperatingLifecycleStatus;
     handledAt: string;
     handledBy: string | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
 }
-export enum OperatingRestatementSummaryStatusEnum {
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

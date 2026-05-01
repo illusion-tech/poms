@@ -1,6 +1,30 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { createHash, randomUUID } from 'node:crypto';
-import { ExpenseRecordStatusValue, ExpenseSourceTypeValue, InvoiceRecordExceptionStatusValue, InvoiceRecordStatusValue, InvoiceRecordTypeValue, PayableRecordStatusValue, PaymentRecordStatusValue } from '@poms/shared-contracts';
+import {
+    BaselineSelectionSourceValue,
+    ChangePackageBaselineStatusValue,
+    CostStageAttributionModeValue,
+    ExpenseRecordStatusValue,
+    ExpenseSourceTypeValue,
+    InvoiceRecordExceptionStatusValue,
+    InvoiceRecordStatusValue,
+    InvoiceRecordTypeValue,
+    LaborCostPeriodTypeValue,
+    OperatingBaselinePackageStatusValue,
+    OperatingDataMaturityLevelValue,
+    OperatingLifecycleStatusValue,
+    OperatingPendingLifecycleStatusValue,
+    OperatingRiskLevelValue,
+    OperatingSnapshotActionLevelValue,
+    OperatingSnapshotModeValue,
+    ProjectActualCostRecordStatusValue,
+    ProjectActualCostSourceTypeValue,
+    ProjectActualCostTypeValue,
+    PayableRecordStatusValue,
+    PaymentRecordStatusValue,
+    type LaborCostPeriodType,
+    type OperatingDataMaturityLevel
+} from '@poms/shared-contracts';
 import type {
     ActivateOperatingBaselinePackageRequest,
     AccountingTaxTreatmentListView,
@@ -174,7 +198,7 @@ export class ProjectCostService {
         const entity = this.internalCostRateVersionRepository.create({
             rateKey,
             version: nextVersion,
-            status: 'active',
+            status: OperatingPendingLifecycleStatusValue.Active,
             isCurrent: true,
             rateScopeType: input.rateScopeType,
             personId: input.personId ?? null,
@@ -217,15 +241,15 @@ export class ProjectCostService {
 
     async createProjectActualCostRecord(projectId: string, input: CreateProjectActualCostRecordRequest, userId: string): Promise<CommandResult> {
         switch (input.costType) {
-            case 'PAYMENT_FACT':
+            case ProjectActualCostTypeValue.PaymentFact:
                 return this.registerPaymentFactCostRecord(projectId, input, userId);
-            case 'INVOICE':
+            case ProjectActualCostTypeValue.Invoice:
                 return this.registerInvoiceCostRecord(projectId, input, userId);
-            case 'EXPENSE':
+            case ProjectActualCostTypeValue.Expense:
                 return this.registerExpenseCostRecord(projectId, input, userId);
-            case 'PROCUREMENT':
+            case ProjectActualCostTypeValue.Procurement:
                 return this.registerProcurementCostRecord(projectId, input, userId);
-            case 'LABOR':
+            case ProjectActualCostTypeValue.Labor:
                 return this.registerLaborCostRecord(projectId, input, userId);
         }
     }
@@ -248,7 +272,7 @@ export class ProjectCostService {
             throw new ConflictException(`PaymentRecord ${input.paymentRecordId} is not confirmed`);
         }
 
-        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('PAYMENT_RECORD', paymentRecord.id);
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.PaymentRecord, paymentRecord.id);
         if (existing) {
             throw new ConflictException(`PaymentRecord ${input.paymentRecordId} already has a current payment fact mapping`);
         }
@@ -257,12 +281,12 @@ export class ProjectCostService {
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
             recordNo: await this.businessNumberService.next('cost-payment-fact'),
-            costType: 'PAYMENT_FACT',
+            costType: ProjectActualCostTypeValue.PaymentFact,
             costSubtype: paymentRecord.costCategory,
             occurredOn: this.toIsoDate(paymentRecord.paymentDate),
             registeredAt: confirmedAt,
             confirmedAt,
-            recordStatus: 'CONFIRMED',
+            recordStatus: ProjectActualCostRecordStatusValue.Confirmed,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: 0,
@@ -270,7 +294,7 @@ export class ProjectCostService {
             amountExcludingTax: this.formatAmount(this.toNumber(paymentRecord.amountExcludingTax)),
             taxCostAmount: this.toNullableDecimal(paymentRecord.taxAmount),
             amountIncludingTax: this.toNullableDecimal(paymentRecord.amountIncludingTax),
-            sourceType: 'PAYMENT_RECORD',
+            sourceType: ProjectActualCostSourceTypeValue.PaymentRecord,
             sourceId: paymentRecord.id,
             sourceRefNo: paymentRecord.id,
             evidenceSummary: input.evidenceSummary ?? null,
@@ -287,7 +311,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'CONFIRMED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Confirmed,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -310,7 +334,7 @@ export class ProjectCostService {
 
         this.assertInvoiceEligibleForCostMapping(invoiceRecord);
 
-        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('INVOICE_RECORD', invoiceRecord.id);
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.InvoiceRecord, invoiceRecord.id);
         if (existing) {
             throw new ConflictException(`InvoiceRecord ${input.invoiceRecordId} already has a current invoice mapping`);
         }
@@ -319,12 +343,12 @@ export class ProjectCostService {
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
             recordNo: await this.businessNumberService.next('cost-invoice'),
-            costType: 'INVOICE',
+            costType: ProjectActualCostTypeValue.Invoice,
             costSubtype: invoiceRecord.invoiceType,
             occurredOn: this.toIsoDate(invoiceRecord.invoiceDate),
             registeredAt: confirmedAt,
             confirmedAt,
-            recordStatus: 'CONFIRMED',
+            recordStatus: ProjectActualCostRecordStatusValue.Confirmed,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: 0,
@@ -332,7 +356,7 @@ export class ProjectCostService {
             amountExcludingTax: null,
             taxCostAmount: null,
             amountIncludingTax: this.formatAmount(this.toNumber(invoiceRecord.invoiceAmount)),
-            sourceType: 'INVOICE_RECORD',
+            sourceType: ProjectActualCostSourceTypeValue.InvoiceRecord,
             sourceId: invoiceRecord.id,
             sourceRefNo: invoiceRecord.invoiceNumber,
             evidenceSummary: input.evidenceSummary ?? null,
@@ -350,7 +374,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'CONFIRMED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Confirmed,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -373,7 +397,7 @@ export class ProjectCostService {
 
         this.assertExpenseEligibleForCostMapping(expenseRecord);
 
-        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', expenseRecord.id);
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.ExpenseRecord, expenseRecord.id);
         if (existing) {
             throw new ConflictException(`ExpenseRecord ${input.expenseRecordId} already has a current expense mapping`);
         }
@@ -382,12 +406,12 @@ export class ProjectCostService {
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
             recordNo: await this.businessNumberService.next('cost-expense'),
-            costType: 'EXPENSE',
+            costType: ProjectActualCostTypeValue.Expense,
             costSubtype: expenseRecord.expenseCategory,
             occurredOn: this.toIsoDate(expenseRecord.expenseDate),
             registeredAt: confirmedAt,
             confirmedAt,
-            recordStatus: 'CONFIRMED',
+            recordStatus: ProjectActualCostRecordStatusValue.Confirmed,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: expenseRecord.attachmentCount,
@@ -395,7 +419,7 @@ export class ProjectCostService {
             amountExcludingTax: this.toNullableDecimal(expenseRecord.amountExcludingTax),
             taxCostAmount: this.toNullableDecimal(expenseRecord.taxAmount),
             amountIncludingTax: this.formatAmount(this.toNumber(expenseRecord.amountIncludingTax)),
-            sourceType: 'EXPENSE_RECORD',
+            sourceType: ProjectActualCostSourceTypeValue.ExpenseRecord,
             sourceId: expenseRecord.id,
             sourceRefNo: expenseRecord.id,
             evidenceSummary: input.evidenceSummary ?? expenseRecord.evidenceSummary ?? null,
@@ -413,7 +437,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'CONFIRMED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Confirmed,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -436,7 +460,11 @@ export class ProjectCostService {
 
         this.assertPayableEligibleForCostMapping(payableRecord);
 
-        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('PAYABLE_RECORD', payableRecord.id, ['REGISTERED', 'CONFIRMED', 'INCLUDED']);
+        const existing = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.PayableRecord, payableRecord.id, [
+            ProjectActualCostRecordStatusValue.Registered,
+            ProjectActualCostRecordStatusValue.Confirmed,
+            ProjectActualCostRecordStatusValue.Included
+        ]);
         if (existing) {
             throw new ConflictException(`PayableRecord ${input.payableRecordId} already has a current procurement mapping`);
         }
@@ -444,12 +472,12 @@ export class ProjectCostService {
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
             recordNo: await this.businessNumberService.next('cost-procurement'),
-            costType: 'PROCUREMENT',
+            costType: ProjectActualCostTypeValue.Procurement,
             costSubtype: payableRecord.costCategory,
             occurredOn: this.toIsoDate(payableRecord.expectedPaymentDate),
             registeredAt: payableRecord.createdAt,
             confirmedAt: null,
-            recordStatus: 'REGISTERED',
+            recordStatus: ProjectActualCostRecordStatusValue.Registered,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: payableRecord.attachmentCount,
@@ -457,7 +485,7 @@ export class ProjectCostService {
             amountExcludingTax: this.formatAmount(this.toNumber(payableRecord.amountExcludingTax)),
             taxCostAmount: this.toNullableDecimal(payableRecord.taxAmount),
             amountIncludingTax: this.toNullableDecimal(payableRecord.amountIncludingTax),
-            sourceType: 'PAYABLE_RECORD',
+            sourceType: ProjectActualCostSourceTypeValue.PayableRecord,
             sourceId: payableRecord.id,
             sourceRefNo: payableRecord.id,
             evidenceSummary: input.evidenceSummary ?? payableRecord.evidenceSummary ?? null,
@@ -476,7 +504,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'REGISTERED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Registered,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -493,7 +521,7 @@ export class ProjectCostService {
         if (!record) {
             throw new NotFoundException(`ExpenseRecord ${id} not found`);
         }
-        const hasCurrentCostMapping = record.status === ExpenseRecordStatusValue.Confirmed ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id)) : false;
+        const hasCurrentCostMapping = record.status === ExpenseRecordStatusValue.Confirmed ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.ExpenseRecord, id)) : false;
 
         return {
             ...this.toExpenseRecordSummary(record),
@@ -608,7 +636,7 @@ export class ProjectCostService {
         if (record.status === ExpenseRecordStatusValue.Voided) {
             throw new UnprocessableEntityException(`ExpenseRecord ${id} is already voided`);
         }
-        const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', record.id);
+        const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.ExpenseRecord, record.id);
         if (currentMapping) {
             throw new UnprocessableEntityException(`EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`);
         }
@@ -632,10 +660,10 @@ export class ProjectCostService {
         }
 
         const [paymentRecord, invoiceRecord, expenseRecord, payableRecord, rateVersion, replacementRecord] = await Promise.all([
-            record.sourceType === 'PAYMENT_RECORD' && record.sourceId ? this.contractFinanceRepository.findPaymentById(record.sourceId) : Promise.resolve(null),
-            record.sourceType === 'INVOICE_RECORD' && record.sourceId ? this.contractFinanceRepository.findInvoiceById(record.sourceId) : Promise.resolve(null),
-            record.sourceType === 'EXPENSE_RECORD' && record.sourceId ? this.expenseRecordRepository.findById(record.sourceId) : Promise.resolve(null),
-            record.sourceType === 'PAYABLE_RECORD' && record.sourceId ? this.contractFinanceRepository.findPayableById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === ProjectActualCostSourceTypeValue.PaymentRecord && record.sourceId ? this.contractFinanceRepository.findPaymentById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === ProjectActualCostSourceTypeValue.InvoiceRecord && record.sourceId ? this.contractFinanceRepository.findInvoiceById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === ProjectActualCostSourceTypeValue.ExpenseRecord && record.sourceId ? this.expenseRecordRepository.findById(record.sourceId) : Promise.resolve(null),
+            record.sourceType === ProjectActualCostSourceTypeValue.PayableRecord && record.sourceId ? this.contractFinanceRepository.findPayableById(record.sourceId) : Promise.resolve(null),
             record.rateVersionId ? this.internalCostRateVersionRepository.findById(record.rateVersionId) : Promise.resolve(null),
             this.projectActualCostRecordRepository.findReplacementBySupersedesRecordId(record.id)
         ]);
@@ -668,7 +696,7 @@ export class ProjectCostService {
             throw new NotFoundException(`Project ${input.projectId} not found`);
         }
 
-        if (input.baselineSelectionSource === 'handover_rebaseline' && !input.effectiveOperatingBaselineId) {
+        if (input.baselineSelectionSource === BaselineSelectionSourceValue.HandoverRebaseline && !input.effectiveOperatingBaselineId) {
             throw new UnprocessableEntityException('effectiveOperatingBaselineId is required for handover_rebaseline baseline selection');
         }
 
@@ -699,7 +727,7 @@ export class ProjectCostService {
             effectiveOperatingBaselineId: input.effectiveOperatingBaselineId ?? null,
             baselineSummary: input.baselineSummary ?? null,
             isCurrent: true,
-            status: 'active',
+            status: OperatingBaselinePackageStatusValue.Active,
             effectiveAt: now,
             effectiveBy: userId,
             createdBy: userId,
@@ -713,7 +741,7 @@ export class ProjectCostService {
                 changePackageId: item.changePackageId,
                 changeAmount: this.formatAmount(this.parseDecimal(item.changeAmount, 'changeAmount')),
                 changeSummary: item.changeSummary ?? null,
-                status: 'active',
+                status: ChangePackageBaselineStatusValue.Active,
                 effectiveAt: item.effectiveAt ? new Date(item.effectiveAt) : now,
                 createdBy: userId,
                 updatedBy: userId
@@ -721,14 +749,14 @@ export class ProjectCostService {
         );
         await this.projectActualCostRecordRepository.transactional(async (em) => {
             if (current) {
-                await em.nativeUpdate(OperatingBaselinePackage, { id: current.id }, { isCurrent: false, status: 'superseded', updatedBy: userId });
+                await em.nativeUpdate(OperatingBaselinePackage, { id: current.id }, { isCurrent: false, status: OperatingBaselinePackageStatusValue.Superseded, updatedBy: userId });
             }
 
             await em.persist([baselinePackage, ...changeBaselines]).flush();
         });
         if (current) {
             current.isCurrent = false;
-            current.status = 'superseded';
+            current.status = OperatingBaselinePackageStatusValue.Superseded;
             current.updatedBy = userId;
         }
 
@@ -736,7 +764,7 @@ export class ProjectCostService {
             targetId: baselinePackage.id,
             targetType: 'OperatingBaselinePackage',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingBaselinePackageStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -776,7 +804,7 @@ export class ProjectCostService {
             referencedBaselineVersion: input.referencedBaselineVersion,
             baselineSelectionSource: input.baselineSelectionSource,
             handoverRebaselineRecordId,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             supersedesId: null,
             createdBy: userId,
             updatedBy: userId
@@ -788,7 +816,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectOperatingSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -821,7 +849,7 @@ export class ProjectCostService {
             id: randomUUID(),
             projectId: input.projectId,
             periodKey: input.periodKey,
-            snapshotMode: 'period-end',
+            snapshotMode: OperatingSnapshotModeValue.PeriodEnd,
             snapshotAt: new Date(),
             ...calculated,
             taxImpactSummary: input.taxImpactSummary,
@@ -832,7 +860,7 @@ export class ProjectCostService {
             referencedBaselineVersion: input.referencedBaselineVersion,
             baselineSelectionSource: input.baselineSelectionSource,
             handoverRebaselineRecordId,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             createdBy: userId,
             updatedBy: userId
         });
@@ -843,7 +871,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'PeriodClosingSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -866,10 +894,10 @@ export class ProjectCostService {
         if (periodEndSnapshot.projectId !== input.projectId || restatesSnapshot.projectId !== input.projectId) {
             throw new ConflictException(`Restatement snapshots do not belong to project ${input.projectId}`);
         }
-        if (periodEndSnapshot.status !== 'active') {
+        if (periodEndSnapshot.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`PeriodClosingSnapshot ${input.periodEndSnapshotId} is not active`);
         }
-        if (restatesSnapshot.status !== 'active') {
+        if (restatesSnapshot.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} is not active`);
         }
         this.assertExpectedVersion(restatesSnapshot.rowVersion, input.expectedRestatesSnapshotVersion, 'ProjectOperatingSnapshot');
@@ -882,7 +910,7 @@ export class ProjectCostService {
         const restatedSnapshot = this.projectOperatingSnapshotRepository.create({
             id: restatedSnapshotId,
             projectId: input.projectId,
-            snapshotMode: 'restated',
+            snapshotMode: OperatingSnapshotModeValue.Restated,
             snapshotAt: new Date(),
             sourceWindowStart: restatedValues.sourceWindowStart,
             sourceWindowEnd: restatedValues.sourceWindowEnd,
@@ -901,13 +929,13 @@ export class ProjectCostService {
             referencedBaselineVersion: restatedValues.referencedBaselineVersion,
             baselineSelectionSource: restatedValues.baselineSelectionSource,
             handoverRebaselineRecordId: restatedValues.handoverRebaselineRecordId,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             supersedesId: restatesSnapshot.id,
             createdBy: userId,
             updatedBy: userId
         });
 
-        restatesSnapshot.status = 'superseded';
+        restatesSnapshot.status = OperatingLifecycleStatusValue.Superseded;
         restatesSnapshot.updatedBy = userId;
 
         const restatementRecord = this.operatingRestatementRecordRepository.create({
@@ -918,7 +946,7 @@ export class ProjectCostService {
             restatedSnapshotId,
             restatementReason: input.restatementReason,
             restatementSummary: input.restatementSummary,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             handledAt: new Date(),
             handledBy: userId,
             createdBy: userId,
@@ -932,7 +960,7 @@ export class ProjectCostService {
             targetId: restatementRecord.id,
             targetType: 'OperatingRestatementRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -997,7 +1025,7 @@ export class ProjectCostService {
             basisType: input.basisType,
             allocationMethod: input.allocationMethod,
             basisSummary: this.appendComment(input.basisSummary ?? `Source cost records: ${uniqueSourceCostRecordIds.length}`, input.comment),
-            status: 'active',
+            status: OperatingPendingLifecycleStatusValue.Active,
             effectiveAt: now,
             effectiveBy: userId,
             supersedesId: null,
@@ -1013,7 +1041,7 @@ export class ProjectCostService {
                 allocatedAmount: this.formatAmount(this.parseNonNegativeDecimal(item.allocatedAmount, 'allocatedAmount')),
                 allocationRatio: this.parseNullableRatio(item.allocationRatio ?? null, 'allocationRatio'),
                 allocationSummary: item.allocationSummary ?? null,
-                status: 'active',
+                status: OperatingPendingLifecycleStatusValue.Active,
                 effectiveAt: now,
                 supersedesId: null,
                 createdBy: userId,
@@ -1028,7 +1056,7 @@ export class ProjectCostService {
             targetId: basis.id,
             targetType: 'SharedCostAllocationBasis',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingPendingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1058,7 +1086,7 @@ export class ProjectCostService {
         if (!superseded) {
             throw new NotFoundException(`SharedCostAllocationResult ${supersededAllocationResultId} not found`);
         }
-        if (superseded.status !== 'active') {
+        if (superseded.status !== OperatingPendingLifecycleStatusValue.Active) {
             throw new ConflictException(`Only active allocation result can be replaced`);
         }
         this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'SharedCostAllocationResult');
@@ -1075,24 +1103,24 @@ export class ProjectCostService {
             allocatedAmount: this.formatAmount(this.parseNonNegativeDecimal(input.allocatedAmount, 'allocatedAmount')),
             allocationRatio: this.parseNullableRatio(input.allocationRatio ?? null, 'allocationRatio'),
             allocationSummary: this.appendComment(input.allocationSummary ?? input.replacementReason, input.comment),
-            status: 'active',
+            status: OperatingPendingLifecycleStatusValue.Active,
             effectiveAt: new Date(),
             supersedesId: superseded.id,
             createdBy: userId,
             updatedBy: userId
         });
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(SharedCostAllocationResult, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
+            await em.nativeUpdate(SharedCostAllocationResult, { id: superseded.id }, { status: OperatingPendingLifecycleStatusValue.Superseded, updatedBy: userId });
             await em.persist(replacement).flush();
         });
-        superseded.status = 'superseded';
+        superseded.status = OperatingPendingLifecycleStatusValue.Superseded;
         superseded.updatedBy = userId;
 
         return {
             targetId: replacement.id,
             targetType: 'SharedCostAllocationResult',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingPendingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1118,7 +1146,7 @@ export class ProjectCostService {
             attributionMode: input.stageAttributionMode,
             lockedBySnapshotId: input.lockedBySnapshotId ?? null,
             attributionSummary: this.appendComment(input.attributionSummary ?? `Stage attributed to ${input.attributedStage}`, input.comment),
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             supersedesId: null,
             handledAt: now,
             handledBy: userId,
@@ -1140,7 +1168,7 @@ export class ProjectCostService {
             targetId: snapshot.id,
             targetType: 'CostStageAttributionSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1152,7 +1180,7 @@ export class ProjectCostService {
         if (!superseded) {
             throw new NotFoundException(`CostStageAttributionSnapshot ${supersededAttributionId} not found`);
         }
-        if (superseded.status !== 'active') {
+        if (superseded.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`Only active cost stage attribution can be reclassified`);
         }
         this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'CostStageAttributionSnapshot');
@@ -1167,10 +1195,10 @@ export class ProjectCostService {
             id: randomUUID(),
             costRecordId: superseded.costRecordId,
             attributedStage: input.newAttributedStage,
-            attributionMode: 'reclassified',
+            attributionMode: CostStageAttributionModeValue.Reclassified,
             lockedBySnapshotId: input.lockedBySnapshotId ?? superseded.lockedBySnapshotId ?? null,
             attributionSummary: this.appendComment(input.reclassifyReason, input.comment),
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             supersedesId: superseded.id,
             handledAt: now,
             handledBy: userId,
@@ -1184,17 +1212,17 @@ export class ProjectCostService {
         costRecord.stageLockedAt = replacement.lockedBySnapshotId ? now : null;
         costRecord.updatedBy = userId;
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(CostStageAttributionSnapshot, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
+            await em.nativeUpdate(CostStageAttributionSnapshot, { id: superseded.id }, { status: OperatingLifecycleStatusValue.Superseded, updatedBy: userId });
             await em.persist([replacement, costRecord]).flush();
         });
-        superseded.status = 'superseded';
+        superseded.status = OperatingLifecycleStatusValue.Superseded;
         superseded.updatedBy = userId;
 
         return {
             targetId: replacement.id,
             targetType: 'CostStageAttributionSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1239,7 +1267,7 @@ export class ProjectCostService {
             taxImpactSummary: input.taxImpactSummary,
             taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
             basisSummary: input.basisSummary ?? null,
-            status: 'active',
+            status: OperatingPendingLifecycleStatusValue.Active,
             supersedesId: null,
             confirmedAt: new Date(),
             confirmedBy: userId,
@@ -1253,7 +1281,7 @@ export class ProjectCostService {
             targetId: snapshot.id,
             targetType: 'AccountingTaxTreatmentSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingPendingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1265,7 +1293,7 @@ export class ProjectCostService {
         if (!superseded) {
             throw new NotFoundException(`AccountingTaxTreatmentSnapshot ${supersededTaxTreatmentSnapshotId} not found`);
         }
-        if (superseded.status !== 'active') {
+        if (superseded.status !== OperatingPendingLifecycleStatusValue.Active) {
             throw new ConflictException(`Only active tax treatment snapshot can be replaced`);
         }
         this.assertExpectedVersion(superseded.rowVersion, input.expectedVersion, 'AccountingTaxTreatmentSnapshot');
@@ -1290,7 +1318,7 @@ export class ProjectCostService {
             taxImpactSummary: input.taxImpactSummary,
             taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, 'taxImpactPendingAmount')),
             basisSummary: input.basisSummary ?? null,
-            status: 'active',
+            status: OperatingPendingLifecycleStatusValue.Active,
             supersedesId: superseded.id,
             confirmedAt: new Date(),
             confirmedBy: userId,
@@ -1299,17 +1327,17 @@ export class ProjectCostService {
         });
 
         await this.projectActualCostRecordRepository.transactional(async (em) => {
-            await em.nativeUpdate(AccountingTaxTreatmentSnapshot, { id: superseded.id }, { status: 'superseded', updatedBy: userId });
+            await em.nativeUpdate(AccountingTaxTreatmentSnapshot, { id: superseded.id }, { status: OperatingPendingLifecycleStatusValue.Superseded, updatedBy: userId });
             await em.persist(snapshot).flush();
         });
-        superseded.status = 'superseded';
+        superseded.status = OperatingPendingLifecycleStatusValue.Superseded;
         superseded.updatedBy = userId;
 
         return {
             targetId: snapshot.id,
             targetType: 'AccountingTaxTreatmentSnapshot',
             resultStatus: 'success',
-            businessStatusAfter: 'active',
+            businessStatusAfter: OperatingPendingLifecycleStatusValue.Active,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1338,7 +1366,7 @@ export class ProjectCostService {
         if (!evaluation) {
             throw new NotFoundException(`OperatingSignalEvaluationResult ${id} not found`);
         }
-        if (evaluation.status !== 'active') {
+        if (evaluation.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`OperatingSignalEvaluationResult ${id} is not active`);
         }
 
@@ -1364,14 +1392,14 @@ export class ProjectCostService {
             reviewComment: input.reviewComment ?? null,
             handledAt: new Date(),
             handledBy: userId,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             createdBy: userId,
             updatedBy: userId
         });
 
         const recordsToSave = [reviewRecord];
         if (activeReview) {
-            activeReview.status = 'superseded';
+            activeReview.status = OperatingLifecycleStatusValue.Superseded;
             activeReview.updatedBy = userId;
             recordsToSave.unshift(activeReview);
         }
@@ -1428,7 +1456,7 @@ export class ProjectCostService {
         if (!binding) {
             throw new NotFoundException(`OperatingSignalToCommissionGateBinding ${id} not found`);
         }
-        if (binding.status !== 'active') {
+        if (binding.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`OperatingSignalToCommissionGateBinding ${id} is not active`);
         }
 
@@ -1479,14 +1507,14 @@ export class ProjectCostService {
             nextActionSummary,
             handledAt: new Date(),
             handledBy: userId,
-            status: 'active',
+            status: OperatingLifecycleStatusValue.Active,
             createdBy: userId,
             updatedBy: userId
         });
 
-        const reviewsToSave = existingReviews.filter((record) => record.status === 'active');
+        const reviewsToSave = existingReviews.filter((record) => record.status === OperatingLifecycleStatusValue.Active);
         for (const record of reviewsToSave) {
-            record.status = 'superseded';
+            record.status = OperatingLifecycleStatusValue.Superseded;
             record.updatedBy = userId;
         }
 
@@ -1755,10 +1783,10 @@ export class ProjectCostService {
         const entity = this.projectActualCostRecordRepository.create({
             projectId,
             recordNo: await this.businessNumberService.next('cost-labor'),
-            costType: 'LABOR',
+            costType: ProjectActualCostTypeValue.Labor,
             costSubtype: null,
             occurredOn: laborPeriodStart,
-            recordStatus: 'REGISTERED',
+            recordStatus: ProjectActualCostRecordStatusValue.Registered,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: input.attachmentIds?.length ?? 0,
@@ -1766,7 +1794,7 @@ export class ProjectCostService {
             amountExcludingTax: laborAmount,
             taxCostAmount: '0.0000',
             amountIncludingTax: laborAmount,
-            sourceType: 'LABOR',
+            sourceType: ProjectActualCostSourceTypeValue.Labor,
             sourceId: rateVersion.id,
             sourceRefNo: rateVersion.rateKey,
             laborPersonId: input.laborPersonId ?? rateVersion.personId ?? null,
@@ -1793,7 +1821,7 @@ export class ProjectCostService {
             targetId: entity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'REGISTERED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Registered,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -1818,7 +1846,7 @@ export class ProjectCostService {
             throw new ConflictException(`Record ${supersededRecordId} is already included in project cost`);
         }
 
-        if (originalRecord.costType !== 'LABOR') {
+        if (originalRecord.costType !== ProjectActualCostTypeValue.Labor) {
             throw new ConflictException(`Only LABOR records can be replaced by replaceLaborCostRecord`);
         }
 
@@ -1834,10 +1862,10 @@ export class ProjectCostService {
         const newEntity = this.projectActualCostRecordRepository.create({
             projectId: originalRecord.projectId,
             recordNo: await this.businessNumberService.next('cost-labor'),
-            costType: 'LABOR',
+            costType: ProjectActualCostTypeValue.Labor,
             costSubtype: originalRecord.costSubtype,
             occurredOn: laborPeriodStart,
-            recordStatus: 'REGISTERED',
+            recordStatus: ProjectActualCostRecordStatusValue.Registered,
             isIncludedInProjectCost: false,
             isHighRisk: false,
             attachmentCount: 0,
@@ -1845,7 +1873,7 @@ export class ProjectCostService {
             amountExcludingTax: laborAmount,
             taxCostAmount: '0.0000',
             amountIncludingTax: laborAmount,
-            sourceType: 'LABOR',
+            sourceType: ProjectActualCostSourceTypeValue.Labor,
             sourceId: rateVersion.id,
             sourceRefNo: rateVersion.rateKey,
             laborPersonId: originalRecord.laborPersonId,
@@ -1867,7 +1895,7 @@ export class ProjectCostService {
             registeredAt: new Date()
         });
 
-        originalRecord.recordStatus = 'REPLACED';
+        originalRecord.recordStatus = ProjectActualCostRecordStatusValue.Replaced;
         originalRecord.updatedBy = userId;
         await this.projectActualCostRecordRepository.saveAll([originalRecord, newEntity]);
 
@@ -1875,7 +1903,7 @@ export class ProjectCostService {
             targetId: newEntity.id,
             targetType: 'ProjectActualCostRecord',
             resultStatus: 'success',
-            businessStatusAfter: 'REGISTERED',
+            businessStatusAfter: ProjectActualCostRecordStatusValue.Registered,
             approvalRecordId: null,
             confirmationRecordId: null,
             todoItemIds: []
@@ -2119,7 +2147,7 @@ export class ProjectCostService {
             id: entity.id,
             projectId: entity.projectId,
             periodKey: entity.periodKey,
-            snapshotMode: 'period-end',
+            snapshotMode: OperatingSnapshotModeValue.PeriodEnd,
             snapshotAt: this.toRequiredDateTime(entity.snapshotAt),
             effectiveContractTotal: this.toNullableDecimal(entity.effectiveContractTotal) ?? '0.0000',
             receivableConfirmedTotal: this.toNullableDecimal(entity.receivableConfirmedTotal) ?? '0.0000',
@@ -2399,7 +2427,7 @@ export class ProjectCostService {
     }
 
     private buildAllowedActions(record: ProjectActualCostRecord): string[] {
-        if (record.costType === 'LABOR' && !record.isIncludedInProjectCost && record.recordStatus !== 'REPLACED') {
+        if (record.costType === ProjectActualCostTypeValue.Labor && !record.isIncludedInProjectCost && record.recordStatus !== ProjectActualCostRecordStatusValue.Replaced) {
             return ['replace'];
         }
         return [];
@@ -2423,7 +2451,7 @@ export class ProjectCostService {
         dataMaturity: DataMaturityEvaluationResult,
         reviewRecord: OperatingSignalReviewRecord | null
     ): {
-        dataMaturityLevel: string;
+        dataMaturityLevel: OperatingDataMaturityLevel;
         costActionRecommendation: OperatingSignalEvaluationView['costActionRecommendation'];
         currentActionLevel: OperatingSignalEvaluationView['currentActionLevel'];
         referencedBaselineVersion: string;
@@ -2469,14 +2497,14 @@ export class ProjectCostService {
     }
 
     private assertGateBindingReviewable(binding: OperatingSignalToCommissionGateBinding): void {
-        if (binding.bindingAction === 'PROMPT') {
+        if (binding.bindingAction === OperatingSnapshotActionLevelValue.Prompt) {
             throw new ConflictException(`OperatingSignalToCommissionGateBinding ${binding.id} does not require gate review`);
         }
     }
 
     private assertCommissionGateReviewPayload(input: ReviewCommissionGateBindingRequest): void {
         const decision = input.gateReviewDecision.trim().toUpperCase();
-        if ((input.bindingAction === 'BLOCK' || decision.includes('BLOCK')) && !input.blockingReasonCode) {
+        if ((input.bindingAction === OperatingSnapshotActionLevelValue.Block || decision.includes(OperatingSnapshotActionLevelValue.Block)) && !input.blockingReasonCode) {
             throw new UnprocessableEntityException('blockingReasonCode is required when the gate review result is BLOCK');
         }
     }
@@ -2494,15 +2522,15 @@ export class ProjectCostService {
     }
 
     private buildCommissionGateNextActionSummary(bindingAction: ReviewCommissionGateBindingRequest['bindingAction'], gateReviewDecision: string, blockingReasonCode: string | null, fallbackSummary: string | null): string | null {
-        if (bindingAction === 'BLOCK') {
-            return blockingReasonCode ? `BLOCK: ${blockingReasonCode}` : (fallbackSummary ?? `BLOCK: ${gateReviewDecision}`);
+        if (bindingAction === OperatingSnapshotActionLevelValue.Block) {
+            return blockingReasonCode ? `${OperatingSnapshotActionLevelValue.Block}: ${blockingReasonCode}` : (fallbackSummary ?? `${OperatingSnapshotActionLevelValue.Block}: ${gateReviewDecision}`);
         }
 
-        if (bindingAction === 'REVIEW') {
-            return fallbackSummary ?? `REVIEW: ${gateReviewDecision}`;
+        if (bindingAction === OperatingSnapshotActionLevelValue.Review) {
+            return fallbackSummary ?? `${OperatingSnapshotActionLevelValue.Review}: ${gateReviewDecision}`;
         }
 
-        return fallbackSummary ?? `PROMPT: ${gateReviewDecision}`;
+        return fallbackSummary ?? `${OperatingSnapshotActionLevelValue.Prompt}: ${gateReviewDecision}`;
     }
 
     private selectLatestCommissionGateReview(reviewRecords: CommissionGateReviewRecord[]): CommissionGateReviewRecord | null {
@@ -2510,7 +2538,7 @@ export class ProjectCostService {
             return null;
         }
 
-        return reviewRecords.find((record) => record.status === 'active') ?? reviewRecords[0];
+        return reviewRecords.find((record) => record.status === OperatingLifecycleStatusValue.Active) ?? reviewRecords[0];
     }
 
     private async getCurrentProjectOperatingSignalContext(projectId: string): Promise<{
@@ -2519,7 +2547,7 @@ export class ProjectCostService {
         evaluation: OperatingSignalEvaluationResult;
         activeSignalReview: OperatingSignalReviewRecord | null;
         resolvedSignalInput: {
-            dataMaturityLevel: string;
+            dataMaturityLevel: OperatingDataMaturityLevel;
             costActionRecommendation: OperatingSignalEvaluationView['costActionRecommendation'];
             currentActionLevel: OperatingSignalEvaluationView['currentActionLevel'];
             referencedBaselineVersion: string;
@@ -2555,7 +2583,7 @@ export class ProjectCostService {
     }
 
     private buildOperatingSignalAllowedActions(reviewRequired: boolean, currentActionLevel: string): string[] {
-        if (reviewRequired || this.getActionSeverity(currentActionLevel) >= this.getActionSeverity('REVIEW')) {
+        if (reviewRequired || this.getActionSeverity(currentActionLevel) >= this.getActionSeverity(OperatingSnapshotActionLevelValue.Review)) {
             return ['reviewOperatingSignalEvaluation'];
         }
         return [];
@@ -2575,7 +2603,7 @@ export class ProjectCostService {
             return ['reviewCommissionGateBinding'];
         }
 
-        if (this.getActionSeverity(bindingAction) >= this.getActionSeverity('REVIEW')) {
+        if (this.getActionSeverity(bindingAction) >= this.getActionSeverity(OperatingSnapshotActionLevelValue.Review)) {
             return ['reviewCommissionGateBinding'];
         }
 
@@ -2625,12 +2653,12 @@ export class ProjectCostService {
             return null;
         }
 
-        if (normalized === '数据不足' || normalized.toUpperCase() === 'INSUFFICIENT') {
-            return 'REVIEW';
+        if (normalized === OperatingDataMaturityLevelValue.Insufficient || normalized.toUpperCase() === 'INSUFFICIENT') {
+            return OperatingSnapshotActionLevelValue.Review;
         }
 
-        if (normalized === '初步可看' || normalized.toUpperCase() === 'PRELIMINARY') {
-            return 'PROMPT';
+        if (normalized === OperatingDataMaturityLevelValue.Preliminary || normalized.toUpperCase() === 'PRELIMINARY') {
+            return OperatingSnapshotActionLevelValue.Prompt;
         }
 
         return this.normalizeActionLevel(normalized);
@@ -2642,12 +2670,12 @@ export class ProjectCostService {
             return null;
         }
 
-        if (normalized === '风险' || normalized.toUpperCase() === 'RISK') {
-            return 'BLOCK';
+        if (normalized === '风险' || normalized.toUpperCase() === OperatingRiskLevelValue.Risk) {
+            return OperatingSnapshotActionLevelValue.Block;
         }
 
-        if (normalized === '关注' || normalized.toUpperCase() === 'ATTENTION') {
-            return 'REVIEW';
+        if (normalized === '关注' || normalized.toUpperCase() === OperatingRiskLevelValue.Attention) {
+            return OperatingSnapshotActionLevelValue.Review;
         }
 
         return this.normalizeActionLevel(normalized);
@@ -2655,23 +2683,23 @@ export class ProjectCostService {
 
     private normalizeActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
         const normalized = value?.trim().toUpperCase();
-        if (normalized === 'PROMPT' || normalized === 'REVIEW' || normalized === 'BLOCK') {
+        if (normalized === OperatingSnapshotActionLevelValue.Prompt || normalized === OperatingSnapshotActionLevelValue.Review || normalized === OperatingSnapshotActionLevelValue.Block) {
             return normalized;
         }
         return null;
     }
 
     private resolveHighestActionLevel(candidates: Array<OperatingSignalEvaluationView['currentActionLevel'] | null>): OperatingSignalEvaluationView['currentActionLevel'] {
-        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>((current, candidate) => (this.getActionSeverity(candidate) > this.getActionSeverity(current) ? (candidate ?? current) : current), 'PROMPT');
+        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>((current, candidate) => (this.getActionSeverity(candidate) > this.getActionSeverity(current) ? (candidate ?? current) : current), OperatingSnapshotActionLevelValue.Prompt);
     }
 
     private getActionSeverity(value: string | null | undefined): number {
         switch (this.normalizeActionLevel(value)) {
-            case 'BLOCK':
+            case OperatingSnapshotActionLevelValue.Block:
                 return 3;
-            case 'REVIEW':
+            case OperatingSnapshotActionLevelValue.Review:
                 return 2;
-            case 'PROMPT':
+            case OperatingSnapshotActionLevelValue.Prompt:
                 return 1;
             default:
                 return 0;
@@ -2679,14 +2707,14 @@ export class ProjectCostService {
     }
 
     private async assertValidHandoverRebaselineReference(projectId: string, baselineSelectionSource: string, handoverRebaselineRecordId: string | null): Promise<string | null> {
-        if (baselineSelectionSource === 'original') {
+        if (baselineSelectionSource === BaselineSelectionSourceValue.Original) {
             if (handoverRebaselineRecordId) {
                 throw new UnprocessableEntityException('handoverRebaselineRecordId must be null when baselineSelectionSource is original');
             }
             return null;
         }
 
-        if (baselineSelectionSource !== 'handover_rebaseline') {
+        if (baselineSelectionSource !== BaselineSelectionSourceValue.HandoverRebaseline) {
             return handoverRebaselineRecordId;
         }
 
@@ -2838,8 +2866,8 @@ export class ProjectCostService {
         return typeof value === 'string' ? value : String(value);
     }
 
-    private toLaborPeriodType(value: string | null | undefined): 'WEEK' | 'MONTH' | null {
-        return value === 'WEEK' || value === 'MONTH' ? value : null;
+    private toLaborPeriodType(value: string | null | undefined): LaborCostPeriodType | null {
+        return value === LaborCostPeriodTypeValue.Week || value === LaborCostPeriodTypeValue.Month ? value : null;
     }
 
     private formatAmount(value: number): string {

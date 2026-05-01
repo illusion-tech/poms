@@ -14,6 +14,7 @@ import {
     baselineSelectionSourceLabel,
     commissionSettlementStatusLabelOrFallback,
     commissionSettlementStatusSeverityOrFallback,
+    dataMaturityLevelLabelOrFallback,
     freezeVersionStatusLabel,
     freezeVersionStatusSeverity
 } from '../project/project-presentation';
@@ -172,7 +173,7 @@ export class ProjectCommissionFinalSettlement implements OnInit {
             },
             { label: '冻结参与人', value: this.freezeParticipantsSummary() },
             { label: '基线选择', value: baselineSelectionSourceLabel(current.baselineSelectionSource) },
-            { label: '数据成熟度', value: current.dataMaturityLevel },
+            { label: '数据成熟度', value: dataMaturityLevelLabelOrFallback(current.dataMaturityLevel) },
             {
                 label: '建议动作',
                 value: actionLevelLabel(current.costActionRecommendation),

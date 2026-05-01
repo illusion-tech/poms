@@ -1,7 +1,13 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { PaymentRecordStatusValue, ReceiptRecordStatusValue } from '@poms/shared-contracts';
+import {
+    PaymentRecordStatusValue,
+    ProjectActualCostRecordStatusValue,
+    ReceiptRecordStatusValue,
+    type ProjectActualCostRecordStatus,
+    type ProjectActualCostSourceType
+} from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 import { ProjectActualCostRecord } from '../project-cost/project-actual-cost-record.entity';
@@ -147,7 +153,11 @@ export class ContractFinanceRepository {
         return this.paymentRepository.find({ projectId, status: PaymentRecordStatusValue.Confirmed });
     }
 
-    async findCurrentCostMappingBySource(sourceType: string, sourceId: string, activeStatuses: string[] = ['REGISTERED', 'CONFIRMED', 'INCLUDED']): Promise<ProjectActualCostRecord | null> {
+    async findCurrentCostMappingBySource(
+        sourceType: ProjectActualCostSourceType,
+        sourceId: string,
+        activeStatuses: ProjectActualCostRecordStatus[] = [ProjectActualCostRecordStatusValue.Registered, ProjectActualCostRecordStatusValue.Confirmed, ProjectActualCostRecordStatusValue.Included]
+    ): Promise<ProjectActualCostRecord | null> {
         return this.projectActualCostRecordRepository.findOne(
             {
                 sourceType,

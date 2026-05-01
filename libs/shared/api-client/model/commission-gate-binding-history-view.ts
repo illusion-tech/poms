@@ -9,6 +9,8 @@
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface CommissionGateBindingHistoryView {
@@ -16,10 +18,10 @@ export interface CommissionGateBindingHistoryView {
     projectId: string;
     signalEvaluationId: string;
     gateStageType: string;
-    signalLevel: string;
+    signalLevel: OperatingSignalLevel;
     taxImpactSummary: string;
     taxImpactPendingAmount: string;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     baselineSelectionSource: BaselineSelectionSource;

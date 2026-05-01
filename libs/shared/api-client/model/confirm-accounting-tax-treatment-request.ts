@@ -7,11 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AccountingTaxDeductibilityStatus } from './accounting-tax-deductibility-status';
 
 
 export interface ConfirmAccountingTaxTreatmentRequest {
     taxTreatmentType: string;
-    deductibilityStatus: string;
+    deductibilityStatus: AccountingTaxDeductibilityStatus;
     taxImpactAmount: string;
     taxImpactSummary: string;
     taxPendingFlag?: boolean;

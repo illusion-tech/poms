@@ -9,6 +9,7 @@
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 
 
 export interface ReviewCommissionGateBindingResult {
@@ -17,7 +18,7 @@ export interface ReviewCommissionGateBindingResult {
     gateReviewRecordId: string;
     taxImpactSummary: string;
     taxImpactPendingAmount: string;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     baselineSelectionSource: BaselineSelectionSource;

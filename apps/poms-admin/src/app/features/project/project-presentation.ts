@@ -41,6 +41,14 @@ const SIGNAL_LEVEL_LABELS = {
 
 export type SignalLevelCode = keyof typeof SIGNAL_LEVEL_LABELS;
 
+const DATA_MATURITY_LEVEL_LABELS = {
+    INSUFFICIENT: '数据不足',
+    PRELIMINARY: '初步可看',
+    MATURE: '成熟'
+} as const;
+
+export type DataMaturityLevelCode = keyof typeof DATA_MATURITY_LEVEL_LABELS;
+
 const COMMISSION_SETTLEMENT_STATUS_LABELS = {
     'pending-final-settlement': '待最终结算',
     'pending-non-retention': '非质保待结算',
@@ -172,6 +180,14 @@ export function signalLevelLabel(level: SignalLevelCode): string {
 
 export function signalLevelLabelOrFallback(level: string | null | undefined): string {
     return normalizedLabelOrFallback(SIGNAL_LEVEL_LABELS, level, '待判断');
+}
+
+export function dataMaturityLevelLabel(level: DataMaturityLevelCode): string {
+    return knownLabel(DATA_MATURITY_LEVEL_LABELS, level);
+}
+
+export function dataMaturityLevelLabelOrFallback(level: string | null | undefined): string {
+    return normalizedLabelOrFallback(DATA_MATURITY_LEVEL_LABELS, level, '待判断');
 }
 
 export function commissionSettlementStatusLabel(status: CommissionSettlementStatusCode): string {

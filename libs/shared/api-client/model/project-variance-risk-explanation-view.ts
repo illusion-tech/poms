@@ -8,6 +8,8 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingRiskLevel } from './operating-risk-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
@@ -15,11 +17,11 @@ export interface ProjectVarianceRiskExplanationView {
     projectId: string;
     signalEvaluationId: string;
     varianceSourceSummaryProjection: SensitiveStringFieldProjection;
-    riskLevel: string;
+    riskLevel: OperatingRiskLevel;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;

@@ -360,7 +360,7 @@ function makeDataMaturityEvaluationResult(overrides: Record<string, unknown> = {
         id: DATA_MATURITY_EVALUATION_ID,
         projectId: PROJECT_ID,
         referencedSnapshotId: OPERATING_SNAPSHOT_ID,
-        dataMaturityLevel: '数据不足',
+        dataMaturityLevel: 'INSUFFICIENT',
         costActionRecommendation: 'REVIEW',
         taxImpactPendingAmount: '1200.0000',
         allocationStabilitySummary: 'Cost allocation requires verification',
@@ -407,7 +407,7 @@ function makeOperatingSignalReviewRecord(overrides: Record<string, unknown> = {}
         id: OPERATING_SIGNAL_REVIEW_RECORD_ID,
         signalEvaluationId: OPERATING_SIGNAL_EVALUATION_ID,
         reviewDecision: 'MANUAL_CONFIRMED',
-        resolvedDataMaturityLevel: '成熟',
+        resolvedDataMaturityLevel: 'MATURE',
         resolvedCostActionRecommendation: 'PROMPT',
         resolvedCurrentActionLevel: 'REVIEW',
         referencedBaselineVersion: 'baseline-v2',
@@ -435,7 +435,7 @@ function makeOperatingSignalToCommissionGateBinding(overrides: Record<string, un
         taxImpactPendingAmount: '1200.0000',
         allocationStabilitySummary: 'Allocation basis shifted after restatement',
         unmappedCostSummary: 'Unmapped delivery cost detected',
-        dataMaturityLevel: '数据不足',
+        dataMaturityLevel: 'INSUFFICIENT',
         costActionRecommendation: 'REVIEW',
         currentActionLevel: 'REVIEW',
         nextActionSummary: 'Review commission settlement package',
@@ -2189,7 +2189,7 @@ describe('ProjectCostService', () => {
                 currentActionLevel: 'REVIEW'
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
-                dataMaturityLevel: '初步可看',
+                dataMaturityLevel: 'PRELIMINARY',
                 costActionRecommendation: 'PROMPT'
             });
             const activeReview = makeOperatingSignalReviewRecord({
@@ -2205,7 +2205,7 @@ describe('ProjectCostService', () => {
                 evaluation.id,
                 {
                     reviewDecision: 'APPROVE',
-                    resolvedDataMaturityLevel: '初步可看',
+                    resolvedDataMaturityLevel: 'PRELIMINARY',
                     costActionRecommendation: 'PROMPT',
                     referencedBaselineVersion: 'baseline-v2',
                     referencedSnapshotVersion: 'snapshot-v2',
@@ -2220,7 +2220,7 @@ describe('ProjectCostService', () => {
                 expect.objectContaining({
                     signalEvaluationId: evaluation.id,
                     reviewDecision: 'APPROVE',
-                    resolvedDataMaturityLevel: '初步可看',
+                    resolvedDataMaturityLevel: 'PRELIMINARY',
                     resolvedCostActionRecommendation: 'PROMPT',
                     resolvedCurrentActionLevel: 'REVIEW',
                     referencedBaselineVersion: 'baseline-v2',
@@ -2237,7 +2237,7 @@ describe('ProjectCostService', () => {
             ]);
             expect(result).toMatchObject({
                 signalEvaluationId: evaluation.id,
-                dataMaturityLevel: '初步可看',
+                dataMaturityLevel: 'PRELIMINARY',
                 costActionRecommendation: 'PROMPT',
                 currentActionLevel: 'REVIEW',
                 referencedBaselineVersion: 'baseline-v2',
@@ -2256,7 +2256,7 @@ describe('ProjectCostService', () => {
                     OPERATING_SIGNAL_EVALUATION_ID,
                     {
                         reviewDecision: 'APPROVE',
-                        resolvedDataMaturityLevel: '成熟',
+                        resolvedDataMaturityLevel: 'MATURE',
                         costActionRecommendation: 'PROMPT',
                         referencedBaselineVersion: 'baseline-v2',
                         referencedSnapshotVersion: 'snapshot-v2',
@@ -2273,14 +2273,14 @@ describe('ProjectCostService', () => {
                 referencedSnapshotVersion: 'snapshot-v1'
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
-                dataMaturityLevel: '数据不足',
+                dataMaturityLevel: 'INSUFFICIENT',
                 costActionRecommendation: 'REVIEW',
                 allocationStabilitySummary: 'maturity allocation summary',
                 unmappedCostSummary: 'maturity unmapped summary'
             });
             const activeReview = makeOperatingSignalReviewRecord({
                 reviewDecision: 'MANUAL_CONFIRMED',
-                resolvedDataMaturityLevel: '成熟',
+                resolvedDataMaturityLevel: 'MATURE',
                 resolvedCostActionRecommendation: 'PROMPT',
                 resolvedCurrentActionLevel: 'BLOCK',
                 referencedBaselineVersion: 'baseline-v2',
@@ -2296,13 +2296,13 @@ describe('ProjectCostService', () => {
 
             expect(result).toMatchObject({
                 signalEvaluationId: evaluation.id,
-                dataMaturityLevel: '成熟',
+                dataMaturityLevel: 'MATURE',
                 costActionRecommendation: 'PROMPT',
                 currentActionLevel: 'BLOCK',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
                 reviewRequired: true,
-                reviewSummary: 'MANUAL_CONFIRMED | 成熟 | PROMPT | tax packet missing'
+                reviewSummary: 'MANUAL_CONFIRMED | MATURE | PROMPT | tax packet missing'
             });
         });
 
@@ -2320,12 +2320,12 @@ describe('ProjectCostService', () => {
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
                 id: evaluation.dataMaturityEvaluationId,
-                dataMaturityLevel: '数据不足',
+                dataMaturityLevel: 'INSUFFICIENT',
                 costActionRecommendation: 'REVIEW'
             });
             const activeSignalReview = makeOperatingSignalReviewRecord({
                 signalEvaluationId: evaluation.id,
-                resolvedDataMaturityLevel: '成熟',
+                resolvedDataMaturityLevel: 'MATURE',
                 resolvedCostActionRecommendation: 'PROMPT',
                 resolvedCurrentActionLevel: 'REVIEW',
                 referencedBaselineVersion: 'baseline-v2',
@@ -2365,7 +2365,7 @@ describe('ProjectCostService', () => {
 
             expect(binding.bindingAction).toBe('BLOCK');
             expect(binding.baselineSelectionSource).toBe('handover_rebaseline');
-            expect(binding.dataMaturityLevel).toBe('成熟');
+            expect(binding.dataMaturityLevel).toBe('MATURE');
             expect(binding.costActionRecommendation).toBe('PROMPT');
             expect(binding.currentActionLevel).toBe('REVIEW');
             expect(binding.referencedBaselineVersion).toBe('baseline-v3');
@@ -2385,7 +2385,7 @@ describe('ProjectCostService', () => {
             ]);
             expect(result).toMatchObject({
                 bindingResultId: binding.id,
-                dataMaturityLevel: '成熟',
+                dataMaturityLevel: 'MATURE',
                 costActionRecommendation: 'PROMPT',
                 currentActionLevel: 'REVIEW',
                 baselineSelectionSource: 'handover_rebaseline',
@@ -2431,7 +2431,7 @@ describe('ProjectCostService', () => {
             });
             const activeSignalReview = makeOperatingSignalReviewRecord({
                 signalEvaluationId: evaluation.id,
-                resolvedDataMaturityLevel: '成熟',
+                resolvedDataMaturityLevel: 'MATURE',
                 resolvedCostActionRecommendation: 'PROMPT',
                 resolvedCurrentActionLevel: 'REVIEW',
                 referencedBaselineVersion: 'baseline-v2',
@@ -2478,7 +2478,7 @@ describe('ProjectCostService', () => {
                 projectId: PROJECT_ID,
                 signalLevel: 'ALERT',
                 currentActionLevel: 'REVIEW',
-                dataMaturityLevel: '成熟',
+                dataMaturityLevel: 'MATURE',
                 costActionRecommendation: 'PROMPT',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',

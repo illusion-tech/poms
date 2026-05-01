@@ -9,6 +9,7 @@
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { CreatableOperatingSnapshotMode } from './creatable-operating-snapshot-mode';
 
 
 export interface CreateProjectOperatingSnapshotRequest {
@@ -26,11 +27,7 @@ export interface CreateProjectOperatingSnapshotRequest {
     baselineSelectionSource: BaselineSelectionSource;
     handoverRebaselineRecordId?: string | null;
     projectId: string;
-    snapshotMode: CreateProjectOperatingSnapshotRequestSnapshotModeEnum;
+    snapshotMode: CreatableOperatingSnapshotMode;
     sourceWindowStart?: string | null;
     sourceWindowEnd?: string | null;
 }
-export enum CreateProjectOperatingSnapshotRequestSnapshotModeEnum {
-    Realtime = 'realtime',
-    PeriodEnd = 'period-end'
-};

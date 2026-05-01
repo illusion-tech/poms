@@ -1,6 +1,8 @@
 import { defineEntity } from '@mikro-orm/core';
+import { OPERATING_PENDING_LIFECYCLE_STATUSES, OperatingPendingLifecycleStatusValue, type OperatingPendingLifecycleStatus } from '@poms/shared-contracts';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const SharedCostAllocationBasisSchema = defineEntity({
     name: 'SharedCostAllocationBasis',
@@ -19,7 +21,13 @@ export const SharedCostAllocationBasisSchema = defineEntity({
         {
             name: 'uq_scab_scope_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceCostScopeKey}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceCostScopeKey}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_shared_cost_allocation_basis_status',
+            expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
         }
     ],
     properties: {
@@ -28,7 +36,7 @@ export const SharedCostAllocationBasisSchema = defineEntity({
         basisType: p.string().length(64).fieldName('basis_type').comment('分摊依据类型'),
         allocationMethod: p.string().length(64).fieldName('allocation_method').comment('分摊方法'),
         basisSummary: p.text().nullable().fieldName('basis_summary').comment('分摊依据摘要'),
-        status: p.string().length(32).default('pending').comment('状态：pending/active/superseded/voided'),
+        status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
         effectiveAt: p.datetime().nullable().fieldName('effective_at').comment('生效时间'),
         effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
         supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧依据 ID'),

@@ -1,8 +1,10 @@
 import { defineEntity } from '@mikro-orm/core';
+import { OPERATING_PENDING_LIFECYCLE_STATUSES, OperatingPendingLifecycleStatusValue, type OperatingPendingLifecycleStatus } from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const SharedCostAllocationResultSchema = defineEntity({
     name: 'SharedCostAllocationResult',
@@ -17,7 +19,13 @@ export const SharedCostAllocationResultSchema = defineEntity({
         {
             name: 'uq_scar_basis_project_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.basisId}", "${columns.projectId}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.basisId}", "${columns.projectId}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_shared_cost_allocation_result_status',
+            expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
         }
     ],
     properties: {
@@ -27,7 +35,7 @@ export const SharedCostAllocationResultSchema = defineEntity({
         allocatedAmount: p.decimal().precision(18).scale(2).default(0).fieldName('allocated_amount').comment('分摊金额'),
         allocationRatio: p.decimal().precision(9).scale(6).nullable().fieldName('allocation_ratio').comment('分摊比例'),
         allocationSummary: p.text().nullable().fieldName('allocation_summary').comment('分摊结果说明'),
-        status: p.string().length(32).default('pending').comment('状态：pending/active/superseded/voided'),
+        status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
         effectiveAt: p.datetime().nullable().fieldName('effective_at').comment('生效时间'),
         supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧结果 ID'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),

@@ -161,7 +161,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const signalReview = await reviewOperatingSignalEvaluation(client, fixture.signalEvaluationId, {
             reviewDecision: 'APPROVE',
-            resolvedDataMaturityLevel: '成熟',
+            resolvedDataMaturityLevel: 'MATURE',
             costActionRecommendation: 'PROMPT',
             referencedBaselineVersion: fixture.baselinePackageId,
             referencedSnapshotVersion: fixture.operatingSnapshotId,

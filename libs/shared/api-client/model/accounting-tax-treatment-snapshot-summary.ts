@@ -7,19 +7,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingPendingLifecycleStatus } from './operating-pending-lifecycle-status';
+import { AccountingTaxDeductibilityStatus } from './accounting-tax-deductibility-status';
 
 
 export interface AccountingTaxTreatmentSnapshotSummary {
     id: string;
     projectId: string;
     taxTreatmentType: string;
-    deductibilityStatus: string;
+    deductibilityStatus: AccountingTaxDeductibilityStatus;
     taxImpactAmount: string;
     taxPendingFlag: boolean;
     taxImpactSummary: string;
     taxImpactPendingAmount: string;
     basisSummary: string | null;
-    status: AccountingTaxTreatmentSnapshotSummaryStatusEnum;
+    status: OperatingPendingLifecycleStatus;
     supersedesId: string | null;
     confirmedAt: string | null;
     confirmedBy: string | null;
@@ -27,9 +29,3 @@ export interface AccountingTaxTreatmentSnapshotSummary {
     createdAt: string;
     updatedAt: string;
 }
-export enum AccountingTaxTreatmentSnapshotSummaryStatusEnum {
-    Pending = 'pending',
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

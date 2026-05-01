@@ -2196,7 +2196,7 @@ export class CommissionService {
             baselineSelectionSource: string;
             taxImpactSummary: string;
             taxImpactPendingAmount: string | number;
-            dataMaturityLevel: string;
+            dataMaturityLevel: CommissionSharedEvidencePackage['dataMaturityLevel'];
             costActionRecommendation: string;
             currentActionLevel: string;
             referencedBaselineVersion: string;

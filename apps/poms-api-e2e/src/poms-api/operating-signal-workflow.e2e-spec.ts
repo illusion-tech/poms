@@ -22,14 +22,14 @@ describe('poms-api operating signal workflow e2e', () => {
         const beforeReview = await getOperatingSignalEvaluation(client, fixture.signalEvaluationId);
         expect(beforeReview.signalEvaluationId).toBe(fixture.signalEvaluationId);
         expect(beforeReview.projectId).toBe(fixture.projectId);
-        expect(beforeReview.dataMaturityLevel).toBe('数据不足');
+        expect(beforeReview.dataMaturityLevel).toBe('INSUFFICIENT');
         expect(beforeReview.costActionRecommendation).toBe('REVIEW');
         expect(beforeReview.currentActionLevel).toBe('REVIEW');
         expect(beforeReview.reviewSummary).toBeNull();
 
         const signalReviewResult = await reviewOperatingSignalEvaluation(client, fixture.signalEvaluationId, {
             reviewDecision: 'APPROVE',
-            resolvedDataMaturityLevel: '成熟',
+            resolvedDataMaturityLevel: 'MATURE',
             costActionRecommendation: 'PROMPT',
             referencedBaselineVersion: fixture.baselinePackageId,
             referencedSnapshotVersion: fixture.operatingSnapshotId,
@@ -38,23 +38,23 @@ describe('poms-api operating signal workflow e2e', () => {
         });
         expect(signalReviewResult.resultStatus).toBe('success');
         expect(signalReviewResult.signalEvaluationId).toBe(fixture.signalEvaluationId);
-        expect(signalReviewResult.dataMaturityLevel).toBe('成熟');
+        expect(signalReviewResult.dataMaturityLevel).toBe('MATURE');
         expect(signalReviewResult.costActionRecommendation).toBe('PROMPT');
         expect(signalReviewResult.currentActionLevel).toBe('REVIEW');
 
         const reviewedSignal = await getOperatingSignalEvaluation(client, fixture.signalEvaluationId);
-        expect(reviewedSignal.dataMaturityLevel).toBe('成熟');
+        expect(reviewedSignal.dataMaturityLevel).toBe('MATURE');
         expect(reviewedSignal.costActionRecommendation).toBe('PROMPT');
         expect(reviewedSignal.currentActionLevel).toBe('REVIEW');
         expect(reviewedSignal.referencedBaselineVersion).toBe(fixture.baselinePackageId);
         expect(reviewedSignal.referencedSnapshotVersion).toBe(fixture.operatingSnapshotId);
         expect(reviewedSignal.reviewSummary).toContain('APPROVE');
-        expect(reviewedSignal.reviewSummary).toContain('成熟');
+        expect(reviewedSignal.reviewSummary).toContain('MATURE');
         expect(reviewedSignal.reviewSummary).toContain('PROMPT');
 
         const businessOutcome = await getProjectBusinessOutcomeOverview(client, fixture.projectId);
         expect(businessOutcome.projectId).toBe(fixture.projectId);
-        expect(businessOutcome.dataMaturityLevel).toBe('成熟');
+        expect(businessOutcome.dataMaturityLevel).toBe('MATURE');
         expect(businessOutcome.currentActionLevel).toBe('REVIEW');
         expect(businessOutcome.referencedBaselineVersion).toBe(fixture.baselinePackageId);
         expect(businessOutcome.referencedSnapshotVersion).toBe(fixture.operatingSnapshotId);
@@ -63,7 +63,7 @@ describe('poms-api operating signal workflow e2e', () => {
         const unifiedAccounting = await getProjectUnifiedAccounting(client, fixture.projectId);
         expect(unifiedAccounting.projectId).toBe(fixture.projectId);
         expect(unifiedAccounting.snapshotId).toBe(fixture.operatingSnapshotId);
-        expect(unifiedAccounting.dataMaturityLevel).toBe('成熟');
+        expect(unifiedAccounting.dataMaturityLevel).toBe('MATURE');
         expect(unifiedAccounting.costActionRecommendation).toBe('PROMPT');
         expect(unifiedAccounting.referencedBaselineVersion).toBe(fixture.baselinePackageId);
         expect(unifiedAccounting.referencedSnapshotVersion).toBe(fixture.operatingSnapshotId);
@@ -72,7 +72,7 @@ describe('poms-api operating signal workflow e2e', () => {
         const varianceRisk = await getProjectVarianceRiskExplanation(client, fixture.projectId);
         expect(varianceRisk.projectId).toBe(fixture.projectId);
         expect(varianceRisk.signalEvaluationId).toBe(fixture.signalEvaluationId);
-        expect(varianceRisk.dataMaturityLevel).toBe('成熟');
+        expect(varianceRisk.dataMaturityLevel).toBe('MATURE');
         expect(varianceRisk.costActionRecommendation).toBe('PROMPT');
         expect(varianceRisk.currentActionLevel).toBe('REVIEW');
         expect(varianceRisk.referencedBaselineVersion).toBe(fixture.baselinePackageId);
@@ -81,7 +81,7 @@ describe('poms-api operating signal workflow e2e', () => {
 
         const feedbackBeforeGateReview = await getBusinessAccountingFeedback(client, fixture.projectId);
         expect(feedbackBeforeGateReview.projectId).toBe(fixture.projectId);
-        expect(feedbackBeforeGateReview.dataMaturityLevel).toBe('成熟');
+        expect(feedbackBeforeGateReview.dataMaturityLevel).toBe('MATURE');
         expect(feedbackBeforeGateReview.costActionRecommendation).toBe('PROMPT');
         expect(feedbackBeforeGateReview.currentActionLevel).toBe('REVIEW');
         expect(feedbackBeforeGateReview.nextActionSummaryProjection.value).toBe('Review commission settlement package');
@@ -108,7 +108,7 @@ describe('poms-api operating signal workflow e2e', () => {
         expect(gateBinding.bindingId).toBe(fixture.gateBindingId);
         expect(gateBinding.projectId).toBe(fixture.projectId);
         expect(gateBinding.signalEvaluationId).toBe(fixture.signalEvaluationId);
-        expect(gateBinding.dataMaturityLevel).toBe('成熟');
+        expect(gateBinding.dataMaturityLevel).toBe('MATURE');
         expect(gateBinding.costActionRecommendation).toBe('PROMPT');
         expect(gateBinding.currentActionLevel).toBe('REVIEW');
         expect(gateBinding.bindingAction).toBe('BLOCK');

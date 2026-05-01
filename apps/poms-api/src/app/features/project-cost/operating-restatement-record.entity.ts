@@ -1,10 +1,12 @@
 import { defineEntity } from '@mikro-orm/core';
+import { OPERATING_LIFECYCLE_STATUSES, OperatingLifecycleStatusValue, type OperatingLifecycleStatus } from '@poms/shared-contracts';
 import { ContractHandoverRebaselineRecord } from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
 import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const OperatingRestatementRecordSchema = defineEntity({
     name: 'OperatingRestatementRecord',
@@ -26,12 +28,18 @@ export const OperatingRestatementRecordSchema = defineEntity({
         {
             name: 'uq_orr_restates_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.restatesSnapshotId}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.restatesSnapshotId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
         },
         {
             name: 'uq_orr_restated_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.restatedSnapshotId}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.restatedSnapshotId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_operating_restatement_record_status',
+            expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
         }
     ],
     properties: {
@@ -52,7 +60,7 @@ export const OperatingRestatementRecordSchema = defineEntity({
                 .comment('移交前再基线化记录 ID'),
         restatementReason: p.string().length(256).fieldName('restatement_reason').comment('重述原因'),
         restatementSummary: p.text().fieldName('restatement_summary').comment('重述摘要'),
-        status: p.string().length(32).default('active').comment('状态：active/superseded/voided'),
+        status: p.string().$type<OperatingLifecycleStatus>().length(32).default(OperatingLifecycleStatusValue.Active).comment('状态：active/superseded/voided'),
         handledAt: p.datetime().defaultRaw('now()').fieldName('handled_at').comment('处理时间'),
         handledBy: p.uuid().nullable().fieldName('handled_by').comment('处理人'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),

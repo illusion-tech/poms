@@ -8,17 +8,19 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface OperatingSignalEvaluationView {
     signalEvaluationId: string;
     projectId: string;
-    formulaBoundaryAction: string;
-    signalLevel: string;
+    formulaBoundaryAction: OperatingSnapshotActionLevel;
+    signalLevel: OperatingSignalLevel;
     taxImpactSummary: string;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     currentActionLevel: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;

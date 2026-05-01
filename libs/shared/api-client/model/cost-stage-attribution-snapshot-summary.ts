@@ -7,16 +7,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingLifecycleStatus } from './operating-lifecycle-status';
+import { CostStageAttributionMode } from './cost-stage-attribution-mode';
 
 
 export interface CostStageAttributionSnapshotSummary {
     id: string;
     costRecordId: string;
     attributedStage: string;
-    attributionMode: CostStageAttributionSnapshotSummaryAttributionModeEnum;
+    attributionMode: CostStageAttributionMode;
     lockedBySnapshotId: string | null;
     attributionSummary: string | null;
-    status: CostStageAttributionSnapshotSummaryStatusEnum;
+    status: OperatingLifecycleStatus;
     supersedesId: string | null;
     handledAt: string | null;
     handledBy: string | null;
@@ -24,13 +26,3 @@ export interface CostStageAttributionSnapshotSummary {
     createdAt: string;
     updatedAt: string;
 }
-export enum CostStageAttributionSnapshotSummaryAttributionModeEnum {
-    Auto = 'auto',
-    Manual = 'manual',
-    Reclassified = 'reclassified'
-};
-export enum CostStageAttributionSnapshotSummaryStatusEnum {
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

@@ -1,8 +1,22 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    LABOR_COST_PERIOD_TYPES,
+    PROJECT_ACTUAL_COST_RECORD_STATUSES,
+    PROJECT_ACTUAL_COST_SOURCE_TYPES,
+    PROJECT_ACTUAL_COST_TYPES,
+    ProjectActualCostRecordStatusValue,
+    ProjectActualCostTypeValue,
+    type LaborCostPeriodType,
+    type ProjectActualCostRecordStatus,
+    type ProjectActualCostSourceType,
+    type ProjectActualCostType
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { InternalCostRateVersion } from './internal-cost-rate-version.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+const toPostgresTextAnyArray = (values: readonly string[]): string => `ANY ((ARRAY[${values.map((value) => `'${value.replaceAll("'", "''")}'::character varying`).join(', ')}])::text[])`;
 
 export const ProjectActualCostRecordSchema = defineEntity({
     name: 'ProjectActualCostRecord',
@@ -19,29 +33,47 @@ export const ProjectActualCostRecordSchema = defineEntity({
         {
             name: 'uq_project_actual_cost_record_payment_fact_source_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'PAYMENT_FACT' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.PaymentFact}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
         },
         {
             name: 'uq_project_actual_cost_record_invoice_source_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'INVOICE' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Invoice}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
         },
         {
             name: 'uq_project_actual_cost_record_expense_source_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'EXPENSE' and "${columns.recordStatus}" in ('CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Expense}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
         },
         {
             name: 'uq_project_actual_cost_record_procurement_source_current',
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = 'PROCUREMENT' and "${columns.recordStatus}" in ('REGISTERED', 'CONFIRMED', 'INCLUDED') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Procurement}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Registered}', '${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_project_actual_cost_record_cost_type',
+            expression: `"cost_type" in (${toSqlStringList(PROJECT_ACTUAL_COST_TYPES)})`
+        },
+        {
+            name: 'chk_project_actual_cost_record_record_status',
+            expression: `"record_status" in (${toSqlStringList(PROJECT_ACTUAL_COST_RECORD_STATUSES)})`
+        },
+        {
+            name: 'chk_project_actual_cost_record_labor_period_type',
+            expression: `"labor_period_type" is null or ("labor_period_type")::text = ${toPostgresTextAnyArray(LABOR_COST_PERIOD_TYPES)}`
+        },
+        {
+            name: 'chk_project_actual_cost_record_source_type',
+            expression: `"source_type" is null or ("source_type")::text = ${toPostgresTextAnyArray(PROJECT_ACTUAL_COST_SOURCE_TYPES)}`
         }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
         recordNo: p.string().length(64).unique().fieldName('record_no').comment('记录编号'),
-        costType: p.string().length(32).fieldName('cost_type').comment('成本类型：PROCUREMENT/INVOICE/EXPENSE/PAYMENT_FACT/LABOR'),
+        costType: p.string().$type<ProjectActualCostType>().length(32).fieldName('cost_type').comment('成本类型：PROCUREMENT/INVOICE/EXPENSE/PAYMENT_FACT/LABOR'),
         costSubtype: p.string().length(64).nullable().fieldName('cost_subtype').comment('成本子类型'),
         occurredOn: p.date().nullable().fieldName('occurred_on').comment('发生日期'),
         accountingPeriod: p.string().length(32).nullable().fieldName('accounting_period').comment('核算期间'),
@@ -57,10 +89,10 @@ export const ProjectActualCostRecordSchema = defineEntity({
         amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),
         taxCostAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_cost_amount').comment('税金成本'),
         amountIncludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),
-        recordStatus: p.string().length(32).default('DRAFT').fieldName('record_status').comment('状态：DRAFT/REGISTERED/CONFIRMED/INCLUDED/VOIDED/REPLACED'),
+        recordStatus: p.string().$type<ProjectActualCostRecordStatus>().length(32).default(ProjectActualCostRecordStatusValue.Draft).fieldName('record_status').comment('状态：DRAFT/REGISTERED/CONFIRMED/INCLUDED/VOIDED/REPLACED'),
         isIncludedInProjectCost: p.boolean().default(false).fieldName('is_included_in_project_cost').comment('是否已纳入项目成本'),
         isHighRisk: p.boolean().default(false).fieldName('is_high_risk').comment('是否高风险'),
-        sourceType: p.string().length(64).nullable().fieldName('source_type').comment('来源类型'),
+        sourceType: p.string().$type<ProjectActualCostSourceType | null>().length(64).nullable().fieldName('source_type').comment('来源类型'),
         sourceId: p.string().length(64).nullable().fieldName('source_id').comment('来源标识'),
         sourceRefNo: p.string().length(128).nullable().fieldName('source_ref_no').comment('来源引用号'),
         evidenceSummary: p.text().nullable().fieldName('evidence_summary').comment('依据摘要'),
@@ -78,7 +110,7 @@ export const ProjectActualCostRecordSchema = defineEntity({
         // 人力成本 (LABOR) 特有字段
         laborPersonId: p.uuid().nullable().fieldName('labor_person_id').comment('人力成本-人员标识'),
         laborRole: p.string().length(64).nullable().fieldName('labor_role').comment('人力成本-角色'),
-        laborPeriodType: p.string().length(32).nullable().fieldName('labor_period_type').comment('人力成本-归集周期类型：WEEK/MONTH'),
+        laborPeriodType: p.string().$type<LaborCostPeriodType | null>().length(32).nullable().fieldName('labor_period_type').comment('人力成本-归集周期类型：WEEK/MONTH'),
         laborPeriodStart: p.date().nullable().fieldName('labor_period_start').comment('人力成本-周期开始'),
         laborPeriodEnd: p.date().nullable().fieldName('labor_period_end').comment('人力成本-周期结束'),
         actualHours: p.decimal().precision(10).scale(2).nullable().fieldName('actual_hours').comment('人力成本-实际工时'),

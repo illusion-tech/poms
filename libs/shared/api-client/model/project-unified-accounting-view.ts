@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
@@ -22,7 +23,7 @@ export interface ProjectUnifiedAccountingView {
     taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
     allocationStabilitySummary: string | null;
     unmappedCostSummary: string | null;
-    dataMaturityLevel: string;
+    dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;

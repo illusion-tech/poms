@@ -7,13 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectActualCostType } from './project-actual-cost-type';
+import { ProjectActualCostRecordStatus } from './project-actual-cost-record-status';
+import { ProjectActualCostSourceType } from './project-actual-cost-source-type';
 
 
 export interface ProjectActualCostRecordSummary {
     id: string;
     projectId: string;
     recordNo: string;
-    costType: ProjectActualCostRecordSummaryCostTypeEnum;
+    costType: ProjectActualCostType;
     costSubtype: string | null;
     occurredOn: string | null;
     accountingPeriod: string | null;
@@ -29,10 +32,10 @@ export interface ProjectActualCostRecordSummary {
     amountExcludingTax: string | null;
     taxCostAmount: string | null;
     amountIncludingTax: string | null;
-    recordStatus: ProjectActualCostRecordSummaryRecordStatusEnum;
+    recordStatus: ProjectActualCostRecordStatus;
     isIncludedInProjectCost: boolean;
     isHighRisk: boolean;
-    sourceType: string | null;
+    sourceType: ProjectActualCostSourceType | null;
     sourceId: string | null;
     sourceRefNo: string | null;
     evidenceSummary: string | null;
@@ -50,18 +53,3 @@ export interface ProjectActualCostRecordSummary {
     createdAt: string;
     updatedAt: string;
 }
-export enum ProjectActualCostRecordSummaryCostTypeEnum {
-    Procurement = 'PROCUREMENT',
-    Invoice = 'INVOICE',
-    Expense = 'EXPENSE',
-    PaymentFact = 'PAYMENT_FACT',
-    Labor = 'LABOR'
-};
-export enum ProjectActualCostRecordSummaryRecordStatusEnum {
-    Draft = 'DRAFT',
-    Registered = 'REGISTERED',
-    Confirmed = 'CONFIRMED',
-    Included = 'INCLUDED',
-    Voided = 'VOIDED',
-    Replaced = 'REPLACED'
-};

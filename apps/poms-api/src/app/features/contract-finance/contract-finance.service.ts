@@ -1,5 +1,14 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { ContractStatusValue, InvoiceRecordExceptionStatusValue, InvoiceRecordStatusValue, InvoiceRecordTypeValue, PayableRecordStatusValue, PaymentRecordStatusValue, ReceiptRecordStatusValue } from '@poms/shared-contracts';
+import {
+    ContractStatusValue,
+    InvoiceRecordExceptionStatusValue,
+    InvoiceRecordStatusValue,
+    InvoiceRecordTypeValue,
+    PayableRecordStatusValue,
+    PaymentRecordStatusValue,
+    ProjectActualCostSourceTypeValue,
+    ReceiptRecordStatusValue
+} from '@poms/shared-contracts';
 import type {
     InvoiceRecordType,
     ClosePayableRecordRequest,
@@ -20,7 +29,8 @@ import type {
     ResolveInvoiceExceptionRequest,
     UpdatePayableRecordRequest,
     UpdateInvoiceRecordRequest,
-    VoidPayableRecordRequest
+    VoidPayableRecordRequest,
+    ProjectActualCostSourceType
 } from '@poms/shared-contracts';
 import { ContractFinanceRepository } from './contract-finance.repository';
 import type { InvoiceRecord } from './invoice-record.entity';
@@ -30,8 +40,8 @@ import type { ReceiptRecord } from './receipt-record.entity';
 import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 
 const FINANCE_MANUAL_SOURCE_TYPE = 'manual';
-const PAYABLE_RECORD_COST_SOURCE_TYPE = 'PAYABLE_RECORD';
-const INVOICE_RECORD_COST_SOURCE_TYPE = 'INVOICE_RECORD';
+const PAYABLE_RECORD_COST_SOURCE_TYPE = ProjectActualCostSourceTypeValue.PayableRecord;
+const INVOICE_RECORD_COST_SOURCE_TYPE = ProjectActualCostSourceTypeValue.InvoiceRecord;
 
 @Injectable()
 export class ContractFinanceService {
@@ -498,7 +508,7 @@ export class ContractFinanceService {
         }
     }
 
-    async #assertSourceFactNotMapped(sourceType: string, sourceId: string, actionLabel: string): Promise<void> {
+    async #assertSourceFactNotMapped(sourceType: ProjectActualCostSourceType, sourceId: string, actionLabel: string): Promise<void> {
         const currentMapping = await this.repo.findCurrentCostMappingBySource(sourceType, sourceId);
         if (currentMapping) {
             throw new UnprocessableEntityException(`${sourceType} ${sourceId} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续${actionLabel}；如需调整请走替代/作废链`);

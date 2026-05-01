@@ -7,13 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LaborCostPeriodType } from './labor-cost-period-type';
+import { ProjectActualCostType } from './project-actual-cost-type';
+import { ProjectActualCostRecordStatus } from './project-actual-cost-record-status';
+import { ProjectActualCostSourceType } from './project-actual-cost-source-type';
 
 
 export interface ProjectActualCostRecordDetailView {
     id: string;
     projectId: string;
     recordNo: string;
-    costType: ProjectActualCostRecordDetailViewCostTypeEnum;
+    costType: ProjectActualCostType;
     costSubtype: string | null;
     occurredOn: string | null;
     accountingPeriod: string | null;
@@ -29,10 +33,10 @@ export interface ProjectActualCostRecordDetailView {
     amountExcludingTax: string | null;
     taxCostAmount: string | null;
     amountIncludingTax: string | null;
-    recordStatus: ProjectActualCostRecordDetailViewRecordStatusEnum;
+    recordStatus: ProjectActualCostRecordStatus;
     isIncludedInProjectCost: boolean;
     isHighRisk: boolean;
-    sourceType: string | null;
+    sourceType: ProjectActualCostSourceType | null;
     sourceId: string | null;
     sourceRefNo: string | null;
     evidenceSummary: string | null;
@@ -56,7 +60,7 @@ export interface ProjectActualCostRecordDetailView {
     allowedActions: Array<string>;
     laborPersonId: string | null;
     laborRole: string | null;
-    laborPeriodType: ProjectActualCostRecordDetailViewLaborPeriodTypeEnum | null;
+    laborPeriodType: LaborCostPeriodType | null;
     laborPeriodStart: string | null;
     laborPeriodEnd: string | null;
     actualHours: string | null;
@@ -67,22 +71,3 @@ export interface ProjectActualCostRecordDetailView {
     workSummary: string | null;
     deliveryStage: string | null;
 }
-export enum ProjectActualCostRecordDetailViewCostTypeEnum {
-    Procurement = 'PROCUREMENT',
-    Invoice = 'INVOICE',
-    Expense = 'EXPENSE',
-    PaymentFact = 'PAYMENT_FACT',
-    Labor = 'LABOR'
-};
-export enum ProjectActualCostRecordDetailViewRecordStatusEnum {
-    Draft = 'DRAFT',
-    Registered = 'REGISTERED',
-    Confirmed = 'CONFIRMED',
-    Included = 'INCLUDED',
-    Voided = 'VOIDED',
-    Replaced = 'REPLACED'
-};
-export enum ProjectActualCostRecordDetailViewLaborPeriodTypeEnum {
-    Week = 'WEEK',
-    Month = 'MONTH'
-};

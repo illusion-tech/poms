@@ -9,6 +9,7 @@
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingLifecycleStatus } from './operating-lifecycle-status';
 
 
 export interface PeriodClosingSnapshotSummary {
@@ -32,16 +33,11 @@ export interface PeriodClosingSnapshotSummary {
     referencedBaselineVersion: string;
     baselineSelectionSource: BaselineSelectionSource;
     handoverRebaselineRecordId: string | null;
-    status: PeriodClosingSnapshotSummaryStatusEnum;
+    status: OperatingLifecycleStatus;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
 }
 export enum PeriodClosingSnapshotSummarySnapshotModeEnum {
     PeriodEnd = 'period-end'
-};
-export enum PeriodClosingSnapshotSummaryStatusEnum {
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
 };
