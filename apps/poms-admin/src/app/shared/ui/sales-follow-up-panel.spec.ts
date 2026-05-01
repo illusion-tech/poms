@@ -13,6 +13,7 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         projectId: null,
         projectName: null,
         followUpType: 'meeting' as SalesFollowUpRecordSummary['followUpType'],
+        status: 'active',
         occurredAt: '2026-05-01T09:00:00.000Z',
         summary: '完成预算口径确认',
         detail: '客户确认预算口径，下周补充范围清单。',
@@ -22,6 +23,13 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         ownerOrgName: '华南销售一部',
         ownerUserId: 'user-1',
         ownerName: '张销售',
+        supersedesId: null,
+        replacedById: null,
+        replacementReason: null,
+        voidedAt: null,
+        voidedBy: null,
+        voidedByName: null,
+        voidReason: null,
         rowVersion: 1,
         createdAt: '2026-05-01T09:05:00.000Z',
         createdBy: 'user-1',
@@ -42,6 +50,8 @@ describe('SalesFollowUpPanel', () => {
         loaded: ReturnType<typeof signal<boolean>>;
         loadFollowUps: jest.Mock;
         createFollowUp: jest.Mock;
+        replaceFollowUp: jest.Mock;
+        voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
 
@@ -54,6 +64,8 @@ describe('SalesFollowUpPanel', () => {
             loaded: signal(true),
             loadFollowUps: jest.fn().mockResolvedValue(followUps()),
             createFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
+            replaceFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
+            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: 'voided' })),
             clearFollowUps: jest.fn()
         };
 
@@ -86,7 +98,8 @@ describe('SalesFollowUpPanel', () => {
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: 'lead-1',
-            projectId: 'project-1'
+            projectId: 'project-1',
+            lifecycleScope: 'active'
         });
         expect(fixture.nativeElement.textContent).toContain('完成预算口径确认');
         expect(fixture.nativeElement.textContent).toContain('线索跟进');
@@ -119,5 +132,73 @@ describe('SalesFollowUpPanel', () => {
             nextFollowUpAt: null
         });
         expect(component.dialogVisible).toBe(false);
+    });
+
+    it('reloads with full lifecycle history when history is enabled', async () => {
+        fixture.componentRef.setInput('customerId', 'customer-1');
+        fixture.componentRef.setInput('leadId', 'lead-1');
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        component.toggleHistory(true);
+        await fixture.whenStable();
+
+        expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenLastCalledWith({
+            customerId: 'customer-1',
+            leadId: 'lead-1',
+            projectId: undefined,
+            lifecycleScope: 'all'
+        });
+    });
+
+    it('replaces an active follow-up by creating a new version with expected rowVersion', async () => {
+        const current = createFollowUp({ rowVersion: 4 });
+        followUps.set([current]);
+        fixture.componentRef.setInput('customerId', 'customer-1');
+        fixture.componentRef.setInput('leadId', 'lead-1');
+        fixture.componentRef.setInput('canWrite', true);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        component.showReplaceDialog(current);
+        component.updateText('summary', '  更正后的摘要  ');
+        component.updateText('detail', '  更正后的详情  ');
+        component.updateReplacementReason('  原记录摘要不完整  ');
+        await component.createFollowUp();
+
+        expect(salesFollowUpStoreMock.replaceFollowUp).toHaveBeenCalledWith('follow-up-1', {
+            followUpType: 'meeting',
+            occurredAt: '2026-05-01T09:00:00.000Z',
+            summary: '更正后的摘要',
+            detail: '更正后的详情',
+            outcome: 'progress',
+            nextFollowUpAt: '2026-05-08T09:00:00.000Z',
+            ownerOrgId: 'org-1',
+            ownerUserId: 'user-1',
+            replacementReason: '原记录摘要不完整',
+            expectedVersion: 4
+        });
+        expect(component.dialogVisible).toBe(false);
+    });
+
+    it('voids an active follow-up with expected rowVersion', async () => {
+        const current = createFollowUp({ rowVersion: 5 });
+        fixture.componentRef.setInput('customerId', 'customer-1');
+        fixture.componentRef.setInput('leadId', 'lead-1');
+        fixture.componentRef.setInput('canWrite', true);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        component.showVoidDialog(current);
+        component.updateVoidReason('  重复录入  ');
+        component.updateVoidComment('  已有会议纪要记录  ');
+        await component.voidFollowUp();
+
+        expect(salesFollowUpStoreMock.voidFollowUp).toHaveBeenCalledWith('follow-up-1', {
+            reason: '重复录入',
+            comment: '已有会议纪要记录',
+            expectedVersion: 5
+        });
+        expect(component.voidDialogVisible).toBe(false);
     });
 });

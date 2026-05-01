@@ -92,6 +92,8 @@ describe('CustomerList', () => {
         loaded: ReturnType<typeof signal<boolean>>;
         loadFollowUps: jest.Mock;
         createFollowUp: jest.Mock;
+        replaceFollowUp: jest.Mock;
+        voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
     let customerStoreMock: {
@@ -133,6 +135,8 @@ describe('CustomerList', () => {
             loaded: signal(true),
             loadFollowUps: jest.fn().mockResolvedValue([]),
             createFollowUp: jest.fn(),
+            replaceFollowUp: jest.fn(),
+            voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
         };
         customerStoreMock = {
@@ -226,7 +230,8 @@ describe('CustomerList', () => {
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: undefined,
-            projectId: undefined
+            projectId: undefined,
+            lifecycleScope: 'active'
         });
     });
 });

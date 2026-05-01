@@ -38,6 +38,7 @@ export {
     ProjectCostApi,
     ProjectHandoverApi,
     SalesFollowUpApi,
+    SalesFollowUpRecordLifecycleScope,
     AssignRolePermissionsRequestPermissionKeysEnum,
     CommissionAdjustmentSummaryStatusEnum,
     CommissionAdjustmentType,
@@ -81,6 +82,7 @@ export type {
     CreateContractRequest,
     CreateLeadRequest,
     CreateSalesFollowUpRecordRequest,
+    ReplaceSalesFollowUpRecordRequest,
     LeadGateCheck,
     LeadGateSummary,
     ConvertLeadToProjectRequest,
@@ -103,6 +105,7 @@ export type {
     QualifyLeadRequest,
     SalesFollowUpOutcome,
     SalesFollowUpRecordSummary,
+    SalesFollowUpRecordStatus,
     SalesFollowUpType,
     CreateLeadSourceRequest,
     UpdateLeadSourceRequest,
@@ -148,6 +151,7 @@ export type {
     UpdateLeadRequest,
     UpdateProjectBasicInfoRequest,
     VoidAttachmentRequest,
+    VoidSalesFollowUpRecordRequest,
     VoidProjectArchiveRecordRequest
 } from '@poms/shared-api-client';
 export {

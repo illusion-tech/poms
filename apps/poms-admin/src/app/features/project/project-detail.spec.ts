@@ -248,6 +248,8 @@ describe('ProjectDetail', () => {
         loaded: ReturnType<typeof signal<boolean>>;
         loadFollowUps: jest.Mock;
         createFollowUp: jest.Mock;
+        replaceFollowUp: jest.Mock;
+        voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
     let customerStoreMock: {
@@ -344,6 +346,8 @@ describe('ProjectDetail', () => {
             loaded: signal(true),
             loadFollowUps: jest.fn().mockResolvedValue([]),
             createFollowUp: jest.fn(),
+            replaceFollowUp: jest.fn(),
+            voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
         };
         projectStoreMock = {
@@ -476,7 +480,8 @@ describe('ProjectDetail', () => {
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: undefined,
-            projectId: 'project-1'
+            projectId: 'project-1',
+            lifecycleScope: 'active'
         });
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
@@ -526,7 +531,8 @@ describe('ProjectDetail', () => {
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: 'lead-1',
-            projectId: 'project-1'
+            projectId: 'project-1',
+            lifecycleScope: 'active'
         });
     });
 

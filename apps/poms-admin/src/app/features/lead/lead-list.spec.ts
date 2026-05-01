@@ -23,6 +23,7 @@ import {
     type SalesFollowUpRecordSummary,
     type SanitizedUserWithOrgUnits
 } from '@poms/admin-data-access';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { LeadList } from './lead-list';
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
@@ -188,6 +189,7 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         projectId: null,
         projectName: null,
         followUpType: 'meeting' as SalesFollowUpRecordSummary['followUpType'],
+        status: 'active',
         occurredAt: '2026-04-25T10:00:00.000Z',
         summary: '完成预算口径确认',
         detail: '客户确认预算口径，等待内部排期。',
@@ -197,6 +199,13 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         ownerOrgName: '华南销售一部',
         ownerUserId: 'user-1',
         ownerName: '张销售',
+        supersedesId: null,
+        replacedById: null,
+        replacementReason: null,
+        voidedAt: null,
+        voidedBy: null,
+        voidedByName: null,
+        voidReason: null,
         rowVersion: 1,
         createdAt: '2026-04-25T10:00:00.000Z',
         createdBy: 'user-1',
@@ -286,10 +295,32 @@ describe('LeadList', () => {
         loaded: ReturnType<typeof signal<boolean>>;
         loadFollowUps: jest.Mock;
         createFollowUp: jest.Mock;
+        replaceFollowUp: jest.Mock;
+        voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
+    let getComputedStyleSpy: jest.SpyInstance;
 
     beforeEach(async () => {
+        getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle').mockImplementation(
+            () =>
+                new Proxy(
+                    {
+                        display: 'block',
+                        visibility: 'visible',
+                        getPropertyValue: () => ''
+                    },
+                    {
+                        get: (target, property) => {
+                            if (property in target) {
+                                return target[property as keyof typeof target];
+                            }
+                            return '';
+                        }
+                    }
+                ) as unknown as CSSStyleDeclaration
+        );
+
         leads = signal([createLead()]);
         leadSources = signal([createLeadSource(), createLeadSource({ id: 'source-2', code: 'customer-referral', name: '老客户转介绍', usageCount: 0 })]);
         selectedLead = signal<LeadDetailView | null>(null);
@@ -350,6 +381,8 @@ describe('LeadList', () => {
             loaded: signal(true),
             loadFollowUps: jest.fn().mockResolvedValue(followUps()),
             createFollowUp: jest.fn().mockResolvedValue(createFollowUp()),
+            replaceFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
+            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: 'voided' })),
             clearFollowUps: jest.fn(() => followUps.set([]))
         };
 
@@ -409,7 +442,14 @@ describe('LeadList', () => {
                         {
                             provide: CustomerStore,
                             useValue: customerStoreMock
-                        },
+                        }
+                    ]
+                }
+            })
+            .overrideComponent(SalesFollowUpPanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
                         {
                             provide: SalesFollowUpStore,
                             useValue: salesFollowUpStoreMock
@@ -422,6 +462,10 @@ describe('LeadList', () => {
         fixture = TestBed.createComponent(LeadList);
         component = fixture.componentInstance;
         fixture.detectChanges();
+    });
+
+    afterEach(() => {
+        getComputedStyleSpy.mockRestore();
     });
 
     it('renders lead list facts from LeadListView', () => {
@@ -437,12 +481,14 @@ describe('LeadList', () => {
 
     it('loads shared sales follow-up records when opening a lead detail', async () => {
         await component.openLeadDetail(createLead());
+        fixture.detectChanges();
+        await fixture.whenStable();
 
-        expect(salesFollowUpStoreMock.clearFollowUps).toHaveBeenCalled();
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: 'lead-1',
-            projectId: undefined
+            projectId: undefined,
+            lifecycleScope: 'active'
         });
     });
 
@@ -458,11 +504,14 @@ describe('LeadList', () => {
         });
 
         await component.openLeadDetail(createLead({ status: 'converted', convertedProjectId: 'project-1' }));
+        fixture.detectChanges();
+        await fixture.whenStable();
 
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
             customerId: 'customer-1',
             leadId: 'lead-1',
-            projectId: 'project-1'
+            projectId: 'project-1',
+            lifecycleScope: 'active'
         });
     });
 
@@ -550,42 +599,6 @@ describe('LeadList', () => {
             ownerOrgId: 'org-2',
             reason: '主管分配给华东销售',
             expectedVersion: 1
-        });
-    });
-
-    it('records project-context follow-up after a lead has been converted', async () => {
-        const convertedLead = createLeadDetail({
-            status: 'converted',
-            convertedProjectId: 'project-1',
-            convertedProjectSummary: createProjectSummary()
-        });
-        selectedLead.set(convertedLead);
-        const occurredAt = new Date('2026-04-25T10:00:00.000Z');
-        const nextFollowUpAt = new Date('2026-04-26T02:00:00.000Z');
-
-        component.showFollowUpDialog(convertedLead);
-        component.updateFollowUpDate('occurredAt', occurredAt);
-        component.updateFollowUpText('summary', '  完成范围确认  ');
-        component.updateFollowUpText('detail', '  客户确认先按一期范围推进。  ');
-        component.updateFollowUpOutcome('risk-discovered');
-        component.updateFollowUpDate('nextFollowUpAt', nextFollowUpAt);
-        await component.createFollowUp();
-
-        expect(salesFollowUpStoreMock.createFollowUp).toHaveBeenCalledWith({
-            customerId: 'customer-1',
-            leadId: null,
-            projectId: 'project-1',
-            followUpType: 'meeting',
-            occurredAt: occurredAt.toISOString(),
-            summary: '完成范围确认',
-            detail: '客户确认先按一期范围推进。',
-            outcome: 'risk-discovered',
-            nextFollowUpAt: nextFollowUpAt.toISOString()
-        });
-        expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
-            customerId: 'customer-1',
-            leadId: 'lead-1',
-            projectId: 'project-1'
         });
     });
 

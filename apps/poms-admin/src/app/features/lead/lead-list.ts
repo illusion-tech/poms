@@ -12,7 +12,6 @@ import {
     LeadRating,
     LeadStore,
     PlatformStore,
-    SalesFollowUpStore,
     type CustomerListView,
     type LeadBudgetStatus,
     type LeadDetailView,
@@ -21,10 +20,7 @@ import {
     type LeadSourceSummary,
     type LeadStatus,
     type LeadUrgency,
-    type OwnerReferenceUser,
-    type SalesFollowUpOutcome,
-    type SalesFollowUpRecordSummary,
-    type SalesFollowUpType
+    type OwnerReferenceUser
 } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -37,6 +33,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -98,15 +95,6 @@ interface ConvertProjectForm {
     plannedSignAt: Date | null;
 }
 
-interface SalesFollowUpForm {
-    followUpType: SalesFollowUpType;
-    occurredAt: Date | null;
-    summary: string;
-    detail: string;
-    outcome: SalesFollowUpOutcome;
-    nextFollowUpAt: Date | null;
-}
-
 interface AssignmentForm {
     ownerUserId: string | null;
     ownerOrgId: string | null;
@@ -151,29 +139,8 @@ const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
     inactive: '停用'
 };
 
-const SALES_FOLLOW_UP_TYPE_LABELS: Record<SalesFollowUpType, string> = {
-    phone: '电话',
-    meeting: '会议',
-    wechat: '微信',
-    email: '邮件',
-    onsite: '现场拜访',
-    other: '其他'
-};
-
-const SALES_FOLLOW_UP_OUTCOME_LABELS: Record<SalesFollowUpOutcome, string> = {
-    progress: '有进展',
-    'waiting-customer': '待客户反馈',
-    'risk-discovered': '发现风险',
-    deferred: '暂缓',
-    'close-recommended': '建议关闭',
-    'no-response': '暂无回应',
-    other: '其他'
-};
-
 const DEFAULT_BUDGET_STATUS = 'unknown' as LeadBudgetStatus;
 const DEFAULT_URGENCY = 'normal' as LeadUrgency;
-const DEFAULT_FOLLOW_UP_TYPE = 'meeting' as SalesFollowUpType;
-const DEFAULT_FOLLOW_UP_OUTCOME = 'progress' as SalesFollowUpOutcome;
 const DEFAULT_OWNERSHIP_SCOPE = LeadOwnershipScope.All;
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
@@ -202,15 +169,6 @@ const EMPTY_CONVERT_FORM: ConvertProjectForm = {
     plannedSignAt: null
 };
 
-const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
-    followUpType: DEFAULT_FOLLOW_UP_TYPE,
-    occurredAt: null,
-    summary: '',
-    detail: '',
-    outcome: DEFAULT_FOLLOW_UP_OUTCOME,
-    nextFollowUpAt: null
-};
-
 const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
     ownerUserId: null,
     ownerOrgId: null,
@@ -220,8 +178,8 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, WorkspaceFeedback],
-    providers: [LeadStore, CustomerStore, SalesFollowUpStore],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, SalesFollowUpPanel, WorkspaceFeedback],
+    providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
             <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
@@ -831,54 +789,15 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             description="保存客户需求、沟通截图、会议纪要和线索判断材料。线索转入项目后会作为来源附件继续关联。"
                         />
 
-                        <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
-                            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                                <div>
-                                    <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">销售跟进</h3>
-                                    <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">线索转项目后继续沿用同一张跟进记录表。</p>
-                                </div>
-                                @if (canWriteLead()) {
-                                    <p-button label="记录跟进" icon="pi pi-plus" severity="primary" [outlined]="true" styleClass="rounded-md!" (onClick)="showFollowUpDialog(lead)" />
-                                }
-                            </div>
-
-                            <div class="mt-4 flex flex-col gap-3">
-                                @if (followUpError() && !followUpDialogVisible) {
-                                    <app-workspace-feedback severity="error" summary="销售跟进暂时无法处理" [detail]="followUpError()" />
-                                } @else if (followUpLoading()) {
-                                    <app-workspace-feedback severity="info" summary="正在读取销售跟进" detail="请稍候。" />
-                                } @else if (followUps().length) {
-                                    @for (record of followUps(); track record.id) {
-                                        <div class="relative rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                                                <div class="min-w-0">
-                                                    <div class="flex flex-wrap items-center gap-2">
-                                                        <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ record.summary }}</span>
-                                                        <p-tag [value]="getFollowUpOutcomeName(record.outcome)" severity="secondary" styleClass="rounded-[6px]" />
-                                                    </div>
-                                                    <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
-                                                        <span>{{ record.occurredAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                                                        <span>{{ getFollowUpTypeName(record.followUpType) }}</span>
-                                                        <span>{{ followUpContextLabel(record) }}</span>
-                                                        <span>{{ displayText(record.ownerName, '未指定销售') }}</span>
-                                                    </div>
-                                                </div>
-                                                @if (record.nextFollowUpAt) {
-                                                    <div class="shrink-0 rounded-[6px] bg-primary-50 px-2 py-1 text-xs text-primary-700 dark:bg-primary-950/40 dark:text-primary-200">
-                                                        下次 {{ record.nextFollowUpAt | date: 'MM-dd HH:mm' }}
-                                                    </div>
-                                                }
-                                            </div>
-                                            @if (record.detail) {
-                                                <p class="mt-2 whitespace-pre-line text-sm leading-6 text-surface-600 dark:text-surface-300">{{ record.detail }}</p>
-                                            }
-                                        </div>
-                                    }
-                                } @else {
-                                    <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无销售跟进记录。</div>
-                                }
-                            </div>
-                        </div>
+                        <app-sales-follow-up-panel
+                            [customerId]="lead.customerId"
+                            [leadId]="lead.id"
+                            [projectId]="lead.convertedProjectId"
+                            [canWrite]="canWriteLead()"
+                            title="销售跟进"
+                            description="线索转项目后继续沿用同一张跟进记录表。"
+                            [createContextDetail]="lead.convertedProjectId ? '本次记录会挂到已转入项目，同时保留客户维度。' : '本次记录会挂到当前线索，同时保留客户维度。'"
+                        />
                     </div>
 
                     <ng-template #footer>
@@ -905,118 +824,6 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                         </div>
                     </ng-template>
                 }
-            </p-dialog>
-
-            <p-dialog [(visible)]="followUpDialogVisible" [modal]="true" header="记录销售跟进" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetFollowUpDialog()">
-                @if (selectedLead(); as lead) {
-                    <div class="flex flex-col gap-4 py-2">
-                        <app-workspace-feedback
-                            severity="info"
-                            summary="跟进上下文"
-                            [detail]="lead.convertedProjectId ? '本次记录会挂到已转入项目，同时保留客户维度。' : '本次记录会挂到当前线索，同时保留客户维度。'"
-                        />
-
-                        @if (followUpError()) {
-                            <app-workspace-feedback severity="error" summary="跟进记录没有保存成功" [detail]="followUpError()" />
-                        }
-
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div class="flex flex-col gap-2">
-                                <label for="followUpType" class="text-sm font-medium text-surface-900 dark:text-surface-0">跟进方式</label>
-                                <p-select
-                                    inputId="followUpType"
-                                    [ngModel]="followUpForm().followUpType"
-                                    (ngModelChange)="updateFollowUpType($event)"
-                                    [options]="followUpTypeOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    styleClass="w-full rounded-md!"
-                                />
-                            </div>
-
-                            <div class="flex flex-col gap-2">
-                                <label for="followUpOccurredAt" class="text-sm font-medium text-surface-900 dark:text-surface-0">发生时间</label>
-                                <p-datepicker
-                                    inputId="followUpOccurredAt"
-                                    [ngModel]="followUpForm().occurredAt"
-                                    (ngModelChange)="updateFollowUpDate('occurredAt', $event)"
-                                    [showButtonBar]="true"
-                                    [showTime]="true"
-                                    hourFormat="24"
-                                    appendTo="body"
-                                    dateFormat="yy-mm-dd"
-                                    styleClass="w-full"
-                                    inputStyleClass="w-full rounded-md!"
-                                />
-                                @if (followUpAttempted() && !followUpForm().occurredAt) {
-                                    <span class="text-xs text-red-600 dark:text-red-300">请选择发生时间。</span>
-                                }
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="followUpSummary" class="text-sm font-medium text-surface-900 dark:text-surface-0">摘要</label>
-                            <input pInputText id="followUpSummary" [ngModel]="followUpForm().summary" (ngModelChange)="updateFollowUpText('summary', $event)" placeholder="例如：完成预算口径确认" class="w-full rounded-md!" />
-                            @if (followUpAttempted() && !followUpForm().summary.trim()) {
-                                <span class="text-xs text-red-600 dark:text-red-300">请填写跟进摘要。</span>
-                            }
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="followUpDetail" class="text-sm font-medium text-surface-900 dark:text-surface-0">详情</label>
-                            <textarea
-                                pTextarea
-                                id="followUpDetail"
-                                rows="4"
-                                [ngModel]="followUpForm().detail"
-                                (ngModelChange)="updateFollowUpText('detail', $event)"
-                                placeholder="记录客户反馈、风险、承诺事项和下一步动作"
-                                class="w-full rounded-md!"
-                            ></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div class="flex flex-col gap-2">
-                                <label for="followUpOutcome" class="text-sm font-medium text-surface-900 dark:text-surface-0">结果</label>
-                                <p-select
-                                    inputId="followUpOutcome"
-                                    [ngModel]="followUpForm().outcome"
-                                    (ngModelChange)="updateFollowUpOutcome($event)"
-                                    [options]="followUpOutcomeOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    styleClass="w-full rounded-md!"
-                                />
-                            </div>
-
-                            <div class="flex flex-col gap-2">
-                                <label for="nextFollowUpAt" class="text-sm font-medium text-surface-900 dark:text-surface-0">下次跟进</label>
-                                <p-datepicker
-                                    inputId="nextFollowUpAt"
-                                    [ngModel]="followUpForm().nextFollowUpAt"
-                                    (ngModelChange)="updateFollowUpDate('nextFollowUpAt', $event)"
-                                    [showButtonBar]="true"
-                                    [showTime]="true"
-                                    hourFormat="24"
-                                    appendTo="body"
-                                    dateFormat="yy-mm-dd"
-                                    placeholder="可留空"
-                                    styleClass="w-full"
-                                    inputStyleClass="w-full rounded-md!"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                }
-
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="followUpDialogVisible = false" />
-                        <p-button label="保存跟进" [loading]="followUpSaving()" [disabled]="!isFollowUpFormValid()" styleClass="rounded-md!" (onClick)="createFollowUp()" />
-                    </div>
-                </ng-template>
             </p-dialog>
 
             <p-dialog [(visible)]="assignOwnerDialogVisible" [modal]="true" header="分配线索主责" [style]="{ width: '34rem' }" styleClass="p-fluid" (onHide)="resetAssignOwnerDialog()">
@@ -1221,7 +1028,6 @@ export class LeadList implements OnInit {
     readonly #customerStore = inject(CustomerStore);
     readonly #leadStore = inject(LeadStore);
     readonly #platformStore = inject(PlatformStore);
-    readonly #salesFollowUpStore = inject(SalesFollowUpStore);
     readonly #router = inject(Router);
 
     readonly leads = this.#leadStore.leads;
@@ -1232,10 +1038,6 @@ export class LeadList implements OnInit {
     readonly loadingDetail = this.#leadStore.loadingDetail;
     readonly saving = this.#leadStore.saving;
     readonly customerLoading = this.#customerStore.loading;
-    readonly followUps = this.#salesFollowUpStore.followUps;
-    readonly followUpLoading = this.#salesFollowUpStore.loading;
-    readonly followUpSaving = this.#salesFollowUpStore.saving;
-
     readonly searchValue = signal('');
     readonly statusFilter = signal(ALL_FILTER_VALUE);
     readonly ratingFilter = signal<LeadRating | typeof ALL_FILTER_VALUE>(ALL_FILTER_VALUE);
@@ -1243,16 +1045,13 @@ export class LeadList implements OnInit {
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
     readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
     readonly convertForm = signal<ConvertProjectForm>(EMPTY_CONVERT_FORM);
-    readonly followUpForm = signal<SalesFollowUpForm>({ ...EMPTY_FOLLOW_UP_FORM });
     readonly assignmentForm = signal<AssignmentForm>({ ...EMPTY_ASSIGNMENT_FORM });
     readonly createAttempted = signal(false);
     readonly sourceAttempted = signal(false);
-    readonly followUpAttempted = signal(false);
     readonly assignmentAttempted = signal(false);
     readonly actionAttempted = signal(false);
     readonly createError = signal<string | null>(null);
     readonly sourceError = signal<string | null>(null);
-    readonly followUpError = signal<string | null>(null);
     readonly assignmentError = signal<string | null>(null);
     readonly qualificationError = signal<string | null>(null);
     readonly convertError = signal<string | null>(null);
@@ -1266,7 +1065,6 @@ export class LeadList implements OnInit {
     createDialogVisible = false;
     sourceDialogVisible = false;
     detailDialogVisible = false;
-    followUpDialogVisible = false;
     assignOwnerDialogVisible = false;
     qualifyDialogVisible = false;
     convertDialogVisible = false;
@@ -1287,10 +1085,6 @@ export class LeadList implements OnInit {
     readonly budgetStatusOptions: LeadFilterOption[] = Object.entries(LEAD_BUDGET_STATUS_LABELS).map(([value, label]) => ({ label, value }));
 
     readonly urgencyOptions: LeadFilterOption[] = Object.entries(LEAD_URGENCY_LABELS).map(([value, label]) => ({ label, value }));
-
-    readonly followUpTypeOptions: LeadFilterOption[] = Object.entries(SALES_FOLLOW_UP_TYPE_LABELS).map(([value, label]) => ({ label, value }));
-
-    readonly followUpOutcomeOptions: LeadFilterOption[] = Object.entries(SALES_FOLLOW_UP_OUTCOME_LABELS).map(([value, label]) => ({ label, value }));
 
     readonly leadAttachmentTargetType = AttachmentTargetType.Lead;
 
@@ -1369,11 +1163,6 @@ export class LeadList implements OnInit {
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
         return Boolean(form.leadName.trim() && form.customerId && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
-    });
-
-    readonly isFollowUpFormValid = computed(() => {
-        const form = this.followUpForm();
-        return Boolean(form.followUpType && form.occurredAt && form.summary.trim() && form.outcome);
     });
 
     readonly isAssignmentFormValid = computed(() => {
@@ -1674,12 +1463,9 @@ export class LeadList implements OnInit {
     async openLeadDetail(lead: LeadListView) {
         this.detailDialogVisible = true;
         this.pageError.set(null);
-        this.followUpError.set(null);
-        this.#salesFollowUpStore.clearFollowUps();
 
         try {
-            const detail = await this.#leadStore.loadLead(lead.id);
-            await this.loadFollowUpsForLead(detail);
+            await this.#leadStore.loadLead(lead.id);
         } catch {
             this.pageError.set('线索详情没有读取成功，请稍后重试。');
         }
@@ -1687,90 +1473,8 @@ export class LeadList implements OnInit {
 
     clearDetail() {
         this.#leadStore.clearSelectedLead();
-        this.#salesFollowUpStore.clearFollowUps();
-        this.followUpDialogVisible = false;
         this.assignOwnerDialogVisible = false;
         this.resetAssignOwnerDialog();
-        this.resetFollowUpDialog();
-    }
-
-    showFollowUpDialog(lead: LeadActionTarget) {
-        if (!this.canWriteLead()) {
-            return;
-        }
-
-        this.actionTarget.set(lead);
-        this.followUpForm.set(this.defaultFollowUpForm());
-        this.followUpAttempted.set(false);
-        this.followUpError.set(null);
-        this.followUpDialogVisible = true;
-    }
-
-    resetFollowUpDialog() {
-        this.followUpAttempted.set(false);
-        this.followUpError.set(null);
-    }
-
-    updateFollowUpType(value: string | null | undefined) {
-        this.followUpForm.update((form) => ({
-            ...form,
-            followUpType: (value ?? DEFAULT_FOLLOW_UP_TYPE) as SalesFollowUpType
-        }));
-        this.followUpError.set(null);
-    }
-
-    updateFollowUpOutcome(value: string | null | undefined) {
-        this.followUpForm.update((form) => ({
-            ...form,
-            outcome: (value ?? DEFAULT_FOLLOW_UP_OUTCOME) as SalesFollowUpOutcome
-        }));
-        this.followUpError.set(null);
-    }
-
-    updateFollowUpText(field: 'summary' | 'detail', value: string) {
-        this.followUpForm.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.followUpError.set(null);
-    }
-
-    updateFollowUpDate(field: 'occurredAt' | 'nextFollowUpAt', value: Date | null) {
-        this.followUpForm.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.followUpError.set(null);
-    }
-
-    async createFollowUp() {
-        this.followUpAttempted.set(true);
-        const lead = this.selectedLead();
-        const form = this.followUpForm();
-
-        if (!lead || !this.canWriteLead() || !this.isFollowUpFormValid() || !form.occurredAt) {
-            return;
-        }
-
-        const projectId = lead.convertedProjectId ?? null;
-
-        try {
-            await this.#salesFollowUpStore.createFollowUp({
-                customerId: lead.customerId,
-                leadId: projectId ? null : lead.id,
-                projectId,
-                followUpType: form.followUpType,
-                occurredAt: form.occurredAt.toISOString(),
-                summary: form.summary.trim(),
-                detail: this.optionalText(form.detail),
-                outcome: form.outcome,
-                nextFollowUpAt: form.nextFollowUpAt ? form.nextFollowUpAt.toISOString() : null
-            });
-            await this.loadFollowUpsForLead(lead);
-            this.followUpDialogVisible = false;
-        } catch {
-            this.followUpError.set('请确认线索、客户或项目仍然有效，或稍后重试。');
-        }
     }
 
     async claimLeadOwner(lead: LeadActionTarget) {
@@ -2047,26 +1751,6 @@ export class LeadList implements OnInit {
         return status === 'active' ? 'success' : 'secondary';
     }
 
-    getFollowUpTypeName(type: SalesFollowUpType | string): string {
-        return SALES_FOLLOW_UP_TYPE_LABELS[type as SalesFollowUpType] ?? type;
-    }
-
-    getFollowUpOutcomeName(outcome: SalesFollowUpOutcome | string): string {
-        return SALES_FOLLOW_UP_OUTCOME_LABELS[outcome as SalesFollowUpOutcome] ?? outcome;
-    }
-
-    followUpContextLabel(record: Pick<SalesFollowUpRecordSummary, 'leadId' | 'projectId'>): string {
-        if (record.projectId) {
-            return '项目跟进';
-        }
-
-        if (record.leadId) {
-            return '线索跟进';
-        }
-
-        return '客户跟进';
-    }
-
     formatAmount(value: string | null | undefined): string {
         if (!value) {
             return '未填写';
@@ -2109,25 +1793,6 @@ export class LeadList implements OnInit {
             ownerUserId: currentUser?.id ?? null,
             ownerOrgId: primaryOrg?.id ?? null
         };
-    }
-
-    private defaultFollowUpForm(): SalesFollowUpForm {
-        return {
-            ...EMPTY_FOLLOW_UP_FORM,
-            occurredAt: new Date()
-        };
-    }
-
-    private async loadFollowUpsForLead(lead: LeadDetailView): Promise<void> {
-        try {
-            await this.#salesFollowUpStore.loadFollowUps({
-                customerId: lead.customerId,
-                leadId: lead.id,
-                projectId: lead.convertedProjectId ?? undefined
-            });
-        } catch {
-            this.followUpError.set('销售跟进记录没有读取成功，请稍后重试。');
-        }
     }
 
     private async loadOwnerReferenceData(): Promise<void> {
