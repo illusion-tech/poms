@@ -4,11 +4,13 @@ import type {
     ArbitrateCommissionFreezeDisputeRequest,
     ArbitrateCommissionFreezeDisputeResult,
     ApproveCommissionPayoutRequest,
+    BaselineSelectionSource,
     CommissionFreezeDisputeDetailView,
     CommissionAdjustmentSummary,
     CommissionAdjustmentType,
     CommissionCalculationSummary,
     CommissionDepartureExceptionDecisionSummary,
+    CommissionFinalSettlementStatus,
     CommissionFinalSettlementView,
     CommissionFreezeChangeRequestDetailView,
     CommissionRoleAssignmentDetailView,
@@ -30,6 +32,7 @@ import type {
     FreezeCommissionRoleAssignmentResult,
     RecalculateCommissionRequest,
     RegisterCommissionPayoutRequest,
+    OperatingSnapshotActionLevel,
     SensitiveFieldPackageKey,
     SensitiveStringFieldProjection,
     SubmitCommissionFreezeDisputeRequest,
@@ -1675,7 +1678,7 @@ export class CommissionService {
         };
     }
 
-    #shouldRecomputeRetentionQueryState(finalSettlementStatus: string): boolean {
+    #shouldRecomputeRetentionQueryState(finalSettlementStatus: CommissionFinalSettlementStatus): boolean {
         return finalSettlementStatus === FINAL_SETTLEMENT_STATUS_PENDING_RETENTION || finalSettlementStatus === FINAL_SETTLEMENT_STATUS_SETTLED_ALL;
     }
 
@@ -2193,12 +2196,12 @@ export class CommissionService {
             projectId: string;
             freezeVersionId: string;
             gateReviewRecordId: string;
-            baselineSelectionSource: string;
+            baselineSelectionSource: BaselineSelectionSource;
             taxImpactSummary: string;
             taxImpactPendingAmount: string | number;
             dataMaturityLevel: CommissionSharedEvidencePackage['dataMaturityLevel'];
-            costActionRecommendation: string;
-            currentActionLevel: string;
+            costActionRecommendation: OperatingSnapshotActionLevel;
+            currentActionLevel: OperatingSnapshotActionLevel;
             referencedBaselineVersion: string;
             referencedSnapshotVersion: string;
             summaryPackageKey: string;
@@ -2207,10 +2210,12 @@ export class CommissionService {
             exportPolicy: string;
         },
         currentSnapshot: CommissionFinalSettlementSnapshot | null,
-        statusPatch: {
-            finalSettlementStatus: string;
-            nonRetentionSettlementStatus: string;
-            retentionSettlementStatus: string;
+        statusPatch: Pick<
+            RetentionSettlementDraft,
+            | 'finalSettlementStatus'
+            | 'nonRetentionSettlementStatus'
+            | 'retentionSettlementStatus'
+        > & {
             retentionRequirementSummary: string | null;
             retentionReceiptSummary: string | null;
             departureExceptionSummary: string | null;

@@ -23675,12 +23675,7 @@
             "maximum": 9007199254740991
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "active",
-              "stopped"
-            ]
+            "$ref": "#/components/schemas/CommissionRuleVersionStatus"
           },
           "tierDefinitionJson": {
             "type": "object",
@@ -23746,6 +23741,14 @@
           "effectiveFrom",
           "createdAt",
           "updatedAt"
+        ]
+      },
+      "CommissionRuleVersionStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "stopped"
         ]
       },
       "CommissionRuleVersionList": {
@@ -23858,6 +23861,14 @@
           "tierDefinitionJson"
         ]
       },
+      "CommissionRoleAssignmentStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "frozen",
+          "superseded"
+        ]
+      },
       "CommissionRoleAssignmentSummary": {
         "type": "object",
         "properties": {
@@ -23885,12 +23896,7 @@
             "type": "boolean"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "frozen",
-              "superseded"
-            ]
+            "$ref": "#/components/schemas/CommissionRoleAssignmentStatus"
           },
           "participantsJson": {
             "type": "array",
@@ -23989,6 +23995,37 @@
           "updatedAt"
         ]
       },
+      "CommissionFinalSettlementStatus": {
+        "type": "string",
+        "enum": [
+          "pending-final-settlement",
+          "pending-retention-settlement",
+          "settled-all"
+        ]
+      },
+      "CommissionNonRetentionSettlementStatus": {
+        "type": "string",
+        "enum": [
+          "pending-non-retention",
+          "settled-non-retention"
+        ]
+      },
+      "CommissionRetentionSettlementStatus": {
+        "type": "string",
+        "enum": [
+          "waiting-retention",
+          "ready-retention",
+          "settled-retention"
+        ]
+      },
+      "CommissionRetentionDueStatus": {
+        "type": "string",
+        "enum": [
+          "missing",
+          "pending",
+          "due"
+        ]
+      },
       "CommissionFinalSettlementView": {
         "type": "object",
         "properties": {
@@ -23998,13 +24035,13 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "finalSettlementStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionFinalSettlementStatus"
           },
           "nonRetentionSettlementStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionNonRetentionSettlementStatus"
           },
           "retentionSettlementStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionRetentionSettlementStatus"
           },
           "retentionDueDate": {
             "type": "string",
@@ -24013,12 +24050,7 @@
             "nullable": true
           },
           "retentionDueStatus": {
-            "type": "string",
-            "enum": [
-              "missing",
-              "pending",
-              "due"
-            ]
+            "$ref": "#/components/schemas/CommissionRetentionDueStatus"
           },
           "retentionRequirementSummary": {
             "type": "string",
@@ -24106,6 +24138,25 @@
           "allowedActions"
         ]
       },
+      "CommissionRuleExplanationStageStatus": {
+        "type": "string",
+        "enum": [
+          "pending-final-settlement",
+          "blocked-retention",
+          "ready-retention",
+          "settled-retention"
+        ]
+      },
+      "CommissionRuleExplanationGateDecision": {
+        "type": "string",
+        "enum": [
+          "ALLOW_FINAL_SETTLEMENT",
+          "SETTLED_RETENTION",
+          "BLOCK_RETENTION",
+          "REVIEW_RETENTION",
+          "ALLOW_RETENTION"
+        ]
+      },
       "CommissionRuleExplanationView": {
         "type": "object",
         "properties": {
@@ -24115,10 +24166,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "currentStageStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionRuleExplanationStageStatus"
           },
           "gateDecisionCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionRuleExplanationGateDecision"
           },
           "blockingReasonCategory": {
             "type": "string",
@@ -24284,13 +24335,7 @@
             "type": "boolean"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "calculated",
-              "effective",
-              "superseded"
-            ]
+            "$ref": "#/components/schemas/CommissionCalculationStatus"
           },
           "recognizedRevenueTaxExclusiveProjection": {
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
@@ -24347,6 +24392,15 @@
           "approvedAt",
           "createdAt",
           "updatedAt"
+        ]
+      },
+      "CommissionCalculationStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "calculated",
+          "effective",
+          "superseded"
         ]
       },
       "CommissionCalculationList": {
@@ -24466,15 +24520,7 @@
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "pending-approval",
-              "approved",
-              "paid",
-              "suspended",
-              "reversed"
-            ]
+            "$ref": "#/components/schemas/CommissionPayoutStatus"
           },
           "approvedAt": {
             "type": "string",
@@ -24540,6 +24586,17 @@
           "basic",
           "mid",
           "premium"
+        ]
+      },
+      "CommissionPayoutStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "pending-approval",
+          "approved",
+          "paid",
+          "suspended",
+          "reversed"
         ]
       },
       "CommissionPayoutList": {
@@ -24627,6 +24684,14 @@
           "departureExceptionDecisionId"
         ]
       },
+      "NonRetentionCommissionPayoutStage": {
+        "type": "string",
+        "enum": [
+          "first",
+          "second",
+          "final"
+        ]
+      },
       "SubmitNonRetentionCommissionPayoutApprovalRequest": {
         "type": "object",
         "properties": {
@@ -24651,12 +24716,7 @@
             "maximum": 9007199254740991
           },
           "payoutStage": {
-            "type": "string",
-            "enum": [
-              "first",
-              "second",
-              "final"
-            ]
+            "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
           },
           "gateReviewRecordId": {
             "type": "string",
@@ -24773,12 +24833,7 @@
             "maximum": 9007199254740991
           },
           "payoutStage": {
-            "type": "string",
-            "enum": [
-              "first",
-              "second",
-              "final"
-            ]
+            "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
           },
           "summarySnapshotId": {
             "type": "string",
@@ -24831,15 +24886,7 @@
             "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "pending-approval",
-              "approved",
-              "executed",
-              "rejected",
-              "closed"
-            ]
+            "$ref": "#/components/schemas/CommissionAdjustmentStatus"
           },
           "executedAt": {
             "type": "string",
@@ -24881,6 +24928,17 @@
           "clawback",
           "supplement",
           "recalculate"
+        ]
+      },
+      "CommissionAdjustmentStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "pending-approval",
+          "approved",
+          "executed",
+          "rejected",
+          "closed"
         ]
       },
       "CommissionAdjustmentList": {
@@ -25367,6 +25425,13 @@
           "arbitrated"
         ]
       },
+      "CommissionFreezeDisputeStatus": {
+        "type": "string",
+        "enum": [
+          "submitted",
+          "closed"
+        ]
+      },
       "CommissionFreezeDisputeDetailView": {
         "type": "object",
         "properties": {
@@ -25421,7 +25486,7 @@
             "type": "string"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionFreezeDisputeStatus"
           },
           "handledAt": {
             "type": "string",
@@ -25595,6 +25660,13 @@
           "resultStatus"
         ]
       },
+      "CommissionFreezeChangeStatus": {
+        "type": "string",
+        "enum": [
+          "effective",
+          "closed"
+        ]
+      },
       "CommissionFreezeChangeRequestDetailView": {
         "type": "object",
         "properties": {
@@ -25652,7 +25724,7 @@
             "type": "string"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/CommissionFreezeChangeStatus"
           },
           "handledAt": {
             "type": "string",

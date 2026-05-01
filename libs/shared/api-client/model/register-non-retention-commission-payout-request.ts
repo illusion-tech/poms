@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NonRetentionCommissionPayoutStage } from './non-retention-commission-payout-stage';
 
 
 export interface RegisterNonRetentionCommissionPayoutRequest {
@@ -15,11 +16,6 @@ export interface RegisterNonRetentionCommissionPayoutRequest {
     paidAt?: string;
     comment?: string;
     expectedVersion?: number;
-    payoutStage: RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum;
+    payoutStage: NonRetentionCommissionPayoutStage;
     summarySnapshotId?: string;
 }
-export enum RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum {
-    First = 'first',
-    Second = 'second',
-    Final = 'final'
-};

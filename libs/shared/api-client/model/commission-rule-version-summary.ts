@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionRuleVersionStatus } from './commission-rule-version-status';
 import { CommissionRuleVersionSummaryTierDefinitionJson } from './commission-rule-version-summary-tier-definition-json';
 
 
@@ -14,14 +15,9 @@ export interface CommissionRuleVersionSummary {
     id: string;
     ruleCode: string;
     version: number;
-    status: CommissionRuleVersionSummaryStatusEnum;
+    status: CommissionRuleVersionStatus;
     tierDefinitionJson: CommissionRuleVersionSummaryTierDefinitionJson;
     effectiveFrom: string | null;
     createdAt: string;
     updatedAt: string;
 }
-export enum CommissionRuleVersionSummaryStatusEnum {
-    Draft = 'draft',
-    Active = 'active',
-    Stopped = 'stopped'
-};

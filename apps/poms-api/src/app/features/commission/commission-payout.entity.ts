@@ -1,13 +1,19 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    COMMISSION_PAYOUT_KINDS,
+    COMMISSION_PAYOUT_STAGES,
+    COMMISSION_PAYOUT_STATUSES,
+    COMMISSION_PAYOUT_TIERS,
+    type CommissionPayoutKind,
+    type CommissionPayoutStage,
+    type CommissionPayoutStatus,
+    type CommissionPayoutTier
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 
-export type CommissionPayoutStatus = 'draft' | 'pending-approval' | 'approved' | 'paid' | 'suspended' | 'reversed';
-export type CommissionPayoutStage = 'first' | 'second' | 'final' | 'retention';
-export type CommissionPayoutTier = 'basic' | 'mid' | 'premium';
-export type CommissionPayoutKind = 'primary' | 'supplement';
-
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionPayoutSchema = defineEntity({
     name: 'CommissionPayout',
@@ -23,6 +29,24 @@ export const CommissionPayoutSchema = defineEntity({
             name: 'uq_commission_payout_primary_stage',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.calculationId}", "${columns.stageType}") where "${columns.payoutKind}" = 'primary'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_commission_payout_stage_type',
+            expression: `"stage_type" in (${toSqlStringList(COMMISSION_PAYOUT_STAGES)})`
+        },
+        {
+            name: 'chk_commission_payout_payout_kind',
+            expression: `"payout_kind" in (${toSqlStringList(COMMISSION_PAYOUT_KINDS)})`
+        },
+        {
+            name: 'chk_commission_payout_selected_tier',
+            expression: `"selected_tier" in (${toSqlStringList(COMMISSION_PAYOUT_TIERS)})`
+        },
+        {
+            name: 'chk_commission_payout_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_PAYOUT_STATUSES)})`
         }
     ],
     properties: {

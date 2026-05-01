@@ -1,5 +1,20 @@
 import { defineEntity } from '@mikro-orm/core';
-import { OPERATING_DATA_MATURITY_LEVELS, type OperatingDataMaturityLevel } from '@poms/shared-contracts';
+import {
+    BASELINE_SELECTION_SOURCES,
+    COMMISSION_FINAL_SETTLEMENT_STATUSES,
+    COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES,
+    COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES,
+    COMMISSION_RETENTION_SETTLEMENT_STATUSES,
+    OPERATING_DATA_MATURITY_LEVELS,
+    OPERATING_SNAPSHOT_ACTION_LEVELS,
+    type BaselineSelectionSource,
+    type CommissionFinalSettlementStatus,
+    type CommissionLifecycleSnapshotStatus,
+    type CommissionNonRetentionSettlementStatus,
+    type CommissionRetentionSettlementStatus,
+    type OperatingDataMaturityLevel,
+    type OperatingSnapshotActionLevel
+} from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
@@ -7,7 +22,7 @@ import { Project } from '../project/project.entity';
 import { CommissionDepartureExceptionDecision } from './commission-departure-exception-decision.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 
-export type CommissionFinalSettlementSnapshotStatus = 'active' | 'superseded' | 'voided';
+export type CommissionFinalSettlementSnapshotStatus = CommissionLifecycleSnapshotStatus;
 
 const p = defineEntity.properties;
 const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
@@ -41,6 +56,34 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
         {
             name: 'chk_cfss_data_maturity_level',
             expression: `"data_maturity_level" in (${toSqlStringList(OPERATING_DATA_MATURITY_LEVELS)})`
+        },
+        {
+            name: 'chk_cfss_final_settlement_status',
+            expression: `"final_settlement_status" in (${toSqlStringList(COMMISSION_FINAL_SETTLEMENT_STATUSES)})`
+        },
+        {
+            name: 'chk_cfss_non_retention_settlement_status',
+            expression: `"non_retention_settlement_status" in (${toSqlStringList(COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES)})`
+        },
+        {
+            name: 'chk_cfss_retention_settlement_status',
+            expression: `"retention_settlement_status" in (${toSqlStringList(COMMISSION_RETENTION_SETTLEMENT_STATUSES)})`
+        },
+        {
+            name: 'chk_cfss_baseline_selection_source',
+            expression: `"baseline_selection_source" in (${toSqlStringList(BASELINE_SELECTION_SOURCES)})`
+        },
+        {
+            name: 'chk_cfss_cost_action_recommendation',
+            expression: `"cost_action_recommendation" in (${toSqlStringList(OPERATING_SNAPSHOT_ACTION_LEVELS)})`
+        },
+        {
+            name: 'chk_cfss_current_action_level',
+            expression: `"current_action_level" in (${toSqlStringList(OPERATING_SNAPSHOT_ACTION_LEVELS)})`
+        },
+        {
+            name: 'chk_cfss_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES)})`
         }
     ],
     properties: {
@@ -92,13 +135,24 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
                 .comment('离职 / 特例结论引用'),
         version: p.integer().comment('版本号'),
         isCurrent: p.boolean().default(true).fieldName('is_current').comment('是否当前有效'),
-        finalSettlementStatus: p.string().length(32).fieldName('final_settlement_status').comment('项目级最终结算状态'),
+        finalSettlementStatus: p
+            .string()
+            .$type<CommissionFinalSettlementStatus>()
+            .length(32)
+            .fieldName('final_settlement_status')
+            .comment('项目级最终结算状态'),
         nonRetentionSettlementStatus: p
             .string()
+            .$type<CommissionNonRetentionSettlementStatus>()
             .length(32)
             .fieldName('non_retention_settlement_status')
             .comment('非质保部分结清状态'),
-        retentionSettlementStatus: p.string().length(32).fieldName('retention_settlement_status').comment('质保金结算状态'),
+        retentionSettlementStatus: p
+            .string()
+            .$type<CommissionRetentionSettlementStatus>()
+            .length(32)
+            .fieldName('retention_settlement_status')
+            .comment('质保金结算状态'),
         retentionRequirementSummary: p
             .text()
             .nullable()
@@ -106,7 +160,12 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .comment('质保金结算条件摘要'),
         retentionReceiptSummary: p.text().nullable().fieldName('retention_receipt_summary').comment('质保金到账摘要'),
         departureExceptionSummary: p.text().nullable().fieldName('departure_exception_summary').comment('离职 / 特例摘要'),
-        baselineSelectionSource: p.string().length(32).fieldName('baseline_selection_source').comment('基线选择来源'),
+        baselineSelectionSource: p
+            .string()
+            .$type<BaselineSelectionSource>()
+            .length(32)
+            .fieldName('baseline_selection_source')
+            .comment('基线选择来源'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
         taxImpactPendingAmount: p
             .decimal()
@@ -116,8 +175,18 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .fieldName('tax_impact_pending_amount')
             .comment('待闭合税务影响金额'),
         dataMaturityLevel: p.string().$type<OperatingDataMaturityLevel>().length(32).fieldName('data_maturity_level').comment('数据成熟度等级'),
-        costActionRecommendation: p.string().length(32).fieldName('cost_action_recommendation').comment('成本侧动作建议'),
-        currentActionLevel: p.string().length(32).fieldName('current_action_level').comment('当前动作等级'),
+        costActionRecommendation: p
+            .string()
+            .$type<OperatingSnapshotActionLevel>()
+            .length(32)
+            .fieldName('cost_action_recommendation')
+            .comment('成本侧动作建议'),
+        currentActionLevel: p
+            .string()
+            .$type<OperatingSnapshotActionLevel>()
+            .length(32)
+            .fieldName('current_action_level')
+            .comment('当前动作等级'),
         referencedBaselineVersion: p.string().length(64).fieldName('referenced_baseline_version').comment('引用基线版本'),
         referencedSnapshotVersion: p.string().length(64).fieldName('referenced_snapshot_version').comment('引用快照版本'),
         summaryPackageKey: p.string().length(64).fieldName('summary_package_key').comment('摘要包键'),

@@ -7,20 +7,24 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionRetentionSettlementStatus } from './commission-retention-settlement-status';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
 import { CommissionRoleAssignmentSummary } from './commission-role-assignment-summary';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { CommissionNonRetentionSettlementStatus } from './commission-non-retention-settlement-status';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { CommissionRetentionDueStatus } from './commission-retention-due-status';
+import { CommissionFinalSettlementStatus } from './commission-final-settlement-status';
 
 
 export interface CommissionFinalSettlementView {
     projectId: string;
-    finalSettlementStatus: string;
-    nonRetentionSettlementStatus: string;
-    retentionSettlementStatus: string;
+    finalSettlementStatus: CommissionFinalSettlementStatus;
+    nonRetentionSettlementStatus: CommissionNonRetentionSettlementStatus;
+    retentionSettlementStatus: CommissionRetentionSettlementStatus;
     retentionDueDate: string | null;
-    retentionDueStatus: CommissionFinalSettlementViewRetentionDueStatusEnum;
+    retentionDueStatus: CommissionRetentionDueStatus;
     retentionRequirementSummary: string | null;
     retentionReceiptSummary: string | null;
     departureExceptionSummary: string | null;
@@ -39,8 +43,3 @@ export interface CommissionFinalSettlementView {
     exportPolicy: string;
     allowedActions: Array<string>;
 }
-export enum CommissionFinalSettlementViewRetentionDueStatusEnum {
-    Missing = 'missing',
-    Pending = 'pending',
-    Due = 'due'
-};

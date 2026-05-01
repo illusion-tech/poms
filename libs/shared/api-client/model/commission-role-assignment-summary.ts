@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionRoleAssignmentStatus } from './commission-role-assignment-status';
 import { CommissionRoleAssignmentSummaryParticipantsJsonInner } from './commission-role-assignment-summary-participants-json-inner';
 
 
@@ -16,7 +17,7 @@ export interface CommissionRoleAssignmentSummary {
     version: number;
     rowVersion: number;
     isCurrent: boolean;
-    status: CommissionRoleAssignmentSummaryStatusEnum;
+    status: CommissionRoleAssignmentStatus;
     participantsJson: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
     sourceHandoverId: string | null;
     sourceHandoverRebaselineRecordId: string | null;
@@ -27,8 +28,3 @@ export interface CommissionRoleAssignmentSummary {
     createdAt: string;
     updatedAt: string;
 }
-export enum CommissionRoleAssignmentSummaryStatusEnum {
-    Draft = 'draft',
-    Frozen = 'frozen',
-    Superseded = 'superseded'
-};

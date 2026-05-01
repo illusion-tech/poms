@@ -11,13 +11,15 @@ import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level'
 import { BaselineSelectionSource } from './baseline-selection-source';
 import { CommissionRoleAssignmentSummary } from './commission-role-assignment-summary';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { CommissionRuleExplanationGateDecision } from './commission-rule-explanation-gate-decision';
+import { CommissionRuleExplanationStageStatus } from './commission-rule-explanation-stage-status';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface CommissionRuleExplanationView {
     projectId: string;
-    currentStageStatus: string;
-    gateDecisionCode: string;
+    currentStageStatus: CommissionRuleExplanationStageStatus;
+    gateDecisionCode: CommissionRuleExplanationGateDecision;
     blockingReasonCategory: string | null;
     blockingReasonCode: string | null;
     blockingReasonSummary: string | null;

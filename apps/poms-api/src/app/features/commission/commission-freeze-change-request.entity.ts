@@ -1,11 +1,13 @@
 import { defineEntity } from '@mikro-orm/core';
+import { COMMISSION_FREEZE_CHANGE_STATUSES, type CommissionFreezeChangeStatus } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 
-export type CommissionFreezeChangeRequestStatus = 'effective' | 'closed';
+export type CommissionFreezeChangeRequestStatus = CommissionFreezeChangeStatus;
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionFreezeChangeRequestSchema = defineEntity({
     name: 'CommissionFreezeChangeRequest',
@@ -25,6 +27,12 @@ export const CommissionFreezeChangeRequestSchema = defineEntity({
             name: 'idx_cfcr_status_handled',
             expression: (columns, table, indexName) =>
                 `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.status}", "${columns.handledAt}" desc)`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_cfcr_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_FREEZE_CHANGE_STATUSES)})`
         }
     ],
     properties: {

@@ -1,12 +1,12 @@
 import { defineEntity } from '@mikro-orm/core';
-
-export type CommissionRuleVersionStatus = 'draft' | 'active' | 'stopped';
+import { COMMISSION_RULE_VERSION_STATUSES, type CommissionRuleVersionStatus } from '@poms/shared-contracts';
 
 export interface TierDefinition {
     tiers: Array<{ minMarginRate: number; maxMarginRate: number | null; commissionRate: number }>;
 }
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionRuleVersionSchema = defineEntity({
     name: 'CommissionRuleVersion',
@@ -17,6 +17,12 @@ export const CommissionRuleVersionSchema = defineEntity({
         { name: 'idx_commission_rule_version_effective_from', properties: ['effectiveFrom'] }
     ],
     uniques: [{ name: 'commission_rule_version_code_version_unique', properties: ['ruleCode', 'version'] }],
+    checks: [
+        {
+            name: 'chk_commission_rule_version_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_RULE_VERSION_STATUSES)})`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         ruleCode: p.string().length(64).fieldName('rule_code'),

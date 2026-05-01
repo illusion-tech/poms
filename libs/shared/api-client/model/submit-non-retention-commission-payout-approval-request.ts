@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NonRetentionCommissionPayoutStage } from './non-retention-commission-payout-stage';
 
 
 export interface SubmitNonRetentionCommissionPayoutApprovalRequest {
@@ -14,14 +15,9 @@ export interface SubmitNonRetentionCommissionPayoutApprovalRequest {
     baselineSelectionSource?: string;
     comment?: string;
     expectedVersion?: number;
-    payoutStage: SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum;
+    payoutStage: NonRetentionCommissionPayoutStage;
     gateReviewRecordId?: string;
     summarySnapshotId?: string;
     retentionReceiptRecordId?: string;
     departureExceptionDecisionId?: string;
 }
-export enum SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum {
-    First = 'first',
-    Second = 'second',
-    Final = 'final'
-};

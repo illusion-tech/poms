@@ -1,4 +1,5 @@
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
+import type { CommissionPayoutStage } from '@poms/shared-contracts';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
@@ -15,7 +16,7 @@ import { CommissionDepartureExceptionDecision } from './commission-departure-exc
 import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
 import { CommissionFreezeChangeRequest } from './commission-freeze-change-request.entity';
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
-import { CommissionPayout, type CommissionPayoutStage } from './commission-payout.entity';
+import { CommissionPayout } from './commission-payout.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleExplanationSnapshot } from './commission-rule-explanation-snapshot.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';

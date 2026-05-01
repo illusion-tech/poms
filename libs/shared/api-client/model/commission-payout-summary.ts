@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CommissionPayoutTier } from './commission-payout-tier';
+import { CommissionPayoutStatus } from './commission-payout-status';
 import { CommissionPayoutKind } from './commission-payout-kind';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { CommissionPayoutStage } from './commission-payout-stage';
@@ -25,17 +26,9 @@ export interface CommissionPayoutSummary {
     theoreticalCapAmountProjection: SensitiveStringFieldProjection;
     approvedAmountProjection: SensitiveStringFieldProjection;
     paidRecordAmountProjection: SensitiveStringFieldProjection;
-    status: CommissionPayoutSummaryStatusEnum;
+    status: CommissionPayoutStatus;
     approvedAt: string | null;
     handledAt: string | null;
     createdAt: string;
     updatedAt: string;
 }
-export enum CommissionPayoutSummaryStatusEnum {
-    Draft = 'draft',
-    PendingApproval = 'pending-approval',
-    Approved = 'approved',
-    Paid = 'paid',
-    Suspended = 'suspended',
-    Reversed = 'reversed'
-};

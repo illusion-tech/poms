@@ -981,10 +981,12 @@ export class ApprovalService {
         em: EntityManager,
         payout: CommissionPayout,
         actorUserId: string,
-        statusPatch: {
-            finalSettlementStatus: string;
-            nonRetentionSettlementStatus: string;
-            retentionSettlementStatus: string;
+        statusPatch: Pick<
+            RetentionSettlementDraft,
+            | 'finalSettlementStatus'
+            | 'nonRetentionSettlementStatus'
+            | 'retentionSettlementStatus'
+        > & {
             retentionRequirementSummary: string | null;
             retentionReceiptSummary: string | null;
             departureExceptionSummary: string | null;

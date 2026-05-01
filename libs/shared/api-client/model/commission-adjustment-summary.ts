@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionAdjustmentStatus } from './commission-adjustment-status';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { CommissionAdjustmentType } from './commission-adjustment-type';
 
@@ -20,16 +21,8 @@ export interface CommissionAdjustmentSummary {
     relatedCalculationId: string | null;
     amountProjection: SensitiveStringFieldProjection;
     reasonProjection: SensitiveStringFieldProjection;
-    status: CommissionAdjustmentSummaryStatusEnum;
+    status: CommissionAdjustmentStatus;
     executedAt: string | null;
     createdAt: string;
     updatedAt: string;
 }
-export enum CommissionAdjustmentSummaryStatusEnum {
-    Draft = 'draft',
-    PendingApproval = 'pending-approval',
-    Approved = 'approved',
-    Executed = 'executed',
-    Rejected = 'rejected',
-    Closed = 'closed'
-};

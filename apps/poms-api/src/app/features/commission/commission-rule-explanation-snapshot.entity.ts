@@ -1,10 +1,19 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES,
+    COMMISSION_RULE_EXPLANATION_GATE_DECISIONS,
+    COMMISSION_RULE_EXPLANATION_STAGE_STATUSES,
+    type CommissionLifecycleSnapshotStatus,
+    type CommissionRuleExplanationGateDecision,
+    type CommissionRuleExplanationStageStatus
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { CommissionFinalSettlementSnapshot } from './commission-final-settlement-snapshot.entity';
 
-export type CommissionRuleExplanationSnapshotStatus = 'active' | 'superseded' | 'voided';
+export type CommissionRuleExplanationSnapshotStatus = CommissionLifecycleSnapshotStatus;
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionRuleExplanationSnapshotSchema = defineEntity({
     name: 'CommissionRuleExplanationSnapshot',
@@ -30,6 +39,20 @@ export const CommissionRuleExplanationSnapshotSchema = defineEntity({
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
         }
     ],
+    checks: [
+        {
+            name: 'chk_cres_current_stage_status',
+            expression: `"current_stage_status" in (${toSqlStringList(COMMISSION_RULE_EXPLANATION_STAGE_STATUSES)})`
+        },
+        {
+            name: 'chk_cres_gate_decision_code',
+            expression: `"gate_decision_code" in (${toSqlStringList(COMMISSION_RULE_EXPLANATION_GATE_DECISIONS)})`
+        },
+        {
+            name: 'chk_cres_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES)})`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>
@@ -52,8 +75,18 @@ export const CommissionRuleExplanationSnapshotSchema = defineEntity({
                 .comment('关联最终结算收口快照'),
         version: p.integer().comment('版本号'),
         isCurrent: p.boolean().default(true).fieldName('is_current').comment('是否当前有效'),
-        currentStageStatus: p.string().length(32).fieldName('current_stage_status').comment('当前阶段状态'),
-        gateDecisionCode: p.string().length(32).fieldName('gate_decision_code').comment('gate 决策码'),
+        currentStageStatus: p
+            .string()
+            .$type<CommissionRuleExplanationStageStatus>()
+            .length(32)
+            .fieldName('current_stage_status')
+            .comment('当前阶段状态'),
+        gateDecisionCode: p
+            .string()
+            .$type<CommissionRuleExplanationGateDecision>()
+            .length(32)
+            .fieldName('gate_decision_code')
+            .comment('gate 决策码'),
         blockingReasonCategory: p.string().length(32).nullable().fieldName('blocking_reason_category').comment('阻断原因分类'),
         blockingReasonCode: p.string().length(64).nullable().fieldName('blocking_reason_code').comment('阻断原因编码'),
         blockingReasonSummary: p.text().nullable().fieldName('blocking_reason_summary').comment('阻断原因摘要'),

@@ -1,11 +1,13 @@
 import { defineEntity } from '@mikro-orm/core';
+import { COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES, type CommissionLifecycleSnapshotStatus } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { Project } from '../project/project.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 
-export type CommissionDepartureExceptionDecisionStatus = 'active' | 'superseded' | 'voided';
+export type CommissionDepartureExceptionDecisionStatus = CommissionLifecycleSnapshotStatus;
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionDepartureExceptionDecisionSchema = defineEntity({
     name: 'CommissionDepartureExceptionDecision',
@@ -29,6 +31,12 @@ export const CommissionDepartureExceptionDecisionSchema = defineEntity({
             name: 'uq_cded_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_cded_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES)})`
         }
     ],
     properties: {

@@ -4108,6 +4108,252 @@ export type RejectApprovalRecordRequest = z.infer<typeof RejectApprovalRecordReq
 // Commission — Rule Version
 // ---------------------------------------------------------------------------
 
+export const COMMISSION_RULE_VERSION_STATUSES = ['draft', 'active', 'stopped'] as const;
+
+export type CommissionRuleVersionStatus = (typeof COMMISSION_RULE_VERSION_STATUSES)[number];
+
+export const CommissionRuleVersionStatusSchema = z.enum(COMMISSION_RULE_VERSION_STATUSES).meta({ id: 'CommissionRuleVersionStatus' });
+
+export const CommissionRuleVersionStatusValue = {
+    Draft: 'draft',
+    Active: 'active',
+    Stopped: 'stopped'
+} as const satisfies Record<string, CommissionRuleVersionStatus>;
+
+export const COMMISSION_ROLE_ASSIGNMENT_STATUSES = ['draft', 'frozen', 'superseded'] as const;
+
+export type CommissionRoleAssignmentStatus = (typeof COMMISSION_ROLE_ASSIGNMENT_STATUSES)[number];
+
+export const CommissionRoleAssignmentStatusSchema = z.enum(COMMISSION_ROLE_ASSIGNMENT_STATUSES).meta({ id: 'CommissionRoleAssignmentStatus' });
+
+export const CommissionRoleAssignmentStatusValue = {
+    Draft: 'draft',
+    Frozen: 'frozen',
+    Superseded: 'superseded'
+} as const satisfies Record<string, CommissionRoleAssignmentStatus>;
+
+export const COMMISSION_CALCULATION_STATUSES = ['pending', 'calculated', 'effective', 'superseded'] as const;
+
+export type CommissionCalculationStatus = (typeof COMMISSION_CALCULATION_STATUSES)[number];
+
+export const CommissionCalculationStatusSchema = z.enum(COMMISSION_CALCULATION_STATUSES).meta({ id: 'CommissionCalculationStatus' });
+
+export const CommissionCalculationStatusValue = {
+    Pending: 'pending',
+    Calculated: 'calculated',
+    Effective: 'effective',
+    Superseded: 'superseded'
+} as const satisfies Record<string, CommissionCalculationStatus>;
+
+export const COMMISSION_PAYOUT_STATUSES = ['draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed'] as const;
+
+export type CommissionPayoutStatus = (typeof COMMISSION_PAYOUT_STATUSES)[number];
+
+export const CommissionPayoutStatusSchema = z.enum(COMMISSION_PAYOUT_STATUSES).meta({ id: 'CommissionPayoutStatus' });
+
+export const CommissionPayoutStatusValue = {
+    Draft: 'draft',
+    PendingApproval: 'pending-approval',
+    Approved: 'approved',
+    Paid: 'paid',
+    Suspended: 'suspended',
+    Reversed: 'reversed'
+} as const satisfies Record<string, CommissionPayoutStatus>;
+
+export const COMMISSION_PAYOUT_STAGES = ['first', 'second', 'final', 'retention'] as const;
+
+export type CommissionPayoutStage = (typeof COMMISSION_PAYOUT_STAGES)[number];
+
+export const CommissionPayoutStageSchema = z.enum(COMMISSION_PAYOUT_STAGES).meta({ id: 'CommissionPayoutStage' });
+
+export const CommissionPayoutStageValue = {
+    First: 'first',
+    Second: 'second',
+    Final: 'final',
+    Retention: 'retention'
+} as const satisfies Record<string, CommissionPayoutStage>;
+
+export const NON_RETENTION_COMMISSION_PAYOUT_STAGES = [
+    CommissionPayoutStageValue.First,
+    CommissionPayoutStageValue.Second,
+    CommissionPayoutStageValue.Final
+] as const;
+
+export type NonRetentionCommissionPayoutStage = (typeof NON_RETENTION_COMMISSION_PAYOUT_STAGES)[number];
+
+export const NonRetentionCommissionPayoutStageSchema = z.enum(NON_RETENTION_COMMISSION_PAYOUT_STAGES).meta({ id: 'NonRetentionCommissionPayoutStage' });
+
+export const COMMISSION_PAYOUT_TIERS = ['basic', 'mid', 'premium'] as const;
+
+export type CommissionPayoutTier = (typeof COMMISSION_PAYOUT_TIERS)[number];
+
+export const CommissionPayoutTierSchema = z.enum(COMMISSION_PAYOUT_TIERS).meta({ id: 'CommissionPayoutTier' });
+
+export const CommissionPayoutTierValue = {
+    Basic: 'basic',
+    Mid: 'mid',
+    Premium: 'premium'
+} as const satisfies Record<string, CommissionPayoutTier>;
+
+export const COMMISSION_PAYOUT_KINDS = ['primary', 'supplement'] as const;
+
+export type CommissionPayoutKind = (typeof COMMISSION_PAYOUT_KINDS)[number];
+
+export const CommissionPayoutKindSchema = z.enum(COMMISSION_PAYOUT_KINDS).meta({ id: 'CommissionPayoutKind' });
+
+export const CommissionPayoutKindValue = {
+    Primary: 'primary',
+    Supplement: 'supplement'
+} as const satisfies Record<string, CommissionPayoutKind>;
+
+export const COMMISSION_ADJUSTMENT_TYPES = ['suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'] as const;
+
+export type CommissionAdjustmentType = (typeof COMMISSION_ADJUSTMENT_TYPES)[number];
+
+export const CommissionAdjustmentTypeSchema = z.enum(COMMISSION_ADJUSTMENT_TYPES).meta({ id: 'CommissionAdjustmentType' });
+
+export const CommissionAdjustmentTypeValue = {
+    SuspendPayout: 'suspend-payout',
+    ReversePayout: 'reverse-payout',
+    Clawback: 'clawback',
+    Supplement: 'supplement',
+    Recalculate: 'recalculate'
+} as const satisfies Record<string, CommissionAdjustmentType>;
+
+export const COMMISSION_ADJUSTMENT_STATUSES = ['draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed'] as const;
+
+export type CommissionAdjustmentStatus = (typeof COMMISSION_ADJUSTMENT_STATUSES)[number];
+
+export const CommissionAdjustmentStatusSchema = z.enum(COMMISSION_ADJUSTMENT_STATUSES).meta({ id: 'CommissionAdjustmentStatus' });
+
+export const CommissionAdjustmentStatusValue = {
+    Draft: 'draft',
+    PendingApproval: 'pending-approval',
+    Approved: 'approved',
+    Executed: 'executed',
+    Rejected: 'rejected',
+    Closed: 'closed'
+} as const satisfies Record<string, CommissionAdjustmentStatus>;
+
+export const COMMISSION_FREEZE_DISPUTE_STATUSES = ['submitted', 'closed'] as const;
+
+export type CommissionFreezeDisputeStatus = (typeof COMMISSION_FREEZE_DISPUTE_STATUSES)[number];
+
+export const CommissionFreezeDisputeStatusSchema = z.enum(COMMISSION_FREEZE_DISPUTE_STATUSES).meta({ id: 'CommissionFreezeDisputeStatus' });
+
+export const CommissionFreezeDisputeStatusValue = {
+    Submitted: 'submitted',
+    Closed: 'closed'
+} as const satisfies Record<string, CommissionFreezeDisputeStatus>;
+
+export const COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES = ['pending', 'arbitrated'] as const;
+
+export type CommissionFreezeDisputeArbitrationStatus = (typeof COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES)[number];
+
+export const CommissionFreezeDisputeArbitrationStatusSchema = z.enum(COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES).meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
+
+export const CommissionFreezeDisputeArbitrationStatusValue = {
+    Pending: 'pending',
+    Arbitrated: 'arbitrated'
+} as const satisfies Record<string, CommissionFreezeDisputeArbitrationStatus>;
+
+export const COMMISSION_FREEZE_CHANGE_STATUSES = ['effective', 'closed'] as const;
+
+export type CommissionFreezeChangeStatus = (typeof COMMISSION_FREEZE_CHANGE_STATUSES)[number];
+
+export const CommissionFreezeChangeStatusSchema = z.enum(COMMISSION_FREEZE_CHANGE_STATUSES).meta({ id: 'CommissionFreezeChangeStatus' });
+
+export const CommissionFreezeChangeStatusValue = {
+    Effective: 'effective',
+    Closed: 'closed'
+} as const satisfies Record<string, CommissionFreezeChangeStatus>;
+
+export const COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES = ['active', 'superseded', 'voided'] as const;
+
+export type CommissionLifecycleSnapshotStatus = (typeof COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES)[number];
+
+export const CommissionLifecycleSnapshotStatusSchema = z.enum(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES).meta({ id: 'CommissionLifecycleSnapshotStatus' });
+
+export const CommissionLifecycleSnapshotStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, CommissionLifecycleSnapshotStatus>;
+
+export const COMMISSION_FINAL_SETTLEMENT_STATUSES = ['pending-final-settlement', 'pending-retention-settlement', 'settled-all'] as const;
+
+export type CommissionFinalSettlementStatus = (typeof COMMISSION_FINAL_SETTLEMENT_STATUSES)[number];
+
+export const CommissionFinalSettlementStatusSchema = z.enum(COMMISSION_FINAL_SETTLEMENT_STATUSES).meta({ id: 'CommissionFinalSettlementStatus' });
+
+export const CommissionFinalSettlementStatusValue = {
+    PendingFinalSettlement: 'pending-final-settlement',
+    PendingRetentionSettlement: 'pending-retention-settlement',
+    SettledAll: 'settled-all'
+} as const satisfies Record<string, CommissionFinalSettlementStatus>;
+
+export const COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES = ['pending-non-retention', 'settled-non-retention'] as const;
+
+export type CommissionNonRetentionSettlementStatus = (typeof COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES)[number];
+
+export const CommissionNonRetentionSettlementStatusSchema = z.enum(COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES).meta({ id: 'CommissionNonRetentionSettlementStatus' });
+
+export const CommissionNonRetentionSettlementStatusValue = {
+    PendingNonRetention: 'pending-non-retention',
+    SettledNonRetention: 'settled-non-retention'
+} as const satisfies Record<string, CommissionNonRetentionSettlementStatus>;
+
+export const COMMISSION_RETENTION_SETTLEMENT_STATUSES = ['waiting-retention', 'ready-retention', 'settled-retention'] as const;
+
+export type CommissionRetentionSettlementStatus = (typeof COMMISSION_RETENTION_SETTLEMENT_STATUSES)[number];
+
+export const CommissionRetentionSettlementStatusSchema = z.enum(COMMISSION_RETENTION_SETTLEMENT_STATUSES).meta({ id: 'CommissionRetentionSettlementStatus' });
+
+export const CommissionRetentionSettlementStatusValue = {
+    WaitingRetention: 'waiting-retention',
+    ReadyRetention: 'ready-retention',
+    SettledRetention: 'settled-retention'
+} as const satisfies Record<string, CommissionRetentionSettlementStatus>;
+
+export const COMMISSION_RULE_EXPLANATION_STAGE_STATUSES = ['pending-final-settlement', 'blocked-retention', 'ready-retention', 'settled-retention'] as const;
+
+export type CommissionRuleExplanationStageStatus = (typeof COMMISSION_RULE_EXPLANATION_STAGE_STATUSES)[number];
+
+export const CommissionRuleExplanationStageStatusSchema = z.enum(COMMISSION_RULE_EXPLANATION_STAGE_STATUSES).meta({ id: 'CommissionRuleExplanationStageStatus' });
+
+export const CommissionRuleExplanationStageStatusValue = {
+    PendingFinalSettlement: 'pending-final-settlement',
+    BlockedRetention: 'blocked-retention',
+    ReadyRetention: 'ready-retention',
+    SettledRetention: 'settled-retention'
+} as const satisfies Record<string, CommissionRuleExplanationStageStatus>;
+
+export const COMMISSION_RULE_EXPLANATION_GATE_DECISIONS = ['ALLOW_FINAL_SETTLEMENT', 'SETTLED_RETENTION', 'BLOCK_RETENTION', 'REVIEW_RETENTION', 'ALLOW_RETENTION'] as const;
+
+export type CommissionRuleExplanationGateDecision = (typeof COMMISSION_RULE_EXPLANATION_GATE_DECISIONS)[number];
+
+export const CommissionRuleExplanationGateDecisionSchema = z.enum(COMMISSION_RULE_EXPLANATION_GATE_DECISIONS).meta({ id: 'CommissionRuleExplanationGateDecision' });
+
+export const CommissionRuleExplanationGateDecisionValue = {
+    AllowFinalSettlement: 'ALLOW_FINAL_SETTLEMENT',
+    SettledRetention: 'SETTLED_RETENTION',
+    BlockRetention: 'BLOCK_RETENTION',
+    ReviewRetention: 'REVIEW_RETENTION',
+    AllowRetention: 'ALLOW_RETENTION'
+} as const satisfies Record<string, CommissionRuleExplanationGateDecision>;
+
+export const COMMISSION_RETENTION_DUE_STATUSES = ['missing', 'pending', 'due'] as const;
+
+export type CommissionRetentionDueStatus = (typeof COMMISSION_RETENTION_DUE_STATUSES)[number];
+
+export const CommissionRetentionDueStatusSchema = z.enum(COMMISSION_RETENTION_DUE_STATUSES).meta({ id: 'CommissionRetentionDueStatus' });
+
+export const CommissionRetentionDueStatusValue = {
+    Missing: 'missing',
+    Pending: 'pending',
+    Due: 'due'
+} as const satisfies Record<string, CommissionRetentionDueStatus>;
+
 export const CommissionTierSchema = z.object({
     minMarginRate: z.number().min(0).max(1),
     maxMarginRate: z.number().min(0).max(1).nullable(),
@@ -4125,7 +4371,7 @@ export const CommissionRuleVersionSummarySchema = z
         id: z.uuid(),
         ruleCode: z.string(),
         version: z.number().int(),
-        status: z.enum(['draft', 'active', 'stopped']),
+        status: CommissionRuleVersionStatusSchema,
         tierDefinitionJson: CommissionTierDefinitionSchema,
         effectiveFrom: z.iso.datetime().nullable(),
         createdAt: z.iso.datetime(),
@@ -4171,7 +4417,7 @@ export const CommissionRoleAssignmentSummarySchema = z
         version: z.number().int(),
         rowVersion: z.number().int().positive(),
         isCurrent: z.boolean(),
-        status: z.enum(['draft', 'frozen', 'superseded']),
+        status: CommissionRoleAssignmentStatusSchema,
         participantsJson: z.array(CommissionParticipantSchema),
         sourceHandoverId: z.uuid().nullable(),
         sourceHandoverRebaselineRecordId: z.uuid().nullable(),
@@ -4243,7 +4489,7 @@ export const CommissionRoleAssignmentDetailViewSchema = z
 
 export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
-export const CommissionDepartureExceptionDecisionStatusSchema = z.enum(['active', 'superseded', 'voided']).meta({ id: 'CommissionDepartureExceptionDecisionStatus' });
+export const CommissionDepartureExceptionDecisionStatusSchema = z.enum(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES).meta({ id: 'CommissionDepartureExceptionDecisionStatus' });
 
 export type CommissionDepartureExceptionDecisionStatus = z.infer<typeof CommissionDepartureExceptionDecisionStatusSchema>;
 
@@ -4284,10 +4530,6 @@ export const CreateCommissionDepartureExceptionDecisionRequestSchema = z
     .meta({ id: 'CreateCommissionDepartureExceptionDecisionRequest' });
 
 export type CreateCommissionDepartureExceptionDecisionRequest = z.infer<typeof CreateCommissionDepartureExceptionDecisionRequestSchema>;
-
-export const CommissionFreezeDisputeArbitrationStatusSchema = z.enum(['pending', 'arbitrated']).meta({ id: 'CommissionFreezeDisputeArbitrationStatus' });
-
-export type CommissionFreezeDisputeArbitrationStatus = z.infer<typeof CommissionFreezeDisputeArbitrationStatusSchema>;
 
 export const ReplacementCommissionRoleAssignmentPayloadSchema = z
     .object({
@@ -4339,7 +4581,7 @@ export const CommissionFreezeDisputeDetailViewSchema = z
         summarySnapshotId: z.uuid(),
         projectionLevel: z.string(),
         exportPolicy: z.string(),
-        status: z.string(),
+        status: CommissionFreezeDisputeStatusSchema,
         handledAt: z.iso.datetime(),
         allowedActions: z.array(z.string()),
         generatedAt: z.iso.datetime()
@@ -4391,7 +4633,7 @@ export const CommissionFreezeChangeRequestDetailViewSchema = z
         summarySnapshotId: z.uuid(),
         projectionLevel: z.string(),
         exportPolicy: z.string(),
-        status: z.string(),
+        status: CommissionFreezeChangeStatusSchema,
         handledAt: z.iso.datetime(),
         generatedAt: z.iso.datetime()
     })
@@ -4411,7 +4653,7 @@ export const CommissionCalculationSummarySchema = z
         version: z.number().int(),
         rowVersion: z.number().int().positive(),
         isCurrent: z.boolean(),
-        status: z.enum(['pending', 'calculated', 'effective', 'superseded']),
+        status: CommissionCalculationStatusSchema,
         recognizedRevenueTaxExclusiveProjection: SensitiveStringFieldProjectionSchema,
         recognizedCostTaxExclusiveProjection: SensitiveStringFieldProjectionSchema,
         contributionMarginProjection: SensitiveStringFieldProjectionSchema,
@@ -4448,20 +4690,6 @@ export type ConfirmCommissionCalculationRequest = z.infer<typeof ConfirmCommissi
 // Commission — Payout
 // ---------------------------------------------------------------------------
 
-export const CommissionPayoutStageSchema = z.enum(['first', 'second', 'final', 'retention']).meta({ id: 'CommissionPayoutStage' });
-
-export type CommissionPayoutStage = z.infer<typeof CommissionPayoutStageSchema>;
-
-const NonRetentionCommissionPayoutStageSchema = z.enum(['first', 'second', 'final']);
-
-export const CommissionPayoutTierSchema = z.enum(['basic', 'mid', 'premium']).meta({ id: 'CommissionPayoutTier' });
-
-export type CommissionPayoutTier = z.infer<typeof CommissionPayoutTierSchema>;
-
-export const CommissionPayoutKindSchema = z.enum(['primary', 'supplement']).meta({ id: 'CommissionPayoutKind' });
-
-export type CommissionPayoutKind = z.infer<typeof CommissionPayoutKindSchema>;
-
 export const CommissionPayoutSummarySchema = z
     .object({
         id: z.uuid(),
@@ -4475,7 +4703,7 @@ export const CommissionPayoutSummarySchema = z
         theoreticalCapAmountProjection: SensitiveStringFieldProjectionSchema,
         approvedAmountProjection: SensitiveStringFieldProjectionSchema,
         paidRecordAmountProjection: SensitiveStringFieldProjectionSchema,
-        status: z.enum(['draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed']),
+        status: CommissionPayoutStatusSchema,
         approvedAt: z.iso.datetime().nullable(),
         handledAt: z.iso.datetime().nullable(),
         createdAt: z.iso.datetime(),
@@ -4565,10 +4793,6 @@ export type RegisterCommissionPayoutRequest = z.infer<typeof RegisterCommissionP
 // Commission — Adjustment
 // ---------------------------------------------------------------------------
 
-export const CommissionAdjustmentTypeSchema = z.enum(['suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate']).meta({ id: 'CommissionAdjustmentType' });
-
-export type CommissionAdjustmentType = z.infer<typeof CommissionAdjustmentTypeSchema>;
-
 export const CommissionAdjustmentSummarySchema = z
     .object({
         id: z.uuid(),
@@ -4579,7 +4803,7 @@ export const CommissionAdjustmentSummarySchema = z
         relatedCalculationId: z.uuid().nullable(),
         amountProjection: SensitiveStringFieldProjectionSchema,
         reasonProjection: SensitiveStringFieldProjectionSchema,
-        status: z.enum(['draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed']),
+        status: CommissionAdjustmentStatusSchema,
         executedAt: z.iso.datetime().nullable(),
         createdAt: z.iso.datetime(),
         updatedAt: z.iso.datetime()
@@ -4988,11 +5212,11 @@ const CommissionSharedEvidencePackageShape = {
 export const CommissionFinalSettlementViewSchema = z
     .object({
         projectId: z.uuid(),
-        finalSettlementStatus: z.string(),
-        nonRetentionSettlementStatus: z.string(),
-        retentionSettlementStatus: z.string(),
+        finalSettlementStatus: CommissionFinalSettlementStatusSchema,
+        nonRetentionSettlementStatus: CommissionNonRetentionSettlementStatusSchema,
+        retentionSettlementStatus: CommissionRetentionSettlementStatusSchema,
         retentionDueDate: z.iso.date().nullable(),
-        retentionDueStatus: z.enum(['missing', 'pending', 'due']),
+        retentionDueStatus: CommissionRetentionDueStatusSchema,
         retentionRequirementSummary: z.string().nullable(),
         retentionReceiptSummary: z.string().nullable(),
         departureExceptionSummary: z.string().nullable(),
@@ -5006,8 +5230,8 @@ export type CommissionFinalSettlementView = z.infer<typeof CommissionFinalSettle
 export const CommissionRuleExplanationViewSchema = z
     .object({
         projectId: z.uuid(),
-        currentStageStatus: z.string(),
-        gateDecisionCode: z.string(),
+        currentStageStatus: CommissionRuleExplanationStageStatusSchema,
+        gateDecisionCode: CommissionRuleExplanationGateDecisionSchema,
         blockingReasonCategory: z.string().nullable(),
         blockingReasonCode: z.string().nullable(),
         blockingReasonSummary: z.string().nullable(),

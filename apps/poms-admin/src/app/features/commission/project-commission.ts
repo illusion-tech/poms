@@ -5,18 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     AuthStore,
-    CommissionAdjustmentSummaryStatusEnum,
+    CommissionAdjustmentStatus,
     CommissionAdjustmentType,
-    CommissionCalculationSummaryStatusEnum,
+    CommissionCalculationStatus,
     CommissionPayoutStage,
-    CommissionPayoutSummaryStatusEnum,
+    CommissionPayoutStatus,
     CommissionPayoutTier,
     CommissionStore,
+    NonRetentionCommissionPayoutStage,
     ProjectStore,
     ProjectWorkspaceStore,
-    RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum,
     RegisterRetentionCommissionPayoutRequestPayoutStageEnum,
-    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum,
     TargetObjectType,
     TodoStatus
 } from '@poms/admin-data-access';
@@ -365,10 +364,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
     });
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
-    readonly calculationStatus = CommissionCalculationSummaryStatusEnum;
+    readonly calculationStatus = CommissionCalculationStatus;
     readonly payoutStageEnum = CommissionPayoutStage;
-    readonly payoutStatus = CommissionPayoutSummaryStatusEnum;
-    readonly adjustmentStatus = CommissionAdjustmentSummaryStatusEnum;
+    readonly payoutStatus = CommissionPayoutStatus;
+    readonly adjustmentStatus = CommissionAdjustmentStatus;
     readonly stageOptions = [CommissionPayoutStage.First, CommissionPayoutStage.Second, CommissionPayoutStage.Final].map((value) => ({
         label: PAYOUT_STAGE_LABELS[value],
         value
@@ -908,16 +907,16 @@ export class ProjectCommission implements OnInit, OnDestroy {
     sensitiveProjectionValue(projection: SensitiveStringFieldProjectionView | null | undefined) {
         return projection?.mode === 'full' && typeof projection.value === 'string' ? projection.value : '';
     }
-    getCalculationStatusName(status: CommissionCalculationSummaryStatusEnum) {
+    getCalculationStatusName(status: CommissionCalculationStatus) {
         return commissionCalculationStatusLabelOrFallback(status);
     }
-    getCalculationStatusSeverity(status: CommissionCalculationSummaryStatusEnum) {
+    getCalculationStatusSeverity(status: CommissionCalculationStatus) {
         return commissionCalculationStatusSeverityOrFallback(status);
     }
-    getPayoutStatusName(status: CommissionPayoutSummaryStatusEnum) {
+    getPayoutStatusName(status: CommissionPayoutStatus) {
         return commissionPayoutStatusLabelOrFallback(status);
     }
-    getPayoutStatusSeverity(status: CommissionPayoutSummaryStatusEnum) {
+    getPayoutStatusSeverity(status: CommissionPayoutStatus) {
         return commissionPayoutStatusSeverityOrFallback(status);
     }
     getPayoutKindLabel(kind: 'primary' | 'supplement') {
@@ -926,10 +925,10 @@ export class ProjectCommission implements OnInit, OnDestroy {
     getAdjustmentTypeLabel(type: CommissionAdjustmentType) {
         return { 'suspend-payout': '暂停发放', 'reverse-payout': '冲销发放', clawback: '扣回', supplement: '补发', recalculate: '重算' }[type];
     }
-    getAdjustmentStatusName(status: CommissionAdjustmentSummaryStatusEnum) {
+    getAdjustmentStatusName(status: CommissionAdjustmentStatus) {
         return commissionAdjustmentStatusLabelOrFallback(status);
     }
-    getAdjustmentStatusSeverity(status: CommissionAdjustmentSummaryStatusEnum) {
+    getAdjustmentStatusSeverity(status: CommissionAdjustmentStatus) {
         return commissionAdjustmentStatusSeverityOrFallback(status);
     }
     getStageLabel(stage: CommissionPayoutStage) {
@@ -953,11 +952,11 @@ export class ProjectCommission implements OnInit, OnDestroy {
     toSubmitPayoutStage(payoutStage: CommissionPayoutStage) {
         switch (payoutStage) {
             case CommissionPayoutStage.First:
-                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.First;
+                return NonRetentionCommissionPayoutStage.First;
             case CommissionPayoutStage.Second:
-                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.Second;
+                return NonRetentionCommissionPayoutStage.Second;
             case CommissionPayoutStage.Final:
-                return SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum.Final;
+                return NonRetentionCommissionPayoutStage.Final;
             default:
                 throw new Error('当前页面不支持直接提交质保金发放审批');
         }
@@ -965,11 +964,11 @@ export class ProjectCommission implements OnInit, OnDestroy {
     toRegisterPayoutStage(payoutStage: CommissionPayoutStage) {
         switch (payoutStage) {
             case CommissionPayoutStage.First:
-                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.First;
+                return NonRetentionCommissionPayoutStage.First;
             case CommissionPayoutStage.Second:
-                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.Second;
+                return NonRetentionCommissionPayoutStage.Second;
             case CommissionPayoutStage.Final:
-                return RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum.Final;
+                return NonRetentionCommissionPayoutStage.Final;
             default:
                 throw new Error('当前页面缺少质保金登记所需的结算快照锚点');
         }

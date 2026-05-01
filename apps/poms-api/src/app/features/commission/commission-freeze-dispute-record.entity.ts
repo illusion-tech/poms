@@ -1,12 +1,18 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES,
+    COMMISSION_FREEZE_DISPUTE_STATUSES,
+    type CommissionFreezeDisputeArbitrationStatus,
+    type CommissionFreezeDisputeStatus
+} from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { Project } from '../project/project.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 
-export type CommissionFreezeDisputeRecordStatus = 'submitted' | 'closed';
-export type CommissionFreezeDisputeArbitrationStatus = 'pending' | 'arbitrated';
+export type CommissionFreezeDisputeRecordStatus = CommissionFreezeDisputeStatus;
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionFreezeDisputeRecordSchema = defineEntity({
     name: 'CommissionFreezeDisputeRecord',
@@ -27,6 +33,16 @@ export const CommissionFreezeDisputeRecordSchema = defineEntity({
             name: 'uq_cfdr_open_freeze_version',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.freezeVersionId}") where "${columns.status}" = 'submitted'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_cfdr_arbitration_status',
+            expression: `"arbitration_status" in (${toSqlStringList(COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES)})`
+        },
+        {
+            name: 'chk_cfdr_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_FREEZE_DISPUTE_STATUSES)})`
         }
     ],
     properties: {

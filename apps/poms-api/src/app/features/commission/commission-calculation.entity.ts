@@ -1,10 +1,10 @@
 import { defineEntity } from '@mikro-orm/core';
+import { COMMISSION_CALCULATION_STATUSES, type CommissionCalculationStatus } from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 
-export type CommissionCalculationStatus = 'pending' | 'calculated' | 'effective' | 'superseded';
-
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionCalculationSchema = defineEntity({
     name: 'CommissionCalculation',
@@ -20,6 +20,12 @@ export const CommissionCalculationSchema = defineEntity({
             name: 'uq_commission_calculation_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_commission_calculation_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_CALCULATION_STATUSES)})`
         }
     ],
     properties: {

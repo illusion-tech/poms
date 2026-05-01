@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionCalculationStatus } from './commission-calculation-status';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
@@ -17,7 +18,7 @@ export interface CommissionCalculationSummary {
     version: number;
     rowVersion: number;
     isCurrent: boolean;
-    status: CommissionCalculationSummaryStatusEnum;
+    status: CommissionCalculationStatus;
     recognizedRevenueTaxExclusiveProjection: SensitiveStringFieldProjection;
     recognizedCostTaxExclusiveProjection: SensitiveStringFieldProjection;
     contributionMarginProjection: SensitiveStringFieldProjection;
@@ -28,9 +29,3 @@ export interface CommissionCalculationSummary {
     createdAt: string;
     updatedAt: string;
 }
-export enum CommissionCalculationSummaryStatusEnum {
-    Pending = 'pending',
-    Calculated = 'calculated',
-    Effective = 'effective',
-    Superseded = 'superseded'
-};

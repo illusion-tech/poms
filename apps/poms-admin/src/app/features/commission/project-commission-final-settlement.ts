@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { CommissionFinalSettlementStatus, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
@@ -104,7 +104,7 @@ export class ProjectCommissionFinalSettlement implements OnInit {
             return '当前已具备质保金结算前提，先核对冻结依据和到账说明，再进入提成操作页。';
         }
 
-        if (current.finalSettlementStatus === 'settled' || current.finalSettlementStatus === 'settled-final') {
+        if (current.finalSettlementStatus === CommissionFinalSettlementStatus.SettledAll) {
             return '当前最终结算解释链已经形成，可转去规则解释或归档链继续核对。';
         }
 

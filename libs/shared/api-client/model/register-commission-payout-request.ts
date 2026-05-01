@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { RegisterRetentionCommissionPayoutRequest } from './register-retention-commission-payout-request';
+import { NonRetentionCommissionPayoutStage } from './non-retention-commission-payout-stage';
 import { RegisterNonRetentionCommissionPayoutRequest } from './register-non-retention-commission-payout-request';
 
 

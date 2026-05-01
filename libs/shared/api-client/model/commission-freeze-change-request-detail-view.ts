@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionFreezeChangeStatus } from './commission-freeze-change-status';
 
 
 export interface CommissionFreezeChangeRequestDetailView {
@@ -23,7 +24,7 @@ export interface CommissionFreezeChangeRequestDetailView {
     summarySnapshotId: string;
     projectionLevel: string;
     exportPolicy: string;
-    status: string;
+    status: CommissionFreezeChangeStatus;
     handledAt: string;
     generatedAt: string;
 }

@@ -1,24 +1,38 @@
+import {
+    CommissionFinalSettlementStatusValue,
+    CommissionNonRetentionSettlementStatusValue,
+    CommissionRetentionDueStatusValue,
+    CommissionRetentionSettlementStatusValue,
+    CommissionRuleExplanationGateDecisionValue,
+    CommissionRuleExplanationStageStatusValue,
+    type CommissionFinalSettlementStatus,
+    type CommissionNonRetentionSettlementStatus,
+    type CommissionRetentionDueStatus,
+    type CommissionRetentionSettlementStatus,
+    type CommissionRuleExplanationGateDecision,
+    type CommissionRuleExplanationStageStatus
+} from '@poms/shared-contracts';
 import { toBusinessDateOnly, toBusinessDateString } from '../../core/date/business-date.utils';
 
-export const FINAL_SETTLEMENT_STATUS_PENDING = 'pending-final-settlement';
-export const FINAL_SETTLEMENT_STATUS_PENDING_RETENTION = 'pending-retention-settlement';
-export const FINAL_SETTLEMENT_STATUS_SETTLED_ALL = 'settled-all';
+export const FINAL_SETTLEMENT_STATUS_PENDING = CommissionFinalSettlementStatusValue.PendingFinalSettlement;
+export const FINAL_SETTLEMENT_STATUS_PENDING_RETENTION = CommissionFinalSettlementStatusValue.PendingRetentionSettlement;
+export const FINAL_SETTLEMENT_STATUS_SETTLED_ALL = CommissionFinalSettlementStatusValue.SettledAll;
 
-export const NON_RETENTION_SETTLEMENT_STATUS_PENDING = 'pending-non-retention';
-export const NON_RETENTION_SETTLEMENT_STATUS_SETTLED = 'settled-non-retention';
+export const NON_RETENTION_SETTLEMENT_STATUS_PENDING = CommissionNonRetentionSettlementStatusValue.PendingNonRetention;
+export const NON_RETENTION_SETTLEMENT_STATUS_SETTLED = CommissionNonRetentionSettlementStatusValue.SettledNonRetention;
 
-export const RETENTION_SETTLEMENT_STATUS_WAITING = 'waiting-retention';
-export const RETENTION_SETTLEMENT_STATUS_READY = 'ready-retention';
-export const RETENTION_SETTLEMENT_STATUS_SETTLED = 'settled-retention';
+export const RETENTION_SETTLEMENT_STATUS_WAITING = CommissionRetentionSettlementStatusValue.WaitingRetention;
+export const RETENTION_SETTLEMENT_STATUS_READY = CommissionRetentionSettlementStatusValue.ReadyRetention;
+export const RETENTION_SETTLEMENT_STATUS_SETTLED = CommissionRetentionSettlementStatusValue.SettledRetention;
 
-export const CURRENT_STAGE_STATUS_PENDING_FINAL = 'pending-final-settlement';
-export const CURRENT_STAGE_STATUS_BLOCKED_RETENTION = 'blocked-retention';
-export const CURRENT_STAGE_STATUS_READY_RETENTION = 'ready-retention';
-export const CURRENT_STAGE_STATUS_SETTLED_RETENTION = 'settled-retention';
+export const CURRENT_STAGE_STATUS_PENDING_FINAL = CommissionRuleExplanationStageStatusValue.PendingFinalSettlement;
+export const CURRENT_STAGE_STATUS_BLOCKED_RETENTION = CommissionRuleExplanationStageStatusValue.BlockedRetention;
+export const CURRENT_STAGE_STATUS_READY_RETENTION = CommissionRuleExplanationStageStatusValue.ReadyRetention;
+export const CURRENT_STAGE_STATUS_SETTLED_RETENTION = CommissionRuleExplanationStageStatusValue.SettledRetention;
 
 export const DEFAULT_RETENTION_REQUIREMENT_SUMMARY = '待质保期届满、重大争议收口与质保金到账';
 
-export type RetentionDueStatus = 'missing' | 'pending' | 'due';
+export type RetentionDueStatus = CommissionRetentionDueStatus;
 
 type SettlementDecisionSummary = {
     confirmationRequirementSummary?: string | null;
@@ -36,8 +50,8 @@ export type RetentionDueEvaluation = {
 };
 
 export type RuleExplanationDraft = {
-    currentStageStatus: string;
-    gateDecisionCode: string;
+    currentStageStatus: CommissionRuleExplanationStageStatus;
+    gateDecisionCode: CommissionRuleExplanationGateDecision;
     blockingReasonCategory: string | null;
     blockingReasonCode: string | null;
     blockingReasonSummary: string | null;
@@ -46,9 +60,9 @@ export type RuleExplanationDraft = {
 };
 
 export type RetentionSettlementDraft = {
-    finalSettlementStatus: string;
-    nonRetentionSettlementStatus: string;
-    retentionSettlementStatus: string;
+    finalSettlementStatus: CommissionFinalSettlementStatus;
+    nonRetentionSettlementStatus: CommissionNonRetentionSettlementStatus;
+    retentionSettlementStatus: CommissionRetentionSettlementStatus;
     retentionDueDate: string | null;
     retentionDueStatus: RetentionDueStatus;
     retentionRequirementSummary: string | null;
@@ -72,7 +86,7 @@ export type RetentionEvaluationInput = {
 export function buildPendingFinalRuleExplanation(): RuleExplanationDraft {
     return {
         currentStageStatus: CURRENT_STAGE_STATUS_PENDING_FINAL,
-        gateDecisionCode: 'ALLOW_FINAL_SETTLEMENT',
+        gateDecisionCode: CommissionRuleExplanationGateDecisionValue.AllowFinalSettlement,
         blockingReasonCategory: null,
         blockingReasonCode: null,
         blockingReasonSummary: null,
@@ -98,7 +112,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_SETTLED_RETENTION,
-                gateDecisionCode: 'SETTLED_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.SettledRetention,
                 blockingReasonCategory: null,
                 blockingReasonCode: null,
                 blockingReasonSummary: null,
@@ -122,7 +136,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'exception',
                 blockingReasonCode: 'FREEZE_DISPUTE_PENDING',
                 blockingReasonSummary: '当前冻结版本存在待仲裁争议，后续发放已进入受控暂停。',
@@ -132,7 +146,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
         };
     }
 
-    if (input.retentionDue.retentionDueStatus === 'missing') {
+    if (input.retentionDue.retentionDueStatus === CommissionRetentionDueStatusValue.Missing) {
         return {
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
@@ -144,7 +158,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
                 blockingReasonCode: 'RETENTION_DUE_FACT_MISSING',
                 blockingReasonSummary: '当前有效合同条款缺少质保期届满日期，暂不能进入质保金结算。',
@@ -154,7 +168,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
         };
     }
 
-    if (input.retentionDue.retentionDueStatus === 'pending') {
+    if (input.retentionDue.retentionDueStatus === CommissionRetentionDueStatusValue.Pending) {
         return {
             finalSettlementStatus: FINAL_SETTLEMENT_STATUS_PENDING_RETENTION,
             nonRetentionSettlementStatus: NON_RETENTION_SETTLEMENT_STATUS_SETTLED,
@@ -166,7 +180,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
                 blockingReasonCode: 'RETENTION_DUE_PENDING',
                 blockingReasonSummary: '当前质保期尚未届满。',
@@ -188,7 +202,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'exception',
                 blockingReasonCode: 'DEPARTURE_EXCEPTION_PENDING',
                 blockingReasonSummary: '离职 / 特例结论尚未明确。',
@@ -211,7 +225,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'special-case',
                 blockingReasonCode: 'DEPARTURE_CONFIRMATION_PENDING',
                 blockingReasonSummary: confirmationRequirementSummary,
@@ -233,7 +247,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: 'BLOCK_RETENTION',
+                gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
                 blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
                 blockingReasonSummary: '质保金尚未到账。',
@@ -255,7 +269,10 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
             departureExceptionSummary,
             ruleExplanation: {
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
-                gateDecisionCode: gateSeverity === 'block' ? 'BLOCK_RETENTION' : 'REVIEW_RETENTION',
+                gateDecisionCode:
+                    gateSeverity === 'block'
+                        ? CommissionRuleExplanationGateDecisionValue.BlockRetention
+                        : CommissionRuleExplanationGateDecisionValue.ReviewRetention,
                 blockingReasonCategory: 'operating-risk',
                 blockingReasonCode:
                     input.gateReviewBlockingReasonCode?.trim() ||
@@ -284,7 +301,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
         departureExceptionSummary,
         ruleExplanation: {
             currentStageStatus: CURRENT_STAGE_STATUS_READY_RETENTION,
-            gateDecisionCode: 'ALLOW_RETENTION',
+            gateDecisionCode: CommissionRuleExplanationGateDecisionValue.AllowRetention,
             blockingReasonCategory: null,
             blockingReasonCode: null,
             blockingReasonSummary: null,
@@ -299,13 +316,16 @@ export function evaluateRetentionDueDate(value: Date | string | null | undefined
     if (!retentionDueDate) {
         return {
             retentionDueDate: null,
-            retentionDueStatus: 'missing'
+            retentionDueStatus: CommissionRetentionDueStatusValue.Missing
         };
     }
 
     return {
         retentionDueDate,
-        retentionDueStatus: retentionDueDate <= toBusinessDateString(now) ? 'due' : 'pending'
+        retentionDueStatus:
+            retentionDueDate <= toBusinessDateString(now)
+                ? CommissionRetentionDueStatusValue.Due
+                : CommissionRetentionDueStatusValue.Pending
     };
 }
 
@@ -318,9 +338,9 @@ function buildRequirementSummary(requirements: string[]): string {
 
 function buildUnmetRequirements(input: RetentionEvaluationInput): string[] {
     const requirements: string[] = [];
-    if (input.retentionDue.retentionDueStatus === 'missing') {
+    if (input.retentionDue.retentionDueStatus === CommissionRetentionDueStatusValue.Missing) {
         requirements.push('补齐合同质保期届满日期');
-    } else if (input.retentionDue.retentionDueStatus === 'pending') {
+    } else if (input.retentionDue.retentionDueStatus === CommissionRetentionDueStatusValue.Pending) {
         requirements.push('质保期届满');
     }
     if (!input.departureDecision) {

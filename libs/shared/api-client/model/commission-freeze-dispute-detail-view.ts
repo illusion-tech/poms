@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionFreezeDisputeStatus } from './commission-freeze-dispute-status';
 import { CommissionFreezeDisputeArbitrationStatus } from './commission-freeze-dispute-arbitration-status';
 
 
@@ -24,7 +25,7 @@ export interface CommissionFreezeDisputeDetailView {
     summarySnapshotId: string;
     projectionLevel: string;
     exportPolicy: string;
-    status: string;
+    status: CommissionFreezeDisputeStatus;
     handledAt: string;
     allowedActions: Array<string>;
     generatedAt: string;

@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import { COMMISSION_ROLE_ASSIGNMENT_STATUSES, type CommissionRoleAssignmentStatus } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { ContractTermSnapshot } from '../contract/contract.entity';
 import {
@@ -6,8 +7,6 @@ import {
     ProjectHandover
 } from '../project-handover/project-handover.entity';
 import { Project } from '../project/project.entity';
-
-export type CommissionRoleAssignmentStatus = 'draft' | 'frozen' | 'superseded';
 
 export interface CommissionParticipant {
     userId: string;
@@ -17,6 +16,7 @@ export interface CommissionParticipant {
 }
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionRoleAssignmentSchema = defineEntity({
     name: 'CommissionRoleAssignment',
@@ -36,6 +36,12 @@ export const CommissionRoleAssignmentSchema = defineEntity({
             name: 'uq_commission_role_assignment_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_commission_role_assignment_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_ROLE_ASSIGNMENT_STATUSES)})`
         }
     ],
     properties: {

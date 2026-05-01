@@ -1,12 +1,16 @@
 import { defineEntity } from '@mikro-orm/core';
+import {
+    COMMISSION_ADJUSTMENT_STATUSES,
+    COMMISSION_ADJUSTMENT_TYPES,
+    type CommissionAdjustmentStatus,
+    type CommissionAdjustmentType
+} from '@poms/shared-contracts';
 import { Project } from '../project/project.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 import { CommissionPayout } from './commission-payout.entity';
 
-export type CommissionAdjustmentType = 'suspend-payout' | 'reverse-payout' | 'clawback' | 'supplement' | 'recalculate';
-export type CommissionAdjustmentStatus = 'draft' | 'pending-approval' | 'approved' | 'executed' | 'rejected' | 'closed';
-
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CommissionAdjustmentSchema = defineEntity({
     name: 'CommissionAdjustment',
@@ -16,6 +20,16 @@ export const CommissionAdjustmentSchema = defineEntity({
         { name: 'idx_commission_adjustment_project_status', properties: ['projectId', 'status'] },
         { name: 'idx_commission_adjustment_related_payout_id', properties: ['relatedPayoutId'] },
         { name: 'idx_commission_adjustment_related_calculation_id', properties: ['relatedCalculationId'] }
+    ],
+    checks: [
+        {
+            name: 'chk_commission_adjustment_adjustment_type',
+            expression: `"adjustment_type" in (${toSqlStringList(COMMISSION_ADJUSTMENT_TYPES)})`
+        },
+        {
+            name: 'chk_commission_adjustment_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_ADJUSTMENT_STATUSES)})`
+        }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
