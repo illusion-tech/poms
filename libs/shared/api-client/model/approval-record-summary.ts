@@ -7,21 +7,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ApprovalDecision } from './approval-decision';
+import { BusinessDomain } from './business-domain';
+import { TargetObjectType } from './target-object-type';
+import { ApprovalType } from './approval-type';
+import { ApprovalStatus } from './approval-status';
 
 
 export interface ApprovalRecordSummary {
     id: string;
-    approvalType: string;
-    businessDomain: string;
-    targetObjectType: string;
+    approvalType: ApprovalType;
+    businessDomain: BusinessDomain;
+    targetObjectType: TargetObjectType;
     targetObjectId: string;
     projectId: string | null;
-    currentStatus: string;
+    currentStatus: ApprovalStatus;
     currentNodeKey: string;
     currentNodeName: string | null;
     initiatorUserId: string;
     currentApproverUserId: string | null;
-    decision: string | null;
+    decision: ApprovalDecision | null;
     decisionComment: string | null;
     targetTitle: string | null;
     targetStatus: string | null;

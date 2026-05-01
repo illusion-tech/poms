@@ -3621,20 +3621,134 @@ export type VoidExpenseRecordRequest = z.infer<typeof VoidExpenseRecordRequestSc
 // Approval / Todo
 // ---------------------------------------------------------------------------
 
+export const APPROVAL_TYPES = ['contract-review', 'commission-payout-approval', 'commission-adjustment-approval'] as const;
+
+export type ApprovalType = (typeof APPROVAL_TYPES)[number];
+
+export const ApprovalTypeSchema = z.enum(APPROVAL_TYPES).meta({ id: 'ApprovalType' });
+
+export const ApprovalTypeValue = {
+    ContractReview: 'contract-review',
+    CommissionPayoutApproval: 'commission-payout-approval',
+    CommissionAdjustmentApproval: 'commission-adjustment-approval'
+} as const satisfies Record<string, ApprovalType>;
+
+export const BUSINESS_DOMAINS = ['contract-finance', 'commission', 'sales', 'project-handover'] as const;
+
+export type BusinessDomain = (typeof BUSINESS_DOMAINS)[number];
+
+export const BusinessDomainSchema = z.enum(BUSINESS_DOMAINS).meta({ id: 'BusinessDomain' });
+
+export const BusinessDomainValue = {
+    ContractFinance: 'contract-finance',
+    Commission: 'commission',
+    Sales: 'sales',
+    ProjectHandover: 'project-handover'
+} as const satisfies Record<string, BusinessDomain>;
+
+export const TARGET_OBJECT_TYPES = ['Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover'] as const;
+
+export type TargetObjectType = (typeof TARGET_OBJECT_TYPES)[number];
+
+export const TargetObjectTypeSchema = z.enum(TARGET_OBJECT_TYPES).meta({ id: 'TargetObjectType' });
+
+export const TargetObjectTypeValue = {
+    Contract: 'Contract',
+    CommissionPayout: 'CommissionPayout',
+    CommissionAdjustment: 'CommissionAdjustment',
+    Project: 'Project',
+    Lead: 'Lead',
+    Customer: 'Customer',
+    ProjectHandover: 'ProjectHandover'
+} as const satisfies Record<string, TargetObjectType>;
+
+export const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'] as const;
+
+export type ApprovalStatus = (typeof APPROVAL_STATUSES)[number];
+
+export const ApprovalStatusSchema = z.enum(APPROVAL_STATUSES).meta({ id: 'ApprovalStatus' });
+
+export const ApprovalStatusValue = {
+    Pending: 'pending',
+    Approved: 'approved',
+    Rejected: 'rejected'
+} as const satisfies Record<string, ApprovalStatus>;
+
+export const APPROVAL_DECISIONS = ['approved', 'rejected'] as const;
+
+export type ApprovalDecision = (typeof APPROVAL_DECISIONS)[number];
+
+export const ApprovalDecisionSchema = z.enum(APPROVAL_DECISIONS).meta({ id: 'ApprovalDecision' });
+
+export const ApprovalDecisionValue = {
+    Approved: 'approved',
+    Rejected: 'rejected'
+} as const satisfies Record<string, ApprovalDecision>;
+
+export const TODO_SOURCE_TYPES = ['ApprovalRecord', 'ConfirmationRecord', 'SalesFollowUpRecord'] as const;
+
+export type TodoSourceType = (typeof TODO_SOURCE_TYPES)[number];
+
+export const TodoSourceTypeSchema = z.enum(TODO_SOURCE_TYPES).meta({ id: 'TodoSourceType' });
+
+export const TodoSourceTypeValue = {
+    ApprovalRecord: 'ApprovalRecord',
+    ConfirmationRecord: 'ConfirmationRecord',
+    SalesFollowUpRecord: 'SalesFollowUpRecord'
+} as const satisfies Record<string, TodoSourceType>;
+
+export const TODO_TYPES = ['approval', 'confirmation', 'sales_follow_up_reminder'] as const;
+
+export type TodoType = (typeof TODO_TYPES)[number];
+
+export const TodoTypeSchema = z.enum(TODO_TYPES).meta({ id: 'TodoType' });
+
+export const TodoTypeValue = {
+    Approval: 'approval',
+    Confirmation: 'confirmation',
+    SalesFollowUpReminder: 'sales_follow_up_reminder'
+} as const satisfies Record<string, TodoType>;
+
+export const TODO_STATUSES = ['open', 'processing', 'completed', 'canceled'] as const;
+
+export type TodoStatus = (typeof TODO_STATUSES)[number];
+
+export const TodoStatusSchema = z.enum(TODO_STATUSES).meta({ id: 'TodoStatus' });
+
+export const TodoStatusValue = {
+    Open: 'open',
+    Processing: 'processing',
+    Completed: 'completed',
+    Canceled: 'canceled'
+} as const satisfies Record<string, TodoStatus>;
+
+export const TODO_PRIORITIES = ['low', 'normal', 'high', 'urgent'] as const;
+
+export type TodoPriority = (typeof TODO_PRIORITIES)[number];
+
+export const TodoPrioritySchema = z.enum(TODO_PRIORITIES).meta({ id: 'TodoPriority' });
+
+export const TodoPriorityValue = {
+    Low: 'low',
+    Normal: 'normal',
+    High: 'high',
+    Urgent: 'urgent'
+} as const satisfies Record<string, TodoPriority>;
+
 export const ApprovalRecordSummarySchema = z
     .object({
         id: z.uuid(),
-        approvalType: z.string(),
-        businessDomain: z.string(),
-        targetObjectType: z.string(),
+        approvalType: ApprovalTypeSchema,
+        businessDomain: BusinessDomainSchema,
+        targetObjectType: TargetObjectTypeSchema,
         targetObjectId: z.uuid(),
         projectId: z.uuid().nullable(),
-        currentStatus: z.string(),
+        currentStatus: ApprovalStatusSchema,
         currentNodeKey: z.string(),
         currentNodeName: z.string().nullable(),
         initiatorUserId: z.uuid(),
         currentApproverUserId: z.uuid().nullable(),
-        decision: z.string().nullable(),
+        decision: ApprovalDecisionSchema.nullable(),
         decisionComment: z.string().nullable(),
         targetTitle: z.string().nullable(),
         targetStatus: z.string().nullable(),
@@ -3660,11 +3774,11 @@ export type DomainApprovalRecord<TStatus extends string> = Omit<ApprovalRecordSu
 export const TodoItemSummarySchema = z
     .object({
         id: z.uuid(),
-        sourceType: z.string(),
+        sourceType: TodoSourceTypeSchema,
         sourceId: z.uuid(),
-        todoType: z.string(),
-        businessDomain: z.string(),
-        targetObjectType: z.string(),
+        todoType: TodoTypeSchema,
+        businessDomain: BusinessDomainSchema,
+        targetObjectType: TargetObjectTypeSchema,
         targetObjectId: z.uuid(),
         projectId: z.uuid().nullable(),
         title: z.string(),
@@ -3673,8 +3787,8 @@ export const TodoItemSummarySchema = z
         currentNodeName: z.string().nullable(),
         allowedActions: z.array(z.string()),
         assigneeUserId: z.uuid(),
-        status: z.string(),
-        priority: z.string(),
+        status: TodoStatusSchema,
+        priority: TodoPrioritySchema,
         dueAt: z.iso.datetime().nullable(),
         completedAt: z.iso.datetime().nullable(),
         rowVersion: z.number().int(),

@@ -21488,6 +21488,50 @@
           "resultStatus"
         ]
       },
+      "ApprovalType": {
+        "type": "string",
+        "enum": [
+          "contract-review",
+          "commission-payout-approval",
+          "commission-adjustment-approval"
+        ]
+      },
+      "BusinessDomain": {
+        "type": "string",
+        "enum": [
+          "contract-finance",
+          "commission",
+          "sales",
+          "project-handover"
+        ]
+      },
+      "TargetObjectType": {
+        "type": "string",
+        "enum": [
+          "Contract",
+          "CommissionPayout",
+          "CommissionAdjustment",
+          "Project",
+          "Lead",
+          "Customer",
+          "ProjectHandover"
+        ]
+      },
+      "ApprovalStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "approved",
+          "rejected"
+        ]
+      },
+      "ApprovalDecision": {
+        "type": "string",
+        "enum": [
+          "approved",
+          "rejected"
+        ]
+      },
       "ApprovalRecordSummary": {
         "type": "object",
         "properties": {
@@ -21497,13 +21541,13 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "approvalType": {
-            "type": "string"
+            "$ref": "#/components/schemas/ApprovalType"
           },
           "businessDomain": {
-            "type": "string"
+            "$ref": "#/components/schemas/BusinessDomain"
           },
           "targetObjectType": {
-            "type": "string"
+            "$ref": "#/components/schemas/TargetObjectType"
           },
           "targetObjectId": {
             "type": "string",
@@ -21517,7 +21561,7 @@
             "nullable": true
           },
           "currentStatus": {
-            "type": "string"
+            "$ref": "#/components/schemas/ApprovalStatus"
           },
           "currentNodeKey": {
             "type": "string"
@@ -21538,7 +21582,11 @@
             "nullable": true
           },
           "decision": {
-            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApprovalDecision"
+              }
+            ],
             "nullable": true
           },
           "decisionComment": {
@@ -21711,7 +21759,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "sourceType": {
-            "type": "string"
+            "$ref": "#/components/schemas/TodoSourceType"
           },
           "sourceId": {
             "type": "string",
@@ -21719,13 +21767,13 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "todoType": {
-            "type": "string"
+            "$ref": "#/components/schemas/TodoType"
           },
           "businessDomain": {
-            "type": "string"
+            "$ref": "#/components/schemas/BusinessDomain"
           },
           "targetObjectType": {
-            "type": "string"
+            "$ref": "#/components/schemas/TargetObjectType"
           },
           "targetObjectId": {
             "type": "string",
@@ -21765,10 +21813,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/TodoStatus"
           },
           "priority": {
-            "type": "string"
+            "$ref": "#/components/schemas/TodoPriority"
           },
           "dueAt": {
             "type": "string",
@@ -21820,6 +21868,40 @@
           "rowVersion",
           "createdAt",
           "updatedAt"
+        ]
+      },
+      "TodoSourceType": {
+        "type": "string",
+        "enum": [
+          "ApprovalRecord",
+          "ConfirmationRecord",
+          "SalesFollowUpRecord"
+        ]
+      },
+      "TodoType": {
+        "type": "string",
+        "enum": [
+          "approval",
+          "confirmation",
+          "sales_follow_up_reminder"
+        ]
+      },
+      "TodoStatus": {
+        "type": "string",
+        "enum": [
+          "open",
+          "processing",
+          "completed",
+          "canceled"
+        ]
+      },
+      "TodoPriority": {
+        "type": "string",
+        "enum": [
+          "low",
+          "normal",
+          "high",
+          "urgent"
         ]
       },
       "TodoItemList": {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore, ProjectStore, type TodoItemSummary } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, TodoStatus, type TodoItemSummary } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -88,8 +88,8 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                                     [disabled]="!canNavigateTodo(todo)"
                                     (click)="navigateToTodo(todo)"
                                 >
-                                    <div class="w-8 h-8 flex items-center justify-center rounded-lg shrink-0" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
-                                        <i class="pi text-sm" [ngClass]="todo.status === 'open' ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
+                                    <div class="w-8 h-8 flex items-center justify-center rounded-lg shrink-0" [ngClass]="isOpenTodo(todo) ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
+                                        <i class="pi text-sm" [ngClass]="isOpenTodo(todo) ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <span class="text-sm font-medium text-surface-950 dark:text-surface-0 truncate block">{{ todo.title }}</span>
@@ -153,6 +153,10 @@ export class Workbench implements OnInit {
 
     canNavigateTodo(todo: TodoItemSummary) {
         return resolveTodoNavigationTarget(todo).navigable;
+    }
+
+    isOpenTodo(todo: TodoItemSummary) {
+        return todo.status === TodoStatus.Open;
     }
 
     todoNavigationHint(todo: TodoItemSummary) {

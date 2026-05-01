@@ -1,7 +1,8 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import type { SalesFollowUpRecordLifecycleScope } from '@poms/shared-contracts';
+import { BusinessDomainValue, TargetObjectTypeValue, TodoPriorityValue, TodoSourceTypeValue, TodoStatusValue, TodoTypeValue } from '@poms/shared-contracts';
+import type { SalesFollowUpRecordLifecycleScope, TargetObjectType, TodoPriority } from '@poms/shared-contracts';
 import { TodoItem } from '../approval/todo-item.entity';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
@@ -10,13 +11,13 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { SalesFollowUpRecord } from './sales-follow-up-record.entity';
 
-const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = 'SalesFollowUpRecord';
-const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
-const SALES_BUSINESS_DOMAIN = 'sales';
-const OPEN_REMINDER_STATUSES = ['open', 'processing'];
-const CUSTOMER_TARGET_TYPE = 'Customer';
-const LEAD_TARGET_TYPE = 'Lead';
-const PROJECT_TARGET_TYPE = 'Project';
+const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = TodoSourceTypeValue.SalesFollowUpRecord;
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = TodoTypeValue.SalesFollowUpReminder;
+const SALES_BUSINESS_DOMAIN = BusinessDomainValue.Sales;
+const OPEN_REMINDER_STATUSES = [TodoStatusValue.Open, TodoStatusValue.Processing] as const;
+const CUSTOMER_TARGET_TYPE = TargetObjectTypeValue.Customer;
+const LEAD_TARGET_TYPE = TargetObjectTypeValue.Lead;
+const PROJECT_TARGET_TYPE = TargetObjectTypeValue.Project;
 
 export interface SalesFollowUpRecordFilters {
     customerId?: string;
@@ -192,12 +193,12 @@ export class SalesFollowUpRepository {
             assigneeUserId: record.ownerUserId,
             targetObjectType: target.targetObjectType,
             targetObjectId: target.targetObjectId,
-            status: { $in: OPEN_REMINDER_STATUSES }
+            status: { $in: [...OPEN_REMINDER_STATUSES] }
         });
 
         for (const todo of streamTodos) {
             if (todo.sourceId !== record.id) {
-                todo.status = 'completed';
+                todo.status = TodoStatusValue.Completed;
                 todo.completedAt = now;
             }
         }
@@ -210,11 +211,11 @@ export class SalesFollowUpRepository {
             sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
             sourceId: record.id,
             assigneeUserId: record.ownerUserId,
-            status: { $in: OPEN_REMINDER_STATUSES }
+            status: { $in: [...OPEN_REMINDER_STATUSES] }
         });
         const title = `销售跟进提醒：${target.targetTitle}`;
         const summary = this.buildReminderSummary(record.summary);
-        const priority = record.nextFollowUpAt.getTime() <= Date.now() ? 'high' : 'normal';
+        const priority: TodoPriority = record.nextFollowUpAt.getTime() <= Date.now() ? TodoPriorityValue.High : TodoPriorityValue.Normal;
 
         if (existingTodo) {
             existingTodo.todoType = SALES_FOLLOW_UP_REMINDER_TODO_TYPE;
@@ -224,7 +225,7 @@ export class SalesFollowUpRepository {
             existingTodo.projectId = target.projectId;
             existingTodo.title = title;
             existingTodo.summary = summary;
-            existingTodo.status = 'open';
+            existingTodo.status = TodoStatusValue.Open;
             existingTodo.priority = priority;
             existingTodo.dueAt = record.nextFollowUpAt;
             existingTodo.completedAt = null;
@@ -242,7 +243,7 @@ export class SalesFollowUpRepository {
             title,
             summary,
             assigneeUserId: record.ownerUserId,
-            status: 'open',
+            status: TodoStatusValue.Open,
             priority,
             dueAt: record.nextFollowUpAt,
             completedAt: null
@@ -255,12 +256,12 @@ export class SalesFollowUpRepository {
             sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
             sourceId,
             todoType: SALES_FOLLOW_UP_REMINDER_TODO_TYPE,
-            status: { $in: OPEN_REMINDER_STATUSES }
+            status: { $in: [...OPEN_REMINDER_STATUSES] }
         });
         const now = new Date();
 
         for (const todo of todos) {
-            todo.status = 'canceled';
+            todo.status = TodoStatusValue.Canceled;
             todo.completedAt = now;
         }
     }
@@ -268,7 +269,7 @@ export class SalesFollowUpRepository {
     private resolveReminderTarget(
         record: SalesFollowUpRecord,
         context: SalesFollowUpReminderContext
-    ): { targetObjectType: string; targetObjectId: string; targetTitle: string; projectId: string | null } {
+    ): { targetObjectType: TargetObjectType; targetObjectId: string; targetTitle: string; projectId: string | null } {
         if (record.projectId) {
             return {
                 targetObjectType: PROJECT_TARGET_TYPE,

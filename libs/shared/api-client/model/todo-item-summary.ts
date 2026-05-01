@@ -7,15 +7,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { BusinessDomain } from './business-domain';
+import { TargetObjectType } from './target-object-type';
+import { TodoPriority } from './todo-priority';
+import { TodoStatus } from './todo-status';
+import { TodoSourceType } from './todo-source-type';
+import { TodoType } from './todo-type';
 
 
 export interface TodoItemSummary {
     id: string;
-    sourceType: string;
+    sourceType: TodoSourceType;
     sourceId: string;
-    todoType: string;
-    businessDomain: string;
-    targetObjectType: string;
+    todoType: TodoType;
+    businessDomain: BusinessDomain;
+    targetObjectType: TargetObjectType;
     targetObjectId: string;
     projectId: string | null;
     title: string;
@@ -24,8 +30,8 @@ export interface TodoItemSummary {
     currentNodeName: string | null;
     allowedActions: Array<string>;
     assigneeUserId: string;
-    status: string;
-    priority: string;
+    status: TodoStatus;
+    priority: TodoPriority;
     dueAt: string | null;
     completedAt: string | null;
     rowVersion: number;

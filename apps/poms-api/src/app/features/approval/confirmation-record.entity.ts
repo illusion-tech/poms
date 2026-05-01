@@ -1,4 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
+import type { BusinessDomain, TargetObjectType } from '@poms/shared-contracts';
 
 export type ConfirmationRecordStatus = 'pending' | 'confirmed' | 'closed';
 export type ConfirmationParticipantStatus = 'pending' | 'confirmed' | 'closed';
@@ -25,8 +26,8 @@ export const ConfirmationRecordSchema = defineEntity({
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         confirmationType: p.string().length(64).fieldName('confirmation_type').comment('确认类型'),
-        businessDomain: p.string().length(64).fieldName('business_domain').comment('业务域'),
-        targetType: p.string().length(64).fieldName('target_type').comment('确认目标类型'),
+        businessDomain: p.string().$type<BusinessDomain>().length(64).fieldName('business_domain').comment('业务域'),
+        targetType: p.string().$type<TargetObjectType>().length(64).fieldName('target_type').comment('确认目标类型'),
         targetId: p.uuid().fieldName('target_id').comment('确认目标 ID'),
         projectId: p.uuid().nullable().fieldName('project_id').comment('项目 ID'),
         status: p.string().length(32).default('pending').$type<ConfirmationRecordStatus>().comment('状态：pending/confirmed/closed'),

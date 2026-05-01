@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthStore, type TodoItemSummary } from '@poms/admin-data-access';
+import { AuthStore, TodoStatus, type TodoItemSummary } from '@poms/admin-data-access';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { resolveTodoNavigationTarget } from '../../shared/navigation/todo-navigation';
@@ -78,8 +78,8 @@ import { AppBreadcrumb } from './app.breadcrumb';
                                             (click)="navigateToTodo(todo)"
                                         >
                                             <div class="flex items-start pt-0.5">
-                                                <div class="w-8 h-8 flex items-center justify-center rounded-lg" [ngClass]="todo.status === 'open' ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
-                                                    <i class="pi text-sm" [ngClass]="todo.status === 'open' ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
+                                                <div class="w-8 h-8 flex items-center justify-center rounded-lg" [ngClass]="isOpenTodo(todo) ? 'bg-orange-100 dark:bg-orange-900/30' : 'bg-green-100 dark:bg-green-900/30'">
+                                                    <i class="pi text-sm" [ngClass]="isOpenTodo(todo) ? 'pi-clock text-orange-600 dark:text-orange-400' : 'pi-check text-green-600 dark:text-green-400'"></i>
                                                 </div>
                                             </div>
                                             <div class="flex-1 min-w-0">
@@ -178,6 +178,10 @@ export class AppTopbar {
 
     canNavigateTodo(todo: TodoItemSummary) {
         return resolveTodoNavigationTarget(todo).navigable;
+    }
+
+    isOpenTodo(todo: TodoItemSummary) {
+        return todo.status === TodoStatus.Open;
     }
 
     todoNavigationHint(todo: TodoItemSummary) {

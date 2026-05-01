@@ -1,7 +1,19 @@
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ApprovalDecisionValue,
+    ApprovalStatusValue,
+    ApprovalTypeValue,
+    BusinessDomainValue,
+    TargetObjectTypeValue,
+    TodoPriorityValue,
+    TodoSourceTypeValue,
+    TodoStatusValue,
+    TodoTypeValue
+} from '@poms/shared-contracts';
 import type {
+    ApprovalDecision,
     ApprovalRecordSummary,
     ApproveRecordRequest,
     CommandResult,
@@ -9,6 +21,7 @@ import type {
     SubmitCommissionAdjustmentApprovalRequest,
     SubmitCommissionPayoutApprovalRequest,
     SubmitContractReviewRequest,
+    TargetObjectType,
     TodoItemSummary
 } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
@@ -50,27 +63,28 @@ import { OperatingSignalToCommissionGateBinding } from '../project-cost/operatin
 import { ApprovalRecord } from './approval-record.entity';
 import { TodoItem } from './todo-item.entity';
 
-const CONTRACT_REVIEW_APPROVAL_TYPE = 'contract-review';
+const CONTRACT_REVIEW_APPROVAL_TYPE = ApprovalTypeValue.ContractReview;
 const CONTRACT_REVIEW_NODE_KEY = 'contract-review';
-const CONTRACT_BUSINESS_DOMAIN = 'contract-finance';
-const CONTRACT_TARGET_TYPE = 'Contract';
-const COMMISSION_PAYOUT_APPROVAL_TYPE = 'commission-payout-approval';
+const CONTRACT_BUSINESS_DOMAIN = BusinessDomainValue.ContractFinance;
+const CONTRACT_TARGET_TYPE = TargetObjectTypeValue.Contract;
+const COMMISSION_PAYOUT_APPROVAL_TYPE = ApprovalTypeValue.CommissionPayoutApproval;
 const COMMISSION_PAYOUT_NODE_KEY = 'commission-payout-approval';
-const COMMISSION_BUSINESS_DOMAIN = 'commission';
-const COMMISSION_PAYOUT_TARGET_TYPE = 'CommissionPayout';
-const COMMISSION_ADJUSTMENT_APPROVAL_TYPE = 'commission-adjustment-approval';
+const COMMISSION_BUSINESS_DOMAIN = BusinessDomainValue.Commission;
+const COMMISSION_PAYOUT_TARGET_TYPE = TargetObjectTypeValue.CommissionPayout;
+const COMMISSION_ADJUSTMENT_APPROVAL_TYPE = ApprovalTypeValue.CommissionAdjustmentApproval;
 const COMMISSION_ADJUSTMENT_NODE_KEY = 'commission-adjustment-approval';
-const COMMISSION_ADJUSTMENT_TARGET_TYPE = 'CommissionAdjustment';
-const TODO_SOURCE_TYPE = 'ApprovalRecord';
-const TODO_TYPE = 'approval';
-const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = 'SalesFollowUpRecord';
-const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
-const PROJECT_TARGET_TYPE = 'Project';
-const LEAD_TARGET_TYPE = 'Lead';
-const CUSTOMER_TARGET_TYPE = 'Customer';
+const COMMISSION_ADJUSTMENT_TARGET_TYPE = TargetObjectTypeValue.CommissionAdjustment;
+const TODO_SOURCE_TYPE = TodoSourceTypeValue.ApprovalRecord;
+const TODO_TYPE = TodoTypeValue.Approval;
+const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = TodoSourceTypeValue.SalesFollowUpRecord;
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = TodoTypeValue.SalesFollowUpReminder;
+const PROJECT_TARGET_TYPE = TargetObjectTypeValue.Project;
+const LEAD_TARGET_TYPE = TargetObjectTypeValue.Lead;
+const CUSTOMER_TARGET_TYPE = TargetObjectTypeValue.Customer;
 const CONTRACT_REVIEW_APPROVER_USER_ID = requireDevUserByUsername(CONTRACT_REVIEW_APPROVER_USERNAME).id;
 const COMMISSION_APPROVER_USER_ID = requireDevUserByUsername(COMMISSION_APPROVER_USERNAME).id;
 const APPROVAL_ACTIONS = ['approve', 'reject'];
+const OPEN_TODO_STATUSES = [TodoStatusValue.Open, TodoStatusValue.Processing] as const;
 
 @Injectable()
 export class ApprovalService {
@@ -110,7 +124,7 @@ export class ApprovalService {
                 approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
                 targetObjectType: CONTRACT_TARGET_TYPE,
                 targetObjectId: contract.id,
-                currentStatus: 'pending'
+                currentStatus: ApprovalStatusValue.Pending
             });
             if (existingApproval) {
                 throw new ConflictException(`Contract ${contractId} already has a pending review approval`);
@@ -128,7 +142,7 @@ export class ApprovalService {
                 targetObjectType: CONTRACT_TARGET_TYPE,
                 targetObjectId: contract.id,
                 projectId: contract.projectId,
-                currentStatus: 'pending',
+                currentStatus: ApprovalStatusValue.Pending,
                 currentNodeKey: CONTRACT_REVIEW_NODE_KEY,
                 initiatorUserId,
                 currentApproverUserId: CONTRACT_REVIEW_APPROVER_USER_ID,
@@ -151,8 +165,8 @@ export class ApprovalService {
                 title: `合同审核：${contract.contractNo}`,
                 summary: input.comment ?? null,
                 assigneeUserId: CONTRACT_REVIEW_APPROVER_USER_ID,
-                status: 'open',
-                priority: 'high',
+                status: TodoStatusValue.Open,
+                priority: TodoPriorityValue.High,
                 dueAt: null,
                 completedAt: null
             });
@@ -174,12 +188,12 @@ export class ApprovalService {
     }
 
     async approveRecord(approvalRecordId: string, actorUserId: string, input: ApproveRecordRequest): Promise<CommandResult> {
-        return this.resolveApprovalDecision(approvalRecordId, actorUserId, 'approved', input.comment ?? null, input.expectedVersion);
+        return this.resolveApprovalDecision(approvalRecordId, actorUserId, ApprovalDecisionValue.Approved, input.comment ?? null, input.expectedVersion);
     }
 
     async rejectRecord(approvalRecordId: string, actorUserId: string, input: RejectApprovalRecordRequest): Promise<CommandResult> {
         const comment = input.comment ? `${input.reason}\n${input.comment}` : input.reason;
-        return this.resolveApprovalDecision(approvalRecordId, actorUserId, 'rejected', comment, input.expectedVersion);
+        return this.resolveApprovalDecision(approvalRecordId, actorUserId, ApprovalDecisionValue.Rejected, comment, input.expectedVersion);
     }
 
     async submitCommissionPayoutApproval(payoutId: string, initiatorUserId: string, input: SubmitCommissionPayoutApprovalRequest): Promise<CommandResult> {
@@ -200,7 +214,7 @@ export class ApprovalService {
                 approvalType: COMMISSION_PAYOUT_APPROVAL_TYPE,
                 targetObjectType: COMMISSION_PAYOUT_TARGET_TYPE,
                 targetObjectId: payout.id,
-                currentStatus: 'pending'
+                currentStatus: ApprovalStatusValue.Pending
             });
             if (existingApproval) {
                 throw new ConflictException(`CommissionPayout ${payoutId} already has a pending approval`);
@@ -256,7 +270,7 @@ export class ApprovalService {
                 targetObjectType: COMMISSION_PAYOUT_TARGET_TYPE,
                 targetObjectId: payout.id,
                 projectId: payout.projectId,
-                currentStatus: 'pending',
+                currentStatus: ApprovalStatusValue.Pending,
                 currentNodeKey: COMMISSION_PAYOUT_NODE_KEY,
                 initiatorUserId,
                 currentApproverUserId: COMMISSION_APPROVER_USER_ID,
@@ -279,8 +293,8 @@ export class ApprovalService {
                 title: `提成发放审批：${mapPayoutStageName(payout.stageType)}`,
                 summary: null,
                 assigneeUserId: COMMISSION_APPROVER_USER_ID,
-                status: 'open',
-                priority: 'high',
+                status: TodoStatusValue.Open,
+                priority: TodoPriorityValue.High,
                 dueAt: null,
                 completedAt: null
             });
@@ -318,7 +332,7 @@ export class ApprovalService {
                 approvalType: COMMISSION_ADJUSTMENT_APPROVAL_TYPE,
                 targetObjectType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
                 targetObjectId: adjustment.id,
-                currentStatus: 'pending'
+                currentStatus: ApprovalStatusValue.Pending
             });
             if (existingApproval) {
                 throw new ConflictException(`CommissionAdjustment ${adjustmentId} already has a pending approval`);
@@ -336,7 +350,7 @@ export class ApprovalService {
                 targetObjectType: COMMISSION_ADJUSTMENT_TARGET_TYPE,
                 targetObjectId: adjustment.id,
                 projectId: adjustment.projectId,
-                currentStatus: 'pending',
+                currentStatus: ApprovalStatusValue.Pending,
                 currentNodeKey: COMMISSION_ADJUSTMENT_NODE_KEY,
                 initiatorUserId,
                 currentApproverUserId: COMMISSION_APPROVER_USER_ID,
@@ -359,8 +373,8 @@ export class ApprovalService {
                 title: `提成调整审批：${mapAdjustmentTypeName(adjustment.adjustmentType)}`,
                 summary: adjustment.reason,
                 assigneeUserId: COMMISSION_APPROVER_USER_ID,
-                status: 'open',
-                priority: 'high',
+                status: TodoStatusValue.Open,
+                priority: TodoPriorityValue.High,
                 dueAt: null,
                 completedAt: null
             });
@@ -389,7 +403,7 @@ export class ApprovalService {
         return this.mapApprovalRecordSummary(record);
     }
 
-    async findLatestApprovalForTarget(targetObjectType: string, targetObjectId: string): Promise<ApprovalRecordSummary | null> {
+    async findLatestApprovalForTarget(targetObjectType: TargetObjectType, targetObjectId: string): Promise<ApprovalRecordSummary | null> {
         const record = await this.approvalRecordRepository.findOne(
             {
                 targetObjectType,
@@ -410,7 +424,7 @@ export class ApprovalService {
     }
 
     async findOpenTodosForUser(userId: string): Promise<TodoItemSummary[]> {
-        const todos = await this.todoItemRepository.find({ assigneeUserId: userId, status: { $in: ['open', 'processing'] } }, { orderBy: { createdAt: QueryOrder.ASC } });
+        const todos = await this.todoItemRepository.find({ assigneeUserId: userId, status: { $in: [...OPEN_TODO_STATUSES] } }, { orderBy: { createdAt: QueryOrder.ASC } });
 
         if (todos.length === 0) {
             return [];
@@ -456,7 +470,7 @@ export class ApprovalService {
         );
     }
 
-    private async resolveApprovalDecision(approvalRecordId: string, actorUserId: string, decision: 'approved' | 'rejected', comment: string | null, expectedVersion?: number): Promise<CommandResult> {
+    private async resolveApprovalDecision(approvalRecordId: string, actorUserId: string, decision: ApprovalDecision, comment: string | null, expectedVersion?: number): Promise<CommandResult> {
         return this.approvalRecordRepository.getEntityManager().transactional(async (em) => {
             const approvalRecord = await em.findOne(ApprovalRecord, { id: approvalRecordId });
             if (!approvalRecord) {
@@ -465,7 +479,7 @@ export class ApprovalService {
 
             this.assertExpectedVersion(approvalRecord.rowVersion, expectedVersion, 'ApprovalRecord');
 
-            if (approvalRecord.currentStatus !== 'pending') {
+            if (approvalRecord.currentStatus !== ApprovalStatusValue.Pending) {
                 throw new BadRequestException(`ApprovalRecord ${approvalRecordId} cannot be processed in status ${approvalRecord.currentStatus}`);
             }
 
@@ -477,7 +491,7 @@ export class ApprovalService {
                 sourceType: TODO_SOURCE_TYPE,
                 sourceId: approvalRecord.id,
                 assigneeUserId: actorUserId,
-                status: { $in: ['open', 'processing'] }
+                status: { $in: [...OPEN_TODO_STATUSES] }
             });
 
             approvalRecord.currentStatus = decision;
@@ -489,7 +503,7 @@ export class ApprovalService {
 
             const todoItemIds: string[] = [];
             if (todoItem) {
-                todoItem.status = decision === 'approved' ? 'completed' : 'canceled';
+                todoItem.status = decision === ApprovalDecisionValue.Approved ? TodoStatusValue.Completed : TodoStatusValue.Canceled;
                 todoItem.completedAt = new Date();
                 todoItemIds.push(todoItem.id);
             }
@@ -500,7 +514,7 @@ export class ApprovalService {
                     throw new NotFoundException(`Contract ${approvalRecord.targetObjectId} not found`);
                 }
 
-                contract.status = decision === 'approved' ? 'pending-review' : 'draft';
+                contract.status = decision === ApprovalDecisionValue.Approved ? 'pending-review' : 'draft';
 
                 em.persist([approvalRecord, contract, ...(todoItem ? [todoItem] : [])]);
                 await em.flush();
@@ -524,7 +538,7 @@ export class ApprovalService {
                 }
 
                 let snapshotId: string | null = null;
-                if (decision === 'approved') {
+                if (decision === ApprovalDecisionValue.Approved) {
                     payout.status = 'approved';
                     payout.approvedAmount = payout.approvedAmount ?? payout.theoreticalCapAmount;
                     payout.approvedAt = new Date();
@@ -618,7 +632,7 @@ export class ApprovalService {
                     throw new NotFoundException(`CommissionAdjustment ${approvalRecord.targetObjectId} not found`);
                 }
 
-                adjustment.status = decision === 'approved' ? 'approved' : 'rejected';
+                adjustment.status = decision === ApprovalDecisionValue.Approved ? 'approved' : 'rejected';
 
                 em.persist([approvalRecord, adjustment, ...(todoItem ? [todoItem] : [])]);
                 await em.flush();
@@ -1151,7 +1165,7 @@ function mapTodoItemToSummary(
         summary: todoItem.summary ?? null,
         targetTitle,
         currentNodeName: approvalRecord ? mapNodeName(approvalRecord.currentNodeKey) : isSalesFollowUpReminder ? mapSalesFollowUpReminderNodeName(todoItem.dueAt) : null,
-        allowedActions: todoItem.todoType === TODO_TYPE && ['open', 'processing'].includes(todoItem.status) ? APPROVAL_ACTIONS : [],
+        allowedActions: todoItem.todoType === TODO_TYPE && (OPEN_TODO_STATUSES as readonly string[]).includes(todoItem.status) ? APPROVAL_ACTIONS : [],
         assigneeUserId: todoItem.assigneeUserId,
         status: todoItem.status,
         priority: todoItem.priority,

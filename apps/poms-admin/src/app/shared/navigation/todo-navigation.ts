@@ -1,12 +1,12 @@
-import type { TodoItemSummary } from '@poms/admin-data-access';
+import { TargetObjectType, TodoSourceType, TodoType, type TodoItemSummary } from '@poms/admin-data-access';
 
 export const TODO_TARGET_OBJECT_TYPE = {
-    Customer: 'Customer',
-    Lead: 'Lead',
-    Contract: 'Contract',
-    Project: 'Project',
-    CommissionPayout: 'CommissionPayout',
-    CommissionAdjustment: 'CommissionAdjustment'
+    Customer: TargetObjectType.Customer,
+    Lead: TargetObjectType.Lead,
+    Contract: TargetObjectType.Contract,
+    Project: TargetObjectType.Project,
+    CommissionPayout: TargetObjectType.CommissionPayout,
+    CommissionAdjustment: TargetObjectType.CommissionAdjustment
 } as const;
 
 export type KnownTodoTargetObjectType = (typeof TODO_TARGET_OBJECT_TYPE)[keyof typeof TODO_TARGET_OBJECT_TYPE];
@@ -24,9 +24,9 @@ export type TodoNavigationTarget =
 
 type TodoNavigationInput = Pick<TodoItemSummary, 'id' | 'targetObjectType' | 'targetObjectId' | 'projectId' | 'sourceType' | 'sourceId' | 'todoType'>;
 
-const APPROVAL_RECORD_SOURCE_TYPE = 'ApprovalRecord';
-const SALES_FOLLOW_UP_RECORD_SOURCE_TYPE = 'SalesFollowUpRecord';
-const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
+const APPROVAL_RECORD_SOURCE_TYPE = TodoSourceType.ApprovalRecord;
+const SALES_FOLLOW_UP_RECORD_SOURCE_TYPE = TodoSourceType.SalesFollowUpRecord;
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = TodoType.SalesFollowUpReminder;
 
 export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavigationTarget {
     switch (todo.targetObjectType) {

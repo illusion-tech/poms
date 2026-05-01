@@ -1,14 +1,15 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import type { CommandResult } from '@poms/shared-contracts';
+import { TodoPriorityValue, TodoSourceTypeValue, TodoStatusValue, TodoTypeValue } from '@poms/shared-contracts';
+import type { BusinessDomain, CommandResult, TargetObjectType, TodoPriority } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import { ConfirmationParticipant, ConfirmationRecord, type ConfirmationParticipantStatus } from './confirmation-record.entity';
 import { TodoItem } from './todo-item.entity';
 
-const CONFIRMATION_SOURCE_TYPE = 'ConfirmationRecord';
-const CONFIRMATION_TODO_TYPE = 'confirmation';
-const OPEN_TODO_STATUSES = ['open', 'processing'] as const;
+const CONFIRMATION_SOURCE_TYPE = TodoSourceTypeValue.ConfirmationRecord;
+const CONFIRMATION_TODO_TYPE = TodoTypeValue.Confirmation;
+const OPEN_TODO_STATUSES = [TodoStatusValue.Open, TodoStatusValue.Processing] as const;
 
 export interface ConfirmationParticipantInput {
     participantId: string;
@@ -21,14 +22,14 @@ export interface ConfirmationParticipantInput {
 
 export interface CreateConfirmationRecordInput {
     confirmationType: string;
-    businessDomain: string;
-    targetType: string;
+    businessDomain: BusinessDomain;
+    targetType: TargetObjectType;
     targetId: string;
     projectId?: string | null;
     title: string;
     summary?: string | null;
     comment?: string | null;
-    priority?: string;
+    priority?: TodoPriority;
     participants: ConfirmationParticipantInput[];
 }
 
@@ -55,8 +56,8 @@ export interface ConfirmationProgressParticipant {
 export interface ConfirmationProgress {
     id: string;
     confirmationType: string;
-    businessDomain: string;
-    targetType: string;
+    businessDomain: BusinessDomain;
+    targetType: TargetObjectType;
     targetId: string;
     projectId: string | null;
     status: string;
@@ -147,8 +148,8 @@ export class ConfirmationService {
                         title: participant.todoTitle ?? input.title,
                         summary: participant.todoSummary ?? input.summary ?? null,
                         assigneeUserId: participant.participantId,
-                        status: 'open',
-                        priority: input.priority ?? 'high',
+                        status: TodoStatusValue.Open,
+                        priority: input.priority ?? TodoPriorityValue.High,
                         dueAt: participant.dueAt ?? null,
                         completedAt: null
                     })
@@ -218,7 +219,7 @@ export class ConfirmationService {
 
             const todoItemIds: string[] = [];
             if (todoItem) {
-                todoItem.status = 'completed';
+                todoItem.status = TodoStatusValue.Completed;
                 todoItem.completedAt = now;
                 todoItemIds.push(todoItem.id);
             }
@@ -276,7 +277,7 @@ export class ConfirmationService {
                 participant.updatedBy = actorUserId;
             }
             for (const todoItem of todoItems) {
-                todoItem.status = 'canceled';
+                todoItem.status = TodoStatusValue.Canceled;
                 todoItem.completedAt = now;
             }
 
@@ -305,7 +306,7 @@ export class ConfirmationService {
         return this.buildConfirmationProgress(confirmationRecord);
     }
 
-    async findLatestConfirmationProgressByTarget(targetType: string, targetId: string, confirmationType?: string): Promise<ConfirmationProgress | null> {
+    async findLatestConfirmationProgressByTarget(targetType: TargetObjectType, targetId: string, confirmationType?: string): Promise<ConfirmationProgress | null> {
         const where = confirmationType ? { targetType, targetId, confirmationType } : { targetType, targetId };
         const confirmationRecord = await this.confirmationRecordRepository.findOne(where, {
             orderBy: { submittedAt: 'DESC', createdAt: 'DESC' }

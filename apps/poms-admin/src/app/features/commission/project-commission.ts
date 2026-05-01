@@ -16,7 +16,9 @@ import {
     ProjectWorkspaceStore,
     RegisterNonRetentionCommissionPayoutRequestPayoutStageEnum,
     RegisterRetentionCommissionPayoutRequestPayoutStageEnum,
-    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum
+    SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum,
+    TargetObjectType,
+    TodoStatus
 } from '@poms/admin-data-access';
 import type { RejectApprovalRecordRequest } from '@poms/shared-contracts';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -387,7 +389,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
             new Map(
                 this.#authStore
                     .myTodos()
-                    .filter((todo) => todo.targetObjectType === 'CommissionPayout' && todo.status === 'open')
+                    .filter((todo) => todo.targetObjectType === TargetObjectType.CommissionPayout && todo.status === TodoStatus.Open)
                     .map((todo) => [todo.targetObjectId, todo])
             )
     );
@@ -396,7 +398,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
             new Map(
                 this.#authStore
                     .myTodos()
-                    .filter((todo) => todo.targetObjectType === 'CommissionAdjustment' && todo.status === 'open')
+                    .filter((todo) => todo.targetObjectType === TargetObjectType.CommissionAdjustment && todo.status === TodoStatus.Open)
                     .map((todo) => [todo.targetObjectId, todo])
             )
     );

@@ -1,4 +1,4 @@
-import { ProjectStage, ProjectStatus } from '@poms/admin-data-access';
+import { ApprovalStatus, ProjectStage, ProjectStatus } from '@poms/admin-data-access';
 import type { UiTagSeverityValue } from './ui-severity';
 
 export const PROJECT_STAGE_LABELS = {
@@ -78,23 +78,17 @@ const CONTRACT_STATUS_SEVERITIES = {
 } as const satisfies Record<ContractStatusCode, UiTagSeverityValue>;
 
 export const APPROVAL_STATUS_LABELS = {
-    draft: '草稿',
-    pending: '审批中',
-    approved: '已通过',
-    rejected: '已驳回',
-    canceled: '已取消',
-    closed: '已关闭'
-} as const;
+    [ApprovalStatus.Pending]: '审批中',
+    [ApprovalStatus.Approved]: '已通过',
+    [ApprovalStatus.Rejected]: '已驳回'
+} as const satisfies Record<ApprovalStatus, string>;
 
-export type ApprovalStatusCode = keyof typeof APPROVAL_STATUS_LABELS;
+export type ApprovalStatusCode = ApprovalStatus;
 
 const APPROVAL_STATUS_SEVERITIES = {
-    draft: 'secondary',
-    pending: 'warn',
-    approved: 'success',
-    rejected: 'danger',
-    canceled: 'contrast',
-    closed: 'contrast'
+    [ApprovalStatus.Pending]: 'warn',
+    [ApprovalStatus.Approved]: 'success',
+    [ApprovalStatus.Rejected]: 'danger'
 } as const satisfies Record<ApprovalStatusCode, UiTagSeverityValue>;
 
 export const CONFIRMATION_STATUS_LABELS = {

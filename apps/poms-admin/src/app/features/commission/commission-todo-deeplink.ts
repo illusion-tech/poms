@@ -1,4 +1,4 @@
-import type { TodoItemSummary } from '@poms/admin-data-access';
+import { TargetObjectType, TodoSourceType, TodoStatus, type TodoItemSummary } from '@poms/admin-data-access';
 
 export type CommissionTodoDeepLinkKind = 'payout' | 'adjustment' | 'ambiguous';
 
@@ -128,10 +128,10 @@ function buildSingleTargetContext(input: { kind: Exclude<CommissionTodoDeepLinkK
 }
 
 function findTodo(todos: readonly TodoItemSummary[], kind: Exclude<CommissionTodoDeepLinkKind, 'ambiguous'>, targetId: string, approvalRecordId: string | null): TodoItemSummary | null {
-    const targetObjectType = kind === 'payout' ? 'CommissionPayout' : 'CommissionAdjustment';
-    const byApproval = approvalRecordId ? todos.find((todo) => todo.sourceType === 'ApprovalRecord' && todo.sourceId === approvalRecordId && todo.targetObjectType === targetObjectType && todo.targetObjectId === targetId) : null;
+    const targetObjectType = kind === 'payout' ? TargetObjectType.CommissionPayout : TargetObjectType.CommissionAdjustment;
+    const byApproval = approvalRecordId ? todos.find((todo) => todo.sourceType === TodoSourceType.ApprovalRecord && todo.sourceId === approvalRecordId && todo.targetObjectType === targetObjectType && todo.targetObjectId === targetId) : null;
 
-    return byApproval ?? todos.find((todo) => todo.targetObjectType === targetObjectType && todo.targetObjectId === targetId && todo.status === 'open') ?? null;
+    return byApproval ?? todos.find((todo) => todo.targetObjectType === targetObjectType && todo.targetObjectId === targetId && todo.status === TodoStatus.Open) ?? null;
 }
 
 function normalizeId(value: string | null | undefined): string | null {
