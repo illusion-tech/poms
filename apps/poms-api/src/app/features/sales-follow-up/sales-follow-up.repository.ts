@@ -1,7 +1,7 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { BusinessDomainValue, TargetObjectTypeValue, TodoPriorityValue, TodoSourceTypeValue, TodoStatusValue, TodoTypeValue } from '@poms/shared-contracts';
+import { BusinessDomainValue, SalesFollowUpRecordLifecycleScopeValue, SalesFollowUpRecordStatusValue, TargetObjectTypeValue, TodoPriorityValue, TodoSourceTypeValue, TodoStatusValue, TodoTypeValue } from '@poms/shared-contracts';
 import type { SalesFollowUpRecordLifecycleScope, TargetObjectType, TodoPriority } from '@poms/shared-contracts';
 import { TodoItem } from '../approval/todo-item.entity';
 import { Customer } from '../customer/customer.entity';
@@ -65,8 +65,8 @@ export class SalesFollowUpRepository {
             where.customerId = filters.customerId;
         }
 
-        if ((filters.lifecycleScope ?? 'active') === 'active') {
-            where.status = 'active';
+        if ((filters.lifecycleScope ?? SalesFollowUpRecordLifecycleScopeValue.Active) === SalesFollowUpRecordLifecycleScopeValue.Active) {
+            where.status = SalesFollowUpRecordStatusValue.Active;
         }
 
         if (anchorFilters.length > 0) {
@@ -181,7 +181,7 @@ export class SalesFollowUpRepository {
     }
 
     private async syncReminderTodoForActiveRecord(em: EntityManager, record: SalesFollowUpRecord, context: SalesFollowUpReminderContext): Promise<void> {
-        if (record.status !== 'active' || !record.ownerUserId) {
+        if (record.status !== SalesFollowUpRecordStatusValue.Active || !record.ownerUserId) {
             return;
         }
 

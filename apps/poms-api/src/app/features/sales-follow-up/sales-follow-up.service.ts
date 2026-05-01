@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { SalesFollowUpRecordStatusValue } from '@poms/shared-contracts';
 import type { CreateSalesFollowUpRecordRequest, ReplaceSalesFollowUpRecordRequest, SalesFollowUpRecordListQuery, SalesFollowUpRecordSummary, VoidSalesFollowUpRecordRequest } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { Customer } from '../customer/customer.entity';
@@ -52,7 +53,7 @@ export class SalesFollowUpService {
             customerId: customer.id,
             leadId: lead?.id ?? null,
             projectId: project?.id ?? null,
-            status: 'active',
+            status: SalesFollowUpRecordStatusValue.Active,
             followUpType: input.followUpType,
             occurredAt: new Date(input.occurredAt),
             summary: input.summary.trim(),
@@ -84,7 +85,7 @@ export class SalesFollowUpService {
         }
 
         this.assertExpectedVersion(supersededRecord.rowVersion, input.expectedVersion, 'SalesFollowUpRecord');
-        if (supersededRecord.status !== 'active') {
+        if (supersededRecord.status !== SalesFollowUpRecordStatusValue.Active) {
             throw new BadRequestException(`Only active sales follow-up records can be replaced, current status: ${supersededRecord.status}`);
         }
 
@@ -93,7 +94,7 @@ export class SalesFollowUpService {
         const replacementId = randomUUID();
         const beforeSnapshot = this.auditSnapshot(supersededRecord);
 
-        supersededRecord.status = 'superseded';
+        supersededRecord.status = SalesFollowUpRecordStatusValue.Superseded;
         supersededRecord.replacedByRecordId = replacementId;
         supersededRecord.updatedBy = operator.id;
 
@@ -102,7 +103,7 @@ export class SalesFollowUpService {
             customerId: supersededRecord.customerId,
             leadId: supersededRecord.leadId ?? null,
             projectId: supersededRecord.projectId ?? null,
-            status: 'active',
+            status: SalesFollowUpRecordStatusValue.Active,
             followUpType: input.followUpType,
             occurredAt: new Date(input.occurredAt),
             summary: input.summary.trim(),
@@ -143,7 +144,7 @@ export class SalesFollowUpService {
         }
 
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'SalesFollowUpRecord');
-        if (record.status !== 'active') {
+        if (record.status !== SalesFollowUpRecordStatusValue.Active) {
             throw new BadRequestException(`Only active sales follow-up records can be voided, current status: ${record.status}`);
         }
 
@@ -152,7 +153,7 @@ export class SalesFollowUpService {
         const ownerOrg = record.ownerOrgId ? await this.salesFollowUpRepository.findOrgUnitById(record.ownerOrgId) : null;
         const beforeSnapshot = this.auditSnapshot(record);
 
-        record.status = 'voided';
+        record.status = SalesFollowUpRecordStatusValue.Voided;
         record.voidedAt = new Date();
         record.voidedBy = operator.id;
         record.voidReason = this.appendComment(input.reason.trim(), input.comment);

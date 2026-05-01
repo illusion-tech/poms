@@ -1,14 +1,24 @@
 import { defineEntity } from '@mikro-orm/core';
-import type {
-    AttachmentCategory,
-    AttachmentLinkStatus,
-    AttachmentRelationType,
-    AttachmentSecurityLevel,
-    AttachmentStatus,
-    AttachmentTargetType
+import {
+    ATTACHMENT_CATEGORIES,
+    ATTACHMENT_LINK_STATUSES,
+    ATTACHMENT_RELATION_TYPES,
+    ATTACHMENT_SECURITY_LEVELS,
+    ATTACHMENT_STATUSES,
+    ATTACHMENT_TARGET_TYPES,
+    AttachmentLinkStatusValue,
+    AttachmentStatusValue,
+    type AttachmentCategory,
+    type AttachmentLinkStatus,
+    type AttachmentRelationType,
+    type AttachmentSecurityLevel,
+    type AttachmentStatus,
+    type AttachmentTargetType
 } from '@poms/shared-contracts';
 
 const p = defineEntity.properties;
+
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const AttachmentSchema = defineEntity({
     name: 'Attachment',
@@ -24,15 +34,15 @@ export const AttachmentSchema = defineEntity({
     checks: [
         {
             name: 'chk_attachment_category',
-            expression: `"category" in ('customer_profile', 'demand', 'communication', 'technical', 'solution', 'quotation', 'bid', 'contract', 'delivery', 'acceptance', 'finance', 'internal_assessment', 'other')`
+            expression: `"category" in (${toSqlStringList(ATTACHMENT_CATEGORIES)})`
         },
         {
             name: 'chk_attachment_security_level',
-            expression: `"security_level" in ('normal', 'internal', 'sensitive', 'confidential', 'restricted')`
+            expression: `"security_level" in (${toSqlStringList(ATTACHMENT_SECURITY_LEVELS)})`
         },
         {
             name: 'chk_attachment_status',
-            expression: `"status" in ('active', 'voided', 'deleted', 'failed')`
+            expression: `"status" in (${toSqlStringList(ATTACHMENT_STATUSES)})`
         }
     ],
     properties: {
@@ -48,7 +58,7 @@ export const AttachmentSchema = defineEntity({
         storageProvider: p.string().length(32).fieldName('storage_provider').comment('存储 provider'),
         storageBucket: p.string().length(255).nullable().fieldName('storage_bucket').comment('存储桶'),
         storageKey: p.string().length(1024).fieldName('storage_key').comment('对象存储 key'),
-        status: p.string().$type<AttachmentStatus>().length(32).comment('附件状态'),
+        status: p.string().$type<AttachmentStatus>().length(32).default(AttachmentStatusValue.Active).comment('附件状态'),
         description: p.text().nullable().comment('附件说明'),
         versionGroupId: p.uuid().nullable().fieldName('version_group_id').comment('版本组标识，一期预留'),
         versionNo: p.integer().default(1).fieldName('version_no').comment('版本号，一期默认 1'),
@@ -93,21 +103,21 @@ export const AttachmentLinkSchema = defineEntity({
             name: 'uq_attachment_link_active_relation',
             properties: ['attachmentId', 'targetType', 'targetId', 'relationType'],
             expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.attachmentId}", "${columns.targetType}", "${columns.targetId}", "${columns.relationType}") where "${columns.status}" = 'active'`
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.attachmentId}", "${columns.targetType}", "${columns.targetId}", "${columns.relationType}") where "${columns.status}" = '${AttachmentLinkStatusValue.Active}'`
         }
     ],
     checks: [
         {
             name: 'chk_attachment_link_target_type',
-            expression: `"target_type" in ('lead', 'customer', 'project', 'contract', 'sales_follow_up')`
+            expression: `"target_type" in (${toSqlStringList(ATTACHMENT_TARGET_TYPES)})`
         },
         {
             name: 'chk_attachment_link_relation_type',
-            expression: `"relation_type" in ('normal', 'source', 'evidence', 'final', 'handover')`
+            expression: `"relation_type" in (${toSqlStringList(ATTACHMENT_RELATION_TYPES)})`
         },
         {
             name: 'chk_attachment_link_status',
-            expression: `"status" in ('active', 'unlinked')`
+            expression: `"status" in (${toSqlStringList(ATTACHMENT_LINK_STATUSES)})`
         }
     ],
     properties: {
@@ -124,7 +134,7 @@ export const AttachmentLinkSchema = defineEntity({
         targetType: p.string().$type<AttachmentTargetType>().length(64).fieldName('target_type').comment('业务对象类型'),
         targetId: p.uuid().fieldName('target_id').comment('业务对象标识'),
         relationType: p.string().$type<AttachmentRelationType>().length(32).fieldName('relation_type').comment('关联关系类型'),
-        status: p.string().$type<AttachmentLinkStatus>().length(32).comment('关联状态'),
+        status: p.string().$type<AttachmentLinkStatus>().length(32).default(AttachmentLinkStatusValue.Active).comment('关联状态'),
         linkedBy: p.uuid().nullable().fieldName('linked_by').comment('关联操作人标识'),
         linkedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('linked_at').comment('关联时间'),
         unlinkedBy: p.uuid().nullable().fieldName('unlinked_by').comment('取消关联操作人标识'),

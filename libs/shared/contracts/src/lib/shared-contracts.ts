@@ -741,11 +741,25 @@ export type CustomerStatus = (typeof CUSTOMER_STATUSES)[number];
 
 export const CustomerStatusSchema = z.enum(CUSTOMER_STATUSES).meta({ id: 'CustomerStatus' });
 
+export const CustomerStatusValue = {
+    Active: 'active',
+    Inactive: 'inactive',
+    Merged: 'merged'
+} as const satisfies Record<string, CustomerStatus>;
+
 export const CUSTOMER_ALIAS_TYPES = ['legal_name', 'short_name', 'legacy_input', 'import_name', 'alias'] as const;
 
 export type CustomerAliasType = (typeof CUSTOMER_ALIAS_TYPES)[number];
 
 export const CustomerAliasTypeSchema = z.enum(CUSTOMER_ALIAS_TYPES).meta({ id: 'CustomerAliasType' });
+
+export const CustomerAliasTypeValue = {
+    LegalName: 'legal_name',
+    ShortName: 'short_name',
+    LegacyInput: 'legacy_input',
+    ImportName: 'import_name',
+    Alias: 'alias'
+} as const satisfies Record<string, CustomerAliasType>;
 
 export const CustomerSummarySchema = z
     .object({
@@ -838,7 +852,7 @@ export const UpdateCustomerRequestSchema = z
         displayName: z.string().trim().min(1).max(255).optional(),
         legalName: z.string().trim().min(1).max(255).nullable().optional(),
         shortName: z.string().trim().min(1).max(128).nullable().optional(),
-        status: z.enum(['active', 'inactive']).optional(),
+        status: z.enum([CustomerStatusValue.Active, CustomerStatusValue.Inactive]).optional(),
         ownerOrgId: z.uuid().nullable().optional(),
         ownerUserId: z.uuid().nullable().optional(),
         sourceChannel: z.string().trim().min(1).max(64).nullable().optional(),
@@ -881,11 +895,23 @@ export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
 export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: 'LeadStatus' });
 
+export const LeadStatusValue = {
+    Registered: 'registered',
+    Qualified: 'qualified',
+    Converted: 'converted',
+    Closed: 'closed'
+} as const satisfies Record<string, LeadStatus>;
+
 export const LEAD_SOURCE_STATUSES = ['active', 'inactive'] as const;
 
 export type LeadSourceStatus = (typeof LEAD_SOURCE_STATUSES)[number];
 
 export const LeadSourceStatusSchema = z.enum(LEAD_SOURCE_STATUSES).meta({ id: 'LeadSourceStatus' });
+
+export const LeadSourceStatusValue = {
+    Active: 'active',
+    Inactive: 'inactive'
+} as const satisfies Record<string, LeadSourceStatus>;
 
 export const LEAD_BUDGET_STATUSES = ['unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved'] as const;
 
@@ -893,17 +919,39 @@ export type LeadBudgetStatus = (typeof LEAD_BUDGET_STATUSES)[number];
 
 export const LeadBudgetStatusSchema = z.enum(LEAD_BUDGET_STATUSES).meta({ id: 'LeadBudgetStatus' });
 
+export const LeadBudgetStatusValue = {
+    Unknown: 'unknown',
+    NoBudget: 'no-budget',
+    RoughBudget: 'rough-budget',
+    BudgetConfirmed: 'budget-confirmed',
+    BudgetApproved: 'budget-approved'
+} as const satisfies Record<string, LeadBudgetStatus>;
+
 export const LEAD_URGENCIES = ['low', 'normal', 'high', 'critical'] as const;
 
 export type LeadUrgency = (typeof LEAD_URGENCIES)[number];
 
 export const LeadUrgencySchema = z.enum(LEAD_URGENCIES).meta({ id: 'LeadUrgency' });
 
+export const LeadUrgencyValue = {
+    Low: 'low',
+    Normal: 'normal',
+    High: 'high',
+    Critical: 'critical'
+} as const satisfies Record<string, LeadUrgency>;
+
 export const LEAD_RATINGS = ['A', 'B', 'C', 'D'] as const;
 
 export type LeadRating = (typeof LEAD_RATINGS)[number];
 
 export const LeadRatingSchema = z.enum(LEAD_RATINGS).meta({ id: 'LeadRating' });
+
+export const LeadRatingValue = {
+    A: 'A',
+    B: 'B',
+    C: 'C',
+    D: 'D'
+} as const satisfies Record<string, LeadRating>;
 
 export const PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'] as const;
 
@@ -945,11 +993,30 @@ export type LeadGateStatus = (typeof LEAD_GATE_STATUSES)[number];
 
 export const LeadGateStatusSchema = z.enum(LEAD_GATE_STATUSES).meta({ id: 'LeadGateStatus' });
 
+export const LeadGateStatusValue = {
+    Ready: 'ready',
+    Blocked: 'blocked'
+} as const satisfies Record<string, LeadGateStatus>;
+
 export const LEAD_GATE_MISSING_ITEMS = ['source', 'demand-description', 'budget', 'estimated-amount', 'urgency', 'owner', 'owner-org', 'registered-status', 'qualified-status', 'not-converted', 'not-closed'] as const;
 
 export type LeadGateMissingItem = (typeof LEAD_GATE_MISSING_ITEMS)[number];
 
 export const LeadGateMissingItemSchema = z.enum(LEAD_GATE_MISSING_ITEMS).meta({ id: 'LeadGateMissingItem' });
+
+export const LeadGateMissingItemValue = {
+    Source: 'source',
+    DemandDescription: 'demand-description',
+    Budget: 'budget',
+    EstimatedAmount: 'estimated-amount',
+    Urgency: 'urgency',
+    Owner: 'owner',
+    OwnerOrg: 'owner-org',
+    RegisteredStatus: 'registered-status',
+    QualifiedStatus: 'qualified-status',
+    NotConverted: 'not-converted',
+    NotClosed: 'not-closed'
+} as const satisfies Record<string, LeadGateMissingItem>;
 
 export const LEAD_OWNERSHIP_SCOPES = ['all', 'mine', 'public-pool'] as const;
 
@@ -957,17 +1024,34 @@ export type LeadOwnershipScope = (typeof LEAD_OWNERSHIP_SCOPES)[number];
 
 export const LeadOwnershipScopeSchema = z.enum(LEAD_OWNERSHIP_SCOPES).meta({ id: 'LeadOwnershipScope' });
 
+export const LeadOwnershipScopeValue = {
+    All: 'all',
+    Mine: 'mine',
+    PublicPool: 'public-pool'
+} as const satisfies Record<string, LeadOwnershipScope>;
+
 export const LEAD_ALLOWED_ACTIONS = ['claim-lead-owner', 'assign-lead-owner'] as const;
 
 export type LeadAllowedAction = (typeof LEAD_ALLOWED_ACTIONS)[number];
 
 export const LeadAllowedActionSchema = z.enum(LEAD_ALLOWED_ACTIONS).meta({ id: 'LeadAllowedAction' });
 
+export const LeadAllowedActionValue = {
+    ClaimLeadOwner: 'claim-lead-owner',
+    AssignLeadOwner: 'assign-lead-owner'
+} as const satisfies Record<string, LeadAllowedAction>;
+
 export const LEAD_OWNER_ASSIGNMENT_TYPES = ['claimed', 'assigned', 'reassigned'] as const;
 
 export type LeadOwnerAssignmentType = (typeof LEAD_OWNER_ASSIGNMENT_TYPES)[number];
 
 export const LeadOwnerAssignmentTypeSchema = z.enum(LEAD_OWNER_ASSIGNMENT_TYPES).meta({ id: 'LeadOwnerAssignmentType' });
+
+export const LeadOwnerAssignmentTypeValue = {
+    Claimed: 'claimed',
+    Assigned: 'assigned',
+    Reassigned: 'reassigned'
+} as const satisfies Record<string, LeadOwnerAssignmentType>;
 
 const LeadEstimatedAmountStringSchema = z
     .string()
@@ -1276,11 +1360,30 @@ export type SalesFollowUpType = (typeof SALES_FOLLOW_UP_TYPES)[number];
 
 export const SalesFollowUpTypeSchema = z.enum(SALES_FOLLOW_UP_TYPES).meta({ id: 'SalesFollowUpType' });
 
+export const SalesFollowUpTypeValue = {
+    Phone: 'phone',
+    Meeting: 'meeting',
+    Wechat: 'wechat',
+    Email: 'email',
+    Onsite: 'onsite',
+    Other: 'other'
+} as const satisfies Record<string, SalesFollowUpType>;
+
 export const SALES_FOLLOW_UP_OUTCOMES = ['progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'] as const;
 
 export type SalesFollowUpOutcome = (typeof SALES_FOLLOW_UP_OUTCOMES)[number];
 
 export const SalesFollowUpOutcomeSchema = z.enum(SALES_FOLLOW_UP_OUTCOMES).meta({ id: 'SalesFollowUpOutcome' });
+
+export const SalesFollowUpOutcomeValue = {
+    Progress: 'progress',
+    WaitingCustomer: 'waiting-customer',
+    RiskDiscovered: 'risk-discovered',
+    Deferred: 'deferred',
+    CloseRecommended: 'close-recommended',
+    NoResponse: 'no-response',
+    Other: 'other'
+} as const satisfies Record<string, SalesFollowUpOutcome>;
 
 export const SALES_FOLLOW_UP_RECORD_STATUSES = ['active', 'superseded', 'voided'] as const;
 
@@ -1288,11 +1391,22 @@ export type SalesFollowUpRecordStatus = (typeof SALES_FOLLOW_UP_RECORD_STATUSES)
 
 export const SalesFollowUpRecordStatusSchema = z.enum(SALES_FOLLOW_UP_RECORD_STATUSES).meta({ id: 'SalesFollowUpRecordStatus' });
 
+export const SalesFollowUpRecordStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, SalesFollowUpRecordStatus>;
+
 export const SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES = ['active', 'all'] as const;
 
 export type SalesFollowUpRecordLifecycleScope = (typeof SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES)[number];
 
 export const SalesFollowUpRecordLifecycleScopeSchema = z.enum(SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES).meta({ id: 'SalesFollowUpRecordLifecycleScope' });
+
+export const SalesFollowUpRecordLifecycleScopeValue = {
+    Active: 'active',
+    All: 'all'
+} as const satisfies Record<string, SalesFollowUpRecordLifecycleScope>;
 
 export const SalesFollowUpRecordSummarySchema = z
     .object({
@@ -1418,11 +1532,35 @@ export type AttachmentCategory = (typeof ATTACHMENT_CATEGORIES)[number];
 
 export const AttachmentCategorySchema = z.enum(ATTACHMENT_CATEGORIES).meta({ id: 'AttachmentCategory' });
 
+export const AttachmentCategoryValue = {
+    CustomerProfile: 'customer_profile',
+    Demand: 'demand',
+    Communication: 'communication',
+    Technical: 'technical',
+    Solution: 'solution',
+    Quotation: 'quotation',
+    Bid: 'bid',
+    Contract: 'contract',
+    Delivery: 'delivery',
+    Acceptance: 'acceptance',
+    Finance: 'finance',
+    InternalAssessment: 'internal_assessment',
+    Other: 'other'
+} as const satisfies Record<string, AttachmentCategory>;
+
 export const ATTACHMENT_SECURITY_LEVELS = ['normal', 'internal', 'sensitive', 'confidential', 'restricted'] as const;
 
 export type AttachmentSecurityLevel = (typeof ATTACHMENT_SECURITY_LEVELS)[number];
 
 export const AttachmentSecurityLevelSchema = z.enum(ATTACHMENT_SECURITY_LEVELS).meta({ id: 'AttachmentSecurityLevel' });
+
+export const AttachmentSecurityLevelValue = {
+    Normal: 'normal',
+    Internal: 'internal',
+    Sensitive: 'sensitive',
+    Confidential: 'confidential',
+    Restricted: 'restricted'
+} as const satisfies Record<string, AttachmentSecurityLevel>;
 
 export const ATTACHMENT_STATUSES = ['active', 'voided', 'deleted', 'failed'] as const;
 
@@ -1430,11 +1568,26 @@ export type AttachmentStatus = (typeof ATTACHMENT_STATUSES)[number];
 
 export const AttachmentStatusSchema = z.enum(ATTACHMENT_STATUSES).meta({ id: 'AttachmentStatus' });
 
+export const AttachmentStatusValue = {
+    Active: 'active',
+    Voided: 'voided',
+    Deleted: 'deleted',
+    Failed: 'failed'
+} as const satisfies Record<string, AttachmentStatus>;
+
 export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales_follow_up'] as const;
 
 export type AttachmentTargetType = (typeof ATTACHMENT_TARGET_TYPES)[number];
 
 export const AttachmentTargetTypeSchema = z.enum(ATTACHMENT_TARGET_TYPES).meta({ id: 'AttachmentTargetType' });
+
+export const AttachmentTargetTypeValue = {
+    Lead: 'lead',
+    Customer: 'customer',
+    Project: 'project',
+    Contract: 'contract',
+    SalesFollowUp: 'sales_follow_up'
+} as const satisfies Record<string, AttachmentTargetType>;
 
 export const ATTACHMENT_RELATION_TYPES = ['normal', 'source', 'evidence', 'final', 'handover'] as const;
 
@@ -1442,11 +1595,24 @@ export type AttachmentRelationType = (typeof ATTACHMENT_RELATION_TYPES)[number];
 
 export const AttachmentRelationTypeSchema = z.enum(ATTACHMENT_RELATION_TYPES).meta({ id: 'AttachmentRelationType' });
 
+export const AttachmentRelationTypeValue = {
+    Normal: 'normal',
+    Source: 'source',
+    Evidence: 'evidence',
+    Final: 'final',
+    Handover: 'handover'
+} as const satisfies Record<string, AttachmentRelationType>;
+
 export const ATTACHMENT_LINK_STATUSES = ['active', 'unlinked'] as const;
 
 export type AttachmentLinkStatus = (typeof ATTACHMENT_LINK_STATUSES)[number];
 
 export const AttachmentLinkStatusSchema = z.enum(ATTACHMENT_LINK_STATUSES).meta({ id: 'AttachmentLinkStatus' });
+
+export const AttachmentLinkStatusValue = {
+    Active: 'active',
+    Unlinked: 'unlinked'
+} as const satisfies Record<string, AttachmentLinkStatus>;
 
 export const AttachmentLinkSummarySchema = z
     .object({
@@ -1523,7 +1689,7 @@ export const CreateAttachmentLinkRequestSchema = z
     .object({
         targetType: AttachmentTargetTypeSchema,
         targetId: z.uuid(),
-        relationType: AttachmentRelationTypeSchema.default('normal')
+        relationType: AttachmentRelationTypeSchema.default(AttachmentRelationTypeValue.Normal)
     })
     .meta({ id: 'CreateAttachmentLinkRequest' });
 

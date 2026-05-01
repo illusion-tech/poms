@@ -1,10 +1,12 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
-import type { LeadAllowedAction, LeadDetailView, LeadListQuery, LeadListView, LeadSourceListQuery, LeadSourceSummary, UserPayload } from '@poms/shared-contracts';
+import { LeadAllowedActionValue, LeadOwnershipScopeValue, LeadStatusValue, type LeadAllowedAction, type LeadDetailView, type LeadListQuery, type LeadListView, type LeadSourceListQuery, type LeadSourceSummary, type UserPayload } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { mapLeadSourceToSummary, mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
 import { LeadRepository } from './lead.repository';
 import { LeadSource } from './lead.entity';
+
+const LEAD_ASSIGNABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
 
 @Injectable()
 export class LeadQueryService {
@@ -54,7 +56,7 @@ export class LeadQueryService {
     }
 
     private resolveLeadListRepositoryQuery(query: LeadListQuery, user: UserPayload): LeadListQuery & { unassignedOnly?: boolean } {
-        if (query.ownershipScope === 'mine') {
+        if (query.ownershipScope === LeadOwnershipScopeValue.Mine) {
             return {
                 ...query,
                 ownerUserId: user.sub,
@@ -62,7 +64,7 @@ export class LeadQueryService {
             };
         }
 
-        if (query.ownershipScope === 'public-pool') {
+        if (query.ownershipScope === LeadOwnershipScopeValue.PublicPool) {
             return {
                 ...query,
                 ownerUserId: undefined,
@@ -75,15 +77,15 @@ export class LeadQueryService {
 
     private resolveAllowedActions(lead: { status: string; ownerUserId?: string | null }, user: UserPayload): LeadAllowedAction[] {
         const permissions = new Set(user.permissions);
-        const isAssignableStatus = ['registered', 'qualified'].includes(lead.status);
+        const isAssignableStatus = LEAD_ASSIGNABLE_STATUSES.includes(lead.status);
         const actions: LeadAllowedAction[] = [];
 
         if (isAssignableStatus && !lead.ownerUserId && permissions.has('lead:write')) {
-            actions.push('claim-lead-owner');
+            actions.push(LeadAllowedActionValue.ClaimLeadOwner);
         }
 
         if (isAssignableStatus && permissions.has('lead:assign')) {
-            actions.push('assign-lead-owner');
+            actions.push(LeadAllowedActionValue.AssignLeadOwner);
         }
 
         return actions;

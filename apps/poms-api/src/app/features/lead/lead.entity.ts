@@ -1,8 +1,26 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { LeadBudgetStatus, LeadRating, LeadSourceStatus, LeadStatus, LeadUrgency } from '@poms/shared-contracts';
+import {
+    LEAD_BUDGET_STATUSES,
+    LEAD_RATINGS,
+    LEAD_SOURCE_STATUSES,
+    LEAD_STATUSES,
+    LEAD_URGENCIES,
+    LeadBudgetStatusValue,
+    LeadRatingValue,
+    LeadSourceStatusValue,
+    LeadStatusValue,
+    LeadUrgencyValue,
+    type LeadBudgetStatus,
+    type LeadRating,
+    type LeadSourceStatus,
+    type LeadStatus,
+    type LeadUrgency
+} from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 
 const p = defineEntity.properties;
+
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const LeadSourceSchema = defineEntity({
     name: 'LeadSource',
@@ -13,7 +31,7 @@ export const LeadSourceSchema = defineEntity({
     checks: [
         {
             name: 'chk_lead_source_status',
-            expression: `"status" in ('active', 'inactive')`
+            expression: `"status" in (${toSqlStringList(LEAD_SOURCE_STATUSES)})`
         }
     ],
     properties: {
@@ -21,7 +39,7 @@ export const LeadSourceSchema = defineEntity({
         code: p.string().length(64).unique().comment('线索来源稳定编码'),
         name: p.string().length(128).comment('线索来源名称'),
         description: p.text().nullable().comment('线索来源说明'),
-        status: p.string().$type<LeadSourceStatus>().length(32).default('active').comment('线索来源状态'),
+        status: p.string().$type<LeadSourceStatus>().length(32).default(LeadSourceStatusValue.Active).comment('线索来源状态'),
         sortOrder: p.integer().default(0).fieldName('sort_order').comment('排序号'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
         createdAt: p
@@ -61,15 +79,15 @@ export const LeadSchema = defineEntity({
     checks: [
         {
             name: 'chk_lead_status',
-            expression: `"status" in ('registered', 'qualified', 'converted', 'closed')`
+            expression: `"status" in (${toSqlStringList(LEAD_STATUSES)})`
         },
         {
             name: 'chk_lead_budget_status',
-            expression: `"budget_status" in ('unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved')`
+            expression: `"budget_status" in (${toSqlStringList(LEAD_BUDGET_STATUSES)})`
         },
         {
             name: 'chk_lead_urgency',
-            expression: `"urgency" in ('low', 'normal', 'high', 'critical')`
+            expression: `"urgency" in (${toSqlStringList(LEAD_URGENCIES)})`
         },
         {
             name: 'chk_lead_estimated_amount_non_negative',
@@ -81,7 +99,7 @@ export const LeadSchema = defineEntity({
         },
         {
             name: 'chk_lead_rating',
-            expression: `"rating" in ('A', 'B', 'C', 'D')`
+            expression: `"rating" in (${toSqlStringList(LEAD_RATINGS)})`
         }
     ],
     properties: {
@@ -93,12 +111,12 @@ export const LeadSchema = defineEntity({
         sourceId: () => p.manyToOne(LeadSource).mapToPk().fieldName('source_id').foreignKeyName('lead_source_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索来源主数据标识'),
         sourceChannel: p.string().length(64).nullable().fieldName('source_channel').comment('线索来源名称快照'),
         demandDescription: p.text().nullable().fieldName('demand_description').comment('客户需求描述'),
-        budgetStatus: p.string().$type<LeadBudgetStatus>().length(32).default('unknown').fieldName('budget_status').comment('预算状态'),
+        budgetStatus: p.string().$type<LeadBudgetStatus>().length(32).default(LeadBudgetStatusValue.Unknown).fieldName('budget_status').comment('预算状态'),
         estimatedAmount: p.string().columnType('numeric(18,2)').nullable().fieldName('estimated_amount').comment('预计金额'),
-        urgency: p.string().$type<LeadUrgency>().length(32).default('normal').comment('紧迫程度'),
+        urgency: p.string().$type<LeadUrgency>().length(32).default(LeadUrgencyValue.Normal).comment('紧迫程度'),
         expectedDecisionDate: p.date().nullable().fieldName('expected_decision_date').comment('预计决策日期'),
         score: p.integer().default(0).comment('线索评分，范围 0-100'),
-        rating: p.string().$type<LeadRating>().length(8).default('D').comment('线索评级'),
+        rating: p.string().$type<LeadRating>().length(8).default(LeadRatingValue.D).comment('线索评级'),
         scoreReason: p.text().default('暂无有效评分事实').fieldName('score_reason').comment('线索评分说明'),
         scoreUpdatedAt: p
             .datetime()
@@ -106,7 +124,7 @@ export const LeadSchema = defineEntity({
             .onCreate(() => new Date())
             .fieldName('score_updated_at')
             .comment('线索评分更新时间'),
-        status: p.string().$type<LeadStatus>().length(32).default('registered').comment('线索状态'),
+        status: p.string().$type<LeadStatus>().length(32).default(LeadStatusValue.Registered).comment('线索状态'),
         ownerOrgId: p.uuid().nullable().fieldName('owner_org_id').comment('线索销售主责组织标识，可为空表示公共池'),
         ownerUserId: p.uuid().nullable().fieldName('owner_user_id').comment('线索销售主责人标识，可为空表示公共池'),
         qualificationSummary: p.text().nullable().fieldName('qualification_summary').comment('线索有效性说明'),

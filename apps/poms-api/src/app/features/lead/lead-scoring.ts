@@ -1,4 +1,18 @@
-import type { LeadBudgetStatus, LeadGateCheck, LeadGateMissingItem, LeadGateSummary, LeadRating, LeadStatus, LeadUrgency } from '@poms/shared-contracts';
+import {
+    LeadBudgetStatusValue,
+    LeadGateMissingItemValue,
+    LeadGateStatusValue,
+    LeadRatingValue,
+    LeadStatusValue,
+    LeadUrgencyValue,
+    type LeadBudgetStatus,
+    type LeadGateCheck,
+    type LeadGateMissingItem,
+    type LeadGateSummary,
+    type LeadRating,
+    type LeadStatus,
+    type LeadUrgency
+} from '@poms/shared-contracts';
 
 export interface LeadGateInput {
     sourceId?: string | null;
@@ -20,17 +34,17 @@ export interface LeadScoreSnapshot {
 }
 
 const missingItemLabels: Record<LeadGateMissingItem, string> = {
-    source: '线索来源',
-    'demand-description': '需求描述',
-    budget: '预算情况',
-    'estimated-amount': '预计金额',
-    urgency: '紧迫程度',
-    owner: '销售主责人',
-    'owner-org': '销售主责组织',
-    'registered-status': '待确认状态',
-    'qualified-status': '已确认有效状态',
-    'not-converted': '未转项目状态',
-    'not-closed': '未关闭状态'
+    [LeadGateMissingItemValue.Source]: '线索来源',
+    [LeadGateMissingItemValue.DemandDescription]: '需求描述',
+    [LeadGateMissingItemValue.Budget]: '预算情况',
+    [LeadGateMissingItemValue.EstimatedAmount]: '预计金额',
+    [LeadGateMissingItemValue.Urgency]: '紧迫程度',
+    [LeadGateMissingItemValue.Owner]: '销售主责人',
+    [LeadGateMissingItemValue.OwnerOrg]: '销售主责组织',
+    [LeadGateMissingItemValue.RegisteredStatus]: '待确认状态',
+    [LeadGateMissingItemValue.QualifiedStatus]: '已确认有效状态',
+    [LeadGateMissingItemValue.NotConverted]: '未转项目状态',
+    [LeadGateMissingItemValue.NotClosed]: '未关闭状态'
 };
 
 export function calculateLeadScore(input: LeadGateInput): LeadScoreSnapshot {
@@ -74,30 +88,30 @@ export function buildLeadGateSummary(input: LeadGateInput): LeadGateSummary {
 export function collectLeadGateMissingItems(input: LeadGateInput, gate: 'qualification' | 'conversion'): LeadGateMissingItem[] {
     const missing: LeadGateMissingItem[] = [];
 
-    if (input.status === 'closed') {
-        missing.push('not-closed');
+    if (input.status === LeadStatusValue.Closed) {
+        missing.push(LeadGateMissingItemValue.NotClosed);
     }
 
     if (gate === 'qualification') {
-        if (input.status !== 'registered') {
-            missing.push('registered-status');
+        if (input.status !== LeadStatusValue.Registered) {
+            missing.push(LeadGateMissingItemValue.RegisteredStatus);
         }
     } else {
-        if (input.status === 'converted' || input.convertedProjectId) {
-            missing.push('not-converted');
+        if (input.status === LeadStatusValue.Converted || input.convertedProjectId) {
+            missing.push(LeadGateMissingItemValue.NotConverted);
         }
-        if (input.status !== 'qualified') {
-            missing.push('qualified-status');
+        if (input.status !== LeadStatusValue.Qualified) {
+            missing.push(LeadGateMissingItemValue.QualifiedStatus);
         }
     }
 
-    if (!input.sourceId) missing.push('source');
-    if (!input.demandDescription?.trim()) missing.push('demand-description');
-    if (input.budgetStatus === 'unknown' || input.budgetStatus === 'no-budget') missing.push('budget');
-    if (!parsePositiveAmount(input.estimatedAmount)) missing.push('estimated-amount');
-    if (!input.urgency) missing.push('urgency');
-    if (!input.ownerUserId) missing.push('owner');
-    if (!input.ownerOrgId) missing.push('owner-org');
+    if (!input.sourceId) missing.push(LeadGateMissingItemValue.Source);
+    if (!input.demandDescription?.trim()) missing.push(LeadGateMissingItemValue.DemandDescription);
+    if (input.budgetStatus === LeadBudgetStatusValue.Unknown || input.budgetStatus === LeadBudgetStatusValue.NoBudget) missing.push(LeadGateMissingItemValue.Budget);
+    if (!parsePositiveAmount(input.estimatedAmount)) missing.push(LeadGateMissingItemValue.EstimatedAmount);
+    if (!input.urgency) missing.push(LeadGateMissingItemValue.Urgency);
+    if (!input.ownerUserId) missing.push(LeadGateMissingItemValue.Owner);
+    if (!input.ownerOrgId) missing.push(LeadGateMissingItemValue.OwnerOrg);
 
     return [...new Set(missing)];
 }
@@ -105,14 +119,14 @@ export function collectLeadGateMissingItems(input: LeadGateInput, gate: 'qualifi
 function buildGateCheck(missingItems: LeadGateMissingItem[], gate: 'qualification' | 'conversion'): LeadGateCheck {
     if (missingItems.length === 0) {
         return {
-            status: 'ready',
+            status: LeadGateStatusValue.Ready,
             missingItems: [],
             explanation: gate === 'qualification' ? '已满足确认有效硬闸口' : '已满足转项目硬闸口'
         };
     }
 
     return {
-        status: 'blocked',
+        status: LeadGateStatusValue.Blocked,
         missingItems,
         explanation: `缺少：${missingItems.map((item) => missingItemLabels[item]).join('、')}`
     };
@@ -120,11 +134,11 @@ function buildGateCheck(missingItems: LeadGateMissingItem[], gate: 'qualificatio
 
 function resolveBudgetScore(status: LeadBudgetStatus): number {
     switch (status) {
-        case 'rough-budget':
+        case LeadBudgetStatusValue.RoughBudget:
             return 15;
-        case 'budget-confirmed':
+        case LeadBudgetStatusValue.BudgetConfirmed:
             return 20;
-        case 'budget-approved':
+        case LeadBudgetStatusValue.BudgetApproved:
             return 25;
         default:
             return 0;
@@ -133,12 +147,12 @@ function resolveBudgetScore(status: LeadBudgetStatus): number {
 
 function resolveUrgencyScore(urgency: LeadUrgency | null | undefined): number {
     switch (urgency) {
-        case 'low':
+        case LeadUrgencyValue.Low:
             return 5;
-        case 'normal':
+        case LeadUrgencyValue.Normal:
             return 10;
-        case 'high':
-        case 'critical':
+        case LeadUrgencyValue.High:
+        case LeadUrgencyValue.Critical:
             return 15;
         default:
             return 0;
@@ -146,10 +160,10 @@ function resolveUrgencyScore(urgency: LeadUrgency | null | undefined): number {
 }
 
 function resolveLeadRating(score: number): LeadRating {
-    if (score >= 80) return 'A';
-    if (score >= 60) return 'B';
-    if (score >= 40) return 'C';
-    return 'D';
+    if (score >= 80) return LeadRatingValue.A;
+    if (score >= 60) return LeadRatingValue.B;
+    if (score >= 40) return LeadRatingValue.C;
+    return LeadRatingValue.D;
 }
 
 function parsePositiveAmount(value: string | null | undefined): boolean {

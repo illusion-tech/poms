@@ -1,4 +1,4 @@
-import { ApprovalStatus, ProjectStage, ProjectStatus } from '@poms/admin-data-access';
+import { ApprovalStatus, LeadStatus, ProjectStage, ProjectStatus } from '@poms/admin-data-access';
 import type { UiTagSeverityValue } from './ui-severity';
 
 export const PROJECT_STAGE_LABELS = {
@@ -110,19 +110,19 @@ const CONFIRMATION_STATUS_SEVERITIES = {
 } as const satisfies Record<ConfirmationStatusCode, UiTagSeverityValue>;
 
 export const LEAD_STATUS_LABELS = {
-    registered: '待确认',
-    qualified: '已有效',
-    converted: '已转项目',
-    closed: '已关闭'
-} as const;
+    [LeadStatus.Registered]: '待确认',
+    [LeadStatus.Qualified]: '已有效',
+    [LeadStatus.Converted]: '已转项目',
+    [LeadStatus.Closed]: '已关闭'
+} as const satisfies Record<LeadStatus, string>;
 
-export type LeadStatusCode = keyof typeof LEAD_STATUS_LABELS;
+export type LeadStatusCode = LeadStatus;
 
 const LEAD_STATUS_SEVERITIES = {
-    registered: 'secondary',
-    qualified: 'success',
-    converted: 'info',
-    closed: 'contrast'
+    [LeadStatus.Registered]: 'secondary',
+    [LeadStatus.Qualified]: 'success',
+    [LeadStatus.Converted]: 'info',
+    [LeadStatus.Closed]: 'contrast'
 } as const satisfies Record<LeadStatusCode, UiTagSeverityValue>;
 
 export const ARCHIVE_STATUS_LABELS = {

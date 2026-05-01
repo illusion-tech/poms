@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Pat
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AttachmentDto, AttachmentListDto, AttachmentListQueryDto, CreateAttachmentLinkRequestDto, UpdateAttachmentRequestDto, VoidAttachmentRequestDto } from '@poms/api-contracts';
+import { ATTACHMENT_TARGET_TYPES } from '@poms/shared-contracts';
 import type { AttachmentSummary, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -26,7 +27,7 @@ export class AttachmentController {
             required: ['file', 'targetType', 'targetId', 'category'],
             properties: {
                 file: { type: 'string', format: 'binary' },
-                targetType: { type: 'string', enum: ['lead', 'customer', 'project', 'contract', 'sales_follow_up'] },
+                targetType: { type: 'string', enum: [...ATTACHMENT_TARGET_TYPES] },
                 targetId: { type: 'string', format: 'uuid' },
                 category: { type: 'string' },
                 securityLevel: { type: 'string' },

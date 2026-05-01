@@ -494,7 +494,8 @@
 13. 2026-05-01 已完成 `EX-49A` 的 `G4` 收口：销售跟进 create / replace / void 已同步派生或关闭 `TodoItem` 提醒，`GET /me/todos` 已补 Project / Lead / Customer 销售提醒摘要；未新增 public route、DTO、OpenAPI、generated client、DDL 或推送通知，前端入口继续由 `FE-51` 承接。
 14. 2026-05-01 已完成 `FE-51` 的 `G4` 收口：工作台 / 顶栏销售跟进待办可 deep-link 到 Project / Lead / Customer 上下文，客户 / 线索列表页支持 query 自动打开详情，项目详情展示从提醒进入的处理提示；未新增后端、合同、迁移或推送能力。
 15. 2026-05-01 已完成 `EX-56A` 的 `G4` 收口，提交 `83b8205` 固定 Project 主状态 / 阶段枚举从 shared contract、DB check、OpenAPI / generated client 到 API service/query 和 Admin 展示的跨层一致性；迁移已将开发库历史 `current_stage = 'lead'` 归一到 `assessment` 后再添加 check constraint。
-16. 2026-05-01 `EX-56B` 已完成本地 `G3`：待办、审批、业务域和业务对象类型已从 shared contract、entity / DB check、OpenAPI / generated client、API 写入路径到 Admin enum 消费完成收口；本片不新增 public route，不收窄 `CommandResult.resultStatus` / `businessStatusAfter`，待提交后进入 `G4`。
+16. 2026-05-01 `EX-56B` 已完成 `G4`，提交 `3466860`：待办、审批、业务域和业务对象类型已从 shared contract、entity / DB check、OpenAPI / generated client、API 写入路径到 Admin enum 消费完成收口；本片不新增 public route，不收窄 `CommandResult.resultStatus` / `businessStatusAfter`。
+17. 2026-05-01 `EX-56C` 已推进到 `G3`：客户、线索、附件、销售跟进域已收敛到 shared value object / generated enum 消费；新增并执行 `customer_alias.alias_type` check 与附件 status 默认值迁移，`migration-check` 已无差异；OpenAPI client check、API/Admin build/lint 和全量单测均通过，待提交后转 G4。
 
 ---
 

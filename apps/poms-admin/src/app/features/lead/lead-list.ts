@@ -9,18 +9,19 @@ import {
     CustomerStatus,
     CustomerStore,
     LeadAllowedAction,
+    LeadBudgetStatus,
+    LeadGateStatus,
     LeadOwnershipScope,
     LeadRating,
+    LeadSourceStatus,
+    LeadStatus,
     LeadStore,
+    LeadUrgency,
     PlatformStore,
     type CustomerListView,
-    type LeadBudgetStatus,
     type LeadDetailView,
     type LeadListView,
-    type LeadSourceStatus,
     type LeadSourceSummary,
-    type LeadStatus,
-    type LeadUrgency,
     type OwnerReferenceUser
 } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -111,26 +112,19 @@ type LeadActionTarget = LeadListView | LeadDetailView;
 
 const ALL_FILTER_VALUE = 'all';
 
-const LEAD_STATUS = {
-    registered: 'registered' as LeadStatus,
-    qualified: 'qualified' as LeadStatus,
-    converted: 'converted' as LeadStatus,
-    closed: 'closed' as LeadStatus
-};
-
 const LEAD_BUDGET_STATUS_LABELS: Record<LeadBudgetStatus, string> = {
-    unknown: '预算未知',
-    'no-budget': '暂无预算',
-    'rough-budget': '初步预算',
-    'budget-confirmed': '预算已确认',
-    'budget-approved': '预算已批准'
+    [LeadBudgetStatus.Unknown]: '预算未知',
+    [LeadBudgetStatus.NoBudget]: '暂无预算',
+    [LeadBudgetStatus.RoughBudget]: '初步预算',
+    [LeadBudgetStatus.BudgetConfirmed]: '预算已确认',
+    [LeadBudgetStatus.BudgetApproved]: '预算已批准'
 };
 
 const LEAD_URGENCY_LABELS: Record<LeadUrgency, string> = {
-    low: '低',
-    normal: '一般',
-    high: '高',
-    critical: '紧急'
+    [LeadUrgency.Low]: '低',
+    [LeadUrgency.Normal]: '一般',
+    [LeadUrgency.High]: '高',
+    [LeadUrgency.Critical]: '紧急'
 };
 
 const LEAD_RATING_LABELS: Record<LeadRating, string> = {
@@ -141,12 +135,12 @@ const LEAD_RATING_LABELS: Record<LeadRating, string> = {
 };
 
 const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
-    active: '启用',
-    inactive: '停用'
+    [LeadSourceStatus.Active]: '启用',
+    [LeadSourceStatus.Inactive]: '停用'
 };
 
-const DEFAULT_BUDGET_STATUS = 'unknown' as LeadBudgetStatus;
-const DEFAULT_URGENCY = 'normal' as LeadUrgency;
+const DEFAULT_BUDGET_STATUS = LeadBudgetStatus.Unknown;
+const DEFAULT_URGENCY = LeadUrgency.Normal;
 const DEFAULT_OWNERSHIP_SCOPE = LeadOwnershipScope.All;
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
@@ -679,8 +673,8 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                         </div>
                                     </div>
                                     <p-button
-                                        [label]="source.status === 'active' ? '停用' : '启用'"
-                                        [icon]="source.status === 'active' ? 'pi pi-pause' : 'pi pi-play'"
+                                        [label]="source.status === LeadSourceStatus.Active ? '停用' : '启用'"
+                                        [icon]="source.status === LeadSourceStatus.Active ? 'pi pi-pause' : 'pi pi-play'"
                                         severity="secondary"
                                         [outlined]="true"
                                         size="small"
@@ -736,7 +730,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">转项目闸口</dt>
-                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ lead.gateSummary.conversion.status === 'ready' ? '已满足' : '待补齐' }}</dd>
+                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ lead.gateSummary.conversion.status === LeadGateStatus.Ready ? '已满足' : '待补齐' }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">预计金额</dt>
@@ -766,7 +760,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 
                         <app-workspace-feedback severity="info" summary="评分说明" [detail]="lead.scoreReason" />
 
-                        @if (lead.gateSummary.conversion.status === 'blocked') {
+                        @if (lead.gateSummary.conversion.status === LeadGateStatus.Blocked) {
                             <app-workspace-feedback severity="warn" summary="转项目前缺口" [detail]="lead.gateSummary.conversion.explanation" />
                         }
 
@@ -932,7 +926,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ displayText(lead.ownerOrgName, '未归属组织') }}</div>
                             </div>
                         </div>
-                        @if (lead.gateSummary.qualification.status === 'blocked') {
+                        @if (lead.gateSummary.qualification.status === LeadGateStatus.Blocked) {
                             <app-workspace-feedback severity="warn" summary="确认有效前请补齐" [detail]="lead.gateSummary.qualification.explanation" />
                         }
                     }
@@ -956,7 +950,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                 <div class="flex flex-col gap-4 py-2">
                     @if (actionTarget(); as lead) {
                         <app-workspace-feedback severity="info" summary="将有效线索转为正式项目" [detail]="lead.customerName + ' · ' + lead.leadName" />
-                        @if (lead.gateSummary.conversion.status === 'blocked') {
+                        @if (lead.gateSummary.conversion.status === LeadGateStatus.Blocked) {
                             <app-workspace-feedback severity="warn" summary="转项目前请补齐" [detail]="lead.gateSummary.conversion.explanation" />
                         }
                         <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
@@ -1041,6 +1035,9 @@ export class LeadList implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #destroyRef = inject(DestroyRef);
+
+    readonly LeadGateStatus = LeadGateStatus;
+    readonly LeadSourceStatus = LeadSourceStatus;
 
     readonly leads = this.#leadStore.leads;
     readonly leadSources = this.#leadStore.leadSources;
@@ -1138,7 +1135,7 @@ export class LeadList implements OnInit {
 
     readonly leadSourceOptions = computed<LeadFilterOption[]>(() =>
         this.leadSources()
-            .filter((source) => source.status === 'active')
+            .filter((source) => source.status === LeadSourceStatus.Active)
             .map((source) => ({
                 label: source.name,
                 value: source.id
@@ -1367,11 +1364,11 @@ export class LeadList implements OnInit {
             return;
         }
 
-        const nextStatus = (source.status === 'active' ? 'inactive' : 'active') as LeadSourceStatus;
+        const nextStatus = source.status === LeadSourceStatus.Active ? LeadSourceStatus.Inactive : LeadSourceStatus.Active;
 
         try {
             await this.#leadStore.updateLeadSource(source.id, { status: nextStatus });
-            if (this.createForm().sourceId === source.id && nextStatus === 'inactive') {
+            if (this.createForm().sourceId === source.id && nextStatus === LeadSourceStatus.Inactive) {
                 this.createForm.update((form) => ({
                     ...form,
                     sourceId: this.leadSourceOptions().find((option) => option.value !== source.id)?.value ?? null
@@ -1398,18 +1395,18 @@ export class LeadList implements OnInit {
         this.createError.set(null);
     }
 
-    updateCreateBudgetStatus(value: string | null | undefined) {
+    updateCreateBudgetStatus(value: LeadBudgetStatus | null | undefined) {
         this.createForm.update((form) => ({
             ...form,
-            budgetStatus: (value ?? DEFAULT_BUDGET_STATUS) as LeadBudgetStatus
+            budgetStatus: value ?? DEFAULT_BUDGET_STATUS
         }));
         this.createError.set(null);
     }
 
-    updateCreateUrgency(value: string | null | undefined) {
+    updateCreateUrgency(value: LeadUrgency | null | undefined) {
         this.createForm.update((form) => ({
             ...form,
-            urgency: (value ?? DEFAULT_URGENCY) as LeadUrgency
+            urgency: value ?? DEFAULT_URGENCY
         }));
         this.createError.set(null);
     }
@@ -1740,15 +1737,15 @@ export class LeadList implements OnInit {
     }
 
     canQualifyLead(lead: LeadActionTarget): boolean {
-        return this.canWriteLead() && lead.gateSummary.qualification.status === 'ready';
+        return this.canWriteLead() && lead.gateSummary.qualification.status === LeadGateStatus.Ready;
     }
 
     canCloseLead(lead: Pick<LeadActionTarget, 'status'>): boolean {
-        return this.canWriteLead() && (lead.status === LEAD_STATUS.registered || lead.status === LEAD_STATUS.qualified);
+        return this.canWriteLead() && (lead.status === LeadStatus.Registered || lead.status === LeadStatus.Qualified);
     }
 
     canConvertLead(lead: LeadActionTarget): boolean {
-        return this.canWriteLead() && lead.gateSummary.conversion.status === 'ready';
+        return this.canWriteLead() && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
     }
 
     getStatusName(status: string): string {
@@ -1768,15 +1765,18 @@ export class LeadList implements OnInit {
     }
 
     getBudgetStatusName(status: LeadBudgetStatus | string | null | undefined): string {
-        return status ? (LEAD_BUDGET_STATUS_LABELS[status as LeadBudgetStatus] ?? status) : '未填写';
+        const labels: Record<string, string> = LEAD_BUDGET_STATUS_LABELS;
+        return status ? (labels[status] ?? status) : '未填写';
     }
 
     getUrgencyName(urgency: LeadUrgency | string | null | undefined): string {
-        return urgency ? (LEAD_URGENCY_LABELS[urgency as LeadUrgency] ?? urgency) : '未填写';
+        const labels: Record<string, string> = LEAD_URGENCY_LABELS;
+        return urgency ? (labels[urgency] ?? urgency) : '未填写';
     }
 
     getLeadRatingName(rating: LeadRating | string | null | undefined): string {
-        return rating ? (LEAD_RATING_LABELS[rating as LeadRating] ?? rating) : '未评级';
+        const labels: Record<string, string> = LEAD_RATING_LABELS;
+        return rating ? (labels[rating] ?? rating) : '未评级';
     }
 
     getLeadRatingSeverity(rating: LeadRating | string | null | undefined) {
@@ -1797,7 +1797,7 @@ export class LeadList implements OnInit {
     }
 
     getSourceStatusSeverity(status: LeadSourceStatus) {
-        return status === 'active' ? 'success' : 'secondary';
+        return status === LeadSourceStatus.Active ? 'success' : 'secondary';
     }
 
     formatAmount(value: string | null | undefined): string {

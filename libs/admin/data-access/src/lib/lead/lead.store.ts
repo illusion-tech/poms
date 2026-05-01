@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadBudgetStatus, LeadDetailView, LeadListView, LeadOwnershipScope, LeadRating, LeadSourceStatus, LeadSourceSummary, LeadStatus, LeadUrgency, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
-import { LeadApi, LeadSourceApi } from '@poms/shared-api-client';
+import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadDetailView, LeadListView, LeadSourceSummary, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
+import { LeadApi, LeadBudgetStatus, LeadOwnershipScope, LeadRating, LeadSourceApi, LeadSourceStatus, LeadStatus, LeadUrgency } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 export interface LeadListFilters {
@@ -19,13 +19,6 @@ export interface LeadSourceListFilters {
     status?: LeadSourceStatus;
     keyword?: string;
 }
-
-const LEAD_STATUS = {
-    registered: 'registered' as LeadStatus,
-    qualified: 'qualified' as LeadStatus,
-    converted: 'converted' as LeadStatus,
-    closed: 'closed' as LeadStatus
-};
 
 @Injectable()
 export class LeadStore {
@@ -53,10 +46,10 @@ export class LeadStore {
     readonly loaded = this.#loaded.asReadonly();
     readonly loadedSources = this.#loadedSources.asReadonly();
 
-    readonly registeredLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.registered).length);
-    readonly qualifiedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.qualified).length);
-    readonly convertedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.converted).length);
-    readonly closedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LEAD_STATUS.closed).length);
+    readonly registeredLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Registered).length);
+    readonly qualifiedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Qualified).length);
+    readonly convertedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Converted).length);
+    readonly closedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Closed).length);
 
     async loadLeads(filters: LeadListFilters = this.#lastLeadFilters) {
         this.#lastLeadFilters = { ...filters };

@@ -1,8 +1,10 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { LeadOwnerAssignmentType } from '@poms/shared-contracts';
+import { LEAD_OWNER_ASSIGNMENT_TYPES, type LeadOwnerAssignmentType } from '@poms/shared-contracts';
 import { Lead } from './lead.entity';
 
 const p = defineEntity.properties;
+
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const LeadOwnerAssignmentRecordSchema = defineEntity({
     name: 'LeadOwnerAssignmentRecord',
@@ -17,7 +19,7 @@ export const LeadOwnerAssignmentRecordSchema = defineEntity({
     checks: [
         {
             name: 'chk_lead_owner_assignment_type',
-            expression: `"assignment_type" in ('claimed', 'assigned', 'reassigned')`
+            expression: `"assignment_type" in (${toSqlStringList(LEAD_OWNER_ASSIGNMENT_TYPES)})`
         }
     ],
     properties: {

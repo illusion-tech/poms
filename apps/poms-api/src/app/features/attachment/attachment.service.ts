@@ -8,6 +8,12 @@ import {
     ATTACHMENT_RELATION_TYPES,
     ATTACHMENT_SECURITY_LEVELS,
     ATTACHMENT_TARGET_TYPES,
+    AttachmentCategoryValue,
+    AttachmentLinkStatusValue,
+    AttachmentRelationTypeValue,
+    AttachmentSecurityLevelValue,
+    AttachmentStatusValue,
+    AttachmentTargetTypeValue,
     type AttachmentCategory,
     type AttachmentListQuery,
     type AttachmentRelationType,
@@ -51,6 +57,13 @@ export interface UploadAttachmentMetadata {
 const MAX_ATTACHMENT_SIZE_BYTES = 50 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'txt', 'md', 'zip']);
 const SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read', 'operating:finance:sensitive:read', 'commission:amount:sensitive:read', 'platform:roles:manage'];
+const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Confidential, AttachmentSecurityLevelValue.Restricted];
+const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = [
+    AttachmentCategoryValue.Quotation,
+    AttachmentCategoryValue.Contract,
+    AttachmentCategoryValue.Finance,
+    AttachmentCategoryValue.InternalAssessment
+];
 
 @Injectable()
 export class AttachmentService {
@@ -73,7 +86,7 @@ export class AttachmentService {
         const targetId = metadata.targetId;
         const category = this.parseCategory(metadata.category);
         const securityLevel = this.parseSecurityLevel(metadata.securityLevel ?? this.defaultSecurityLevel(category));
-        const relationType = this.parseRelationType(metadata.relationType ?? 'normal');
+        const relationType = this.parseRelationType(metadata.relationType ?? AttachmentRelationTypeValue.Normal);
         await this.requireTargetAccess(targetType, targetId, user, 'write');
 
         const originalName = this.sanitizeOriginalName(file.originalname);
@@ -104,7 +117,7 @@ export class AttachmentService {
                 storageProvider: stored.storageProvider,
                 storageBucket: stored.storageBucket,
                 storageKey: stored.storageKey,
-                status: 'active',
+                status: AttachmentStatusValue.Active,
                 description: metadata.description?.trim() || null,
                 versionGroupId: null,
                 versionNo: 1,
@@ -122,7 +135,7 @@ export class AttachmentService {
                 targetType,
                 targetId,
                 relationType,
-                status: 'active',
+                status: AttachmentLinkStatusValue.Active,
                 linkedBy: user.sub,
                 linkedAt: uploadedAt
             });
@@ -215,11 +228,11 @@ export class AttachmentService {
         const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
         this.assertCanMutateAttachment(attachment, links, user);
 
-        if (attachment.status !== 'active') {
+        if (attachment.status !== AttachmentStatusValue.Active) {
             throw new ConflictException(`Attachment ${id} is not active`);
         }
 
-        attachment.status = 'voided';
+        attachment.status = AttachmentStatusValue.Voided;
         attachment.deletedBy = user.sub;
         attachment.deletedAt = new Date();
 
@@ -256,7 +269,7 @@ export class AttachmentService {
             targetType: input.targetType,
             targetId: input.targetId,
             relationType: input.relationType,
-            status: 'active',
+            status: AttachmentLinkStatusValue.Active,
             linkedBy: user.sub,
             linkedAt: new Date()
         });
@@ -285,8 +298,8 @@ export class AttachmentService {
 
         await this.requireTargetAccess(link.targetType, link.targetId, user, 'write');
 
-        if (link.status === 'active') {
-            link.status = 'unlinked';
+        if (link.status === AttachmentLinkStatusValue.Active) {
+            link.status = AttachmentLinkStatusValue.Unlinked;
             link.unlinkedBy = user.sub;
             link.unlinkedAt = new Date();
             await this.attachmentRepository.saveAll([link]);
@@ -312,7 +325,7 @@ export class AttachmentService {
         const rows = await this.attachmentRepository.findAttachmentsByTarget({
             targetType: input.from.targetType,
             targetId: input.from.targetId,
-            status: 'active'
+            status: AttachmentStatusValue.Active
         });
         const excludeCategories = new Set(input.excludeCategories ?? []);
         const em = input.entityManager;
@@ -339,7 +352,7 @@ export class AttachmentService {
                 targetType: input.to.targetType,
                 targetId: input.to.targetId,
                 relationType: input.relationType,
-                status: 'active' as const,
+                status: AttachmentLinkStatusValue.Active,
                 linkedBy: input.operatorUserId,
                 linkedAt: new Date()
             };
@@ -369,7 +382,7 @@ export class AttachmentService {
         const attachment = await this.requireAttachment(id);
         const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
 
-        if (attachment.status !== 'active') {
+        if (attachment.status !== AttachmentStatusValue.Active) {
             throw new NotFoundException(`Attachment ${id} not found`);
         }
 
@@ -430,27 +443,27 @@ export class AttachmentService {
         }
 
         switch (targetType) {
-            case 'customer': {
+            case AttachmentTargetTypeValue.Customer: {
                 const customer = await this.attachmentRepository.findCustomerById(targetId);
                 if (!customer) throw new NotFoundException(`Customer ${targetId} not found`);
                 return customer;
             }
-            case 'lead': {
+            case AttachmentTargetTypeValue.Lead: {
                 const lead = await this.attachmentRepository.findLeadById(targetId);
                 if (!lead) throw new NotFoundException(`Lead ${targetId} not found`);
                 return lead;
             }
-            case 'project': {
+            case AttachmentTargetTypeValue.Project: {
                 const project = await this.attachmentRepository.findProjectById(targetId);
                 if (!project) throw new NotFoundException(`Project ${targetId} not found`);
                 return project;
             }
-            case 'contract': {
+            case AttachmentTargetTypeValue.Contract: {
                 const contract = await this.attachmentRepository.findContractById(targetId);
                 if (!contract) throw new NotFoundException(`Contract ${targetId} not found`);
                 return contract;
             }
-            case 'sales_follow_up': {
+            case AttachmentTargetTypeValue.SalesFollowUp: {
                 const record = await this.attachmentRepository.findSalesFollowUpById(targetId);
                 if (!record) throw new NotFoundException(`Sales follow-up record ${targetId} not found`);
                 return record;
@@ -462,20 +475,20 @@ export class AttachmentService {
         const permission = mode === 'read' ? 'read' : 'write';
 
         switch (targetType) {
-            case 'customer':
+            case AttachmentTargetTypeValue.Customer:
                 return permissions.has(`customer:${permission}` as PermissionKey);
-            case 'lead':
+            case AttachmentTargetTypeValue.Lead:
                 return permissions.has(`lead:${permission}` as PermissionKey);
-            case 'project':
-            case 'contract':
+            case AttachmentTargetTypeValue.Project:
+            case AttachmentTargetTypeValue.Contract:
                 return permissions.has(`project:${permission}` as PermissionKey);
-            case 'sales_follow_up':
+            case AttachmentTargetTypeValue.SalesFollowUp:
                 return permissions.has(`customer:${permission}` as PermissionKey) || permissions.has(`lead:${permission}` as PermissionKey) || permissions.has(`project:${permission}` as PermissionKey);
         }
     }
 
     private canReadAttachmentSecurity(attachment: Attachment, permissions: PermissionKey[]): boolean {
-        if (!['confidential', 'restricted'].includes(attachment.securityLevel)) {
+        if (!RESTRICTED_ATTACHMENT_SECURITY_LEVELS.includes(attachment.securityLevel)) {
             return true;
         }
 
@@ -484,43 +497,59 @@ export class AttachmentService {
     }
 
     private parseTargetType(value: string): AttachmentTargetType {
-        if (ATTACHMENT_TARGET_TYPES.includes(value as AttachmentTargetType)) {
-            return value as AttachmentTargetType;
+        if (this.isAttachmentTargetType(value)) {
+            return value;
         }
 
         throw new BadRequestException(`Unsupported attachment target type ${value}`);
     }
 
     private parseCategory(value: string): AttachmentCategory {
-        if (ATTACHMENT_CATEGORIES.includes(value as AttachmentCategory)) {
-            return value as AttachmentCategory;
+        if (this.isAttachmentCategory(value)) {
+            return value;
         }
 
         throw new BadRequestException(`Unsupported attachment category ${value}`);
     }
 
     private parseSecurityLevel(value: string): AttachmentSecurityLevel {
-        if (ATTACHMENT_SECURITY_LEVELS.includes(value as AttachmentSecurityLevel)) {
-            return value as AttachmentSecurityLevel;
+        if (this.isAttachmentSecurityLevel(value)) {
+            return value;
         }
 
         throw new BadRequestException(`Unsupported attachment security level ${value}`);
     }
 
     private parseRelationType(value: string): AttachmentRelationType {
-        if (ATTACHMENT_RELATION_TYPES.includes(value as AttachmentRelationType)) {
-            return value as AttachmentRelationType;
+        if (this.isAttachmentRelationType(value)) {
+            return value;
         }
 
         throw new BadRequestException(`Unsupported attachment relation type ${value}`);
     }
 
+    private isAttachmentTargetType(value: string): value is AttachmentTargetType {
+        return (ATTACHMENT_TARGET_TYPES as readonly string[]).includes(value);
+    }
+
+    private isAttachmentCategory(value: string): value is AttachmentCategory {
+        return (ATTACHMENT_CATEGORIES as readonly string[]).includes(value);
+    }
+
+    private isAttachmentSecurityLevel(value: string): value is AttachmentSecurityLevel {
+        return (ATTACHMENT_SECURITY_LEVELS as readonly string[]).includes(value);
+    }
+
+    private isAttachmentRelationType(value: string): value is AttachmentRelationType {
+        return (ATTACHMENT_RELATION_TYPES as readonly string[]).includes(value);
+    }
+
     private defaultSecurityLevel(category: AttachmentCategory): AttachmentSecurityLevel {
-        if (['quotation', 'contract', 'finance', 'internal_assessment'].includes(category)) {
-            return 'sensitive';
+        if (SENSITIVE_ATTACHMENT_CATEGORIES.includes(category)) {
+            return AttachmentSecurityLevelValue.Sensitive;
         }
 
-        return 'internal';
+        return AttachmentSecurityLevelValue.Internal;
     }
 
     private sanitizeOriginalName(originalName: string): string {

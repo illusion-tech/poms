@@ -1,9 +1,11 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { CustomerAliasType, CustomerStatus } from '@poms/shared-contracts';
+import { CUSTOMER_ALIAS_TYPES, CUSTOMER_STATUSES, CustomerAliasTypeValue, CustomerStatusValue, type CustomerAliasType, type CustomerStatus } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 
 const p = defineEntity.properties;
+
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const CustomerSchema = defineEntity({
     name: 'Customer',
@@ -19,7 +21,7 @@ export const CustomerSchema = defineEntity({
     checks: [
         {
             name: 'chk_customer_status',
-            expression: `"status" in ('active', 'inactive', 'merged')`
+            expression: `"status" in (${toSqlStringList(CUSTOMER_STATUSES)})`
         }
     ],
     properties: {
@@ -28,7 +30,7 @@ export const CustomerSchema = defineEntity({
         displayName: p.string().length(255).fieldName('display_name').comment('客户显示名称'),
         legalName: p.string().length(255).nullable().fieldName('legal_name').comment('客户法定名称'),
         shortName: p.string().length(128).nullable().fieldName('short_name').comment('客户简称'),
-        status: p.string().$type<CustomerStatus>().length(32).default('active').comment('客户状态'),
+        status: p.string().$type<CustomerStatus>().length(32).default(CustomerStatusValue.Active).comment('客户状态'),
         ownerOrgId: () =>
             p
                 .manyToOne(OrgUnit)
@@ -93,6 +95,12 @@ export const CustomerAliasSchema = defineEntity({
         }
     ],
     uniques: [{ name: 'uq_customer_alias_customer_normalized_type', properties: ['customerId', 'normalizedName', 'aliasType'] }],
+    checks: [
+        {
+            name: 'chk_customer_alias_type',
+            expression: `"alias_type" in (${toSqlStringList(CUSTOMER_ALIAS_TYPES)})`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('客户别名主键'),
         customerId: () =>
@@ -105,7 +113,7 @@ export const CustomerAliasSchema = defineEntity({
                 .deleteRule('cascade')
                 .comment('客户主数据标识'),
         aliasName: p.string().length(255).fieldName('alias_name').comment('客户别名'),
-        aliasType: p.string().$type<CustomerAliasType>().length(32).default('alias').fieldName('alias_type').comment('别名类型'),
+        aliasType: p.string().$type<CustomerAliasType>().length(32).default(CustomerAliasTypeValue.Alias).fieldName('alias_type').comment('别名类型'),
         normalizedName: p.string().length(255).fieldName('normalized_name').comment('规范化别名'),
         isPrimary: p.boolean().default(false).fieldName('is_primary').comment('是否主别名'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),

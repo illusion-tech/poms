@@ -10,6 +10,7 @@ import type {
     CustomerSummary,
     UpdateCustomerRequest
 } from '@poms/shared-contracts';
+import { CustomerAliasTypeValue, CustomerStatusValue } from '@poms/shared-contracts';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -74,7 +75,7 @@ export class CustomerService {
                 displayName: input.displayName,
                 legalName: input.legalName?.trim() || null,
                 shortName: input.shortName?.trim() || null,
-                status: 'active',
+                status: CustomerStatusValue.Active,
                 ownerOrgId: owner.ownerOrgId,
                 ownerUserId: owner.ownerUserId,
                 sourceChannel: input.sourceChannel?.trim() || null,
@@ -86,7 +87,7 @@ export class CustomerService {
             const primaryAlias = em.create(CustomerAlias, {
                 customerId: customer.id,
                 aliasName: customer.displayName,
-                aliasType: 'alias',
+                aliasType: CustomerAliasTypeValue.Alias,
                 normalizedName: this.normalizeCustomerName(customer.displayName),
                 isPrimary: true,
                 createdBy: operator.id
@@ -100,7 +101,7 @@ export class CustomerService {
 
     async updateCustomer(id: string, input: UpdateCustomerRequest, operatorUserId: string): Promise<CustomerDetailView> {
         const customer = await this.requireCustomer(id);
-        if (customer.status === 'merged') {
+        if (customer.status === CustomerStatusValue.Merged) {
             throw new BadRequestException(`Customer ${id} is merged and cannot be edited directly`);
         }
 
@@ -142,14 +143,14 @@ export class CustomerService {
 
     async createAlias(customerId: string, input: CreateCustomerAliasRequest, operatorUserId: string): Promise<CustomerAliasSummary> {
         const customer = await this.requireCustomer(customerId);
-        if (customer.status === 'merged') {
+        if (customer.status === CustomerStatusValue.Merged) {
             throw new BadRequestException(`Customer ${customerId} is merged and cannot accept new aliases`);
         }
 
         const alias = this.customerRepository.createAlias({
             customerId: customer.id,
             aliasName: input.aliasName,
-            aliasType: input.aliasType ?? 'alias',
+            aliasType: input.aliasType ?? CustomerAliasTypeValue.Alias,
             normalizedName: this.normalizeCustomerName(input.aliasName),
             isPrimary: false,
             createdBy: operatorUserId
@@ -161,7 +162,7 @@ export class CustomerService {
 
     async requireActiveCustomer(id: string): Promise<Customer> {
         const customer = await this.requireCustomer(id);
-        if (customer.status !== 'active') {
+        if (customer.status !== CustomerStatusValue.Active) {
             throw new BadRequestException(`Customer ${id} is not active`);
         }
 

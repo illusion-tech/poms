@@ -68,6 +68,30 @@ const DEFAULT_UPLOAD_FORM: AttachmentUploadForm = {
     description: ''
 };
 
+const ATTACHMENT_CATEGORY_OPTIONS: AttachmentOption<AttachmentCategory>[] = [
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.CustomerProfile], value: AttachmentCategory.CustomerProfile },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Demand], value: AttachmentCategory.Demand },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Communication], value: AttachmentCategory.Communication },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Technical], value: AttachmentCategory.Technical },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Solution], value: AttachmentCategory.Solution },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Quotation], value: AttachmentCategory.Quotation },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Bid], value: AttachmentCategory.Bid },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Contract], value: AttachmentCategory.Contract },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Delivery], value: AttachmentCategory.Delivery },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Acceptance], value: AttachmentCategory.Acceptance },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Finance], value: AttachmentCategory.Finance },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.InternalAssessment], value: AttachmentCategory.InternalAssessment },
+    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Other], value: AttachmentCategory.Other }
+];
+
+const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] = [
+    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Normal], value: AttachmentSecurityLevel.Normal },
+    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Internal], value: AttachmentSecurityLevel.Internal },
+    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Sensitive], value: AttachmentSecurityLevel.Sensitive },
+    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Confidential], value: AttachmentSecurityLevel.Confidential },
+    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Restricted], value: AttachmentSecurityLevel.Restricted }
+];
+
 @Component({
     selector: 'app-attachment-panel',
     standalone: true,
@@ -225,15 +249,8 @@ export class AttachmentPanel implements OnChanges {
 
     uploadDialogVisible = false;
 
-    readonly categoryOptions: AttachmentOption<AttachmentCategory>[] = Object.entries(ATTACHMENT_CATEGORY_LABELS).map(([value, label]) => ({
-        label,
-        value: value as AttachmentCategory
-    }));
-
-    readonly securityOptions: AttachmentOption<AttachmentSecurityLevel>[] = Object.entries(ATTACHMENT_SECURITY_LABELS).map(([value, label]) => ({
-        label,
-        value: value as AttachmentSecurityLevel
-    }));
+    readonly categoryOptions = ATTACHMENT_CATEGORY_OPTIONS;
+    readonly securityOptions = ATTACHMENT_SECURITY_OPTIONS;
 
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['targetType'] || changes['targetId']) && this.targetType && this.targetId) {

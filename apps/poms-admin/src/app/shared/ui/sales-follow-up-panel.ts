@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SalesFollowUpRecordLifecycleScope, SalesFollowUpStore, type SalesFollowUpOutcome, type SalesFollowUpRecordStatus, type SalesFollowUpRecordSummary, type SalesFollowUpType } from '@poms/admin-data-access';
+import {
+    SalesFollowUpOutcome,
+    SalesFollowUpRecordLifecycleScope,
+    SalesFollowUpRecordStatus,
+    SalesFollowUpStore,
+    SalesFollowUpType,
+    type SalesFollowUpRecordSummary
+} from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -29,32 +36,55 @@ interface SalesFollowUpForm {
 type SalesFollowUpDialogMode = 'create' | 'replace';
 
 const SALES_FOLLOW_UP_TYPE_LABELS: Record<SalesFollowUpType, string> = {
-    phone: '电话',
-    meeting: '会议',
-    wechat: '微信',
-    email: '邮件',
-    onsite: '现场拜访',
-    other: '其他'
+    [SalesFollowUpType.Phone]: '电话',
+    [SalesFollowUpType.Meeting]: '会议',
+    [SalesFollowUpType.Wechat]: '微信',
+    [SalesFollowUpType.Email]: '邮件',
+    [SalesFollowUpType.Onsite]: '现场拜访',
+    [SalesFollowUpType.Other]: '其他'
 };
 
 const SALES_FOLLOW_UP_OUTCOME_LABELS: Record<SalesFollowUpOutcome, string> = {
-    progress: '有进展',
-    'waiting-customer': '待客户反馈',
-    'risk-discovered': '发现风险',
-    deferred: '暂缓',
-    'close-recommended': '建议关闭',
-    'no-response': '暂无回应',
-    other: '其他'
+    [SalesFollowUpOutcome.Progress]: '有进展',
+    [SalesFollowUpOutcome.WaitingCustomer]: '待客户反馈',
+    [SalesFollowUpOutcome.RiskDiscovered]: '发现风险',
+    [SalesFollowUpOutcome.Deferred]: '暂缓',
+    [SalesFollowUpOutcome.CloseRecommended]: '建议关闭',
+    [SalesFollowUpOutcome.NoResponse]: '暂无回应',
+    [SalesFollowUpOutcome.Other]: '其他'
 };
 
 const SALES_FOLLOW_UP_STATUS_LABELS: Record<SalesFollowUpRecordStatus, string> = {
-    active: '当前',
-    superseded: '已替代',
-    voided: '已作废'
+    [SalesFollowUpRecordStatus.Active]: '当前',
+    [SalesFollowUpRecordStatus.Superseded]: '已替代',
+    [SalesFollowUpRecordStatus.Voided]: '已作废'
 };
 
-const DEFAULT_FOLLOW_UP_TYPE = 'meeting' as SalesFollowUpType;
-const DEFAULT_FOLLOW_UP_OUTCOME = 'progress' as SalesFollowUpOutcome;
+const DEFAULT_FOLLOW_UP_TYPE = SalesFollowUpType.Meeting;
+const DEFAULT_FOLLOW_UP_OUTCOME = SalesFollowUpOutcome.Progress;
+
+const SALES_FOLLOW_UP_TYPE_OPTIONS: SalesFollowUpOption<SalesFollowUpType>[] = [
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Phone], value: SalesFollowUpType.Phone },
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Meeting], value: SalesFollowUpType.Meeting },
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Wechat], value: SalesFollowUpType.Wechat },
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Email], value: SalesFollowUpType.Email },
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Onsite], value: SalesFollowUpType.Onsite },
+    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Other], value: SalesFollowUpType.Other }
+];
+
+const SALES_FOLLOW_UP_OUTCOME_OPTIONS: SalesFollowUpOption<SalesFollowUpOutcome>[] = [
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Progress], value: SalesFollowUpOutcome.Progress },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.WaitingCustomer], value: SalesFollowUpOutcome.WaitingCustomer },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.RiskDiscovered], value: SalesFollowUpOutcome.RiskDiscovered },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Deferred], value: SalesFollowUpOutcome.Deferred },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.CloseRecommended], value: SalesFollowUpOutcome.CloseRecommended },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.NoResponse], value: SalesFollowUpOutcome.NoResponse },
+    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Other], value: SalesFollowUpOutcome.Other }
+];
+
+const SALES_FOLLOW_UP_TYPE_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_TYPE_LABELS;
+const SALES_FOLLOW_UP_OUTCOME_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_OUTCOME_LABELS;
+const SALES_FOLLOW_UP_STATUS_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_STATUS_LABELS;
 
 const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     followUpType: DEFAULT_FOLLOW_UP_TYPE,
@@ -118,12 +148,12 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                     </div>
                                 </div>
                                 <div class="flex shrink-0 flex-wrap justify-end gap-2">
-                                    @if (record.status === 'active' && record.nextFollowUpAt) {
+                                    @if (record.status === SalesFollowUpRecordStatus.Active && record.nextFollowUpAt) {
                                         <div class="rounded-[6px] bg-primary-50 px-2 py-1 text-xs text-primary-700 dark:bg-primary-950/40 dark:text-primary-200">
                                             下次 {{ record.nextFollowUpAt | date: 'MM-dd HH:mm' }}
                                         </div>
                                     }
-                                    @if (canWrite && record.status === 'active') {
+                                    @if (canWrite && record.status === SalesFollowUpRecordStatus.Active) {
                                         <p-button icon="pi pi-pencil" label="更正" severity="secondary" [outlined]="true" size="small" styleClass="rounded-md!" (onClick)="showReplaceDialog(record)" />
                                         <p-button icon="pi pi-ban" label="作废" severity="danger" [outlined]="true" size="small" styleClass="rounded-md!" (onClick)="showVoidDialog(record)" />
                                     }
@@ -321,6 +351,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
 })
 export class SalesFollowUpPanel implements OnChanges {
     readonly store = inject(SalesFollowUpStore);
+    readonly SalesFollowUpRecordStatus = SalesFollowUpRecordStatus;
 
     @Input({ required: true }) customerId!: string | null;
     @Input() leadId: string | null = null;
@@ -345,15 +376,8 @@ export class SalesFollowUpPanel implements OnChanges {
     dialogVisible = false;
     voidDialogVisible = false;
 
-    readonly typeOptions: SalesFollowUpOption<SalesFollowUpType>[] = Object.entries(SALES_FOLLOW_UP_TYPE_LABELS).map(([value, label]) => ({
-        label,
-        value: value as SalesFollowUpType
-    }));
-
-    readonly outcomeOptions: SalesFollowUpOption<SalesFollowUpOutcome>[] = Object.entries(SALES_FOLLOW_UP_OUTCOME_LABELS).map(([value, label]) => ({
-        label,
-        value: value as SalesFollowUpOutcome
-    }));
+    readonly typeOptions = SALES_FOLLOW_UP_TYPE_OPTIONS;
+    readonly outcomeOptions = SALES_FOLLOW_UP_OUTCOME_OPTIONS;
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['customerId'] || changes['leadId'] || changes['projectId']) {
@@ -395,7 +419,7 @@ export class SalesFollowUpPanel implements OnChanges {
     }
 
     showReplaceDialog(record: SalesFollowUpRecordSummary): void {
-        if (!this.canWrite || record.status !== 'active') {
+        if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
             return;
         }
 
@@ -416,7 +440,7 @@ export class SalesFollowUpPanel implements OnChanges {
     }
 
     showVoidDialog(record: SalesFollowUpRecordSummary): void {
-        if (!this.canWrite || record.status !== 'active') {
+        if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
             return;
         }
 
@@ -438,18 +462,18 @@ export class SalesFollowUpPanel implements OnChanges {
         this.error.set(null);
     }
 
-    updateType(value: string | null | undefined): void {
+    updateType(value: SalesFollowUpType | null | undefined): void {
         this.form.update((form) => ({
             ...form,
-            followUpType: (value ?? DEFAULT_FOLLOW_UP_TYPE) as SalesFollowUpType
+            followUpType: value ?? DEFAULT_FOLLOW_UP_TYPE
         }));
         this.error.set(null);
     }
 
-    updateOutcome(value: string | null | undefined): void {
+    updateOutcome(value: SalesFollowUpOutcome | null | undefined): void {
         this.form.update((form) => ({
             ...form,
-            outcome: (value ?? DEFAULT_FOLLOW_UP_OUTCOME) as SalesFollowUpOutcome
+            outcome: value ?? DEFAULT_FOLLOW_UP_OUTCOME
         }));
         this.error.set(null);
     }
@@ -595,23 +619,23 @@ export class SalesFollowUpPanel implements OnChanges {
     }
 
     getTypeName(type: SalesFollowUpType | string): string {
-        return SALES_FOLLOW_UP_TYPE_LABELS[type as SalesFollowUpType] ?? type;
+        return SALES_FOLLOW_UP_TYPE_DISPLAY_LABELS[type] ?? type;
     }
 
     getOutcomeName(outcome: SalesFollowUpOutcome | string): string {
-        return SALES_FOLLOW_UP_OUTCOME_LABELS[outcome as SalesFollowUpOutcome] ?? outcome;
+        return SALES_FOLLOW_UP_OUTCOME_DISPLAY_LABELS[outcome] ?? outcome;
     }
 
     getStatusName(status: SalesFollowUpRecordStatus | string): string {
-        return SALES_FOLLOW_UP_STATUS_LABELS[status as SalesFollowUpRecordStatus] ?? status;
+        return SALES_FOLLOW_UP_STATUS_DISPLAY_LABELS[status] ?? status;
     }
 
     getStatusSeverity(status: SalesFollowUpRecordStatus | string): 'success' | 'secondary' | 'danger' {
-        if (status === 'active') {
+        if (status === SalesFollowUpRecordStatus.Active) {
             return 'success';
         }
 
-        if (status === 'voided') {
+        if (status === SalesFollowUpRecordStatus.Voided) {
             return 'danger';
         }
 
@@ -620,7 +644,7 @@ export class SalesFollowUpPanel implements OnChanges {
 
     getRecordCardClass(record: SalesFollowUpRecordSummary): string {
         const base = 'rounded-[8px] border p-3';
-        if (record.status === 'active') {
+        if (record.status === SalesFollowUpRecordStatus.Active) {
             return `${base} border-surface-200 dark:border-surface-700`;
         }
 

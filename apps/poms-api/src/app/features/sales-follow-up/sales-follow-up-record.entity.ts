@@ -1,5 +1,13 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { SalesFollowUpOutcome, SalesFollowUpRecordStatus, SalesFollowUpType } from '@poms/shared-contracts';
+import {
+    SALES_FOLLOW_UP_OUTCOMES,
+    SALES_FOLLOW_UP_RECORD_STATUSES,
+    SALES_FOLLOW_UP_TYPES,
+    SalesFollowUpRecordStatusValue,
+    type SalesFollowUpOutcome,
+    type SalesFollowUpRecordStatus,
+    type SalesFollowUpType
+} from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -7,6 +15,8 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
+
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const SalesFollowUpRecordSchema = defineEntity({
     name: 'SalesFollowUpRecord',
@@ -54,15 +64,15 @@ export const SalesFollowUpRecordSchema = defineEntity({
     checks: [
         {
             name: 'chk_sales_follow_up_type',
-            expression: `"follow_up_type" in ('phone', 'meeting', 'wechat', 'email', 'onsite', 'other')`
+            expression: `"follow_up_type" in (${toSqlStringList(SALES_FOLLOW_UP_TYPES)})`
         },
         {
             name: 'chk_sales_follow_up_outcome',
-            expression: `"outcome" in ('progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other')`
+            expression: `"outcome" in (${toSqlStringList(SALES_FOLLOW_UP_OUTCOMES)})`
         },
         {
             name: 'chk_sales_follow_up_record_status',
-            expression: `"status" in ('active', 'superseded', 'voided')`
+            expression: `"status" in (${toSqlStringList(SALES_FOLLOW_UP_RECORD_STATUSES)})`
         }
     ],
     properties: {
@@ -97,7 +107,7 @@ export const SalesFollowUpRecordSchema = defineEntity({
                 .deleteRule('restrict')
                 .comment('项目上下文标识'),
         followUpType: p.string().$type<SalesFollowUpType>().length(32).fieldName('follow_up_type').comment('跟进方式'),
-        status: p.string().$type<SalesFollowUpRecordStatus>().length(32).default('active').comment('状态：active/superseded/voided'),
+        status: p.string().$type<SalesFollowUpRecordStatus>().length(32).default(SalesFollowUpRecordStatusValue.Active).comment('状态：active/superseded/voided'),
         occurredAt: p.datetime().fieldName('occurred_at').comment('实际跟进时间'),
         summary: p.text().comment('跟进摘要'),
         detail: p.text().nullable().comment('跟进详情'),

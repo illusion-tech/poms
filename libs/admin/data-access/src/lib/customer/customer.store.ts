@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CreateCustomerAliasRequest, CreateCustomerRequest, CustomerAliasSummary, CustomerDetailView, CustomerListView, CustomerStatus, UpdateCustomerRequest } from '@poms/shared-api-client';
-import { CustomerApi } from '@poms/shared-api-client';
+import type { CreateCustomerAliasRequest, CreateCustomerRequest, CustomerAliasSummary, CustomerDetailView, CustomerListView, UpdateCustomerRequest } from '@poms/shared-api-client';
+import { CustomerApi, CustomerStatus } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 export interface CustomerListFilters {
@@ -29,9 +29,9 @@ export class CustomerStore {
     readonly saving = this.#saving.asReadonly();
     readonly loaded = this.#loaded.asReadonly();
 
-    readonly activeCustomers = computed(() => this.#customers().filter((customer) => customer.status === 'active'));
+    readonly activeCustomers = computed(() => this.#customers().filter((customer) => customer.status === CustomerStatus.Active));
     readonly activeCustomerCount = computed(() => this.activeCustomers().length);
-    readonly inactiveCustomerCount = computed(() => this.#customers().filter((customer) => customer.status === 'inactive').length);
+    readonly inactiveCustomerCount = computed(() => this.#customers().filter((customer) => customer.status === CustomerStatus.Inactive).length);
 
     async loadCustomers(filters: CustomerListFilters = {}) {
         this.#loading.set(true);

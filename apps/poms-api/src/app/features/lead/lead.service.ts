@@ -1,6 +1,20 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import type { LeadBudgetStatus, LeadOwnerAssignmentResult, LeadOwnerAssignmentType, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
+import {
+    AttachmentCategoryValue,
+    AttachmentRelationTypeValue,
+    AttachmentTargetTypeValue,
+    LeadOwnerAssignmentTypeValue,
+    LeadSourceStatusValue,
+    LeadStatusValue,
+    ProjectStageValue,
+    ProjectStatusValue,
+    type LeadBudgetStatus,
+    type LeadOwnerAssignmentResult,
+    type LeadOwnerAssignmentType,
+    type LeadSourceStatus,
+    type LeadUrgency
+} from '@poms/shared-contracts';
 import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
@@ -9,6 +23,8 @@ import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
+
+const LEAD_MUTABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
 
 export interface CreateLeadSourceRecord {
     code: string;
@@ -93,7 +109,7 @@ export class LeadService {
             code,
             name: input.name.trim(),
             description: input.description?.trim() || null,
-            status: 'active',
+            status: LeadSourceStatusValue.Active,
             sortOrder: input.sortOrder ?? 100,
             createdBy: operatorUserId,
             updatedBy: operatorUserId
@@ -153,7 +169,7 @@ export class LeadService {
                 estimatedAmount: this.normalizeEstimatedAmount(input.estimatedAmount),
                 urgency: input.urgency,
                 expectedDecisionDate: this.normalizeDateOnly(input.expectedDecisionDate),
-                status: 'registered',
+                status: LeadStatusValue.Registered,
                 ownerOrgId: owner.ownerOrgId,
                 ownerUserId: owner.ownerUserId,
                 qualificationSummary: null,
@@ -248,7 +264,7 @@ export class LeadService {
             operatorUserId,
             ownerUserId: operator.id,
             ownerOrgId: nextOwnerOrgId,
-            assignmentType: 'claimed',
+            assignmentType: LeadOwnerAssignmentTypeValue.Claimed,
             reason: null
         });
     }
@@ -278,20 +294,20 @@ export class LeadService {
             operatorUserId,
             ownerUserId: targetOwner.id,
             ownerOrgId: nextOwnerOrgId,
-            assignmentType: lead.ownerUserId ? 'reassigned' : 'assigned',
+            assignmentType: lead.ownerUserId ? LeadOwnerAssignmentTypeValue.Reassigned : LeadOwnerAssignmentTypeValue.Assigned,
             reason: input.reason.trim()
         });
     }
 
     async qualifyLead(id: string, input: QualifyLeadRecord, operatorUserId: string): Promise<Lead> {
         const lead = await this.requireLead(id);
-        if (lead.status !== 'registered') {
+        if (lead.status !== LeadStatusValue.Registered) {
             throw new BadRequestException(`Lead ${id} cannot be qualified in status ${lead.status}`);
         }
         this.assertLeadReadyForQualified(lead);
 
         const now = new Date();
-        lead.status = 'qualified';
+        lead.status = LeadStatusValue.Qualified;
         lead.qualificationSummary = input.qualificationSummary;
         lead.qualifiedAt = now;
         lead.qualifiedBy = operatorUserId;
@@ -304,12 +320,12 @@ export class LeadService {
 
     async closeLead(id: string, input: CloseLeadRecord, operatorUserId: string): Promise<Lead> {
         const lead = await this.requireLead(id);
-        if (!['registered', 'qualified'].includes(lead.status)) {
+        if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
             throw new BadRequestException(`Lead ${id} cannot be closed in status ${lead.status}`);
         }
 
         const now = new Date();
-        lead.status = 'closed';
+        lead.status = LeadStatusValue.Closed;
         lead.closedReason = input.closedReason;
         lead.closedAt = now;
         lead.closedBy = operatorUserId;
@@ -332,11 +348,11 @@ export class LeadService {
                 throw new NotFoundException(`Lead ${id} not found`);
             }
 
-            if (lead.status === 'converted' || lead.convertedProjectId) {
+            if (lead.status === LeadStatusValue.Converted || lead.convertedProjectId) {
                 throw new ConflictException(`Lead ${id} has already been converted to project ${lead.convertedProjectId}`);
             }
 
-            if (lead.status !== 'qualified') {
+            if (lead.status !== LeadStatusValue.Qualified) {
                 throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
             }
             this.assertLeadReadyForProject(lead);
@@ -347,8 +363,8 @@ export class LeadService {
                 projectNo,
                 projectName: input.projectName?.trim() || lead.leadName,
                 sourceLeadId: lead.id,
-                status: 'active',
-                currentStage: 'assessment',
+                status: ProjectStatusValue.Active,
+                currentStage: ProjectStageValue.Assessment,
                 customerId: lead.customerId,
                 customerName: lead.customerName,
                 customerProjectNo: input.customerProjectNo?.trim() || null,
@@ -360,7 +376,7 @@ export class LeadService {
             });
 
             const now = new Date();
-            lead.status = 'converted';
+            lead.status = LeadStatusValue.Converted;
             lead.convertedProjectId = project.id;
             lead.convertedAt = now;
             lead.convertedBy = operator.id;
@@ -368,12 +384,12 @@ export class LeadService {
 
             em.persist([lead, project]);
             await this.attachmentService.copyActiveLinksToTarget({
-                from: { targetType: 'lead', targetId: lead.id },
-                to: { targetType: 'project', targetId: project.id },
-                relationType: 'source',
+                from: { targetType: AttachmentTargetTypeValue.Lead, targetId: lead.id },
+                to: { targetType: AttachmentTargetTypeValue.Project, targetId: project.id },
+                relationType: AttachmentRelationTypeValue.Source,
                 operatorUserId: operator.id,
                 entityManager: em,
-                excludeCategories: ['finance', 'internal_assessment']
+                excludeCategories: [AttachmentCategoryValue.Finance, AttachmentCategoryValue.InternalAssessment]
             });
             await em.flush();
             return project;
@@ -395,7 +411,7 @@ export class LeadService {
             throw new NotFoundException(`Lead source ${id} not found`);
         }
 
-        if (source.status !== 'active') {
+        if (source.status !== LeadSourceStatusValue.Active) {
             throw new ConflictException(`Lead source ${id} is inactive`);
         }
 
@@ -403,13 +419,13 @@ export class LeadService {
     }
 
     private assertLeadEditable(lead: Lead): void {
-        if (!['registered', 'qualified'].includes(lead.status)) {
+        if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
             throw new BadRequestException(`Lead ${lead.id} cannot be edited in status ${lead.status}`);
         }
     }
 
     private assertLeadAssignable(lead: Lead): void {
-        if (!['registered', 'qualified'].includes(lead.status)) {
+        if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
             throw new BadRequestException(`Lead ${lead.id} cannot assign owner in status ${lead.status}`);
         }
     }

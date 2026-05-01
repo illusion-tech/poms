@@ -1,6 +1,7 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { AttachmentLinkStatusValue, AttachmentStatusValue } from '@poms/shared-contracts';
 import type { AttachmentCategory, AttachmentStatus, AttachmentTargetType } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Customer } from '../customer/customer.entity';
@@ -68,7 +69,7 @@ export class AttachmentRepository {
 
     async findActiveLinksByAttachmentId(attachmentId: string): Promise<AttachmentLink[]> {
         return this.attachmentLinkRepository.find(
-            { attachmentId, status: 'active' },
+            { attachmentId, status: AttachmentLinkStatusValue.Active },
             {
                 orderBy: { linkedAt: QueryOrder.DESC }
             }
@@ -80,7 +81,7 @@ export class AttachmentRepository {
             {
                 targetType: filters.targetType,
                 targetId: filters.targetId,
-                status: 'active'
+                status: AttachmentLinkStatusValue.Active
             },
             { orderBy: { linkedAt: QueryOrder.DESC } }
         );
@@ -92,14 +93,14 @@ export class AttachmentRepository {
 
         const where: FilterQuery<Attachment> = {
             id: { $in: attachmentIds },
-            status: filters.status ?? 'active',
+            status: filters.status ?? AttachmentStatusValue.Active,
             ...(filters.category ? { category: filters.category } : {})
         };
         const attachments = await this.attachmentRepository.find(where, { orderBy: { uploadedAt: QueryOrder.DESC } });
         const activeLinks = await this.attachmentLinkRepository.find(
             {
                 attachmentId: { $in: attachments.map((attachment) => attachment.id) },
-                status: 'active'
+                status: AttachmentLinkStatusValue.Active
             },
             { orderBy: { linkedAt: QueryOrder.DESC } }
         );
@@ -123,7 +124,7 @@ export class AttachmentRepository {
             targetType: input.targetType,
             targetId: input.targetId,
             relationType: input.relationType,
-            status: 'active'
+            status: AttachmentLinkStatusValue.Active
         });
     }
 

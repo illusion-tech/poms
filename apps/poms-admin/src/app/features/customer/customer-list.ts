@@ -31,12 +31,12 @@ interface CustomerCreateForm {
 }
 
 interface CustomerEditForm extends CustomerCreateForm {
-    status: 'active' | 'inactive';
+    status: EditableCustomerStatus;
 }
 
 interface CustomerAliasForm {
     aliasName: string;
-    aliasType: 'legal_name' | 'short_name' | 'legacy_input' | 'import_name' | 'alias';
+    aliasType: CustomerAliasType;
 }
 
 interface FollowUpReminderEntry {
@@ -44,32 +44,34 @@ interface FollowUpReminderEntry {
     todoId: string | null;
 }
 
+type EditableCustomerStatus = CustomerStatus.Active | CustomerStatus.Inactive;
+
 const ALL_FILTER_VALUE = 'all';
 
 const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
-    active: '启用',
-    inactive: '停用',
-    merged: '已合并'
+    [CustomerStatus.Active]: '启用',
+    [CustomerStatus.Inactive]: '停用',
+    [CustomerStatus.Merged]: '已合并'
 };
 
 const CUSTOMER_STATUS_OPTIONS: CustomerFilterOption[] = [
     { label: '全部状态', value: ALL_FILTER_VALUE },
-    { label: CUSTOMER_STATUS_LABELS.active, value: 'active' },
-    { label: CUSTOMER_STATUS_LABELS.inactive, value: 'inactive' },
-    { label: CUSTOMER_STATUS_LABELS.merged, value: 'merged' }
+    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Active], value: CustomerStatus.Active },
+    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Inactive], value: CustomerStatus.Inactive },
+    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Merged], value: CustomerStatus.Merged }
 ];
 
 const EDITABLE_STATUS_OPTIONS: CustomerFilterOption[] = [
-    { label: CUSTOMER_STATUS_LABELS.active, value: 'active' },
-    { label: CUSTOMER_STATUS_LABELS.inactive, value: 'inactive' }
+    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Active], value: CustomerStatus.Active },
+    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Inactive], value: CustomerStatus.Inactive }
 ];
 
 const CUSTOMER_ALIAS_TYPE_OPTIONS = [
-    { label: '通用别名', value: 'alias' },
-    { label: '法定名称', value: 'legal_name' },
-    { label: '简称', value: 'short_name' },
-    { label: '历史输入', value: 'legacy_input' },
-    { label: '导入名称', value: 'import_name' }
+    { label: '通用别名', value: CustomerAliasType.Alias },
+    { label: '法定名称', value: CustomerAliasType.LegalName },
+    { label: '简称', value: CustomerAliasType.ShortName },
+    { label: '历史输入', value: CustomerAliasType.LegacyInput },
+    { label: '导入名称', value: CustomerAliasType.ImportName }
 ];
 
 const EMPTY_CREATE_FORM: CustomerCreateForm = {
@@ -82,12 +84,12 @@ const EMPTY_CREATE_FORM: CustomerCreateForm = {
 
 const EMPTY_EDIT_FORM: CustomerEditForm = {
     ...EMPTY_CREATE_FORM,
-    status: 'active'
+    status: CustomerStatus.Active
 };
 
 const EMPTY_ALIAS_FORM: CustomerAliasForm = {
     aliasName: '',
-    aliasType: 'alias'
+    aliasType: CustomerAliasType.Alias
 };
 
 @Component({
@@ -490,7 +492,7 @@ export class CustomerList implements OnInit {
             shortName: customer.shortName ?? '',
             sourceChannel: customer.sourceChannel ?? '',
             remark: customer.remark ?? '',
-            status: customer.status === 'inactive' ? 'inactive' : 'active'
+            status: customer.status === CustomerStatus.Inactive ? CustomerStatus.Inactive : CustomerStatus.Active
         });
         this.formAttempted.set(false);
         this.formError.set(null);
@@ -519,7 +521,7 @@ export class CustomerList implements OnInit {
         this.formError.set(null);
     }
 
-    updateStatusField(value: 'active' | 'inactive') {
+    updateStatusField(value: EditableCustomerStatus) {
         this.editForm.update((form) => ({ ...form, status: value }));
         this.formError.set(null);
     }
@@ -562,7 +564,7 @@ export class CustomerList implements OnInit {
                 displayName: form.displayName.trim(),
                 legalName: this.optionalText(form.legalName),
                 shortName: this.optionalText(form.shortName),
-                status: form.status === 'active' ? UpdateCustomerRequestStatusEnum.Active : UpdateCustomerRequestStatusEnum.Inactive,
+                status: form.status === CustomerStatus.Active ? UpdateCustomerRequestStatusEnum.Active : UpdateCustomerRequestStatusEnum.Inactive,
                 sourceChannel: this.optionalText(form.sourceChannel),
                 remark: this.optionalText(form.remark)
             });
@@ -644,10 +646,10 @@ export class CustomerList implements OnInit {
     }
 
     statusSeverity(status: CustomerStatus): 'success' | 'secondary' | 'warn' {
-        if (status === 'active') {
+        if (status === CustomerStatus.Active) {
             return 'success';
         }
-        if (status === 'inactive') {
+        if (status === CustomerStatus.Inactive) {
             return 'secondary';
         }
         return 'warn';
@@ -671,17 +673,6 @@ export class CustomerList implements OnInit {
     }
 
     private toAliasType(value: CustomerAliasForm['aliasType']): CustomerAliasType {
-        switch (value) {
-            case 'legal_name':
-                return CustomerAliasType.LegalName;
-            case 'short_name':
-                return CustomerAliasType.ShortName;
-            case 'legacy_input':
-                return CustomerAliasType.LegacyInput;
-            case 'import_name':
-                return CustomerAliasType.ImportName;
-            default:
-                return CustomerAliasType.Alias;
-        }
+        return value;
     }
 }
