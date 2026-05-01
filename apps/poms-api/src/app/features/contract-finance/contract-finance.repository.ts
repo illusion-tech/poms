@@ -1,6 +1,7 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { PaymentRecordStatusValue, ReceiptRecordStatusValue } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 import { ProjectActualCostRecord } from '../project-cost/project-actual-cost-record.entity';
@@ -85,10 +86,7 @@ export class ContractFinanceRepository {
     }
 
     async findPaymentsForPayable(payableRecordId: string): Promise<PaymentRecord[]> {
-        return this.paymentRepository.find(
-            { payableRecordId },
-            { orderBy: { paymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
-        );
+        return this.paymentRepository.find({ payableRecordId }, { orderBy: { paymentDate: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
     }
 
     async findConfirmedPaymentsForPayableIds(payableRecordIds: string[]): Promise<PaymentRecord[]> {
@@ -97,7 +95,7 @@ export class ContractFinanceRepository {
         }
         return this.paymentRepository.find({
             payableRecordId: { $in: payableRecordIds },
-            status: 'confirmed'
+            status: PaymentRecordStatusValue.Confirmed
         });
     }
 
@@ -142,18 +140,14 @@ export class ContractFinanceRepository {
     }
 
     async findConfirmedReceiptsForProject(projectId: string): Promise<ReceiptRecord[]> {
-        return this.receiptRepository.find({ projectId, status: 'confirmed' });
+        return this.receiptRepository.find({ projectId, status: ReceiptRecordStatusValue.Confirmed });
     }
 
     async findConfirmedPaymentsForProject(projectId: string): Promise<PaymentRecord[]> {
-        return this.paymentRepository.find({ projectId, status: 'confirmed' });
+        return this.paymentRepository.find({ projectId, status: PaymentRecordStatusValue.Confirmed });
     }
 
-    async findCurrentCostMappingBySource(
-        sourceType: string,
-        sourceId: string,
-        activeStatuses: string[] = ['REGISTERED', 'CONFIRMED', 'INCLUDED']
-    ): Promise<ProjectActualCostRecord | null> {
+    async findCurrentCostMappingBySource(sourceType: string, sourceId: string, activeStatuses: string[] = ['REGISTERED', 'CONFIRMED', 'INCLUDED']): Promise<ProjectActualCostRecord | null> {
         return this.projectActualCostRecordRepository.findOne(
             {
                 sourceType,

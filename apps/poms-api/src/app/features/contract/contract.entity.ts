@@ -1,13 +1,13 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { ContractStatus } from '@poms/shared-contracts';
+import { CONTRACT_STATUSES, CONTRACT_TERM_SNAPSHOT_STATUSES, ContractTermSnapshotStatusValue, type ContractStatus, type ContractTermSnapshotStatus } from '@poms/shared-contracts';
 import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
 import { ContractReadinessPackage } from '../contract-readiness/contract-readiness-package.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export type ContractAmendmentStatus = 'draft' | 'submitted' | 'approved' | 'effective' | 'superseded' | 'voided';
-export type ContractTermSnapshotStatus = 'active' | 'superseded' | 'voided';
 
 export const ContractSchema = defineEntity({
     name: 'Contract',
@@ -18,17 +18,15 @@ export const ContractSchema = defineEntity({
         { name: 'idx_contract_project_id', properties: ['projectId'] },
         { name: 'idx_contract_status', properties: ['status'] }
     ],
+    checks: [
+        {
+            name: 'chk_contract_status',
+            expression: `"status" in (${toSqlStringList(CONTRACT_STATUSES)})`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('合同主键'),
-        projectId: () =>
-            p
-                .manyToOne(Project)
-                .mapToPk()
-                .fieldName('project_id')
-                .foreignKeyName('contract_project_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('restrict')
-                .comment('所属项目标识'),
+        projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').foreignKeyName('contract_project_id_foreign').updateRule('cascade').deleteRule('restrict').comment('所属项目标识'),
         contractNo: p.string().length(64).unique().fieldName('contract_no').comment('合同编号'),
         customerContractNo: p.string().length(128).nullable().fieldName('customer_contract_no').comment('客户合同编号'),
         status: p.string().$type<ContractStatus>().length(32).comment('合同状态'),
@@ -68,8 +66,7 @@ export const ContractTermSnapshotSchema = defineEntity({
     indexes: [
         {
             name: 'idx_contract_term_snapshot_contract_effective',
-            expression: (columns, table, indexName) =>
-                `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.effectiveAt}" desc)`
+            expression: (columns, table, indexName) => `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.effectiveAt}" desc)`
         },
         { name: 'idx_contract_term_snapshot_status', properties: ['snapshotStatus'] },
         { name: 'idx_contract_term_snapshot_baseline', properties: ['sourceBaselineId'] },
@@ -78,21 +75,18 @@ export const ContractTermSnapshotSchema = defineEntity({
     uniques: [
         {
             name: 'uq_contract_term_snapshot_contract_active',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.snapshotStatus}" = 'active'`
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.snapshotStatus}" = '${ContractTermSnapshotStatusValue.Active}'`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_contract_term_snapshot_status',
+            expression: `"snapshot_status" in (${toSqlStringList(CONTRACT_TERM_SNAPSHOT_STATUSES)})`
         }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
-        contractId: () =>
-            p
-                .manyToOne(Contract)
-                .mapToPk()
-                .fieldName('contract_id')
-                .foreignKeyName('contract_term_snapshot_contract_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('restrict')
-                .comment('所属合同 ID'),
+        contractId: () => p.manyToOne(Contract).mapToPk().fieldName('contract_id').foreignKeyName('contract_term_snapshot_contract_id_foreign').updateRule('cascade').deleteRule('restrict').comment('所属合同 ID'),
         effectiveAt: p.datetime().defaultRaw('now()').fieldName('effective_at').comment('生效时间'),
         effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
         retentionDueDate: p.date().nullable().fieldName('retention_due_date').comment('质保期届满日期'),
@@ -103,28 +97,17 @@ export const ContractTermSnapshotSchema = defineEntity({
         retentionRate: p.string().columnType('numeric(5,4)').nullable().fieldName('retention_rate').comment('质保金比例'),
         paymentTerms: p.string().length(1000).nullable().fieldName('payment_terms').comment('付款条款'),
         sourceReadinessId: () =>
-            p
-                .manyToOne(ContractReadinessPackage)
-                .mapToPk()
-                .nullable()
-                .fieldName('source_readiness_id')
-                .foreignKeyName('contract_term_snapshot_source_readiness_fk')
-                .updateRule('cascade')
-                .deleteRule('restrict')
-                .comment('来源签约就绪包 ID'),
+            p.manyToOne(ContractReadinessPackage).mapToPk().nullable().fieldName('source_readiness_id').foreignKeyName('contract_term_snapshot_source_readiness_fk').updateRule('cascade').deleteRule('restrict').comment('来源签约就绪包 ID'),
         sourceBaselineId: () =>
-            p
-                .manyToOne(CommercialReleaseBaseline)
-                .mapToPk()
-                .nullable()
-                .fieldName('source_baseline_id')
-                .foreignKeyName('contract_term_snapshot_source_baseline_fk')
-                .updateRule('cascade')
-                .deleteRule('restrict')
-                .comment('来源商业放行基线 ID'),
+            p.manyToOne(CommercialReleaseBaseline).mapToPk().nullable().fieldName('source_baseline_id').foreignKeyName('contract_term_snapshot_source_baseline_fk').updateRule('cascade').deleteRule('restrict').comment('来源商业放行基线 ID'),
         version: p.integer().default(1).comment('快照版本号'),
-        snapshotStatus: p.string().length(32).default('active').fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
-        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        snapshotStatus: p.string().length(32).default(ContractTermSnapshotStatusValue.Active).fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
+        createdAt: p
+            .datetime()
+            .defaultRaw('now()')
+            .onCreate(() => new Date())
+            .fieldName('created_at')
+            .comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
     }
@@ -148,33 +131,15 @@ export const ContractAmendmentSchema = defineEntity({
         { name: 'uq_contract_amendment_contract_version', properties: ['contractId', 'version'] },
         {
             name: 'uq_contract_amendment_contract_current',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}" = true`
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}" = true`
         }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
-        contractId: () =>
-            p
-                .manyToOne(Contract)
-                .mapToPk()
-                .fieldName('contract_id')
-                .foreignKeyName('contract_amendment_contract_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('restrict')
-                .comment('所属合同 ID'),
+        contractId: () => p.manyToOne(Contract).mapToPk().fieldName('contract_id').foreignKeyName('contract_amendment_contract_id_foreign').updateRule('cascade').deleteRule('restrict').comment('所属合同 ID'),
         version: p.integer().comment('合同变更版本号'),
         isCurrent: p.boolean().default(false).fieldName('is_current').comment('是否当前有效变更版本'),
-        supersedesId: () =>
-            p
-                .manyToOne(ContractAmendment)
-                .mapToPk()
-                .nullable()
-                .fieldName('supersedes_id')
-                .foreignKeyName('contract_amendment_supersedes_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('set null')
-                .comment('被替代的合同变更版本'),
+        supersedesId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName('supersedes_id').foreignKeyName('contract_amendment_supersedes_id_foreign').updateRule('cascade').deleteRule('set null').comment('被替代的合同变更版本'),
         status: p.string().length(32).default('draft').$type<ContractAmendmentStatus>().comment('状态：draft/submitted/approved/effective/superseded/voided'),
         createdAt: p
             .datetime()

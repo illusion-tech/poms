@@ -1,6 +1,6 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import type { CommandResult, ContractStatus } from '@poms/shared-contracts';
+import { ApprovalStatusValue, ApprovalTypeValue, ContractStatusValue, TargetObjectTypeValue, type CommandResult, type ContractStatus } from '@poms/shared-contracts';
 
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
@@ -44,8 +44,8 @@ export interface ActivateContractRecord {
     expectedVersion?: number;
 }
 
-const CONTRACT_REVIEW_APPROVAL_TYPE = 'contract-review';
-const CONTRACT_TARGET_TYPE = 'Contract';
+const CONTRACT_REVIEW_APPROVAL_TYPE = ApprovalTypeValue.ContractReview;
+const CONTRACT_TARGET_TYPE = TargetObjectTypeValue.Contract;
 
 @Injectable()
 export class ContractService {
@@ -84,7 +84,7 @@ export class ContractService {
                 projectId: input.projectId,
                 contractNo,
                 customerContractNo: input.customerContractNo?.trim() || null,
-                status: input.status ?? 'draft',
+                status: input.status ?? ContractStatusValue.Draft,
                 signedAmount: input.signedAmount,
                 currencyCode: input.currencyCode ?? 'CNY',
                 signedAt: input.signedAt ?? null,
@@ -105,7 +105,7 @@ export class ContractService {
             throw new NotFoundException(`Contract ${id} not found`);
         }
 
-        if (contract.status !== 'draft') {
+        if (contract.status !== ContractStatusValue.Draft) {
             throw new BadRequestException(`Contract ${id} cannot be edited in status ${contract.status}`);
         }
 
@@ -144,7 +144,7 @@ export class ContractService {
             throw new NotFoundException(`Contract ${id} not found`);
         }
 
-        if (contract.status !== 'pending-review') {
+        if (contract.status !== ContractStatusValue.PendingReview) {
             throw new BadRequestException(`Contract ${id} cannot be activated in status ${contract.status}`);
         }
 
@@ -154,7 +154,7 @@ export class ContractService {
             approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
             targetObjectType: CONTRACT_TARGET_TYPE,
             targetObjectId: contract.id,
-            currentStatus: 'pending'
+            currentStatus: ApprovalStatusValue.Pending
         });
         if (pendingApproval) {
             throw new BadRequestException(`Contract ${id} still has a pending review approval`);
@@ -164,7 +164,7 @@ export class ContractService {
             approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
             targetObjectType: CONTRACT_TARGET_TYPE,
             targetObjectId: contract.id,
-            currentStatus: 'approved'
+            currentStatus: ApprovalStatusValue.Approved
         });
         if (!approvedApproval) {
             throw new BadRequestException(`Contract ${id} cannot be activated without an approved review record`);
@@ -172,16 +172,12 @@ export class ContractService {
 
         const activationReadiness = await this.contractReadinessService.resolveActivationReadiness(contract.projectId);
         if (!activationReadiness.allowed) {
-            throw new BadRequestException(
-                activationReadiness.reason ?? `Contract ${id} cannot be activated before contract readiness is completed`
-            );
+            throw new BadRequestException(activationReadiness.reason ?? `Contract ${id} cannot be activated before contract readiness is completed`);
         }
 
         const snapshotId = activationReadiness.snapshotId;
         if (!snapshotId) {
-            throw new BadRequestException(
-                `Contract ${id} cannot be activated without an initialized contract snapshot. Run readiness initialization first.`
-            );
+            throw new BadRequestException(`Contract ${id} cannot be activated without an initialized contract snapshot. Run readiness initialization first.`);
         }
 
         if (!activationReadiness.sourceReadinessId) {
@@ -211,7 +207,7 @@ export class ContractService {
             sourceReadinessId: activationReadiness.sourceReadinessId ?? null,
             sourceBaselineId: baseline?.id ?? null
         });
-        contract.status = 'active';
+        contract.status = ContractStatusValue.Active;
         contract.currentSnapshotId = snapshotId;
         contract.updatedBy = actorUserId;
 
@@ -249,9 +245,7 @@ export class ContractService {
         if (baseline.paymentTerms == null || baseline.paymentTerms === '') missing.push('paymentTerms');
 
         if (missing.length) {
-            throw new BadRequestException(
-                `Commercial release baseline missing core contract terms: ${missing.join(', ')}`
-            );
+            throw new BadRequestException(`Commercial release baseline missing core contract terms: ${missing.join(', ')}`);
         }
     }
 

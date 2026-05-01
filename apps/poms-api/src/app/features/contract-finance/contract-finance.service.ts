@@ -1,5 +1,7 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ContractStatusValue, InvoiceRecordExceptionStatusValue, InvoiceRecordStatusValue, InvoiceRecordTypeValue, PayableRecordStatusValue, PaymentRecordStatusValue, ReceiptRecordStatusValue } from '@poms/shared-contracts';
 import type {
+    InvoiceRecordType,
     ClosePayableRecordRequest,
     CloseInvoiceRecordRequest,
     ConfirmPaymentRecordRequest,
@@ -27,6 +29,10 @@ import type { PaymentRecord } from './payment-record.entity';
 import type { ReceiptRecord } from './receipt-record.entity';
 import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 
+const FINANCE_MANUAL_SOURCE_TYPE = 'manual';
+const PAYABLE_RECORD_COST_SOURCE_TYPE = 'PAYABLE_RECORD';
+const INVOICE_RECORD_COST_SOURCE_TYPE = 'INVOICE_RECORD';
+
 @Injectable()
 export class ContractFinanceService {
     constructor(private readonly repo: ContractFinanceRepository) {}
@@ -36,15 +42,12 @@ export class ContractFinanceService {
         return receipts.map(this.#toReceiptSummary);
     }
 
-    async createReceipt(
-        contractId: string,
-        dto: CreateReceiptRecordRequest
-    ): Promise<ReceiptRecordSummary> {
+    async createReceipt(contractId: string, dto: CreateReceiptRecordRequest): Promise<ReceiptRecordSummary> {
         const contract = await this.repo.findContractById(contractId);
         if (!contract) {
             throw new NotFoundException(`Contract ${contractId} not found`);
         }
-        if (contract.status !== 'active') {
+        if (contract.status !== ContractStatusValue.Active) {
             throw new UnprocessableEntityException(`只有已生效合同可以登记回款，当前状态: ${contract.status}`);
         }
 
@@ -53,8 +56,8 @@ export class ContractFinanceService {
             projectId: contract.projectId,
             receiptAmount: dto.receiptAmount,
             receiptDate: new Date(dto.receiptDate),
-            sourceType: dto.sourceType ?? 'manual',
-            status: 'pending-confirmation',
+            sourceType: dto.sourceType ?? FINANCE_MANUAL_SOURCE_TYPE,
+            status: ReceiptRecordStatusValue.PendingConfirmation,
             confirmedAt: null,
             confirmedBy: null
         });
@@ -62,22 +65,18 @@ export class ContractFinanceService {
         return this.#toReceiptSummary(entity);
     }
 
-    async confirmReceipt(
-        id: string,
-        actorUserId: string,
-        dto: ConfirmReceiptRecordRequest
-    ): Promise<ReceiptRecordSummary> {
+    async confirmReceipt(id: string, actorUserId: string, dto: ConfirmReceiptRecordRequest): Promise<ReceiptRecordSummary> {
         const receipt = await this.repo.findReceiptById(id);
         if (!receipt) {
             throw new NotFoundException(`ReceiptRecord ${id} not found`);
         }
         this.#assertExpectedVersion(receipt.rowVersion, dto.expectedVersion, 'ReceiptRecord');
 
-        if (receipt.status !== 'pending-confirmation') {
+        if (receipt.status !== ReceiptRecordStatusValue.PendingConfirmation) {
             throw new UnprocessableEntityException(`只有待确认状态的回款记录可以确认，当前状态: ${receipt.status}`);
         }
 
-        receipt.status = 'confirmed';
+        receipt.status = ReceiptRecordStatusValue.Confirmed;
         receipt.confirmedAt = new Date();
         receipt.confirmedBy = actorUserId;
         await this.repo.flushReceipt();
@@ -95,7 +94,7 @@ export class ContractFinanceService {
         if (!payable) {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
-        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource('PAYABLE_RECORD', id));
+        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource(PAYABLE_RECORD_COST_SOURCE_TYPE, id));
         const settledAmounts = await this.#loadSettledAmounts([id]);
 
         return {
@@ -104,10 +103,7 @@ export class ContractFinanceService {
         };
     }
 
-    async createPayable(
-        projectId: string,
-        dto: CreatePayableRecordRequest
-    ): Promise<PayableRecordSummary> {
+    async createPayable(projectId: string, dto: CreatePayableRecordRequest): Promise<PayableRecordSummary> {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
@@ -128,7 +124,7 @@ export class ContractFinanceService {
             taxAmount: dto.taxAmount ?? null,
             amountIncludingTax: dto.amountIncludingTax ?? null,
             expectedPaymentDate: this.#toDateValue(dto.expectedPaymentDate),
-            status: 'recorded',
+            status: PayableRecordStatusValue.Recorded,
             evidenceSummary: dto.evidenceSummary ?? null,
             attachmentCount: dto.attachmentCount ?? 0,
             closedAt: null,
@@ -140,23 +136,20 @@ export class ContractFinanceService {
         return this.#toPayableSummary(entity, '0.00');
     }
 
-    async updatePayable(
-        id: string,
-        dto: UpdatePayableRecordRequest
-    ): Promise<PayableRecordSummary> {
+    async updatePayable(id: string, dto: UpdatePayableRecordRequest): Promise<PayableRecordSummary> {
         const payable = await this.repo.findPayableById(id);
         if (!payable) {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
         this.#assertExpectedVersion(payable.rowVersion, dto.expectedVersion, 'PayableRecord');
 
-        if (payable.status === 'completed' || payable.status === 'closed' || payable.status === 'voided') {
+        if (payable.status === PayableRecordStatusValue.Completed || payable.status === PayableRecordStatusValue.Closed || payable.status === PayableRecordStatusValue.Voided) {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许再更新`);
         }
-        if (payable.status === 'partially-paid') {
+        if (payable.status === PayableRecordStatusValue.PartiallyPaid) {
             throw new UnprocessableEntityException('已存在付款事实的采购承诺记录不允许直接更新金额语义');
         }
-        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '更新采购承诺记录');
+        await this.#assertSourceFactNotMapped(PAYABLE_RECORD_COST_SOURCE_TYPE, payable.id, '更新采购承诺记录');
 
         if (dto.contractId !== undefined) {
             await this.#assertPayableContractScope(payable.projectId, dto.contractId);
@@ -193,58 +186,47 @@ export class ContractFinanceService {
             payable.attachmentCount = dto.attachmentCount;
         }
 
-        this.#assertTaxAmountsConsistent(
-            payable.amountExcludingTax,
-            payable.taxAmount ?? null,
-            payable.amountIncludingTax ?? null,
-            'PayableRecord'
-        );
+        this.#assertTaxAmountsConsistent(payable.amountExcludingTax, payable.taxAmount ?? null, payable.amountIncludingTax ?? null, 'PayableRecord');
         await this.repo.flushPayable();
         return this.#toPayableSummary(payable, '0.00');
     }
 
-    async closePayable(
-        id: string,
-        dto: ClosePayableRecordRequest
-    ): Promise<PayableRecordSummary> {
+    async closePayable(id: string, dto: ClosePayableRecordRequest): Promise<PayableRecordSummary> {
         const payable = await this.repo.findPayableById(id);
         if (!payable) {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
         this.#assertExpectedVersion(payable.rowVersion, dto.expectedVersion, 'PayableRecord');
 
-        if (payable.status === 'closed' || payable.status === 'voided') {
+        if (payable.status === PayableRecordStatusValue.Closed || payable.status === PayableRecordStatusValue.Voided) {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许关闭`);
         }
-        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '关闭采购承诺记录');
+        await this.#assertSourceFactNotMapped(PAYABLE_RECORD_COST_SOURCE_TYPE, payable.id, '关闭采购承诺记录');
 
-        payable.status = 'closed';
+        payable.status = PayableRecordStatusValue.Closed;
         payable.closedAt = new Date();
         payable.closeReason = this.#appendComment(dto.reason.trim(), dto.comment);
         await this.repo.flushPayable();
         return this.#toPayableSummary(payable, '0.00');
     }
 
-    async voidPayable(
-        id: string,
-        dto: VoidPayableRecordRequest
-    ): Promise<PayableRecordSummary> {
+    async voidPayable(id: string, dto: VoidPayableRecordRequest): Promise<PayableRecordSummary> {
         const payable = await this.repo.findPayableById(id);
         if (!payable) {
             throw new NotFoundException(`PayableRecord ${id} not found`);
         }
         this.#assertExpectedVersion(payable.rowVersion, dto.expectedVersion, 'PayableRecord');
 
-        if (payable.status === 'voided') {
+        if (payable.status === PayableRecordStatusValue.Voided) {
             throw new UnprocessableEntityException('当前采购承诺记录已经作废');
         }
         const linkedPayments = await this.repo.findPaymentsForPayable(payable.id);
         if (linkedPayments.length > 0) {
             throw new UnprocessableEntityException('已关联付款事实的采购承诺记录不允许直接作废');
         }
-        await this.#assertSourceFactNotMapped('PAYABLE_RECORD', payable.id, '作废采购承诺记录');
+        await this.#assertSourceFactNotMapped(PAYABLE_RECORD_COST_SOURCE_TYPE, payable.id, '作废采购承诺记录');
 
-        payable.status = 'voided';
+        payable.status = PayableRecordStatusValue.Voided;
         payable.voidedAt = new Date();
         payable.voidReason = this.#appendComment(dto.reason.trim(), dto.comment);
         await this.repo.flushPayable();
@@ -261,7 +243,7 @@ export class ContractFinanceService {
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
-        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource('INVOICE_RECORD', id));
+        const hasCurrentCostMapping = !!(await this.repo.findCurrentCostMappingBySource(INVOICE_RECORD_COST_SOURCE_TYPE, id));
 
         return {
             ...this.#toInvoiceSummary(invoice),
@@ -269,10 +251,7 @@ export class ContractFinanceService {
         };
     }
 
-    async createInvoice(
-        projectId: string,
-        dto: CreateInvoiceRecordRequest
-    ): Promise<InvoiceRecordSummary> {
+    async createInvoice(projectId: string, dto: CreateInvoiceRecordRequest): Promise<InvoiceRecordSummary> {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
@@ -288,8 +267,8 @@ export class ContractFinanceService {
             invoiceNumber: dto.invoiceNumber.trim(),
             invoiceAmount: dto.invoiceAmount,
             invoiceDate: this.#toDateValue(dto.invoiceDate),
-            status: 'draft',
-            exceptionStatus: 'none',
+            status: InvoiceRecordStatusValue.Draft,
+            exceptionStatus: InvoiceRecordExceptionStatusValue.None,
             exceptionReason: null,
             exceptionResolution: null,
             closedAt: null,
@@ -299,23 +278,20 @@ export class ContractFinanceService {
         return this.#toInvoiceSummary(entity);
     }
 
-    async updateInvoice(
-        id: string,
-        dto: UpdateInvoiceRecordRequest
-    ): Promise<InvoiceRecordSummary> {
+    async updateInvoice(id: string, dto: UpdateInvoiceRecordRequest): Promise<InvoiceRecordSummary> {
         const invoice = await this.repo.findInvoiceById(id);
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
         this.#assertExpectedVersion(invoice.rowVersion, dto.expectedVersion, 'InvoiceRecord');
 
-        if (invoice.status === 'closed') {
+        if (invoice.status === InvoiceRecordStatusValue.Closed) {
             throw new UnprocessableEntityException('已关闭发票记录不允许再更新');
         }
-        if (invoice.status === 'exception' && invoice.exceptionStatus === 'open') {
+        if (invoice.status === InvoiceRecordStatusValue.Exception && invoice.exceptionStatus === InvoiceRecordExceptionStatusValue.Open) {
             throw new UnprocessableEntityException('异常处理中发票记录不允许直接更新，请先解决异常');
         }
-        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '更新发票记录');
+        await this.#assertSourceFactNotMapped(INVOICE_RECORD_COST_SOURCE_TYPE, invoice.id, '更新发票记录');
 
         if (dto.contractId !== undefined) {
             await this.#assertInvoiceContractScope(invoice.projectId, dto.contractId, invoice.invoiceType);
@@ -339,26 +315,23 @@ export class ContractFinanceService {
         return this.#toInvoiceSummary(invoice);
     }
 
-    async markInvoiceException(
-        id: string,
-        dto: MarkInvoiceExceptionRequest
-    ): Promise<InvoiceRecordSummary> {
+    async markInvoiceException(id: string, dto: MarkInvoiceExceptionRequest): Promise<InvoiceRecordSummary> {
         const invoice = await this.repo.findInvoiceById(id);
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
         this.#assertExpectedVersion(invoice.rowVersion, dto.expectedVersion, 'InvoiceRecord');
 
-        if (invoice.status === 'closed') {
+        if (invoice.status === InvoiceRecordStatusValue.Closed) {
             throw new UnprocessableEntityException('已关闭发票记录不允许标记异常');
         }
-        if (invoice.exceptionStatus === 'open') {
+        if (invoice.exceptionStatus === InvoiceRecordExceptionStatusValue.Open) {
             throw new UnprocessableEntityException('当前发票记录已处于异常处理中');
         }
-        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '标记发票异常');
+        await this.#assertSourceFactNotMapped(INVOICE_RECORD_COST_SOURCE_TYPE, invoice.id, '标记发票异常');
 
-        invoice.status = 'exception';
-        invoice.exceptionStatus = 'open';
+        invoice.status = InvoiceRecordStatusValue.Exception;
+        invoice.exceptionStatus = InvoiceRecordExceptionStatusValue.Open;
         invoice.exceptionReason = this.#appendComment(dto.reason.trim(), dto.comment);
         invoice.exceptionResolution = null;
 
@@ -366,47 +339,41 @@ export class ContractFinanceService {
         return this.#toInvoiceSummary(invoice);
     }
 
-    async resolveInvoiceException(
-        id: string,
-        dto: ResolveInvoiceExceptionRequest
-    ): Promise<InvoiceRecordSummary> {
+    async resolveInvoiceException(id: string, dto: ResolveInvoiceExceptionRequest): Promise<InvoiceRecordSummary> {
         const invoice = await this.repo.findInvoiceById(id);
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
         this.#assertExpectedVersion(invoice.rowVersion, dto.expectedVersion, 'InvoiceRecord');
 
-        if (invoice.status !== 'exception' || invoice.exceptionStatus !== 'open') {
+        if (invoice.status !== InvoiceRecordStatusValue.Exception || invoice.exceptionStatus !== InvoiceRecordExceptionStatusValue.Open) {
             throw new UnprocessableEntityException('只有异常处理中发票记录可以执行异常解决');
         }
-        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '解决发票异常');
+        await this.#assertSourceFactNotMapped(INVOICE_RECORD_COST_SOURCE_TYPE, invoice.id, '解决发票异常');
 
-        invoice.exceptionStatus = 'resolved';
+        invoice.exceptionStatus = InvoiceRecordExceptionStatusValue.Resolved;
         invoice.exceptionResolution = this.#appendComment(dto.resolution.trim(), dto.comment);
 
         await this.repo.flushInvoice();
         return this.#toInvoiceSummary(invoice);
     }
 
-    async closeInvoiceRecord(
-        id: string,
-        dto: CloseInvoiceRecordRequest
-    ): Promise<InvoiceRecordSummary> {
+    async closeInvoiceRecord(id: string, dto: CloseInvoiceRecordRequest): Promise<InvoiceRecordSummary> {
         const invoice = await this.repo.findInvoiceById(id);
         if (!invoice) {
             throw new NotFoundException(`InvoiceRecord ${id} not found`);
         }
         this.#assertExpectedVersion(invoice.rowVersion, dto.expectedVersion, 'InvoiceRecord');
 
-        if (invoice.status === 'closed') {
+        if (invoice.status === InvoiceRecordStatusValue.Closed) {
             throw new UnprocessableEntityException('当前发票记录已经关闭');
         }
-        if (invoice.status === 'exception' && invoice.exceptionStatus === 'open') {
+        if (invoice.status === InvoiceRecordStatusValue.Exception && invoice.exceptionStatus === InvoiceRecordExceptionStatusValue.Open) {
             throw new UnprocessableEntityException('异常处理中发票记录不允许关闭，请先解决异常');
         }
-        await this.#assertSourceFactNotMapped('INVOICE_RECORD', invoice.id, '关闭发票记录');
+        await this.#assertSourceFactNotMapped(INVOICE_RECORD_COST_SOURCE_TYPE, invoice.id, '关闭发票记录');
 
-        invoice.status = 'closed';
+        invoice.status = InvoiceRecordStatusValue.Closed;
         invoice.closedAt = new Date();
         invoice.closeReason = this.#appendComment(dto.reason.trim(), dto.comment);
 
@@ -419,10 +386,7 @@ export class ContractFinanceService {
         return payments.map(this.#toPaymentSummary);
     }
 
-    async createPayment(
-        projectId: string,
-        dto: CreatePaymentRecordRequest
-    ): Promise<PaymentRecordSummary> {
+    async createPayment(projectId: string, dto: CreatePaymentRecordRequest): Promise<PaymentRecordSummary> {
         const project = await this.repo.findProjectById(projectId);
         if (!project) {
             throw new NotFoundException(`Project ${projectId} not found`);
@@ -432,7 +396,7 @@ export class ContractFinanceService {
         if (dto.payableRecordId && (!payable || payable.projectId !== projectId)) {
             throw new NotFoundException(`PayableRecord ${dto.payableRecordId} not found for project ${projectId}`);
         }
-        if (payable && payable.status !== 'recorded' && payable.status !== 'partially-paid') {
+        if (payable && payable.status !== PayableRecordStatusValue.Recorded && payable.status !== PayableRecordStatusValue.PartiallyPaid) {
             throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许继续登记付款`);
         }
 
@@ -459,8 +423,8 @@ export class ContractFinanceService {
             amountIncludingTax: dto.amountIncludingTax ?? null,
             paymentDate: new Date(dto.paymentDate),
             costCategory: dto.costCategory.trim(),
-            sourceType: dto.sourceType ?? 'manual',
-            status: 'recorded',
+            sourceType: dto.sourceType ?? FINANCE_MANUAL_SOURCE_TYPE,
+            status: PaymentRecordStatusValue.Recorded,
             confirmedAt: null,
             confirmedBy: null
         });
@@ -468,18 +432,14 @@ export class ContractFinanceService {
         return this.#toPaymentSummary(entity);
     }
 
-    async confirmPayment(
-        id: string,
-        actorUserId: string,
-        dto: ConfirmPaymentRecordRequest
-    ): Promise<PaymentRecordSummary> {
+    async confirmPayment(id: string, actorUserId: string, dto: ConfirmPaymentRecordRequest): Promise<PaymentRecordSummary> {
         const payment = await this.repo.findPaymentById(id);
         if (!payment) {
             throw new NotFoundException(`PaymentRecord ${id} not found`);
         }
         this.#assertExpectedVersion(payment.rowVersion, dto.expectedVersion, 'PaymentRecord');
 
-        if (payment.status !== 'recorded') {
+        if (payment.status !== PaymentRecordStatusValue.Recorded) {
             throw new UnprocessableEntityException(`只有已登记状态的付款记录可以确认生效，当前状态: ${payment.status}`);
         }
 
@@ -488,7 +448,7 @@ export class ContractFinanceService {
             if (!payable) {
                 throw new NotFoundException(`PayableRecord ${payment.payableRecordId} not found`);
             }
-            if (payable.status !== 'recorded' && payable.status !== 'partially-paid') {
+            if (payable.status !== PayableRecordStatusValue.Recorded && payable.status !== PayableRecordStatusValue.PartiallyPaid) {
                 throw new UnprocessableEntityException(`当前状态 ${payable.status} 的采购承诺记录不允许继续确认付款`);
             }
             const confirmedPayments = await this.repo.findConfirmedPaymentsForPayableIds([payable.id]);
@@ -497,10 +457,10 @@ export class ContractFinanceService {
             if (projectedSettledAmount - commitmentAmount > 0.0001) {
                 throw new UnprocessableEntityException('关联付款确认后将超过采购承诺未税金额，当前不允许确认');
             }
-            payable.status = projectedSettledAmount + 0.0001 >= commitmentAmount ? 'completed' : 'partially-paid';
+            payable.status = projectedSettledAmount + 0.0001 >= commitmentAmount ? PayableRecordStatusValue.Completed : PayableRecordStatusValue.PartiallyPaid;
         }
 
-        payment.status = 'confirmed';
+        payment.status = PaymentRecordStatusValue.Confirmed;
         payment.confirmedAt = new Date();
         payment.confirmedBy = actorUserId;
         await this.repo.flushPayment();
@@ -516,18 +476,14 @@ export class ContractFinanceService {
         if (!contract || contract.projectId !== projectId) {
             throw new NotFoundException(`Contract ${contractId} not found for project ${projectId}`);
         }
-        if (contract.status !== 'active') {
+        if (contract.status !== ContractStatusValue.Active) {
             throw new UnprocessableEntityException(`只有已生效合同可以关联采购承诺记录，当前状态: ${contract.status}`);
         }
     }
 
-    async #assertInvoiceContractScope(
-        projectId: string,
-        contractId: string | null,
-        invoiceType: 'input' | 'output'
-    ): Promise<void> {
+    async #assertInvoiceContractScope(projectId: string, contractId: string | null, invoiceType: InvoiceRecordType): Promise<void> {
         if (!contractId) {
-            if (invoiceType === 'output') {
+            if (invoiceType === InvoiceRecordTypeValue.Output) {
                 throw new UnprocessableEntityException('销项发票必须关联已生效合同');
             }
             return;
@@ -537,7 +493,7 @@ export class ContractFinanceService {
         if (!contract || contract.projectId !== projectId) {
             throw new NotFoundException(`Contract ${contractId} not found for project ${projectId}`);
         }
-        if (contract.status !== 'active') {
+        if (contract.status !== ContractStatusValue.Active) {
             throw new UnprocessableEntityException(`只有已生效合同可以关联发票记录，当前状态: ${contract.status}`);
         }
     }
@@ -545,19 +501,12 @@ export class ContractFinanceService {
     async #assertSourceFactNotMapped(sourceType: string, sourceId: string, actionLabel: string): Promise<void> {
         const currentMapping = await this.repo.findCurrentCostMappingBySource(sourceType, sourceId);
         if (currentMapping) {
-            throw new UnprocessableEntityException(
-                `${sourceType} ${sourceId} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续${actionLabel}；如需调整请走替代/作废链`
-            );
+            throw new UnprocessableEntityException(`${sourceType} ${sourceId} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续${actionLabel}；如需调整请走替代/作废链`);
         }
     }
 
     #buildPayableAllowedActions(payable: PayableRecord, hasCurrentCostMapping: boolean): string[] {
-        if (
-            payable.status === 'partially-paid' ||
-            payable.status === 'completed' ||
-            payable.status === 'closed' ||
-            payable.status === 'voided'
-        ) {
+        if (payable.status === PayableRecordStatusValue.PartiallyPaid || payable.status === PayableRecordStatusValue.Completed || payable.status === PayableRecordStatusValue.Closed || payable.status === PayableRecordStatusValue.Voided) {
             return [];
         }
         if (hasCurrentCostMapping) {
@@ -570,13 +519,13 @@ export class ContractFinanceService {
         if (hasCurrentCostMapping) {
             return [];
         }
-        if (invoice.status === 'closed') {
+        if (invoice.status === InvoiceRecordStatusValue.Closed) {
             return [];
         }
-        if (invoice.status === 'exception' && invoice.exceptionStatus === 'open') {
+        if (invoice.status === InvoiceRecordStatusValue.Exception && invoice.exceptionStatus === InvoiceRecordExceptionStatusValue.Open) {
             return ['resolve-exception'];
         }
-        if (invoice.status === 'exception' && invoice.exceptionStatus === 'resolved') {
+        if (invoice.status === InvoiceRecordStatusValue.Exception && invoice.exceptionStatus === InvoiceRecordExceptionStatusValue.Resolved) {
             return ['close'];
         }
         return ['update', 'mark-exception', 'close'];
@@ -605,24 +554,16 @@ export class ContractFinanceService {
         }
     }
 
-    #assertTaxAmountsConsistent(
-        amountExcludingTax: string | number,
-        taxAmount: string | number | null | undefined,
-        amountIncludingTax: string | number | null | undefined,
-        targetType: string
-    ): void {
+    #assertTaxAmountsConsistent(amountExcludingTax: string | number, taxAmount: string | number | null | undefined, amountIncludingTax: string | number | null | undefined, targetType: string): void {
         const excluding = this.#parsePositiveDecimal(amountExcludingTax, `${targetType}.amountExcludingTax`);
         if (taxAmount == null && amountIncludingTax == null) {
             return;
         }
 
         const tax = taxAmount == null ? null : this.#parseNonNegativeDecimal(taxAmount, `${targetType}.taxAmount`);
-        const including =
-            amountIncludingTax == null ? null : this.#parsePositiveDecimal(amountIncludingTax, `${targetType}.amountIncludingTax`);
+        const including = amountIncludingTax == null ? null : this.#parsePositiveDecimal(amountIncludingTax, `${targetType}.amountIncludingTax`);
         if (tax !== null && including !== null && Math.abs(including - (excluding + tax)) > 0.0001) {
-            throw new UnprocessableEntityException(
-                `${targetType}.amountIncludingTax must equal amountExcludingTax + taxAmount when both values are provided`
-            );
+            throw new UnprocessableEntityException(`${targetType}.amountIncludingTax must equal amountExcludingTax + taxAmount when both values are provided`);
         }
     }
 
@@ -649,15 +590,9 @@ export class ContractFinanceService {
         costCategory: entity.costCategory,
         payableDescription: entity.payableDescription,
         currency: entity.currency,
-        amountExcludingTax:
-            typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
+        amountExcludingTax: typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
         taxAmount: entity.taxAmount == null ? null : typeof entity.taxAmount === 'string' ? entity.taxAmount : String(entity.taxAmount),
-        amountIncludingTax:
-            entity.amountIncludingTax == null
-                ? null
-                : typeof entity.amountIncludingTax === 'string'
-                  ? entity.amountIncludingTax
-                  : String(entity.amountIncludingTax),
+        amountIncludingTax: entity.amountIncludingTax == null ? null : typeof entity.amountIncludingTax === 'string' ? entity.amountIncludingTax : String(entity.amountIncludingTax),
         settledAmountExcludingTax,
         expectedPaymentDate: this.#toDateOnly(entity.expectedPaymentDate),
         status: entity.status,
@@ -697,15 +632,9 @@ export class ContractFinanceService {
         contractId: entity.contractId ?? null,
         payableRecordId: entity.payableRecordId ?? null,
         currency: entity.currency,
-        amountExcludingTax:
-            typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
+        amountExcludingTax: typeof entity.amountExcludingTax === 'string' ? entity.amountExcludingTax : String(entity.amountExcludingTax),
         taxAmount: entity.taxAmount == null ? null : typeof entity.taxAmount === 'string' ? entity.taxAmount : String(entity.taxAmount),
-        amountIncludingTax:
-            entity.amountIncludingTax == null
-                ? null
-                : typeof entity.amountIncludingTax === 'string'
-                  ? entity.amountIncludingTax
-                  : String(entity.amountIncludingTax),
+        amountIncludingTax: entity.amountIncludingTax == null ? null : typeof entity.amountIncludingTax === 'string' ? entity.amountIncludingTax : String(entity.amountIncludingTax),
         paymentDate: entity.paymentDate.toISOString(),
         costCategory: entity.costCategory,
         sourceType: entity.sourceType,

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContractTermSnapshotStatus } from './contract-term-snapshot-status';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
@@ -25,13 +26,8 @@ export interface ContractTermSnapshotSummary {
     sourceReadinessId: string | null;
     sourceBaselineId: string | null;
     version: number;
-    snapshotStatus: ContractTermSnapshotSummarySnapshotStatusEnum;
+    snapshotStatus: ContractTermSnapshotStatus;
     createdAt: string;
     createdBy: string | null;
     rowVersion: number;
 }
-export enum ContractTermSnapshotSummarySnapshotStatusEnum {
-    Active = 'active',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

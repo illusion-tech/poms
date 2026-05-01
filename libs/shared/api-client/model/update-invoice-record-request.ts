@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { InvoiceRecordPatchableStatus } from './invoice-record-patchable-status';
 
 
 export interface UpdateInvoiceRecordRequest {
@@ -14,13 +15,6 @@ export interface UpdateInvoiceRecordRequest {
     invoiceNumber?: string;
     invoiceAmount?: string;
     invoiceDate?: string;
-    status?: UpdateInvoiceRecordRequestStatusEnum;
+    status?: InvoiceRecordPatchableStatus;
     expectedVersion?: number;
 }
-export enum UpdateInvoiceRecordRequestStatusEnum {
-    Draft = 'draft',
-    PendingIssue = 'pending-issue',
-    Issued = 'issued',
-    Received = 'received',
-    Verified = 'verified'
-};

@@ -3,7 +3,7 @@ import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { AuthStore, ContractStore, ProjectStore, type ContractStatus, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStatus, ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -17,7 +17,7 @@ import { TagModule } from 'primeng/tag';
 import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
-const CONTRACT_STATUS_FILTER_VALUES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const satisfies readonly ContractStatus[];
+const CONTRACT_STATUS_FILTER_VALUES = [ContractStatus.Draft, ContractStatus.PendingReview, ContractStatus.Active, ContractStatus.Terminated, ContractStatus.Completed] as const;
 const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value) => ({
     label: contractStatusLabelOrFallback(value),
     value

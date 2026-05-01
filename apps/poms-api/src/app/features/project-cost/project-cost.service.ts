@@ -1,5 +1,6 @@
 import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { createHash, randomUUID } from 'node:crypto';
+import { ExpenseRecordStatusValue, ExpenseSourceTypeValue, InvoiceRecordExceptionStatusValue, InvoiceRecordStatusValue, InvoiceRecordTypeValue, PayableRecordStatusValue, PaymentRecordStatusValue } from '@poms/shared-contracts';
 import type {
     ActivateOperatingBaselinePackageRequest,
     AccountingTaxTreatmentListView,
@@ -243,7 +244,7 @@ export class ProjectCostService {
             throw new ConflictException(`Optimistic locking failed for payment record ${input.paymentRecordId}`);
         }
 
-        if (paymentRecord.status !== 'confirmed') {
+        if (paymentRecord.status !== PaymentRecordStatusValue.Confirmed) {
             throw new ConflictException(`PaymentRecord ${input.paymentRecordId} is not confirmed`);
         }
 
@@ -492,7 +493,7 @@ export class ProjectCostService {
         if (!record) {
             throw new NotFoundException(`ExpenseRecord ${id} not found`);
         }
-        const hasCurrentCostMapping = record.status === 'confirmed' ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id)) : false;
+        const hasCurrentCostMapping = record.status === ExpenseRecordStatusValue.Confirmed ? !!(await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', id)) : false;
 
         return {
             ...this.toExpenseRecordSummary(record),
@@ -514,8 +515,8 @@ export class ProjectCostService {
             amountIncludingTax: input.amountIncludingTax,
             taxAmount: input.taxAmount ?? null,
             amountExcludingTax: input.amountExcludingTax ?? null,
-            sourceType: input.sourceType ?? 'manual',
-            status: 'recorded',
+            sourceType: input.sourceType ?? ExpenseSourceTypeValue.Manual,
+            status: ExpenseRecordStatusValue.Recorded,
             evidenceSummary: input.evidenceSummary ?? null,
             attachmentCount: input.attachmentCount ?? 0,
             confirmedAt: null,
@@ -535,7 +536,7 @@ export class ProjectCostService {
         }
 
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
-        if (record.status === 'confirmed' || record.status === 'voided') {
+        if (record.status === ExpenseRecordStatusValue.Confirmed || record.status === ExpenseRecordStatusValue.Voided) {
             throw new UnprocessableEntityException(`ExpenseRecord ${id} can no longer be updated in status ${record.status}`);
         }
 
@@ -586,11 +587,11 @@ export class ProjectCostService {
         }
 
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
-        if (record.status !== 'recorded') {
+        if (record.status !== ExpenseRecordStatusValue.Recorded) {
             throw new UnprocessableEntityException(`Only recorded expense records can be confirmed, current status: ${record.status}`);
         }
 
-        record.status = 'confirmed';
+        record.status = ExpenseRecordStatusValue.Confirmed;
         record.confirmedAt = new Date();
         record.confirmedBy = userId;
         await this.expenseRecordRepository.save(record);
@@ -604,7 +605,7 @@ export class ProjectCostService {
         }
 
         this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'ExpenseRecord');
-        if (record.status === 'voided') {
+        if (record.status === ExpenseRecordStatusValue.Voided) {
             throw new UnprocessableEntityException(`ExpenseRecord ${id} is already voided`);
         }
         const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource('EXPENSE_RECORD', record.id);
@@ -612,7 +613,7 @@ export class ProjectCostService {
             throw new UnprocessableEntityException(`EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`);
         }
 
-        record.status = 'voided';
+        record.status = ExpenseRecordStatusValue.Voided;
         record.voidedAt = new Date();
         record.voidReason = this.appendComment(input.reason.trim(), input.comment);
         await this.expenseRecordRepository.save(record);
@@ -1910,25 +1911,25 @@ export class ProjectCostService {
     }
 
     private assertInvoiceEligibleForCostMapping(invoiceRecord: InvoiceRecord): void {
-        if (invoiceRecord.invoiceType !== 'input') {
+        if (invoiceRecord.invoiceType !== InvoiceRecordTypeValue.Input) {
             throw new ConflictException(`Only input invoices can be mapped into project actual cost records`);
         }
-        if (invoiceRecord.status !== 'verified') {
+        if (invoiceRecord.status !== InvoiceRecordStatusValue.Verified) {
             throw new ConflictException(`InvoiceRecord ${invoiceRecord.id} is not verified`);
         }
-        if (invoiceRecord.exceptionStatus === 'open') {
+        if (invoiceRecord.exceptionStatus === InvoiceRecordExceptionStatusValue.Open) {
             throw new ConflictException(`InvoiceRecord ${invoiceRecord.id} still has an open exception`);
         }
     }
 
     private assertExpenseEligibleForCostMapping(expenseRecord: ExpenseRecord): void {
-        if (expenseRecord.status !== 'confirmed') {
+        if (expenseRecord.status !== ExpenseRecordStatusValue.Confirmed) {
             throw new ConflictException(`ExpenseRecord ${expenseRecord.id} is not confirmed`);
         }
     }
 
     private assertPayableEligibleForCostMapping(payableRecord: PayableRecord): void {
-        if (payableRecord.status === 'draft' || payableRecord.status === 'voided') {
+        if (payableRecord.status === PayableRecordStatusValue.Draft || payableRecord.status === PayableRecordStatusValue.Voided) {
             throw new ConflictException(`PayableRecord ${payableRecord.id} is not in a formal commitment state`);
         }
     }
@@ -2408,10 +2409,10 @@ export class ProjectCostService {
         if (hasCurrentCostMapping) {
             return [];
         }
-        if (record.status === 'recorded') {
+        if (record.status === ExpenseRecordStatusValue.Recorded) {
             return ['update', 'confirm', 'void'];
         }
-        if (record.status === 'confirmed') {
+        if (record.status === ExpenseRecordStatusValue.Confirmed) {
             return ['void'];
         }
         return [];

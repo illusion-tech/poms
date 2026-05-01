@@ -1111,7 +1111,12 @@ export type LeadSourceListQuery = z.infer<typeof LeadSourceListQuerySchema>;
 
 export const CreateLeadSourceRequestSchema = z
     .object({
-        code: z.string().trim().min(1).max(64).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/),
+        code: z
+            .string()
+            .trim()
+            .min(1)
+            .max(64)
+            .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/),
         name: z.string().trim().min(1).max(128),
         description: z.string().trim().min(1).max(1000).nullable().optional(),
         sortOrder: z.number().int().min(0).max(9999).optional()
@@ -1267,9 +1272,20 @@ export const UpdateLeadRequestSchema = z
         urgency: LeadUrgencySchema.optional(),
         expectedDecisionDate: z.iso.date().nullable().optional()
     })
-    .refine((value) => value.leadName !== undefined || value.customerId !== undefined || value.sourceId !== undefined || value.demandDescription !== undefined || value.budgetStatus !== undefined || value.estimatedAmount !== undefined || value.urgency !== undefined || value.expectedDecisionDate !== undefined, {
-        message: 'At least one field is required for update'
-    })
+    .refine(
+        (value) =>
+            value.leadName !== undefined ||
+            value.customerId !== undefined ||
+            value.sourceId !== undefined ||
+            value.demandDescription !== undefined ||
+            value.budgetStatus !== undefined ||
+            value.estimatedAmount !== undefined ||
+            value.urgency !== undefined ||
+            value.expectedDecisionDate !== undefined,
+        {
+            message: 'At least one field is required for update'
+        }
+    )
     .meta({ id: 'UpdateLeadRequest' });
 
 export type UpdateLeadRequest = z.infer<typeof UpdateLeadRequestSchema>;
@@ -1512,21 +1528,7 @@ export type VoidSalesFollowUpRecordRequest = z.infer<typeof VoidSalesFollowUpRec
 // Attachment
 // ---------------------------------------------------------------------------
 
-export const ATTACHMENT_CATEGORIES = [
-    'customer_profile',
-    'demand',
-    'communication',
-    'technical',
-    'solution',
-    'quotation',
-    'bid',
-    'contract',
-    'delivery',
-    'acceptance',
-    'finance',
-    'internal_assessment',
-    'other'
-] as const;
+export const ATTACHMENT_CATEGORIES = ['customer_profile', 'demand', 'communication', 'technical', 'solution', 'quotation', 'bid', 'contract', 'delivery', 'acceptance', 'finance', 'internal_assessment', 'other'] as const;
 
 export type AttachmentCategory = (typeof ATTACHMENT_CATEGORIES)[number];
 
@@ -2677,9 +2679,29 @@ export type ProjectOwnerReassignmentResult = z.infer<typeof ProjectOwnerReassign
 
 export const CONTRACT_STATUSES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const;
 
+export type ContractStatus = (typeof CONTRACT_STATUSES)[number];
+
 export const ContractStatusSchema = z.enum(CONTRACT_STATUSES).meta({ id: 'ContractStatus' });
 
-export type ContractStatus = z.infer<typeof ContractStatusSchema>;
+export const ContractStatusValue = {
+    Draft: 'draft',
+    PendingReview: 'pending-review',
+    Active: 'active',
+    Terminated: 'terminated',
+    Completed: 'completed'
+} as const satisfies Record<string, ContractStatus>;
+
+export const CONTRACT_TERM_SNAPSHOT_STATUSES = ['active', 'superseded', 'voided'] as const;
+
+export type ContractTermSnapshotStatus = (typeof CONTRACT_TERM_SNAPSHOT_STATUSES)[number];
+
+export const ContractTermSnapshotStatusSchema = z.enum(CONTRACT_TERM_SNAPSHOT_STATUSES).meta({ id: 'ContractTermSnapshotStatus' });
+
+export const ContractTermSnapshotStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, ContractTermSnapshotStatus>;
 
 export const ContractSummarySchema = z
     .object({
@@ -2725,7 +2747,7 @@ export const ContractTermSnapshotSummarySchema = z
         sourceReadinessId: z.uuid().nullable(),
         sourceBaselineId: z.uuid().nullable(),
         version: z.number().int(),
-        snapshotStatus: z.enum(['active', 'superseded', 'voided']),
+        snapshotStatus: ContractTermSnapshotStatusSchema,
         createdAt: z.iso.datetime(),
         createdBy: z.uuid().nullable(),
         rowVersion: z.number().int()
@@ -3322,9 +3344,17 @@ export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializati
 
 export const RECEIPT_RECORD_STATUSES = ['draft', 'pending-confirmation', 'confirmed', 'reversed', 'void'] as const;
 
+export type ReceiptRecordStatus = (typeof RECEIPT_RECORD_STATUSES)[number];
+
 export const ReceiptRecordStatusSchema = z.enum(RECEIPT_RECORD_STATUSES).meta({ id: 'ReceiptRecordStatus' });
 
-export type ReceiptRecordStatus = z.infer<typeof ReceiptRecordStatusSchema>;
+export const ReceiptRecordStatusValue = {
+    Draft: 'draft',
+    PendingConfirmation: 'pending-confirmation',
+    Confirmed: 'confirmed',
+    Reversed: 'reversed',
+    Void: 'void'
+} as const satisfies Record<string, ReceiptRecordStatus>;
 
 export const ReceiptRecordSummarySchema = z
     .object({
@@ -3369,9 +3399,18 @@ export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordReq
 
 export const PAYABLE_RECORD_STATUSES = ['draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'] as const;
 
+export type PayableRecordStatus = (typeof PAYABLE_RECORD_STATUSES)[number];
+
 export const PayableRecordStatusSchema = z.enum(PAYABLE_RECORD_STATUSES).meta({ id: 'PayableRecordStatus' });
 
-export type PayableRecordStatus = z.infer<typeof PayableRecordStatusSchema>;
+export const PayableRecordStatusValue = {
+    Draft: 'draft',
+    Recorded: 'recorded',
+    PartiallyPaid: 'partially-paid',
+    Completed: 'completed',
+    Closed: 'closed',
+    Voided: 'voided'
+} as const satisfies Record<string, PayableRecordStatus>;
 
 export const PayableRecordSummarySchema = z
     .object({
@@ -3488,9 +3527,16 @@ export type VoidPayableRecordRequest = z.infer<typeof VoidPayableRecordRequestSc
 
 export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'void'] as const;
 
+export type PaymentRecordStatus = (typeof PAYMENT_RECORD_STATUSES)[number];
+
 export const PaymentRecordStatusSchema = z.enum(PAYMENT_RECORD_STATUSES).meta({ id: 'PaymentRecordStatus' });
 
-export type PaymentRecordStatus = z.infer<typeof PaymentRecordStatusSchema>;
+export const PaymentRecordStatusValue = {
+    Draft: 'draft',
+    Recorded: 'recorded',
+    Confirmed: 'confirmed',
+    Void: 'void'
+} as const satisfies Record<string, PaymentRecordStatus>;
 
 export const PaymentRecordSummarySchema = z
     .object({
@@ -3546,21 +3592,42 @@ export type ConfirmPaymentRecordRequest = z.infer<typeof ConfirmPaymentRecordReq
 
 export const INVOICE_RECORD_TYPES = ['input', 'output'] as const;
 
+export type InvoiceRecordType = (typeof INVOICE_RECORD_TYPES)[number];
+
 export const InvoiceRecordTypeSchema = z.enum(INVOICE_RECORD_TYPES).meta({ id: 'InvoiceRecordType' });
 
-export type InvoiceRecordType = z.infer<typeof InvoiceRecordTypeSchema>;
+export const InvoiceRecordTypeValue = {
+    Input: 'input',
+    Output: 'output'
+} as const satisfies Record<string, InvoiceRecordType>;
 
 export const INVOICE_RECORD_STATUSES = ['draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'] as const;
 
+export type InvoiceRecordStatus = (typeof INVOICE_RECORD_STATUSES)[number];
+
 export const InvoiceRecordStatusSchema = z.enum(INVOICE_RECORD_STATUSES).meta({ id: 'InvoiceRecordStatus' });
 
-export type InvoiceRecordStatus = z.infer<typeof InvoiceRecordStatusSchema>;
+export const InvoiceRecordStatusValue = {
+    Draft: 'draft',
+    PendingIssue: 'pending-issue',
+    Issued: 'issued',
+    Received: 'received',
+    Verified: 'verified',
+    Exception: 'exception',
+    Closed: 'closed'
+} as const satisfies Record<string, InvoiceRecordStatus>;
 
 export const INVOICE_RECORD_EXCEPTION_STATUSES = ['none', 'open', 'resolved'] as const;
 
+export type InvoiceRecordExceptionStatus = (typeof INVOICE_RECORD_EXCEPTION_STATUSES)[number];
+
 export const InvoiceRecordExceptionStatusSchema = z.enum(INVOICE_RECORD_EXCEPTION_STATUSES).meta({ id: 'InvoiceRecordExceptionStatus' });
 
-export type InvoiceRecordExceptionStatus = z.infer<typeof InvoiceRecordExceptionStatusSchema>;
+export const InvoiceRecordExceptionStatusValue = {
+    None: 'none',
+    Open: 'open',
+    Resolved: 'resolved'
+} as const satisfies Record<string, InvoiceRecordExceptionStatus>;
 
 export const InvoiceRecordSummarySchema = z
     .object({
@@ -3607,7 +3674,11 @@ export const CreateInvoiceRecordRequestSchema = z
 
 export type CreateInvoiceRecordRequest = z.infer<typeof CreateInvoiceRecordRequestSchema>;
 
-const InvoiceRecordPatchableStatusSchema = z.enum(['draft', 'pending-issue', 'issued', 'received', 'verified']);
+export const INVOICE_RECORD_PATCHABLE_STATUSES = [InvoiceRecordStatusValue.Draft, InvoiceRecordStatusValue.PendingIssue, InvoiceRecordStatusValue.Issued, InvoiceRecordStatusValue.Received, InvoiceRecordStatusValue.Verified] as const;
+
+export type InvoiceRecordPatchableStatus = (typeof INVOICE_RECORD_PATCHABLE_STATUSES)[number];
+
+export const InvoiceRecordPatchableStatusSchema = z.enum(INVOICE_RECORD_PATCHABLE_STATUSES).meta({ id: 'InvoiceRecordPatchableStatus' });
 
 export const UpdateInvoiceRecordRequestSchema = z
     .object({
@@ -3657,21 +3728,42 @@ export type CloseInvoiceRecordRequest = z.infer<typeof CloseInvoiceRecordRequest
 
 export const EXPENSE_CATEGORIES = ['travel', 'onsite-service', 'deployment-logistics', 'temporary-spend', 'misc'] as const;
 
+export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number];
+
 export const ExpenseCategorySchema = z.enum(EXPENSE_CATEGORIES).meta({ id: 'ExpenseCategory' });
 
-export type ExpenseCategory = z.infer<typeof ExpenseCategorySchema>;
+export const ExpenseCategoryValue = {
+    Travel: 'travel',
+    OnsiteService: 'onsite-service',
+    DeploymentLogistics: 'deployment-logistics',
+    TemporarySpend: 'temporary-spend',
+    Misc: 'misc'
+} as const satisfies Record<string, ExpenseCategory>;
 
 export const EXPENSE_SOURCE_TYPES = ['manual', 'reimbursement', 'import'] as const;
 
+export type ExpenseSourceType = (typeof EXPENSE_SOURCE_TYPES)[number];
+
 export const ExpenseSourceTypeSchema = z.enum(EXPENSE_SOURCE_TYPES).meta({ id: 'ExpenseSourceType' });
 
-export type ExpenseSourceType = z.infer<typeof ExpenseSourceTypeSchema>;
+export const ExpenseSourceTypeValue = {
+    Manual: 'manual',
+    Reimbursement: 'reimbursement',
+    Import: 'import'
+} as const satisfies Record<string, ExpenseSourceType>;
 
 export const EXPENSE_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
 
+export type ExpenseRecordStatus = (typeof EXPENSE_RECORD_STATUSES)[number];
+
 export const ExpenseRecordStatusSchema = z.enum(EXPENSE_RECORD_STATUSES).meta({ id: 'ExpenseRecordStatus' });
 
-export type ExpenseRecordStatus = z.infer<typeof ExpenseRecordStatusSchema>;
+export const ExpenseRecordStatusValue = {
+    Draft: 'draft',
+    Recorded: 'recorded',
+    Confirmed: 'confirmed',
+    Voided: 'voided'
+} as const satisfies Record<string, ExpenseRecordStatus>;
 
 export const ExpenseRecordSummarySchema = z
     .object({

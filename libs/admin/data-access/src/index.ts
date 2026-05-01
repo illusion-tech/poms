@@ -66,8 +66,20 @@ export {
     CommissionPayoutStage,
     CommissionPayoutSummaryStatusEnum,
     CommissionPayoutTier,
+    ContractStatus,
+    ContractTermSnapshotStatus,
     CustomerAliasType,
     CustomerStatus,
+    ExpenseCategory,
+    ExpenseRecordStatus,
+    ExpenseSourceType,
+    InvoiceRecordExceptionStatus,
+    InvoiceRecordPatchableStatus,
+    InvoiceRecordStatus,
+    InvoiceRecordType,
+    PayableRecordStatus,
+    PaymentRecordStatus,
+    ReceiptRecordStatus,
     SubmitNonRetentionCommissionPayoutApprovalRequestPayoutStageEnum,
     UpdateCustomerRequestStatusEnum
 } from '@poms/shared-api-client';
@@ -195,4 +207,4 @@ export type {
     UpdatePlatformUserRequest,
     UserOrgUnitSummary
 } from '@poms/shared-api-client';
-export type { ContractStatus, DomainApprovalRecord } from '@poms/shared-contracts';
+export type { DomainApprovalRecord } from '@poms/shared-contracts';

@@ -1,7 +1,7 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { ConflictException, Injectable } from '@nestjs/common';
-import type { ContractStatus } from '@poms/shared-contracts';
+import { ContractTermSnapshotStatusValue, type ContractStatus } from '@poms/shared-contracts';
 import { Contract, ContractAmendment, ContractTermSnapshot } from './contract.entity';
 
 @Injectable()
@@ -23,10 +23,7 @@ export class ContractRepository {
         }
 
         if (input.keyword) {
-            where.$or = [
-                { contractNo: { $ilike: `%${input.keyword}%` } },
-                { customerContractNo: { $ilike: `%${input.keyword}%` } }
-            ];
+            where.$or = [{ contractNo: { $ilike: `%${input.keyword}%` } }, { customerContractNo: { $ilike: `%${input.keyword}%` } }];
         }
 
         return this.contractRepository.find(where, {
@@ -67,10 +64,7 @@ export class ContractTermSnapshotRepository {
     }
 
     async findActiveByContractId(contractId: string): Promise<ContractTermSnapshot | null> {
-        return this.contractTermSnapshotRepository.findOne(
-            { contractId, snapshotStatus: 'active' },
-            { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }
-        );
+        return this.contractTermSnapshotRepository.findOne({ contractId, snapshotStatus: ContractTermSnapshotStatusValue.Active }, { orderBy: { effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
     }
 
     create(input: ConstructorParameters<typeof ContractTermSnapshot>[0]): ContractTermSnapshot {
@@ -95,9 +89,7 @@ export class ContractTermSnapshotRepository {
         const existing = await this.findById(input.id);
         if (existing) {
             if (existing.contractId !== input.contractId) {
-                throw new ConflictException(
-                    `ContractTermSnapshot ${input.id} belongs to contract ${existing.contractId}, expected ${input.contractId}`
-                );
+                throw new ConflictException(`ContractTermSnapshot ${input.id} belongs to contract ${existing.contractId}, expected ${input.contractId}`);
             }
 
             const normalizedRetentionDueDate = input.retentionDueDate ?? null;
@@ -113,9 +105,7 @@ export class ContractTermSnapshotRepository {
                 (existing.sourceBaselineId ?? null) === (input.sourceBaselineId ?? null);
 
             if (!sameFrozenPayload) {
-                throw new ConflictException(
-                    `ContractTermSnapshot ${input.id} already exists with different frozen terms. Use amendment flow to create a new snapshot.`
-                );
+                throw new ConflictException(`ContractTermSnapshot ${input.id} already exists with different frozen terms. Use amendment flow to create a new snapshot.`);
             }
 
             return existing;
@@ -124,7 +114,7 @@ export class ContractTermSnapshotRepository {
         const snapshot = this.create({
             id: input.id,
             contractId: input.contractId,
-            snapshotStatus: 'active',
+            snapshotStatus: ContractTermSnapshotStatusValue.Active,
             effectiveAt: new Date(),
             effectiveBy: input.effectiveBy ?? null,
             retentionDueDate: input.retentionDueDate ?? null,

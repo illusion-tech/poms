@@ -1,10 +1,11 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { PaymentRecordStatus } from '@poms/shared-contracts';
+import { PAYMENT_RECORD_STATUSES, type PaymentRecordStatus } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 import { PayableRecord } from './payable-record.entity';
 
 const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const PaymentRecordSchema = defineEntity({
     name: 'PaymentRecord',
@@ -14,34 +15,17 @@ export const PaymentRecordSchema = defineEntity({
         { name: 'payment_record_project_status_idx', properties: ['projectId', 'status'] },
         { name: 'payment_record_payable_record_id_idx', properties: ['payableRecordId'] }
     ],
+    checks: [
+        {
+            name: 'chk_payment_record_status',
+            expression: `"status" in (${toSqlStringList(PAYMENT_RECORD_STATUSES)})`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
-        projectId: () =>
-            p
-                .manyToOne(Project)
-                .mapToPk()
-                .fieldName('project_id')
-                .foreignKeyName('payment_record_project_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('cascade'),
-        contractId: () =>
-            p
-                .manyToOne(Contract)
-                .mapToPk()
-                .nullable()
-                .fieldName('contract_id')
-                .foreignKeyName('payment_record_contract_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('set null'),
-        payableRecordId: () =>
-            p
-                .manyToOne(PayableRecord)
-                .mapToPk()
-                .nullable()
-                .fieldName('payable_record_id')
-                .foreignKeyName('payment_record_payable_record_id_foreign')
-                .updateRule('cascade')
-                .deleteRule('set null'),
+        projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').foreignKeyName('payment_record_project_id_foreign').updateRule('cascade').deleteRule('cascade'),
+        contractId: () => p.manyToOne(Contract).mapToPk().nullable().fieldName('contract_id').foreignKeyName('payment_record_contract_id_foreign').updateRule('cascade').deleteRule('set null'),
+        payableRecordId: () => p.manyToOne(PayableRecord).mapToPk().nullable().fieldName('payable_record_id').foreignKeyName('payment_record_payable_record_id_foreign').updateRule('cascade').deleteRule('set null'),
         currency: p.string().length(16).default('CNY'),
         amountExcludingTax: p.decimal().precision(18).scale(2).fieldName('amount_excluding_tax'),
         taxAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_amount'),
@@ -53,7 +37,11 @@ export const PaymentRecordSchema = defineEntity({
         confirmedAt: p.datetime().nullable().fieldName('confirmed_at'),
         confirmedBy: p.uuid().nullable().fieldName('confirmed_by'),
         rowVersion: p.integer().version().default(1).fieldName('row_version'),
-        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
+        createdAt: p
+            .datetime()
+            .defaultRaw('now()')
+            .onCreate(() => new Date())
+            .fieldName('created_at'),
         updatedAt: p
             .datetime()
             .defaultRaw('now()')
