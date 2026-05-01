@@ -49,6 +49,18 @@ jest.mock('../contract-finance/receipt-record.entity', () => ({
     ReceiptRecord: class ReceiptRecord {}
 }));
 
+jest.mock('../customer/customer.entity', () => ({
+    Customer: class Customer {}
+}));
+
+jest.mock('../lead/lead.entity', () => ({
+    Lead: class Lead {}
+}));
+
+jest.mock('../project/project.entity', () => ({
+    Project: class Project {}
+}));
+
 jest.mock('../project-cost/operating-signal-gate-binding.entity', () => ({
     OperatingSignalToCommissionGateBinding: class OperatingSignalToCommissionGateBinding {}
 }));
@@ -73,6 +85,8 @@ describe('ApprovalService', () => {
     const contractId = '30000000-0000-4000-8000-000000000001';
     const payoutId = '31000000-0000-4000-8000-000000000001';
     const adjustmentId = '32000000-0000-4000-8000-000000000001';
+    const leadId = '50000000-0000-4000-8000-000000000001';
+    const customerId = '11000000-0000-4000-8000-000000000001';
     const finalSettlementSnapshotId = '33000000-0000-4000-8000-000000000001';
     const retentionReceiptRecordId = '33100000-0000-4000-8000-000000000001';
     const departureExceptionDecisionId = '33200000-0000-4000-8000-000000000001';
@@ -86,6 +100,9 @@ describe('ApprovalService', () => {
     let contractRepository: { findOne: jest.Mock; find: jest.Mock };
     let commissionPayoutRepository: { findOne: jest.Mock; find: jest.Mock };
     let commissionAdjustmentRepository: { findOne: jest.Mock; find: jest.Mock };
+    let projectRepository: { find: jest.Mock };
+    let leadRepository: { find: jest.Mock };
+    let customerRepository: { find: jest.Mock };
     let em: {
         transactional: jest.Mock;
         findOne: jest.Mock;
@@ -124,13 +141,25 @@ describe('ApprovalService', () => {
             findOne: jest.fn(),
             find: jest.fn()
         };
+        projectRepository = {
+            find: jest.fn()
+        };
+        leadRepository = {
+            find: jest.fn()
+        };
+        customerRepository = {
+            find: jest.fn()
+        };
 
         service = new ApprovalService(
             approvalRecordRepository as never,
             todoItemRepository as never,
             contractRepository as never,
             commissionPayoutRepository as never,
-            commissionAdjustmentRepository as never
+            commissionAdjustmentRepository as never,
+            projectRepository as never,
+            leadRepository as never,
+            customerRepository as never
         );
     });
 
@@ -811,6 +840,76 @@ describe('ApprovalService', () => {
         );
     });
 
+    it('enriches sales follow-up reminder todos for project, lead and customer targets', async () => {
+        todoItemRepository.find.mockResolvedValue([
+            createTodoItem({
+                id: '50000000-0000-4000-8000-000000000010',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: '57000000-0000-4000-8000-000000000001',
+                todoType: 'sales_follow_up_reminder',
+                businessDomain: 'sales',
+                targetObjectType: 'Project',
+                targetObjectId: projectId,
+                title: '销售跟进提醒：华南地铁项目',
+                dueAt: new Date('2026-05-06T02:00:00.000Z')
+            }),
+            createTodoItem({
+                id: '50000000-0000-4000-8000-000000000011',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: '57000000-0000-4000-8000-000000000002',
+                todoType: 'sales_follow_up_reminder',
+                businessDomain: 'sales',
+                targetObjectType: 'Lead',
+                targetObjectId: leadId,
+                projectId: null,
+                title: '销售跟进提醒：华南地铁线索',
+                dueAt: new Date('2026-05-07T01:30:00.000Z')
+            }),
+            createTodoItem({
+                id: '50000000-0000-4000-8000-000000000012',
+                sourceType: 'SalesFollowUpRecord',
+                sourceId: '57000000-0000-4000-8000-000000000003',
+                todoType: 'sales_follow_up_reminder',
+                businessDomain: 'sales',
+                targetObjectType: 'Customer',
+                targetObjectId: customerId,
+                projectId: null,
+                title: '销售跟进提醒：华南地铁集团',
+                dueAt: new Date('2026-05-08T03:15:00.000Z')
+            })
+        ]);
+        projectRepository.find.mockResolvedValue([createProject()]);
+        leadRepository.find.mockResolvedValue([createLead()]);
+        customerRepository.find.mockResolvedValue([createCustomer()]);
+
+        const todos = await service.findOpenTodosForUser(approverUserId);
+
+        expect(projectRepository.find).toHaveBeenCalledWith({ id: { $in: [projectId] } });
+        expect(leadRepository.find).toHaveBeenCalledWith({ id: { $in: [leadId] } });
+        expect(customerRepository.find).toHaveBeenCalledWith({ id: { $in: [customerId] } });
+        expect(todos[0]).toEqual(
+            expect.objectContaining({
+                targetTitle: '华南地铁项目',
+                currentNodeName: '下次跟进：2026-05-06 10:00',
+                allowedActions: []
+            })
+        );
+        expect(todos[1]).toEqual(
+            expect.objectContaining({
+                targetTitle: '华南地铁线索',
+                currentNodeName: '下次跟进：2026-05-07 09:30',
+                allowedActions: []
+            })
+        );
+        expect(todos[2]).toEqual(
+            expect.objectContaining({
+                targetTitle: '华南地铁集团',
+                currentNodeName: '下次跟进：2026-05-08 11:15',
+                allowedActions: []
+            })
+        );
+    });
+
     function pickGeneratedId(entityName?: string): string {
         if (entityName === 'TodoItem') {
             return todoItemId;
@@ -885,6 +984,37 @@ describe('ApprovalService', () => {
             rowVersion: 1,
             createdAt: new Date('2026-03-22T10:00:00.000Z'),
             updatedAt: new Date('2026-03-22T10:00:00.000Z'),
+            ...overrides
+        };
+    }
+
+    function createProject(overrides: Record<string, unknown> = {}) {
+        return {
+            id: projectId,
+            projectNo: 'PRJ-2026-000001',
+            projectName: '华南地铁项目',
+            status: 'active',
+            ...overrides
+        };
+    }
+
+    function createLead(overrides: Record<string, unknown> = {}) {
+        return {
+            id: leadId,
+            leadNo: 'LD-2026-000001',
+            leadName: '华南地铁线索',
+            customerId,
+            status: 'qualified',
+            ...overrides
+        };
+    }
+
+    function createCustomer(overrides: Record<string, unknown> = {}) {
+        return {
+            id: customerId,
+            customerNo: 'CUST-2026-001',
+            displayName: '华南地铁集团',
+            status: 'active',
             ...overrides
         };
     }

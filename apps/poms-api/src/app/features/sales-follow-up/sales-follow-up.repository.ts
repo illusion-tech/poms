@@ -1,7 +1,8 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { SalesFollowUpRecordLifecycleScope } from '@poms/shared-contracts';
+import { TodoItem } from '../approval/todo-item.entity';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -9,11 +10,25 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { SalesFollowUpRecord } from './sales-follow-up-record.entity';
 
+const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = 'SalesFollowUpRecord';
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
+const SALES_BUSINESS_DOMAIN = 'sales';
+const OPEN_REMINDER_STATUSES = ['open', 'processing'];
+const CUSTOMER_TARGET_TYPE = 'Customer';
+const LEAD_TARGET_TYPE = 'Lead';
+const PROJECT_TARGET_TYPE = 'Project';
+
 export interface SalesFollowUpRecordFilters {
     customerId?: string;
     leadId?: string;
     projectId?: string;
     lifecycleScope?: SalesFollowUpRecordLifecycleScope;
+}
+
+export interface SalesFollowUpReminderContext {
+    customer: Customer;
+    lead: Lead | null;
+    project: Project | null;
 }
 
 @Injectable()
@@ -74,8 +89,34 @@ export class SalesFollowUpRepository {
         await this.followUpRepository.getEntityManager().persist(record).flush();
     }
 
+    async saveWithReminderSync(record: SalesFollowUpRecord, context: SalesFollowUpReminderContext): Promise<void> {
+        const em = this.followUpRepository.getEntityManager();
+        em.persist(record);
+        await this.syncReminderTodoForActiveRecord(em, record, context);
+        await em.flush();
+    }
+
     async saveReplacement(input: { supersededRecord: SalesFollowUpRecord; replacementRecord: SalesFollowUpRecord }): Promise<void> {
         await this.followUpRepository.getEntityManager().persist([input.supersededRecord, input.replacementRecord]).flush();
+    }
+
+    async saveReplacementWithReminderSync(input: {
+        supersededRecord: SalesFollowUpRecord;
+        replacementRecord: SalesFollowUpRecord;
+        context: SalesFollowUpReminderContext;
+    }): Promise<void> {
+        const em = this.followUpRepository.getEntityManager();
+        em.persist([input.supersededRecord, input.replacementRecord]);
+        await this.cancelReminderTodosForSource(em, input.supersededRecord.id);
+        await this.syncReminderTodoForActiveRecord(em, input.replacementRecord, input.context);
+        await em.flush();
+    }
+
+    async saveVoidWithReminderSync(record: SalesFollowUpRecord): Promise<void> {
+        const em = this.followUpRepository.getEntityManager();
+        em.persist(record);
+        await this.cancelReminderTodosForSource(em, record.id);
+        await em.flush();
     }
 
     async findCustomerById(id: string): Promise<Customer | null> {
@@ -136,5 +177,130 @@ export class SalesFollowUpRepository {
         }
 
         return this.orgUnitRepository.find({ id: { $in: ids } });
+    }
+
+    private async syncReminderTodoForActiveRecord(em: EntityManager, record: SalesFollowUpRecord, context: SalesFollowUpReminderContext): Promise<void> {
+        if (record.status !== 'active' || !record.ownerUserId) {
+            return;
+        }
+
+        const target = this.resolveReminderTarget(record, context);
+        const now = new Date();
+        const streamTodos = await em.find(TodoItem, {
+            sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
+            todoType: SALES_FOLLOW_UP_REMINDER_TODO_TYPE,
+            assigneeUserId: record.ownerUserId,
+            targetObjectType: target.targetObjectType,
+            targetObjectId: target.targetObjectId,
+            status: { $in: OPEN_REMINDER_STATUSES }
+        });
+
+        for (const todo of streamTodos) {
+            if (todo.sourceId !== record.id) {
+                todo.status = 'completed';
+                todo.completedAt = now;
+            }
+        }
+
+        if (!record.nextFollowUpAt) {
+            return;
+        }
+
+        const existingTodo = await em.findOne(TodoItem, {
+            sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
+            sourceId: record.id,
+            assigneeUserId: record.ownerUserId,
+            status: { $in: OPEN_REMINDER_STATUSES }
+        });
+        const title = `销售跟进提醒：${target.targetTitle}`;
+        const summary = this.buildReminderSummary(record.summary);
+        const priority = record.nextFollowUpAt.getTime() <= Date.now() ? 'high' : 'normal';
+
+        if (existingTodo) {
+            existingTodo.todoType = SALES_FOLLOW_UP_REMINDER_TODO_TYPE;
+            existingTodo.businessDomain = SALES_BUSINESS_DOMAIN;
+            existingTodo.targetObjectType = target.targetObjectType;
+            existingTodo.targetObjectId = target.targetObjectId;
+            existingTodo.projectId = target.projectId;
+            existingTodo.title = title;
+            existingTodo.summary = summary;
+            existingTodo.status = 'open';
+            existingTodo.priority = priority;
+            existingTodo.dueAt = record.nextFollowUpAt;
+            existingTodo.completedAt = null;
+            return;
+        }
+
+        const todo = em.create(TodoItem, {
+            sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
+            sourceId: record.id,
+            todoType: SALES_FOLLOW_UP_REMINDER_TODO_TYPE,
+            businessDomain: SALES_BUSINESS_DOMAIN,
+            targetObjectType: target.targetObjectType,
+            targetObjectId: target.targetObjectId,
+            projectId: target.projectId,
+            title,
+            summary,
+            assigneeUserId: record.ownerUserId,
+            status: 'open',
+            priority,
+            dueAt: record.nextFollowUpAt,
+            completedAt: null
+        });
+        em.persist(todo);
+    }
+
+    private async cancelReminderTodosForSource(em: EntityManager, sourceId: string): Promise<void> {
+        const todos = await em.find(TodoItem, {
+            sourceType: SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE,
+            sourceId,
+            todoType: SALES_FOLLOW_UP_REMINDER_TODO_TYPE,
+            status: { $in: OPEN_REMINDER_STATUSES }
+        });
+        const now = new Date();
+
+        for (const todo of todos) {
+            todo.status = 'canceled';
+            todo.completedAt = now;
+        }
+    }
+
+    private resolveReminderTarget(
+        record: SalesFollowUpRecord,
+        context: SalesFollowUpReminderContext
+    ): { targetObjectType: string; targetObjectId: string; targetTitle: string; projectId: string | null } {
+        if (record.projectId) {
+            return {
+                targetObjectType: PROJECT_TARGET_TYPE,
+                targetObjectId: record.projectId,
+                targetTitle: context.project?.projectName ?? context.lead?.leadName ?? context.customer.displayName,
+                projectId: record.projectId
+            };
+        }
+
+        if (record.leadId) {
+            return {
+                targetObjectType: LEAD_TARGET_TYPE,
+                targetObjectId: record.leadId,
+                targetTitle: context.lead?.leadName ?? context.customer.displayName,
+                projectId: null
+            };
+        }
+
+        return {
+            targetObjectType: CUSTOMER_TARGET_TYPE,
+            targetObjectId: record.customerId,
+            targetTitle: context.customer.displayName,
+            projectId: null
+        };
+    }
+
+    private buildReminderSummary(summary: string): string | null {
+        const value = summary.trim();
+        if (!value) {
+            return null;
+        }
+
+        return value.length > 160 ? `${value.slice(0, 157)}...` : value;
     }
 }

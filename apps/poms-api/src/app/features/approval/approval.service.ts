@@ -42,6 +42,9 @@ import {
 import { CommissionFreezeDisputeRecord } from '../commission/commission-freeze-dispute-record.entity';
 import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
+import { Customer } from '../customer/customer.entity';
+import { Lead } from '../lead/lead.entity';
+import { Project } from '../project/project.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { ApprovalRecord } from './approval-record.entity';
@@ -60,6 +63,11 @@ const COMMISSION_ADJUSTMENT_NODE_KEY = 'commission-adjustment-approval';
 const COMMISSION_ADJUSTMENT_TARGET_TYPE = 'CommissionAdjustment';
 const TODO_SOURCE_TYPE = 'ApprovalRecord';
 const TODO_TYPE = 'approval';
+const SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE = 'SalesFollowUpRecord';
+const SALES_FOLLOW_UP_REMINDER_TODO_TYPE = 'sales_follow_up_reminder';
+const PROJECT_TARGET_TYPE = 'Project';
+const LEAD_TARGET_TYPE = 'Lead';
+const CUSTOMER_TARGET_TYPE = 'Customer';
 const CONTRACT_REVIEW_APPROVER_USER_ID = requireDevUserByUsername(CONTRACT_REVIEW_APPROVER_USERNAME).id;
 const COMMISSION_APPROVER_USER_ID = requireDevUserByUsername(COMMISSION_APPROVER_USERNAME).id;
 const APPROVAL_ACTIONS = ['approve', 'reject'];
@@ -76,7 +84,13 @@ export class ApprovalService {
         @InjectRepository(CommissionPayout)
         private readonly commissionPayoutRepository: EntityRepository<CommissionPayout>,
         @InjectRepository(CommissionAdjustment)
-        private readonly commissionAdjustmentRepository: EntityRepository<CommissionAdjustment>
+        private readonly commissionAdjustmentRepository: EntityRepository<CommissionAdjustment>,
+        @InjectRepository(Project)
+        private readonly projectRepository: EntityRepository<Project>,
+        @InjectRepository(Lead)
+        private readonly leadRepository: EntityRepository<Lead>,
+        @InjectRepository(Customer)
+        private readonly customerRepository: EntityRepository<Customer>
     ) {}
 
     async submitContractReview(contractId: string, initiatorUserId: string, input: SubmitContractReviewRequest): Promise<CommandResult> {
@@ -406,21 +420,39 @@ export class ApprovalService {
         const contractTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === CONTRACT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
         const payoutTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === COMMISSION_PAYOUT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
         const adjustmentTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === COMMISSION_ADJUSTMENT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
+        const projectTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === PROJECT_TARGET_TYPE).map((todo) => todo.targetObjectId))];
+        const leadTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === LEAD_TARGET_TYPE).map((todo) => todo.targetObjectId))];
+        const customerTargetIds = [...new Set(todos.filter((todo) => todo.targetObjectType === CUSTOMER_TARGET_TYPE).map((todo) => todo.targetObjectId))];
 
-        const [approvalRecords, contracts, payouts, adjustments] = await Promise.all([
+        const [approvalRecords, contracts, payouts, adjustments, projects, leads, customers] = await Promise.all([
             approvalSourceIds.length > 0 ? this.approvalRecordRepository.find({ id: { $in: approvalSourceIds } }) : Promise.resolve([]),
             contractTargetIds.length > 0 ? this.contractRepository.find({ id: { $in: contractTargetIds } }) : Promise.resolve([]),
             payoutTargetIds.length > 0 ? this.commissionPayoutRepository.find({ id: { $in: payoutTargetIds } }) : Promise.resolve([]),
-            adjustmentTargetIds.length > 0 ? this.commissionAdjustmentRepository.find({ id: { $in: adjustmentTargetIds } }) : Promise.resolve([])
+            adjustmentTargetIds.length > 0 ? this.commissionAdjustmentRepository.find({ id: { $in: adjustmentTargetIds } }) : Promise.resolve([]),
+            projectTargetIds.length > 0 ? this.projectRepository.find({ id: { $in: projectTargetIds } }) : Promise.resolve([]),
+            leadTargetIds.length > 0 ? this.leadRepository.find({ id: { $in: leadTargetIds } }) : Promise.resolve([]),
+            customerTargetIds.length > 0 ? this.customerRepository.find({ id: { $in: customerTargetIds } }) : Promise.resolve([])
         ]);
 
         const approvalById = new Map(approvalRecords.map((record) => [record.id, record]));
         const contractById = new Map(contracts.map((contract) => [contract.id, contract]));
         const payoutById = new Map(payouts.map((payout) => [payout.id, payout]));
         const adjustmentById = new Map(adjustments.map((adjustment) => [adjustment.id, adjustment]));
+        const projectById = new Map(projects.map((project) => [project.id, project]));
+        const leadById = new Map(leads.map((lead) => [lead.id, lead]));
+        const customerById = new Map(customers.map((customer) => [customer.id, customer]));
 
         return todos.map((todo) =>
-            mapTodoItemToSummary(todo, approvalById.get(todo.sourceId), contractById.get(todo.targetObjectId), payoutById.get(todo.targetObjectId), adjustmentById.get(todo.targetObjectId))
+            mapTodoItemToSummary(
+                todo,
+                approvalById.get(todo.sourceId),
+                contractById.get(todo.targetObjectId),
+                payoutById.get(todo.targetObjectId),
+                adjustmentById.get(todo.targetObjectId),
+                projectById.get(todo.targetObjectId),
+                leadById.get(todo.targetObjectId),
+                customerById.get(todo.targetObjectId)
+            )
         );
     }
 
@@ -1096,8 +1128,16 @@ function mapTodoItemToSummary(
     approvalRecord?: ApprovalRecord,
     relatedContract?: Contract,
     relatedPayout?: CommissionPayout,
-    relatedAdjustment?: CommissionAdjustment
+    relatedAdjustment?: CommissionAdjustment,
+    relatedProject?: Project,
+    relatedLead?: Lead,
+    relatedCustomer?: Customer
 ): TodoItemSummary {
+    const targetTitle =
+        relatedContract?.contractNo ??
+        (relatedPayout ? mapPayoutTitle(relatedPayout) : relatedAdjustment ? mapAdjustmentTitle(relatedAdjustment) : relatedProject?.projectName ?? relatedLead?.leadName ?? relatedCustomer?.displayName ?? null);
+    const isSalesFollowUpReminder = todoItem.sourceType === SALES_FOLLOW_UP_REMINDER_SOURCE_TYPE && todoItem.todoType === SALES_FOLLOW_UP_REMINDER_TODO_TYPE;
+
     return {
         id: todoItem.id,
         sourceType: todoItem.sourceType,
@@ -1109,8 +1149,8 @@ function mapTodoItemToSummary(
         projectId: todoItem.projectId ?? null,
         title: todoItem.title,
         summary: todoItem.summary ?? null,
-        targetTitle: relatedContract?.contractNo ?? (relatedPayout ? mapPayoutTitle(relatedPayout) : relatedAdjustment ? mapAdjustmentTitle(relatedAdjustment) : null),
-        currentNodeName: approvalRecord ? mapNodeName(approvalRecord.currentNodeKey) : null,
+        targetTitle,
+        currentNodeName: approvalRecord ? mapNodeName(approvalRecord.currentNodeKey) : isSalesFollowUpReminder ? mapSalesFollowUpReminderNodeName(todoItem.dueAt) : null,
         allowedActions: todoItem.todoType === TODO_TYPE && ['open', 'processing'].includes(todoItem.status) ? APPROVAL_ACTIONS : [],
         assigneeUserId: todoItem.assigneeUserId,
         status: todoItem.status,
@@ -1121,6 +1161,20 @@ function mapTodoItemToSummary(
         createdAt: todoItem.createdAt.toISOString(),
         updatedAt: todoItem.updatedAt.toISOString()
     };
+}
+
+function mapSalesFollowUpReminderNodeName(dueAt: Date | null | undefined): string | null {
+    if (!dueAt) {
+        return '下次跟进';
+    }
+
+    return `下次跟进：${formatChinaDateTime(dueAt)}`;
+}
+
+function formatChinaDateTime(value: Date): string {
+    const chinaTime = new Date(value.getTime() + 8 * 60 * 60 * 1000);
+    const pad = (input: number) => input.toString().padStart(2, '0');
+    return `${chinaTime.getUTCFullYear()}-${pad(chinaTime.getUTCMonth() + 1)}-${pad(chinaTime.getUTCDate())} ${pad(chinaTime.getUTCHours())}:${pad(chinaTime.getUTCMinutes())}`;
 }
 
 function mapNodeName(currentNodeKey: string): string | null {

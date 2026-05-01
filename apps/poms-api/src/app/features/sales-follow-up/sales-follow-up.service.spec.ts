@@ -29,7 +29,10 @@ describe('SalesFollowUpService', () => {
             create: jest.fn((input) => Object.assign(new SalesFollowUpRecord(), createRecord(input as Partial<SalesFollowUpRecord>))),
             findById: jest.fn(),
             save: jest.fn(),
+            saveWithReminderSync: jest.fn(),
             saveReplacement: jest.fn(),
+            saveReplacementWithReminderSync: jest.fn(),
+            saveVoidWithReminderSync: jest.fn(),
             findCustomerById: jest.fn(),
             findCustomersByIds: jest.fn(),
             findLeadById: jest.fn(),
@@ -74,6 +77,7 @@ describe('SalesFollowUpService', () => {
         expect(customerService.requireActiveCustomer).toHaveBeenCalledWith(customerId);
         expect(repository.create).toHaveBeenCalledWith(
             expect.objectContaining({
+                id: expect.any(String),
                 customerId,
                 leadId: null,
                 projectId,
@@ -87,7 +91,11 @@ describe('SalesFollowUpService', () => {
                 updatedBy: userId
             })
         );
-        expect(repository.save).toHaveBeenCalledWith(expect.any(SalesFollowUpRecord));
+        expect(repository.saveWithReminderSync).toHaveBeenCalledWith(expect.any(SalesFollowUpRecord), {
+            customer: expect.objectContaining({ id: customerId }),
+            lead: null,
+            project: expect.objectContaining({ id: projectId })
+        });
         expect(result.projectId).toBe(projectId);
         expect(result.projectName).toBe('华南地铁项目');
         expect(result.ownerName).toBe('张销售');
@@ -109,7 +117,7 @@ describe('SalesFollowUpService', () => {
                 userId
             )
         ).rejects.toThrow(BadRequestException);
-        expect(repository.save).not.toHaveBeenCalled();
+        expect(repository.saveWithReminderSync).not.toHaveBeenCalled();
     });
 
     it('replaces an active follow-up record as a new active version', async () => {
@@ -149,9 +157,14 @@ describe('SalesFollowUpService', () => {
                 updatedBy: userId
             })
         );
-        expect(repository.saveReplacement).toHaveBeenCalledWith({
+        expect(repository.saveReplacementWithReminderSync).toHaveBeenCalledWith({
             supersededRecord: current,
-            replacementRecord: expect.any(SalesFollowUpRecord)
+            replacementRecord: expect.any(SalesFollowUpRecord),
+            context: {
+                customer: expect.objectContaining({ id: customerId }),
+                lead: expect.objectContaining({ id: leadId }),
+                project: expect.objectContaining({ id: projectId })
+            }
         });
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -185,7 +198,7 @@ describe('SalesFollowUpService', () => {
                 userId
             )
         ).rejects.toThrow(BadRequestException);
-        expect(repository.saveReplacement).not.toHaveBeenCalled();
+        expect(repository.saveReplacementWithReminderSync).not.toHaveBeenCalled();
     });
 
     it('rejects stale replace expectedVersion', async () => {
@@ -243,7 +256,7 @@ describe('SalesFollowUpService', () => {
         expect(current.status).toBe('voided');
         expect(current.voidedBy).toBe(userId);
         expect(current.voidReason).toBe('登记错误: 重复录入');
-        expect(repository.save).toHaveBeenCalledWith(current);
+        expect(repository.saveVoidWithReminderSync).toHaveBeenCalledWith(current);
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
                 eventType: 'sales_follow_up.voided',
@@ -272,7 +285,7 @@ describe('SalesFollowUpService', () => {
                 userId
             )
         ).rejects.toThrow(BadRequestException);
-        expect(repository.save).not.toHaveBeenCalled();
+        expect(repository.saveVoidWithReminderSync).not.toHaveBeenCalled();
     });
 
     it('rejects void without expectedVersion', async () => {

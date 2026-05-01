@@ -9,6 +9,9 @@ import { CommissionRoleAssignment } from '../commission/commission-role-assignme
 import { CommissionRuleExplanationSnapshot } from '../commission/commission-rule-explanation-snapshot.entity';
 import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { ReceiptRecord } from '../contract-finance/receipt-record.entity';
+import { Customer } from '../customer/customer.entity';
+import { Lead } from '../lead/lead.entity';
+import { Project } from '../project/project.entity';
 import { CommissionGateReviewRecord } from '../project-cost/commission-gate-review-record.entity';
 import { OperatingSignalToCommissionGateBinding } from '../project-cost/operating-signal-gate-binding.entity';
 import { ApprovalController } from './approval.controller';
@@ -35,6 +38,9 @@ import { TodoItem } from './todo-item.entity';
             CommissionDepartureExceptionDecision,
             CommissionFreezeDisputeRecord,
             ReceiptRecord,
+            Project,
+            Lead,
+            Customer,
             OperatingSignalToCommissionGateBinding,
             CommissionGateReviewRecord
         ])

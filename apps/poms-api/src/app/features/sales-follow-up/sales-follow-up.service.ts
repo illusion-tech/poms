@@ -48,6 +48,7 @@ export class SalesFollowUpService {
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator, lead, project);
 
         const record = this.salesFollowUpRepository.create({
+            id: randomUUID(),
             customerId: customer.id,
             leadId: lead?.id ?? null,
             projectId: project?.id ?? null,
@@ -64,7 +65,7 @@ export class SalesFollowUpService {
             updatedBy: operator.id
         });
 
-        await this.salesFollowUpRepository.save(record);
+        await this.salesFollowUpRepository.saveWithReminderSync(record, { customer, lead, project });
 
         return mapSalesFollowUpRecordToSummary(record, {
             customer,
@@ -116,7 +117,7 @@ export class SalesFollowUpService {
             updatedBy: operator.id
         });
 
-        await this.salesFollowUpRepository.saveReplacement({ supersededRecord, replacementRecord });
+        await this.salesFollowUpRepository.saveReplacementWithReminderSync({ supersededRecord, replacementRecord, context: { customer, lead, project } });
         await this.recordAudit('sales_follow_up.replaced', supersededRecord.id, operator.id, requestId, {
             replacementId: replacementRecord.id,
             replacementReason: replacementRecord.replacementReason,
@@ -157,7 +158,7 @@ export class SalesFollowUpService {
         record.voidReason = this.appendComment(input.reason.trim(), input.comment);
         record.updatedBy = operator.id;
 
-        await this.salesFollowUpRepository.save(record);
+        await this.salesFollowUpRepository.saveVoidWithReminderSync(record);
         await this.recordAudit('sales_follow_up.voided', record.id, operator.id, requestId, {
             reason: record.voidReason,
             before: beforeSnapshot,
