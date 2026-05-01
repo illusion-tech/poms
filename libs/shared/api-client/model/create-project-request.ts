@@ -7,24 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStage } from './project-stage';
 
 
 export interface CreateProjectRequest {
     projectName: string;
     customerId: string;
     customerProjectNo?: string | null;
-    currentStage?: CreateProjectRequestCurrentStageEnum;
+    currentStage?: ProjectStage;
     plannedSignAt?: string | null;
 }
-export enum CreateProjectRequestCurrentStageEnum {
-    Assessment = 'assessment',
-    ScopeConfirmation = 'scope-confirmation',
-    CommercialClosure = 'commercial-closure',
-    Contracting = 'contracting',
-    Handover = 'handover',
-    Execution = 'execution',
-    Acceptance = 'acceptance',
-    Completed = 'completed',
-    ClosedLost = 'closed-lost',
-    ClosedTerminated = 'closed-terminated'
-};

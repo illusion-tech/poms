@@ -7,11 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStage } from './project-stage';
 
 
 export interface ProjectTimelineEvent {
     eventKey: string;
-    stage: string;
+    stage: ProjectStage;
     stageLabel: string;
     eventType: ProjectTimelineEventEventTypeEnum;
     occurredAt: string;

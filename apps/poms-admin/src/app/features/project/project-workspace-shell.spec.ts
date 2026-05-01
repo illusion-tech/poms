@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter, Router } from '@angular/router';
-import { ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { ProjectStage, ProjectStatus, ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectWorkspaceShell } from './project-workspace-shell';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -21,8 +21,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         projectName: '华南地铁运营平台',
         customerId: null,
         customerName: '华南地铁集团',
-        status: 'active',
-        currentStage: 'handover',
+        status: ProjectStatus.Active,
+        currentStage: ProjectStage.Handover,
         ownerOrgId: 'org-1',
         ownerUserId: 'user-1',
         plannedSignAt: null,
@@ -36,8 +36,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
         stageSummary: {
-            currentStage: 'handover',
-            status: 'active',
+            currentStage: ProjectStage.Handover,
+            status: ProjectStatus.Active,
             plannedSignAt: null,
             closedAt: null,
             closedReason: null,
@@ -86,8 +86,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
 function createGuidance(overrides: Partial<ProjectWorkspaceGuidanceView> = {}): ProjectWorkspaceGuidanceView {
     return {
         projectId: 'project-1',
-        currentStage: 'handover',
-        status: 'active',
+        currentStage: ProjectStage.Handover,
+        status: ProjectStatus.Active,
         currentStageLabel: '项目移交',
         statusLabel: '正常推进',
         headline: '后端确认的工作区总览',

@@ -14,6 +14,7 @@ import type {
     ProjectStatus,
     ProjectStage
 } from '@poms/shared-contracts';
+import { ProjectStageValue, ProjectStatusValue } from '@poms/shared-contracts';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectBidCommercialProcess } from './project-bid-commercial-process.entity';
@@ -34,8 +35,8 @@ export interface CreateProjectRecord {
 }
 
 export interface FindProjectsQuery {
-    status?: string;
-    currentStage?: string;
+    status?: ProjectStatus;
+    currentStage?: ProjectStage;
     ownerOrgId?: string;
     keyword?: string;
 }
@@ -90,9 +91,12 @@ export interface VoidProjectArchiveRecordInput {
     expectedVersion?: number;
 }
 
-const TECHNICAL_COST_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
-const BID_COMMERCIAL_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
-const PRICING_MARGIN_ALLOWED_PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
+const PRESIGNING_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];
+const EDITABLE_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatusValue.Active, ProjectStatusValue.Blocked];
+const CLOSED_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.ClosedLost, ProjectStageValue.ClosedTerminated];
+const TECHNICAL_COST_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
+const BID_COMMERCIAL_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
+const PRICING_MARGIN_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
 const RISK_LEVEL_WEIGHT: Record<PreSigningRiskLevel, number> = {
     R1: 1,
     R2: 2,
@@ -141,8 +145,8 @@ export class ProjectService {
                 projectNo,
                 projectName: input.projectName,
                 sourceLeadId: input.sourceLeadId ?? null,
-                status: 'active',
-                currentStage: input.currentStage ?? 'assessment',
+                status: ProjectStatusValue.Active,
+                currentStage: input.currentStage ?? ProjectStageValue.Assessment,
                 customerId: customer.id,
                 customerName: customer.displayName,
                 customerProjectNo: input.customerProjectNo?.trim() || null,
@@ -165,7 +169,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${id} not found`);
         }
 
-        if (!['active', 'blocked'].includes(project.status)) {
+        if (!EDITABLE_PROJECT_STATUSES.includes(project.status)) {
             throw new BadRequestException(`Project ${id} cannot be edited in status ${project.status}`);
         }
 
@@ -202,7 +206,7 @@ export class ProjectService {
 
         this.assertExpectedVersion(project.rowVersion, input.expectedVersion, 'Project');
 
-        if (!['active', 'blocked'].includes(project.status)) {
+        if (!EDITABLE_PROJECT_STATUSES.includes(project.status)) {
             throw new BadRequestException(`Project ${id} cannot reassign owner in status ${project.status}`);
         }
 
@@ -265,7 +269,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.currentStage !== 'acceptance') {
+        if (project.currentStage !== ProjectStageValue.Acceptance) {
             throw new BadRequestException(`Project ${projectId} cannot record acceptance in stage ${project.currentStage}`);
         }
 
@@ -296,11 +300,11 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated') {
+        if (project.status === ProjectStatusValue.Closed || CLOSED_PROJECT_STAGES.includes(project.currentStage)) {
             throw new BadRequestException(`Project ${projectId} cannot record completion because it is closed`);
         }
 
-        if (project.currentStage !== 'acceptance') {
+        if (project.currentStage !== ProjectStageValue.Acceptance) {
             throw new BadRequestException(`Project ${projectId} cannot record completion in stage ${project.currentStage}`);
         }
 
@@ -326,8 +330,8 @@ export class ProjectService {
             updatedBy: operatorUserId
         });
 
-        project.currentStage = 'completed';
-        project.status = 'completed';
+        project.currentStage = ProjectStageValue.Completed;
+        project.status = ProjectStatusValue.Completed;
         project.updatedBy = operatorUserId;
 
         await this.projectRepository.saveProjectCompletionRecord(record, project);
@@ -341,8 +345,8 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.currentStage === 'completed') {
-            if (project.status !== 'completed') {
+        if (project.currentStage === ProjectStageValue.Completed) {
+            if (project.status !== ProjectStatusValue.Completed) {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because completion is not effective`);
             }
 
@@ -355,7 +359,7 @@ export class ProjectService {
 
             const record = this.projectRepository.createProjectArchiveRecord({
                 projectId,
-                archiveAnchorStage: 'completed',
+                archiveAnchorStage: ProjectStageValue.Completed,
                 archiveAnchorSourceType: 'project-completion-record',
                 archiveAnchorSourceId: completionRecord.id,
                 status: 'recorded',
@@ -372,8 +376,8 @@ export class ProjectService {
             return record;
         }
 
-        if (['closed-lost', 'closed-terminated'].includes(project.currentStage)) {
-            if (project.status !== 'closed' || !project.closedAt) {
+        if (CLOSED_PROJECT_STAGES.includes(project.currentStage)) {
+            if (project.status !== ProjectStatusValue.Closed || !project.closedAt) {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because close fact is not effective`);
             }
 
@@ -477,7 +481,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === 'closed' || !BID_COMMERCIAL_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
+        if (project.status === ProjectStatusValue.Closed || !BID_COMMERCIAL_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
             throw new BadRequestException(`Project ${projectId} cannot record bid commercial process in stage ${project.currentStage}`);
         }
 
@@ -556,7 +560,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === 'closed' || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
+        if (project.status === ProjectStatusValue.Closed || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
             throw new BadRequestException(`Project ${projectId} cannot record pricing margin review in stage ${project.currentStage}`);
         }
 
@@ -649,7 +653,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === 'closed' || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
+        if (project.status === ProjectStatusValue.Closed || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
             throw new BadRequestException(`Project ${projectId} cannot record technical cost package in stage ${project.currentStage}`);
         }
 
@@ -898,7 +902,7 @@ export class ProjectService {
             previousOwnerOrgId: record.previousOwnerOrgId ?? null,
             newOwnerUserId: record.newOwnerUserId,
             newOwnerOrgId: record.newOwnerOrgId ?? null,
-            businessStatusAfter: project.status as ProjectStatus
+            businessStatusAfter: project.status
         };
     }
 

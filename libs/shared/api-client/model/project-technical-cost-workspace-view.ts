@@ -7,16 +7,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
 import { ProjectTechnicalCostItemView } from './project-technical-cost-item-view';
 import { ProjectTechnicalRiskItemView } from './project-technical-risk-item-view';
+import { ProjectStage } from './project-stage';
 import { ProjectTechnicalCostPackageSummary } from './project-technical-cost-package-summary';
 import { ProjectTechnicalScopeItemView } from './project-technical-scope-item-view';
 
 
 export interface ProjectTechnicalCostWorkspaceView {
     projectId: string;
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     currentPackage: ProjectTechnicalCostPackageSummary | null;
     scopeItems: Array<ProjectTechnicalScopeItemView>;
     riskItems: Array<ProjectTechnicalRiskItemView>;

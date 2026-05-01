@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStore, ProjectStage, ProjectStatus, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
@@ -45,8 +45,8 @@ function createProject(overrides: Partial<ProjectListView> = {}): ProjectListVie
         projectName: '城市交通项目',
         customerName: '城市交通集团',
         customerProjectNo: 'CUST-PRJ-001',
-        currentStage: 'handover',
-        status: 'active',
+        currentStage: ProjectStage.Handover,
+        status: ProjectStatus.Active,
         ownerOrgName: '华东交付一部',
         ownerName: '张销售',
         latestMilestoneAt: '2026-04-25T08:00:00.000Z',

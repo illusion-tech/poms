@@ -18,6 +18,8 @@ import type {
     ProjectDetailView,
     ProjectListQuery,
     ProjectListView,
+    ProjectStage,
+    ProjectStatus,
     ProjectPricingMarginConditionItemView,
     ProjectPricingMarginReviewList,
     ProjectPricingMarginReviewSummary,
@@ -32,6 +34,7 @@ import type {
     ProjectWorkspaceGuidanceView,
     UserPayload
 } from '@poms/shared-contracts';
+import { ProjectStageValue, ProjectStatusValue } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { Contract } from '../contract/contract.entity';
@@ -54,10 +57,12 @@ const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 
 const PROJECT_WORKSPACE_PAYOUT_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:payouts:manage'];
 const PROJECT_WORKSPACE_COMMISSION_FREEZE_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:assignments:manage'];
 const PROJECT_WORKSPACE_COMMISSION_OPERATION_PERMISSIONS: PermissionKey[] = ['project:read', 'commission:rule-versions:manage', 'commission:calculations:manage', 'commission:payouts:manage', 'commission:adjustments:manage'];
-const PROJECT_WORKSPACE_FINANCE_STAGES = ['execution', 'acceptance', 'completed'];
-const PROJECT_WORKSPACE_COMMISSION_STAGES = ['handover', 'execution', 'acceptance', 'completed'];
-const PROJECT_WORKSPACE_SETTLEMENT_STAGES = ['acceptance', 'completed'];
-const PROJECT_WORKSPACE_PRESIGNING_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting'];
+const PROJECT_WORKSPACE_FINANCE_STAGES: readonly ProjectStage[] = [ProjectStageValue.Execution, ProjectStageValue.Acceptance, ProjectStageValue.Completed];
+const PROJECT_WORKSPACE_COMMISSION_STAGES: readonly ProjectStage[] = [ProjectStageValue.Handover, ProjectStageValue.Execution, ProjectStageValue.Acceptance, ProjectStageValue.Completed];
+const PROJECT_WORKSPACE_SETTLEMENT_STAGES: readonly ProjectStage[] = [ProjectStageValue.Acceptance, ProjectStageValue.Completed];
+const PROJECT_WORKSPACE_PRESIGNING_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];
+const EDITABLE_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatusValue.Active, ProjectStatusValue.Blocked];
+const TERMINAL_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.Completed, ProjectStageValue.ClosedLost, ProjectStageValue.ClosedTerminated];
 const PROJECT_ARCHIVE_RECORD_ACTIONS = {
     replace: 'replace-project-archive-record',
     void: 'void-project-archive-record'
@@ -86,93 +91,93 @@ type ProjectWorkspaceGuidanceText = Pick<ProjectWorkspaceGuidanceView, 'headline
     ownerFallback: string;
 };
 
-const PROJECT_WORKSPACE_STAGE_LABELS: Record<string, string> = {
-    assessment: '立项评估',
-    'scope-confirmation': '范围确认',
-    'commercial-closure': '商务收口',
-    contracting: '签约中',
-    handover: '项目移交',
-    execution: '正式执行',
-    acceptance: '验收确认',
-    completed: '已完成',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
+const PROJECT_WORKSPACE_STAGE_LABELS: Record<ProjectStage, string> = {
+    [ProjectStageValue.Assessment]: '立项评估',
+    [ProjectStageValue.ScopeConfirmation]: '范围确认',
+    [ProjectStageValue.CommercialClosure]: '商务收口',
+    [ProjectStageValue.Contracting]: '签约中',
+    [ProjectStageValue.Handover]: '项目移交',
+    [ProjectStageValue.Execution]: '正式执行',
+    [ProjectStageValue.Acceptance]: '验收确认',
+    [ProjectStageValue.Completed]: '已完成',
+    [ProjectStageValue.ClosedLost]: '已丢单',
+    [ProjectStageValue.ClosedTerminated]: '已终止'
 };
 
-const PROJECT_WORKSPACE_STATUS_LABELS: Record<string, string> = {
-    active: '进行中',
-    'pending-approval': '待审批',
-    blocked: '阻塞中',
-    'on-hold': '已挂起',
-    completed: '已完成',
-    closed: '已关闭'
+const PROJECT_WORKSPACE_STATUS_LABELS: Record<ProjectStatus, string> = {
+    [ProjectStatusValue.Active]: '进行中',
+    [ProjectStatusValue.PendingApproval]: '待审批',
+    [ProjectStatusValue.Blocked]: '阻塞中',
+    [ProjectStatusValue.OnHold]: '已挂起',
+    [ProjectStatusValue.Completed]: '已完成',
+    [ProjectStatusValue.Closed]: '已关闭'
 };
 
-const PROJECT_WORKSPACE_STAGE_GUIDANCE: Record<string, ProjectWorkspaceGuidanceText> = {
-    assessment: {
+const PROJECT_WORKSPACE_STAGE_GUIDANCE: Record<ProjectStage, ProjectWorkspaceGuidanceText> = {
+    [ProjectStageValue.Assessment]: {
         headline: '先判断这个项目是否值得继续推进',
         currentFocus: '完成立项评估与机会判断。',
         currentGap: '需要补齐客户背景、关键风险和是否继续投入的判断。',
         nextStep: '确认范围后进入范围确认。',
         ownerFallback: '销售负责人'
     },
-    'scope-confirmation': {
+    [ProjectStageValue.ScopeConfirmation]: {
         headline: '把范围、排除项和前期成本先说清楚',
         currentFocus: '收口技术边界、排除项和前期成本。',
         currentGap: '需要明确范围、风险和估算依据。',
         nextStep: '范围和风险清楚后进入商务收口。',
         ownerFallback: '技术支持 / 售前'
     },
-    'commercial-closure': {
+    [ProjectStageValue.CommercialClosure]: {
         headline: '把报价、投标和成交条件统一到一个口径',
         currentFocus: '统一报价、投标和成交条件判断。',
         currentGap: '需要完成报价、投标或商务条件收口。',
         nextStep: '满足签约前置条件后进入签约。',
         ownerFallback: '销售负责人 / 商务负责人'
     },
-    contracting: {
+    [ProjectStageValue.Contracting]: {
         headline: '把合同登记、审核和生效做成正式依据',
         currentFocus: '完成合同登记、审核和生效。',
         currentGap: '需要形成正式合同和签约依据。',
         nextStep: '合同生效后进入项目移交。',
         ownerFallback: '商务行政 / 销售负责人'
     },
-    handover: {
+    [ProjectStageValue.Handover]: {
         headline: '把项目移交清楚，避免责任边界不明',
         currentFocus: '完成项目移交并明确责任边界。',
         currentGap: '需要完成移交确认、责任归口和下游冻结依据。',
         nextStep: '移交完成后进入正式执行。',
         ownerFallback: '销售 / 技术支持 / 项目负责人'
     },
-    execution: {
+    [ProjectStageValue.Execution]: {
         headline: '围绕经营、回款、成本和提成条件持续推进',
         currentFocus: '跟进经营总览、偏差风险和阶段解释。',
         currentGap: '若缺少经营快照、回款或成本事实，相关页面会提示待补条件。',
         nextStep: '优先查看经营总览、偏差风险和阶段解释。',
         ownerFallback: '项目负责人 / 财务'
     },
-    acceptance: {
+    [ProjectStageValue.Acceptance]: {
         headline: '核对验收事实与收尾条件',
         currentFocus: '核对验收事实、最终结算和质保金相关条件。',
         currentGap: '需要补齐验收、最终结算或质保金相关事实。',
         nextStep: '满足完成条件后进入项目完成。',
         ownerFallback: '项目负责人 / 财务'
     },
-    completed: {
+    [ProjectStageValue.Completed]: {
         headline: '项目主线已完成，重点看归档和结算',
         currentFocus: '查看最终结算、规则解释和归档结果。',
         currentGap: '如仍有质保金或结算事项，请进入提成相关页面处理。',
         nextStep: '按归档结果处理后续复核或质保金事项。',
         ownerFallback: '项目负责人 / 财务'
     },
-    'closed-lost': {
+    [ProjectStageValue.ClosedLost]: {
         headline: '项目已丢单',
         currentFocus: '查看关闭原因和归档事实。',
         currentGap: '项目已关闭，不再推进后续阶段。',
         nextStep: '保留归档依据，必要时复盘客户和商务原因。',
         ownerFallback: '销售负责人'
     },
-    'closed-terminated': {
+    [ProjectStageValue.ClosedTerminated]: {
         headline: '项目已终止',
         currentFocus: '查看终止原因和归档事实。',
         currentGap: '项目已关闭，不再推进后续阶段。',
@@ -610,8 +615,8 @@ export class ProjectQueryService {
         const events: ProjectTimelineView['events'] = [
             {
                 eventKey: 'project-created',
-                stage: 'assessment',
-                stageLabel: this.getStageLabel('assessment'),
+                stage: ProjectStageValue.Assessment,
+                stageLabel: this.getStageLabel(ProjectStageValue.Assessment),
                 eventType: 'stage-entered',
                 occurredAt: project.createdAt.toISOString(),
                 actorUserId: project.createdBy ?? null,
@@ -628,8 +633,8 @@ export class ProjectQueryService {
             const actorUserId = firstSignedContract.updatedBy ?? firstSignedContract.createdBy ?? null;
             events.push({
                 eventKey: `contract-signed:${firstSignedContract.id}`,
-                stage: 'contracting',
-                stageLabel: this.getStageLabel('contracting'),
+                stage: ProjectStageValue.Contracting,
+                stageLabel: this.getStageLabel(ProjectStageValue.Contracting),
                 eventType: 'stage-completed',
                 occurredAt: firstSignedContract.signedAt.toISOString(),
                 actorUserId,
@@ -645,8 +650,8 @@ export class ProjectQueryService {
         if (latestConfirmedHandover?.confirmedAt) {
             events.push({
                 eventKey: `project-handover-confirmed:${latestConfirmedHandover.id}`,
-                stage: 'handover',
-                stageLabel: this.getStageLabel('handover'),
+                stage: ProjectStageValue.Handover,
+                stageLabel: this.getStageLabel(ProjectStageValue.Handover),
                 eventType: 'stage-completed',
                 occurredAt: latestConfirmedHandover.confirmedAt.toISOString(),
                 actorUserId: latestConfirmedHandover.confirmedBy ?? null,
@@ -664,8 +669,8 @@ export class ProjectQueryService {
             const acceptanceResultLabel = ACCEPTANCE_RECORD_RESULT_LABELS[latestAcceptedAcceptanceRecord.acceptanceResult];
             events.push({
                 eventKey: `acceptance-confirmed:${latestAcceptedAcceptanceRecord.id}`,
-                stage: 'acceptance',
-                stageLabel: this.getStageLabel('acceptance'),
+                stage: ProjectStageValue.Acceptance,
+                stageLabel: this.getStageLabel(ProjectStageValue.Acceptance),
                 eventType: 'stage-completed',
                 occurredAt: latestAcceptedAcceptanceRecord.confirmedAt.toISOString(),
                 actorUserId: latestAcceptedAcceptanceRecord.confirmedBy ?? null,
@@ -681,8 +686,8 @@ export class ProjectQueryService {
         if (latestProjectCompletionRecord?.completedAt) {
             events.push({
                 eventKey: `project-completed:${latestProjectCompletionRecord.id}`,
-                stage: 'completed',
-                stageLabel: this.getStageLabel('completed'),
+                stage: ProjectStageValue.Completed,
+                stageLabel: this.getStageLabel(ProjectStageValue.Completed),
                 eventType: 'stage-completed',
                 occurredAt: latestProjectCompletionRecord.completedAt.toISOString(),
                 actorUserId: latestProjectCompletionRecord.completedBy ?? null,
@@ -1213,11 +1218,11 @@ export class ProjectQueryService {
     private buildStageBlockingReasons(project: Project): string[] {
         const reasons: string[] = [];
 
-        if (project.status === 'blocked') {
+        if (project.status === ProjectStatusValue.Blocked) {
             reasons.push('project-status-blocked');
         }
 
-        if (project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated') {
+        if (this.isClosedProject(project)) {
             reasons.push('project-closed');
         }
 
@@ -1300,18 +1305,18 @@ export class ProjectQueryService {
     private buildAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-project-workspace'];
-        const isClosed = project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated';
+        const isClosed = this.isClosedProject(project);
         const canWriteProject = permissionSet.has('project:write');
 
         if (!isClosed && canWriteProject) {
             actions.push('edit-project-basic-info');
         }
 
-        if (['active', 'blocked'].includes(project.status) && canWriteProject) {
+        if (EDITABLE_PROJECT_STATUSES.includes(project.status) && canWriteProject) {
             actions.push('reassign-project-owner');
         }
 
-        const commissionStageReady = ['handover', 'execution', 'acceptance', 'completed'].includes(project.currentStage);
+        const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(project.currentStage);
         const commissionPermissions: PermissionKey[] = ['commission:assignments:manage', 'commission:calculations:manage', 'commission:payouts:manage', 'commission:adjustments:manage', 'commission:rule-versions:manage'];
         const canManageCommission = commissionPermissions.some((permission) => permissionSet.has(permission));
 
@@ -1331,7 +1336,7 @@ export class ProjectQueryService {
     }
 
     private isTerminalProjectStage(project: Project): boolean {
-        return project.currentStage === 'completed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated';
+        return TERMINAL_PROJECT_STAGES.includes(project.currentStage);
     }
 
     private buildWorkspaceBlockingReasons(project: Project): string[] {
@@ -1350,7 +1355,7 @@ export class ProjectQueryService {
     private buildWorkspaceGuidanceText(project: Project, blockingReasons: string[]): ProjectWorkspaceGuidanceText {
         const stageLabel = this.getStageLabel(project.currentStage);
 
-        if (project.status === 'blocked') {
+        if (project.status === ProjectStatusValue.Blocked) {
             return {
                 headline: `${stageLabel}存在阻断，先处理卡点。`,
                 currentFocus: '先把阻断原因、责任人和解除条件说清楚。',
@@ -1360,7 +1365,7 @@ export class ProjectQueryService {
             };
         }
 
-        if (project.status === 'pending-approval') {
+        if (project.status === ProjectStatusValue.PendingApproval) {
             return {
                 headline: `${stageLabel}正在等待审批。`,
                 currentFocus: '跟进审批结论和必要补充材料。',
@@ -1370,7 +1375,7 @@ export class ProjectQueryService {
             };
         }
 
-        if (project.status === 'on-hold') {
+        if (project.status === ProjectStatusValue.OnHold) {
             return {
                 headline: `${stageLabel}已挂起。`,
                 currentFocus: '确认挂起原因、恢复条件和下一次检查时间。',
@@ -1500,7 +1505,7 @@ export class ProjectQueryService {
             });
         }
 
-        if (project.currentStage === 'handover') {
+        if (project.currentStage === ProjectStageValue.Handover) {
             entries.push({
                 key: 'handover-workspace',
                 label: '合同承接',
@@ -1653,11 +1658,11 @@ export class ProjectQueryService {
         return ownerName ?? ownerOrgName ?? fallback;
     }
 
-    private getStageLabel(stage: string): string {
+    private getStageLabel(stage: ProjectStage): string {
         return PROJECT_WORKSPACE_STAGE_LABELS[stage] ?? stage;
     }
 
-    private getStatusLabel(status: string): string {
+    private getStatusLabel(status: ProjectStatus): string {
         return PROJECT_WORKSPACE_STATUS_LABELS[status] ?? status;
     }
 
@@ -1666,6 +1671,6 @@ export class ProjectQueryService {
     }
 
     private isClosedProject(project: Project): boolean {
-        return project.status === 'closed' || project.currentStage === 'closed-lost' || project.currentStage === 'closed-terminated';
+        return project.status === ProjectStatusValue.Closed || project.currentStage === ProjectStageValue.ClosedLost || project.currentStage === ProjectStageValue.ClosedTerminated;
     }
 }

@@ -14,6 +14,8 @@ import {
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,
+    ProjectStage,
+    ProjectStatus,
     ProjectWorkspaceStore,
     type BusinessAccountingFeedbackView,
     type CommissionFinalSettlementView,
@@ -110,8 +112,8 @@ describe('ProjectWorkspaceStore', () => {
     };
     const workspaceGuidance: ProjectWorkspaceGuidanceView = {
         projectId: 'project-1',
-        currentStage: 'handover',
-        status: 'active',
+        currentStage: ProjectStage.Handover,
+        status: ProjectStatus.Active,
         currentStageLabel: '项目移交',
         statusLabel: '正常推进',
         headline: '后端返回的工作区引导',
@@ -188,8 +190,8 @@ describe('ProjectWorkspaceStore', () => {
     } as ContractReadinessDetail;
     const technicalCostWorkspace: ProjectTechnicalCostWorkspaceView = {
         projectId: 'project-1',
-        currentStage: 'scope-confirmation',
-        status: 'active',
+        currentStage: ProjectStage.ScopeConfirmation,
+        status: ProjectStatus.Active,
         currentPackage: {
             id: 'technical-package-1',
             projectId: 'project-1',
@@ -226,8 +228,8 @@ describe('ProjectWorkspaceStore', () => {
     };
     const bidCommercialWorkspace: ProjectBidCommercialWorkspaceView = {
         projectId: 'project-1',
-        currentStage: 'commercial-closure',
-        status: 'active',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Active,
         currentProcess: {
             id: 'bid-process-1',
             projectId: 'project-1',
@@ -261,8 +263,8 @@ describe('ProjectWorkspaceStore', () => {
     };
     const pricingMarginWorkspace: ProjectPricingMarginWorkspaceView = {
         projectId: 'project-1',
-        currentStage: 'commercial-closure',
-        status: 'active',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Active,
         currentReview: {
             id: 'pricing-review-1',
             projectId: 'project-1',

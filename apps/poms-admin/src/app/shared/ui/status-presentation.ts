@@ -1,71 +1,52 @@
+import { ProjectStage, ProjectStatus } from '@poms/admin-data-access';
 import type { UiTagSeverityValue } from './ui-severity';
 
 export const PROJECT_STAGE_LABELS = {
-    assessment: '立项评估',
-    'scope-confirmation': '范围确认',
-    'commercial-closure': '商务收口',
-    contracting: '签约中',
-    handover: '项目移交',
-    execution: '正式执行',
-    acceptance: '验收确认',
-    completed: '已完成',
-    lead: '线索',
-    opportunity: '商机',
-    proposal: '方案',
-    negotiation: '谈判',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止'
-} as const;
+    [ProjectStage.Assessment]: '立项评估',
+    [ProjectStage.ScopeConfirmation]: '范围确认',
+    [ProjectStage.CommercialClosure]: '商务收口',
+    [ProjectStage.Contracting]: '签约中',
+    [ProjectStage.Handover]: '项目移交',
+    [ProjectStage.Execution]: '正式执行',
+    [ProjectStage.Acceptance]: '验收确认',
+    [ProjectStage.Completed]: '已完成',
+    [ProjectStage.ClosedLost]: '已丢单',
+    [ProjectStage.ClosedTerminated]: '已终止'
+} as const satisfies Record<ProjectStage, string>;
 
-export type ProjectStageCode = keyof typeof PROJECT_STAGE_LABELS;
+export type ProjectStageCode = ProjectStage;
 
 const PROJECT_STAGE_SEVERITIES = {
-    assessment: 'secondary',
-    'scope-confirmation': 'info',
-    'commercial-closure': 'warn',
-    contracting: 'warn',
-    handover: 'warn',
-    execution: 'success',
-    acceptance: 'info',
-    completed: 'contrast',
-    lead: 'secondary',
-    opportunity: 'info',
-    proposal: 'info',
-    negotiation: 'warn',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger'
+    [ProjectStage.Assessment]: 'secondary',
+    [ProjectStage.ScopeConfirmation]: 'info',
+    [ProjectStage.CommercialClosure]: 'warn',
+    [ProjectStage.Contracting]: 'warn',
+    [ProjectStage.Handover]: 'warn',
+    [ProjectStage.Execution]: 'success',
+    [ProjectStage.Acceptance]: 'info',
+    [ProjectStage.Completed]: 'contrast',
+    [ProjectStage.ClosedLost]: 'danger',
+    [ProjectStage.ClosedTerminated]: 'danger'
 } as const satisfies Record<ProjectStageCode, UiTagSeverityValue>;
 
 export const PROJECT_STATUS_LABELS = {
-    active: '进行中',
-    blocked: '阻塞中',
-    completed: '已完成',
-    draft: '草稿',
-    'pending-approval': '待审批',
-    'on-hold': '已挂起',
-    closed: '已关闭',
-    closed_won: '已签约',
-    closed_lost: '已丢单',
-    'closed-lost': '已丢单',
-    'closed-terminated': '已终止',
-    suspended: '已暂停'
-} as const;
+    [ProjectStatus.Active]: '进行中',
+    [ProjectStatus.PendingApproval]: '待审批',
+    [ProjectStatus.Blocked]: '阻塞中',
+    [ProjectStatus.OnHold]: '已挂起',
+    [ProjectStatus.Completed]: '已完成',
+    [ProjectStatus.Closed]: '已关闭'
+} as const satisfies Record<ProjectStatus, string>;
 
-export type ProjectStatusCode = keyof typeof PROJECT_STATUS_LABELS;
+export type ProjectStatusCode = ProjectStatus;
 
 const PROJECT_STATUS_SEVERITIES = {
-    active: 'info',
-    blocked: 'warn',
-    completed: 'success',
-    draft: 'secondary',
-    'pending-approval': 'secondary',
-    'on-hold': 'warn',
-    closed: 'contrast',
-    closed_won: 'success',
-    closed_lost: 'danger',
-    'closed-lost': 'danger',
-    'closed-terminated': 'danger',
-    suspended: 'warn'
+    [ProjectStatus.Active]: 'info',
+    [ProjectStatus.PendingApproval]: 'secondary',
+    [ProjectStatus.Blocked]: 'warn',
+    [ProjectStatus.OnHold]: 'warn',
+    [ProjectStatus.Completed]: 'success',
+    [ProjectStatus.Closed]: 'contrast'
 } as const satisfies Record<ProjectStatusCode, UiTagSeverityValue>;
 
 export const CONTRACT_STATUS_LABELS = {

@@ -1,14 +1,14 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectWorkspaceStore, type ProjectPricingMarginReviewSummary, type ProjectPricingMarginWorkspaceView } from '@poms/admin-data-access';
+import { ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectPricingMarginReviewSummary, type ProjectPricingMarginWorkspaceView } from '@poms/admin-data-access';
 import { ProjectPricingMarginWorkspace } from './project-pricing-margin-workspace';
 
 function createWorkspace(overrides: Partial<ProjectPricingMarginWorkspaceView> = {}): ProjectPricingMarginWorkspaceView {
     return {
         projectId: 'project-1',
-        currentStage: 'commercial-closure',
-        status: 'active',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Active,
         currentReview: {
             id: 'pricing-review-1',
             projectId: 'project-1',

@@ -16,6 +16,8 @@ import {
     type OwnerReferenceUser,
     type ProjectArchiveRecordSummary,
     type ProjectDetailView,
+    ProjectStage,
+    ProjectStatus,
     type ProjectTimelineView,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
@@ -70,8 +72,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         customerId: 'customer-1',
         customerName: '华南地铁集团',
         customerProjectNo: 'CUS-PRJ-2026-01',
-        status: 'blocked',
-        currentStage: 'handover',
+        status: ProjectStatus.Blocked,
+        currentStage: ProjectStage.Handover,
         ownerOrgId: 'org-1',
         ownerUserId: 'user-1',
         plannedSignAt: '2026-05-01T00:00:00.000Z',
@@ -86,8 +88,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         ownerOrgName: '华南销售一部',
         sourceLeadSummary: null,
         stageSummary: {
-            currentStage: 'handover',
-            status: 'blocked',
+            currentStage: ProjectStage.Handover,
+            status: ProjectStatus.Blocked,
             plannedSignAt: '2026-05-01T00:00:00.000Z',
             closedAt: null,
             closedReason: null,
@@ -139,7 +141,7 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
         events: [
             {
                 eventKey: 'project-created',
-                stage: 'assessment',
+                stage: ProjectStage.Assessment,
                 stageLabel: '立项评估',
                 eventType: 'stage-entered',
                 occurredAt: '2026-04-01T00:00:00.000Z',
@@ -153,7 +155,7 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
             },
             {
                 eventKey: 'contract-signed:contract-1',
-                stage: 'contracting',
+                stage: ProjectStage.Contracting,
                 stageLabel: '签约中',
                 eventType: 'stage-completed',
                 occurredAt: '2026-04-18T08:00:00.000Z',
@@ -629,11 +631,11 @@ describe('ProjectDetail', () => {
 
     it('maps authoritative timeline events into lifecycle detail and tooltip text', async () => {
         const project = createProject({
-            currentStage: 'execution',
-            status: 'active',
+            currentStage: ProjectStage.Execution,
+            status: ProjectStatus.Active,
             stageSummary: {
-                currentStage: 'execution',
-                status: 'active',
+                currentStage: ProjectStage.Execution,
+                status: ProjectStatus.Active,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -660,11 +662,11 @@ describe('ProjectDetail', () => {
 
     it('maps authoritative acceptance record events into lifecycle completion detail', async () => {
         const project = createProject({
-            currentStage: 'acceptance',
-            status: 'active',
+            currentStage: ProjectStage.Acceptance,
+            status: ProjectStatus.Active,
             stageSummary: {
-                currentStage: 'acceptance',
-                status: 'active',
+                currentStage: ProjectStage.Acceptance,
+                status: ProjectStatus.Active,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -676,7 +678,7 @@ describe('ProjectDetail', () => {
                 ...createTimeline().events,
                 {
                     eventKey: 'acceptance-confirmed:acceptance-1',
-                    stage: 'acceptance',
+                    stage: ProjectStage.Acceptance,
                     stageLabel: '验收确认',
                     eventType: 'stage-completed',
                     occurredAt: '2026-04-21T09:30:00.000Z',
@@ -702,11 +704,11 @@ describe('ProjectDetail', () => {
 
     it('maps authoritative project completion record events into completed milestone detail', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -718,7 +720,7 @@ describe('ProjectDetail', () => {
                 ...createTimeline().events,
                 {
                     eventKey: 'project-completed:completion-1',
-                    stage: 'completed',
+                    stage: ProjectStage.Completed,
                     stageLabel: '已完成',
                     eventType: 'stage-completed',
                     occurredAt: '2026-04-24T11:45:00.000Z',
@@ -745,11 +747,11 @@ describe('ProjectDetail', () => {
 
     it('renders archive panel from authoritative archive milestone for terminal projects', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -761,7 +763,7 @@ describe('ProjectDetail', () => {
                 ...createTimeline().events,
                 {
                     eventKey: 'project-archive:archive-1',
-                    stage: 'completed',
+                    stage: ProjectStage.Completed,
                     stageLabel: '已完成',
                     eventType: 'milestone',
                     occurredAt: '2026-04-24T15:20:00.000Z',
@@ -793,11 +795,11 @@ describe('ProjectDetail', () => {
 
     it('renders current archive record and non-current archive audit history', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -845,11 +847,11 @@ describe('ProjectDetail', () => {
 
     it('shows archive replace and void actions when the user can maintain project archives', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -866,11 +868,11 @@ describe('ProjectDetail', () => {
 
     it('hides archive replace and void actions when the archive record does not allow them', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -888,11 +890,11 @@ describe('ProjectDetail', () => {
 
     it('shows archive create action when terminal project has no current archive record and the user can write projects', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -908,11 +910,11 @@ describe('ProjectDetail', () => {
 
     it('hides archive create action when the user cannot write projects', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -932,11 +934,11 @@ describe('ProjectDetail', () => {
 
     it('submits first archive record through the project store', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -964,11 +966,11 @@ describe('ProjectDetail', () => {
 
     it('submits archive replacement with expectedVersion from the selected record', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -1000,11 +1002,11 @@ describe('ProjectDetail', () => {
 
     it('submits archive void with expectedVersion from the selected record', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,
@@ -1032,11 +1034,11 @@ describe('ProjectDetail', () => {
 
     it('shows archive gap feedback when terminal project has no archive milestone', async () => {
         const project = createProject({
-            currentStage: 'closed-lost',
-            status: 'closed-lost',
+            currentStage: ProjectStage.ClosedLost,
+            status: ProjectStatus.Closed,
             stageSummary: {
-                currentStage: 'closed-lost',
-                status: 'closed-lost',
+                currentStage: ProjectStage.ClosedLost,
+                status: ProjectStatus.Closed,
                 plannedSignAt: null,
                 closedAt: '2026-04-24T08:00:00.000Z',
                 closedReason: '客户取消预算',
@@ -1066,11 +1068,11 @@ describe('ProjectDetail', () => {
 
     it('does not misreport archive gap when terminal timeline loading fails', async () => {
         const project = createProject({
-            currentStage: 'completed',
-            status: 'completed',
+            currentStage: ProjectStage.Completed,
+            status: ProjectStatus.Completed,
             stageSummary: {
-                currentStage: 'completed',
-                status: 'completed',
+                currentStage: ProjectStage.Completed,
+                status: ProjectStatus.Completed,
                 plannedSignAt: null,
                 closedAt: null,
                 closedReason: null,

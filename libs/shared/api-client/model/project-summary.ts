@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
+import { ProjectStage } from './project-stage';
 
 
 export interface ProjectSummary {
@@ -17,8 +19,8 @@ export interface ProjectSummary {
     customerId: string | null;
     customerName: string | null;
     customerProjectNo: string | null;
-    status: string;
-    currentStage: string;
+    status: ProjectStatus;
+    currentStage: ProjectStage;
     ownerOrgId: string | null;
     ownerUserId: string | null;
     plannedSignAt: string | null;

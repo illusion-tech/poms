@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -41,6 +41,7 @@ interface CreateProjectForm {
 }
 
 const ALL_FILTER_VALUE = 'all';
+const ATTENTION_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatus.Blocked, ProjectStatus.OnHold, ProjectStatus.PendingApproval];
 
 const EMPTY_CREATE_FORM: CreateProjectForm = {
     customerId: null,
@@ -369,8 +370,8 @@ export class ProjectList implements OnInit {
 
     readonly summaryItems = computed<ProjectSummaryItem[]>(() => {
         const projects = this.projects();
-        const activeCount = projects.filter((project) => project.status === 'active').length;
-        const attentionCount = projects.filter((project) => ['blocked', 'on-hold', 'pending-approval'].includes(project.status)).length;
+        const activeCount = projects.filter((project) => project.status === ProjectStatus.Active).length;
+        const attentionCount = projects.filter((project) => ATTENTION_PROJECT_STATUSES.includes(project.status)).length;
         const milestoneCount = projects.filter((project) => Boolean(project.latestMilestoneAt)).length;
 
         return [

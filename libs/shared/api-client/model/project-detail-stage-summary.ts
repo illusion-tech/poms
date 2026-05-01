@@ -7,11 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
+import { ProjectStage } from './project-stage';
 
 
 export interface ProjectDetailStageSummary {
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     plannedSignAt: string | null;
     closedAt: string | null;
     closedReason: string | null;

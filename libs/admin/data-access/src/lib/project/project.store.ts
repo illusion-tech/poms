@@ -11,7 +11,7 @@ import type {
     UpdateProjectBasicInfoRequest,
     VoidProjectArchiveRecordRequest
 } from '@poms/shared-api-client';
-import { ProjectApi } from '@poms/shared-api-client';
+import { ProjectApi, ProjectStatus } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -44,8 +44,8 @@ export class ProjectStore {
     readonly timelineError = this.#timelineError.asReadonly();
     readonly archiveRecordsError = this.#archiveRecordsError.asReadonly();
     readonly recentProjects = computed(() => this.#projects().slice(0, 5));
-    readonly activeProjectCount = computed(() => this.#projects().filter((project) => project.status === 'active').length);
-    readonly closedProjectCount = computed(() => this.#projects().filter((project) => project.status === 'closed').length);
+    readonly activeProjectCount = computed(() => this.#projects().filter((project) => project.status === ProjectStatus.Active).length);
+    readonly closedProjectCount = computed(() => this.#projects().filter((project) => project.status === ProjectStatus.Closed).length);
 
     async loadProjects() {
         this.#loading.set(true);

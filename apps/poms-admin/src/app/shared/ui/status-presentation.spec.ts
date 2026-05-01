@@ -1,3 +1,4 @@
+import { ProjectStage, ProjectStatus } from '@poms/admin-data-access';
 import {
     archiveStatusLabel,
     archiveStatusSeverity,
@@ -32,13 +33,13 @@ import {
 
 describe('status presentation', () => {
     it('maps project stages and statuses consistently', () => {
-        const stage = 'handover' satisfies ProjectStageCode;
-        const status = 'closed-lost' satisfies ProjectStatusCode;
+        const stage = ProjectStage.Handover satisfies ProjectStageCode;
+        const status = ProjectStatus.Closed satisfies ProjectStatusCode;
 
         expect(projectStageLabel(stage)).toBe('项目移交');
         expect(projectStageSeverity(stage)).toBe('warn');
-        expect(projectStatusLabel(status)).toBe('已丢单');
-        expect(projectStatusSeverity(status)).toBe('danger');
+        expect(projectStatusLabel(status)).toBe('已关闭');
+        expect(projectStatusSeverity(status)).toBe('contrast');
     });
 
     it('maps lead, contract, approval and archive statuses', () => {

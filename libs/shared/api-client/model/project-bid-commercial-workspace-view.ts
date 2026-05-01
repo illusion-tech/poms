@@ -7,15 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
 import { ProjectBidCommercialMaterialItemView } from './project-bid-commercial-material-item-view';
 import { ProjectBidCommercialTimelineItemView } from './project-bid-commercial-timeline-item-view';
+import { ProjectStage } from './project-stage';
 import { ProjectBidCommercialProcessSummary } from './project-bid-commercial-process-summary';
 
 
 export interface ProjectBidCommercialWorkspaceView {
     projectId: string;
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     currentProcess: ProjectBidCommercialProcessSummary | null;
     materialItems: Array<ProjectBidCommercialMaterialItemView>;
     timelineItems: Array<ProjectBidCommercialTimelineItemView>;

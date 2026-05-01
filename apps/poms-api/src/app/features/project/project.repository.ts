@@ -1,6 +1,7 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import type { ProjectStage, ProjectStatus } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
@@ -64,7 +65,7 @@ export class ProjectRepository {
         });
     }
 
-    async findMany(input: { status?: string; currentStage?: string; ownerOrgId?: string; keyword?: string }): Promise<Project[]> {
+    async findMany(input: { status?: ProjectStatus; currentStage?: ProjectStage; ownerOrgId?: string; keyword?: string }): Promise<Project[]> {
         const where: FilterQuery<Project> = {};
 
         if (input.status) {

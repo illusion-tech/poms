@@ -7,8 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
 import { ProjectDetailBidSummary } from './project-detail-bid-summary';
 import { ProjectDetailConfirmationSummary } from './project-detail-confirmation-summary';
+import { ProjectStage } from './project-stage';
 import { ProjectDetailContractSummary } from './project-detail-contract-summary';
 import { ProjectDetailStageSummary } from './project-detail-stage-summary';
 import { ProjectDetailApprovalSummary } from './project-detail-approval-summary';
@@ -23,8 +25,8 @@ export interface ProjectDetailView {
     customerId: string | null;
     customerName: string | null;
     customerProjectNo: string | null;
-    status: string;
-    currentStage: string;
+    status: ProjectStatus;
+    currentStage: ProjectStage;
     ownerOrgId: string | null;
     ownerUserId: string | null;
     plannedSignAt: string | null;

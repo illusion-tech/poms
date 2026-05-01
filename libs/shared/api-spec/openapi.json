@@ -2633,15 +2633,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "string",
-              "enum": [
-                "active",
-                "pending-approval",
-                "blocked",
-                "on-hold",
-                "completed",
-                "closed"
-              ]
+              "$ref": "#/components/schemas/ProjectStatus"
             }
           },
           {
@@ -2649,19 +2641,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "string",
-              "enum": [
-                "assessment",
-                "scope-confirmation",
-                "commercial-closure",
-                "contracting",
-                "handover",
-                "execution",
-                "acceptance",
-                "completed",
-                "closed-lost",
-                "closed-terminated"
-              ]
+              "$ref": "#/components/schemas/ProjectStage"
             }
           },
           {
@@ -11314,10 +11294,10 @@
             "nullable": true
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           }
         },
         "required": [
@@ -11327,6 +11307,32 @@
           "customerId",
           "status",
           "currentStage"
+        ]
+      },
+      "ProjectStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "pending-approval",
+          "blocked",
+          "on-hold",
+          "completed",
+          "closed"
+        ]
+      },
+      "ProjectStage": {
+        "type": "string",
+        "enum": [
+          "assessment",
+          "scope-confirmation",
+          "commercial-closure",
+          "contracting",
+          "handover",
+          "execution",
+          "acceptance",
+          "completed",
+          "closed-lost",
+          "closed-terminated"
         ]
       },
       "LeadDetailView": {
@@ -12059,10 +12065,10 @@
             "nullable": true
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "ownerOrgId": {
             "type": "string",
@@ -12313,10 +12319,10 @@
             "nullable": true
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "ownerOrgName": {
             "type": "string",
@@ -12437,10 +12443,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentStageLabel": {
             "type": "string"
@@ -12508,7 +12514,7 @@
             "type": "string"
           },
           "stage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "stageLabel": {
             "type": "string"
@@ -13299,10 +13305,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentProcess": {
             "allOf": [
@@ -13821,10 +13827,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentReview": {
             "allOf": [
@@ -14141,10 +14147,10 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentPackage": {
             "allOf": [
@@ -14250,10 +14256,10 @@
         "type": "object",
         "properties": {
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "plannedSignAt": {
             "type": "string",
@@ -14550,10 +14556,10 @@
             "nullable": true
           },
           "status": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStatus"
           },
           "currentStage": {
-            "type": "string"
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "ownerOrgId": {
             "type": "string",
@@ -14722,19 +14728,7 @@
             "nullable": true
           },
           "currentStage": {
-            "type": "string",
-            "enum": [
-              "assessment",
-              "scope-confirmation",
-              "commercial-closure",
-              "contracting",
-              "handover",
-              "execution",
-              "acceptance",
-              "completed",
-              "closed-lost",
-              "closed-terminated"
-            ]
+            "$ref": "#/components/schemas/ProjectStage"
           },
           "plannedSignAt": {
             "type": "string",
@@ -14815,15 +14809,7 @@
             "nullable": true
           },
           "businessStatusAfter": {
-            "type": "string",
-            "enum": [
-              "active",
-              "pending-approval",
-              "blocked",
-              "on-hold",
-              "completed",
-              "closed"
-            ]
+            "$ref": "#/components/schemas/ProjectStatus"
           }
         },
         "required": [

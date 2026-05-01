@@ -905,6 +905,40 @@ export type LeadRating = (typeof LEAD_RATINGS)[number];
 
 export const LeadRatingSchema = z.enum(LEAD_RATINGS).meta({ id: 'LeadRating' });
 
+export const PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'] as const;
+
+export type ProjectStage = (typeof PROJECT_STAGES)[number];
+
+export const ProjectStageSchema = z.enum(PROJECT_STAGES).meta({ id: 'ProjectStage' });
+
+export const ProjectStageValue = {
+    Assessment: 'assessment',
+    ScopeConfirmation: 'scope-confirmation',
+    CommercialClosure: 'commercial-closure',
+    Contracting: 'contracting',
+    Handover: 'handover',
+    Execution: 'execution',
+    Acceptance: 'acceptance',
+    Completed: 'completed',
+    ClosedLost: 'closed-lost',
+    ClosedTerminated: 'closed-terminated'
+} as const satisfies Record<string, ProjectStage>;
+
+export const PROJECT_STATUSES = ['active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'] as const;
+
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+
+export const ProjectStatusSchema = z.enum(PROJECT_STATUSES).meta({ id: 'ProjectStatus' });
+
+export const ProjectStatusValue = {
+    Active: 'active',
+    PendingApproval: 'pending-approval',
+    Blocked: 'blocked',
+    OnHold: 'on-hold',
+    Completed: 'completed',
+    Closed: 'closed'
+} as const satisfies Record<string, ProjectStatus>;
+
 export const LEAD_GATE_STATUSES = ['ready', 'blocked'] as const;
 
 export type LeadGateStatus = (typeof LEAD_GATE_STATUSES)[number];
@@ -1104,8 +1138,8 @@ export const LeadConvertedProjectSummarySchema = z
         projectNo: z.string(),
         projectName: z.string(),
         customerId: z.uuid().nullable(),
-        status: z.string(),
-        currentStage: z.string()
+        status: ProjectStatusSchema,
+        currentStage: ProjectStageSchema
     })
     .meta({ id: 'LeadConvertedProjectSummary' });
 
@@ -1507,14 +1541,6 @@ export type VoidAttachmentRequest = z.infer<typeof VoidAttachmentRequestSchema>;
 // Project
 // ---------------------------------------------------------------------------
 
-export const PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'] as const;
-
-export type ProjectStage = (typeof PROJECT_STAGES)[number];
-
-export const PROJECT_STATUSES = ['active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'] as const;
-
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
-
 export const ProjectSummarySchema = z
     .object({
         id: z.uuid(),
@@ -1524,8 +1550,8 @@ export const ProjectSummarySchema = z
         customerId: z.uuid().nullable(),
         customerName: z.string().nullable(),
         customerProjectNo: z.string().nullable(),
-        status: z.string(),
-        currentStage: z.string(),
+        status: ProjectStatusSchema,
+        currentStage: ProjectStageSchema,
         ownerOrgId: z.uuid().nullable(),
         ownerUserId: z.uuid().nullable(),
         plannedSignAt: z.iso.datetime().nullable(),
@@ -1549,8 +1575,8 @@ export const ProjectListViewSchema = z
         customerId: z.uuid().nullable(),
         customerName: z.string().nullable(),
         customerProjectNo: z.string().nullable(),
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         ownerOrgName: z.string().nullable(),
         ownerName: z.string().nullable(),
         latestMilestoneAt: z.iso.datetime().nullable(),
@@ -1566,8 +1592,8 @@ export type ProjectList = z.infer<typeof ProjectListSchema>;
 
 export const ProjectDetailStageSummarySchema = z
     .object({
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         plannedSignAt: z.iso.datetime().nullable(),
         closedAt: z.iso.datetime().nullable(),
         closedReason: z.string().nullable(),
@@ -1689,8 +1715,8 @@ export type ProjectWorkspaceEntryView = z.infer<typeof ProjectWorkspaceEntryView
 export const ProjectWorkspaceGuidanceViewSchema = z
     .object({
         projectId: z.uuid(),
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         currentStageLabel: z.string(),
         statusLabel: z.string(),
         headline: z.string(),
@@ -1886,8 +1912,8 @@ export type ProjectTechnicalCostPackageList = z.infer<typeof ProjectTechnicalCos
 export const ProjectTechnicalCostWorkspaceViewSchema = z
     .object({
         projectId: z.uuid(),
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         currentPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
         scopeItems: z.array(ProjectTechnicalScopeItemViewSchema),
         riskItems: z.array(ProjectTechnicalRiskItemViewSchema),
@@ -2040,8 +2066,8 @@ export type ProjectBidCommercialProcessList = z.infer<typeof ProjectBidCommercia
 export const ProjectBidCommercialWorkspaceViewSchema = z
     .object({
         projectId: z.uuid(),
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         currentProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
         materialItems: z.array(ProjectBidCommercialMaterialItemViewSchema),
         timelineItems: z.array(ProjectBidCommercialTimelineItemViewSchema),
@@ -2188,8 +2214,8 @@ export type ProjectPricingMarginReviewList = z.infer<typeof ProjectPricingMargin
 export const ProjectPricingMarginWorkspaceViewSchema = z
     .object({
         projectId: z.uuid(),
-        currentStage: z.string(),
-        status: z.string(),
+        currentStage: ProjectStageSchema,
+        status: ProjectStatusSchema,
         currentReview: ProjectPricingMarginReviewSummarySchema.nullable(),
         technicalCostPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
         bidCommercialProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
@@ -2391,7 +2417,7 @@ export type ProjectTimelineSourceType = (typeof PROJECT_TIMELINE_SOURCE_TYPES)[n
 export const ProjectTimelineEventSchema = z
     .object({
         eventKey: z.string(),
-        stage: z.string(),
+        stage: ProjectStageSchema,
         stageLabel: z.string(),
         eventType: z.enum(PROJECT_TIMELINE_EVENT_TYPES),
         occurredAt: z.iso.datetime(),
@@ -2422,7 +2448,7 @@ export const CreateProjectRequestSchema = z
         projectName: z.string().trim().min(1).max(255),
         customerId: z.uuid(),
         customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
-        currentStage: z.enum(PROJECT_STAGES).optional(),
+        currentStage: ProjectStageSchema.optional(),
         plannedSignAt: z.iso.datetime().nullable().optional()
     })
     .meta({ id: 'CreateProjectRequest' });
@@ -2431,8 +2457,8 @@ export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
 
 export const ProjectListQuerySchema = z
     .object({
-        status: z.enum(PROJECT_STATUSES).optional(),
-        currentStage: z.enum(PROJECT_STAGES).optional(),
+        status: ProjectStatusSchema.optional(),
+        currentStage: ProjectStageSchema.optional(),
         ownerOrgId: z.uuid().optional(),
         keyword: z.string().trim().min(1).max(128).optional()
     })
@@ -2473,7 +2499,7 @@ export const ProjectOwnerReassignmentResultSchema = z
         previousOwnerOrgId: z.uuid().nullable(),
         newOwnerUserId: z.uuid(),
         newOwnerOrgId: z.uuid().nullable(),
-        businessStatusAfter: z.enum(PROJECT_STATUSES)
+        businessStatusAfter: ProjectStatusSchema
     })
     .meta({ id: 'ProjectOwnerReassignmentResult' });
 

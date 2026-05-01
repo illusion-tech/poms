@@ -8,6 +8,8 @@
  * Do not edit the class manually.
  */
 import { ProjectPricingMarginReviewSummary } from './project-pricing-margin-review-summary';
+import { ProjectStatus } from './project-status';
+import { ProjectStage } from './project-stage';
 import { ProjectBidCommercialProcessSummary } from './project-bid-commercial-process-summary';
 import { ProjectTechnicalCostPackageSummary } from './project-technical-cost-package-summary';
 import { ProjectPricingMarginConditionItemView } from './project-pricing-margin-condition-item-view';
@@ -15,8 +17,8 @@ import { ProjectPricingMarginConditionItemView } from './project-pricing-margin-
 
 export interface ProjectPricingMarginWorkspaceView {
     projectId: string;
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     currentReview: ProjectPricingMarginReviewSummary | null;
     technicalCostPackage: ProjectTechnicalCostPackageSummary | null;
     bidCommercialProcess: ProjectBidCommercialProcessSummary | null;

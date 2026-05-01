@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ProjectApi, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectSummary, type ProjectTimelineView } from '@poms/admin-data-access';
+import { ProjectApi, ProjectStage, ProjectStatus, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectSummary, type ProjectTimelineView } from '@poms/admin-data-access';
 import { of } from 'rxjs';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -20,8 +20,8 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
         sourceLeadId: null,
         customerId: null,
         customerName: '华南地铁集团',
-        status: 'active',
-        currentStage: 'handover',
+        status: ProjectStatus.Active,
+        currentStage: ProjectStage.Handover,
         ownerOrgId: null,
         ownerUserId: null,
         plannedSignAt: null,
@@ -36,8 +36,8 @@ function createDetail(overrides: Partial<ProjectDetailView> = {}): ProjectDetail
         ownerOrgName: '华南销售一部',
         sourceLeadSummary: null,
         stageSummary: {
-            currentStage: 'handover',
-            status: 'active',
+            currentStage: ProjectStage.Handover,
+            status: ProjectStatus.Active,
             plannedSignAt: null,
             closedAt: null,
             closedReason: null,
@@ -91,8 +91,8 @@ function createSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary 
         sourceLeadId: null,
         customerId: null,
         customerName: null,
-        status: 'active',
-        currentStage: 'handover',
+        status: ProjectStatus.Active,
+        currentStage: ProjectStage.Handover,
         ownerOrgId: null,
         ownerUserId: null,
         plannedSignAt: null,
@@ -113,7 +113,7 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
         events: [
             {
                 eventKey: 'contract-signed:contract-1',
-                stage: 'contracting',
+                stage: ProjectStage.Contracting,
                 stageLabel: '签约中',
                 eventType: 'stage-completed',
                 occurredAt: '2026-04-18T08:00:00.000Z',
@@ -309,7 +309,7 @@ describe('ProjectStore', () => {
     });
 
     it('creates project archive records through generated client and refreshes detail context', async () => {
-        const detail = createDetail({ currentStage: 'completed', status: 'completed' });
+        const detail = createDetail({ currentStage: ProjectStage.Completed, status: ProjectStatus.Completed });
         const timeline = createTimeline();
         const archiveRecord = createArchiveRecord();
         const projectApiMock = {
@@ -353,7 +353,7 @@ describe('ProjectStore', () => {
     });
 
     it('replaces project archive records through generated client and refreshes detail context', async () => {
-        const detail = createDetail({ currentStage: 'completed' });
+        const detail = createDetail({ currentStage: ProjectStage.Completed });
         const timeline = createTimeline();
         const archiveRecord = createArchiveRecord();
         const projectApiMock = {
@@ -401,7 +401,7 @@ describe('ProjectStore', () => {
     });
 
     it('voids project archive records through generated client and refreshes detail context', async () => {
-        const detail = createDetail({ currentStage: 'completed' });
+        const detail = createDetail({ currentStage: ProjectStage.Completed });
         const timeline = createTimeline();
         const archiveRecord = createArchiveRecord({ status: 'voided' });
         const projectApiMock = {

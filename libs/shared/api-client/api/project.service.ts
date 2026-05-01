@@ -51,6 +51,10 @@ import { ProjectPricingMarginReviewSummary } from '../model/project-pricing-marg
 // @ts-ignore
 import { ProjectPricingMarginWorkspaceView } from '../model/project-pricing-margin-workspace-view';
 // @ts-ignore
+import { ProjectStage } from '../model/project-stage';
+// @ts-ignore
+import { ProjectStatus } from '../model/project-status';
+// @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
 import { ProjectTechnicalCostPackageSummary } from '../model/project-technical-cost-package-summary';
@@ -148,8 +152,8 @@ export interface ProjectControllerGetWorkspaceGuidanceRequestParams {
 }
 
 export interface ProjectControllerListRequestParams {
-    status?: 'active' | 'pending-approval' | 'blocked' | 'on-hold' | 'completed' | 'closed';
-    currentStage?: 'assessment' | 'scope-confirmation' | 'commercial-closure' | 'contracting' | 'handover' | 'execution' | 'acceptance' | 'completed' | 'closed-lost' | 'closed-terminated';
+    status?: ProjectStatus;
+    currentStage?: ProjectStage;
     ownerOrgId?: string;
     keyword?: string;
 }

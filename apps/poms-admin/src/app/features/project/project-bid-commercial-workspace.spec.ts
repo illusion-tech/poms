@@ -1,14 +1,14 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectWorkspaceStore, type ProjectBidCommercialProcessSummary, type ProjectBidCommercialWorkspaceView } from '@poms/admin-data-access';
+import { ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectBidCommercialProcessSummary, type ProjectBidCommercialWorkspaceView } from '@poms/admin-data-access';
 import { ProjectBidCommercialWorkspace } from './project-bid-commercial-workspace';
 
 function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> = {}): ProjectBidCommercialWorkspaceView {
     return {
         projectId: 'project-1',
-        currentStage: 'commercial-closure',
-        status: 'active',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Active,
         currentProcess: {
             id: 'bid-process-1',
             projectId: 'project-1',

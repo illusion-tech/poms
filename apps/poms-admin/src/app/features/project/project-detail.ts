@@ -9,6 +9,8 @@ import {
     CustomerStatus,
     CustomerStore,
     PlatformStore,
+    ProjectStage,
+    ProjectStatus,
     ProjectStore,
     type CustomerListView,
     type OwnerReferenceUser,
@@ -111,8 +113,17 @@ const BLOCKING_REASON_LABELS: Record<string, string> = {
     'project-closed': '项目已关闭，不能继续推进。'
 };
 
-const PROJECT_LIFECYCLE_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed'] as const;
-const PROJECT_TERMINAL_STAGES = ['completed', 'closed-lost', 'closed-terminated'] as const;
+const PROJECT_LIFECYCLE_STAGES = [
+    ProjectStage.Assessment,
+    ProjectStage.ScopeConfirmation,
+    ProjectStage.CommercialClosure,
+    ProjectStage.Contracting,
+    ProjectStage.Handover,
+    ProjectStage.Execution,
+    ProjectStage.Acceptance,
+    ProjectStage.Completed
+] as const satisfies readonly ProjectStage[];
+const PROJECT_TERMINAL_STAGES = [ProjectStage.Completed, ProjectStage.ClosedLost, ProjectStage.ClosedTerminated] as const satisfies readonly ProjectStage[];
 
 type ProjectLifecycleStage = (typeof PROJECT_LIFECYCLE_STAGES)[number];
 type ProjectTerminalStage = (typeof PROJECT_TERMINAL_STAGES)[number];
@@ -126,15 +137,15 @@ interface ProjectArchivePanelView {
     stage: ProjectTerminalStage;
 }
 
-const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[number], string> = {
-    assessment: '判断是否继续推进',
-    'scope-confirmation': '确认范围与边界',
-    'commercial-closure': '收口商务条件',
-    contracting: '完成合同签署',
-    handover: '移交经营依据',
-    execution: '进入正式执行',
-    acceptance: '完成验收确认',
-    completed: '形成业务完成结论'
+const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
+    [ProjectStage.Assessment]: '判断是否继续推进',
+    [ProjectStage.ScopeConfirmation]: '确认范围与边界',
+    [ProjectStage.CommercialClosure]: '收口商务条件',
+    [ProjectStage.Contracting]: '完成合同签署',
+    [ProjectStage.Handover]: '移交经营依据',
+    [ProjectStage.Execution]: '进入正式执行',
+    [ProjectStage.Acceptance]: '完成验收确认',
+    [ProjectStage.Completed]: '形成业务完成结论'
 };
 
 @Component({
@@ -377,13 +388,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<(typeof PROJECT_LIFECYCLE_STAGES)[n
                     </div>
                 </div>
 
-                <app-attachment-panel
-                    [targetType]="projectAttachmentTargetType"
-                    [targetId]="project.id"
-                    [canWrite]="canWriteProjectAttachment()"
-                    title="项目附件"
-                    description="保存项目启动、需求确认、设计、交付、验收、变更和归档相关资料。"
-                />
+                <app-attachment-panel [targetType]="projectAttachmentTargetType" [targetId]="project.id" [canWrite]="canWriteProjectAttachment()" title="项目附件" description="保存项目启动、需求确认、设计、交付、验收、变更和归档相关资料。" />
 
                 @if (followUpReminderEntry()) {
                     <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方项目销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
@@ -1298,7 +1303,7 @@ export class ProjectDetail implements OnInit {
     lifecycleItems(project: ProjectDetailView, timeline: ProjectTimelineView | null): ProjectLifecycleTimelineItem[] {
         const currentStage = project.stageSummary.currentStage;
         const currentIndex = PROJECT_LIFECYCLE_STAGES.findIndex((stage) => stage === currentStage);
-        const isBlocked = project.stageSummary.status === 'blocked' || project.stageSummary.blockingReasons.length > 0;
+        const isBlocked = project.stageSummary.status === ProjectStatus.Blocked || project.stageSummary.blockingReasons.length > 0;
         const milestoneByStage = this.timelineEventByStage(timeline);
 
         return PROJECT_LIFECYCLE_STAGES.map((stage, index) => {

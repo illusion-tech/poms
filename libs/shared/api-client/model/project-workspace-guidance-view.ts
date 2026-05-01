@@ -7,14 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
+import { ProjectStage } from './project-stage';
 import { ProjectWorkspaceEntryView } from './project-workspace-entry-view';
 import { ProjectWorkspaceBasisSummary } from './project-workspace-basis-summary';
 
 
 export interface ProjectWorkspaceGuidanceView {
     projectId: string;
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     currentStageLabel: string;
     statusLabel: string;
     headline: string;

@@ -225,6 +225,8 @@ export * from './project-pricing-margin-condition-item-view';
 export * from './project-pricing-margin-review-summary';
 export * from './project-pricing-margin-workspace-view';
 export * from './project-source-lead-summary';
+export * from './project-stage';
+export * from './project-status';
 export * from './project-summary';
 export * from './project-technical-cost-item-input';
 export * from './project-technical-cost-item-view';

@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, ProjectStore, type CustomerListView, type ProjectListView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { ProjectList } from './project-list';
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
@@ -39,8 +39,8 @@ function createProject(overrides: Partial<ProjectListView> = {}): ProjectListVie
         customerId: 'customer-1',
         customerName: '华南地铁集团',
         customerProjectNo: null,
-        currentStage: 'commercial-closure',
-        status: 'active',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Active,
         ownerOrgName: '华南销售一部',
         ownerName: '张销售',
         latestMilestoneAt: '2026-04-20T10:00:00.000Z',

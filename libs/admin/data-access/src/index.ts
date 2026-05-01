@@ -34,6 +34,8 @@ export {
     ContractReadinessApi,
     NavigationApi,
     PlatformApi,
+    ProjectStage,
+    ProjectStatus,
     ProjectApi,
     ProjectCostApi,
     ProjectHandoverApi,

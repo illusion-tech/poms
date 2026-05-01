@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
+import { ProjectStage } from './project-stage';
 
 
 export interface ProjectListView {
@@ -16,8 +18,8 @@ export interface ProjectListView {
     customerId: string | null;
     customerName: string | null;
     customerProjectNo: string | null;
-    currentStage: string;
-    status: string;
+    currentStage: ProjectStage;
+    status: ProjectStatus;
     ownerOrgName: string | null;
     ownerName: string | null;
     latestMilestoneAt: string | null;

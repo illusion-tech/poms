@@ -1,14 +1,14 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { type ContractReadinessDetail, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { type ContractReadinessDetail, ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectPreSigningOverview } from './project-pre-signing-overview';
 
 function createGuidance(overrides: Partial<ProjectWorkspaceGuidanceView> = {}): ProjectWorkspaceGuidanceView {
     return {
         projectId: 'project-1',
-        currentStage: 'commercial-closure',
-        status: 'blocked',
+        currentStage: ProjectStage.CommercialClosure,
+        status: ProjectStatus.Blocked,
         currentStageLabel: '商务收口',
         statusLabel: '阻塞中',
         headline: '把报价、投标和成交条件统一到一个口径',

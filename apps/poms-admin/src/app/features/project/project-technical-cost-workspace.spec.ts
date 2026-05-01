@@ -1,14 +1,14 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectWorkspaceStore, type ProjectTechnicalCostWorkspaceView } from '@poms/admin-data-access';
+import { ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectTechnicalCostWorkspaceView } from '@poms/admin-data-access';
 import { ProjectTechnicalCostWorkspace } from './project-technical-cost-workspace';
 
 function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> = {}): ProjectTechnicalCostWorkspaceView {
     return {
         projectId: 'project-1',
-        currentStage: 'scope-confirmation',
-        status: 'active',
+        currentStage: ProjectStage.ScopeConfirmation,
+        status: ProjectStatus.Active,
         currentPackage: {
             id: 'package-1',
             projectId: 'project-1',

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectStatus } from './project-status';
 
 
 export interface ProjectOwnerReassignmentResult {
@@ -16,13 +17,5 @@ export interface ProjectOwnerReassignmentResult {
     previousOwnerOrgId: string | null;
     newOwnerUserId: string;
     newOwnerOrgId: string | null;
-    businessStatusAfter: ProjectOwnerReassignmentResultBusinessStatusAfterEnum;
+    businessStatusAfter: ProjectStatus;
 }
-export enum ProjectOwnerReassignmentResultBusinessStatusAfterEnum {
-    Active = 'active',
-    PendingApproval = 'pending-approval',
-    Blocked = 'blocked',
-    OnHold = 'on-hold',
-    Completed = 'completed',
-    Closed = 'closed'
-};
