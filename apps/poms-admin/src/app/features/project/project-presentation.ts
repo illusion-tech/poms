@@ -1,3 +1,16 @@
+import {
+    BaselineSelectionSource,
+    CommissionFinalSettlementStatus,
+    CommissionNonRetentionSettlementStatus,
+    CommissionRetentionSettlementStatus,
+    CommissionRoleAssignmentStatus,
+    CommissionRuleExplanationGateDecision,
+    CommissionRuleExplanationStageStatus,
+    OperatingDataMaturityLevel,
+    OperatingRiskLevel,
+    OperatingSignalLevel,
+    OperatingSnapshotActionLevel
+} from '@poms/admin-data-access';
 import type { UiTagSeverityValue } from '../../shared/ui/ui-severity';
 
 export type { UiTagSeverity } from '../../shared/ui/ui-severity';
@@ -20,101 +33,98 @@ export interface ProjectWorkspaceGuide {
 }
 
 const ACTION_LEVEL_LABELS = {
-    PROMPT: '提示',
-    REVIEW: '复核',
-    BLOCK: '阻断'
-} as const;
+    [OperatingSnapshotActionLevel.Prompt]: '提示',
+    [OperatingSnapshotActionLevel.Review]: '复核',
+    [OperatingSnapshotActionLevel.Block]: '阻断'
+} as const satisfies Record<OperatingSnapshotActionLevel, string>;
 
-export type ActionLevelCode = keyof typeof ACTION_LEVEL_LABELS;
+export type ActionLevelCode = OperatingSnapshotActionLevel;
 
 const ACTION_LEVEL_SEVERITIES = {
-    PROMPT: 'info',
-    REVIEW: 'warn',
-    BLOCK: 'danger'
+    [OperatingSnapshotActionLevel.Prompt]: 'info',
+    [OperatingSnapshotActionLevel.Review]: 'warn',
+    [OperatingSnapshotActionLevel.Block]: 'danger'
 } as const satisfies Record<ActionLevelCode, UiTagSeverityValue>;
 
-const SIGNAL_LEVEL_LABELS = {
-    STABLE: '稳定',
-    ATTENTION: '关注',
-    RISK: '风险'
-} as const;
+export type SignalLevelCode = OperatingSignalLevel | OperatingRiskLevel;
 
-export type SignalLevelCode = keyof typeof SIGNAL_LEVEL_LABELS;
+const SIGNAL_LEVEL_LABELS: Readonly<Record<string, string>> = {
+    [OperatingSignalLevel.Attention]: '关注',
+    [OperatingSignalLevel.Alert]: '警报',
+    [OperatingRiskLevel.Risk]: '风险'
+};
 
 const DATA_MATURITY_LEVEL_LABELS = {
-    INSUFFICIENT: '数据不足',
-    PRELIMINARY: '初步可看',
-    MATURE: '成熟'
-} as const;
+    [OperatingDataMaturityLevel.Insufficient]: '数据不足',
+    [OperatingDataMaturityLevel.Preliminary]: '初步可看',
+    [OperatingDataMaturityLevel.Mature]: '成熟'
+} as const satisfies Record<OperatingDataMaturityLevel, string>;
 
-export type DataMaturityLevelCode = keyof typeof DATA_MATURITY_LEVEL_LABELS;
+export type DataMaturityLevelCode = OperatingDataMaturityLevel;
 
 const COMMISSION_SETTLEMENT_STATUS_LABELS = {
-    'pending-final-settlement': '待最终结算',
-    'pending-non-retention': '非质保待结算',
-    'pending-retention-settlement': '质保金待结算',
-    'waiting-retention': '待质保金条件',
-    'ready-retention': '质保金可结算',
-    settled: '已结清',
-    'settled-non-retention': '非质保已结清',
-    'settled-final': '最终结算已完成',
-    'settled-retention': '质保金已结清'
-} as const;
+    [CommissionFinalSettlementStatus.PendingFinalSettlement]: '待最终结算',
+    [CommissionFinalSettlementStatus.PendingRetentionSettlement]: '质保金待结算',
+    [CommissionFinalSettlementStatus.SettledAll]: '全部结清',
+    [CommissionNonRetentionSettlementStatus.PendingNonRetention]: '非质保待结算',
+    [CommissionNonRetentionSettlementStatus.SettledNonRetention]: '非质保已结清',
+    [CommissionRetentionSettlementStatus.WaitingRetention]: '待质保金条件',
+    [CommissionRetentionSettlementStatus.ReadyRetention]: '质保金可结算',
+    [CommissionRetentionSettlementStatus.SettledRetention]: '质保金已结清'
+} as const satisfies Record<CommissionFinalSettlementStatus | CommissionNonRetentionSettlementStatus | CommissionRetentionSettlementStatus, string>;
 
-export type CommissionSettlementStatusCode = keyof typeof COMMISSION_SETTLEMENT_STATUS_LABELS;
+export type CommissionSettlementStatusCode = CommissionFinalSettlementStatus | CommissionNonRetentionSettlementStatus | CommissionRetentionSettlementStatus;
 
 const COMMISSION_SETTLEMENT_STATUS_SEVERITIES = {
-    'pending-final-settlement': 'warn',
-    'pending-non-retention': 'info',
-    'pending-retention-settlement': 'warn',
-    'waiting-retention': 'warn',
-    'ready-retention': 'info',
-    settled: 'success',
-    'settled-non-retention': 'success',
-    'settled-final': 'success',
-    'settled-retention': 'success'
+    [CommissionFinalSettlementStatus.PendingFinalSettlement]: 'warn',
+    [CommissionFinalSettlementStatus.PendingRetentionSettlement]: 'warn',
+    [CommissionFinalSettlementStatus.SettledAll]: 'success',
+    [CommissionNonRetentionSettlementStatus.PendingNonRetention]: 'info',
+    [CommissionNonRetentionSettlementStatus.SettledNonRetention]: 'success',
+    [CommissionRetentionSettlementStatus.WaitingRetention]: 'warn',
+    [CommissionRetentionSettlementStatus.ReadyRetention]: 'info',
+    [CommissionRetentionSettlementStatus.SettledRetention]: 'success'
 } as const satisfies Record<CommissionSettlementStatusCode, UiTagSeverityValue>;
 
 const BASELINE_SELECTION_SOURCE_LABELS = {
-    original: '原始经营基线',
-    handover_rebaseline: '移交再基线化'
-} as const;
+    [BaselineSelectionSource.Original]: '原始经营基线',
+    [BaselineSelectionSource.HandoverRebaseline]: '移交再基线化'
+} as const satisfies Record<BaselineSelectionSource, string>;
 
-export type BaselineSelectionSourceCode = keyof typeof BASELINE_SELECTION_SOURCE_LABELS;
+export type BaselineSelectionSourceCode = BaselineSelectionSource;
 
 const FREEZE_VERSION_STATUS_LABELS = {
-    draft: '草稿',
-    frozen: '已冻结',
-    superseded: '已被替代'
-} as const;
+    [CommissionRoleAssignmentStatus.Draft]: '草稿',
+    [CommissionRoleAssignmentStatus.Frozen]: '已冻结',
+    [CommissionRoleAssignmentStatus.Superseded]: '已被替代'
+} as const satisfies Record<CommissionRoleAssignmentStatus, string>;
 
-export type FreezeVersionStatusCode = keyof typeof FREEZE_VERSION_STATUS_LABELS;
+export type FreezeVersionStatusCode = CommissionRoleAssignmentStatus;
 
 const FREEZE_VERSION_STATUS_SEVERITIES = {
-    draft: 'secondary',
-    frozen: 'success',
-    superseded: 'warn'
+    [CommissionRoleAssignmentStatus.Draft]: 'secondary',
+    [CommissionRoleAssignmentStatus.Frozen]: 'success',
+    [CommissionRoleAssignmentStatus.Superseded]: 'warn'
 } as const satisfies Record<FreezeVersionStatusCode, UiTagSeverityValue>;
 
 const COMMISSION_RULE_STAGE_LABELS = {
-    'blocked-retention': '质保金结算阻塞',
-    'blocked-final-settlement': '最终结算阻塞',
-    'ready-final-settlement': '可进入最终结算',
-    'ready-retention': '可进入质保金结算',
-    settled: '已结清'
-} as const;
+    [CommissionRuleExplanationStageStatus.PendingFinalSettlement]: '待最终结算',
+    [CommissionRuleExplanationStageStatus.BlockedRetention]: '质保金结算阻塞',
+    [CommissionRuleExplanationStageStatus.ReadyRetention]: '可进入质保金结算',
+    [CommissionRuleExplanationStageStatus.SettledRetention]: '质保金已结清'
+} as const satisfies Record<CommissionRuleExplanationStageStatus, string>;
 
-export type CommissionRuleStageCode = keyof typeof COMMISSION_RULE_STAGE_LABELS;
+export type CommissionRuleStageCode = CommissionRuleExplanationStageStatus;
 
 const COMMISSION_GATE_DECISION_LABELS = {
-    BLOCK_RETENTION: '阻断质保金结算',
-    BLOCK_FINAL_SETTLEMENT: '阻断最终结算',
-    READY_FOR_FINAL_SETTLEMENT: '可进入最终结算',
-    READY_FOR_RETENTION_SETTLEMENT: '可进入质保金结算',
-    SETTLED: '已结清'
-} as const;
+    [CommissionRuleExplanationGateDecision.AllowFinalSettlement]: '允许最终结算',
+    [CommissionRuleExplanationGateDecision.SettledRetention]: '质保金已结清',
+    [CommissionRuleExplanationGateDecision.BlockRetention]: '阻断质保金结算',
+    [CommissionRuleExplanationGateDecision.ReviewRetention]: '复核质保金结算',
+    [CommissionRuleExplanationGateDecision.AllowRetention]: '允许质保金结算'
+} as const satisfies Record<CommissionRuleExplanationGateDecision, string>;
 
-export type GateDecisionCode = keyof typeof COMMISSION_GATE_DECISION_LABELS;
+export type GateDecisionCode = CommissionRuleExplanationGateDecision;
 
 function knownLabel<TLabels extends Readonly<Record<string, string>>, TCode extends keyof TLabels & string>(labels: TLabels, code: TCode): TLabels[TCode] {
     return labels[code];
@@ -175,7 +185,7 @@ export function actionLevelSeverityOrFallback(level: string | null | undefined):
 }
 
 export function signalLevelLabel(level: SignalLevelCode): string {
-    return knownLabel(SIGNAL_LEVEL_LABELS, level);
+    return SIGNAL_LEVEL_LABELS[level];
 }
 
 export function signalLevelLabelOrFallback(level: string | null | undefined): string {
@@ -250,8 +260,11 @@ export function gateDecisionSeverity(code: GateDecisionCode): UiTagSeverityValue
     if (code.startsWith('BLOCK')) {
         return 'danger';
     }
-    if (code.startsWith('READY') || code === 'SETTLED') {
+    if (code.startsWith('ALLOW') || code.startsWith('SETTLED')) {
         return 'success';
+    }
+    if (code.startsWith('REVIEW')) {
+        return 'warn';
     }
 
     return 'secondary';
@@ -265,7 +278,7 @@ export function gateDecisionSeverityOrFallback(code: string | null | undefined):
     if (code.startsWith('BLOCK')) {
         return 'danger';
     }
-    if (code.startsWith('READY') || code === 'SETTLED') {
+    if (code.startsWith('ALLOW') || code.startsWith('SETTLED')) {
         return 'success';
     }
     if (code.startsWith('REVIEW')) {

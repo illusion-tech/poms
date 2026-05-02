@@ -496,10 +496,12 @@
 15. 2026-05-01 已完成 `EX-56A` 的 `G4` 收口，提交 `83b8205` 固定 Project 主状态 / 阶段枚举从 shared contract、DB check、OpenAPI / generated client 到 API service/query 和 Admin 展示的跨层一致性；迁移已将开发库历史 `current_stage = 'lead'` 归一到 `assessment` 后再添加 check constraint。
 16. 2026-05-01 `EX-56B` 已完成 `G4`，提交 `3466860`：待办、审批、业务域和业务对象类型已从 shared contract、entity / DB check、OpenAPI / generated client、API 写入路径到 Admin enum 消费完成收口；本片不新增 public route，不收窄 `CommandResult.resultStatus` / `businessStatusAfter`。
 17. 2026-05-02 `EX-56C` 已完成 `G4`，提交 `cca50c0`：客户、线索、附件、销售跟进域已收敛到 shared value object / generated enum 消费；`customer_alias.alias_type` check 与附件 status 默认值迁移已落地。
-18. 2026-05-02 `EX-56D` 已进入父级 `G1` 拆分：因财务、项目成本、提成覆盖面过大，先拆为 `EX-56D1` 合同与财务台账、`EX-56D2` 项目成本与经营快照、`EX-56D3` 提成计算 / 发放 / 调整 / 结算三个可执行子切片；父任务不直接写代码。当前从 `EX-56D1` 开始。
+18. 2026-05-02 `EX-56D` 已完成 `G4`：财务、项目成本和提成枚举收口按 `EX-56D1` / `EX-56D2` / `EX-56D3` 三个可执行子切片完成，父任务不再直接遗留运行时代码范围。
 19. 2026-05-02 `EX-56D1` 已完成 `G4`，提交 `212ba15`：合同与财务台账状态 / 类型已补齐 shared value object、entity check、开发库 DB check、migration、OpenAPI / generated client 与最小 Admin generated enum 消费；`source_type` 开放来源语义保留，项目成本和提成枚举继续由 `EX-56D2` / `EX-56D3` 承接。
 20. 2026-05-02 `EX-56D2` 已完成 `G4`，提交 `ecf9278`：项目实际成本、经营基线 / 快照、期间关账、重述、共享成本分摊、成本归属、税务处理、数据成熟度、经营信号和 gate 绑定的闭合字段已收敛到 shared value object、entity check、OpenAPI / generated client 与 Admin label 展示；其中 `dataMaturityLevel` 坚持使用代码值 `INSUFFICIENT/PRELIMINARY/MATURE`，中文只在展示层映射，migration 按开发期 direct cutover，不保留兼容映射。
-21. 2026-05-02 `EX-56D3` 已进入 `G3 / Review`：提成规则版本、角色冻结、计算、发放、调整、离职例外、最终结算、冻结争议 / 变更和 gate 复核中的闭合字段已收敛到 shared value object、entity check、direct cutover migration、OpenAPI / generated client 与 Admin generated enum 消费；不改变提成金额、审批、敏感投影或 public route surface。
+21. 2026-05-02 `EX-56D3` 已完成 `G4`，提交 `792d9f9`：提成规则版本、角色冻结、计算、发放、调整、离职例外、最终结算、冻结争议 / 变更和 gate 复核中的闭合字段已收敛到 shared value object、entity check、direct cutover migration、OpenAPI / generated client 与 Admin generated enum 消费；不改变提成金额、审批、敏感投影或 public route surface。
+22. 2026-05-02 `FE-52` 已进入 `G1`：新增 `fe-52-admin-enum-consumption-baseline.md`，冻结 Admin 前端枚举消费治理边界，并一次性拆为 `FE-52A` shared presentation / re-export、`FE-52B` CRM 页面、`FE-52C` 项目合同提成页面、`FE-52D` 残留扫描与例外清单；demo/template/mock UI 与 UI-only severity 不纳入领域枚举收口。
+23. 2026-05-02 `FE-52A` 已进入 `G3 / Review`：`admin-data-access` 补齐前端共享展示层需要的 generated enum re-export，`status-presentation` / `project-presentation` 的闭合状态、阶段、等级、决策 label 与 severity 已改为 generated enum key，并新增 `project-presentation.spec.ts` 覆盖经营等级、结算状态和规则解释决策映射。
 
 ---
 

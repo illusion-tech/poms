@@ -1,4 +1,4 @@
-import { ProjectStage, ProjectStatus } from '@poms/admin-data-access';
+import { ApprovalStatus, CommissionAdjustmentStatus, CommissionCalculationStatus, CommissionPayoutStatus, ContractStatus, LeadStatus, ProjectStage, ProjectStatus } from '@poms/admin-data-access';
 import {
     archiveStatusLabel,
     archiveStatusSeverity,
@@ -43,23 +43,23 @@ describe('status presentation', () => {
     });
 
     it('maps lead, contract, approval and archive statuses', () => {
-        const leadStatus = 'qualified' satisfies LeadStatusCode;
-        const contractStatus = 'pending-review' satisfies ContractStatusCode;
+        const leadStatus = LeadStatus.Qualified satisfies LeadStatusCode;
+        const contractStatus = ContractStatus.PendingReview satisfies ContractStatusCode;
 
         expect(leadStatusLabel(leadStatus)).toBe('已有效');
         expect(leadStatusSeverity(leadStatus)).toBe('success');
         expect(contractStatusLabel(contractStatus)).toBe('待审核');
         expect(contractStatusSeverity(contractStatus)).toBe('warn');
-        expect(approvalStatusLabel('rejected')).toBe('已驳回');
-        expect(approvalStatusSeverity('rejected')).toBe('danger');
+        expect(approvalStatusLabel(ApprovalStatus.Rejected)).toBe('已驳回');
+        expect(approvalStatusSeverity(ApprovalStatus.Rejected)).toBe('danger');
         expect(archiveStatusLabel('superseded')).toBe('已被替代');
         expect(archiveStatusSeverity('superseded')).toBe('warn');
     });
 
     it('maps commission operation statuses', () => {
-        const calculationStatus = 'effective' satisfies CommissionCalculationStatusCode;
-        const payoutStatus = 'reversed' satisfies CommissionPayoutStatusCode;
-        const adjustmentStatus = 'executed' satisfies CommissionAdjustmentStatusCode;
+        const calculationStatus = CommissionCalculationStatus.Effective satisfies CommissionCalculationStatusCode;
+        const payoutStatus = CommissionPayoutStatus.Reversed satisfies CommissionPayoutStatusCode;
+        const adjustmentStatus = CommissionAdjustmentStatus.Executed satisfies CommissionAdjustmentStatusCode;
 
         expect(commissionCalculationStatusLabel(calculationStatus)).toBe('已生效');
         expect(commissionCalculationStatusSeverity(calculationStatus)).toBe('success');
