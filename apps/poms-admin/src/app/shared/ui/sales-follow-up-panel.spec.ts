@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SalesFollowUpStore, type SalesFollowUpRecordSummary } from '@poms/admin-data-access';
+import { SalesFollowUpOutcome, SalesFollowUpRecordLifecycleScope, SalesFollowUpRecordStatus, SalesFollowUpStore, SalesFollowUpType, type SalesFollowUpRecordSummary } from '@poms/admin-data-access';
 import { SalesFollowUpPanel } from './sales-follow-up-panel';
 
 function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): SalesFollowUpRecordSummary {
@@ -12,12 +12,12 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         leadName: '华南地铁线索',
         projectId: null,
         projectName: null,
-        followUpType: 'meeting' as SalesFollowUpRecordSummary['followUpType'],
-        status: 'active',
+        followUpType: SalesFollowUpType.Meeting,
+        status: SalesFollowUpRecordStatus.Active,
         occurredAt: '2026-05-01T09:00:00.000Z',
         summary: '完成预算口径确认',
         detail: '客户确认预算口径，下周补充范围清单。',
-        outcome: 'progress' as SalesFollowUpRecordSummary['outcome'],
+        outcome: SalesFollowUpOutcome.Progress,
         nextFollowUpAt: '2026-05-08T09:00:00.000Z',
         ownerOrgId: 'org-1',
         ownerOrgName: '华南销售一部',
@@ -65,7 +65,7 @@ describe('SalesFollowUpPanel', () => {
             loadFollowUps: jest.fn().mockResolvedValue(followUps()),
             createFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
             replaceFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
-            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: 'voided' })),
+            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: SalesFollowUpRecordStatus.Voided })),
             clearFollowUps: jest.fn()
         };
 
@@ -99,7 +99,7 @@ describe('SalesFollowUpPanel', () => {
             customerId: 'customer-1',
             leadId: 'lead-1',
             projectId: 'project-1',
-            lifecycleScope: 'active'
+            lifecycleScope: SalesFollowUpRecordLifecycleScope.Active
         });
         expect(fixture.nativeElement.textContent).toContain('完成预算口径确认');
         expect(fixture.nativeElement.textContent).toContain('线索跟进');
@@ -124,11 +124,11 @@ describe('SalesFollowUpPanel', () => {
             customerId: 'customer-1',
             leadId: null,
             projectId: 'project-1',
-            followUpType: 'meeting',
+            followUpType: SalesFollowUpType.Meeting,
             occurredAt: '2026-05-02T10:30:00.000Z',
             summary: '项目推进会完成',
             detail: '客户确认交付窗口',
-            outcome: 'progress',
+            outcome: SalesFollowUpOutcome.Progress,
             nextFollowUpAt: null
         });
         expect(component.dialogVisible).toBe(false);
@@ -147,7 +147,7 @@ describe('SalesFollowUpPanel', () => {
             customerId: 'customer-1',
             leadId: 'lead-1',
             projectId: undefined,
-            lifecycleScope: 'all'
+            lifecycleScope: SalesFollowUpRecordLifecycleScope.All
         });
     });
 
@@ -167,11 +167,11 @@ describe('SalesFollowUpPanel', () => {
         await component.createFollowUp();
 
         expect(salesFollowUpStoreMock.replaceFollowUp).toHaveBeenCalledWith('follow-up-1', {
-            followUpType: 'meeting',
+            followUpType: SalesFollowUpType.Meeting,
             occurredAt: '2026-05-01T09:00:00.000Z',
             summary: '更正后的摘要',
             detail: '更正后的详情',
-            outcome: 'progress',
+            outcome: SalesFollowUpOutcome.Progress,
             nextFollowUpAt: '2026-05-08T09:00:00.000Z',
             ownerOrgId: 'org-1',
             ownerUserId: 'user-1',

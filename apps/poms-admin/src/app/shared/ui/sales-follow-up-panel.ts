@@ -82,10 +82,6 @@ const SALES_FOLLOW_UP_OUTCOME_OPTIONS: SalesFollowUpOption<SalesFollowUpOutcome>
     { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Other], value: SalesFollowUpOutcome.Other }
 ];
 
-const SALES_FOLLOW_UP_TYPE_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_TYPE_LABELS;
-const SALES_FOLLOW_UP_OUTCOME_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_OUTCOME_LABELS;
-const SALES_FOLLOW_UP_STATUS_DISPLAY_LABELS: Record<string, string> = SALES_FOLLOW_UP_STATUS_LABELS;
-
 const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     followUpType: DEFAULT_FOLLOW_UP_TYPE,
     occurredAt: null,
@@ -618,19 +614,19 @@ export class SalesFollowUpPanel implements OnChanges {
         return Boolean(this.customerId);
     }
 
-    getTypeName(type: SalesFollowUpType | string): string {
-        return SALES_FOLLOW_UP_TYPE_DISPLAY_LABELS[type] ?? type;
+    getTypeName(type: SalesFollowUpType): string {
+        return SALES_FOLLOW_UP_TYPE_LABELS[type];
     }
 
-    getOutcomeName(outcome: SalesFollowUpOutcome | string): string {
-        return SALES_FOLLOW_UP_OUTCOME_DISPLAY_LABELS[outcome] ?? outcome;
+    getOutcomeName(outcome: SalesFollowUpOutcome): string {
+        return SALES_FOLLOW_UP_OUTCOME_LABELS[outcome];
     }
 
-    getStatusName(status: SalesFollowUpRecordStatus | string): string {
-        return SALES_FOLLOW_UP_STATUS_DISPLAY_LABELS[status] ?? status;
+    getStatusName(status: SalesFollowUpRecordStatus): string {
+        return SALES_FOLLOW_UP_STATUS_LABELS[status];
     }
 
-    getStatusSeverity(status: SalesFollowUpRecordStatus | string): 'success' | 'secondary' | 'danger' {
+    getStatusSeverity(status: SalesFollowUpRecordStatus): 'success' | 'secondary' | 'danger' {
         if (status === SalesFollowUpRecordStatus.Active) {
             return 'success';
         }

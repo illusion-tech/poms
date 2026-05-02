@@ -8,6 +8,7 @@ import {
     CustomerAliasType,
     CustomerStatus,
     CustomerStore,
+    SalesFollowUpRecordLifecycleScope,
     SalesFollowUpStore,
     type AttachmentSummary,
     type CustomerAliasSummary,
@@ -247,7 +248,7 @@ describe('CustomerList', () => {
             customerId: 'customer-1',
             leadId: undefined,
             projectId: undefined,
-            lifecycleScope: 'active'
+            lifecycleScope: SalesFollowUpRecordLifecycleScope.Active
         });
     });
 

@@ -7,15 +7,23 @@ import {
     CustomerStatus,
     CustomerStore,
     LeadAllowedAction,
+    LeadBudgetStatus,
     LeadGateMissingItem,
     LeadGateStatus,
     LeadOwnershipScope,
     LeadRating,
+    LeadSourceStatus,
+    LeadStatus,
     LeadStore,
+    LeadUrgency,
     PlatformStore,
     ProjectStage,
     ProjectStatus,
+    SalesFollowUpOutcome,
+    SalesFollowUpRecordLifecycleScope,
+    SalesFollowUpRecordStatus,
     SalesFollowUpStore,
+    SalesFollowUpType,
     type AttachmentSummary,
     type CustomerListView,
     type LeadDetailView,
@@ -70,9 +78,9 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         sourceName: '客户拜访',
         sourceChannel: '客户拜访',
         demandDescription: '客户计划建设地铁运维数字化平台。',
-        budgetStatus: 'budget-confirmed',
+        budgetStatus: LeadBudgetStatus.BudgetConfirmed,
         estimatedAmount: '1000000.00',
-        urgency: 'high',
+        urgency: LeadUrgency.High,
         expectedDecisionDate: '2026-05-01',
         score: 95,
         rating: LeadRating.A,
@@ -90,7 +98,7 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
                 explanation: '缺少：已确认有效状态'
             }
         },
-        status: 'registered',
+        status: LeadStatus.Registered,
         ownerOrgId: 'org-1',
         ownerUserId: 'user-1',
         ownerName: '张销售',
@@ -126,7 +134,7 @@ function createLeadSource(overrides: Partial<LeadSourceSummary> = {}): LeadSourc
         code: 'customer-visit',
         name: '客户拜访',
         description: '客户现场拜访',
-        status: 'active',
+        status: LeadSourceStatus.Active,
         sortOrder: 10,
         usageCount: 1,
         rowVersion: 1,
@@ -194,12 +202,12 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         leadName: '华南地铁线索',
         projectId: null,
         projectName: null,
-        followUpType: 'meeting' as SalesFollowUpRecordSummary['followUpType'],
-        status: 'active',
+        followUpType: SalesFollowUpType.Meeting,
+        status: SalesFollowUpRecordStatus.Active,
         occurredAt: '2026-04-25T10:00:00.000Z',
         summary: '完成预算口径确认',
         detail: '客户确认预算口径，等待内部排期。',
-        outcome: 'progress' as SalesFollowUpRecordSummary['outcome'],
+        outcome: SalesFollowUpOutcome.Progress,
         nextFollowUpAt: '2026-04-26T02:00:00.000Z',
         ownerOrgId: 'org-1',
         ownerOrgName: '华南销售一部',
@@ -359,10 +367,10 @@ describe('LeadList', () => {
             loadingDetail: signal(false),
             saving: signal(false),
             loadedSources: signal(true),
-            registeredLeadCount: computed(() => leads().filter((lead) => lead.status === 'registered').length),
-            qualifiedLeadCount: computed(() => leads().filter((lead) => lead.status === 'qualified').length),
-            convertedLeadCount: computed(() => leads().filter((lead) => lead.status === 'converted').length),
-            closedLeadCount: computed(() => leads().filter((lead) => lead.status === 'closed').length),
+            registeredLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Registered).length),
+            qualifiedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Qualified).length),
+            convertedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Converted).length),
+            closedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Closed).length),
             loadLeads: jest.fn().mockResolvedValue(leads()),
             loadLeadSources: jest.fn().mockResolvedValue(leadSources()),
             loadLead: jest.fn().mockImplementation(async () => {
@@ -372,9 +380,9 @@ describe('LeadList', () => {
             }),
             createLead: jest.fn().mockResolvedValue(createLead()),
             createLeadSource: jest.fn().mockResolvedValue(createLeadSource()),
-            updateLeadSource: jest.fn().mockResolvedValue(createLeadSource({ status: 'inactive' })),
-            qualifyLead: jest.fn().mockResolvedValue(createLead({ status: 'qualified' })),
-            closeLead: jest.fn().mockResolvedValue(createLead({ status: 'closed' })),
+            updateLeadSource: jest.fn().mockResolvedValue(createLeadSource({ status: LeadSourceStatus.Inactive })),
+            qualifyLead: jest.fn().mockResolvedValue(createLead({ status: LeadStatus.Qualified })),
+            closeLead: jest.fn().mockResolvedValue(createLead({ status: LeadStatus.Closed })),
             convertLeadToProject: jest.fn().mockResolvedValue(createProjectSummary()),
             claimLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'claimed' }),
             assignLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'assigned' }),
@@ -388,7 +396,7 @@ describe('LeadList', () => {
             loadOwnerReferenceData: jest.fn().mockResolvedValue({ users: ownerUsers(), orgUnits: ownerOrgUnits() })
         };
         customerStoreMock = {
-            activeCustomers: computed(() => customers().filter((customer) => customer.status === 'active')),
+            activeCustomers: computed(() => customers().filter((customer) => customer.status === CustomerStatus.Active)),
             loading: signal(false),
             loaded: signal(false),
             loadCustomers: jest.fn().mockResolvedValue(customers())
@@ -412,7 +420,7 @@ describe('LeadList', () => {
             loadFollowUps: jest.fn().mockResolvedValue(followUps()),
             createFollowUp: jest.fn().mockResolvedValue(createFollowUp()),
             replaceFollowUp: jest.fn().mockResolvedValue(createFollowUp({ id: 'follow-up-2' })),
-            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: 'voided' })),
+            voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: SalesFollowUpRecordStatus.Voided })),
             clearFollowUps: jest.fn(() => followUps.set([]))
         };
 
@@ -534,7 +542,7 @@ describe('LeadList', () => {
             customerId: 'customer-1',
             leadId: 'lead-1',
             projectId: undefined,
-            lifecycleScope: 'active'
+            lifecycleScope: SalesFollowUpRecordLifecycleScope.Active
         });
     });
 
@@ -567,7 +575,7 @@ describe('LeadList', () => {
 
     it('includes the converted project anchor when loading follow-ups for converted leads', async () => {
         const convertedLead = createLeadDetail({
-            status: 'converted',
+            status: LeadStatus.Converted,
             convertedProjectId: 'project-1',
             convertedProjectSummary: createProjectSummary()
         });
@@ -576,7 +584,7 @@ describe('LeadList', () => {
             return convertedLead;
         });
 
-        await component.openLeadDetail(createLead({ status: 'converted', convertedProjectId: 'project-1' }));
+        await component.openLeadDetail(createLead({ status: LeadStatus.Converted, convertedProjectId: 'project-1' }));
         fixture.detectChanges();
         await fixture.whenStable();
 
@@ -584,7 +592,7 @@ describe('LeadList', () => {
             customerId: 'customer-1',
             leadId: 'lead-1',
             projectId: 'project-1',
-            lifecycleScope: 'active'
+            lifecycleScope: SalesFollowUpRecordLifecycleScope.Active
         });
     });
 
@@ -594,9 +602,9 @@ describe('LeadList', () => {
         component.updateCreateCustomer('customer-2');
         component.updateCreateSource('source-2');
         component.updateCreateField('demandDescription', '  客户需要补强枢纽站安防系统。  ');
-        component.updateCreateBudgetStatus('budget-confirmed');
+        component.updateCreateBudgetStatus(LeadBudgetStatus.BudgetConfirmed);
         component.updateCreateField('estimatedAmount', '  2500000.00  ');
-        component.updateCreateUrgency('critical');
+        component.updateCreateUrgency(LeadUrgency.Critical);
         component.updateCreateExpectedDecisionDate(new Date(2026, 5, 1));
 
         await component.createLead();
@@ -606,9 +614,9 @@ describe('LeadList', () => {
             customerId: 'customer-2',
             sourceId: 'source-2',
             demandDescription: '客户需要补强枢纽站安防系统。',
-            budgetStatus: 'budget-confirmed',
+            budgetStatus: LeadBudgetStatus.BudgetConfirmed,
             estimatedAmount: '2500000.00',
-            urgency: 'critical',
+            urgency: LeadUrgency.Critical,
             expectedDecisionDate: '2026-06-01',
             ownerUserId: 'user-1',
             ownerOrgId: 'org-1'
@@ -638,7 +646,7 @@ describe('LeadList', () => {
     it('loads public pool scope and claims an unassigned lead', async () => {
         component.setOwnershipFilter(LeadOwnershipScope.PublicPool);
 
-        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ ownershipScope: 'public-pool' });
+        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ ownershipScope: LeadOwnershipScope.PublicPool });
 
         const publicLead = createLead({
             ownerUserId: null,
@@ -736,7 +744,7 @@ describe('LeadList', () => {
     });
 
     it('converts a qualified lead into a project and navigates to the created project', async () => {
-        const lead = createLead({ status: 'qualified', gateSummary: readyConversionGate() });
+        const lead = createLead({ status: LeadStatus.Qualified, gateSummary: readyConversionGate() });
 
         component.showConvertDialog(lead);
         fixture.detectChanges();
@@ -754,8 +762,8 @@ describe('LeadList', () => {
     });
 
     it('does not expose project conversion for registered or converted leads', () => {
-        expect(component.canConvertLead(createLead({ status: 'registered' }))).toBe(false);
-        expect(component.canConvertLead(createLead({ status: 'converted', convertedProjectId: 'project-1' }))).toBe(false);
-        expect(component.canConvertLead(createLead({ status: 'qualified', gateSummary: readyConversionGate() }))).toBe(true);
+        expect(component.canConvertLead(createLead({ status: LeadStatus.Registered }))).toBe(false);
+        expect(component.canConvertLead(createLead({ status: LeadStatus.Converted, convertedProjectId: 'project-1' }))).toBe(false);
+        expect(component.canConvertLead(createLead({ status: LeadStatus.Qualified, gateSummary: readyConversionGate() }))).toBe(true);
     });
 });

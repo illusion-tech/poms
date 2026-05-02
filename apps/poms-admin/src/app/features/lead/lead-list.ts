@@ -39,14 +39,14 @@ import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
-interface LeadFilterOption {
+interface LeadFilterOption<T extends string = string> {
     label: string;
-    value: string;
+    value: T;
 }
 
-interface LeadColumnFilterOption {
+interface LeadColumnFilterOption<T extends string = string> {
     label: string;
-    value: string | null;
+    value: T | null;
 }
 
 interface LeadSummaryItem {
@@ -111,6 +111,7 @@ interface FollowUpReminderEntry {
 type LeadActionTarget = LeadListView | LeadDetailView;
 
 const ALL_FILTER_VALUE = 'all';
+type LeadAllFilterValue = typeof ALL_FILTER_VALUE;
 
 const LEAD_BUDGET_STATUS_LABELS: Record<LeadBudgetStatus, string> = {
     [LeadBudgetStatus.Unknown]: '预算未知',
@@ -138,6 +139,24 @@ const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
     [LeadSourceStatus.Active]: '启用',
     [LeadSourceStatus.Inactive]: '停用'
 };
+
+const LEAD_STATUS_VALUES = [LeadStatus.Registered, LeadStatus.Qualified, LeadStatus.Converted, LeadStatus.Closed] as const satisfies readonly LeadStatus[];
+
+const LEAD_BUDGET_STATUS_VALUES = [LeadBudgetStatus.Unknown, LeadBudgetStatus.NoBudget, LeadBudgetStatus.RoughBudget, LeadBudgetStatus.BudgetConfirmed, LeadBudgetStatus.BudgetApproved] as const satisfies readonly LeadBudgetStatus[];
+
+const LEAD_URGENCY_VALUES = [LeadUrgency.Low, LeadUrgency.Normal, LeadUrgency.High, LeadUrgency.Critical] as const satisfies readonly LeadUrgency[];
+
+const LEAD_RATING_VALUES = [LeadRating.A, LeadRating.B, LeadRating.C, LeadRating.D] as const satisfies readonly LeadRating[];
+
+const LEAD_STATUS_OPTIONS: Array<LeadFilterOption<LeadStatus | LeadAllFilterValue>> = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
+
+const LEAD_STATUS_COLUMN_FILTER_OPTIONS: Array<LeadColumnFilterOption<LeadStatus>> = [{ label: '任意状态', value: null }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
+
+const LEAD_RATING_OPTIONS: Array<LeadFilterOption<LeadRating | LeadAllFilterValue>> = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...LEAD_RATING_VALUES.map((value) => ({ label: LEAD_RATING_LABELS[value], value }))];
+
+const LEAD_BUDGET_STATUS_OPTIONS: Array<LeadFilterOption<LeadBudgetStatus>> = LEAD_BUDGET_STATUS_VALUES.map((value) => ({ label: LEAD_BUDGET_STATUS_LABELS[value], value }));
+
+const LEAD_URGENCY_OPTIONS: Array<LeadFilterOption<LeadUrgency>> = LEAD_URGENCY_VALUES.map((value) => ({ label: LEAD_URGENCY_LABELS[value], value }));
 
 const DEFAULT_BUDGET_STATUS = LeadBudgetStatus.Unknown;
 const DEFAULT_URGENCY = LeadUrgency.Normal;
@@ -1048,8 +1067,8 @@ export class LeadList implements OnInit {
     readonly saving = this.#leadStore.saving;
     readonly customerLoading = this.#customerStore.loading;
     readonly searchValue = signal('');
-    readonly statusFilter = signal(ALL_FILTER_VALUE);
-    readonly ratingFilter = signal<LeadRating | typeof ALL_FILTER_VALUE>(ALL_FILTER_VALUE);
+    readonly statusFilter = signal<LeadStatus | LeadAllFilterValue>(ALL_FILTER_VALUE);
+    readonly ratingFilter = signal<LeadRating | LeadAllFilterValue>(ALL_FILTER_VALUE);
     readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
     readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
@@ -1081,9 +1100,9 @@ export class LeadList implements OnInit {
     convertDialogVisible = false;
     closeDialogVisible = false;
 
-    readonly statusOptions: LeadFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly statusOptions = LEAD_STATUS_OPTIONS;
 
-    readonly ratingOptions: LeadFilterOption[] = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...Object.entries(LEAD_RATING_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly ratingOptions = LEAD_RATING_OPTIONS;
 
     readonly ownershipOptions: Array<{ label: string; value: LeadOwnershipScope }> = [
         { label: '全部', value: LeadOwnershipScope.All },
@@ -1091,11 +1110,11 @@ export class LeadList implements OnInit {
         { label: '公共池', value: LeadOwnershipScope.PublicPool }
     ];
 
-    readonly statusColumnFilterOptions: LeadColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly statusColumnFilterOptions = LEAD_STATUS_COLUMN_FILTER_OPTIONS;
 
-    readonly budgetStatusOptions: LeadFilterOption[] = Object.entries(LEAD_BUDGET_STATUS_LABELS).map(([value, label]) => ({ label, value }));
+    readonly budgetStatusOptions = LEAD_BUDGET_STATUS_OPTIONS;
 
-    readonly urgencyOptions: LeadFilterOption[] = Object.entries(LEAD_URGENCY_LABELS).map(([value, label]) => ({ label, value }));
+    readonly urgencyOptions = LEAD_URGENCY_OPTIONS;
 
     readonly leadAttachmentTargetType = AttachmentTargetType.Lead;
 
@@ -1164,10 +1183,10 @@ export class LeadList implements OnInit {
         const total = this.totalLeadCount();
 
         return [
-            this.buildLeadDistributionItem('待确认', this.#leadStore.registeredLeadCount(), '需要判断', 'bg-orange-500', 'rgba(249,115,22,0.16)', total),
-            this.buildLeadDistributionItem('已有效', this.#leadStore.qualifiedLeadCount(), '可转项目', 'bg-green-500', 'rgba(34,197,94,0.16)', total),
-            this.buildLeadDistributionItem('已转项目', this.#leadStore.convertedLeadCount(), '已有来源链', 'bg-primary-500', 'rgba(59,130,246,0.16)', total),
-            this.buildLeadDistributionItem('已关闭', this.#leadStore.closedLeadCount(), '不再推进', 'bg-rose-500', 'rgba(244,63,94,0.16)', total)
+            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Registered], this.#leadStore.registeredLeadCount(), '需要判断', 'bg-orange-500', 'rgba(249,115,22,0.16)', total),
+            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Qualified], this.#leadStore.qualifiedLeadCount(), '可转项目', 'bg-green-500', 'rgba(34,197,94,0.16)', total),
+            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Converted], this.#leadStore.convertedLeadCount(), '已有来源链', 'bg-primary-500', 'rgba(59,130,246,0.16)', total),
+            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Closed], this.#leadStore.closedLeadCount(), '不再推进', 'bg-rose-500', 'rgba(244,63,94,0.16)', total)
         ];
     });
 
@@ -1251,12 +1270,12 @@ export class LeadList implements OnInit {
         void this.loadLeads();
     }
 
-    setStatusFilter(value: string) {
-        this.statusFilter.set(value);
+    setStatusFilter(value: LeadStatus | LeadAllFilterValue | null | undefined) {
+        this.statusFilter.set(value ?? ALL_FILTER_VALUE);
         this.first = 0;
     }
 
-    setRatingFilter(value: LeadRating | typeof ALL_FILTER_VALUE | null | undefined) {
+    setRatingFilter(value: LeadRating | LeadAllFilterValue | null | undefined) {
         this.ratingFilter.set(value ?? ALL_FILTER_VALUE);
         this.first = 0;
         void this.loadLeads();
@@ -1748,11 +1767,11 @@ export class LeadList implements OnInit {
         return this.canWriteLead() && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
     }
 
-    getStatusName(status: string): string {
+    getStatusName(status: LeadStatus): string {
         return leadStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string) {
+    getStatusSeverity(status: LeadStatus) {
         return leadStatusSeverityOrFallback(status);
     }
 
@@ -1764,22 +1783,19 @@ export class LeadList implements OnInit {
         return this.displayText(lead.sourceName ?? lead.sourceChannel, '未填写');
     }
 
-    getBudgetStatusName(status: LeadBudgetStatus | string | null | undefined): string {
-        const labels: Record<string, string> = LEAD_BUDGET_STATUS_LABELS;
-        return status ? (labels[status] ?? status) : '未填写';
+    getBudgetStatusName(status: LeadBudgetStatus | null | undefined): string {
+        return status ? LEAD_BUDGET_STATUS_LABELS[status] : '未填写';
     }
 
-    getUrgencyName(urgency: LeadUrgency | string | null | undefined): string {
-        const labels: Record<string, string> = LEAD_URGENCY_LABELS;
-        return urgency ? (labels[urgency] ?? urgency) : '未填写';
+    getUrgencyName(urgency: LeadUrgency | null | undefined): string {
+        return urgency ? LEAD_URGENCY_LABELS[urgency] : '未填写';
     }
 
-    getLeadRatingName(rating: LeadRating | string | null | undefined): string {
-        const labels: Record<string, string> = LEAD_RATING_LABELS;
-        return rating ? (labels[rating] ?? rating) : '未评级';
+    getLeadRatingName(rating: LeadRating | null | undefined): string {
+        return rating ? LEAD_RATING_LABELS[rating] : '未评级';
     }
 
-    getLeadRatingSeverity(rating: LeadRating | string | null | undefined) {
+    getLeadRatingSeverity(rating: LeadRating | null | undefined) {
         switch (rating) {
             case LeadRating.A:
                 return 'success';
@@ -1793,7 +1809,7 @@ export class LeadList implements OnInit {
     }
 
     getSourceStatusName(status: LeadSourceStatus): string {
-        return LEAD_SOURCE_STATUS_LABELS[status] ?? status;
+        return LEAD_SOURCE_STATUS_LABELS[status];
     }
 
     getSourceStatusSeverity(status: LeadSourceStatus) {

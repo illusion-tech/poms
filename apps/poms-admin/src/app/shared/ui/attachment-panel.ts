@@ -357,15 +357,15 @@ export class AttachmentPanel implements OnChanges {
     }
 
     categoryLabel(category: AttachmentCategory): string {
-        return ATTACHMENT_CATEGORY_LABELS[category] ?? category;
+        return ATTACHMENT_CATEGORY_LABELS[category];
     }
 
     securityLabel(securityLevel: AttachmentSecurityLevel): string {
-        return ATTACHMENT_SECURITY_LABELS[securityLevel] ?? securityLevel;
+        return ATTACHMENT_SECURITY_LABELS[securityLevel];
     }
 
     securitySeverity(securityLevel: AttachmentSecurityLevel): 'secondary' | 'info' | 'warn' | 'danger' {
-        return ATTACHMENT_SECURITY_SEVERITY[securityLevel] ?? 'secondary';
+        return ATTACHMENT_SECURITY_SEVERITY[securityLevel];
     }
 
     formatSize(sizeBytes: number): string {
