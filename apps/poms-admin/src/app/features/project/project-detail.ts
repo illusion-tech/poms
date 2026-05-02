@@ -67,6 +67,8 @@ interface CustomerOption extends OwnerOption {
     customer: CustomerListView;
 }
 
+type ProjectStagePresentationValue = ProjectStage | ProjectArchiveRecordSummary['archiveAnchorStage'];
+
 interface ReassignOwnerForm {
     ownerUserId: string | null;
     ownerOrgId: string | null;
@@ -1470,19 +1472,19 @@ export class ProjectDetail implements OnInit {
         return BLOCKING_REASON_LABELS[reason] ?? '项目当前存在待处理事项。';
     }
 
-    getStatusName(status: string): string {
+    getStatusName(status: ProjectStatus): string {
         return projectStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string) {
+    getStatusSeverity(status: ProjectStatus) {
         return projectStatusSeverityOrFallback(status);
     }
 
-    getStageName(stage: string): string {
+    getStageName(stage: ProjectStagePresentationValue): string {
         return projectStageLabelOrFallback(stage);
     }
 
-    getStageSeverity(stage: string) {
+    getStageSeverity(stage: ProjectStagePresentationValue) {
         return projectStageSeverityOrFallback(stage);
     }
 

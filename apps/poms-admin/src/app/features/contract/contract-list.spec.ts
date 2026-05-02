@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, ContractStore, ProjectStage, ProjectStatus, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStatus, ContractStore, ProjectStage, ProjectStatus, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
@@ -23,7 +23,7 @@ function createContract(overrides: Partial<ContractSummary> = {}): ContractSumma
         customerName: '城市交通集团',
         contractNo: 'CT-2026-000001',
         customerContractNo: 'KH-HT-2026-01',
-        status: 'draft',
+        status: ContractStatus.Draft,
         signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,

@@ -3,7 +3,7 @@ import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { AuthStore, ContractStatus, ContractStore, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, ContractStatus, ContractStore, ProjectStage, ProjectStatus, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -404,19 +404,19 @@ export class ContractList implements OnInit {
         return contractStatusSeverityOrFallback(status);
     }
 
-    getProjectStageName(stage: string): string {
+    getProjectStageName(stage: ProjectStage): string {
         return projectStageLabelOrFallback(stage);
     }
 
-    getProjectStageSeverity(stage: string) {
+    getProjectStageSeverity(stage: ProjectStage) {
         return projectStageSeverityOrFallback(stage);
     }
 
-    getProjectStatusName(status: string): string {
+    getProjectStatusName(status: ProjectStatus): string {
         return projectStatusLabelOrFallback(status);
     }
 
-    getProjectStatusSeverity(status: string) {
+    getProjectStatusSeverity(status: ProjectStatus) {
         return projectStatusSeverityOrFallback(status);
     }
 }

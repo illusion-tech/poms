@@ -3,6 +3,7 @@ import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApprovalStatus, AttachmentTargetType, AuthStore, ContractStatus, ContractStore } from '@poms/admin-data-access';
+import type { ApprovalStatus as ApprovalStatusCode, ContractStatus as ContractStatusCode } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -16,6 +17,9 @@ import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
+
+type ApprovalStatusPresentationValue = ApprovalStatus | ApprovalStatusCode;
+type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
 
 @Component({
     selector: 'app-contract-detail',
@@ -235,7 +239,7 @@ import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contra
                             <div class="py-10 text-center">
                                 <i class="pi pi-file-edit text-3xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
                                 <p class="text-sm text-surface-500 dark:text-surface-400">
-                                    {{ contract()!.status === 'active' ? '当前合同尚未生成条款快照' : '合同未生效，条款快照将在生效后生成' }}
+                                    {{ contract()!.status === contractStatus.Active ? '当前合同尚未生成条款快照' : '合同未生效，条款快照将在生效后生成' }}
                                 </p>
                             </div>
                         }
@@ -411,14 +415,15 @@ export class ContractDetail implements OnInit, OnDestroy {
     readonly loadingApproval = this.#contractStore.loadingApproval;
     readonly saving = this.#contractStore.saving;
     readonly currentUser = computed(() => this.#authStore.currentUser());
+    readonly contractStatus = ContractStatus;
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
     readonly canManageContractFinance = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly formatSensitiveRatioProjection = formatSensitiveRatioProjection;
     readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
     readonly canReadContractSignedAmount = computed(() => isSensitiveProjectionFull(this.contract()?.signedAmountProjection));
-    readonly canEditContract = computed(() => this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === 'draft');
-    readonly canSubmitReview = computed(() => this.canManageContractFinance() && this.contract()?.status === 'draft');
+    readonly canEditContract = computed(() => this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === ContractStatus.Draft);
+    readonly canSubmitReview = computed(() => this.canManageContractFinance() && this.contract()?.status === ContractStatus.Draft);
     readonly canApprove = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
     readonly canReject = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
     readonly canActivate = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Approved && this.canManageContractFinance());
@@ -439,7 +444,7 @@ export class ContractDetail implements OnInit, OnDestroy {
         if (this.canReject()) return '你可以驳回当前审批，合同将退回草稿';
         if (this.canActivate()) return '审批已通过，下一步应确认合同正式生效';
         if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending) return '合同正在审批流转中，等待当前审批人处理';
-        if (this.contract()?.status === 'active') return '合同已正式生效，可作为后续台账与联动依据';
+        if (this.contract()?.status === ContractStatus.Active) return '合同已正式生效，可作为后续台账与联动依据';
         return '当前没有可执行的命令动作';
     });
     readonly actionDescription = computed(() => {
@@ -448,7 +453,7 @@ export class ContractDetail implements OnInit, OnDestroy {
         if (this.canReject()) return '驳回将关闭当前待办，并把合同状态退回草稿，便于业务侧继续修订。';
         if (this.canActivate()) return '生效后会生成快照标识，并将合同业务状态切换为已生效。';
         if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending) return '审批入口保留在业务页面，统一待办仅作为聚合入口。';
-        if (this.contract()?.status === 'active') return '当前合同已完成审核与生效闭环，后续可以继续接回款、发票等切片。';
+        if (this.contract()?.status === ContractStatus.Active) return '当前合同已完成审核与生效闭环，后续可以继续接回款、发票等切片。';
         return '请结合当前合同状态与审批摘要继续推进。';
     });
 
@@ -610,19 +615,19 @@ export class ContractDetail implements OnInit, OnDestroy {
         }
     }
 
-    getStatusName(status: string): string {
+    getStatusName(status: ContractStatusPresentationValue): string {
         return contractStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string) {
+    getStatusSeverity(status: ContractStatusPresentationValue) {
         return contractStatusSeverityOrFallback(status);
     }
 
-    getApprovalStatusName(status: string): string {
+    getApprovalStatusName(status: ApprovalStatusPresentationValue): string {
         return approvalStatusLabelOrFallback(status);
     }
 
-    getApprovalStatusSeverity(status: string) {
+    getApprovalStatusSeverity(status: ApprovalStatusPresentationValue) {
         return approvalStatusSeverityOrFallback(status);
     }
 

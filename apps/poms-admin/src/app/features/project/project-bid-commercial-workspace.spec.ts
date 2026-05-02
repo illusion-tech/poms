@@ -1,7 +1,18 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectBidCommercialProcessSummary, type ProjectBidCommercialWorkspaceView } from '@poms/admin-data-access';
+import {
+    ProjectBidCommercialProcessSummaryBidModeEnum,
+    ProjectBidCommercialProcessSummaryCurrentStageEnum,
+    ProjectBidCommercialProcessSummaryDecisionEnum,
+    ProjectBidCommercialProcessSummaryResultStatusEnum,
+    ProjectBidCommercialProcessSummaryStatusEnum,
+    ProjectStage,
+    ProjectStatus,
+    ProjectWorkspaceStore,
+    type ProjectBidCommercialProcessSummary,
+    type ProjectBidCommercialWorkspaceView
+} from '@poms/admin-data-access';
 import { ProjectBidCommercialWorkspace } from './project-bid-commercial-workspace';
 
 function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> = {}): ProjectBidCommercialWorkspaceView {
@@ -15,11 +26,11 @@ function createWorkspace(overrides: Partial<ProjectBidCommercialWorkspaceView> =
             version: 2,
             isCurrent: true,
             supersedesId: 'bid-process-0',
-            status: 'effective',
-            bidMode: 'public-tender',
-            currentStage: 'submitted',
-            decision: 'participate',
-            resultStatus: 'pending',
+            status: ProjectBidCommercialProcessSummaryStatusEnum.Effective,
+            bidMode: ProjectBidCommercialProcessSummaryBidModeEnum.PublicTender,
+            currentStage: ProjectBidCommercialProcessSummaryCurrentStageEnum.Submitted,
+            decision: ProjectBidCommercialProcessSummaryDecisionEnum.Participate,
+            resultStatus: ProjectBidCommercialProcessSummaryResultStatusEnum.Pending,
             processSummary: '公开招标已提交，等待客户确认结果。',
             decisionSummary: '销售和商务决定参与本次公开招标。',
             resultSummary: null,
@@ -85,7 +96,7 @@ function createHistory(workspace: ProjectBidCommercialWorkspaceView): ProjectBid
             version: current.version - 1,
             isCurrent: false,
             supersedesId: null,
-            status: 'superseded',
+            status: ProjectBidCommercialProcessSummaryStatusEnum.Superseded,
             processSummary: '旧版竞标过程已被替代。',
             createdBy: null,
             updatedBy: null,

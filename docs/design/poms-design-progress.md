@@ -504,6 +504,9 @@
 23. 2026-05-03 `FE-52A` 已完成 `G4`，提交 `f630ede`：`admin-data-access` 补齐前端共享展示层需要的 generated enum re-export，`status-presentation` / `project-presentation` 的闭合状态、阶段、等级、决策 label 与 severity 已改为 generated enum key，并新增 `project-presentation.spec.ts` 覆盖经营等级、结算状态和规则解释决策映射。
 24. 2026-05-03 `FE-52B` 已进入 `G1 / Doing`：继承 `FE-52` 基线，范围限定客户、线索、附件、销售跟进页面 / store / specs 的 generated enum 消费收口；不改 API、DDL、权限或页面结构。
 25. 2026-05-03 `FE-52B` 已进入 `G3 / Review`：线索页面选项构造不再通过 `Object.entries()` 将 generated enum 退化为普通字符串，附件 / 销售跟进面板移除闭合枚举 fallback，客户 / 线索 / 销售跟进 specs 改用 generated enum 常量；验证通过 `poms-admin` lint、非缓存 build、全量单测、Markdown / diff check。
+26. 2026-05-03 `FE-52B` 已完成 `G4`，提交 `7fc6f43`：CRM 前端页面与 specs 的闭合枚举消费收口可作为后续 `FE-52C` 输入。
+27. 2026-05-03 `FE-52C` 已进入 `G1 / Doing`：继承 `FE-52` 基线，范围限定项目列表 / 详情 / 工作区、合同页、提成页和 focused specs 的 generated enum 消费收口；不改 API、DDL、权限、路由或页面结构。
+28. 2026-05-03 `FE-52C` 已进入 `G3 / Review`：项目列表筛选、项目 / 合同 / 提成状态展示 helper、项目归档 / 时间线 / 投标商务 / 报价毛利 specs 已改用 generated enum 或共享 value object；开放 taxonomy 与后端仍按 `string` 暴露的字段留给 `FE-52D` 例外清单。
 
 ---
 

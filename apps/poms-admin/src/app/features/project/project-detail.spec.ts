@@ -7,7 +7,11 @@ import {
     AuthStore,
     CustomerStatus,
     CustomerStore,
+    LeadStatus,
     PlatformStore,
+    ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum,
+    ProjectArchiveRecordSummaryArchiveAnchorStageEnum,
+    ProjectArchiveRecordSummaryStatusEnum,
     ProjectStore,
     SalesFollowUpStore,
     type AttachmentSummary,
@@ -18,6 +22,8 @@ import {
     type ProjectDetailView,
     ProjectStage,
     ProjectStatus,
+    ProjectTimelineEventEventTypeEnum,
+    ProjectTimelineEventSourceTypeEnum,
     type ProjectTimelineView,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
@@ -143,12 +149,12 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
                 eventKey: 'project-created',
                 stage: ProjectStage.Assessment,
                 stageLabel: '立项评估',
-                eventType: 'stage-entered',
+                eventType: ProjectTimelineEventEventTypeEnum.StageEntered,
                 occurredAt: '2026-04-01T00:00:00.000Z',
                 actorUserId: 'user-1',
                 actorName: '张销售',
                 resultLabel: '项目创建',
-                sourceType: 'project',
+                sourceType: ProjectTimelineEventSourceTypeEnum.Project,
                 sourceId: 'project-1',
                 evidenceLabel: 'P-2026-001',
                 isAuthoritative: true
@@ -157,12 +163,12 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
                 eventKey: 'contract-signed:contract-1',
                 stage: ProjectStage.Contracting,
                 stageLabel: '签约中',
-                eventType: 'stage-completed',
+                eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                 occurredAt: '2026-04-18T08:00:00.000Z',
                 actorUserId: 'user-1',
                 actorName: '张销售',
                 resultLabel: '合同签约完成',
-                sourceType: 'contract',
+                sourceType: ProjectTimelineEventSourceTypeEnum.Contract,
                 sourceId: 'contract-1',
                 evidenceLabel: 'HT-2026-001',
                 isAuthoritative: true
@@ -177,10 +183,10 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
     return {
         id: 'archive-1',
         projectId: 'project-1',
-        archiveAnchorStage: 'completed',
-        archiveAnchorSourceType: 'project',
+        archiveAnchorStage: ProjectArchiveRecordSummaryArchiveAnchorStageEnum.Completed,
+        archiveAnchorSourceType: ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum.Project,
         archiveAnchorSourceId: 'project-1',
-        status: 'recorded',
+        status: ProjectArchiveRecordSummaryStatusEnum.Recorded,
         archivedAt: '2026-04-24T15:20:00.000Z',
         archivedBy: 'user-4',
         archivedByName: '赵归档',
@@ -531,7 +537,7 @@ describe('ProjectDetail', () => {
                     leadName: '华南地铁线索',
                     customerId: 'customer-1',
                     customerName: '华南地铁集团',
-                    status: 'converted'
+                    status: LeadStatus.Converted
                 }
             })
         );
@@ -680,12 +686,12 @@ describe('ProjectDetail', () => {
                     eventKey: 'acceptance-confirmed:acceptance-1',
                     stage: ProjectStage.Acceptance,
                     stageLabel: '验收确认',
-                    eventType: 'stage-completed',
+                    eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                     occurredAt: '2026-04-21T09:30:00.000Z',
                     actorUserId: 'user-2',
                     actorName: '李业务',
                     resultLabel: '最终验收已通过',
-                    sourceType: 'acceptance-record',
+                    sourceType: ProjectTimelineEventSourceTypeEnum.AcceptanceRecord,
                     sourceId: 'acceptance-1',
                     evidenceLabel: '客户最终验收单',
                     isAuthoritative: true
@@ -722,12 +728,12 @@ describe('ProjectDetail', () => {
                     eventKey: 'project-completed:completion-1',
                     stage: ProjectStage.Completed,
                     stageLabel: '已完成',
-                    eventType: 'stage-completed',
+                    eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                     occurredAt: '2026-04-24T11:45:00.000Z',
                     actorUserId: 'user-3',
                     actorName: '王交付',
                     resultLabel: '项目完成已确认',
-                    sourceType: 'project-completion-record',
+                    sourceType: ProjectTimelineEventSourceTypeEnum.ProjectCompletionRecord,
                     sourceId: 'completion-1',
                     evidenceLabel: '项目完成确认单',
                     isAuthoritative: true
@@ -765,12 +771,12 @@ describe('ProjectDetail', () => {
                     eventKey: 'project-archive:archive-1',
                     stage: ProjectStage.Completed,
                     stageLabel: '已完成',
-                    eventType: 'milestone',
+                    eventType: ProjectTimelineEventEventTypeEnum.Milestone,
                     occurredAt: '2026-04-24T15:20:00.000Z',
                     actorUserId: 'user-4',
                     actorName: '赵归档',
                     resultLabel: '项目资料已完成归档',
-                    sourceType: 'project-archive-record',
+                    sourceType: ProjectTimelineEventSourceTypeEnum.ProjectArchiveRecord,
                     sourceId: 'archive-1',
                     evidenceLabel: '项目归档清单',
                     isAuthoritative: true
@@ -814,14 +820,14 @@ describe('ProjectDetail', () => {
         });
         const superseded = createArchiveRecord({
             id: 'archive-1',
-            status: 'superseded',
+            status: ProjectArchiveRecordSummaryStatusEnum.Superseded,
             archiveSummary: '原始归档结论',
             evidenceSummary: '原始归档清单',
             rowVersion: 3
         });
         const voided = createArchiveRecord({
             id: 'archive-0',
-            status: 'voided',
+            status: ProjectArchiveRecordSummaryStatusEnum.Voided,
             archiveSummary: '重复归档记录',
             evidenceSummary: '重复归档清单',
             voidedAt: '2026-04-25T09:00:00.000Z',

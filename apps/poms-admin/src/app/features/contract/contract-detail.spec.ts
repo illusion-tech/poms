@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStore, type AttachmentSummary, type ContractDetailView, type ContractStatus, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStatus, ContractStore, ContractTermSnapshotStatus, type AttachmentSummary, type ContractDetailView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import type { DomainApprovalRecord } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
@@ -25,7 +25,7 @@ function createContract(overrides: Partial<ContractDetailView> = {}): ContractDe
         customerName: '城市交通集团',
         contractNo: 'CT-2026-000001',
         customerContractNo: 'KH-HT-2026-01',
-        status: 'draft',
+        status: ContractStatus.Draft,
         signedAmountProjection: sensitiveProjection('1200000.00'),
         currencyCode: 'CNY',
         currentSnapshotId: null,
@@ -57,7 +57,7 @@ function createTermSnapshot(overrides: Partial<NonNullable<ContractDetailView['c
         sourceReadinessId: null,
         sourceBaselineId: null,
         version: 1,
-        snapshotStatus: 'active',
+        snapshotStatus: ContractTermSnapshotStatus.Active,
         createdAt: '2026-04-26T08:00:00.000Z',
         createdBy: 'user-1',
         rowVersion: 1,

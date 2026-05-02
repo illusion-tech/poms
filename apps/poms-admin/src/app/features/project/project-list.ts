@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -14,14 +14,14 @@ import { TagModule } from 'primeng/tag';
 import { PROJECT_STAGE_LABELS, PROJECT_STATUS_LABELS, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
-interface ProjectFilterOption {
+interface ProjectFilterOption<T extends string = string> {
     label: string;
-    value: string;
+    value: T;
 }
 
-interface ProjectColumnFilterOption {
+interface ProjectColumnFilterOption<T extends string = string> {
     label: string;
-    value: string | null;
+    value: T | null;
 }
 
 interface ProjectSummaryItem {
@@ -41,7 +41,20 @@ interface CreateProjectForm {
 }
 
 const ALL_FILTER_VALUE = 'all';
+type ProjectAllFilterValue = typeof ALL_FILTER_VALUE;
 const ATTENTION_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatus.Blocked, ProjectStatus.OnHold, ProjectStatus.PendingApproval];
+
+const PROJECT_STAGE_VALUES = [ProjectStage.Assessment, ProjectStage.ScopeConfirmation, ProjectStage.CommercialClosure, ProjectStage.Contracting, ProjectStage.Handover, ProjectStage.Execution, ProjectStage.Acceptance, ProjectStage.Completed, ProjectStage.ClosedLost, ProjectStage.ClosedTerminated] as const satisfies readonly ProjectStage[];
+
+const PROJECT_STATUS_VALUES = [ProjectStatus.Active, ProjectStatus.PendingApproval, ProjectStatus.Blocked, ProjectStatus.OnHold, ProjectStatus.Completed, ProjectStatus.Closed] as const satisfies readonly ProjectStatus[];
+
+const PROJECT_STAGE_OPTIONS: Array<ProjectFilterOption<ProjectStage | ProjectAllFilterValue>> = [{ label: '全部阶段', value: ALL_FILTER_VALUE }, ...PROJECT_STAGE_VALUES.map((value) => ({ label: PROJECT_STAGE_LABELS[value], value }))];
+
+const PROJECT_STATUS_OPTIONS: Array<ProjectFilterOption<ProjectStatus | ProjectAllFilterValue>> = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...PROJECT_STATUS_VALUES.map((value) => ({ label: PROJECT_STATUS_LABELS[value], value }))];
+
+const PROJECT_STAGE_COLUMN_FILTER_OPTIONS: Array<ProjectColumnFilterOption<ProjectStage>> = [{ label: '任意阶段', value: null }, ...PROJECT_STAGE_VALUES.map((value) => ({ label: PROJECT_STAGE_LABELS[value], value }))];
+
+const PROJECT_STATUS_COLUMN_FILTER_OPTIONS: Array<ProjectColumnFilterOption<ProjectStatus>> = [{ label: '任意状态', value: null }, ...PROJECT_STATUS_VALUES.map((value) => ({ label: PROJECT_STATUS_LABELS[value], value }))];
 
 const EMPTY_CREATE_FORM: CreateProjectForm = {
     customerId: null,
@@ -318,8 +331,8 @@ export class ProjectList implements OnInit {
     readonly customerLoading = this.#customerStore.loading;
 
     readonly searchValue = signal('');
-    readonly stageFilter = signal(ALL_FILTER_VALUE);
-    readonly statusFilter = signal(ALL_FILTER_VALUE);
+    readonly stageFilter = signal<ProjectStage | ProjectAllFilterValue>(ALL_FILTER_VALUE);
+    readonly statusFilter = signal<ProjectStatus | ProjectAllFilterValue>(ALL_FILTER_VALUE);
     readonly createForm = signal<CreateProjectForm>(EMPTY_CREATE_FORM);
     readonly createAttempted = signal(false);
     readonly createError = signal<string | null>(null);
@@ -328,13 +341,13 @@ export class ProjectList implements OnInit {
     first = 0;
     createDialogVisible = false;
 
-    readonly stageOptions: ProjectFilterOption[] = [{ label: '全部阶段', value: ALL_FILTER_VALUE }, ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly stageOptions = PROJECT_STAGE_OPTIONS;
 
-    readonly statusOptions: ProjectFilterOption[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly statusOptions = PROJECT_STATUS_OPTIONS;
 
-    readonly stageColumnFilterOptions: ProjectColumnFilterOption[] = [{ label: '任意阶段', value: null }, ...Object.entries(PROJECT_STAGE_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly stageColumnFilterOptions = PROJECT_STAGE_COLUMN_FILTER_OPTIONS;
 
-    readonly statusColumnFilterOptions: ProjectColumnFilterOption[] = [{ label: '任意状态', value: null }, ...Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ label, value }))];
+    readonly statusColumnFilterOptions = PROJECT_STATUS_COLUMN_FILTER_OPTIONS;
 
     readonly canCreateProject = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canCreateLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
@@ -422,13 +435,13 @@ export class ProjectList implements OnInit {
         table.clear();
     }
 
-    setStageFilter(value: string) {
-        this.stageFilter.set(value);
+    setStageFilter(value: ProjectStage | ProjectAllFilterValue | null | undefined) {
+        this.stageFilter.set(value ?? ALL_FILTER_VALUE);
         this.first = 0;
     }
 
-    setStatusFilter(value: string) {
-        this.statusFilter.set(value);
+    setStatusFilter(value: ProjectStatus | ProjectAllFilterValue | null | undefined) {
+        this.statusFilter.set(value ?? ALL_FILTER_VALUE);
         this.first = 0;
     }
 
@@ -490,19 +503,19 @@ export class ProjectList implements OnInit {
         }
     }
 
-    getStatusName(status: string): string {
+    getStatusName(status: ProjectStatus): string {
         return projectStatusLabelOrFallback(status);
     }
 
-    getStatusSeverity(status: string) {
+    getStatusSeverity(status: ProjectStatus) {
         return projectStatusSeverityOrFallback(status);
     }
 
-    getStageName(stage: string): string {
+    getStageName(stage: ProjectStage): string {
         return projectStageLabelOrFallback(stage);
     }
 
-    getStageSeverity(stage: string) {
+    getStageSeverity(stage: ProjectStage) {
         return projectStageSeverityOrFallback(stage);
     }
 

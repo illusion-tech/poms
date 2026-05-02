@@ -1,5 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { ProjectApi, ProjectStage, ProjectStatus, ProjectStore, type ProjectArchiveRecordSummary, type ProjectDetailView, type ProjectSummary, type ProjectTimelineView } from '@poms/admin-data-access';
+import {
+    ProjectApi,
+    ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum,
+    ProjectArchiveRecordSummaryArchiveAnchorStageEnum,
+    ProjectArchiveRecordSummaryStatusEnum,
+    ProjectStage,
+    ProjectStatus,
+    ProjectStore,
+    ProjectTimelineEventEventTypeEnum,
+    ProjectTimelineEventSourceTypeEnum,
+    type ProjectArchiveRecordSummary,
+    type ProjectDetailView,
+    type ProjectSummary,
+    type ProjectTimelineView
+} from '@poms/admin-data-access';
 import { of } from 'rxjs';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -115,12 +129,12 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
                 eventKey: 'contract-signed:contract-1',
                 stage: ProjectStage.Contracting,
                 stageLabel: '签约中',
-                eventType: 'stage-completed',
+                eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                 occurredAt: '2026-04-18T08:00:00.000Z',
                 actorUserId: 'user-1',
                 actorName: '张销售',
                 resultLabel: '合同签约完成',
-                sourceType: 'contract',
+                sourceType: ProjectTimelineEventSourceTypeEnum.Contract,
                 sourceId: 'contract-1',
                 evidenceLabel: 'HT-2026-001',
                 isAuthoritative: true
@@ -135,10 +149,10 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
     return {
         id: 'archive-1',
         projectId: 'project-1',
-        archiveAnchorStage: 'completed',
-        archiveAnchorSourceType: 'project',
+        archiveAnchorStage: ProjectArchiveRecordSummaryArchiveAnchorStageEnum.Completed,
+        archiveAnchorSourceType: ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum.Project,
         archiveAnchorSourceId: 'project-1',
-        status: 'recorded',
+        status: ProjectArchiveRecordSummaryStatusEnum.Recorded,
         archivedAt: '2026-04-24T15:20:00.000Z',
         archivedBy: 'user-4',
         archivedByName: '赵归档',
@@ -403,7 +417,7 @@ describe('ProjectStore', () => {
     it('voids project archive records through generated client and refreshes detail context', async () => {
         const detail = createDetail({ currentStage: ProjectStage.Completed });
         const timeline = createTimeline();
-        const archiveRecord = createArchiveRecord({ status: 'voided' });
+        const archiveRecord = createArchiveRecord({ status: ProjectArchiveRecordSummaryStatusEnum.Voided });
         const projectApiMock = {
             projectArchiveRecordControllerVoidProjectArchiveRecord: jest.fn().mockReturnValue(of(archiveRecord)),
             projectControllerGetById: jest.fn().mockReturnValue(of(detail)),

@@ -14,6 +14,8 @@ import {
     CommissionStore,
     NonRetentionCommissionPayoutStage,
     ProjectStore,
+    ProjectStage,
+    ProjectStatus,
     ProjectWorkspaceStore,
     RegisterRetentionCommissionPayoutRequestPayoutStageEnum,
     TargetObjectType,
@@ -937,16 +939,16 @@ export class ProjectCommission implements OnInit, OnDestroy {
     getTierLabel(tier: CommissionPayoutTier) {
         return { basic: '基础档', mid: '中档', premium: '上限档' }[tier];
     }
-    getProjectStatusName(status: string) {
+    getProjectStatusName(status: ProjectStatus) {
         return projectStatusLabelOrFallback(status);
     }
-    getProjectStatusSeverity(status: string) {
+    getProjectStatusSeverity(status: ProjectStatus) {
         return projectStatusSeverityOrFallback(status);
     }
-    getProjectStageName(stage: string) {
+    getProjectStageName(stage: ProjectStage) {
         return projectStageLabelOrFallback(stage);
     }
-    getProjectStageSeverity(stage: string) {
+    getProjectStageSeverity(stage: ProjectStage) {
         return projectStageSeverityOrFallback(stage);
     }
     toSubmitPayoutStage(payoutStage: CommissionPayoutStage) {
