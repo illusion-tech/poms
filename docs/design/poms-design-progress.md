@@ -512,6 +512,8 @@
 31. 2026-05-03 `FE-52D` 已完成 `G4`，提交 `e11088d`：Admin 前端枚举消费尾项、残留扫描输入和例外分类完成，`FE-52` 父切片同步关闭为 `Done / G4`。
 32. 2026-05-03 `EX-57` 已进入 `G1 / Doing`：新增 `ex-57-enum-regression-scan-baseline.md`，冻结枚举回归扫描工具、allowlist、generated client string gap 和开放 taxonomy 的治理边界；本切片不改业务运行时代码、API、DTO、OpenAPI、generated client 或数据库。
 33. 2026-05-03 `EX-57` 已进入 `G3 / Review`：新增 `check:enum-like-strings` 本地校验、Deno 扫描工具和显式 allowlist，并将项目时间线、导航菜单和敏感投影中仍可直接收口的真实业务残留改为 generated enum；后续裸字符串必须改用 shared / generated enum 或显式登记例外。
+34. 2026-05-03 `EX-57` 已完成 `G4`，提交 `2f3dd6c`：枚举治理回归扫描、allowlist 和本地校验命令已落地，前端剩余真实业务残留已改为 generated enum，可作为后续枚举语义重整的防回归基础。
+35. 2026-05-03 `EX-58` 已进入 `G1 / Doing`：新增 `ex-58-enum-semantic-model-refinement-baseline.md`，冻结“按业务生命周期建模而非按表机械建 enum”的后续治理原则，并一次性拆出 `EX-58A` 共享生命周期与 inline enum 正式化、`EX-58B` code value direct cutover、`EX-58C` 配置型枚举字典化、`EX-58D` 状态历史模型、`FE-53` 前端展示 / 字典选项接入和 `EX-59` 后端扫描扩展。
 
 ---
 
