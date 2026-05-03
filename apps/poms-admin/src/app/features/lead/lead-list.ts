@@ -24,6 +24,7 @@ import {
     type LeadSourceSummary,
     type OwnerReferenceUser
 } from '@poms/admin-data-access';
+import { LeadBudgetStatusLabel, LeadBudgetStatusOptions, LeadRatingLabel, LeadRatingOptions, LeadUrgencyLabel, LeadUrgencyOptions } from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -113,27 +114,13 @@ type LeadActionTarget = LeadListView | LeadDetailView;
 const ALL_FILTER_VALUE = 'all';
 type LeadAllFilterValue = typeof ALL_FILTER_VALUE;
 
-const LEAD_BUDGET_STATUS_LABELS: Record<LeadBudgetStatus, string> = {
-    [LeadBudgetStatus.Unknown]: '预算未知',
-    [LeadBudgetStatus.NoBudget]: '暂无预算',
-    [LeadBudgetStatus.RoughBudget]: '初步预算',
-    [LeadBudgetStatus.BudgetConfirmed]: '预算已确认',
-    [LeadBudgetStatus.BudgetApproved]: '预算已批准'
-};
+const leadFilterOptions = <T extends string>(options: ReadonlyArray<LeadFilterOption<T>>): Array<LeadFilterOption<T>> => [...options];
 
-const LEAD_URGENCY_LABELS: Record<LeadUrgency, string> = {
-    [LeadUrgency.Low]: '低',
-    [LeadUrgency.Normal]: '一般',
-    [LeadUrgency.High]: '高',
-    [LeadUrgency.Critical]: '紧急'
-};
+const LEAD_BUDGET_STATUS_LABELS = LeadBudgetStatusLabel as Record<LeadBudgetStatus, string>;
 
-const LEAD_RATING_LABELS: Record<LeadRating, string> = {
-    [LeadRating.A]: 'A级',
-    [LeadRating.B]: 'B级',
-    [LeadRating.C]: 'C级',
-    [LeadRating.D]: 'D级'
-};
+const LEAD_URGENCY_LABELS = LeadUrgencyLabel as Record<LeadUrgency, string>;
+
+const LEAD_RATING_LABELS = LeadRatingLabel as Record<LeadRating, string>;
 
 const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
     [LeadSourceStatus.Active]: '启用',
@@ -142,21 +129,15 @@ const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
 
 const LEAD_STATUS_VALUES = [LeadStatus.Registered, LeadStatus.Qualified, LeadStatus.Converted, LeadStatus.Closed] as const satisfies readonly LeadStatus[];
 
-const LEAD_BUDGET_STATUS_VALUES = [LeadBudgetStatus.Unknown, LeadBudgetStatus.NoBudget, LeadBudgetStatus.RoughBudget, LeadBudgetStatus.BudgetConfirmed, LeadBudgetStatus.BudgetApproved] as const satisfies readonly LeadBudgetStatus[];
-
-const LEAD_URGENCY_VALUES = [LeadUrgency.Low, LeadUrgency.Normal, LeadUrgency.High, LeadUrgency.Critical] as const satisfies readonly LeadUrgency[];
-
-const LEAD_RATING_VALUES = [LeadRating.A, LeadRating.B, LeadRating.C, LeadRating.D] as const satisfies readonly LeadRating[];
-
 const LEAD_STATUS_OPTIONS: Array<LeadFilterOption<LeadStatus | LeadAllFilterValue>> = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
 
 const LEAD_STATUS_COLUMN_FILTER_OPTIONS: Array<LeadColumnFilterOption<LeadStatus>> = [{ label: '任意状态', value: null }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
 
-const LEAD_RATING_OPTIONS: Array<LeadFilterOption<LeadRating | LeadAllFilterValue>> = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...LEAD_RATING_VALUES.map((value) => ({ label: LEAD_RATING_LABELS[value], value }))];
+const LEAD_RATING_OPTIONS: Array<LeadFilterOption<LeadRating | LeadAllFilterValue>> = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...leadFilterOptions(LeadRatingOptions as ReadonlyArray<LeadFilterOption<LeadRating>>)];
 
-const LEAD_BUDGET_STATUS_OPTIONS: Array<LeadFilterOption<LeadBudgetStatus>> = LEAD_BUDGET_STATUS_VALUES.map((value) => ({ label: LEAD_BUDGET_STATUS_LABELS[value], value }));
+const LEAD_BUDGET_STATUS_OPTIONS = leadFilterOptions(LeadBudgetStatusOptions as ReadonlyArray<LeadFilterOption<LeadBudgetStatus>>);
 
-const LEAD_URGENCY_OPTIONS: Array<LeadFilterOption<LeadUrgency>> = LEAD_URGENCY_VALUES.map((value) => ({ label: LEAD_URGENCY_LABELS[value], value }));
+const LEAD_URGENCY_OPTIONS = leadFilterOptions(LeadUrgencyOptions as ReadonlyArray<LeadFilterOption<LeadUrgency>>);
 
 const DEFAULT_BUDGET_STATUS = LeadBudgetStatus.Unknown;
 const DEFAULT_URGENCY = LeadUrgency.Normal;

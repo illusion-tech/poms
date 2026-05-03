@@ -9,6 +9,14 @@ import {
     ProjectHandoverReceiptJudgmentSourceType,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
+import {
+    ContractHandoverCurrentBaselineSourceTypeLabel,
+    ProjectHandoverParticipantConfirmationStatusLabel,
+    ProjectHandoverParticipantConfirmationStatusSeverity,
+    ProjectHandoverReceiptJudgmentSourceTypeLabel,
+    ProjectHandoverStatusLabel,
+    ProjectHandoverStatusSeverity
+} from '@poms/shared-contracts';
 import { TableModule } from 'primeng/table';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
@@ -18,35 +26,13 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { freezeVersionStatusLabel, freezeVersionStatusSeverity, type UiTagSeverity } from '../project/project-presentation';
 
-const HANDOVER_STATUS_LABELS = {
-    [ProjectHandoverStatus.NotStarted]: '未开始',
-    [ProjectHandoverStatus.Draft]: '草稿',
-    [ProjectHandoverStatus.Confirmed]: '已确认',
-    [ProjectHandoverStatus.Superseded]: '已被替代',
-    [ProjectHandoverStatus.Voided]: '已作废'
-} as const satisfies Record<ProjectHandoverStatus, string>;
+const HANDOVER_STATUS_LABELS = ProjectHandoverStatusLabel as Record<ProjectHandoverStatus, string>;
 
-const HANDOVER_STATUS_SEVERITIES = {
-    [ProjectHandoverStatus.NotStarted]: 'warn',
-    [ProjectHandoverStatus.Draft]: 'warn',
-    [ProjectHandoverStatus.Confirmed]: 'success',
-    [ProjectHandoverStatus.Superseded]: 'secondary',
-    [ProjectHandoverStatus.Voided]: 'danger'
-} as const satisfies Record<ProjectHandoverStatus, UiTagSeverity>;
+const HANDOVER_STATUS_SEVERITIES = ProjectHandoverStatusSeverity as Record<ProjectHandoverStatus, UiTagSeverity>;
 
-const PARTICIPANT_CONFIRMATION_STATUS_LABELS = {
-    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: '未开始',
-    [ProjectHandoverParticipantConfirmationStatus.Pending]: '待确认',
-    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: '已确认',
-    [ProjectHandoverParticipantConfirmationStatus.Closed]: '已关闭'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, string>;
+const PARTICIPANT_CONFIRMATION_STATUS_LABELS = ProjectHandoverParticipantConfirmationStatusLabel as Record<ProjectHandoverParticipantConfirmationStatus, string>;
 
-const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = {
-    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: 'warn',
-    [ProjectHandoverParticipantConfirmationStatus.Pending]: 'warn',
-    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: 'success',
-    [ProjectHandoverParticipantConfirmationStatus.Closed]: 'secondary'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, UiTagSeverity>;
+const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = ProjectHandoverParticipantConfirmationStatusSeverity as Record<ProjectHandoverParticipantConfirmationStatus, UiTagSeverity>;
 
 const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
     'confirmed-receipt': '按确认回款',
@@ -54,18 +40,9 @@ const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
     'manual-override': '手工覆盖口径'
 };
 
-const RECEIPT_JUDGMENT_SOURCE_LABELS = {
-    [ProjectHandoverReceiptJudgmentSourceType.ProjectHandover]: '项目移交',
-    [ProjectHandoverReceiptJudgmentSourceType.ProjectReceiptJudgmentFreeze]: '回款判断冻结',
-    [ProjectHandoverReceiptJudgmentSourceType.None]: '无来源'
-} as const satisfies Record<ProjectHandoverReceiptJudgmentSourceType, string>;
+const RECEIPT_JUDGMENT_SOURCE_LABELS = ProjectHandoverReceiptJudgmentSourceTypeLabel as Record<ProjectHandoverReceiptJudgmentSourceType, string>;
 
-const BASELINE_SOURCE_LABELS = {
-    [ContractHandoverCurrentBaselineSourceType.ContractReadiness]: '合同准备包',
-    [ContractHandoverCurrentBaselineSourceType.ProjectHandover]: '项目移交',
-    [ContractHandoverCurrentBaselineSourceType.HandoverRebaseline]: '移交再基线化',
-    [ContractHandoverCurrentBaselineSourceType.None]: '无来源'
-} as const satisfies Record<ContractHandoverCurrentBaselineSourceType, string>;
+const BASELINE_SOURCE_LABELS = ContractHandoverCurrentBaselineSourceTypeLabel as Record<ContractHandoverCurrentBaselineSourceType, string>;
 
 const ROLE_TYPE_LABELS: Record<string, string> = {
     'sales-owner': '销售负责人',

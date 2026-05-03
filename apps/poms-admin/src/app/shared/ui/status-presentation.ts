@@ -1,85 +1,47 @@
 import { ApprovalStatus, CommissionAdjustmentStatus, CommissionCalculationStatus, CommissionPayoutStatus, ContractStatus, LeadStatus, ProjectStage, ProjectStatus } from '@poms/admin-data-access';
+import {
+    ApprovalStatusLabel,
+    ApprovalStatusSeverity,
+    CommissionAdjustmentStatusLabel,
+    CommissionAdjustmentStatusSeverity,
+    CommissionCalculationStatusLabel,
+    CommissionCalculationStatusSeverity,
+    CommissionPayoutStatusLabel,
+    CommissionPayoutStatusSeverity,
+    ContractStatusLabel,
+    ContractStatusSeverity,
+    LeadStatusLabel,
+    LeadStatusSeverity,
+    ProjectStageLabel,
+    ProjectStageSeverity,
+    ProjectStatusLabel,
+    ProjectStatusSeverity
+} from '@poms/shared-contracts';
 import type { UiTagSeverityValue } from './ui-severity';
 
-export const PROJECT_STAGE_LABELS = {
-    [ProjectStage.Assessment]: '立项评估',
-    [ProjectStage.ScopeConfirmation]: '范围确认',
-    [ProjectStage.CommercialClosure]: '商务收口',
-    [ProjectStage.Contracting]: '签约中',
-    [ProjectStage.Handover]: '项目移交',
-    [ProjectStage.Execution]: '正式执行',
-    [ProjectStage.Acceptance]: '验收确认',
-    [ProjectStage.Completed]: '已完成',
-    [ProjectStage.ClosedLost]: '已丢单',
-    [ProjectStage.ClosedTerminated]: '已终止'
-} as const satisfies Record<ProjectStage, string>;
+export const PROJECT_STAGE_LABELS = ProjectStageLabel as Record<ProjectStage, string>;
 
 export type ProjectStageCode = ProjectStage;
 
-const PROJECT_STAGE_SEVERITIES = {
-    [ProjectStage.Assessment]: 'secondary',
-    [ProjectStage.ScopeConfirmation]: 'info',
-    [ProjectStage.CommercialClosure]: 'warn',
-    [ProjectStage.Contracting]: 'warn',
-    [ProjectStage.Handover]: 'warn',
-    [ProjectStage.Execution]: 'success',
-    [ProjectStage.Acceptance]: 'info',
-    [ProjectStage.Completed]: 'contrast',
-    [ProjectStage.ClosedLost]: 'danger',
-    [ProjectStage.ClosedTerminated]: 'danger'
-} as const satisfies Record<ProjectStageCode, UiTagSeverityValue>;
+const PROJECT_STAGE_SEVERITIES = ProjectStageSeverity as Record<ProjectStageCode, UiTagSeverityValue>;
 
-export const PROJECT_STATUS_LABELS = {
-    [ProjectStatus.Active]: '进行中',
-    [ProjectStatus.PendingApproval]: '待审批',
-    [ProjectStatus.Blocked]: '阻塞中',
-    [ProjectStatus.OnHold]: '已挂起',
-    [ProjectStatus.Completed]: '已完成',
-    [ProjectStatus.Closed]: '已关闭'
-} as const satisfies Record<ProjectStatus, string>;
+export const PROJECT_STATUS_LABELS = ProjectStatusLabel as Record<ProjectStatus, string>;
 
 export type ProjectStatusCode = ProjectStatus;
 
-const PROJECT_STATUS_SEVERITIES = {
-    [ProjectStatus.Active]: 'info',
-    [ProjectStatus.PendingApproval]: 'secondary',
-    [ProjectStatus.Blocked]: 'warn',
-    [ProjectStatus.OnHold]: 'warn',
-    [ProjectStatus.Completed]: 'success',
-    [ProjectStatus.Closed]: 'contrast'
-} as const satisfies Record<ProjectStatusCode, UiTagSeverityValue>;
+const PROJECT_STATUS_SEVERITIES = ProjectStatusSeverity as Record<ProjectStatusCode, UiTagSeverityValue>;
 
-export const CONTRACT_STATUS_LABELS = {
-    [ContractStatus.Draft]: '草稿',
-    [ContractStatus.PendingReview]: '待审核',
-    [ContractStatus.Active]: '已生效',
-    [ContractStatus.Terminated]: '已终止',
-    [ContractStatus.Completed]: '已完成'
-} as const satisfies Record<ContractStatus, string>;
+export const CONTRACT_STATUS_LABELS = ContractStatusLabel as Record<ContractStatus, string>;
 
 export type ContractStatusCode = ContractStatus;
 
-const CONTRACT_STATUS_SEVERITIES = {
-    [ContractStatus.Draft]: 'secondary',
-    [ContractStatus.PendingReview]: 'warn',
-    [ContractStatus.Active]: 'success',
-    [ContractStatus.Terminated]: 'danger',
-    [ContractStatus.Completed]: 'contrast'
-} as const satisfies Record<ContractStatusCode, UiTagSeverityValue>;
+const CONTRACT_STATUS_SEVERITIES = ContractStatusSeverity as Record<ContractStatusCode, UiTagSeverityValue>;
 
-export const APPROVAL_STATUS_LABELS = {
-    [ApprovalStatus.Pending]: '审批中',
-    [ApprovalStatus.Approved]: '已通过',
-    [ApprovalStatus.Rejected]: '已驳回'
-} as const satisfies Record<ApprovalStatus, string>;
+export const APPROVAL_STATUS_LABELS = ApprovalStatusLabel as Record<ApprovalStatus, string>;
 
 export type ApprovalStatusCode = ApprovalStatus;
 
-const APPROVAL_STATUS_SEVERITIES = {
-    [ApprovalStatus.Pending]: 'warn',
-    [ApprovalStatus.Approved]: 'success',
-    [ApprovalStatus.Rejected]: 'danger'
-} as const satisfies Record<ApprovalStatusCode, UiTagSeverityValue>;
+const APPROVAL_STATUS_SEVERITIES = ApprovalStatusSeverity as Record<ApprovalStatusCode, UiTagSeverityValue>;
 
 export const CONFIRMATION_STATUS_LABELS = {
     not_configured: '暂未形成确认记录',
@@ -99,21 +61,11 @@ const CONFIRMATION_STATUS_SEVERITIES = {
     voided: 'contrast'
 } as const satisfies Record<ConfirmationStatusCode, UiTagSeverityValue>;
 
-export const LEAD_STATUS_LABELS = {
-    [LeadStatus.Registered]: '待确认',
-    [LeadStatus.Qualified]: '已有效',
-    [LeadStatus.Converted]: '已转项目',
-    [LeadStatus.Closed]: '已关闭'
-} as const satisfies Record<LeadStatus, string>;
+export const LEAD_STATUS_LABELS = LeadStatusLabel as Record<LeadStatus, string>;
 
 export type LeadStatusCode = LeadStatus;
 
-const LEAD_STATUS_SEVERITIES = {
-    [LeadStatus.Registered]: 'secondary',
-    [LeadStatus.Qualified]: 'success',
-    [LeadStatus.Converted]: 'info',
-    [LeadStatus.Closed]: 'contrast'
-} as const satisfies Record<LeadStatusCode, UiTagSeverityValue>;
+const LEAD_STATUS_SEVERITIES = LeadStatusSeverity as Record<LeadStatusCode, UiTagSeverityValue>;
 
 export const ARCHIVE_STATUS_LABELS = {
     recorded: '当前有效',
@@ -129,61 +81,23 @@ const ARCHIVE_STATUS_SEVERITIES = {
     superseded: 'warn'
 } as const satisfies Record<ArchiveStatusCode, UiTagSeverityValue>;
 
-export const COMMISSION_CALCULATION_STATUS_LABELS = {
-    [CommissionCalculationStatus.Pending]: '待计算',
-    [CommissionCalculationStatus.Calculated]: '已计算',
-    [CommissionCalculationStatus.Effective]: '已生效',
-    [CommissionCalculationStatus.Superseded]: '已替代'
-} as const satisfies Record<CommissionCalculationStatus, string>;
+export const COMMISSION_CALCULATION_STATUS_LABELS = CommissionCalculationStatusLabel as Record<CommissionCalculationStatus, string>;
 
 export type CommissionCalculationStatusCode = CommissionCalculationStatus;
 
-const COMMISSION_CALCULATION_STATUS_SEVERITIES = {
-    [CommissionCalculationStatus.Pending]: 'secondary',
-    [CommissionCalculationStatus.Calculated]: 'info',
-    [CommissionCalculationStatus.Effective]: 'success',
-    [CommissionCalculationStatus.Superseded]: 'contrast'
-} as const satisfies Record<CommissionCalculationStatusCode, UiTagSeverityValue>;
+const COMMISSION_CALCULATION_STATUS_SEVERITIES = CommissionCalculationStatusSeverity as Record<CommissionCalculationStatusCode, UiTagSeverityValue>;
 
-export const COMMISSION_PAYOUT_STATUS_LABELS = {
-    [CommissionPayoutStatus.Draft]: '草稿',
-    [CommissionPayoutStatus.PendingApproval]: '待审批',
-    [CommissionPayoutStatus.Approved]: '已批准',
-    [CommissionPayoutStatus.Paid]: '已发放',
-    [CommissionPayoutStatus.Suspended]: '已暂停',
-    [CommissionPayoutStatus.Reversed]: '已冲销'
-} as const satisfies Record<CommissionPayoutStatus, string>;
+export const COMMISSION_PAYOUT_STATUS_LABELS = CommissionPayoutStatusLabel as Record<CommissionPayoutStatus, string>;
 
 export type CommissionPayoutStatusCode = CommissionPayoutStatus;
 
-const COMMISSION_PAYOUT_STATUS_SEVERITIES = {
-    [CommissionPayoutStatus.Draft]: 'secondary',
-    [CommissionPayoutStatus.PendingApproval]: 'warn',
-    [CommissionPayoutStatus.Approved]: 'success',
-    [CommissionPayoutStatus.Paid]: 'info',
-    [CommissionPayoutStatus.Suspended]: 'warn',
-    [CommissionPayoutStatus.Reversed]: 'danger'
-} as const satisfies Record<CommissionPayoutStatusCode, UiTagSeverityValue>;
+const COMMISSION_PAYOUT_STATUS_SEVERITIES = CommissionPayoutStatusSeverity as Record<CommissionPayoutStatusCode, UiTagSeverityValue>;
 
-export const COMMISSION_ADJUSTMENT_STATUS_LABELS = {
-    [CommissionAdjustmentStatus.Draft]: '草稿',
-    [CommissionAdjustmentStatus.PendingApproval]: '待审批',
-    [CommissionAdjustmentStatus.Approved]: '已批准',
-    [CommissionAdjustmentStatus.Executed]: '已执行',
-    [CommissionAdjustmentStatus.Rejected]: '已驳回',
-    [CommissionAdjustmentStatus.Closed]: '已关闭'
-} as const satisfies Record<CommissionAdjustmentStatus, string>;
+export const COMMISSION_ADJUSTMENT_STATUS_LABELS = CommissionAdjustmentStatusLabel as Record<CommissionAdjustmentStatus, string>;
 
 export type CommissionAdjustmentStatusCode = CommissionAdjustmentStatus;
 
-const COMMISSION_ADJUSTMENT_STATUS_SEVERITIES = {
-    [CommissionAdjustmentStatus.Draft]: 'secondary',
-    [CommissionAdjustmentStatus.PendingApproval]: 'warn',
-    [CommissionAdjustmentStatus.Approved]: 'success',
-    [CommissionAdjustmentStatus.Executed]: 'info',
-    [CommissionAdjustmentStatus.Rejected]: 'danger',
-    [CommissionAdjustmentStatus.Closed]: 'contrast'
-} as const satisfies Record<CommissionAdjustmentStatusCode, UiTagSeverityValue>;
+const COMMISSION_ADJUSTMENT_STATUS_SEVERITIES = CommissionAdjustmentStatusSeverity as Record<CommissionAdjustmentStatusCode, UiTagSeverityValue>;
 
 function displayKnownLabel<TLabels extends Readonly<Record<string, string>>, TCode extends keyof TLabels & string>(labels: TLabels, value: TCode): TLabels[TCode] {
     return labels[value];

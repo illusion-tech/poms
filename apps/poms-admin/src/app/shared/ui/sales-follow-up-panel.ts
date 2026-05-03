@@ -11,6 +11,7 @@ import {
     SalesFollowUpStore,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
+import { SalesFollowUpOutcomeLabel, SalesFollowUpOutcomeOptions, SalesFollowUpRecordStatusLabel } from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -37,34 +38,14 @@ interface SalesFollowUpForm {
 
 type SalesFollowUpDialogMode = 'create' | 'replace';
 
-const SALES_FOLLOW_UP_OUTCOME_LABELS: Record<SalesFollowUpOutcome, string> = {
-    [SalesFollowUpOutcome.Progress]: '有进展',
-    [SalesFollowUpOutcome.WaitingCustomer]: '待客户反馈',
-    [SalesFollowUpOutcome.RiskDiscovered]: '发现风险',
-    [SalesFollowUpOutcome.Deferred]: '暂缓',
-    [SalesFollowUpOutcome.CloseRecommended]: '建议关闭',
-    [SalesFollowUpOutcome.NoResponse]: '暂无回应',
-    [SalesFollowUpOutcome.Other]: '其他'
-};
+const SALES_FOLLOW_UP_OUTCOME_LABELS = SalesFollowUpOutcomeLabel as Record<SalesFollowUpOutcome, string>;
 
-const SALES_FOLLOW_UP_STATUS_LABELS: Record<SalesFollowUpRecordStatus, string> = {
-    [SalesFollowUpRecordStatus.Active]: '当前',
-    [SalesFollowUpRecordStatus.Superseded]: '已替代',
-    [SalesFollowUpRecordStatus.Voided]: '已作废'
-};
+const SALES_FOLLOW_UP_STATUS_LABELS = SalesFollowUpRecordStatusLabel as Record<SalesFollowUpRecordStatus, string>;
 
 const DEFAULT_FOLLOW_UP_TYPE = 'meeting';
 const DEFAULT_FOLLOW_UP_OUTCOME = SalesFollowUpOutcome.Progress;
 
-const SALES_FOLLOW_UP_OUTCOME_OPTIONS: SalesFollowUpOption<SalesFollowUpOutcome>[] = [
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Progress], value: SalesFollowUpOutcome.Progress },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.WaitingCustomer], value: SalesFollowUpOutcome.WaitingCustomer },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.RiskDiscovered], value: SalesFollowUpOutcome.RiskDiscovered },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Deferred], value: SalesFollowUpOutcome.Deferred },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.CloseRecommended], value: SalesFollowUpOutcome.CloseRecommended },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.NoResponse], value: SalesFollowUpOutcome.NoResponse },
-    { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Other], value: SalesFollowUpOutcome.Other }
-];
+const SALES_FOLLOW_UP_OUTCOME_OPTIONS = [...(SalesFollowUpOutcomeOptions as ReadonlyArray<SalesFollowUpOption<SalesFollowUpOutcome>>)];
 
 const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     followUpType: DEFAULT_FOLLOW_UP_TYPE,

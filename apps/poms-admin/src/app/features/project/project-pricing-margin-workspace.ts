@@ -3,6 +3,16 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
+    BidCommercialModeLabel,
+    BidCommercialResultStatusLabel,
+    GrossMarginBandLabel,
+    PricingMarginConditionStatusLabel,
+    PricingMarginConditionTypeLabel,
+    PricingMarginDecisionLabel,
+    PricingMarginPathLabel,
+    TechnicalFeasibilityDecisionLabel
+} from '@poms/shared-contracts';
+import {
     CreateProjectPricingMarginReviewRequestDecisionEnum,
     CreateProjectPricingMarginReviewRequestGrossMarginBandEnum,
     CreateProjectPricingMarginReviewRequestPricingPathEnum,
@@ -49,64 +59,14 @@ type PricingDecisionValue = CreateProjectPricingMarginReviewRequestDecisionEnum 
 type PricingConditionTypeValue = ProjectPricingMarginConditionItemInputConditionTypeEnum | ProjectPricingMarginConditionItemViewConditionTypeEnum;
 type PricingConditionStatusValue = ProjectPricingMarginConditionItemInputConditionStatusEnum | ProjectPricingMarginConditionItemViewConditionStatusEnum;
 
-const PRICING_PATH_LABELS: Record<PricingPathValue, string> = {
-    [CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid]: '竞标承接',
-    [CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial]: '直接商务'
-};
-
-const GROSS_MARGIN_BAND_LABELS: Record<GrossMarginBandValue, string> = {
-    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline]: '低于红线',
-    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch]: '需关注',
-    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target]: '达到目标',
-    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated]: '未计算'
-};
-
-const PRICING_DECISION_LABELS: Record<PricingDecisionValue, string> = {
-    [CreateProjectPricingMarginReviewRequestDecisionEnum.Pending]: '待评审',
-    [CreateProjectPricingMarginReviewRequestDecisionEnum.Released]: '已放行',
-    [CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease]: '有条件放行',
-    [CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected]: '已驳回',
-    [CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired]: '需升级'
-};
-
-const CONDITION_TYPE_LABELS: Record<PricingConditionTypeValue, string> = {
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Financial]: '财务',
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Tax]: '税务',
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment]: '回款',
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Scope]: '范围',
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk]: '风险',
-    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Approval]: '审批'
-};
-
-const CONDITION_STATUS_LABELS: Record<PricingConditionStatusValue, string> = {
-    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Open]: '打开',
-    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Closed]: '已关闭',
-    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Waived]: '已豁免'
-};
-
-const BID_MODE_LABELS: Record<ProjectBidCommercialProcessSummaryBidModeEnum, string> = {
-    [ProjectBidCommercialProcessSummaryBidModeEnum.PublicTender]: '公开招标',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.Invitation]: '邀标',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.Comparison]: '比选',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.CommercialNegotiation]: '商务谈判',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.CompetitiveNegotiation]: '竞争性谈判',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.DirectCommercial]: '直接商务',
-    [ProjectBidCommercialProcessSummaryBidModeEnum.NotRequired]: '不适用'
-};
-
-const BID_RESULT_LABELS: Record<ProjectBidCommercialProcessSummaryResultStatusEnum, string> = {
-    [ProjectBidCommercialProcessSummaryResultStatusEnum.Pending]: '待结果',
-    [ProjectBidCommercialProcessSummaryResultStatusEnum.Won]: '中标 / 成交',
-    [ProjectBidCommercialProcessSummaryResultStatusEnum.Lost]: '未中标',
-    [ProjectBidCommercialProcessSummaryResultStatusEnum.Cancelled]: '已取消',
-    [ProjectBidCommercialProcessSummaryResultStatusEnum.NotApplicable]: '不适用'
-};
-
-const TECHNICAL_DECISION_LABELS: Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string> = {
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible]: '技术可行',
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional]: '有条件可行',
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.NotFeasible]: '暂不可行'
-};
+const PRICING_PATH_LABELS = PricingMarginPathLabel as Record<PricingPathValue, string>;
+const GROSS_MARGIN_BAND_LABELS = GrossMarginBandLabel as Record<GrossMarginBandValue, string>;
+const PRICING_DECISION_LABELS = PricingMarginDecisionLabel as Record<PricingDecisionValue, string>;
+const CONDITION_TYPE_LABELS = PricingMarginConditionTypeLabel as Record<PricingConditionTypeValue, string>;
+const CONDITION_STATUS_LABELS = PricingMarginConditionStatusLabel as Record<PricingConditionStatusValue, string>;
+const BID_MODE_LABELS = BidCommercialModeLabel as Record<ProjectBidCommercialProcessSummaryBidModeEnum, string>;
+const BID_RESULT_LABELS = BidCommercialResultStatusLabel as Record<ProjectBidCommercialProcessSummaryResultStatusEnum, string>;
+const TECHNICAL_DECISION_LABELS = TechnicalFeasibilityDecisionLabel as Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string>;
 
 type Option<T> = {
     label: string;

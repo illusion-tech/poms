@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ContractReadinessGuardDecisionLabel, ContractReadinessItemStatusLabel, ContractReadinessItemTypeLabel, ContractReadinessStatusLabel } from '@poms/shared-contracts';
 import { ContractReadinessGuardDecision, type ContractReadinessDetail, type ContractReadinessItem, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -22,31 +23,10 @@ interface PreSigningEntry {
     disabledReason?: string;
 }
 
-const READINESS_STATUS_LABELS: Record<ContractReadinessStatus, string> = {
-    [ContractReadinessStatus.Ready]: '已就绪',
-    [ContractReadinessStatus.Conditional]: '有条件就绪',
-    [ContractReadinessStatus.Blocked]: '阻断中'
-};
-
-const GUARD_DECISION_LABELS: Record<ContractReadinessGuardDecision, string> = {
-    [ContractReadinessGuardDecision.Allowed]: '允许进入合同主链',
-    [ContractReadinessGuardDecision.ReviewRequired]: '需要复核',
-    [ContractReadinessGuardDecision.Blocked]: '暂不可进入合同主链'
-};
-
-const READINESS_ITEM_STATUS_LABELS: Record<ContractReadinessItemStatus, string> = {
-    [ContractReadinessItemStatus.Ready]: '已具备',
-    [ContractReadinessItemStatus.Conditional]: '有条件',
-    [ContractReadinessItemStatus.Blocked]: '阻断',
-    [ContractReadinessItemStatus.NotApplicable]: '不适用'
-};
-
-const READINESS_ITEM_TYPE_LABELS: Record<ContractReadinessItemType, string> = {
-    [ContractReadinessItemType.Checklist]: '前置检查',
-    [ContractReadinessItemType.ReusableFact]: '可复用事实',
-    [ContractReadinessItemType.BlockingReason]: '阻断原因',
-    [ContractReadinessItemType.ReceivableSeed]: '回款种子'
-};
+const READINESS_STATUS_LABELS = ContractReadinessStatusLabel as Record<ContractReadinessStatus, string>;
+const GUARD_DECISION_LABELS = ContractReadinessGuardDecisionLabel as Record<ContractReadinessGuardDecision, string>;
+const READINESS_ITEM_STATUS_LABELS = ContractReadinessItemStatusLabel as Record<ContractReadinessItemStatus, string>;
+const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<ContractReadinessItemType, string>;
 
 @Component({
     selector: 'app-project-pre-signing-overview',

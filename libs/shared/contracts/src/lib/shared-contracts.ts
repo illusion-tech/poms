@@ -1,5 +1,71 @@
 import { z } from 'zod';
 
+type NonEmptyReadonlyArray<T> = readonly [T, ...T[]];
+
+type EnumDefinitionBase<TKey extends string = string, TValue extends string = string> = {
+    key: TKey;
+    value: TValue;
+    label: string;
+    order: number;
+};
+
+type EnumDefinitionWithSeverity<TKey extends string = string, TValue extends string = string, TSeverity extends string = string> = EnumDefinitionBase<TKey, TValue> & {
+    severity: TSeverity;
+};
+
+export type EnumDefinition<TKey extends string = string, TValue extends string = string> = EnumDefinitionBase<TKey, TValue>;
+
+export type EnumDefinitionValue<TDefinitions extends NonEmptyReadonlyArray<{ value: string }>> = TDefinitions[number]['value'];
+
+export type EnumValueObject<TDefinitions extends NonEmptyReadonlyArray<{ key: string; value: string }>> = {
+    readonly [TDefinition in TDefinitions[number] as TDefinition['key']]: TDefinition['value'];
+};
+
+export type EnumLabelMap<TDefinitions extends NonEmptyReadonlyArray<{ value: string; label: string }>> = {
+    readonly [TDefinition in TDefinitions[number] as TDefinition['value']]: TDefinition['label'];
+};
+
+export type EnumSeverityMap<TDefinitions extends NonEmptyReadonlyArray<{ value: string; severity: string }>> = {
+    readonly [TDefinition in TDefinitions[number] as TDefinition['value']]: TDefinition['severity'];
+};
+
+export type EnumOption<TValue extends string = string> = {
+    label: string;
+    value: TValue;
+};
+
+export function defineEnumDefinitions<const TDefinitions extends NonEmptyReadonlyArray<EnumDefinitionBase>>(definitions: TDefinitions): TDefinitions {
+    return definitions;
+}
+
+export function defineSeverityEnumDefinitions<const TDefinitions extends NonEmptyReadonlyArray<EnumDefinitionWithSeverity>>(definitions: TDefinitions): TDefinitions {
+    return definitions;
+}
+
+export function enumObjectValues<const TValueObject extends Record<string, string>>(valueObject: TValueObject): NonEmptyReadonlyArray<TValueObject[keyof TValueObject]> {
+    return Object.values(valueObject) as unknown as NonEmptyReadonlyArray<TValueObject[keyof TValueObject]>;
+}
+
+export function enumDefinitionValues<const TDefinitions extends NonEmptyReadonlyArray<{ value: string }>>(definitions: TDefinitions): NonEmptyReadonlyArray<EnumDefinitionValue<TDefinitions>> {
+    return definitions.map((definition) => definition.value) as unknown as NonEmptyReadonlyArray<EnumDefinitionValue<TDefinitions>>;
+}
+
+export function enumDefinitionValueObject<const TDefinitions extends NonEmptyReadonlyArray<{ key: string; value: string }>>(definitions: TDefinitions): EnumValueObject<TDefinitions> {
+    return Object.fromEntries(definitions.map((definition) => [definition.key, definition.value])) as EnumValueObject<TDefinitions>;
+}
+
+export function enumDefinitionLabels<const TDefinitions extends NonEmptyReadonlyArray<{ value: string; label: string }>>(definitions: TDefinitions): EnumLabelMap<TDefinitions> {
+    return Object.fromEntries(definitions.map((definition) => [definition.value, definition.label])) as EnumLabelMap<TDefinitions>;
+}
+
+export function enumDefinitionOptions<const TDefinitions extends NonEmptyReadonlyArray<{ value: string; label: string }>>(definitions: TDefinitions): ReadonlyArray<EnumOption<EnumDefinitionValue<TDefinitions>>> {
+    return definitions.map((definition) => ({ label: definition.label, value: definition.value })) as ReadonlyArray<EnumOption<EnumDefinitionValue<TDefinitions>>>;
+}
+
+export function enumDefinitionSeverities<const TDefinitions extends NonEmptyReadonlyArray<{ value: string; severity: string }>>(definitions: TDefinitions): EnumSeverityMap<TDefinitions> {
+    return Object.fromEntries(definitions.map((definition) => [definition.value, definition.severity])) as EnumSeverityMap<TDefinitions>;
+}
+
 // ---------------------------------------------------------------------------
 // Permission Keys (SSOT)
 // ---------------------------------------------------------------------------
@@ -173,74 +239,62 @@ export type SensitiveStringFieldProjection = z.infer<typeof SensitiveStringField
 // Shared lifecycle candidates
 // ---------------------------------------------------------------------------
 
-export const ACTIVE_INACTIVE_STATUSES = ['active', 'inactive'] as const;
-
-export type ActiveInactiveStatus = (typeof ACTIVE_INACTIVE_STATUSES)[number];
-
-export const ActiveInactiveStatusSchema = z.enum(ACTIVE_INACTIVE_STATUSES).meta({ id: 'ActiveInactiveStatus' });
-
 export const ActiveInactiveStatusValue = {
     Active: 'active',
     Inactive: 'inactive'
-} as const satisfies Record<string, ActiveInactiveStatus>;
+} as const;
 
-export const VERSION_LIFECYCLE_STATUSES = ['active', 'superseded', 'voided'] as const;
-
-export type VersionLifecycleStatus = (typeof VERSION_LIFECYCLE_STATUSES)[number];
-
-export const VersionLifecycleStatusSchema = z.enum(VERSION_LIFECYCLE_STATUSES).meta({ id: 'VersionLifecycleStatus' });
+export const ACTIVE_INACTIVE_STATUSES = enumObjectValues(ActiveInactiveStatusValue);
+export type ActiveInactiveStatus = (typeof ACTIVE_INACTIVE_STATUSES)[number];
+export const ActiveInactiveStatusSchema = z.enum(ACTIVE_INACTIVE_STATUSES).meta({ id: 'ActiveInactiveStatus' });
 
 export const VersionLifecycleStatusValue = {
     Active: 'active',
     Superseded: 'superseded',
     Voided: 'voided'
-} as const satisfies Record<string, VersionLifecycleStatus>;
+} as const;
 
-export const EFFECTIVE_SUPERSEDED_STATUSES = ['effective', 'superseded'] as const;
-
-export type EffectiveSupersededStatus = (typeof EFFECTIVE_SUPERSEDED_STATUSES)[number];
-
-export const EffectiveSupersededStatusSchema = z.enum(EFFECTIVE_SUPERSEDED_STATUSES).meta({ id: 'EffectiveSupersededStatus' });
+export const VERSION_LIFECYCLE_STATUSES = enumObjectValues(VersionLifecycleStatusValue);
+export type VersionLifecycleStatus = (typeof VERSION_LIFECYCLE_STATUSES)[number];
+export const VersionLifecycleStatusSchema = z.enum(VERSION_LIFECYCLE_STATUSES).meta({ id: 'VersionLifecycleStatus' });
 
 export const EffectiveSupersededStatusValue = {
     Effective: 'effective',
     Superseded: 'superseded'
-} as const satisfies Record<string, EffectiveSupersededStatus>;
+} as const;
 
-export const READY_BLOCKED_MISSING_STATUSES = ['ready', 'blocked', 'missing'] as const;
-
-export type ReadyBlockedMissingStatus = (typeof READY_BLOCKED_MISSING_STATUSES)[number];
-
-export const ReadyBlockedMissingStatusSchema = z.enum(READY_BLOCKED_MISSING_STATUSES).meta({ id: 'ReadyBlockedMissingStatus' });
+export const EFFECTIVE_SUPERSEDED_STATUSES = enumObjectValues(EffectiveSupersededStatusValue);
+export type EffectiveSupersededStatus = (typeof EFFECTIVE_SUPERSEDED_STATUSES)[number];
+export const EffectiveSupersededStatusSchema = z.enum(EFFECTIVE_SUPERSEDED_STATUSES).meta({ id: 'EffectiveSupersededStatus' });
 
 export const ReadyBlockedMissingStatusValue = {
     Ready: 'ready',
     Blocked: 'blocked',
     Missing: 'missing'
-} as const satisfies Record<string, ReadyBlockedMissingStatus>;
+} as const;
 
-export const AVAILABLE_MISSING_STATUSES = ['available', 'missing'] as const;
-
-export type AvailableMissingStatus = (typeof AVAILABLE_MISSING_STATUSES)[number];
-
-export const AvailableMissingStatusSchema = z.enum(AVAILABLE_MISSING_STATUSES).meta({ id: 'AvailableMissingStatus' });
+export const READY_BLOCKED_MISSING_STATUSES = enumObjectValues(ReadyBlockedMissingStatusValue);
+export type ReadyBlockedMissingStatus = (typeof READY_BLOCKED_MISSING_STATUSES)[number];
+export const ReadyBlockedMissingStatusSchema = z.enum(READY_BLOCKED_MISSING_STATUSES).meta({ id: 'ReadyBlockedMissingStatus' });
 
 export const AvailableMissingStatusValue = {
     Available: 'available',
     Missing: 'missing'
-} as const satisfies Record<string, AvailableMissingStatus>;
+} as const;
 
-export const PENDING_CONFIRMED_CLOSED_STATUSES = ['pending', 'confirmed', 'closed'] as const;
-
-export type PendingConfirmedClosedStatus = (typeof PENDING_CONFIRMED_CLOSED_STATUSES)[number];
-
-export const PendingConfirmedClosedStatusSchema = z.enum(PENDING_CONFIRMED_CLOSED_STATUSES).meta({ id: 'PendingConfirmedClosedStatus' });
+export const AVAILABLE_MISSING_STATUSES = enumObjectValues(AvailableMissingStatusValue);
+export type AvailableMissingStatus = (typeof AVAILABLE_MISSING_STATUSES)[number];
+export const AvailableMissingStatusSchema = z.enum(AVAILABLE_MISSING_STATUSES).meta({ id: 'AvailableMissingStatus' });
 
 export const PendingConfirmedClosedStatusValue = {
     Pending: 'pending',
     Confirmed: 'confirmed',
     Closed: 'closed'
-} as const satisfies Record<string, PendingConfirmedClosedStatus>;
+} as const;
+
+export const PENDING_CONFIRMED_CLOSED_STATUSES = enumObjectValues(PendingConfirmedClosedStatusValue);
+export type PendingConfirmedClosedStatus = (typeof PENDING_CONFIRMED_CLOSED_STATUSES)[number];
+export const PendingConfirmedClosedStatusSchema = z.enum(PENDING_CONFIRMED_CLOSED_STATUSES).meta({ id: 'PendingConfirmedClosedStatus' });
 
 // ---------------------------------------------------------------------------
 // Role
@@ -376,27 +430,23 @@ export const UpdateCurrentUserProfileRequestSchema = z
 
 export type UpdateCurrentUserProfileRequest = z.infer<typeof UpdateCurrentUserProfileRequestSchema>;
 
-export const PLATFORM_PERMISSION_STATUSES = ['active', 'inactive', 'deprecated'] as const;
-
-export type PlatformPermissionStatus = (typeof PLATFORM_PERMISSION_STATUSES)[number];
-
-export const PlatformPermissionStatusSchema = z.enum(PLATFORM_PERMISSION_STATUSES).meta({ id: 'PlatformPermissionStatus' });
-
 export const PlatformPermissionStatusValue = {
     Active: 'active',
     Inactive: 'inactive',
     Deprecated: 'deprecated'
-} as const satisfies Record<string, PlatformPermissionStatus>;
+} as const;
 
-export const PLATFORM_PERMISSION_SOURCE_TYPES = ['system-seeded'] as const;
-
-export type PlatformPermissionSourceType = (typeof PLATFORM_PERMISSION_SOURCE_TYPES)[number];
-
-export const PlatformPermissionSourceTypeSchema = z.enum(PLATFORM_PERMISSION_SOURCE_TYPES).meta({ id: 'PlatformPermissionSourceType' });
+export const PLATFORM_PERMISSION_STATUSES = enumObjectValues(PlatformPermissionStatusValue);
+export type PlatformPermissionStatus = (typeof PLATFORM_PERMISSION_STATUSES)[number];
+export const PlatformPermissionStatusSchema = z.enum(PLATFORM_PERMISSION_STATUSES).meta({ id: 'PlatformPermissionStatus' });
 
 export const PlatformPermissionSourceTypeValue = {
     SystemSeeded: 'system-seeded'
-} as const satisfies Record<string, PlatformPermissionSourceType>;
+} as const;
+
+export const PLATFORM_PERMISSION_SOURCE_TYPES = enumObjectValues(PlatformPermissionSourceTypeValue);
+export type PlatformPermissionSourceType = (typeof PLATFORM_PERMISSION_SOURCE_TYPES)[number];
+export const PlatformPermissionSourceTypeSchema = z.enum(PLATFORM_PERMISSION_SOURCE_TYPES).meta({ id: 'PlatformPermissionSourceType' });
 
 export const PlatformPermissionSummarySchema = z
     .object({
@@ -771,17 +821,15 @@ export const AuditSnapshotSchema = z.record(z.string(), z.unknown()).meta({ id: 
 
 export type AuditSnapshot = z.infer<typeof AuditSnapshotSchema>;
 
-export const AUDIT_LOG_RESULTS = ['success', 'rejected', 'failed'] as const;
-
-export type AuditLogResult = (typeof AUDIT_LOG_RESULTS)[number];
-
-export const AuditLogResultSchema = z.enum(AUDIT_LOG_RESULTS).meta({ id: 'AuditLogResult' });
-
 export const AuditLogResultValue = {
     Success: 'success',
     Rejected: 'rejected',
     Failed: 'failed'
-} as const satisfies Record<string, AuditLogResult>;
+} as const;
+
+export const AUDIT_LOG_RESULTS = enumObjectValues(AuditLogResultValue);
+export type AuditLogResult = (typeof AUDIT_LOG_RESULTS)[number];
+export const AuditLogResultSchema = z.enum(AUDIT_LOG_RESULTS).meta({ id: 'AuditLogResult' });
 
 export const AuditLogSummarySchema = z
     .object({
@@ -821,29 +869,25 @@ export const AuditLogListQuerySchema = z
 
 export type AuditLogListQuery = z.infer<typeof AuditLogListQuerySchema>;
 
-export const SECURITY_EVENT_RESULTS = ['blocked', 'failed', 'expired'] as const;
-
-export type SecurityEventResult = (typeof SECURITY_EVENT_RESULTS)[number];
-
-export const SecurityEventResultSchema = z.enum(SECURITY_EVENT_RESULTS).meta({ id: 'SecurityEventResult' });
-
 export const SecurityEventResultValue = {
     Blocked: 'blocked',
     Failed: 'failed',
     Expired: 'expired'
-} as const satisfies Record<string, SecurityEventResult>;
+} as const;
 
-export const SECURITY_EVENT_SEVERITIES = ['info', 'warning', 'high'] as const;
-
-export type SecurityEventSeverity = (typeof SECURITY_EVENT_SEVERITIES)[number];
-
-export const SecurityEventSeveritySchema = z.enum(SECURITY_EVENT_SEVERITIES).meta({ id: 'SecurityEventSeverity' });
+export const SECURITY_EVENT_RESULTS = enumObjectValues(SecurityEventResultValue);
+export type SecurityEventResult = (typeof SECURITY_EVENT_RESULTS)[number];
+export const SecurityEventResultSchema = z.enum(SECURITY_EVENT_RESULTS).meta({ id: 'SecurityEventResult' });
 
 export const SecurityEventSeverityValue = {
     Info: 'info',
     Warning: 'warning',
     High: 'high'
-} as const satisfies Record<string, SecurityEventSeverity>;
+} as const;
+
+export const SECURITY_EVENT_SEVERITIES = enumObjectValues(SecurityEventSeverityValue);
+export type SecurityEventSeverity = (typeof SECURITY_EVENT_SEVERITIES)[number];
+export const SecurityEventSeveritySchema = z.enum(SECURITY_EVENT_SEVERITIES).meta({ id: 'SecurityEventSeverity' });
 
 export const SecurityEventSummarySchema = z
     .object({
@@ -900,17 +944,25 @@ export type RecordRouteDeniedSecurityEventRequest = z.infer<typeof RecordRouteDe
 // Customer
 // ---------------------------------------------------------------------------
 
-export const CUSTOMER_STATUSES = ['active', 'inactive', 'merged'] as const;
+export const CUSTOMER_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Active', value: 'active', label: '启用', severity: 'success', order: 10 },
+    { key: 'Inactive', value: 'inactive', label: '停用', severity: 'secondary', order: 20 },
+    { key: 'Merged', value: 'merged', label: '已合并', severity: 'contrast', order: 30 }
+] as const);
+
+export const CustomerStatusValue = enumDefinitionValueObject(CUSTOMER_STATUS_DEFINITIONS);
+
+export const CUSTOMER_STATUSES = enumDefinitionValues(CUSTOMER_STATUS_DEFINITIONS);
 
 export type CustomerStatus = (typeof CUSTOMER_STATUSES)[number];
 
 export const CustomerStatusSchema = z.enum(CUSTOMER_STATUSES).meta({ id: 'CustomerStatus' });
 
-export const CustomerStatusValue = {
-    Active: 'active',
-    Inactive: 'inactive',
-    Merged: 'merged'
-} as const satisfies Record<string, CustomerStatus>;
+export const CustomerStatusLabel = enumDefinitionLabels(CUSTOMER_STATUS_DEFINITIONS);
+
+export const CustomerStatusSeverity = enumDefinitionSeverities(CUSTOMER_STATUS_DEFINITIONS);
+
+export const CustomerStatusOptions = enumDefinitionOptions(CUSTOMER_STATUS_DEFINITIONS);
 
 export const CUSTOMER_ALIAS_TYPES = ['legal-name', 'short-name', 'legacy-input', 'import-name', 'alias'] as const;
 
@@ -1054,18 +1106,26 @@ export type CreateCustomerAliasRequest = z.infer<typeof CreateCustomerAliasReque
 // Lead
 // ---------------------------------------------------------------------------
 
-export const LEAD_STATUSES = ['registered', 'qualified', 'converted', 'closed'] as const;
+export const LEAD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Registered', value: 'registered', label: '待确认', severity: 'secondary', order: 10 },
+    { key: 'Qualified', value: 'qualified', label: '已有效', severity: 'success', order: 20 },
+    { key: 'Converted', value: 'converted', label: '已转项目', severity: 'info', order: 30 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 40 }
+] as const);
+
+export const LeadStatusValue = enumDefinitionValueObject(LEAD_STATUS_DEFINITIONS);
+
+export const LEAD_STATUSES = enumDefinitionValues(LEAD_STATUS_DEFINITIONS);
 
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
 export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: 'LeadStatus' });
 
-export const LeadStatusValue = {
-    Registered: 'registered',
-    Qualified: 'qualified',
-    Converted: 'converted',
-    Closed: 'closed'
-} as const satisfies Record<string, LeadStatus>;
+export const LeadStatusLabel = enumDefinitionLabels(LEAD_STATUS_DEFINITIONS);
+
+export const LeadStatusSeverity = enumDefinitionSeverities(LEAD_STATUS_DEFINITIONS);
+
+export const LeadStatusOptions = enumDefinitionOptions(LEAD_STATUS_DEFINITIONS);
 
 export const LEAD_SOURCE_STATUSES = ['active', 'inactive'] as const;
 
@@ -1078,79 +1138,119 @@ export const LeadSourceStatusValue = {
     Inactive: 'inactive'
 } as const satisfies Record<string, LeadSourceStatus>;
 
-export const LEAD_BUDGET_STATUSES = ['unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved'] as const;
+export const LEAD_BUDGET_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Unknown', value: 'unknown', label: '预算未知', severity: 'secondary', order: 10 },
+    { key: 'NoBudget', value: 'no-budget', label: '暂无预算', severity: 'warn', order: 20 },
+    { key: 'RoughBudget', value: 'rough-budget', label: '初步预算', severity: 'info', order: 30 },
+    { key: 'BudgetConfirmed', value: 'budget-confirmed', label: '预算已确认', severity: 'success', order: 40 },
+    { key: 'BudgetApproved', value: 'budget-approved', label: '预算已批准', severity: 'success', order: 50 }
+] as const);
+
+export const LeadBudgetStatusValue = enumDefinitionValueObject(LEAD_BUDGET_STATUS_DEFINITIONS);
+
+export const LEAD_BUDGET_STATUSES = enumDefinitionValues(LEAD_BUDGET_STATUS_DEFINITIONS);
 
 export type LeadBudgetStatus = (typeof LEAD_BUDGET_STATUSES)[number];
 
 export const LeadBudgetStatusSchema = z.enum(LEAD_BUDGET_STATUSES).meta({ id: 'LeadBudgetStatus' });
 
-export const LeadBudgetStatusValue = {
-    Unknown: 'unknown',
-    NoBudget: 'no-budget',
-    RoughBudget: 'rough-budget',
-    BudgetConfirmed: 'budget-confirmed',
-    BudgetApproved: 'budget-approved'
-} as const satisfies Record<string, LeadBudgetStatus>;
+export const LeadBudgetStatusLabel = enumDefinitionLabels(LEAD_BUDGET_STATUS_DEFINITIONS);
 
-export const LEAD_URGENCIES = ['low', 'normal', 'high', 'critical'] as const;
+export const LeadBudgetStatusSeverity = enumDefinitionSeverities(LEAD_BUDGET_STATUS_DEFINITIONS);
+
+export const LeadBudgetStatusOptions = enumDefinitionOptions(LEAD_BUDGET_STATUS_DEFINITIONS);
+
+export const LEAD_URGENCY_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Low', value: 'low', label: '低', severity: 'secondary', order: 10 },
+    { key: 'Normal', value: 'normal', label: '一般', severity: 'info', order: 20 },
+    { key: 'High', value: 'high', label: '高', severity: 'warn', order: 30 },
+    { key: 'Critical', value: 'critical', label: '紧急', severity: 'danger', order: 40 }
+] as const);
+
+export const LeadUrgencyValue = enumDefinitionValueObject(LEAD_URGENCY_DEFINITIONS);
+
+export const LEAD_URGENCIES = enumDefinitionValues(LEAD_URGENCY_DEFINITIONS);
 
 export type LeadUrgency = (typeof LEAD_URGENCIES)[number];
 
 export const LeadUrgencySchema = z.enum(LEAD_URGENCIES).meta({ id: 'LeadUrgency' });
 
-export const LeadUrgencyValue = {
-    Low: 'low',
-    Normal: 'normal',
-    High: 'high',
-    Critical: 'critical'
-} as const satisfies Record<string, LeadUrgency>;
+export const LeadUrgencyLabel = enumDefinitionLabels(LEAD_URGENCY_DEFINITIONS);
 
-export const LEAD_RATINGS = ['A', 'B', 'C', 'D'] as const;
+export const LeadUrgencySeverity = enumDefinitionSeverities(LEAD_URGENCY_DEFINITIONS);
+
+export const LeadUrgencyOptions = enumDefinitionOptions(LEAD_URGENCY_DEFINITIONS);
+
+export const LEAD_RATING_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'A', value: 'A', label: 'A级', severity: 'success', order: 10 },
+    { key: 'B', value: 'B', label: 'B级', severity: 'info', order: 20 },
+    { key: 'C', value: 'C', label: 'C级', severity: 'warn', order: 30 },
+    { key: 'D', value: 'D', label: 'D级', severity: 'danger', order: 40 }
+] as const);
+
+export const LeadRatingValue = enumDefinitionValueObject(LEAD_RATING_DEFINITIONS);
+
+export const LEAD_RATINGS = enumDefinitionValues(LEAD_RATING_DEFINITIONS);
 
 export type LeadRating = (typeof LEAD_RATINGS)[number];
 
 export const LeadRatingSchema = z.enum(LEAD_RATINGS).meta({ id: 'LeadRating' });
 
-export const LeadRatingValue = {
-    A: 'A',
-    B: 'B',
-    C: 'C',
-    D: 'D'
-} as const satisfies Record<string, LeadRating>;
+export const LeadRatingLabel = enumDefinitionLabels(LEAD_RATING_DEFINITIONS);
 
-export const PROJECT_STAGES = ['assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'] as const;
+export const LeadRatingSeverity = enumDefinitionSeverities(LEAD_RATING_DEFINITIONS);
+
+export const LeadRatingOptions = enumDefinitionOptions(LEAD_RATING_DEFINITIONS);
+
+export const PROJECT_STAGE_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Assessment', value: 'assessment', label: '立项评估', severity: 'secondary', order: 10 },
+    { key: 'ScopeConfirmation', value: 'scope-confirmation', label: '范围确认', severity: 'info', order: 20 },
+    { key: 'CommercialClosure', value: 'commercial-closure', label: '商务收口', severity: 'warn', order: 30 },
+    { key: 'Contracting', value: 'contracting', label: '签约中', severity: 'warn', order: 40 },
+    { key: 'Handover', value: 'handover', label: '项目移交', severity: 'warn', order: 50 },
+    { key: 'Execution', value: 'execution', label: '正式执行', severity: 'success', order: 60 },
+    { key: 'Acceptance', value: 'acceptance', label: '验收确认', severity: 'info', order: 70 },
+    { key: 'Completed', value: 'completed', label: '已完成', severity: 'contrast', order: 80 },
+    { key: 'ClosedLost', value: 'closed-lost', label: '已丢单', severity: 'danger', order: 90 },
+    { key: 'ClosedTerminated', value: 'closed-terminated', label: '已终止', severity: 'danger', order: 100 }
+] as const);
+
+export const ProjectStageValue = enumDefinitionValueObject(PROJECT_STAGE_DEFINITIONS);
+
+export const PROJECT_STAGES = enumDefinitionValues(PROJECT_STAGE_DEFINITIONS);
 
 export type ProjectStage = (typeof PROJECT_STAGES)[number];
 
 export const ProjectStageSchema = z.enum(PROJECT_STAGES).meta({ id: 'ProjectStage' });
 
-export const ProjectStageValue = {
-    Assessment: 'assessment',
-    ScopeConfirmation: 'scope-confirmation',
-    CommercialClosure: 'commercial-closure',
-    Contracting: 'contracting',
-    Handover: 'handover',
-    Execution: 'execution',
-    Acceptance: 'acceptance',
-    Completed: 'completed',
-    ClosedLost: 'closed-lost',
-    ClosedTerminated: 'closed-terminated'
-} as const satisfies Record<string, ProjectStage>;
+export const ProjectStageLabel = enumDefinitionLabels(PROJECT_STAGE_DEFINITIONS);
 
-export const PROJECT_STATUSES = ['active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'] as const;
+export const ProjectStageSeverity = enumDefinitionSeverities(PROJECT_STAGE_DEFINITIONS);
+
+export const ProjectStageOptions = enumDefinitionOptions(PROJECT_STAGE_DEFINITIONS);
+
+export const PROJECT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Active', value: 'active', label: '进行中', severity: 'info', order: 10 },
+    { key: 'PendingApproval', value: 'pending-approval', label: '待审批', severity: 'secondary', order: 20 },
+    { key: 'Blocked', value: 'blocked', label: '阻塞中', severity: 'warn', order: 30 },
+    { key: 'OnHold', value: 'on-hold', label: '已挂起', severity: 'warn', order: 40 },
+    { key: 'Completed', value: 'completed', label: '已完成', severity: 'success', order: 50 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 60 }
+] as const);
+
+export const ProjectStatusValue = enumDefinitionValueObject(PROJECT_STATUS_DEFINITIONS);
+
+export const PROJECT_STATUSES = enumDefinitionValues(PROJECT_STATUS_DEFINITIONS);
 
 export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 
 export const ProjectStatusSchema = z.enum(PROJECT_STATUSES).meta({ id: 'ProjectStatus' });
 
-export const ProjectStatusValue = {
-    Active: 'active',
-    PendingApproval: 'pending-approval',
-    Blocked: 'blocked',
-    OnHold: 'on-hold',
-    Completed: 'completed',
-    Closed: 'closed'
-} as const satisfies Record<string, ProjectStatus>;
+export const ProjectStatusLabel = enumDefinitionLabels(PROJECT_STATUS_DEFINITIONS);
+
+export const ProjectStatusSeverity = enumDefinitionSeverities(PROJECT_STATUS_DEFINITIONS);
+
+export const ProjectStatusOptions = enumDefinitionOptions(PROJECT_STATUS_DEFINITIONS);
 
 export const LEAD_GATE_STATUSES = ['ready', 'blocked'] as const;
 
@@ -1163,25 +1263,31 @@ export const LeadGateStatusValue = {
     Blocked: 'blocked'
 } as const satisfies Record<string, LeadGateStatus>;
 
-export const LEAD_GATE_MISSING_ITEMS = ['source', 'demand-description', 'budget', 'estimated-amount', 'urgency', 'owner', 'owner-org', 'registered-status', 'qualified-status', 'not-converted', 'not-closed'] as const;
+export const LEAD_GATE_MISSING_ITEM_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Source', value: 'source', label: '线索来源', order: 10 },
+    { key: 'DemandDescription', value: 'demand-description', label: '需求描述', order: 20 },
+    { key: 'Budget', value: 'budget', label: '预算情况', order: 30 },
+    { key: 'EstimatedAmount', value: 'estimated-amount', label: '预计金额', order: 40 },
+    { key: 'Urgency', value: 'urgency', label: '紧迫程度', order: 50 },
+    { key: 'Owner', value: 'owner', label: '销售主责人', order: 60 },
+    { key: 'OwnerOrg', value: 'owner-org', label: '销售主责组织', order: 70 },
+    { key: 'RegisteredStatus', value: 'registered-status', label: '待确认状态', order: 80 },
+    { key: 'QualifiedStatus', value: 'qualified-status', label: '已确认有效状态', order: 90 },
+    { key: 'NotConverted', value: 'not-converted', label: '未转项目状态', order: 100 },
+    { key: 'NotClosed', value: 'not-closed', label: '未关闭状态', order: 110 }
+] as const);
+
+export const LeadGateMissingItemValue = enumDefinitionValueObject(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+
+export const LEAD_GATE_MISSING_ITEMS = enumDefinitionValues(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
 
 export type LeadGateMissingItem = (typeof LEAD_GATE_MISSING_ITEMS)[number];
 
 export const LeadGateMissingItemSchema = z.enum(LEAD_GATE_MISSING_ITEMS).meta({ id: 'LeadGateMissingItem' });
 
-export const LeadGateMissingItemValue = {
-    Source: 'source',
-    DemandDescription: 'demand-description',
-    Budget: 'budget',
-    EstimatedAmount: 'estimated-amount',
-    Urgency: 'urgency',
-    Owner: 'owner',
-    OwnerOrg: 'owner-org',
-    RegisteredStatus: 'registered-status',
-    QualifiedStatus: 'qualified-status',
-    NotConverted: 'not-converted',
-    NotClosed: 'not-closed'
-} as const satisfies Record<string, LeadGateMissingItem>;
+export const LeadGateMissingItemLabel = enumDefinitionLabels(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+
+export const LeadGateMissingItemOptions = enumDefinitionOptions(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
 
 export const LEAD_OWNERSHIP_SCOPES = ['all', 'mine', 'public-pool'] as const;
 
@@ -1633,33 +1739,47 @@ export type SalesFollowUpType = DictionaryCode;
 
 export const SalesFollowUpTypeSchema = DictionaryCodeSchema.meta({ id: 'SalesFollowUpType' });
 
-export const SALES_FOLLOW_UP_OUTCOMES = ['progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'] as const;
+export const SALES_FOLLOW_UP_OUTCOME_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Progress', value: 'progress', label: '有进展', order: 10 },
+    { key: 'WaitingCustomer', value: 'waiting-customer', label: '待客户反馈', order: 20 },
+    { key: 'RiskDiscovered', value: 'risk-discovered', label: '发现风险', order: 30 },
+    { key: 'Deferred', value: 'deferred', label: '暂缓', order: 40 },
+    { key: 'CloseRecommended', value: 'close-recommended', label: '建议关闭', order: 50 },
+    { key: 'NoResponse', value: 'no-response', label: '暂无回应', order: 60 },
+    { key: 'Other', value: 'other', label: '其他', order: 70 }
+] as const);
+
+export const SalesFollowUpOutcomeValue = enumDefinitionValueObject(SALES_FOLLOW_UP_OUTCOME_DEFINITIONS);
+
+export const SALES_FOLLOW_UP_OUTCOMES = enumDefinitionValues(SALES_FOLLOW_UP_OUTCOME_DEFINITIONS);
 
 export type SalesFollowUpOutcome = (typeof SALES_FOLLOW_UP_OUTCOMES)[number];
 
 export const SalesFollowUpOutcomeSchema = z.enum(SALES_FOLLOW_UP_OUTCOMES).meta({ id: 'SalesFollowUpOutcome' });
 
-export const SalesFollowUpOutcomeValue = {
-    Progress: 'progress',
-    WaitingCustomer: 'waiting-customer',
-    RiskDiscovered: 'risk-discovered',
-    Deferred: 'deferred',
-    CloseRecommended: 'close-recommended',
-    NoResponse: 'no-response',
-    Other: 'other'
-} as const satisfies Record<string, SalesFollowUpOutcome>;
+export const SalesFollowUpOutcomeLabel = enumDefinitionLabels(SALES_FOLLOW_UP_OUTCOME_DEFINITIONS);
 
-export const SALES_FOLLOW_UP_RECORD_STATUSES = ['active', 'superseded', 'voided'] as const;
+export const SalesFollowUpOutcomeOptions = enumDefinitionOptions(SALES_FOLLOW_UP_OUTCOME_DEFINITIONS);
+
+export const SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Active', value: 'active', label: '当前', severity: 'success', order: 10 },
+    { key: 'Superseded', value: 'superseded', label: '已替代', severity: 'secondary', order: 20 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 30 }
+] as const);
+
+export const SalesFollowUpRecordStatusValue = enumDefinitionValueObject(SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS);
+
+export const SALES_FOLLOW_UP_RECORD_STATUSES = enumDefinitionValues(SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS);
 
 export type SalesFollowUpRecordStatus = (typeof SALES_FOLLOW_UP_RECORD_STATUSES)[number];
 
 export const SalesFollowUpRecordStatusSchema = z.enum(SALES_FOLLOW_UP_RECORD_STATUSES).meta({ id: 'SalesFollowUpRecordStatus' });
 
-export const SalesFollowUpRecordStatusValue = {
-    Active: 'active',
-    Superseded: 'superseded',
-    Voided: 'voided'
-} as const satisfies Record<string, SalesFollowUpRecordStatus>;
+export const SalesFollowUpRecordStatusLabel = enumDefinitionLabels(SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS);
+
+export const SalesFollowUpRecordStatusSeverity = enumDefinitionSeverities(SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS);
+
+export const SalesFollowUpRecordStatusOptions = enumDefinitionOptions(SALES_FOLLOW_UP_RECORD_STATUS_DEFINITIONS);
 
 export const SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES = ['active', 'all'] as const;
 
@@ -1780,19 +1900,27 @@ export type AttachmentCategory = DictionaryCode;
 
 export const AttachmentCategorySchema = DictionaryCodeSchema.meta({ id: 'AttachmentCategory' });
 
-export const ATTACHMENT_SECURITY_LEVELS = ['normal', 'internal', 'sensitive', 'confidential', 'restricted'] as const;
+export const ATTACHMENT_SECURITY_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Normal', value: 'normal', label: '普通', severity: 'secondary', order: 10 },
+    { key: 'Internal', value: 'internal', label: '内部', severity: 'info', order: 20 },
+    { key: 'Sensitive', value: 'sensitive', label: '敏感', severity: 'warn', order: 30 },
+    { key: 'Confidential', value: 'confidential', label: '机密', severity: 'danger', order: 40 },
+    { key: 'Restricted', value: 'restricted', label: '高机密', severity: 'danger', order: 50 }
+] as const);
+
+export const AttachmentSecurityLevelValue = enumDefinitionValueObject(ATTACHMENT_SECURITY_LEVEL_DEFINITIONS);
+
+export const ATTACHMENT_SECURITY_LEVELS = enumDefinitionValues(ATTACHMENT_SECURITY_LEVEL_DEFINITIONS);
 
 export type AttachmentSecurityLevel = (typeof ATTACHMENT_SECURITY_LEVELS)[number];
 
 export const AttachmentSecurityLevelSchema = z.enum(ATTACHMENT_SECURITY_LEVELS).meta({ id: 'AttachmentSecurityLevel' });
 
-export const AttachmentSecurityLevelValue = {
-    Normal: 'normal',
-    Internal: 'internal',
-    Sensitive: 'sensitive',
-    Confidential: 'confidential',
-    Restricted: 'restricted'
-} as const satisfies Record<string, AttachmentSecurityLevel>;
+export const AttachmentSecurityLevelLabel = enumDefinitionLabels(ATTACHMENT_SECURITY_LEVEL_DEFINITIONS);
+
+export const AttachmentSecurityLevelSeverity = enumDefinitionSeverities(ATTACHMENT_SECURITY_LEVEL_DEFINITIONS);
+
+export const AttachmentSecurityLevelOptions = enumDefinitionOptions(ATTACHMENT_SECURITY_LEVEL_DEFINITIONS);
 
 export const ATTACHMENT_STATUSES = ['active', 'voided', 'deleted', 'failed'] as const;
 
@@ -2131,29 +2259,79 @@ export const ProjectWorkspaceGuidanceViewSchema = z
 
 export type ProjectWorkspaceGuidanceView = z.infer<typeof ProjectWorkspaceGuidanceViewSchema>;
 
-export const TECHNICAL_FEASIBILITY_DECISIONS = ['feasible', 'conditional', 'not-feasible'] as const;
+export const TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Feasible', value: 'feasible', label: '技术可行', order: 10 },
+    { key: 'Conditional', value: 'conditional', label: '有条件可行', order: 20 },
+    { key: 'NotFeasible', value: 'not-feasible', label: '暂不可行', order: 30 }
+] as const);
+
+export const TECHNICAL_FEASIBILITY_DECISIONS = enumDefinitionValues(TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS);
 
 export type TechnicalFeasibilityDecision = (typeof TECHNICAL_FEASIBILITY_DECISIONS)[number];
 
-export const TECHNICAL_SCOPE_ITEM_TYPES = ['in-scope', 'out-of-scope', 'assumption'] as const;
+export const TechnicalFeasibilityDecisionLabel = enumDefinitionLabels(TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS);
+
+export const TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'InScope', value: 'in-scope', label: '范围内', order: 10 },
+    { key: 'OutOfScope', value: 'out-of-scope', label: '排除项', order: 20 },
+    { key: 'Assumption', value: 'assumption', label: '假设', order: 30 }
+] as const);
+
+export const TECHNICAL_SCOPE_ITEM_TYPES = enumDefinitionValues(TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS);
 
 export type TechnicalScopeItemType = (typeof TECHNICAL_SCOPE_ITEM_TYPES)[number];
 
-export const PRESIGNING_RISK_LEVELS = ['R1', 'R2', 'R3', 'R4'] as const;
+export const TechnicalScopeItemTypeLabel = enumDefinitionLabels(TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS);
+
+export const PRESIGNING_RISK_LEVEL_DEFINITIONS = defineEnumDefinitions([
+    { key: 'R1', value: 'R1', label: 'R1', order: 10 },
+    { key: 'R2', value: 'R2', label: 'R2', order: 20 },
+    { key: 'R3', value: 'R3', label: 'R3', order: 30 },
+    { key: 'R4', value: 'R4', label: 'R4', order: 40 }
+] as const);
+
+export const PRESIGNING_RISK_LEVELS = enumDefinitionValues(PRESIGNING_RISK_LEVEL_DEFINITIONS);
 
 export type PreSigningRiskLevel = (typeof PRESIGNING_RISK_LEVELS)[number];
 
-export const PRESIGNING_RISK_STATUSES = ['open', 'mitigating', 'accepted', 'closed'] as const;
+export const PreSigningRiskLevelLabel = enumDefinitionLabels(PRESIGNING_RISK_LEVEL_DEFINITIONS);
+
+export const PRESIGNING_RISK_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Open', value: 'open', label: '打开', order: 10 },
+    { key: 'Mitigating', value: 'mitigating', label: '缓解中', order: 20 },
+    { key: 'Accepted', value: 'accepted', label: '已接受', order: 30 },
+    { key: 'Closed', value: 'closed', label: '已关闭', order: 40 }
+] as const);
+
+export const PRESIGNING_RISK_STATUSES = enumDefinitionValues(PRESIGNING_RISK_STATUS_DEFINITIONS);
 
 export type PreSigningRiskStatus = (typeof PRESIGNING_RISK_STATUSES)[number];
 
-export const COST_ESTIMATE_CONFIDENCE_LEVELS = ['high', 'medium', 'low'] as const;
+export const PreSigningRiskStatusLabel = enumDefinitionLabels(PRESIGNING_RISK_STATUS_DEFINITIONS);
+
+export const COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS = defineEnumDefinitions([
+    { key: 'High', value: 'high', label: '高', order: 10 },
+    { key: 'Medium', value: 'medium', label: '中', order: 20 },
+    { key: 'Low', value: 'low', label: '低', order: 30 }
+] as const);
+
+export const COST_ESTIMATE_CONFIDENCE_LEVELS = enumDefinitionValues(COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS);
 
 export type CostEstimateConfidenceLevel = (typeof COST_ESTIMATE_CONFIDENCE_LEVELS)[number];
 
-export const TAX_REVIEW_STATUSES = ['pending', 'reviewed', 'not-required'] as const;
+export const CostEstimateConfidenceLevelLabel = enumDefinitionLabels(COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS);
+
+export const TAX_REVIEW_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待复核', order: 10 },
+    { key: 'Reviewed', value: 'reviewed', label: '已复核', order: 20 },
+    { key: 'NotRequired', value: 'not-required', label: '无需复核', order: 30 }
+] as const);
+
+export const TAX_REVIEW_STATUSES = enumDefinitionValues(TAX_REVIEW_STATUS_DEFINITIONS);
 
 export type TaxReviewStatus = (typeof TAX_REVIEW_STATUSES)[number];
+
+export const TaxReviewStatusLabel = enumDefinitionLabels(TAX_REVIEW_STATUS_DEFINITIONS);
 
 export const PROJECT_TECHNICAL_COST_PACKAGE_STATUSES = ['effective', 'superseded'] as const;
 
@@ -2326,29 +2504,88 @@ export const ProjectTechnicalCostWorkspaceViewSchema = z
 
 export type ProjectTechnicalCostWorkspaceView = z.infer<typeof ProjectTechnicalCostWorkspaceViewSchema>;
 
-export const BID_COMMERCIAL_MODES = ['public-tender', 'invitation', 'comparison', 'commercial-negotiation', 'competitive-negotiation', 'direct-commercial', 'not-required'] as const;
+export const BID_COMMERCIAL_MODE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'PublicTender', value: 'public-tender', label: '公开招标', order: 10 },
+    { key: 'Invitation', value: 'invitation', label: '邀标', order: 20 },
+    { key: 'Comparison', value: 'comparison', label: '比选', order: 30 },
+    { key: 'CommercialNegotiation', value: 'commercial-negotiation', label: '商务谈判', order: 40 },
+    { key: 'CompetitiveNegotiation', value: 'competitive-negotiation', label: '竞争性谈判', order: 50 },
+    { key: 'DirectCommercial', value: 'direct-commercial', label: '直接商务', order: 60 },
+    { key: 'NotRequired', value: 'not-required', label: '不适用', order: 70 }
+] as const);
+
+export const BID_COMMERCIAL_MODES = enumDefinitionValues(BID_COMMERCIAL_MODE_DEFINITIONS);
 
 export type BidCommercialMode = (typeof BID_COMMERCIAL_MODES)[number];
 
-export const BID_COMMERCIAL_STAGES = ['not-started', 'preparation', 'submitted', 'negotiating', 'result-confirmed', 'closed'] as const;
+export const BidCommercialModeLabel = enumDefinitionLabels(BID_COMMERCIAL_MODE_DEFINITIONS);
+
+export const BID_COMMERCIAL_STAGE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'NotStarted', value: 'not-started', label: '未启动', order: 10 },
+    { key: 'Preparation', value: 'preparation', label: '材料准备', order: 20 },
+    { key: 'Submitted', value: 'submitted', label: '已提交', order: 30 },
+    { key: 'Negotiating', value: 'negotiating', label: '谈判中', order: 40 },
+    { key: 'ResultConfirmed', value: 'result-confirmed', label: '结果确认', order: 50 },
+    { key: 'Closed', value: 'closed', label: '已关闭', order: 60 }
+] as const);
+
+export const BID_COMMERCIAL_STAGES = enumDefinitionValues(BID_COMMERCIAL_STAGE_DEFINITIONS);
 
 export type BidCommercialStage = (typeof BID_COMMERCIAL_STAGES)[number];
 
-export const BID_COMMERCIAL_DECISIONS = ['pending', 'participate', 'no-bid', 'not-required'] as const;
+export const BidCommercialStageLabel = enumDefinitionLabels(BID_COMMERCIAL_STAGE_DEFINITIONS);
+
+export const BID_COMMERCIAL_DECISION_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待决策', order: 10 },
+    { key: 'Participate', value: 'participate', label: '参与', order: 20 },
+    { key: 'NoBid', value: 'no-bid', label: '不投标', order: 30 },
+    { key: 'NotRequired', value: 'not-required', label: '不适用', order: 40 }
+] as const);
+
+export const BID_COMMERCIAL_DECISIONS = enumDefinitionValues(BID_COMMERCIAL_DECISION_DEFINITIONS);
 
 export type BidCommercialDecision = (typeof BID_COMMERCIAL_DECISIONS)[number];
 
-export const BID_COMMERCIAL_RESULT_STATUSES = ['pending', 'won', 'lost', 'cancelled', 'not-applicable'] as const;
+export const BidCommercialDecisionLabel = enumDefinitionLabels(BID_COMMERCIAL_DECISION_DEFINITIONS);
+
+export const BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待结果', order: 10 },
+    { key: 'Won', value: 'won', label: '中标 / 成交', order: 20 },
+    { key: 'Lost', value: 'lost', label: '未中标', order: 30 },
+    { key: 'Cancelled', value: 'cancelled', label: '已取消', order: 40 },
+    { key: 'NotApplicable', value: 'not-applicable', label: '不适用', order: 50 }
+] as const);
+
+export const BID_COMMERCIAL_RESULT_STATUSES = enumDefinitionValues(BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS);
 
 export type BidCommercialResultStatus = (typeof BID_COMMERCIAL_RESULT_STATUSES)[number];
 
-export const BID_COMMERCIAL_MATERIAL_STATUSES = ['missing', 'in-progress', 'ready', 'not-required'] as const;
+export const BidCommercialResultStatusLabel = enumDefinitionLabels(BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS);
+
+export const BID_COMMERCIAL_MATERIAL_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Missing', value: 'missing', label: '缺失', order: 10 },
+    { key: 'InProgress', value: 'in-progress', label: '处理中', order: 20 },
+    { key: 'Ready', value: 'ready', label: '已齐备', order: 30 },
+    { key: 'NotRequired', value: 'not-required', label: '不适用', order: 40 }
+] as const);
+
+export const BID_COMMERCIAL_MATERIAL_STATUSES = enumDefinitionValues(BID_COMMERCIAL_MATERIAL_STATUS_DEFINITIONS);
 
 export type BidCommercialMaterialStatus = (typeof BID_COMMERCIAL_MATERIAL_STATUSES)[number];
 
-export const BID_COMMERCIAL_TIMELINE_STATUSES = ['pending', 'done', 'cancelled'] as const;
+export const BidCommercialMaterialStatusLabel = enumDefinitionLabels(BID_COMMERCIAL_MATERIAL_STATUS_DEFINITIONS);
+
+export const BID_COMMERCIAL_TIMELINE_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待完成', order: 10 },
+    { key: 'Done', value: 'done', label: '已完成', order: 20 },
+    { key: 'Cancelled', value: 'cancelled', label: '已取消', order: 30 }
+] as const);
+
+export const BID_COMMERCIAL_TIMELINE_STATUSES = enumDefinitionValues(BID_COMMERCIAL_TIMELINE_STATUS_DEFINITIONS);
 
 export type BidCommercialTimelineStatus = (typeof BID_COMMERCIAL_TIMELINE_STATUSES)[number];
+
+export const BidCommercialTimelineStatusLabel = enumDefinitionLabels(BID_COMMERCIAL_TIMELINE_STATUS_DEFINITIONS);
 
 export const PROJECT_BID_COMMERCIAL_PROCESS_STATUSES = ['effective', 'superseded'] as const;
 
@@ -2479,25 +2716,70 @@ export const ProjectBidCommercialWorkspaceViewSchema = z
 
 export type ProjectBidCommercialWorkspaceView = z.infer<typeof ProjectBidCommercialWorkspaceViewSchema>;
 
-export const PRICING_MARGIN_PATHS = ['bid', 'direct-commercial'] as const;
+export const PRICING_MARGIN_PATH_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Bid', value: 'bid', label: '竞标承接', order: 10 },
+    { key: 'DirectCommercial', value: 'direct-commercial', label: '直接商务', order: 20 }
+] as const);
+
+export const PRICING_MARGIN_PATHS = enumDefinitionValues(PRICING_MARGIN_PATH_DEFINITIONS);
 
 export type PricingMarginPath = (typeof PRICING_MARGIN_PATHS)[number];
 
-export const PRICING_MARGIN_DECISIONS = ['pending', 'released', 'conditional-release', 'rejected', 'escalation-required'] as const;
+export const PricingMarginPathLabel = enumDefinitionLabels(PRICING_MARGIN_PATH_DEFINITIONS);
+
+export const PRICING_MARGIN_DECISION_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待评审', order: 10 },
+    { key: 'Released', value: 'released', label: '已放行', order: 20 },
+    { key: 'ConditionalRelease', value: 'conditional-release', label: '有条件放行', order: 30 },
+    { key: 'Rejected', value: 'rejected', label: '已驳回', order: 40 },
+    { key: 'EscalationRequired', value: 'escalation-required', label: '需升级', order: 50 }
+] as const);
+
+export const PRICING_MARGIN_DECISIONS = enumDefinitionValues(PRICING_MARGIN_DECISION_DEFINITIONS);
 
 export type PricingMarginDecision = (typeof PRICING_MARGIN_DECISIONS)[number];
 
-export const GROSS_MARGIN_BANDS = ['below-redline', 'watch', 'target', 'not-calculated'] as const;
+export const PricingMarginDecisionLabel = enumDefinitionLabels(PRICING_MARGIN_DECISION_DEFINITIONS);
+
+export const GROSS_MARGIN_BAND_DEFINITIONS = defineEnumDefinitions([
+    { key: 'BelowRedline', value: 'below-redline', label: '低于红线', order: 10 },
+    { key: 'Watch', value: 'watch', label: '需关注', order: 20 },
+    { key: 'Target', value: 'target', label: '达到目标', order: 30 },
+    { key: 'NotCalculated', value: 'not-calculated', label: '未计算', order: 40 }
+] as const);
+
+export const GROSS_MARGIN_BANDS = enumDefinitionValues(GROSS_MARGIN_BAND_DEFINITIONS);
 
 export type GrossMarginBand = (typeof GROSS_MARGIN_BANDS)[number];
 
-export const PRICING_MARGIN_CONDITION_TYPES = ['financial', 'tax', 'payment', 'scope', 'risk', 'approval'] as const;
+export const GrossMarginBandLabel = enumDefinitionLabels(GROSS_MARGIN_BAND_DEFINITIONS);
+
+export const PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Financial', value: 'financial', label: '财务', order: 10 },
+    { key: 'Tax', value: 'tax', label: '税务', order: 20 },
+    { key: 'Payment', value: 'payment', label: '回款', order: 30 },
+    { key: 'Scope', value: 'scope', label: '范围', order: 40 },
+    { key: 'Risk', value: 'risk', label: '风险', order: 50 },
+    { key: 'Approval', value: 'approval', label: '审批', order: 60 }
+] as const);
+
+export const PRICING_MARGIN_CONDITION_TYPES = enumDefinitionValues(PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS);
 
 export type PricingMarginConditionType = (typeof PRICING_MARGIN_CONDITION_TYPES)[number];
 
-export const PRICING_MARGIN_CONDITION_STATUSES = ['open', 'closed', 'waived'] as const;
+export const PricingMarginConditionTypeLabel = enumDefinitionLabels(PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS);
+
+export const PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Open', value: 'open', label: '打开', order: 10 },
+    { key: 'Closed', value: 'closed', label: '已关闭', order: 20 },
+    { key: 'Waived', value: 'waived', label: '已豁免', order: 30 }
+] as const);
+
+export const PRICING_MARGIN_CONDITION_STATUSES = enumDefinitionValues(PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS);
 
 export type PricingMarginConditionStatus = (typeof PRICING_MARGIN_CONDITION_STATUSES)[number];
+
+export const PricingMarginConditionStatusLabel = enumDefinitionLabels(PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS);
 
 export const PROJECT_PRICING_MARGIN_REVIEW_STATUSES = ['effective', 'superseded'] as const;
 
@@ -2907,19 +3189,27 @@ export type ProjectOwnerReassignmentResult = z.infer<typeof ProjectOwnerReassign
 // Contract
 // ---------------------------------------------------------------------------
 
-export const CONTRACT_STATUSES = ['draft', 'pending-review', 'active', 'terminated', 'completed'] as const;
+export const CONTRACT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'PendingReview', value: 'pending-review', label: '待审核', severity: 'warn', order: 20 },
+    { key: 'Active', value: 'active', label: '已生效', severity: 'success', order: 30 },
+    { key: 'Terminated', value: 'terminated', label: '已终止', severity: 'danger', order: 40 },
+    { key: 'Completed', value: 'completed', label: '已完成', severity: 'contrast', order: 50 }
+] as const);
+
+export const ContractStatusValue = enumDefinitionValueObject(CONTRACT_STATUS_DEFINITIONS);
+
+export const CONTRACT_STATUSES = enumDefinitionValues(CONTRACT_STATUS_DEFINITIONS);
 
 export type ContractStatus = (typeof CONTRACT_STATUSES)[number];
 
 export const ContractStatusSchema = z.enum(CONTRACT_STATUSES).meta({ id: 'ContractStatus' });
 
-export const ContractStatusValue = {
-    Draft: 'draft',
-    PendingReview: 'pending-review',
-    Active: 'active',
-    Terminated: 'terminated',
-    Completed: 'completed'
-} as const satisfies Record<string, ContractStatus>;
+export const ContractStatusLabel = enumDefinitionLabels(CONTRACT_STATUS_DEFINITIONS);
+
+export const ContractStatusSeverity = enumDefinitionSeverities(CONTRACT_STATUS_DEFINITIONS);
+
+export const ContractStatusOptions = enumDefinitionOptions(CONTRACT_STATUS_DEFINITIONS);
 
 export const CONTRACT_TERM_SNAPSHOT_STATUSES = ['active', 'superseded', 'voided'] as const;
 
@@ -3091,55 +3381,77 @@ export const CommercialReleaseBaselineStatusValue = {
     Superseded: 'superseded'
 } as const satisfies Record<string, CommercialReleaseBaselineStatus>;
 
-export const CONTRACT_READINESS_STATUSES = ['ready', 'conditional', 'blocked'] as const;
+export const CONTRACT_READINESS_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Ready', value: 'ready', label: '已就绪', severity: 'success', order: 10 },
+    { key: 'Conditional', value: 'conditional', label: '有条件就绪', severity: 'warn', order: 20 },
+    { key: 'Blocked', value: 'blocked', label: '阻断中', severity: 'danger', order: 30 }
+] as const);
+
+export const ContractReadinessStatusValue = enumDefinitionValueObject(CONTRACT_READINESS_STATUS_DEFINITIONS);
+
+export const CONTRACT_READINESS_STATUSES = enumDefinitionValues(CONTRACT_READINESS_STATUS_DEFINITIONS);
 
 export const ContractReadinessStatusSchema = z.enum(CONTRACT_READINESS_STATUSES).meta({ id: 'ContractReadinessStatus' });
 
 export type ContractReadinessStatus = z.infer<typeof ContractReadinessStatusSchema>;
 
-export const ContractReadinessStatusValue = {
-    Ready: 'ready',
-    Conditional: 'conditional',
-    Blocked: 'blocked'
-} as const satisfies Record<string, ContractReadinessStatus>;
+export const ContractReadinessStatusLabel = enumDefinitionLabels(CONTRACT_READINESS_STATUS_DEFINITIONS);
 
-export const CONTRACT_READINESS_GUARD_DECISIONS = ['allowed', 'review-required', 'blocked'] as const;
+export const ContractReadinessStatusSeverity = enumDefinitionSeverities(CONTRACT_READINESS_STATUS_DEFINITIONS);
+
+export const CONTRACT_READINESS_GUARD_DECISION_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Allowed', value: 'allowed', label: '允许进入合同主链', severity: 'success', order: 10 },
+    { key: 'ReviewRequired', value: 'review-required', label: '需要复核', severity: 'warn', order: 20 },
+    { key: 'Blocked', value: 'blocked', label: '暂不可进入合同主链', severity: 'danger', order: 30 }
+] as const);
+
+export const ContractReadinessGuardDecisionValue = enumDefinitionValueObject(CONTRACT_READINESS_GUARD_DECISION_DEFINITIONS);
+
+export const CONTRACT_READINESS_GUARD_DECISIONS = enumDefinitionValues(CONTRACT_READINESS_GUARD_DECISION_DEFINITIONS);
 
 export const ContractReadinessGuardDecisionSchema = z.enum(CONTRACT_READINESS_GUARD_DECISIONS).meta({ id: 'ContractReadinessGuardDecision' });
 
 export type ContractReadinessGuardDecision = z.infer<typeof ContractReadinessGuardDecisionSchema>;
 
-export const ContractReadinessGuardDecisionValue = {
-    Allowed: 'allowed',
-    ReviewRequired: 'review-required',
-    Blocked: 'blocked'
-} as const satisfies Record<string, ContractReadinessGuardDecision>;
+export const ContractReadinessGuardDecisionLabel = enumDefinitionLabels(CONTRACT_READINESS_GUARD_DECISION_DEFINITIONS);
 
-export const CONTRACT_READINESS_ITEM_TYPES = ['checklist', 'reusable-fact', 'blocking-reason', 'receivable-seed'] as const;
+export const ContractReadinessGuardDecisionSeverity = enumDefinitionSeverities(CONTRACT_READINESS_GUARD_DECISION_DEFINITIONS);
+
+export const CONTRACT_READINESS_ITEM_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Checklist', value: 'checklist', label: '前置检查', order: 10 },
+    { key: 'ReusableFact', value: 'reusable-fact', label: '可复用事实', order: 20 },
+    { key: 'BlockingReason', value: 'blocking-reason', label: '阻断原因', order: 30 },
+    { key: 'ReceivableSeed', value: 'receivable-seed', label: '回款种子', order: 40 }
+] as const);
+
+export const ContractReadinessItemTypeValue = enumDefinitionValueObject(CONTRACT_READINESS_ITEM_TYPE_DEFINITIONS);
+
+export const CONTRACT_READINESS_ITEM_TYPES = enumDefinitionValues(CONTRACT_READINESS_ITEM_TYPE_DEFINITIONS);
 
 export const ContractReadinessItemTypeSchema = z.enum(CONTRACT_READINESS_ITEM_TYPES).meta({ id: 'ContractReadinessItemType' });
 
 export type ContractReadinessItemType = z.infer<typeof ContractReadinessItemTypeSchema>;
 
-export const ContractReadinessItemTypeValue = {
-    Checklist: 'checklist',
-    ReusableFact: 'reusable-fact',
-    BlockingReason: 'blocking-reason',
-    ReceivableSeed: 'receivable-seed'
-} as const satisfies Record<string, ContractReadinessItemType>;
+export const ContractReadinessItemTypeLabel = enumDefinitionLabels(CONTRACT_READINESS_ITEM_TYPE_DEFINITIONS);
 
-export const CONTRACT_READINESS_ITEM_STATUSES = ['ready', 'conditional', 'blocked', 'not-applicable'] as const;
+export const CONTRACT_READINESS_ITEM_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Ready', value: 'ready', label: '已具备', severity: 'success', order: 10 },
+    { key: 'Conditional', value: 'conditional', label: '有条件', severity: 'warn', order: 20 },
+    { key: 'Blocked', value: 'blocked', label: '阻断', severity: 'danger', order: 30 },
+    { key: 'NotApplicable', value: 'not-applicable', label: '不适用', severity: 'secondary', order: 40 }
+] as const);
+
+export const ContractReadinessItemStatusValue = enumDefinitionValueObject(CONTRACT_READINESS_ITEM_STATUS_DEFINITIONS);
+
+export const CONTRACT_READINESS_ITEM_STATUSES = enumDefinitionValues(CONTRACT_READINESS_ITEM_STATUS_DEFINITIONS);
 
 export const ContractReadinessItemStatusSchema = z.enum(CONTRACT_READINESS_ITEM_STATUSES).meta({ id: 'ContractReadinessItemStatus' });
 
 export type ContractReadinessItemStatus = z.infer<typeof ContractReadinessItemStatusSchema>;
 
-export const ContractReadinessItemStatusValue = {
-    Ready: 'ready',
-    Conditional: 'conditional',
-    Blocked: 'blocked',
-    NotApplicable: 'not-applicable'
-} as const satisfies Record<string, ContractReadinessItemStatus>;
+export const ContractReadinessItemStatusLabel = enumDefinitionLabels(CONTRACT_READINESS_ITEM_STATUS_DEFINITIONS);
+
+export const ContractReadinessItemStatusSeverity = enumDefinitionSeverities(CONTRACT_READINESS_ITEM_STATUS_DEFINITIONS);
 
 export const CommercialBaselineDiffItemSchema = z
     .object({
@@ -3292,7 +3604,15 @@ export const ContractHandoverEffectiveContractSetSummarySchema = z
 
 export type ContractHandoverEffectiveContractSetSummary = z.infer<typeof ContractHandoverEffectiveContractSetSummarySchema>;
 
-export const CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES = ['ready', 'blocked', 'missing'] as const;
+export const CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Ready', value: 'ready', label: '已具备', severity: 'success', order: 10 },
+    { key: 'Blocked', value: 'blocked', label: '阻断中', severity: 'danger', order: 20 },
+    { key: 'Missing', value: 'missing', label: '缺失', severity: 'danger', order: 30 }
+] as const);
+
+export const ContractHandoverBaselineValidationStatusValue = enumDefinitionValueObject(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS);
 
 export type ContractHandoverBaselineValidationStatus = (typeof CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)[number];
 
@@ -3300,24 +3620,37 @@ export const ContractHandoverBaselineValidationStatusSchema = z
     .enum(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)
     .meta({ id: 'ContractHandoverBaselineValidationStatus' });
 
-export const ContractHandoverBaselineValidationStatusValue = {
-    Ready: 'ready',
-    Blocked: 'blocked',
-    Missing: 'missing'
-} as const satisfies Record<string, ContractHandoverBaselineValidationStatus>;
+export const ContractHandoverBaselineValidationStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS);
 
-export const CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES = ['available', 'missing'] as const;
+export const ContractHandoverBaselineValidationStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Available', value: 'available', label: '已形成', severity: 'success', order: 10 },
+    { key: 'Missing', value: 'missing', label: '缺失', severity: 'danger', order: 20 }
+] as const);
+
+export const ContractHandoverCurrentBaselineStatusValue = enumDefinitionValueObject(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
 
 export type ContractHandoverCurrentBaselineStatus = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES)[number];
 
 export const ContractHandoverCurrentBaselineStatusSchema = z.enum(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES).meta({ id: 'ContractHandoverCurrentBaselineStatus' });
 
-export const ContractHandoverCurrentBaselineStatusValue = {
-    Available: 'available',
-    Missing: 'missing'
-} as const satisfies Record<string, ContractHandoverCurrentBaselineStatus>;
+export const ContractHandoverCurrentBaselineStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
 
-export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES = ['contract-readiness', 'project-handover', 'handover-rebaseline', 'none'] as const;
+export const ContractHandoverCurrentBaselineStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'ContractReadiness', value: 'contract-readiness', label: '合同准备包', order: 10 },
+    { key: 'ProjectHandover', value: 'project-handover', label: '项目移交', order: 20 },
+    { key: 'HandoverRebaseline', value: 'handover-rebaseline', label: '移交再基线化', order: 30 },
+    { key: 'None', value: 'none', label: '无来源', order: 40 }
+] as const);
+
+export const ContractHandoverCurrentBaselineSourceTypeValue = enumDefinitionValueObject(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES = enumDefinitionValues(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
 
 export type ContractHandoverCurrentBaselineSourceType = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)[number];
 
@@ -3325,29 +3658,38 @@ export const ContractHandoverCurrentBaselineSourceTypeSchema = z
     .enum(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)
     .meta({ id: 'ContractHandoverCurrentBaselineSourceType' });
 
-export const ContractHandoverCurrentBaselineSourceTypeValue = {
-    ContractReadiness: 'contract-readiness',
-    ProjectHandover: 'project-handover',
-    HandoverRebaseline: 'handover-rebaseline',
-    None: 'none'
-} as const satisfies Record<string, ContractHandoverCurrentBaselineSourceType>;
+export const ContractHandoverCurrentBaselineSourceTypeLabel = enumDefinitionLabels(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
 
-export const CONTRACT_HANDOVER_REBASELINE_STATUSES = ['none', 'processing', 'pending-effective', 'effective', 'superseded', 'voided'] as const;
+export const CONTRACT_HANDOVER_REBASELINE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'None', value: 'none', label: '未发起', severity: 'success', order: 10 },
+    { key: 'Processing', value: 'processing', label: '处理中', severity: 'warn', order: 20 },
+    { key: 'PendingEffective', value: 'pending-effective', label: '待切换生效', severity: 'warn', order: 30 },
+    { key: 'Effective', value: 'effective', label: '已生效', severity: 'success', order: 40 },
+    { key: 'Superseded', value: 'superseded', label: '已被替代', severity: 'secondary', order: 50 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 60 }
+] as const);
+
+export const ContractHandoverRebaselineStatusValue = enumDefinitionValueObject(CONTRACT_HANDOVER_REBASELINE_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_REBASELINE_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_REBASELINE_STATUS_DEFINITIONS);
 
 export type ContractHandoverRebaselineStatus = (typeof CONTRACT_HANDOVER_REBASELINE_STATUSES)[number];
 
 export const ContractHandoverRebaselineStatusSchema = z.enum(CONTRACT_HANDOVER_REBASELINE_STATUSES).meta({ id: 'ContractHandoverRebaselineStatus' });
 
-export const ContractHandoverRebaselineStatusValue = {
-    None: 'none',
-    Processing: 'processing',
-    PendingEffective: 'pending-effective',
-    Effective: 'effective',
-    Superseded: 'superseded',
-    Voided: 'voided'
-} as const satisfies Record<string, ContractHandoverRebaselineStatus>;
+export const ContractHandoverRebaselineStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_REBASELINE_STATUS_DEFINITIONS);
 
-export const CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES = ['none', 'blocking', 'effective'] as const;
+export const ContractHandoverRebaselineStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_REBASELINE_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'None', value: 'none', label: '无阻断', severity: 'secondary', order: 10 },
+    { key: 'Blocking', value: 'blocking', label: '阻断中', severity: 'danger', order: 20 },
+    { key: 'Effective', value: 'effective', label: '已生效', severity: 'success', order: 30 }
+] as const);
+
+export const ContractHandoverRebaselineBlockingStatusValue = enumDefinitionValueObject(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS);
 
 export type ContractHandoverRebaselineBlockingStatus = (typeof CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)[number];
 
@@ -3355,13 +3697,19 @@ export const ContractHandoverRebaselineBlockingStatusSchema = z
     .enum(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)
     .meta({ id: 'ContractHandoverRebaselineBlockingStatus' });
 
-export const ContractHandoverRebaselineBlockingStatusValue = {
-    None: 'none',
-    Blocking: 'blocking',
-    Effective: 'effective'
-} as const satisfies Record<string, ContractHandoverRebaselineBlockingStatus>;
+export const ContractHandoverRebaselineBlockingStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS);
 
-export const CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES = ['initialized', 'missing', 'blocked'] as const;
+export const ContractHandoverRebaselineBlockingStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Initialized', value: 'initialized', label: '已初始化', severity: 'success', order: 10 },
+    { key: 'Missing', value: 'missing', label: '缺失', severity: 'danger', order: 20 },
+    { key: 'Blocked', value: 'blocked', label: '阻断中', severity: 'danger', order: 30 }
+] as const);
+
+export const ContractHandoverReceivablePlanInitStatusValue = enumDefinitionValueObject(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS);
+
+export const CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS);
 
 export type ContractHandoverReceivablePlanInitStatus = (typeof CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)[number];
 
@@ -3369,11 +3717,9 @@ export const ContractHandoverReceivablePlanInitStatusSchema = z
     .enum(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)
     .meta({ id: 'ContractHandoverReceivablePlanInitStatus' });
 
-export const ContractHandoverReceivablePlanInitStatusValue = {
-    Initialized: 'initialized',
-    Missing: 'missing',
-    Blocked: 'blocked'
-} as const satisfies Record<string, ContractHandoverReceivablePlanInitStatus>;
+export const ContractHandoverReceivablePlanInitStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS);
+
+export const ContractHandoverReceivablePlanInitStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS);
 
 export const ContractHandoverBaselineValidationSummarySchema = z
     .object({
@@ -3452,19 +3798,34 @@ export const ContractHandoverSummaryViewSchema = z
 
 export type ContractHandoverSummaryView = z.infer<typeof ContractHandoverSummaryViewSchema>;
 
-export const PROJECT_HANDOVER_PARTICIPANT_STATUSES = ['pending', 'confirmed', 'closed'] as const;
+export const PROJECT_HANDOVER_PARTICIPANT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待确认', severity: 'warn', order: 10 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 20 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'secondary', order: 30 }
+] as const);
+
+export const ProjectHandoverParticipantStatusValue = enumDefinitionValueObject(PROJECT_HANDOVER_PARTICIPANT_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_PARTICIPANT_STATUSES = enumDefinitionValues(PROJECT_HANDOVER_PARTICIPANT_STATUS_DEFINITIONS);
 
 export type ProjectHandoverParticipantStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_STATUSES)[number];
 
 export const ProjectHandoverParticipantStatusSchema = z.enum(PROJECT_HANDOVER_PARTICIPANT_STATUSES).meta({ id: 'ProjectHandoverParticipantStatus' });
 
-export const ProjectHandoverParticipantStatusValue = {
-    Pending: 'pending',
-    Confirmed: 'confirmed',
-    Closed: 'closed'
-} as const satisfies Record<string, ProjectHandoverParticipantStatus>;
+export const ProjectHandoverParticipantStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_PARTICIPANT_STATUS_DEFINITIONS);
 
-export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = ['not-started', 'pending', 'confirmed', 'closed'] as const;
+export const ProjectHandoverParticipantStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_PARTICIPANT_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'NotStarted', value: 'not-started', label: '未开始', severity: 'warn', order: 10 },
+    { key: 'Pending', value: 'pending', label: '待确认', severity: 'warn', order: 20 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 30 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'secondary', order: 40 }
+] as const);
+
+export const ProjectHandoverParticipantConfirmationStatusValue = enumDefinitionValueObject(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = enumDefinitionValues(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS);
 
 export type ProjectHandoverParticipantConfirmationStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)[number];
 
@@ -3472,14 +3833,18 @@ export const ProjectHandoverParticipantConfirmationStatusSchema = z
     .enum(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)
     .meta({ id: 'ProjectHandoverParticipantConfirmationStatus' });
 
-export const ProjectHandoverParticipantConfirmationStatusValue = {
-    NotStarted: 'not-started',
-    Pending: 'pending',
-    Confirmed: 'confirmed',
-    Closed: 'closed'
-} as const satisfies Record<string, ProjectHandoverParticipantConfirmationStatus>;
+export const ProjectHandoverParticipantConfirmationStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS);
 
-export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = ['not-frozen', 'frozen'] as const;
+export const ProjectHandoverParticipantConfirmationStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'NotFrozen', value: 'not-frozen', label: '未冻结', severity: 'warn', order: 10 },
+    { key: 'Frozen', value: 'frozen', label: '已冻结', severity: 'success', order: 20 }
+] as const);
+
+export const ProjectHandoverReceiptJudgmentFreezeStatusValue = enumDefinitionValueObject(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = enumDefinitionValues(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
 
 export type ProjectHandoverReceiptJudgmentFreezeStatus = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)[number];
 
@@ -3487,12 +3852,19 @@ export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z
     .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)
     .meta({ id: 'ProjectHandoverReceiptJudgmentFreezeStatus' });
 
-export const ProjectHandoverReceiptJudgmentFreezeStatusValue = {
-    NotFrozen: 'not-frozen',
-    Frozen: 'frozen'
-} as const satisfies Record<string, ProjectHandoverReceiptJudgmentFreezeStatus>;
+export const ProjectHandoverReceiptJudgmentFreezeStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
 
-export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES = ['project-handover', 'project-receipt-judgment-freeze', 'none'] as const;
+export const ProjectHandoverReceiptJudgmentFreezeStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'ProjectHandover', value: 'project-handover', label: '项目移交', order: 10 },
+    { key: 'ProjectReceiptJudgmentFreeze', value: 'project-receipt-judgment-freeze', label: '回款判断冻结', order: 20 },
+    { key: 'None', value: 'none', label: '无来源', order: 30 }
+] as const);
+
+export const ProjectHandoverReceiptJudgmentSourceTypeValue = enumDefinitionValueObject(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES = enumDefinitionValues(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
 
 export type ProjectHandoverReceiptJudgmentSourceType = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)[number];
 
@@ -3500,25 +3872,27 @@ export const ProjectHandoverReceiptJudgmentSourceTypeSchema = z
     .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)
     .meta({ id: 'ProjectHandoverReceiptJudgmentSourceType' });
 
-export const ProjectHandoverReceiptJudgmentSourceTypeValue = {
-    ProjectHandover: 'project-handover',
-    ProjectReceiptJudgmentFreeze: 'project-receipt-judgment-freeze',
-    None: 'none'
-} as const satisfies Record<string, ProjectHandoverReceiptJudgmentSourceType>;
+export const ProjectHandoverReceiptJudgmentSourceTypeLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
 
-export const PROJECT_HANDOVER_STATUSES = ['not-started', 'draft', 'confirmed', 'superseded', 'voided'] as const;
+export const PROJECT_HANDOVER_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'NotStarted', value: 'not-started', label: '未开始', severity: 'warn', order: 10 },
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'warn', order: 20 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 30 },
+    { key: 'Superseded', value: 'superseded', label: '已被替代', severity: 'secondary', order: 40 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 50 }
+] as const);
+
+export const ProjectHandoverStatusValue = enumDefinitionValueObject(PROJECT_HANDOVER_STATUS_DEFINITIONS);
+
+export const PROJECT_HANDOVER_STATUSES = enumDefinitionValues(PROJECT_HANDOVER_STATUS_DEFINITIONS);
 
 export type ProjectHandoverStatus = (typeof PROJECT_HANDOVER_STATUSES)[number];
 
 export const ProjectHandoverStatusSchema = z.enum(PROJECT_HANDOVER_STATUSES).meta({ id: 'ProjectHandoverStatus' });
 
-export const ProjectHandoverStatusValue = {
-    NotStarted: 'not-started',
-    Draft: 'draft',
-    Confirmed: 'confirmed',
-    Superseded: 'superseded',
-    Voided: 'voided'
-} as const satisfies Record<string, ProjectHandoverStatus>;
+export const ProjectHandoverStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_STATUS_DEFINITIONS);
+
+export const ProjectHandoverStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_STATUS_DEFINITIONS);
 
 export const ProjectHandoverParticipantConfirmationItemSchema = z
     .object({
@@ -3779,19 +4153,21 @@ export const ReadinessInitializationResultSchema = z
 
 export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializationResultSchema>;
 
-export const RECEIPT_RECORD_STATUSES = ['draft', 'pending-confirmation', 'confirmed', 'reversed', 'voided'] as const;
+export const RECEIPT_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'PendingConfirmation', value: 'pending-confirmation', label: '待确认', severity: 'warn', order: 20 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 30 },
+    { key: 'Reversed', value: 'reversed', label: '已冲销', severity: 'danger', order: 40 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'contrast', order: 50 }
+] as const);
 
+export const ReceiptRecordStatusValue = enumDefinitionValueObject(RECEIPT_RECORD_STATUS_DEFINITIONS);
+export const RECEIPT_RECORD_STATUSES = enumDefinitionValues(RECEIPT_RECORD_STATUS_DEFINITIONS);
 export type ReceiptRecordStatus = (typeof RECEIPT_RECORD_STATUSES)[number];
-
 export const ReceiptRecordStatusSchema = z.enum(RECEIPT_RECORD_STATUSES).meta({ id: 'ReceiptRecordStatus' });
-
-export const ReceiptRecordStatusValue = {
-    Draft: 'draft',
-    PendingConfirmation: 'pending-confirmation',
-    Confirmed: 'confirmed',
-    Reversed: 'reversed',
-    Voided: 'voided'
-} as const satisfies Record<string, ReceiptRecordStatus>;
+export const ReceiptRecordStatusLabel = enumDefinitionLabels(RECEIPT_RECORD_STATUS_DEFINITIONS);
+export const ReceiptRecordStatusSeverity = enumDefinitionSeverities(RECEIPT_RECORD_STATUS_DEFINITIONS);
+export const ReceiptRecordStatusOptions = enumDefinitionOptions(RECEIPT_RECORD_STATUS_DEFINITIONS);
 
 export const ReceiptRecordSummarySchema = z
     .object({
@@ -3834,20 +4210,22 @@ export const ConfirmReceiptRecordRequestSchema = z
 
 export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordRequestSchema>;
 
-export const PAYABLE_RECORD_STATUSES = ['draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'] as const;
+export const PAYABLE_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'Recorded', value: 'recorded', label: '已记录', severity: 'info', order: 20 },
+    { key: 'PartiallyPaid', value: 'partially-paid', label: '部分支付', severity: 'warn', order: 30 },
+    { key: 'Completed', value: 'completed', label: '已完成', severity: 'success', order: 40 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 50 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 60 }
+] as const);
 
+export const PayableRecordStatusValue = enumDefinitionValueObject(PAYABLE_RECORD_STATUS_DEFINITIONS);
+export const PAYABLE_RECORD_STATUSES = enumDefinitionValues(PAYABLE_RECORD_STATUS_DEFINITIONS);
 export type PayableRecordStatus = (typeof PAYABLE_RECORD_STATUSES)[number];
-
 export const PayableRecordStatusSchema = z.enum(PAYABLE_RECORD_STATUSES).meta({ id: 'PayableRecordStatus' });
-
-export const PayableRecordStatusValue = {
-    Draft: 'draft',
-    Recorded: 'recorded',
-    PartiallyPaid: 'partially-paid',
-    Completed: 'completed',
-    Closed: 'closed',
-    Voided: 'voided'
-} as const satisfies Record<string, PayableRecordStatus>;
+export const PayableRecordStatusLabel = enumDefinitionLabels(PAYABLE_RECORD_STATUS_DEFINITIONS);
+export const PayableRecordStatusSeverity = enumDefinitionSeverities(PAYABLE_RECORD_STATUS_DEFINITIONS);
+export const PayableRecordStatusOptions = enumDefinitionOptions(PAYABLE_RECORD_STATUS_DEFINITIONS);
 
 export const PayableRecordSummarySchema = z
     .object({
@@ -3962,18 +4340,20 @@ export const VoidPayableRecordRequestSchema = z
 
 export type VoidPayableRecordRequest = z.infer<typeof VoidPayableRecordRequestSchema>;
 
-export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
+export const PAYMENT_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'Recorded', value: 'recorded', label: '已记录', severity: 'info', order: 20 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 30 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 40 }
+] as const);
 
+export const PaymentRecordStatusValue = enumDefinitionValueObject(PAYMENT_RECORD_STATUS_DEFINITIONS);
+export const PAYMENT_RECORD_STATUSES = enumDefinitionValues(PAYMENT_RECORD_STATUS_DEFINITIONS);
 export type PaymentRecordStatus = (typeof PAYMENT_RECORD_STATUSES)[number];
-
 export const PaymentRecordStatusSchema = z.enum(PAYMENT_RECORD_STATUSES).meta({ id: 'PaymentRecordStatus' });
-
-export const PaymentRecordStatusValue = {
-    Draft: 'draft',
-    Recorded: 'recorded',
-    Confirmed: 'confirmed',
-    Voided: 'voided'
-} as const satisfies Record<string, PaymentRecordStatus>;
+export const PaymentRecordStatusLabel = enumDefinitionLabels(PAYMENT_RECORD_STATUS_DEFINITIONS);
+export const PaymentRecordStatusSeverity = enumDefinitionSeverities(PAYMENT_RECORD_STATUS_DEFINITIONS);
+export const PaymentRecordStatusOptions = enumDefinitionOptions(PAYMENT_RECORD_STATUS_DEFINITIONS);
 
 export const PaymentRecordSummarySchema = z
     .object({
@@ -4027,44 +4407,49 @@ export const ConfirmPaymentRecordRequestSchema = z
 
 export type ConfirmPaymentRecordRequest = z.infer<typeof ConfirmPaymentRecordRequestSchema>;
 
-export const INVOICE_RECORD_TYPES = ['input', 'output'] as const;
+export const INVOICE_RECORD_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Input', value: 'input', label: '进项发票', order: 10 },
+    { key: 'Output', value: 'output', label: '销项发票', order: 20 }
+] as const);
 
+export const InvoiceRecordTypeValue = enumDefinitionValueObject(INVOICE_RECORD_TYPE_DEFINITIONS);
+export const INVOICE_RECORD_TYPES = enumDefinitionValues(INVOICE_RECORD_TYPE_DEFINITIONS);
 export type InvoiceRecordType = (typeof INVOICE_RECORD_TYPES)[number];
-
 export const InvoiceRecordTypeSchema = z.enum(INVOICE_RECORD_TYPES).meta({ id: 'InvoiceRecordType' });
+export const InvoiceRecordTypeLabel = enumDefinitionLabels(INVOICE_RECORD_TYPE_DEFINITIONS);
+export const InvoiceRecordTypeOptions = enumDefinitionOptions(INVOICE_RECORD_TYPE_DEFINITIONS);
 
-export const InvoiceRecordTypeValue = {
-    Input: 'input',
-    Output: 'output'
-} as const satisfies Record<string, InvoiceRecordType>;
+export const INVOICE_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'PendingIssue', value: 'pending-issue', label: '待开具', severity: 'warn', order: 20 },
+    { key: 'Issued', value: 'issued', label: '已开具', severity: 'info', order: 30 },
+    { key: 'Received', value: 'received', label: '已接收', severity: 'info', order: 40 },
+    { key: 'Verified', value: 'verified', label: '已认证', severity: 'success', order: 50 },
+    { key: 'Exception', value: 'exception', label: '异常', severity: 'danger', order: 60 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 70 }
+] as const);
 
-export const INVOICE_RECORD_STATUSES = ['draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'] as const;
-
+export const InvoiceRecordStatusValue = enumDefinitionValueObject(INVOICE_RECORD_STATUS_DEFINITIONS);
+export const INVOICE_RECORD_STATUSES = enumDefinitionValues(INVOICE_RECORD_STATUS_DEFINITIONS);
 export type InvoiceRecordStatus = (typeof INVOICE_RECORD_STATUSES)[number];
-
 export const InvoiceRecordStatusSchema = z.enum(INVOICE_RECORD_STATUSES).meta({ id: 'InvoiceRecordStatus' });
+export const InvoiceRecordStatusLabel = enumDefinitionLabels(INVOICE_RECORD_STATUS_DEFINITIONS);
+export const InvoiceRecordStatusSeverity = enumDefinitionSeverities(INVOICE_RECORD_STATUS_DEFINITIONS);
+export const InvoiceRecordStatusOptions = enumDefinitionOptions(INVOICE_RECORD_STATUS_DEFINITIONS);
 
-export const InvoiceRecordStatusValue = {
-    Draft: 'draft',
-    PendingIssue: 'pending-issue',
-    Issued: 'issued',
-    Received: 'received',
-    Verified: 'verified',
-    Exception: 'exception',
-    Closed: 'closed'
-} as const satisfies Record<string, InvoiceRecordStatus>;
+export const INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'None', value: 'none', label: '无异常', severity: 'success', order: 10 },
+    { key: 'Open', value: 'open', label: '异常处理中', severity: 'danger', order: 20 },
+    { key: 'Resolved', value: 'resolved', label: '异常已解决', severity: 'success', order: 30 }
+] as const);
 
-export const INVOICE_RECORD_EXCEPTION_STATUSES = ['none', 'open', 'resolved'] as const;
-
+export const InvoiceRecordExceptionStatusValue = enumDefinitionValueObject(INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS);
+export const INVOICE_RECORD_EXCEPTION_STATUSES = enumDefinitionValues(INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS);
 export type InvoiceRecordExceptionStatus = (typeof INVOICE_RECORD_EXCEPTION_STATUSES)[number];
-
 export const InvoiceRecordExceptionStatusSchema = z.enum(INVOICE_RECORD_EXCEPTION_STATUSES).meta({ id: 'InvoiceRecordExceptionStatus' });
-
-export const InvoiceRecordExceptionStatusValue = {
-    None: 'none',
-    Open: 'open',
-    Resolved: 'resolved'
-} as const satisfies Record<string, InvoiceRecordExceptionStatus>;
+export const InvoiceRecordExceptionStatusLabel = enumDefinitionLabels(INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS);
+export const InvoiceRecordExceptionStatusSeverity = enumDefinitionSeverities(INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS);
+export const InvoiceRecordExceptionStatusOptions = enumDefinitionOptions(INVOICE_RECORD_EXCEPTION_STATUS_DEFINITIONS);
 
 export const InvoiceRecordSummarySchema = z
     .object({
@@ -4167,30 +4552,33 @@ export type ExpenseCategory = DictionaryCode;
 
 export const ExpenseCategorySchema = DictionaryCodeSchema.meta({ id: 'ExpenseCategory' });
 
-export const EXPENSE_SOURCE_TYPES = ['manual', 'reimbursement', 'import'] as const;
+export const EXPENSE_SOURCE_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Manual', value: 'manual', label: '手工录入', order: 10 },
+    { key: 'Reimbursement', value: 'reimbursement', label: '报销同步', order: 20 },
+    { key: 'Import', value: 'import', label: '批量导入', order: 30 }
+] as const);
 
+export const ExpenseSourceTypeValue = enumDefinitionValueObject(EXPENSE_SOURCE_TYPE_DEFINITIONS);
+export const EXPENSE_SOURCE_TYPES = enumDefinitionValues(EXPENSE_SOURCE_TYPE_DEFINITIONS);
 export type ExpenseSourceType = (typeof EXPENSE_SOURCE_TYPES)[number];
-
 export const ExpenseSourceTypeSchema = z.enum(EXPENSE_SOURCE_TYPES).meta({ id: 'ExpenseSourceType' });
+export const ExpenseSourceTypeLabel = enumDefinitionLabels(EXPENSE_SOURCE_TYPE_DEFINITIONS);
+export const ExpenseSourceTypeOptions = enumDefinitionOptions(EXPENSE_SOURCE_TYPE_DEFINITIONS);
 
-export const ExpenseSourceTypeValue = {
-    Manual: 'manual',
-    Reimbursement: 'reimbursement',
-    Import: 'import'
-} as const satisfies Record<string, ExpenseSourceType>;
+export const EXPENSE_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'Recorded', value: 'recorded', label: '已记录', severity: 'info', order: 20 },
+    { key: 'Confirmed', value: 'confirmed', label: '已确认', severity: 'success', order: 30 },
+    { key: 'Voided', value: 'voided', label: '已作废', severity: 'danger', order: 40 }
+] as const);
 
-export const EXPENSE_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
-
+export const ExpenseRecordStatusValue = enumDefinitionValueObject(EXPENSE_RECORD_STATUS_DEFINITIONS);
+export const EXPENSE_RECORD_STATUSES = enumDefinitionValues(EXPENSE_RECORD_STATUS_DEFINITIONS);
 export type ExpenseRecordStatus = (typeof EXPENSE_RECORD_STATUSES)[number];
-
 export const ExpenseRecordStatusSchema = z.enum(EXPENSE_RECORD_STATUSES).meta({ id: 'ExpenseRecordStatus' });
-
-export const ExpenseRecordStatusValue = {
-    Draft: 'draft',
-    Recorded: 'recorded',
-    Confirmed: 'confirmed',
-    Voided: 'voided'
-} as const satisfies Record<string, ExpenseRecordStatus>;
+export const ExpenseRecordStatusLabel = enumDefinitionLabels(EXPENSE_RECORD_STATUS_DEFINITIONS);
+export const ExpenseRecordStatusSeverity = enumDefinitionSeverities(EXPENSE_RECORD_STATUS_DEFINITIONS);
+export const ExpenseRecordStatusOptions = enumDefinitionOptions(EXPENSE_RECORD_STATUS_DEFINITIONS);
 
 export const ExpenseRecordSummarySchema = z
     .object({
@@ -4306,119 +4694,132 @@ export type VoidExpenseRecordRequest = z.infer<typeof VoidExpenseRecordRequestSc
 // Approval / Todo
 // ---------------------------------------------------------------------------
 
-export const APPROVAL_TYPES = ['contract-review', 'commission-payout-approval', 'commission-adjustment-approval'] as const;
+export const APPROVAL_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'ContractReview', value: 'contract-review', label: '合同审核', order: 10 },
+    { key: 'CommissionPayoutApproval', value: 'commission-payout-approval', label: '提成发放审批', order: 20 },
+    { key: 'CommissionAdjustmentApproval', value: 'commission-adjustment-approval', label: '提成调整审批', order: 30 }
+] as const);
 
+export const ApprovalTypeValue = enumDefinitionValueObject(APPROVAL_TYPE_DEFINITIONS);
+export const APPROVAL_TYPES = enumDefinitionValues(APPROVAL_TYPE_DEFINITIONS);
 export type ApprovalType = (typeof APPROVAL_TYPES)[number];
-
 export const ApprovalTypeSchema = z.enum(APPROVAL_TYPES).meta({ id: 'ApprovalType' });
+export const ApprovalTypeLabel = enumDefinitionLabels(APPROVAL_TYPE_DEFINITIONS);
+export const ApprovalTypeOptions = enumDefinitionOptions(APPROVAL_TYPE_DEFINITIONS);
 
-export const ApprovalTypeValue = {
-    ContractReview: 'contract-review',
-    CommissionPayoutApproval: 'commission-payout-approval',
-    CommissionAdjustmentApproval: 'commission-adjustment-approval'
-} as const satisfies Record<string, ApprovalType>;
+export const BUSINESS_DOMAIN_DEFINITIONS = defineEnumDefinitions([
+    { key: 'ContractFinance', value: 'contract-finance', label: '合同财务', order: 10 },
+    { key: 'Commission', value: 'commission', label: '提成', order: 20 },
+    { key: 'Sales', value: 'sales', label: '销售', order: 30 },
+    { key: 'ProjectHandover', value: 'project-handover', label: '项目移交', order: 40 }
+] as const);
 
-export const BUSINESS_DOMAINS = ['contract-finance', 'commission', 'sales', 'project-handover'] as const;
-
+export const BusinessDomainValue = enumDefinitionValueObject(BUSINESS_DOMAIN_DEFINITIONS);
+export const BUSINESS_DOMAINS = enumDefinitionValues(BUSINESS_DOMAIN_DEFINITIONS);
 export type BusinessDomain = (typeof BUSINESS_DOMAINS)[number];
-
 export const BusinessDomainSchema = z.enum(BUSINESS_DOMAINS).meta({ id: 'BusinessDomain' });
+export const BusinessDomainLabel = enumDefinitionLabels(BUSINESS_DOMAIN_DEFINITIONS);
+export const BusinessDomainOptions = enumDefinitionOptions(BUSINESS_DOMAIN_DEFINITIONS);
 
-export const BusinessDomainValue = {
-    ContractFinance: 'contract-finance',
-    Commission: 'commission',
-    Sales: 'sales',
-    ProjectHandover: 'project-handover'
-} as const satisfies Record<string, BusinessDomain>;
+export const TARGET_OBJECT_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Contract', value: 'contract', label: '合同', order: 10 },
+    { key: 'CommissionPayout', value: 'commission-payout', label: '提成发放', order: 20 },
+    { key: 'CommissionAdjustment', value: 'commission-adjustment', label: '提成调整', order: 30 },
+    { key: 'Project', value: 'project', label: '项目', order: 40 },
+    { key: 'Lead', value: 'lead', label: '线索', order: 50 },
+    { key: 'Customer', value: 'customer', label: '客户', order: 60 },
+    { key: 'ProjectHandover', value: 'project-handover', label: '项目移交', order: 70 }
+] as const);
 
-export const TARGET_OBJECT_TYPES = ['contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'] as const;
-
+export const TargetObjectTypeValue = enumDefinitionValueObject(TARGET_OBJECT_TYPE_DEFINITIONS);
+export const TARGET_OBJECT_TYPES = enumDefinitionValues(TARGET_OBJECT_TYPE_DEFINITIONS);
 export type TargetObjectType = (typeof TARGET_OBJECT_TYPES)[number];
-
 export const TargetObjectTypeSchema = z.enum(TARGET_OBJECT_TYPES).meta({ id: 'TargetObjectType' });
+export const TargetObjectTypeLabel = enumDefinitionLabels(TARGET_OBJECT_TYPE_DEFINITIONS);
+export const TargetObjectTypeOptions = enumDefinitionOptions(TARGET_OBJECT_TYPE_DEFINITIONS);
 
-export const TargetObjectTypeValue = {
-    Contract: 'contract',
-    CommissionPayout: 'commission-payout',
-    CommissionAdjustment: 'commission-adjustment',
-    Project: 'project',
-    Lead: 'lead',
-    Customer: 'customer',
-    ProjectHandover: 'project-handover'
-} as const satisfies Record<string, TargetObjectType>;
+export const APPROVAL_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '审批中', severity: 'warn', order: 10 },
+    { key: 'Approved', value: 'approved', label: '已通过', severity: 'success', order: 20 },
+    { key: 'Rejected', value: 'rejected', label: '已驳回', severity: 'danger', order: 30 }
+] as const);
 
-export const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'] as const;
-
+export const ApprovalStatusValue = enumDefinitionValueObject(APPROVAL_STATUS_DEFINITIONS);
+export const APPROVAL_STATUSES = enumDefinitionValues(APPROVAL_STATUS_DEFINITIONS);
 export type ApprovalStatus = (typeof APPROVAL_STATUSES)[number];
-
 export const ApprovalStatusSchema = z.enum(APPROVAL_STATUSES).meta({ id: 'ApprovalStatus' });
+export const ApprovalStatusLabel = enumDefinitionLabels(APPROVAL_STATUS_DEFINITIONS);
+export const ApprovalStatusSeverity = enumDefinitionSeverities(APPROVAL_STATUS_DEFINITIONS);
+export const ApprovalStatusOptions = enumDefinitionOptions(APPROVAL_STATUS_DEFINITIONS);
 
-export const ApprovalStatusValue = {
-    Pending: 'pending',
-    Approved: 'approved',
-    Rejected: 'rejected'
-} as const satisfies Record<string, ApprovalStatus>;
+export const APPROVAL_DECISION_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Approved', value: 'approved', label: '通过', severity: 'success', order: 10 },
+    { key: 'Rejected', value: 'rejected', label: '驳回', severity: 'danger', order: 20 }
+] as const);
 
-export const APPROVAL_DECISIONS = ['approved', 'rejected'] as const;
-
+export const ApprovalDecisionValue = enumDefinitionValueObject(APPROVAL_DECISION_DEFINITIONS);
+export const APPROVAL_DECISIONS = enumDefinitionValues(APPROVAL_DECISION_DEFINITIONS);
 export type ApprovalDecision = (typeof APPROVAL_DECISIONS)[number];
-
 export const ApprovalDecisionSchema = z.enum(APPROVAL_DECISIONS).meta({ id: 'ApprovalDecision' });
+export const ApprovalDecisionLabel = enumDefinitionLabels(APPROVAL_DECISION_DEFINITIONS);
+export const ApprovalDecisionSeverity = enumDefinitionSeverities(APPROVAL_DECISION_DEFINITIONS);
+export const ApprovalDecisionOptions = enumDefinitionOptions(APPROVAL_DECISION_DEFINITIONS);
 
-export const ApprovalDecisionValue = {
-    Approved: 'approved',
-    Rejected: 'rejected'
-} as const satisfies Record<string, ApprovalDecision>;
+export const TODO_SOURCE_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'ApprovalRecord', value: 'approval-record', label: '审批记录', order: 10 },
+    { key: 'ConfirmationRecord', value: 'confirmation-record', label: '确认记录', order: 20 },
+    { key: 'SalesFollowUpRecord', value: 'sales-follow-up-record', label: '销售跟进记录', order: 30 }
+] as const);
 
-export const TODO_SOURCE_TYPES = ['approval-record', 'confirmation-record', 'sales-follow-up-record'] as const;
-
+export const TodoSourceTypeValue = enumDefinitionValueObject(TODO_SOURCE_TYPE_DEFINITIONS);
+export const TODO_SOURCE_TYPES = enumDefinitionValues(TODO_SOURCE_TYPE_DEFINITIONS);
 export type TodoSourceType = (typeof TODO_SOURCE_TYPES)[number];
-
 export const TodoSourceTypeSchema = z.enum(TODO_SOURCE_TYPES).meta({ id: 'TodoSourceType' });
+export const TodoSourceTypeLabel = enumDefinitionLabels(TODO_SOURCE_TYPE_DEFINITIONS);
+export const TodoSourceTypeOptions = enumDefinitionOptions(TODO_SOURCE_TYPE_DEFINITIONS);
 
-export const TodoSourceTypeValue = {
-    ApprovalRecord: 'approval-record',
-    ConfirmationRecord: 'confirmation-record',
-    SalesFollowUpRecord: 'sales-follow-up-record'
-} as const satisfies Record<string, TodoSourceType>;
+export const TODO_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Approval', value: 'approval', label: '审批', order: 10 },
+    { key: 'Confirmation', value: 'confirmation', label: '确认', order: 20 },
+    { key: 'SalesFollowUpReminder', value: 'sales-follow-up-reminder', label: '销售跟进提醒', order: 30 }
+] as const);
 
-export const TODO_TYPES = ['approval', 'confirmation', 'sales-follow-up-reminder'] as const;
-
+export const TodoTypeValue = enumDefinitionValueObject(TODO_TYPE_DEFINITIONS);
+export const TODO_TYPES = enumDefinitionValues(TODO_TYPE_DEFINITIONS);
 export type TodoType = (typeof TODO_TYPES)[number];
-
 export const TodoTypeSchema = z.enum(TODO_TYPES).meta({ id: 'TodoType' });
+export const TodoTypeLabel = enumDefinitionLabels(TODO_TYPE_DEFINITIONS);
+export const TodoTypeOptions = enumDefinitionOptions(TODO_TYPE_DEFINITIONS);
 
-export const TodoTypeValue = {
-    Approval: 'approval',
-    Confirmation: 'confirmation',
-    SalesFollowUpReminder: 'sales-follow-up-reminder'
-} as const satisfies Record<string, TodoType>;
+export const TODO_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Open', value: 'open', label: '待处理', severity: 'warn', order: 10 },
+    { key: 'Processing', value: 'processing', label: '处理中', severity: 'info', order: 20 },
+    { key: 'Completed', value: 'completed', label: '已完成', severity: 'success', order: 30 },
+    { key: 'Canceled', value: 'canceled', label: '已取消', severity: 'contrast', order: 40 }
+] as const);
 
-export const TODO_STATUSES = ['open', 'processing', 'completed', 'canceled'] as const;
-
+export const TodoStatusValue = enumDefinitionValueObject(TODO_STATUS_DEFINITIONS);
+export const TODO_STATUSES = enumDefinitionValues(TODO_STATUS_DEFINITIONS);
 export type TodoStatus = (typeof TODO_STATUSES)[number];
-
 export const TodoStatusSchema = z.enum(TODO_STATUSES).meta({ id: 'TodoStatus' });
+export const TodoStatusLabel = enumDefinitionLabels(TODO_STATUS_DEFINITIONS);
+export const TodoStatusSeverity = enumDefinitionSeverities(TODO_STATUS_DEFINITIONS);
+export const TodoStatusOptions = enumDefinitionOptions(TODO_STATUS_DEFINITIONS);
 
-export const TodoStatusValue = {
-    Open: 'open',
-    Processing: 'processing',
-    Completed: 'completed',
-    Canceled: 'canceled'
-} as const satisfies Record<string, TodoStatus>;
+export const TODO_PRIORITY_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Low', value: 'low', label: '低', severity: 'secondary', order: 10 },
+    { key: 'Normal', value: 'normal', label: '普通', severity: 'info', order: 20 },
+    { key: 'High', value: 'high', label: '高', severity: 'warn', order: 30 },
+    { key: 'Urgent', value: 'urgent', label: '紧急', severity: 'danger', order: 40 }
+] as const);
 
-export const TODO_PRIORITIES = ['low', 'normal', 'high', 'urgent'] as const;
-
+export const TodoPriorityValue = enumDefinitionValueObject(TODO_PRIORITY_DEFINITIONS);
+export const TODO_PRIORITIES = enumDefinitionValues(TODO_PRIORITY_DEFINITIONS);
 export type TodoPriority = (typeof TODO_PRIORITIES)[number];
-
 export const TodoPrioritySchema = z.enum(TODO_PRIORITIES).meta({ id: 'TodoPriority' });
-
-export const TodoPriorityValue = {
-    Low: 'low',
-    Normal: 'normal',
-    High: 'high',
-    Urgent: 'urgent'
-} as const satisfies Record<string, TodoPriority>;
+export const TodoPriorityLabel = enumDefinitionLabels(TODO_PRIORITY_DEFINITIONS);
+export const TodoPrioritySeverity = enumDefinitionSeverities(TODO_PRIORITY_DEFINITIONS);
+export const TodoPriorityOptions = enumDefinitionOptions(TODO_PRIORITY_DEFINITIONS);
 
 export const ApprovalRecordSummarySchema = z
     .object({
@@ -4547,45 +4948,51 @@ export const CommissionRuleVersionStatusValue = {
     Stopped: 'stopped'
 } as const satisfies Record<string, CommissionRuleVersionStatus>;
 
-export const COMMISSION_ROLE_ASSIGNMENT_STATUSES = ['draft', 'frozen', 'superseded'] as const;
+export const COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'Frozen', value: 'frozen', label: '已冻结', severity: 'success', order: 20 },
+    { key: 'Superseded', value: 'superseded', label: '已被替代', severity: 'warn', order: 30 }
+] as const);
 
+export const CommissionRoleAssignmentStatusValue = enumDefinitionValueObject(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
+export const COMMISSION_ROLE_ASSIGNMENT_STATUSES = enumDefinitionValues(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
 export type CommissionRoleAssignmentStatus = (typeof COMMISSION_ROLE_ASSIGNMENT_STATUSES)[number];
-
 export const CommissionRoleAssignmentStatusSchema = z.enum(COMMISSION_ROLE_ASSIGNMENT_STATUSES).meta({ id: 'CommissionRoleAssignmentStatus' });
+export const CommissionRoleAssignmentStatusLabel = enumDefinitionLabels(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
+export const CommissionRoleAssignmentStatusSeverity = enumDefinitionSeverities(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
+export const CommissionRoleAssignmentStatusOptions = enumDefinitionOptions(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
 
-export const CommissionRoleAssignmentStatusValue = {
-    Draft: 'draft',
-    Frozen: 'frozen',
-    Superseded: 'superseded'
-} as const satisfies Record<string, CommissionRoleAssignmentStatus>;
+export const COMMISSION_CALCULATION_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待计算', severity: 'secondary', order: 10 },
+    { key: 'Calculated', value: 'calculated', label: '已计算', severity: 'info', order: 20 },
+    { key: 'Effective', value: 'effective', label: '已生效', severity: 'success', order: 30 },
+    { key: 'Superseded', value: 'superseded', label: '已替代', severity: 'contrast', order: 40 }
+] as const);
 
-export const COMMISSION_CALCULATION_STATUSES = ['pending', 'calculated', 'effective', 'superseded'] as const;
-
+export const CommissionCalculationStatusValue = enumDefinitionValueObject(COMMISSION_CALCULATION_STATUS_DEFINITIONS);
+export const COMMISSION_CALCULATION_STATUSES = enumDefinitionValues(COMMISSION_CALCULATION_STATUS_DEFINITIONS);
 export type CommissionCalculationStatus = (typeof COMMISSION_CALCULATION_STATUSES)[number];
-
 export const CommissionCalculationStatusSchema = z.enum(COMMISSION_CALCULATION_STATUSES).meta({ id: 'CommissionCalculationStatus' });
+export const CommissionCalculationStatusLabel = enumDefinitionLabels(COMMISSION_CALCULATION_STATUS_DEFINITIONS);
+export const CommissionCalculationStatusSeverity = enumDefinitionSeverities(COMMISSION_CALCULATION_STATUS_DEFINITIONS);
+export const CommissionCalculationStatusOptions = enumDefinitionOptions(COMMISSION_CALCULATION_STATUS_DEFINITIONS);
 
-export const CommissionCalculationStatusValue = {
-    Pending: 'pending',
-    Calculated: 'calculated',
-    Effective: 'effective',
-    Superseded: 'superseded'
-} as const satisfies Record<string, CommissionCalculationStatus>;
+export const COMMISSION_PAYOUT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'PendingApproval', value: 'pending-approval', label: '待审批', severity: 'warn', order: 20 },
+    { key: 'Approved', value: 'approved', label: '已批准', severity: 'success', order: 30 },
+    { key: 'Paid', value: 'paid', label: '已发放', severity: 'info', order: 40 },
+    { key: 'Suspended', value: 'suspended', label: '已暂停', severity: 'warn', order: 50 },
+    { key: 'Reversed', value: 'reversed', label: '已冲销', severity: 'danger', order: 60 }
+] as const);
 
-export const COMMISSION_PAYOUT_STATUSES = ['draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed'] as const;
-
+export const CommissionPayoutStatusValue = enumDefinitionValueObject(COMMISSION_PAYOUT_STATUS_DEFINITIONS);
+export const COMMISSION_PAYOUT_STATUSES = enumDefinitionValues(COMMISSION_PAYOUT_STATUS_DEFINITIONS);
 export type CommissionPayoutStatus = (typeof COMMISSION_PAYOUT_STATUSES)[number];
-
 export const CommissionPayoutStatusSchema = z.enum(COMMISSION_PAYOUT_STATUSES).meta({ id: 'CommissionPayoutStatus' });
-
-export const CommissionPayoutStatusValue = {
-    Draft: 'draft',
-    PendingApproval: 'pending-approval',
-    Approved: 'approved',
-    Paid: 'paid',
-    Suspended: 'suspended',
-    Reversed: 'reversed'
-} as const satisfies Record<string, CommissionPayoutStatus>;
+export const CommissionPayoutStatusLabel = enumDefinitionLabels(COMMISSION_PAYOUT_STATUS_DEFINITIONS);
+export const CommissionPayoutStatusSeverity = enumDefinitionSeverities(COMMISSION_PAYOUT_STATUS_DEFINITIONS);
+export const CommissionPayoutStatusOptions = enumDefinitionOptions(COMMISSION_PAYOUT_STATUS_DEFINITIONS);
 
 export const COMMISSION_PAYOUT_STAGES = ['first', 'second', 'final', 'retention'] as const;
 
@@ -4647,20 +5054,22 @@ export const CommissionAdjustmentTypeValue = {
     Recalculate: 'recalculate'
 } as const satisfies Record<string, CommissionAdjustmentType>;
 
-export const COMMISSION_ADJUSTMENT_STATUSES = ['draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed'] as const;
+export const COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Draft', value: 'draft', label: '草稿', severity: 'secondary', order: 10 },
+    { key: 'PendingApproval', value: 'pending-approval', label: '待审批', severity: 'warn', order: 20 },
+    { key: 'Approved', value: 'approved', label: '已批准', severity: 'success', order: 30 },
+    { key: 'Executed', value: 'executed', label: '已执行', severity: 'info', order: 40 },
+    { key: 'Rejected', value: 'rejected', label: '已驳回', severity: 'danger', order: 50 },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 60 }
+] as const);
 
+export const CommissionAdjustmentStatusValue = enumDefinitionValueObject(COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS);
+export const COMMISSION_ADJUSTMENT_STATUSES = enumDefinitionValues(COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS);
 export type CommissionAdjustmentStatus = (typeof COMMISSION_ADJUSTMENT_STATUSES)[number];
-
 export const CommissionAdjustmentStatusSchema = z.enum(COMMISSION_ADJUSTMENT_STATUSES).meta({ id: 'CommissionAdjustmentStatus' });
-
-export const CommissionAdjustmentStatusValue = {
-    Draft: 'draft',
-    PendingApproval: 'pending-approval',
-    Approved: 'approved',
-    Executed: 'executed',
-    Rejected: 'rejected',
-    Closed: 'closed'
-} as const satisfies Record<string, CommissionAdjustmentStatus>;
+export const CommissionAdjustmentStatusLabel = enumDefinitionLabels(COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS);
+export const CommissionAdjustmentStatusSeverity = enumDefinitionSeverities(COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS);
+export const CommissionAdjustmentStatusOptions = enumDefinitionOptions(COMMISSION_ADJUSTMENT_STATUS_DEFINITIONS);
 
 export const COMMISSION_FREEZE_DISPUTE_STATUSES = ['submitted', 'closed'] as const;
 
@@ -4707,67 +5116,77 @@ export const CommissionLifecycleSnapshotStatusValue = {
     Voided: 'voided'
 } as const satisfies Record<string, CommissionLifecycleSnapshotStatus>;
 
-export const COMMISSION_FINAL_SETTLEMENT_STATUSES = ['pending-final-settlement', 'pending-retention-settlement', 'settled-all'] as const;
+export const COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'PendingFinalSettlement', value: 'pending-final-settlement', label: '待最终结算', severity: 'warn', order: 10 },
+    { key: 'PendingRetentionSettlement', value: 'pending-retention-settlement', label: '质保金待结算', severity: 'warn', order: 20 },
+    { key: 'SettledAll', value: 'settled-all', label: '全部结清', severity: 'success', order: 30 }
+] as const);
 
+export const CommissionFinalSettlementStatusValue = enumDefinitionValueObject(COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS);
+export const COMMISSION_FINAL_SETTLEMENT_STATUSES = enumDefinitionValues(COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS);
 export type CommissionFinalSettlementStatus = (typeof COMMISSION_FINAL_SETTLEMENT_STATUSES)[number];
-
 export const CommissionFinalSettlementStatusSchema = z.enum(COMMISSION_FINAL_SETTLEMENT_STATUSES).meta({ id: 'CommissionFinalSettlementStatus' });
+export const CommissionFinalSettlementStatusLabel = enumDefinitionLabels(COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionFinalSettlementStatusSeverity = enumDefinitionSeverities(COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionFinalSettlementStatusOptions = enumDefinitionOptions(COMMISSION_FINAL_SETTLEMENT_STATUS_DEFINITIONS);
 
-export const CommissionFinalSettlementStatusValue = {
-    PendingFinalSettlement: 'pending-final-settlement',
-    PendingRetentionSettlement: 'pending-retention-settlement',
-    SettledAll: 'settled-all'
-} as const satisfies Record<string, CommissionFinalSettlementStatus>;
+export const COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'PendingNonRetention', value: 'pending-non-retention', label: '非质保待结算', severity: 'info', order: 10 },
+    { key: 'SettledNonRetention', value: 'settled-non-retention', label: '非质保已结清', severity: 'success', order: 20 }
+] as const);
 
-export const COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES = ['pending-non-retention', 'settled-non-retention'] as const;
-
+export const CommissionNonRetentionSettlementStatusValue = enumDefinitionValueObject(COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES = enumDefinitionValues(COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
 export type CommissionNonRetentionSettlementStatus = (typeof COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES)[number];
-
 export const CommissionNonRetentionSettlementStatusSchema = z.enum(COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES).meta({ id: 'CommissionNonRetentionSettlementStatus' });
+export const CommissionNonRetentionSettlementStatusLabel = enumDefinitionLabels(COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionNonRetentionSettlementStatusSeverity = enumDefinitionSeverities(COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionNonRetentionSettlementStatusOptions = enumDefinitionOptions(COMMISSION_NON_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
 
-export const CommissionNonRetentionSettlementStatusValue = {
-    PendingNonRetention: 'pending-non-retention',
-    SettledNonRetention: 'settled-non-retention'
-} as const satisfies Record<string, CommissionNonRetentionSettlementStatus>;
+export const COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'WaitingRetention', value: 'waiting-retention', label: '待质保金条件', severity: 'warn', order: 10 },
+    { key: 'ReadyRetention', value: 'ready-retention', label: '质保金可结算', severity: 'info', order: 20 },
+    { key: 'SettledRetention', value: 'settled-retention', label: '质保金已结清', severity: 'success', order: 30 }
+] as const);
 
-export const COMMISSION_RETENTION_SETTLEMENT_STATUSES = ['waiting-retention', 'ready-retention', 'settled-retention'] as const;
-
+export const CommissionRetentionSettlementStatusValue = enumDefinitionValueObject(COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const COMMISSION_RETENTION_SETTLEMENT_STATUSES = enumDefinitionValues(COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
 export type CommissionRetentionSettlementStatus = (typeof COMMISSION_RETENTION_SETTLEMENT_STATUSES)[number];
-
 export const CommissionRetentionSettlementStatusSchema = z.enum(COMMISSION_RETENTION_SETTLEMENT_STATUSES).meta({ id: 'CommissionRetentionSettlementStatus' });
+export const CommissionRetentionSettlementStatusLabel = enumDefinitionLabels(COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionRetentionSettlementStatusSeverity = enumDefinitionSeverities(COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
+export const CommissionRetentionSettlementStatusOptions = enumDefinitionOptions(COMMISSION_RETENTION_SETTLEMENT_STATUS_DEFINITIONS);
 
-export const CommissionRetentionSettlementStatusValue = {
-    WaitingRetention: 'waiting-retention',
-    ReadyRetention: 'ready-retention',
-    SettledRetention: 'settled-retention'
-} as const satisfies Record<string, CommissionRetentionSettlementStatus>;
+export const COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'PendingFinalSettlement', value: 'pending-final-settlement', label: '待最终结算', severity: 'warn', order: 10 },
+    { key: 'BlockedRetention', value: 'blocked-retention', label: '质保金结算阻塞', severity: 'danger', order: 20 },
+    { key: 'ReadyRetention', value: 'ready-retention', label: '可进入质保金结算', severity: 'info', order: 30 },
+    { key: 'SettledRetention', value: 'settled-retention', label: '质保金已结清', severity: 'success', order: 40 }
+] as const);
 
-export const COMMISSION_RULE_EXPLANATION_STAGE_STATUSES = ['pending-final-settlement', 'blocked-retention', 'ready-retention', 'settled-retention'] as const;
-
+export const CommissionRuleExplanationStageStatusValue = enumDefinitionValueObject(COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS);
+export const COMMISSION_RULE_EXPLANATION_STAGE_STATUSES = enumDefinitionValues(COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS);
 export type CommissionRuleExplanationStageStatus = (typeof COMMISSION_RULE_EXPLANATION_STAGE_STATUSES)[number];
-
 export const CommissionRuleExplanationStageStatusSchema = z.enum(COMMISSION_RULE_EXPLANATION_STAGE_STATUSES).meta({ id: 'CommissionRuleExplanationStageStatus' });
+export const CommissionRuleExplanationStageStatusLabel = enumDefinitionLabels(COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS);
+export const CommissionRuleExplanationStageStatusSeverity = enumDefinitionSeverities(COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS);
+export const CommissionRuleExplanationStageStatusOptions = enumDefinitionOptions(COMMISSION_RULE_EXPLANATION_STAGE_STATUS_DEFINITIONS);
 
-export const CommissionRuleExplanationStageStatusValue = {
-    PendingFinalSettlement: 'pending-final-settlement',
-    BlockedRetention: 'blocked-retention',
-    ReadyRetention: 'ready-retention',
-    SettledRetention: 'settled-retention'
-} as const satisfies Record<string, CommissionRuleExplanationStageStatus>;
+export const COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'AllowFinalSettlement', value: 'allow-final-settlement', label: '允许最终结算', severity: 'success', order: 10 },
+    { key: 'SettledRetention', value: 'settled-retention', label: '质保金已结清', severity: 'success', order: 20 },
+    { key: 'BlockRetention', value: 'block-retention', label: '阻断质保金结算', severity: 'danger', order: 30 },
+    { key: 'ReviewRetention', value: 'review-retention', label: '复核质保金结算', severity: 'warn', order: 40 },
+    { key: 'AllowRetention', value: 'allow-retention', label: '允许质保金结算', severity: 'success', order: 50 }
+] as const);
 
-export const COMMISSION_RULE_EXPLANATION_GATE_DECISIONS = ['allow-final-settlement', 'settled-retention', 'block-retention', 'review-retention', 'allow-retention'] as const;
-
+export const CommissionRuleExplanationGateDecisionValue = enumDefinitionValueObject(COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS);
+export const COMMISSION_RULE_EXPLANATION_GATE_DECISIONS = enumDefinitionValues(COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS);
 export type CommissionRuleExplanationGateDecision = (typeof COMMISSION_RULE_EXPLANATION_GATE_DECISIONS)[number];
-
 export const CommissionRuleExplanationGateDecisionSchema = z.enum(COMMISSION_RULE_EXPLANATION_GATE_DECISIONS).meta({ id: 'CommissionRuleExplanationGateDecision' });
-
-export const CommissionRuleExplanationGateDecisionValue = {
-    AllowFinalSettlement: 'allow-final-settlement',
-    SettledRetention: 'settled-retention',
-    BlockRetention: 'block-retention',
-    ReviewRetention: 'review-retention',
-    AllowRetention: 'allow-retention'
-} as const satisfies Record<string, CommissionRuleExplanationGateDecision>;
+export const CommissionRuleExplanationGateDecisionLabel = enumDefinitionLabels(COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS);
+export const CommissionRuleExplanationGateDecisionSeverity = enumDefinitionSeverities(COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS);
+export const CommissionRuleExplanationGateDecisionOptions = enumDefinitionOptions(COMMISSION_RULE_EXPLANATION_GATE_DECISION_DEFINITIONS);
 
 export const COMMISSION_RETENTION_DUE_STATUSES = ['missing', 'pending', 'due'] as const;
 
@@ -5486,28 +5905,31 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
 
-export const BASELINE_SELECTION_SOURCES = ['original', 'handover-rebaseline'] as const;
+export const BASELINE_SELECTION_SOURCE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Original', value: 'original', label: '原始经营基线', order: 10 },
+    { key: 'HandoverRebaseline', value: 'handover-rebaseline', label: '移交再基线化', order: 20 }
+] as const);
 
+export const BaselineSelectionSourceValue = enumDefinitionValueObject(BASELINE_SELECTION_SOURCE_DEFINITIONS);
+export const BASELINE_SELECTION_SOURCES = enumDefinitionValues(BASELINE_SELECTION_SOURCE_DEFINITIONS);
 export type BaselineSelectionSource = (typeof BASELINE_SELECTION_SOURCES)[number];
-
 export const BaselineSelectionSourceSchema = z.enum(BASELINE_SELECTION_SOURCES).meta({ id: 'BaselineSelectionSource' });
+export const BaselineSelectionSourceLabel = enumDefinitionLabels(BASELINE_SELECTION_SOURCE_DEFINITIONS);
+export const BaselineSelectionSourceOptions = enumDefinitionOptions(BASELINE_SELECTION_SOURCE_DEFINITIONS);
 
-export const BaselineSelectionSourceValue = {
-    Original: 'original',
-    HandoverRebaseline: 'handover-rebaseline'
-} as const satisfies Record<string, BaselineSelectionSource>;
+export const OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Prompt', value: 'prompt', label: '提示', severity: 'info', order: 10 },
+    { key: 'Review', value: 'review', label: '复核', severity: 'warn', order: 20 },
+    { key: 'Block', value: 'block', label: '阻断', severity: 'danger', order: 30 }
+] as const);
 
-export const OPERATING_SNAPSHOT_ACTION_LEVELS = ['prompt', 'review', 'block'] as const;
-
+export const OperatingSnapshotActionLevelValue = enumDefinitionValueObject(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
+export const OPERATING_SNAPSHOT_ACTION_LEVELS = enumDefinitionValues(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
 export type OperatingSnapshotActionLevel = (typeof OPERATING_SNAPSHOT_ACTION_LEVELS)[number];
-
 export const OperatingSnapshotActionLevelSchema = z.enum(OPERATING_SNAPSHOT_ACTION_LEVELS).meta({ id: 'OperatingSnapshotActionLevel' });
-
-export const OperatingSnapshotActionLevelValue = {
-    Prompt: 'prompt',
-    Review: 'review',
-    Block: 'block'
-} as const satisfies Record<string, OperatingSnapshotActionLevel>;
+export const OperatingSnapshotActionLevelLabel = enumDefinitionLabels(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
+export const OperatingSnapshotActionLevelSeverity = enumDefinitionSeverities(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
+export const OperatingSnapshotActionLevelOptions = enumDefinitionOptions(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
 
 export const OPERATING_BASELINE_PACKAGE_STATUSES = ['draft', 'active', 'superseded'] as const;
 
@@ -5593,39 +6015,44 @@ export type ConfirmCostStageAttributionMode = (typeof CONFIRM_COST_STAGE_ATTRIBU
 
 export const ConfirmCostStageAttributionModeSchema = z.enum(CONFIRM_COST_STAGE_ATTRIBUTION_MODES).meta({ id: 'ConfirmCostStageAttributionMode' });
 
-export const OPERATING_DATA_MATURITY_LEVELS = ['insufficient', 'preliminary', 'mature'] as const;
+export const OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Insufficient', value: 'insufficient', label: '数据不足', order: 10 },
+    { key: 'Preliminary', value: 'preliminary', label: '初步可看', order: 20 },
+    { key: 'Mature', value: 'mature', label: '成熟', order: 30 }
+] as const);
 
+export const OperatingDataMaturityLevelValue = enumDefinitionValueObject(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
+export const OPERATING_DATA_MATURITY_LEVELS = enumDefinitionValues(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
 export type OperatingDataMaturityLevel = (typeof OPERATING_DATA_MATURITY_LEVELS)[number];
-
 export const OperatingDataMaturityLevelSchema = z.enum(OPERATING_DATA_MATURITY_LEVELS).meta({ id: 'OperatingDataMaturityLevel' });
+export const OperatingDataMaturityLevelLabel = enumDefinitionLabels(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
+export const OperatingDataMaturityLevelOptions = enumDefinitionOptions(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
 
-export const OperatingDataMaturityLevelValue = {
-    Insufficient: 'insufficient',
-    Preliminary: 'preliminary',
-    Mature: 'mature'
-} as const satisfies Record<string, OperatingDataMaturityLevel>;
+export const OPERATING_SIGNAL_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Attention', value: 'attention', label: '关注', severity: 'warn', order: 10 },
+    { key: 'Alert', value: 'alert', label: '警报', severity: 'danger', order: 20 }
+] as const);
 
-export const OPERATING_SIGNAL_LEVELS = ['attention', 'alert'] as const;
-
+export const OperatingSignalLevelValue = enumDefinitionValueObject(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
+export const OPERATING_SIGNAL_LEVELS = enumDefinitionValues(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 export type OperatingSignalLevel = (typeof OPERATING_SIGNAL_LEVELS)[number];
-
 export const OperatingSignalLevelSchema = z.enum(OPERATING_SIGNAL_LEVELS).meta({ id: 'OperatingSignalLevel' });
+export const OperatingSignalLevelLabel = enumDefinitionLabels(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
+export const OperatingSignalLevelSeverity = enumDefinitionSeverities(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
+export const OperatingSignalLevelOptions = enumDefinitionOptions(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 
-export const OperatingSignalLevelValue = {
-    Attention: 'attention',
-    Alert: 'alert'
-} as const satisfies Record<string, OperatingSignalLevel>;
+export const OPERATING_RISK_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Attention', value: 'attention', label: '关注', severity: 'warn', order: 10 },
+    { key: 'Risk', value: 'risk', label: '风险', severity: 'danger', order: 20 }
+] as const);
 
-export const OPERATING_RISK_LEVELS = ['attention', 'risk'] as const;
-
+export const OperatingRiskLevelValue = enumDefinitionValueObject(OPERATING_RISK_LEVEL_DEFINITIONS);
+export const OPERATING_RISK_LEVELS = enumDefinitionValues(OPERATING_RISK_LEVEL_DEFINITIONS);
 export type OperatingRiskLevel = (typeof OPERATING_RISK_LEVELS)[number];
-
 export const OperatingRiskLevelSchema = z.enum(OPERATING_RISK_LEVELS).meta({ id: 'OperatingRiskLevel' });
-
-export const OperatingRiskLevelValue = {
-    Attention: 'attention',
-    Risk: 'risk'
-} as const satisfies Record<string, OperatingRiskLevel>;
+export const OperatingRiskLevelLabel = enumDefinitionLabels(OPERATING_RISK_LEVEL_DEFINITIONS);
+export const OperatingRiskLevelSeverity = enumDefinitionSeverities(OPERATING_RISK_LEVEL_DEFINITIONS);
+export const OperatingRiskLevelOptions = enumDefinitionOptions(OPERATING_RISK_LEVEL_DEFINITIONS);
 
 export const OPERATING_SIGNAL_REVIEW_DECISIONS = ['approve', 'manual-confirmed'] as const;
 

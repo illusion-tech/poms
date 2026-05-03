@@ -1,5 +1,6 @@
 import {
     LeadBudgetStatusValue,
+    LeadGateMissingItemLabel,
     LeadGateMissingItemValue,
     LeadGateStatusValue,
     LeadRatingValue,
@@ -32,20 +33,6 @@ export interface LeadScoreSnapshot {
     rating: LeadRating;
     scoreReason: string;
 }
-
-const missingItemLabels: Record<LeadGateMissingItem, string> = {
-    [LeadGateMissingItemValue.Source]: '线索来源',
-    [LeadGateMissingItemValue.DemandDescription]: '需求描述',
-    [LeadGateMissingItemValue.Budget]: '预算情况',
-    [LeadGateMissingItemValue.EstimatedAmount]: '预计金额',
-    [LeadGateMissingItemValue.Urgency]: '紧迫程度',
-    [LeadGateMissingItemValue.Owner]: '销售主责人',
-    [LeadGateMissingItemValue.OwnerOrg]: '销售主责组织',
-    [LeadGateMissingItemValue.RegisteredStatus]: '待确认状态',
-    [LeadGateMissingItemValue.QualifiedStatus]: '已确认有效状态',
-    [LeadGateMissingItemValue.NotConverted]: '未转项目状态',
-    [LeadGateMissingItemValue.NotClosed]: '未关闭状态'
-};
 
 export function calculateLeadScore(input: LeadGateInput): LeadScoreSnapshot {
     const components: string[] = [];
@@ -128,7 +115,7 @@ function buildGateCheck(missingItems: LeadGateMissingItem[], gate: 'qualificatio
     return {
         status: LeadGateStatusValue.Blocked,
         missingItems,
-        explanation: `缺少：${missingItems.map((item) => missingItemLabels[item]).join('、')}`
+        explanation: `缺少：${missingItems.map((item) => LeadGateMissingItemLabel[item]).join('、')}`
     };
 }
 

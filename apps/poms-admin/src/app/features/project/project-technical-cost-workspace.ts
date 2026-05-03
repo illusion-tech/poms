@@ -2,6 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+    CostEstimateConfidenceLevelLabel,
+    PreSigningRiskStatusLabel,
+    TaxReviewStatusLabel,
+    TechnicalFeasibilityDecisionLabel,
+    TechnicalScopeItemTypeLabel
+} from '@poms/shared-contracts';
+import {
     ProjectWorkspaceStore,
     ProjectTechnicalCostItemViewConfidenceLevelEnum,
     ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum,
@@ -24,36 +31,11 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
-const FEASIBILITY_DECISION_LABELS: Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string> = {
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible]: '技术可行',
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional]: '有条件可行',
-    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.NotFeasible]: '暂不可行'
-};
-
-const TAX_REVIEW_STATUS_LABELS: Record<ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum, string> = {
-    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Pending]: '待复核',
-    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Reviewed]: '已复核',
-    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.NotRequired]: '无需复核'
-};
-
-const SCOPE_TYPE_LABELS: Record<ProjectTechnicalScopeItemViewScopeTypeEnum, string> = {
-    [ProjectTechnicalScopeItemViewScopeTypeEnum.InScope]: '范围内',
-    [ProjectTechnicalScopeItemViewScopeTypeEnum.OutOfScope]: '排除项',
-    [ProjectTechnicalScopeItemViewScopeTypeEnum.Assumption]: '假设'
-};
-
-const RISK_STATUS_LABELS: Record<ProjectTechnicalRiskItemViewRiskStatusEnum, string> = {
-    [ProjectTechnicalRiskItemViewRiskStatusEnum.Open]: '打开',
-    [ProjectTechnicalRiskItemViewRiskStatusEnum.Mitigating]: '缓解中',
-    [ProjectTechnicalRiskItemViewRiskStatusEnum.Accepted]: '已接受',
-    [ProjectTechnicalRiskItemViewRiskStatusEnum.Closed]: '已关闭'
-};
-
-const CONFIDENCE_LEVEL_LABELS: Record<ProjectTechnicalCostItemViewConfidenceLevelEnum, string> = {
-    [ProjectTechnicalCostItemViewConfidenceLevelEnum.High]: '高',
-    [ProjectTechnicalCostItemViewConfidenceLevelEnum.Medium]: '中',
-    [ProjectTechnicalCostItemViewConfidenceLevelEnum.Low]: '低'
-};
+const FEASIBILITY_DECISION_LABELS = TechnicalFeasibilityDecisionLabel as Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string>;
+const TAX_REVIEW_STATUS_LABELS = TaxReviewStatusLabel as Record<ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum, string>;
+const SCOPE_TYPE_LABELS = TechnicalScopeItemTypeLabel as Record<ProjectTechnicalScopeItemViewScopeTypeEnum, string>;
+const RISK_STATUS_LABELS = PreSigningRiskStatusLabel as Record<ProjectTechnicalRiskItemViewRiskStatusEnum, string>;
+const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<ProjectTechnicalCostItemViewConfidenceLevelEnum, string>;
 
 @Component({
     selector: 'app-project-technical-cost-workspace',

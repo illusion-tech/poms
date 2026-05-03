@@ -11,6 +11,7 @@ import {
     type AttachmentSummary,
     type AttachmentTargetType
 } from '@poms/admin-data-access';
+import { AttachmentSecurityLevelLabel, AttachmentSecurityLevelOptions, AttachmentSecurityLevelSeverity } from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -31,36 +32,18 @@ interface AttachmentUploadForm {
     description: string;
 }
 
-const ATTACHMENT_SECURITY_LABELS: Record<AttachmentSecurityLevel, string> = {
-    [AttachmentSecurityLevel.Normal]: '普通',
-    [AttachmentSecurityLevel.Internal]: '内部',
-    [AttachmentSecurityLevel.Sensitive]: '敏感',
-    [AttachmentSecurityLevel.Confidential]: '机密',
-    [AttachmentSecurityLevel.Restricted]: '高机密'
-};
+const ATTACHMENT_SECURITY_LABELS = AttachmentSecurityLevelLabel as Record<AttachmentSecurityLevel, string>;
 
-const ATTACHMENT_SECURITY_SEVERITY: Record<AttachmentSecurityLevel, 'secondary' | 'info' | 'warn' | 'danger'> = {
-    [AttachmentSecurityLevel.Normal]: 'secondary',
-    [AttachmentSecurityLevel.Internal]: 'info',
-    [AttachmentSecurityLevel.Sensitive]: 'warn',
-    [AttachmentSecurityLevel.Confidential]: 'danger',
-    [AttachmentSecurityLevel.Restricted]: 'danger'
-};
+const ATTACHMENT_SECURITY_SEVERITY = AttachmentSecurityLevelSeverity as Record<AttachmentSecurityLevel, 'secondary' | 'info' | 'warn' | 'danger'>;
 
 const DEFAULT_UPLOAD_FORM: AttachmentUploadForm = {
-    category: 'demand',
+    category: '',
     securityLevel: AttachmentSecurityLevel.Internal,
     displayName: '',
     description: ''
 };
 
-const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] = [
-    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Normal], value: AttachmentSecurityLevel.Normal },
-    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Internal], value: AttachmentSecurityLevel.Internal },
-    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Sensitive], value: AttachmentSecurityLevel.Sensitive },
-    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Confidential], value: AttachmentSecurityLevel.Confidential },
-    { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Restricted], value: AttachmentSecurityLevel.Restricted }
-];
+const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as ReadonlyArray<AttachmentOption<AttachmentSecurityLevel>>)];
 
 @Component({
     selector: 'app-attachment-panel',
@@ -387,12 +370,12 @@ export class AttachmentPanel implements OnChanges, OnInit {
 
         this.uploadForm.update((form) => ({
             ...form,
-            category: codes.includes(DEFAULT_UPLOAD_FORM.category) ? DEFAULT_UPLOAD_FORM.category : codes[0]
+            category: this.defaultCategory()
         }));
     }
 
     private defaultCategory(): string {
         const options = this.categoryOptions();
-        return options.some((option) => option.value === DEFAULT_UPLOAD_FORM.category) ? DEFAULT_UPLOAD_FORM.category : options[0]?.value ?? DEFAULT_UPLOAD_FORM.category;
+        return options[0]?.value ?? DEFAULT_UPLOAD_FORM.category;
     }
 }

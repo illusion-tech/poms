@@ -14,6 +14,9 @@ import {
 } from '@poms/admin-data-access';
 import { AttachmentPanel } from './attachment-panel';
 
+const DEMAND_ATTACHMENT_CATEGORY = 'demand';
+const COMMUNICATION_ATTACHMENT_CATEGORY = 'communication';
+
 function createDictionaryItem(code: string, name: string, sortOrder = 0): DictionaryItemSummary {
     return {
         id: `dictionary-${code}`,
@@ -42,7 +45,7 @@ function createAttachment(overrides: Partial<AttachmentSummary> = {}): Attachmen
         mimeType: 'application/pdf',
         sizeBytes: 1024,
         checksumSha256: 'a'.repeat(64),
-        category: 'demand',
+        category: DEMAND_ATTACHMENT_CATEGORY,
         securityLevel: AttachmentSecurityLevel.Internal,
         status: AttachmentStatus.Active,
         description: '客户提供的需求材料',
@@ -88,7 +91,7 @@ describe('AttachmentPanel', () => {
 
     beforeEach(async () => {
         attachments = signal([createAttachment()]);
-        dictionaryItems = signal([createDictionaryItem('demand', '需求资料'), createDictionaryItem('communication', '沟通资料', 10)]);
+        dictionaryItems = signal([createDictionaryItem(DEMAND_ATTACHMENT_CATEGORY, '需求资料'), createDictionaryItem(COMMUNICATION_ATTACHMENT_CATEGORY, '沟通资料', 10)]);
         storeMock = {
             attachments,
             loading: signal(false),
@@ -151,7 +154,7 @@ describe('AttachmentPanel', () => {
         const file = new File(['hello'], '会议纪要.pdf', { type: 'application/pdf' });
 
         component.selectedFile.set(file);
-        component.updateUploadField('category', 'communication');
+        component.updateUploadField('category', COMMUNICATION_ATTACHMENT_CATEGORY);
         component.updateUploadField('securityLevel', AttachmentSecurityLevel.Internal);
         component.updateUploadField('displayName', '会议纪要');
         component.updateUploadField('description', '客户会议纪要');
@@ -162,7 +165,7 @@ describe('AttachmentPanel', () => {
             targetType: AttachmentTargetType.Lead,
             targetId: 'lead-1',
             file,
-            category: 'communication',
+            category: COMMUNICATION_ATTACHMENT_CATEGORY,
             securityLevel: AttachmentSecurityLevel.Internal,
             relationType: AttachmentRelationType.Normal,
             displayName: '会议纪要',

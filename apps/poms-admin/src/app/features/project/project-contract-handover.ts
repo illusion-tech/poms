@@ -14,6 +14,25 @@ import {
     type ContractHandoverSummaryView,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
+import {
+    ContractHandoverBaselineValidationStatusLabel,
+    ContractHandoverBaselineValidationStatusSeverity,
+    ContractHandoverCurrentBaselineSourceTypeLabel,
+    ContractHandoverCurrentBaselineStatusLabel,
+    ContractHandoverCurrentBaselineStatusSeverity,
+    ContractHandoverRebaselineBlockingStatusLabel,
+    ContractHandoverRebaselineBlockingStatusSeverity,
+    ContractHandoverRebaselineStatusLabel,
+    ContractHandoverRebaselineStatusSeverity,
+    ContractHandoverReceivablePlanInitStatusLabel,
+    ContractHandoverReceivablePlanInitStatusSeverity,
+    ProjectHandoverParticipantConfirmationStatusLabel,
+    ProjectHandoverParticipantConfirmationStatusSeverity,
+    ProjectHandoverReceiptJudgmentFreezeStatusLabel,
+    ProjectHandoverReceiptJudgmentFreezeStatusSeverity,
+    ProjectHandoverStatusLabel,
+    ProjectHandoverStatusSeverity
+} from '@poms/shared-contracts';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -28,116 +47,39 @@ import { type UiTagSeverity } from './project-presentation';
 
 type ContractHandoverContractItem = ContractHandoverSummaryView['effectiveContractSetSummary']['contracts'][number];
 
-const BASELINE_VALIDATION_STATUS_LABELS = {
-    [ContractHandoverBaselineValidationStatus.Ready]: '已具备',
-    [ContractHandoverBaselineValidationStatus.Blocked]: '阻断中',
-    [ContractHandoverBaselineValidationStatus.Missing]: '缺失'
-} as const satisfies Record<ContractHandoverBaselineValidationStatus, string>;
+const BASELINE_VALIDATION_STATUS_LABELS = ContractHandoverBaselineValidationStatusLabel as Record<ContractHandoverBaselineValidationStatus, string>;
 
-const BASELINE_VALIDATION_STATUS_SEVERITIES = {
-    [ContractHandoverBaselineValidationStatus.Ready]: 'success',
-    [ContractHandoverBaselineValidationStatus.Blocked]: 'danger',
-    [ContractHandoverBaselineValidationStatus.Missing]: 'danger'
-} as const satisfies Record<ContractHandoverBaselineValidationStatus, UiTagSeverity>;
+const BASELINE_VALIDATION_STATUS_SEVERITIES = ContractHandoverBaselineValidationStatusSeverity as Record<ContractHandoverBaselineValidationStatus, UiTagSeverity>;
 
-const CURRENT_BASELINE_STATUS_LABELS = {
-    [ContractHandoverCurrentBaselineStatus.Available]: '已形成',
-    [ContractHandoverCurrentBaselineStatus.Missing]: '缺失'
-} as const satisfies Record<ContractHandoverCurrentBaselineStatus, string>;
+const CURRENT_BASELINE_STATUS_LABELS = ContractHandoverCurrentBaselineStatusLabel as Record<ContractHandoverCurrentBaselineStatus, string>;
 
-const CURRENT_BASELINE_STATUS_SEVERITIES = {
-    [ContractHandoverCurrentBaselineStatus.Available]: 'success',
-    [ContractHandoverCurrentBaselineStatus.Missing]: 'danger'
-} as const satisfies Record<ContractHandoverCurrentBaselineStatus, UiTagSeverity>;
+const CURRENT_BASELINE_STATUS_SEVERITIES = ContractHandoverCurrentBaselineStatusSeverity as Record<ContractHandoverCurrentBaselineStatus, UiTagSeverity>;
 
-const REBASELINE_STATUS_LABELS = {
-    [ContractHandoverRebaselineStatus.None]: '未发起',
-    [ContractHandoverRebaselineStatus.Processing]: '处理中',
-    [ContractHandoverRebaselineStatus.PendingEffective]: '待切换生效',
-    [ContractHandoverRebaselineStatus.Effective]: '已生效',
-    [ContractHandoverRebaselineStatus.Superseded]: '已被替代',
-    [ContractHandoverRebaselineStatus.Voided]: '已作废'
-} as const satisfies Record<ContractHandoverRebaselineStatus, string>;
+const REBASELINE_STATUS_LABELS = ContractHandoverRebaselineStatusLabel as Record<ContractHandoverRebaselineStatus, string>;
 
-const REBASELINE_STATUS_SEVERITIES = {
-    [ContractHandoverRebaselineStatus.None]: 'success',
-    [ContractHandoverRebaselineStatus.Processing]: 'warn',
-    [ContractHandoverRebaselineStatus.PendingEffective]: 'warn',
-    [ContractHandoverRebaselineStatus.Effective]: 'success',
-    [ContractHandoverRebaselineStatus.Superseded]: 'secondary',
-    [ContractHandoverRebaselineStatus.Voided]: 'danger'
-} as const satisfies Record<ContractHandoverRebaselineStatus, UiTagSeverity>;
+const REBASELINE_STATUS_SEVERITIES = ContractHandoverRebaselineStatusSeverity as Record<ContractHandoverRebaselineStatus, UiTagSeverity>;
 
-const REBASELINE_BLOCKING_STATUS_LABELS = {
-    [ContractHandoverRebaselineBlockingStatus.None]: '无阻断',
-    [ContractHandoverRebaselineBlockingStatus.Blocking]: '阻断中',
-    [ContractHandoverRebaselineBlockingStatus.Effective]: '已生效'
-} as const satisfies Record<ContractHandoverRebaselineBlockingStatus, string>;
+const REBASELINE_BLOCKING_STATUS_LABELS = ContractHandoverRebaselineBlockingStatusLabel as Record<ContractHandoverRebaselineBlockingStatus, string>;
 
-const REBASELINE_BLOCKING_STATUS_SEVERITIES = {
-    [ContractHandoverRebaselineBlockingStatus.None]: 'secondary',
-    [ContractHandoverRebaselineBlockingStatus.Blocking]: 'danger',
-    [ContractHandoverRebaselineBlockingStatus.Effective]: 'success'
-} as const satisfies Record<ContractHandoverRebaselineBlockingStatus, UiTagSeverity>;
+const REBASELINE_BLOCKING_STATUS_SEVERITIES = ContractHandoverRebaselineBlockingStatusSeverity as Record<ContractHandoverRebaselineBlockingStatus, UiTagSeverity>;
 
-const RECEIVABLE_PLAN_STATUS_LABELS = {
-    [ContractHandoverReceivablePlanInitStatus.Initialized]: '已初始化',
-    [ContractHandoverReceivablePlanInitStatus.Missing]: '缺失',
-    [ContractHandoverReceivablePlanInitStatus.Blocked]: '阻断中'
-} as const satisfies Record<ContractHandoverReceivablePlanInitStatus, string>;
+const RECEIVABLE_PLAN_STATUS_LABELS = ContractHandoverReceivablePlanInitStatusLabel as Record<ContractHandoverReceivablePlanInitStatus, string>;
 
-const RECEIVABLE_PLAN_STATUS_SEVERITIES = {
-    [ContractHandoverReceivablePlanInitStatus.Initialized]: 'success',
-    [ContractHandoverReceivablePlanInitStatus.Missing]: 'danger',
-    [ContractHandoverReceivablePlanInitStatus.Blocked]: 'danger'
-} as const satisfies Record<ContractHandoverReceivablePlanInitStatus, UiTagSeverity>;
+const RECEIVABLE_PLAN_STATUS_SEVERITIES = ContractHandoverReceivablePlanInitStatusSeverity as Record<ContractHandoverReceivablePlanInitStatus, UiTagSeverity>;
 
-const HANDOVER_STATUS_LABELS = {
-    [ProjectHandoverStatus.NotStarted]: '未开始',
-    [ProjectHandoverStatus.Draft]: '草稿',
-    [ProjectHandoverStatus.Confirmed]: '已确认',
-    [ProjectHandoverStatus.Superseded]: '已被替代',
-    [ProjectHandoverStatus.Voided]: '已作废'
-} as const satisfies Record<ProjectHandoverStatus, string>;
+const HANDOVER_STATUS_LABELS = ProjectHandoverStatusLabel as Record<ProjectHandoverStatus, string>;
 
-const HANDOVER_STATUS_SEVERITIES = {
-    [ProjectHandoverStatus.NotStarted]: 'warn',
-    [ProjectHandoverStatus.Draft]: 'warn',
-    [ProjectHandoverStatus.Confirmed]: 'success',
-    [ProjectHandoverStatus.Superseded]: 'secondary',
-    [ProjectHandoverStatus.Voided]: 'danger'
-} as const satisfies Record<ProjectHandoverStatus, UiTagSeverity>;
+const HANDOVER_STATUS_SEVERITIES = ProjectHandoverStatusSeverity as Record<ProjectHandoverStatus, UiTagSeverity>;
 
-const PARTICIPANT_CONFIRMATION_STATUS_LABELS = {
-    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: '未开始',
-    [ProjectHandoverParticipantConfirmationStatus.Pending]: '待确认',
-    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: '已确认',
-    [ProjectHandoverParticipantConfirmationStatus.Closed]: '已关闭'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, string>;
+const PARTICIPANT_CONFIRMATION_STATUS_LABELS = ProjectHandoverParticipantConfirmationStatusLabel as Record<ProjectHandoverParticipantConfirmationStatus, string>;
 
-const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = {
-    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: 'warn',
-    [ProjectHandoverParticipantConfirmationStatus.Pending]: 'warn',
-    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: 'success',
-    [ProjectHandoverParticipantConfirmationStatus.Closed]: 'secondary'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, UiTagSeverity>;
+const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = ProjectHandoverParticipantConfirmationStatusSeverity as Record<ProjectHandoverParticipantConfirmationStatus, UiTagSeverity>;
 
-const RECEIPT_JUDGMENT_STATUS_LABELS = {
-    [ProjectHandoverReceiptJudgmentFreezeStatus.NotFrozen]: '未冻结',
-    [ProjectHandoverReceiptJudgmentFreezeStatus.Frozen]: '已冻结'
-} as const satisfies Record<ProjectHandoverReceiptJudgmentFreezeStatus, string>;
+const RECEIPT_JUDGMENT_STATUS_LABELS = ProjectHandoverReceiptJudgmentFreezeStatusLabel as Record<ProjectHandoverReceiptJudgmentFreezeStatus, string>;
 
-const RECEIPT_JUDGMENT_STATUS_SEVERITIES = {
-    [ProjectHandoverReceiptJudgmentFreezeStatus.NotFrozen]: 'warn',
-    [ProjectHandoverReceiptJudgmentFreezeStatus.Frozen]: 'success'
-} as const satisfies Record<ProjectHandoverReceiptJudgmentFreezeStatus, UiTagSeverity>;
+const RECEIPT_JUDGMENT_STATUS_SEVERITIES = ProjectHandoverReceiptJudgmentFreezeStatusSeverity as Record<ProjectHandoverReceiptJudgmentFreezeStatus, UiTagSeverity>;
 
-const BASELINE_SOURCE_LABELS = {
-    [ContractHandoverCurrentBaselineSourceType.ContractReadiness]: '合同准备包',
-    [ContractHandoverCurrentBaselineSourceType.ProjectHandover]: '项目移交',
-    [ContractHandoverCurrentBaselineSourceType.HandoverRebaseline]: '移交再基线化',
-    [ContractHandoverCurrentBaselineSourceType.None]: '无来源'
-} as const satisfies Record<ContractHandoverCurrentBaselineSourceType, string>;
+const BASELINE_SOURCE_LABELS = ContractHandoverCurrentBaselineSourceTypeLabel as Record<ContractHandoverCurrentBaselineSourceType, string>;
 
 @Component({
     selector: 'app-project-contract-handover',

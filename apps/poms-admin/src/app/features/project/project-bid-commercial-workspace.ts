@@ -3,6 +3,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
+    BidCommercialDecisionLabel,
+    BidCommercialMaterialStatusLabel,
+    BidCommercialModeLabel,
+    BidCommercialResultStatusLabel,
+    BidCommercialStageLabel,
+    BidCommercialTimelineStatusLabel
+} from '@poms/shared-contracts';
+import {
     CreateProjectBidCommercialProcessRequestBidModeEnum,
     CreateProjectBidCommercialProcessRequestCurrentStageEnum,
     CreateProjectBidCommercialProcessRequestDecisionEnum,
@@ -49,52 +57,12 @@ type BidResultValue = CreateProjectBidCommercialProcessRequestResultStatusEnum |
 type BidMaterialStatusValue = ProjectBidCommercialMaterialItemInputMaterialStatusEnum | ProjectBidCommercialMaterialItemViewMaterialStatusEnum;
 type BidTimelineStatusValue = ProjectBidCommercialTimelineItemInputTimelineStatusEnum | ProjectBidCommercialTimelineItemViewTimelineStatusEnum;
 
-const BID_MODE_LABELS: Record<BidModeValue, string> = {
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.PublicTender]: '公开招标',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.Invitation]: '邀标',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.Comparison]: '比选',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.CommercialNegotiation]: '商务谈判',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.CompetitiveNegotiation]: '竞争性谈判',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.DirectCommercial]: '直接商务',
-    [CreateProjectBidCommercialProcessRequestBidModeEnum.NotRequired]: '不适用'
-};
-
-const BID_STAGE_LABELS: Record<BidStageValue, string> = {
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.NotStarted]: '未启动',
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Preparation]: '材料准备',
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Submitted]: '已提交',
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Negotiating]: '谈判中',
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.ResultConfirmed]: '结果确认',
-    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Closed]: '已关闭'
-};
-
-const BID_DECISION_LABELS: Record<BidDecisionValue, string> = {
-    [CreateProjectBidCommercialProcessRequestDecisionEnum.Pending]: '待决策',
-    [CreateProjectBidCommercialProcessRequestDecisionEnum.Participate]: '参与',
-    [CreateProjectBidCommercialProcessRequestDecisionEnum.NoBid]: '不投标',
-    [CreateProjectBidCommercialProcessRequestDecisionEnum.NotRequired]: '不适用'
-};
-
-const BID_RESULT_LABELS: Record<BidResultValue, string> = {
-    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Pending]: '待结果',
-    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Won]: '中标 / 成交',
-    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Lost]: '未中标',
-    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Cancelled]: '已取消',
-    [CreateProjectBidCommercialProcessRequestResultStatusEnum.NotApplicable]: '不适用'
-};
-
-const MATERIAL_STATUS_LABELS: Record<BidMaterialStatusValue, string> = {
-    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.Missing]: '缺失',
-    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.InProgress]: '处理中',
-    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.Ready]: '已齐备',
-    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.NotRequired]: '不适用'
-};
-
-const TIMELINE_STATUS_LABELS: Record<BidTimelineStatusValue, string> = {
-    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Pending]: '待完成',
-    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Done]: '已完成',
-    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Cancelled]: '已取消'
-};
+const BID_MODE_LABELS = BidCommercialModeLabel as Record<BidModeValue, string>;
+const BID_STAGE_LABELS = BidCommercialStageLabel as Record<BidStageValue, string>;
+const BID_DECISION_LABELS = BidCommercialDecisionLabel as Record<BidDecisionValue, string>;
+const BID_RESULT_LABELS = BidCommercialResultStatusLabel as Record<BidResultValue, string>;
+const MATERIAL_STATUS_LABELS = BidCommercialMaterialStatusLabel as Record<BidMaterialStatusValue, string>;
+const TIMELINE_STATUS_LABELS = BidCommercialTimelineStatusLabel as Record<BidTimelineStatusValue, string>;
 
 type Option<T> = {
     label: string;
