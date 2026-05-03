@@ -10,6 +10,7 @@
 import { ContractHandoverEffectiveContractSetSummary } from './contract-handover-effective-contract-set-summary';
 import { ProjectHandoverParticipantConfirmationSummary } from './project-handover-participant-confirmation-summary';
 import { ProjectHandoverReceiptJudgmentModeSummary } from './project-handover-receipt-judgment-mode-summary';
+import { ProjectHandoverStatus } from './project-handover-status';
 import { ContractHandoverCurrentBaselineSummary } from './contract-handover-current-baseline-summary';
 
 
@@ -18,7 +19,7 @@ export interface ProjectHandoverDetailView {
     projectId: string;
     projectNo: string;
     projectName: string;
-    handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum;
+    handoverStatus: ProjectHandoverStatus;
     confirmedAt: string | null;
     confirmedBy: string | null;
     comment: string | null;
@@ -36,10 +37,3 @@ export interface ProjectHandoverDetailView {
     blockingReasons: Array<string>;
     generatedAt: string;
 }
-export enum ProjectHandoverDetailViewHandoverStatusEnum {
-    NotStarted = 'not_started',
-    Draft = 'draft',
-    Confirmed = 'confirmed',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};

@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { PermissionKey } from '@poms/shared-contracts';
 import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary, UpdateCurrentUserProfileRequest } from '@poms/shared-api-client';
-import { ApprovalApi, AuthApi, NavigationApi, NavigationItemTypeEnum, TodoStatus } from '@poms/shared-api-client';
+import { ApprovalApi, AuthApi, NavigationApi, NavigationItemType, TodoStatus } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
 
 export interface MenuItem {
@@ -103,7 +103,7 @@ export class AuthStore {
         for (const item of items) {
             if (item.isHidden) continue;
 
-            if (item.type === NavigationItemTypeEnum.Divider) {
+            if (item.type === NavigationItemType.Divider) {
                 // 避免在已有 separator 后再次插入
                 if (result.length > 0 && !result[result.length - 1].separator) {
                     result.push({ separator: true });
@@ -117,7 +117,7 @@ export class AuthStore {
                 disabled: item.isDisabled
             };
 
-            if (item.type === NavigationItemTypeEnum.Basic && item.link) {
+            if (item.type === NavigationItemType.Basic && item.link) {
                 menuItem.routerLink = [item.link];
             }
 

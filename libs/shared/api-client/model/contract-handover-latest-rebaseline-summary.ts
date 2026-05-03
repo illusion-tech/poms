@@ -7,27 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContractHandoverRebaselineStatus } from './contract-handover-rebaseline-status';
+import { ContractHandoverRebaselineBlockingStatus } from './contract-handover-rebaseline-blocking-status';
 
 
 export interface ContractHandoverLatestRebaselineSummary {
-    status: ContractHandoverLatestRebaselineSummaryStatusEnum;
+    status: ContractHandoverRebaselineStatus;
     rebaselineRecordId: string | null;
     effectiveBaselineAfterId: string | null;
     handledAt: string | null;
-    blockingStatus: ContractHandoverLatestRebaselineSummaryBlockingStatusEnum;
+    blockingStatus: ContractHandoverRebaselineBlockingStatus;
     impactItemCount: number;
     impactSummary: string | null;
 }
-export enum ContractHandoverLatestRebaselineSummaryStatusEnum {
-    None = 'none',
-    Processing = 'processing',
-    PendingEffective = 'pending_effective',
-    Effective = 'effective',
-    Superseded = 'superseded',
-    Voided = 'voided'
-};
-export enum ContractHandoverLatestRebaselineSummaryBlockingStatusEnum {
-    None = 'none',
-    Blocking = 'blocking',
-    Effective = 'effective'
-};

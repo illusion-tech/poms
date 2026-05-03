@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserOrgUnitMembershipType } from './user-org-unit-membership-type';
 
 
 export interface UserOrgUnitSummary {
@@ -14,9 +15,5 @@ export interface UserOrgUnitSummary {
     name: string;
     code: string | null;
     description: string | null;
-    membershipType: UserOrgUnitSummaryMembershipTypeEnum;
+    membershipType: UserOrgUnitMembershipType;
 }
-export enum UserOrgUnitSummaryMembershipTypeEnum {
-    Primary = 'primary',
-    Secondary = 'secondary'
-};

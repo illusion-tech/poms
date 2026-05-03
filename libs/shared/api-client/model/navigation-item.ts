@@ -7,12 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NavigationItemType } from './navigation-item-type';
 
 
 export interface NavigationItem {
     id: string;
     key: string;
-    type: NavigationItemTypeEnum;
+    type: NavigationItemType;
     title: string | null;
     subtitle: string | null;
     link: string | null;
@@ -24,12 +25,6 @@ export interface NavigationItem {
     meta: { [key: string]: any; } | null;
     children: Array<NavigationItem> | null;
 }
-export enum NavigationItemTypeEnum {
-    Basic = 'basic',
-    Group = 'group',
-    Collapsable = 'collapsable',
-    Divider = 'divider'
-};
 export enum NavigationItemRequiredPermissionsEnum {
     PlatformUsersManage = 'platform:users:manage',
     PlatformRolesManage = 'platform:roles:manage',

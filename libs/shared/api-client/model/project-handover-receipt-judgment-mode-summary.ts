@@ -7,21 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverReceiptJudgmentSourceType } from './project-handover-receipt-judgment-source-type';
+import { ProjectHandoverReceiptJudgmentFreezeStatus } from './project-handover-receipt-judgment-freeze-status';
 
 
 export interface ProjectHandoverReceiptJudgmentModeSummary {
-    status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum;
+    status: ProjectHandoverReceiptJudgmentFreezeStatus;
     receiptJudgmentMode: string | null;
-    sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum;
+    sourceType: ProjectHandoverReceiptJudgmentSourceType;
     sourceId: string | null;
     summary: string;
 }
-export enum ProjectHandoverReceiptJudgmentModeSummaryStatusEnum {
-    NotFrozen = 'not_frozen',
-    Frozen = 'frozen'
-};
-export enum ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum {
-    ProjectHandover = 'project-handover',
-    ProjectReceiptJudgmentFreeze = 'project-receipt-judgment-freeze',
-    None = 'none'
-};

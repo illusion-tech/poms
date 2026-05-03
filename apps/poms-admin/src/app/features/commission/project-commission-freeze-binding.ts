@@ -3,10 +3,10 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     CommissionRoleAssignmentStatus,
-    ContractHandoverCurrentBaselineSummarySourceTypeEnum,
-    ProjectHandoverDetailViewHandoverStatusEnum,
-    ProjectHandoverParticipantConfirmationSummaryStatusEnum,
-    ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum,
+    ContractHandoverCurrentBaselineSourceType,
+    ProjectHandoverStatus,
+    ProjectHandoverParticipantConfirmationStatus,
+    ProjectHandoverReceiptJudgmentSourceType,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
@@ -19,34 +19,34 @@ import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { freezeVersionStatusLabel, freezeVersionStatusSeverity, type UiTagSeverity } from '../project/project-presentation';
 
 const HANDOVER_STATUS_LABELS = {
-    [ProjectHandoverDetailViewHandoverStatusEnum.NotStarted]: '未开始',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Draft]: '草稿',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Confirmed]: '已确认',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Superseded]: '已被替代',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Voided]: '已作废'
-} as const satisfies Record<ProjectHandoverDetailViewHandoverStatusEnum, string>;
+    [ProjectHandoverStatus.NotStarted]: '未开始',
+    [ProjectHandoverStatus.Draft]: '草稿',
+    [ProjectHandoverStatus.Confirmed]: '已确认',
+    [ProjectHandoverStatus.Superseded]: '已被替代',
+    [ProjectHandoverStatus.Voided]: '已作废'
+} as const satisfies Record<ProjectHandoverStatus, string>;
 
 const HANDOVER_STATUS_SEVERITIES = {
-    [ProjectHandoverDetailViewHandoverStatusEnum.NotStarted]: 'warn',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Draft]: 'warn',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Confirmed]: 'success',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Superseded]: 'secondary',
-    [ProjectHandoverDetailViewHandoverStatusEnum.Voided]: 'danger'
-} as const satisfies Record<ProjectHandoverDetailViewHandoverStatusEnum, UiTagSeverity>;
+    [ProjectHandoverStatus.NotStarted]: 'warn',
+    [ProjectHandoverStatus.Draft]: 'warn',
+    [ProjectHandoverStatus.Confirmed]: 'success',
+    [ProjectHandoverStatus.Superseded]: 'secondary',
+    [ProjectHandoverStatus.Voided]: 'danger'
+} as const satisfies Record<ProjectHandoverStatus, UiTagSeverity>;
 
 const PARTICIPANT_CONFIRMATION_STATUS_LABELS = {
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.NotStarted]: '未开始',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending]: '待确认',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed]: '已确认',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Closed]: '已关闭'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationSummaryStatusEnum, string>;
+    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: '未开始',
+    [ProjectHandoverParticipantConfirmationStatus.Pending]: '待确认',
+    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: '已确认',
+    [ProjectHandoverParticipantConfirmationStatus.Closed]: '已关闭'
+} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, string>;
 
 const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = {
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.NotStarted]: 'warn',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending]: 'warn',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed]: 'success',
-    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Closed]: 'secondary'
-} as const satisfies Record<ProjectHandoverParticipantConfirmationSummaryStatusEnum, UiTagSeverity>;
+    [ProjectHandoverParticipantConfirmationStatus.NotStarted]: 'warn',
+    [ProjectHandoverParticipantConfirmationStatus.Pending]: 'warn',
+    [ProjectHandoverParticipantConfirmationStatus.Confirmed]: 'success',
+    [ProjectHandoverParticipantConfirmationStatus.Closed]: 'secondary'
+} as const satisfies Record<ProjectHandoverParticipantConfirmationStatus, UiTagSeverity>;
 
 const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
     'confirmed-receipt': '按确认回款',
@@ -55,17 +55,17 @@ const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
 };
 
 const RECEIPT_JUDGMENT_SOURCE_LABELS = {
-    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover]: '项目移交',
-    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectReceiptJudgmentFreeze]: '回款判断冻结',
-    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.None]: '无来源'
-} as const satisfies Record<ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum, string>;
+    [ProjectHandoverReceiptJudgmentSourceType.ProjectHandover]: '项目移交',
+    [ProjectHandoverReceiptJudgmentSourceType.ProjectReceiptJudgmentFreeze]: '回款判断冻结',
+    [ProjectHandoverReceiptJudgmentSourceType.None]: '无来源'
+} as const satisfies Record<ProjectHandoverReceiptJudgmentSourceType, string>;
 
 const BASELINE_SOURCE_LABELS = {
-    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness]: '合同准备包',
-    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.ProjectHandover]: '项目移交',
-    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.HandoverRebaseline]: '移交再基线化',
-    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.None]: '无来源'
-} as const satisfies Record<ContractHandoverCurrentBaselineSummarySourceTypeEnum, string>;
+    [ContractHandoverCurrentBaselineSourceType.ContractReadiness]: '合同准备包',
+    [ContractHandoverCurrentBaselineSourceType.ProjectHandover]: '项目移交',
+    [ContractHandoverCurrentBaselineSourceType.HandoverRebaseline]: '移交再基线化',
+    [ContractHandoverCurrentBaselineSourceType.None]: '无来源'
+} as const satisfies Record<ContractHandoverCurrentBaselineSourceType, string>;
 
 const ROLE_TYPE_LABELS: Record<string, string> = {
     'sales-owner': '销售负责人',
@@ -469,28 +469,28 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         return ROLE_TYPE_LABELS[roleType] ?? roleType;
     }
 
-    handoverStatusLabel(status: ProjectHandoverDetailViewHandoverStatusEnum | null | undefined): string {
+    handoverStatusLabel(status: ProjectHandoverStatus | null | undefined): string {
         if (!status) {
             return '待确认';
         }
         return HANDOVER_STATUS_LABELS[status];
     }
 
-    handoverStatusSeverity(status: ProjectHandoverDetailViewHandoverStatusEnum | null | undefined): UiTagSeverity {
+    handoverStatusSeverity(status: ProjectHandoverStatus | null | undefined): UiTagSeverity {
         if (!status) {
             return 'secondary';
         }
         return HANDOVER_STATUS_SEVERITIES[status];
     }
 
-    participantConfirmationStatusLabel(status: ProjectHandoverParticipantConfirmationSummaryStatusEnum | null | undefined): string {
+    participantConfirmationStatusLabel(status: ProjectHandoverParticipantConfirmationStatus | null | undefined): string {
         if (!status) {
             return '待确认';
         }
         return PARTICIPANT_CONFIRMATION_STATUS_LABELS[status];
     }
 
-    participantConfirmationStatusSeverity(status: ProjectHandoverParticipantConfirmationSummaryStatusEnum | null | undefined): UiTagSeverity {
+    participantConfirmationStatusSeverity(status: ProjectHandoverParticipantConfirmationStatus | null | undefined): UiTagSeverity {
         if (!status) {
             return 'secondary';
         }
@@ -504,14 +504,14 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         return RECEIPT_JUDGMENT_MODE_LABELS[mode] ?? mode;
     }
 
-    receiptJudgmentSourceLabel(sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum | null | undefined): string {
+    receiptJudgmentSourceLabel(sourceType: ProjectHandoverReceiptJudgmentSourceType | null | undefined): string {
         if (!sourceType) {
             return '待确认';
         }
         return RECEIPT_JUDGMENT_SOURCE_LABELS[sourceType];
     }
 
-    baselineSourceLabel(sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum | null | undefined): string {
+    baselineSourceLabel(sourceType: ContractHandoverCurrentBaselineSourceType | null | undefined): string {
         if (!sourceType) {
             return '待确认';
         }

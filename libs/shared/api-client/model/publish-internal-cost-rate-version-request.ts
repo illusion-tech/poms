@@ -7,13 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { InternalCostRateScopeType } from './internal-cost-rate-scope-type';
+import { InternalCostRateUnit } from './internal-cost-rate-unit';
 
 
 export interface PublishInternalCostRateVersionRequest {
-    rateScopeType: PublishInternalCostRateVersionRequestRateScopeTypeEnum;
+    rateScopeType: InternalCostRateScopeType;
     personId?: string | null;
     roleCode?: string | null;
-    rateUnit: PublishInternalCostRateVersionRequestRateUnitEnum;
+    rateUnit: InternalCostRateUnit;
     rateValue: string;
     currency: string;
     effectiveFrom: string;
@@ -22,11 +24,3 @@ export interface PublishInternalCostRateVersionRequest {
     supersedesRateVersionId?: string | null;
     expectedVersion?: number;
 }
-export enum PublishInternalCostRateVersionRequestRateScopeTypeEnum {
-    Person = 'PERSON',
-    Role = 'ROLE'
-};
-export enum PublishInternalCostRateVersionRequestRateUnitEnum {
-    Hour = 'HOUR',
-    Day = 'DAY'
-};

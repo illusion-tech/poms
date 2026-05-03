@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContractHandoverReceivablePlanInitStatus } from './contract-handover-receivable-plan-init-status';
 
 
 export interface ContractHandoverReceivablePlanInitSummary {
-    status: ContractHandoverReceivablePlanInitSummaryStatusEnum;
+    status: ContractHandoverReceivablePlanInitStatus;
     initializedReceivablePlanVersionId: string | null;
     receivablePlanInitializedAt: string | null;
     summary: string;
 }
-export enum ContractHandoverReceivablePlanInitSummaryStatusEnum {
-    Initialized = 'initialized',
-    Missing = 'missing',
-    Blocked = 'blocked'
-};

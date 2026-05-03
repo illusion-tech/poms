@@ -96,6 +96,14 @@ export type SensitiveFieldPackageKey = (typeof SENSITIVE_FIELD_PACKAGE_KEYS)[num
 
 export const SensitiveFieldPackageKeySchema = z.enum(SENSITIVE_FIELD_PACKAGE_KEYS).meta({ id: 'SensitiveFieldPackageKey' });
 
+export const SensitiveFieldPackageKeyValue = {
+    ContractFinance: 'contract-finance',
+    OperatingFinance: 'operating-finance',
+    CommissionCompensation: 'commission-compensation',
+    LaborCostRate: 'labor-cost-rate',
+    ExceptionApprovalOpinion: 'exception-approval-opinion'
+} as const satisfies Record<string, SensitiveFieldPackageKey>;
+
 export const SENSITIVE_FIELD_PACKAGE_REQUIRED_PERMISSIONS: Record<SensitiveFieldPackageKey, PermissionKey> = {
     'contract-finance': 'contract:finance:sensitive:read',
     'operating-finance': 'operating:finance:sensitive:read',
@@ -110,11 +118,25 @@ export type SensitiveProjectionMode = (typeof SENSITIVE_PROJECTION_MODES)[number
 
 export const SensitiveProjectionModeSchema = z.enum(SENSITIVE_PROJECTION_MODES).meta({ id: 'SensitiveProjectionMode' });
 
+export const SensitiveProjectionModeValue = {
+    Full: 'full',
+    Summary: 'summary',
+    Masked: 'masked',
+    Denied: 'denied'
+} as const satisfies Record<string, SensitiveProjectionMode>;
+
 export const SENSITIVE_PROJECTION_REASON_CODES = ['allowed', 'summary-only', 'missing-sensitive-read-permission', 'field-package-not-applicable'] as const;
 
 export type SensitiveProjectionReasonCode = (typeof SENSITIVE_PROJECTION_REASON_CODES)[number];
 
 export const SensitiveProjectionReasonCodeSchema = z.enum(SENSITIVE_PROJECTION_REASON_CODES).meta({ id: 'SensitiveProjectionReasonCode' });
+
+export const SensitiveProjectionReasonCodeValue = {
+    Allowed: 'allowed',
+    SummaryOnly: 'summary-only',
+    MissingSensitiveReadPermission: 'missing-sensitive-read-permission',
+    FieldPackageNotApplicable: 'field-package-not-applicable'
+} as const satisfies Record<string, SensitiveProjectionReasonCode>;
 
 export const SensitiveStringFieldProjectionSchema = z
     .object({
@@ -144,6 +166,79 @@ export const SensitiveStringFieldProjectionSchema = z
     .meta({ id: 'SensitiveStringFieldProjection' });
 
 export type SensitiveStringFieldProjection = z.infer<typeof SensitiveStringFieldProjectionSchema>;
+
+// ---------------------------------------------------------------------------
+// Shared lifecycle candidates
+// ---------------------------------------------------------------------------
+
+export const ACTIVE_INACTIVE_STATUSES = ['active', 'inactive'] as const;
+
+export type ActiveInactiveStatus = (typeof ACTIVE_INACTIVE_STATUSES)[number];
+
+export const ActiveInactiveStatusSchema = z.enum(ACTIVE_INACTIVE_STATUSES).meta({ id: 'ActiveInactiveStatus' });
+
+export const ActiveInactiveStatusValue = {
+    Active: 'active',
+    Inactive: 'inactive'
+} as const satisfies Record<string, ActiveInactiveStatus>;
+
+export const VERSION_LIFECYCLE_STATUSES = ['active', 'superseded', 'voided'] as const;
+
+export type VersionLifecycleStatus = (typeof VERSION_LIFECYCLE_STATUSES)[number];
+
+export const VersionLifecycleStatusSchema = z.enum(VERSION_LIFECYCLE_STATUSES).meta({ id: 'VersionLifecycleStatus' });
+
+export const VersionLifecycleStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, VersionLifecycleStatus>;
+
+export const EFFECTIVE_SUPERSEDED_STATUSES = ['effective', 'superseded'] as const;
+
+export type EffectiveSupersededStatus = (typeof EFFECTIVE_SUPERSEDED_STATUSES)[number];
+
+export const EffectiveSupersededStatusSchema = z.enum(EFFECTIVE_SUPERSEDED_STATUSES).meta({ id: 'EffectiveSupersededStatus' });
+
+export const EffectiveSupersededStatusValue = {
+    Effective: 'effective',
+    Superseded: 'superseded'
+} as const satisfies Record<string, EffectiveSupersededStatus>;
+
+export const READY_BLOCKED_MISSING_STATUSES = ['ready', 'blocked', 'missing'] as const;
+
+export type ReadyBlockedMissingStatus = (typeof READY_BLOCKED_MISSING_STATUSES)[number];
+
+export const ReadyBlockedMissingStatusSchema = z.enum(READY_BLOCKED_MISSING_STATUSES).meta({ id: 'ReadyBlockedMissingStatus' });
+
+export const ReadyBlockedMissingStatusValue = {
+    Ready: 'ready',
+    Blocked: 'blocked',
+    Missing: 'missing'
+} as const satisfies Record<string, ReadyBlockedMissingStatus>;
+
+export const AVAILABLE_MISSING_STATUSES = ['available', 'missing'] as const;
+
+export type AvailableMissingStatus = (typeof AVAILABLE_MISSING_STATUSES)[number];
+
+export const AvailableMissingStatusSchema = z.enum(AVAILABLE_MISSING_STATUSES).meta({ id: 'AvailableMissingStatus' });
+
+export const AvailableMissingStatusValue = {
+    Available: 'available',
+    Missing: 'missing'
+} as const satisfies Record<string, AvailableMissingStatus>;
+
+export const PENDING_CONFIRMED_CLOSED_STATUSES = ['pending', 'confirmed', 'closed'] as const;
+
+export type PendingConfirmedClosedStatus = (typeof PENDING_CONFIRMED_CLOSED_STATUSES)[number];
+
+export const PendingConfirmedClosedStatusSchema = z.enum(PENDING_CONFIRMED_CLOSED_STATUSES).meta({ id: 'PendingConfirmedClosedStatus' });
+
+export const PendingConfirmedClosedStatusValue = {
+    Pending: 'pending',
+    Confirmed: 'confirmed',
+    Closed: 'closed'
+} as const satisfies Record<string, PendingConfirmedClosedStatus>;
 
 // ---------------------------------------------------------------------------
 // Role
@@ -196,13 +291,24 @@ export const SanitizedUserSchema = z
 
 export type SanitizedUser = z.infer<typeof SanitizedUserSchema>;
 
+export const USER_ORG_UNIT_MEMBERSHIP_TYPES = ['primary', 'secondary'] as const;
+
+export type UserOrgUnitMembershipType = (typeof USER_ORG_UNIT_MEMBERSHIP_TYPES)[number];
+
+export const UserOrgUnitMembershipTypeSchema = z.enum(USER_ORG_UNIT_MEMBERSHIP_TYPES).meta({ id: 'UserOrgUnitMembershipType' });
+
+export const UserOrgUnitMembershipTypeValue = {
+    Primary: 'primary',
+    Secondary: 'secondary'
+} as const satisfies Record<string, UserOrgUnitMembershipType>;
+
 export const UserOrgUnitSummarySchema = z
     .object({
         id: z.uuid(),
         name: z.string(),
         code: z.string().nullable(),
         description: z.string().nullable(),
-        membershipType: z.enum(['primary', 'secondary'])
+        membershipType: UserOrgUnitMembershipTypeSchema
     })
     .meta({ id: 'UserOrgUnitSummary' });
 
@@ -268,15 +374,37 @@ export const UpdateCurrentUserProfileRequestSchema = z
 
 export type UpdateCurrentUserProfileRequest = z.infer<typeof UpdateCurrentUserProfileRequestSchema>;
 
+export const PLATFORM_PERMISSION_STATUSES = ['active', 'inactive', 'deprecated'] as const;
+
+export type PlatformPermissionStatus = (typeof PLATFORM_PERMISSION_STATUSES)[number];
+
+export const PlatformPermissionStatusSchema = z.enum(PLATFORM_PERMISSION_STATUSES).meta({ id: 'PlatformPermissionStatus' });
+
+export const PlatformPermissionStatusValue = {
+    Active: 'active',
+    Inactive: 'inactive',
+    Deprecated: 'deprecated'
+} as const satisfies Record<string, PlatformPermissionStatus>;
+
+export const PLATFORM_PERMISSION_SOURCE_TYPES = ['system-seeded'] as const;
+
+export type PlatformPermissionSourceType = (typeof PLATFORM_PERMISSION_SOURCE_TYPES)[number];
+
+export const PlatformPermissionSourceTypeSchema = z.enum(PLATFORM_PERMISSION_SOURCE_TYPES).meta({ id: 'PlatformPermissionSourceType' });
+
+export const PlatformPermissionSourceTypeValue = {
+    SystemSeeded: 'system-seeded'
+} as const satisfies Record<string, PlatformPermissionSourceType>;
+
 export const PlatformPermissionSummarySchema = z
     .object({
         key: z.enum(PERMISSION_KEYS),
         name: z.string(),
         description: z.string(),
         group: z.string(),
-        status: z.enum(['active', 'inactive', 'deprecated']),
+        status: PlatformPermissionStatusSchema,
         isSystemPermission: z.boolean(),
-        sourceType: z.enum(['system-seeded']),
+        sourceType: PlatformPermissionSourceTypeSchema,
         deprecatedBy: z.enum(PERMISSION_KEYS).nullable()
     })
     .meta({ id: 'PlatformPermissionSummary' });
@@ -548,14 +676,25 @@ export type UserPayload = z.infer<typeof UserPayloadSchema>;
 // Navigation
 // ---------------------------------------------------------------------------
 
-export type NavigationItemType = 'basic' | 'group' | 'collapsable' | 'divider';
+export const NAVIGATION_ITEM_TYPES = ['basic', 'group', 'collapsable', 'divider'] as const;
+
+export type NavigationItemType = (typeof NAVIGATION_ITEM_TYPES)[number];
+
+export const NavigationItemTypeSchema = z.enum(NAVIGATION_ITEM_TYPES).meta({ id: 'NavigationItemType' });
+
+export const NavigationItemTypeValue = {
+    Basic: 'basic',
+    Group: 'group',
+    Collapsable: 'collapsable',
+    Divider: 'divider'
+} as const satisfies Record<string, NavigationItemType>;
 
 export const NavigationItemSchema: z.ZodType<NavigationItem> = z.lazy(() =>
     z
         .object({
             id: z.string(),
             key: z.string(),
-            type: z.enum(['basic', 'group', 'collapsable', 'divider']),
+            type: NavigationItemTypeSchema,
             title: z.string().nullable(),
             subtitle: z.string().nullable(),
             link: z.string().nullable(),
@@ -630,9 +769,17 @@ export const AuditSnapshotSchema = z.record(z.string(), z.unknown()).meta({ id: 
 
 export type AuditSnapshot = z.infer<typeof AuditSnapshotSchema>;
 
-export const AuditLogResultSchema = z.enum(['success', 'rejected', 'failed']).meta({ id: 'AuditLogResult' });
+export const AUDIT_LOG_RESULTS = ['success', 'rejected', 'failed'] as const;
 
-export type AuditLogResult = z.infer<typeof AuditLogResultSchema>;
+export type AuditLogResult = (typeof AUDIT_LOG_RESULTS)[number];
+
+export const AuditLogResultSchema = z.enum(AUDIT_LOG_RESULTS).meta({ id: 'AuditLogResult' });
+
+export const AuditLogResultValue = {
+    Success: 'success',
+    Rejected: 'rejected',
+    Failed: 'failed'
+} as const satisfies Record<string, AuditLogResult>;
 
 export const AuditLogSummarySchema = z
     .object({
@@ -672,13 +819,29 @@ export const AuditLogListQuerySchema = z
 
 export type AuditLogListQuery = z.infer<typeof AuditLogListQuerySchema>;
 
-export const SecurityEventResultSchema = z.enum(['blocked', 'failed', 'expired']).meta({ id: 'SecurityEventResult' });
+export const SECURITY_EVENT_RESULTS = ['blocked', 'failed', 'expired'] as const;
 
-export type SecurityEventResult = z.infer<typeof SecurityEventResultSchema>;
+export type SecurityEventResult = (typeof SECURITY_EVENT_RESULTS)[number];
 
-export const SecurityEventSeveritySchema = z.enum(['info', 'warning', 'high']).meta({ id: 'SecurityEventSeverity' });
+export const SecurityEventResultSchema = z.enum(SECURITY_EVENT_RESULTS).meta({ id: 'SecurityEventResult' });
 
-export type SecurityEventSeverity = z.infer<typeof SecurityEventSeveritySchema>;
+export const SecurityEventResultValue = {
+    Blocked: 'blocked',
+    Failed: 'failed',
+    Expired: 'expired'
+} as const satisfies Record<string, SecurityEventResult>;
+
+export const SECURITY_EVENT_SEVERITIES = ['info', 'warning', 'high'] as const;
+
+export type SecurityEventSeverity = (typeof SECURITY_EVENT_SEVERITIES)[number];
+
+export const SecurityEventSeveritySchema = z.enum(SECURITY_EVENT_SEVERITIES).meta({ id: 'SecurityEventSeverity' });
+
+export const SecurityEventSeverityValue = {
+    Info: 'info',
+    Warning: 'warning',
+    High: 'high'
+} as const satisfies Record<string, SecurityEventSeverity>;
 
 export const SecurityEventSummarySchema = z
     .object({
@@ -2819,11 +2982,24 @@ export const CommercialDiffLevelSchema = z.enum(COMMERCIAL_DIFF_LEVELS).meta({ i
 
 export type CommercialDiffLevel = z.infer<typeof CommercialDiffLevelSchema>;
 
+export const CommercialDiffLevelValue = {
+    Prompt: 'prompt',
+    ReviewRequired: 'review-required',
+    ReapprovalRequired: 'reapproval-required'
+} as const satisfies Record<string, CommercialDiffLevel>;
+
 export const COMMERCIAL_DIFF_REVIEW_STATUSES = ['not-required', 'pending-review', 'approved', 'rejected'] as const;
 
 export const CommercialDiffReviewStatusSchema = z.enum(COMMERCIAL_DIFF_REVIEW_STATUSES).meta({ id: 'CommercialDiffReviewStatus' });
 
 export type CommercialDiffReviewStatus = z.infer<typeof CommercialDiffReviewStatusSchema>;
+
+export const CommercialDiffReviewStatusValue = {
+    NotRequired: 'not-required',
+    PendingReview: 'pending-review',
+    Approved: 'approved',
+    Rejected: 'rejected'
+} as const satisfies Record<string, CommercialDiffReviewStatus>;
 
 export const COMMERCIAL_BASELINE_REVIEW_DECISIONS = ['approved', 'rejected'] as const;
 
@@ -2831,11 +3007,34 @@ export const CommercialBaselineReviewDecisionSchema = z.enum(COMMERCIAL_BASELINE
 
 export type CommercialBaselineReviewDecision = z.infer<typeof CommercialBaselineReviewDecisionSchema>;
 
+export const CommercialBaselineReviewDecisionValue = {
+    Approved: 'approved',
+    Rejected: 'rejected'
+} as const satisfies Record<string, CommercialBaselineReviewDecision>;
+
+export const COMMERCIAL_RELEASE_BASELINE_STATUSES = ['draft', 'effective', 'superseded'] as const;
+
+export type CommercialReleaseBaselineStatus = (typeof COMMERCIAL_RELEASE_BASELINE_STATUSES)[number];
+
+export const CommercialReleaseBaselineStatusSchema = z.enum(COMMERCIAL_RELEASE_BASELINE_STATUSES).meta({ id: 'CommercialReleaseBaselineStatus' });
+
+export const CommercialReleaseBaselineStatusValue = {
+    Draft: 'draft',
+    Effective: 'effective',
+    Superseded: 'superseded'
+} as const satisfies Record<string, CommercialReleaseBaselineStatus>;
+
 export const CONTRACT_READINESS_STATUSES = ['ready', 'conditional', 'blocked'] as const;
 
 export const ContractReadinessStatusSchema = z.enum(CONTRACT_READINESS_STATUSES).meta({ id: 'ContractReadinessStatus' });
 
 export type ContractReadinessStatus = z.infer<typeof ContractReadinessStatusSchema>;
+
+export const ContractReadinessStatusValue = {
+    Ready: 'ready',
+    Conditional: 'conditional',
+    Blocked: 'blocked'
+} as const satisfies Record<string, ContractReadinessStatus>;
 
 export const CONTRACT_READINESS_GUARD_DECISIONS = ['allowed', 'review-required', 'blocked'] as const;
 
@@ -2843,17 +3042,37 @@ export const ContractReadinessGuardDecisionSchema = z.enum(CONTRACT_READINESS_GU
 
 export type ContractReadinessGuardDecision = z.infer<typeof ContractReadinessGuardDecisionSchema>;
 
+export const ContractReadinessGuardDecisionValue = {
+    Allowed: 'allowed',
+    ReviewRequired: 'review-required',
+    Blocked: 'blocked'
+} as const satisfies Record<string, ContractReadinessGuardDecision>;
+
 export const CONTRACT_READINESS_ITEM_TYPES = ['checklist', 'reusable-fact', 'blocking-reason', 'receivable-seed'] as const;
 
 export const ContractReadinessItemTypeSchema = z.enum(CONTRACT_READINESS_ITEM_TYPES).meta({ id: 'ContractReadinessItemType' });
 
 export type ContractReadinessItemType = z.infer<typeof ContractReadinessItemTypeSchema>;
 
+export const ContractReadinessItemTypeValue = {
+    Checklist: 'checklist',
+    ReusableFact: 'reusable-fact',
+    BlockingReason: 'blocking-reason',
+    ReceivableSeed: 'receivable-seed'
+} as const satisfies Record<string, ContractReadinessItemType>;
+
 export const CONTRACT_READINESS_ITEM_STATUSES = ['ready', 'conditional', 'blocked', 'not-applicable'] as const;
 
 export const ContractReadinessItemStatusSchema = z.enum(CONTRACT_READINESS_ITEM_STATUSES).meta({ id: 'ContractReadinessItemStatus' });
 
 export type ContractReadinessItemStatus = z.infer<typeof ContractReadinessItemStatusSchema>;
+
+export const ContractReadinessItemStatusValue = {
+    Ready: 'ready',
+    Conditional: 'conditional',
+    Blocked: 'blocked',
+    NotApplicable: 'not-applicable'
+} as const satisfies Record<string, ContractReadinessItemStatus>;
 
 export const CommercialBaselineDiffItemSchema = z
     .object({
@@ -2896,7 +3115,7 @@ export const CommercialReleaseBaselineSummarySchema = z
         projectId: z.uuid(),
         baselineCode: z.string(),
         quotationReviewId: z.uuid().nullable(),
-        baselineStatus: z.enum(['draft', 'effective', 'superseded']),
+        baselineStatus: CommercialReleaseBaselineStatusSchema,
         isCurrent: z.boolean(),
         grossMarginSummary: z.string().nullable(),
         paymentTermsSummary: z.string().nullable(),
@@ -3006,9 +3225,92 @@ export const ContractHandoverEffectiveContractSetSummarySchema = z
 
 export type ContractHandoverEffectiveContractSetSummary = z.infer<typeof ContractHandoverEffectiveContractSetSummarySchema>;
 
+export const CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES = ['ready', 'blocked', 'missing'] as const;
+
+export type ContractHandoverBaselineValidationStatus = (typeof CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)[number];
+
+export const ContractHandoverBaselineValidationStatusSchema = z
+    .enum(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)
+    .meta({ id: 'ContractHandoverBaselineValidationStatus' });
+
+export const ContractHandoverBaselineValidationStatusValue = {
+    Ready: 'ready',
+    Blocked: 'blocked',
+    Missing: 'missing'
+} as const satisfies Record<string, ContractHandoverBaselineValidationStatus>;
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES = ['available', 'missing'] as const;
+
+export type ContractHandoverCurrentBaselineStatus = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES)[number];
+
+export const ContractHandoverCurrentBaselineStatusSchema = z.enum(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES).meta({ id: 'ContractHandoverCurrentBaselineStatus' });
+
+export const ContractHandoverCurrentBaselineStatusValue = {
+    Available: 'available',
+    Missing: 'missing'
+} as const satisfies Record<string, ContractHandoverCurrentBaselineStatus>;
+
+export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES = ['contract-readiness', 'project-handover', 'handover-rebaseline', 'none'] as const;
+
+export type ContractHandoverCurrentBaselineSourceType = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)[number];
+
+export const ContractHandoverCurrentBaselineSourceTypeSchema = z
+    .enum(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)
+    .meta({ id: 'ContractHandoverCurrentBaselineSourceType' });
+
+export const ContractHandoverCurrentBaselineSourceTypeValue = {
+    ContractReadiness: 'contract-readiness',
+    ProjectHandover: 'project-handover',
+    HandoverRebaseline: 'handover-rebaseline',
+    None: 'none'
+} as const satisfies Record<string, ContractHandoverCurrentBaselineSourceType>;
+
+export const CONTRACT_HANDOVER_REBASELINE_STATUSES = ['none', 'processing', 'pending_effective', 'effective', 'superseded', 'voided'] as const;
+
+export type ContractHandoverRebaselineStatus = (typeof CONTRACT_HANDOVER_REBASELINE_STATUSES)[number];
+
+export const ContractHandoverRebaselineStatusSchema = z.enum(CONTRACT_HANDOVER_REBASELINE_STATUSES).meta({ id: 'ContractHandoverRebaselineStatus' });
+
+export const ContractHandoverRebaselineStatusValue = {
+    None: 'none',
+    Processing: 'processing',
+    PendingEffective: 'pending_effective',
+    Effective: 'effective',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, ContractHandoverRebaselineStatus>;
+
+export const CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES = ['none', 'blocking', 'effective'] as const;
+
+export type ContractHandoverRebaselineBlockingStatus = (typeof CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)[number];
+
+export const ContractHandoverRebaselineBlockingStatusSchema = z
+    .enum(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)
+    .meta({ id: 'ContractHandoverRebaselineBlockingStatus' });
+
+export const ContractHandoverRebaselineBlockingStatusValue = {
+    None: 'none',
+    Blocking: 'blocking',
+    Effective: 'effective'
+} as const satisfies Record<string, ContractHandoverRebaselineBlockingStatus>;
+
+export const CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES = ['initialized', 'missing', 'blocked'] as const;
+
+export type ContractHandoverReceivablePlanInitStatus = (typeof CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)[number];
+
+export const ContractHandoverReceivablePlanInitStatusSchema = z
+    .enum(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)
+    .meta({ id: 'ContractHandoverReceivablePlanInitStatus' });
+
+export const ContractHandoverReceivablePlanInitStatusValue = {
+    Initialized: 'initialized',
+    Missing: 'missing',
+    Blocked: 'blocked'
+} as const satisfies Record<string, ContractHandoverReceivablePlanInitStatus>;
+
 export const ContractHandoverBaselineValidationSummarySchema = z
     .object({
-        status: z.enum(['ready', 'blocked', 'missing']),
+        status: ContractHandoverBaselineValidationStatusSchema,
         readinessPackageId: z.uuid().nullable(),
         sourceBaselineId: z.uuid().nullable(),
         latestDiffResultId: z.uuid().nullable(),
@@ -3027,9 +3329,9 @@ export type ContractHandoverBaselineValidationSummary = z.infer<typeof ContractH
 
 export const ContractHandoverCurrentBaselineSummarySchema = z
     .object({
-        status: z.enum(['available', 'missing']),
+        status: ContractHandoverCurrentBaselineStatusSchema,
         baselineSnapshotId: z.uuid().nullable(),
-        sourceType: z.enum(['contract-readiness', 'project-handover', 'handover-rebaseline', 'none']),
+        sourceType: ContractHandoverCurrentBaselineSourceTypeSchema,
         sourceId: z.uuid().nullable(),
         summary: z.string()
     })
@@ -3039,11 +3341,11 @@ export type ContractHandoverCurrentBaselineSummary = z.infer<typeof ContractHand
 
 export const ContractHandoverLatestRebaselineSummarySchema = z
     .object({
-        status: z.enum(['none', 'processing', 'pending_effective', 'effective', 'superseded', 'voided']),
+        status: ContractHandoverRebaselineStatusSchema,
         rebaselineRecordId: z.uuid().nullable(),
         effectiveBaselineAfterId: z.uuid().nullable(),
         handledAt: z.iso.datetime().nullable(),
-        blockingStatus: z.enum(['none', 'blocking', 'effective']),
+        blockingStatus: ContractHandoverRebaselineBlockingStatusSchema,
         impactItemCount: z.number().int().nonnegative(),
         impactSummary: z.string().nullable()
     })
@@ -3053,7 +3355,7 @@ export type ContractHandoverLatestRebaselineSummary = z.infer<typeof ContractHan
 
 export const ContractHandoverReceivablePlanInitSummarySchema = z
     .object({
-        status: z.enum(['initialized', 'missing', 'blocked']),
+        status: ContractHandoverReceivablePlanInitStatusSchema,
         initializedReceivablePlanVersionId: z.uuid().nullable(),
         receivablePlanInitializedAt: z.iso.datetime().nullable(),
         summary: z.string()
@@ -3083,12 +3385,80 @@ export const ContractHandoverSummaryViewSchema = z
 
 export type ContractHandoverSummaryView = z.infer<typeof ContractHandoverSummaryViewSchema>;
 
+export const PROJECT_HANDOVER_PARTICIPANT_STATUSES = ['pending', 'confirmed', 'closed'] as const;
+
+export type ProjectHandoverParticipantStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_STATUSES)[number];
+
+export const ProjectHandoverParticipantStatusSchema = z.enum(PROJECT_HANDOVER_PARTICIPANT_STATUSES).meta({ id: 'ProjectHandoverParticipantStatus' });
+
+export const ProjectHandoverParticipantStatusValue = {
+    Pending: 'pending',
+    Confirmed: 'confirmed',
+    Closed: 'closed'
+} as const satisfies Record<string, ProjectHandoverParticipantStatus>;
+
+export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = ['not_started', 'pending', 'confirmed', 'closed'] as const;
+
+export type ProjectHandoverParticipantConfirmationStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)[number];
+
+export const ProjectHandoverParticipantConfirmationStatusSchema = z
+    .enum(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)
+    .meta({ id: 'ProjectHandoverParticipantConfirmationStatus' });
+
+export const ProjectHandoverParticipantConfirmationStatusValue = {
+    NotStarted: 'not_started',
+    Pending: 'pending',
+    Confirmed: 'confirmed',
+    Closed: 'closed'
+} as const satisfies Record<string, ProjectHandoverParticipantConfirmationStatus>;
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = ['not_frozen', 'frozen'] as const;
+
+export type ProjectHandoverReceiptJudgmentFreezeStatus = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)[number];
+
+export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z
+    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)
+    .meta({ id: 'ProjectHandoverReceiptJudgmentFreezeStatus' });
+
+export const ProjectHandoverReceiptJudgmentFreezeStatusValue = {
+    NotFrozen: 'not_frozen',
+    Frozen: 'frozen'
+} as const satisfies Record<string, ProjectHandoverReceiptJudgmentFreezeStatus>;
+
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES = ['project-handover', 'project-receipt-judgment-freeze', 'none'] as const;
+
+export type ProjectHandoverReceiptJudgmentSourceType = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)[number];
+
+export const ProjectHandoverReceiptJudgmentSourceTypeSchema = z
+    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)
+    .meta({ id: 'ProjectHandoverReceiptJudgmentSourceType' });
+
+export const ProjectHandoverReceiptJudgmentSourceTypeValue = {
+    ProjectHandover: 'project-handover',
+    ProjectReceiptJudgmentFreeze: 'project-receipt-judgment-freeze',
+    None: 'none'
+} as const satisfies Record<string, ProjectHandoverReceiptJudgmentSourceType>;
+
+export const PROJECT_HANDOVER_STATUSES = ['not_started', 'draft', 'confirmed', 'superseded', 'voided'] as const;
+
+export type ProjectHandoverStatus = (typeof PROJECT_HANDOVER_STATUSES)[number];
+
+export const ProjectHandoverStatusSchema = z.enum(PROJECT_HANDOVER_STATUSES).meta({ id: 'ProjectHandoverStatus' });
+
+export const ProjectHandoverStatusValue = {
+    NotStarted: 'not_started',
+    Draft: 'draft',
+    Confirmed: 'confirmed',
+    Superseded: 'superseded',
+    Voided: 'voided'
+} as const satisfies Record<string, ProjectHandoverStatus>;
+
 export const ProjectHandoverParticipantConfirmationItemSchema = z
     .object({
         participantId: z.uuid(),
         participantRoleKey: z.string(),
         participantDisplayName: z.string().nullable(),
-        participantStatus: z.enum(['pending', 'confirmed', 'closed']),
+        participantStatus: ProjectHandoverParticipantStatusSchema,
         confirmedAt: z.iso.datetime().nullable(),
         confirmedComment: z.string().nullable()
     })
@@ -3098,7 +3468,7 @@ export type ProjectHandoverParticipantConfirmationItem = z.infer<typeof ProjectH
 
 export const ProjectHandoverParticipantConfirmationSummarySchema = z
     .object({
-        status: z.enum(['not_started', 'pending', 'confirmed', 'closed']),
+        status: ProjectHandoverParticipantConfirmationStatusSchema,
         confirmationRecordId: z.uuid().nullable(),
         requiredCount: z.number().int().nonnegative(),
         confirmedCount: z.number().int().nonnegative(),
@@ -3116,9 +3486,9 @@ export type ProjectHandoverParticipantConfirmationSummary = z.infer<typeof Proje
 
 export const ProjectHandoverReceiptJudgmentModeSummarySchema = z
     .object({
-        status: z.enum(['not_frozen', 'frozen']),
+        status: ProjectHandoverReceiptJudgmentFreezeStatusSchema,
         receiptJudgmentMode: z.string().nullable(),
-        sourceType: z.enum(['project-handover', 'project-receipt-judgment-freeze', 'none']),
+        sourceType: ProjectHandoverReceiptJudgmentSourceTypeSchema,
         sourceId: z.uuid().nullable(),
         summary: z.string()
     })
@@ -3132,7 +3502,7 @@ export const ProjectHandoverDetailViewSchema = z
         projectId: z.uuid(),
         projectNo: z.string(),
         projectName: z.string(),
-        handoverStatus: z.enum(['not_started', 'draft', 'confirmed', 'superseded', 'voided']),
+        handoverStatus: ProjectHandoverStatusSchema,
         confirmedAt: z.iso.datetime().nullable(),
         confirmedBy: z.uuid().nullable(),
         comment: z.string().nullable(),
@@ -4855,9 +5225,39 @@ export type RecalculateCommissionRequest = z.infer<typeof RecalculateCommissionR
 // Project Cost
 // ---------------------------------------------------------------------------
 
-export const InternalCostRateVersionStatusSchema = z.enum(['active', 'superseded', 'retired']).meta({ id: 'InternalCostRateVersionStatus' });
+export const INTERNAL_COST_RATE_VERSION_STATUSES = ['active', 'superseded', 'retired'] as const;
 
-export type InternalCostRateVersionStatus = z.infer<typeof InternalCostRateVersionStatusSchema>;
+export type InternalCostRateVersionStatus = (typeof INTERNAL_COST_RATE_VERSION_STATUSES)[number];
+
+export const InternalCostRateVersionStatusSchema = z.enum(INTERNAL_COST_RATE_VERSION_STATUSES).meta({ id: 'InternalCostRateVersionStatus' });
+
+export const InternalCostRateVersionStatusValue = {
+    Active: 'active',
+    Superseded: 'superseded',
+    Retired: 'retired'
+} as const satisfies Record<string, InternalCostRateVersionStatus>;
+
+export const INTERNAL_COST_RATE_SCOPE_TYPES = ['PERSON', 'ROLE'] as const;
+
+export type InternalCostRateScopeType = (typeof INTERNAL_COST_RATE_SCOPE_TYPES)[number];
+
+export const InternalCostRateScopeTypeSchema = z.enum(INTERNAL_COST_RATE_SCOPE_TYPES).meta({ id: 'InternalCostRateScopeType' });
+
+export const InternalCostRateScopeTypeValue = {
+    Person: 'PERSON',
+    Role: 'ROLE'
+} as const satisfies Record<string, InternalCostRateScopeType>;
+
+export const INTERNAL_COST_RATE_UNITS = ['HOUR', 'DAY'] as const;
+
+export type InternalCostRateUnit = (typeof INTERNAL_COST_RATE_UNITS)[number];
+
+export const InternalCostRateUnitSchema = z.enum(INTERNAL_COST_RATE_UNITS).meta({ id: 'InternalCostRateUnit' });
+
+export const InternalCostRateUnitValue = {
+    Hour: 'HOUR',
+    Day: 'DAY'
+} as const satisfies Record<string, InternalCostRateUnit>;
 
 export const InternalCostRateVersionSummarySchema = z
     .object({
@@ -4866,10 +5266,10 @@ export const InternalCostRateVersionSummarySchema = z
         version: z.number().int().positive(),
         status: InternalCostRateVersionStatusSchema,
         isCurrent: z.boolean(),
-        rateScopeType: z.enum(['PERSON', 'ROLE']),
+        rateScopeType: InternalCostRateScopeTypeSchema,
         personId: z.uuid().nullable(),
         roleCode: z.string().nullable(),
-        rateUnit: z.enum(['HOUR', 'DAY']),
+        rateUnit: InternalCostRateUnitSchema,
         rateValue: z.string(),
         currency: z.string(),
         effectiveFrom: z.iso.date(),
@@ -4887,10 +5287,10 @@ export type InternalCostRateVersionSummary = z.infer<typeof InternalCostRateVers
 
 export const PublishInternalCostRateVersionRequestSchema = z
     .object({
-        rateScopeType: z.enum(['PERSON', 'ROLE']),
+        rateScopeType: InternalCostRateScopeTypeSchema,
         personId: z.uuid().nullable().optional(),
         roleCode: z.string().nullable().optional(),
-        rateUnit: z.enum(['HOUR', 'DAY']),
+        rateUnit: InternalCostRateUnitSchema,
         rateValue: z.string().trim().min(1).max(64),
         currency: z.string().trim().min(1).max(16),
         effectiveFrom: z.iso.date(),

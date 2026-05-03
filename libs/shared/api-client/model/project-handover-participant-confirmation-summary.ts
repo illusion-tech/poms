@@ -7,11 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverParticipantConfirmationStatus } from './project-handover-participant-confirmation-status';
 import { ProjectHandoverParticipantConfirmationItem } from './project-handover-participant-confirmation-item';
 
 
 export interface ProjectHandoverParticipantConfirmationSummary {
-    status: ProjectHandoverParticipantConfirmationSummaryStatusEnum;
+    status: ProjectHandoverParticipantConfirmationStatus;
     confirmationRecordId: string | null;
     requiredCount: number;
     confirmedCount: number;
@@ -23,9 +24,3 @@ export interface ProjectHandoverParticipantConfirmationSummary {
     rowVersion: number | null;
     participants: Array<ProjectHandoverParticipantConfirmationItem>;
 }
-export enum ProjectHandoverParticipantConfirmationSummaryStatusEnum {
-    NotStarted = 'not_started',
-    Pending = 'pending',
-    Confirmed = 'confirmed',
-    Closed = 'closed'
-};

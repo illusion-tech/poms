@@ -7,22 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContractHandoverCurrentBaselineSourceType } from './contract-handover-current-baseline-source-type';
+import { ContractHandoverCurrentBaselineStatus } from './contract-handover-current-baseline-status';
 
 
 export interface ContractHandoverCurrentBaselineSummary {
-    status: ContractHandoverCurrentBaselineSummaryStatusEnum;
+    status: ContractHandoverCurrentBaselineStatus;
     baselineSnapshotId: string | null;
-    sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum;
+    sourceType: ContractHandoverCurrentBaselineSourceType;
     sourceId: string | null;
     summary: string;
 }
-export enum ContractHandoverCurrentBaselineSummaryStatusEnum {
-    Available = 'available',
-    Missing = 'missing'
-};
-export enum ContractHandoverCurrentBaselineSummarySourceTypeEnum {
-    ContractReadiness = 'contract-readiness',
-    ProjectHandover = 'project-handover',
-    HandoverRebaseline = 'handover-rebaseline',
-    None = 'none'
-};

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommercialReleaseBaselineStatus } from './commercial-release-baseline-status';
 import { CommercialDiffReviewStatus } from './commercial-diff-review-status';
 import { CommercialDiffLevel } from './commercial-diff-level';
 
@@ -16,7 +17,7 @@ export interface CommercialReleaseBaselineSummary {
     projectId: string;
     baselineCode: string;
     quotationReviewId: string | null;
-    baselineStatus: CommercialReleaseBaselineSummaryBaselineStatusEnum;
+    baselineStatus: CommercialReleaseBaselineStatus;
     isCurrent: boolean;
     grossMarginSummary: string | null;
     paymentTermsSummary: string | null;
@@ -36,8 +37,3 @@ export interface CommercialReleaseBaselineSummary {
     updatedAt: string;
     updatedBy: string | null;
 }
-export enum CommercialReleaseBaselineSummaryBaselineStatusEnum {
-    Draft = 'draft',
-    Effective = 'effective',
-    Superseded = 'superseded'
-};

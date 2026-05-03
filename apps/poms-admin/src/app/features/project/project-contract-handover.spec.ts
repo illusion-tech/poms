@@ -4,21 +4,21 @@ import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/route
 import {
     CommercialDiffLevel,
     CommercialDiffReviewStatus,
-    ContractHandoverBaselineValidationSummaryStatusEnum,
-    ContractHandoverCurrentBaselineSummarySourceTypeEnum,
-    ContractHandoverCurrentBaselineSummaryStatusEnum,
-    ContractHandoverLatestRebaselineSummaryBlockingStatusEnum,
-    ContractHandoverLatestRebaselineSummaryStatusEnum,
-    ContractHandoverReceivablePlanInitSummaryStatusEnum,
+    ContractHandoverBaselineValidationStatus,
+    ContractHandoverCurrentBaselineSourceType,
+    ContractHandoverCurrentBaselineStatus,
+    ContractHandoverRebaselineBlockingStatus,
+    ContractHandoverRebaselineStatus,
+    ContractHandoverReceivablePlanInitStatus,
     ContractReadinessGuardDecision,
     ContractReadinessStatus,
     ContractStatus,
     type ContractHandoverSummaryView,
-    ProjectHandoverDetailViewHandoverStatusEnum,
+    ProjectHandoverStatus,
     type ProjectHandoverDetailView,
-    ProjectHandoverParticipantConfirmationSummaryStatusEnum,
-    ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum,
-    ProjectHandoverReceiptJudgmentModeSummaryStatusEnum,
+    ProjectHandoverParticipantConfirmationStatus,
+    ProjectHandoverReceiptJudgmentSourceType,
+    ProjectHandoverReceiptJudgmentFreezeStatus,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
 import { ProjectContractHandover } from './project-contract-handover';
@@ -59,7 +59,7 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
             ]
         },
         contractBaselineValidationSummary: {
-            status: ContractHandoverBaselineValidationSummaryStatusEnum.Ready,
+            status: ContractHandoverBaselineValidationStatus.Ready,
             readinessPackageId: 'readiness-1',
             sourceBaselineId: 'baseline-1',
             latestDiffResultId: 'diff-1',
@@ -73,23 +73,23 @@ function createContractHandoverSummary(): ContractHandoverSummaryView {
             missingPrerequisiteCount: 0
         },
         currentHandoverBaselineSummary: {
-            status: ContractHandoverCurrentBaselineSummaryStatusEnum.Available,
+            status: ContractHandoverCurrentBaselineStatus.Available,
             baselineSnapshotId: 'handover-baseline-1',
-            sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness,
+            sourceType: ContractHandoverCurrentBaselineSourceType.ContractReadiness,
             sourceId: 'readiness-1',
             summary: '合同承接基线已稳定'
         },
         latestHandoverRebaselineSummary: {
-            status: ContractHandoverLatestRebaselineSummaryStatusEnum.None,
+            status: ContractHandoverRebaselineStatus.None,
             rebaselineRecordId: null,
             effectiveBaselineAfterId: null,
             handledAt: null,
-            blockingStatus: ContractHandoverLatestRebaselineSummaryBlockingStatusEnum.None,
+            blockingStatus: ContractHandoverRebaselineBlockingStatus.None,
             impactItemCount: 0,
             impactSummary: null
         },
         receivablePlanInitSummary: {
-            status: ContractHandoverReceivablePlanInitSummaryStatusEnum.Initialized,
+            status: ContractHandoverReceivablePlanInitStatus.Initialized,
             initializedReceivablePlanVersionId: 'receivable-1',
             receivablePlanInitializedAt: '2026-04-20T10:00:00.000Z',
             summary: '回款计划已初始化'
@@ -109,7 +109,7 @@ function createProjectHandoverDetail(summary: ContractHandoverSummaryView): Proj
         projectId: 'project-1',
         projectNo: 'PRJ-001',
         projectName: '合同承接项目',
-        handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum.Draft,
+        handoverStatus: ProjectHandoverStatus.Draft,
         confirmedAt: null,
         confirmedBy: null,
         comment: null,
@@ -118,7 +118,7 @@ function createProjectHandoverDetail(summary: ContractHandoverSummaryView): Proj
         contractSummarySnapshotId: 'contract-summary-1',
         currentHandoverBaselineSummary: summary.currentHandoverBaselineSummary,
         participantConfirmationSummary: {
-            status: ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending,
+            status: ProjectHandoverParticipantConfirmationStatus.Pending,
             confirmationRecordId: 'confirmation-1',
             requiredCount: 2,
             confirmedCount: 1,
@@ -131,9 +131,9 @@ function createProjectHandoverDetail(summary: ContractHandoverSummaryView): Proj
             participants: []
         },
         receiptJudgmentModeSummary: {
-            status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum.Frozen,
+            status: ProjectHandoverReceiptJudgmentFreezeStatus.Frozen,
             receiptJudgmentMode: 'confirmed-receipt',
-            sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover,
+            sourceType: ProjectHandoverReceiptJudgmentSourceType.ProjectHandover,
             sourceId: 'handover-1',
             summary: '按移交确认冻结回款判断口径'
         },

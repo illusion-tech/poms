@@ -7,18 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverParticipantStatus } from './project-handover-participant-status';
 
 
 export interface ProjectHandoverParticipantConfirmationItem {
     participantId: string;
     participantRoleKey: string;
     participantDisplayName: string | null;
-    participantStatus: ProjectHandoverParticipantConfirmationItemParticipantStatusEnum;
+    participantStatus: ProjectHandoverParticipantStatus;
     confirmedAt: string | null;
     confirmedComment: string | null;
 }
-export enum ProjectHandoverParticipantConfirmationItemParticipantStatusEnum {
-    Pending = 'pending',
-    Confirmed = 'confirmed',
-    Closed = 'closed'
-};

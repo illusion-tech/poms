@@ -5,13 +5,13 @@ import {
     CommissionRoleAssignmentStatus,
     type CommissionRoleAssignmentDetailView,
     type CommissionRoleAssignmentSummary,
-    ContractHandoverCurrentBaselineSummarySourceTypeEnum,
-    ContractHandoverCurrentBaselineSummaryStatusEnum,
-    ProjectHandoverDetailViewHandoverStatusEnum,
+    ContractHandoverCurrentBaselineSourceType,
+    ContractHandoverCurrentBaselineStatus,
+    ProjectHandoverStatus,
     type ProjectHandoverDetailView,
-    ProjectHandoverParticipantConfirmationSummaryStatusEnum,
-    ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum,
-    ProjectHandoverReceiptJudgmentModeSummaryStatusEnum,
+    ProjectHandoverParticipantConfirmationStatus,
+    ProjectHandoverReceiptJudgmentSourceType,
+    ProjectHandoverReceiptJudgmentFreezeStatus,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
 import { ProjectCommissionFreezeBinding } from './project-commission-freeze-binding';
@@ -58,16 +58,16 @@ function createFreezeBindingDetail(summary: CommissionRoleAssignmentSummary = cr
         contractSummarySnapshotId: 'contract-summary-1',
         handoverSummarySnapshotId: 'handover-summary-1',
         effectiveHandoverBaselineSummary: {
-            status: ContractHandoverCurrentBaselineSummaryStatusEnum.Available,
+            status: ContractHandoverCurrentBaselineStatus.Available,
             baselineSnapshotId: 'handover-baseline-1',
-            sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness,
+            sourceType: ContractHandoverCurrentBaselineSourceType.ContractReadiness,
             sourceId: 'readiness-1',
             summary: '合同承接基线已稳定'
         },
         receiptJudgmentModeSummary: {
-            status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum.Frozen,
+            status: ProjectHandoverReceiptJudgmentFreezeStatus.Frozen,
             receiptJudgmentMode: 'confirmed-receipt',
-            sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover,
+            sourceType: ProjectHandoverReceiptJudgmentSourceType.ProjectHandover,
             sourceId: 'handover-1',
             summary: '按移交确认冻结回款判断口径'
         },
@@ -86,7 +86,7 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
         projectId: 'project-1',
         projectNo: 'PRJ-001',
         projectName: '冻结责任边界项目',
-        handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum.Confirmed,
+        handoverStatus: ProjectHandoverStatus.Confirmed,
         confirmedAt: '2026-04-20T10:00:00.000Z',
         confirmedBy: 'user-1',
         comment: null,
@@ -103,14 +103,14 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
         },
         contractSummarySnapshotId: 'contract-summary-1',
         currentHandoverBaselineSummary: {
-            status: ContractHandoverCurrentBaselineSummaryStatusEnum.Available,
+            status: ContractHandoverCurrentBaselineStatus.Available,
             baselineSnapshotId: 'handover-baseline-1',
-            sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness,
+            sourceType: ContractHandoverCurrentBaselineSourceType.ContractReadiness,
             sourceId: 'readiness-1',
             summary: '合同承接基线已稳定'
         },
         participantConfirmationSummary: {
-            status: ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed,
+            status: ProjectHandoverParticipantConfirmationStatus.Confirmed,
             confirmationRecordId: 'confirmation-1',
             requiredCount: 2,
             confirmedCount: 2,
@@ -123,9 +123,9 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
             participants: []
         },
         receiptJudgmentModeSummary: {
-            status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum.Frozen,
+            status: ProjectHandoverReceiptJudgmentFreezeStatus.Frozen,
             receiptJudgmentMode: 'confirmed-receipt',
-            sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover,
+            sourceType: ProjectHandoverReceiptJudgmentSourceType.ProjectHandover,
             sourceId: 'handover-1',
             summary: '按移交确认冻结回款判断口径'
         },
@@ -234,12 +234,12 @@ describe('ProjectCommissionFreezeBinding', () => {
             detail: null,
             handover: {
                 ...createProjectHandoverDetail(),
-                handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum.Draft,
+                handoverStatus: ProjectHandoverStatus.Draft,
                 confirmedAt: null,
                 confirmedBy: null,
                 participantConfirmationSummary: {
                     ...createProjectHandoverDetail().participantConfirmationSummary,
-                    status: ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending,
+                    status: ProjectHandoverParticipantConfirmationStatus.Pending,
                     confirmedCount: 1,
                     pendingCount: 1,
                     confirmedAt: null

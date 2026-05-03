@@ -8705,11 +8705,7 @@
             "nullable": true
           },
           "membershipType": {
-            "type": "string",
-            "enum": [
-              "primary",
-              "secondary"
-            ]
+            "$ref": "#/components/schemas/UserOrgUnitMembershipType"
           }
         },
         "required": [
@@ -8718,6 +8714,13 @@
           "code",
           "description",
           "membershipType"
+        ]
+      },
+      "UserOrgUnitMembershipType": {
+        "type": "string",
+        "enum": [
+          "primary",
+          "secondary"
         ]
       },
       "SanitizedUserWithOrgUnits": {
@@ -9357,21 +9360,13 @@
             "type": "string"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "inactive",
-              "deprecated"
-            ]
+            "$ref": "#/components/schemas/PlatformPermissionStatus"
           },
           "isSystemPermission": {
             "type": "boolean"
           },
           "sourceType": {
-            "type": "string",
-            "enum": [
-              "system-seeded"
-            ]
+            "$ref": "#/components/schemas/PlatformPermissionSourceType"
           },
           "deprecatedBy": {
             "type": "string",
@@ -9420,6 +9415,20 @@
           "isSystemPermission",
           "sourceType",
           "deprecatedBy"
+        ]
+      },
+      "PlatformPermissionStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive",
+          "deprecated"
+        ]
+      },
+      "PlatformPermissionSourceType": {
+        "type": "string",
+        "enum": [
+          "system-seeded"
         ]
       },
       "PlatformPermissionList": {
@@ -9975,13 +9984,7 @@
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "basic",
-              "group",
-              "collapsable",
-              "divider"
-            ]
+            "$ref": "#/components/schemas/NavigationItemType"
           },
           "title": {
             "type": "string",
@@ -10078,6 +10081,15 @@
           "requiredPermissions",
           "meta",
           "children"
+        ]
+      },
+      "NavigationItemType": {
+        "type": "string",
+        "enum": [
+          "basic",
+          "group",
+          "collapsable",
+          "divider"
         ]
       },
       "NavigationList": {
@@ -15715,15 +15727,25 @@
           "reason"
         ]
       },
+      "InternalCostRateScopeType": {
+        "type": "string",
+        "enum": [
+          "PERSON",
+          "ROLE"
+        ]
+      },
+      "InternalCostRateUnit": {
+        "type": "string",
+        "enum": [
+          "HOUR",
+          "DAY"
+        ]
+      },
       "PublishInternalCostRateVersionRequest": {
         "type": "object",
         "properties": {
           "rateScopeType": {
-            "type": "string",
-            "enum": [
-              "PERSON",
-              "ROLE"
-            ]
+            "$ref": "#/components/schemas/InternalCostRateScopeType"
           },
           "personId": {
             "type": "string",
@@ -15736,11 +15758,7 @@
             "nullable": true
           },
           "rateUnit": {
-            "type": "string",
-            "enum": [
-              "HOUR",
-              "DAY"
-            ]
+            "$ref": "#/components/schemas/InternalCostRateUnit"
           },
           "rateValue": {
             "type": "string",
@@ -20696,12 +20714,7 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "ready",
-              "blocked",
-              "missing"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverBaselineValidationStatus"
           },
           "readinessPackageId": {
             "type": "string",
@@ -20790,6 +20803,14 @@
           "missingPrerequisiteCount"
         ]
       },
+      "ContractHandoverBaselineValidationStatus": {
+        "type": "string",
+        "enum": [
+          "ready",
+          "blocked",
+          "missing"
+        ]
+      },
       "CommercialDiffLevel": {
         "type": "string",
         "enum": [
@@ -20827,11 +20848,7 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "available",
-              "missing"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineStatus"
           },
           "baselineSnapshotId": {
             "type": "string",
@@ -20840,13 +20857,7 @@
             "nullable": true
           },
           "sourceType": {
-            "type": "string",
-            "enum": [
-              "contract-readiness",
-              "project-handover",
-              "handover-rebaseline",
-              "none"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSourceType"
           },
           "sourceId": {
             "type": "string",
@@ -20866,19 +20877,27 @@
           "summary"
         ]
       },
+      "ContractHandoverCurrentBaselineStatus": {
+        "type": "string",
+        "enum": [
+          "available",
+          "missing"
+        ]
+      },
+      "ContractHandoverCurrentBaselineSourceType": {
+        "type": "string",
+        "enum": [
+          "contract-readiness",
+          "project-handover",
+          "handover-rebaseline",
+          "none"
+        ]
+      },
       "ContractHandoverLatestRebaselineSummary": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "none",
-              "processing",
-              "pending_effective",
-              "effective",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverRebaselineStatus"
           },
           "rebaselineRecordId": {
             "type": "string",
@@ -20899,12 +20918,7 @@
             "nullable": true
           },
           "blockingStatus": {
-            "type": "string",
-            "enum": [
-              "none",
-              "blocking",
-              "effective"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverRebaselineBlockingStatus"
           },
           "impactItemCount": {
             "type": "integer",
@@ -20926,16 +20940,30 @@
           "impactSummary"
         ]
       },
+      "ContractHandoverRebaselineStatus": {
+        "type": "string",
+        "enum": [
+          "none",
+          "processing",
+          "pending_effective",
+          "effective",
+          "superseded",
+          "voided"
+        ]
+      },
+      "ContractHandoverRebaselineBlockingStatus": {
+        "type": "string",
+        "enum": [
+          "none",
+          "blocking",
+          "effective"
+        ]
+      },
       "ContractHandoverReceivablePlanInitSummary": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "initialized",
-              "missing",
-              "blocked"
-            ]
+            "$ref": "#/components/schemas/ContractHandoverReceivablePlanInitStatus"
           },
           "initializedReceivablePlanVersionId": {
             "type": "string",
@@ -20958,6 +20986,14 @@
           "initializedReceivablePlanVersionId",
           "receivablePlanInitializedAt",
           "summary"
+        ]
+      },
+      "ContractHandoverReceivablePlanInitStatus": {
+        "type": "string",
+        "enum": [
+          "initialized",
+          "missing",
+          "blocked"
         ]
       },
       "ContractHandoverSummaryView": {
@@ -21038,17 +21074,21 @@
           "generatedAt"
         ]
       },
+      "ProjectHandoverStatus": {
+        "type": "string",
+        "enum": [
+          "not_started",
+          "draft",
+          "confirmed",
+          "superseded",
+          "voided"
+        ]
+      },
       "ProjectHandoverParticipantConfirmationSummary": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "not_started",
-              "pending",
-              "confirmed",
-              "closed"
-            ]
+            "$ref": "#/components/schemas/ProjectHandoverParticipantConfirmationStatus"
           },
           "confirmationRecordId": {
             "type": "string",
@@ -21121,6 +21161,15 @@
           "participants"
         ]
       },
+      "ProjectHandoverParticipantConfirmationStatus": {
+        "type": "string",
+        "enum": [
+          "not_started",
+          "pending",
+          "confirmed",
+          "closed"
+        ]
+      },
       "ProjectHandoverParticipantConfirmationItem": {
         "type": "object",
         "properties": {
@@ -21137,12 +21186,7 @@
             "nullable": true
           },
           "participantStatus": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "confirmed",
-              "closed"
-            ]
+            "$ref": "#/components/schemas/ProjectHandoverParticipantStatus"
           },
           "confirmedAt": {
             "type": "string",
@@ -21164,27 +21208,26 @@
           "confirmedComment"
         ]
       },
+      "ProjectHandoverParticipantStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "confirmed",
+          "closed"
+        ]
+      },
       "ProjectHandoverReceiptJudgmentModeSummary": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "enum": [
-              "not_frozen",
-              "frozen"
-            ]
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentFreezeStatus"
           },
           "receiptJudgmentMode": {
             "type": "string",
             "nullable": true
           },
           "sourceType": {
-            "type": "string",
-            "enum": [
-              "project-handover",
-              "project-receipt-judgment-freeze",
-              "none"
-            ]
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentSourceType"
           },
           "sourceId": {
             "type": "string",
@@ -21202,6 +21245,21 @@
           "sourceType",
           "sourceId",
           "summary"
+        ]
+      },
+      "ProjectHandoverReceiptJudgmentFreezeStatus": {
+        "type": "string",
+        "enum": [
+          "not_frozen",
+          "frozen"
+        ]
+      },
+      "ProjectHandoverReceiptJudgmentSourceType": {
+        "type": "string",
+        "enum": [
+          "project-handover",
+          "project-receipt-judgment-freeze",
+          "none"
         ]
       },
       "ProjectHandoverDetailView": {
@@ -21225,14 +21283,7 @@
             "type": "string"
           },
           "handoverStatus": {
-            "type": "string",
-            "enum": [
-              "not_started",
-              "draft",
-              "confirmed",
-              "superseded",
-              "voided"
-            ]
+            "$ref": "#/components/schemas/ProjectHandoverStatus"
           },
           "confirmedAt": {
             "type": "string",
@@ -22541,6 +22592,14 @@
           "diffLevel"
         ]
       },
+      "CommercialReleaseBaselineStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "effective",
+          "superseded"
+        ]
+      },
       "CommercialReleaseBaselineSummary": {
         "type": "object",
         "properties": {
@@ -22564,12 +22623,7 @@
             "nullable": true
           },
           "baselineStatus": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "effective",
-              "superseded"
-            ]
+            "$ref": "#/components/schemas/CommercialReleaseBaselineStatus"
           },
           "isCurrent": {
             "type": "boolean"

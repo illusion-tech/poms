@@ -10,11 +10,12 @@
 import { ContractReadinessStatus } from './contract-readiness-status';
 import { ContractReadinessGuardDecision } from './contract-readiness-guard-decision';
 import { CommercialDiffReviewStatus } from './commercial-diff-review-status';
+import { ContractHandoverBaselineValidationStatus } from './contract-handover-baseline-validation-status';
 import { CommercialDiffLevel } from './commercial-diff-level';
 
 
 export interface ContractHandoverBaselineValidationSummary {
-    status: ContractHandoverBaselineValidationSummaryStatusEnum;
+    status: ContractHandoverBaselineValidationStatus;
     readinessPackageId: string | null;
     sourceBaselineId: string | null;
     latestDiffResultId: string | null;
@@ -27,8 +28,3 @@ export interface ContractHandoverBaselineValidationSummary {
     blockingReasonSummary: string | null;
     missingPrerequisiteCount: number;
 }
-export enum ContractHandoverBaselineValidationSummaryStatusEnum {
-    Ready = 'ready',
-    Blocked = 'blocked',
-    Missing = 'missing'
-};

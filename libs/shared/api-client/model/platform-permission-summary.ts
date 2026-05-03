@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PlatformPermissionSourceType } from './platform-permission-source-type';
+import { PlatformPermissionStatus } from './platform-permission-status';
 
 
 export interface PlatformPermissionSummary {
@@ -14,9 +16,9 @@ export interface PlatformPermissionSummary {
     name: string;
     description: string;
     group: string;
-    status: PlatformPermissionSummaryStatusEnum;
+    status: PlatformPermissionStatus;
     isSystemPermission: boolean;
-    sourceType: PlatformPermissionSummarySourceTypeEnum;
+    sourceType: PlatformPermissionSourceType;
     deprecatedBy: PlatformPermissionSummaryDeprecatedByEnum | null;
 }
 export enum PlatformPermissionSummaryKeyEnum {
@@ -51,14 +53,6 @@ export enum PlatformPermissionSummaryKeyEnum {
     NavProjectsView = 'nav:projects:view',
     NavContractsView = 'nav:contracts:view',
     NavProfileView = 'nav:profile:view'
-};
-export enum PlatformPermissionSummaryStatusEnum {
-    Active = 'active',
-    Inactive = 'inactive',
-    Deprecated = 'deprecated'
-};
-export enum PlatformPermissionSummarySourceTypeEnum {
-    SystemSeeded = 'system-seeded'
 };
 export enum PlatformPermissionSummaryDeprecatedByEnum {
     PlatformUsersManage = 'platform:users:manage',
