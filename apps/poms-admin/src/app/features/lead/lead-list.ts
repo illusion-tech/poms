@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
     AttachmentTargetType,
     AuthStore,
+    BusinessDiscussionTargetObjectType,
     CustomerStatus,
     CustomerStore,
     LeadAllowedAction,
@@ -36,7 +37,9 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
+import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -178,7 +181,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, SalesFollowUpPanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
     providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -781,6 +784,27 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             </div>
                         }
 
+                        <app-sales-intelligence-panel
+                            [customerId]="lead.customerId"
+                            [leadId]="lead.id"
+                            [projectId]="lead.convertedProjectId"
+                            [canWrite]="canWriteLead()"
+                            title="销售情报"
+                            description="补齐联系人、决策链、竞争态势、采购流程和当前机会缺口。"
+                        />
+
+                        <app-business-discussion-panel
+                            [customerId]="lead.customerId"
+                            [leadId]="lead.id"
+                            [projectId]="lead.convertedProjectId"
+                            [targetObjectType]="lead.convertedProjectId ? projectDiscussionTargetType : leadDiscussionTargetType"
+                            [targetObjectId]="lead.convertedProjectId || lead.id"
+                            [targetTitle]="lead.convertedProjectSummary?.projectName || lead.leadName"
+                            [canWrite]="canWriteLead()"
+                            title="业务讨论"
+                            description="记录推进判断、补充信息、风险和关键结论。"
+                        />
+
                         <app-attachment-panel
                             [targetType]="leadAttachmentTargetType"
                             [targetId]="lead.id"
@@ -1098,6 +1122,8 @@ export class LeadList implements OnInit {
     readonly urgencyOptions = LEAD_URGENCY_OPTIONS;
 
     readonly leadAttachmentTargetType = AttachmentTargetType.Lead;
+    readonly leadDiscussionTargetType = BusinessDiscussionTargetObjectType.Lead;
+    readonly projectDiscussionTargetType = BusinessDiscussionTargetObjectType.Project;
 
     readonly ownerUserOptions = computed<LeadOwnerUserOption[]>(() =>
         this.#platformStore

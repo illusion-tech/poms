@@ -3,7 +3,7 @@ import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angula
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AttachmentTargetType, AuthStore, CustomerAliasType, CustomerStatus, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
+import { AttachmentTargetType, AuthStore, BusinessDiscussionTargetObjectType, CustomerAliasType, CustomerStatus, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView, type CustomerListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -14,7 +14,9 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
+import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface CustomerFilterOption {
@@ -95,7 +97,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 @Component({
     selector: 'app-customer-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, SalesFollowUpPanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -358,6 +360,23 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方客户销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
                         }
 
+                        <app-sales-intelligence-panel
+                            [customerId]="customer.id"
+                            [canWrite]="canWriteCustomerFollowUp()"
+                            title="客户销售情报"
+                            description="维护业务必要联系人，并作为线索和项目决策链的联系人来源。"
+                        />
+
+                        <app-business-discussion-panel
+                            [customerId]="customer.id"
+                            [targetObjectType]="customerDiscussionTargetType"
+                            [targetObjectId]="customer.id"
+                            [targetTitle]="customer.displayName"
+                            [canWrite]="canWriteCustomerFollowUp()"
+                            title="客户业务讨论"
+                            description="沉淀客户长期信息、跨线索判断和协同结论。"
+                        />
+
                         <app-sales-follow-up-panel
                             [customerId]="customer.id"
                             [canWrite]="canWriteCustomerFollowUp()"
@@ -416,6 +435,7 @@ export class CustomerList implements OnInit {
     readonly editableStatusOptions = EDITABLE_STATUS_OPTIONS;
     readonly aliasTypeOptions = CUSTOMER_ALIAS_TYPE_OPTIONS;
     readonly customerAttachmentTargetType = AttachmentTargetType.Customer;
+    readonly customerDiscussionTargetType = BusinessDiscussionTargetObjectType.Customer;
 
     readonly visibleCustomers = computed(() => {
         const keyword = this.normalize(this.searchValue());

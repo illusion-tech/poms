@@ -22,16 +22,22 @@ async function openLeadsFromProjectEntry(page: Page): Promise<void> {
     await expect(page.getByRole('heading', { name: '线索管理' })).toBeVisible();
 }
 
-async function createLeadFromDialog(page: Page, lead: { name: string; customerName: string; sourceChannel: string }): Promise<void> {
+async function createLeadFromDialog(page: Page, lead: { name: string; customerName: string; sourceName: string }): Promise<void> {
     await page.getByRole('button', { name: '登记线索' }).click();
 
     const dialog = page.getByRole('dialog').filter({ hasText: '登记线索' }).last();
     await expect(dialog).toBeVisible();
     await expect(dialog.getByLabel('线索编号', { exact: true })).toHaveCount(0);
     await dialog.getByLabel('线索标题').fill(lead.name);
-    await dialog.getByLabel('客户名称').fill(lead.customerName);
-    await dialog.getByLabel('来源渠道').fill(lead.sourceChannel);
-    await dialog.getByRole('combobox').first().click();
+    await dialog.getByRole('combobox', { name: '选择客户主数据' }).click();
+    await page.getByRole('option', { name: new RegExp(lead.customerName) }).first().click();
+    await dialog.getByRole('combobox', { name: '选择来源' }).click();
+    await page.getByRole('option', { name: lead.sourceName, exact: true }).click();
+    await dialog.getByLabel('需求描述').fill('客户希望补强运营平台的项目协同能力。');
+    await dialog.getByRole('combobox', { name: '预算未知' }).click();
+    await page.getByRole('option', { name: '预算已确认', exact: true }).click();
+    await dialog.getByLabel('预计金额').fill('1200000');
+    await dialog.getByRole('combobox').nth(5).click();
     await page.getByRole('option', { name: /销售人员.*华南销售一部/ }).click();
     await expect(dialog.getByRole('combobox', { name: '华南销售一部', exact: true })).toBeVisible();
     await dialog.getByRole('button', { name: '登记线索' }).click();
@@ -40,6 +46,8 @@ async function createLeadFromDialog(page: Page, lead: { name: string; customerNa
     await expect(row).toBeVisible();
     await expect(row).toContainText(/LD-\d{4}-\d{6}/);
     await expect(row.getByText('待确认')).toBeVisible();
+    await expect(row).toContainText(lead.customerName);
+    await expect(row).toContainText(lead.sourceName);
     await expect(row).toContainText('销售人员');
     await expect(row).toContainText('华南销售一部');
 }
@@ -96,13 +104,29 @@ async function reassignProjectOwner(page: Page): Promise<void> {
     await expect(page.getByText('销售管理中心').first()).toBeVisible();
 }
 
+async function createProjectDiscussion(page: Page, body: string): Promise<void> {
+    await expect(page.getByText('项目销售情报')).toBeVisible();
+    await expect(page.getByText('项目业务讨论')).toBeVisible();
+    await expect(page.getByRole('button', { name: '联系人' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '新增讨论' })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增讨论' }).click();
+    const dialog = page.getByRole('dialog').filter({ hasText: '新增业务讨论' }).last();
+    await expect(dialog).toBeVisible();
+    await dialog.getByLabel('讨论内容').fill(body);
+    await dialog.getByRole('button', { name: '发布讨论' }).click();
+
+    await expect(dialog).toBeHidden();
+    await expect(page.getByText(body)).toBeVisible();
+}
+
 test.describe('poms-admin lead bootstrap journey', () => {
     test('admin can enter leads from menu and convert a lead into a project from the project entry', async ({ page }) => {
         const suffix = uniqueSuffix();
         const lead = {
             name: `E2E 线索转项目 ${suffix}`,
-            customerName: `E2E 客户 ${suffix}`,
-            sourceChannel: '浏览器端到端'
+            customerName: '华南地铁集团',
+            sourceName: '客户拜访'
         };
         const project = {
             customerProjectNo: `E2E-CUS-PRJ-${suffix}`,
@@ -120,10 +144,11 @@ test.describe('poms-admin lead bootstrap journey', () => {
         await qualifyLead(page, lead.name);
         await convertLeadToProject(page, lead.name, project);
 
-        await expect(page.getByText('来源线索')).toBeVisible();
+        await expect(page.getByRole('heading', { name: '来源线索' })).toBeVisible();
         await expect(page.getByText(lead.name)).toBeVisible();
         await expect(page.getByText(project.customerProjectNo)).toBeVisible();
         await expect(page.getByText('已转项目')).toBeVisible();
+        await createProjectDiscussion(page, `项目讨论连续视图 ${suffix}`);
         await reassignProjectOwner(page);
     });
 
@@ -148,10 +173,10 @@ test.describe('poms-admin lead bootstrap journey', () => {
         const dialog = page.getByRole('dialog').filter({ hasText: '登记线索' }).last();
         await expect(dialog).toBeVisible();
 
-        await dialog.getByRole('combobox').first().click();
+        await dialog.getByRole('combobox').nth(5).click();
         await expect(page.getByRole('option', { name: /销售人员.*华南销售一部/ })).toBeVisible();
 
-        await dialog.getByRole('combobox').nth(1).click();
+        await dialog.getByRole('combobox').nth(6).click();
         await expect(page.getByRole('option', { name: '华南销售一部', exact: true })).toBeVisible();
     });
 

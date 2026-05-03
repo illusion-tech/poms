@@ -1,5 +1,6 @@
 export * from './lib/auth/auth.store';
 export * from './lib/attachment/attachment.store';
+export * from './lib/business-discussion/business-discussion.store';
 export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
@@ -12,6 +13,7 @@ export * from './lib/project/project.store';
 export * from './lib/project/project-workspace.store';
 export * from './lib/lead/lead.store';
 export * from './lib/sales-follow-up/sales-follow-up.store';
+export * from './lib/sales-intelligence/sales-intelligence.store';
 
 export {
     ActiveInactiveStatus,
@@ -26,6 +28,9 @@ export {
     AttachmentTargetType,
     AuthApi,
     BaselineSelectionSource,
+    BusinessDiscussionApi,
+    BusinessDiscussionTargetObjectType,
+    BusinessDiscussionType,
     BusinessDomain,
     CommercialDiffLevel,
     CommercialDiffReviewStatus,
@@ -90,10 +95,17 @@ export {
     ProjectHandoverReceiptJudgmentSourceType,
     ProjectHandoverReceiptJudgmentFreezeStatus,
     ProjectHandoverApi,
+    OpportunityStakeholderAccessLevel,
+    OpportunityStakeholderAttitude,
+    OpportunityStakeholderInfluenceLevel,
+    OpportunityStakeholderRole,
     SalesFollowUpApi,
     SalesFollowUpOutcome,
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpRecordStatus,
+    SalesIntelligenceApi,
+    SalesIntelligenceGapItem,
+    SalesIntelligenceGapSeverity,
     SensitiveProjectionMode,
     TargetObjectType,
     TodoPriority,
@@ -116,12 +128,15 @@ export {
     CommissionRuleExplanationGateDecision,
     CommissionRuleExplanationStageStatus,
     CommissionRuleVersionStatus,
+    CompetitorPosition,
     ContractReadinessGuardDecision,
     ContractReadinessItemType,
     ContractStatus,
     ContractReadinessItemStatus,
     ContractReadinessStatus,
     ContractTermSnapshotStatus,
+    CustomerContactStatus,
+    CustomerPreference,
     CustomerAliasType,
     CustomerStatus,
     ExpenseRecordStatus,
@@ -137,6 +152,7 @@ export {
     OperatingSignalLevel,
     OperatingSnapshotActionLevel,
     ReceiptRecordStatus,
+    WinProbabilityLevel,
     UpdateCustomerRequestStatusEnum
 } from '@poms/shared-api-client';
 
@@ -154,7 +170,11 @@ export type {
     CommissionRuleExplanationView,
     ConfirmCommissionCalculationRequest,
     ContractSummary,
+    BusinessDiscussionCommentSummary,
     CreateCustomerAliasRequest,
+    CreateBusinessDiscussionCommentRequest,
+    CreateCompetitorIntelligenceRecordRequest,
+    CreateCustomerContactRequest,
     CreateDictionaryItemRequest,
     CreateAttachmentLinkRequest,
     CreateCustomerRequest,
@@ -168,6 +188,8 @@ export type {
     CreateCommissionPayoutRequest,
     CreateContractRequest,
     CreateLeadRequest,
+    CreateOpportunityStakeholderRequest,
+    CreateSalesDiscoveryRecordRequest,
     CreateSalesFollowUpRecordRequest,
     ReplaceSalesFollowUpRecordRequest,
     LeadGateCheck,
@@ -176,7 +198,9 @@ export type {
     CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
     CreateProjectRequest,
+    CompetitorIntelligenceRecordSummary,
     CustomerAliasSummary,
+    CustomerContactSummary,
     CustomerDetailView,
     DictionaryItemSummary,
     CustomerListView,
@@ -186,8 +210,11 @@ export type {
     LeadOwnerAssignmentResult,
     LeadSummary,
     LeadSourceSummary,
+    OpportunityStakeholderSummary,
     QualifyLeadRequest,
+    SalesDiscoveryRecordSummary,
     SalesFollowUpRecordSummary,
+    SalesIntelligenceGapSummary,
     CreateLeadSourceRequest,
     UpdateLeadSourceRequest,
     ProjectBidCommercialMaterialItemView,
@@ -227,10 +254,14 @@ export type {
     SubmitContractReviewRequest,
     TodoItemSummary,
     UpdateCurrentUserProfileRequest,
+    UpdateCompetitorIntelligenceRecordRequest,
+    UpdateCustomerContactRequest,
     UpdateCustomerRequest,
     UpdateDictionaryItemRequest,
     UpdateAttachmentRequest,
     UpdateLeadRequest,
+    UpdateOpportunityStakeholderRequest,
+    UpdateSalesDiscoveryRecordRequest,
     UpdateProjectBasicInfoRequest,
     VoidAttachmentRequest,
     VoidSalesFollowUpRecordRequest,

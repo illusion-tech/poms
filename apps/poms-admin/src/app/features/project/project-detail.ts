@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
     AttachmentTargetType,
     AuthStore,
+    BusinessDiscussionTargetObjectType,
     CustomerStatus,
     CustomerStore,
     PlatformStore,
@@ -28,9 +29,11 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
 import { ProjectLifecycleTimeline, type ProjectLifecycleTimelineItem } from '../../shared/ui/project-lifecycle-timeline';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
+import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import {
     archiveStatusLabelOrFallback,
@@ -167,9 +170,11 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
         SelectModule,
         TextareaModule,
         AttachmentPanel,
+        BusinessDiscussionPanel,
         ProjectContextHeader,
         ProjectLifecycleTimeline,
         SalesFollowUpPanel,
+        SalesIntelligencePanel,
         WorkspaceFactGrid,
         WorkspaceFeedback,
         WorkspaceLoading
@@ -407,6 +412,27 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                     title="项目销售跟进"
                     description="承接来源线索、客户沟通和项目推进中的销售动作。"
                     createContextDetail="本次记录会挂到当前项目，同时保留客户维度；来源线索记录会在列表中连续展示。"
+                />
+
+                <app-sales-intelligence-panel
+                    [customerId]="project.customerId"
+                    [leadId]="project.sourceLeadId"
+                    [projectId]="project.id"
+                    [canWrite]="canWriteProjectFollowUp()"
+                    title="项目销售情报"
+                    description="连续查看来源线索和当前项目的决策链、竞争态势、销售发现和情报缺口。"
+                />
+
+                <app-business-discussion-panel
+                    [customerId]="project.customerId"
+                    [leadId]="project.sourceLeadId"
+                    [projectId]="project.id"
+                    [targetObjectType]="projectDiscussionTargetType"
+                    [targetObjectId]="project.id"
+                    [targetTitle]="project.projectName"
+                    [canWrite]="canWriteProjectFollowUp()"
+                    title="项目业务讨论"
+                    description="连续展示来源线索历史讨论；新增讨论写入当前项目。"
                 />
 
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -831,6 +857,7 @@ export class ProjectDetail implements OnInit {
     );
     readonly ownerReferenceLoading = computed(() => this.#platformStore.loadingOwnerReferenceData());
     readonly projectAttachmentTargetType = AttachmentTargetType.Project;
+    readonly projectDiscussionTargetType = BusinessDiscussionTargetObjectType.Project;
     readonly canWriteProjectFollowUp = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly canWriteProjectAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);

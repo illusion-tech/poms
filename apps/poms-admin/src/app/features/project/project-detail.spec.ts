@@ -5,6 +5,7 @@ import {
     AttachmentStore,
     AttachmentTargetType,
     AuthStore,
+    BusinessDiscussionStore,
     CustomerStatus,
     CustomerStore,
     DictionaryStore,
@@ -14,8 +15,12 @@ import {
     ProjectArchiveRecordSummaryArchiveAnchorStageEnum,
     ProjectArchiveRecordSummaryStatusEnum,
     ProjectStore,
+    SalesIntelligenceStore,
     SalesFollowUpStore,
     type AttachmentSummary,
+    type BusinessDiscussionCommentSummary,
+    type CompetitorIntelligenceRecordSummary,
+    type CustomerContactSummary,
     type CustomerListView,
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
@@ -26,11 +31,16 @@ import {
     ProjectTimelineEventEventTypeEnum,
     ProjectTimelineEventSourceTypeEnum,
     type ProjectTimelineView,
-    type SalesFollowUpRecordSummary
+    type OpportunityStakeholderSummary,
+    type SalesDiscoveryRecordSummary,
+    type SalesFollowUpRecordSummary,
+    type SalesIntelligenceGapSummary
 } from '@poms/admin-data-access';
 import { of } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
+import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { ProjectDetail } from './project-detail';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -262,6 +272,27 @@ describe('ProjectDetail', () => {
         voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
+    let salesIntelligenceStoreMock: {
+        contacts: ReturnType<typeof signal<CustomerContactSummary[]>>;
+        stakeholders: ReturnType<typeof signal<OpportunityStakeholderSummary[]>>;
+        competitors: ReturnType<typeof signal<CompetitorIntelligenceRecordSummary[]>>;
+        discoveryRecords: ReturnType<typeof signal<SalesDiscoveryRecordSummary[]>>;
+        gaps: ReturnType<typeof signal<SalesIntelligenceGapSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadContext: jest.Mock;
+        clearContext: jest.Mock;
+    };
+    let businessDiscussionStoreMock: {
+        comments: ReturnType<typeof signal<BusinessDiscussionCommentSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadComments: jest.Mock;
+        createComment: jest.Mock;
+        clearComments: jest.Mock;
+    };
     let customerStoreMock: {
         activeCustomers: ReturnType<typeof computed<CustomerListView[]>>;
         loading: ReturnType<typeof signal<boolean>>;
@@ -360,6 +391,27 @@ describe('ProjectDetail', () => {
             replaceFollowUp: jest.fn(),
             voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
+        };
+        salesIntelligenceStoreMock = {
+            contacts: signal<CustomerContactSummary[]>([]),
+            stakeholders: signal<OpportunityStakeholderSummary[]>([]),
+            competitors: signal<CompetitorIntelligenceRecordSummary[]>([]),
+            discoveryRecords: signal<SalesDiscoveryRecordSummary[]>([]),
+            gaps: signal<SalesIntelligenceGapSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadContext: jest.fn().mockResolvedValue(undefined),
+            clearContext: jest.fn()
+        };
+        businessDiscussionStoreMock = {
+            comments: signal<BusinessDiscussionCommentSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadComments: jest.fn().mockResolvedValue([]),
+            createComment: jest.fn(),
+            clearComments: jest.fn()
         };
         const dictionaryStoreMock = {
             items: signal([]),
@@ -462,6 +514,28 @@ describe('ProjectDetail', () => {
                     ]
                 }
             })
+            .overrideComponent(SalesIntelligencePanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
+                        {
+                            provide: SalesIntelligenceStore,
+                            useValue: salesIntelligenceStoreMock
+                        }
+                    ]
+                }
+            })
+            .overrideComponent(BusinessDiscussionPanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
+                        {
+                            provide: BusinessDiscussionStore,
+                            useValue: businessDiscussionStoreMock
+                        }
+                    ]
+                }
+            })
             .compileComponents();
 
         fixture = TestBed.createComponent(ProjectDetail);
@@ -507,6 +581,15 @@ describe('ProjectDetail', () => {
             leadId: undefined,
             projectId: 'project-1',
             lifecycleScope: 'active'
+        });
+        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('customer-1', {
+            leadId: undefined,
+            projectId: 'project-1'
+        });
+        expect(businessDiscussionStoreMock.loadComments).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: undefined,
+            projectId: 'project-1'
         });
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
@@ -568,6 +651,15 @@ describe('ProjectDetail', () => {
             leadId: 'lead-1',
             projectId: 'project-1',
             lifecycleScope: 'active'
+        });
+        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('customer-1', {
+            leadId: 'lead-1',
+            projectId: 'project-1'
+        });
+        expect(businessDiscussionStoreMock.loadComments).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: 'lead-1',
+            projectId: 'project-1'
         });
     });
 

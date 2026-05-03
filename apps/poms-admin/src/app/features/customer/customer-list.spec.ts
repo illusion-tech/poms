@@ -5,21 +5,31 @@ import {
     AttachmentStore,
     AttachmentTargetType,
     AuthStore,
+    BusinessDiscussionStore,
     CustomerAliasType,
     CustomerStatus,
     CustomerStore,
     DictionaryStore,
+    SalesIntelligenceStore,
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpStore,
     type AttachmentSummary,
+    type BusinessDiscussionCommentSummary,
     type CustomerAliasSummary,
+    type CustomerContactSummary,
     type CustomerDetailView,
     type CustomerListView,
+    type SalesIntelligenceGapSummary,
+    type OpportunityStakeholderSummary,
+    type CompetitorIntelligenceRecordSummary,
+    type SalesDiscoveryRecordSummary,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
 import { BehaviorSubject } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
+import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { CustomerList } from './customer-list';
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
@@ -102,6 +112,27 @@ describe('CustomerList', () => {
         voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
+    let salesIntelligenceStoreMock: {
+        contacts: ReturnType<typeof signal<CustomerContactSummary[]>>;
+        stakeholders: ReturnType<typeof signal<OpportunityStakeholderSummary[]>>;
+        competitors: ReturnType<typeof signal<CompetitorIntelligenceRecordSummary[]>>;
+        discoveryRecords: ReturnType<typeof signal<SalesDiscoveryRecordSummary[]>>;
+        gaps: ReturnType<typeof signal<SalesIntelligenceGapSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadContext: jest.Mock;
+        clearContext: jest.Mock;
+    };
+    let businessDiscussionStoreMock: {
+        comments: ReturnType<typeof signal<BusinessDiscussionCommentSummary[]>>;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadComments: jest.Mock;
+        createComment: jest.Mock;
+        clearComments: jest.Mock;
+    };
     let customerStoreMock: {
         customers: typeof customers;
         selectedCustomer: typeof selectedCustomer;
@@ -146,6 +177,27 @@ describe('CustomerList', () => {
             replaceFollowUp: jest.fn(),
             voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
+        };
+        salesIntelligenceStoreMock = {
+            contacts: signal<CustomerContactSummary[]>([]),
+            stakeholders: signal<OpportunityStakeholderSummary[]>([]),
+            competitors: signal<CompetitorIntelligenceRecordSummary[]>([]),
+            discoveryRecords: signal<SalesDiscoveryRecordSummary[]>([]),
+            gaps: signal<SalesIntelligenceGapSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadContext: jest.fn().mockResolvedValue(undefined),
+            clearContext: jest.fn()
+        };
+        businessDiscussionStoreMock = {
+            comments: signal<BusinessDiscussionCommentSummary[]>([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadComments: jest.fn().mockResolvedValue([]),
+            createComment: jest.fn(),
+            clearComments: jest.fn()
         };
         const dictionaryStoreMock = {
             items: signal([]),
@@ -237,6 +289,28 @@ describe('CustomerList', () => {
                     ]
                 }
             })
+            .overrideComponent(SalesIntelligencePanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
+                        {
+                            provide: SalesIntelligenceStore,
+                            useValue: salesIntelligenceStoreMock
+                        }
+                    ]
+                }
+            })
+            .overrideComponent(BusinessDiscussionPanel, {
+                set: {
+                    template: '<section>{{ title }}</section>',
+                    providers: [
+                        {
+                            provide: BusinessDiscussionStore,
+                            useValue: businessDiscussionStoreMock
+                        }
+                    ]
+                }
+            })
             .compileComponents();
 
         fixture = TestBed.createComponent(CustomerList);
@@ -263,6 +337,15 @@ describe('CustomerList', () => {
             leadId: undefined,
             projectId: undefined,
             lifecycleScope: SalesFollowUpRecordLifecycleScope.Active
+        });
+        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('customer-1', {
+            leadId: undefined,
+            projectId: undefined
+        });
+        expect(businessDiscussionStoreMock.loadComments).toHaveBeenCalledWith({
+            customerId: 'customer-1',
+            leadId: undefined,
+            projectId: undefined
         });
     });
 
