@@ -173,5 +173,67 @@
         "reason": "File constructor MIME type is browser API input, not a POMS domain enum.",
         "cleanupOwner": "EX-57",
         "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX59-A1-backend-inline-string-unions",
+        "ruleId": "inline-string-union",
+        "pathPrefix": "apps/poms-api/src/app/features/",
+        "reason": "Existing backend entity-local string unions are now detected by the expanded scan and must be retired by future backend contract hardening slices.",
+        "cleanupOwner": "future backend enum hardening slices",
+        "cleanupDue": "TBD",
+        "maxMatches": 33
+    },
+    {
+        "id": "EX59-A2-backend-runtime-enum-like-comparisons",
+        "ruleId": "enum-like-comparison",
+        "pathPrefix": "apps/poms-api/src/app/features/",
+        "reason": "Existing backend runtime comparisons still contain enum-like literals; EX-59 classifies the current baseline without replacing EX-58A/EX-60 contract governance.",
+        "cleanupOwner": "future backend enum hardening slices",
+        "cleanupDue": "TBD",
+        "maxMatches": 115
+    },
+    {
+        "id": "EX59-A3-backend-enum-like-fixtures-and-object-literals",
+        "ruleId": "enum-like-fixture",
+        "pathPrefix": "apps/poms-api/src/app/features/",
+        "reason": "Existing backend services, repositories, Swagger schemas and specs still contain enum-like fixture/object literals; the expanded scan freezes this baseline for later typed replacement.",
+        "cleanupOwner": "future backend enum hardening slices",
+        "cleanupDue": "TBD",
+        "maxMatches": 812
+    },
+    {
+        "id": "EX59-A4-project-cost-record-string-spec-helper",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.spec.ts",
+        "reason": "Focused test helper map uses string records to assemble expected snapshots; not a domain enum source.",
+        "cleanupOwner": "EX-59",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX59-A5-backend-controller-spec-string-as-const-fixtures",
+        "ruleId": "string-as-const",
+        "pathPrefix": "apps/poms-api/src/app/features/",
+        "reason": "Existing backend controller specs use as-const enum-like fixtures to satisfy narrow return types; future typed fixture helpers should replace them.",
+        "cleanupOwner": "future backend enum hardening slices",
+        "cleanupDue": "TBD",
+        "maxMatches": 19
+    },
+    {
+        "id": "EX59-A6-shared-enum-object-values-helper",
+        "ruleId": "record-string-string",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "textIncludes": "enumObjectValues",
+        "reason": "Generic SSOT helper accepts value objects; it does not define a domain code set.",
+        "cleanupOwner": "EX-60",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX59-A7-shared-derived-customer-active-status-schema",
+        "ruleId": "inline-z-enum",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "textIncludes": "CustomerStatusValue.Active",
+        "reason": "Derived subset schema is intentionally built from CustomerStatusValue constants rather than raw code literals.",
+        "cleanupOwner": "EX-60",
+        "cleanupDue": "N/A"
     }
 ]
