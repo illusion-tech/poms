@@ -10,6 +10,7 @@ import { SensitiveFieldProjectionModule } from './core/sensitive-field-projectio
 import { ApprovalModule } from './features/approval/approval.module';
 import { ApprovalSummaryModule } from './features/approval-summary/approval-summary.module';
 import { AttachmentModule } from './features/attachment/attachment.module';
+import { BusinessDiscussionModule } from './features/business-discussion/business-discussion.module';
 import { CommissionModule } from './features/commission/commission.module';
 import { ContractModule } from './features/contract/contract.module';
 import { ContractReadinessModule } from './features/contract-readiness/contract-readiness.module';
@@ -23,6 +24,7 @@ import { ProjectModule } from './features/project/project.module';
 import { ProjectCostModule } from './features/project-cost/project-cost.module';
 import { ProjectHandoverModule } from './features/project-handover/project-handover.module';
 import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.module';
+import { SalesIntelligenceModule } from './features/sales-intelligence/sales-intelligence.module';
 
 @Module({
     imports: [
@@ -40,6 +42,8 @@ import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.
         ProjectCostModule,
         ProjectHandoverModule,
         SalesFollowUpModule,
+        SalesIntelligenceModule,
+        BusinessDiscussionModule,
         ApprovalModule,
         ApprovalSummaryModule,
         ContractReadinessModule,

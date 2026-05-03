@@ -7,6 +7,8 @@ export * from './lib/customer/customer.dto';
 export * from './lib/dictionary/dictionary.dto';
 export * from './lib/lead/lead.dto';
 export * from './lib/project/project.dto';
+export * from './lib/sales-intelligence/sales-intelligence.dto';
+export * from './lib/business-discussion/business-discussion.dto';
 export * from './lib/contract/contract.dto';
 export * from './lib/contract-finance/contract-finance.dto';
 export * from './lib/project-cost/project-cost.dto';

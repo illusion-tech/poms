@@ -1732,6 +1732,573 @@ export const UpdateDictionaryItemRequestSchema = z
 export type UpdateDictionaryItemRequest = z.infer<typeof UpdateDictionaryItemRequestSchema>;
 
 // ---------------------------------------------------------------------------
+// Sales Intelligence / Business Discussion
+// ---------------------------------------------------------------------------
+
+export const CUSTOMER_CONTACT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Active', value: 'active', label: '有效', severity: 'success', order: 10 },
+    { key: 'Inactive', value: 'inactive', label: '停用', severity: 'secondary', order: 20 }
+] as const);
+
+export const CustomerContactStatusValue = enumDefinitionValueObject(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
+export const CUSTOMER_CONTACT_STATUSES = enumDefinitionValues(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
+export type CustomerContactStatus = (typeof CUSTOMER_CONTACT_STATUSES)[number];
+export const CustomerContactStatusSchema = z.enum(CUSTOMER_CONTACT_STATUSES).meta({ id: 'CustomerContactStatus' });
+export const CustomerContactStatusLabel = enumDefinitionLabels(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
+export const CustomerContactStatusSeverity = enumDefinitionSeverities(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
+export const CustomerContactStatusOptions = enumDefinitionOptions(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
+
+export const OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'DecisionMaker', value: 'decision-maker', label: '决策人', order: 10 },
+    { key: 'Influencer', value: 'influencer', label: '影响者', order: 20 },
+    { key: 'EndUser', value: 'end-user', label: '使用人', order: 30 },
+    { key: 'TechnicalEvaluator', value: 'technical-evaluator', label: '技术把关人', order: 40 },
+    { key: 'ProcurementContact', value: 'procurement-contact', label: '采购联系人', order: 50 },
+    { key: 'FinanceLegal', value: 'finance-legal', label: '财务 / 法务', order: 60 },
+    { key: 'Sponsor', value: 'sponsor', label: '支持者', order: 70 },
+    { key: 'Blocker', value: 'blocker', label: '反对者', order: 80 },
+    { key: 'Unknown', value: 'unknown', label: '未知', order: 90 },
+    { key: 'Other', value: 'other', label: '其他', order: 100 }
+] as const);
+
+export const OpportunityStakeholderRoleValue = enumDefinitionValueObject(OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS);
+export const OPPORTUNITY_STAKEHOLDER_ROLES = enumDefinitionValues(OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS);
+export type OpportunityStakeholderRole = (typeof OPPORTUNITY_STAKEHOLDER_ROLES)[number];
+export const OpportunityStakeholderRoleSchema = z.enum(OPPORTUNITY_STAKEHOLDER_ROLES).meta({ id: 'OpportunityStakeholderRole' });
+export const OpportunityStakeholderRoleLabel = enumDefinitionLabels(OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS);
+export const OpportunityStakeholderRoleOptions = enumDefinitionOptions(OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS);
+
+export const OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Supportive', value: 'supportive', label: '支持', severity: 'success', order: 10 },
+    { key: 'Neutral', value: 'neutral', label: '中立', severity: 'secondary', order: 20 },
+    { key: 'Resistant', value: 'resistant', label: '反对', severity: 'danger', order: 30 },
+    { key: 'Unknown', value: 'unknown', label: '未知', severity: 'warn', order: 40 }
+] as const);
+
+export const OpportunityStakeholderAttitudeValue = enumDefinitionValueObject(OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS);
+export const OPPORTUNITY_STAKEHOLDER_ATTITUDES = enumDefinitionValues(OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS);
+export type OpportunityStakeholderAttitude = (typeof OPPORTUNITY_STAKEHOLDER_ATTITUDES)[number];
+export const OpportunityStakeholderAttitudeSchema = z.enum(OPPORTUNITY_STAKEHOLDER_ATTITUDES).meta({ id: 'OpportunityStakeholderAttitude' });
+export const OpportunityStakeholderAttitudeLabel = enumDefinitionLabels(OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS);
+export const OpportunityStakeholderAttitudeSeverity = enumDefinitionSeverities(OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS);
+export const OpportunityStakeholderAttitudeOptions = enumDefinitionOptions(OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS);
+
+export const OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'High', value: 'high', label: '高', severity: 'danger', order: 10 },
+    { key: 'Medium', value: 'medium', label: '中', severity: 'warn', order: 20 },
+    { key: 'Low', value: 'low', label: '低', severity: 'secondary', order: 30 },
+    { key: 'Unknown', value: 'unknown', label: '未知', severity: 'secondary', order: 40 }
+] as const);
+
+export const OpportunityStakeholderInfluenceLevelValue = enumDefinitionValueObject(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS);
+export const OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVELS = enumDefinitionValues(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS);
+export type OpportunityStakeholderInfluenceLevel = (typeof OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVELS)[number];
+export const OpportunityStakeholderInfluenceLevelSchema = z.enum(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVELS).meta({ id: 'OpportunityStakeholderInfluenceLevel' });
+export const OpportunityStakeholderInfluenceLevelLabel = enumDefinitionLabels(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS);
+export const OpportunityStakeholderInfluenceLevelSeverity = enumDefinitionSeverities(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS);
+export const OpportunityStakeholderInfluenceLevelOptions = enumDefinitionOptions(OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS);
+
+export const OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Direct', value: 'direct', label: '已建立直接联系', severity: 'success', order: 10 },
+    { key: 'Indirect', value: 'indirect', label: '间接联系', severity: 'warn', order: 20 },
+    { key: 'Unknown', value: 'unknown', label: '未知', severity: 'secondary', order: 30 },
+    { key: 'Blocked', value: 'blocked', label: '暂不可接触', severity: 'danger', order: 40 }
+] as const);
+
+export const OpportunityStakeholderAccessLevelValue = enumDefinitionValueObject(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS);
+export const OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS = enumDefinitionValues(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS);
+export type OpportunityStakeholderAccessLevel = (typeof OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS)[number];
+export const OpportunityStakeholderAccessLevelSchema = z.enum(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS).meta({ id: 'OpportunityStakeholderAccessLevel' });
+export const OpportunityStakeholderAccessLevelLabel = enumDefinitionLabels(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS);
+export const OpportunityStakeholderAccessLevelSeverity = enumDefinitionSeverities(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS);
+export const OpportunityStakeholderAccessLevelOptions = enumDefinitionOptions(OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS);
+
+export const COMPETITOR_POSITION_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Incumbent', value: 'incumbent', label: '既有供应商', order: 10 },
+    { key: 'ActiveCompetitor', value: 'active-competitor', label: '明确竞争对手', order: 20 },
+    { key: 'PotentialCompetitor', value: 'potential-competitor', label: '潜在竞争对手', order: 30 },
+    { key: 'Unknown', value: 'unknown', label: '未知', order: 40 }
+] as const);
+
+export const CompetitorPositionValue = enumDefinitionValueObject(COMPETITOR_POSITION_DEFINITIONS);
+export const COMPETITOR_POSITIONS = enumDefinitionValues(COMPETITOR_POSITION_DEFINITIONS);
+export type CompetitorPosition = (typeof COMPETITOR_POSITIONS)[number];
+export const CompetitorPositionSchema = z.enum(COMPETITOR_POSITIONS).meta({ id: 'CompetitorPosition' });
+export const CompetitorPositionLabel = enumDefinitionLabels(COMPETITOR_POSITION_DEFINITIONS);
+export const CompetitorPositionOptions = enumDefinitionOptions(COMPETITOR_POSITION_DEFINITIONS);
+
+export const CUSTOMER_PREFERENCE_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'TowardUs', value: 'toward-us', label: '倾向我方', severity: 'success', order: 10 },
+    { key: 'Neutral', value: 'neutral', label: '中立', severity: 'secondary', order: 20 },
+    { key: 'TowardCompetitor', value: 'toward-competitor', label: '倾向竞争对手', severity: 'danger', order: 30 },
+    { key: 'Unknown', value: 'unknown', label: '未知', severity: 'warn', order: 40 }
+] as const);
+
+export const CustomerPreferenceValue = enumDefinitionValueObject(CUSTOMER_PREFERENCE_DEFINITIONS);
+export const CUSTOMER_PREFERENCES = enumDefinitionValues(CUSTOMER_PREFERENCE_DEFINITIONS);
+export type CustomerPreference = (typeof CUSTOMER_PREFERENCES)[number];
+export const CustomerPreferenceSchema = z.enum(CUSTOMER_PREFERENCES).meta({ id: 'CustomerPreference' });
+export const CustomerPreferenceLabel = enumDefinitionLabels(CUSTOMER_PREFERENCE_DEFINITIONS);
+export const CustomerPreferenceSeverity = enumDefinitionSeverities(CUSTOMER_PREFERENCE_DEFINITIONS);
+export const CustomerPreferenceOptions = enumDefinitionOptions(CUSTOMER_PREFERENCE_DEFINITIONS);
+
+export const WIN_PROBABILITY_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'High', value: 'high', label: '高', severity: 'success', order: 10 },
+    { key: 'Medium', value: 'medium', label: '中', severity: 'warn', order: 20 },
+    { key: 'Low', value: 'low', label: '低', severity: 'danger', order: 30 },
+    { key: 'Unknown', value: 'unknown', label: '未知', severity: 'secondary', order: 40 }
+] as const);
+
+export const WinProbabilityLevelValue = enumDefinitionValueObject(WIN_PROBABILITY_LEVEL_DEFINITIONS);
+export const WIN_PROBABILITY_LEVELS = enumDefinitionValues(WIN_PROBABILITY_LEVEL_DEFINITIONS);
+export type WinProbabilityLevel = (typeof WIN_PROBABILITY_LEVELS)[number];
+export const WinProbabilityLevelSchema = z.enum(WIN_PROBABILITY_LEVELS).meta({ id: 'WinProbabilityLevel' });
+export const WinProbabilityLevelLabel = enumDefinitionLabels(WIN_PROBABILITY_LEVEL_DEFINITIONS);
+export const WinProbabilityLevelSeverity = enumDefinitionSeverities(WIN_PROBABILITY_LEVEL_DEFINITIONS);
+export const WinProbabilityLevelOptions = enumDefinitionOptions(WIN_PROBABILITY_LEVEL_DEFINITIONS);
+
+export const SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS = defineEnumDefinitions([
+    { key: 'DecisionMaker', value: 'decision-maker', label: '决策人未知', order: 10 },
+    { key: 'TechnicalEvaluator', value: 'technical-evaluator', label: '技术把关人未知', order: 20 },
+    { key: 'ProcurementProcess', value: 'procurement-process', label: '采购流程未知', order: 30 },
+    { key: 'BudgetSource', value: 'budget-source', label: '预算来源未知', order: 40 },
+    { key: 'Competitor', value: 'competitor', label: '竞争对手未知', order: 50 },
+    { key: 'PainPoint', value: 'pain-point', label: '客户核心痛点不明确', order: 60 },
+    { key: 'NextContact', value: 'next-contact', label: '下一步接触对象不明确', order: 70 }
+] as const);
+
+export const SalesIntelligenceGapItemValue = enumDefinitionValueObject(SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS);
+export const SALES_INTELLIGENCE_GAP_ITEMS = enumDefinitionValues(SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS);
+export type SalesIntelligenceGapItem = (typeof SALES_INTELLIGENCE_GAP_ITEMS)[number];
+export const SalesIntelligenceGapItemSchema = z.enum(SALES_INTELLIGENCE_GAP_ITEMS).meta({ id: 'SalesIntelligenceGapItem' });
+export const SalesIntelligenceGapItemLabel = enumDefinitionLabels(SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS);
+export const SalesIntelligenceGapItemOptions = enumDefinitionOptions(SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS);
+
+export const SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Attention', value: 'attention', label: '提示', severity: 'secondary', order: 10 },
+    { key: 'SoftBlocker', value: 'soft-blocker', label: '推进前需补齐', severity: 'warn', order: 20 }
+] as const);
+
+export const SalesIntelligenceGapSeverityValue = enumDefinitionValueObject(SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS);
+export const SALES_INTELLIGENCE_GAP_SEVERITIES = enumDefinitionValues(SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS);
+export type SalesIntelligenceGapSeverity = (typeof SALES_INTELLIGENCE_GAP_SEVERITIES)[number];
+export const SalesIntelligenceGapSeveritySchema = z.enum(SALES_INTELLIGENCE_GAP_SEVERITIES).meta({ id: 'SalesIntelligenceGapSeverity' });
+export const SalesIntelligenceGapSeverityLabel = enumDefinitionLabels(SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS);
+export const SalesIntelligenceGapSeveritySeverity = enumDefinitionSeverities(SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS);
+export const SalesIntelligenceGapSeverityOptions = enumDefinitionOptions(SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS);
+
+export const BUSINESS_DISCUSSION_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'IntelligenceSupplement', value: 'intelligence-supplement', label: '情报补充', order: 10 },
+    { key: 'DecisionChain', value: 'decision-chain', label: '决策链', order: 20 },
+    { key: 'Competition', value: 'competition', label: '竞争态势', order: 30 },
+    { key: 'Strategy', value: 'strategy', label: '推进策略', order: 40 },
+    { key: 'Risk', value: 'risk', label: '风险提醒', order: 50 },
+    { key: 'General', value: 'general', label: '一般讨论', order: 60 }
+] as const);
+
+export const BusinessDiscussionTypeValue = enumDefinitionValueObject(BUSINESS_DISCUSSION_TYPE_DEFINITIONS);
+export const BUSINESS_DISCUSSION_TYPES = enumDefinitionValues(BUSINESS_DISCUSSION_TYPE_DEFINITIONS);
+export type BusinessDiscussionType = (typeof BUSINESS_DISCUSSION_TYPES)[number];
+export const BusinessDiscussionTypeSchema = z.enum(BUSINESS_DISCUSSION_TYPES).meta({ id: 'BusinessDiscussionType' });
+export const BusinessDiscussionTypeLabel = enumDefinitionLabels(BUSINESS_DISCUSSION_TYPE_DEFINITIONS);
+export const BusinessDiscussionTypeOptions = enumDefinitionOptions(BUSINESS_DISCUSSION_TYPE_DEFINITIONS);
+
+export const BUSINESS_DISCUSSION_TARGET_OBJECT_TYPE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Customer', value: 'customer', label: '客户', order: 10 },
+    { key: 'Lead', value: 'lead', label: '线索', order: 20 },
+    { key: 'Project', value: 'project', label: '项目', order: 30 }
+] as const);
+
+export const BusinessDiscussionTargetObjectTypeValue = enumDefinitionValueObject(BUSINESS_DISCUSSION_TARGET_OBJECT_TYPE_DEFINITIONS);
+export const BUSINESS_DISCUSSION_TARGET_OBJECT_TYPES = enumDefinitionValues(BUSINESS_DISCUSSION_TARGET_OBJECT_TYPE_DEFINITIONS);
+export type BusinessDiscussionTargetObjectType = (typeof BUSINESS_DISCUSSION_TARGET_OBJECT_TYPES)[number];
+export const BusinessDiscussionTargetObjectTypeSchema = z.enum(BUSINESS_DISCUSSION_TARGET_OBJECT_TYPES).meta({ id: 'BusinessDiscussionTargetObjectType' });
+export const BusinessDiscussionTargetObjectTypeLabel = enumDefinitionLabels(BUSINESS_DISCUSSION_TARGET_OBJECT_TYPE_DEFINITIONS);
+export const BusinessDiscussionTargetObjectTypeOptions = enumDefinitionOptions(BUSINESS_DISCUSSION_TARGET_OBJECT_TYPE_DEFINITIONS);
+
+const OpportunityContextQueryBaseSchema = z
+    .object({
+        leadId: z.uuid().optional(),
+        projectId: z.uuid().optional()
+    })
+    .refine((value) => value.leadId !== undefined || value.projectId !== undefined, {
+        message: 'At least one opportunity anchor is required'
+    });
+
+export const OpportunityContextQuerySchema = OpportunityContextQueryBaseSchema.meta({ id: 'OpportunityContextQuery' });
+
+export type OpportunityContextQuery = z.infer<typeof OpportunityContextQuerySchema>;
+
+export const CustomerContactSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerId: z.uuid(),
+        customerName: z.string(),
+        name: z.string(),
+        department: z.string().nullable(),
+        title: z.string().nullable(),
+        workPhone: z.string().nullable(),
+        mobile: z.string().nullable(),
+        wechat: z.string().nullable(),
+        email: z.email().nullable(),
+        remark: z.string().nullable(),
+        status: CustomerContactStatusSchema,
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'CustomerContactSummary' });
+
+export type CustomerContactSummary = z.infer<typeof CustomerContactSummarySchema>;
+
+export const CustomerContactListSchema = z.array(CustomerContactSummarySchema).meta({ id: 'CustomerContactList' });
+
+export const CustomerContactListQuerySchema = z.object({ customerId: z.uuid() }).meta({ id: 'CustomerContactListQuery' });
+
+export type CustomerContactListQuery = z.infer<typeof CustomerContactListQuerySchema>;
+
+export const CreateCustomerContactRequestSchema = z
+    .object({
+        customerId: z.uuid(),
+        name: z.string().trim().min(1).max(128),
+        department: z.string().trim().min(1).max(128).nullable().optional(),
+        title: z.string().trim().min(1).max(128).nullable().optional(),
+        workPhone: z.string().trim().min(1).max(64).nullable().optional(),
+        mobile: z.string().trim().min(1).max(64).nullable().optional(),
+        wechat: z.string().trim().min(1).max(128).nullable().optional(),
+        email: z.email().nullable().optional(),
+        remark: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .meta({ id: 'CreateCustomerContactRequest' });
+
+export type CreateCustomerContactRequest = z.infer<typeof CreateCustomerContactRequestSchema>;
+
+export const UpdateCustomerContactRequestSchema = z
+    .object({
+        name: z.string().trim().min(1).max(128).optional(),
+        department: z.string().trim().min(1).max(128).nullable().optional(),
+        title: z.string().trim().min(1).max(128).nullable().optional(),
+        workPhone: z.string().trim().min(1).max(64).nullable().optional(),
+        mobile: z.string().trim().min(1).max(64).nullable().optional(),
+        wechat: z.string().trim().min(1).max(128).nullable().optional(),
+        email: z.email().nullable().optional(),
+        remark: z.string().trim().min(1).max(2000).nullable().optional(),
+        status: CustomerContactStatusSchema.optional()
+    })
+    .refine(
+        (value) =>
+            value.name !== undefined ||
+            value.department !== undefined ||
+            value.title !== undefined ||
+            value.workPhone !== undefined ||
+            value.mobile !== undefined ||
+            value.wechat !== undefined ||
+            value.email !== undefined ||
+            value.remark !== undefined ||
+            value.status !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateCustomerContactRequest' });
+
+export type UpdateCustomerContactRequest = z.infer<typeof UpdateCustomerContactRequestSchema>;
+
+export const OpportunityStakeholderSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerId: z.uuid(),
+        customerName: z.string(),
+        leadId: z.uuid().nullable(),
+        leadName: z.string().nullable(),
+        projectId: z.uuid().nullable(),
+        projectName: z.string().nullable(),
+        contactId: z.uuid(),
+        contactName: z.string(),
+        contactDepartment: z.string().nullable(),
+        contactTitle: z.string().nullable(),
+        role: OpportunityStakeholderRoleSchema,
+        attitude: OpportunityStakeholderAttitudeSchema,
+        influenceLevel: OpportunityStakeholderInfluenceLevelSchema,
+        accessLevel: OpportunityStakeholderAccessLevelSchema,
+        focusAreas: z.array(z.string()),
+        communicationNotes: z.string().nullable(),
+        isPrimary: z.boolean(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'OpportunityStakeholderSummary' });
+
+export type OpportunityStakeholderSummary = z.infer<typeof OpportunityStakeholderSummarySchema>;
+
+export const OpportunityStakeholderListSchema = z.array(OpportunityStakeholderSummarySchema).meta({ id: 'OpportunityStakeholderList' });
+
+export const CreateOpportunityStakeholderRequestSchema = OpportunityContextQueryBaseSchema.extend({
+    customerId: z.uuid(),
+    contactId: z.uuid(),
+    role: OpportunityStakeholderRoleSchema,
+    attitude: OpportunityStakeholderAttitudeSchema.optional(),
+    influenceLevel: OpportunityStakeholderInfluenceLevelSchema.optional(),
+    accessLevel: OpportunityStakeholderAccessLevelSchema.optional(),
+    focusAreas: z.array(z.string().trim().min(1).max(64)).max(12).optional(),
+    communicationNotes: z.string().trim().min(1).max(2000).nullable().optional(),
+    isPrimary: z.boolean().optional()
+}).meta({ id: 'CreateOpportunityStakeholderRequest' });
+
+export type CreateOpportunityStakeholderRequest = z.infer<typeof CreateOpportunityStakeholderRequestSchema>;
+
+export const UpdateOpportunityStakeholderRequestSchema = z
+    .object({
+        role: OpportunityStakeholderRoleSchema.optional(),
+        attitude: OpportunityStakeholderAttitudeSchema.optional(),
+        influenceLevel: OpportunityStakeholderInfluenceLevelSchema.optional(),
+        accessLevel: OpportunityStakeholderAccessLevelSchema.optional(),
+        focusAreas: z.array(z.string().trim().min(1).max(64)).max(12).optional(),
+        communicationNotes: z.string().trim().min(1).max(2000).nullable().optional(),
+        isPrimary: z.boolean().optional()
+    })
+    .refine(
+        (value) =>
+            value.role !== undefined ||
+            value.attitude !== undefined ||
+            value.influenceLevel !== undefined ||
+            value.accessLevel !== undefined ||
+            value.focusAreas !== undefined ||
+            value.communicationNotes !== undefined ||
+            value.isPrimary !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateOpportunityStakeholderRequest' });
+
+export type UpdateOpportunityStakeholderRequest = z.infer<typeof UpdateOpportunityStakeholderRequestSchema>;
+
+export const CompetitorIntelligenceRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerId: z.uuid(),
+        customerName: z.string(),
+        leadId: z.uuid().nullable(),
+        leadName: z.string().nullable(),
+        projectId: z.uuid().nullable(),
+        projectName: z.string().nullable(),
+        competitorName: z.string(),
+        position: CompetitorPositionSchema,
+        customerPreference: CustomerPreferenceSchema,
+        competitorStrengths: z.string().nullable(),
+        competitorWeaknesses: z.string().nullable(),
+        ourAdvantages: z.string().nullable(),
+        ourRisks: z.string().nullable(),
+        winProbability: WinProbabilityLevelSchema,
+        evidence: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'CompetitorIntelligenceRecordSummary' });
+
+export type CompetitorIntelligenceRecordSummary = z.infer<typeof CompetitorIntelligenceRecordSummarySchema>;
+
+export const CompetitorIntelligenceRecordListSchema = z.array(CompetitorIntelligenceRecordSummarySchema).meta({ id: 'CompetitorIntelligenceRecordList' });
+
+export const CreateCompetitorIntelligenceRecordRequestSchema = OpportunityContextQueryBaseSchema.extend({
+    customerId: z.uuid(),
+    competitorName: z.string().trim().min(1).max(255),
+    position: CompetitorPositionSchema.optional(),
+    customerPreference: CustomerPreferenceSchema.optional(),
+    competitorStrengths: z.string().trim().min(1).max(2000).nullable().optional(),
+    competitorWeaknesses: z.string().trim().min(1).max(2000).nullable().optional(),
+    ourAdvantages: z.string().trim().min(1).max(2000).nullable().optional(),
+    ourRisks: z.string().trim().min(1).max(2000).nullable().optional(),
+    winProbability: WinProbabilityLevelSchema.optional(),
+    evidence: z.string().trim().min(1).max(2000).nullable().optional()
+}).meta({ id: 'CreateCompetitorIntelligenceRecordRequest' });
+
+export type CreateCompetitorIntelligenceRecordRequest = z.infer<typeof CreateCompetitorIntelligenceRecordRequestSchema>;
+
+export const UpdateCompetitorIntelligenceRecordRequestSchema = z
+    .object({
+        competitorName: z.string().trim().min(1).max(255).optional(),
+        position: CompetitorPositionSchema.optional(),
+        customerPreference: CustomerPreferenceSchema.optional(),
+        competitorStrengths: z.string().trim().min(1).max(2000).nullable().optional(),
+        competitorWeaknesses: z.string().trim().min(1).max(2000).nullable().optional(),
+        ourAdvantages: z.string().trim().min(1).max(2000).nullable().optional(),
+        ourRisks: z.string().trim().min(1).max(2000).nullable().optional(),
+        winProbability: WinProbabilityLevelSchema.optional(),
+        evidence: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.competitorName !== undefined ||
+            value.position !== undefined ||
+            value.customerPreference !== undefined ||
+            value.competitorStrengths !== undefined ||
+            value.competitorWeaknesses !== undefined ||
+            value.ourAdvantages !== undefined ||
+            value.ourRisks !== undefined ||
+            value.winProbability !== undefined ||
+            value.evidence !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateCompetitorIntelligenceRecordRequest' });
+
+export type UpdateCompetitorIntelligenceRecordRequest = z.infer<typeof UpdateCompetitorIntelligenceRecordRequestSchema>;
+
+export const SalesDiscoveryRecordSummarySchema = z
+    .object({
+        id: z.uuid(),
+        customerId: z.uuid(),
+        customerName: z.string(),
+        leadId: z.uuid().nullable(),
+        leadName: z.string().nullable(),
+        projectId: z.uuid().nullable(),
+        projectName: z.string().nullable(),
+        procurementProcess: z.string().nullable(),
+        budgetSource: z.string().nullable(),
+        customerPainPoints: z.string().nullable(),
+        decisionCycle: z.string().nullable(),
+        nextContactPlan: z.string().nullable(),
+        remark: z.string().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'SalesDiscoveryRecordSummary' });
+
+export type SalesDiscoveryRecordSummary = z.infer<typeof SalesDiscoveryRecordSummarySchema>;
+
+export const SalesDiscoveryRecordListSchema = z.array(SalesDiscoveryRecordSummarySchema).meta({ id: 'SalesDiscoveryRecordList' });
+
+export const CreateSalesDiscoveryRecordRequestSchema = OpportunityContextQueryBaseSchema.extend({
+    customerId: z.uuid(),
+    procurementProcess: z.string().trim().min(1).max(2000).nullable().optional(),
+    budgetSource: z.string().trim().min(1).max(1000).nullable().optional(),
+    customerPainPoints: z.string().trim().min(1).max(2000).nullable().optional(),
+    decisionCycle: z.string().trim().min(1).max(1000).nullable().optional(),
+    nextContactPlan: z.string().trim().min(1).max(1000).nullable().optional(),
+    remark: z.string().trim().min(1).max(2000).nullable().optional()
+}).meta({ id: 'CreateSalesDiscoveryRecordRequest' });
+
+export type CreateSalesDiscoveryRecordRequest = z.infer<typeof CreateSalesDiscoveryRecordRequestSchema>;
+
+export const UpdateSalesDiscoveryRecordRequestSchema = z
+    .object({
+        procurementProcess: z.string().trim().min(1).max(2000).nullable().optional(),
+        budgetSource: z.string().trim().min(1).max(1000).nullable().optional(),
+        customerPainPoints: z.string().trim().min(1).max(2000).nullable().optional(),
+        decisionCycle: z.string().trim().min(1).max(1000).nullable().optional(),
+        nextContactPlan: z.string().trim().min(1).max(1000).nullable().optional(),
+        remark: z.string().trim().min(1).max(2000).nullable().optional()
+    })
+    .refine(
+        (value) =>
+            value.procurementProcess !== undefined ||
+            value.budgetSource !== undefined ||
+            value.customerPainPoints !== undefined ||
+            value.decisionCycle !== undefined ||
+            value.nextContactPlan !== undefined ||
+            value.remark !== undefined,
+        { message: 'At least one field is required for update' }
+    )
+    .meta({ id: 'UpdateSalesDiscoveryRecordRequest' });
+
+export type UpdateSalesDiscoveryRecordRequest = z.infer<typeof UpdateSalesDiscoveryRecordRequestSchema>;
+
+export const SalesIntelligenceGapSummarySchema = z
+    .object({
+        item: SalesIntelligenceGapItemSchema,
+        label: z.string(),
+        isMissing: z.boolean(),
+        explanation: z.string(),
+        severity: SalesIntelligenceGapSeveritySchema
+    })
+    .meta({ id: 'SalesIntelligenceGapSummary' });
+
+export type SalesIntelligenceGapSummary = z.infer<typeof SalesIntelligenceGapSummarySchema>;
+
+export const SalesIntelligenceGapListSchema = z.array(SalesIntelligenceGapSummarySchema).meta({ id: 'SalesIntelligenceGapList' });
+
+export const BusinessDiscussionThreadSummarySchema = z
+    .object({
+        id: z.uuid(),
+        targetObjectType: BusinessDiscussionTargetObjectTypeSchema,
+        targetObjectId: z.uuid(),
+        customerId: z.uuid().nullable(),
+        leadId: z.uuid().nullable(),
+        projectId: z.uuid().nullable(),
+        targetTitle: z.string(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable()
+    })
+    .meta({ id: 'BusinessDiscussionThreadSummary' });
+
+export type BusinessDiscussionThreadSummary = z.infer<typeof BusinessDiscussionThreadSummarySchema>;
+
+export const BusinessDiscussionCommentSummarySchema = z
+    .object({
+        id: z.uuid(),
+        threadId: z.uuid(),
+        targetObjectType: BusinessDiscussionTargetObjectTypeSchema,
+        targetObjectId: z.uuid(),
+        targetTitle: z.string(),
+        customerId: z.uuid().nullable(),
+        leadId: z.uuid().nullable(),
+        projectId: z.uuid().nullable(),
+        discussionType: BusinessDiscussionTypeSchema,
+        body: z.string(),
+        relatedContactId: z.uuid().nullable(),
+        relatedContactName: z.string().nullable(),
+        relatedCompetitorRecordId: z.uuid().nullable(),
+        relatedFollowUpRecordId: z.uuid().nullable(),
+        isPinned: z.boolean(),
+        isKeyConclusion: z.boolean(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        createdByName: z.string().nullable()
+    })
+    .meta({ id: 'BusinessDiscussionCommentSummary' });
+
+export type BusinessDiscussionCommentSummary = z.infer<typeof BusinessDiscussionCommentSummarySchema>;
+
+export const BusinessDiscussionCommentListSchema = z.array(BusinessDiscussionCommentSummarySchema).meta({ id: 'BusinessDiscussionCommentList' });
+
+export const BusinessDiscussionListQuerySchema = z
+    .object({
+        customerId: z.uuid().optional(),
+        leadId: z.uuid().optional(),
+        projectId: z.uuid().optional()
+    })
+    .refine((value) => value.customerId !== undefined || value.leadId !== undefined || value.projectId !== undefined, {
+        message: 'At least one discussion target anchor is required'
+    })
+    .meta({ id: 'BusinessDiscussionListQuery' });
+
+export type BusinessDiscussionListQuery = z.infer<typeof BusinessDiscussionListQuerySchema>;
+
+export const CreateBusinessDiscussionCommentRequestSchema = z
+    .object({
+        targetObjectType: BusinessDiscussionTargetObjectTypeSchema,
+        targetObjectId: z.uuid(),
+        discussionType: BusinessDiscussionTypeSchema,
+        body: z.string().trim().min(1).max(8000),
+        relatedContactId: z.uuid().nullable().optional(),
+        relatedCompetitorRecordId: z.uuid().nullable().optional(),
+        relatedFollowUpRecordId: z.uuid().nullable().optional(),
+        isPinned: z.boolean().optional(),
+        isKeyConclusion: z.boolean().optional()
+    })
+    .meta({ id: 'CreateBusinessDiscussionCommentRequest' });
+
+export type CreateBusinessDiscussionCommentRequest = z.infer<typeof CreateBusinessDiscussionCommentRequestSchema>;
+
+// ---------------------------------------------------------------------------
 // Sales Follow Up
 // ---------------------------------------------------------------------------
 
