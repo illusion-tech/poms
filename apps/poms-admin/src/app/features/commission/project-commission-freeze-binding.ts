@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectWorkspaceStore } from '@poms/admin-data-access';
+import {
+    CommissionRoleAssignmentStatus,
+    ContractHandoverCurrentBaselineSummarySourceTypeEnum,
+    ProjectHandoverDetailViewHandoverStatusEnum,
+    ProjectHandoverParticipantConfirmationSummaryStatusEnum,
+    ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum,
+    ProjectWorkspaceStore
+} from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
@@ -11,20 +18,35 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { freezeVersionStatusLabel, freezeVersionStatusSeverity, type UiTagSeverity } from '../project/project-presentation';
 
-const HANDOVER_STATUS_LABELS: Record<string, string> = {
-    not_started: '未开始',
-    draft: '草稿',
-    confirmed: '已确认',
-    superseded: '已被替代',
-    voided: '已作废'
-};
+const HANDOVER_STATUS_LABELS = {
+    [ProjectHandoverDetailViewHandoverStatusEnum.NotStarted]: '未开始',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Draft]: '草稿',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Confirmed]: '已确认',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Superseded]: '已被替代',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Voided]: '已作废'
+} as const satisfies Record<ProjectHandoverDetailViewHandoverStatusEnum, string>;
 
-const PARTICIPANT_CONFIRMATION_STATUS_LABELS: Record<string, string> = {
-    not_started: '未开始',
-    pending: '待确认',
-    confirmed: '已确认',
-    closed: '已关闭'
-};
+const HANDOVER_STATUS_SEVERITIES = {
+    [ProjectHandoverDetailViewHandoverStatusEnum.NotStarted]: 'warn',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Draft]: 'warn',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Confirmed]: 'success',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Superseded]: 'secondary',
+    [ProjectHandoverDetailViewHandoverStatusEnum.Voided]: 'danger'
+} as const satisfies Record<ProjectHandoverDetailViewHandoverStatusEnum, UiTagSeverity>;
+
+const PARTICIPANT_CONFIRMATION_STATUS_LABELS = {
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.NotStarted]: '未开始',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending]: '待确认',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed]: '已确认',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Closed]: '已关闭'
+} as const satisfies Record<ProjectHandoverParticipantConfirmationSummaryStatusEnum, string>;
+
+const PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES = {
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.NotStarted]: 'warn',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending]: 'warn',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed]: 'success',
+    [ProjectHandoverParticipantConfirmationSummaryStatusEnum.Closed]: 'secondary'
+} as const satisfies Record<ProjectHandoverParticipantConfirmationSummaryStatusEnum, UiTagSeverity>;
 
 const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
     'confirmed-receipt': '按确认回款',
@@ -32,18 +54,18 @@ const RECEIPT_JUDGMENT_MODE_LABELS: Record<string, string> = {
     'manual-override': '手工覆盖口径'
 };
 
-const RECEIPT_JUDGMENT_SOURCE_LABELS: Record<string, string> = {
-    'project-handover': '项目移交',
-    'project-receipt-judgment-freeze': '回款判断冻结',
-    none: '无来源'
-};
+const RECEIPT_JUDGMENT_SOURCE_LABELS = {
+    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover]: '项目移交',
+    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectReceiptJudgmentFreeze]: '回款判断冻结',
+    [ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.None]: '无来源'
+} as const satisfies Record<ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum, string>;
 
-const BASELINE_SOURCE_LABELS: Record<string, string> = {
-    'contract-readiness': '合同准备包',
-    'project-handover': '项目移交',
-    'handover-rebaseline': '移交再基线化',
-    none: '无来源'
-};
+const BASELINE_SOURCE_LABELS = {
+    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness]: '合同准备包',
+    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.ProjectHandover]: '项目移交',
+    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.HandoverRebaseline]: '移交再基线化',
+    [ContractHandoverCurrentBaselineSummarySourceTypeEnum.None]: '无来源'
+} as const satisfies Record<ContractHandoverCurrentBaselineSummarySourceTypeEnum, string>;
 
 const ROLE_TYPE_LABELS: Record<string, string> = {
     'sales-owner': '销售负责人',
@@ -191,7 +213,7 @@ export class ProjectCommissionFreezeBinding implements OnInit {
             };
         }
 
-        if (summary.status !== 'frozen') {
+        if (summary.status !== CommissionRoleAssignmentStatus.Frozen) {
             return {
                 severity: 'warn',
                 summary: '当前仍未完成正式冻结',
@@ -381,11 +403,11 @@ export class ProjectCommissionFreezeBinding implements OnInit {
             return '尚未形成当前冻结版本';
         }
 
-        if (summary.status === 'frozen') {
+        if (summary.status === CommissionRoleAssignmentStatus.Frozen) {
             return '已完成正式冻结';
         }
 
-        if (summary.status === 'superseded') {
+        if (summary.status === CommissionRoleAssignmentStatus.Superseded) {
             return '当前版本已被替代';
         }
 
@@ -405,7 +427,7 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         if (!summary) {
             return '尚未形成当前冻结版本';
         }
-        if (summary.status !== 'frozen') {
+        if (summary.status !== CommissionRoleAssignmentStatus.Frozen) {
             return '当前版本仍未完成正式冻结';
         }
 
@@ -422,7 +444,7 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         if (!summary) {
             return '先创建当前角色分配版本并补齐参与人责任边界。';
         }
-        if (summary.status !== 'frozen') {
+        if (summary.status !== CommissionRoleAssignmentStatus.Frozen) {
             return '冻结当前角色分配并绑定移交收口链。';
         }
 
@@ -431,7 +453,7 @@ export class ProjectCommissionFreezeBinding implements OnInit {
 
     l5ImpactText(): string {
         const summary = this.currentSummary();
-        if (summary?.status === 'frozen') {
+        if (summary?.status === CommissionRoleAssignmentStatus.Frozen) {
             return '当前责任边界已可作为 L5 规则解释与后续操作链的稳定输入。';
         }
 
@@ -447,47 +469,32 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         return ROLE_TYPE_LABELS[roleType] ?? roleType;
     }
 
-    handoverStatusLabel(status: string | null | undefined): string {
+    handoverStatusLabel(status: ProjectHandoverDetailViewHandoverStatusEnum | null | undefined): string {
         if (!status) {
             return '待确认';
         }
-        return HANDOVER_STATUS_LABELS[status] ?? status;
+        return HANDOVER_STATUS_LABELS[status];
     }
 
-    handoverStatusSeverity(status: string | null | undefined): UiTagSeverity {
+    handoverStatusSeverity(status: ProjectHandoverDetailViewHandoverStatusEnum | null | undefined): UiTagSeverity {
         if (!status) {
             return 'secondary';
         }
-        if (status === 'confirmed') {
-            return 'success';
-        }
-        if (status === 'draft' || status === 'not_started') {
-            return 'warn';
-        }
-        if (status === 'voided') {
-            return 'danger';
-        }
-        return 'secondary';
+        return HANDOVER_STATUS_SEVERITIES[status];
     }
 
-    participantConfirmationStatusLabel(status: string | null | undefined): string {
+    participantConfirmationStatusLabel(status: ProjectHandoverParticipantConfirmationSummaryStatusEnum | null | undefined): string {
         if (!status) {
             return '待确认';
         }
-        return PARTICIPANT_CONFIRMATION_STATUS_LABELS[status] ?? status;
+        return PARTICIPANT_CONFIRMATION_STATUS_LABELS[status];
     }
 
-    participantConfirmationStatusSeverity(status: string | null | undefined): UiTagSeverity {
+    participantConfirmationStatusSeverity(status: ProjectHandoverParticipantConfirmationSummaryStatusEnum | null | undefined): UiTagSeverity {
         if (!status) {
             return 'secondary';
         }
-        if (status === 'confirmed') {
-            return 'success';
-        }
-        if (status === 'pending' || status === 'not_started') {
-            return 'warn';
-        }
-        return 'secondary';
+        return PARTICIPANT_CONFIRMATION_STATUS_SEVERITIES[status];
     }
 
     receiptJudgmentModeLabel(mode: string | null | undefined): string {
@@ -497,18 +504,18 @@ export class ProjectCommissionFreezeBinding implements OnInit {
         return RECEIPT_JUDGMENT_MODE_LABELS[mode] ?? mode;
     }
 
-    receiptJudgmentSourceLabel(sourceType: string | null | undefined): string {
+    receiptJudgmentSourceLabel(sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum | null | undefined): string {
         if (!sourceType) {
             return '待确认';
         }
-        return RECEIPT_JUDGMENT_SOURCE_LABELS[sourceType] ?? sourceType;
+        return RECEIPT_JUDGMENT_SOURCE_LABELS[sourceType];
     }
 
-    baselineSourceLabel(sourceType: string | null | undefined): string {
+    baselineSourceLabel(sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum | null | undefined): string {
         if (!sourceType) {
             return '待确认';
         }
-        return BASELINE_SOURCE_LABELS[sourceType] ?? sourceType;
+        return BASELINE_SOURCE_LABELS[sourceType];
     }
 
     formatParticipantWeight(weight: number): string {

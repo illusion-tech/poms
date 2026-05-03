@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { type ContractReadinessDetail, type ContractReadinessItem, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { ContractReadinessGuardDecision, type ContractReadinessDetail, type ContractReadinessItem, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -22,30 +22,30 @@ interface PreSigningEntry {
     disabledReason?: string;
 }
 
-const READINESS_STATUS_LABELS: Record<string, string> = {
-    ready: '已就绪',
-    conditional: '有条件就绪',
-    blocked: '阻断中'
+const READINESS_STATUS_LABELS: Record<ContractReadinessStatus, string> = {
+    [ContractReadinessStatus.Ready]: '已就绪',
+    [ContractReadinessStatus.Conditional]: '有条件就绪',
+    [ContractReadinessStatus.Blocked]: '阻断中'
 };
 
-const GUARD_DECISION_LABELS: Record<string, string> = {
-    allowed: '允许进入合同主链',
-    'review-required': '需要复核',
-    blocked: '暂不可进入合同主链'
+const GUARD_DECISION_LABELS: Record<ContractReadinessGuardDecision, string> = {
+    [ContractReadinessGuardDecision.Allowed]: '允许进入合同主链',
+    [ContractReadinessGuardDecision.ReviewRequired]: '需要复核',
+    [ContractReadinessGuardDecision.Blocked]: '暂不可进入合同主链'
 };
 
-const READINESS_ITEM_STATUS_LABELS: Record<string, string> = {
-    ready: '已具备',
-    conditional: '有条件',
-    blocked: '阻断',
-    'not-applicable': '不适用'
+const READINESS_ITEM_STATUS_LABELS: Record<ContractReadinessItemStatus, string> = {
+    [ContractReadinessItemStatus.Ready]: '已具备',
+    [ContractReadinessItemStatus.Conditional]: '有条件',
+    [ContractReadinessItemStatus.Blocked]: '阻断',
+    [ContractReadinessItemStatus.NotApplicable]: '不适用'
 };
 
-const READINESS_ITEM_TYPE_LABELS: Record<string, string> = {
-    checklist: '前置检查',
-    'reusable-fact': '可复用事实',
-    'blocking-reason': '阻断原因',
-    'receivable-seed': '回款种子'
+const READINESS_ITEM_TYPE_LABELS: Record<ContractReadinessItemType, string> = {
+    [ContractReadinessItemType.Checklist]: '前置检查',
+    [ContractReadinessItemType.ReusableFact]: '可复用事实',
+    [ContractReadinessItemType.BlockingReason]: '阻断原因',
+    [ContractReadinessItemType.ReceivableSeed]: '回款种子'
 };
 
 @Component({
@@ -332,56 +332,56 @@ export class ProjectPreSigningOverview implements OnInit {
         return readiness ? this.readinessStatusLabel(readiness.packageStatus) : '尚未形成承接包';
     }
 
-    readinessStatusLabel(status: string): string {
+    readinessStatusLabel(status: ContractReadinessStatus): string {
         return READINESS_STATUS_LABELS[status] ?? status;
     }
 
-    readinessStatusSeverity(status: string): UiTagSeverity {
-        if (status === 'ready') {
+    readinessStatusSeverity(status: ContractReadinessStatus): UiTagSeverity {
+        if (status === ContractReadinessStatus.Ready) {
             return 'success';
         }
-        if (status === 'conditional') {
+        if (status === ContractReadinessStatus.Conditional) {
             return 'warn';
         }
-        if (status === 'blocked') {
+        if (status === ContractReadinessStatus.Blocked) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    guardDecisionLabel(decision: string): string {
+    guardDecisionLabel(decision: ContractReadinessGuardDecision): string {
         return GUARD_DECISION_LABELS[decision] ?? decision;
     }
 
-    guardDecisionSeverity(decision: string): UiTagSeverity {
-        if (decision === 'allowed') {
+    guardDecisionSeverity(decision: ContractReadinessGuardDecision): UiTagSeverity {
+        if (decision === ContractReadinessGuardDecision.Allowed) {
             return 'success';
         }
-        if (decision === 'review-required') {
+        if (decision === ContractReadinessGuardDecision.ReviewRequired) {
             return 'warn';
         }
-        if (decision === 'blocked') {
+        if (decision === ContractReadinessGuardDecision.Blocked) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    readinessItemTypeLabel(type: string): string {
+    readinessItemTypeLabel(type: ContractReadinessItemType): string {
         return READINESS_ITEM_TYPE_LABELS[type] ?? type;
     }
 
-    readinessItemStatusLabel(status: string): string {
+    readinessItemStatusLabel(status: ContractReadinessItemStatus): string {
         return READINESS_ITEM_STATUS_LABELS[status] ?? status;
     }
 
-    readinessItemStatusSeverity(status: string): UiTagSeverity {
-        if (status === 'ready') {
+    readinessItemStatusSeverity(status: ContractReadinessItemStatus): UiTagSeverity {
+        if (status === ContractReadinessItemStatus.Ready) {
             return 'success';
         }
-        if (status === 'conditional') {
+        if (status === ContractReadinessItemStatus.Conditional) {
             return 'warn';
         }
-        if (status === 'blocked') {
+        if (status === ContractReadinessItemStatus.Blocked) {
             return 'danger';
         }
         return 'secondary';

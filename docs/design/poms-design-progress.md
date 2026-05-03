@@ -507,6 +507,8 @@
 26. 2026-05-03 `FE-52B` 已完成 `G4`，提交 `7fc6f43`：CRM 前端页面与 specs 的闭合枚举消费收口可作为后续 `FE-52C` 输入。
 27. 2026-05-03 `FE-52C` 已进入 `G1 / Doing`：继承 `FE-52` 基线，范围限定项目列表 / 详情 / 工作区、合同页、提成页和 focused specs 的 generated enum 消费收口；不改 API、DDL、权限、路由或页面结构。
 28. 2026-05-03 `FE-52C` 已进入 `G3 / Review`：项目列表筛选、项目 / 合同 / 提成状态展示 helper、项目归档 / 时间线 / 投标商务 / 报价毛利 specs 已改用 generated enum 或共享 value object；开放 taxonomy 与后端仍按 `string` 暴露的字段留给 `FE-52D` 例外清单。
+29. 2026-05-03 `FE-52C` 已完成 `G4`，提交 `6a3e7a2`：项目、合同与提成前端页面 generated enum 消费收口完成，可作为 `FE-52D` 残留扫描输入。
+30. 2026-05-03 `FE-52D` 已进入 `G3 / Review`：新增 `fe-52d-admin-enum-residual-scan-closeout.md`，补齐合同承接 / 冻结绑定 / 提成 store / 项目归档尾项 enum 消费，汇总 query params、UI-only severity、demo/template UI、开放 taxonomy 和 generated client string gap，为 `EX-57` 回归扫描与允许清单提供输入。
 
 ---
 

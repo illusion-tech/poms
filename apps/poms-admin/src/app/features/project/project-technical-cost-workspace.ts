@@ -3,10 +3,16 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     ProjectWorkspaceStore,
+    ProjectTechnicalCostItemViewConfidenceLevelEnum,
+    ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum,
+    ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum,
     type ProjectTechnicalCostItemView,
     type ProjectTechnicalCostPackageSummary,
     type ProjectTechnicalCostWorkspaceView,
-    type ProjectTechnicalRiskItemView
+    type ProjectTechnicalRiskItemView,
+    ProjectTechnicalRiskItemViewRiskLevelEnum,
+    ProjectTechnicalRiskItemViewRiskStatusEnum,
+    ProjectTechnicalScopeItemViewScopeTypeEnum
 } from '@poms/admin-data-access';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -18,35 +24,35 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
-const FEASIBILITY_DECISION_LABELS: Record<string, string> = {
-    feasible: '技术可行',
-    conditional: '有条件可行',
-    'not-feasible': '暂不可行'
+const FEASIBILITY_DECISION_LABELS: Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string> = {
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible]: '技术可行',
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional]: '有条件可行',
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.NotFeasible]: '暂不可行'
 };
 
-const TAX_REVIEW_STATUS_LABELS: Record<string, string> = {
-    pending: '待复核',
-    reviewed: '已复核',
-    'not-required': '无需复核'
+const TAX_REVIEW_STATUS_LABELS: Record<ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum, string> = {
+    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Pending]: '待复核',
+    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Reviewed]: '已复核',
+    [ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.NotRequired]: '无需复核'
 };
 
-const SCOPE_TYPE_LABELS: Record<string, string> = {
-    'in-scope': '范围内',
-    'out-of-scope': '排除项',
-    assumption: '假设'
+const SCOPE_TYPE_LABELS: Record<ProjectTechnicalScopeItemViewScopeTypeEnum, string> = {
+    [ProjectTechnicalScopeItemViewScopeTypeEnum.InScope]: '范围内',
+    [ProjectTechnicalScopeItemViewScopeTypeEnum.OutOfScope]: '排除项',
+    [ProjectTechnicalScopeItemViewScopeTypeEnum.Assumption]: '假设'
 };
 
-const RISK_STATUS_LABELS: Record<string, string> = {
-    open: '打开',
-    mitigating: '缓解中',
-    accepted: '已接受',
-    closed: '已关闭'
+const RISK_STATUS_LABELS: Record<ProjectTechnicalRiskItemViewRiskStatusEnum, string> = {
+    [ProjectTechnicalRiskItemViewRiskStatusEnum.Open]: '打开',
+    [ProjectTechnicalRiskItemViewRiskStatusEnum.Mitigating]: '缓解中',
+    [ProjectTechnicalRiskItemViewRiskStatusEnum.Accepted]: '已接受',
+    [ProjectTechnicalRiskItemViewRiskStatusEnum.Closed]: '已关闭'
 };
 
-const CONFIDENCE_LEVEL_LABELS: Record<string, string> = {
-    high: '高',
-    medium: '中',
-    low: '低'
+const CONFIDENCE_LEVEL_LABELS: Record<ProjectTechnicalCostItemViewConfidenceLevelEnum, string> = {
+    [ProjectTechnicalCostItemViewConfidenceLevelEnum.High]: '高',
+    [ProjectTechnicalCostItemViewConfidenceLevelEnum.Medium]: '中',
+    [ProjectTechnicalCostItemViewConfidenceLevelEnum.Low]: '低'
 };
 
 @Component({
@@ -370,82 +376,82 @@ export class ProjectTechnicalCostWorkspace implements OnInit {
         return [...workspace.costItems].sort((left, right) => left.sortOrder - right.sortOrder);
     }
 
-    feasibilityDecisionLabel(decision: string): string {
+    feasibilityDecisionLabel(decision: ProjectTechnicalCostPackageSummary['technicalFeasibilityDecision']): string {
         return FEASIBILITY_DECISION_LABELS[decision] ?? decision;
     }
 
-    feasibilityDecisionSeverity(decision: string): UiTagSeverity {
-        if (decision === 'feasible') {
+    feasibilityDecisionSeverity(decision: ProjectTechnicalCostPackageSummary['technicalFeasibilityDecision']): UiTagSeverity {
+        if (decision === ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible) {
             return 'success';
         }
-        if (decision === 'conditional') {
+        if (decision === ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional) {
             return 'warn';
         }
-        if (decision === 'not-feasible') {
+        if (decision === ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.NotFeasible) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    taxReviewStatusLabel(status: string): string {
+    taxReviewStatusLabel(status: ProjectTechnicalCostPackageSummary['taxReviewStatus']): string {
         return TAX_REVIEW_STATUS_LABELS[status] ?? status;
     }
 
-    taxReviewStatusSeverity(status: string): UiTagSeverity {
-        if (status === 'reviewed' || status === 'not-required') {
+    taxReviewStatusSeverity(status: ProjectTechnicalCostPackageSummary['taxReviewStatus']): UiTagSeverity {
+        if (status === ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Reviewed || status === ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.NotRequired) {
             return 'success';
         }
-        if (status === 'pending') {
+        if (status === ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Pending) {
             return 'warn';
         }
         return 'secondary';
     }
 
-    scopeTypeLabel(scopeType: string): string {
+    scopeTypeLabel(scopeType: ProjectTechnicalScopeItemViewScopeTypeEnum): string {
         return SCOPE_TYPE_LABELS[scopeType] ?? scopeType;
     }
 
-    scopeTypeSeverity(scopeType: string): UiTagSeverity {
-        if (scopeType === 'in-scope') {
+    scopeTypeSeverity(scopeType: ProjectTechnicalScopeItemViewScopeTypeEnum): UiTagSeverity {
+        if (scopeType === ProjectTechnicalScopeItemViewScopeTypeEnum.InScope) {
             return 'success';
         }
-        if (scopeType === 'out-of-scope') {
+        if (scopeType === ProjectTechnicalScopeItemViewScopeTypeEnum.OutOfScope) {
             return 'warn';
         }
         return 'info';
     }
 
-    riskLevelSeverity(riskLevel: string): UiTagSeverity {
-        if (riskLevel === 'R4') {
+    riskLevelSeverity(riskLevel: ProjectTechnicalRiskItemViewRiskLevelEnum | ProjectTechnicalCostPackageSummary['highestRiskLevel']): UiTagSeverity {
+        if (riskLevel === ProjectTechnicalRiskItemViewRiskLevelEnum.R4) {
             return 'danger';
         }
-        if (riskLevel === 'R3') {
+        if (riskLevel === ProjectTechnicalRiskItemViewRiskLevelEnum.R3) {
             return 'warn';
         }
-        if (riskLevel === 'R2') {
+        if (riskLevel === ProjectTechnicalRiskItemViewRiskLevelEnum.R2) {
             return 'info';
         }
         return 'secondary';
     }
 
-    riskStatusLabel(status: string): string {
+    riskStatusLabel(status: ProjectTechnicalRiskItemView['riskStatus']): string {
         return RISK_STATUS_LABELS[status] ?? status;
     }
 
     riskStatusSeverity(item: ProjectTechnicalRiskItemView): UiTagSeverity {
-        if (item.blocksNextStage && item.riskStatus !== 'closed') {
+        if (item.blocksNextStage && item.riskStatus !== ProjectTechnicalRiskItemViewRiskStatusEnum.Closed) {
             return 'danger';
         }
-        if (item.riskStatus === 'closed') {
+        if (item.riskStatus === ProjectTechnicalRiskItemViewRiskStatusEnum.Closed) {
             return 'success';
         }
-        if (item.riskStatus === 'mitigating') {
+        if (item.riskStatus === ProjectTechnicalRiskItemViewRiskStatusEnum.Mitigating) {
             return 'warn';
         }
         return 'secondary';
     }
 
-    confidenceLabel(level: string): string {
+    confidenceLabel(level: ProjectTechnicalCostItemView['confidenceLevel']): string {
         return CONFIDENCE_LEVEL_LABELS[level] ?? level;
     }
 
@@ -453,10 +459,10 @@ export class ProjectTechnicalCostWorkspace implements OnInit {
         if (item.highUncertainty) {
             return 'warn';
         }
-        if (item.confidenceLevel === 'high') {
+        if (item.confidenceLevel === ProjectTechnicalCostItemViewConfidenceLevelEnum.High) {
             return 'success';
         }
-        if (item.confidenceLevel === 'medium') {
+        if (item.confidenceLevel === ProjectTechnicalCostItemViewConfidenceLevelEnum.Medium) {
             return 'info';
         }
         return 'secondary';

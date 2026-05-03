@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { type ContractReadinessDetail, ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { CommercialDiffLevel, CommercialDiffReviewStatus, ContractReadinessGuardDecision, type ContractReadinessDetail, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectPreSigningOverview } from './project-pre-signing-overview';
 
 function createGuidance(overrides: Partial<ProjectWorkspaceGuidanceView> = {}): ProjectWorkspaceGuidanceView {
@@ -46,10 +46,10 @@ function createReadiness(overrides: Partial<ContractReadinessDetail> = {}): Cont
         sourceBaselineId: 'source-baseline-1',
         commercialReleaseBaselineId: 'commercial-baseline-1',
         latestDiffResultId: 'diff-1',
-        diffLevel: 'prompt',
-        reviewStatus: 'pending-review',
-        packageStatus: 'conditional',
-        guardDecision: 'review-required',
+        diffLevel: CommercialDiffLevel.Prompt,
+        reviewStatus: CommercialDiffReviewStatus.PendingReview,
+        packageStatus: ContractReadinessStatus.Conditional,
+        guardDecision: ContractReadinessGuardDecision.ReviewRequired,
         currentEffectiveDecisionSummary: '合同前置事实基本齐备，仍需复核付款条件。',
         blockingReasonSummary: '付款条件调整需要复核。',
         missingPrerequisiteCount: 1,
@@ -67,11 +67,11 @@ function createReadiness(overrides: Partial<ContractReadinessDetail> = {}): Cont
         items: [
             {
                 id: 'item-1',
-                itemType: 'blocking-reason',
+                itemType: ContractReadinessItemType.BlockingReason,
                 itemKey: 'payment-term-review',
                 label: '付款条件复核',
                 summary: '合同付款条件相对商业放行基线发生调整。',
-                status: 'blocked',
+                status: ContractReadinessItemStatus.Blocked,
                 responsibleRole: '财务负责人',
                 navigationHint: '复核商业放行差异',
                 sortOrder: 10

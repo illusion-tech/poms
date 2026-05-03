@@ -1,9 +1,9 @@
-import type { TodoItemSummary } from '@poms/admin-data-access';
+import { BusinessDomain, TargetObjectType, TodoPriority, TodoSourceType, TodoStatus, TodoType, type TodoItemSummary } from '@poms/admin-data-access';
 import { resolveTodoNavigationTarget } from './todo-navigation';
 
 describe('resolveTodoNavigationTarget', () => {
     it('routes contract todos to contract detail', () => {
-        const result = resolveTodoNavigationTarget(createTodo({ targetObjectType: 'Contract', targetObjectId: 'contract-1' }));
+        const result = resolveTodoNavigationTarget(createTodo({ targetObjectType: TargetObjectType.Contract, targetObjectId: 'contract-1' }));
 
         expect(result).toEqual({
             navigable: true,
@@ -12,7 +12,7 @@ describe('resolveTodoNavigationTarget', () => {
     });
 
     it('routes project todos to project detail', () => {
-        const result = resolveTodoNavigationTarget(createTodo({ targetObjectType: 'Project', targetObjectId: 'project-1' }));
+        const result = resolveTodoNavigationTarget(createTodo({ targetObjectType: TargetObjectType.Project, targetObjectId: 'project-1' }));
 
         expect(result).toEqual({
             navigable: true,
@@ -25,10 +25,10 @@ describe('resolveTodoNavigationTarget', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
                 id: 'todo-1',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: TodoSourceType.SalesFollowUpRecord,
                 sourceId: 'follow-up-1',
-                todoType: 'sales_follow_up_reminder',
-                targetObjectType: 'Project',
+                todoType: TodoType.SalesFollowUpReminder,
+                targetObjectType: TargetObjectType.Project,
                 targetObjectId: 'project-1'
             })
         );
@@ -47,10 +47,10 @@ describe('resolveTodoNavigationTarget', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
                 id: 'todo-2',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: TodoSourceType.SalesFollowUpRecord,
                 sourceId: 'follow-up-2',
-                todoType: 'sales_follow_up_reminder',
-                targetObjectType: 'Lead',
+                todoType: TodoType.SalesFollowUpReminder,
+                targetObjectType: TargetObjectType.Lead,
                 targetObjectId: 'lead-1'
             })
         );
@@ -70,10 +70,10 @@ describe('resolveTodoNavigationTarget', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
                 id: 'todo-3',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: TodoSourceType.SalesFollowUpRecord,
                 sourceId: 'follow-up-3',
-                todoType: 'sales_follow_up_reminder',
-                targetObjectType: 'Customer',
+                todoType: TodoType.SalesFollowUpReminder,
+                targetObjectType: TargetObjectType.Customer,
                 targetObjectId: 'customer-1'
             })
         );
@@ -92,9 +92,9 @@ describe('resolveTodoNavigationTarget', () => {
     it('routes commission payout todos to operations with payout and approval query params', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
-                sourceType: 'ApprovalRecord',
+                sourceType: TodoSourceType.ApprovalRecord,
                 sourceId: 'approval-1',
-                targetObjectType: 'CommissionPayout',
+                targetObjectType: TargetObjectType.CommissionPayout,
                 targetObjectId: 'payout-1',
                 projectId: 'project-1'
             })
@@ -115,7 +115,7 @@ describe('resolveTodoNavigationTarget', () => {
             createTodo({
                 sourceType: 'System',
                 sourceId: 'source-1',
-                targetObjectType: 'CommissionAdjustment',
+                targetObjectType: TargetObjectType.CommissionAdjustment,
                 targetObjectId: 'adjustment-1',
                 projectId: 'project-1'
             })
@@ -133,7 +133,7 @@ describe('resolveTodoNavigationTarget', () => {
     it('does not navigate commission todos without project context', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
-                targetObjectType: 'CommissionPayout',
+                targetObjectType: TargetObjectType.CommissionPayout,
                 targetObjectId: 'payout-1',
                 projectId: null
             })
@@ -158,11 +158,11 @@ describe('resolveTodoNavigationTarget', () => {
 function createTodo(overrides: Partial<TodoItemSummary> = {}): TodoItemSummary {
     return {
         id: 'todo-1',
-        sourceType: 'ApprovalRecord',
+        sourceType: TodoSourceType.ApprovalRecord,
         sourceId: 'approval-default',
-        todoType: 'approval',
-        businessDomain: '提成',
-        targetObjectType: 'Project',
+        todoType: TodoType.Approval,
+        businessDomain: BusinessDomain.Commission,
+        targetObjectType: TargetObjectType.Project,
         targetObjectId: 'target-1',
         projectId: null,
         title: '处理待办',
@@ -171,8 +171,8 @@ function createTodo(overrides: Partial<TodoItemSummary> = {}): TodoItemSummary {
         currentNodeName: null,
         allowedActions: [],
         assigneeUserId: 'user-1',
-        status: 'open',
-        priority: 'normal',
+        status: TodoStatus.Open,
+        priority: TodoPriority.Normal,
         dueAt: null,
         completedAt: null,
         rowVersion: 1,

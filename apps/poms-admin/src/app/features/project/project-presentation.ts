@@ -9,7 +9,9 @@ import {
     OperatingDataMaturityLevel,
     OperatingRiskLevel,
     OperatingSignalLevel,
-    OperatingSnapshotActionLevel
+    OperatingSnapshotActionLevel,
+    ProjectStage,
+    ProjectStatus
 } from '@poms/admin-data-access';
 import type { UiTagSeverityValue } from '../../shared/ui/ui-severity';
 
@@ -315,7 +317,7 @@ export function projectOwnerSummary(project: { ownerUserId?: string | null; owne
 }
 
 export function projectWorkspaceGuide(project: { currentStage: string; status: string; ownerUserId?: string | null; ownerOrgId?: string | null }): ProjectWorkspaceGuide {
-    if (project.status === 'blocked') {
+    if (project.status === ProjectStatus.Blocked) {
         return {
             currentStep: '先消除当前阻塞',
             nextStep: '恢复主线推进后再进入对应工作区处理',
@@ -325,56 +327,56 @@ export function projectWorkspaceGuide(project: { currentStage: string; status: s
     }
 
     switch (project.currentStage) {
-        case 'assessment':
+        case ProjectStage.Assessment:
             return {
                 currentStep: '完成立项评估与机会判断',
                 nextStep: '确认范围后进入范围确认阶段',
                 currentGap: '未形成明确范围与投入边界前，不进入商务收口',
                 owner: '销售负责人 / 方案负责人'
             };
-        case 'scope-confirmation':
+        case ProjectStage.ScopeConfirmation:
             return {
                 currentStep: '收口技术边界、排除项与前期成本',
                 nextStep: '商务条件成熟后进入商务收口',
                 currentGap: '范围、风险与估算未冻结前，不进入报价与签约准备',
                 owner: '方案负责人 / 技术支持'
             };
-        case 'commercial-closure':
+        case ProjectStage.CommercialClosure:
             return {
                 currentStep: '统一报价、投标和成交条件判断',
                 nextStep: '满足签约前置条件后进入签约',
                 currentGap: '签约前工作区尚未前端化，本轮先补项目级执行工作区骨架',
                 owner: '销售负责人 / 商务负责人'
             };
-        case 'contracting':
+        case ProjectStage.Contracting:
             return {
                 currentStep: '完成合同登记、生效和责任交接准备',
                 nextStep: '移交确认后进入项目移交阶段',
                 currentGap: '合同主链与移交工作区仍待后续切片前端化',
                 owner: '商务行政 / 项目负责人'
             };
-        case 'handover':
+        case ProjectStage.Handover:
             return {
                 currentStep: '完成移交确认并冻结下游责任边界',
                 nextStep: '移交完成后进入正式执行',
                 currentGap: '移交工作区仍待单独前端切片，不在本轮读取页范围内',
                 owner: '销售 / 技术支持 / 项目负责人'
             };
-        case 'acceptance':
+        case ProjectStage.Acceptance:
             return {
                 currentStep: '核对验收事实与收尾条件',
                 nextStep: '满足完成条件后进入完成态',
                 currentGap: '最终结算与规则解释读取页已可查看，但质保金写侧和收尾执行链仍待后续切片',
                 owner: '项目负责人 / 业务确认角色'
             };
-        case 'completed':
+        case ProjectStage.Completed:
             return {
                 currentStep: '项目主线已收口',
                 nextStep: '查看最终结算、规则解释与归档结果',
                 currentGap: '最终结算读取链已具备，归档与剩余收尾写侧仍待后续切片',
                 owner: projectOwnerSummary(project)
             };
-        case 'execution':
+        case ProjectStage.Execution:
         default:
             return {
                 currentStep: '围绕项目经营口径、偏差风险和提成 gate 持续推进',

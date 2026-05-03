@@ -2,14 +2,21 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import {
+    CommissionRoleAssignmentStatus,
     type CommissionRoleAssignmentDetailView,
     type CommissionRoleAssignmentSummary,
+    ContractHandoverCurrentBaselineSummarySourceTypeEnum,
+    ContractHandoverCurrentBaselineSummaryStatusEnum,
+    ProjectHandoverDetailViewHandoverStatusEnum,
     type ProjectHandoverDetailView,
+    ProjectHandoverParticipantConfirmationSummaryStatusEnum,
+    ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum,
+    ProjectHandoverReceiptJudgmentModeSummaryStatusEnum,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
 import { ProjectCommissionFreezeBinding } from './project-commission-freeze-binding';
 
-function createRoleAssignmentSummary(status: CommissionRoleAssignmentSummary['status'] = 'frozen'): CommissionRoleAssignmentSummary {
+function createRoleAssignmentSummary(status: CommissionRoleAssignmentSummary['status'] = CommissionRoleAssignmentStatus.Frozen): CommissionRoleAssignmentSummary {
     return {
         id: 'freeze-1',
         projectId: 'project-1',
@@ -36,7 +43,7 @@ function createRoleAssignmentSummary(status: CommissionRoleAssignmentSummary['st
         contractSummarySnapshotId: 'contract-summary-1',
         handoverSummarySnapshotId: 'handover-summary-1',
         effectiveHandoverBaselineSnapshotId: 'handover-baseline-1',
-        frozenAt: status === 'frozen' ? '2026-04-20T10:00:00.000Z' : null,
+        frozenAt: status === CommissionRoleAssignmentStatus.Frozen ? '2026-04-20T10:00:00.000Z' : null,
         createdAt: '2026-04-20T09:30:00.000Z',
         updatedAt: '2026-04-20T10:00:00.000Z'
     };
@@ -51,16 +58,16 @@ function createFreezeBindingDetail(summary: CommissionRoleAssignmentSummary = cr
         contractSummarySnapshotId: 'contract-summary-1',
         handoverSummarySnapshotId: 'handover-summary-1',
         effectiveHandoverBaselineSummary: {
-            status: 'available',
+            status: ContractHandoverCurrentBaselineSummaryStatusEnum.Available,
             baselineSnapshotId: 'handover-baseline-1',
-            sourceType: 'contract-readiness',
+            sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness,
             sourceId: 'readiness-1',
             summary: '合同承接基线已稳定'
         },
         receiptJudgmentModeSummary: {
-            status: 'frozen',
+            status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum.Frozen,
             receiptJudgmentMode: 'confirmed-receipt',
-            sourceType: 'project-handover',
+            sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover,
             sourceId: 'handover-1',
             summary: '按移交确认冻结回款判断口径'
         },
@@ -79,7 +86,7 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
         projectId: 'project-1',
         projectNo: 'PRJ-001',
         projectName: '冻结责任边界项目',
-        handoverStatus: 'confirmed',
+        handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum.Confirmed,
         confirmedAt: '2026-04-20T10:00:00.000Z',
         confirmedBy: 'user-1',
         comment: null,
@@ -96,14 +103,14 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
         },
         contractSummarySnapshotId: 'contract-summary-1',
         currentHandoverBaselineSummary: {
-            status: 'available',
+            status: ContractHandoverCurrentBaselineSummaryStatusEnum.Available,
             baselineSnapshotId: 'handover-baseline-1',
-            sourceType: 'contract-readiness',
+            sourceType: ContractHandoverCurrentBaselineSummarySourceTypeEnum.ContractReadiness,
             sourceId: 'readiness-1',
             summary: '合同承接基线已稳定'
         },
         participantConfirmationSummary: {
-            status: 'confirmed',
+            status: ProjectHandoverParticipantConfirmationSummaryStatusEnum.Confirmed,
             confirmationRecordId: 'confirmation-1',
             requiredCount: 2,
             confirmedCount: 2,
@@ -116,9 +123,9 @@ function createProjectHandoverDetail(): ProjectHandoverDetailView {
             participants: []
         },
         receiptJudgmentModeSummary: {
-            status: 'frozen',
+            status: ProjectHandoverReceiptJudgmentModeSummaryStatusEnum.Frozen,
             receiptJudgmentMode: 'confirmed-receipt',
-            sourceType: 'project-handover',
+            sourceType: ProjectHandoverReceiptJudgmentModeSummarySourceTypeEnum.ProjectHandover,
             sourceId: 'handover-1',
             summary: '按移交确认冻结回款判断口径'
         },
@@ -227,12 +234,12 @@ describe('ProjectCommissionFreezeBinding', () => {
             detail: null,
             handover: {
                 ...createProjectHandoverDetail(),
-                handoverStatus: 'draft',
+                handoverStatus: ProjectHandoverDetailViewHandoverStatusEnum.Draft,
                 confirmedAt: null,
                 confirmedBy: null,
                 participantConfirmationSummary: {
                     ...createProjectHandoverDetail().participantConfirmationSummary,
-                    status: 'pending',
+                    status: ProjectHandoverParticipantConfirmationSummaryStatusEnum.Pending,
                     confirmedCount: 1,
                     pendingCount: 1,
                     confirmedAt: null

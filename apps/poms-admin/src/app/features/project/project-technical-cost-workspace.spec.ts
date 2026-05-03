@@ -1,7 +1,20 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectTechnicalCostWorkspaceView } from '@poms/admin-data-access';
+import {
+    ProjectStage,
+    ProjectStatus,
+    ProjectTechnicalCostItemViewConfidenceLevelEnum,
+    ProjectTechnicalCostPackageSummaryHighestRiskLevelEnum,
+    ProjectTechnicalCostPackageSummaryStatusEnum,
+    ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum,
+    ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum,
+    ProjectTechnicalRiskItemViewRiskLevelEnum,
+    ProjectTechnicalRiskItemViewRiskStatusEnum,
+    ProjectTechnicalScopeItemViewScopeTypeEnum,
+    ProjectWorkspaceStore,
+    type ProjectTechnicalCostWorkspaceView
+} from '@poms/admin-data-access';
 import { ProjectTechnicalCostWorkspace } from './project-technical-cost-workspace';
 
 function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> = {}): ProjectTechnicalCostWorkspaceView {
@@ -15,8 +28,8 @@ function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> =
             version: 2,
             isCurrent: true,
             supersedesId: 'package-0',
-            status: 'effective',
-            technicalFeasibilityDecision: 'conditional',
+            status: ProjectTechnicalCostPackageSummaryStatusEnum.Effective,
+            technicalFeasibilityDecision: ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional,
             technicalConclusionSummary: '范围可实施，但客户接口文档需要冻结。',
             allowNextStage: false,
             currencyCode: 'CNY',
@@ -24,8 +37,8 @@ function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> =
             totalTaxCostAmount: '900.00',
             totalEstimatedAmountIncludingTax: '15900.00',
             taxAssumptionSummary: '按 6% 增值税估算。',
-            taxReviewStatus: 'pending',
-            highestRiskLevel: 'R3',
+            taxReviewStatus: ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum.Pending,
+            highestRiskLevel: ProjectTechnicalCostPackageSummaryHighestRiskLevelEnum.R3,
             blockerCount: 2,
             effectiveAt: '2026-04-24T08:00:00.000Z',
             createdAt: '2026-04-24T08:00:00.000Z',
@@ -38,7 +51,7 @@ function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> =
             {
                 id: 'scope-1',
                 packageId: 'package-1',
-                scopeType: 'in-scope',
+                scopeType: ProjectTechnicalScopeItemViewScopeTypeEnum.InScope,
                 label: '核心接口联调',
                 description: '覆盖签约前必须确认的接口范围。',
                 sortOrder: 1
@@ -49,12 +62,12 @@ function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> =
                 id: 'risk-1',
                 packageId: 'package-1',
                 riskCategory: '集成风险',
-                riskLevel: 'R3',
+                riskLevel: ProjectTechnicalRiskItemViewRiskLevelEnum.R3,
                 riskDescription: '客户接口文档尚未冻结。',
                 impactScope: '影响报价边界。',
                 mitigationPlan: '推动接口清单冻结。',
                 ownerRole: '售前技术负责人',
-                riskStatus: 'open',
+                riskStatus: ProjectTechnicalRiskItemViewRiskStatusEnum.Open,
                 blocksNextStage: true,
                 sortOrder: 1
             }
@@ -74,7 +87,7 @@ function createWorkspace(overrides: Partial<ProjectTechnicalCostWorkspaceView> =
                 taxCostAmount: '900.00',
                 amountIncludingTax: '15900.00',
                 currencyCode: 'CNY',
-                confidenceLevel: 'medium',
+                confidenceLevel: ProjectTechnicalCostItemViewConfidenceLevelEnum.Medium,
                 highUncertainty: true,
                 responsibleRole: '售前技术负责人',
                 sortOrder: 1

@@ -1,4 +1,4 @@
-import type { TodoItemSummary } from '@poms/admin-data-access';
+import { BusinessDomain, TargetObjectType, TodoPriority, TodoSourceType, TodoStatus, TodoType, type TodoItemSummary } from '@poms/admin-data-access';
 import { buildCommissionTodoDeepLinkContext } from './commission-todo-deeplink';
 
 const PAYOUT_ID = '51000000-0000-4000-8000-000000000391';
@@ -12,7 +12,7 @@ describe('buildCommissionTodoDeepLinkContext', () => {
             todos: [
                 createTodo({
                     sourceId: PAYOUT_APPROVAL_ID,
-                    targetObjectType: 'CommissionPayout',
+                    targetObjectType: TargetObjectType.CommissionPayout,
                     targetObjectId: PAYOUT_ID,
                     title: '首期发放审批',
                     targetTitle: '首期发放',
@@ -72,11 +72,11 @@ describe('buildCommissionTodoDeepLinkContext', () => {
 function createTodo(overrides: Partial<TodoItemSummary> = {}): TodoItemSummary {
     return {
         id: '41000000-0000-4000-8000-000000000399',
-        sourceType: 'ApprovalRecord',
+        sourceType: TodoSourceType.ApprovalRecord,
         sourceId: '61000000-0000-4000-8000-000000000399',
-        todoType: 'approval',
-        businessDomain: '提成',
-        targetObjectType: 'CommissionPayout',
+        todoType: TodoType.Approval,
+        businessDomain: BusinessDomain.Commission,
+        targetObjectType: TargetObjectType.CommissionPayout,
         targetObjectId: PAYOUT_ID,
         projectId: '21000000-0000-4000-8000-000000000201',
         title: '提成待办',
@@ -85,8 +85,8 @@ function createTodo(overrides: Partial<TodoItemSummary> = {}): TodoItemSummary {
         currentNodeName: '审批节点',
         allowedActions: ['open'],
         assigneeUserId: '10000000-0000-4000-8000-000000000001',
-        status: 'open',
-        priority: 'normal',
+        status: TodoStatus.Open,
+        priority: TodoPriority.Normal,
         dueAt: null,
         completedAt: null,
         rowVersion: 1,

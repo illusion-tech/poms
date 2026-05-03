@@ -6,14 +6,23 @@ import {
     CreateProjectPricingMarginReviewRequestDecisionEnum,
     CreateProjectPricingMarginReviewRequestGrossMarginBandEnum,
     CreateProjectPricingMarginReviewRequestPricingPathEnum,
+    ProjectBidCommercialProcessSummaryBidModeEnum,
+    ProjectBidCommercialProcessSummaryResultStatusEnum,
     ProjectWorkspaceStore,
     type ProjectBidCommercialProcessSummary,
     type CreateProjectPricingMarginReviewRequest,
     type ProjectPricingMarginConditionItemInput,
     ProjectPricingMarginConditionItemInputConditionStatusEnum,
     ProjectPricingMarginConditionItemInputConditionTypeEnum,
+    ProjectPricingMarginConditionItemViewConditionStatusEnum,
+    ProjectPricingMarginConditionItemViewConditionTypeEnum,
     type ProjectPricingMarginConditionItemView,
+    ProjectPricingMarginReviewSummaryDecisionEnum,
+    ProjectPricingMarginReviewSummaryGrossMarginBandEnum,
+    ProjectPricingMarginReviewSummaryPricingPathEnum,
+    ProjectPricingMarginReviewSummaryStatusEnum,
     type ProjectPricingMarginReviewSummary,
+    ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum,
     type ProjectPricingMarginWorkspaceView,
     type ProjectTechnicalCostPackageSummary
 } from '@poms/admin-data-access';
@@ -34,63 +43,69 @@ import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { WorkspaceVersionHistory, type WorkspaceVersionHistoryRow } from '../../shared/ui/workspace-version-history';
 import { formatAmount, type UiTagSeverity } from './project-presentation';
 
-const PRICING_PATH_LABELS: Record<string, string> = {
-    bid: '竞标承接',
-    'direct-commercial': '直接商务'
+type PricingPathValue = CreateProjectPricingMarginReviewRequestPricingPathEnum | ProjectPricingMarginReviewSummaryPricingPathEnum;
+type GrossMarginBandValue = CreateProjectPricingMarginReviewRequestGrossMarginBandEnum | ProjectPricingMarginReviewSummaryGrossMarginBandEnum;
+type PricingDecisionValue = CreateProjectPricingMarginReviewRequestDecisionEnum | ProjectPricingMarginReviewSummaryDecisionEnum;
+type PricingConditionTypeValue = ProjectPricingMarginConditionItemInputConditionTypeEnum | ProjectPricingMarginConditionItemViewConditionTypeEnum;
+type PricingConditionStatusValue = ProjectPricingMarginConditionItemInputConditionStatusEnum | ProjectPricingMarginConditionItemViewConditionStatusEnum;
+
+const PRICING_PATH_LABELS: Record<PricingPathValue, string> = {
+    [CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid]: '竞标承接',
+    [CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial]: '直接商务'
 };
 
-const GROSS_MARGIN_BAND_LABELS: Record<string, string> = {
-    'below-redline': '低于红线',
-    watch: '需关注',
-    target: '达到目标',
-    'not-calculated': '未计算'
+const GROSS_MARGIN_BAND_LABELS: Record<GrossMarginBandValue, string> = {
+    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline]: '低于红线',
+    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch]: '需关注',
+    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target]: '达到目标',
+    [CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated]: '未计算'
 };
 
-const PRICING_DECISION_LABELS: Record<string, string> = {
-    pending: '待评审',
-    released: '已放行',
-    'conditional-release': '有条件放行',
-    rejected: '已驳回',
-    'escalation-required': '需升级'
+const PRICING_DECISION_LABELS: Record<PricingDecisionValue, string> = {
+    [CreateProjectPricingMarginReviewRequestDecisionEnum.Pending]: '待评审',
+    [CreateProjectPricingMarginReviewRequestDecisionEnum.Released]: '已放行',
+    [CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease]: '有条件放行',
+    [CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected]: '已驳回',
+    [CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired]: '需升级'
 };
 
-const CONDITION_TYPE_LABELS: Record<string, string> = {
-    financial: '财务',
-    tax: '税务',
-    payment: '回款',
-    scope: '范围',
-    risk: '风险',
-    approval: '审批'
+const CONDITION_TYPE_LABELS: Record<PricingConditionTypeValue, string> = {
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Financial]: '财务',
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Tax]: '税务',
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment]: '回款',
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Scope]: '范围',
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Risk]: '风险',
+    [ProjectPricingMarginConditionItemInputConditionTypeEnum.Approval]: '审批'
 };
 
-const CONDITION_STATUS_LABELS: Record<string, string> = {
-    open: '打开',
-    closed: '已关闭',
-    waived: '已豁免'
+const CONDITION_STATUS_LABELS: Record<PricingConditionStatusValue, string> = {
+    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Open]: '打开',
+    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Closed]: '已关闭',
+    [ProjectPricingMarginConditionItemInputConditionStatusEnum.Waived]: '已豁免'
 };
 
-const BID_MODE_LABELS: Record<string, string> = {
-    'public-tender': '公开招标',
-    invitation: '邀标',
-    comparison: '比选',
-    'commercial-negotiation': '商务谈判',
-    'competitive-negotiation': '竞争性谈判',
-    'direct-commercial': '直接商务',
-    'not-required': '不适用'
+const BID_MODE_LABELS: Record<ProjectBidCommercialProcessSummaryBidModeEnum, string> = {
+    [ProjectBidCommercialProcessSummaryBidModeEnum.PublicTender]: '公开招标',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.Invitation]: '邀标',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.Comparison]: '比选',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.CommercialNegotiation]: '商务谈判',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.CompetitiveNegotiation]: '竞争性谈判',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.DirectCommercial]: '直接商务',
+    [ProjectBidCommercialProcessSummaryBidModeEnum.NotRequired]: '不适用'
 };
 
-const BID_RESULT_LABELS: Record<string, string> = {
-    pending: '待结果',
-    won: '中标 / 成交',
-    lost: '未中标',
-    cancelled: '已取消',
-    'not-applicable': '不适用'
+const BID_RESULT_LABELS: Record<ProjectBidCommercialProcessSummaryResultStatusEnum, string> = {
+    [ProjectBidCommercialProcessSummaryResultStatusEnum.Pending]: '待结果',
+    [ProjectBidCommercialProcessSummaryResultStatusEnum.Won]: '中标 / 成交',
+    [ProjectBidCommercialProcessSummaryResultStatusEnum.Lost]: '未中标',
+    [ProjectBidCommercialProcessSummaryResultStatusEnum.Cancelled]: '已取消',
+    [ProjectBidCommercialProcessSummaryResultStatusEnum.NotApplicable]: '不适用'
 };
 
-const TECHNICAL_DECISION_LABELS: Record<string, string> = {
-    feasible: '技术可行',
-    conditional: '有条件可行',
-    'not-feasible': '暂不可行'
+const TECHNICAL_DECISION_LABELS: Record<ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum, string> = {
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible]: '技术可行',
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional]: '有条件可行',
+    [ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.NotFeasible]: '暂不可行'
 };
 
 type Option<T> = {
@@ -681,7 +696,7 @@ export class ProjectPricingMarginWorkspace implements OnInit {
             {
                 label: '报价路径',
                 value: this.pricingPathLabel(review.pricingPath),
-                severity: review.pricingPath === 'bid' ? 'warn' : 'info'
+                severity: review.pricingPath === ProjectPricingMarginReviewSummaryPricingPathEnum.Bid ? 'warn' : 'info'
             },
             {
                 label: '税务条件',
@@ -804,74 +819,74 @@ export class ProjectPricingMarginWorkspace implements OnInit {
         ];
     }
 
-    pricingPathLabel(value: string): string {
+    pricingPathLabel(value: PricingPathValue): string {
         return PRICING_PATH_LABELS[value] ?? value;
     }
 
-    grossMarginBandLabel(value: string): string {
+    grossMarginBandLabel(value: GrossMarginBandValue): string {
         return GROSS_MARGIN_BAND_LABELS[value] ?? value;
     }
 
-    grossMarginBandSeverity(value: string): UiTagSeverity {
-        if (value === 'target') {
+    grossMarginBandSeverity(value: GrossMarginBandValue): UiTagSeverity {
+        if (value === CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Target || value === ProjectPricingMarginReviewSummaryGrossMarginBandEnum.Target) {
             return 'success';
         }
-        if (value === 'watch') {
+        if (value === CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.Watch || value === ProjectPricingMarginReviewSummaryGrossMarginBandEnum.Watch) {
             return 'warn';
         }
-        if (value === 'below-redline') {
+        if (value === CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.BelowRedline || value === ProjectPricingMarginReviewSummaryGrossMarginBandEnum.BelowRedline) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    pricingDecisionLabel(value: string): string {
+    pricingDecisionLabel(value: PricingDecisionValue): string {
         return PRICING_DECISION_LABELS[value] ?? value;
     }
 
-    pricingDecisionSeverity(value: string): UiTagSeverity {
-        if (value === 'released') {
+    pricingDecisionSeverity(value: PricingDecisionValue): UiTagSeverity {
+        if (value === CreateProjectPricingMarginReviewRequestDecisionEnum.Released || value === ProjectPricingMarginReviewSummaryDecisionEnum.Released) {
             return 'success';
         }
-        if (value === 'conditional-release') {
+        if (value === CreateProjectPricingMarginReviewRequestDecisionEnum.ConditionalRelease || value === ProjectPricingMarginReviewSummaryDecisionEnum.ConditionalRelease) {
             return 'warn';
         }
-        if (value === 'rejected' || value === 'escalation-required') {
+        if (value === CreateProjectPricingMarginReviewRequestDecisionEnum.Rejected || value === ProjectPricingMarginReviewSummaryDecisionEnum.Rejected || value === CreateProjectPricingMarginReviewRequestDecisionEnum.EscalationRequired || value === ProjectPricingMarginReviewSummaryDecisionEnum.EscalationRequired) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    versionStatusLabel(value: string): string {
-        if (value === 'effective') {
+    versionStatusLabel(value: ProjectPricingMarginReviewSummary['status']): string {
+        if (value === ProjectPricingMarginReviewSummaryStatusEnum.Effective) {
             return '生效中';
         }
-        if (value === 'superseded') {
+        if (value === ProjectPricingMarginReviewSummaryStatusEnum.Superseded) {
             return '已被替代';
         }
         return value;
     }
 
-    versionStatusSeverity(value: string): UiTagSeverity {
-        if (value === 'effective') {
+    versionStatusSeverity(value: ProjectPricingMarginReviewSummary['status']): UiTagSeverity {
+        if (value === ProjectPricingMarginReviewSummaryStatusEnum.Effective) {
             return 'success';
         }
-        if (value === 'superseded') {
+        if (value === ProjectPricingMarginReviewSummaryStatusEnum.Superseded) {
             return 'secondary';
         }
         return 'info';
     }
 
-    conditionTypeLabel(value: string): string {
+    conditionTypeLabel(value: PricingConditionTypeValue): string {
         return CONDITION_TYPE_LABELS[value] ?? value;
     }
 
-    conditionStatusLabel(value: string): string {
+    conditionStatusLabel(value: PricingConditionStatusValue): string {
         return CONDITION_STATUS_LABELS[value] ?? value;
     }
 
     conditionStatusSeverity(item: ProjectPricingMarginConditionItemView): UiTagSeverity {
-        if (item.conditionStatus === 'closed' || item.conditionStatus === 'waived') {
+        if (item.conditionStatus === ProjectPricingMarginConditionItemViewConditionStatusEnum.Closed || item.conditionStatus === ProjectPricingMarginConditionItemViewConditionStatusEnum.Waived) {
             return 'success';
         }
         if (item.requiredForContracting) {
@@ -880,25 +895,25 @@ export class ProjectPricingMarginWorkspace implements OnInit {
         return 'warn';
     }
 
-    technicalDecisionLabel(value: string): string {
+    technicalDecisionLabel(value: ProjectTechnicalCostPackageSummary['technicalFeasibilityDecision']): string {
         return TECHNICAL_DECISION_LABELS[value] ?? value;
     }
 
-    technicalDecisionSeverity(value: string): UiTagSeverity {
-        if (value === 'feasible') {
+    technicalDecisionSeverity(value: ProjectTechnicalCostPackageSummary['technicalFeasibilityDecision']): UiTagSeverity {
+        if (value === ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Feasible) {
             return 'success';
         }
-        if (value === 'conditional') {
+        if (value === ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum.Conditional) {
             return 'warn';
         }
         return 'danger';
     }
 
-    bidResultSeverity(value: string): UiTagSeverity {
-        if (value === 'won' || value === 'not-applicable') {
+    bidResultSeverity(value: ProjectBidCommercialProcessSummary['resultStatus']): UiTagSeverity {
+        if (value === ProjectBidCommercialProcessSummaryResultStatusEnum.Won || value === ProjectBidCommercialProcessSummaryResultStatusEnum.NotApplicable) {
             return 'success';
         }
-        if (value === 'lost' || value === 'cancelled') {
+        if (value === ProjectBidCommercialProcessSummaryResultStatusEnum.Lost || value === ProjectBidCommercialProcessSummaryResultStatusEnum.Cancelled) {
             return 'danger';
         }
         return 'secondary';

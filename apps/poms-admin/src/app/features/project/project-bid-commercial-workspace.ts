@@ -9,7 +9,14 @@ import {
     CreateProjectBidCommercialProcessRequestResultStatusEnum,
     ProjectWorkspaceStore,
     ProjectBidCommercialMaterialItemInputMaterialStatusEnum,
+    ProjectBidCommercialMaterialItemViewMaterialStatusEnum,
+    ProjectBidCommercialProcessSummaryBidModeEnum,
+    ProjectBidCommercialProcessSummaryCurrentStageEnum,
+    ProjectBidCommercialProcessSummaryDecisionEnum,
+    ProjectBidCommercialProcessSummaryResultStatusEnum,
+    ProjectBidCommercialProcessSummaryStatusEnum,
     ProjectBidCommercialTimelineItemInputTimelineStatusEnum,
+    ProjectBidCommercialTimelineItemViewTimelineStatusEnum,
     type CreateProjectBidCommercialProcessRequest,
     type ProjectBidCommercialMaterialItemInput,
     type ProjectBidCommercialMaterialItemView,
@@ -35,51 +42,58 @@ import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
 import { WorkspaceVersionHistory, type WorkspaceVersionHistoryRow } from '../../shared/ui/workspace-version-history';
 import type { UiTagSeverity } from './project-presentation';
 
-const BID_MODE_LABELS: Record<string, string> = {
-    'public-tender': '公开招标',
-    invitation: '邀标',
-    comparison: '比选',
-    'commercial-negotiation': '商务谈判',
-    'competitive-negotiation': '竞争性谈判',
-    'direct-commercial': '直接商务',
-    'not-required': '不适用'
+type BidModeValue = CreateProjectBidCommercialProcessRequestBidModeEnum | ProjectBidCommercialProcessSummaryBidModeEnum;
+type BidStageValue = CreateProjectBidCommercialProcessRequestCurrentStageEnum | ProjectBidCommercialProcessSummaryCurrentStageEnum;
+type BidDecisionValue = CreateProjectBidCommercialProcessRequestDecisionEnum | ProjectBidCommercialProcessSummaryDecisionEnum;
+type BidResultValue = CreateProjectBidCommercialProcessRequestResultStatusEnum | ProjectBidCommercialProcessSummaryResultStatusEnum;
+type BidMaterialStatusValue = ProjectBidCommercialMaterialItemInputMaterialStatusEnum | ProjectBidCommercialMaterialItemViewMaterialStatusEnum;
+type BidTimelineStatusValue = ProjectBidCommercialTimelineItemInputTimelineStatusEnum | ProjectBidCommercialTimelineItemViewTimelineStatusEnum;
+
+const BID_MODE_LABELS: Record<BidModeValue, string> = {
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.PublicTender]: '公开招标',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.Invitation]: '邀标',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.Comparison]: '比选',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.CommercialNegotiation]: '商务谈判',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.CompetitiveNegotiation]: '竞争性谈判',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.DirectCommercial]: '直接商务',
+    [CreateProjectBidCommercialProcessRequestBidModeEnum.NotRequired]: '不适用'
 };
 
-const BID_STAGE_LABELS: Record<string, string> = {
-    'not-started': '未启动',
-    preparation: '材料准备',
-    submitted: '已提交',
-    negotiating: '谈判中',
-    'result-confirmed': '结果确认',
-    closed: '已关闭'
+const BID_STAGE_LABELS: Record<BidStageValue, string> = {
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.NotStarted]: '未启动',
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Preparation]: '材料准备',
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Submitted]: '已提交',
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Negotiating]: '谈判中',
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.ResultConfirmed]: '结果确认',
+    [CreateProjectBidCommercialProcessRequestCurrentStageEnum.Closed]: '已关闭'
 };
 
-const BID_DECISION_LABELS: Record<string, string> = {
-    pending: '待决策',
-    participate: '参与',
-    'no-bid': '不投标',
-    'not-required': '不适用'
+const BID_DECISION_LABELS: Record<BidDecisionValue, string> = {
+    [CreateProjectBidCommercialProcessRequestDecisionEnum.Pending]: '待决策',
+    [CreateProjectBidCommercialProcessRequestDecisionEnum.Participate]: '参与',
+    [CreateProjectBidCommercialProcessRequestDecisionEnum.NoBid]: '不投标',
+    [CreateProjectBidCommercialProcessRequestDecisionEnum.NotRequired]: '不适用'
 };
 
-const BID_RESULT_LABELS: Record<string, string> = {
-    pending: '待结果',
-    won: '中标 / 成交',
-    lost: '未中标',
-    cancelled: '已取消',
-    'not-applicable': '不适用'
+const BID_RESULT_LABELS: Record<BidResultValue, string> = {
+    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Pending]: '待结果',
+    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Won]: '中标 / 成交',
+    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Lost]: '未中标',
+    [CreateProjectBidCommercialProcessRequestResultStatusEnum.Cancelled]: '已取消',
+    [CreateProjectBidCommercialProcessRequestResultStatusEnum.NotApplicable]: '不适用'
 };
 
-const MATERIAL_STATUS_LABELS: Record<string, string> = {
-    missing: '缺失',
-    'in-progress': '处理中',
-    ready: '已齐备',
-    'not-required': '不适用'
+const MATERIAL_STATUS_LABELS: Record<BidMaterialStatusValue, string> = {
+    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.Missing]: '缺失',
+    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.InProgress]: '处理中',
+    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.Ready]: '已齐备',
+    [ProjectBidCommercialMaterialItemInputMaterialStatusEnum.NotRequired]: '不适用'
 };
 
-const TIMELINE_STATUS_LABELS: Record<string, string> = {
-    pending: '待完成',
-    done: '已完成',
-    cancelled: '已取消'
+const TIMELINE_STATUS_LABELS: Record<BidTimelineStatusValue, string> = {
+    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Pending]: '待完成',
+    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Done]: '已完成',
+    [ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Cancelled]: '已取消'
 };
 
 type Option<T> = {
@@ -758,108 +772,108 @@ export class ProjectBidCommercialWorkspace implements OnInit {
         ];
     }
 
-    bidModeLabel(value: string): string {
+    bidModeLabel(value: BidModeValue): string {
         return BID_MODE_LABELS[value] ?? value;
     }
 
-    bidModeSeverity(value: string): UiTagSeverity {
-        if (value === 'not-required') {
+    bidModeSeverity(value: BidModeValue): UiTagSeverity {
+        if (value === CreateProjectBidCommercialProcessRequestBidModeEnum.NotRequired || value === ProjectBidCommercialProcessSummaryBidModeEnum.NotRequired) {
             return 'secondary';
         }
-        if (value === 'direct-commercial') {
+        if (value === CreateProjectBidCommercialProcessRequestBidModeEnum.DirectCommercial || value === ProjectBidCommercialProcessSummaryBidModeEnum.DirectCommercial) {
             return 'info';
         }
         return 'warn';
     }
 
-    bidStageLabel(value: string): string {
+    bidStageLabel(value: BidStageValue): string {
         return BID_STAGE_LABELS[value] ?? value;
     }
 
-    bidStageSeverity(value: string): UiTagSeverity {
-        if (value === 'closed' || value === 'result-confirmed') {
+    bidStageSeverity(value: BidStageValue): UiTagSeverity {
+        if (value === CreateProjectBidCommercialProcessRequestCurrentStageEnum.Closed || value === ProjectBidCommercialProcessSummaryCurrentStageEnum.Closed || value === CreateProjectBidCommercialProcessRequestCurrentStageEnum.ResultConfirmed || value === ProjectBidCommercialProcessSummaryCurrentStageEnum.ResultConfirmed) {
             return 'success';
         }
-        if (value === 'not-started') {
+        if (value === CreateProjectBidCommercialProcessRequestCurrentStageEnum.NotStarted || value === ProjectBidCommercialProcessSummaryCurrentStageEnum.NotStarted) {
             return 'secondary';
         }
         return 'info';
     }
 
-    bidDecisionLabel(value: string): string {
+    bidDecisionLabel(value: BidDecisionValue): string {
         return BID_DECISION_LABELS[value] ?? value;
     }
 
-    bidDecisionSeverity(value: string): UiTagSeverity {
-        if (value === 'participate' || value === 'not-required') {
+    bidDecisionSeverity(value: BidDecisionValue): UiTagSeverity {
+        if (value === CreateProjectBidCommercialProcessRequestDecisionEnum.Participate || value === ProjectBidCommercialProcessSummaryDecisionEnum.Participate || value === CreateProjectBidCommercialProcessRequestDecisionEnum.NotRequired || value === ProjectBidCommercialProcessSummaryDecisionEnum.NotRequired) {
             return 'success';
         }
-        if (value === 'no-bid') {
+        if (value === CreateProjectBidCommercialProcessRequestDecisionEnum.NoBid || value === ProjectBidCommercialProcessSummaryDecisionEnum.NoBid) {
             return 'warn';
         }
         return 'secondary';
     }
 
-    bidResultLabel(value: string): string {
+    bidResultLabel(value: BidResultValue): string {
         return BID_RESULT_LABELS[value] ?? value;
     }
 
-    bidResultSeverity(value: string): UiTagSeverity {
-        if (value === 'won' || value === 'not-applicable') {
+    bidResultSeverity(value: BidResultValue): UiTagSeverity {
+        if (value === CreateProjectBidCommercialProcessRequestResultStatusEnum.Won || value === ProjectBidCommercialProcessSummaryResultStatusEnum.Won || value === CreateProjectBidCommercialProcessRequestResultStatusEnum.NotApplicable || value === ProjectBidCommercialProcessSummaryResultStatusEnum.NotApplicable) {
             return 'success';
         }
-        if (value === 'lost' || value === 'cancelled') {
+        if (value === CreateProjectBidCommercialProcessRequestResultStatusEnum.Lost || value === ProjectBidCommercialProcessSummaryResultStatusEnum.Lost || value === CreateProjectBidCommercialProcessRequestResultStatusEnum.Cancelled || value === ProjectBidCommercialProcessSummaryResultStatusEnum.Cancelled) {
             return 'danger';
         }
         return 'secondary';
     }
 
-    versionStatusLabel(value: string): string {
-        if (value === 'effective') {
+    versionStatusLabel(value: ProjectBidCommercialProcessSummary['status']): string {
+        if (value === ProjectBidCommercialProcessSummaryStatusEnum.Effective) {
             return '生效中';
         }
-        if (value === 'superseded') {
+        if (value === ProjectBidCommercialProcessSummaryStatusEnum.Superseded) {
             return '已被替代';
         }
         return value;
     }
 
-    versionStatusSeverity(value: string): UiTagSeverity {
-        if (value === 'effective') {
+    versionStatusSeverity(value: ProjectBidCommercialProcessSummary['status']): UiTagSeverity {
+        if (value === ProjectBidCommercialProcessSummaryStatusEnum.Effective) {
             return 'success';
         }
-        if (value === 'superseded') {
+        if (value === ProjectBidCommercialProcessSummaryStatusEnum.Superseded) {
             return 'secondary';
         }
         return 'info';
     }
 
-    materialStatusLabel(value: string): string {
+    materialStatusLabel(value: BidMaterialStatusValue): string {
         return MATERIAL_STATUS_LABELS[value] ?? value;
     }
 
     materialStatusSeverity(item: ProjectBidCommercialMaterialItemView): UiTagSeverity {
-        if (item.blocksNextStep && item.materialStatus !== 'ready' && item.materialStatus !== 'not-required') {
+        if (item.blocksNextStep && item.materialStatus !== ProjectBidCommercialMaterialItemViewMaterialStatusEnum.Ready && item.materialStatus !== ProjectBidCommercialMaterialItemViewMaterialStatusEnum.NotRequired) {
             return 'danger';
         }
-        if (item.materialStatus === 'ready' || item.materialStatus === 'not-required') {
+        if (item.materialStatus === ProjectBidCommercialMaterialItemViewMaterialStatusEnum.Ready || item.materialStatus === ProjectBidCommercialMaterialItemViewMaterialStatusEnum.NotRequired) {
             return 'success';
         }
-        if (item.materialStatus === 'in-progress') {
+        if (item.materialStatus === ProjectBidCommercialMaterialItemViewMaterialStatusEnum.InProgress) {
             return 'warn';
         }
         return 'secondary';
     }
 
-    timelineStatusLabel(value: string): string {
+    timelineStatusLabel(value: BidTimelineStatusValue): string {
         return TIMELINE_STATUS_LABELS[value] ?? value;
     }
 
-    timelineStatusSeverity(value: string): UiTagSeverity {
-        if (value === 'done') {
+    timelineStatusSeverity(value: BidTimelineStatusValue): UiTagSeverity {
+        if (value === ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Done || value === ProjectBidCommercialTimelineItemViewTimelineStatusEnum.Done) {
             return 'success';
         }
-        if (value === 'cancelled') {
+        if (value === ProjectBidCommercialTimelineItemInputTimelineStatusEnum.Cancelled || value === ProjectBidCommercialTimelineItemViewTimelineStatusEnum.Cancelled) {
             return 'danger';
         }
         return 'secondary';

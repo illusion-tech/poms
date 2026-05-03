@@ -16,7 +16,14 @@ import type {
     SubmitCommissionAdjustmentApprovalRequest,
     SubmitCommissionPayoutApprovalRequest
 } from '@poms/shared-api-client';
-import { ApprovalApi, CommissionApi } from '@poms/shared-api-client';
+import {
+    ApprovalApi,
+    CommissionAdjustmentStatus,
+    CommissionApi,
+    CommissionCalculationStatus,
+    CommissionPayoutStatus,
+    CommissionRuleVersionStatus
+} from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 import { AuthStore } from '../auth/auth.store';
 
@@ -47,12 +54,12 @@ export class CommissionStore {
     readonly saving = this.#saving.asReadonly();
 
     readonly currentEffectiveCalculation = computed(
-        () => this.#calculations().find((item) => item.isCurrent && item.status === 'effective') ?? null
+        () => this.#calculations().find((item) => item.isCurrent && item.status === CommissionCalculationStatus.Effective) ?? null
     );
-    readonly activeRuleVersions = computed(() => this.#ruleVersions().filter((item) => item.status === 'active'));
-    readonly pendingApprovalCount = computed(() => this.#payouts().filter((item) => item.status === 'pending-approval').length);
-    readonly paidPayoutCount = computed(() => this.#payouts().filter((item) => item.status === 'paid').length);
-    readonly pendingAdjustmentCount = computed(() => this.#adjustments().filter((item) => item.status === 'pending-approval').length);
+    readonly activeRuleVersions = computed(() => this.#ruleVersions().filter((item) => item.status === CommissionRuleVersionStatus.Active));
+    readonly pendingApprovalCount = computed(() => this.#payouts().filter((item) => item.status === CommissionPayoutStatus.PendingApproval).length);
+    readonly paidPayoutCount = computed(() => this.#payouts().filter((item) => item.status === CommissionPayoutStatus.Paid).length);
+    readonly pendingAdjustmentCount = computed(() => this.#adjustments().filter((item) => item.status === CommissionAdjustmentStatus.PendingApproval).length);
 
     async loadCalculations(projectId: string) {
         this.#loadingCalculations.set(true);

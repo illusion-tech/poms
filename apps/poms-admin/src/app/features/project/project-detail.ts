@@ -11,6 +11,7 @@ import {
     PlatformStore,
     ProjectStage,
     ProjectStatus,
+    ProjectArchiveRecordSummaryStatusEnum,
     ProjectStore,
     type CustomerListView,
     type OwnerReferenceUser,
@@ -1268,7 +1269,7 @@ export class ProjectDetail implements OnInit {
     }
 
     currentArchiveRecord(records: ProjectArchiveRecordSummary[]): ProjectArchiveRecordSummary | null {
-        return records.find((record) => record.status === 'recorded') ?? null;
+        return records.find((record) => record.status === ProjectArchiveRecordSummaryStatusEnum.Recorded) ?? null;
     }
 
     archiveRecordFactItems(record: ProjectArchiveRecordSummary): WorkspaceFactGridItem[] {
