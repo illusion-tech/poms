@@ -92,6 +92,7 @@ export {
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpRecordStatus,
     SalesFollowUpType,
+    SensitiveProjectionMode,
     TargetObjectType,
     TodoPriority,
     TodoSourceType,

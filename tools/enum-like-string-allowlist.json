@@ -1,0 +1,177 @@
+[
+    {
+        "id": "EX57-A1-query-params",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/shared/navigation/todo-navigation.ts",
+        "reason": "URL query params are transport parameters, not domain enum values.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A2-project-detail-query-params-spec",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/project/project-detail.spec.ts",
+        "reason": "Router test query params are transport parameters.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A3-promise-all-settled",
+        "ruleId": "enum-like-comparison",
+        "path": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+        "textIncludes": "status === 'fulfilled'",
+        "reason": "fulfilled is the standard Promise.allSettled discriminant.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A4-shared-status-presentation-helper",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/shared/ui/status-presentation.ts",
+        "reason": "Generic label helper receives enum-keyed maps; it is not a domain code set.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A5-project-presentation-helper",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/project/project-presentation.ts",
+        "reason": "Generic label helper and signal normalization bridge are documented FE-52D exceptions.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A6-tasklist-template",
+        "pathPrefix": "apps/poms-admin/src/app/features/tasklist/",
+        "reason": "Demo/template task UI is not a POMS business fact source.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A7-dashboard-template",
+        "pathPrefix": "apps/poms-admin/src/app/features/dashboard/",
+        "reason": "Demo/dashboard template status and severity values are UI-only.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A8-landing-template",
+        "pathPrefix": "apps/poms-admin/src/app/features/landing/",
+        "reason": "Landing template status and severity values are UI-only.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A9-files-template-icon-map",
+        "path": "apps/poms-admin/src/app/features/files/files.ts",
+        "reason": "Files demo file type data and icon map are presentation-only, not POMS domain enums.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A10-workbench-ui-severity",
+        "ruleId": "string-as-const",
+        "path": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+        "reason": "PrimeNG tag severity is UI-only presentation.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A11-project-blocking-reason-taxonomy",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/project/project-detail.ts",
+        "textIncludes": "BLOCKING_REASON_LABELS",
+        "reason": "Blocking reason labels are an open taxonomy until backend contract governance freezes them.",
+        "cleanupOwner": "future backend taxonomy slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "EX57-A12-receipt-judgment-mode-taxonomy",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/commission/project-commission-freeze-binding.ts",
+        "textIncludes": "RECEIPT_JUDGMENT_MODE_LABELS",
+        "reason": "receiptJudgmentMode is still generated as string/null.",
+        "cleanupOwner": "future backend taxonomy slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "EX57-A13-role-type-taxonomy",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/commission/project-commission-freeze-binding.ts",
+        "textIncludes": "ROLE_TYPE_LABELS",
+        "reason": "Role type keys come from JSON responsibility boundaries and are not closed yet.",
+        "cleanupOwner": "future backend taxonomy slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "EX57-A14-profile-update-labels",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/features/profile/current-user-profile.ts",
+        "reason": "Profile update summary label map is a low-priority event taxonomy candidate.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A15-todo-navigation-negative-source",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/shared/navigation/todo-navigation.spec.ts",
+        "textIncludes": "sourceType: 'System'",
+        "reason": "Negative coverage for a source type not represented by the generated enum.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A16-generated-client-string-gaps",
+        "ruleId": "generated-client-string-field",
+        "pathPrefix": "libs/shared/api-client/model/",
+        "reason": "Generated client still exposes these business fields as string; frontend must not invent local enums.",
+        "cleanupOwner": "future backend contract slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "EX57-A17-chat-template",
+        "pathPrefix": "apps/poms-admin/src/app/features/chat/",
+        "reason": "Chat template type values are demo UI state, not POMS domain enums.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A18-cms-template",
+        "pathPrefix": "apps/poms-admin/src/app/features/cms/",
+        "reason": "CMS template categories are demo content taxonomy.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A19-local-form-mode",
+        "regex": "\\bmode\\b.*'(create|edit|payout|adjustment|full|masked)'",
+        "reason": "Local UI/test mode discriminants are not persisted domain enum values.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A20-sensitive-projection-test-helper",
+        "ruleId": "enum-like-fixture",
+        "regex": "sensitiveProjection\\(.*mode:",
+        "reason": "Focused specs use a local sensitive projection fixture helper.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "EX57-A21-project-confirmation-string-gap-spec",
+        "ruleId": "enum-like-fixture",
+        "textIncludes": "status: 'not_configured'",
+        "reason": "Project detail confirmation status is still generated as string.",
+        "cleanupOwner": "future backend contract slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "EX57-A22-attachment-file-constructor",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/shared/ui/attachment-panel.spec.ts",
+        "textIncludes": "type: 'application/pdf'",
+        "reason": "File constructor MIME type is browser API input, not a POMS domain enum.",
+        "cleanupOwner": "EX-57",
+        "cleanupDue": "N/A"
+    }
+]

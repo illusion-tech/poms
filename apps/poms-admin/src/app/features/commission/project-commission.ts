@@ -18,6 +18,7 @@ import {
     ProjectStatus,
     ProjectWorkspaceStore,
     RegisterRetentionCommissionPayoutRequestPayoutStageEnum,
+    SensitiveProjectionMode,
     TargetObjectType,
     TodoStatus
 } from '@poms/admin-data-access';
@@ -907,7 +908,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
         return this.formatRate(value);
     }
     sensitiveProjectionValue(projection: SensitiveStringFieldProjectionView | null | undefined) {
-        return projection?.mode === 'full' && typeof projection.value === 'string' ? projection.value : '';
+        return projection?.mode === SensitiveProjectionMode.Full && typeof projection.value === 'string' ? projection.value : '';
     }
     getCalculationStatusName(status: CommissionCalculationStatus) {
         return commissionCalculationStatusLabelOrFallback(status);

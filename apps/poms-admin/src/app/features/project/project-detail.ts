@@ -13,6 +13,8 @@ import {
     ProjectStatus,
     ProjectArchiveRecordSummaryStatusEnum,
     ProjectStore,
+    ProjectTimelineEventEventTypeEnum,
+    ProjectTimelineEventSourceTypeEnum,
     type CustomerListView,
     type OwnerReferenceUser,
     type ProjectArchiveRecordSummary,
@@ -1225,7 +1227,13 @@ export class ProjectDetail implements OnInit {
         }
 
         const archiveEvent = (timeline?.events ?? [])
-            .filter((event) => event.isAuthoritative && event.sourceType === 'project-archive-record' && event.eventType === 'milestone' && event.stage === currentStage)
+            .filter(
+                (event) =>
+                    event.isAuthoritative &&
+                    event.sourceType === ProjectTimelineEventSourceTypeEnum.ProjectArchiveRecord &&
+                    event.eventType === ProjectTimelineEventEventTypeEnum.Milestone &&
+                    event.stage === currentStage
+            )
             .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt))[0];
 
         if (!archiveEvent) {
@@ -1372,7 +1380,7 @@ export class ProjectDetail implements OnInit {
     }
 
     private shouldReplaceTimelineEvent(current: ProjectTimelineEvent, candidate: ProjectTimelineEvent): boolean {
-        if (current.eventType !== 'stage-completed' && candidate.eventType === 'stage-completed') {
+        if (current.eventType !== ProjectTimelineEventEventTypeEnum.StageCompleted && candidate.eventType === ProjectTimelineEventEventTypeEnum.StageCompleted) {
             return true;
         }
 
@@ -1392,7 +1400,7 @@ export class ProjectDetail implements OnInit {
         const actorText = event.actorName ? `，操作人：${event.actorName}` : '';
         const evidenceText = event.evidenceLabel ? `，依据：${event.evidenceLabel}` : '';
 
-        if (event.eventType === 'stage-completed') {
+        if (event.eventType === ProjectTimelineEventEventTypeEnum.StageCompleted) {
             return {
                 completedAtLabel: occurredAt,
                 tooltip: `${event.resultLabel}，完成时间：${occurredAt}${actorText}${evidenceText}`

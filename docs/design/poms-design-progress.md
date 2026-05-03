@@ -509,6 +509,9 @@
 28. 2026-05-03 `FE-52C` 已进入 `G3 / Review`：项目列表筛选、项目 / 合同 / 提成状态展示 helper、项目归档 / 时间线 / 投标商务 / 报价毛利 specs 已改用 generated enum 或共享 value object；开放 taxonomy 与后端仍按 `string` 暴露的字段留给 `FE-52D` 例外清单。
 29. 2026-05-03 `FE-52C` 已完成 `G4`，提交 `6a3e7a2`：项目、合同与提成前端页面 generated enum 消费收口完成，可作为 `FE-52D` 残留扫描输入。
 30. 2026-05-03 `FE-52D` 已进入 `G3 / Review`：新增 `fe-52d-admin-enum-residual-scan-closeout.md`，补齐合同承接 / 冻结绑定 / 提成 store / 项目归档尾项 enum 消费，汇总 query params、UI-only severity、demo/template UI、开放 taxonomy 和 generated client string gap，为 `EX-57` 回归扫描与允许清单提供输入。
+31. 2026-05-03 `FE-52D` 已完成 `G4`，提交 `e11088d`：Admin 前端枚举消费尾项、残留扫描输入和例外分类完成，`FE-52` 父切片同步关闭为 `Done / G4`。
+32. 2026-05-03 `EX-57` 已进入 `G1 / Doing`：新增 `ex-57-enum-regression-scan-baseline.md`，冻结枚举回归扫描工具、allowlist、generated client string gap 和开放 taxonomy 的治理边界；本切片不改业务运行时代码、API、DTO、OpenAPI、generated client 或数据库。
+33. 2026-05-03 `EX-57` 已进入 `G3 / Review`：新增 `check:enum-like-strings` 本地校验、Deno 扫描工具和显式 allowlist，并将项目时间线、导航菜单和敏感投影中仍可直接收口的真实业务残留改为 generated enum；后续裸字符串必须改用 shared / generated enum 或显式登记例外。
 
 ---
 
