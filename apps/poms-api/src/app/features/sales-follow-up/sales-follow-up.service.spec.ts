@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, NotFoundException } from '@nest
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { Customer } from '../customer/customer.entity';
 import { CustomerService } from '../customer/customer.service';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -22,6 +23,7 @@ describe('SalesFollowUpService', () => {
     let repository: jest.Mocked<SalesFollowUpRepository>;
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let runtimeAuditService: jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
+    let dictionaryService: jest.Mocked<Pick<DictionaryService, 'requireActiveItem'>>;
 
     beforeEach(() => {
         repository = {
@@ -50,13 +52,16 @@ describe('SalesFollowUpService', () => {
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         };
+        dictionaryService = {
+            requireActiveItem: jest.fn().mockResolvedValue(undefined)
+        };
 
         repository.findPlatformUserById.mockResolvedValue(createUser() as never);
         repository.findOrgUnitById.mockResolvedValue(createOrgUnit() as never);
         repository.findCustomerById.mockResolvedValue(createCustomer() as never);
         repository.findLeadById.mockResolvedValue(createLead() as never);
         repository.findProjectById.mockResolvedValue(createProject() as never);
-        service = new SalesFollowUpService(repository, customerService as never, runtimeAuditService as never);
+        service = new SalesFollowUpService(repository, customerService as never, runtimeAuditService as never, dictionaryService as never);
     });
 
     it('creates a project-context follow-up record with default owner from project', async () => {
@@ -168,8 +173,8 @@ describe('SalesFollowUpService', () => {
         });
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
-                eventType: 'sales_follow_up.replaced',
-                targetType: 'sales_follow_up_record',
+                eventType: 'sales-follow-up.replaced',
+                targetType: 'sales-follow-up-record',
                 targetId: current.id,
                 operatorId: userId,
                 requestId: 'req-replace',
@@ -259,8 +264,8 @@ describe('SalesFollowUpService', () => {
         expect(repository.saveVoidWithReminderSync).toHaveBeenCalledWith(current);
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
-                eventType: 'sales_follow_up.voided',
-                targetType: 'sales_follow_up_record',
+                eventType: 'sales-follow-up.voided',
+                targetType: 'sales-follow-up-record',
                 targetId: current.id,
                 operatorId: userId,
                 requestId: 'req-void',

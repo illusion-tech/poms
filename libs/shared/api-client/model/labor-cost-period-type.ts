@@ -11,7 +11,7 @@
 
 export enum LaborCostPeriodType {
 
-    Week = 'WEEK',
+    Week = 'week',
 
-    Month = 'MONTH'
+    Month = 'month'
 }

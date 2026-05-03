@@ -145,7 +145,7 @@ function normalizedLabelOrFallback<TLabels extends Readonly<Record<string, strin
         return fallback;
     }
 
-    const normalized = value.toUpperCase();
+    const normalized = value.toLowerCase();
     return Object.prototype.hasOwnProperty.call(labels, normalized) ? labels[normalized as keyof TLabels] : value;
 }
 
@@ -166,7 +166,7 @@ function normalizedSeverityOrFallback<TSeverities extends Readonly<Record<string
         return 'secondary';
     }
 
-    const normalized = value.toUpperCase();
+    const normalized = value.toLowerCase();
     return Object.prototype.hasOwnProperty.call(severities, normalized) ? severities[normalized as keyof TSeverities] : 'secondary';
 }
 
@@ -259,13 +259,13 @@ export function gateDecisionLabelOrFallback(code: string | null | undefined): st
 }
 
 export function gateDecisionSeverity(code: GateDecisionCode): UiTagSeverityValue {
-    if (code.startsWith('BLOCK')) {
+    if (code.startsWith('block')) {
         return 'danger';
     }
-    if (code.startsWith('ALLOW') || code.startsWith('SETTLED')) {
+    if (code.startsWith('allow') || code.startsWith('settled')) {
         return 'success';
     }
-    if (code.startsWith('REVIEW')) {
+    if (code.startsWith('review')) {
         return 'warn';
     }
 
@@ -277,13 +277,13 @@ export function gateDecisionSeverityOrFallback(code: string | null | undefined):
         return 'secondary';
     }
 
-    if (code.startsWith('BLOCK')) {
+    if (code.startsWith('block')) {
         return 'danger';
     }
-    if (code.startsWith('ALLOW') || code.startsWith('SETTLED')) {
+    if (code.startsWith('allow') || code.startsWith('settled')) {
         return 'success';
     }
-    if (code.startsWith('REVIEW')) {
+    if (code.startsWith('review')) {
         return 'warn';
     }
 

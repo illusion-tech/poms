@@ -15,6 +15,7 @@ import { ContractModule } from './features/contract/contract.module';
 import { ContractReadinessModule } from './features/contract-readiness/contract-readiness.module';
 import { ContractFinanceModule } from './features/contract-finance/contract-finance.module';
 import { CustomerModule } from './features/customer/customer.module';
+import { DictionaryModule } from './features/dictionary/dictionary.module';
 import { LeadModule } from './features/lead/lead.module';
 import { NavigationModule } from './features/navigation/navigation.module';
 import { PlatformModule } from './features/platform/platform.module';
@@ -32,6 +33,7 @@ import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.
         NavigationModule,
         PlatformModule,
         AttachmentModule,
+        DictionaryModule,
         CustomerModule,
         LeadModule,
         ProjectModule,

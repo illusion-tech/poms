@@ -4,16 +4,15 @@ import { createHash, randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
 import type { Readable } from 'node:stream';
 import {
-    ATTACHMENT_CATEGORIES,
     ATTACHMENT_RELATION_TYPES,
     ATTACHMENT_SECURITY_LEVELS,
     ATTACHMENT_TARGET_TYPES,
-    AttachmentCategoryValue,
     AttachmentLinkStatusValue,
     AttachmentRelationTypeValue,
     AttachmentSecurityLevelValue,
     AttachmentStatusValue,
     AttachmentTargetTypeValue,
+    DictionaryDomainValue,
     type AttachmentCategory,
     type AttachmentListQuery,
     type AttachmentRelationType,
@@ -29,6 +28,7 @@ import {
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { Contract } from '../contract/contract.entity';
 import { Customer } from '../customer/customer.entity';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { Project } from '../project/project.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
@@ -58,19 +58,15 @@ const MAX_ATTACHMENT_SIZE_BYTES = 50 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'txt', 'md', 'zip']);
 const SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read', 'operating:finance:sensitive:read', 'commission:amount:sensitive:read', 'platform:roles:manage'];
 const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Confidential, AttachmentSecurityLevelValue.Restricted];
-const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = [
-    AttachmentCategoryValue.Quotation,
-    AttachmentCategoryValue.Contract,
-    AttachmentCategoryValue.Finance,
-    AttachmentCategoryValue.InternalAssessment
-];
+const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = ['quotation', 'contract', 'finance', 'internal-assessment'];
 
 @Injectable()
 export class AttachmentService {
     constructor(
         private readonly attachmentRepository: AttachmentRepository,
         private readonly storageService: AttachmentStorageService,
-        private readonly runtimeAuditService: RuntimeAuditService
+        private readonly runtimeAuditService: RuntimeAuditService,
+        private readonly dictionaryService: DictionaryService
     ) {}
 
     async uploadAttachment(file: UploadedAttachmentFile | undefined, metadata: UploadAttachmentMetadata, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
@@ -84,7 +80,7 @@ export class AttachmentService {
 
         const targetType = this.parseTargetType(metadata.targetType);
         const targetId = metadata.targetId;
-        const category = this.parseCategory(metadata.category);
+        const category = await this.requireAttachmentCategory(metadata.category);
         const securityLevel = this.parseSecurityLevel(metadata.securityLevel ?? this.defaultSecurityLevel(category));
         const relationType = this.parseRelationType(metadata.relationType ?? AttachmentRelationTypeValue.Normal);
         await this.requireTargetAccess(targetType, targetId, user, 'write');
@@ -203,7 +199,7 @@ export class AttachmentService {
         }
 
         if (input.category !== undefined) {
-            attachment.category = input.category;
+            attachment.category = await this.requireAttachmentCategory(input.category);
         }
 
         if (input.securityLevel !== undefined) {
@@ -504,14 +500,6 @@ export class AttachmentService {
         throw new BadRequestException(`Unsupported attachment target type ${value}`);
     }
 
-    private parseCategory(value: string): AttachmentCategory {
-        if (this.isAttachmentCategory(value)) {
-            return value;
-        }
-
-        throw new BadRequestException(`Unsupported attachment category ${value}`);
-    }
-
     private parseSecurityLevel(value: string): AttachmentSecurityLevel {
         if (this.isAttachmentSecurityLevel(value)) {
             return value;
@@ -532,10 +520,6 @@ export class AttachmentService {
         return (ATTACHMENT_TARGET_TYPES as readonly string[]).includes(value);
     }
 
-    private isAttachmentCategory(value: string): value is AttachmentCategory {
-        return (ATTACHMENT_CATEGORIES as readonly string[]).includes(value);
-    }
-
     private isAttachmentSecurityLevel(value: string): value is AttachmentSecurityLevel {
         return (ATTACHMENT_SECURITY_LEVELS as readonly string[]).includes(value);
     }
@@ -550,6 +534,11 @@ export class AttachmentService {
         }
 
         return AttachmentSecurityLevelValue.Internal;
+    }
+
+    private async requireAttachmentCategory(value: string): Promise<AttachmentCategory> {
+        await this.dictionaryService.requireActiveItem(DictionaryDomainValue.AttachmentCategory, value);
+        return value;
     }
 
     private sanitizeOriginalName(originalName: string): string {

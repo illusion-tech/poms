@@ -11,13 +11,13 @@
 
 export enum CustomerAliasType {
 
-    LegalName = 'legal_name',
+    LegalName = 'legal-name',
 
-    ShortName = 'short_name',
+    ShortName = 'short-name',
 
-    LegacyInput = 'legacy_input',
+    LegacyInput = 'legacy-input',
 
-    ImportName = 'import_name',
+    ImportName = 'import-name',
 
     Alias = 'alias'
 }

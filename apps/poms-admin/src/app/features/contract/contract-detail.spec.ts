@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStatus, ContractStore, ContractTermSnapshotStatus, type AttachmentSummary, type ContractDetailView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStatus, ContractStore, ContractTermSnapshotStatus, DictionaryStore, type AttachmentSummary, type ContractDetailView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import type { DomainApprovalRecord } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
@@ -119,6 +119,15 @@ describe('ContractDetail', () => {
             downloadAttachment: jest.fn(),
             clearAttachments: jest.fn()
         };
+        const dictionaryStoreMock = {
+            items: signal([]),
+            activeItems: signal([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadItems: jest.fn().mockResolvedValue([]),
+            clearItems: jest.fn()
+        };
         currentUser = signal<SanitizedUserWithOrgUnits | null>({
             id: 'user-1',
             displayName: '合同管理员',
@@ -156,6 +165,10 @@ describe('ContractDetail', () => {
                         currentUser,
                         hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.some((permission) => currentUser()?.permissions.includes(permission)))
                     }
+                },
+                {
+                    provide: DictionaryStore,
+                    useValue: dictionaryStoreMock
                 }
             ]
         })

@@ -46,7 +46,7 @@ export class ProjectHandoverCommandService {
             throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
         }
 
-        this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'ProjectHandover');
+        this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'project-handover');
 
         if (handover.status !== 'draft') {
             throw new BadRequestException(`ProjectHandover ${handoverId} is not in draft status`);
@@ -129,7 +129,7 @@ export class ProjectHandoverCommandService {
             throw new BadRequestException(`Project ${contract.projectId} has no confirmed project handover`);
         }
 
-        this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'ProjectHandover');
+        this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'project-handover');
 
         const existingEffectiveRecord = await this.contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId(
             input.contractAmendmentId
@@ -139,7 +139,7 @@ export class ProjectHandoverCommandService {
         }
 
         const latestProjectRebaseline = await this.contractHandoverRebaselineRecordRepository.findLatestByProjectId(contract.projectId);
-        if (latestProjectRebaseline && ['processing', 'pending_effective'].includes(latestProjectRebaseline.status)) {
+        if (latestProjectRebaseline && ['processing', 'pending-effective'].includes(latestProjectRebaseline.status)) {
             throw new BadRequestException(
                 `Handover rebaseline record ${latestProjectRebaseline.id} is still ${latestProjectRebaseline.status}`
             );

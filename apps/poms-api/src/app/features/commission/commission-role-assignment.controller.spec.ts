@@ -53,7 +53,7 @@ describe('CommissionRoleAssignmentController', () => {
                 summary: 'Effective handover baseline snapshot is not frozen yet'
             },
             receiptJudgmentModeSummary: {
-                status: 'not_frozen',
+                status: 'not-frozen',
                 receiptJudgmentMode: null,
                 sourceType: 'none',
                 sourceId: null,

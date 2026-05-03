@@ -197,7 +197,7 @@ describe('ProjectQueryService', () => {
             permissions: ['project:read', 'project:write', 'commission:payouts:manage']
         });
 
-        expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith('Project', '20000000-0000-4000-8000-000000000001', 'project-detail', 'project-detail');
+        expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith('project', '20000000-0000-4000-8000-000000000001', 'project-detail', 'project-detail');
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
         expect(result.sourceLeadSummary).toEqual({

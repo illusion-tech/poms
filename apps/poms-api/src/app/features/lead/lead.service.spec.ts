@@ -276,7 +276,7 @@ describe('LeadService', () => {
             relationType: 'source',
             operatorUserId: userId,
             entityManager,
-            excludeCategories: ['finance', 'internal_assessment']
+            excludeCategories: ['finance', 'internal-assessment']
         });
         expect(lead.status).toBe('converted');
         expect(lead.convertedProjectId).toBe(result.id);

@@ -22,7 +22,7 @@ import { LeadQueryService } from './lead-query.service';
 import { LeadService } from './lead.service';
 import { Project } from '../project/project.entity';
 
-@ApiTags('Lead')
+@ApiTags('lead')
 @ApiBearerAuth()
 @Controller('leads')
 export class LeadController {

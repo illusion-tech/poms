@@ -4,6 +4,7 @@ import {
     BaselineSelectionSourceValue,
     ChangePackageBaselineStatusValue,
     CostStageAttributionModeValue,
+    DictionaryDomainValue,
     ExpenseRecordStatusValue,
     ExpenseSourceTypeValue,
     InvoiceRecordExceptionStatusValue,
@@ -79,6 +80,7 @@ import type {
 } from '@poms/shared-contracts';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import type { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
@@ -155,7 +157,8 @@ export class ProjectCostService {
         private readonly operatingSignalToCommissionGateBindingRepository: OperatingSignalToCommissionGateBindingRepository,
         private readonly commissionGateReviewRecordRepository: CommissionGateReviewRecordRepository,
         private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService,
+        private readonly dictionaryService: DictionaryService
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -490,7 +493,7 @@ export class ProjectCostService {
             sourceRefNo: payableRecord.id,
             evidenceSummary: input.evidenceSummary ?? payableRecord.evidenceSummary ?? null,
             taxImpactSummary: input.taxImpactSummary ?? null,
-            riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
+            riskNote: 'procurement mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
             registeredBy: userId,
             confirmedBy: null,
             costDescription: input.costDescription ?? payableRecord.payableDescription,
@@ -532,6 +535,7 @@ export class ProjectCostService {
     async createExpenseRecord(projectId: string, input: CreateExpenseRecordRequest): Promise<ExpenseRecordSummary> {
         await this.assertExpenseProjectAndContract(projectId, input.contractId ?? null);
         this.assertExpenseAmountsConsistent(input.amountIncludingTax, input.taxAmount, input.amountExcludingTax);
+        await this.dictionaryService.requireActiveItem(DictionaryDomainValue.ExpenseCategory, input.expenseCategory);
 
         const entity = this.expenseRecordRepository.create({
             projectId,
@@ -573,6 +577,7 @@ export class ProjectCostService {
             record.contractId = input.contractId;
         }
         if (input.expenseCategory !== undefined) {
+            await this.dictionaryService.requireActiveItem(DictionaryDomainValue.ExpenseCategory, input.expenseCategory);
             record.expenseCategory = input.expenseCategory;
         }
         if (input.expenseDescription !== undefined) {
@@ -638,7 +643,7 @@ export class ProjectCostService {
         }
         const currentMapping = await this.projectActualCostRecordRepository.findCurrentEffectiveBySource(ProjectActualCostSourceTypeValue.ExpenseRecord, record.id);
         if (currentMapping) {
-            throw new UnprocessableEntityException(`EXPENSE_RECORD ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`);
+            throw new UnprocessableEntityException(`expense-record ${record.id} 已存在统一成本映射 ${currentMapping.id}，当前不允许继续作废费用事实；如需调整请走替代/作废链`);
         }
 
         record.status = ExpenseRecordStatusValue.Voided;
@@ -697,7 +702,7 @@ export class ProjectCostService {
         }
 
         if (input.baselineSelectionSource === BaselineSelectionSourceValue.HandoverRebaseline && !input.effectiveOperatingBaselineId) {
-            throw new UnprocessableEntityException('effectiveOperatingBaselineId is required for handover_rebaseline baseline selection');
+            throw new UnprocessableEntityException('effectiveOperatingBaselineId is required for handover-rebaseline baseline selection');
         }
 
         const current = await this.operatingBaselinePackageRepository.findCurrentByProjectId(input.projectId);
@@ -1911,17 +1916,17 @@ export class ProjectCostService {
     }
 
     private resolveRateKey(input: Pick<PublishInternalCostRateVersionRequest, 'rateScopeType' | 'personId' | 'roleCode' | 'rateUnit'>): string {
-        if (input.rateScopeType === 'PERSON') {
+        if (input.rateScopeType === 'person') {
             if (!input.personId) {
-                throw new UnprocessableEntityException('PERSON rate scope requires personId');
+                throw new UnprocessableEntityException('person rate scope requires personId');
             }
-            return `PERSON:${input.personId}:${input.rateUnit}`;
+            return `person:${input.personId}:${input.rateUnit}`;
         }
 
         if (!input.roleCode) {
-            throw new UnprocessableEntityException('ROLE rate scope requires roleCode');
+            throw new UnprocessableEntityException('role rate scope requires roleCode');
         }
-        return `ROLE:${input.roleCode}:${input.rateUnit}`;
+        return `role:${input.roleCode}:${input.rateUnit}`;
     }
 
     private assertRateCoversLaborPeriod(rateVersion: InternalCostRateVersion, periodStart: string, periodEnd: string): void {
@@ -1989,7 +1994,7 @@ export class ProjectCostService {
     }
 
     private assertLaborScopeMatchesRate(rateVersion: InternalCostRateVersion, laborPersonId: string | null, laborRole: string | null): void {
-        if (rateVersion.rateScopeType === 'PERSON') {
+        if (rateVersion.rateScopeType === 'person') {
             if (!rateVersion.personId) {
                 throw new ConflictException(`PERSON rate version ${rateVersion.id} is missing personId`);
             }
@@ -2009,12 +2014,12 @@ export class ProjectCostService {
 
     private calculateLaborAmount(rateVersion: InternalCostRateVersion, actualHours: string | null, actualPersonDays: string | null): string {
         const rateValue = this.parsePositiveDecimal(rateVersion.rateValue, 'rateValue');
-        if (rateVersion.rateUnit === 'HOUR') {
+        if (rateVersion.rateUnit === 'hour') {
             const hours = this.parsePositiveDecimal(actualHours, 'actualHours');
             return this.formatAmount(hours * rateValue);
         }
 
-        if (rateVersion.rateUnit === 'DAY') {
+        if (rateVersion.rateUnit === 'day') {
             const personDays = this.parsePositiveDecimal(actualPersonDays, 'actualPersonDays');
             return this.formatAmount(personDays * rateValue);
         }
@@ -2503,9 +2508,9 @@ export class ProjectCostService {
     }
 
     private assertCommissionGateReviewPayload(input: ReviewCommissionGateBindingRequest): void {
-        const decision = input.gateReviewDecision.trim().toUpperCase();
+        const decision = input.gateReviewDecision.trim().toLowerCase();
         if ((input.bindingAction === OperatingSnapshotActionLevelValue.Block || decision.includes(OperatingSnapshotActionLevelValue.Block)) && !input.blockingReasonCode) {
-            throw new UnprocessableEntityException('blockingReasonCode is required when the gate review result is BLOCK');
+            throw new UnprocessableEntityException('blockingReasonCode is required when the gate review result is block');
         }
     }
 
@@ -2636,7 +2641,7 @@ export class ProjectCostService {
             fieldPackageKey: 'operating-finance',
             fields,
             user,
-            targetType: 'Project',
+            targetType: 'project',
             targetId: projectId,
             requestContext
         });
@@ -2648,16 +2653,16 @@ export class ProjectCostService {
     }
 
     private mapDataMaturityLevelToActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
-        const normalized = value?.trim();
+        const normalized = value?.trim().toLowerCase();
         if (!normalized) {
             return null;
         }
 
-        if (normalized === OperatingDataMaturityLevelValue.Insufficient || normalized.toUpperCase() === 'INSUFFICIENT') {
+        if (normalized === OperatingDataMaturityLevelValue.Insufficient) {
             return OperatingSnapshotActionLevelValue.Review;
         }
 
-        if (normalized === OperatingDataMaturityLevelValue.Preliminary || normalized.toUpperCase() === 'PRELIMINARY') {
+        if (normalized === OperatingDataMaturityLevelValue.Preliminary) {
             return OperatingSnapshotActionLevelValue.Prompt;
         }
 
@@ -2665,16 +2670,16 @@ export class ProjectCostService {
     }
 
     private mapRiskLevelToActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
-        const normalized = value?.trim();
+        const normalized = value?.trim().toLowerCase();
         if (!normalized) {
             return null;
         }
 
-        if (normalized === '风险' || normalized.toUpperCase() === OperatingRiskLevelValue.Risk) {
+        if (normalized === OperatingRiskLevelValue.Risk) {
             return OperatingSnapshotActionLevelValue.Block;
         }
 
-        if (normalized === '关注' || normalized.toUpperCase() === OperatingRiskLevelValue.Attention) {
+        if (normalized === OperatingRiskLevelValue.Attention) {
             return OperatingSnapshotActionLevelValue.Review;
         }
 
@@ -2682,7 +2687,7 @@ export class ProjectCostService {
     }
 
     private normalizeActionLevel(value: string | null | undefined): OperatingSignalEvaluationView['currentActionLevel'] | null {
-        const normalized = value?.trim().toUpperCase();
+        const normalized = value?.trim().toLowerCase();
         if (normalized === OperatingSnapshotActionLevelValue.Prompt || normalized === OperatingSnapshotActionLevelValue.Review || normalized === OperatingSnapshotActionLevelValue.Block) {
             return normalized;
         }
@@ -2719,7 +2724,7 @@ export class ProjectCostService {
         }
 
         if (!handoverRebaselineRecordId) {
-            throw new UnprocessableEntityException('handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline');
+            throw new UnprocessableEntityException('handoverRebaselineRecordId is required when baselineSelectionSource is handover-rebaseline');
         }
 
         const record = await this.contractHandoverRebaselineRecordRepository.findById(handoverRebaselineRecordId);

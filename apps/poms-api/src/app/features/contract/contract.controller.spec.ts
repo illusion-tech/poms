@@ -147,7 +147,7 @@ describe('ContractController', () => {
     it('submits contract review with current user identity', async () => {
         approvalService.submitContractReview.mockResolvedValue({
             targetId: contractId,
-            targetType: 'Contract',
+            targetType: 'contract',
             resultStatus: 'submitted',
             businessStatusAfter: 'pending-review',
             approvalRecordId: '40000000-0000-4000-8000-000000000001',
@@ -174,7 +174,7 @@ describe('ContractController', () => {
             id: '40000000-0000-4000-8000-000000000001',
             approvalType: 'contract-review',
             businessDomain: 'contract-finance',
-            targetObjectType: 'Contract',
+            targetObjectType: 'contract',
             targetObjectId: contractId,
             projectId,
             currentStatus: 'pending',
@@ -196,7 +196,7 @@ describe('ContractController', () => {
 
         await controller.getCurrentApproval(contractId);
 
-        expect(approvalService.findLatestApprovalForTarget).toHaveBeenCalledWith('Contract', contractId);
+        expect(approvalService.findLatestApprovalForTarget).toHaveBeenCalledWith('contract', contractId);
     });
 
     it('projects contract list signed amount for callers without sensitive read permission', async () => {
@@ -292,7 +292,7 @@ describe('ContractController', () => {
     it('activates contract with current user identity', async () => {
         contractService.activate.mockResolvedValue({
             targetId: contractId,
-            targetType: 'Contract',
+            targetType: 'contract',
             resultStatus: 'activated',
             businessStatusAfter: 'active',
             approvalRecordId: '40000000-0000-4000-8000-000000000001',

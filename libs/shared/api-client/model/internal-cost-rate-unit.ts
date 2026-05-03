@@ -11,7 +11,7 @@
 
 export enum InternalCostRateUnit {
 
-    Hour = 'HOUR',
+    Hour = 'hour',
 
-    Day = 'DAY'
+    Day = 'day'
 }

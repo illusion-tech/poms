@@ -1437,7 +1437,7 @@
                       "customer",
                       "project",
                       "contract",
-                      "sales_follow_up"
+                      "sales-follow-up"
                     ]
                   },
                   "targetId": {
@@ -1793,6 +1793,141 @@
         ]
       }
     },
+    "/api/dictionaries": {
+      "get": {
+        "operationId": "DictionaryController_list",
+        "parameters": [
+          {
+            "name": "domain",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DictionaryDomain"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DictionaryItemStatus"
+            }
+          },
+          {
+            "name": "keyword",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DictionaryItemList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取业务配置字典项列表",
+        "tags": [
+          "Dictionary"
+        ]
+      },
+      "post": {
+        "operationId": "DictionaryController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDictionaryItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DictionaryItemSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "创建业务配置字典项",
+        "tags": [
+          "Dictionary"
+        ]
+      }
+    },
+    "/api/dictionaries/{id}": {
+      "patch": {
+        "operationId": "DictionaryController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDictionaryItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DictionaryItemSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "更新业务配置字典项",
+        "tags": [
+          "Dictionary"
+        ]
+      }
+    },
     "/api/customers": {
       "get": {
         "operationId": "CustomerController_list",
@@ -1845,7 +1980,7 @@
         ],
         "summary": "获取客户列表",
         "tags": [
-          "Customer"
+          "customer"
         ]
       },
       "post": {
@@ -1880,7 +2015,7 @@
         ],
         "summary": "创建客户主数据",
         "tags": [
-          "Customer"
+          "customer"
         ]
       }
     },
@@ -1916,7 +2051,7 @@
         ],
         "summary": "获取客户别名列表",
         "tags": [
-          "Customer"
+          "customer"
         ]
       },
       "post": {
@@ -1960,7 +2095,7 @@
         ],
         "summary": "创建客户别名",
         "tags": [
-          "Customer"
+          "customer"
         ]
       }
     },
@@ -1996,7 +2131,7 @@
         ],
         "summary": "获取客户详情",
         "tags": [
-          "Customer"
+          "customer"
         ]
       },
       "patch": {
@@ -2040,7 +2175,7 @@
         ],
         "summary": "更新客户基础信息",
         "tags": [
-          "Customer"
+          "customer"
         ]
       }
     },
@@ -2148,7 +2283,7 @@
         ],
         "summary": "获取线索列表",
         "tags": [
-          "Lead"
+          "lead"
         ]
       },
       "post": {
@@ -2183,7 +2318,7 @@
         ],
         "summary": "登记线索",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2219,7 +2354,7 @@
         ],
         "summary": "获取线索详情",
         "tags": [
-          "Lead"
+          "lead"
         ]
       },
       "patch": {
@@ -2263,7 +2398,7 @@
         ],
         "summary": "更新线索基础信息",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2309,7 +2444,7 @@
         ],
         "summary": "申领公共池线索",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2355,7 +2490,7 @@
         ],
         "summary": "分配或改派线索销售主责",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2401,7 +2536,7 @@
         ],
         "summary": "确认线索有效",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2447,7 +2582,7 @@
         ],
         "summary": "关闭线索",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2493,7 +2628,7 @@
         ],
         "summary": "将有效线索转为项目",
         "tags": [
-          "Lead"
+          "lead"
         ]
       }
     },
@@ -2684,7 +2819,7 @@
         ],
         "summary": "获取项目列表",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -2719,7 +2854,7 @@
         ],
         "summary": "创建项目基础台账",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -2755,7 +2890,7 @@
         ],
         "summary": "按项目编码获取项目详情",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -2791,7 +2926,7 @@
         ],
         "summary": "获取项目工作区引导",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -2827,7 +2962,7 @@
         ],
         "summary": "获取项目生命周期里程碑",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -2863,7 +2998,7 @@
         ],
         "summary": "获取项目验收确认记录",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -2907,7 +3042,7 @@
         ],
         "summary": "创建项目验收确认记录",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -2943,7 +3078,7 @@
         ],
         "summary": "获取项目完成确认记录",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -2987,7 +3122,7 @@
         ],
         "summary": "创建项目完成确认记录",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3023,7 +3158,7 @@
         ],
         "summary": "获取项目归档记录",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -3067,7 +3202,7 @@
         ],
         "summary": "创建项目归档记录",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3103,7 +3238,7 @@
         ],
         "summary": "获取项目签约前招投标与商务竞标过程列表",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -3147,7 +3282,7 @@
         ],
         "summary": "创建项目签约前招投标与商务竞标过程版本",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3183,7 +3318,7 @@
         ],
         "summary": "获取项目签约前招投标与商务竞标工作区",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3219,7 +3354,7 @@
         ],
         "summary": "获取项目签约前报价与毛利评审列表",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -3263,7 +3398,7 @@
         ],
         "summary": "创建项目签约前报价与毛利评审版本",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3299,7 +3434,7 @@
         ],
         "summary": "获取项目签约前报价与毛利评审工作区",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3335,7 +3470,7 @@
         ],
         "summary": "获取项目签约前技术与成本版本包列表",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "post": {
@@ -3379,7 +3514,7 @@
         ],
         "summary": "创建项目签约前技术与成本版本包",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3415,7 +3550,7 @@
         ],
         "summary": "获取项目签约前技术与成本工作区",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3451,7 +3586,7 @@
         ],
         "summary": "按 ID 获取项目详情",
         "tags": [
-          "Project"
+          "project"
         ]
       },
       "patch": {
@@ -3495,7 +3630,7 @@
         ],
         "summary": "更新项目基础信息",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3541,7 +3676,7 @@
         ],
         "summary": "变更项目销售主责",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3587,7 +3722,7 @@
         ],
         "summary": "替代项目归档记录",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3633,7 +3768,7 @@
         ],
         "summary": "撤销项目归档记录",
         "tags": [
-          "Project"
+          "project"
         ]
       }
     },
@@ -3706,11 +3841,11 @@
                 "discriminator": {
                   "propertyName": "costType",
                   "mapping": {
-                    "PAYMENT_FACT": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest",
-                    "INVOICE": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest",
-                    "EXPENSE": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest",
-                    "PROCUREMENT": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest",
-                    "LABOR": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+                    "payment-fact": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest",
+                    "invoice": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest",
+                    "expense": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest",
+                    "procurement": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest",
+                    "labor": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
                   }
                 }
               }
@@ -6341,7 +6476,7 @@
         ],
         "summary": "获取合同列表",
         "tags": [
-          "Contract"
+          "contract"
         ]
       },
       "post": {
@@ -6376,7 +6511,7 @@
         ],
         "summary": "创建合同基础台账",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6412,7 +6547,7 @@
         ],
         "summary": "按合同编号获取详情",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6448,7 +6583,7 @@
         ],
         "summary": "按 ID 获取合同详情",
         "tags": [
-          "Contract"
+          "contract"
         ]
       },
       "patch": {
@@ -6492,7 +6627,7 @@
         ],
         "summary": "更新合同基础信息",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6528,7 +6663,7 @@
         ],
         "summary": "获取合同当前审批摘要",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6574,7 +6709,7 @@
         ],
         "summary": "提交合同审核",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6620,7 +6755,7 @@
         ],
         "summary": "确认合同生效",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -6656,7 +6791,7 @@
         ],
         "summary": "按 ID 获取合同条款快照",
         "tags": [
-          "Contract"
+          "contract"
         ]
       }
     },
@@ -8621,6 +8756,7 @@
                 "platform:roles:manage",
                 "platform:navigation:manage",
                 "platform:org-units:manage",
+                "platform:dictionaries:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -8752,6 +8888,7 @@
                 "platform:roles:manage",
                 "platform:navigation:manage",
                 "platform:org-units:manage",
+                "platform:dictionaries:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -9321,6 +9458,7 @@
               "platform:roles:manage",
               "platform:navigation:manage",
               "platform:org-units:manage",
+              "platform:dictionaries:manage",
               "customer:read",
               "customer:write",
               "commission:rule-versions:manage",
@@ -9375,6 +9513,7 @@
               "platform:roles:manage",
               "platform:navigation:manage",
               "platform:org-units:manage",
+              "platform:dictionaries:manage",
               "customer:read",
               "customer:write",
               "commission:rule-versions:manage",
@@ -9485,6 +9624,7 @@
                 "platform:roles:manage",
                 "platform:navigation:manage",
                 "platform:org-units:manage",
+                "platform:dictionaries:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -9614,6 +9754,7 @@
                 "platform:roles:manage",
                 "platform:navigation:manage",
                 "platform:org-units:manage",
+                "platform:dictionaries:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -10022,6 +10163,7 @@
                 "platform:roles:manage",
                 "platform:navigation:manage",
                 "platform:org-units:manage",
+                "platform:dictionaries:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -10157,22 +10299,13 @@
         ]
       },
       "AttachmentCategory": {
+        "$ref": "#/components/schemas/DictionaryCode"
+      },
+      "DictionaryCode": {
         "type": "string",
-        "enum": [
-          "customer_profile",
-          "demand",
-          "communication",
-          "technical",
-          "solution",
-          "quotation",
-          "bid",
-          "contract",
-          "delivery",
-          "acceptance",
-          "finance",
-          "internal_assessment",
-          "other"
-        ]
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9-]*$"
       },
       "AttachmentSecurityLevel": {
         "type": "string",
@@ -10264,7 +10397,7 @@
           "customer",
           "project",
           "contract",
-          "sales_follow_up"
+          "sales-follow-up"
         ]
       },
       "AttachmentRelationType": {
@@ -10461,6 +10594,173 @@
           "targetType",
           "targetId"
         ]
+      },
+      "DictionaryItemSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/DictionaryDomain"
+          },
+          "code": {
+            "$ref": "#/components/schemas/DictionaryCode"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/DictionaryItemStatus"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "isSystem": {
+            "type": "boolean"
+          },
+          "usageCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "domain",
+          "code",
+          "name",
+          "description",
+          "status",
+          "sortOrder",
+          "isSystem",
+          "usageCount",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "DictionaryDomain": {
+        "type": "string",
+        "enum": [
+          "attachment-category",
+          "sales-follow-up-type",
+          "expense-category"
+        ]
+      },
+      "DictionaryItemStatus": {
+        "$ref": "#/components/schemas/ActiveInactiveStatus"
+      },
+      "ActiveInactiveStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      },
+      "DictionaryItemList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DictionaryItemSummary"
+        }
+      },
+      "CreateDictionaryItemRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "$ref": "#/components/schemas/DictionaryDomain"
+          },
+          "code": {
+            "$ref": "#/components/schemas/DictionaryCode"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "domain",
+          "code",
+          "name"
+        ]
+      },
+      "UpdateDictionaryItemRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/DictionaryItemStatus"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
       },
       "CustomerListView": {
         "type": "object",
@@ -10800,10 +11100,10 @@
       "CustomerAliasType": {
         "type": "string",
         "enum": [
-          "legal_name",
-          "short_name",
-          "legacy_input",
-          "import_name",
+          "legal-name",
+          "short-name",
+          "legacy-input",
+          "import-name",
           "alias"
         ]
       },
@@ -15730,15 +16030,15 @@
       "InternalCostRateScopeType": {
         "type": "string",
         "enum": [
-          "PERSON",
-          "ROLE"
+          "person",
+          "role"
         ]
       },
       "InternalCostRateUnit": {
         "type": "string",
         "enum": [
-          "HOUR",
-          "DAY"
+          "hour",
+          "day"
         ]
       },
       "PublishInternalCostRateVersionRequest": {
@@ -15811,7 +16111,7 @@
           "costType": {
             "type": "string",
             "enum": [
-              "PAYMENT_FACT"
+              "payment-fact"
             ]
           },
           "paymentRecordId": {
@@ -15849,7 +16149,7 @@
           "costType": {
             "type": "string",
             "enum": [
-              "INVOICE"
+              "invoice"
             ]
           },
           "invoiceRecordId": {
@@ -15893,7 +16193,7 @@
           "costType": {
             "type": "string",
             "enum": [
-              "EXPENSE"
+              "expense"
             ]
           },
           "expenseRecordId": {
@@ -15937,7 +16237,7 @@
           "costType": {
             "type": "string",
             "enum": [
-              "PROCUREMENT"
+              "procurement"
             ]
           },
           "payableRecordId": {
@@ -15978,8 +16278,8 @@
       "LaborCostPeriodType": {
         "type": "string",
         "enum": [
-          "WEEK",
-          "MONTH"
+          "week",
+          "month"
         ]
       },
       "CreateLaborProjectActualCostRecordRequest": {
@@ -15988,7 +16288,7 @@
           "costType": {
             "type": "string",
             "enum": [
-              "LABOR"
+              "labor"
             ]
           },
           "laborPersonId": {
@@ -16063,7 +16363,7 @@
         "type": "string",
         "enum": [
           "original",
-          "handover_rebaseline"
+          "handover-rebaseline"
         ]
       },
       "ActivateOperatingBaselinePackageRequest": {
@@ -16232,9 +16532,9 @@
       "OperatingSnapshotActionLevel": {
         "type": "string",
         "enum": [
-          "PROMPT",
-          "REVIEW",
-          "BLOCK"
+          "prompt",
+          "review",
+          "block"
         ]
       },
       "CreatableOperatingSnapshotMode": {
@@ -17605,16 +17905,16 @@
       "OperatingSignalReviewDecision": {
         "type": "string",
         "enum": [
-          "APPROVE",
-          "MANUAL_CONFIRMED"
+          "approve",
+          "manual-confirmed"
         ]
       },
       "OperatingDataMaturityLevel": {
         "type": "string",
         "enum": [
-          "INSUFFICIENT",
-          "PRELIMINARY",
-          "MATURE"
+          "insufficient",
+          "preliminary",
+          "mature"
         ]
       },
       "ReviewOperatingSignalEvaluationRequest": {
@@ -17716,8 +18016,8 @@
       "OperatingSignalLevel": {
         "type": "string",
         "enum": [
-          "ATTENTION",
-          "ALERT"
+          "attention",
+          "alert"
         ]
       },
       "OperatingSignalEvaluationView": {
@@ -18217,8 +18517,8 @@
       "OperatingRiskLevel": {
         "type": "string",
         "enum": [
-          "ATTENTION",
-          "RISK"
+          "attention",
+          "risk"
         ]
       },
       "ProjectVarianceRiskExplanationView": {
@@ -18482,14 +18782,7 @@
         ]
       },
       "ExpenseCategory": {
-        "type": "string",
-        "enum": [
-          "travel",
-          "onsite-service",
-          "deployment-logistics",
-          "temporary-spend",
-          "misc"
-        ]
+        "$ref": "#/components/schemas/DictionaryCode"
       },
       "ExpenseSourceType": {
         "type": "string",
@@ -19038,32 +19331,32 @@
       "ProjectActualCostType": {
         "type": "string",
         "enum": [
-          "PROCUREMENT",
-          "INVOICE",
-          "EXPENSE",
-          "PAYMENT_FACT",
-          "LABOR"
+          "procurement",
+          "invoice",
+          "expense",
+          "payment-fact",
+          "labor"
         ]
       },
       "ProjectActualCostRecordStatus": {
         "type": "string",
         "enum": [
-          "DRAFT",
-          "REGISTERED",
-          "CONFIRMED",
-          "INCLUDED",
-          "VOIDED",
-          "REPLACED"
+          "draft",
+          "registered",
+          "confirmed",
+          "included",
+          "voided",
+          "replaced"
         ]
       },
       "ProjectActualCostSourceType": {
         "type": "string",
         "enum": [
-          "PAYMENT_RECORD",
-          "INVOICE_RECORD",
-          "EXPENSE_RECORD",
-          "PAYABLE_RECORD",
-          "LABOR"
+          "payment-record",
+          "invoice-record",
+          "expense-record",
+          "payable-record",
+          "labor"
         ]
       },
       "ProjectActualCostRecordListView": {
@@ -19535,7 +19828,7 @@
           "pending-confirmation",
           "confirmed",
           "reversed",
-          "void"
+          "voided"
         ]
       },
       "ReceiptRecordList": {
@@ -20518,7 +20811,7 @@
           "draft",
           "recorded",
           "confirmed",
-          "void"
+          "voided"
         ]
       },
       "PaymentRecordList": {
@@ -20945,7 +21238,7 @@
         "enum": [
           "none",
           "processing",
-          "pending_effective",
+          "pending-effective",
           "effective",
           "superseded",
           "voided"
@@ -21077,7 +21370,7 @@
       "ProjectHandoverStatus": {
         "type": "string",
         "enum": [
-          "not_started",
+          "not-started",
           "draft",
           "confirmed",
           "superseded",
@@ -21164,7 +21457,7 @@
       "ProjectHandoverParticipantConfirmationStatus": {
         "type": "string",
         "enum": [
-          "not_started",
+          "not-started",
           "pending",
           "confirmed",
           "closed"
@@ -21250,7 +21543,7 @@
       "ProjectHandoverReceiptJudgmentFreezeStatus": {
         "type": "string",
         "enum": [
-          "not_frozen",
+          "not-frozen",
           "frozen"
         ]
       },
@@ -21597,13 +21890,13 @@
       "TargetObjectType": {
         "type": "string",
         "enum": [
-          "Contract",
-          "CommissionPayout",
-          "CommissionAdjustment",
-          "Project",
-          "Lead",
-          "Customer",
-          "ProjectHandover"
+          "contract",
+          "commission-payout",
+          "commission-adjustment",
+          "project",
+          "lead",
+          "customer",
+          "project-handover"
         ]
       },
       "ApprovalStatus": {
@@ -21962,9 +22255,9 @@
       "TodoSourceType": {
         "type": "string",
         "enum": [
-          "ApprovalRecord",
-          "ConfirmationRecord",
-          "SalesFollowUpRecord"
+          "approval-record",
+          "confirmation-record",
+          "sales-follow-up-record"
         ]
       },
       "TodoType": {
@@ -21972,7 +22265,7 @@
         "enum": [
           "approval",
           "confirmation",
-          "sales_follow_up_reminder"
+          "sales-follow-up-reminder"
         ]
       },
       "TodoStatus": {
@@ -23520,15 +23813,7 @@
         ]
       },
       "SalesFollowUpType": {
-        "type": "string",
-        "enum": [
-          "phone",
-          "meeting",
-          "wechat",
-          "email",
-          "onsite",
-          "other"
-        ]
+        "$ref": "#/components/schemas/DictionaryCode"
       },
       "SalesFollowUpRecordStatus": {
         "type": "string",
@@ -24204,11 +24489,11 @@
       "CommissionRuleExplanationGateDecision": {
         "type": "string",
         "enum": [
-          "ALLOW_FINAL_SETTLEMENT",
-          "SETTLED_RETENTION",
-          "BLOCK_RETENTION",
-          "REVIEW_RETENTION",
-          "ALLOW_RETENTION"
+          "allow-final-settlement",
+          "settled-retention",
+          "block-retention",
+          "review-retention",
+          "allow-retention"
         ]
       },
       "CommissionRuleExplanationView": {

@@ -44,7 +44,7 @@ export const OperatingBaselinePackageSchema = defineEntity({
         originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),
         changePackageTotal: p.decimal().precision(18).scale(2).default(0).fieldName('change_package_total').comment('已批准变更包累计金额'),
         currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本 = 原始 + 变更包'),
-        baselineSelectionSource: p.string().$type<BaselineSelectionSource>().length(32).default(BaselineSelectionSourceValue.Original).fieldName('baseline_selection_source').comment('基线来源：original/handover_rebaseline'),
+        baselineSelectionSource: p.string().$type<BaselineSelectionSource>().length(32).default(BaselineSelectionSourceValue.Original).fieldName('baseline_selection_source').comment('基线来源：original/handover-rebaseline'),
         effectiveOperatingBaselineId: p.uuid().nullable().fieldName('effective_operating_baseline_id').comment('生效的经营基线引用 ID'),
         baselineSummary: p.text().nullable().fieldName('baseline_summary').comment('基线说明'),
         isCurrent: p.boolean().default(false).fieldName('is_current').comment('是否为当前有效基线包'),

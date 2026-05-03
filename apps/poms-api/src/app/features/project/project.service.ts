@@ -204,7 +204,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${id} not found`);
         }
 
-        this.assertExpectedVersion(project.rowVersion, input.expectedVersion, 'Project');
+        this.assertExpectedVersion(project.rowVersion, input.expectedVersion, 'project');
 
         if (!EDITABLE_PROJECT_STATUSES.includes(project.status)) {
             throw new BadRequestException(`Project ${id} cannot reassign owner in status ${project.status}`);

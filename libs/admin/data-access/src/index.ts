@@ -3,6 +3,7 @@ export * from './lib/attachment/attachment.store';
 export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
+export * from './lib/dictionary/dictionary.store';
 export * from './lib/poms-api/poms-api.tokens';
 export * from './lib/poms-api/poms-auth.interceptor';
 export * from './lib/poms-api/provide-poms-api-client';
@@ -13,12 +14,12 @@ export * from './lib/lead/lead.store';
 export * from './lib/sales-follow-up/sales-follow-up.store';
 
 export {
+    ActiveInactiveStatus,
     ApprovalApi,
     ApprovalDecision,
     ApprovalStatus,
     ApprovalType,
     AttachmentApi,
-    AttachmentCategory,
     AttachmentRelationType,
     AttachmentSecurityLevel,
     AttachmentStatus,
@@ -32,6 +33,8 @@ export {
     CommissionRoleAssignmentsApi,
     CommissionNonRetentionSettlementStatus,
     CustomerApi,
+    DictionaryApi,
+    DictionaryDomain,
     LeadAllowedAction,
     LeadApi,
     LeadBudgetStatus,
@@ -91,7 +94,6 @@ export {
     SalesFollowUpOutcome,
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpRecordStatus,
-    SalesFollowUpType,
     SensitiveProjectionMode,
     TargetObjectType,
     TodoPriority,
@@ -122,7 +124,6 @@ export {
     ContractTermSnapshotStatus,
     CustomerAliasType,
     CustomerStatus,
-    ExpenseCategory,
     ExpenseRecordStatus,
     ExpenseSourceType,
     InvoiceRecordExceptionStatus,
@@ -154,6 +155,7 @@ export type {
     ConfirmCommissionCalculationRequest,
     ContractSummary,
     CreateCustomerAliasRequest,
+    CreateDictionaryItemRequest,
     CreateAttachmentLinkRequest,
     CreateCustomerRequest,
     ContractReadinessDetail,
@@ -176,6 +178,7 @@ export type {
     CreateProjectRequest,
     CustomerAliasSummary,
     CustomerDetailView,
+    DictionaryItemSummary,
     CustomerListView,
     CustomerSummary,
     LeadDetailView,
@@ -225,6 +228,7 @@ export type {
     TodoItemSummary,
     UpdateCurrentUserProfileRequest,
     UpdateCustomerRequest,
+    UpdateDictionaryItemRequest,
     UpdateAttachmentRequest,
     UpdateLeadRequest,
     UpdateProjectBasicInfoRequest,

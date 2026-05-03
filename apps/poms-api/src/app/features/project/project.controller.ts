@@ -70,7 +70,7 @@ import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
 
-@ApiTags('Project')
+@ApiTags('project')
 @ApiBearerAuth()
 @Controller('projects')
 export class ProjectController {
@@ -356,7 +356,7 @@ export class ProjectController {
     }
 }
 
-@ApiTags('Project')
+@ApiTags('project')
 @ApiBearerAuth()
 @Controller('project-archive-records')
 export class ProjectArchiveRecordController {

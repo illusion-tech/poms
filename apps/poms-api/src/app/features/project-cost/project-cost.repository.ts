@@ -6,6 +6,8 @@ import {
     OperatingPendingLifecycleStatusValue,
     OperatingSnapshotModeValue,
     ProjectActualCostRecordStatusValue,
+    type InternalCostRateScopeType,
+    type InternalCostRateUnit,
     type ProjectActualCostRecordStatus,
     type ProjectActualCostSourceType
 } from '@poms/shared-contracts';
@@ -83,22 +85,21 @@ export class InternalCostRateVersionRepository {
         );
     }
 
-    async findActiveVersion(rateScopeType: string, date: string, personId?: string, roleCode?: string, rateUnit?: string): Promise<InternalCostRateVersion | null> {
+    async findActiveVersion(
+        rateScopeType: InternalCostRateScopeType,
+        date: string,
+        personId?: string,
+        roleCode?: string,
+        rateUnit?: InternalCostRateUnit
+    ): Promise<InternalCostRateVersion | null> {
         const where: FilterQuery<InternalCostRateVersion> = {
             rateScopeType,
             status: 'active',
             effectiveFrom: { $lte: date },
-            $or: [{ effectiveTo: null }, { effectiveTo: { $gte: date } }]
+            $or: [{ effectiveTo: null }, { effectiveTo: { $gte: date } }],
+            ...(personId ? { personId } : roleCode ? { roleCode } : {}),
+            ...(rateUnit ? { rateUnit } : {})
         };
-
-        if (personId) {
-            where.personId = personId;
-        } else if (roleCode) {
-            where.roleCode = roleCode;
-        }
-        if (rateUnit) {
-            where.rateUnit = rateUnit;
-        }
 
         return this.repository.findOne(where, {
             orderBy: { effectiveFrom: QueryOrder.DESC }

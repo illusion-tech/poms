@@ -54,7 +54,7 @@ export async function registerPaymentFactCostRecord(
     input: Omit<CreatePaymentFactProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
-        costType: 'PAYMENT_FACT',
+        costType: 'payment-fact',
         ...input
     });
     return expectStatus(response, 201);
@@ -66,7 +66,7 @@ export async function registerInvoiceCostRecord(
     input: Omit<CreateInvoiceProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
-        costType: 'INVOICE',
+        costType: 'invoice',
         ...input
     });
     return expectStatus(response, 201);
@@ -78,7 +78,7 @@ export async function registerExpenseCostRecord(
     input: Omit<CreateExpenseProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
-        costType: 'EXPENSE',
+        costType: 'expense',
         ...input
     });
     return expectStatus(response, 201);
@@ -90,7 +90,7 @@ export async function registerProcurementCostRecord(
     input: Omit<CreateProcurementProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
-        costType: 'PROCUREMENT',
+        costType: 'procurement',
         ...input
     });
     return expectStatus(response, 201);
@@ -324,7 +324,7 @@ export async function registerLaborCostRecord(
     input: Omit<CreateLaborProjectActualCostRecordRequest, 'costType'>
 ): Promise<CommandResult> {
     const response = await client.post<CommandResult>(`/projects/${projectId}/actual-cost-records`, {
-        costType: 'LABOR',
+        costType: 'labor',
         ...input
     });
     return expectStatus(response, 201);

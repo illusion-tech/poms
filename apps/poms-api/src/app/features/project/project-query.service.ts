@@ -50,7 +50,7 @@ import { ProjectRepository } from './project.repository';
 
 const PROJECT_DETAIL_SUMMARY_SCENARIO_KEY = 'project-detail';
 const PROJECT_DETAIL_SUMMARY_PROJECTION_LEVEL = 'project-detail';
-const PROJECT_DETAIL_TARGET_TYPE = 'Project';
+const PROJECT_DETAIL_TARGET_TYPE = 'project';
 const PROJECT_WORKSPACE_HANDOVER_PERMISSIONS: PermissionKey[] = ['project:read'];
 const PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS: PermissionKey[] = ['project:read'];
 const PROJECT_WORKSPACE_FINANCE_PERMISSIONS: PermissionKey[] = ['project:read', 'contract:finance:manage'];
@@ -1237,7 +1237,7 @@ export class ProjectQueryService {
             rawValue: latestContract?.signedAmount ?? null,
             displayTextWhenFull: latestContract ? `${latestContract.signedAmount} ${latestContract.currencyCode}` : null,
             user,
-            targetType: 'Project',
+            targetType: 'project',
             targetId: projectId,
             requestContext
         });

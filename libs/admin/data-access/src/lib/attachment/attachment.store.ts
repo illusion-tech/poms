@@ -3,7 +3,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import {
     AttachmentApi,
     BASE_PATH,
-    type AttachmentCategory,
     type AttachmentRelationType,
     type AttachmentSecurityLevel,
     type AttachmentStatus,
@@ -20,13 +19,13 @@ export interface AttachmentTargetRef {
 }
 
 export interface AttachmentListFilters extends AttachmentTargetRef {
-    category?: AttachmentCategory;
+    category?: string;
     status?: AttachmentStatus;
 }
 
 export interface UploadAttachmentInput extends AttachmentTargetRef {
     file: File;
-    category: AttachmentCategory;
+    category: string;
     securityLevel?: AttachmentSecurityLevel;
     relationType?: AttachmentRelationType;
     displayName?: string;

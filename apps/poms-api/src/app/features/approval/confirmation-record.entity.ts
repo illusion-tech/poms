@@ -7,7 +7,7 @@ export type ConfirmationParticipantStatus = 'pending' | 'confirmed' | 'closed';
 const p = defineEntity.properties;
 
 export const ConfirmationRecordSchema = defineEntity({
-    name: 'ConfirmationRecord',
+    name: 'confirmation-record',
     tableName: 'confirmation_record',
     schema: 'poms',
     comment: '统一确认实例',

@@ -8,7 +8,6 @@
  * Do not edit the class manually.
  */
 import { ExpenseSourceType } from './expense-source-type';
-import { ExpenseCategory } from './expense-category';
 import { ExpenseRecordStatus } from './expense-record-status';
 
 
@@ -16,7 +15,7 @@ export interface ExpenseRecordDetailView {
     id: string;
     projectId: string;
     contractId: string | null;
-    expenseCategory: ExpenseCategory;
+    expenseCategory: string;
     expenseDescription: string;
     expenseDate: string;
     currency: string;

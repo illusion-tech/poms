@@ -11,9 +11,9 @@
 
 export enum TodoSourceType {
 
-    ApprovalRecord = 'ApprovalRecord',
+    ApprovalRecord = 'approval-record',
 
-    ConfirmationRecord = 'ConfirmationRecord',
+    ConfirmationRecord = 'confirmation-record',
 
-    SalesFollowUpRecord = 'SalesFollowUpRecord'
+    SalesFollowUpRecord = 'sales-follow-up-record'
 }

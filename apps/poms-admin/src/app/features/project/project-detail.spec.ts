@@ -7,6 +7,7 @@ import {
     AuthStore,
     CustomerStatus,
     CustomerStore,
+    DictionaryStore,
     LeadStatus,
     PlatformStore,
     ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum,
@@ -360,6 +361,15 @@ describe('ProjectDetail', () => {
             voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
         };
+        const dictionaryStoreMock = {
+            items: signal([]),
+            activeItems: signal([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadItems: jest.fn().mockResolvedValue([]),
+            clearItems: jest.fn()
+        };
         projectStoreMock = {
             loadProject: jest.fn().mockResolvedValue(project),
             loadProjectTimeline: jest.fn().mockResolvedValue(timeline),
@@ -415,6 +425,10 @@ describe('ProjectDetail', () => {
                 {
                     provide: CustomerStore,
                     useValue: customerStoreMock
+                },
+                {
+                    provide: DictionaryStore,
+                    useValue: dictionaryStoreMock
                 }
             ]
         })

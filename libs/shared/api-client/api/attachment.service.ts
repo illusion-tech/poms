@@ -17,8 +17,6 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { AttachmentCategory } from '../model/attachment-category';
-// @ts-ignore
 import { AttachmentStatus } from '../model/attachment-status';
 // @ts-ignore
 import { AttachmentSummary } from '../model/attachment-summary';
@@ -53,7 +51,7 @@ export interface AttachmentControllerLinkRequestParams {
 export interface AttachmentControllerListRequestParams {
     targetType: AttachmentTargetType;
     targetId: string;
-    category?: AttachmentCategory;
+    category?: string;
     status?: AttachmentStatus;
 }
 

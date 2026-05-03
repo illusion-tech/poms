@@ -195,7 +195,7 @@ describe('ApprovalService', () => {
         expect(em.persist).toHaveBeenCalled();
         expect(result).toEqual({
             targetId: contractId,
-            targetType: 'Contract',
+            targetType: 'contract',
             resultStatus: 'submitted',
             businessStatusAfter: 'pending-review',
             approvalRecordId,
@@ -249,7 +249,7 @@ describe('ApprovalService', () => {
         expect(result).toEqual(
             expect.objectContaining({
                 targetId: payoutId,
-                targetType: 'CommissionPayout',
+                targetType: 'commission-payout',
                 resultStatus: 'submitted',
                 businessStatusAfter: 'pending-approval',
                 confirmationRecordId: null,
@@ -278,14 +278,14 @@ describe('ApprovalService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
-    it('blocks final commission payout submit when the latest gate review is BLOCK', async () => {
+    it('blocks final commission payout submit when the latest gate review is block', async () => {
         const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
         em.findOne
             .mockResolvedValueOnce(payout)
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(createFinalGateBinding())
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'block-final-settlement' }));
 
         await expect(
             service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
@@ -319,14 +319,14 @@ describe('ApprovalService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
-    it('blocks final commission payout submit when the active final gate binding action is BLOCK', async () => {
+    it('blocks final commission payout submit when the active final gate binding action is block', async () => {
         const payout = createCommissionPayout({ stageType: 'final', status: 'draft', rowVersion: 2 });
         em.findOne
             .mockResolvedValueOnce(payout)
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
-            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'BLOCK_FINAL_SETTLEMENT' }))
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'REVIEW' }));
+            .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'block-final-settlement' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'review' }));
 
         await expect(
             service.submitCommissionPayoutApproval(payoutId, initiatorUserId, { payoutStage: 'final', expectedVersion: 2 })
@@ -353,7 +353,7 @@ describe('ApprovalService', () => {
                 })
             )
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'allow-retention', nextActionSummary: 'allow-retention' }))
             .mockResolvedValueOnce(createContractTermSnapshot())
             .mockResolvedValueOnce(createRetentionReceipt())
             .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
@@ -401,7 +401,7 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(currentSnapshot)
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'allow-retention', nextActionSummary: 'allow-retention' }))
             .mockResolvedValueOnce(createRetentionReceipt())
             .mockResolvedValueOnce(createDepartureExceptionDecision());
 
@@ -421,14 +421,14 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             currentNodeKey: 'commission-payout-approval'
         });
         const payout = createCommissionPayout({ status: 'pending-approval' });
         const todo = createTodoItem({
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             title: '提成发放审批：第一阶段'
         });
@@ -442,7 +442,7 @@ describe('ApprovalService', () => {
         expect(payout.status).toBe('approved');
         expect(payout.approvedAmount).toBe('480.00');
         expect(todo.status).toBe('completed');
-        expect(result.targetType).toBe('CommissionPayout');
+        expect(result.targetType).toBe('commission-payout');
         expect(result.businessStatusAfter).toBe('approved');
     });
 
@@ -450,14 +450,14 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             currentNodeKey: 'commission-payout-approval'
         });
         const payout = createCommissionPayout({ stageType: 'final', status: 'pending-approval' });
         const todo = createTodoItem({
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             title: '提成发放审批：最终结算（非质保部分）'
         });
@@ -498,18 +498,18 @@ describe('ApprovalService', () => {
         expect(result.businessStatusAfter).toBe('approved');
     });
 
-    it('blocks final payout approval when the latest gate review turns BLOCK before approve', async () => {
+    it('blocks final payout approval when the latest gate review turns block before approve', async () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             currentNodeKey: 'commission-payout-approval'
         });
         const payout = createCommissionPayout({ stageType: 'final', status: 'pending-approval' });
         const todo = createTodoItem({
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             title: '提成发放审批：最终结算（非质保部分）'
         });
@@ -520,7 +520,7 @@ describe('ApprovalService', () => {
             .mockResolvedValueOnce(payout)
             .mockResolvedValueOnce(createCommissionRoleAssignment({ status: 'frozen', isCurrent: true }))
             .mockResolvedValueOnce(createFinalGateBinding())
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'BLOCK_FINAL_SETTLEMENT' }));
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'block-final-settlement' }));
 
         await expect(service.approveRecord(approvalRecordId, approverUserId, { expectedVersion: 4 })).rejects.toThrow(BadRequestException);
     });
@@ -529,14 +529,14 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-payout-approval',
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             currentNodeKey: 'commission-payout-approval'
         });
         const payout = createCommissionPayout({ stageType: 'retention', status: 'pending-approval' });
         const todo = createTodoItem({
             businessDomain: 'commission',
-            targetObjectType: 'CommissionPayout',
+            targetObjectType: 'commission-payout',
             targetObjectId: payoutId,
             title: '提成发放审批：质保金结算'
         });
@@ -561,7 +561,7 @@ describe('ApprovalService', () => {
                 })
             )
             .mockResolvedValueOnce(createFinalGateBinding({ bindingAction: 'ALLOW', currentActionLevel: 'ALLOW' }))
-            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'ALLOW_RETENTION', nextActionSummary: 'ALLOW_RETENTION' }))
+            .mockResolvedValueOnce(createFinalGateReview({ gateReviewDecision: 'allow-retention', nextActionSummary: 'allow-retention' }))
             .mockResolvedValueOnce(createContractTermSnapshot())
             .mockResolvedValueOnce(createRetentionReceipt())
             .mockResolvedValueOnce(createDepartureExceptionDecision({ confirmationRequirementSummary: null, decisionSummary: '允许进入质保金结算' }))
@@ -598,7 +598,7 @@ describe('ApprovalService', () => {
         expect(result).toEqual(
             expect.objectContaining({
                 targetId: adjustmentId,
-                targetType: 'CommissionAdjustment',
+                targetType: 'commission-adjustment',
                 resultStatus: 'submitted',
                 businessStatusAfter: 'pending-approval'
             })
@@ -609,14 +609,14 @@ describe('ApprovalService', () => {
         const approval = createApprovalRecord({
             approvalType: 'commission-adjustment-approval',
             businessDomain: 'commission',
-            targetObjectType: 'CommissionAdjustment',
+            targetObjectType: 'commission-adjustment',
             targetObjectId: adjustmentId,
             currentNodeKey: 'commission-adjustment-approval'
         });
         const adjustment = createCommissionAdjustment({ status: 'pending-approval' });
         const todo = createTodoItem({
             businessDomain: 'commission',
-            targetObjectType: 'CommissionAdjustment',
+            targetObjectType: 'commission-adjustment',
             targetObjectId: adjustmentId,
             title: '提成调整审批：暂停发放'
         });
@@ -629,7 +629,7 @@ describe('ApprovalService', () => {
 
         expect(adjustment.status).toBe('approved');
         expect(todo.status).toBe('completed');
-        expect(result.targetType).toBe('CommissionAdjustment');
+        expect(result.targetType).toBe('commission-adjustment');
         expect(result.businessStatusAfter).toBe('approved');
     });
 
@@ -688,7 +688,7 @@ describe('ApprovalService', () => {
             createApprovalRecord({
                 approvalType: 'commission-payout-approval',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionPayout',
+                targetObjectType: 'commission-payout',
                 targetObjectId: payoutId,
                 currentNodeKey: 'commission-payout-approval'
             })
@@ -711,7 +711,7 @@ describe('ApprovalService', () => {
             createApprovalRecord({
                 approvalType: 'commission-adjustment-approval',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionAdjustment',
+                targetObjectType: 'commission-adjustment',
                 targetObjectId: adjustmentId,
                 currentNodeKey: 'commission-adjustment-approval'
             })
@@ -733,11 +733,11 @@ describe('ApprovalService', () => {
         approvalRecordRepository.findOne.mockResolvedValue(createApprovalRecord({ currentStatus: 'approved' }));
         contractRepository.findOne.mockResolvedValue(createContract({ status: 'pending-review' }));
 
-        const result = await service.findLatestApprovalForTarget('Contract', contractId);
+        const result = await service.findLatestApprovalForTarget('contract', contractId);
 
         expect(approvalRecordRepository.findOne).toHaveBeenCalledWith(
             {
-                targetObjectType: 'Contract',
+                targetObjectType: 'contract',
                 targetObjectId: contractId
             },
             {
@@ -764,7 +764,7 @@ describe('ApprovalService', () => {
                 id: '50000000-0000-4000-8000-000000000003',
                 sourceId: '40000000-0000-4000-8000-000000000003',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionPayout',
+                targetObjectType: 'commission-payout',
                 targetObjectId: payoutId,
                 title: '提成发放审批：第一阶段'
             }),
@@ -772,7 +772,7 @@ describe('ApprovalService', () => {
                 id: '50000000-0000-4000-8000-000000000004',
                 sourceId: '40000000-0000-4000-8000-000000000004',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionAdjustment',
+                targetObjectType: 'commission-adjustment',
                 targetObjectId: adjustmentId,
                 title: '提成调整审批：暂停发放'
             })
@@ -784,7 +784,7 @@ describe('ApprovalService', () => {
                 id: '40000000-0000-4000-8000-000000000003',
                 approvalType: 'commission-payout-approval',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionPayout',
+                targetObjectType: 'commission-payout',
                 targetObjectId: payoutId,
                 currentNodeKey: 'commission-payout-approval'
             }),
@@ -792,7 +792,7 @@ describe('ApprovalService', () => {
                 id: '40000000-0000-4000-8000-000000000004',
                 approvalType: 'commission-adjustment-approval',
                 businessDomain: 'commission',
-                targetObjectType: 'CommissionAdjustment',
+                targetObjectType: 'commission-adjustment',
                 targetObjectId: adjustmentId,
                 currentNodeKey: 'commission-adjustment-approval'
             })
@@ -844,22 +844,22 @@ describe('ApprovalService', () => {
         todoItemRepository.find.mockResolvedValue([
             createTodoItem({
                 id: '50000000-0000-4000-8000-000000000010',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: 'sales-follow-up-record',
                 sourceId: '57000000-0000-4000-8000-000000000001',
-                todoType: 'sales_follow_up_reminder',
+                todoType: 'sales-follow-up-reminder',
                 businessDomain: 'sales',
-                targetObjectType: 'Project',
+                targetObjectType: 'project',
                 targetObjectId: projectId,
                 title: '销售跟进提醒：华南地铁项目',
                 dueAt: new Date('2026-05-06T02:00:00.000Z')
             }),
             createTodoItem({
                 id: '50000000-0000-4000-8000-000000000011',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: 'sales-follow-up-record',
                 sourceId: '57000000-0000-4000-8000-000000000002',
-                todoType: 'sales_follow_up_reminder',
+                todoType: 'sales-follow-up-reminder',
                 businessDomain: 'sales',
-                targetObjectType: 'Lead',
+                targetObjectType: 'lead',
                 targetObjectId: leadId,
                 projectId: null,
                 title: '销售跟进提醒：华南地铁线索',
@@ -867,11 +867,11 @@ describe('ApprovalService', () => {
             }),
             createTodoItem({
                 id: '50000000-0000-4000-8000-000000000012',
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: 'sales-follow-up-record',
                 sourceId: '57000000-0000-4000-8000-000000000003',
-                todoType: 'sales_follow_up_reminder',
+                todoType: 'sales-follow-up-reminder',
                 businessDomain: 'sales',
-                targetObjectType: 'Customer',
+                targetObjectType: 'customer',
                 targetObjectId: customerId,
                 projectId: null,
                 title: '销售跟进提醒：华南地铁集团',
@@ -914,7 +914,7 @@ describe('ApprovalService', () => {
         if (entityName === 'TodoItem') {
             return todoItemId;
         }
-        if (entityName === 'ApprovalRecord') {
+        if (entityName === 'approval-record') {
             return approvalRecordId;
         }
         if (entityName === 'CommissionFinalSettlementSnapshot') {
@@ -945,7 +945,7 @@ describe('ApprovalService', () => {
             id: approvalRecordId,
             approvalType: 'contract-review',
             businessDomain: 'contract-finance',
-            targetObjectType: 'Contract',
+            targetObjectType: 'contract',
             targetObjectId: contractId,
             projectId,
             currentStatus: 'pending',
@@ -967,11 +967,11 @@ describe('ApprovalService', () => {
     function createTodoItem(overrides: Record<string, unknown> = {}) {
         return {
             id: todoItemId,
-            sourceType: 'ApprovalRecord',
+            sourceType: 'approval-record',
             sourceId: approvalRecordId,
             todoType: 'approval',
             businessDomain: 'contract-finance',
-            targetObjectType: 'Contract',
+            targetObjectType: 'contract',
             targetObjectId: contractId,
             projectId,
             title: '合同审核：HT-2026-001',
@@ -1085,17 +1085,17 @@ describe('ApprovalService', () => {
             id: '35000000-0000-4000-8000-000000000001',
             projectId,
             signalEvaluationId: '35100000-0000-4000-8000-000000000001',
-            bindingAction: 'REVIEW',
+            bindingAction: 'review',
             gateStageType: 'final',
             baselineSelectionSource: 'original',
             taxImpactSummary: '税务影响待闭合',
             taxImpactPendingAmount: '1200.00',
             allocationStabilitySummary: null,
             unmappedCostSummary: null,
-            dataMaturityLevel: 'MATURE',
-            costActionRecommendation: 'REVIEW',
-            currentActionLevel: 'REVIEW',
-            nextActionSummary: 'REVIEW: tax_gap',
+            dataMaturityLevel: 'mature',
+            costActionRecommendation: 'review',
+            currentActionLevel: 'review',
+            nextActionSummary: 'review: tax_gap',
             downstreamConsumerSummary: null,
             referencedBaselineVersion: 'baseline-v3',
             referencedSnapshotVersion: 'snapshot-v5',
@@ -1111,13 +1111,13 @@ describe('ApprovalService', () => {
         return {
             id: '36000000-0000-4000-8000-000000000001',
             bindingId: '35000000-0000-4000-8000-000000000001',
-            gateReviewDecision: 'REVIEW',
+            gateReviewDecision: 'review',
             blockingReasonCode: null,
             summaryPackageKey: 'commission-final-settlement',
             summarySnapshotId: '37000000-0000-4000-8000-000000000001',
             projectionLevel: 'final-settlement',
             exportPolicy: 'controlled',
-            nextActionSummary: 'REVIEW: tax_gap',
+            nextActionSummary: 'review: tax_gap',
             handledAt: new Date('2026-03-22T10:00:00.000Z'),
             handledBy: approverUserId,
             status: 'active',
@@ -1146,9 +1146,9 @@ describe('ApprovalService', () => {
             baselineSelectionSource: 'original',
             taxImpactSummary: '税务影响待闭合',
             taxImpactPendingAmount: '1200.00',
-            dataMaturityLevel: 'MATURE',
-            costActionRecommendation: 'REVIEW',
-            currentActionLevel: 'REVIEW',
+            dataMaturityLevel: 'mature',
+            costActionRecommendation: 'review',
+            currentActionLevel: 'review',
             referencedBaselineVersion: 'baseline-v3',
             referencedSnapshotVersion: 'snapshot-v5',
             summaryPackageKey: 'commission-final-settlement',
@@ -1210,7 +1210,7 @@ describe('ApprovalService', () => {
             rowVersion: 1,
             isCurrent: true,
             departureScenarioCode: 'employee-left-company',
-            decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+            decisionCode: 'require-handover-confirmation',
             decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
             confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
             summaryPackageKey: 'project-handover-confirmation',

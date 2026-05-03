@@ -55,9 +55,9 @@ describe('Actual Cost Workflow E2E', () => {
         });
 
         const publishRateResult = await publishInternalCostRateVersion(client, {
-            rateScopeType: 'ROLE',
+            rateScopeType: 'role',
             roleCode: `qa-${unique}`,
-            rateUnit: 'DAY',
+            rateUnit: 'day',
             rateValue: '800',
             currency: 'CNY',
             effectiveFrom: '2023-08-01'
@@ -65,7 +65,7 @@ describe('Actual Cost Workflow E2E', () => {
         const rateVersionId = publishRateResult.targetId;
 
         const registerLaborResult = await registerLaborCostRecord(client, project.id, {
-            laborPeriodType: 'MONTH',
+            laborPeriodType: 'month',
             laborPeriodStart: '2023-08-01',
             laborPeriodEnd: '2023-08-31',
             laborRole: `qa-${unique}`,
@@ -206,7 +206,7 @@ describe('Actual Cost Workflow E2E', () => {
             taxImpactSummary: 'Input tax pending',
             taxImpactPendingAmount: '3000',
             allocationStabilitySummary: 'Stable allocation basis',
-            currentActionLevel: 'REVIEW',
+            currentActionLevel: 'review',
             referencedBaselineVersion: baseline.id,
             baselineSelectionSource: 'original'
         });
@@ -227,7 +227,7 @@ describe('Actual Cost Workflow E2E', () => {
             taxImpactSummary: 'Input tax pending',
             taxImpactPendingAmount: '3000',
             allocationStabilitySummary: 'Stable allocation basis',
-            currentActionLevel: 'REVIEW',
+            currentActionLevel: 'review',
             referencedBaselineVersion: baseline.id,
             baselineSelectionSource: 'original'
         });
@@ -246,7 +246,7 @@ describe('Actual Cost Workflow E2E', () => {
             restatedValues: {
                 includedCostTotal: '125000',
                 taxImpactPendingAmount: '3500',
-                currentActionLevel: 'BLOCK'
+                currentActionLevel: 'block'
             }
         });
         expect(restatementResult.resultStatus).toBe('success');
@@ -278,9 +278,9 @@ describe('Actual Cost Workflow E2E', () => {
         expect(project).toBeDefined();
 
         const publishRateResult = await publishInternalCostRateVersion(client, {
-            rateScopeType: 'ROLE',
+            rateScopeType: 'role',
             roleCode: `dev-${unique}`,
-            rateUnit: 'DAY',
+            rateUnit: 'day',
             rateValue: '1000',
             currency: 'CNY',
             effectiveFrom: '2023-01-01'
@@ -289,7 +289,7 @@ describe('Actual Cost Workflow E2E', () => {
         const rateVersionId = publishRateResult.targetId;
 
         const registerLaborResult = await registerLaborCostRecord(client, project.id, {
-            laborPeriodType: 'MONTH',
+            laborPeriodType: 'month',
             laborPeriodStart: '2023-01-01',
             laborPeriodEnd: '2023-01-31',
             laborRole: `dev-${unique}`,
@@ -310,7 +310,7 @@ describe('Actual Cost Workflow E2E', () => {
         expect(replaceLaborResult.targetId).not.toBe(recordId);
     });
 
-    it('should map confirmed payment into PAYMENT_FACT and expose list/detail query views', async () => {
+    it('should map confirmed payment into payment-fact and expose list/detail query views', async () => {
         const { client, profile } = await loginAsAdmin();
 
         const unique = Date.now();
@@ -341,13 +341,13 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(registerPaymentFactResult.resultStatus).toBe('success');
 
-        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'PAYMENT_RECORD' });
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'payment-record' });
         expect(listView).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: registerPaymentFactResult.targetId,
-                    costType: 'PAYMENT_FACT',
-                    sourceType: 'PAYMENT_RECORD',
+                    costType: 'payment-fact',
+                    sourceType: 'payment-record',
                     sourceId: payment.id,
                     sourceRefNo: payment.id
                 })
@@ -355,8 +355,8 @@ describe('Actual Cost Workflow E2E', () => {
         );
 
         const detailView = await getProjectActualCostRecordDetail(client, registerPaymentFactResult.targetId);
-        expect(detailView.costType).toBe('PAYMENT_FACT');
-        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.costType).toBe('payment-fact');
+        expect(detailView.recordStatus).toBe('confirmed');
         expect(detailView.sourceStatusSummary).toContain('PaymentRecord:confirmed');
         expect(detailView.measurementBasisSummary).toContain('5432.1000');
         expect(detailView.allowedActions).toEqual([]);
@@ -396,13 +396,13 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(registerInvoiceResult.resultStatus).toBe('success');
 
-        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'INVOICE_RECORD' });
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'invoice-record' });
         expect(listView).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: registerInvoiceResult.targetId,
-                    costType: 'INVOICE',
-                    sourceType: 'INVOICE_RECORD',
+                    costType: 'invoice',
+                    sourceType: 'invoice-record',
                     sourceId: invoice.id,
                     sourceRefNo: `E2E-INVOICE-${unique}`
                 })
@@ -410,8 +410,8 @@ describe('Actual Cost Workflow E2E', () => {
         );
 
         const detailView = await getProjectActualCostRecordDetail(client, registerInvoiceResult.targetId);
-        expect(detailView.costType).toBe('INVOICE');
-        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.costType).toBe('invoice');
+        expect(detailView.recordStatus).toBe('confirmed');
         expect(detailView.sourceStatusSummary).toContain('InvoiceRecord:verified/none');
         expect(detailView.measurementBasisSummary).toContain('3210.5000');
         expect(detailView.allowedActions).toEqual([]);
@@ -533,13 +533,13 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(registerExpenseResult.resultStatus).toBe('success');
 
-        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'EXPENSE_RECORD' });
+        const listView = await listProjectActualCostRecords(client, project.id, { sourceType: 'expense-record' });
         expect(listView).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: registerExpenseResult.targetId,
-                    costType: 'EXPENSE',
-                    sourceType: 'EXPENSE_RECORD',
+                    costType: 'expense',
+                    sourceType: 'expense-record',
                     sourceId: createdExpense.id,
                     sourceRefNo: createdExpense.id
                 })
@@ -547,8 +547,8 @@ describe('Actual Cost Workflow E2E', () => {
         );
 
         const detailView = await getProjectActualCostRecordDetail(client, registerExpenseResult.targetId);
-        expect(detailView.costType).toBe('EXPENSE');
-        expect(detailView.recordStatus).toBe('CONFIRMED');
+        expect(detailView.costType).toBe('expense');
+        expect(detailView.recordStatus).toBe('confirmed');
         expect(detailView.sourceStatusSummary).toContain('ExpenseRecord:confirmed');
         expect(detailView.measurementBasisSummary).toContain('1234.5600');
         expect(detailView.allowedActions).toEqual([]);
@@ -560,7 +560,7 @@ describe('Actual Cost Workflow E2E', () => {
         expectErrorStatus(voidAfterMapping, 422, '已存在统一成本映射');
     });
 
-    it('should map payable into PROCUREMENT and allow payment fact coexistence on the same source chain', async () => {
+    it('should map payable into procurement and allow payment fact coexistence on the same source chain', async () => {
         const { client, profile } = await loginAsAdmin();
 
         const unique = Date.now();
@@ -591,14 +591,14 @@ describe('Actual Cost Workflow E2E', () => {
         });
         expect(registerProcurementResult.resultStatus).toBe('success');
 
-        const procurementList = await listProjectActualCostRecords(client, project.id, { sourceType: 'PAYABLE_RECORD' });
+        const procurementList = await listProjectActualCostRecords(client, project.id, { sourceType: 'payable-record' });
         expect(procurementList).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: registerProcurementResult.targetId,
-                    costType: 'PROCUREMENT',
-                    recordStatus: 'REGISTERED',
-                    sourceType: 'PAYABLE_RECORD',
+                    costType: 'procurement',
+                    recordStatus: 'registered',
+                    sourceType: 'payable-record',
                     sourceId: payable.id,
                     sourceRefNo: payable.id,
                     isIncludedInProjectCost: false
@@ -607,8 +607,8 @@ describe('Actual Cost Workflow E2E', () => {
         );
 
         const procurementDetail = await getProjectActualCostRecordDetail(client, registerProcurementResult.targetId);
-        expect(procurementDetail.costType).toBe('PROCUREMENT');
-        expect(procurementDetail.recordStatus).toBe('REGISTERED');
+        expect(procurementDetail.costType).toBe('procurement');
+        expect(procurementDetail.recordStatus).toBe('registered');
         expect(procurementDetail.sourceStatusSummary).toContain('PayableRecord:recorded');
         expect(procurementDetail.measurementBasisSummary).toContain('4567.8900');
         expect(procurementDetail.isIncludedInProjectCost).toBe(false);
@@ -656,8 +656,8 @@ describe('Actual Cost Workflow E2E', () => {
         const allCostRecords = await listProjectActualCostRecords(client, project.id);
         expect(allCostRecords).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ id: registerProcurementResult.targetId, costType: 'PROCUREMENT' }),
-                expect.objectContaining({ id: registerPaymentFactResult.targetId, costType: 'PAYMENT_FACT' })
+                expect.objectContaining({ id: registerProcurementResult.targetId, costType: 'procurement' }),
+                expect.objectContaining({ id: registerPaymentFactResult.targetId, costType: 'payment-fact' })
             ])
         );
     });

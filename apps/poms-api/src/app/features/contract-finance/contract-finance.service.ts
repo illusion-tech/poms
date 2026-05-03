@@ -522,7 +522,7 @@ export class ContractFinanceService {
         if (hasCurrentCostMapping) {
             return [];
         }
-        return ['update', 'close', 'void'];
+        return ['update', 'close', 'voided'];
     }
 
     #buildInvoiceAllowedActions(invoice: InvoiceRecord, hasCurrentCostMapping: boolean): string[] {

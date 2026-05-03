@@ -1,7 +1,36 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SalesFollowUpOutcome, SalesFollowUpRecordLifecycleScope, SalesFollowUpRecordStatus, SalesFollowUpStore, SalesFollowUpType, type SalesFollowUpRecordSummary } from '@poms/admin-data-access';
+import {
+    ActiveInactiveStatus,
+    DictionaryDomain,
+    DictionaryStore,
+    SalesFollowUpOutcome,
+    SalesFollowUpRecordLifecycleScope,
+    SalesFollowUpRecordStatus,
+    SalesFollowUpStore,
+    type DictionaryItemSummary,
+    type SalesFollowUpRecordSummary
+} from '@poms/admin-data-access';
 import { SalesFollowUpPanel } from './sales-follow-up-panel';
+
+function createDictionaryItem(code: string, name: string, sortOrder = 0): DictionaryItemSummary {
+    return {
+        id: `dictionary-${code}`,
+        domain: DictionaryDomain.SalesFollowUpType,
+        code,
+        name,
+        description: null,
+        status: ActiveInactiveStatus.Active,
+        sortOrder,
+        isSystem: true,
+        usageCount: 0,
+        rowVersion: 1,
+        createdAt: '2026-05-01T00:00:00.000Z',
+        createdBy: null,
+        updatedAt: '2026-05-01T00:00:00.000Z',
+        updatedBy: null
+    };
+}
 
 function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): SalesFollowUpRecordSummary {
     return {
@@ -12,7 +41,7 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         leadName: '华南地铁线索',
         projectId: null,
         projectName: null,
-        followUpType: SalesFollowUpType.Meeting,
+        followUpType: 'meeting',
         status: SalesFollowUpRecordStatus.Active,
         occurredAt: '2026-05-01T09:00:00.000Z',
         summary: '完成预算口径确认',
@@ -43,6 +72,7 @@ describe('SalesFollowUpPanel', () => {
     let fixture: ComponentFixture<SalesFollowUpPanel>;
     let component: SalesFollowUpPanel;
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
+    let dictionaryItems: ReturnType<typeof signal<DictionaryItemSummary[]>>;
     let salesFollowUpStoreMock: {
         followUps: typeof followUps;
         loading: ReturnType<typeof signal<boolean>>;
@@ -54,9 +84,19 @@ describe('SalesFollowUpPanel', () => {
         voidFollowUp: jest.Mock;
         clearFollowUps: jest.Mock;
     };
+    let dictionaryStoreMock: {
+        items: typeof dictionaryItems;
+        activeItems: typeof dictionaryItems;
+        loading: ReturnType<typeof signal<boolean>>;
+        saving: ReturnType<typeof signal<boolean>>;
+        loaded: ReturnType<typeof signal<boolean>>;
+        loadItems: jest.Mock;
+        clearItems: jest.Mock;
+    };
 
     beforeEach(async () => {
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
+        dictionaryItems = signal([createDictionaryItem('meeting', '会议'), createDictionaryItem('phone', '电话', 10)]);
         salesFollowUpStoreMock = {
             followUps,
             loading: signal(false),
@@ -68,6 +108,15 @@ describe('SalesFollowUpPanel', () => {
             voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: SalesFollowUpRecordStatus.Voided })),
             clearFollowUps: jest.fn()
         };
+        dictionaryStoreMock = {
+            items: dictionaryItems,
+            activeItems: dictionaryItems,
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadItems: jest.fn().mockResolvedValue(dictionaryItems()),
+            clearItems: jest.fn(() => dictionaryItems.set([]))
+        };
 
         await TestBed.configureTestingModule({
             imports: [SalesFollowUpPanel]
@@ -78,6 +127,10 @@ describe('SalesFollowUpPanel', () => {
                         {
                             provide: SalesFollowUpStore,
                             useValue: salesFollowUpStoreMock
+                        },
+                        {
+                            provide: DictionaryStore,
+                            useValue: dictionaryStoreMock
                         }
                     ]
                 }
@@ -124,7 +177,7 @@ describe('SalesFollowUpPanel', () => {
             customerId: 'customer-1',
             leadId: null,
             projectId: 'project-1',
-            followUpType: SalesFollowUpType.Meeting,
+            followUpType: 'meeting',
             occurredAt: '2026-05-02T10:30:00.000Z',
             summary: '项目推进会完成',
             detail: '客户确认交付窗口',
@@ -167,7 +220,7 @@ describe('SalesFollowUpPanel', () => {
         await component.createFollowUp();
 
         expect(salesFollowUpStoreMock.replaceFollowUp).toHaveBeenCalledWith('follow-up-1', {
-            followUpType: SalesFollowUpType.Meeting,
+            followUpType: 'meeting',
             occurredAt: '2026-05-01T09:00:00.000Z',
             summary: '更正后的摘要',
             detail: '更正后的详情',

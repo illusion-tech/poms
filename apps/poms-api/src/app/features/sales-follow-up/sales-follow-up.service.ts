@@ -1,10 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { SalesFollowUpRecordStatusValue } from '@poms/shared-contracts';
+import { DictionaryDomainValue, SalesFollowUpRecordStatusValue } from '@poms/shared-contracts';
 import type { CreateSalesFollowUpRecordRequest, ReplaceSalesFollowUpRecordRequest, SalesFollowUpRecordListQuery, SalesFollowUpRecordSummary, VoidSalesFollowUpRecordRequest } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { Customer } from '../customer/customer.entity';
 import { CustomerService } from '../customer/customer.service';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -18,7 +19,8 @@ export class SalesFollowUpService {
     constructor(
         private readonly salesFollowUpRepository: SalesFollowUpRepository,
         private readonly customerService: CustomerService,
-        private readonly runtimeAuditService: RuntimeAuditService
+        private readonly runtimeAuditService: RuntimeAuditService,
+        private readonly dictionaryService: DictionaryService
     ) {}
 
     async listSalesFollowUpRecords(query: SalesFollowUpRecordListQuery): Promise<SalesFollowUpRecordSummary[]> {
@@ -47,6 +49,7 @@ export class SalesFollowUpService {
         const lead = input.leadId ? await this.requireLead(input.leadId, customer.id) : null;
         const project = input.projectId ? await this.requireProject(input.projectId, customer.id) : null;
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator, lead, project);
+        await this.dictionaryService.requireActiveItem(DictionaryDomainValue.SalesFollowUpType, input.followUpType);
 
         const record = this.salesFollowUpRepository.create({
             id: randomUUID(),
@@ -84,13 +87,14 @@ export class SalesFollowUpService {
             throw new NotFoundException(`SalesFollowUpRecord ${id} not found`);
         }
 
-        this.assertExpectedVersion(supersededRecord.rowVersion, input.expectedVersion, 'SalesFollowUpRecord');
+        this.assertExpectedVersion(supersededRecord.rowVersion, input.expectedVersion, 'sales-follow-up-record');
         if (supersededRecord.status !== SalesFollowUpRecordStatusValue.Active) {
             throw new BadRequestException(`Only active sales follow-up records can be replaced, current status: ${supersededRecord.status}`);
         }
 
         const [customer, lead, project] = await this.loadRecordAnchors(supersededRecord);
         const owner = await this.resolveReplacementOwner(input.ownerUserId, input.ownerOrgId, supersededRecord, operator, lead, project);
+        await this.dictionaryService.requireActiveItem(DictionaryDomainValue.SalesFollowUpType, input.followUpType);
         const replacementId = randomUUID();
         const beforeSnapshot = this.auditSnapshot(supersededRecord);
 
@@ -119,7 +123,7 @@ export class SalesFollowUpService {
         });
 
         await this.salesFollowUpRepository.saveReplacementWithReminderSync({ supersededRecord, replacementRecord, context: { customer, lead, project } });
-        await this.recordAudit('sales_follow_up.replaced', supersededRecord.id, operator.id, requestId, {
+        await this.recordAudit('sales-follow-up.replaced', supersededRecord.id, operator.id, requestId, {
             replacementId: replacementRecord.id,
             replacementReason: replacementRecord.replacementReason,
             before: beforeSnapshot,
@@ -143,7 +147,7 @@ export class SalesFollowUpService {
             throw new NotFoundException(`SalesFollowUpRecord ${id} not found`);
         }
 
-        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'SalesFollowUpRecord');
+        this.assertExpectedVersion(record.rowVersion, input.expectedVersion, 'sales-follow-up-record');
         if (record.status !== SalesFollowUpRecordStatusValue.Active) {
             throw new BadRequestException(`Only active sales follow-up records can be voided, current status: ${record.status}`);
         }
@@ -160,7 +164,7 @@ export class SalesFollowUpService {
         record.updatedBy = operator.id;
 
         await this.salesFollowUpRepository.saveVoidWithReminderSync(record);
-        await this.recordAudit('sales_follow_up.voided', record.id, operator.id, requestId, {
+        await this.recordAudit('sales-follow-up.voided', record.id, operator.id, requestId, {
             reason: record.voidReason,
             before: beforeSnapshot,
             after: this.auditSnapshot(record)
@@ -365,7 +369,7 @@ export class SalesFollowUpService {
     private async recordAudit(eventType: string, targetId: string, operatorId: string, requestId: string | null | undefined, metadata: Record<string, unknown>): Promise<void> {
         await this.runtimeAuditService.recordAuditLog({
             eventType,
-            targetType: 'sales_follow_up_record',
+            targetType: 'sales-follow-up-record',
             targetId,
             operatorId,
             requestId: requestId ?? null,

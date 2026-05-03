@@ -8,12 +8,11 @@
  * Do not edit the class manually.
  */
 import { AttachmentSecurityLevel } from './attachment-security-level';
-import { AttachmentCategory } from './attachment-category';
 
 
 export interface UpdateAttachmentRequest {
     displayName?: string;
-    category?: AttachmentCategory;
+    category?: string;
     securityLevel?: AttachmentSecurityLevel;
     description?: string | null;
 }

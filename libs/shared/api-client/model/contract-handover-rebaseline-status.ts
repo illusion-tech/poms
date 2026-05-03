@@ -15,7 +15,7 @@ export enum ContractHandoverRebaselineStatus {
 
     Processing = 'processing',
 
-    PendingEffective = 'pending_effective',
+    PendingEffective = 'pending-effective',
 
     Effective = 'effective',
 

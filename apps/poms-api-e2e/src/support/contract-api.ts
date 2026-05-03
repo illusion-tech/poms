@@ -199,7 +199,7 @@ export async function createActiveContractForProject(
     });
 
     const approvalOwner = await loginAsApprovalOwner();
-    const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+    const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
     await approveRecord(approvalOwner.client, todo.sourceId, {
         comment: 'e2e 提成前置合同审批通过',
         expectedVersion: 1

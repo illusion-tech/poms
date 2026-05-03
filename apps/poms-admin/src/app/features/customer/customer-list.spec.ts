@@ -8,6 +8,7 @@ import {
     CustomerAliasType,
     CustomerStatus,
     CustomerStore,
+    DictionaryStore,
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpStore,
     type AttachmentSummary,
@@ -146,6 +147,15 @@ describe('CustomerList', () => {
             voidFollowUp: jest.fn(),
             clearFollowUps: jest.fn()
         };
+        const dictionaryStoreMock = {
+            items: signal([]),
+            activeItems: signal([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadItems: jest.fn().mockResolvedValue([]),
+            clearItems: jest.fn()
+        };
         customerStoreMock = {
             customers,
             selectedCustomer,
@@ -189,6 +199,10 @@ describe('CustomerList', () => {
                 {
                     provide: Router,
                     useValue: routerMock
+                },
+                {
+                    provide: DictionaryStore,
+                    useValue: dictionaryStoreMock
                 }
             ]
         })

@@ -25,7 +25,7 @@ describe('ApprovalController', () => {
     it('passes current user to approve command', async () => {
         approvalService.approveRecord.mockResolvedValue({
             targetId: '30000000-0000-4000-8000-000000000001',
-            targetType: 'Contract',
+            targetType: 'contract',
             resultStatus: 'approved',
             businessStatusAfter: 'pending-review',
             approvalRecordId,
@@ -48,7 +48,7 @@ describe('ApprovalController', () => {
     it('passes current user to reject command', async () => {
         approvalService.rejectRecord.mockResolvedValue({
             targetId: '30000000-0000-4000-8000-000000000001',
-            targetType: 'Contract',
+            targetType: 'contract',
             resultStatus: 'rejected',
             businessStatusAfter: 'draft',
             approvalRecordId,

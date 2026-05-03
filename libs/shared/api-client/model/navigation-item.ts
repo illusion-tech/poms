@@ -30,6 +30,7 @@ export enum NavigationItemRequiredPermissionsEnum {
     PlatformRolesManage = 'platform:roles:manage',
     PlatformNavigationManage = 'platform:navigation:manage',
     PlatformOrgUnitsManage = 'platform:org-units:manage',
+    PlatformDictionariesManage = 'platform:dictionaries:manage',
     CustomerRead = 'customer:read',
     CustomerWrite = 'customer:write',
     CommissionRuleVersionsManage = 'commission:rule-versions:manage',

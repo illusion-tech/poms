@@ -25,5 +25,5 @@ export interface CreateLaborProjectActualCostRecordRequest {
     attachmentIds?: Array<string>;
 }
 export enum CreateLaborProjectActualCostRecordRequestCostTypeEnum {
-    Labor = 'LABOR'
+    Labor = 'labor'
 };

@@ -22,7 +22,7 @@ describe('CommissionDepartureExceptionDecisionController', () => {
         const body = {
             freezeVersionId: ASSIGNMENT_ID,
             departureScenarioCode: 'employee-left-company',
-            decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+            decisionCode: 'require-handover-confirmation',
             decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
             confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
             summarySnapshotId: SUMMARY_SNAPSHOT_ID
@@ -36,7 +36,7 @@ describe('CommissionDepartureExceptionDecisionController', () => {
             rowVersion: 1,
             isCurrent: true,
             departureScenarioCode: 'employee-left-company',
-            decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+            decisionCode: 'require-handover-confirmation',
             decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
             confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
             summaryPackageKey: 'project-handover-confirmation',

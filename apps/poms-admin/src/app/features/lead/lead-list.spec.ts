@@ -6,6 +6,7 @@ import {
     AuthStore,
     CustomerStatus,
     CustomerStore,
+    DictionaryStore,
     LeadAllowedAction,
     LeadBudgetStatus,
     LeadGateMissingItem,
@@ -23,7 +24,6 @@ import {
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpRecordStatus,
     SalesFollowUpStore,
-    SalesFollowUpType,
     type AttachmentSummary,
     type CustomerListView,
     type LeadDetailView,
@@ -202,7 +202,7 @@ function createFollowUp(overrides: Partial<SalesFollowUpRecordSummary> = {}): Sa
         leadName: '华南地铁线索',
         projectId: null,
         projectName: null,
-        followUpType: SalesFollowUpType.Meeting,
+        followUpType: 'meeting',
         status: SalesFollowUpRecordStatus.Active,
         occurredAt: '2026-04-25T10:00:00.000Z',
         summary: '完成预算口径确认',
@@ -423,6 +423,15 @@ describe('LeadList', () => {
             voidFollowUp: jest.fn().mockResolvedValue(createFollowUp({ status: SalesFollowUpRecordStatus.Voided })),
             clearFollowUps: jest.fn(() => followUps.set([]))
         };
+        const dictionaryStoreMock = {
+            items: signal([]),
+            activeItems: signal([]),
+            loading: signal(false),
+            saving: signal(false),
+            loaded: signal(true),
+            loadItems: jest.fn().mockResolvedValue([]),
+            clearItems: jest.fn()
+        };
 
         await TestBed.configureTestingModule({
             imports: [LeadList],
@@ -473,6 +482,10 @@ describe('LeadList', () => {
                 {
                     provide: PlatformStore,
                     useValue: platformStoreMock
+                },
+                {
+                    provide: DictionaryStore,
+                    useValue: dictionaryStoreMock
                 }
             ]
         })

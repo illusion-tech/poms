@@ -321,6 +321,14 @@
 | `lead-source` | `createLeadSource` | `POST /lead-sources`       | `POST /lead-sources`       | `POST /lead-sources`       | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源字典创建；code 作为稳定来源身份。            | `B7`  | `aligned` |
 | `lead-source` | `updateLeadSource` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源基础信息与启停维护；不提供物理删除公共 API。 | `B7`  | `aligned` |
 
+### 6.12A EX-58C Configurable Dictionaries
+
+| Domain       | Capability             | Canonical Route            | Current Implemented Route  | Current Design Route       | Authority                        | Drift Type | Action                                                     | Batch | Status    |
+| ------------ | ---------------------- | -------------------------- | -------------------------- | -------------------------- | -------------------------------- | ---------- | ---------------------------------------------------------- | ----- | --------- |
+| `dictionary` | `listDictionaryItems`  | `GET /dictionaries`        | `GET /dictionaries`        | `GET /dictionaries`        | `ADR-015` + `EX-58C` G1 baseline | `N/A`      | 新增配置型字典项集合查询，供表单选项和后续字典管理页使用。 | `B7`  | `aligned` |
+| `dictionary` | `createDictionaryItem` | `POST /dictionaries`       | `POST /dictionaries`       | `POST /dictionaries`       | `ADR-015` + `EX-58C` G1 baseline | `N/A`      | 新增配置型字典项创建；`domain + code` 为稳定身份。         | `B7`  | `aligned` |
+| `dictionary` | `updateDictionaryItem` | `PATCH /dictionaries/{id}` | `PATCH /dictionaries/{id}` | `PATCH /dictionaries/{id}` | `ADR-015` + `EX-58C` G1 baseline | `N/A`      | 新增配置型字典项基础信息与启停维护；不提供物理删除 API。   | `B7`  | `aligned` |
+
 ### 6.13 EX-44 Sales Follow Up Record
 
 | Domain            | Capability                   | Canonical Route                              | Current Implemented Route                    | Current Design Route                         | Authority                             | Drift Type | Action                                                                       | Batch | Status    |

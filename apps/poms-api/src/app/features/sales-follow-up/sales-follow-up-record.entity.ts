@@ -2,7 +2,6 @@ import { defineEntity } from '@mikro-orm/core';
 import {
     SALES_FOLLOW_UP_OUTCOMES,
     SALES_FOLLOW_UP_RECORD_STATUSES,
-    SALES_FOLLOW_UP_TYPES,
     SalesFollowUpRecordStatusValue,
     type SalesFollowUpOutcome,
     type SalesFollowUpRecordStatus,
@@ -62,10 +61,6 @@ export const SalesFollowUpRecordSchema = defineEntity({
         }
     ],
     checks: [
-        {
-            name: 'chk_sales_follow_up_type',
-            expression: `"follow_up_type" in (${toSqlStringList(SALES_FOLLOW_UP_TYPES)})`
-        },
         {
             name: 'chk_sales_follow_up_outcome',
             expression: `"outcome" in (${toSqlStringList(SALES_FOLLOW_UP_OUTCOMES)})`

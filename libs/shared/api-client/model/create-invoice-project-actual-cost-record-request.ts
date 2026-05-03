@@ -18,5 +18,5 @@ export interface CreateInvoiceProjectActualCostRecordRequest {
     expectedSourceVersion?: number;
 }
 export enum CreateInvoiceProjectActualCostRecordRequestCostTypeEnum {
-    Invoice = 'INVOICE'
+    Invoice = 'invoice'
 };

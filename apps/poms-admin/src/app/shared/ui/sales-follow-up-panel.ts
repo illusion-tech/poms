@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+    ActiveInactiveStatus,
+    DictionaryDomain,
+    DictionaryStore,
     SalesFollowUpOutcome,
     SalesFollowUpRecordLifecycleScope,
     SalesFollowUpRecordStatus,
     SalesFollowUpStore,
-    SalesFollowUpType,
     type SalesFollowUpRecordSummary
 } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +27,7 @@ interface SalesFollowUpOption<T extends string> {
 }
 
 interface SalesFollowUpForm {
-    followUpType: SalesFollowUpType;
+    followUpType: string;
     occurredAt: Date | null;
     summary: string;
     detail: string;
@@ -34,15 +36,6 @@ interface SalesFollowUpForm {
 }
 
 type SalesFollowUpDialogMode = 'create' | 'replace';
-
-const SALES_FOLLOW_UP_TYPE_LABELS: Record<SalesFollowUpType, string> = {
-    [SalesFollowUpType.Phone]: '电话',
-    [SalesFollowUpType.Meeting]: '会议',
-    [SalesFollowUpType.Wechat]: '微信',
-    [SalesFollowUpType.Email]: '邮件',
-    [SalesFollowUpType.Onsite]: '现场拜访',
-    [SalesFollowUpType.Other]: '其他'
-};
 
 const SALES_FOLLOW_UP_OUTCOME_LABELS: Record<SalesFollowUpOutcome, string> = {
     [SalesFollowUpOutcome.Progress]: '有进展',
@@ -60,17 +53,8 @@ const SALES_FOLLOW_UP_STATUS_LABELS: Record<SalesFollowUpRecordStatus, string> =
     [SalesFollowUpRecordStatus.Voided]: '已作废'
 };
 
-const DEFAULT_FOLLOW_UP_TYPE = SalesFollowUpType.Meeting;
+const DEFAULT_FOLLOW_UP_TYPE = 'meeting';
 const DEFAULT_FOLLOW_UP_OUTCOME = SalesFollowUpOutcome.Progress;
-
-const SALES_FOLLOW_UP_TYPE_OPTIONS: SalesFollowUpOption<SalesFollowUpType>[] = [
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Phone], value: SalesFollowUpType.Phone },
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Meeting], value: SalesFollowUpType.Meeting },
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Wechat], value: SalesFollowUpType.Wechat },
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Email], value: SalesFollowUpType.Email },
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Onsite], value: SalesFollowUpType.Onsite },
-    { label: SALES_FOLLOW_UP_TYPE_LABELS[SalesFollowUpType.Other], value: SalesFollowUpType.Other }
-];
 
 const SALES_FOLLOW_UP_OUTCOME_OPTIONS: SalesFollowUpOption<SalesFollowUpOutcome>[] = [
     { label: SALES_FOLLOW_UP_OUTCOME_LABELS[SalesFollowUpOutcome.Progress], value: SalesFollowUpOutcome.Progress },
@@ -95,7 +79,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     selector: 'app-sales-follow-up-panel',
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, ToggleSwitchModule, WorkspaceFeedback],
-    providers: [SalesFollowUpStore],
+    providers: [SalesFollowUpStore, DictionaryStore],
     template: `
         <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -187,7 +171,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                             inputId="salesFollowUpType"
                             [ngModel]="form().followUpType"
                             (ngModelChange)="updateType($event)"
-                            [options]="typeOptions"
+                            [options]="typeOptions()"
                             optionLabel="label"
                             optionValue="value"
                             appendTo="body"
@@ -345,8 +329,9 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
         </p-dialog>
     `
 })
-export class SalesFollowUpPanel implements OnChanges {
+export class SalesFollowUpPanel implements OnChanges, OnInit {
     readonly store = inject(SalesFollowUpStore);
+    readonly dictionaryStore = inject(DictionaryStore);
     readonly SalesFollowUpRecordStatus = SalesFollowUpRecordStatus;
 
     @Input({ required: true }) customerId!: string | null;
@@ -372,8 +357,13 @@ export class SalesFollowUpPanel implements OnChanges {
     dialogVisible = false;
     voidDialogVisible = false;
 
-    readonly typeOptions = SALES_FOLLOW_UP_TYPE_OPTIONS;
+    readonly typeOptions = computed<SalesFollowUpOption<string>[]>(() => this.dictionaryStore.activeItems().map((item) => ({ label: item.name, value: item.code })));
+    readonly typeLookup = computed(() => new Map(this.dictionaryStore.items().map((item) => [item.code, item.name])));
     readonly outcomeOptions = SALES_FOLLOW_UP_OUTCOME_OPTIONS;
+
+    ngOnInit(): void {
+        void this.loadTypeOptions();
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['customerId'] || changes['leadId'] || changes['projectId']) {
@@ -397,6 +387,18 @@ export class SalesFollowUpPanel implements OnChanges {
             });
         } catch {
             this.error.set('销售跟进记录没有读取成功，请稍后重试。');
+        }
+    }
+
+    async loadTypeOptions(): Promise<void> {
+        try {
+            const items = await this.dictionaryStore.loadItems({
+                domain: DictionaryDomain.SalesFollowUpType,
+                status: ActiveInactiveStatus.Active
+            });
+            this.ensureFollowUpType(items.map((item) => item.code));
+        } catch {
+            this.error.set('跟进方式没有读取成功，请稍后重试。');
         }
     }
 
@@ -458,7 +460,7 @@ export class SalesFollowUpPanel implements OnChanges {
         this.error.set(null);
     }
 
-    updateType(value: SalesFollowUpType | null | undefined): void {
+    updateType(value: string | null | undefined): void {
         this.form.update((form) => ({
             ...form,
             followUpType: value ?? DEFAULT_FOLLOW_UP_TYPE
@@ -587,7 +589,7 @@ export class SalesFollowUpPanel implements OnChanges {
 
     isFormValid(): boolean {
         const form = this.form();
-        return Boolean(form.occurredAt && form.summary.trim());
+        return Boolean(form.followUpType && form.occurredAt && form.summary.trim());
     }
 
     canSubmitDialog(): boolean {
@@ -614,8 +616,8 @@ export class SalesFollowUpPanel implements OnChanges {
         return Boolean(this.customerId);
     }
 
-    getTypeName(type: SalesFollowUpType): string {
-        return SALES_FOLLOW_UP_TYPE_LABELS[type];
+    getTypeName(type: string): string {
+        return this.typeLookup().get(type) ?? type;
     }
 
     getOutcomeName(outcome: SalesFollowUpOutcome): string {
@@ -678,6 +680,7 @@ export class SalesFollowUpPanel implements OnChanges {
     private defaultForm(): SalesFollowUpForm {
         return {
             ...EMPTY_FOLLOW_UP_FORM,
+            followUpType: this.defaultFollowUpType(),
             occurredAt: new Date()
         };
     }
@@ -685,5 +688,26 @@ export class SalesFollowUpPanel implements OnChanges {
     private optionalText(value: string): string | null {
         const normalized = value.trim();
         return normalized.length ? normalized : null;
+    }
+
+    private ensureFollowUpType(codes: string[]): void {
+        if (!codes.length) {
+            return;
+        }
+
+        const currentType = this.form().followUpType;
+        if (codes.includes(currentType)) {
+            return;
+        }
+
+        this.form.update((form) => ({
+            ...form,
+            followUpType: codes.includes(DEFAULT_FOLLOW_UP_TYPE) ? DEFAULT_FOLLOW_UP_TYPE : codes[0]
+        }));
+    }
+
+    private defaultFollowUpType(): string {
+        const options = this.typeOptions();
+        return options.some((option) => option.value === DEFAULT_FOLLOW_UP_TYPE) ? DEFAULT_FOLLOW_UP_TYPE : options[0]?.value ?? DEFAULT_FOLLOW_UP_TYPE;
     }
 }

@@ -476,7 +476,7 @@ describe('ProjectHandoverCommandService', () => {
                 ]
             },
             receiptJudgmentModeSummary: {
-                status: 'not_frozen',
+                status: 'not-frozen',
                 receiptJudgmentMode: null,
                 sourceType: 'none',
                 sourceId: null,

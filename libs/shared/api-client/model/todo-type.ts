@@ -15,5 +15,5 @@ export enum TodoType {
 
     Confirmation = 'confirmation',
 
-    SalesFollowUpReminder = 'sales_follow_up_reminder'
+    SalesFollowUpReminder = 'sales-follow-up-reminder'
 }

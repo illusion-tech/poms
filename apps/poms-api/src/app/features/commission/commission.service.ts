@@ -885,7 +885,7 @@ export class CommissionService {
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
-        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'commission-payout');
         this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
@@ -932,7 +932,7 @@ export class CommissionService {
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
-        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'commission-payout');
         this.#assertPayoutSupportsLifecycleActions(entity);
 
         if (entity.status !== 'pending-approval') {
@@ -951,7 +951,7 @@ export class CommissionService {
                 if (!payout) {
                     throw new NotFoundException(`CommissionPayout ${id} not found`);
                 }
-                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'CommissionPayout');
+                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'commission-payout');
                 this.#assertPayoutSupportsLifecycleActions(payout);
 
                 if (payout.status !== 'pending-approval') {
@@ -1066,7 +1066,7 @@ export class CommissionService {
         if (!entity) {
             throw new NotFoundException(`CommissionPayout ${id} not found`);
         }
-        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'CommissionPayout');
+        this.#assertExpectedVersion(entity.rowVersion, dto.expectedVersion, 'commission-payout');
         this.#assertRequestStageMatchesPayout(entity.stageType, dto.payoutStage);
         this.#assertPayoutSupportsLifecycleActions(entity);
 
@@ -1087,7 +1087,7 @@ export class CommissionService {
                     throw new NotFoundException(`CommissionPayout ${id} not found`);
                 }
 
-                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'CommissionPayout');
+                this.#assertExpectedVersion(payout.rowVersion, dto.expectedVersion, 'commission-payout');
                 this.#assertPayoutSupportsLifecycleActions(payout);
 
                 if (payout.status !== 'approved') {
@@ -1256,7 +1256,7 @@ export class CommissionService {
             if (!adjustment) {
                 throw new NotFoundException(`CommissionAdjustment ${id} not found`);
             }
-            this.#assertExpectedVersion(adjustment.rowVersion, dto.expectedVersion, 'CommissionAdjustment');
+            this.#assertExpectedVersion(adjustment.rowVersion, dto.expectedVersion, 'commission-adjustment');
 
             if (adjustment.status !== 'approved') {
                 throw new UnprocessableEntityException(`只有已批准状态的提成调整可以执行，当前状态: ${adjustment.status}`);
@@ -1515,7 +1515,7 @@ export class CommissionService {
     };
 
     readonly #toPayoutSummary = async (e: CommissionPayout, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<CommissionPayoutSummary> => {
-        const { theoreticalCapAmountProjection, approvedAmountProjection, paidRecordAmountProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'CommissionPayout', [
+        const { theoreticalCapAmountProjection, approvedAmountProjection, paidRecordAmountProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'commission-payout', [
             {
                 key: 'theoreticalCapAmountProjection',
                 rawValue: this.#stringifyDecimal(e.theoreticalCapAmount)
@@ -1551,7 +1551,7 @@ export class CommissionService {
     };
 
     readonly #toAdjustmentSummary = async (e: CommissionAdjustment, user: SensitiveProjectionUser, requestContext: SensitiveFieldProjectionRequestContext): Promise<CommissionAdjustmentSummary> => {
-        const { amountProjection, reasonProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'CommissionAdjustment', [
+        const { amountProjection, reasonProjection } = await this.#projectCommissionSensitiveFields(e.id, user, requestContext, 'commission-compensation', 'commission-adjustment', [
             {
                 key: 'amountProjection',
                 rawValue: e.amount ? this.#stringifyDecimal(e.amount) : null
@@ -1721,7 +1721,7 @@ export class CommissionService {
         user: SensitiveProjectionUser,
         requestContext: SensitiveFieldProjectionRequestContext
     ): Promise<CommissionSharedEvidencePackage> {
-        const { taxImpactSummaryProjection, taxImpactPendingAmountProjection } = await this.#projectCommissionSensitiveFields(snapshot.projectId, user, requestContext, 'operating-finance', 'Project', [
+        const { taxImpactSummaryProjection, taxImpactPendingAmountProjection } = await this.#projectCommissionSensitiveFields(snapshot.projectId, user, requestContext, 'operating-finance', 'project', [
             {
                 key: 'taxImpactSummaryProjection',
                 rawValue: snapshot.taxImpactSummary
@@ -1755,7 +1755,7 @@ export class CommissionService {
         user: SensitiveProjectionUser,
         requestContext: SensitiveFieldProjectionRequestContext,
         fieldPackageKey: SensitiveFieldPackageKey,
-        targetType = 'Project'
+        targetType = 'project'
     ): Promise<SensitiveStringFieldProjection> {
         return this.sensitiveFieldProjectionService.projectStringField({
             fieldPackageKey,
@@ -1859,7 +1859,7 @@ export class CommissionService {
     ): CommissionRoleAssignmentDetailView['receiptJudgmentModeSummary'] {
         if (!freeze) {
             return {
-                status: 'not_frozen',
+                status: 'not-frozen',
                 receiptJudgmentMode: null,
                 sourceType: 'none',
                 sourceId: null,
@@ -2491,7 +2491,7 @@ export class CommissionService {
     }
 
     #isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
-        return [bindingAction, gateReviewDecision].map((value) => value?.trim().toUpperCase()).some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
+        return [bindingAction, gateReviewDecision].map((value) => value?.trim().toLowerCase()).some((value) => value === 'block' || value?.startsWith('block-'));
     }
 
     #requireAdjustmentAmount(adjustment: CommissionAdjustment, actionName: '扣回' | '补发'): number {

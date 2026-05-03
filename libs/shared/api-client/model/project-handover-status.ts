@@ -11,7 +11,7 @@
 
 export enum ProjectHandoverStatus {
 
-    NotStarted = 'not_started',
+    NotStarted = 'not-started',
 
     Draft = 'draft',
 

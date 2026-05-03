@@ -146,11 +146,11 @@ export class ProjectCostController {
             discriminator: {
                 propertyName: 'costType',
                 mapping: {
-                    PAYMENT_FACT: '#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest',
-                    INVOICE: '#/components/schemas/CreateInvoiceProjectActualCostRecordRequest',
-                    EXPENSE: '#/components/schemas/CreateExpenseProjectActualCostRecordRequest',
-                    PROCUREMENT: '#/components/schemas/CreateProcurementProjectActualCostRecordRequest',
-                    LABOR: '#/components/schemas/CreateLaborProjectActualCostRecordRequest'
+                    'payment-fact': '#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest',
+                    invoice: '#/components/schemas/CreateInvoiceProjectActualCostRecordRequest',
+                    expense: '#/components/schemas/CreateExpenseProjectActualCostRecordRequest',
+                    procurement: '#/components/schemas/CreateProcurementProjectActualCostRecordRequest',
+                    labor: '#/components/schemas/CreateLaborProjectActualCostRecordRequest'
                 }
             }
         }

@@ -18,5 +18,5 @@ export interface CreateExpenseProjectActualCostRecordRequest {
     expectedSourceVersion?: number;
 }
 export enum CreateExpenseProjectActualCostRecordRequestCostTypeEnum {
-    Expense = 'EXPENSE'
+    Expense = 'expense'
 };

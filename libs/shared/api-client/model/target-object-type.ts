@@ -11,17 +11,17 @@
 
 export enum TargetObjectType {
 
-    Contract = 'Contract',
+    Contract = 'contract',
 
-    CommissionPayout = 'CommissionPayout',
+    CommissionPayout = 'commission-payout',
 
-    CommissionAdjustment = 'CommissionAdjustment',
+    CommissionAdjustment = 'commission-adjustment',
 
-    Project = 'Project',
+    Project = 'project',
 
-    Lead = 'Lead',
+    Lead = 'lead',
 
-    Customer = 'Customer',
+    Customer = 'customer',
 
-    ProjectHandover = 'ProjectHandover'
+    ProjectHandover = 'project-handover'
 }

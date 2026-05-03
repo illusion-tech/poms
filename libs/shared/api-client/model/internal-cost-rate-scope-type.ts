@@ -11,7 +11,7 @@
 
 export enum InternalCostRateScopeType {
 
-    Person = 'PERSON',
+    Person = 'person',
 
-    Role = 'ROLE'
+    Role = 'role'
 }

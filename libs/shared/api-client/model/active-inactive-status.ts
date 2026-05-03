@@ -9,17 +9,9 @@
  */
 
 
-export enum SalesFollowUpType {
+export enum ActiveInactiveStatus {
 
-    Phone = 'phone',
+    Active = 'active',
 
-    Meeting = 'meeting',
-
-    Wechat = 'wechat',
-
-    Email = 'email',
-
-    Onsite = 'onsite',
-
-    Other = 'other'
+    Inactive = 'inactive'
 }

@@ -11,7 +11,7 @@
 
 export enum OperatingSignalReviewDecision {
 
-    Approve = 'APPROVE',
+    Approve = 'approve',
 
-    ManualConfirmed = 'MANUAL_CONFIRMED'
+    ManualConfirmed = 'manual-confirmed'
 }

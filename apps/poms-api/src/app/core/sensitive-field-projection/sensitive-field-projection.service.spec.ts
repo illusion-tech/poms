@@ -63,7 +63,7 @@ describe('Sensitive field projection', () => {
             rawValue: '1200000.00',
             displayTextWhenFull: '1,200,000.00 CNY',
             user: buildUser(['contract:finance:sensitive:read']),
-            targetType: 'Contract',
+            targetType: 'contract',
             targetId,
             requestContext: {
                 requestId: 'req-sensitive-full',
@@ -88,7 +88,7 @@ describe('Sensitive field projection', () => {
             rawValue: '1200000.00',
             displayTextWhenFull: '1,200,000.00 CNY',
             user: buildUser(['project:read']),
-            targetType: 'Contract',
+            targetType: 'contract',
             targetId,
             requestContext: {
                 requestId: 'req-sensitive-masked',
@@ -117,7 +117,7 @@ describe('Sensitive field projection', () => {
                 details: expect.objectContaining({
                     fieldPackageKey: 'contract-finance',
                     projectionMode: 'masked',
-                    targetType: 'Contract',
+                    targetType: 'contract',
                     targetId,
                     reasonCode: 'missing-sensitive-read-permission'
                 })
@@ -237,7 +237,7 @@ describe('Sensitive field projection', () => {
             fieldPackageKey: 'commission-compensation',
             rawValue: '80000.00',
             user: buildUser(['project:read']),
-            targetType: 'CommissionPayout',
+            targetType: 'commission-payout',
             targetId,
             requestContext: {
                 path: '/projects/project-id/commission/operations'

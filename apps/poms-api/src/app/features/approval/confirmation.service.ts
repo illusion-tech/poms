@@ -179,7 +179,7 @@ export class ConfirmationService {
                 throw new NotFoundException(`ConfirmationRecord ${confirmationRecordId} not found`);
             }
 
-            this.assertExpectedVersion(confirmationRecord.rowVersion, input.expectedVersion, 'ConfirmationRecord');
+            this.assertExpectedVersion(confirmationRecord.rowVersion, input.expectedVersion, 'confirmation-record');
 
             if (confirmationRecord.status !== 'pending') {
                 throw new BadRequestException(`ConfirmationRecord ${confirmationRecordId} cannot be confirmed in status ${confirmationRecord.status}`);
@@ -247,7 +247,7 @@ export class ConfirmationService {
                 throw new NotFoundException(`ConfirmationRecord ${confirmationRecordId} not found`);
             }
 
-            this.assertExpectedVersion(confirmationRecord.rowVersion, input.expectedVersion, 'ConfirmationRecord');
+            this.assertExpectedVersion(confirmationRecord.rowVersion, input.expectedVersion, 'confirmation-record');
 
             if (confirmationRecord.status !== 'pending') {
                 throw new BadRequestException(`ConfirmationRecord ${confirmationRecordId} cannot be closed in status ${confirmationRecord.status}`);

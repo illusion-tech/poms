@@ -11,7 +11,7 @@
 
 export enum ProjectHandoverParticipantConfirmationStatus {
 
-    NotStarted = 'not_started',
+    NotStarted = 'not-started',
 
     Pending = 'pending',
 

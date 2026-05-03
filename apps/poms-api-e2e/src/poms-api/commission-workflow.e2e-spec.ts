@@ -160,9 +160,9 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('commission-final-retention');
 
         const signalReview = await reviewOperatingSignalEvaluation(client, fixture.signalEvaluationId, {
-            reviewDecision: 'APPROVE',
-            resolvedDataMaturityLevel: 'MATURE',
-            costActionRecommendation: 'PROMPT',
+            reviewDecision: 'approve',
+            resolvedDataMaturityLevel: 'mature',
+            costActionRecommendation: 'prompt',
             referencedBaselineVersion: fixture.baselinePackageId,
             referencedSnapshotVersion: fixture.operatingSnapshotId,
             reviewComment: 'EX-14C final settlement evidence review',
@@ -171,8 +171,8 @@ describe('poms-api commission workflow e2e', () => {
         expect(signalReview.resultStatus).toBe('success');
 
         const gateReview = await reviewCommissionGateBinding(client, fixture.gateBindingId, {
-            bindingAction: 'PROMPT',
-            gateReviewDecision: 'ALLOW_RETENTION',
+            bindingAction: 'prompt',
+            gateReviewDecision: 'allow-retention',
             baselineSelectionSource: 'original',
             summaryPackageKey: fixture.summaryPackageKey,
             summarySnapshotId: fixture.summarySnapshotId,
@@ -181,7 +181,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: 1
         });
         expect(gateReview.gateReviewRecordId).toBeDefined();
-        expect(gateReview.businessStatusAfter).toBe('PROMPT');
+        expect(gateReview.businessStatusAfter).toBe('prompt');
 
         const ruleVersion = await createRuleVersion(client, buildCommissionRuleVersionInput(unique));
         await activateRuleVersion(client, ruleVersion.id);
@@ -229,7 +229,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const pendingFinalExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
         expect(pendingFinalExplanation.currentStageStatus).toBe('pending-final-settlement');
-        expect(pendingFinalExplanation.gateDecisionCode).toBe('ALLOW_FINAL_SETTLEMENT');
+        expect(pendingFinalExplanation.gateDecisionCode).toBe('allow-final-settlement');
         expect(pendingFinalExplanation.summarySnapshotId).toBe(fixture.summarySnapshotId);
 
         const paidFinalPayout = await registerPayout(client, finalPayout.id, {
@@ -247,8 +247,8 @@ describe('poms-api commission workflow e2e', () => {
 
         const pendingRetentionExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
         expect(pendingRetentionExplanation.currentStageStatus).toBe('blocked-retention');
-        expect(pendingRetentionExplanation.gateDecisionCode).toBe('BLOCK_RETENTION');
-        expect(pendingRetentionExplanation.blockingReasonCode).toBe('DEPARTURE_EXCEPTION_PENDING');
+        expect(pendingRetentionExplanation.gateDecisionCode).toBe('block-retention');
+        expect(pendingRetentionExplanation.blockingReasonCode).toBe('departure-exception-pending');
 
         const retentionPayout = await createPayout(
             client,
@@ -270,7 +270,7 @@ describe('poms-api commission workflow e2e', () => {
         const departureDecision = await createDepartureExceptionDecision(client, fixture.projectId, {
             freezeVersionId: frozenRoleAssignment.targetId,
             departureScenarioCode: 'employee-left-company',
-            decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+            decisionCode: 'allow-retention-with-successor',
             decisionSummary: '允许进入质保金结算',
             confirmationRequirementSummary: null,
             summarySnapshotId: fixture.handoverSummarySnapshotId
@@ -297,7 +297,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const readyRetentionExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
         expect(readyRetentionExplanation.currentStageStatus).toBe('ready-retention');
-        expect(readyRetentionExplanation.gateDecisionCode).toBe('ALLOW_RETENTION');
+        expect(readyRetentionExplanation.gateDecisionCode).toBe('allow-retention');
 
         const retentionApproval = await findPayoutApprovalRecord(client, retentionPayout.id);
         await approveRecord(financeManager.client, retentionApproval.id, {
@@ -325,7 +325,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const settledRuleExplanation = await getCommissionRuleExplanation(client, fixture.projectId);
         expect(settledRuleExplanation.currentStageStatus).toBe('settled-retention');
-        expect(settledRuleExplanation.gateDecisionCode).toBe('SETTLED_RETENTION');
+        expect(settledRuleExplanation.gateDecisionCode).toBe('settled-retention');
     });
 
     it('rejects payout registration before payout approval', async () => {
@@ -716,7 +716,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: firstApproval.rowVersion
         });
 
-        await expectNoOpenTodoForTarget(financeManager.client, 'CommissionPayout', scenario.payout.id);
+        await expectNoOpenTodoForTarget(financeManager.client, 'commission-payout', scenario.payout.id);
 
         const rejectedPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
         expect(rejectedPayout.status).toBe('draft');

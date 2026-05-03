@@ -15,7 +15,7 @@ import type { CustomerAliasSummary, CustomerDetailView, CustomerListQuery, Custo
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CustomerService } from './customer.service';
 
-@ApiTags('Customer')
+@ApiTags('customer')
 @ApiBearerAuth()
 @Controller('customers')
 export class CustomerController {

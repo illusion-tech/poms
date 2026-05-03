@@ -61,7 +61,7 @@ export const LeadSourceSchema = defineEntity({
 });
 
 export const LeadSchema = defineEntity({
-    name: 'Lead',
+    name: 'lead',
     tableName: 'lead',
     schema: 'poms',
     comment: 'POMS 销售线索事实源表',

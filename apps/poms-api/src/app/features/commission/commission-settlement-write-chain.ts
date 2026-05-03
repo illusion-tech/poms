@@ -138,7 +138,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'exception',
-                blockingReasonCode: 'FREEZE_DISPUTE_PENDING',
+                blockingReasonCode: 'freeze-dispute-pending',
                 blockingReasonSummary: '当前冻结版本存在待仲裁争议，后续发放已进入受控暂停。',
                 gateDecisionSummary: '当前暂不能进入质保金结算。',
                 nextActionSummary: '请先完成冻结后争议仲裁，再复核质保金结算。'
@@ -160,7 +160,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
-                blockingReasonCode: 'RETENTION_DUE_FACT_MISSING',
+                blockingReasonCode: 'retention-due-fact-missing',
                 blockingReasonSummary: '当前有效合同条款缺少质保期届满日期，暂不能进入质保金结算。',
                 gateDecisionSummary: '当前暂不能进入质保金结算。',
                 nextActionSummary: '请先补齐当前有效合同条款的质保期届满日期，再复核质保金结算。'
@@ -182,7 +182,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
-                blockingReasonCode: 'RETENTION_DUE_PENDING',
+                blockingReasonCode: 'retention-due-pending',
                 blockingReasonSummary: '当前质保期尚未届满。',
                 gateDecisionSummary: '当前暂不能进入质保金结算。',
                 nextActionSummary: '请待合同约定质保期届满后再复核质保金结算。'
@@ -204,7 +204,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'exception',
-                blockingReasonCode: 'DEPARTURE_EXCEPTION_PENDING',
+                blockingReasonCode: 'departure-exception-pending',
                 blockingReasonSummary: '离职 / 特例结论尚未明确。',
                 gateDecisionSummary: '当前暂不能进入质保金结算。',
                 nextActionSummary: '请先创建当前有效离职 / 特例结论，再复核质保金结算。'
@@ -227,7 +227,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'special-case',
-                blockingReasonCode: 'DEPARTURE_CONFIRMATION_PENDING',
+                blockingReasonCode: 'departure-confirmation-pending',
                 blockingReasonSummary: confirmationRequirementSummary,
                 gateDecisionSummary: '当前涉及离职 / 特例限制，暂不能进入质保金结算。',
                 nextActionSummary: '请先完成责任承接确认，再复核质保金结算。'
@@ -249,7 +249,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 currentStageStatus: CURRENT_STAGE_STATUS_BLOCKED_RETENTION,
                 gateDecisionCode: CommissionRuleExplanationGateDecisionValue.BlockRetention,
                 blockingReasonCategory: 'retention',
-                blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
+                blockingReasonCode: 'retention-receipt-pending',
                 blockingReasonSummary: '质保金尚未到账。',
                 gateDecisionSummary: '当前暂不能进入质保金结算。',
                 nextActionSummary: '请财务确认质保金到账后再复核。'
@@ -276,7 +276,7 @@ export function buildRetentionSettlementDraft(input: RetentionEvaluationInput): 
                 blockingReasonCategory: 'operating-risk',
                 blockingReasonCode:
                     input.gateReviewBlockingReasonCode?.trim() ||
-                    (gateSeverity === 'block' ? 'FINAL_GATE_BLOCKED' : 'FINAL_GATE_REVIEW_PENDING'),
+                    (gateSeverity === 'block' ? 'final-gate-blocked' : 'final-gate-review-pending'),
                 blockingReasonSummary:
                     gateSeverity === 'block'
                         ? '当前经营依据已阻断质保金结算。'
@@ -360,13 +360,13 @@ function formatRetentionReceiptSummary(receipt: SettlementReceiptSummary): strin
 
 function getGateSeverity(bindingAction?: string | null, gateReviewDecision?: string | null): 'block' | 'review' | null {
     const normalized = [bindingAction, gateReviewDecision]
-        .map((value) => value?.trim().toUpperCase())
+        .map((value) => value?.trim().toLowerCase())
         .filter((value): value is string => Boolean(value));
 
-    if (normalized.some((value) => value === 'BLOCK' || value.startsWith('BLOCK_'))) {
+    if (normalized.some((value) => value === 'block' || value.startsWith('block-'))) {
         return 'block';
     }
-    if (normalized.some((value) => value === 'REVIEW' || value.startsWith('REVIEW_'))) {
+    if (normalized.some((value) => value === 'review' || value.startsWith('review-'))) {
         return 'review';
     }
     return null;

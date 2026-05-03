@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    AttachmentCategory,
+    ActiveInactiveStatus,
     AttachmentRelationType,
     AttachmentSecurityLevel,
     AttachmentStore,
+    DictionaryDomain,
+    DictionaryStore,
     type AttachmentSummary,
     type AttachmentTargetType
 } from '@poms/admin-data-access';
@@ -23,27 +25,11 @@ interface AttachmentOption<T extends string> {
 }
 
 interface AttachmentUploadForm {
-    category: AttachmentCategory;
+    category: string;
     securityLevel: AttachmentSecurityLevel;
     displayName: string;
     description: string;
 }
-
-const ATTACHMENT_CATEGORY_LABELS: Record<AttachmentCategory, string> = {
-    [AttachmentCategory.CustomerProfile]: '客户资料',
-    [AttachmentCategory.Demand]: '需求资料',
-    [AttachmentCategory.Communication]: '沟通资料',
-    [AttachmentCategory.Technical]: '技术资料',
-    [AttachmentCategory.Solution]: '方案资料',
-    [AttachmentCategory.Quotation]: '报价资料',
-    [AttachmentCategory.Bid]: '招投标资料',
-    [AttachmentCategory.Contract]: '合同资料',
-    [AttachmentCategory.Delivery]: '交付资料',
-    [AttachmentCategory.Acceptance]: '验收资料',
-    [AttachmentCategory.Finance]: '财务资料',
-    [AttachmentCategory.InternalAssessment]: '内部评估',
-    [AttachmentCategory.Other]: '其他资料'
-};
 
 const ATTACHMENT_SECURITY_LABELS: Record<AttachmentSecurityLevel, string> = {
     [AttachmentSecurityLevel.Normal]: '普通',
@@ -62,27 +48,11 @@ const ATTACHMENT_SECURITY_SEVERITY: Record<AttachmentSecurityLevel, 'secondary' 
 };
 
 const DEFAULT_UPLOAD_FORM: AttachmentUploadForm = {
-    category: AttachmentCategory.Demand,
+    category: 'demand',
     securityLevel: AttachmentSecurityLevel.Internal,
     displayName: '',
     description: ''
 };
-
-const ATTACHMENT_CATEGORY_OPTIONS: AttachmentOption<AttachmentCategory>[] = [
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.CustomerProfile], value: AttachmentCategory.CustomerProfile },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Demand], value: AttachmentCategory.Demand },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Communication], value: AttachmentCategory.Communication },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Technical], value: AttachmentCategory.Technical },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Solution], value: AttachmentCategory.Solution },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Quotation], value: AttachmentCategory.Quotation },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Bid], value: AttachmentCategory.Bid },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Contract], value: AttachmentCategory.Contract },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Delivery], value: AttachmentCategory.Delivery },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Acceptance], value: AttachmentCategory.Acceptance },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Finance], value: AttachmentCategory.Finance },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.InternalAssessment], value: AttachmentCategory.InternalAssessment },
-    { label: ATTACHMENT_CATEGORY_LABELS[AttachmentCategory.Other], value: AttachmentCategory.Other }
-];
 
 const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] = [
     { label: ATTACHMENT_SECURITY_LABELS[AttachmentSecurityLevel.Normal], value: AttachmentSecurityLevel.Normal },
@@ -96,7 +66,7 @@ const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] =
     selector: 'app-attachment-panel',
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, WorkspaceFeedback],
-    providers: [AttachmentStore],
+    providers: [AttachmentStore, DictionaryStore],
     template: `
         <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -176,7 +146,7 @@ const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] =
                             inputId="attachmentCategory"
                             [ngModel]="uploadForm().category"
                             (ngModelChange)="updateUploadField('category', $event)"
-                            [options]="categoryOptions"
+                            [options]="categoryOptions()"
                             optionLabel="label"
                             optionValue="value"
                             appendTo="body"
@@ -227,14 +197,15 @@ const ATTACHMENT_SECURITY_OPTIONS: AttachmentOption<AttachmentSecurityLevel>[] =
             <ng-template #footer>
                 <div class="flex justify-end gap-2">
                     <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="uploadDialogVisible = false" />
-                    <p-button label="上传" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedFile()" styleClass="rounded-md!" (onClick)="upload()" />
+                    <p-button label="上传" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedFile() || !uploadForm().category" styleClass="rounded-md!" (onClick)="upload()" />
                 </div>
             </ng-template>
         </p-dialog>
     `
 })
-export class AttachmentPanel implements OnChanges {
+export class AttachmentPanel implements OnChanges, OnInit {
     readonly store = inject(AttachmentStore);
+    readonly dictionaryStore = inject(DictionaryStore);
 
     @Input({ required: true }) targetType!: AttachmentTargetType;
     @Input({ required: true }) targetId!: string;
@@ -249,8 +220,13 @@ export class AttachmentPanel implements OnChanges {
 
     uploadDialogVisible = false;
 
-    readonly categoryOptions = ATTACHMENT_CATEGORY_OPTIONS;
+    readonly categoryOptions = computed<AttachmentOption<string>[]>(() => this.dictionaryStore.activeItems().map((item) => ({ label: item.name, value: item.code })));
+    readonly categoryLookup = computed(() => new Map(this.dictionaryStore.items().map((item) => [item.code, item.name])));
     readonly securityOptions = ATTACHMENT_SECURITY_OPTIONS;
+
+    ngOnInit(): void {
+        void this.loadCategoryOptions();
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['targetType'] || changes['targetId']) && this.targetType && this.targetId) {
@@ -275,6 +251,18 @@ export class AttachmentPanel implements OnChanges {
         }
     }
 
+    async loadCategoryOptions(): Promise<void> {
+        try {
+            const items = await this.dictionaryStore.loadItems({
+                domain: DictionaryDomain.AttachmentCategory,
+                status: ActiveInactiveStatus.Active
+            });
+            this.ensureUploadCategory(items.map((item) => item.code));
+        } catch {
+            this.error.set('附件分类没有读取成功，请稍后重试。');
+        }
+    }
+
     showUploadDialog(): void {
         this.uploadDialogVisible = true;
         this.uploadError.set(null);
@@ -282,7 +270,10 @@ export class AttachmentPanel implements OnChanges {
 
     resetUploadDialog(): void {
         this.selectedFile.set(null);
-        this.uploadForm.set({ ...DEFAULT_UPLOAD_FORM });
+        this.uploadForm.set({
+            ...DEFAULT_UPLOAD_FORM,
+            category: this.defaultCategory()
+        });
         this.uploadError.set(null);
     }
 
@@ -356,8 +347,8 @@ export class AttachmentPanel implements OnChanges {
         }
     }
 
-    categoryLabel(category: AttachmentCategory): string {
-        return ATTACHMENT_CATEGORY_LABELS[category];
+    categoryLabel(category: string): string {
+        return this.categoryLookup().get(category) ?? category;
     }
 
     securityLabel(securityLevel: AttachmentSecurityLevel): string {
@@ -382,5 +373,26 @@ export class AttachmentPanel implements OnChanges {
         }
 
         return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[unitIndex]}`;
+    }
+
+    private ensureUploadCategory(codes: string[]): void {
+        if (!codes.length) {
+            return;
+        }
+
+        const currentCategory = this.uploadForm().category;
+        if (codes.includes(currentCategory)) {
+            return;
+        }
+
+        this.uploadForm.update((form) => ({
+            ...form,
+            category: codes.includes(DEFAULT_UPLOAD_FORM.category) ? DEFAULT_UPLOAD_FORM.category : codes[0]
+        }));
+    }
+
+    private defaultCategory(): string {
+        const options = this.categoryOptions();
+        return options.some((option) => option.value === DEFAULT_UPLOAD_FORM.category) ? DEFAULT_UPLOAD_FORM.category : options[0]?.value ?? DEFAULT_UPLOAD_FORM.category;
     }
 }

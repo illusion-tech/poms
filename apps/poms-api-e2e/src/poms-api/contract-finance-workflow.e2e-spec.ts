@@ -51,7 +51,7 @@ describe('poms-api contract-finance workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
         await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 合同资金前置审批通过',
             expectedVersion: 1
@@ -225,7 +225,7 @@ describe('poms-api contract-finance workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
         await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 合同资金版本冲突审批通过',
             expectedVersion: 1

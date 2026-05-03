@@ -114,7 +114,7 @@ export class ProjectCommissionRuleExplanation implements OnInit {
             return '当前解释链明确存在后续动作，先进入提成操作页处理，再回来看是否解除阻塞。';
         }
 
-        if (current.gateDecisionCode.startsWith('BLOCK')) {
+        if (current.gateDecisionCode.startsWith('block')) {
             return '当前仍应先补阻塞条件，不建议直接发放或跳过解释链。';
         }
 

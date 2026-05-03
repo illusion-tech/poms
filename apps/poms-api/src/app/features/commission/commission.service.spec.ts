@@ -80,7 +80,7 @@ const makeConfirmedHandover = (overrides: Record<string, unknown> = {}) => ({
 
 const makeApprovalSummarySnapshot = (overrides: Record<string, unknown> = {}) => ({
     id: HANDOVER_SUMMARY_SNAPSHOT_ID,
-    targetType: 'ProjectHandover',
+    targetType: 'project-handover',
     targetId: HANDOVER_ID,
     approvalScenarioKey: 'project-handover-confirmation',
     summaryPackageKey: 'project-handover-confirmation',
@@ -167,7 +167,7 @@ const makeDepartureExceptionDecision = (overrides: Record<string, unknown> = {})
     rowVersion: 1,
     isCurrent: true,
     departureScenarioCode: 'employee-left-company',
-    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+    decisionCode: 'require-handover-confirmation',
     decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
     confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
     summaryPackageKey: 'project-handover-confirmation',
@@ -212,10 +212,10 @@ const makeFinalGateBinding = (overrides: Record<string, unknown> = {}) => ({
     taxImpactPendingAmount: '1200.00',
     allocationStabilitySummary: null,
     unmappedCostSummary: null,
-    dataMaturityLevel: 'MATURE',
+    dataMaturityLevel: 'mature',
     costActionRecommendation: 'ALLOW',
     currentActionLevel: 'ALLOW',
-    nextActionSummary: 'ALLOW_RETENTION',
+    nextActionSummary: 'allow-retention',
     downstreamConsumerSummary: null,
     referencedBaselineVersion: 'baseline-v3',
     referencedSnapshotVersion: 'snapshot-v5',
@@ -229,13 +229,13 @@ const makeFinalGateBinding = (overrides: Record<string, unknown> = {}) => ({
 const makeFinalGateReview = (overrides: Record<string, unknown> = {}) => ({
     id: GATE_REVIEW_RECORD_ID,
     bindingId: '59100000-0000-4000-8000-000000000001',
-    gateReviewDecision: 'ALLOW_RETENTION',
+    gateReviewDecision: 'allow-retention',
     blockingReasonCode: null,
     summaryPackageKey: 'commission-final-settlement',
     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID,
     projectionLevel: 'final-settlement',
     exportPolicy: 'controlled',
-    nextActionSummary: 'ALLOW_RETENTION',
+    nextActionSummary: 'allow-retention',
     handledAt: new Date('2026-03-25T10:31:00Z'),
     handledBy: 'user-1',
     status: 'active',
@@ -262,9 +262,9 @@ const makeFinalSettlementSnapshot = (overrides: Record<string, unknown> = {}) =>
     baselineSelectionSource: 'original',
     taxImpactSummary: '税务影响待闭合',
     taxImpactPendingAmount: '1200.00',
-    dataMaturityLevel: 'MATURE',
-    costActionRecommendation: 'REVIEW',
-    currentActionLevel: 'BLOCK',
+    dataMaturityLevel: 'mature',
+    costActionRecommendation: 'review',
+    currentActionLevel: 'block',
     referencedBaselineVersion: 'baseline-v3',
     referencedSnapshotVersion: 'snapshot-v5',
     summaryPackageKey: 'commission-final-settlement',
@@ -287,9 +287,9 @@ const makeRuleExplanationSnapshot = (overrides: Record<string, unknown> = {}) =>
     version: 1,
     isCurrent: true,
     currentStageStatus: 'blocked-retention',
-    gateDecisionCode: 'BLOCK_RETENTION',
+    gateDecisionCode: 'block-retention',
     blockingReasonCategory: 'retention',
-    blockingReasonCode: 'RETENTION_RECEIPT_PENDING',
+    blockingReasonCode: 'retention-receipt-pending',
     blockingReasonSummary: '质保金尚未到账',
     gateDecisionSummary: '当前暂不能进入质保金结算',
     nextActionSummary: '请财务确认质保金到账后再复核',
@@ -774,7 +774,7 @@ describe('CommissionService', () => {
                     nonRetentionSettlementStatus: 'settled-non-retention',
                     retentionSettlementStatus: 'waiting-retention',
                     retentionRequirementSummary: '待质保期届满',
-                    currentActionLevel: 'REVIEW',
+                    currentActionLevel: 'review',
                     retentionReceiptRecordId: RETENTION_RECEIPT_ID,
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
@@ -782,11 +782,11 @@ describe('CommissionService', () => {
             repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never);
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
-            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never);
+            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'prompt', currentActionLevel: 'review' }) as never);
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
-                    decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                    decisionCode: 'allow-retention-with-successor',
                     decisionSummary: '允许进入质保金结算',
                     confirmationRequirementSummary: null
                 }) as never
@@ -831,8 +831,8 @@ describe('CommissionService', () => {
             const result = await service.getCommissionRuleExplanation(PROJECT_ID);
 
             expect(result.projectId).toBe(PROJECT_ID);
-            expect(result.gateDecisionCode).toBe('BLOCK_RETENTION');
-            expect(result.blockingReasonCode).toBe('RETENTION_RECEIPT_PENDING');
+            expect(result.gateDecisionCode).toBe('block-retention');
+            expect(result.blockingReasonCode).toBe('retention-receipt-pending');
             expect(result.summarySnapshotId).toBe(HANDOVER_SUMMARY_SNAPSHOT_ID);
             expect(result.taxImpactSummaryProjection.value).toBe('税务影响待闭合');
             expect(result.freezeVersionSummary.id).toBe(ASSIGNMENT_ID);
@@ -844,9 +844,9 @@ describe('CommissionService', () => {
             repo.findCurrentRuleExplanationSnapshot.mockResolvedValue(
                 makeRuleExplanationSnapshot({
                     currentStageStatus: 'blocked-retention',
-                    gateDecisionCode: 'BLOCK_RETENTION',
+                    gateDecisionCode: 'block-retention',
                     blockingReasonCategory: 'retention',
-                    blockingReasonCode: 'RETENTION_DUE_PENDING',
+                    blockingReasonCode: 'retention-due-pending',
                     blockingReasonSummary: '当前质保期尚未届满。',
                     gateDecisionSummary: '当前暂不能进入质保金结算。',
                     nextActionSummary: '请待合同约定质保期届满后再复核质保金结算。'
@@ -858,7 +858,7 @@ describe('CommissionService', () => {
                     nonRetentionSettlementStatus: 'settled-non-retention',
                     retentionSettlementStatus: 'waiting-retention',
                     retentionRequirementSummary: '待质保期届满',
-                    currentActionLevel: 'REVIEW',
+                    currentActionLevel: 'review',
                     retentionReceiptRecordId: RETENTION_RECEIPT_ID,
                     departureExceptionDecisionId: DEPARTURE_EXCEPTION_DECISION_ID
                 }) as never
@@ -866,11 +866,11 @@ describe('CommissionService', () => {
             repo.findRoleAssignmentById.mockResolvedValue(makeDraftAssignment({ status: 'frozen', effectiveHandoverBaselineSnapshotId: EFFECTIVE_BASELINE_SNAPSHOT_ID }) as never);
             repo.findContractTermSnapshotById.mockResolvedValue(makeContractTermSnapshot({ retentionDueDate: '2026-04-20' }) as never);
             repo.findGateReviewRecordById.mockResolvedValue(makeFinalGateReview() as never);
-            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'PROMPT', currentActionLevel: 'REVIEW' }) as never);
+            repo.findGateBindingById.mockResolvedValue(makeFinalGateBinding({ bindingAction: 'prompt', currentActionLevel: 'review' }) as never);
             repo.findOpenFreezeDisputeByFreezeVersionId.mockResolvedValue(null);
             repo.findDepartureExceptionDecisionById.mockResolvedValue(
                 makeDepartureExceptionDecision({
-                    decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                    decisionCode: 'allow-retention-with-successor',
                     decisionSummary: '允许进入质保金结算',
                     confirmationRequirementSummary: null
                 }) as never
@@ -880,7 +880,7 @@ describe('CommissionService', () => {
             const result = await service.getCommissionRuleExplanation(PROJECT_ID);
 
             expect(result.currentStageStatus).toBe('ready-retention');
-            expect(result.gateDecisionCode).toBe('ALLOW_RETENTION');
+            expect(result.gateDecisionCode).toBe('allow-retention');
             expect(result.blockingReasonCode).toBeNull();
             expect(result.gateDecisionSummary).toBe('当前质保金已到账，且无重大争议，可进入质保金结算。');
         });
@@ -1255,7 +1255,7 @@ describe('CommissionService', () => {
             const result = await service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                 freezeVersionId: ASSIGNMENT_ID,
                 departureScenarioCode: 'employee-left-company',
-                decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                decisionCode: 'require-handover-confirmation',
                 decisionSummary: '原销售已离职，后续质保金结算前需补承接确认',
                 confirmationRequirementSummary: '请销售负责人确认责任承接人与权重',
                 summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
@@ -1311,7 +1311,7 @@ describe('CommissionService', () => {
             const result = await service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                 freezeVersionId: ASSIGNMENT_ID,
                 departureScenarioCode: 'employee-left-company',
-                decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                decisionCode: 'allow-retention-with-successor',
                 decisionSummary: '允许在承接确认后进入质保金结算',
                 summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
             });
@@ -1364,7 +1364,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: '62000000-0000-4000-8000-000000000099'
                 })
@@ -1397,7 +1397,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
@@ -1430,7 +1430,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
@@ -1463,7 +1463,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
@@ -1495,7 +1495,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
@@ -1513,7 +1513,7 @@ describe('CommissionService', () => {
                 service.createDepartureExceptionDecision(PROJECT_ID, 'user-1', {
                     freezeVersionId: ASSIGNMENT_ID,
                     departureScenarioCode: 'employee-left-company',
-                    decisionCode: 'REQUIRE_HANDOVER_CONFIRMATION',
+                    decisionCode: 'require-handover-confirmation',
                     decisionSummary: '原销售已离职',
                     summarySnapshotId: HANDOVER_SUMMARY_SNAPSHOT_ID
                 })
@@ -1908,7 +1908,7 @@ describe('CommissionService', () => {
                 expect.objectContaining({
                     projectId: PROJECT_ID,
                     currentStageStatus: 'pending-final-settlement',
-                    gateDecisionCode: 'ALLOW_FINAL_SETTLEMENT'
+                    gateDecisionCode: 'allow-final-settlement'
                 })
             );
             expect(result.status).toBe('approved');
@@ -2074,7 +2074,7 @@ describe('CommissionService', () => {
                         if ((entity as { name?: string })?.name === 'CommissionDepartureExceptionDecision') {
                             return where.id === DEPARTURE_EXCEPTION_DECISION_ID
                                 ? makeDepartureExceptionDecision({
-                                      decisionCode: 'ALLOW_RETENTION_WITH_SUCCESSOR',
+                                      decisionCode: 'allow-retention-with-successor',
                                       decisionSummary: '允许进入质保金结算',
                                       confirmationRequirementSummary: null
                                   })
@@ -2126,7 +2126,7 @@ describe('CommissionService', () => {
             expect(createdRuleExplanations[0]).toEqual(
                 expect.objectContaining({
                     projectId: PROJECT_ID,
-                    gateDecisionCode: 'SETTLED_RETENTION',
+                    gateDecisionCode: 'settled-retention',
                     currentStageStatus: 'settled-retention'
                 })
             );

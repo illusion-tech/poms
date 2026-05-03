@@ -11,7 +11,7 @@
 
 export enum OperatingRiskLevel {
 
-    Attention = 'ATTENTION',
+    Attention = 'attention',
 
-    Risk = 'RISK'
+    Risk = 'risk'
 }

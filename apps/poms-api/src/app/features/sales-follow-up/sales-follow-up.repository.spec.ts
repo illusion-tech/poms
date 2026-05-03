@@ -60,11 +60,11 @@ describe('SalesFollowUpRepository reminder todo sync', () => {
         expect(em.create).toHaveBeenCalledWith(
             TodoItem,
             expect.objectContaining({
-                sourceType: 'SalesFollowUpRecord',
+                sourceType: 'sales-follow-up-record',
                 sourceId: recordId,
-                todoType: 'sales_follow_up_reminder',
+                todoType: 'sales-follow-up-reminder',
                 businessDomain: 'sales',
-                targetObjectType: 'Project',
+                targetObjectType: 'project',
                 targetObjectId: projectId,
                 projectId,
                 title: '销售跟进提醒：华南地铁项目',
@@ -108,7 +108,7 @@ describe('SalesFollowUpRepository reminder todo sync', () => {
             TodoItem,
             expect.objectContaining({
                 sourceId: recordId,
-                targetObjectType: 'Lead',
+                targetObjectType: 'lead',
                 targetObjectId: leadId,
                 title: '销售跟进提醒：华南地铁线索'
             })
@@ -161,11 +161,11 @@ describe('SalesFollowUpRepository reminder todo sync', () => {
     function createTodo(overrides: Partial<TodoItem> = {}): TodoItem {
         return Object.assign(new TodoItem(), {
             id: '58000000-0000-4000-8000-000000000001',
-            sourceType: 'SalesFollowUpRecord',
+            sourceType: 'sales-follow-up-record',
             sourceId: recordId,
-            todoType: 'sales_follow_up_reminder',
+            todoType: 'sales-follow-up-reminder',
             businessDomain: 'sales',
-            targetObjectType: 'Project',
+            targetObjectType: 'project',
             targetObjectId: projectId,
             projectId,
             title: '销售跟进提醒：华南地铁项目',

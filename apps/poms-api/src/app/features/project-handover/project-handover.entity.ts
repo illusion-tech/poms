@@ -4,7 +4,7 @@ import { ContractAmendment, ContractTermSnapshot } from '../contract/contract.en
 import { Project } from '../project/project.entity';
 
 export type ProjectHandoverStatus = 'draft' | 'confirmed' | 'superseded' | 'voided';
-export type ContractHandoverRebaselineStatus = 'processing' | 'pending_effective' | 'effective' | 'superseded' | 'voided';
+export type ContractHandoverRebaselineStatus = 'processing' | 'pending-effective' | 'effective' | 'superseded' | 'voided';
 export type ProjectReceiptJudgmentFreezeSourceType = 'project-handover' | 'project-receipt-judgment-freeze';
 
 const p = defineEntity.properties;
@@ -72,7 +72,7 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('restrict')
                 .comment('再基线化后生效基线快照 ID'),
-        status: p.string().length(32).default('processing').$type<ContractHandoverRebaselineStatus>().comment('状态：processing/pending_effective/effective/superseded/voided'),
+        status: p.string().length(32).default('processing').$type<ContractHandoverRebaselineStatus>().comment('状态：processing/pending-effective/effective/superseded/voided'),
         handledAt: p.datetime().defaultRaw('now()').fieldName('handled_at').comment('处理时间'),
         handledBy: p.uuid().nullable().fieldName('handled_by').comment('处理人'),
         supersedesId: () =>
@@ -98,7 +98,7 @@ export class ContractHandoverRebaselineRecord extends ContractHandoverRebaseline
 ContractHandoverRebaselineRecordSchema.setClass(ContractHandoverRebaselineRecord);
 
 export const ProjectHandoverSchema = defineEntity({
-    name: 'ProjectHandover',
+    name: 'project-handover',
     tableName: 'project_handover',
     schema: 'poms',
     comment: '项目移交确认记录',

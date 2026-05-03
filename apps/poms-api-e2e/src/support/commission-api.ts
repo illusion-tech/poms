@@ -423,7 +423,7 @@ export async function findPayoutApprovalRecord(
     payoutId: string
 ) {
     const financeManager = await loginAsFinanceManager();
-    const payoutTodo = await findOpenTodoForTarget(financeManager.client, 'CommissionPayout', payoutId);
+    const payoutTodo = await findOpenTodoForTarget(financeManager.client, 'commission-payout', payoutId);
     return getApprovalRecord(financeManager.client, payoutTodo.sourceId);
 }
 
@@ -434,7 +434,7 @@ export async function findAdjustmentApprovalRecord(
     const financeManager = await loginAsFinanceManager();
     const adjustmentTodo = await findOpenTodoForTarget(
         financeManager.client,
-        'CommissionAdjustment',
+        'commission-adjustment',
         adjustmentId
     );
     return getApprovalRecord(financeManager.client, adjustmentTodo.sourceId);

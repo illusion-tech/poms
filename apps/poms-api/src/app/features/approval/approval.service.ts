@@ -118,7 +118,7 @@ export class ApprovalService {
                 throw new BadRequestException(`Contract ${contractId} cannot submit review in status ${contract.status}`);
             }
 
-            this.assertExpectedVersion(contract.rowVersion, input.expectedVersion, 'Contract');
+            this.assertExpectedVersion(contract.rowVersion, input.expectedVersion, 'contract');
 
             const existingApproval = await em.findOne(ApprovalRecord, {
                 approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,
@@ -207,7 +207,7 @@ export class ApprovalService {
                 throw new BadRequestException(`CommissionPayout ${payoutId} cannot submit approval in status ${payout.status}`);
             }
 
-            this.assertExpectedVersion(payout.rowVersion, input.expectedVersion, 'CommissionPayout');
+            this.assertExpectedVersion(payout.rowVersion, input.expectedVersion, 'commission-payout');
             this.assertRequestStageMatchesPayout(payout.stageType, input.payoutStage);
 
             const existingApproval = await em.findOne(ApprovalRecord, {
@@ -326,7 +326,7 @@ export class ApprovalService {
                 throw new BadRequestException(`CommissionAdjustment ${adjustmentId} cannot submit approval in status ${adjustment.status}`);
             }
 
-            this.assertExpectedVersion(adjustment.rowVersion, input.expectedVersion, 'CommissionAdjustment');
+            this.assertExpectedVersion(adjustment.rowVersion, input.expectedVersion, 'commission-adjustment');
 
             const existingApproval = await em.findOne(ApprovalRecord, {
                 approvalType: COMMISSION_ADJUSTMENT_APPROVAL_TYPE,
@@ -477,7 +477,7 @@ export class ApprovalService {
                 throw new NotFoundException(`ApprovalRecord ${approvalRecordId} not found`);
             }
 
-            this.assertExpectedVersion(approvalRecord.rowVersion, expectedVersion, 'ApprovalRecord');
+            this.assertExpectedVersion(approvalRecord.rowVersion, expectedVersion, 'approval-record');
 
             if (approvalRecord.currentStatus !== ApprovalStatusValue.Pending) {
                 throw new BadRequestException(`ApprovalRecord ${approvalRecordId} cannot be processed in status ${approvalRecord.currentStatus}`);
@@ -1097,14 +1097,14 @@ export class ApprovalService {
 
     private isBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
         return [bindingAction, gateReviewDecision]
-            .map((value) => value?.trim().toUpperCase())
-            .some((value) => value === 'BLOCK' || value?.startsWith('BLOCK_'));
+            .map((value) => value?.trim().toLowerCase())
+            .some((value) => value === 'block' || value?.startsWith('block-'));
     }
 
     private isReviewOrBlockingGateDecision(bindingAction: string | null | undefined, gateReviewDecision: string | null | undefined): boolean {
         return [bindingAction, gateReviewDecision]
-            .map((value) => value?.trim().toUpperCase())
-            .some((value) => value === 'REVIEW' || value === 'BLOCK' || value?.startsWith('REVIEW_') || value?.startsWith('BLOCK_'));
+            .map((value) => value?.trim().toLowerCase())
+            .some((value) => value === 'review' || value === 'block' || value?.startsWith('review-') || value?.startsWith('block-'));
     }
 }
 

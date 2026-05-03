@@ -1,5 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
-import { EXPENSE_CATEGORIES, EXPENSE_RECORD_STATUSES, EXPENSE_SOURCE_TYPES, ExpenseSourceTypeValue, type ExpenseCategory, type ExpenseRecordStatus, type ExpenseSourceType } from '@poms/shared-contracts';
+import { EXPENSE_RECORD_STATUSES, EXPENSE_SOURCE_TYPES, ExpenseSourceTypeValue, type ExpenseCategory, type ExpenseRecordStatus, type ExpenseSourceType } from '@poms/shared-contracts';
 import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 
@@ -15,10 +15,6 @@ export const ExpenseRecordSchema = defineEntity({
         { name: 'expense_record_project_status_idx', properties: ['projectId', 'status'] }
     ],
     checks: [
-        {
-            name: 'chk_expense_record_expense_category',
-            expression: `"expense_category" in (${toSqlStringList(EXPENSE_CATEGORIES)})`
-        },
         {
             name: 'chk_expense_record_source_type',
             expression: `"source_type" in (${toSqlStringList(EXPENSE_SOURCE_TYPES)})`

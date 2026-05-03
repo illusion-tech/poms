@@ -10,7 +10,6 @@
 import { AttachmentLinkSummary } from './attachment-link-summary';
 import { AttachmentStatus } from './attachment-status';
 import { AttachmentSecurityLevel } from './attachment-security-level';
-import { AttachmentCategory } from './attachment-category';
 
 
 export interface AttachmentSummary {
@@ -21,7 +20,7 @@ export interface AttachmentSummary {
     mimeType: string;
     sizeBytes: number;
     checksumSha256: string;
-    category: AttachmentCategory;
+    category: string;
     securityLevel: AttachmentSecurityLevel;
     status: AttachmentStatus;
     description: string | null;

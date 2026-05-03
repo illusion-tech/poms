@@ -11,15 +11,15 @@
 
 export enum ProjectActualCostRecordStatus {
 
-    Draft = 'DRAFT',
+    Draft = 'draft',
 
-    Registered = 'REGISTERED',
+    Registered = 'registered',
 
-    Confirmed = 'CONFIRMED',
+    Confirmed = 'confirmed',
 
-    Included = 'INCLUDED',
+    Included = 'included',
 
-    Voided = 'VOIDED',
+    Voided = 'voided',
 
-    Replaced = 'REPLACED'
+    Replaced = 'replaced'
 }

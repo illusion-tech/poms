@@ -11,13 +11,13 @@
 
 export enum ProjectActualCostSourceType {
 
-    PaymentRecord = 'PAYMENT_RECORD',
+    PaymentRecord = 'payment-record',
 
-    InvoiceRecord = 'INVOICE_RECORD',
+    InvoiceRecord = 'invoice-record',
 
-    ExpenseRecord = 'EXPENSE_RECORD',
+    ExpenseRecord = 'expense-record',
 
-    PayableRecord = 'PAYABLE_RECORD',
+    PayableRecord = 'payable-record',
 
-    Labor = 'LABOR'
+    Labor = 'labor'
 }

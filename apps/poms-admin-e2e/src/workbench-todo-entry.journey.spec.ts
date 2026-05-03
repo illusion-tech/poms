@@ -18,7 +18,7 @@ async function mockWorkbenchTodos(page: Page): Promise<void> {
                     id: '41000000-0000-4000-8000-000000000391',
                     title: 'FE39 项目待办',
                     businessDomain: '项目',
-                    targetObjectType: 'Project',
+                    targetObjectType: 'project',
                     targetObjectId: WORKSPACE_PROJECT_ID,
                     projectId: WORKSPACE_PROJECT_ID,
                     targetTitle: 'E2E EX-13B main'
@@ -27,7 +27,7 @@ async function mockWorkbenchTodos(page: Page): Promise<void> {
                     id: '41000000-0000-4000-8000-000000000392',
                     title: 'FE39 合同待办',
                     businessDomain: '合同',
-                    targetObjectType: 'Contract',
+                    targetObjectType: 'contract',
                     targetObjectId: CONTRACT_ID,
                     targetTitle: 'FE39 合同上下文'
                 }),
@@ -36,7 +36,7 @@ async function mockWorkbenchTodos(page: Page): Promise<void> {
                     sourceId: PAYOUT_APPROVAL_ID,
                     title: 'FE39 工作台提成发放审批',
                     businessDomain: '提成',
-                    targetObjectType: 'CommissionPayout',
+                    targetObjectType: 'commission-payout',
                     targetObjectId: PAYOUT_ID,
                     projectId: WORKSPACE_PROJECT_ID,
                     targetTitle: '首期发放审批'
@@ -46,7 +46,7 @@ async function mockWorkbenchTodos(page: Page): Promise<void> {
                     sourceId: ADJUSTMENT_APPROVAL_ID,
                     title: 'FE39 顶栏提成调整审批',
                     businessDomain: '提成',
-                    targetObjectType: 'CommissionAdjustment',
+                    targetObjectType: 'commission-adjustment',
                     targetObjectId: ADJUSTMENT_ID,
                     projectId: WORKSPACE_PROJECT_ID,
                     targetTitle: '调整审批'
@@ -354,11 +354,11 @@ function createAdjustment() {
 function createTodo(overrides: Record<string, unknown>) {
     return {
         id: '41000000-0000-4000-8000-000000000399',
-        sourceType: 'ApprovalRecord',
+        sourceType: 'approval-record',
         sourceId: '61000000-0000-4000-8000-000000000399',
         todoType: 'approval',
         businessDomain: '项目',
-        targetObjectType: 'Project',
+        targetObjectType: 'project',
         targetObjectId: WORKSPACE_PROJECT_ID,
         projectId: null,
         title: 'FE39 待办',

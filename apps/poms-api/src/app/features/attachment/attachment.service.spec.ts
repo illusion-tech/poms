@@ -1,6 +1,7 @@
 import { ForbiddenException } from '@nestjs/common';
 import type { UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Attachment, AttachmentLink } from './attachment.entity';
@@ -19,6 +20,7 @@ describe('AttachmentService', () => {
     let repository: jest.Mocked<AttachmentRepository>;
     let storageService: jest.Mocked<AttachmentStorageService>;
     let runtimeAuditService: jest.Mocked<RuntimeAuditService>;
+    let dictionaryService: jest.Mocked<Pick<DictionaryService, 'requireActiveItem'>>;
 
     beforeEach(() => {
         repository = {
@@ -50,8 +52,11 @@ describe('AttachmentService', () => {
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         } as unknown as jest.Mocked<RuntimeAuditService>;
+        dictionaryService = {
+            requireActiveItem: jest.fn().mockResolvedValue(undefined)
+        };
 
-        service = new AttachmentService(repository, storageService, runtimeAuditService);
+        service = new AttachmentService(repository, storageService, runtimeAuditService, dictionaryService as never);
     });
 
     it('uploads attachment metadata, stores the file, links the target and audits the action', async () => {

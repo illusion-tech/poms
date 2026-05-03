@@ -39,7 +39,7 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
         const viewer = await findPlatformUserByUsername(client, 'viewer');
         const projectViewerRole = await findPlatformRoleByKey(client, 'project-viewer');
         const tempRole = await createRole(client, {
@@ -95,7 +95,7 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
         await approveRecord(approvalOwner.client, todo.sourceId, {
             comment: 'e2e 首次审批通过',
             expectedVersion: 1
@@ -134,7 +134,7 @@ describe('poms-api approval workflow e2e', () => {
             expectedVersion: contract.rowVersion
         });
 
-        const todo = await findOpenTodoForTarget(approvalOwner.client, 'Contract', contract.id);
+        const todo = await findOpenTodoForTarget(approvalOwner.client, 'contract', contract.id);
         await rejectRecord(approvalOwner.client, todo.sourceId, {
             reason: '首次驳回',
             comment: 'e2e 首次驳回',

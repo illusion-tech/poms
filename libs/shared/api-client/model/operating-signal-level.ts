@@ -11,7 +11,7 @@
 
 export enum OperatingSignalLevel {
 
-    Attention = 'ATTENTION',
+    Attention = 'attention',
 
-    Alert = 'ALERT'
+    Alert = 'alert'
 }

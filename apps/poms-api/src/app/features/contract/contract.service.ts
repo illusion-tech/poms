@@ -148,7 +148,7 @@ export class ContractService {
             throw new BadRequestException(`Contract ${id} cannot be activated in status ${contract.status}`);
         }
 
-        this.assertExpectedVersion(contract.rowVersion, input.expectedVersion, 'Contract');
+        this.assertExpectedVersion(contract.rowVersion, input.expectedVersion, 'contract');
 
         const pendingApproval = await this.approvalRecordRepository.findOne({
             approvalType: CONTRACT_REVIEW_APPROVAL_TYPE,

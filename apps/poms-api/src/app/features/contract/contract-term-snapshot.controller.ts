@@ -9,7 +9,7 @@ import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-a
 import { mapSnapshotToSummary } from './contract.controller';
 import { ContractTermSnapshotRepository } from './contract.repository';
 
-@ApiTags('Contract')
+@ApiTags('contract')
 @ApiBearerAuth()
 @Controller('contract-term-snapshots')
 export class ContractTermSnapshotController {

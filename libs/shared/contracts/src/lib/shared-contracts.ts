@@ -10,6 +10,7 @@ export const PERMISSION_KEYS = [
     'platform:roles:manage',
     'platform:navigation:manage',
     'platform:org-units:manage',
+    'platform:dictionaries:manage',
     // 客户主数据
     'customer:read',
     'customer:write',
@@ -57,6 +58,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:roles:manage': { description: '管理角色与权限', group: '平台管理' },
     'platform:navigation:manage': { description: '管理导航菜单', group: '平台管理' },
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
+    'platform:dictionaries:manage': { description: '管理业务配置字典', group: '平台管理' },
     'customer:read': { description: '查看客户主数据', group: '客户' },
     'customer:write': { description: '创建/维护客户主数据', group: '客户' },
     'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
@@ -910,17 +912,17 @@ export const CustomerStatusValue = {
     Merged: 'merged'
 } as const satisfies Record<string, CustomerStatus>;
 
-export const CUSTOMER_ALIAS_TYPES = ['legal_name', 'short_name', 'legacy_input', 'import_name', 'alias'] as const;
+export const CUSTOMER_ALIAS_TYPES = ['legal-name', 'short-name', 'legacy-input', 'import-name', 'alias'] as const;
 
 export type CustomerAliasType = (typeof CUSTOMER_ALIAS_TYPES)[number];
 
 export const CustomerAliasTypeSchema = z.enum(CUSTOMER_ALIAS_TYPES).meta({ id: 'CustomerAliasType' });
 
 export const CustomerAliasTypeValue = {
-    LegalName: 'legal_name',
-    ShortName: 'short_name',
-    LegacyInput: 'legacy_input',
-    ImportName: 'import_name',
+    LegalName: 'legal-name',
+    ShortName: 'short-name',
+    LegacyInput: 'legacy-input',
+    ImportName: 'import-name',
     Alias: 'alias'
 } as const satisfies Record<string, CustomerAliasType>;
 
@@ -1530,23 +1532,106 @@ export const LeadListQuerySchema = z
 export type LeadListQuery = z.infer<typeof LeadListQuerySchema>;
 
 // ---------------------------------------------------------------------------
+// Configurable Dictionaries
+// ---------------------------------------------------------------------------
+
+export const DICTIONARY_DOMAINS = ['attachment-category', 'sales-follow-up-type', 'expense-category'] as const;
+
+export type DictionaryDomain = (typeof DICTIONARY_DOMAINS)[number];
+
+export const DictionaryDomainSchema = z.enum(DICTIONARY_DOMAINS).meta({ id: 'DictionaryDomain' });
+
+export const DictionaryDomainValue = {
+    AttachmentCategory: 'attachment-category',
+    SalesFollowUpType: 'sales-follow-up-type',
+    ExpenseCategory: 'expense-category'
+} as const satisfies Record<string, DictionaryDomain>;
+
+export type DictionaryItemStatus = ActiveInactiveStatus;
+
+export const DictionaryItemStatusSchema = ActiveInactiveStatusSchema.meta({ id: 'DictionaryItemStatus' });
+
+export const DictionaryItemStatusValue = ActiveInactiveStatusValue;
+
+export const DictionaryCodeSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .regex(/^[a-z][a-z0-9-]*$/, 'Dictionary code must use lower kebab-case')
+    .meta({ id: 'DictionaryCode' });
+
+export type DictionaryCode = z.infer<typeof DictionaryCodeSchema>;
+
+export const DictionaryItemSummarySchema = z
+    .object({
+        id: z.uuid(),
+        domain: DictionaryDomainSchema,
+        code: DictionaryCodeSchema,
+        name: z.string(),
+        description: z.string().nullable(),
+        status: DictionaryItemStatusSchema,
+        sortOrder: z.number().int(),
+        isSystem: z.boolean(),
+        usageCount: z.number().int().nonnegative(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'DictionaryItemSummary' });
+
+export type DictionaryItemSummary = z.infer<typeof DictionaryItemSummarySchema>;
+
+export const DictionaryItemListSchema = z.array(DictionaryItemSummarySchema).meta({ id: 'DictionaryItemList' });
+
+export type DictionaryItemList = z.infer<typeof DictionaryItemListSchema>;
+
+export const DictionaryItemListQuerySchema = z
+    .object({
+        domain: DictionaryDomainSchema.optional(),
+        status: DictionaryItemStatusSchema.optional(),
+        keyword: z.string().trim().min(1).max(128).optional()
+    })
+    .meta({ id: 'DictionaryItemListQuery' });
+
+export type DictionaryItemListQuery = z.infer<typeof DictionaryItemListQuerySchema>;
+
+export const CreateDictionaryItemRequestSchema = z
+    .object({
+        domain: DictionaryDomainSchema,
+        code: DictionaryCodeSchema,
+        name: z.string().trim().min(1).max(128),
+        description: z.string().trim().min(1).max(1000).nullable().optional(),
+        sortOrder: z.number().int().min(0).optional()
+    })
+    .meta({ id: 'CreateDictionaryItemRequest' });
+
+export type CreateDictionaryItemRequest = z.infer<typeof CreateDictionaryItemRequestSchema>;
+
+export const UpdateDictionaryItemRequestSchema = z
+    .object({
+        name: z.string().trim().min(1).max(128).optional(),
+        description: z.string().trim().min(1).max(1000).nullable().optional(),
+        status: DictionaryItemStatusSchema.optional(),
+        sortOrder: z.number().int().min(0).optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine((value) => value.name !== undefined || value.description !== undefined || value.status !== undefined || value.sortOrder !== undefined, {
+        message: 'At least one updatable field is required'
+    })
+    .meta({ id: 'UpdateDictionaryItemRequest' });
+
+export type UpdateDictionaryItemRequest = z.infer<typeof UpdateDictionaryItemRequestSchema>;
+
+// ---------------------------------------------------------------------------
 // Sales Follow Up
 // ---------------------------------------------------------------------------
 
-export const SALES_FOLLOW_UP_TYPES = ['phone', 'meeting', 'wechat', 'email', 'onsite', 'other'] as const;
+export type SalesFollowUpType = DictionaryCode;
 
-export type SalesFollowUpType = (typeof SALES_FOLLOW_UP_TYPES)[number];
-
-export const SalesFollowUpTypeSchema = z.enum(SALES_FOLLOW_UP_TYPES).meta({ id: 'SalesFollowUpType' });
-
-export const SalesFollowUpTypeValue = {
-    Phone: 'phone',
-    Meeting: 'meeting',
-    Wechat: 'wechat',
-    Email: 'email',
-    Onsite: 'onsite',
-    Other: 'other'
-} as const satisfies Record<string, SalesFollowUpType>;
+export const SalesFollowUpTypeSchema = DictionaryCodeSchema.meta({ id: 'SalesFollowUpType' });
 
 export const SALES_FOLLOW_UP_OUTCOMES = ['progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'] as const;
 
@@ -1691,27 +1776,9 @@ export type VoidSalesFollowUpRecordRequest = z.infer<typeof VoidSalesFollowUpRec
 // Attachment
 // ---------------------------------------------------------------------------
 
-export const ATTACHMENT_CATEGORIES = ['customer_profile', 'demand', 'communication', 'technical', 'solution', 'quotation', 'bid', 'contract', 'delivery', 'acceptance', 'finance', 'internal_assessment', 'other'] as const;
+export type AttachmentCategory = DictionaryCode;
 
-export type AttachmentCategory = (typeof ATTACHMENT_CATEGORIES)[number];
-
-export const AttachmentCategorySchema = z.enum(ATTACHMENT_CATEGORIES).meta({ id: 'AttachmentCategory' });
-
-export const AttachmentCategoryValue = {
-    CustomerProfile: 'customer_profile',
-    Demand: 'demand',
-    Communication: 'communication',
-    Technical: 'technical',
-    Solution: 'solution',
-    Quotation: 'quotation',
-    Bid: 'bid',
-    Contract: 'contract',
-    Delivery: 'delivery',
-    Acceptance: 'acceptance',
-    Finance: 'finance',
-    InternalAssessment: 'internal_assessment',
-    Other: 'other'
-} as const satisfies Record<string, AttachmentCategory>;
+export const AttachmentCategorySchema = DictionaryCodeSchema.meta({ id: 'AttachmentCategory' });
 
 export const ATTACHMENT_SECURITY_LEVELS = ['normal', 'internal', 'sensitive', 'confidential', 'restricted'] as const;
 
@@ -1740,7 +1807,7 @@ export const AttachmentStatusValue = {
     Failed: 'failed'
 } as const satisfies Record<string, AttachmentStatus>;
 
-export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales_follow_up'] as const;
+export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales-follow-up'] as const;
 
 export type AttachmentTargetType = (typeof ATTACHMENT_TARGET_TYPES)[number];
 
@@ -1751,7 +1818,7 @@ export const AttachmentTargetTypeValue = {
     Customer: 'customer',
     Project: 'project',
     Contract: 'contract',
-    SalesFollowUp: 'sales_follow_up'
+    SalesFollowUp: 'sales-follow-up'
 } as const satisfies Record<string, AttachmentTargetType>;
 
 export const ATTACHMENT_RELATION_TYPES = ['normal', 'source', 'evidence', 'final', 'handover'] as const;
@@ -3265,7 +3332,7 @@ export const ContractHandoverCurrentBaselineSourceTypeValue = {
     None: 'none'
 } as const satisfies Record<string, ContractHandoverCurrentBaselineSourceType>;
 
-export const CONTRACT_HANDOVER_REBASELINE_STATUSES = ['none', 'processing', 'pending_effective', 'effective', 'superseded', 'voided'] as const;
+export const CONTRACT_HANDOVER_REBASELINE_STATUSES = ['none', 'processing', 'pending-effective', 'effective', 'superseded', 'voided'] as const;
 
 export type ContractHandoverRebaselineStatus = (typeof CONTRACT_HANDOVER_REBASELINE_STATUSES)[number];
 
@@ -3274,7 +3341,7 @@ export const ContractHandoverRebaselineStatusSchema = z.enum(CONTRACT_HANDOVER_R
 export const ContractHandoverRebaselineStatusValue = {
     None: 'none',
     Processing: 'processing',
-    PendingEffective: 'pending_effective',
+    PendingEffective: 'pending-effective',
     Effective: 'effective',
     Superseded: 'superseded',
     Voided: 'voided'
@@ -3397,7 +3464,7 @@ export const ProjectHandoverParticipantStatusValue = {
     Closed: 'closed'
 } as const satisfies Record<string, ProjectHandoverParticipantStatus>;
 
-export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = ['not_started', 'pending', 'confirmed', 'closed'] as const;
+export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = ['not-started', 'pending', 'confirmed', 'closed'] as const;
 
 export type ProjectHandoverParticipantConfirmationStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)[number];
 
@@ -3406,13 +3473,13 @@ export const ProjectHandoverParticipantConfirmationStatusSchema = z
     .meta({ id: 'ProjectHandoverParticipantConfirmationStatus' });
 
 export const ProjectHandoverParticipantConfirmationStatusValue = {
-    NotStarted: 'not_started',
+    NotStarted: 'not-started',
     Pending: 'pending',
     Confirmed: 'confirmed',
     Closed: 'closed'
 } as const satisfies Record<string, ProjectHandoverParticipantConfirmationStatus>;
 
-export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = ['not_frozen', 'frozen'] as const;
+export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = ['not-frozen', 'frozen'] as const;
 
 export type ProjectHandoverReceiptJudgmentFreezeStatus = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)[number];
 
@@ -3421,7 +3488,7 @@ export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z
     .meta({ id: 'ProjectHandoverReceiptJudgmentFreezeStatus' });
 
 export const ProjectHandoverReceiptJudgmentFreezeStatusValue = {
-    NotFrozen: 'not_frozen',
+    NotFrozen: 'not-frozen',
     Frozen: 'frozen'
 } as const satisfies Record<string, ProjectHandoverReceiptJudgmentFreezeStatus>;
 
@@ -3439,14 +3506,14 @@ export const ProjectHandoverReceiptJudgmentSourceTypeValue = {
     None: 'none'
 } as const satisfies Record<string, ProjectHandoverReceiptJudgmentSourceType>;
 
-export const PROJECT_HANDOVER_STATUSES = ['not_started', 'draft', 'confirmed', 'superseded', 'voided'] as const;
+export const PROJECT_HANDOVER_STATUSES = ['not-started', 'draft', 'confirmed', 'superseded', 'voided'] as const;
 
 export type ProjectHandoverStatus = (typeof PROJECT_HANDOVER_STATUSES)[number];
 
 export const ProjectHandoverStatusSchema = z.enum(PROJECT_HANDOVER_STATUSES).meta({ id: 'ProjectHandoverStatus' });
 
 export const ProjectHandoverStatusValue = {
-    NotStarted: 'not_started',
+    NotStarted: 'not-started',
     Draft: 'draft',
     Confirmed: 'confirmed',
     Superseded: 'superseded',
@@ -3712,7 +3779,7 @@ export const ReadinessInitializationResultSchema = z
 
 export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializationResultSchema>;
 
-export const RECEIPT_RECORD_STATUSES = ['draft', 'pending-confirmation', 'confirmed', 'reversed', 'void'] as const;
+export const RECEIPT_RECORD_STATUSES = ['draft', 'pending-confirmation', 'confirmed', 'reversed', 'voided'] as const;
 
 export type ReceiptRecordStatus = (typeof RECEIPT_RECORD_STATUSES)[number];
 
@@ -3723,7 +3790,7 @@ export const ReceiptRecordStatusValue = {
     PendingConfirmation: 'pending-confirmation',
     Confirmed: 'confirmed',
     Reversed: 'reversed',
-    Void: 'void'
+    Voided: 'voided'
 } as const satisfies Record<string, ReceiptRecordStatus>;
 
 export const ReceiptRecordSummarySchema = z
@@ -3895,7 +3962,7 @@ export const VoidPayableRecordRequestSchema = z
 
 export type VoidPayableRecordRequest = z.infer<typeof VoidPayableRecordRequestSchema>;
 
-export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'void'] as const;
+export const PAYMENT_RECORD_STATUSES = ['draft', 'recorded', 'confirmed', 'voided'] as const;
 
 export type PaymentRecordStatus = (typeof PAYMENT_RECORD_STATUSES)[number];
 
@@ -3905,7 +3972,7 @@ export const PaymentRecordStatusValue = {
     Draft: 'draft',
     Recorded: 'recorded',
     Confirmed: 'confirmed',
-    Void: 'void'
+    Voided: 'voided'
 } as const satisfies Record<string, PaymentRecordStatus>;
 
 export const PaymentRecordSummarySchema = z
@@ -4096,19 +4163,9 @@ export const CloseInvoiceRecordRequestSchema = z
 
 export type CloseInvoiceRecordRequest = z.infer<typeof CloseInvoiceRecordRequestSchema>;
 
-export const EXPENSE_CATEGORIES = ['travel', 'onsite-service', 'deployment-logistics', 'temporary-spend', 'misc'] as const;
+export type ExpenseCategory = DictionaryCode;
 
-export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number];
-
-export const ExpenseCategorySchema = z.enum(EXPENSE_CATEGORIES).meta({ id: 'ExpenseCategory' });
-
-export const ExpenseCategoryValue = {
-    Travel: 'travel',
-    OnsiteService: 'onsite-service',
-    DeploymentLogistics: 'deployment-logistics',
-    TemporarySpend: 'temporary-spend',
-    Misc: 'misc'
-} as const satisfies Record<string, ExpenseCategory>;
+export const ExpenseCategorySchema = DictionaryCodeSchema.meta({ id: 'ExpenseCategory' });
 
 export const EXPENSE_SOURCE_TYPES = ['manual', 'reimbursement', 'import'] as const;
 
@@ -4274,20 +4331,20 @@ export const BusinessDomainValue = {
     ProjectHandover: 'project-handover'
 } as const satisfies Record<string, BusinessDomain>;
 
-export const TARGET_OBJECT_TYPES = ['Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover'] as const;
+export const TARGET_OBJECT_TYPES = ['contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'] as const;
 
 export type TargetObjectType = (typeof TARGET_OBJECT_TYPES)[number];
 
 export const TargetObjectTypeSchema = z.enum(TARGET_OBJECT_TYPES).meta({ id: 'TargetObjectType' });
 
 export const TargetObjectTypeValue = {
-    Contract: 'Contract',
-    CommissionPayout: 'CommissionPayout',
-    CommissionAdjustment: 'CommissionAdjustment',
-    Project: 'Project',
-    Lead: 'Lead',
-    Customer: 'Customer',
-    ProjectHandover: 'ProjectHandover'
+    Contract: 'contract',
+    CommissionPayout: 'commission-payout',
+    CommissionAdjustment: 'commission-adjustment',
+    Project: 'project',
+    Lead: 'lead',
+    Customer: 'customer',
+    ProjectHandover: 'project-handover'
 } as const satisfies Record<string, TargetObjectType>;
 
 export const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'] as const;
@@ -4313,19 +4370,19 @@ export const ApprovalDecisionValue = {
     Rejected: 'rejected'
 } as const satisfies Record<string, ApprovalDecision>;
 
-export const TODO_SOURCE_TYPES = ['ApprovalRecord', 'ConfirmationRecord', 'SalesFollowUpRecord'] as const;
+export const TODO_SOURCE_TYPES = ['approval-record', 'confirmation-record', 'sales-follow-up-record'] as const;
 
 export type TodoSourceType = (typeof TODO_SOURCE_TYPES)[number];
 
 export const TodoSourceTypeSchema = z.enum(TODO_SOURCE_TYPES).meta({ id: 'TodoSourceType' });
 
 export const TodoSourceTypeValue = {
-    ApprovalRecord: 'ApprovalRecord',
-    ConfirmationRecord: 'ConfirmationRecord',
-    SalesFollowUpRecord: 'SalesFollowUpRecord'
+    ApprovalRecord: 'approval-record',
+    ConfirmationRecord: 'confirmation-record',
+    SalesFollowUpRecord: 'sales-follow-up-record'
 } as const satisfies Record<string, TodoSourceType>;
 
-export const TODO_TYPES = ['approval', 'confirmation', 'sales_follow_up_reminder'] as const;
+export const TODO_TYPES = ['approval', 'confirmation', 'sales-follow-up-reminder'] as const;
 
 export type TodoType = (typeof TODO_TYPES)[number];
 
@@ -4334,7 +4391,7 @@ export const TodoTypeSchema = z.enum(TODO_TYPES).meta({ id: 'TodoType' });
 export const TodoTypeValue = {
     Approval: 'approval',
     Confirmation: 'confirmation',
-    SalesFollowUpReminder: 'sales_follow_up_reminder'
+    SalesFollowUpReminder: 'sales-follow-up-reminder'
 } as const satisfies Record<string, TodoType>;
 
 export const TODO_STATUSES = ['open', 'processing', 'completed', 'canceled'] as const;
@@ -4698,18 +4755,18 @@ export const CommissionRuleExplanationStageStatusValue = {
     SettledRetention: 'settled-retention'
 } as const satisfies Record<string, CommissionRuleExplanationStageStatus>;
 
-export const COMMISSION_RULE_EXPLANATION_GATE_DECISIONS = ['ALLOW_FINAL_SETTLEMENT', 'SETTLED_RETENTION', 'BLOCK_RETENTION', 'REVIEW_RETENTION', 'ALLOW_RETENTION'] as const;
+export const COMMISSION_RULE_EXPLANATION_GATE_DECISIONS = ['allow-final-settlement', 'settled-retention', 'block-retention', 'review-retention', 'allow-retention'] as const;
 
 export type CommissionRuleExplanationGateDecision = (typeof COMMISSION_RULE_EXPLANATION_GATE_DECISIONS)[number];
 
 export const CommissionRuleExplanationGateDecisionSchema = z.enum(COMMISSION_RULE_EXPLANATION_GATE_DECISIONS).meta({ id: 'CommissionRuleExplanationGateDecision' });
 
 export const CommissionRuleExplanationGateDecisionValue = {
-    AllowFinalSettlement: 'ALLOW_FINAL_SETTLEMENT',
-    SettledRetention: 'SETTLED_RETENTION',
-    BlockRetention: 'BLOCK_RETENTION',
-    ReviewRetention: 'REVIEW_RETENTION',
-    AllowRetention: 'ALLOW_RETENTION'
+    AllowFinalSettlement: 'allow-final-settlement',
+    SettledRetention: 'settled-retention',
+    BlockRetention: 'block-retention',
+    ReviewRetention: 'review-retention',
+    AllowRetention: 'allow-retention'
 } as const satisfies Record<string, CommissionRuleExplanationGateDecision>;
 
 export const COMMISSION_RETENTION_DUE_STATUSES = ['missing', 'pending', 'due'] as const;
@@ -5237,26 +5294,26 @@ export const InternalCostRateVersionStatusValue = {
     Retired: 'retired'
 } as const satisfies Record<string, InternalCostRateVersionStatus>;
 
-export const INTERNAL_COST_RATE_SCOPE_TYPES = ['PERSON', 'ROLE'] as const;
+export const INTERNAL_COST_RATE_SCOPE_TYPES = ['person', 'role'] as const;
 
 export type InternalCostRateScopeType = (typeof INTERNAL_COST_RATE_SCOPE_TYPES)[number];
 
 export const InternalCostRateScopeTypeSchema = z.enum(INTERNAL_COST_RATE_SCOPE_TYPES).meta({ id: 'InternalCostRateScopeType' });
 
 export const InternalCostRateScopeTypeValue = {
-    Person: 'PERSON',
-    Role: 'ROLE'
+    Person: 'person',
+    Role: 'role'
 } as const satisfies Record<string, InternalCostRateScopeType>;
 
-export const INTERNAL_COST_RATE_UNITS = ['HOUR', 'DAY'] as const;
+export const INTERNAL_COST_RATE_UNITS = ['hour', 'day'] as const;
 
 export type InternalCostRateUnit = (typeof INTERNAL_COST_RATE_UNITS)[number];
 
 export const InternalCostRateUnitSchema = z.enum(INTERNAL_COST_RATE_UNITS).meta({ id: 'InternalCostRateUnit' });
 
 export const InternalCostRateUnitValue = {
-    Hour: 'HOUR',
-    Day: 'DAY'
+    Hour: 'hour',
+    Day: 'day'
 } as const satisfies Record<string, InternalCostRateUnit>;
 
 export const InternalCostRateVersionSummarySchema = z
@@ -5303,58 +5360,58 @@ export const PublishInternalCostRateVersionRequestSchema = z
 
 export type PublishInternalCostRateVersionRequest = z.infer<typeof PublishInternalCostRateVersionRequestSchema>;
 
-export const PROJECT_ACTUAL_COST_TYPES = ['PROCUREMENT', 'INVOICE', 'EXPENSE', 'PAYMENT_FACT', 'LABOR'] as const;
+export const PROJECT_ACTUAL_COST_TYPES = ['procurement', 'invoice', 'expense', 'payment-fact', 'labor'] as const;
 
 export type ProjectActualCostType = (typeof PROJECT_ACTUAL_COST_TYPES)[number];
 
 export const ProjectActualCostTypeSchema = z.enum(PROJECT_ACTUAL_COST_TYPES).meta({ id: 'ProjectActualCostType' });
 
 export const ProjectActualCostTypeValue = {
-    Procurement: 'PROCUREMENT',
-    Invoice: 'INVOICE',
-    Expense: 'EXPENSE',
-    PaymentFact: 'PAYMENT_FACT',
-    Labor: 'LABOR'
+    Procurement: 'procurement',
+    Invoice: 'invoice',
+    Expense: 'expense',
+    PaymentFact: 'payment-fact',
+    Labor: 'labor'
 } as const satisfies Record<string, ProjectActualCostType>;
 
-export const PROJECT_ACTUAL_COST_RECORD_STATUSES = ['DRAFT', 'REGISTERED', 'CONFIRMED', 'INCLUDED', 'VOIDED', 'REPLACED'] as const;
+export const PROJECT_ACTUAL_COST_RECORD_STATUSES = ['draft', 'registered', 'confirmed', 'included', 'voided', 'replaced'] as const;
 
 export type ProjectActualCostRecordStatus = (typeof PROJECT_ACTUAL_COST_RECORD_STATUSES)[number];
 
 export const ProjectActualCostRecordStatusSchema = z.enum(PROJECT_ACTUAL_COST_RECORD_STATUSES).meta({ id: 'ProjectActualCostRecordStatus' });
 
 export const ProjectActualCostRecordStatusValue = {
-    Draft: 'DRAFT',
-    Registered: 'REGISTERED',
-    Confirmed: 'CONFIRMED',
-    Included: 'INCLUDED',
-    Voided: 'VOIDED',
-    Replaced: 'REPLACED'
+    Draft: 'draft',
+    Registered: 'registered',
+    Confirmed: 'confirmed',
+    Included: 'included',
+    Voided: 'voided',
+    Replaced: 'replaced'
 } as const satisfies Record<string, ProjectActualCostRecordStatus>;
 
-export const PROJECT_ACTUAL_COST_SOURCE_TYPES = ['PAYMENT_RECORD', 'INVOICE_RECORD', 'EXPENSE_RECORD', 'PAYABLE_RECORD', 'LABOR'] as const;
+export const PROJECT_ACTUAL_COST_SOURCE_TYPES = ['payment-record', 'invoice-record', 'expense-record', 'payable-record', 'labor'] as const;
 
 export type ProjectActualCostSourceType = (typeof PROJECT_ACTUAL_COST_SOURCE_TYPES)[number];
 
 export const ProjectActualCostSourceTypeSchema = z.enum(PROJECT_ACTUAL_COST_SOURCE_TYPES).meta({ id: 'ProjectActualCostSourceType' });
 
 export const ProjectActualCostSourceTypeValue = {
-    PaymentRecord: 'PAYMENT_RECORD',
-    InvoiceRecord: 'INVOICE_RECORD',
-    ExpenseRecord: 'EXPENSE_RECORD',
-    PayableRecord: 'PAYABLE_RECORD',
-    Labor: 'LABOR'
+    PaymentRecord: 'payment-record',
+    InvoiceRecord: 'invoice-record',
+    ExpenseRecord: 'expense-record',
+    PayableRecord: 'payable-record',
+    Labor: 'labor'
 } as const satisfies Record<string, ProjectActualCostSourceType>;
 
-export const LABOR_COST_PERIOD_TYPES = ['WEEK', 'MONTH'] as const;
+export const LABOR_COST_PERIOD_TYPES = ['week', 'month'] as const;
 
 export type LaborCostPeriodType = (typeof LABOR_COST_PERIOD_TYPES)[number];
 
 export const LaborCostPeriodTypeSchema = z.enum(LABOR_COST_PERIOD_TYPES).meta({ id: 'LaborCostPeriodType' });
 
 export const LaborCostPeriodTypeValue = {
-    Week: 'WEEK',
-    Month: 'MONTH'
+    Week: 'week',
+    Month: 'month'
 } as const satisfies Record<string, LaborCostPeriodType>;
 
 export const ProjectActualCostRecordSummarySchema = z
@@ -5429,7 +5486,7 @@ export const ProjectActualCostRecordDetailViewSchema = ProjectActualCostRecordSu
 
 export type ProjectActualCostRecordDetailView = z.infer<typeof ProjectActualCostRecordDetailViewSchema>;
 
-export const BASELINE_SELECTION_SOURCES = ['original', 'handover_rebaseline'] as const;
+export const BASELINE_SELECTION_SOURCES = ['original', 'handover-rebaseline'] as const;
 
 export type BaselineSelectionSource = (typeof BASELINE_SELECTION_SOURCES)[number];
 
@@ -5437,19 +5494,19 @@ export const BaselineSelectionSourceSchema = z.enum(BASELINE_SELECTION_SOURCES).
 
 export const BaselineSelectionSourceValue = {
     Original: 'original',
-    HandoverRebaseline: 'handover_rebaseline'
+    HandoverRebaseline: 'handover-rebaseline'
 } as const satisfies Record<string, BaselineSelectionSource>;
 
-export const OPERATING_SNAPSHOT_ACTION_LEVELS = ['PROMPT', 'REVIEW', 'BLOCK'] as const;
+export const OPERATING_SNAPSHOT_ACTION_LEVELS = ['prompt', 'review', 'block'] as const;
 
 export type OperatingSnapshotActionLevel = (typeof OPERATING_SNAPSHOT_ACTION_LEVELS)[number];
 
 export const OperatingSnapshotActionLevelSchema = z.enum(OPERATING_SNAPSHOT_ACTION_LEVELS).meta({ id: 'OperatingSnapshotActionLevel' });
 
 export const OperatingSnapshotActionLevelValue = {
-    Prompt: 'PROMPT',
-    Review: 'REVIEW',
-    Block: 'BLOCK'
+    Prompt: 'prompt',
+    Review: 'review',
+    Block: 'block'
 } as const satisfies Record<string, OperatingSnapshotActionLevel>;
 
 export const OPERATING_BASELINE_PACKAGE_STATUSES = ['draft', 'active', 'superseded'] as const;
@@ -5536,49 +5593,49 @@ export type ConfirmCostStageAttributionMode = (typeof CONFIRM_COST_STAGE_ATTRIBU
 
 export const ConfirmCostStageAttributionModeSchema = z.enum(CONFIRM_COST_STAGE_ATTRIBUTION_MODES).meta({ id: 'ConfirmCostStageAttributionMode' });
 
-export const OPERATING_DATA_MATURITY_LEVELS = ['INSUFFICIENT', 'PRELIMINARY', 'MATURE'] as const;
+export const OPERATING_DATA_MATURITY_LEVELS = ['insufficient', 'preliminary', 'mature'] as const;
 
 export type OperatingDataMaturityLevel = (typeof OPERATING_DATA_MATURITY_LEVELS)[number];
 
 export const OperatingDataMaturityLevelSchema = z.enum(OPERATING_DATA_MATURITY_LEVELS).meta({ id: 'OperatingDataMaturityLevel' });
 
 export const OperatingDataMaturityLevelValue = {
-    Insufficient: 'INSUFFICIENT',
-    Preliminary: 'PRELIMINARY',
-    Mature: 'MATURE'
+    Insufficient: 'insufficient',
+    Preliminary: 'preliminary',
+    Mature: 'mature'
 } as const satisfies Record<string, OperatingDataMaturityLevel>;
 
-export const OPERATING_SIGNAL_LEVELS = ['ATTENTION', 'ALERT'] as const;
+export const OPERATING_SIGNAL_LEVELS = ['attention', 'alert'] as const;
 
 export type OperatingSignalLevel = (typeof OPERATING_SIGNAL_LEVELS)[number];
 
 export const OperatingSignalLevelSchema = z.enum(OPERATING_SIGNAL_LEVELS).meta({ id: 'OperatingSignalLevel' });
 
 export const OperatingSignalLevelValue = {
-    Attention: 'ATTENTION',
-    Alert: 'ALERT'
+    Attention: 'attention',
+    Alert: 'alert'
 } as const satisfies Record<string, OperatingSignalLevel>;
 
-export const OPERATING_RISK_LEVELS = ['ATTENTION', 'RISK'] as const;
+export const OPERATING_RISK_LEVELS = ['attention', 'risk'] as const;
 
 export type OperatingRiskLevel = (typeof OPERATING_RISK_LEVELS)[number];
 
 export const OperatingRiskLevelSchema = z.enum(OPERATING_RISK_LEVELS).meta({ id: 'OperatingRiskLevel' });
 
 export const OperatingRiskLevelValue = {
-    Attention: 'ATTENTION',
-    Risk: 'RISK'
+    Attention: 'attention',
+    Risk: 'risk'
 } as const satisfies Record<string, OperatingRiskLevel>;
 
-export const OPERATING_SIGNAL_REVIEW_DECISIONS = ['APPROVE', 'MANUAL_CONFIRMED'] as const;
+export const OPERATING_SIGNAL_REVIEW_DECISIONS = ['approve', 'manual-confirmed'] as const;
 
 export type OperatingSignalReviewDecision = (typeof OPERATING_SIGNAL_REVIEW_DECISIONS)[number];
 
 export const OperatingSignalReviewDecisionSchema = z.enum(OPERATING_SIGNAL_REVIEW_DECISIONS).meta({ id: 'OperatingSignalReviewDecision' });
 
 export const OperatingSignalReviewDecisionValue = {
-    Approve: 'APPROVE',
-    ManualConfirmed: 'MANUAL_CONFIRMED'
+    Approve: 'approve',
+    ManualConfirmed: 'manual-confirmed'
 } as const satisfies Record<string, OperatingSignalReviewDecision>;
 
 export const ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES = ['pending', 'deductible', 'non-deductible'] as const;
@@ -5707,7 +5764,7 @@ function assertOperatingSnapshotBaselineSelection(input: { baselineSelectionSour
         ctx.addIssue({
             code: 'custom',
             path: ['handoverRebaselineRecordId'],
-            message: 'handoverRebaselineRecordId is required when baselineSelectionSource is handover_rebaseline'
+            message: 'handoverRebaselineRecordId is required when baselineSelectionSource is handover-rebaseline'
         });
     }
 

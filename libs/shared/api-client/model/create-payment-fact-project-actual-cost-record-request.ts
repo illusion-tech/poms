@@ -17,5 +17,5 @@ export interface CreatePaymentFactProjectActualCostRecordRequest {
     expectedSourceVersion?: number;
 }
 export enum CreatePaymentFactProjectActualCostRecordRequestCostTypeEnum {
-    PaymentFact = 'PAYMENT_FACT'
+    PaymentFact = 'payment-fact'
 };

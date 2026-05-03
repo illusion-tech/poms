@@ -11,9 +11,9 @@
 
 export enum OperatingDataMaturityLevel {
 
-    Insufficient = 'INSUFFICIENT',
+    Insufficient = 'insufficient',
 
-    Preliminary = 'PRELIMINARY',
+    Preliminary = 'preliminary',
 
-    Mature = 'MATURE'
+    Mature = 'mature'
 }

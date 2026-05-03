@@ -19,7 +19,7 @@ import {
 
 const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = 'handover-confirmation';
 const CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL = 'handover-confirmation';
-const PROJECT_HANDOVER_TARGET_TYPE = 'ProjectHandover';
+const PROJECT_HANDOVER_TARGET_TYPE = 'project-handover';
 const PROJECT_HANDOVER_CONFIRMATION_TYPE = 'project-handover';
 
 @Injectable()
@@ -85,7 +85,7 @@ export class ProjectHandoverQueryService {
             this.contractService.findMany({ projectId, status: 'active' }),
             this.findCurrentContractReadiness(projectId),
             this.approvalSummarySnapshotRepository.findActiveByTarget(
-                'Project',
+                'project',
                 projectId,
                 CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY,
                 CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL
@@ -156,7 +156,7 @@ export class ProjectHandoverQueryService {
             projectId: project.id,
             projectNo: project.projectNo,
             projectName: project.projectName,
-            handoverStatus: handover?.status ?? 'not_started',
+            handoverStatus: handover?.status ?? 'not-started',
             confirmedAt: handover?.confirmedAt?.toISOString() ?? null,
             confirmedBy: handover?.confirmedBy ?? null,
             comment: handover?.comment ?? null,
@@ -195,7 +195,7 @@ export class ProjectHandoverQueryService {
     ): ProjectHandoverDetailView['participantConfirmationSummary'] {
         if (!confirmationProgress) {
             return {
-                status: 'not_started',
+                status: 'not-started',
                 confirmationRecordId: null,
                 requiredCount: 0,
                 confirmedCount: 0,
@@ -248,7 +248,7 @@ export class ProjectHandoverQueryService {
         }
 
         return {
-            status: 'not_frozen',
+            status: 'not-frozen',
             receiptJudgmentMode: null,
             sourceType: 'none',
             sourceId: null,
@@ -271,7 +271,7 @@ export class ProjectHandoverQueryService {
                 reasons.push('Project handover summary snapshot is not generated');
             }
 
-            if (participantConfirmationSummary.status === 'not_started') {
+            if (participantConfirmationSummary.status === 'not-started') {
                 reasons.push('Project handover participant confirmation is not started');
             } else if (participantConfirmationSummary.status === 'pending') {
                 reasons.push('Project handover participant confirmation is not complete');
@@ -349,7 +349,7 @@ export class ProjectHandoverQueryService {
                 rawValue: activeContracts.length > 0 ? totalSignedAmount : null,
                 displayTextWhenFull: activeContracts.length > 0 ? `${totalSignedAmount} ${currencyCodes.join(' / ')}` : null,
                 user,
-                targetType: 'Project',
+                targetType: 'project',
                 targetId: projectId,
                 requestContext
             }),
@@ -360,7 +360,7 @@ export class ProjectHandoverQueryService {
                         rawValue: contract.signedAmount,
                         displayTextWhenFull: `${contract.signedAmount} ${contract.currencyCode}`,
                         user,
-                        targetType: 'Contract',
+                        targetType: 'contract',
                         targetId: contract.id,
                         requestContext
                     })
@@ -489,7 +489,7 @@ export class ProjectHandoverQueryService {
             rebaselineRecordId: latestRebaseline.id,
             effectiveBaselineAfterId: latestRebaseline.effectiveBaselineAfterId,
             handledAt: latestRebaseline.handledAt.toISOString(),
-            blockingStatus: ['processing', 'pending_effective'].includes(latestRebaseline.status)
+            blockingStatus: ['processing', 'pending-effective'].includes(latestRebaseline.status)
                 ? 'blocking'
                 : latestRebaseline.status === 'effective'
                   ? 'effective'
@@ -558,7 +558,7 @@ export class ProjectHandoverQueryService {
             reasons.push('Contract handover summary snapshot is not generated');
         }
 
-        if (latestRebaseline && ['processing', 'pending_effective'].includes(latestRebaseline.status)) {
+        if (latestRebaseline && ['processing', 'pending-effective'].includes(latestRebaseline.status)) {
             reasons.push(`Handover rebaseline record ${latestRebaseline.id} is still ${latestRebaseline.status}`);
         }
 

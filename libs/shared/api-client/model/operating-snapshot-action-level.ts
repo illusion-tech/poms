@@ -11,9 +11,9 @@
 
 export enum OperatingSnapshotActionLevel {
 
-    Prompt = 'PROMPT',
+    Prompt = 'prompt',
 
-    Review = 'REVIEW',
+    Review = 'review',
 
-    Block = 'BLOCK'
+    Block = 'block'
 }

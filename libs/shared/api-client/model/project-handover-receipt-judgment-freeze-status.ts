@@ -11,7 +11,7 @@
 
 export enum ProjectHandoverReceiptJudgmentFreezeStatus {
 
-    NotFrozen = 'not_frozen',
+    NotFrozen = 'not-frozen',
 
     Frozen = 'frozen'
 }

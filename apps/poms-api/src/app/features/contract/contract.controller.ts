@@ -24,7 +24,7 @@ import { Contract, ContractTermSnapshot } from './contract.entity';
 import { ContractService } from './contract.service';
 import { ContractTermSnapshotRepository } from './contract.repository';
 
-@ApiTags('Contract')
+@ApiTags('contract')
 @ApiBearerAuth()
 @Controller('contracts')
 export class ContractController {
@@ -89,7 +89,7 @@ export class ContractController {
     @ApiOperation({ summary: '获取合同当前审批摘要' })
     @ApiOkResponse({ type: ApprovalRecordDto })
     async getCurrentApproval(@Param('id') id: string): Promise<ApprovalRecordSummary> {
-        const approvalRecord = await this.approvalService.findLatestApprovalForTarget('Contract', id);
+        const approvalRecord = await this.approvalService.findLatestApprovalForTarget('contract', id);
         if (!approvalRecord) {
             throw new NotFoundException(`No approval record found for contract ${id}`);
         }
@@ -161,7 +161,7 @@ async function mapContractToSummary(contract: Contract, project: Project | null,
         rawValue: contract.signedAmount,
         displayTextWhenFull: `${contract.signedAmount} ${contract.currencyCode}`,
         user,
-        targetType: 'Contract',
+        targetType: 'contract',
         targetId: contract.id,
         requestContext
     });

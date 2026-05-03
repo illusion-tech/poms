@@ -17,5 +17,5 @@ export enum PaymentRecordStatus {
 
     Confirmed = 'confirmed',
 
-    Void = 'void'
+    Voided = 'voided'
 }

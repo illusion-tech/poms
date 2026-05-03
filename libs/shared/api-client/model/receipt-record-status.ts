@@ -19,5 +19,5 @@ export enum ReceiptRecordStatus {
 
     Reversed = 'reversed',
 
-    Void = 'void'
+    Voided = 'voided'
 }

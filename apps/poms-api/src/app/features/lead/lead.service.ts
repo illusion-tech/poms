@@ -1,7 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import {
-    AttachmentCategoryValue,
     AttachmentRelationTypeValue,
     AttachmentTargetTypeValue,
     LeadOwnerAssignmentTypeValue,
@@ -241,7 +240,7 @@ export class LeadService {
 
     async claimLeadOwner(id: string, input: ClaimLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
         const lead = await this.requireLead(id);
-        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'Lead');
+        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
         this.assertLeadAssignable(lead);
 
         if (lead.ownerUserId) {
@@ -271,7 +270,7 @@ export class LeadService {
 
     async assignLeadOwner(id: string, input: AssignLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
         const lead = await this.requireLead(id);
-        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'Lead');
+        this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
         this.assertLeadAssignable(lead);
 
         const targetOwner = await this.leadRepository.findPlatformUserById(input.ownerUserId);
@@ -389,7 +388,7 @@ export class LeadService {
                 relationType: AttachmentRelationTypeValue.Source,
                 operatorUserId: operator.id,
                 entityManager: em,
-                excludeCategories: [AttachmentCategoryValue.Finance, AttachmentCategoryValue.InternalAssessment]
+                excludeCategories: ['finance', 'internal-assessment']
             });
             await em.flush();
             return project;

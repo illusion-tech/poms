@@ -293,7 +293,7 @@ export class DatabaseSeeder extends Seeder {
                     where "project_no" like 'E2E-%'
                 )
                 or (
-                    "target_type" = 'ProjectHandover'
+                    "target_type" = 'project-handover'
                     and "target_id" in (
                         select "id" from "${schema}"."project_handover"
                         where "project_id" in (
@@ -312,7 +312,7 @@ export class DatabaseSeeder extends Seeder {
                 where "project_no" like 'E2E-%'
             )
             or (
-                "target_type" = 'ProjectHandover'
+                "target_type" = 'project-handover'
                 and "target_id" in (
                     select "id" from "${schema}"."project_handover"
                     where "project_id" in (
@@ -393,14 +393,14 @@ export class DatabaseSeeder extends Seeder {
             where "summary_snapshot_id" in (
                 select "id" from "${schema}"."approval_summary_snapshot"
                 where (
-                    "target_type" = 'Project'
+                    "target_type" = 'project'
                     and "target_id" in (
                         select "id" from "${schema}"."project"
                         where "project_no" like 'E2E-%'
                     )
                 )
                 or (
-                    "target_type" = 'ProjectHandover'
+                    "target_type" = 'project-handover'
                     and "summary_package_key" = 'project-handover-confirmation'
                 )
             );
@@ -409,14 +409,14 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."approval_summary_snapshot"
             where (
-                "target_type" = 'Project'
+                "target_type" = 'project'
                 and "target_id" in (
                     select "id" from "${schema}"."project"
                     where "project_no" like 'E2E-%'
                 )
             )
             or (
-                "target_type" = 'ProjectHandover'
+                "target_type" = 'project-handover'
                 and "summary_package_key" = 'project-handover-confirmation'
             );
         `);
@@ -551,8 +551,8 @@ export class DatabaseSeeder extends Seeder {
             delete from "${schema}"."internal_cost_rate_version"
             where "role_code" like 'dev-%'
                 or "role_code" like 'qa-%'
-                or "rate_key" like 'ROLE:dev-%'
-                or "rate_key" like 'ROLE:qa-%';
+                or "rate_key" like 'role:dev-%'
+                or "rate_key" like 'role:qa-%';
         `);
 
         // 级联清理所有引用种子项目的数据（不仅限于种子合同，避免测试期间 API 创建的数据阻塞删除）
@@ -611,7 +611,7 @@ export class DatabaseSeeder extends Seeder {
                     where "project_no" in (${seededProjectCodes})
                 )
                 or (
-                    "target_type" = 'ProjectHandover'
+                    "target_type" = 'project-handover'
                     and "target_id" in (
                         select "id" from "${schema}"."project_handover"
                         where "project_id" in (
@@ -630,7 +630,7 @@ export class DatabaseSeeder extends Seeder {
                 where "project_no" in (${seededProjectCodes})
             )
             or (
-                "target_type" = 'ProjectHandover'
+                "target_type" = 'project-handover'
                 and "target_id" in (
                     select "id" from "${schema}"."project_handover"
                     where "project_id" in (
@@ -711,14 +711,14 @@ export class DatabaseSeeder extends Seeder {
             where "summary_snapshot_id" in (
                 select "id" from "${schema}"."approval_summary_snapshot"
                 where (
-                    "target_type" = 'Project'
+                    "target_type" = 'project'
                     and "target_id" in (
                         select "id" from "${schema}"."project"
                         where "project_no" in (${seededProjectCodes})
                     )
                 )
                 or (
-                    "target_type" = 'ProjectHandover'
+                    "target_type" = 'project-handover'
                     and "summary_package_key" = 'project-handover-confirmation'
                 )
             );
@@ -727,14 +727,14 @@ export class DatabaseSeeder extends Seeder {
         await connection.execute(`
             delete from "${schema}"."approval_summary_snapshot"
             where (
-                "target_type" = 'Project'
+                "target_type" = 'project'
                 and "target_id" in (
                     select "id" from "${schema}"."project"
                     where "project_no" in (${seededProjectCodes})
                 )
             )
             or (
-                "target_type" = 'ProjectHandover'
+                "target_type" = 'project-handover'
                 and "summary_package_key" = 'project-handover-confirmation'
             );
         `);
@@ -1548,8 +1548,8 @@ async function seedProjectHandoverPreparedState(
             "updated_by"
         )
         values
-            (${sqlValue(fixture.contractSummarySnapshotId)}, 'Project', ${sqlValue(fixture.projectId)}, 'handover-confirmation', ${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'ready-for-handover', ${sqlTimestamp('2026-04-15T00:10:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
-            (${sqlValue(fixture.handoverSummarySnapshotId)}, 'ProjectHandover', ${sqlValue(fixture.handoverId)}, 'project-handover', ${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'draft', ${sqlTimestamp('2026-04-15T00:11:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
+            (${sqlValue(fixture.contractSummarySnapshotId)}, 'project', ${sqlValue(fixture.projectId)}, 'handover-confirmation', ${sqlValue(CONTRACT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'contract-handover-summary', 'handover-confirmation', 'handover-controlled', 'ready-for-handover', ${sqlTimestamp('2026-04-15T00:10:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)}),
+            (${sqlValue(fixture.handoverSummarySnapshotId)}, 'project-handover', ${sqlValue(fixture.handoverId)}, 'project-handover', ${sqlValue(PROJECT_HANDOVER_SUMMARY_PACKAGE_ID)}, 'project-handover-confirmation', 'handover-confirmation', 'handover-controlled', 'draft', ${sqlTimestamp('2026-04-15T00:11:00.000Z')}, 'active', ${sqlUuid(E2E_ACTOR_ID)}, ${sqlUuid(E2E_ACTOR_ID)});
     `);
 
     await connection.execute(`
@@ -1604,7 +1604,7 @@ async function seedProjectHandoverPreparedState(
             ${sqlValue(fixture.confirmationRecordId)},
             'project-handover',
             'project-handover',
-            'ProjectHandover',
+            'project-handover',
             ${sqlValue(fixture.handoverId)},
             ${sqlValue(fixture.projectId)},
             'confirmed',
@@ -1881,7 +1881,7 @@ async function seedOperatingSignalEvidenceState(
             '1200.00',
             'Allocation basis shifted after restatement',
             'Unmapped delivery cost detected',
-            'REVIEW',
+            'review',
             ${sqlValue(fixture.baselinePackageId)},
             'original',
             null,
@@ -1910,14 +1910,14 @@ async function seedOperatingSignalEvidenceState(
         )
         values (
             ${sqlValue(fixture.summarySnapshotId)},
-            'Project',
+            'project',
             ${sqlValue(fixture.projectId)},
             'commission-gate-review',
             ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_ID)},
             ${sqlValue(OPERATING_SIGNAL_SUMMARY_PACKAGE_KEY)},
             'L4',
             'internal-only',
-            'REVIEW',
+            'review',
             ${sqlTimestamp('2026-04-18T10:06:00.000Z')},
             'active',
             ${sqlUuid(E2E_ACTOR_ID)},
@@ -1945,8 +1945,8 @@ async function seedOperatingSignalEvidenceState(
             ${sqlValue(fixture.dataMaturityEvaluationId)},
             ${sqlValue(fixture.projectId)},
             ${sqlValue(fixture.operatingSnapshotId)},
-            'INSUFFICIENT',
-            'REVIEW',
+            'insufficient',
+            'review',
             '1200.00',
             'Allocation basis requires finance review',
             'Two upstream costs remain unmapped',
@@ -1986,14 +1986,14 @@ async function seedOperatingSignalEvidenceState(
             ${sqlValue(fixture.projectId)},
             ${sqlValue(fixture.operatingSnapshotId)},
             ${sqlValue(fixture.dataMaturityEvaluationId)},
-            'ATTENTION',
-            'ATTENTION',
-            'PROMPT',
+            'attention',
+            'attention',
+            'prompt',
             'Gross margin deviates from baseline expectation',
             'Tax package is pending closeout',
             'Allocation basis shifted after restatement',
             'Unmapped delivery cost detected',
-            'REVIEW',
+            'review',
             'Review accounting and payout input before release',
             ${sqlValue(fixture.baselinePackageId)},
             ${sqlValue(fixture.operatingSnapshotId)},
@@ -2033,16 +2033,16 @@ async function seedOperatingSignalEvidenceState(
             ${sqlValue(fixture.gateBindingId)},
             ${sqlValue(fixture.projectId)},
             ${sqlValue(fixture.signalEvaluationId)},
-            'REVIEW',
+            'review',
             ${sqlValue(fixture.gateStageType)},
             'original',
             'Tax package is pending closeout',
             '1200.00',
             'Allocation basis shifted after restatement',
             'Unmapped delivery cost detected',
-            'INSUFFICIENT',
-            'REVIEW',
-            'REVIEW',
+            'insufficient',
+            'review',
+            'review',
             'Review commission settlement package',
             'Commission payout workflow',
             ${sqlValue(fixture.baselinePackageId)},

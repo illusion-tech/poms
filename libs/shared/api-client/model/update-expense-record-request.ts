@@ -8,12 +8,11 @@
  * Do not edit the class manually.
  */
 import { ExpenseSourceType } from './expense-source-type';
-import { ExpenseCategory } from './expense-category';
 
 
 export interface UpdateExpenseRecordRequest {
     contractId?: string | null;
-    expenseCategory?: ExpenseCategory;
+    expenseCategory?: string;
     expenseDescription?: string;
     expenseDate?: string;
     currency?: string;

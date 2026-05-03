@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SalesFollowUpType } from './sales-follow-up-type';
 import { SalesFollowUpOutcome } from './sales-follow-up-outcome';
 import { SalesFollowUpRecordStatus } from './sales-follow-up-record-status';
 
@@ -20,7 +19,7 @@ export interface SalesFollowUpRecordSummary {
     leadName: string | null;
     projectId: string | null;
     projectName: string | null;
-    followUpType: SalesFollowUpType;
+    followUpType: string;
     status: SalesFollowUpRecordStatus;
     occurredAt: string;
     summary: string;

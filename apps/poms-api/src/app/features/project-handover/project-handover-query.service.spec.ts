@@ -95,7 +95,7 @@ describe('ProjectHandoverQueryService', () => {
 
         expect(contractService.findMany).toHaveBeenCalledWith({ projectId, status: 'active' });
         expect(approvalSummarySnapshotRepository.findActiveByTarget).toHaveBeenCalledWith(
-            'Project',
+            'project',
             projectId,
             'handover-confirmation',
             'handover-confirmation'
@@ -178,7 +178,7 @@ describe('ProjectHandoverQueryService', () => {
 
         expect(approvalSummarySnapshotRepository.findById).toHaveBeenCalledWith('60000000-0000-4000-8000-000000000201');
         expect(confirmationService.findLatestConfirmationProgressByTarget).toHaveBeenCalledWith(
-            'ProjectHandover',
+            'project-handover',
             handoverId,
             'project-handover'
         );
@@ -188,7 +188,7 @@ describe('ProjectHandoverQueryService', () => {
         expect(result.summarySnapshotId).toBe('60000000-0000-4000-8000-000000000201');
         expect(result.summaryPackageKey).toBe('project-handover-confirmation');
         expect(result.participantConfirmationSummary.status).toBe('confirmed');
-        expect(result.receiptJudgmentModeSummary.status).toBe('not_frozen');
+        expect(result.receiptJudgmentModeSummary.status).toBe('not-frozen');
         expect(result.allowedActions).toEqual(['confirm-project-handover']);
         expect(result.blockingReasons).toEqual([]);
     });
@@ -218,8 +218,8 @@ describe('ProjectHandoverQueryService', () => {
         const result = await service.getProjectHandoverDetailByProjectId(projectId, financeUser as never);
 
         expect(result.handoverId).toBeNull();
-        expect(result.handoverStatus).toBe('not_started');
-        expect(result.participantConfirmationSummary.status).toBe('not_started');
+        expect(result.handoverStatus).toBe('not-started');
+        expect(result.participantConfirmationSummary.status).toBe('not-started');
         expect(result.summarySnapshotId).toBeNull();
         expect(result.allowedActions).toEqual(['prepare-project-handover']);
         expect(result.blockingReasons).toContain('Project handover record is not prepared');
@@ -319,7 +319,7 @@ describe('ProjectHandoverQueryService', () => {
             id: '40000000-0000-4000-8000-000000000101',
             confirmationType: 'project-handover',
             businessDomain: 'project-handover',
-            targetType: 'ProjectHandover',
+            targetType: 'project-handover',
             targetId: handoverId,
             projectId,
             status: 'confirmed',

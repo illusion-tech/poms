@@ -11,13 +11,13 @@
 
 export enum ProjectActualCostType {
 
-    Procurement = 'PROCUREMENT',
+    Procurement = 'procurement',
 
-    Invoice = 'INVOICE',
+    Invoice = 'invoice',
 
-    Expense = 'EXPENSE',
+    Expense = 'expense',
 
-    PaymentFact = 'PAYMENT_FACT',
+    PaymentFact = 'payment-fact',
 
-    Labor = 'LABOR'
+    Labor = 'labor'
 }

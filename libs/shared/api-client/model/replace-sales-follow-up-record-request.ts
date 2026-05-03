@@ -7,12 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SalesFollowUpType } from './sales-follow-up-type';
 import { SalesFollowUpOutcome } from './sales-follow-up-outcome';
 
 
 export interface ReplaceSalesFollowUpRecordRequest {
-    followUpType: SalesFollowUpType;
+    followUpType: string;
     occurredAt: string;
     summary: string;
     detail?: string | null;

@@ -1,6 +1,5 @@
 import { defineEntity } from '@mikro-orm/core';
 import {
-    ATTACHMENT_CATEGORIES,
     ATTACHMENT_LINK_STATUSES,
     ATTACHMENT_RELATION_TYPES,
     ATTACHMENT_SECURITY_LEVELS,
@@ -32,10 +31,6 @@ export const AttachmentSchema = defineEntity({
         { name: 'idx_attachment_checksum_sha256', properties: ['checksumSha256'] }
     ],
     checks: [
-        {
-            name: 'chk_attachment_category',
-            expression: `"category" in (${toSqlStringList(ATTACHMENT_CATEGORIES)})`
-        },
         {
             name: 'chk_attachment_security_level',
             expression: `"security_level" in (${toSqlStringList(ATTACHMENT_SECURITY_LEVELS)})`

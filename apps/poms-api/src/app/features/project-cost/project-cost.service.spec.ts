@@ -3,6 +3,7 @@ import type { UserPayload } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractFinanceRepository } from '../contract-finance/contract-finance.repository';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { ContractHandoverRebaselineRecordRepository } from '../project-handover/project-handover.repository';
 import {
     AccountingTaxTreatmentSnapshotRepository,
@@ -78,14 +79,14 @@ const OPERATING_FINANCE_MASKED_USER: UserPayload = {
 function makeRateVersion(overrides: Record<string, unknown> = {}) {
     return {
         id: RATE_VERSION_ID,
-        rateKey: 'ROLE:dev:DAY',
+        rateKey: 'role:dev:day',
         version: 1,
         status: 'active',
         isCurrent: true,
-        rateScopeType: 'ROLE',
+        rateScopeType: 'role',
         personId: null,
         roleCode: 'dev',
-        rateUnit: 'DAY',
+        rateUnit: 'day',
         rateValue: '1000',
         currency: 'CNY',
         effectiveFrom: new Date('2023-01-01T00:00:00.000Z'),
@@ -235,7 +236,7 @@ function makeProjectOperatingSnapshot(overrides: Record<string, unknown> = {}) {
         taxImpactPendingAmount: '3000.0000',
         allocationStabilitySummary: 'stable',
         unmappedCostSummary: null,
-        currentActionLevel: 'REVIEW',
+        currentActionLevel: 'review',
         referencedBaselineVersion: BASELINE_PACKAGE_ID,
         baselineSelectionSource: 'original',
         handoverRebaselineRecordId: null,
@@ -266,7 +267,7 @@ function makePeriodClosingSnapshot(overrides: Record<string, unknown> = {}) {
         taxImpactPendingAmount: '3000.0000',
         allocationStabilitySummary: 'stable',
         unmappedCostSummary: null,
-        currentActionLevel: 'REVIEW',
+        currentActionLevel: 'review',
         referencedBaselineVersion: BASELINE_PACKAGE_ID,
         baselineSelectionSource: 'original',
         handoverRebaselineRecordId: null,
@@ -360,8 +361,8 @@ function makeDataMaturityEvaluationResult(overrides: Record<string, unknown> = {
         id: DATA_MATURITY_EVALUATION_ID,
         projectId: PROJECT_ID,
         referencedSnapshotId: OPERATING_SNAPSHOT_ID,
-        dataMaturityLevel: 'INSUFFICIENT',
-        costActionRecommendation: 'REVIEW',
+        dataMaturityLevel: 'insufficient',
+        costActionRecommendation: 'review',
         taxImpactPendingAmount: '1200.0000',
         allocationStabilitySummary: 'Cost allocation requires verification',
         unmappedCostSummary: 'Two vendor costs remain unmapped',
@@ -381,14 +382,14 @@ function makeOperatingSignalEvaluationResult(overrides: Record<string, unknown> 
         projectId: PROJECT_ID,
         referencedSnapshotId: OPERATING_SNAPSHOT_ID,
         dataMaturityEvaluationId: DATA_MATURITY_EVALUATION_ID,
-        signalLevel: 'ATTENTION',
-        riskLevel: 'ATTENTION',
-        formulaBoundaryAction: 'PROMPT',
+        signalLevel: 'attention',
+        riskLevel: 'attention',
+        formulaBoundaryAction: 'prompt',
         varianceSourceSummary: 'Margin deviation requires validation',
         taxImpactSummary: 'Tax package is pending closeout',
         allocationStabilitySummary: 'Allocation basis shifted after restatement',
         unmappedCostSummary: 'Unmapped delivery cost detected',
-        currentActionLevel: 'REVIEW',
+        currentActionLevel: 'review',
         recommendedActionSummary: 'Review revenue and cost recognition before payout',
         referencedBaselineVersion: 'baseline-v1',
         referencedSnapshotVersion: 'snapshot-v1',
@@ -406,10 +407,10 @@ function makeOperatingSignalReviewRecord(overrides: Record<string, unknown> = {}
     return {
         id: OPERATING_SIGNAL_REVIEW_RECORD_ID,
         signalEvaluationId: OPERATING_SIGNAL_EVALUATION_ID,
-        reviewDecision: 'MANUAL_CONFIRMED',
-        resolvedDataMaturityLevel: 'MATURE',
-        resolvedCostActionRecommendation: 'PROMPT',
-        resolvedCurrentActionLevel: 'REVIEW',
+        reviewDecision: 'manual-confirmed',
+        resolvedDataMaturityLevel: 'mature',
+        resolvedCostActionRecommendation: 'prompt',
+        resolvedCurrentActionLevel: 'review',
         referencedBaselineVersion: 'baseline-v2',
         referencedSnapshotVersion: 'snapshot-v2',
         reviewComment: 'Manual accounting review completed',
@@ -428,16 +429,16 @@ function makeOperatingSignalToCommissionGateBinding(overrides: Record<string, un
         id: GATE_BINDING_ID,
         projectId: PROJECT_ID,
         signalEvaluationId: OPERATING_SIGNAL_EVALUATION_ID,
-        bindingAction: 'REVIEW',
+        bindingAction: 'review',
         gateStageType: 'commission_settlement',
         baselineSelectionSource: 'original',
         taxImpactSummary: 'Tax package is pending closeout',
         taxImpactPendingAmount: '1200.0000',
         allocationStabilitySummary: 'Allocation basis shifted after restatement',
         unmappedCostSummary: 'Unmapped delivery cost detected',
-        dataMaturityLevel: 'INSUFFICIENT',
-        costActionRecommendation: 'REVIEW',
-        currentActionLevel: 'REVIEW',
+        dataMaturityLevel: 'insufficient',
+        costActionRecommendation: 'review',
+        currentActionLevel: 'review',
         nextActionSummary: 'Review commission settlement package',
         downstreamConsumerSummary: 'Commission payout workflow',
         referencedBaselineVersion: 'baseline-v1',
@@ -461,7 +462,7 @@ function makeApprovalSummarySnapshot(overrides: Record<string, unknown> = {}) {
         summaryPackageKey: 'commission-final',
         projectionLevel: 'L4',
         exportPolicy: 'internal-only',
-        businessStatusAtSnapshot: 'REVIEW',
+        businessStatusAtSnapshot: 'review',
         generatedAt: new Date('2023-08-05T00:00:00.000Z'),
         status: 'active',
         supersedesId: null,
@@ -476,7 +477,7 @@ function makeCommissionGateReviewRecord(overrides: Record<string, unknown> = {})
     return {
         id: COMMISSION_GATE_REVIEW_RECORD_ID,
         bindingId: GATE_BINDING_ID,
-        gateReviewDecision: 'REVIEW',
+        gateReviewDecision: 'review',
         blockingReasonCode: null,
         summaryPackageKey: 'commission-final',
         summarySnapshotId: SUMMARY_SNAPSHOT_ID,
@@ -495,6 +496,7 @@ function makeCommissionGateReviewRecord(overrides: Record<string, unknown> = {})
 
 describe('ProjectCostService', () => {
     let service: ProjectCostService;
+    let dictionaryService: jest.Mocked<Pick<DictionaryService, 'requireActiveItem'>>;
     let expenseRecordRepository: jest.Mocked<ExpenseRecordRepository>;
     let internalCostRateVersionRepository: jest.Mocked<InternalCostRateVersionRepository>;
     let projectActualCostRecordRepository: jest.Mocked<ProjectActualCostRecordRepository>;
@@ -786,6 +788,9 @@ describe('ProjectCostService', () => {
         approvalSummarySnapshotRepository = mockApprovalSummarySnapshotRepository as unknown as jest.Mocked<ApprovalSummarySnapshotRepository>;
         sensitiveFieldProjectionService = mockSensitiveFieldProjectionService;
         contractFinanceRepository = mockContractFinanceRepository as unknown as jest.Mocked<ContractFinanceRepository>;
+        dictionaryService = {
+            requireActiveItem: jest.fn().mockResolvedValue(undefined)
+        };
         service = new ProjectCostService(
             expenseRecordRepository,
             internalCostRateVersionRepository,
@@ -808,7 +813,8 @@ describe('ProjectCostService', () => {
             operatingSignalToCommissionGateBindingRepository,
             commissionGateReviewRecordRepository,
             approvalSummarySnapshotRepository,
-            sensitiveFieldProjectionService as never
+            sensitiveFieldProjectionService as never,
+            dictionaryService as never
         );
         contractHandoverRebaselineRecordRepository.findById.mockResolvedValue(null);
         projectOperatingSnapshotRepository.findLatestActiveByProject.mockResolvedValue(null);
@@ -830,9 +836,9 @@ describe('ProjectCostService', () => {
 
             const result = await service.publishInternalCostRateVersion(
                 {
-                    rateScopeType: 'ROLE',
+                    rateScopeType: 'role',
                     roleCode: 'dev',
-                    rateUnit: 'DAY',
+                    rateUnit: 'day',
                     rateValue: '1000',
                     currency: 'CNY',
                     effectiveFrom: '2023-01-01'
@@ -842,7 +848,7 @@ describe('ProjectCostService', () => {
 
             expect(internalCostRateVersionRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    rateKey: 'ROLE:dev:DAY',
+                    rateKey: 'role:dev:day',
                     version: 1,
                     status: 'active',
                     isCurrent: true,
@@ -860,9 +866,9 @@ describe('ProjectCostService', () => {
             await expect(
                 service.publishInternalCostRateVersion(
                     {
-                        rateScopeType: 'ROLE',
+                        rateScopeType: 'role',
                         roleCode: 'dev',
-                        rateUnit: 'DAY',
+                        rateUnit: 'day',
                         rateValue: '1200',
                         currency: 'CNY',
                         effectiveFrom: '2023-02-01'
@@ -874,7 +880,7 @@ describe('ProjectCostService', () => {
     });
 
     describe('registerPaymentFactCostRecord', () => {
-        it('registers a confirmed payment as a PAYMENT_FACT cost record', async () => {
+        it('registers a confirmed payment as a payment-fact cost record', async () => {
             contractFinanceRepository.findPaymentById.mockResolvedValue(makePaymentRecord() as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
@@ -885,31 +891,31 @@ describe('ProjectCostService', () => {
                     costDescription: 'confirmed vendor payment',
                     evidenceSummary: 'bank slip attached',
                     expectedSourceVersion: 3,
-                    costType: 'PAYMENT_FACT'
+                    costType: 'payment-fact'
                 },
                 USER_ID
             );
 
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    costType: 'PAYMENT_FACT',
+                    costType: 'payment-fact',
                     costSubtype: 'vendor-payment',
                     occurredOn: '2023-03-18',
-                    recordStatus: 'CONFIRMED',
+                    recordStatus: 'confirmed',
                     amountExcludingTax: '8888.5000',
                     amountIncludingTax: null,
-                    sourceType: 'PAYMENT_RECORD',
+                    sourceType: 'payment-record',
                     sourceId: PAYMENT_RECORD_ID,
                     sourceRefNo: PAYMENT_RECORD_ID,
                     evidenceSummary: 'bank slip attached'
                 })
             );
             expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
-            expect(result.businessStatusAfter).toBe('CONFIRMED');
+            expect(result.businessStatusAfter).toBe('confirmed');
             expect(result.targetId).toBe(RECORD_ID);
         });
 
-        it('blocks duplicate current PAYMENT_FACT mapping for the same payment source', async () => {
+        it('blocks duplicate current payment-fact mapping for the same payment source', async () => {
             contractFinanceRepository.findPaymentById.mockResolvedValue(makePaymentRecord() as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue({ id: RECORD_ID } as never);
 
@@ -918,7 +924,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         paymentRecordId: PAYMENT_RECORD_ID,
-                        costType: 'PAYMENT_FACT'
+                        costType: 'payment-fact'
                     },
                     USER_ID
                 )
@@ -934,7 +940,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         paymentRecordId: PAYMENT_RECORD_ID,
-                        costType: 'PAYMENT_FACT'
+                        costType: 'payment-fact'
                     },
                     USER_ID
                 )
@@ -955,26 +961,26 @@ describe('ProjectCostService', () => {
                     evidenceSummary: 'invoice pdf archived',
                     taxImpactSummary: 'vat pending deduction',
                     expectedSourceVersion: 2,
-                    costType: 'INVOICE'
+                    costType: 'invoice'
                 },
                 USER_ID
             );
 
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    costType: 'INVOICE',
+                    costType: 'invoice',
                     costSubtype: 'input',
                     occurredOn: '2023-04-02',
-                    recordStatus: 'CONFIRMED',
+                    recordStatus: 'confirmed',
                     amountIncludingTax: '3210.5000',
-                    sourceType: 'INVOICE_RECORD',
+                    sourceType: 'invoice-record',
                     sourceId: INVOICE_RECORD_ID,
                     sourceRefNo: 'INV-2026-0001',
                     taxImpactSummary: 'vat pending deduction'
                 })
             );
             expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
-            expect(result.businessStatusAfter).toBe('CONFIRMED');
+            expect(result.businessStatusAfter).toBe('confirmed');
         });
 
         it('blocks mapping for non-verified invoice status', async () => {
@@ -986,7 +992,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         invoiceRecordId: INVOICE_RECORD_ID,
-                        costType: 'INVOICE'
+                        costType: 'invoice'
                     },
                     USER_ID
                 )
@@ -1002,7 +1008,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         invoiceRecordId: INVOICE_RECORD_ID,
-                        costType: 'INVOICE'
+                        costType: 'invoice'
                     },
                     USER_ID
                 )
@@ -1029,21 +1035,21 @@ describe('ProjectCostService', () => {
                     evidenceSummary: 'receipt archived',
                     taxImpactSummary: 'manual expense pending tax review',
                     expectedSourceVersion: 1,
-                    costType: 'EXPENSE'
+                    costType: 'expense'
                 },
                 USER_ID
             );
 
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    costType: 'EXPENSE',
+                    costType: 'expense',
                     costSubtype: 'travel',
                     occurredOn: '2023-05-10',
-                    recordStatus: 'CONFIRMED',
+                    recordStatus: 'confirmed',
                     amountIncludingTax: '1234.5600',
                     amountExcludingTax: '1111.1100',
                     taxCostAmount: '123.4500',
-                    sourceType: 'EXPENSE_RECORD',
+                    sourceType: 'expense-record',
                     sourceId: EXPENSE_RECORD_ID,
                     sourceRefNo: EXPENSE_RECORD_ID,
                     evidenceSummary: 'receipt archived',
@@ -1051,7 +1057,7 @@ describe('ProjectCostService', () => {
                 })
             );
             expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
-            expect(result.businessStatusAfter).toBe('CONFIRMED');
+            expect(result.businessStatusAfter).toBe('confirmed');
         });
 
         it('blocks mapping when expense source is not confirmed', async () => {
@@ -1063,7 +1069,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         expenseRecordId: EXPENSE_RECORD_ID,
-                        costType: 'EXPENSE'
+                        costType: 'expense'
                     },
                     USER_ID
                 )
@@ -1079,7 +1085,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         expenseRecordId: EXPENSE_RECORD_ID,
-                        costType: 'EXPENSE'
+                        costType: 'expense'
                     },
                     USER_ID
                 )
@@ -1088,7 +1094,7 @@ describe('ProjectCostService', () => {
     });
 
     describe('registerProcurementCostRecord', () => {
-        it('registers a formal payable as a PROCUREMENT cost record', async () => {
+        it('registers a formal payable as a procurement cost record', async () => {
             contractFinanceRepository.findPayableById.mockResolvedValue(makePayableRecord() as never);
             projectActualCostRecordRepository.findCurrentEffectiveBySource.mockResolvedValue(null);
 
@@ -1100,28 +1106,28 @@ describe('ProjectCostService', () => {
                     evidenceSummary: 'quotation archived',
                     taxImpactSummary: 'tax impact pending invoice',
                     expectedSourceVersion: 2,
-                    costType: 'PROCUREMENT'
+                    costType: 'procurement'
                 },
                 USER_ID
             );
 
-            expect(projectActualCostRecordRepository.findCurrentEffectiveBySource).toHaveBeenCalledWith('PAYABLE_RECORD', PAYABLE_RECORD_ID, ['REGISTERED', 'CONFIRMED', 'INCLUDED']);
+            expect(projectActualCostRecordRepository.findCurrentEffectiveBySource).toHaveBeenCalledWith('payable-record', PAYABLE_RECORD_ID, ['registered', 'confirmed', 'included']);
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    costType: 'PROCUREMENT',
+                    costType: 'procurement',
                     costSubtype: 'hardware',
                     occurredOn: '2023-06-15',
-                    recordStatus: 'REGISTERED',
+                    recordStatus: 'registered',
                     amountExcludingTax: '4567.8900',
                     amountIncludingTax: null,
-                    sourceType: 'PAYABLE_RECORD',
+                    sourceType: 'payable-record',
                     sourceId: PAYABLE_RECORD_ID,
                     sourceRefNo: PAYABLE_RECORD_ID,
                     evidenceSummary: 'quotation archived',
                     taxImpactSummary: 'tax impact pending invoice'
                 })
             );
-            expect(result.businessStatusAfter).toBe('REGISTERED');
+            expect(result.businessStatusAfter).toBe('registered');
         });
 
         it('blocks procurement mapping for non-formal payable states', async () => {
@@ -1133,7 +1139,7 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         payableRecordId: PAYABLE_RECORD_ID,
-                        costType: 'PROCUREMENT'
+                        costType: 'procurement'
                     },
                     USER_ID
                 )
@@ -1273,7 +1279,7 @@ describe('ProjectCostService', () => {
                     id: RECORD_ID,
                     projectId: PROJECT_ID,
                     recordNo: 'PAYMENT-1',
-                    costType: 'PAYMENT_FACT',
+                    costType: 'payment-fact',
                     costSubtype: 'vendor-payment',
                     occurredOn: '2023-03-18',
                     accountingPeriod: null,
@@ -1289,10 +1295,10 @@ describe('ProjectCostService', () => {
                     amountExcludingTax: '8888.5000',
                     taxCostAmount: null,
                     amountIncludingTax: null,
-                    recordStatus: 'CONFIRMED',
+                    recordStatus: 'confirmed',
                     isIncludedInProjectCost: false,
                     isHighRisk: false,
-                    sourceType: 'PAYMENT_RECORD',
+                    sourceType: 'payment-record',
                     sourceId: PAYMENT_RECORD_ID,
                     sourceRefNo: PAYMENT_RECORD_ID,
                     evidenceSummary: 'bank slip attached',
@@ -1312,15 +1318,15 @@ describe('ProjectCostService', () => {
                 }
             ] as never);
 
-            const result = await service.listProjectActualCostRecords(PROJECT_ID, { sourceType: 'PAYMENT_RECORD' });
+            const result = await service.listProjectActualCostRecords(PROJECT_ID, { sourceType: 'payment-record' });
 
-            expect(projectActualCostRecordRepository.findByProjectId).toHaveBeenCalledWith(PROJECT_ID, { sourceType: 'PAYMENT_RECORD' });
+            expect(projectActualCostRecordRepository.findByProjectId).toHaveBeenCalledWith(PROJECT_ID, { sourceType: 'payment-record' });
             expect(result).toHaveLength(1);
             expect(result[0]).toEqual(
                 expect.objectContaining({
                     id: RECORD_ID,
-                    costType: 'PAYMENT_FACT',
-                    sourceType: 'PAYMENT_RECORD',
+                    costType: 'payment-fact',
+                    sourceType: 'payment-record',
                     sourceId: PAYMENT_RECORD_ID,
                     amountExcludingTax: '8888.5000',
                     amountIncludingTax: null
@@ -1335,7 +1341,7 @@ describe('ProjectCostService', () => {
                 id: RECORD_ID,
                 projectId: PROJECT_ID,
                 recordNo: 'LABOR-1',
-                costType: 'LABOR',
+                costType: 'labor',
                 costSubtype: null,
                 occurredOn: '2023-01-01',
                 accountingPeriod: null,
@@ -1351,12 +1357,12 @@ describe('ProjectCostService', () => {
                 amountExcludingTax: '20000.0000',
                 taxCostAmount: '0.0000',
                 amountIncludingTax: '20000.0000',
-                recordStatus: 'REGISTERED',
+                recordStatus: 'registered',
                 isIncludedInProjectCost: false,
                 isHighRisk: false,
-                sourceType: 'LABOR',
+                sourceType: 'labor',
                 sourceId: RATE_VERSION_ID,
-                sourceRefNo: 'ROLE:dev:DAY',
+                sourceRefNo: 'role:dev:day',
                 evidenceSummary: null,
                 attachmentCount: 0,
                 registeredBy: USER_ID,
@@ -1370,7 +1376,7 @@ describe('ProjectCostService', () => {
                 voidReason: null,
                 laborPersonId: null,
                 laborRole: 'dev',
-                laborPeriodType: 'MONTH',
+                laborPeriodType: 'month',
                 laborPeriodStart: '2023-01-01',
                 laborPeriodEnd: '2023-01-31',
                 actualHours: null,
@@ -1406,7 +1412,7 @@ describe('ProjectCostService', () => {
                 id: RECORD_ID,
                 projectId: PROJECT_ID,
                 recordNo: 'INVOICE-1',
-                costType: 'INVOICE',
+                costType: 'invoice',
                 costSubtype: 'input',
                 occurredOn: '2023-04-02',
                 accountingPeriod: null,
@@ -1422,10 +1428,10 @@ describe('ProjectCostService', () => {
                 amountExcludingTax: null,
                 taxCostAmount: null,
                 amountIncludingTax: '3210.5000',
-                recordStatus: 'CONFIRMED',
+                recordStatus: 'confirmed',
                 isIncludedInProjectCost: false,
                 isHighRisk: false,
-                sourceType: 'INVOICE_RECORD',
+                sourceType: 'invoice-record',
                 sourceId: INVOICE_RECORD_ID,
                 sourceRefNo: 'INV-2026-0001',
                 evidenceSummary: 'invoice pdf archived',
@@ -1471,7 +1477,7 @@ describe('ProjectCostService', () => {
                 id: RECORD_ID,
                 projectId: PROJECT_ID,
                 recordNo: 'EXPENSE-1',
-                costType: 'EXPENSE',
+                costType: 'expense',
                 costSubtype: 'travel',
                 occurredOn: '2023-05-10',
                 accountingPeriod: null,
@@ -1487,10 +1493,10 @@ describe('ProjectCostService', () => {
                 amountExcludingTax: '1111.1100',
                 taxCostAmount: '123.4500',
                 amountIncludingTax: '1234.5600',
-                recordStatus: 'CONFIRMED',
+                recordStatus: 'confirmed',
                 isIncludedInProjectCost: false,
                 isHighRisk: false,
-                sourceType: 'EXPENSE_RECORD',
+                sourceType: 'expense-record',
                 sourceId: EXPENSE_RECORD_ID,
                 sourceRefNo: EXPENSE_RECORD_ID,
                 evidenceSummary: 'receipt archived',
@@ -1535,8 +1541,8 @@ describe('ProjectCostService', () => {
             projectActualCostRecordRepository.findById.mockResolvedValue({
                 id: RECORD_ID,
                 projectId: PROJECT_ID,
-                recordNo: 'PROCUREMENT-1',
-                costType: 'PROCUREMENT',
+                recordNo: 'procurement-1',
+                costType: 'procurement',
                 costSubtype: 'hardware',
                 occurredOn: '2023-06-15',
                 accountingPeriod: null,
@@ -1552,10 +1558,10 @@ describe('ProjectCostService', () => {
                 amountExcludingTax: '4567.8900',
                 taxCostAmount: null,
                 amountIncludingTax: null,
-                recordStatus: 'REGISTERED',
+                recordStatus: 'registered',
                 isIncludedInProjectCost: false,
                 isHighRisk: false,
-                sourceType: 'PAYABLE_RECORD',
+                sourceType: 'payable-record',
                 sourceId: PAYABLE_RECORD_ID,
                 sourceRefNo: PAYABLE_RECORD_ID,
                 evidenceSummary: 'quotation archived',
@@ -1566,7 +1572,7 @@ describe('ProjectCostService', () => {
                 ownerRole: null,
                 costDescription: 'mapped from approved commitment',
                 taxImpactSummary: 'tax impact pending invoice',
-                riskNote: 'PROCUREMENT mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
+                riskNote: 'procurement mapping expresses commitment boundary only; default not included until downstream inclusion rules say so',
                 supersedesRecordId: null,
                 voidReason: null,
                 laborPersonId: null,
@@ -1644,7 +1650,7 @@ describe('ProjectCostService', () => {
             expect(result.targetType).toBe('OperatingBaselinePackage');
         });
 
-        it('requires a stable handover baseline reference when selecting handover_rebaseline', async () => {
+        it('requires a stable handover baseline reference when selecting handover-rebaseline', async () => {
             contractFinanceRepository.findProjectById.mockResolvedValue(makeProject() as never);
 
             await expect(
@@ -1652,7 +1658,7 @@ describe('ProjectCostService', () => {
                     {
                         projectId: PROJECT_ID,
                         originalBaselineCost: '100000',
-                        baselineSelectionSource: 'handover_rebaseline',
+                        baselineSelectionSource: 'handover-rebaseline',
                         changePackages: []
                     },
                     USER_ID
@@ -1675,7 +1681,7 @@ describe('ProjectCostService', () => {
                     currentEffectiveBaselineCost: '105000',
                     taxImpactSummary: 'input tax pending',
                     taxImpactPendingAmount: '3000',
-                    currentActionLevel: 'REVIEW',
+                    currentActionLevel: 'review',
                     referencedBaselineVersion: BASELINE_PACKAGE_ID,
                     baselineSelectionSource: 'original'
                 },
@@ -1713,9 +1719,9 @@ describe('ProjectCostService', () => {
                     currentEffectiveBaselineCost: '105000',
                     taxImpactSummary: 'input tax pending',
                     taxImpactPendingAmount: '3000',
-                    currentActionLevel: 'REVIEW',
+                    currentActionLevel: 'review',
                     referencedBaselineVersion: BASELINE_PACKAGE_ID,
-                    baselineSelectionSource: 'handover_rebaseline',
+                    baselineSelectionSource: 'handover-rebaseline',
                     handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID
                 },
                 USER_ID
@@ -1725,7 +1731,7 @@ describe('ProjectCostService', () => {
             expect(periodClosingSnapshotRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID,
-                    baselineSelectionSource: 'handover_rebaseline'
+                    baselineSelectionSource: 'handover-rebaseline'
                 })
             );
             expect(result.targetType).toBe('PeriodClosingSnapshot');
@@ -1748,7 +1754,7 @@ describe('ProjectCostService', () => {
                     taxImpactSummary: 'input tax pending',
                     taxImpactPendingAmount: '3000',
                     allocationStabilitySummary: 'stable',
-                    currentActionLevel: 'REVIEW',
+                    currentActionLevel: 'review',
                     referencedBaselineVersion: BASELINE_PACKAGE_ID,
                     baselineSelectionSource: 'original'
                 },
@@ -1804,9 +1810,9 @@ describe('ProjectCostService', () => {
                         taxImpactSummary: 'input tax pending',
                         taxImpactPendingAmount: '3000',
                         allocationStabilitySummary: 'stable',
-                        currentActionLevel: 'REVIEW',
+                        currentActionLevel: 'review',
                         referencedBaselineVersion: BASELINE_PACKAGE_ID,
-                        baselineSelectionSource: 'handover_rebaseline',
+                        baselineSelectionSource: 'handover-rebaseline',
                         handoverRebaselineRecordId: HANDOVER_REBASELINE_RECORD_ID
                     },
                     USER_ID
@@ -1832,7 +1838,7 @@ describe('ProjectCostService', () => {
                     restatedValues: {
                         includedCostTotal: '125000',
                         taxImpactPendingAmount: '3500',
-                        currentActionLevel: 'BLOCK'
+                        currentActionLevel: 'block'
                     }
                 },
                 USER_ID
@@ -1846,7 +1852,7 @@ describe('ProjectCostService', () => {
                     includedCostTotal: '125000.0000',
                     grossMarginAmount: '75000.0000',
                     grossMarginRate: '0.375000',
-                    currentActionLevel: 'BLOCK',
+                    currentActionLevel: 'block',
                     supersedesId: OPERATING_SNAPSHOT_ID
                 })
             );
@@ -2185,12 +2191,12 @@ describe('ProjectCostService', () => {
         it('records an operating signal review and supersedes the previous active review', async () => {
             const evaluation = makeOperatingSignalEvaluationResult({
                 rowVersion: 4,
-                riskLevel: 'ATTENTION',
-                currentActionLevel: 'REVIEW'
+                riskLevel: 'attention',
+                currentActionLevel: 'review'
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
-                dataMaturityLevel: 'PRELIMINARY',
-                costActionRecommendation: 'PROMPT'
+                dataMaturityLevel: 'preliminary',
+                costActionRecommendation: 'prompt'
             });
             const activeReview = makeOperatingSignalReviewRecord({
                 id: SUPERSEDED_SIGNAL_REVIEW_RECORD_ID,
@@ -2204,9 +2210,9 @@ describe('ProjectCostService', () => {
             const result = await service.reviewOperatingSignalEvaluation(
                 evaluation.id,
                 {
-                    reviewDecision: 'APPROVE',
-                    resolvedDataMaturityLevel: 'PRELIMINARY',
-                    costActionRecommendation: 'PROMPT',
+                    reviewDecision: 'approve',
+                    resolvedDataMaturityLevel: 'preliminary',
+                    costActionRecommendation: 'prompt',
                     referencedBaselineVersion: 'baseline-v2',
                     referencedSnapshotVersion: 'snapshot-v2',
                     reviewComment: 'finance manual review',
@@ -2219,10 +2225,10 @@ describe('ProjectCostService', () => {
             expect(operatingSignalReviewRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     signalEvaluationId: evaluation.id,
-                    reviewDecision: 'APPROVE',
-                    resolvedDataMaturityLevel: 'PRELIMINARY',
-                    resolvedCostActionRecommendation: 'PROMPT',
-                    resolvedCurrentActionLevel: 'REVIEW',
+                    reviewDecision: 'approve',
+                    resolvedDataMaturityLevel: 'preliminary',
+                    resolvedCostActionRecommendation: 'prompt',
+                    resolvedCurrentActionLevel: 'review',
                     referencedBaselineVersion: 'baseline-v2',
                     referencedSnapshotVersion: 'snapshot-v2'
                 })
@@ -2231,15 +2237,15 @@ describe('ProjectCostService', () => {
                 activeReview,
                 expect.objectContaining({
                     signalEvaluationId: evaluation.id,
-                    reviewDecision: 'APPROVE',
-                    resolvedCurrentActionLevel: 'REVIEW'
+                    reviewDecision: 'approve',
+                    resolvedCurrentActionLevel: 'review'
                 })
             ]);
             expect(result).toMatchObject({
                 signalEvaluationId: evaluation.id,
-                dataMaturityLevel: 'PRELIMINARY',
-                costActionRecommendation: 'PROMPT',
-                currentActionLevel: 'REVIEW',
+                dataMaturityLevel: 'preliminary',
+                costActionRecommendation: 'prompt',
+                currentActionLevel: 'review',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
                 resultStatus: 'success'
@@ -2255,9 +2261,9 @@ describe('ProjectCostService', () => {
                 service.reviewOperatingSignalEvaluation(
                     OPERATING_SIGNAL_EVALUATION_ID,
                     {
-                        reviewDecision: 'APPROVE',
-                        resolvedDataMaturityLevel: 'MATURE',
-                        costActionRecommendation: 'PROMPT',
+                        reviewDecision: 'approve',
+                        resolvedDataMaturityLevel: 'mature',
+                        costActionRecommendation: 'prompt',
                         referencedBaselineVersion: 'baseline-v2',
                         referencedSnapshotVersion: 'snapshot-v2',
                         expectedVersion: 3
@@ -2273,16 +2279,16 @@ describe('ProjectCostService', () => {
                 referencedSnapshotVersion: 'snapshot-v1'
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
-                dataMaturityLevel: 'INSUFFICIENT',
-                costActionRecommendation: 'REVIEW',
+                dataMaturityLevel: 'insufficient',
+                costActionRecommendation: 'review',
                 allocationStabilitySummary: 'maturity allocation summary',
                 unmappedCostSummary: 'maturity unmapped summary'
             });
             const activeReview = makeOperatingSignalReviewRecord({
-                reviewDecision: 'MANUAL_CONFIRMED',
-                resolvedDataMaturityLevel: 'MATURE',
-                resolvedCostActionRecommendation: 'PROMPT',
-                resolvedCurrentActionLevel: 'BLOCK',
+                reviewDecision: 'manual-confirmed',
+                resolvedDataMaturityLevel: 'mature',
+                resolvedCostActionRecommendation: 'prompt',
+                resolvedCurrentActionLevel: 'block',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
                 reviewComment: 'tax packet missing'
@@ -2296,38 +2302,38 @@ describe('ProjectCostService', () => {
 
             expect(result).toMatchObject({
                 signalEvaluationId: evaluation.id,
-                dataMaturityLevel: 'MATURE',
-                costActionRecommendation: 'PROMPT',
-                currentActionLevel: 'BLOCK',
+                dataMaturityLevel: 'mature',
+                costActionRecommendation: 'prompt',
+                currentActionLevel: 'block',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
                 reviewRequired: true,
-                reviewSummary: 'MANUAL_CONFIRMED | MATURE | PROMPT | tax packet missing'
+                reviewSummary: 'manual-confirmed | mature | prompt | tax packet missing'
             });
         });
 
         it('updates commission gate binding and supersedes the previous active gate review', async () => {
             const binding = makeOperatingSignalToCommissionGateBinding({
                 rowVersion: 2,
-                bindingAction: 'REVIEW',
+                bindingAction: 'review',
                 nextActionSummary: 'legacy summary'
             });
             const evaluation = makeOperatingSignalEvaluationResult({
                 id: binding.signalEvaluationId,
                 dataMaturityEvaluationId: DATA_MATURITY_EVALUATION_ID,
-                riskLevel: 'ATTENTION',
-                currentActionLevel: 'REVIEW'
+                riskLevel: 'attention',
+                currentActionLevel: 'review'
             });
             const dataMaturity = makeDataMaturityEvaluationResult({
                 id: evaluation.dataMaturityEvaluationId,
-                dataMaturityLevel: 'INSUFFICIENT',
-                costActionRecommendation: 'REVIEW'
+                dataMaturityLevel: 'insufficient',
+                costActionRecommendation: 'review'
             });
             const activeSignalReview = makeOperatingSignalReviewRecord({
                 signalEvaluationId: evaluation.id,
-                resolvedDataMaturityLevel: 'MATURE',
-                resolvedCostActionRecommendation: 'PROMPT',
-                resolvedCurrentActionLevel: 'REVIEW',
+                resolvedDataMaturityLevel: 'mature',
+                resolvedCostActionRecommendation: 'prompt',
+                resolvedCurrentActionLevel: 'review',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2'
             });
@@ -2350,10 +2356,10 @@ describe('ProjectCostService', () => {
             const result = await service.reviewCommissionGateBinding(
                 binding.id,
                 {
-                    bindingAction: 'BLOCK',
-                    gateReviewDecision: 'BLOCK',
+                    bindingAction: 'block',
+                    gateReviewDecision: 'block',
                     blockingReasonCode: 'tax_gap',
-                    baselineSelectionSource: 'handover_rebaseline',
+                    baselineSelectionSource: 'handover-rebaseline',
                     summaryPackageKey: 'commission-final',
                     summarySnapshotId: summarySnapshot.id,
                     referencedBaselineVersion: 'baseline-v3',
@@ -2363,50 +2369,50 @@ describe('ProjectCostService', () => {
                 USER_ID
             );
 
-            expect(binding.bindingAction).toBe('BLOCK');
-            expect(binding.baselineSelectionSource).toBe('handover_rebaseline');
-            expect(binding.dataMaturityLevel).toBe('MATURE');
-            expect(binding.costActionRecommendation).toBe('PROMPT');
-            expect(binding.currentActionLevel).toBe('REVIEW');
+            expect(binding.bindingAction).toBe('block');
+            expect(binding.baselineSelectionSource).toBe('handover-rebaseline');
+            expect(binding.dataMaturityLevel).toBe('mature');
+            expect(binding.costActionRecommendation).toBe('prompt');
+            expect(binding.currentActionLevel).toBe('review');
             expect(binding.referencedBaselineVersion).toBe('baseline-v3');
             expect(binding.referencedSnapshotVersion).toBe('snapshot-v3');
-            expect(binding.nextActionSummary).toBe('BLOCK: tax_gap');
+            expect(binding.nextActionSummary).toBe('block: tax_gap');
             expect(activeGateReview.status).toBe('superseded');
             expect(operatingSignalToCommissionGateBindingRepository.save).toHaveBeenCalledWith(binding);
             expect(commissionGateReviewRecordRepository.saveAll).toHaveBeenCalledWith([
                 activeGateReview,
                 expect.objectContaining({
                     bindingId: binding.id,
-                    gateReviewDecision: 'BLOCK',
+                    gateReviewDecision: 'block',
                     blockingReasonCode: 'tax_gap',
                     summaryPackageKey: 'commission-final',
-                    nextActionSummary: 'BLOCK: tax_gap'
+                    nextActionSummary: 'block: tax_gap'
                 })
             ]);
             expect(result).toMatchObject({
                 bindingResultId: binding.id,
-                dataMaturityLevel: 'MATURE',
-                costActionRecommendation: 'PROMPT',
-                currentActionLevel: 'REVIEW',
-                baselineSelectionSource: 'handover_rebaseline',
+                dataMaturityLevel: 'mature',
+                costActionRecommendation: 'prompt',
+                currentActionLevel: 'review',
+                baselineSelectionSource: 'handover-rebaseline',
                 referencedBaselineVersion: 'baseline-v3',
                 referencedSnapshotVersion: 'snapshot-v3',
                 summaryPackageKey: 'commission-final',
-                businessStatusAfter: 'BLOCK'
+                businessStatusAfter: 'block'
             });
             expect(result.gateReviewRecordId).toEqual(expect.any(String));
             expect(result.targetId).toBe(result.gateReviewRecordId);
         });
 
-        it('blocks commission gate review payloads that omit blockingReasonCode for BLOCK', async () => {
-            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(makeOperatingSignalToCommissionGateBinding({ rowVersion: 2, bindingAction: 'REVIEW' }) as never);
+        it('blocks commission gate review payloads that omit blockingReasonCode for block', async () => {
+            operatingSignalToCommissionGateBindingRepository.findById.mockResolvedValue(makeOperatingSignalToCommissionGateBinding({ rowVersion: 2, bindingAction: 'review' }) as never);
 
             await expect(
                 service.reviewCommissionGateBinding(
                     GATE_BINDING_ID,
                     {
-                        bindingAction: 'BLOCK',
-                        gateReviewDecision: 'BLOCK',
+                        bindingAction: 'block',
+                        gateReviewDecision: 'block',
                         baselineSelectionSource: 'original',
                         summaryPackageKey: 'commission-final',
                         summarySnapshotId: SUMMARY_SNAPSHOT_ID,
@@ -2427,13 +2433,13 @@ describe('ProjectCostService', () => {
             const evaluation = makeOperatingSignalEvaluationResult({
                 referencedSnapshotId: snapshot.id,
                 dataMaturityEvaluationId: dataMaturity.id,
-                signalLevel: 'ALERT'
+                signalLevel: 'alert'
             });
             const activeSignalReview = makeOperatingSignalReviewRecord({
                 signalEvaluationId: evaluation.id,
-                resolvedDataMaturityLevel: 'MATURE',
-                resolvedCostActionRecommendation: 'PROMPT',
-                resolvedCurrentActionLevel: 'REVIEW',
+                resolvedDataMaturityLevel: 'mature',
+                resolvedCostActionRecommendation: 'prompt',
+                resolvedCurrentActionLevel: 'review',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2'
             });
@@ -2441,7 +2447,7 @@ describe('ProjectCostService', () => {
                 makeOperatingSignalToCommissionGateBinding({
                     id: GATE_BINDING_ID,
                     signalEvaluationId: evaluation.id,
-                    bindingAction: 'BLOCK',
+                    bindingAction: 'block',
                     generatedAt: new Date('2023-08-05T00:00:00.000Z'),
                     taxImpactSummary: 'Tax package stalled',
                     nextActionSummary: 'Close tax gap',
@@ -2450,7 +2456,7 @@ describe('ProjectCostService', () => {
                 makeOperatingSignalToCommissionGateBinding({
                     id: SECONDARY_GATE_BINDING_ID,
                     signalEvaluationId: evaluation.id,
-                    bindingAction: 'BLOCK',
+                    bindingAction: 'block',
                     generatedAt: new Date('2023-08-04T00:00:00.000Z'),
                     taxImpactSummary: 'Tax package stalled',
                     nextActionSummary: 'Freeze commission payout',
@@ -2459,7 +2465,7 @@ describe('ProjectCostService', () => {
                 makeOperatingSignalToCommissionGateBinding({
                     id: REVIEW_GATE_BINDING_ID,
                     signalEvaluationId: evaluation.id,
-                    bindingAction: 'REVIEW',
+                    bindingAction: 'review',
                     generatedAt: new Date('2023-08-06T00:00:00.000Z'),
                     nextActionSummary: 'Review only'
                 })
@@ -2476,10 +2482,10 @@ describe('ProjectCostService', () => {
 
             expect(result).toMatchObject({
                 projectId: PROJECT_ID,
-                signalLevel: 'ALERT',
-                currentActionLevel: 'REVIEW',
-                dataMaturityLevel: 'MATURE',
-                costActionRecommendation: 'PROMPT',
+                signalLevel: 'alert',
+                currentActionLevel: 'review',
+                dataMaturityLevel: 'mature',
+                costActionRecommendation: 'prompt',
                 referencedBaselineVersion: 'baseline-v2',
                 referencedSnapshotVersion: 'snapshot-v2',
                 allowedActions: ['reviewCommissionGateBinding']
@@ -2549,7 +2555,7 @@ describe('ProjectCostService', () => {
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
                     user: OPERATING_FINANCE_MASKED_USER,
-                    targetType: 'Project',
+                    targetType: 'project',
                     targetId: PROJECT_ID,
                     requestContext: expect.objectContaining({
                         path: `/projects/${PROJECT_ID}/business-outcome-overview`,
@@ -2567,7 +2573,7 @@ describe('ProjectCostService', () => {
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
                     user: OPERATING_FINANCE_MASKED_USER,
-                    targetType: 'Project',
+                    targetType: 'project',
                     targetId: PROJECT_ID,
                     fields: expect.arrayContaining([
                         expect.objectContaining({
@@ -2581,7 +2587,7 @@ describe('ProjectCostService', () => {
                 expect.objectContaining({
                     fieldPackageKey: 'operating-finance',
                     user: OPERATING_FINANCE_MASKED_USER,
-                    targetType: 'Project',
+                    targetType: 'project',
                     targetId: PROJECT_ID,
                     fields: expect.arrayContaining([
                         expect.objectContaining({
@@ -2660,19 +2666,19 @@ describe('ProjectCostService', () => {
                 PROJECT_ID,
                 {
                     laborRole: 'dev',
-                    laborPeriodType: 'MONTH',
+                    laborPeriodType: 'month',
                     laborPeriodStart: '2023-01-01',
                     laborPeriodEnd: '2023-01-31',
                     rateVersionId: RATE_VERSION_ID,
                     actualPersonDays: '20',
-                    costType: 'LABOR'
+                    costType: 'labor'
                 },
                 USER_ID
             );
 
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    costType: 'LABOR',
+                    costType: 'labor',
                     currency: 'CNY',
                     amountExcludingTax: '20000.0000',
                     amountIncludingTax: '20000.0000',
@@ -2680,7 +2686,7 @@ describe('ProjectCostService', () => {
                     laborAmount: '20000.0000',
                     rateVersionId: RATE_VERSION_ID,
                     sourceId: RATE_VERSION_ID,
-                    sourceRefNo: 'ROLE:dev:DAY'
+                    sourceRefNo: 'role:dev:day'
                 })
             );
             expect(projectActualCostRecordRepository.save).toHaveBeenCalled();
@@ -2695,12 +2701,12 @@ describe('ProjectCostService', () => {
                 service.registerLaborCostRecord(
                     PROJECT_ID,
                     {
-                        laborPeriodType: 'MONTH',
+                        laborPeriodType: 'month',
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
                         actualPersonDays: '20',
-                        costType: 'LABOR'
+                        costType: 'labor'
                     },
                     USER_ID
                 )
@@ -2715,12 +2721,12 @@ describe('ProjectCostService', () => {
                     PROJECT_ID,
                     {
                         laborRole: 'dev',
-                        laborPeriodType: 'MONTH',
+                        laborPeriodType: 'month',
                         laborPeriodStart: '2023-01-01',
                         laborPeriodEnd: '2023-01-31',
                         rateVersionId: RATE_VERSION_ID,
                         actualPersonDays: '20',
-                        costType: 'LABOR'
+                        costType: 'labor'
                     },
                     USER_ID
                 )
@@ -2770,12 +2776,12 @@ describe('ProjectCostService', () => {
             const originalRecord = {
                 id: RECORD_ID,
                 projectId: PROJECT_ID,
-                costType: 'LABOR',
-                recordStatus: 'REGISTERED',
+                costType: 'labor',
+                recordStatus: 'registered',
                 isIncludedInProjectCost: false,
                 rowVersion: 1,
                 laborRole: 'dev',
-                laborPeriodType: 'MONTH',
+                laborPeriodType: 'month',
                 costSubtype: null
             };
 
@@ -2794,7 +2800,7 @@ describe('ProjectCostService', () => {
                 USER_ID
             );
 
-            expect(originalRecord.recordStatus).toBe('REPLACED');
+            expect(originalRecord.recordStatus).toBe('replaced');
             expect(projectActualCostRecordRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     supersedesRecordId: RECORD_ID,

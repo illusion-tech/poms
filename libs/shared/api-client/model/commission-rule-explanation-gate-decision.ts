@@ -11,13 +11,13 @@
 
 export enum CommissionRuleExplanationGateDecision {
 
-    AllowFinalSettlement = 'ALLOW_FINAL_SETTLEMENT',
+    AllowFinalSettlement = 'allow-final-settlement',
 
-    SettledRetention = 'SETTLED_RETENTION',
+    SettledRetention = 'settled-retention',
 
-    BlockRetention = 'BLOCK_RETENTION',
+    BlockRetention = 'block-retention',
 
-    ReviewRetention = 'REVIEW_RETENTION',
+    ReviewRetention = 'review-retention',
 
-    AllowRetention = 'ALLOW_RETENTION'
+    AllowRetention = 'allow-retention'
 }

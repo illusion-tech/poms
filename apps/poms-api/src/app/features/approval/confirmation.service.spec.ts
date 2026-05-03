@@ -88,7 +88,7 @@ describe('ConfirmationService', () => {
         const result = await service.createConfirmationRecord(initiatorUserId, {
             confirmationType: 'project-handover',
             businessDomain: 'project-handover',
-            targetType: 'ProjectHandover',
+            targetType: 'project-handover',
             targetId,
             projectId,
             title: '项目移交确认',
@@ -105,7 +105,7 @@ describe('ConfirmationService', () => {
             expect.any(Function),
             expect.objectContaining({
                 id: confirmationRecordId,
-                targetType: 'ProjectHandover',
+                targetType: 'project-handover',
                 targetId,
                 requiredCount: 1,
                 confirmedCount: 0,
@@ -115,7 +115,7 @@ describe('ConfirmationService', () => {
         expect(em.persist).toHaveBeenCalled();
         expect(result).toEqual({
             targetId,
-            targetType: 'ProjectHandover',
+            targetType: 'project-handover',
             resultStatus: 'pending',
             businessStatusAfter: 'pending',
             approvalRecordId: null,
@@ -130,7 +130,7 @@ describe('ConfirmationService', () => {
             service.createConfirmationRecord(initiatorUserId, {
                 confirmationType: 'project-handover',
                 businessDomain: 'project-handover',
-                targetType: 'ProjectHandover',
+                targetType: 'project-handover',
                 targetId,
                 title: '项目移交确认',
                 participants: [
@@ -148,7 +148,7 @@ describe('ConfirmationService', () => {
             service.createConfirmationRecord(initiatorUserId, {
                 confirmationType: 'project-handover',
                 businessDomain: 'project-handover',
-                targetType: 'ProjectHandover',
+                targetType: 'project-handover',
                 targetId,
                 title: '项目移交确认',
                 participants: [{ participantId: participantUserId, participantRoleKey: 'sales-owner' }]
@@ -208,10 +208,10 @@ describe('ConfirmationService', () => {
             }
         ]);
 
-        const result = await service.findLatestConfirmationProgressByTarget('ProjectHandover', targetId, 'project-handover');
+        const result = await service.findLatestConfirmationProgressByTarget('project-handover', targetId, 'project-handover');
 
         expect(confirmationRecordRepository.findOne).toHaveBeenCalledWith(
-            { targetType: 'ProjectHandover', targetId, confirmationType: 'project-handover' },
+            { targetType: 'project-handover', targetId, confirmationType: 'project-handover' },
             { orderBy: { submittedAt: 'DESC', createdAt: 'DESC' } }
         );
         expect(result?.status).toBe('confirmed');
@@ -225,7 +225,7 @@ function makeConfirmationRecord() {
         id: '40000000-0000-4000-8000-000000000101',
         confirmationType: 'project-handover',
         businessDomain: 'project-handover',
-        targetType: 'ProjectHandover',
+        targetType: 'project-handover',
         targetId: '30000000-0000-4000-8000-000000000001',
         projectId: '20000000-0000-4000-8000-000000000001',
         status: 'pending',

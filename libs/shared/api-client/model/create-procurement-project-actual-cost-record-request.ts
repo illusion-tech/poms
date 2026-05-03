@@ -18,5 +18,5 @@ export interface CreateProcurementProjectActualCostRecordRequest {
     expectedSourceVersion?: number;
 }
 export enum CreateProcurementProjectActualCostRecordRequestCostTypeEnum {
-    Procurement = 'PROCUREMENT'
+    Procurement = 'procurement'
 };

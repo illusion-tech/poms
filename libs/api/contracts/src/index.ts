@@ -4,6 +4,7 @@ export * from './lib/attachment/attachment.dto';
 export * from './lib/auth/user.dto';
 export * from './lib/commission/commission.dto';
 export * from './lib/customer/customer.dto';
+export * from './lib/dictionary/dictionary.dto';
 export * from './lib/lead/lead.dto';
 export * from './lib/project/project.dto';
 export * from './lib/contract/contract.dto';
