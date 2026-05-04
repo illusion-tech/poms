@@ -2,7 +2,11 @@ import {
     AttachmentListQuerySchema,
     AttachmentListSchema,
     AttachmentSummarySchema,
+    AttachmentVersionListSchema,
+    ClearAttachmentFinalRequestSchema,
+    CreateAttachmentVersionRequestSchema,
     CreateAttachmentLinkRequestSchema,
+    MarkAttachmentFinalRequestSchema,
     UpdateAttachmentRequestSchema,
     VoidAttachmentRequestSchema
 } from '@poms/shared-contracts';
@@ -15,6 +19,14 @@ export class AttachmentListDto extends createZodDto(AttachmentListSchema) {}
 export class AttachmentListQueryDto extends createZodDto(AttachmentListQuerySchema) {}
 
 export class UpdateAttachmentRequestDto extends createZodDto(UpdateAttachmentRequestSchema) {}
+
+export class AttachmentVersionListDto extends createZodDto(AttachmentVersionListSchema) {}
+
+export class CreateAttachmentVersionRequestDto extends createZodDto(CreateAttachmentVersionRequestSchema) {}
+
+export class MarkAttachmentFinalRequestDto extends createZodDto(MarkAttachmentFinalRequestSchema) {}
+
+export class ClearAttachmentFinalRequestDto extends createZodDto(ClearAttachmentFinalRequestSchema) {}
 
 export class CreateAttachmentLinkRequestDto extends createZodDto(CreateAttachmentLinkRequestSchema) {}
 

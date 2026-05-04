@@ -1,12 +1,23 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Patch, Post, Query, Request, StreamableFile, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AttachmentDto, AttachmentListDto, AttachmentListQueryDto, CreateAttachmentLinkRequestDto, UpdateAttachmentRequestDto, VoidAttachmentRequestDto } from '@poms/api-contracts';
+import {
+    AttachmentDto,
+    AttachmentListDto,
+    AttachmentListQueryDto,
+    AttachmentVersionListDto,
+    ClearAttachmentFinalRequestDto,
+    CreateAttachmentVersionRequestDto,
+    CreateAttachmentLinkRequestDto,
+    MarkAttachmentFinalRequestDto,
+    UpdateAttachmentRequestDto,
+    VoidAttachmentRequestDto
+} from '@poms/api-contracts';
 import { ATTACHMENT_TARGET_TYPES } from '@poms/shared-contracts';
-import type { AttachmentSummary, UserPayload } from '@poms/shared-contracts';
+import type { AttachmentSummary, AttachmentVersionSummary, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
-import { AttachmentService, type UploadedAttachmentFile, type UploadAttachmentMetadata } from './attachment.service';
+import { AttachmentService, type UploadedAttachmentFile, type UploadAttachmentMetadata, type UploadAttachmentVersionMetadata } from './attachment.service';
 
 const ATTACHMENT_UPLOAD_LIMIT_BYTES = 50 * 1024 * 1024;
 
@@ -70,6 +81,32 @@ export class AttachmentController {
         return this.attachmentService.getAttachment(id, req.user);
     }
 
+    @Get(':id/preview')
+    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
+    @Header('Cache-Control', 'private, no-store')
+    @ApiOperation({ summary: '预览附件' })
+    async preview(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {
+        const { attachment, stream } = await this.attachmentService.openAttachmentPreview(id, req.user, getRequestId(req));
+        const encodedName = encodeURIComponent(attachment.originalName);
+        return new StreamableFile(stream, {
+            type: attachment.mimeType,
+            disposition: `inline; filename*=UTF-8''${encodedName}`
+        });
+    }
+
+    @Get(':id/thumbnail')
+    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
+    @Header('Cache-Control', 'private, no-store')
+    @ApiOperation({ summary: '获取附件缩略图' })
+    async thumbnail(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {
+        const { attachment, stream } = await this.attachmentService.openAttachmentThumbnail(id, req.user, getRequestId(req));
+        const encodedName = encodeURIComponent(attachment.originalName);
+        return new StreamableFile(stream, {
+            type: attachment.mimeType,
+            disposition: `inline; filename*=UTF-8''${encodedName}`
+        });
+    }
+
     @Get(':id/download')
     @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
     @Header('Cache-Control', 'private, no-store')
@@ -81,6 +118,43 @@ export class AttachmentController {
             type: attachment.mimeType,
             disposition: `attachment; filename*=UTF-8''${encodedName}`
         });
+    }
+
+    @Get(':id/versions')
+    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
+    @ApiOperation({ summary: '获取附件版本历史' })
+    @ApiOkResponse({ type: AttachmentVersionListDto })
+    versions(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<AttachmentVersionSummary[]> {
+        return this.attachmentService.listAttachmentVersions(id, req.user);
+    }
+
+    @Post(':id/versions')
+    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
+    @UseInterceptors(FileInterceptor('file', { limits: { fileSize: ATTACHMENT_UPLOAD_LIMIT_BYTES } }))
+    @ApiConsumes('multipart/form-data')
+    @ApiOperation({ summary: '上传附件新版本' })
+    @ApiBody({
+        schema: {
+            type: 'object',
+            required: ['file', 'changeNote'],
+            properties: {
+                file: { type: 'string', format: 'binary' },
+                changeNote: { type: 'string' },
+                displayName: { type: 'string' },
+                category: { type: 'string' },
+                securityLevel: { type: 'string' },
+                description: { type: 'string', nullable: true }
+            }
+        }
+    })
+    @ApiCreatedResponse({ type: AttachmentDto })
+    uploadVersion(
+        @Param('id') id: string,
+        @UploadedFile() file: UploadedAttachmentFile | undefined,
+        @Body() body: CreateAttachmentVersionRequestDto & UploadAttachmentVersionMetadata,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<AttachmentSummary> {
+        return this.attachmentService.uploadAttachmentVersion(id, file, body, req.user, getRequestId(req));
     }
 
     @Patch(':id')
@@ -106,6 +180,32 @@ export class AttachmentController {
         @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
     ): Promise<AttachmentSummary> {
         return this.attachmentService.voidAttachment(id, body, req.user, getRequestId(req));
+    }
+
+    @Post(':id\\:mark-final')
+    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '标记附件最终版' })
+    @ApiOkResponse({ type: AttachmentDto })
+    markFinal(
+        @Param('id') id: string,
+        @Body() body: MarkAttachmentFinalRequestDto,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<AttachmentSummary> {
+        return this.attachmentService.markAttachmentFinal(id, body, req.user, getRequestId(req));
+    }
+
+    @Post(':id\\:clear-final')
+    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '撤销附件最终版标记' })
+    @ApiOkResponse({ type: AttachmentDto })
+    clearFinal(
+        @Param('id') id: string,
+        @Body() body: ClearAttachmentFinalRequestDto,
+        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
+    ): Promise<AttachmentSummary> {
+        return this.attachmentService.clearAttachmentFinal(id, body, req.user, getRequestId(req));
     }
 
     @Post(':id/links')

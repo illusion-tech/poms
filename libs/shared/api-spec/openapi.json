@@ -1628,6 +1628,64 @@
         ]
       }
     },
+    "/api/attachments/{id}/preview": {
+      "get": {
+        "operationId": "AttachmentController_preview",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "预览附件",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/attachments/{id}/thumbnail": {
+      "get": {
+        "operationId": "AttachmentController_thumbnail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取附件缩略图",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
     "/api/attachments/{id}/download": {
       "get": {
         "operationId": "AttachmentController_download",
@@ -1652,6 +1710,112 @@
           }
         ],
         "summary": "下载附件",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/attachments/{id}/versions": {
+      "get": {
+        "operationId": "AttachmentController_versions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentVersionList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取附件版本历史",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "post": {
+        "operationId": "AttachmentController_uploadVersion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file",
+                  "changeNote"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "changeNote": {
+                    "type": "string"
+                  },
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "securityLevel": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "上传附件新版本",
         "tags": [
           "Attachment"
         ]
@@ -1698,6 +1862,98 @@
           }
         ],
         "summary": "作废附件",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/attachments/{id}:mark-final": {
+      "post": {
+        "operationId": "AttachmentController_markFinal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkAttachmentFinalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "标记附件最终版",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/attachments/{id}:clear-final": {
+      "post": {
+        "operationId": "AttachmentController_clearFinal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClearAttachmentFinalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "撤销附件最终版标记",
         "tags": [
           "Attachment"
         ]
@@ -11107,11 +11363,20 @@
             "type": "string",
             "nullable": true
           },
-          "versionGroupId": {
+          "previousAttachmentId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
+          },
+          "changeNote": {
+            "type": "string",
+            "nullable": true
+          },
+          "versionGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "versionNo": {
             "type": "integer",
@@ -11123,6 +11388,24 @@
           },
           "isFinal": {
             "type": "boolean"
+          },
+          "previewSupported": {
+            "type": "boolean"
+          },
+          "previewMimeType": {
+            "type": "string",
+            "nullable": true
+          },
+          "previewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnailAvailable": {
+            "type": "boolean"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true
           },
           "uploadedBy": {
             "type": "string",
@@ -11169,10 +11452,17 @@
           "securityLevel",
           "status",
           "description",
+          "previousAttachmentId",
+          "changeNote",
           "versionGroupId",
           "versionNo",
           "isLatest",
           "isFinal",
+          "previewSupported",
+          "previewMimeType",
+          "previewUrl",
+          "thumbnailAvailable",
+          "thumbnailUrl",
           "uploadedBy",
           "uploadedByName",
           "uploadedAt",
@@ -11185,6 +11475,15 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/AttachmentSummary"
+        }
+      },
+      "AttachmentVersionSummary": {
+        "$ref": "#/components/schemas/AttachmentSummary"
+      },
+      "AttachmentVersionList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AttachmentVersionSummary"
         }
       },
       "UpdateAttachmentRequest": {
@@ -11209,6 +11508,29 @@
         }
       },
       "VoidAttachmentRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "MarkAttachmentFinalRequest": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          }
+        }
+      },
+      "ClearAttachmentFinalRequest": {
         "type": "object",
         "properties": {
           "reason": {

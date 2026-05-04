@@ -2588,10 +2588,17 @@ export const AttachmentSummarySchema = z
         securityLevel: AttachmentSecurityLevelSchema,
         status: AttachmentStatusSchema,
         description: z.string().nullable(),
-        versionGroupId: z.uuid().nullable(),
+        previousAttachmentId: z.uuid().nullable(),
+        changeNote: z.string().nullable(),
+        versionGroupId: z.uuid(),
         versionNo: z.number().int().positive(),
         isLatest: z.boolean(),
         isFinal: z.boolean(),
+        previewSupported: z.boolean(),
+        previewMimeType: z.string().nullable(),
+        previewUrl: z.string().nullable(),
+        thumbnailAvailable: z.boolean(),
+        thumbnailUrl: z.string().nullable(),
         uploadedBy: z.uuid().nullable(),
         uploadedByName: z.string().nullable(),
         uploadedAt: z.iso.datetime(),
@@ -2606,6 +2613,14 @@ export type AttachmentSummary = z.infer<typeof AttachmentSummarySchema>;
 export const AttachmentListSchema = z.array(AttachmentSummarySchema).meta({ id: 'AttachmentList' });
 
 export type AttachmentList = z.infer<typeof AttachmentListSchema>;
+
+export const AttachmentVersionSummarySchema = AttachmentSummarySchema.meta({ id: 'AttachmentVersionSummary' });
+
+export type AttachmentVersionSummary = z.infer<typeof AttachmentVersionSummarySchema>;
+
+export const AttachmentVersionListSchema = z.array(AttachmentVersionSummarySchema).meta({ id: 'AttachmentVersionList' });
+
+export type AttachmentVersionList = z.infer<typeof AttachmentVersionListSchema>;
 
 export const AttachmentListQuerySchema = z
     .object({
@@ -2628,6 +2643,34 @@ export const UpdateAttachmentRequestSchema = z
     .meta({ id: 'UpdateAttachmentRequest' });
 
 export type UpdateAttachmentRequest = z.infer<typeof UpdateAttachmentRequestSchema>;
+
+export const CreateAttachmentVersionRequestSchema = z
+    .object({
+        changeNote: z.string().trim().min(1).max(2000),
+        displayName: z.string().trim().min(1).max(255).optional(),
+        category: AttachmentCategorySchema.optional(),
+        securityLevel: AttachmentSecurityLevelSchema.optional(),
+        description: z.string().trim().max(4000).nullable().optional()
+    })
+    .meta({ id: 'CreateAttachmentVersionRequest' });
+
+export type CreateAttachmentVersionRequest = z.infer<typeof CreateAttachmentVersionRequestSchema>;
+
+export const MarkAttachmentFinalRequestSchema = z
+    .object({
+        note: z.string().trim().max(1000).nullable().optional()
+    })
+    .meta({ id: 'MarkAttachmentFinalRequest' });
+
+export type MarkAttachmentFinalRequest = z.infer<typeof MarkAttachmentFinalRequestSchema>;
+
+export const ClearAttachmentFinalRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000)
+    })
+    .meta({ id: 'ClearAttachmentFinalRequest' });
+
+export type ClearAttachmentFinalRequest = z.infer<typeof ClearAttachmentFinalRequestSchema>;
 
 export const CreateAttachmentLinkRequestSchema = z
     .object({

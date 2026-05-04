@@ -373,14 +373,14 @@
 
 ### 6.15 EX-50 Attachment Preview / Version / Final Governance
 
-| Domain       | Capability                | Canonical Route                      | Current Implemented Route | Current Design Route                 | Authority                       | Drift Type | Action                                                        | Batch | Status    |
-| ------------ | ------------------------- | ------------------------------------ | ------------------------- | ------------------------------------ | ------------------------------- | ---------- | ------------------------------------------------------------- | ----- | --------- |
-| `attachment` | `previewAttachment`       | `GET /attachments/{id}/preview`      | `N/A`                     | `GET /attachments/{id}/preview`      | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增受控图片 / PDF 内联预览，复用附件读取权限和审计边界。 | `B11` | `planned` |
-| `attachment` | `getAttachmentThumbnail`  | `GET /attachments/{id}/thumbnail`    | `N/A`                     | `GET /attachments/{id}/thumbnail`    | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增缩略图读取接口；无缩略图时返回可降级状态。            | `B11` | `planned` |
-| `attachment` | `listAttachmentVersions`  | `GET /attachments/{id}/versions`     | `N/A`                     | `GET /attachments/{id}/versions`     | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增附件版本历史查询，业务对象常规列表默认只展示 latest。 | `B11` | `planned` |
-| `attachment` | `uploadAttachmentVersion` | `POST /attachments/{id}/versions`    | `N/A`                     | `POST /attachments/{id}/versions`    | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增替换文件并创建新版本，不直接覆盖原附件行。            | `B11` | `planned` |
-| `attachment` | `markAttachmentFinal`     | `POST /attachments/{id}:mark-final`  | `N/A`                     | `POST /attachments/{id}:mark-final`  | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增最终版标记命令，同一版本组只允许一个 active final。   | `B11` | `planned` |
-| `attachment` | `clearAttachmentFinal`    | `POST /attachments/{id}:clear-final` | `N/A`                     | `POST /attachments/{id}:clear-final` | `ADR-015` + `EX-50` G1 baseline | `N/A`      | 计划新增最终版撤销命令，必须记录原因并写入审计。              | `B11` | `planned` |
+| Domain       | Capability                | Canonical Route                      | Current Implemented Route            | Current Design Route                 | Authority                     | Drift Type | Action                                                    | Batch | Status    |
+| ------------ | ------------------------- | ------------------------------------ | ------------------------------------ | ------------------------------------ | ----------------------------- | ---------- | --------------------------------------------------------- | ----- | --------- |
+| `attachment` | `previewAttachment`       | `GET /attachments/{id}/preview`      | `GET /attachments/{id}/preview`      | `GET /attachments/{id}/preview`      | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增受控图片 / PDF 内联预览，复用附件读取权限和审计边界。 | `B11` | `aligned` |
+| `attachment` | `getAttachmentThumbnail`  | `GET /attachments/{id}/thumbnail`    | `GET /attachments/{id}/thumbnail`    | `GET /attachments/{id}/thumbnail`    | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增图片缩略图读取接口；非图片类型返回不支持状态。        | `B11` | `aligned` |
+| `attachment` | `listAttachmentVersions`  | `GET /attachments/{id}/versions`     | `GET /attachments/{id}/versions`     | `GET /attachments/{id}/versions`     | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增附件版本历史查询，业务对象常规列表默认只展示 latest。 | `B11` | `aligned` |
+| `attachment` | `uploadAttachmentVersion` | `POST /attachments/{id}/versions`    | `POST /attachments/{id}/versions`    | `POST /attachments/{id}/versions`    | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增替换文件并创建新版本，不直接覆盖原附件行。            | `B11` | `aligned` |
+| `attachment` | `markAttachmentFinal`     | `POST /attachments/{id}:mark-final`  | `POST /attachments/{id}:mark-final`  | `POST /attachments/{id}:mark-final`  | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增最终版标记命令，同一版本组只允许一个 active final。   | `B11` | `aligned` |
+| `attachment` | `clearAttachmentFinal`    | `POST /attachments/{id}:clear-final` | `POST /attachments/{id}:clear-final` | `POST /attachments/{id}:clear-final` | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增最终版撤销命令，必须记录原因并写入审计。              | `B11` | `aligned` |
 
 ## 7. 批次推进原则
 

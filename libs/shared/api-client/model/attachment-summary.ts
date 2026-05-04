@@ -24,10 +24,17 @@ export interface AttachmentSummary {
     securityLevel: AttachmentSecurityLevel;
     status: AttachmentStatus;
     description: string | null;
-    versionGroupId: string | null;
+    previousAttachmentId: string | null;
+    changeNote: string | null;
+    versionGroupId: string;
     versionNo: number;
     isLatest: boolean;
     isFinal: boolean;
+    previewSupported: boolean;
+    previewMimeType: string | null;
+    previewUrl: string | null;
+    thumbnailAvailable: boolean;
+    thumbnailUrl: string | null;
     uploadedBy: string | null;
     uploadedByName: string | null;
     uploadedAt: string;

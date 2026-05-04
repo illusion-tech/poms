@@ -1,6 +1,7 @@
 import type { AttachmentLinkSummary, AttachmentSummary } from '@poms/shared-contracts';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Attachment, AttachmentLink } from './attachment.entity';
+import { buildAttachmentPreviewUrl, buildAttachmentThumbnailUrl, isPreviewSupported, isThumbnailAvailable } from './attachment-preview.util';
 
 export function mapAttachmentLinkToSummary(link: AttachmentLink): AttachmentLinkSummary {
     return {
@@ -36,10 +37,17 @@ export function mapAttachmentToSummary(
         securityLevel: attachment.securityLevel,
         status: attachment.status,
         description: attachment.description ?? null,
-        versionGroupId: attachment.versionGroupId ?? null,
+        previousAttachmentId: attachment.previousAttachmentId ?? null,
+        changeNote: attachment.changeNote ?? null,
+        versionGroupId: attachment.versionGroupId ?? attachment.id,
         versionNo: attachment.versionNo,
         isLatest: attachment.isLatest,
         isFinal: attachment.isFinal,
+        previewSupported: isPreviewSupported(attachment),
+        previewMimeType: isPreviewSupported(attachment) ? attachment.mimeType : null,
+        previewUrl: isPreviewSupported(attachment) ? buildAttachmentPreviewUrl(attachment.id) : null,
+        thumbnailAvailable: isThumbnailAvailable(attachment),
+        thumbnailUrl: isThumbnailAvailable(attachment) ? buildAttachmentThumbnailUrl(attachment.id) : null,
         uploadedBy: attachment.uploadedBy ?? null,
         uploadedByName: context.uploadedBy?.displayName ?? context.uploadedBy?.username ?? null,
         uploadedAt: attachment.uploadedAt.toISOString(),

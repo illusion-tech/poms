@@ -28,7 +28,25 @@ export const AttachmentSchema = defineEntity({
         { name: 'idx_attachment_uploaded_at', properties: ['uploadedAt'] },
         { name: 'idx_attachment_uploaded_by', properties: ['uploadedBy'] },
         { name: 'idx_attachment_category_status', properties: ['category', 'status'] },
-        { name: 'idx_attachment_checksum_sha256', properties: ['checksumSha256'] }
+        { name: 'idx_attachment_checksum_sha256', properties: ['checksumSha256'] },
+        { name: 'idx_attachment_version_group_uploaded_at', properties: ['versionGroupId', 'uploadedAt'] },
+        {
+            name: 'uq_attachment_version_no',
+            properties: ['versionGroupId', 'versionNo'],
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.versionGroupId}", "${columns.versionNo}")`
+        },
+        {
+            name: 'uq_attachment_latest_active',
+            properties: ['versionGroupId'],
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.versionGroupId}") where "status" = '${AttachmentStatusValue.Active}' and "is_latest" = true`
+        },
+        {
+            name: 'uq_attachment_final_active',
+            properties: ['versionGroupId'],
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.versionGroupId}") where "status" = '${AttachmentStatusValue.Active}' and "is_final" = true`
+        }
     ],
     checks: [
         {
@@ -55,12 +73,12 @@ export const AttachmentSchema = defineEntity({
         storageKey: p.string().length(1024).fieldName('storage_key').comment('对象存储 key'),
         status: p.string().$type<AttachmentStatus>().length(32).default(AttachmentStatusValue.Active).comment('附件状态'),
         description: p.text().nullable().comment('附件说明'),
-        versionGroupId: p.uuid().nullable().fieldName('version_group_id').comment('版本组标识，一期预留'),
-        versionNo: p.integer().default(1).fieldName('version_no').comment('版本号，一期默认 1'),
-        isLatest: p.boolean().default(true).fieldName('is_latest').comment('是否最新版本，一期默认 true'),
-        isFinal: p.boolean().default(false).fieldName('is_final').comment('是否最终版，一期默认 false'),
-        previousAttachmentId: p.uuid().nullable().fieldName('previous_attachment_id').comment('上一版本附件，一期预留'),
-        changeNote: p.text().nullable().fieldName('change_note').comment('版本变更说明，一期预留'),
+        versionGroupId: p.uuid().fieldName('version_group_id').comment('版本组标识'),
+        versionNo: p.integer().default(1).fieldName('version_no').comment('版本号'),
+        isLatest: p.boolean().default(true).fieldName('is_latest').comment('是否最新版本'),
+        isFinal: p.boolean().default(false).fieldName('is_final').comment('是否最终版'),
+        previousAttachmentId: p.uuid().nullable().fieldName('previous_attachment_id').comment('上一版本附件'),
+        changeNote: p.text().nullable().fieldName('change_note').comment('版本变更说明'),
         uploadedBy: p.uuid().nullable().fieldName('uploaded_by').comment('上传人标识'),
         uploadedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('uploaded_at').comment('上传时间'),
         deletedBy: p.uuid().nullable().fieldName('deleted_by').comment('删除/作废操作人标识'),

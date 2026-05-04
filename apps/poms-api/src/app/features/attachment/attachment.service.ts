@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
 import { createHash, randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
@@ -19,7 +19,11 @@ import {
     type AttachmentSecurityLevel,
     type AttachmentSummary,
     type AttachmentTargetType,
+    type AttachmentVersionSummary,
+    type ClearAttachmentFinalRequest,
+    type CreateAttachmentVersionRequest,
     type CreateAttachmentLinkRequest,
+    type MarkAttachmentFinalRequest,
     type PermissionKey,
     type UpdateAttachmentRequest,
     type UserPayload,
@@ -34,6 +38,7 @@ import { Project } from '../project/project.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
 import { Attachment, AttachmentLink } from './attachment.entity';
 import { mapAttachmentToSummary } from './attachment.mapper';
+import { getAttachmentPreviewKind, isThumbnailAvailable } from './attachment-preview.util';
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentStorageService } from './attachment-storage.service';
 
@@ -53,6 +58,8 @@ export interface UploadAttachmentMetadata {
     displayName?: string;
     description?: string | null;
 }
+
+export type UploadAttachmentVersionMetadata = CreateAttachmentVersionRequest;
 
 const MAX_ATTACHMENT_SIZE_BYTES = 50 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'txt', 'md', 'zip']);
@@ -115,7 +122,7 @@ export class AttachmentService {
                 storageKey: stored.storageKey,
                 status: AttachmentStatusValue.Active,
                 description: metadata.description?.trim() || null,
-                versionGroupId: null,
+                versionGroupId: attachmentId,
                 versionNo: 1,
                 isLatest: true,
                 isFinal: false,
@@ -187,6 +194,243 @@ export class AttachmentService {
         return { attachment, stream };
     }
 
+    async openAttachmentPreview(id: string, user: UserPayload, requestId?: string | null): Promise<{ attachment: Attachment; stream: Readable }> {
+        const { attachment } = await this.requireReadableAttachment(id, user);
+        const previewKind = getAttachmentPreviewKind(attachment);
+
+        if (previewKind === 'unsupported') {
+            throw new UnsupportedMediaTypeException(`Attachment ${id} does not support preview`);
+        }
+
+        const stream = await this.storageService.openReadStream(attachment.storageKey);
+        await this.recordAudit('attachment.previewed', attachment.id, user.sub, requestId, 'success', {
+            fileName: attachment.originalName,
+            category: attachment.category,
+            securityLevel: attachment.securityLevel,
+            previewKind,
+            versionGroupId: attachment.versionGroupId ?? attachment.id,
+            versionNo: attachment.versionNo
+        });
+
+        return { attachment, stream };
+    }
+
+    async openAttachmentThumbnail(id: string, user: UserPayload, requestId?: string | null): Promise<{ attachment: Attachment; stream: Readable }> {
+        const { attachment } = await this.requireReadableAttachment(id, user);
+
+        if (!isThumbnailAvailable(attachment)) {
+            throw new UnsupportedMediaTypeException(`Attachment ${id} does not have an available thumbnail`);
+        }
+
+        const stream = await this.storageService.openReadStream(attachment.storageKey);
+        await this.recordAudit('attachment.thumbnail_viewed', attachment.id, user.sub, requestId, 'success', {
+            fileName: attachment.originalName,
+            category: attachment.category,
+            securityLevel: attachment.securityLevel,
+            versionGroupId: attachment.versionGroupId ?? attachment.id,
+            versionNo: attachment.versionNo
+        });
+
+        return { attachment, stream };
+    }
+
+    async listAttachmentVersions(id: string, user: UserPayload): Promise<AttachmentVersionSummary[]> {
+        const { attachment } = await this.requireReadableAttachment(id, user);
+        const versionGroupId = this.resolveVersionGroupId(attachment);
+        const versions = await this.attachmentRepository.findAttachmentsByVersionGroupId(versionGroupId);
+        const versionRows = versions.length > 0 ? versions : [attachment];
+        const visibleVersions = versionRows.filter((version) => this.canReadAttachmentSecurity(version, user.permissions));
+        const uploaderMap = await this.loadUploaderMap(visibleVersions);
+
+        return Promise.all(
+            visibleVersions.map(async (version) => {
+                const links = await this.attachmentRepository.findActiveLinksByAttachmentId(version.id);
+                return mapAttachmentToSummary(version, links, {
+                    uploadedBy: version.uploadedBy ? uploaderMap.get(version.uploadedBy) ?? null : null
+                });
+            })
+        );
+    }
+
+    async uploadAttachmentVersion(
+        id: string,
+        file: UploadedAttachmentFile | undefined,
+        metadata: UploadAttachmentVersionMetadata,
+        user: UserPayload,
+        requestId?: string | null
+    ): Promise<AttachmentSummary> {
+        if (!file?.buffer?.length) {
+            throw new BadRequestException('Attachment file is required');
+        }
+
+        if (file.size > this.maxAttachmentSizeBytes()) {
+            throw new BadRequestException('Attachment file exceeds size limit');
+        }
+
+        if (!metadata.changeNote?.trim()) {
+            throw new BadRequestException('Attachment version change note is required');
+        }
+
+        const baseAttachment = await this.requireAttachment(id);
+        const versionGroupId = this.resolveVersionGroupId(baseAttachment);
+        const latest = (await this.attachmentRepository.findLatestAttachmentByVersionGroupId(versionGroupId)) ?? baseAttachment;
+        const latestLinks = await this.attachmentRepository.findActiveLinksByAttachmentId(latest.id);
+        this.assertCanMutateAttachment(latest, latestLinks, user);
+
+        if (latest.status !== AttachmentStatusValue.Active) {
+            throw new ConflictException(`Attachment ${latest.id} is not active`);
+        }
+
+        const originalName = this.sanitizeOriginalName(file.originalname);
+        const extension = this.extractExtension(originalName);
+        this.assertAllowedExtension(extension);
+
+        const category = metadata.category ? await this.requireAttachmentCategory(metadata.category) : latest.category;
+        const securityLevel = metadata.securityLevel ? this.parseSecurityLevel(metadata.securityLevel) : latest.securityLevel;
+        const attachmentId = randomUUID();
+        const uploadedAt = new Date();
+        const checksumSha256 = createHash('sha256').update(file.buffer).digest('hex');
+        const stored = await this.storageService.saveOriginal({
+            attachmentId,
+            originalName,
+            buffer: file.buffer,
+            uploadedAt
+        });
+
+        try {
+            latest.versionGroupId = versionGroupId;
+            latest.isLatest = false;
+
+            const attachment = this.attachmentRepository.createAttachment({
+                id: attachmentId,
+                originalName,
+                displayName: metadata.displayName?.trim() || originalName,
+                extension,
+                mimeType: file.mimetype || 'application/octet-stream',
+                sizeBytes: file.size,
+                checksumSha256,
+                category,
+                securityLevel,
+                storageProvider: stored.storageProvider,
+                storageBucket: stored.storageBucket,
+                storageKey: stored.storageKey,
+                status: AttachmentStatusValue.Active,
+                description: metadata.description === undefined ? latest.description : metadata.description?.trim() || null,
+                versionGroupId,
+                versionNo: latest.versionNo + 1,
+                isLatest: true,
+                isFinal: false,
+                previousAttachmentId: latest.id,
+                changeNote: metadata.changeNote.trim(),
+                uploadedBy: user.sub,
+                uploadedAt,
+                createdAt: uploadedAt,
+                updatedAt: uploadedAt
+            });
+            const copiedLinks = latestLinks.map((link) =>
+                this.attachmentRepository.createLink({
+                    attachmentId,
+                    targetType: link.targetType,
+                    targetId: link.targetId,
+                    relationType: link.relationType,
+                    status: AttachmentLinkStatusValue.Active,
+                    linkedBy: user.sub,
+                    linkedAt: uploadedAt
+                })
+            );
+
+            await this.attachmentRepository.saveAll([latest, attachment, ...copiedLinks]);
+            await this.recordAudit('attachment.version_created', attachment.id, user.sub, requestId, 'success', {
+                previousAttachmentId: latest.id,
+                versionGroupId,
+                versionNo: attachment.versionNo,
+                category,
+                securityLevel,
+                fileName: originalName,
+                sizeBytes: file.size,
+                changeNote: attachment.changeNote
+            });
+
+            return mapAttachmentToSummary(attachment, copiedLinks, { uploadedBy: null });
+        } catch (error) {
+            await this.storageService.remove(stored.storageKey);
+            throw error;
+        }
+    }
+
+    async markAttachmentFinal(id: string, input: MarkAttachmentFinalRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
+        const attachment = await this.requireAttachment(id);
+        const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
+        this.assertCanMutateAttachment(attachment, links, user);
+
+        if (attachment.status !== AttachmentStatusValue.Active) {
+            throw new ConflictException(`Attachment ${id} is not active`);
+        }
+
+        const versionGroupId = this.resolveVersionGroupId(attachment);
+        const versions = await this.attachmentRepository.findAttachmentsByVersionGroupId(versionGroupId);
+        const versionRows = versions.length > 0 ? versions : [attachment];
+        const changed = new Set<Attachment>([attachment]);
+
+        attachment.versionGroupId = versionGroupId;
+        attachment.isFinal = true;
+
+        for (const version of versionRows) {
+            if (version.id === attachment.id) {
+                continue;
+            }
+
+            if (version.isFinal) {
+                version.isFinal = false;
+                changed.add(version);
+            }
+        }
+
+        await this.attachmentRepository.saveAll([...changed]);
+        await this.recordAudit('attachment.final_marked', attachment.id, user.sub, requestId, 'success', {
+            versionGroupId,
+            versionNo: attachment.versionNo,
+            note: input.note?.trim() || null
+        });
+
+        return this.getAttachment(id, user);
+    }
+
+    async clearAttachmentFinal(id: string, input: ClearAttachmentFinalRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
+        const attachment = await this.requireAttachment(id);
+        const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
+        this.assertCanMutateAttachment(attachment, links, user);
+
+        if (attachment.status !== AttachmentStatusValue.Active) {
+            throw new ConflictException(`Attachment ${id} is not active`);
+        }
+
+        const versionGroupId = this.resolveVersionGroupId(attachment);
+        const versions = await this.attachmentRepository.findAttachmentsByVersionGroupId(versionGroupId);
+        const versionRows = versions.length > 0 ? versions : [attachment];
+        const changed = versionRows.filter((version) => version.isFinal);
+
+        if (attachment.isFinal && !changed.some((version) => version.id === attachment.id)) {
+            changed.push(attachment);
+        }
+
+        for (const version of changed) {
+            version.isFinal = false;
+        }
+
+        if (changed.length > 0) {
+            await this.attachmentRepository.saveAll(changed);
+        }
+
+        await this.recordAudit('attachment.final_cleared', attachment.id, user.sub, requestId, 'success', {
+            versionGroupId,
+            versionNo: attachment.versionNo,
+            reason: input.reason
+        });
+
+        return this.getAttachment(id, user);
+    }
+
     async updateAttachment(id: string, input: UpdateAttachmentRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
         const attachment = await this.requireAttachment(id);
         const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
@@ -231,8 +475,21 @@ export class AttachmentService {
         attachment.status = AttachmentStatusValue.Voided;
         attachment.deletedBy = user.sub;
         attachment.deletedAt = new Date();
+        attachment.isFinal = false;
 
-        await this.attachmentRepository.saveAll([attachment]);
+        const entitiesToSave: Attachment[] = [attachment];
+        if (attachment.isLatest) {
+            attachment.isLatest = false;
+            const versionGroupId = this.resolveVersionGroupId(attachment);
+            const versions = await this.attachmentRepository.findAttachmentsByVersionGroupId(versionGroupId);
+            const replacementLatest = versions.find((version) => version.id !== attachment.id && version.status === AttachmentStatusValue.Active);
+            if (replacementLatest) {
+                replacementLatest.isLatest = true;
+                entitiesToSave.push(replacementLatest);
+            }
+        }
+
+        await this.attachmentRepository.saveAll(entitiesToSave);
         await this.recordAudit('attachment.voided', attachment.id, user.sub, requestId, 'success', {
             reason: input.reason,
             category: attachment.category,
@@ -392,6 +649,10 @@ export class AttachmentService {
         }
 
         return { attachment, links };
+    }
+
+    private resolveVersionGroupId(attachment: Attachment): string {
+        return attachment.versionGroupId ?? attachment.id;
     }
 
     private async requireAttachment(id: string): Promise<Attachment> {
@@ -581,7 +842,11 @@ export class AttachmentService {
             category: attachment.category,
             securityLevel: attachment.securityLevel,
             description: attachment.description,
-            status: attachment.status
+            status: attachment.status,
+            versionGroupId: this.resolveVersionGroupId(attachment),
+            versionNo: attachment.versionNo,
+            isLatest: attachment.isLatest,
+            isFinal: attachment.isFinal
         };
     }
 

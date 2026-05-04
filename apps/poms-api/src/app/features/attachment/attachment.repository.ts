@@ -16,6 +16,7 @@ export interface AttachmentListFilters {
     targetId: string;
     category?: AttachmentCategory;
     status?: AttachmentStatus;
+    includeVersions?: boolean;
 }
 
 @Injectable()
@@ -94,6 +95,7 @@ export class AttachmentRepository {
         const where: FilterQuery<Attachment> = {
             id: { $in: attachmentIds },
             status: filters.status ?? AttachmentStatusValue.Active,
+            ...(filters.includeVersions ? {} : { isLatest: true }),
             ...(filters.category ? { category: filters.category } : {})
         };
         const attachments = await this.attachmentRepository.find(where, { orderBy: { uploadedAt: QueryOrder.DESC } });
@@ -116,6 +118,24 @@ export class AttachmentRepository {
             attachment,
             links: linksByAttachmentId.get(attachment.id) ?? []
         }));
+    }
+
+    async findAttachmentsByVersionGroupId(versionGroupId: string): Promise<Attachment[]> {
+        return this.attachmentRepository.find(
+            { versionGroupId },
+            {
+                orderBy: { versionNo: QueryOrder.DESC, uploadedAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findLatestAttachmentByVersionGroupId(versionGroupId: string): Promise<Attachment | null> {
+        return this.attachmentRepository.findOne(
+            { versionGroupId, status: AttachmentStatusValue.Active, isLatest: true },
+            {
+                orderBy: { versionNo: QueryOrder.DESC, uploadedAt: QueryOrder.DESC }
+            }
+        );
     }
 
     async findExistingActiveLink(input: Pick<AttachmentLink, 'attachmentId' | 'targetType' | 'targetId' | 'relationType'>): Promise<AttachmentLink | null> {

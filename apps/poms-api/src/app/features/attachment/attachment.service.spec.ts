@@ -1,4 +1,5 @@
-import { ForbiddenException } from '@nestjs/common';
+import { ForbiddenException, UnsupportedMediaTypeException } from '@nestjs/common';
+import { Readable } from 'node:stream';
 import type { UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { DictionaryService } from '../dictionary/dictionary.service';
@@ -32,6 +33,8 @@ describe('AttachmentService', () => {
             findLinkById: jest.fn(),
             findActiveLinksByAttachmentId: jest.fn(),
             findAttachmentsByTarget: jest.fn(),
+            findAttachmentsByVersionGroupId: jest.fn().mockResolvedValue([]),
+            findLatestAttachmentByVersionGroupId: jest.fn().mockResolvedValue(null),
             findExistingActiveLink: jest.fn(),
             findCustomerById: jest.fn(),
             findLeadById: jest.fn().mockResolvedValue(Object.assign(new Lead(), { id: leadId })),
@@ -92,7 +95,8 @@ describe('AttachmentService', () => {
                 category: 'demand',
                 securityLevel: 'internal',
                 status: 'active',
-                uploadedBy: userId
+                uploadedBy: userId,
+                versionGroupId: expect.any(String)
             })
         );
         expect(repository.createLink).toHaveBeenCalledWith(
@@ -168,6 +172,137 @@ describe('AttachmentService', () => {
         expect(storageService.openReadStream).not.toHaveBeenCalled();
     });
 
+    it('opens supported previews and audits the read', async () => {
+        const stream = Readable.from(['image bytes']);
+        const attachment = createAttachment({
+            originalName: '现场照片.png',
+            displayName: '现场照片.png',
+            extension: 'png',
+            mimeType: 'image/png'
+        });
+        repository.findAttachmentById.mockResolvedValue(attachment);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([createLink({ attachmentId: attachment.id })]);
+        storageService.openReadStream.mockResolvedValue(stream);
+
+        const result = await service.openAttachmentPreview(attachment.id, user(['lead:read']), 'request-preview');
+
+        expect(result.stream).toBe(stream);
+        expect(storageService.openReadStream).toHaveBeenCalledWith(attachment.storageKey);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.previewed',
+                targetId: attachment.id,
+                requestId: 'request-preview'
+            })
+        );
+    });
+
+    it('rejects previews for unsupported file types before opening storage', async () => {
+        const attachment = createAttachment({
+            originalName: '合同草案.docx',
+            displayName: '合同草案.docx',
+            extension: 'docx',
+            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        repository.findAttachmentById.mockResolvedValue(attachment);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([createLink({ attachmentId: attachment.id })]);
+
+        await expect(service.openAttachmentPreview(attachment.id, user(['lead:read']))).rejects.toThrow(UnsupportedMediaTypeException);
+        expect(storageService.openReadStream).not.toHaveBeenCalled();
+    });
+
+    it('creates a new version from the latest attachment and copies active links', async () => {
+        const versionGroupId = '70000000-0000-4000-8000-000000000001';
+        const latest = createAttachment({ versionGroupId, versionNo: 1, isLatest: true, isFinal: true });
+        const link = createLink({ attachmentId: latest.id });
+        repository.findAttachmentById.mockResolvedValue(latest);
+        repository.findLatestAttachmentByVersionGroupId.mockResolvedValue(latest);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([link]);
+
+        const result = await service.uploadAttachmentVersion(
+            latest.id,
+            {
+                originalname: '需求确认-v2.pdf',
+                mimetype: 'application/pdf',
+                size: 20,
+                buffer: Buffer.from('attachment v2 bytes')
+            },
+            {
+                changeNote: '替换为客户确认版本'
+            },
+            user(['lead:write']),
+            'request-version'
+        );
+
+        expect(latest.isLatest).toBe(false);
+        expect(repository.createAttachment).toHaveBeenCalledWith(
+            expect.objectContaining({
+                originalName: '需求确认-v2.pdf',
+                versionGroupId,
+                versionNo: 2,
+                isLatest: true,
+                isFinal: false,
+                previousAttachmentId: latest.id,
+                changeNote: '替换为客户确认版本'
+            })
+        );
+        expect(repository.createLink).toHaveBeenCalledWith(
+            expect.objectContaining({
+                attachmentId: result.id,
+                targetType: 'lead',
+                targetId: leadId,
+                relationType: 'normal'
+            })
+        );
+        expect(repository.saveAll).toHaveBeenCalledWith([latest, expect.any(Attachment), expect.any(AttachmentLink)]);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.version_created',
+                targetId: result.id,
+                requestId: 'request-version'
+            })
+        );
+        expect(result.versionNo).toBe(2);
+        expect(result.previousAttachmentId).toBe(latest.id);
+        expect(result.isFinal).toBe(false);
+    });
+
+    it('marks one version as final and clears previous final versions in the group', async () => {
+        const versionGroupId = '70000000-0000-4000-8000-000000000001';
+        const previousFinal = createAttachment({
+            id: '60000000-0000-4000-8000-000000000011',
+            versionGroupId,
+            versionNo: 1,
+            isLatest: false,
+            isFinal: true
+        });
+        const current = createAttachment({
+            id: '60000000-0000-4000-8000-000000000012',
+            versionGroupId,
+            versionNo: 2,
+            isLatest: true,
+            isFinal: false
+        });
+        repository.findAttachmentById.mockResolvedValue(current);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([createLink({ attachmentId: current.id })]);
+        repository.findAttachmentsByVersionGroupId.mockResolvedValue([current, previousFinal]);
+        repository.findPlatformUsersByIds.mockResolvedValue([createPlatformUser()]);
+
+        const result = await service.markAttachmentFinal(current.id, { note: '确认盖章版' }, user(['lead:read', 'lead:write']), 'request-final');
+
+        expect(previousFinal.isFinal).toBe(false);
+        expect(current.isFinal).toBe(true);
+        expect(repository.saveAll).toHaveBeenCalledWith(expect.arrayContaining([current, previousFinal]));
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.final_marked',
+                targetId: current.id,
+                requestId: 'request-final'
+            })
+        );
+        expect(result.isFinal).toBe(true);
+    });
+
     it('voids an attachment and returns the voided summary without requiring active status', async () => {
         const attachment = createAttachment();
         repository.findAttachmentById.mockResolvedValue(attachment);
@@ -235,8 +370,9 @@ describe('AttachmentService', () => {
     }
 
     function createAttachment(overrides: Partial<Attachment> = {}): Attachment {
+        const id = overrides.id ?? attachmentId;
         return Object.assign(new Attachment(), {
-            id: attachmentId,
+            id,
             originalName: '需求确认.pdf',
             displayName: '需求确认.pdf',
             extension: 'pdf',
@@ -250,7 +386,7 @@ describe('AttachmentService', () => {
             storageKey: 'attachments/2026/04/30/file/original.pdf',
             status: 'active',
             description: null,
-            versionGroupId: null,
+            versionGroupId: id,
             versionNo: 1,
             isLatest: true,
             isFinal: false,
