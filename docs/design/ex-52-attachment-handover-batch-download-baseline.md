@@ -218,3 +218,17 @@ EX-52 作为 G1 baseline 的完成条件:
 - Tracker 更新到 Doing / G1。
 
 EX-52 不要求运行时代码、migration、OpenAPI 或前端截图。
+
+## 13. G4 结论
+
+- Gate Status: `Pass`
+- Closed At: 2026-05-05
+- Commit: `3f1f14a`
+- Delivered:
+  1. 冻结项目移交附件清单来源、版本选择、清单状态和 `handover` 关系边界。
+  2. 冻结敏感附件默认排除、短期批量下载包、manifest、生命周期和审计事件。
+  3. 在 `api-route-canonical-inventory.md` 登记项目移交附件清单与下载包 planned routes。
+  4. 明确后续运行时必须新增 `AttachmentTargetType = project-handover`，不能用普通项目 target 代替移交记录。
+- Remaining follow-up slices:
+  1. 后端运行时：清单生成、下载包 persistence / service / controller / OpenAPI / generated client / tests。
+  2. 前端入口：在项目移交工作区或附件中心接入清单查看、敏感排除提示和下载包创建。
