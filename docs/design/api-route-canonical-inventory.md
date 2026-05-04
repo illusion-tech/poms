@@ -382,6 +382,16 @@
 | `attachment` | `markAttachmentFinal`     | `POST /attachments/{id}:mark-final`  | `POST /attachments/{id}:mark-final`  | `POST /attachments/{id}:mark-final`  | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增最终版标记命令，同一版本组只允许一个 active final。   | `B11` | `aligned` |
 | `attachment` | `clearAttachmentFinal`    | `POST /attachments/{id}:clear-final` | `POST /attachments/{id}:clear-final` | `POST /attachments/{id}:clear-final` | `ADR-015` + `EX-50` / `EX-51` | `N/A`      | 新增最终版撤销命令，必须记录原因并写入审计。              | `B11` | `aligned` |
 
+### 6.16 EX-52 Attachment Handover Checklist / Batch Download
+
+| Domain       | Capability                                       | Canonical Route                                             | Current Implemented Route | Current Design Route                                        | Authority              | Drift Type | Action                                         | Batch | Status    |
+| ------------ | ------------------------------------------------ | ----------------------------------------------------------- | ------------------------- | ----------------------------------------------------------- | ---------------------- | ---------- | ---------------------------------------------- | ----- | --------- |
+| `attachment` | `getProjectHandoverAttachmentChecklist`          | `GET /project-handovers/{id}/attachment-checklist`          | `N/A`                     | `GET /project-handovers/{id}/attachment-checklist`          | `ADR-015` + `EX-52` G1 | `N/A`      | 计划新增项目移交附件交接清单读取。             | `B11` | `planned` |
+| `attachment` | `refreshProjectHandoverAttachmentChecklist`      | `POST /project-handovers/{id}/attachment-checklist:refresh` | `N/A`                     | `POST /project-handovers/{id}/attachment-checklist:refresh` | `ADR-015` + `EX-52` G1 | `N/A`      | 计划新增重新扫描来源附件并生成清单建议的命令。 | `B11` | `planned` |
+| `attachment` | `createProjectHandoverAttachmentDownloadPackage` | `POST /project-handovers/{id}/attachment-download-packages` | `N/A`                     | `POST /project-handovers/{id}/attachment-download-packages` | `ADR-015` + `EX-52` G1 | `N/A`      | 计划新增按移交清单创建短期批量下载包。         | `B11` | `planned` |
+| `attachment` | `getAttachmentDownloadPackage`                   | `GET /attachment-download-packages/{id}`                    | `N/A`                     | `GET /attachment-download-packages/{id}`                    | `ADR-015` + `EX-52` G1 | `N/A`      | 计划新增下载包状态和 manifest 摘要读取。       | `B11` | `planned` |
+| `attachment` | `downloadAttachmentDownloadPackage`              | `GET /attachment-download-packages/{id}/download`           | `N/A`                     | `GET /attachment-download-packages/{id}/download`           | `ADR-015` + `EX-52` G1 | `N/A`      | 计划新增 ready 状态下载包的受控归档下载。      | `B11` | `planned` |
+
 ## 7. 批次推进原则
 
 1. `B1` 先处理 `EX-08`、`EX-09` 与 commission 相关高优先级能力。
