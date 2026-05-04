@@ -172,6 +172,7 @@ export * from './create-sales-discovery-record-request';
 export * from './create-sales-follow-up-record-request';
 export * from './customer-alias-summary';
 export * from './customer-alias-type';
+export * from './customer-contact-gender';
 export * from './customer-contact-status';
 export * from './customer-contact-summary';
 export * from './customer-detail-view';

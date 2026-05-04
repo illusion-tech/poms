@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
     CompetitorPosition,
+    CustomerContactGender,
     CustomerContactStatus,
     CustomerPreference,
     OpportunityStakeholderAccessLevel,
@@ -26,6 +27,7 @@ function createContact(overrides: Partial<CustomerContactSummary> = {}): Custome
         customerId: 'customer-1',
         customerName: '华南地铁集团',
         name: '王主任',
+        gender: CustomerContactGender.Female,
         department: '采购部',
         title: '主任',
         workPhone: '020-12345678',
@@ -205,6 +207,7 @@ describe('SalesIntelligencePanel', () => {
             projectId: undefined
         });
         expect(text).toContain('王主任');
+        expect(text).toContain('女');
         expect(text).toContain('决策链关系人');
         expect(text).toContain('既有供应商');
         expect(text).toContain('公开招标');
@@ -231,5 +234,21 @@ describe('SalesIntelligencePanel', () => {
             })
         );
         expect(storeMock.createOpportunityStakeholder.mock.calls[0][0]).not.toHaveProperty('leadId');
+    });
+
+    it('creates customer contacts with gender from the contact form', async () => {
+        component.showContactDialog();
+        component.updateContactField('name', '李经理');
+        component.updateContactGender(CustomerContactGender.Male);
+
+        await component.createContact();
+
+        expect(storeMock.createCustomerContact).toHaveBeenCalledWith(
+            expect.objectContaining({
+                customerId: 'customer-1',
+                name: '李经理',
+                gender: CustomerContactGender.Male
+            })
+        );
     });
 });

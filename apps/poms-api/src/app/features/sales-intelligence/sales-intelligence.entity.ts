@@ -1,9 +1,11 @@
 import { defineEntity } from '@mikro-orm/core';
 import {
     COMPETITOR_POSITIONS,
+    CUSTOMER_CONTACT_GENDERS,
     CUSTOMER_CONTACT_STATUSES,
     CUSTOMER_PREFERENCES,
     CompetitorPositionValue,
+    CustomerContactGenderValue,
     CustomerContactStatusValue,
     CustomerPreferenceValue,
     OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS,
@@ -16,6 +18,7 @@ import {
     WIN_PROBABILITY_LEVELS,
     WinProbabilityLevelValue,
     type CompetitorPosition,
+    type CustomerContactGender,
     type CustomerContactStatus,
     type CustomerPreference,
     type OpportunityStakeholderAccessLevel,
@@ -42,6 +45,10 @@ export const CustomerContactSchema = defineEntity({
         {
             name: 'chk_customer_contact_status',
             expression: `"status" in (${toSqlStringList(CUSTOMER_CONTACT_STATUSES)})`
+        },
+        {
+            name: 'chk_customer_contact_gender',
+            expression: `"gender" in (${toSqlStringList(CUSTOMER_CONTACT_GENDERS)})`
         }
     ],
     properties: {
@@ -56,6 +63,7 @@ export const CustomerContactSchema = defineEntity({
                 .deleteRule('restrict')
                 .comment('客户主数据标识'),
         name: p.string().length(128).comment('联系人姓名'),
+        gender: p.string().$type<CustomerContactGender>().length(32).default(CustomerContactGenderValue.Unknown).comment('联系人性别，用于业务称呼辅助'),
         department: p.string().length(128).nullable().comment('客户单位部门'),
         title: p.string().length(128).nullable().comment('客户单位职务 / 岗位'),
         workPhone: p.string().length(64).nullable().fieldName('work_phone').comment('工作电话'),

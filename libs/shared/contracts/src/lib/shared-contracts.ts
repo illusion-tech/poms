@@ -1748,6 +1748,19 @@ export const CustomerContactStatusLabel = enumDefinitionLabels(CUSTOMER_CONTACT_
 export const CustomerContactStatusSeverity = enumDefinitionSeverities(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
 export const CustomerContactStatusOptions = enumDefinitionOptions(CUSTOMER_CONTACT_STATUS_DEFINITIONS);
 
+export const CUSTOMER_CONTACT_GENDER_DEFINITIONS = defineEnumDefinitions([
+    { key: 'Unknown', value: 'unknown', label: '未知', order: 10 },
+    { key: 'Male', value: 'male', label: '男', order: 20 },
+    { key: 'Female', value: 'female', label: '女', order: 30 }
+] as const);
+
+export const CustomerContactGenderValue = enumDefinitionValueObject(CUSTOMER_CONTACT_GENDER_DEFINITIONS);
+export const CUSTOMER_CONTACT_GENDERS = enumDefinitionValues(CUSTOMER_CONTACT_GENDER_DEFINITIONS);
+export type CustomerContactGender = (typeof CUSTOMER_CONTACT_GENDERS)[number];
+export const CustomerContactGenderSchema = z.enum(CUSTOMER_CONTACT_GENDERS).meta({ id: 'CustomerContactGender' });
+export const CustomerContactGenderLabel = enumDefinitionLabels(CUSTOMER_CONTACT_GENDER_DEFINITIONS);
+export const CustomerContactGenderOptions = enumDefinitionOptions(CUSTOMER_CONTACT_GENDER_DEFINITIONS);
+
 export const OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS = defineEnumDefinitions([
     { key: 'DecisionMaker', value: 'decision-maker', label: '决策人', order: 10 },
     { key: 'Influencer', value: 'influencer', label: '影响者', order: 20 },
@@ -1935,6 +1948,7 @@ export const CustomerContactSummarySchema = z
         customerId: z.uuid(),
         customerName: z.string(),
         name: z.string(),
+        gender: CustomerContactGenderSchema,
         department: z.string().nullable(),
         title: z.string().nullable(),
         workPhone: z.string().nullable(),
@@ -1963,6 +1977,7 @@ export const CreateCustomerContactRequestSchema = z
     .object({
         customerId: z.uuid(),
         name: z.string().trim().min(1).max(128),
+        gender: CustomerContactGenderSchema.optional(),
         department: z.string().trim().min(1).max(128).nullable().optional(),
         title: z.string().trim().min(1).max(128).nullable().optional(),
         workPhone: z.string().trim().min(1).max(64).nullable().optional(),
@@ -1978,6 +1993,7 @@ export type CreateCustomerContactRequest = z.infer<typeof CreateCustomerContactR
 export const UpdateCustomerContactRequestSchema = z
     .object({
         name: z.string().trim().min(1).max(128).optional(),
+        gender: CustomerContactGenderSchema.optional(),
         department: z.string().trim().min(1).max(128).nullable().optional(),
         title: z.string().trim().min(1).max(128).nullable().optional(),
         workPhone: z.string().trim().min(1).max(64).nullable().optional(),
@@ -1990,6 +2006,7 @@ export const UpdateCustomerContactRequestSchema = z
     .refine(
         (value) =>
             value.name !== undefined ||
+            value.gender !== undefined ||
             value.department !== undefined ||
             value.title !== undefined ||
             value.workPhone !== undefined ||

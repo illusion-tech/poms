@@ -135,6 +135,7 @@ export {
     ContractReadinessItemStatus,
     ContractReadinessStatus,
     ContractTermSnapshotStatus,
+    CustomerContactGender,
     CustomerContactStatus,
     CustomerPreference,
     CustomerAliasType,

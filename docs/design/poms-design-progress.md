@@ -517,6 +517,7 @@
 36. 2026-05-03 `EX-58A` 已完成 `G4`：shared contracts 中平台、审计、安全、合同承接、项目移交、内部成本率等 inline enum 已提取为命名 schema / value object，新增共享 lifecycle candidate family，OpenAPI / generated client 和 Admin generated enum 消费已同步；本片不改 DB 值、业务状态机或 public route surface。
 37. 2026-05-03 `EX-58B` 已进入 `G1 / Doing`：新增 `ex-58b-enum-code-value-direct-cutover-baseline.md`，冻结 `void -> voided`、snake case -> lower-kebab、非外部 UPPER_SNAKE -> lower-kebab 的 direct cutover 范围；迁移只做开发期直接切换，不做旧值兼容、双写或 fallback。
 38. 2026-05-04 `EX-61` / `EX-61A` / `EX-61B` / `EX-61C` 已完成 `G4`：销售情报与业务讨论板后端落地，新增客户联系人、机会关系人、竞争态势、销售情报记录、缺口投影和业务讨论 API / migration / OpenAPI / generated client；Project 讨论读侧聚合来源 Lead 历史讨论，新讨论写入 Project，FE-54 前端入口独立推进。
+39. 2026-05-04 `EX-62` 已完成 `G4`：客户联系人补充 `gender` 枚举字段，完成 shared contract、DB migration / check、OpenAPI / generated client、API service 映射和 Admin 联系人表单 / 卡片展示；字段仅用于称呼辅助，不纳入私人画像、缺口评分或销售决策自动化。
 
 ---
 

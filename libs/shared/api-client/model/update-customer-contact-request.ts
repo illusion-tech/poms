@@ -8,10 +8,12 @@
  * Do not edit the class manually.
  */
 import { CustomerContactStatus } from './customer-contact-status';
+import { CustomerContactGender } from './customer-contact-gender';
 
 
 export interface UpdateCustomerContactRequest {
     name?: string;
+    gender?: CustomerContactGender;
     department?: string | null;
     title?: string | null;
     workPhone?: string | null;

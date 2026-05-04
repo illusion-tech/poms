@@ -24663,6 +24663,9 @@
           "name": {
             "type": "string"
           },
+          "gender": {
+            "$ref": "#/components/schemas/CustomerContactGender"
+          },
           "department": {
             "type": "string",
             "nullable": true
@@ -24729,6 +24732,7 @@
           "customerId",
           "customerName",
           "name",
+          "gender",
           "department",
           "title",
           "workPhone",
@@ -24742,6 +24746,14 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
+        ]
+      },
+      "CustomerContactGender": {
+        "type": "string",
+        "enum": [
+          "unknown",
+          "male",
+          "female"
         ]
       },
       "CustomerContactStatus": {
@@ -24769,6 +24781,9 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 128
+          },
+          "gender": {
+            "$ref": "#/components/schemas/CustomerContactGender"
           },
           "department": {
             "type": "string",
@@ -24825,6 +24840,9 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 128
+          },
+          "gender": {
+            "$ref": "#/components/schemas/CustomerContactGender"
           },
           "department": {
             "type": "string",

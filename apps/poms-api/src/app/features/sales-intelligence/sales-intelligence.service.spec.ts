@@ -1,6 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
 import {
     CompetitorPositionValue,
+    CustomerContactGenderValue,
+    CustomerContactStatusValue,
     CustomerPreferenceValue,
     OpportunityStakeholderAccessLevelValue,
     OpportunityStakeholderAttitudeValue,
@@ -26,7 +28,7 @@ describe('SalesIntelligenceService', () => {
             findCustomerById: jest.fn().mockResolvedValue({ id: customerId, displayName: '客户A' }),
             findLeadById: jest.fn().mockResolvedValue({ id: leadId, customerId, leadName: '线索A' }),
             findProjectById: jest.fn().mockResolvedValue({ id: projectId, customerId, projectName: '项目A' }),
-            findCustomerContactById: jest.fn().mockResolvedValue({ id: contactId, customerId, name: '张三' }),
+            findCustomerContactById: jest.fn().mockResolvedValue({ id: contactId, customerId, name: '张三', gender: CustomerContactGenderValue.Unknown }),
             listOpportunityStakeholders: jest.fn(),
             listCompetitorRecords: jest.fn(),
             listDiscoveryRecords: jest.fn(),
@@ -141,5 +143,40 @@ describe('SalesIntelligenceService', () => {
             winProbability: WinProbabilityLevelValue.Unknown
         });
         expect(repository.saveCompetitorRecord).toHaveBeenCalledTimes(1);
+    });
+
+    it('creates customer contacts with explicit gender and maps it to the summary', async () => {
+        repository.createCustomerContact = jest.fn((input) => ({
+            ...input,
+            rowVersion: 1,
+            createdAt: new Date('2026-05-04T00:00:00.000Z'),
+            updatedAt: new Date('2026-05-04T00:00:00.000Z')
+        })) as never;
+        repository.saveCustomerContact = jest.fn();
+
+        const result = await service.createCustomerContact(
+            {
+                customerId,
+                name: '  王主任  ',
+                gender: CustomerContactGenderValue.Female,
+                mobile: '13800000000'
+            },
+            '90000000-0000-4000-8000-000000000001'
+        );
+
+        expect(repository.createCustomerContact).toHaveBeenCalledWith(
+            expect.objectContaining({
+                name: '王主任',
+                gender: CustomerContactGenderValue.Female,
+                status: CustomerContactStatusValue.Active
+            })
+        );
+        expect(result).toMatchObject({
+            customerId,
+            name: '王主任',
+            gender: CustomerContactGenderValue.Female,
+            mobile: '13800000000'
+        });
+        expect(repository.saveCustomerContact).toHaveBeenCalledTimes(1);
     });
 });

@@ -7,11 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomerContactGender } from './customer-contact-gender';
 
 
 export interface CreateCustomerContactRequest {
     customerId: string;
     name: string;
+    gender?: CustomerContactGender;
     department?: string | null;
     title?: string | null;
     workPhone?: string | null;

@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@ang
 import { FormsModule } from '@angular/forms';
 import {
     CompetitorPosition,
+    CustomerContactGender,
     CustomerContactStatus,
     CustomerPreference,
     OpportunityStakeholderAccessLevel,
@@ -17,6 +18,8 @@ import {
 import {
     CompetitorPositionLabel,
     CompetitorPositionOptions,
+    CustomerContactGenderLabel,
+    CustomerContactGenderOptions,
     CustomerContactStatusLabel,
     CustomerContactStatusSeverity,
     CustomerPreferenceLabel,
@@ -55,6 +58,7 @@ interface SalesIntelligenceOption<T extends string> {
 
 interface ContactForm {
     name: string;
+    gender: CustomerContactGender;
     department: string;
     title: string;
     workPhone: string;
@@ -63,6 +67,8 @@ interface ContactForm {
     email: string;
     remark: string;
 }
+
+type ContactTextField = Exclude<keyof ContactForm, 'gender'>;
 
 interface StakeholderForm {
     contactId: string | null;
@@ -98,6 +104,7 @@ interface DiscoveryForm {
 
 const CONTACT_STATUS_LABELS = CustomerContactStatusLabel as Record<CustomerContactStatus, string>;
 const CONTACT_STATUS_SEVERITY = CustomerContactStatusSeverity as Record<CustomerContactStatus, 'success' | 'secondary' | 'warn' | 'danger' | 'info' | 'contrast'>;
+const CONTACT_GENDER_LABELS = CustomerContactGenderLabel as Record<CustomerContactGender, string>;
 const STAKEHOLDER_ROLE_LABELS = OpportunityStakeholderRoleLabel as Record<OpportunityStakeholderRole, string>;
 const STAKEHOLDER_ATTITUDE_LABELS = OpportunityStakeholderAttitudeLabel as Record<OpportunityStakeholderAttitude, string>;
 const STAKEHOLDER_ATTITUDE_SEVERITY = OpportunityStakeholderAttitudeSeverity as Record<OpportunityStakeholderAttitude, 'success' | 'secondary' | 'warn' | 'danger' | 'info' | 'contrast'>;
@@ -114,6 +121,7 @@ const GAP_SEVERITY_LABELS = SalesIntelligenceGapSeverityLabel as Record<SalesInt
 const GAP_SEVERITY = SalesIntelligenceGapSeveritySeverity as Record<SalesIntelligenceGapSeverity, 'success' | 'secondary' | 'warn' | 'danger' | 'info' | 'contrast'>;
 
 const STAKEHOLDER_ROLE_OPTIONS = [...(OpportunityStakeholderRoleOptions as ReadonlyArray<SalesIntelligenceOption<OpportunityStakeholderRole>>)];
+const CONTACT_GENDER_OPTIONS = [...(CustomerContactGenderOptions as ReadonlyArray<SalesIntelligenceOption<CustomerContactGender>>)];
 const STAKEHOLDER_ATTITUDE_OPTIONS = [...(OpportunityStakeholderAttitudeOptions as ReadonlyArray<SalesIntelligenceOption<OpportunityStakeholderAttitude>>)];
 const STAKEHOLDER_INFLUENCE_OPTIONS = [...(OpportunityStakeholderInfluenceLevelOptions as ReadonlyArray<SalesIntelligenceOption<OpportunityStakeholderInfluenceLevel>>)];
 const STAKEHOLDER_ACCESS_OPTIONS = [...(OpportunityStakeholderAccessLevelOptions as ReadonlyArray<SalesIntelligenceOption<OpportunityStakeholderAccessLevel>>)];
@@ -123,6 +131,7 @@ const WIN_PROBABILITY_OPTIONS = [...(WinProbabilityLevelOptions as ReadonlyArray
 
 const EMPTY_CONTACT_FORM: ContactForm = {
     name: '',
+    gender: CustomerContactGender.Unknown,
     department: '',
     title: '',
     workPhone: '',
@@ -171,12 +180,12 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
     providers: [SalesIntelligenceStore],
     template: `
         <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
-            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                <div>
+            <div class="flex min-w-0 flex-col gap-3">
+                <div class="min-w-0">
                     <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">{{ title }}</h3>
-                    <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">{{ description }}</p>
+                    <p class="mt-1 text-sm leading-6 text-surface-500 dark:text-surface-400">{{ description }}</p>
                 </div>
-                <div class="flex shrink-0 flex-wrap items-center gap-2">
+                <div class="flex max-w-full flex-wrap items-center gap-2">
                     <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" [disabled]="!canReadContext()" (onClick)="reload()" />
                     @if (canWrite) {
                         <p-button icon="pi pi-user-plus" label="联系人" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!customerId" (onClick)="showContactDialog()" />
@@ -210,6 +219,7 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                             <div class="min-w-0">
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     <span class="font-medium text-surface-950 dark:text-surface-0">{{ contact.name }}</span>
+                                                    <p-tag [value]="contactGenderLabel(contact.gender)" severity="secondary" styleClass="rounded-[6px]" />
                                                     <p-tag [value]="contactStatusLabel(contact.status)" [severity]="contactStatusSeverity(contact.status)" styleClass="rounded-[6px]" />
                                                 </div>
                                                 <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(contact.department, '未填部门') }} · {{ displayText(contact.title, '未填职务') }}</div>
@@ -368,6 +378,10 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                         @if (contactAttempted() && !contactForm().name.trim()) {
                             <span class="text-xs text-red-600 dark:text-red-300">请填写联系人姓名。</span>
                         }
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="salesIntelligenceContactGender" class="text-sm font-medium text-surface-900 dark:text-surface-0">性别</label>
+                        <p-select inputId="salesIntelligenceContactGender" [ngModel]="contactForm().gender" (ngModelChange)="updateContactGender($event)" [options]="contactGenderOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactDepartment" class="text-sm font-medium text-surface-900 dark:text-surface-0">部门</label>
@@ -587,6 +601,7 @@ export class SalesIntelligencePanel implements OnChanges {
     discoveryDialogVisible = false;
 
     readonly stakeholderRoleOptions = STAKEHOLDER_ROLE_OPTIONS;
+    readonly contactGenderOptions = CONTACT_GENDER_OPTIONS;
     readonly stakeholderAttitudeOptions = STAKEHOLDER_ATTITUDE_OPTIONS;
     readonly stakeholderInfluenceOptions = STAKEHOLDER_INFLUENCE_OPTIONS;
     readonly stakeholderAccessOptions = STAKEHOLDER_ACCESS_OPTIONS;
@@ -684,8 +699,13 @@ export class SalesIntelligencePanel implements OnChanges {
         this.error.set(null);
     }
 
-    updateContactField(field: keyof ContactForm, value: string): void {
+    updateContactField(field: ContactTextField, value: string): void {
         this.contactForm.update((form) => ({ ...form, [field]: value }));
+        this.error.set(null);
+    }
+
+    updateContactGender(value: CustomerContactGender | null | undefined): void {
+        this.contactForm.update((form) => ({ ...form, gender: value ?? CustomerContactGender.Unknown }));
         this.error.set(null);
     }
 
@@ -739,6 +759,7 @@ export class SalesIntelligencePanel implements OnChanges {
             await this.store.createCustomerContact({
                 customerId,
                 name: form.name.trim(),
+                gender: form.gender,
                 department: this.optionalText(form.department),
                 title: this.optionalText(form.title),
                 workPhone: this.optionalText(form.workPhone),
@@ -872,6 +893,10 @@ export class SalesIntelligencePanel implements OnChanges {
 
     contactStatusLabel(status: CustomerContactStatus): string {
         return CONTACT_STATUS_LABELS[status] ?? status;
+    }
+
+    contactGenderLabel(gender: CustomerContactGender): string {
+        return CONTACT_GENDER_LABELS[gender] ?? gender;
     }
 
     contactStatusSeverity(status: CustomerContactStatus) {

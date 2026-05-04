@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import {
     CompetitorPositionValue,
+    CustomerContactGenderValue,
     CustomerContactStatusValue,
     CustomerPreferenceValue,
     OpportunityStakeholderAccessLevelValue,
@@ -53,6 +54,7 @@ export class SalesIntelligenceService {
             id: randomUUID(),
             customerId: customer.id,
             name: input.name.trim(),
+            gender: input.gender ?? CustomerContactGenderValue.Unknown,
             department: this.optionalText(input.department),
             title: this.optionalText(input.title),
             workPhone: this.optionalText(input.workPhone),
@@ -75,6 +77,9 @@ export class SalesIntelligenceService {
 
         if (input.name !== undefined) {
             contact.name = input.name.trim();
+        }
+        if (input.gender !== undefined) {
+            contact.gender = input.gender;
         }
         if (input.department !== undefined) {
             contact.department = this.optionalText(input.department);
@@ -443,6 +448,7 @@ export class SalesIntelligenceService {
             customerId: contact.customerId,
             customerName: customer.displayName,
             name: contact.name,
+            gender: contact.gender,
             department: contact.department ?? null,
             title: contact.title ?? null,
             workPhone: contact.workPhone ?? null,

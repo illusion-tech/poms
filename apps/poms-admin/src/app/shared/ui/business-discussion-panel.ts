@@ -41,12 +41,12 @@ const EMPTY_DISCUSSION_FORM: DiscussionForm = {
     providers: [BusinessDiscussionStore],
     template: `
         <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
+            <div class="flex min-w-0 flex-col gap-3">
+                <div class="min-w-0">
                     <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">{{ title }}</h3>
-                    <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">{{ description }}</p>
+                    <p class="mt-1 text-sm leading-6 text-surface-500 dark:text-surface-400">{{ description }}</p>
                 </div>
-                <div class="flex shrink-0 flex-wrap gap-2">
+                <div class="flex max-w-full flex-wrap gap-2">
                     <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" [disabled]="!canReadContext()" (onClick)="reload()" />
                     @if (canWrite) {
                         <p-button icon="pi pi-comment" label="新增讨论" severity="primary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateDiscussion()" (onClick)="showDialog()" />
