@@ -58,4 +58,12 @@ describe('appRoutes project permissions', () => {
             'commission:adjustments:manage'
         ]);
     });
+
+    it('guards platform dictionary management with dictionary manage permission', () => {
+        const route = getAppRoute('platform/dictionaries');
+
+        expect(route.canActivate).toContain(permissionGuard);
+        expect(route.data?.['breadcrumb']).toBe('业务字典');
+        expect(route.data?.['requiredPermissions']).toEqual(['platform:dictionaries:manage']);
+    });
 });

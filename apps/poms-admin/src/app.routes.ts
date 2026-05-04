@@ -275,6 +275,15 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'platform/dictionaries',
+                loadComponent: () => import('./app/features/platform/dictionary-list').then((c) => c.DictionaryList),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '业务字典',
+                    requiredPermissions: ['platform:dictionaries:manage']
+                }
+            },
+            {
                 path: 'platform/navigation',
                 loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
                 canActivate: [permissionGuard],

@@ -87,6 +87,11 @@ export class AppMenu {
                     routerLink: ['/platform/org-units']
                 },
                 {
+                    label: '业务字典',
+                    icon: 'pi pi-book',
+                    routerLink: ['/platform/dictionaries']
+                },
+                {
                     label: '导航菜单',
                     icon: 'pi pi-bars',
                     routerLink: ['/platform/navigation']

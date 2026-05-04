@@ -1,4 +1,4 @@
-import type { NavigationItem } from '@poms/shared-contracts';
+import { NavigationItemTypeValue, type NavigationItem } from '@poms/shared-contracts';
 
 /**
  * 系统内置导航树（SSOT）。
@@ -173,6 +173,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 children: null
             },
             {
+                id: 'nav-platform-dictionaries',
+                key: 'platform.dictionaries',
+                type: NavigationItemTypeValue.Basic,
+                title: '业务字典',
+                subtitle: null,
+                link: '/platform/dictionaries',
+                icon: 'pi pi-book',
+                displayOrder: 30,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['platform:dictionaries:manage'],
+                meta: null,
+                children: null
+            },
+            {
                 id: 'nav-platform-navigation',
                 key: 'platform.navigation',
                 type: 'basic',
@@ -180,7 +195,7 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 subtitle: null,
                 link: '/platform/navigation',
                 icon: 'pi pi-bars',
-                displayOrder: 30,
+                displayOrder: 40,
                 isHidden: false,
                 isDisabled: false,
                 requiredPermissions: ['platform:navigation:manage'],

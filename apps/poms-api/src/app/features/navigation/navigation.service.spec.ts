@@ -45,6 +45,14 @@ describe('NavigationService', () => {
         expect(platform?.children?.some((c) => c.key === 'platform.users')).toBe(true);
     });
 
+    it('shows platform dictionary menu when dictionary manage permission is satisfied', () => {
+        const result = service.getNavigationForUser(['platform:dictionaries:manage']);
+
+        const platform = result.find((item) => item.key === 'platform');
+        expect(platform).toBeDefined();
+        expect(platform?.children?.some((c) => c.key === 'platform.dictionaries')).toBe(true);
+    });
+
     it('filters out children whose permissions are not satisfied within a visible group', () => {
         const result = service.getNavigationForUser(['platform:users:manage']);
 
@@ -69,6 +77,7 @@ describe('NavigationService', () => {
             'platform:users:manage',
             'platform:roles:manage',
             'platform:org-units:manage',
+            'platform:dictionaries:manage',
             'platform:navigation:manage'
         ]);
 
@@ -79,6 +88,7 @@ describe('NavigationService', () => {
         expect(keys).toContain('projects');
         expect(keys).toContain('contracts');
         expect(keys).toContain('platform');
+        expect(keys).toContain('platform.dictionaries');
         expect(keys).toContain('my_profile');
     });
 
@@ -121,6 +131,7 @@ describe('NavigationService', () => {
             expect(snapshot.routeLinks).toContain('/leads');
             expect(snapshot.routeLinks).toContain('/projects');
             expect(snapshot.routeLinks).toContain('/platform/users');
+            expect(snapshot.routeLinks).toContain('/platform/dictionaries');
         });
     });
 });
