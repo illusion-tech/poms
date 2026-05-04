@@ -39,6 +39,16 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'attachments',
+                loadComponent: () => import('./app/features/attachment/attachment-center').then((c) => c.AttachmentCenter),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '附件中心',
+                    requiredPermissions: ['customer:read', 'lead:read', 'project:read'],
+                    requiredPermissionsMode: 'any'
+                }
+            },
+            {
                 path: 'projects',
                 loadComponent: () => import('./app/features/project/project-list').then((c) => c.ProjectList),
                 canActivate: [permissionGuard],

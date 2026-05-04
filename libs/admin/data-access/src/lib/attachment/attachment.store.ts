@@ -8,6 +8,8 @@ import {
     type AttachmentStatus,
     type AttachmentSummary,
     type AttachmentTargetType,
+    type ClearAttachmentFinalRequest,
+    type MarkAttachmentFinalRequest,
     type UpdateAttachmentRequest,
     type VoidAttachmentRequest
 } from '@poms/shared-api-client';
@@ -35,6 +37,22 @@ export interface UploadAttachmentInput extends AttachmentTargetRef {
 export interface AttachmentDownload {
     blob: Blob;
     fileName: string;
+}
+
+export interface AttachmentBlobResponse {
+    blob: Blob;
+    mimeType: string;
+    fileName: string;
+}
+
+export interface UploadAttachmentVersionInput {
+    id: string;
+    file: File;
+    changeNote: string;
+    displayName?: string;
+    category?: string;
+    securityLevel?: AttachmentSecurityLevel;
+    description?: string | null;
 }
 
 @Injectable()
@@ -119,6 +137,53 @@ export class AttachmentStore {
         }
     }
 
+    async loadAttachmentVersions(id: string): Promise<AttachmentSummary[]> {
+        this.#loading.set(true);
+        try {
+            const versions = await firstValueFrom(this.#attachmentApi.attachmentControllerVersions({ id }));
+            return versions ?? [];
+        } finally {
+            this.#loading.set(false);
+        }
+    }
+
+    async uploadAttachmentVersion(input: UploadAttachmentVersionInput) {
+        this.#saving.set(true);
+        try {
+            return await firstValueFrom(
+                this.#attachmentApi.attachmentControllerUploadVersion({
+                    id: input.id,
+                    file: input.file,
+                    changeNote: input.changeNote,
+                    displayName: input.displayName,
+                    category: input.category,
+                    securityLevel: input.securityLevel,
+                    description: input.description
+                })
+            );
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async markAttachmentFinal(id: string, request: MarkAttachmentFinalRequest = {}) {
+        this.#saving.set(true);
+        try {
+            return await firstValueFrom(this.#attachmentApi.attachmentControllerMarkFinal({ id, markAttachmentFinalRequest: request }));
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async clearAttachmentFinal(id: string, request: ClearAttachmentFinalRequest) {
+        this.#saving.set(true);
+        try {
+            return await firstValueFrom(this.#attachmentApi.attachmentControllerClearFinal({ id, clearAttachmentFinalRequest: request }));
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
     async downloadAttachment(id: string): Promise<AttachmentDownload> {
         const response = await firstValueFrom(
             this.#httpClient.get(this.buildApiUrl(`/api/attachments/${id}/download`), {
@@ -130,6 +195,40 @@ export class AttachmentStore {
         return {
             blob: response.body ?? new Blob(),
             fileName: this.extractFilename(response, 'attachment')
+        };
+    }
+
+    async previewAttachment(id: string): Promise<AttachmentBlobResponse> {
+        const response = await firstValueFrom(
+            this.#httpClient.get(this.buildApiUrl(`/api/attachments/${id}/preview`), {
+                observe: 'response',
+                responseType: 'blob'
+            })
+        );
+
+        return {
+            blob: response.body ?? new Blob(),
+            mimeType: response.headers.get('content-type') ?? 'application/octet-stream',
+            fileName: this.extractFilename(response, 'preview')
+        };
+    }
+
+    async thumbnailAttachment(id: string): Promise<AttachmentBlobResponse | null> {
+        const response = await firstValueFrom(
+            this.#httpClient.get(this.buildApiUrl(`/api/attachments/${id}/thumbnail`), {
+                observe: 'response',
+                responseType: 'blob'
+            })
+        );
+
+        if (response.status === 204 || !response.body || response.body.size === 0) {
+            return null;
+        }
+
+        return {
+            blob: response.body,
+            mimeType: response.headers.get('content-type') ?? 'application/octet-stream',
+            fileName: this.extractFilename(response, 'thumbnail')
         };
     }
 

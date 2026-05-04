@@ -1,7 +1,9 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
-import { AuthStore, PlatformStore, providePomsApiClient } from '@poms/admin-data-access';
+import { AuthStore } from '@poms/admin-data-access/lib/auth/auth.store';
+import { PlatformStore } from '@poms/admin-data-access/lib/platform/platform.store';
+import { providePomsApiClient } from '@poms/admin-data-access/lib/poms-api/provide-poms-api-client';
 import type { Translation } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';

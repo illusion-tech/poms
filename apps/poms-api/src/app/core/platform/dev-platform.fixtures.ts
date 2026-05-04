@@ -1,11 +1,12 @@
 import { PERMISSION_KEYS, type PermissionKey, type UserOrgUnitSummary } from '@poms/shared-contracts';
 
-const BUSINESS_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:dashboard:view', 'nav:customers:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'];
-const CUSTOMER_READ_PERMISSIONS: PermissionKey[] = ['customer:read', 'nav:customers:view'];
-const CUSTOMER_WRITE_PERMISSIONS: PermissionKey[] = ['customer:read', 'customer:write', 'nav:customers:view'];
+const BUSINESS_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:dashboard:view', 'nav:customers:view', 'nav:attachments:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view'];
+const ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:attachments:view'];
+const CUSTOMER_READ_PERMISSIONS: PermissionKey[] = ['customer:read', 'nav:customers:view', ...ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS];
+const CUSTOMER_WRITE_PERMISSIONS: PermissionKey[] = ['customer:read', 'customer:write', 'nav:customers:view', ...ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS];
 const LEAD_NAVIGATION_PERMISSIONS: PermissionKey[] = ['nav:leads:view'];
-const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_PERMISSIONS];
-const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS];
+const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_PERMISSIONS, ...ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS];
+const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS, ...ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS];
 const LEAD_ASSIGN_PERMISSIONS: PermissionKey[] = ['lead:assign'];
 const LEAD_SOURCE_MANAGE_PERMISSIONS: PermissionKey[] = ['lead:source:manage'];
 const DICTIONARY_MANAGE_PERMISSIONS: PermissionKey[] = ['platform:dictionaries:manage'];

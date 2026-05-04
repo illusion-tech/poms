@@ -521,6 +521,8 @@
 40. 2026-05-04 `FE-53` 已完成 `G4`：Admin 新增业务字典管理入口 `/platform/dictionaries`，接入 `EX-58C` 运行时字典的查询、创建、编辑和启停能力，动态导航 SSOT 与 fallback 菜单保持同一路由；本片未新增后端 API、OpenAPI、generated client、migration 或 seed。
 41. 2026-05-05 `EX-50` 已完成 `G4`，提交 `f67053c`：新增 `ex-50-attachment-preview-version-final-baseline.md`，冻结图片 / PDF 受控预览、缩略图降级、附件版本链、latest 列表、最终版标记 / 撤销和审计边界，并在 route inventory 中登记 EX-51 需要落地的 planned routes；本片不交付运行时代码、migration、OpenAPI 或前端交互。
 42. 2026-05-05 `EX-51` 已完成 `G4`：后端落地附件图片 / PDF 预览、图片缩略图、版本历史、新版本上传、最终版标记 / 撤销、latest 列表过滤、版本组唯一约束、审计事件、OpenAPI / generated client 和迁移；不引入 Office 在线预览、OCR、全文检索、对象存储迁移或外链分享，可作为 `FE-48` 输入。
+43. 2026-05-05 `FE-48` / `FE-49` 已进入 `G1 / Doing`：`FE-48` 消费 EX-51 generated client，把预览、版本历史、新版本上传、最终版标记 / 撤销接入复用附件面板；`FE-49` 以前端聚合现有业务对象列表和附件 list API 实现只读附件中心，不新增后端全局附件检索 route。用户提到的 `EX-53` 已在 2026-05-04 完成 `G4`，本轮不重开。
+44. 2026-05-05 `FE-48` / `FE-49` 已完成 `G4`：复用附件面板支持图片 / PDF blob 预览、版本历史、新版本上传、最终版标记 / 撤销和版本状态展示；新增 `/attachments` 只读附件中心、前端聚合 store、动态导航和 `nav:attachments:view` 权限并同步 generated client。验证通过 admin/api lint、admin/api build、admin 全量测试、api 导航/平台 focused 测试、shared-api-client check、Markdown / diff check；Admin build 保留既有 initial bundle budget warning。
 
 ---
 

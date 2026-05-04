@@ -63,6 +63,11 @@ export class AppMenu {
                     label: '合同管理',
                     icon: 'pi pi-file-edit',
                     routerLink: ['/contracts']
+                },
+                {
+                    label: '附件中心',
+                    icon: 'pi pi-paperclip',
+                    routerLink: ['/attachments']
                 }
             ]
         },

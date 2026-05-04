@@ -41,7 +41,7 @@ import { PlatformRole } from './role.entity';
 
 const SYSTEM_ROLE_MINIMUM_PERMISSION_KEYS: Partial<Record<string, PermissionKey[]>> = {
     'platform-admin': [...PERMISSION_KEYS],
-    'project-viewer': ['project:read', 'nav:dashboard:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view']
+    'project-viewer': ['project:read', 'nav:dashboard:view', 'nav:attachments:view', 'nav:projects:view', 'nav:contracts:view', 'nav:profile:view']
 };
 
 @Injectable()

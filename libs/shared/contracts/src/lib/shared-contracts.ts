@@ -107,6 +107,7 @@ export const PERMISSION_KEYS = [
     'nav:customers:view',
     'nav:platform:view',
     'nav:leads:view',
+    'nav:attachments:view',
     'nav:projects:view',
     'nav:contracts:view',
     'nav:profile:view'
@@ -149,6 +150,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'nav:customers:view': { description: '查看客户菜单', group: '导航' },
     'nav:platform:view': { description: '查看平台管理菜单', group: '导航' },
     'nav:leads:view': { description: '查看线索菜单', group: '导航' },
+    'nav:attachments:view': { description: '查看附件中心菜单', group: '导航' },
     'nav:projects:view': { description: '查看项目菜单', group: '导航' },
     'nav:contracts:view': { description: '查看合同菜单', group: '导航' },
     'nav:profile:view': { description: '查看个人中心菜单', group: '导航' }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import type { PermissionKey } from '@poms/shared-contracts';
-import { AuthStore } from '@poms/admin-data-access';
+import { AuthStore } from '@poms/admin-data-access/lib/auth/auth.store';
 import { type CanActivateFn, Router } from '@angular/router';
 import { catchError, firstValueFrom, of } from 'rxjs';
 

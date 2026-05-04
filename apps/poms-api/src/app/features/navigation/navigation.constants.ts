@@ -110,6 +110,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 requiredPermissions: ['nav:contracts:view'],
                 meta: null,
                 children: null
+            },
+            {
+                id: 'nav-attachments',
+                key: 'attachments',
+                type: 'basic',
+                title: '附件中心',
+                subtitle: null,
+                link: '/attachments',
+                icon: 'pi pi-paperclip',
+                displayOrder: 20,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['nav:attachments:view'],
+                meta: null,
+                children: null
             }
         ]
     },

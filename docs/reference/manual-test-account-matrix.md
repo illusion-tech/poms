@@ -134,7 +134,7 @@
 
 默认约定：
 
-- 所有业务账号都应带基础导航能力：`nav:dashboard:view`、`nav:projects:view`、`nav:contracts:view`、`nav:profile:view`
+- 所有业务账号都应带基础导航能力：`nav:dashboard:view`、`nav:attachments:view`、`nav:projects:view`、`nav:contracts:view`、`nav:profile:view`
 - 除平台管理员外，业务账号默认都需要 `project:read`
 - 下表中的“当前实现建议权限”是对现有权限字典的临时映射，不代表长期理想权限模型
 
