@@ -525,6 +525,7 @@
 44. 2026-05-05 `FE-48` / `FE-49` 已完成 `G4`：复用附件面板支持图片 / PDF blob 预览、版本历史、新版本上传、最终版标记 / 撤销和版本状态展示；新增 `/attachments` 只读附件中心、前端聚合 store、动态导航和 `nav:attachments:view` 权限并同步 generated client。验证通过 admin/api lint、admin/api build、admin 全量测试、api 导航/平台 focused 测试、shared-api-client check、Markdown / diff check；Admin build 保留既有 initial bundle budget warning。
 45. 2026-05-05 `EX-52` 已进入 `G1 / Doing`：新增附件移交清单与批量下载治理 baseline，冻结项目移交附件来源、final/latest 版本选择、`handover` 关系必须挂到具体 `project-handover` 记录、敏感附件默认排除、短期下载包和 planned route；本片不写运行时代码、migration、OpenAPI 或前端入口。
 46. 2026-05-05 `EX-52` 已完成 `G4`，提交 `3f1f14a`：附件移交清单与批量下载治理边界已冻结，并登记项目移交附件清单 / 下载包 planned routes；后续需要另拆 `EX-52A` 后端运行时和前端移交入口，不能在治理切片中直接混入代码实现。
+47. 2026-05-05 `EX-52A` 已进入 `G1 / Doing`：新增 `ex-52a-attachment-handover-runtime-baseline.md`，冻结后端运行时范围为 `project-handover` 附件 target、移交清单选择持久化、短期下载包、planned routes、OpenAPI / generated client、审计和 focused tests；本片不做前端入口、敏感导出审批流、对象存储迁移或长期外链。
 
 ---
 
