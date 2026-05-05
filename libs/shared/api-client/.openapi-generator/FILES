@@ -6,6 +6,7 @@ api.module.ts
 api/api.ts
 api/app.service.ts
 api/approval.service.ts
+api/attachment-handover.service.ts
 api/attachment.service.ts
 api/auth.service.ts
 api/business-discussion.service.ts
@@ -52,10 +53,14 @@ model/assign-lead-owner-request.ts
 model/assign-role-permissions-request.ts
 model/assign-user-org-memberships-request.ts
 model/assign-user-roles-request.ts
+model/attachment-download-package-manifest-summary.ts
+model/attachment-download-package-status.ts
+model/attachment-download-package-summary.ts
 model/attachment-link-status.ts
 model/attachment-link-summary.ts
 model/attachment-relation-type.ts
 model/attachment-security-level.ts
+model/attachment-selection-version-expectation.ts
 model/attachment-status.ts
 model/attachment-summary.ts
 model/attachment-target-type.ts
@@ -198,6 +203,7 @@ model/create-project-actual-cost-record-request.ts
 model/create-project-archive-record-request.ts
 model/create-project-bid-commercial-process-request.ts
 model/create-project-completion-record-request.ts
+model/create-project-handover-attachment-download-package-request.ts
 model/create-project-operating-snapshot-request.ts
 model/create-project-pricing-margin-review-request.ts
 model/create-project-request.ts
@@ -320,6 +326,11 @@ model/project-detail-confirmation-summary.ts
 model/project-detail-contract-summary.ts
 model/project-detail-stage-summary.ts
 model/project-detail-view.ts
+model/project-handover-attachment-checklist-counts.ts
+model/project-handover-attachment-checklist-item-status.ts
+model/project-handover-attachment-checklist-item.ts
+model/project-handover-attachment-checklist-view.ts
+model/project-handover-attachment-source-ref.ts
 model/project-handover-detail-view.ts
 model/project-handover-participant-confirmation-item.ts
 model/project-handover-participant-confirmation-status.ts
@@ -366,6 +377,7 @@ model/receipt-record-status.ts
 model/receipt-record-summary.ts
 model/reclassify-cost-stage-attribution-request.ts
 model/record-route-denied-security-event-request.ts
+model/refresh-project-handover-attachment-checklist-request.ts
 model/register-commission-payout-request.ts
 model/register-non-retention-commission-payout-request.ts
 model/register-retention-commission-payout-request.ts

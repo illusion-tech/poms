@@ -19,5 +19,7 @@ export enum AttachmentTargetType {
 
     Contract = 'contract',
 
-    SalesFollowUp = 'sales-follow-up'
+    SalesFollowUp = 'sales-follow-up',
+
+    ProjectHandover = 'project-handover'
 }

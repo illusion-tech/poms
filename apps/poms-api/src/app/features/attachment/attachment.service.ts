@@ -8,12 +8,17 @@ import {
     ATTACHMENT_SECURITY_LEVELS,
     ATTACHMENT_TARGET_TYPES,
     AttachmentLinkStatusValue,
+    AttachmentDownloadPackageItemStatusValue,
+    AttachmentDownloadPackageStatusValue,
     AttachmentRelationTypeValue,
     AttachmentSecurityLevelValue,
     AttachmentStatusValue,
     AttachmentTargetTypeValue,
     DictionaryDomainValue,
+    ProjectHandoverAttachmentChecklistItemStatusValue,
     type AttachmentCategory,
+    type AttachmentDownloadPackageManifestSummary,
+    type AttachmentDownloadPackageSummary,
     type AttachmentListQuery,
     type AttachmentRelationType,
     type AttachmentSecurityLevel,
@@ -21,10 +26,16 @@ import {
     type AttachmentTargetType,
     type AttachmentVersionSummary,
     type ClearAttachmentFinalRequest,
+    type CreateProjectHandoverAttachmentDownloadPackageRequest,
     type CreateAttachmentVersionRequest,
     type CreateAttachmentLinkRequest,
     type MarkAttachmentFinalRequest,
     type PermissionKey,
+    type ProjectHandoverAttachmentChecklistItem,
+    type ProjectHandoverAttachmentChecklistItemStatus,
+    type ProjectHandoverAttachmentChecklistView,
+    type ProjectHandoverAttachmentSourceRef,
+    type RefreshProjectHandoverAttachmentChecklistRequest,
     type UpdateAttachmentRequest,
     type UserPayload,
     type VoidAttachmentRequest
@@ -35,8 +46,9 @@ import { Customer } from '../customer/customer.entity';
 import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { Project } from '../project/project.entity';
+import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
-import { Attachment, AttachmentLink } from './attachment.entity';
+import { Attachment, AttachmentDownloadPackage, ProjectHandoverAttachmentSelection, AttachmentLink } from './attachment.entity';
 import { mapAttachmentToSummary } from './attachment.mapper';
 import { getAttachmentPreviewKind, isThumbnailAvailable } from './attachment-preview.util';
 import { AttachmentRepository } from './attachment.repository';
@@ -66,6 +78,21 @@ const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 
 const SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read', 'operating:finance:sensitive:read', 'commission:amount:sensitive:read', 'platform:roles:manage'];
 const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Confidential, AttachmentSecurityLevelValue.Restricted];
 const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = ['quotation', 'contract', 'finance', 'internal-assessment'];
+const BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Normal, AttachmentSecurityLevelValue.Internal];
+const HANDOVER_DOWNLOAD_PACKAGE_TTL_MS = 24 * 60 * 60 * 1000;
+
+interface HandoverAttachmentCandidate {
+    attachment: Attachment;
+    sourceRefs: ProjectHandoverAttachmentSourceRef[];
+    status: ProjectHandoverAttachmentChecklistItemStatus;
+    selectionReason: string;
+    exclusionReason: string | null;
+}
+
+interface ZipArchiveEntry {
+    name: string;
+    data: Buffer;
+}
 
 @Injectable()
 export class AttachmentService {
@@ -631,6 +658,664 @@ export class AttachmentService {
         });
     }
 
+    async getProjectHandoverAttachmentChecklist(handoverId: string, user: UserPayload, requestId?: string | null): Promise<ProjectHandoverAttachmentChecklistView> {
+        const { handover, project } = await this.requireProjectHandoverContext(handoverId, user, 'read');
+        const selections = await this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId);
+
+        await this.recordAudit('attachment.handover_checklist_viewed', handoverId, user.sub, requestId, 'success', {
+            projectId: handover.projectId,
+            selectionCount: selections.length
+        });
+
+        if (selections.length > 0) {
+            return this.buildChecklistViewFromSelections(handover, selections);
+        }
+
+        const candidates = await this.collectHandoverAttachmentCandidates(handover, project);
+        return this.buildChecklistViewFromCandidates(handover, candidates);
+    }
+
+    async refreshProjectHandoverAttachmentChecklist(
+        handoverId: string,
+        input: RefreshProjectHandoverAttachmentChecklistRequest,
+        user: UserPayload,
+        requestId?: string | null
+    ): Promise<ProjectHandoverAttachmentChecklistView> {
+        const { handover, project } = await this.requireProjectHandoverContext(handoverId, user, 'write');
+        const [existingSelections, candidates] = await Promise.all([
+            this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId),
+            this.collectHandoverAttachmentCandidates(handover, project)
+        ]);
+        const existingByVersionGroupId = new Map(existingSelections.filter((selection) => selection.versionGroupId).map((selection) => [selection.versionGroupId, selection]));
+        const preserveManualExclusions = input.preserveManualExclusions ?? true;
+        const entitiesToSave: Array<AttachmentLink | ProjectHandoverAttachmentSelection> = [];
+        const refreshedSelections: ProjectHandoverAttachmentSelection[] = [];
+
+        for (const candidate of candidates) {
+            const versionGroupId = candidate.attachment.versionGroupId ?? candidate.attachment.id;
+            const existing = existingByVersionGroupId.get(versionGroupId);
+            const selection =
+                existing ??
+                this.attachmentRepository.createHandoverAttachmentSelection({
+                    id: randomUUID(),
+                    handoverId: handover.id,
+                    projectId: handover.projectId,
+                    attachmentId: candidate.attachment.id,
+                    versionGroupId,
+                    displayName: candidate.attachment.displayName,
+                    category: candidate.attachment.category,
+                    securityLevel: candidate.attachment.securityLevel,
+                    status: candidate.status,
+                    selectionReason: candidate.selectionReason,
+                    exclusionReason: candidate.exclusionReason,
+                    sourceRefs: candidate.sourceRefs,
+                    createdBy: user.sub,
+                    updatedBy: user.sub
+                });
+
+            if (!existing || !preserveManualExclusions || existing.status !== ProjectHandoverAttachmentChecklistItemStatusValue.Excluded) {
+                selection.attachmentId = candidate.attachment.id;
+                selection.versionGroupId = versionGroupId;
+                selection.displayName = candidate.attachment.displayName;
+                selection.category = candidate.attachment.category;
+                selection.securityLevel = candidate.attachment.securityLevel;
+                selection.status = candidate.status;
+                selection.selectionReason = candidate.selectionReason;
+                selection.exclusionReason = candidate.exclusionReason;
+                selection.sourceRefs = candidate.sourceRefs;
+                selection.updatedBy = user.sub;
+            }
+
+            refreshedSelections.push(selection);
+            entitiesToSave.push(selection);
+
+            if (selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included && selection.attachmentId) {
+                const existingLink = await this.attachmentRepository.findExistingActiveLink({
+                    attachmentId: selection.attachmentId,
+                    targetType: AttachmentTargetTypeValue.ProjectHandover,
+                    targetId: handover.id,
+                    relationType: AttachmentRelationTypeValue.Handover
+                });
+
+                if (!existingLink) {
+                    entitiesToSave.push(
+                        this.attachmentRepository.createLink({
+                            attachmentId: selection.attachmentId,
+                            targetType: AttachmentTargetTypeValue.ProjectHandover,
+                            targetId: handover.id,
+                            relationType: AttachmentRelationTypeValue.Handover,
+                            status: AttachmentLinkStatusValue.Active,
+                            linkedBy: user.sub,
+                            linkedAt: new Date()
+                        })
+                    );
+                }
+            }
+        }
+
+        await this.attachmentRepository.saveHandoverEntities(entitiesToSave);
+        await this.recordAudit('attachment.handover_checklist_refreshed', handoverId, user.sub, requestId, 'success', {
+            projectId: handover.projectId,
+            refreshedCount: refreshedSelections.length,
+            includedCount: refreshedSelections.filter((selection) => selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included).length
+        });
+
+        return this.buildChecklistViewFromSelections(handover, refreshedSelections);
+    }
+
+    async createProjectHandoverAttachmentDownloadPackage(
+        handoverId: string,
+        input: CreateProjectHandoverAttachmentDownloadPackageRequest,
+        user: UserPayload,
+        requestId?: string | null
+    ): Promise<AttachmentDownloadPackageSummary> {
+        const { handover, project } = await this.requireProjectHandoverContext(handoverId, user, 'read');
+        let selections = await this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId);
+
+        if (selections.length === 0) {
+            const refreshed = await this.refreshProjectHandoverAttachmentChecklist(
+                handoverId,
+                { preserveManualExclusions: true, includeHistoricalSelections: true },
+                user,
+                requestId
+            );
+            const refreshedIds = refreshed.items.flatMap((item) => (item.selectionId ? [item.selectionId] : []));
+            selections = await this.attachmentRepository.findHandoverSelectionsByIds(refreshedIds);
+        }
+
+        const selectedSelectionIds = input.selectionIds ? new Set(input.selectionIds) : null;
+        const selectedSelections = selectedSelectionIds ? selections.filter((selection) => selectedSelectionIds.has(selection.id)) : selections;
+        if (selectedSelectionIds && selectedSelections.length !== selectedSelectionIds.size) {
+            throw new BadRequestException('Some attachment checklist selections do not exist for this handover');
+        }
+
+        this.assertExpectedSelectionVersions(selectedSelections, input.expectedSelectionVersions ?? []);
+
+        const includedSelections = selectedSelections.filter(
+            (selection) =>
+                selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included &&
+                selection.attachmentId &&
+                selection.securityLevel &&
+                BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)
+        );
+        const excludedSelections = selections.filter((selection) => selection.status !== ProjectHandoverAttachmentChecklistItemStatusValue.Included);
+
+        if (includedSelections.length === 0) {
+            throw new BadRequestException('No downloadable handover attachment selections are available');
+        }
+
+        if (!input.confirmedSensitiveExclusion && excludedSelections.some((selection) => selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.SensitiveExcluded)) {
+            throw new BadRequestException('Sensitive exclusions must be confirmed before creating a handover package');
+        }
+
+        const now = new Date();
+        const packageId = randomUUID();
+        const expiresAt = new Date(now.getTime() + HANDOVER_DOWNLOAD_PACKAGE_TTL_MS);
+        const manifestSummary = this.buildManifestSummary(includedSelections, excludedSelections);
+        const downloadPackage = this.attachmentRepository.createDownloadPackage({
+            id: packageId,
+            handoverId: handover.id,
+            projectId: handover.projectId,
+            status: AttachmentDownloadPackageStatusValue.Running,
+            manifestSummary,
+            storageProvider: null,
+            storageBucket: null,
+            storageKey: null,
+            fileName: this.buildPackageFileName(handover),
+            expiresAt,
+            createdBy: user.sub,
+            createdAt: now,
+            updatedAt: now,
+            downloadedAt: null,
+            downloadCount: 0,
+            failedReason: null
+        });
+        const packageItems = [
+            ...includedSelections.map((selection, index) =>
+                this.attachmentRepository.createDownloadPackageItem({
+                    packageId,
+                    handoverId: handover.id,
+                    attachmentId: selection.attachmentId,
+                    versionGroupId: selection.versionGroupId,
+                    status: AttachmentDownloadPackageItemStatusValue.Included,
+                    sourceRefs: selection.sourceRefs,
+                    fileName: this.buildPackageEntryName(selection, index),
+                    exclusionReason: null
+                })
+            ),
+            ...excludedSelections.map((selection) =>
+                this.attachmentRepository.createDownloadPackageItem({
+                    packageId,
+                    handoverId: handover.id,
+                    attachmentId: selection.attachmentId,
+                    versionGroupId: selection.versionGroupId,
+                    status: AttachmentDownloadPackageItemStatusValue.Excluded,
+                    sourceRefs: selection.sourceRefs,
+                    fileName: null,
+                    exclusionReason: selection.exclusionReason ?? selection.status
+                })
+            )
+        ];
+
+        try {
+            const archive = await this.createDownloadPackageArchive(downloadPackage, includedSelections, manifestSummary);
+            const stored = await this.storageService.saveDownloadPackage({
+                packageId,
+                fileName: downloadPackage.fileName ?? `${packageId}.zip`,
+                buffer: archive,
+                createdAt: now
+            });
+            downloadPackage.status = AttachmentDownloadPackageStatusValue.Ready;
+            downloadPackage.storageProvider = stored.storageProvider;
+            downloadPackage.storageBucket = stored.storageBucket;
+            downloadPackage.storageKey = stored.storageKey;
+        } catch (error) {
+            downloadPackage.status = AttachmentDownloadPackageStatusValue.Failed;
+            downloadPackage.failedReason = error instanceof Error ? error.message : 'Unknown package generation failure';
+        }
+
+        await this.attachmentRepository.saveHandoverEntities([downloadPackage, ...packageItems]);
+        await this.recordAudit('attachment.batch_package_created', packageId, user.sub, requestId, downloadPackage.status === AttachmentDownloadPackageStatusValue.Ready ? 'success' : 'failed', {
+            projectId: project.id,
+            projectHandoverId: handover.id,
+            packageId,
+            attachmentIds: includedSelections.flatMap((selection) => (selection.attachmentId ? [selection.attachmentId] : [])),
+            excludedAttachmentIds: excludedSelections.flatMap((selection) => (selection.attachmentId ? [selection.attachmentId] : []))
+        });
+
+        return this.mapDownloadPackageToSummary(downloadPackage);
+    }
+
+    async getAttachmentDownloadPackage(packageId: string, user: UserPayload): Promise<AttachmentDownloadPackageSummary> {
+        const downloadPackage = await this.requireDownloadPackageAccess(packageId, user, 'read');
+        return this.mapDownloadPackageToSummary(downloadPackage);
+    }
+
+    async openAttachmentDownloadPackage(
+        packageId: string,
+        user: UserPayload,
+        requestId?: string | null
+    ): Promise<{ downloadPackage: AttachmentDownloadPackage; stream: Readable }> {
+        const downloadPackage = await this.requireDownloadPackageAccess(packageId, user, 'read');
+
+        if (downloadPackage.status === AttachmentDownloadPackageStatusValue.Ready && downloadPackage.expiresAt.getTime() <= Date.now()) {
+            downloadPackage.status = AttachmentDownloadPackageStatusValue.Expired;
+            await this.attachmentRepository.saveHandoverEntities([downloadPackage]);
+            await this.recordAudit('attachment.batch_package_expired', packageId, user.sub, requestId, 'rejected', {
+                projectId: downloadPackage.projectId,
+                projectHandoverId: downloadPackage.handoverId,
+                packageId
+            });
+            throw new ConflictException(`Attachment download package ${packageId} has expired`);
+        }
+
+        if (downloadPackage.status !== AttachmentDownloadPackageStatusValue.Ready || !downloadPackage.storageKey) {
+            throw new ConflictException(`Attachment download package ${packageId} is not ready`);
+        }
+
+        const stream = await this.storageService.openReadStream(downloadPackage.storageKey);
+        downloadPackage.downloadedAt = new Date();
+        downloadPackage.downloadCount += 1;
+        await this.attachmentRepository.saveHandoverEntities([downloadPackage]);
+        await this.recordAudit('attachment.batch_package_downloaded', packageId, user.sub, requestId, 'success', {
+            projectId: downloadPackage.projectId,
+            projectHandoverId: downloadPackage.handoverId,
+            packageId,
+            downloadCount: downloadPackage.downloadCount
+        });
+
+        return { downloadPackage, stream };
+    }
+
+    private async requireProjectHandoverContext(handoverId: string, user: UserPayload, mode: 'read' | 'write'): Promise<{ handover: ProjectHandover; project: Project }> {
+        const permission = `project:${mode}` as PermissionKey;
+        if (!new Set(user.permissions).has(permission)) {
+            throw new ForbiddenException(`Missing project ${mode} permission`);
+        }
+
+        const handover = await this.attachmentRepository.findProjectHandoverById(handoverId);
+        if (!handover) {
+            throw new NotFoundException(`Project handover ${handoverId} not found`);
+        }
+
+        const project = await this.attachmentRepository.findProjectById(handover.projectId);
+        if (!project) {
+            throw new NotFoundException(`Project ${handover.projectId} not found`);
+        }
+
+        return { handover, project };
+    }
+
+    private async requireDownloadPackageAccess(packageId: string, user: UserPayload, mode: 'read' | 'write'): Promise<AttachmentDownloadPackage> {
+        const downloadPackage = await this.attachmentRepository.findDownloadPackageById(packageId);
+        if (!downloadPackage) {
+            throw new NotFoundException(`Attachment download package ${packageId} not found`);
+        }
+
+        await this.requireProjectHandoverContext(downloadPackage.handoverId, user, mode);
+        return downloadPackage;
+    }
+
+    private async collectHandoverAttachmentCandidates(handover: ProjectHandover, project: Project): Promise<HandoverAttachmentCandidate[]> {
+        const [contracts, salesFollowUps] = await Promise.all([
+            this.attachmentRepository.findContractsByProjectId(handover.projectId),
+            this.attachmentRepository.findSalesFollowUpsForHandoverSources({ projectId: handover.projectId, sourceLeadId: project.sourceLeadId })
+        ]);
+        const targets: Array<{ targetType: AttachmentTargetType; targetId: string; label: string }> = [
+            { targetType: AttachmentTargetTypeValue.Project, targetId: project.id, label: '项目附件' },
+            ...(project.sourceLeadId ? [{ targetType: AttachmentTargetTypeValue.Lead, targetId: project.sourceLeadId, label: '来源线索附件' }] : []),
+            ...contracts.map((contract) => ({ targetType: AttachmentTargetTypeValue.Contract, targetId: contract.id, label: `合同 ${contract.contractNo}` })),
+            ...salesFollowUps.map((record) => ({ targetType: AttachmentTargetTypeValue.SalesFollowUp, targetId: record.id, label: '销售跟进附件' })),
+            { targetType: AttachmentTargetTypeValue.ProjectHandover, targetId: handover.id, label: '已纳入移交附件' }
+        ];
+        const candidatesByVersionGroup = new Map<string, HandoverAttachmentCandidate>();
+
+        for (const target of targets) {
+            const rows = await this.attachmentRepository.findAttachmentsByTarget({
+                targetType: target.targetType,
+                targetId: target.targetId,
+                status: AttachmentStatusValue.Active
+            });
+
+            for (const row of rows) {
+                const resolved = await this.resolveHandoverAttachmentVersion(row.attachment);
+                const versionGroupId = resolved.attachment.versionGroupId ?? resolved.attachment.id;
+                const sourceRefs = this.buildSourceRefs(row.links, target);
+                const existing = candidatesByVersionGroup.get(versionGroupId);
+
+                if (existing) {
+                    existing.sourceRefs = this.mergeSourceRefs(existing.sourceRefs, sourceRefs);
+                    continue;
+                }
+
+                candidatesByVersionGroup.set(versionGroupId, {
+                    attachment: resolved.attachment,
+                    sourceRefs,
+                    status: this.resolveSelectionStatus(resolved.attachment),
+                    selectionReason: resolved.selectionReason,
+                    exclusionReason: this.resolveSelectionExclusionReason(resolved.attachment)
+                });
+            }
+        }
+
+        return [...candidatesByVersionGroup.values()].sort((a, b) => a.attachment.displayName.localeCompare(b.attachment.displayName, 'zh-CN'));
+    }
+
+    private async resolveHandoverAttachmentVersion(attachment: Attachment): Promise<{ attachment: Attachment; selectionReason: string }> {
+        const versionGroupId = attachment.versionGroupId ?? attachment.id;
+        const finalVersion = await this.attachmentRepository.findFinalAttachmentByVersionGroupId(versionGroupId);
+
+        if (finalVersion) {
+            return { attachment: finalVersion, selectionReason: 'final' };
+        }
+
+        return { attachment, selectionReason: attachment.isFinal ? 'final' : 'latest-no-final' };
+    }
+
+    private resolveSelectionStatus(attachment: Attachment): ProjectHandoverAttachmentChecklistItemStatus {
+        if (!BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(attachment.securityLevel)) {
+            return ProjectHandoverAttachmentChecklistItemStatusValue.SensitiveExcluded;
+        }
+
+        return ProjectHandoverAttachmentChecklistItemStatusValue.Included;
+    }
+
+    private resolveSelectionExclusionReason(attachment: Attachment): string | null {
+        if (BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(attachment.securityLevel)) {
+            return null;
+        }
+
+        return `Security level ${attachment.securityLevel} is excluded from ordinary handover download packages`;
+    }
+
+    private buildSourceRefs(
+        links: AttachmentLink[],
+        fallback: { targetType: AttachmentTargetType; targetId: string; label: string }
+    ): ProjectHandoverAttachmentSourceRef[] {
+        const matchingLinks = links.filter((link) => link.targetType === fallback.targetType && link.targetId === fallback.targetId);
+        const sourceRefs = matchingLinks.length > 0 ? matchingLinks : [null];
+
+        return sourceRefs.map((link) => ({
+            sourceType: fallback.targetType,
+            sourceId: fallback.targetId,
+            relationType: link?.relationType ?? null,
+            label: fallback.label
+        }));
+    }
+
+    private mergeSourceRefs(left: ProjectHandoverAttachmentSourceRef[], right: ProjectHandoverAttachmentSourceRef[]): ProjectHandoverAttachmentSourceRef[] {
+        const refsByKey = new Map<string, ProjectHandoverAttachmentSourceRef>();
+
+        for (const ref of [...left, ...right]) {
+            refsByKey.set(`${ref.sourceType}:${ref.sourceId}:${ref.relationType ?? ''}`, ref);
+        }
+
+        return [...refsByKey.values()];
+    }
+
+    private buildChecklistViewFromCandidates(handover: ProjectHandover, candidates: HandoverAttachmentCandidate[]): ProjectHandoverAttachmentChecklistView {
+        const items = candidates.map((candidate): ProjectHandoverAttachmentChecklistItem => this.mapCandidateToChecklistItem(handover, candidate));
+        return this.buildChecklistView(handover, items);
+    }
+
+    private buildChecklistViewFromSelections(handover: ProjectHandover, selections: ProjectHandoverAttachmentSelection[]): ProjectHandoverAttachmentChecklistView {
+        const items = selections.map((selection): ProjectHandoverAttachmentChecklistItem => this.mapSelectionToChecklistItem(selection));
+        return this.buildChecklistView(handover, items);
+    }
+
+    private buildChecklistView(handover: ProjectHandover, items: ProjectHandoverAttachmentChecklistItem[]): ProjectHandoverAttachmentChecklistView {
+        return {
+            handoverId: handover.id,
+            projectId: handover.projectId,
+            generatedAt: new Date().toISOString(),
+            counts: {
+                total: items.length,
+                included: items.filter((item) => item.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included).length,
+                missing: items.filter((item) => item.status === ProjectHandoverAttachmentChecklistItemStatusValue.Missing).length,
+                excluded: items.filter((item) => item.status === ProjectHandoverAttachmentChecklistItemStatusValue.Excluded).length,
+                sensitiveExcluded: items.filter((item) => item.status === ProjectHandoverAttachmentChecklistItemStatusValue.SensitiveExcluded).length,
+                staleVersion: items.filter((item) => item.status === ProjectHandoverAttachmentChecklistItemStatusValue.StaleVersion).length,
+                downloadable: items.filter((item) => item.downloadEligible).length
+            },
+            items
+        };
+    }
+
+    private mapCandidateToChecklistItem(handover: ProjectHandover, candidate: HandoverAttachmentCandidate): ProjectHandoverAttachmentChecklistItem {
+        return {
+            selectionId: null,
+            handoverId: handover.id,
+            projectId: handover.projectId,
+            attachmentId: candidate.attachment.id,
+            versionGroupId: candidate.attachment.versionGroupId ?? candidate.attachment.id,
+            displayName: candidate.attachment.displayName,
+            category: candidate.attachment.category,
+            securityLevel: candidate.attachment.securityLevel,
+            status: candidate.status,
+            selectionReason: candidate.selectionReason,
+            exclusionReason: candidate.exclusionReason,
+            downloadEligible: candidate.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included,
+            staleVersion: false,
+            sourceRefs: candidate.sourceRefs,
+            rowVersion: null,
+            updatedAt: null
+        };
+    }
+
+    private mapSelectionToChecklistItem(selection: ProjectHandoverAttachmentSelection): ProjectHandoverAttachmentChecklistItem {
+        return {
+            selectionId: selection.id,
+            handoverId: selection.handoverId,
+            projectId: selection.projectId,
+            attachmentId: selection.attachmentId ?? null,
+            versionGroupId: selection.versionGroupId ?? null,
+            displayName: selection.displayName,
+            category: selection.category ?? null,
+            securityLevel: selection.securityLevel ?? null,
+            status: selection.status,
+            selectionReason: selection.selectionReason ?? null,
+            exclusionReason: selection.exclusionReason ?? null,
+            downloadEligible:
+                selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included &&
+                Boolean(selection.attachmentId) &&
+                Boolean(selection.securityLevel && BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)),
+            staleVersion: selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.StaleVersion,
+            sourceRefs: selection.sourceRefs,
+            rowVersion: selection.rowVersion,
+            updatedAt: selection.updatedAt.toISOString()
+        };
+    }
+
+    private assertExpectedSelectionVersions(selections: ProjectHandoverAttachmentSelection[], expectations: NonNullable<CreateProjectHandoverAttachmentDownloadPackageRequest['expectedSelectionVersions']>): void {
+        const selectionById = new Map(selections.map((selection) => [selection.id, selection]));
+
+        for (const expectation of expectations) {
+            const selection = selectionById.get(expectation.selectionId);
+            if (!selection) {
+                throw new BadRequestException(`Attachment selection ${expectation.selectionId} is not part of this package request`);
+            }
+
+            if (selection.rowVersion !== expectation.rowVersion) {
+                throw new ConflictException(`Attachment selection ${expectation.selectionId} version mismatch`);
+            }
+        }
+    }
+
+    private buildManifestSummary(includedSelections: ProjectHandoverAttachmentSelection[], excludedSelections: ProjectHandoverAttachmentSelection[]): AttachmentDownloadPackageManifestSummary {
+        const excludedReasons = [...new Set(excludedSelections.map((selection) => selection.exclusionReason ?? selection.status))];
+
+        return {
+            includedCount: includedSelections.length,
+            excludedCount: excludedSelections.length,
+            includedAttachmentIds: includedSelections.flatMap((selection) => (selection.attachmentId ? [selection.attachmentId] : [])),
+            excludedAttachmentIds: excludedSelections.flatMap((selection) => (selection.attachmentId ? [selection.attachmentId] : [])),
+            excludedReasons
+        };
+    }
+
+    private async createDownloadPackageArchive(
+        downloadPackage: AttachmentDownloadPackage,
+        includedSelections: ProjectHandoverAttachmentSelection[],
+        manifestSummary: AttachmentDownloadPackageManifestSummary
+    ): Promise<Buffer> {
+        const entries: ZipArchiveEntry[] = [
+            {
+                name: 'manifest.json',
+                data: Buffer.from(
+                    JSON.stringify(
+                        {
+                            packageId: downloadPackage.id,
+                            handoverId: downloadPackage.handoverId,
+                            projectId: downloadPackage.projectId,
+                            createdAt: downloadPackage.createdAt.toISOString(),
+                            expiresAt: downloadPackage.expiresAt.toISOString(),
+                            manifestSummary,
+                            items: includedSelections.map((selection, index) => ({
+                                selectionId: selection.id,
+                                attachmentId: selection.attachmentId,
+                                versionGroupId: selection.versionGroupId,
+                                displayName: selection.displayName,
+                                category: selection.category,
+                                securityLevel: selection.securityLevel,
+                                fileName: this.buildPackageEntryName(selection, index),
+                                sourceRefs: selection.sourceRefs
+                            }))
+                        },
+                        null,
+                        2
+                    ),
+                    'utf8'
+                )
+            }
+        ];
+
+        for (const [index, selection] of includedSelections.entries()) {
+            if (!selection.attachmentId) {
+                continue;
+            }
+
+            const attachment = await this.requireAttachment(selection.attachmentId);
+            const fileBuffer = await this.storageService.readBuffer(attachment.storageKey);
+            entries.push({
+                name: this.buildPackageEntryName(selection, index),
+                data: fileBuffer
+            });
+        }
+
+        return this.buildZipArchive(entries);
+    }
+
+    private buildPackageFileName(handover: ProjectHandover): string {
+        return `project-handover-${handover.id}-attachments.zip`;
+    }
+
+    private buildPackageEntryName(selection: ProjectHandoverAttachmentSelection, index: number): string {
+        const extension = selection.displayName.includes('.') ? '' : '.bin';
+        return `${String(index + 1).padStart(3, '0')}-${this.sanitizeArchiveEntryName(selection.displayName)}${extension}`;
+    }
+
+    private sanitizeArchiveEntryName(name: string): string {
+        return name.replace(/[\\/:*?"<>|]+/g, '_').trim().slice(0, 180) || 'attachment.bin';
+    }
+
+    private buildZipArchive(entries: ZipArchiveEntry[]): Buffer {
+        const localParts: Buffer[] = [];
+        const centralParts: Buffer[] = [];
+        let offset = 0;
+        const now = new Date();
+        const { dosTime, dosDate } = this.toDosDateTime(now);
+
+        for (const entry of entries) {
+            const nameBuffer = Buffer.from(entry.name, 'utf8');
+            const crc = this.crc32(entry.data);
+            const localHeader = Buffer.alloc(30);
+            localHeader.writeUInt32LE(0x04034b50, 0);
+            localHeader.writeUInt16LE(20, 4);
+            localHeader.writeUInt16LE(0x0800, 6);
+            localHeader.writeUInt16LE(0, 8);
+            localHeader.writeUInt16LE(dosTime, 10);
+            localHeader.writeUInt16LE(dosDate, 12);
+            localHeader.writeUInt32LE(crc, 14);
+            localHeader.writeUInt32LE(entry.data.length, 18);
+            localHeader.writeUInt32LE(entry.data.length, 22);
+            localHeader.writeUInt16LE(nameBuffer.length, 26);
+            localHeader.writeUInt16LE(0, 28);
+            localParts.push(localHeader, nameBuffer, entry.data);
+
+            const centralHeader = Buffer.alloc(46);
+            centralHeader.writeUInt32LE(0x02014b50, 0);
+            centralHeader.writeUInt16LE(20, 4);
+            centralHeader.writeUInt16LE(20, 6);
+            centralHeader.writeUInt16LE(0x0800, 8);
+            centralHeader.writeUInt16LE(0, 10);
+            centralHeader.writeUInt16LE(dosTime, 12);
+            centralHeader.writeUInt16LE(dosDate, 14);
+            centralHeader.writeUInt32LE(crc, 16);
+            centralHeader.writeUInt32LE(entry.data.length, 20);
+            centralHeader.writeUInt32LE(entry.data.length, 24);
+            centralHeader.writeUInt16LE(nameBuffer.length, 28);
+            centralHeader.writeUInt16LE(0, 30);
+            centralHeader.writeUInt16LE(0, 32);
+            centralHeader.writeUInt16LE(0, 34);
+            centralHeader.writeUInt16LE(0, 36);
+            centralHeader.writeUInt32LE(0, 38);
+            centralHeader.writeUInt32LE(offset, 42);
+            centralParts.push(centralHeader, nameBuffer);
+
+            offset += localHeader.length + nameBuffer.length + entry.data.length;
+        }
+
+        const centralDirectory = Buffer.concat(centralParts);
+        const end = Buffer.alloc(22);
+        end.writeUInt32LE(0x06054b50, 0);
+        end.writeUInt16LE(0, 4);
+        end.writeUInt16LE(0, 6);
+        end.writeUInt16LE(entries.length, 8);
+        end.writeUInt16LE(entries.length, 10);
+        end.writeUInt32LE(centralDirectory.length, 12);
+        end.writeUInt32LE(offset, 16);
+        end.writeUInt16LE(0, 20);
+
+        return Buffer.concat([...localParts, centralDirectory, end]);
+    }
+
+    private toDosDateTime(date: Date): { dosTime: number; dosDate: number } {
+        const year = Math.max(date.getUTCFullYear(), 1980);
+        const dosTime = (date.getUTCHours() << 11) | (date.getUTCMinutes() << 5) | Math.floor(date.getUTCSeconds() / 2);
+        const dosDate = ((year - 1980) << 9) | ((date.getUTCMonth() + 1) << 5) | date.getUTCDate();
+        return { dosTime, dosDate };
+    }
+
+    private crc32(buffer: Buffer): number {
+        let crc = 0xffffffff;
+
+        for (const byte of buffer) {
+            crc ^= byte;
+            for (let index = 0; index < 8; index += 1) {
+                crc = crc & 1 ? (crc >>> 1) ^ 0xedb88320 : crc >>> 1;
+            }
+        }
+
+        return (crc ^ 0xffffffff) >>> 0;
+    }
+
+    private mapDownloadPackageToSummary(downloadPackage: AttachmentDownloadPackage): AttachmentDownloadPackageSummary {
+        return {
+            id: downloadPackage.id,
+            handoverId: downloadPackage.handoverId,
+            projectId: downloadPackage.projectId,
+            status: downloadPackage.status,
+            manifestSummary: downloadPackage.manifestSummary,
+            fileName: downloadPackage.fileName ?? null,
+            expiresAt: downloadPackage.expiresAt.toISOString(),
+            createdBy: downloadPackage.createdBy ?? null,
+            createdAt: downloadPackage.createdAt.toISOString(),
+            downloadedAt: downloadPackage.downloadedAt?.toISOString() ?? null,
+            downloadCount: downloadPackage.downloadCount,
+            failedReason: downloadPackage.failedReason ?? null
+        };
+    }
+
     private async requireReadableAttachment(id: string, user: UserPayload): Promise<{ attachment: Attachment; links: AttachmentLink[] }> {
         const attachment = await this.requireAttachment(id);
         const links = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
@@ -692,7 +1377,7 @@ export class AttachmentService {
         return false;
     }
 
-    private async requireTargetAccess(targetType: AttachmentTargetType, targetId: string, user: UserPayload, mode: 'read' | 'write'): Promise<Customer | Lead | Project | Contract | SalesFollowUpRecord> {
+    private async requireTargetAccess(targetType: AttachmentTargetType, targetId: string, user: UserPayload, mode: 'read' | 'write'): Promise<Customer | Lead | Project | Contract | SalesFollowUpRecord | ProjectHandover> {
         const permissions = new Set(user.permissions);
 
         if (!this.hasTargetPermission(targetType, permissions, mode)) {
@@ -725,6 +1410,11 @@ export class AttachmentService {
                 if (!record) throw new NotFoundException(`Sales follow-up record ${targetId} not found`);
                 return record;
             }
+            case AttachmentTargetTypeValue.ProjectHandover: {
+                const handover = await this.attachmentRepository.findProjectHandoverById(targetId);
+                if (!handover) throw new NotFoundException(`Project handover ${targetId} not found`);
+                return handover;
+            }
         }
     }
 
@@ -738,6 +1428,7 @@ export class AttachmentService {
                 return permissions.has(`lead:${permission}` as PermissionKey);
             case AttachmentTargetTypeValue.Project:
             case AttachmentTargetTypeValue.Contract:
+            case AttachmentTargetTypeValue.ProjectHandover:
                 return permissions.has(`project:${permission}` as PermissionKey);
             case AttachmentTargetTypeValue.SalesFollowUp:
                 return permissions.has(`customer:${permission}` as PermissionKey) || permissions.has(`lead:${permission}` as PermissionKey) || permissions.has(`project:${permission}` as PermissionKey);

@@ -33,7 +33,8 @@ const TARGET_TYPE_LABELS: Record<AttachmentTargetType, string> = {
     [AttachmentTargetType.Lead]: '线索',
     [AttachmentTargetType.Project]: '项目',
     [AttachmentTargetType.Contract]: '合同',
-    [AttachmentTargetType.SalesFollowUp]: '销售跟进'
+    [AttachmentTargetType.SalesFollowUp]: '销售跟进',
+    [AttachmentTargetType.ProjectHandover]: '项目移交'
 };
 
 const TARGET_TYPE_SEVERITY: Record<AttachmentTargetType, 'secondary' | 'info' | 'success' | 'warn'> = {
@@ -41,7 +42,8 @@ const TARGET_TYPE_SEVERITY: Record<AttachmentTargetType, 'secondary' | 'info' | 
     [AttachmentTargetType.Lead]: 'info',
     [AttachmentTargetType.Project]: 'success',
     [AttachmentTargetType.Contract]: 'warn',
-    [AttachmentTargetType.SalesFollowUp]: 'secondary'
+    [AttachmentTargetType.SalesFollowUp]: 'secondary',
+    [AttachmentTargetType.ProjectHandover]: 'warn'
 };
 
 const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [

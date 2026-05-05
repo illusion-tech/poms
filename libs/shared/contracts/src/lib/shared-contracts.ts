@@ -2521,7 +2521,7 @@ export const AttachmentStatusValue = {
     Failed: 'failed'
 } as const satisfies Record<string, AttachmentStatus>;
 
-export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales-follow-up'] as const;
+export const ATTACHMENT_TARGET_TYPES = ['lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'] as const;
 
 export type AttachmentTargetType = (typeof ATTACHMENT_TARGET_TYPES)[number];
 
@@ -2532,7 +2532,8 @@ export const AttachmentTargetTypeValue = {
     Customer: 'customer',
     Project: 'project',
     Contract: 'contract',
-    SalesFollowUp: 'sales-follow-up'
+    SalesFollowUp: 'sales-follow-up',
+    ProjectHandover: 'project-handover'
 } as const satisfies Record<string, AttachmentTargetType>;
 
 export const ATTACHMENT_RELATION_TYPES = ['normal', 'source', 'evidence', 'final', 'handover'] as const;
@@ -2691,6 +2692,168 @@ export const VoidAttachmentRequestSchema = z
     .meta({ id: 'VoidAttachmentRequest' });
 
 export type VoidAttachmentRequest = z.infer<typeof VoidAttachmentRequestSchema>;
+
+export const PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES = ['included', 'missing', 'excluded', 'sensitive-excluded', 'stale-version'] as const;
+
+export type ProjectHandoverAttachmentChecklistItemStatus = (typeof PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES)[number];
+
+export const ProjectHandoverAttachmentChecklistItemStatusSchema = z
+    .enum(PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES)
+    .meta({ id: 'ProjectHandoverAttachmentChecklistItemStatus' });
+
+export const ProjectHandoverAttachmentChecklistItemStatusValue = {
+    Included: 'included',
+    Missing: 'missing',
+    Excluded: 'excluded',
+    SensitiveExcluded: 'sensitive-excluded',
+    StaleVersion: 'stale-version'
+} as const satisfies Record<string, ProjectHandoverAttachmentChecklistItemStatus>;
+
+export const ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES = ['pending', 'running', 'ready', 'failed', 'expired', 'cancelled'] as const;
+
+export type AttachmentDownloadPackageStatus = (typeof ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES)[number];
+
+export const AttachmentDownloadPackageStatusSchema = z.enum(ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES).meta({ id: 'AttachmentDownloadPackageStatus' });
+
+export const AttachmentDownloadPackageStatusValue = {
+    Pending: 'pending',
+    Running: 'running',
+    Ready: 'ready',
+    Failed: 'failed',
+    Expired: 'expired',
+    Cancelled: 'cancelled'
+} as const satisfies Record<string, AttachmentDownloadPackageStatus>;
+
+export const ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES = ['included', 'excluded'] as const;
+
+export type AttachmentDownloadPackageItemStatus = (typeof ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES)[number];
+
+export const AttachmentDownloadPackageItemStatusSchema = z.enum(ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES).meta({ id: 'AttachmentDownloadPackageItemStatus' });
+
+export const AttachmentDownloadPackageItemStatusValue = {
+    Included: 'included',
+    Excluded: 'excluded'
+} as const satisfies Record<string, AttachmentDownloadPackageItemStatus>;
+
+export const ProjectHandoverAttachmentSourceRefSchema = z
+    .object({
+        sourceType: AttachmentTargetTypeSchema,
+        sourceId: z.uuid(),
+        relationType: AttachmentRelationTypeSchema.nullable(),
+        label: z.string().nullable()
+    })
+    .meta({ id: 'ProjectHandoverAttachmentSourceRef' });
+
+export type ProjectHandoverAttachmentSourceRef = z.infer<typeof ProjectHandoverAttachmentSourceRefSchema>;
+
+export const ProjectHandoverAttachmentChecklistItemSchema = z
+    .object({
+        selectionId: z.uuid().nullable(),
+        handoverId: z.uuid(),
+        projectId: z.uuid(),
+        attachmentId: z.uuid().nullable(),
+        versionGroupId: z.uuid().nullable(),
+        displayName: z.string(),
+        category: AttachmentCategorySchema.nullable(),
+        securityLevel: AttachmentSecurityLevelSchema.nullable(),
+        status: ProjectHandoverAttachmentChecklistItemStatusSchema,
+        selectionReason: z.string().nullable(),
+        exclusionReason: z.string().nullable(),
+        downloadEligible: z.boolean(),
+        staleVersion: z.boolean(),
+        sourceRefs: z.array(ProjectHandoverAttachmentSourceRefSchema),
+        rowVersion: z.number().int().positive().nullable(),
+        updatedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ProjectHandoverAttachmentChecklistItem' });
+
+export type ProjectHandoverAttachmentChecklistItem = z.infer<typeof ProjectHandoverAttachmentChecklistItemSchema>;
+
+export const ProjectHandoverAttachmentChecklistCountsSchema = z
+    .object({
+        total: z.number().int().nonnegative(),
+        included: z.number().int().nonnegative(),
+        missing: z.number().int().nonnegative(),
+        excluded: z.number().int().nonnegative(),
+        sensitiveExcluded: z.number().int().nonnegative(),
+        staleVersion: z.number().int().nonnegative(),
+        downloadable: z.number().int().nonnegative()
+    })
+    .meta({ id: 'ProjectHandoverAttachmentChecklistCounts' });
+
+export type ProjectHandoverAttachmentChecklistCounts = z.infer<typeof ProjectHandoverAttachmentChecklistCountsSchema>;
+
+export const ProjectHandoverAttachmentChecklistViewSchema = z
+    .object({
+        handoverId: z.uuid(),
+        projectId: z.uuid(),
+        generatedAt: z.iso.datetime(),
+        counts: ProjectHandoverAttachmentChecklistCountsSchema,
+        items: z.array(ProjectHandoverAttachmentChecklistItemSchema)
+    })
+    .meta({ id: 'ProjectHandoverAttachmentChecklistView' });
+
+export type ProjectHandoverAttachmentChecklistView = z.infer<typeof ProjectHandoverAttachmentChecklistViewSchema>;
+
+export const RefreshProjectHandoverAttachmentChecklistRequestSchema = z
+    .object({
+        preserveManualExclusions: z.boolean().default(true),
+        includeHistoricalSelections: z.boolean().default(true)
+    })
+    .meta({ id: 'RefreshProjectHandoverAttachmentChecklistRequest' });
+
+export type RefreshProjectHandoverAttachmentChecklistRequest = z.infer<typeof RefreshProjectHandoverAttachmentChecklistRequestSchema>;
+
+export const AttachmentDownloadPackageManifestSummarySchema = z
+    .object({
+        includedCount: z.number().int().nonnegative(),
+        excludedCount: z.number().int().nonnegative(),
+        includedAttachmentIds: z.array(z.uuid()),
+        excludedAttachmentIds: z.array(z.uuid()),
+        excludedReasons: z.array(z.string())
+    })
+    .meta({ id: 'AttachmentDownloadPackageManifestSummary' });
+
+export type AttachmentDownloadPackageManifestSummary = z.infer<typeof AttachmentDownloadPackageManifestSummarySchema>;
+
+export const AttachmentSelectionVersionExpectationSchema = z
+    .object({
+        selectionId: z.uuid(),
+        rowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'AttachmentSelectionVersionExpectation' });
+
+export type AttachmentSelectionVersionExpectation = z.infer<typeof AttachmentSelectionVersionExpectationSchema>;
+
+export const CreateProjectHandoverAttachmentDownloadPackageRequestSchema = z
+    .object({
+        selectionIds: z.array(z.uuid()).min(1).optional(),
+        expectedSelectionVersions: z.array(AttachmentSelectionVersionExpectationSchema).optional(),
+        confirmedSensitiveExclusion: z.boolean().default(true),
+        note: z.string().trim().max(1000).nullable().optional()
+    })
+    .meta({ id: 'CreateProjectHandoverAttachmentDownloadPackageRequest' });
+
+export type CreateProjectHandoverAttachmentDownloadPackageRequest = z.infer<typeof CreateProjectHandoverAttachmentDownloadPackageRequestSchema>;
+
+export const AttachmentDownloadPackageSummarySchema = z
+    .object({
+        id: z.uuid(),
+        handoverId: z.uuid(),
+        projectId: z.uuid(),
+        status: AttachmentDownloadPackageStatusSchema,
+        manifestSummary: AttachmentDownloadPackageManifestSummarySchema,
+        fileName: z.string().nullable(),
+        expiresAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        createdAt: z.iso.datetime(),
+        downloadedAt: z.iso.datetime().nullable(),
+        downloadCount: z.number().int().nonnegative(),
+        failedReason: z.string().nullable()
+    })
+    .meta({ id: 'AttachmentDownloadPackageSummary' });
+
+export type AttachmentDownloadPackageSummary = z.infer<typeof AttachmentDownloadPackageSummarySchema>;
 
 // ---------------------------------------------------------------------------
 // Project

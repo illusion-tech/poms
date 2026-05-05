@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { createReadStream } from 'node:fs';
-import { mkdir, stat, unlink, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import { dirname, extname, join, resolve, sep } from 'node:path';
 import type { Readable } from 'node:stream';
 
@@ -43,6 +43,35 @@ export class AttachmentStorageService {
         }
 
         return createReadStream(absolutePath);
+    }
+
+    async readBuffer(storageKey: string): Promise<Buffer> {
+        const absolutePath = this.resolveKey(storageKey);
+
+        try {
+            return await readFile(absolutePath);
+        } catch {
+            throw new NotFoundException(`Attachment file ${storageKey} not found`);
+        }
+    }
+
+    async saveDownloadPackage(input: { packageId: string; fileName: string; buffer: Buffer; createdAt?: Date }): Promise<StoredAttachmentFile> {
+        const createdAt = input.createdAt ?? new Date();
+        const yyyy = String(createdAt.getUTCFullYear());
+        const mm = String(createdAt.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(createdAt.getUTCDate()).padStart(2, '0');
+        const safeFileName = input.fileName.replace(/[\\/:*?"<>|]+/g, '_') || `${input.packageId}.zip`;
+        const storageKey = join('attachment-download-packages', yyyy, mm, dd, input.packageId, safeFileName).replace(/\\/g, '/');
+        const absolutePath = this.resolveKey(storageKey);
+
+        await mkdir(dirname(absolutePath), { recursive: true });
+        await writeFile(absolutePath, input.buffer);
+
+        return {
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey
+        };
     }
 
     async remove(storageKey: string): Promise<void> {

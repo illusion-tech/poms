@@ -8,8 +8,15 @@ import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
+import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
-import { Attachment, AttachmentLink } from './attachment.entity';
+import {
+    Attachment,
+    AttachmentDownloadPackage,
+    AttachmentDownloadPackageItem,
+    AttachmentLink,
+    ProjectHandoverAttachmentSelection
+} from './attachment.entity';
 
 export interface AttachmentListFilters {
     targetType: AttachmentTargetType;
@@ -36,6 +43,14 @@ export class AttachmentRepository {
         private readonly contractRepository: EntityRepository<Contract>,
         @InjectRepository(SalesFollowUpRecord)
         private readonly salesFollowUpRepository: EntityRepository<SalesFollowUpRecord>,
+        @InjectRepository(ProjectHandover)
+        private readonly projectHandoverRepository: EntityRepository<ProjectHandover>,
+        @InjectRepository(ProjectHandoverAttachmentSelection)
+        private readonly handoverAttachmentSelectionRepository: EntityRepository<ProjectHandoverAttachmentSelection>,
+        @InjectRepository(AttachmentDownloadPackage)
+        private readonly attachmentDownloadPackageRepository: EntityRepository<AttachmentDownloadPackage>,
+        @InjectRepository(AttachmentDownloadPackageItem)
+        private readonly attachmentDownloadPackageItemRepository: EntityRepository<AttachmentDownloadPackageItem>,
         @InjectRepository(PlatformUser)
         private readonly platformUserRepository: EntityRepository<PlatformUser>
     ) {}
@@ -52,11 +67,27 @@ export class AttachmentRepository {
         return this.attachmentLinkRepository.create(input);
     }
 
+    createHandoverAttachmentSelection(input: ConstructorParameters<typeof ProjectHandoverAttachmentSelection>[0]): ProjectHandoverAttachmentSelection {
+        return this.handoverAttachmentSelectionRepository.create(input);
+    }
+
+    createDownloadPackage(input: ConstructorParameters<typeof AttachmentDownloadPackage>[0]): AttachmentDownloadPackage {
+        return this.attachmentDownloadPackageRepository.create(input);
+    }
+
+    createDownloadPackageItem(input: ConstructorParameters<typeof AttachmentDownloadPackageItem>[0]): AttachmentDownloadPackageItem {
+        return this.attachmentDownloadPackageItemRepository.create(input);
+    }
+
     async saveAttachmentWithLink(attachment: Attachment, link: AttachmentLink): Promise<void> {
         await this.getEntityManager().persist([attachment, link]).flush();
     }
 
     async saveAll(entities: Array<Attachment | AttachmentLink>): Promise<void> {
+        await this.getEntityManager().persist(entities).flush();
+    }
+
+    async saveHandoverEntities(entities: Array<AttachmentLink | ProjectHandoverAttachmentSelection | AttachmentDownloadPackage | AttachmentDownloadPackageItem>): Promise<void> {
         await this.getEntityManager().persist(entities).flush();
     }
 
@@ -138,6 +169,15 @@ export class AttachmentRepository {
         );
     }
 
+    async findFinalAttachmentByVersionGroupId(versionGroupId: string): Promise<Attachment | null> {
+        return this.attachmentRepository.findOne(
+            { versionGroupId, status: AttachmentStatusValue.Active, isFinal: true },
+            {
+                orderBy: { versionNo: QueryOrder.DESC, uploadedAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     async findExistingActiveLink(input: Pick<AttachmentLink, 'attachmentId' | 'targetType' | 'targetId' | 'relationType'>): Promise<AttachmentLink | null> {
         return this.attachmentLinkRepository.findOne({
             attachmentId: input.attachmentId,
@@ -164,8 +204,65 @@ export class AttachmentRepository {
         return this.contractRepository.findOne({ id });
     }
 
+    async findContractsByProjectId(projectId: string): Promise<Contract[]> {
+        return this.contractRepository.find(
+            { projectId },
+            {
+                orderBy: { createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     async findSalesFollowUpById(id: string): Promise<SalesFollowUpRecord | null> {
         return this.salesFollowUpRepository.findOne({ id });
+    }
+
+    async findSalesFollowUpsForHandoverSources(input: { projectId: string; sourceLeadId?: string | null }): Promise<SalesFollowUpRecord[]> {
+        const filters: FilterQuery<SalesFollowUpRecord>[] = [{ projectId: input.projectId }];
+        if (input.sourceLeadId) {
+            filters.push({ leadId: input.sourceLeadId });
+        }
+
+        return this.salesFollowUpRepository.find(
+            { $or: filters },
+            {
+                orderBy: { occurredAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findProjectHandoverById(id: string): Promise<ProjectHandover | null> {
+        return this.projectHandoverRepository.findOne({ id });
+    }
+
+    async findHandoverSelectionsByHandoverId(handoverId: string): Promise<ProjectHandoverAttachmentSelection[]> {
+        return this.handoverAttachmentSelectionRepository.find(
+            { handoverId },
+            {
+                orderBy: { updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
+    async findHandoverSelectionsByIds(ids: string[]): Promise<ProjectHandoverAttachmentSelection[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.handoverAttachmentSelectionRepository.find({ id: { $in: ids } });
+    }
+
+    async findDownloadPackageById(id: string): Promise<AttachmentDownloadPackage | null> {
+        return this.attachmentDownloadPackageRepository.findOne({ id });
+    }
+
+    async findDownloadPackageItemsByPackageId(packageId: string): Promise<AttachmentDownloadPackageItem[]> {
+        return this.attachmentDownloadPackageItemRepository.find(
+            { packageId },
+            {
+                orderBy: { createdAt: QueryOrder.ASC }
+            }
+        );
     }
 
     async findPlatformUsersByIds(ids: string[]): Promise<PlatformUser[]> {

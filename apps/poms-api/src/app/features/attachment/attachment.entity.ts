@@ -5,15 +5,26 @@ import {
     ATTACHMENT_SECURITY_LEVELS,
     ATTACHMENT_STATUSES,
     ATTACHMENT_TARGET_TYPES,
+    ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES,
+    ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES,
     AttachmentLinkStatusValue,
+    AttachmentDownloadPackageStatusValue,
     AttachmentStatusValue,
+    PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES,
     type AttachmentCategory,
+    type AttachmentDownloadPackageItemStatus,
+    type AttachmentDownloadPackageManifestSummary,
+    type AttachmentDownloadPackageStatus,
     type AttachmentLinkStatus,
     type AttachmentRelationType,
     type AttachmentSecurityLevel,
     type AttachmentStatus,
-    type AttachmentTargetType
+    type AttachmentTargetType,
+    type ProjectHandoverAttachmentChecklistItemStatus,
+    type ProjectHandoverAttachmentSourceRef
 } from '@poms/shared-contracts';
+import { ProjectHandover } from '../project-handover/project-handover.entity';
+import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
 
@@ -158,3 +169,190 @@ export const AttachmentLinkSchema = defineEntity({
 export class AttachmentLink extends AttachmentLinkSchema.class {}
 
 AttachmentLinkSchema.setClass(AttachmentLink);
+
+export const ProjectHandoverAttachmentSelectionSchema = defineEntity({
+    name: 'ProjectHandoverAttachmentSelection',
+    tableName: 'project_handover_attachment_selection',
+    schema: 'poms',
+    comment: '项目移交附件清单选择项',
+    indexes: [
+        { name: 'idx_phas_handover_status', properties: ['handoverId', 'status'] },
+        { name: 'idx_phas_project_handover', properties: ['projectId', 'handoverId'] },
+        { name: 'idx_phas_attachment', properties: ['attachmentId'] },
+        {
+            name: 'uq_phas_handover_version_group',
+            properties: ['handoverId', 'versionGroupId'],
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.handoverId}", "${columns.versionGroupId}") where "${columns.versionGroupId}" is not null`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_phas_status',
+            expression: `"status" in (${toSqlStringList(PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES)})`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('清单选择项主键'),
+        handoverId: () =>
+            p
+                .manyToOne(ProjectHandover)
+                .mapToPk()
+                .fieldName('handover_id')
+                .foreignKeyName('project_handover_attachment_selection_handover_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade')
+                .comment('项目移交记录 ID'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('project_handover_attachment_selection_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('项目 ID'),
+        attachmentId: () =>
+            p
+                .manyToOne(Attachment)
+                .mapToPk()
+                .nullable()
+                .fieldName('attachment_id')
+                .foreignKeyName('project_handover_attachment_selection_attachment_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('选中的附件版本 ID'),
+        versionGroupId: p.uuid().nullable().fieldName('version_group_id').comment('附件版本组 ID'),
+        displayName: p.string().length(255).fieldName('display_name').comment('清单展示名'),
+        category: p.string().$type<AttachmentCategory>().length(64).nullable().comment('附件分类'),
+        securityLevel: p.string().$type<AttachmentSecurityLevel>().length(32).nullable().fieldName('security_level').comment('附件安全等级'),
+        status: p.string().$type<ProjectHandoverAttachmentChecklistItemStatus>().length(32).comment('清单状态'),
+        selectionReason: p.string().length(64).nullable().fieldName('selection_reason').comment('版本选择原因'),
+        exclusionReason: p.text().nullable().fieldName('exclusion_reason').comment('排除原因'),
+        sourceRefs: p.json<ProjectHandoverAttachmentSourceRef[]>().fieldName('source_refs').comment('来源引用'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    }
+});
+
+export class ProjectHandoverAttachmentSelection extends ProjectHandoverAttachmentSelectionSchema.class {}
+
+ProjectHandoverAttachmentSelectionSchema.setClass(ProjectHandoverAttachmentSelection);
+
+export const AttachmentDownloadPackageSchema = defineEntity({
+    name: 'AttachmentDownloadPackage',
+    tableName: 'attachment_download_package',
+    schema: 'poms',
+    comment: '附件批量下载包',
+    indexes: [
+        { name: 'idx_adp_handover_status', properties: ['handoverId', 'status'] },
+        { name: 'idx_adp_project_created', properties: ['projectId', 'createdAt'] },
+        { name: 'idx_adp_expires_at', properties: ['expiresAt'] }
+    ],
+    checks: [
+        {
+            name: 'chk_adp_status',
+            expression: `"status" in (${toSqlStringList(ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES)})`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('下载包主键'),
+        handoverId: () =>
+            p
+                .manyToOne(ProjectHandover)
+                .mapToPk()
+                .fieldName('handover_id')
+                .foreignKeyName('attachment_download_package_handover_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade')
+                .comment('项目移交记录 ID'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('attachment_download_package_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('项目 ID'),
+        status: p.string().$type<AttachmentDownloadPackageStatus>().length(32).default(AttachmentDownloadPackageStatusValue.Pending).comment('下载包状态'),
+        manifestSummary: p.json<AttachmentDownloadPackageManifestSummary>().fieldName('manifest_summary').comment('manifest 摘要'),
+        storageProvider: p.string().length(32).nullable().fieldName('storage_provider').comment('存储 provider'),
+        storageBucket: p.string().length(255).nullable().fieldName('storage_bucket').comment('存储桶'),
+        storageKey: p.string().length(1024).nullable().fieldName('storage_key').comment('内部存储 key'),
+        fileName: p.string().length(255).nullable().fieldName('file_name').comment('下载文件名'),
+        expiresAt: p.datetime().fieldName('expires_at').comment('过期时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+        downloadedAt: p.datetime().nullable().fieldName('downloaded_at').comment('最近下载时间'),
+        downloadCount: p.integer().default(0).fieldName('download_count').comment('下载次数'),
+        failedReason: p.text().nullable().fieldName('failed_reason').comment('失败原因'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    }
+});
+
+export class AttachmentDownloadPackage extends AttachmentDownloadPackageSchema.class {}
+
+AttachmentDownloadPackageSchema.setClass(AttachmentDownloadPackage);
+
+export const AttachmentDownloadPackageItemSchema = defineEntity({
+    name: 'AttachmentDownloadPackageItem',
+    tableName: 'attachment_download_package_item',
+    schema: 'poms',
+    comment: '附件批量下载包明细',
+    indexes: [
+        { name: 'idx_adpi_package', properties: ['packageId'] },
+        { name: 'idx_adpi_handover_attachment', properties: ['handoverId', 'attachmentId'] }
+    ],
+    checks: [
+        {
+            name: 'chk_adpi_status',
+            expression: `"status" in (${toSqlStringList(ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES)})`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('下载包明细主键'),
+        packageId: () =>
+            p
+                .manyToOne(AttachmentDownloadPackage)
+                .mapToPk()
+                .fieldName('package_id')
+                .foreignKeyName('attachment_download_package_item_package_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade')
+                .comment('下载包 ID'),
+        handoverId: () =>
+            p
+                .manyToOne(ProjectHandover)
+                .mapToPk()
+                .fieldName('handover_id')
+                .foreignKeyName('attachment_download_package_item_handover_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade')
+                .comment('项目移交记录 ID'),
+        attachmentId: () =>
+            p
+                .manyToOne(Attachment)
+                .mapToPk()
+                .nullable()
+                .fieldName('attachment_id')
+                .foreignKeyName('attachment_download_package_item_attachment_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('restrict')
+                .comment('附件版本 ID'),
+        versionGroupId: p.uuid().nullable().fieldName('version_group_id').comment('附件版本组 ID'),
+        status: p.string().$type<AttachmentDownloadPackageItemStatus>().length(32).comment('明细状态'),
+        sourceRefs: p.json<ProjectHandoverAttachmentSourceRef[]>().fieldName('source_refs').comment('来源引用'),
+        fileName: p.string().length(255).nullable().fieldName('file_name').comment('包内文件名'),
+        exclusionReason: p.text().nullable().fieldName('exclusion_reason').comment('排除原因'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间')
+    }
+});
+
+export class AttachmentDownloadPackageItem extends AttachmentDownloadPackageItemSchema.class {}
+
+AttachmentDownloadPackageItemSchema.setClass(AttachmentDownloadPackageItem);
