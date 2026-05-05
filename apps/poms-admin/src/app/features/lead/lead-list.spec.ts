@@ -138,6 +138,21 @@ function readyConversionGate(): LeadListView['gateSummary'] {
     };
 }
 
+function blockedConversionGate(): LeadListView['gateSummary'] {
+    return {
+        qualification: {
+            status: LeadGateStatus.Blocked,
+            missingItems: [LeadGateMissingItem.RegisteredStatus],
+            explanation: '缺少：待确认状态'
+        },
+        conversion: {
+            status: LeadGateStatus.Blocked,
+            missingItems: [LeadGateMissingItem.Budget],
+            explanation: '缺少：预算情况'
+        }
+    };
+}
+
 function createLeadSource(overrides: Partial<LeadSourceSummary> = {}): LeadSourceSummary {
     return {
         id: 'source-1',
@@ -618,6 +633,43 @@ describe('LeadList', () => {
         expect(text).toContain('客户拜访');
         expect(text).toContain('张销售');
         expect(text).toContain('待确认');
+    });
+
+    it('guides users into the lead-to-project conversion path from project entry', () => {
+        leads.set([
+            createLead({ id: 'lead-ready', status: LeadStatus.Qualified, gateSummary: readyConversionGate() }),
+            createLead({ id: 'lead-blocked', status: LeadStatus.Qualified, gateSummary: blockedConversionGate() })
+        ]);
+
+        queryParamMap.next(convertToParamMap({ conversion: 'ready' }));
+        fixture.detectChanges();
+
+        expect(component.conversionGuideActive()).toBe(true);
+        expect(component.statusFilter()).toBe(LeadStatus.Qualified);
+        expect(component.readyConversionLeadCount()).toBe(1);
+        expect(component.blockedConversionLeadCount()).toBe(1);
+        expect(fixture.nativeElement.textContent).toContain('选择一条可转项目线索');
+        expect(fixture.nativeElement.textContent).toContain('1 条可转项目');
+        expect(fixture.nativeElement.textContent).toContain('1 条待补齐');
+        expect(fixture.nativeElement.textContent).toContain('转入项目');
+        expect(fixture.nativeElement.textContent).toContain('补齐闸口');
+        expect(fixture.nativeElement.textContent).toContain('缺少：预算情况');
+        expect(fixture.nativeElement.textContent.match(/缺少：预算情况/g)).toHaveLength(1);
+
+        component.clearConversionGuide();
+
+        expect(component.conversionGuideActive()).toBe(false);
+        expect(component.statusFilter()).toBe('all');
+        expect(routerMock.navigate).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+                queryParams: {
+                    conversion: null
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true
+            })
+        );
     });
 
     it('loads shared sales follow-up records when opening a lead detail', async () => {

@@ -185,12 +185,12 @@ describe('ProjectList', () => {
             .map((button) => (button as HTMLButtonElement).textContent ?? '')
             .join(' ');
 
-        expect(buttonText).toContain('从线索创建项目');
+        expect(buttonText).toContain('选择线索转项目');
         expect(buttonText).not.toContain('新建项目');
 
         component.navigateToLeadEntry();
 
-        expect(routerMock.navigate).toHaveBeenCalledWith(['/leads']);
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/leads'], { queryParams: { conversion: 'ready' } });
     });
 
     it('does not expose project creation when the user only has read access', () => {
@@ -206,7 +206,7 @@ describe('ProjectList', () => {
         canCreateLead.set(false);
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.textContent).toContain('正式项目入口已切到线索转项目。');
+        expect(fixture.nativeElement.textContent).toContain('正式项目入口需要从已确认有效线索转入。');
         expect(fixture.nativeElement.textContent).not.toContain('新建项目');
     });
 });

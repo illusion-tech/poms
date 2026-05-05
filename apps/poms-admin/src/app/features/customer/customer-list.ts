@@ -146,7 +146,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                     sortMode="multiple"
                     responsiveLayout="scroll"
                     [globalFilterFields]="['customerNo', 'displayName', 'legalName', 'shortName', 'ownerName', 'ownerOrgName', 'status']"
-                    [tableStyle]="{ width: '100%', 'min-width': '74rem' }"
+                    [tableStyle]="{ width: '100%' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个客户"
                     [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
@@ -179,45 +179,49 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 
                     <ng-template #header>
                         <tr>
-                            <th pSortableColumn="displayName" class="min-w-72">
+                            <th pSortableColumn="displayName" class="w-[36%] min-w-72">
                                 <span class="flex items-center gap-2">客户 <p-sortIcon field="displayName" /></span>
                             </th>
-                            <th pSortableColumn="status" class="min-w-32">
-                                <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                            <th pSortableColumn="status" class="w-[24%] min-w-52">
+                                <span class="flex items-center gap-2">状态/业务 <p-sortIcon field="status" /></span>
                             </th>
-                            <th class="min-w-48">主责</th>
-                            <th class="min-w-52">关联业务</th>
-                            <th pSortableColumn="updatedAt" class="min-w-44">
-                                <span class="flex items-center gap-2">最近更新 <p-sortIcon field="updatedAt" /></span>
+                            <th pSortableColumn="updatedAt" class="w-[24%] min-w-56">
+                                <span class="flex items-center gap-2">责任/更新 <p-sortIcon field="updatedAt" /></span>
                             </th>
-                            <th class="min-w-48">操作</th>
+                            <th class="w-52 min-w-52">继续处理</th>
                         </tr>
                     </ng-template>
 
                     <ng-template #body let-customer>
                         <tr>
                             <td>
-                                <button type="button" class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="openDetail(customer)">
+                                <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="openDetail(customer)">
                                     {{ customer.displayName }}
                                 </button>
-                                <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ customer.customerNo }}</div>
-                                <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(customer.legalName || customer.shortName, '未维护法定名称/简称') }}</div>
-                            </td>
-                            <td><p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" /></td>
-                            <td>
-                                <div class="text-sm font-medium text-surface-900 dark:text-surface-0">{{ displayText(customer.ownerName, '未指定') }}</div>
-                                <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(customer.ownerOrgName, '未归属组织') }}</div>
+                                <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>{{ customer.customerNo }}</span>
+                                    <span class="text-surface-700 dark:text-surface-200">{{ displayText(customer.legalName || customer.shortName, '未维护法定名称/简称') }}</span>
+                                </div>
                             </td>
                             <td>
-                                <div class="flex flex-wrap gap-2">
+                                <div class="mb-2">
+                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" />
+                                </div>
+                                <div class="flex flex-wrap gap-1.5">
                                     <span class="rounded-[6px] bg-surface-100 px-2 py-1 text-xs text-surface-700 dark:bg-surface-800 dark:text-surface-200">线索 {{ customer.leadCount }}</span>
                                     <span class="rounded-[6px] bg-surface-100 px-2 py-1 text-xs text-surface-700 dark:bg-surface-800 dark:text-surface-200">项目 {{ customer.projectCount }}</span>
                                     <span class="rounded-[6px] bg-surface-100 px-2 py-1 text-xs text-surface-700 dark:bg-surface-800 dark:text-surface-200">合同 {{ customer.contractCount }}</span>
                                 </div>
                             </td>
-                            <td>{{ customer.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</td>
                             <td>
-                                <div class="flex flex-wrap gap-2">
+                                <div class="flex flex-col gap-1 text-sm leading-5">
+                                    <span class="font-medium text-surface-900 dark:text-surface-0">{{ displayText(customer.ownerName, '未指定') }}</span>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ displayText(customer.ownerOrgName, '未归属组织') }}</span>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ customer.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap justify-start gap-2">
                                     <p-button label="详情" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openDetail(customer)" />
                                     <p-button label="编辑" icon="pi pi-pencil" size="small" severity="primary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditDialog(customer)" />
                                 </div>
@@ -227,7 +231,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 
                     <ng-template #emptymessage>
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-surface-500 dark:text-surface-400">{{ loading() ? '正在读取客户列表' : '暂无匹配客户' }}</td>
+                            <td colspan="4" class="px-6 py-12 text-center text-surface-500 dark:text-surface-400">{{ loading() ? '正在读取客户列表' : '暂无匹配客户' }}</td>
                         </tr>
                     </ng-template>
                 </p-table>

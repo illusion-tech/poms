@@ -128,23 +128,26 @@ describe('ContractList', () => {
         fixture.detectChanges();
     });
 
-    it('renders POMS and customer contract numbers separately', () => {
+    it('renders grouped contract and project context', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(contractStoreMock.loadContracts).toHaveBeenCalled();
         expect(projectStoreMock.loadProjects).toHaveBeenCalled();
         expect(text).toContain('清空筛选');
         expect(fixture.nativeElement.querySelector('input[placeholder="搜索合同、项目、客户"]')).not.toBeNull();
-        expect(text).toContain('POMS 合同编号');
-        expect(text).toContain('客户合同编号');
+        expect(text).toContain('合同/项目');
+        expect(text).toContain('金额/状态');
+        expect(text).toContain('继续处理');
         expect(text).toContain('CT-2026-000001');
+        expect(text).toContain('客户合同：');
         expect(text).toContain('KH-HT-2026-01');
+        expect(text).toContain('城市交通项目');
     });
 
     it('uses the table-demo filter baseline inside the PrimeNG table', () => {
         const columnFilters = fixture.nativeElement.querySelectorAll('p-columnfilter');
 
-        expect(columnFilters.length).toBeGreaterThanOrEqual(5);
+        expect(columnFilters.length).toBeGreaterThanOrEqual(3);
         expect(fixture.nativeElement.textContent).toContain('当前共 1 份合同');
         expect(component.statusColumnFilterOptions).toEqual([
             { label: '草稿', value: 'draft' },

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { Menu, MenuModule } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -26,7 +25,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
 @Component({
     selector: 'app-contract-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MenuModule, MessageModule, AutoCompleteModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule],
     providers: [ContractStore, ProjectStore],
     template: `
         <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
@@ -55,7 +54,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                     dataKey="id"
                     sortMode="multiple"
                     responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%', 'min-width': '76rem' }"
+                    [tableStyle]="{ width: '100%' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
                     [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
@@ -76,36 +75,21 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                     </ng-template>
                     <ng-template #header>
                         <tr>
-                            <th pSortableColumn="contractNo" class="min-w-48">
+                            <th pSortableColumn="contractNo" class="w-[30%] min-w-72">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">POMS 合同编号 <p-sortIcon field="contractNo" /></span>
+                                    <span class="flex items-center gap-2">合同/项目 <p-sortIcon field="contractNo" /></span>
                                     <p-columnFilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
                                 </div>
                             </th>
-                            <th pSortableColumn="customerContractNo" class="min-w-48">
+                            <th pSortableColumn="customerName" class="w-[20%] min-w-48">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">客户合同编号 <p-sortIcon field="customerContractNo" /></span>
-                                    <p-columnFilter type="text" field="customerContractNo" display="menu" placeholder="按客户编号筛选" />
-                                </div>
-                            </th>
-                            <th pSortableColumn="projectName" class="min-w-56">
-                                <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">项目名称 <p-sortIcon field="projectName" /></span>
-                                    <p-columnFilter type="text" field="projectName" display="menu" placeholder="按项目筛选" />
-                                </div>
-                            </th>
-                            <th pSortableColumn="customerName" class="min-w-48">
-                                <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">客户名称 <p-sortIcon field="customerName" /></span>
+                                    <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
                                     <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
                                 </div>
                             </th>
-                            <th pSortableColumn="signedAmount" class="min-w-40">
-                                <span class="flex items-center gap-2">签约金额 <p-sortIcon field="signedAmount" /></span>
-                            </th>
-                            <th pSortableColumn="status" class="min-w-40">
+                            <th pSortableColumn="signedAmount" class="w-[22%] min-w-56">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                                    <span class="flex items-center gap-2">金额/状态 <p-sortIcon field="signedAmount" /></span>
                                     <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                         <ng-template #filter let-value let-filter="filterCallback">
                                             <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-44" />
@@ -113,45 +97,46 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                                     </p-columnFilter>
                                 </div>
                             </th>
-                            <th pSortableColumn="signedAt" class="min-w-40">
-                                <span class="flex items-center gap-2">签约日期 <p-sortIcon field="signedAt" /></span>
+                            <th pSortableColumn="signedAt" class="w-[16%] min-w-44">
+                                <span class="flex items-center gap-2">签约信息 <p-sortIcon field="signedAt" /></span>
                             </th>
-                            <th style="width: 6rem">操作</th>
+                            <th class="w-40 min-w-40">继续处理</th>
                         </tr>
                     </ng-template>
                     <ng-template #body let-contract>
                         <tr>
                             <td>
-                                <span class="text-primary font-medium cursor-pointer hover:underline" (click)="navigateToDetail(contract)">{{ contract.contractNo }}</span>
+                                <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(contract)">{{ contract.contractNo }}</button>
+                                <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>客户合同：{{ displayText(contract.customerContractNo, '未填写') }}</span>
+                                    <span class="text-surface-700 dark:text-surface-200">{{ contract.projectName }}</span>
+                                </div>
                             </td>
                             <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.customerContractNo ?? '-' }}</span>
+                                <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ displayText(contract.customerName, '未绑定客户') }}</span>
                             </td>
                             <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ contract.projectName }}</span>
+                                <div class="flex flex-col gap-2 text-sm leading-5">
+                                    <span class="font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</span>
+                                    <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="w-fit rounded-[6px] px-2 py-1" />
+                                </div>
                             </td>
                             <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.customerName ?? '-' }}</span>
+                                <div class="flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>签约：{{ contract.signedAt ? (contract.signedAt | date: 'yyyy-MM-dd') : '未登记' }}</span>
+                                    <span>更新：{{ contract.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                </div>
                             </td>
                             <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium leading-tight">{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</span>
-                            </td>
-                            <td>
-                                <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="px-2 py-1 rounded-[6px]" />
-                            </td>
-                            <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm font-normal leading-tight">{{ contract.signedAt ? (contract.signedAt | date: 'yyyy-MM-dd') : '-' }}</span>
-                            </td>
-                            <td>
-                                <div class="flex items-center gap-1">
-                                    <p-button (onClick)="toggleMenu($event, contract)" [rounded]="true" [text]="true" icon="pi pi-ellipsis-h" size="small" severity="secondary" class="cursor-pointer" />
+                                <div class="flex flex-wrap justify-start gap-2">
+                                    <p-button label="详情" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="navigateToDetail(contract)" />
                                 </div>
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template #emptymessage>
                         <tr>
-                            <td colspan="8" class="text-center py-8">
+                            <td colspan="5" class="text-center py-8">
                                 <i class="pi pi-inbox text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
                                 <span class="text-surface-500 dark:text-surface-400">暂无匹配合同</span>
                             </td>
@@ -159,11 +144,10 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                     </ng-template>
                     <ng-template #loadingbody>
                         <tr>
-                            <td colspan="8" class="py-8 text-center text-surface-500 dark:text-surface-400">正在读取合同列表</td>
+                            <td colspan="5" class="py-8 text-center text-surface-500 dark:text-surface-400">正在读取合同列表</td>
                         </tr>
                     </ng-template>
                 </p-table>
-                <p-menu #actionMenu [model]="menuItems()" [popup]="true" styleClass="w-48!" appendTo="body" />
             </div>
 
             <!-- Create Contract Dialog -->
@@ -261,7 +245,6 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
 })
 export class ContractList implements OnInit {
     @ViewChild('dt') dt!: Table;
-    @ViewChild('actionMenu') actionMenu!: Menu;
 
     readonly #contractStore = inject(ContractStore);
     readonly #projectStore = inject(ProjectStore);
@@ -277,7 +260,6 @@ export class ContractList implements OnInit {
     searchValue = '';
     first = 0;
     rows = 10;
-    selectedContract = signal<ContractSummary | null>(null);
     readonly statusColumnFilterOptions = CONTRACT_STATUS_FILTER_OPTIONS;
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
@@ -295,25 +277,8 @@ export class ContractList implements OnInit {
         { label: '欧元 (EUR)', value: 'EUR' }
     ];
 
-    menuItems = computed(() => {
-        const contract = this.selectedContract();
-        if (!contract) return [];
-        return [
-            {
-                label: '查看详情',
-                icon: 'pi pi-eye',
-                command: () => this.navigateToDetail(contract)
-            }
-        ];
-    });
-
     ngOnInit() {
         void Promise.all([this.#contractStore.loadContracts(), this.#projectStore.loadProjects()]);
-    }
-
-    toggleMenu(event: Event, contract: ContractSummary) {
-        this.selectedContract.set(contract);
-        this.actionMenu.toggle(event);
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -394,6 +359,10 @@ export class ContractList implements OnInit {
     optionalText(value: string): string | null {
         const trimmed = value.trim();
         return trimmed.length > 0 ? trimmed : null;
+    }
+
+    displayText(value: string | null | undefined, fallback: string): string {
+        return value?.trim() ? value : fallback;
     }
 
     getStatusName(status: ContractStatus): string {

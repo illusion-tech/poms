@@ -79,11 +79,11 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
 
                     <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
                         @if (canCreateLead()) {
-                            <p-button label="从线索创建项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
+                            <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
                         }
 
                         @if (!canCreateLead() && canCreateProject()) {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">正式项目入口已切到线索转项目。</div>
+                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">正式项目入口需要从已确认有效线索转入。</div>
                         }
 
                         @if (!canCreateLead() && !canCreateProject()) {
@@ -120,7 +120,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                         sortMode="multiple"
                         responsiveLayout="scroll"
                         [globalFilterFields]="['projectNo', 'projectName', 'customerName', 'customerProjectNo', 'ownerName', 'ownerOrgName', 'currentStage', 'status']"
-                        [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
+                        [tableStyle]="{ width: '100%' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个项目"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
@@ -163,21 +163,15 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                         </ng-template>
                         <ng-template #header>
                             <tr>
-                                <th pSortableColumn="projectName" class="min-w-64">
+                                <th pSortableColumn="projectName" class="w-[34%] min-w-72">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">项目 <p-sortIcon field="projectName" /></span>
+                                        <span class="flex items-center gap-2">项目/客户 <p-sortIcon field="projectName" /></span>
                                         <p-columnFilter type="text" field="projectName" display="menu" placeholder="按项目名筛选" />
                                     </div>
                                 </th>
-                                <th pSortableColumn="customerName" class="min-w-48">
+                                <th pSortableColumn="currentStage" class="w-[22%] min-w-52">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
-                                        <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
-                                    </div>
-                                </th>
-                                <th pSortableColumn="currentStage" class="min-w-40">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">阶段 <p-sortIcon field="currentStage" /></span>
+                                        <span class="flex items-center gap-2">阶段/状态 <p-sortIcon field="currentStage" /></span>
                                         <p-columnFilter field="currentStage" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
                                                 <p-select [ngModel]="value" [options]="stageColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意阶段" appendTo="body" (onChange)="filter($event.value)" styleClass="w-48" />
@@ -185,67 +179,51 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                                         </p-columnFilter>
                                     </div>
                                 </th>
-                                <th pSortableColumn="status" class="min-w-36">
+                                <th pSortableColumn="ownerName" class="w-[24%] min-w-60">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
-                                        <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                                            <ng-template #filter let-value let-filter="filterCallback">
-                                                <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-48" />
-                                            </ng-template>
-                                        </p-columnFilter>
-                                    </div>
-                                </th>
-                                <th pSortableColumn="ownerName" class="min-w-52">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">负责人 <p-sortIcon field="ownerName" /></span>
+                                        <span class="flex items-center gap-2">责任/节点 <p-sortIcon field="ownerName" /></span>
                                         <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按负责人筛选" />
                                     </div>
                                 </th>
-                                <th pSortableColumn="latestMilestoneAt" class="min-w-44">
-                                    <span class="flex items-center gap-2">最近关键节点 <p-sortIcon field="latestMilestoneAt" /></span>
-                                </th>
-                                <th class="min-w-48">继续处理</th>
+                                <th class="w-56 min-w-56">继续处理</th>
                             </tr>
                         </ng-template>
                         <ng-template #body let-project>
                             <tr>
                                 <td>
-                                    <button type="button" class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(project)">
+                                    <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(project)">
                                         {{ project.projectName }}
                                     </button>
-                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.projectNo }}</div>
+                                    <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                        <span>{{ project.projectNo }}</span>
+                                        <span class="text-surface-700 dark:text-surface-200">{{ displayText(project.customerName, '待补充客户') }}</span>
+                                        <span>客户项目号：{{ displayText(project.customerProjectNo, '未填写') }}</span>
+                                    </div>
                                 </td>
                                 <td>
-                                    <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ displayText(project.customerName, '待补充客户') }}</span>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="getStatusName(project.status)" [severity]="getStatusSeverity(project.status)" styleClass="rounded-[6px]!" />
+                                    </div>
                                 </td>
                                 <td>
-                                    <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" styleClass="rounded-[6px]!" />
+                                    <div class="flex flex-col gap-1 text-sm leading-5">
+                                        <span class="font-medium text-surface-900 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</span>
+                                        <span class="text-xs text-surface-500 dark:text-surface-400">{{ displayText(project.ownerOrgName, '待归属组织') }}</span>
+                                        <span class="text-xs text-surface-500 dark:text-surface-400">关键节点：{{ project.latestMilestoneAt ? (project.latestMilestoneAt | date: 'yyyy-MM-dd') : '暂无' }}</span>
+                                    </div>
                                 </td>
                                 <td>
-                                    <p-tag [value]="getStatusName(project.status)" [severity]="getStatusSeverity(project.status)" styleClass="rounded-[6px]!" />
-                                </td>
-                                <td>
-                                    <div class="text-sm font-medium leading-5 text-surface-900 dark:text-surface-0">{{ displayText(project.ownerName, '待指定') }}</div>
-                                    <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ displayText(project.ownerOrgName, '待归属组织') }}</div>
-                                </td>
-                                <td>
-                                    @if (project.latestMilestoneAt) {
-                                        <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ project.latestMilestoneAt | date: 'yyyy-MM-dd' }}</span>
-                                    } @else {
-                                        <span class="text-sm leading-5 text-surface-500 dark:text-surface-400">暂无关键节点</span>
-                                    }
-                                </td>
-                                <td>
-                                    <div class="flex flex-wrap gap-2">
-                                        <p-button label="详情" severity="secondary" [outlined]="true" size="small" styleClass="rounded-md!" (onClick)="navigateToDetail(project)" />
-                                        <p-button label="工作区" severity="secondary" size="small" styleClass="rounded-md!" (onClick)="navigateToWorkspace(project)" />
+                                    <div class="flex flex-wrap justify-start gap-2">
+                                        <p-button label="详情" icon="pi pi-eye" severity="secondary" [outlined]="true" size="small" styleClass="rounded-md!" (onClick)="navigateToDetail(project)" />
+                                        <p-button label="工作区" icon="pi pi-briefcase" severity="secondary" size="small" styleClass="rounded-md!" (onClick)="navigateToWorkspace(project)" />
                                     </div>
                                 </td>
                             </tr>
                         </ng-template>
                         <ng-template #emptymessage>
                             <tr>
-                                <td colspan="7" class="px-6 py-12 text-center">
+                                <td colspan="4" class="px-6 py-12 text-center">
                                     <div class="mx-auto flex max-w-md flex-col items-center gap-2">
                                         <i class="pi pi-folder-open text-3xl text-surface-300 dark:text-surface-600"></i>
                                         <div class="text-sm font-medium text-surface-700 dark:text-surface-200">没有符合条件的项目</div>
@@ -415,7 +393,7 @@ export class ProjectList implements OnInit {
     }
 
     navigateToLeadEntry() {
-        this.#router.navigate(['/leads']);
+        this.#router.navigate(['/leads'], { queryParams: { conversion: 'ready' } });
     }
 
     navigateToCustomers() {

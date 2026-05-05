@@ -145,6 +145,7 @@ const LEAD_URGENCY_OPTIONS = leadFilterOptions(LeadUrgencyOptions as ReadonlyArr
 const DEFAULT_BUDGET_STATUS = LeadBudgetStatus.Unknown;
 const DEFAULT_URGENCY = LeadUrgency.Normal;
 const DEFAULT_OWNERSHIP_SCOPE = LeadOwnershipScope.All;
+const CONVERSION_QUERY_VALUE = 'ready';
 
 const EMPTY_CREATE_FORM: CreateLeadForm = {
     leadName: '',
@@ -254,6 +255,23 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                 <app-workspace-feedback severity="error" summary="线索暂时无法处理" [detail]="pageError()" />
             }
 
+            @if (conversionGuideActive()) {
+                <section class="flex flex-col gap-3 rounded-[8px] border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-900 dark:border-primary-700 dark:bg-primary-950/30 dark:text-primary-100 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 font-semibold">
+                            <i class="pi pi-arrow-right"></i>
+                            <span>选择一条可转项目线索</span>
+                        </div>
+                        <p class="mt-1 max-w-4xl leading-6 text-primary-700 dark:text-primary-200">从项目入口进入后，系统先筛出已确认有效线索；能转的线索在操作列显示“转入项目”，未满足闸口的线索显示“补齐闸口”。</p>
+                    </div>
+                    <div class="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
+                        <span class="rounded-md bg-primary-100 px-3 py-2 text-sm font-medium text-primary-700 dark:bg-primary-900/60 dark:text-primary-100">{{ readyConversionLeadCount() }} 条可转项目</span>
+                        <span class="rounded-md bg-amber-100 px-3 py-2 text-sm font-medium text-amber-700 dark:bg-amber-900/40 dark:text-amber-100">{{ blockedConversionLeadCount() }} 条待补齐</span>
+                        <p-button label="查看全部线索" icon="pi pi-list" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="clearConversionGuide()" />
+                    </div>
+                </section>
+            }
+
             <section class="flex flex-col gap-4">
                 <div class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
                     <p-table
@@ -269,7 +287,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                         sortMode="multiple"
                         responsiveLayout="scroll"
                         [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'status', 'ownerName', 'ownerOrgName']"
-                        [tableStyle]="{ width: '100%', 'min-width': '102rem' }"
+                        [tableStyle]="{ width: '100%' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
@@ -324,21 +342,15 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 
                         <ng-template #header>
                             <tr>
-                                <th pSortableColumn="leadName" class="min-w-64">
+                                <th pSortableColumn="leadName" class="w-[30%] min-w-72">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">线索 <p-sortIcon field="leadName" /></span>
+                                        <span class="flex items-center gap-2">线索/客户 <p-sortIcon field="leadName" /></span>
                                         <p-columnFilter type="text" field="leadName" display="menu" placeholder="按线索名筛选" />
                                     </div>
                                 </th>
-                                <th pSortableColumn="customerName" class="min-w-48">
+                                <th pSortableColumn="status" class="w-[22%] min-w-56">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
-                                        <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
-                                    </div>
-                                </th>
-                                <th pSortableColumn="status" class="min-w-36">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">状态 <p-sortIcon field="status" /></span>
+                                        <span class="flex items-center gap-2">状态/评分 <p-sortIcon field="status" /></span>
                                         <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
                                                 <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-44" />
@@ -346,64 +358,67 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                         </p-columnFilter>
                                     </div>
                                 </th>
-                                <th pSortableColumn="score" class="min-w-36">
-                                    <span class="flex items-center gap-2">评分 <p-sortIcon field="score" /></span>
+                                <th pSortableColumn="estimatedAmount" class="w-[18%] min-w-48">
+                                    <span class="flex items-center gap-2">商务信息 <p-sortIcon field="estimatedAmount" /></span>
                                 </th>
-                                <th pSortableColumn="sourceName" class="min-w-40">
-                                    <span class="flex items-center gap-2">来源 <p-sortIcon field="sourceName" /></span>
-                                </th>
-                                <th pSortableColumn="budgetStatus" class="min-w-36">
-                                    <span class="flex items-center gap-2">预算 <p-sortIcon field="budgetStatus" /></span>
-                                </th>
-                                <th pSortableColumn="estimatedAmount" class="min-w-36">
-                                    <span class="flex items-center gap-2">预计金额 <p-sortIcon field="estimatedAmount" /></span>
-                                </th>
-                                <th pSortableColumn="urgency" class="min-w-28">
-                                    <span class="flex items-center gap-2">紧迫度 <p-sortIcon field="urgency" /></span>
-                                </th>
-                                <th pSortableColumn="ownerName" class="min-w-52">
+                                <th pSortableColumn="ownerName" class="w-[18%] min-w-52">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">销售主责 <p-sortIcon field="ownerName" /></span>
+                                        <span class="flex items-center gap-2">责任/更新 <p-sortIcon field="ownerName" /></span>
                                         <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按销售主责筛选" />
                                     </div>
                                 </th>
-                                <th pSortableColumn="updatedAt" class="min-w-44">
-                                    <span class="flex items-center gap-2">最近更新 <p-sortIcon field="updatedAt" /></span>
-                                </th>
-                                <th class="min-w-64">继续处理</th>
+                                <th class="w-60 min-w-60">继续处理</th>
                             </tr>
                         </ng-template>
 
                         <ng-template #body let-lead>
                             <tr>
                                 <td>
-                                    <button type="button" class="max-w-80 text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="openLeadDetail(lead)">
+                                    <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="openLeadDetail(lead)">
                                         {{ lead.leadName }}
                                     </button>
-                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ lead.leadNo }}</div>
+                                    <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                        <span>{{ lead.leadNo }}</span>
+                                        <span class="text-surface-700 dark:text-surface-200">{{ lead.customerName }}</span>
+                                        <span>来源：{{ getLeadSourceName(lead) }}</span>
+                                    </div>
                                 </td>
-                                <td>{{ lead.customerName }}</td>
-                                <td><p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" /></td>
                                 <td>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" />
                                         <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ lead.score }}</span>
                                         <p-tag [value]="getLeadRatingName(lead.rating)" [severity]="getLeadRatingSeverity(lead.rating)" styleClass="rounded-[6px]" />
                                     </div>
-                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ lead.gateSummary.conversion.explanation }}</div>
-                                </td>
-                                <td>{{ getLeadSourceName(lead) }}</td>
-                                <td>{{ getBudgetStatusName(lead.budgetStatus) }}</td>
-                                <td>{{ formatAmount(lead.estimatedAmount) }}</td>
-                                <td>{{ getUrgencyName(lead.urgency) }}</td>
-                                <td>
-                                    <div class="flex flex-col gap-1">
-                                        <span>{{ displayText(lead.ownerName, '公共池') }}</span>
-                                        <span class="text-xs text-surface-500 dark:text-surface-400">{{ displayText(lead.ownerOrgName, '未归属组织') }}</span>
+                                    <div class="mt-2 flex items-start gap-1.5 text-xs leading-5" [ngClass]="canConvertLead(lead) ? 'text-green-600 dark:text-green-300' : 'text-amber-600 dark:text-amber-300'">
+                                        <i class="pi mt-0.5 text-[0.7rem]" [ngClass]="canConvertLead(lead) ? 'pi-check-circle' : 'pi-exclamation-triangle'"></i>
+                                        <span>{{ lead.gateSummary.conversion.explanation }}</span>
                                     </div>
                                 </td>
-                                <td>{{ lead.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</td>
                                 <td>
-                                    <div class="flex flex-wrap gap-2">
+                                    <div class="grid grid-cols-1 gap-1 text-sm leading-5">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-xs text-surface-500 dark:text-surface-400">预算</span>
+                                            <span class="text-right text-surface-900 dark:text-surface-0">{{ getBudgetStatusName(lead.budgetStatus) }}</span>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-xs text-surface-500 dark:text-surface-400">金额</span>
+                                            <span class="text-right text-surface-900 dark:text-surface-0">{{ formatAmount(lead.estimatedAmount) }}</span>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-xs text-surface-500 dark:text-surface-400">紧迫度</span>
+                                            <span class="text-right text-surface-900 dark:text-surface-0">{{ getUrgencyName(lead.urgency) }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex flex-col gap-1 text-sm leading-5">
+                                        <span class="font-medium text-surface-900 dark:text-surface-0">{{ displayText(lead.ownerName, '公共池') }}</span>
+                                        <span class="text-xs text-surface-500 dark:text-surface-400">{{ displayText(lead.ownerOrgName, '未归属组织') }}</span>
+                                        <span class="text-xs text-surface-500 dark:text-surface-400">{{ lead.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex flex-wrap justify-start gap-2">
                                         <p-button label="查看" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openLeadDetail(lead)" />
                                         @if (canClaimLead(lead)) {
                                             <p-button label="申领" icon="pi pi-user-plus" size="small" severity="primary" [outlined]="true" styleClass="rounded-md!" [loading]="saving()" (onClick)="claimLeadOwner(lead)" />
@@ -416,6 +431,9 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                         }
                                         @if (canConvertLead(lead)) {
                                             <p-button label="转入项目" icon="pi pi-arrow-right" size="small" severity="primary" styleClass="rounded-md!" (onClick)="showConvertDialog(lead)" />
+                                        }
+                                        @if (shouldShowConversionGapAction(lead)) {
+                                            <p-button label="补齐闸口" icon="pi pi-list-check" size="small" severity="warn" [outlined]="true" styleClass="rounded-md!" (onClick)="openLeadDetail(lead)" />
                                         }
                                         @if (lead.convertedProjectId) {
                                             <p-button label="查看项目" icon="pi pi-external-link" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToProject(lead.convertedProjectId)" />
@@ -430,7 +448,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 
                         <ng-template #emptymessage>
                             <tr>
-                                <td colspan="11" class="py-8 text-center text-surface-400">{{ loading() ? '线索读取中...' : '暂无匹配线索' }}</td>
+                                <td colspan="5" class="py-8 text-center text-surface-400">{{ loading() ? '线索读取中...' : '暂无匹配线索' }}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -1094,6 +1112,7 @@ export class LeadList implements OnInit {
     readonly actionTarget = signal<LeadActionTarget | null>(null);
     readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
     readonly queryOpenedLeadId = signal<string | null>(null);
+    readonly conversionGuideActive = signal(false);
 
     readonly rows = 10;
     first = 0;
@@ -1185,6 +1204,9 @@ export class LeadList implements OnInit {
         });
     });
 
+    readonly readyConversionLeadCount = computed(() => this.leads().filter((lead) => this.canConvertLead(lead)).length);
+    readonly blockedConversionLeadCount = computed(() => this.leads().filter((lead) => lead.status === LeadStatus.Qualified && !this.canConvertLead(lead)).length);
+
     readonly totalLeadCount = computed(() => this.leads().length);
     readonly leadDistributionItems = computed<LeadDistributionItem[]>(() => {
         const total = this.totalLeadCount();
@@ -1211,8 +1233,14 @@ export class LeadList implements OnInit {
         this.#route.queryParamMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
             const leadId = params.get('leadId');
             const followUpId = params.get('followUpId');
+            const conversionGuide = params.get('conversion') === CONVERSION_QUERY_VALUE;
             this.queryOpenedLeadId.set(leadId);
             this.followUpReminderEntry.set(followUpId ? { followUpId, todoId: params.get('todoId') } : null);
+            this.conversionGuideActive.set(conversionGuide);
+            if (conversionGuide) {
+                this.statusFilter.set(LeadStatus.Qualified);
+                this.first = 0;
+            }
             if (leadId) {
                 void this.openLeadDetailById(leadId);
             }
@@ -1268,13 +1296,36 @@ export class LeadList implements OnInit {
     }
 
     clearFilters(table: Table) {
+        const shouldClearConversionGuide = this.conversionGuideActive();
         this.searchValue.set('');
         this.statusFilter.set(ALL_FILTER_VALUE);
         this.ratingFilter.set(ALL_FILTER_VALUE);
         this.ownershipFilter.set(DEFAULT_OWNERSHIP_SCOPE);
+        this.conversionGuideActive.set(false);
         this.first = 0;
         table.clear();
+        if (shouldClearConversionGuide) {
+            this.clearConversionGuideQuery();
+        }
         void this.loadLeads();
+    }
+
+    clearConversionGuide() {
+        this.conversionGuideActive.set(false);
+        this.statusFilter.set(ALL_FILTER_VALUE);
+        this.first = 0;
+        this.clearConversionGuideQuery();
+    }
+
+    private clearConversionGuideQuery() {
+        void this.#router.navigate([], {
+            relativeTo: this.#route,
+            queryParams: {
+                conversion: null
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl: true
+        });
     }
 
     setStatusFilter(value: LeadStatus | LeadAllFilterValue | null | undefined) {
@@ -1772,6 +1823,10 @@ export class LeadList implements OnInit {
 
     canConvertLead(lead: LeadActionTarget): boolean {
         return this.canWriteLead() && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
+    }
+
+    shouldShowConversionGapAction(lead: LeadActionTarget): boolean {
+        return this.conversionGuideActive() && this.canWriteLead() && lead.status === LeadStatus.Qualified && !this.canConvertLead(lead);
     }
 
     getStatusName(status: LeadStatus): string {
