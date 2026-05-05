@@ -18,6 +18,8 @@ export * from './lib/sales-intelligence/sales-intelligence.store';
 
 export {
     ActiveInactiveStatus,
+    AttachmentDownloadPackageStatus,
+    AttachmentHandoverApi,
     ApprovalApi,
     ApprovalDecision,
     ApprovalStatus,
@@ -91,6 +93,7 @@ export {
     ProjectTimelineEventEventTypeEnum,
     ProjectTimelineEventSourceTypeEnum,
     ProjectCostApi,
+    ProjectHandoverAttachmentChecklistItemStatus,
     ProjectHandoverStatus,
     ProjectHandoverParticipantConfirmationStatus,
     ProjectHandoverReceiptJudgmentSourceType,
@@ -161,6 +164,7 @@ export {
 export type {
     ActivateContractRequest,
     ApprovalRecordSummary,
+    AttachmentDownloadPackageSummary,
     AttachmentSummary,
     BusinessAccountingFeedbackView,
     CommissionRoleAssignmentDetailView,
@@ -228,6 +232,8 @@ export type {
     ProjectArchiveRecordSummary,
     ProjectBusinessOutcomeOverviewView,
     ProjectDetailView,
+    ProjectHandoverAttachmentChecklistItem,
+    ProjectHandoverAttachmentChecklistView,
     ProjectHandoverDetailView,
     ProjectListView,
     ProjectPricingMarginConditionItemInput,

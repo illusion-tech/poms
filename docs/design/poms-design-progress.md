@@ -527,6 +527,8 @@
 46. 2026-05-05 `EX-52` 已完成 `G4`，提交 `3f1f14a`：附件移交清单与批量下载治理边界已冻结，并登记项目移交附件清单 / 下载包 planned routes；后续需要另拆 `EX-52A` 后端运行时和前端移交入口，不能在治理切片中直接混入代码实现。
 47. 2026-05-05 `EX-52A` 已进入 `G1 / Doing`：新增 `ex-52a-attachment-handover-runtime-baseline.md`，冻结后端运行时范围为 `project-handover` 附件 target、移交清单选择持久化、短期下载包、planned routes、OpenAPI / generated client、审计和 focused tests；本片不做前端入口、敏感导出审批流、对象存储迁移或长期外链。
 48. 2026-05-05 `EX-52A` 已完成 `G4`：项目移交附件清单扫描 / 刷新、`project-handover` 附件 target、清单选择持久化、短期 zip 下载包、下载包状态 / 受控下载、OpenAPI / generated client、migration 和后端 focused tests 已落地；route inventory 已从 `planned` 切为 `aligned`，前端移交入口、敏感导出审批流、对象存储迁移和长期外链继续保持后续范围。
+49. 2026-05-05 `FE-55` 已进入 `G1 / Doing`：新增 `fe-55-project-handover-attachment-frontend-baseline.md`，冻结项目移交附件清单与批量下载前端入口范围；本片只消费 EX-52A generated client，在合同承接 / 项目移交页面展示清单、缺口、敏感排除、纳入项选择、短期下载包和受控下载，不新增后端 route、敏感导出审批流、对象存储迁移或长期外链。
+50. 2026-05-05 `FE-55` 已完成 `G4`：项目合同承接 / 移交页面已接入附件移交清单、统计、刷新扫描、敏感排除提示、可下载项选择、短期下载包创建和 authenticated blob 下载；`ProjectWorkspaceStore` 新增 EX-52A generated client 消费和下载包下载方法，并补 focused component / store tests；未新增 public API route、迁移、OpenAPI 或 generated client。
 
 ---
 

@@ -1,6 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type {
+    AttachmentDownloadPackageSummary,
+    AttachmentSelectionVersionExpectation,
     BusinessAccountingFeedbackView,
     CommissionRoleAssignmentDetailView,
     CommissionRoleAssignmentSummary,
@@ -12,6 +14,7 @@ import type {
     CreateProjectPricingMarginReviewRequest,
     ProjectBidCommercialProcessSummary,
     ProjectHandoverDetailView,
+    ProjectHandoverAttachmentChecklistView,
     ProjectBidCommercialWorkspaceView,
     ProjectBusinessOutcomeOverviewView,
     ProjectPricingMarginReviewSummary,
@@ -21,7 +24,7 @@ import type {
     ProjectVarianceRiskExplanationView,
     ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
-import { CommissionApi, CommissionRoleAssignmentsApi, ContractReadinessApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
+import { AttachmentHandoverApi, BASE_PATH, CommissionApi, CommissionRoleAssignmentsApi, ContractReadinessApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
 import { firstValueFrom, type Observable } from 'rxjs';
 
 type WorkspaceErrorKind =
@@ -36,13 +39,29 @@ type WorkspaceErrorKind =
     | 'commission-gate'
     | 'commission-freeze-binding'
     | 'final-settlement'
-    | 'rule-explanation';
+    | 'rule-explanation'
+    | 'handover-attachments';
+
+export interface ProjectHandoverAttachmentPackageDownload {
+    blob: Blob;
+    fileName: string;
+}
+
+export interface CreateProjectHandoverAttachmentPackageInput {
+    handoverId: string;
+    selectionIds?: string[];
+    expectedSelectionVersions?: AttachmentSelectionVersionExpectation[];
+    note?: string | null;
+}
 
 @Injectable()
 export class ProjectWorkspaceStore {
+    readonly #httpClient = inject(HttpClient);
+    readonly #basePath = inject(BASE_PATH, { optional: true }) ?? '';
     readonly #projectApi = inject(ProjectApi);
     readonly #projectCostApi = inject(ProjectCostApi);
     readonly #projectHandoverApi = inject(ProjectHandoverApi);
+    readonly #attachmentHandoverApi = inject(AttachmentHandoverApi);
     readonly #contractReadinessApi = inject(ContractReadinessApi);
     readonly #commissionApi = inject(CommissionApi);
     readonly #commissionRoleAssignmentsApi = inject(CommissionRoleAssignmentsApi);
@@ -64,6 +83,8 @@ export class ProjectWorkspaceStore {
     readonly #commissionFreezeBindingDetail = signal<CommissionRoleAssignmentDetailView | null>(null);
     readonly #commissionFinalSettlement = signal<CommissionFinalSettlementView | null>(null);
     readonly #commissionRuleExplanation = signal<CommissionRuleExplanationView | null>(null);
+    readonly #handoverAttachmentChecklist = signal<ProjectHandoverAttachmentChecklistView | null>(null);
+    readonly #handoverAttachmentDownloadPackage = signal<AttachmentDownloadPackageSummary | null>(null);
 
     readonly #loadingGuidance = signal(false);
     readonly #loadingContractHandover = signal(false);
@@ -81,6 +102,10 @@ export class ProjectWorkspaceStore {
     readonly #loadingCommissionFreezeBinding = signal(false);
     readonly #loadingCommissionFinalSettlement = signal(false);
     readonly #loadingCommissionRuleExplanation = signal(false);
+    readonly #loadingHandoverAttachments = signal(false);
+    readonly #refreshingHandoverAttachments = signal(false);
+    readonly #creatingHandoverAttachmentPackage = signal(false);
+    readonly #downloadingHandoverAttachmentPackage = signal(false);
 
     readonly #guidanceError = signal<string | null>(null);
     readonly #contractHandoverError = signal<string | null>(null);
@@ -96,6 +121,7 @@ export class ProjectWorkspaceStore {
     readonly #commissionFreezeBindingError = signal<string | null>(null);
     readonly #commissionFinalSettlementError = signal<string | null>(null);
     readonly #commissionRuleExplanationError = signal<string | null>(null);
+    readonly #handoverAttachmentError = signal<string | null>(null);
 
     readonly guidance = this.#guidance.asReadonly();
     readonly contractHandoverSummary = this.#contractHandoverSummary.asReadonly();
@@ -114,6 +140,8 @@ export class ProjectWorkspaceStore {
     readonly commissionFreezeBindingDetail = this.#commissionFreezeBindingDetail.asReadonly();
     readonly commissionFinalSettlement = this.#commissionFinalSettlement.asReadonly();
     readonly commissionRuleExplanation = this.#commissionRuleExplanation.asReadonly();
+    readonly handoverAttachmentChecklist = this.#handoverAttachmentChecklist.asReadonly();
+    readonly handoverAttachmentDownloadPackage = this.#handoverAttachmentDownloadPackage.asReadonly();
 
     readonly loadingGuidance = this.#loadingGuidance.asReadonly();
     readonly loadingContractHandover = this.#loadingContractHandover.asReadonly();
@@ -131,6 +159,10 @@ export class ProjectWorkspaceStore {
     readonly loadingCommissionFreezeBinding = this.#loadingCommissionFreezeBinding.asReadonly();
     readonly loadingCommissionFinalSettlement = this.#loadingCommissionFinalSettlement.asReadonly();
     readonly loadingCommissionRuleExplanation = this.#loadingCommissionRuleExplanation.asReadonly();
+    readonly loadingHandoverAttachments = this.#loadingHandoverAttachments.asReadonly();
+    readonly refreshingHandoverAttachments = this.#refreshingHandoverAttachments.asReadonly();
+    readonly creatingHandoverAttachmentPackage = this.#creatingHandoverAttachmentPackage.asReadonly();
+    readonly downloadingHandoverAttachmentPackage = this.#downloadingHandoverAttachmentPackage.asReadonly();
 
     readonly guidanceError = this.#guidanceError.asReadonly();
     readonly contractHandoverError = this.#contractHandoverError.asReadonly();
@@ -146,6 +178,7 @@ export class ProjectWorkspaceStore {
     readonly commissionFreezeBindingError = this.#commissionFreezeBindingError.asReadonly();
     readonly commissionFinalSettlementError = this.#commissionFinalSettlementError.asReadonly();
     readonly commissionRuleExplanationError = this.#commissionRuleExplanationError.asReadonly();
+    readonly handoverAttachmentError = this.#handoverAttachmentError.asReadonly();
 
     readonly hasGuidance = computed(() => this.#guidance() !== null);
     readonly hasContractHandover = computed(() => this.#contractHandoverSummary() !== null && this.#projectHandoverDetail() !== null);
@@ -161,6 +194,7 @@ export class ProjectWorkspaceStore {
     readonly hasCommissionFreezeBinding = computed(() => this.#commissionFreezeBindingSummary() !== null || this.#commissionFreezeBindingDetail() !== null || this.#projectHandoverDetail() !== null);
     readonly hasCommissionFinalSettlement = computed(() => this.#commissionFinalSettlement() !== null);
     readonly hasCommissionRuleExplanation = computed(() => this.#commissionRuleExplanation() !== null);
+    readonly hasHandoverAttachmentChecklist = computed(() => this.#handoverAttachmentChecklist() !== null);
 
     async loadGuidance(projectId: string) {
         this.#loadingGuidance.set(true);
@@ -211,6 +245,111 @@ export class ProjectWorkspaceStore {
             throw error;
         } finally {
             this.#loadingContractHandover.set(false);
+        }
+    }
+
+    async loadHandoverAttachmentChecklist(handoverId: string): Promise<ProjectHandoverAttachmentChecklistView> {
+        this.#loadingHandoverAttachments.set(true);
+        this.#handoverAttachmentError.set(null);
+
+        try {
+            const checklist = await firstValueFrom(
+                this.#attachmentHandoverApi.attachmentHandoverControllerGetChecklist({
+                    handoverId
+                })
+            );
+            this.#handoverAttachmentChecklist.set(checklist);
+            return checklist;
+        } catch (error) {
+            this.#handoverAttachmentChecklist.set(null);
+            this.#handoverAttachmentError.set(this.#readWorkspaceError(error, 'handover-attachments'));
+            throw error;
+        } finally {
+            this.#loadingHandoverAttachments.set(false);
+        }
+    }
+
+    async refreshHandoverAttachmentChecklist(handoverId: string): Promise<ProjectHandoverAttachmentChecklistView> {
+        this.#refreshingHandoverAttachments.set(true);
+        this.#handoverAttachmentError.set(null);
+
+        try {
+            const checklist = await firstValueFrom(
+                this.#attachmentHandoverApi.attachmentHandoverControllerRefreshChecklist({
+                    handoverId,
+                    refreshProjectHandoverAttachmentChecklistRequest: {
+                        preserveManualExclusions: true,
+                        includeHistoricalSelections: true
+                    }
+                })
+            );
+            this.#handoverAttachmentChecklist.set(checklist);
+            return checklist;
+        } catch (error) {
+            this.#handoverAttachmentError.set(this.#readWorkspaceError(error, 'handover-attachments'));
+            throw error;
+        } finally {
+            this.#refreshingHandoverAttachments.set(false);
+        }
+    }
+
+    async createHandoverAttachmentDownloadPackage(input: CreateProjectHandoverAttachmentPackageInput): Promise<AttachmentDownloadPackageSummary> {
+        this.#creatingHandoverAttachmentPackage.set(true);
+        this.#handoverAttachmentError.set(null);
+
+        try {
+            const summary = await firstValueFrom(
+                this.#attachmentHandoverApi.attachmentHandoverControllerCreateDownloadPackage({
+                    handoverId: input.handoverId,
+                    createProjectHandoverAttachmentDownloadPackageRequest: {
+                        selectionIds: input.selectionIds,
+                        expectedSelectionVersions: input.expectedSelectionVersions,
+                        confirmedSensitiveExclusion: true,
+                        note: input.note ?? null
+                    }
+                })
+            );
+            this.#handoverAttachmentDownloadPackage.set(summary);
+            return summary;
+        } catch (error) {
+            this.#handoverAttachmentError.set(this.#readWorkspaceError(error, 'handover-attachments'));
+            throw error;
+        } finally {
+            this.#creatingHandoverAttachmentPackage.set(false);
+        }
+    }
+
+    async loadHandoverAttachmentDownloadPackage(packageId: string): Promise<AttachmentDownloadPackageSummary> {
+        const summary = await firstValueFrom(
+            this.#attachmentHandoverApi.attachmentHandoverControllerGetDownloadPackage({
+                packageId
+            })
+        );
+        this.#handoverAttachmentDownloadPackage.set(summary);
+        return summary;
+    }
+
+    async downloadHandoverAttachmentPackage(packageId: string): Promise<ProjectHandoverAttachmentPackageDownload> {
+        this.#downloadingHandoverAttachmentPackage.set(true);
+        this.#handoverAttachmentError.set(null);
+
+        try {
+            const response = await firstValueFrom(
+                this.#httpClient.get(this.#buildApiUrl(`/api/attachment-download-packages/${packageId}/download`), {
+                    observe: 'response',
+                    responseType: 'blob'
+                })
+            );
+
+            return {
+                blob: response.body ?? new Blob(),
+                fileName: this.#extractFilename(response, 'handover-attachments.zip')
+            };
+        } catch (error) {
+            this.#handoverAttachmentError.set(this.#readWorkspaceError(error, 'handover-attachments'));
+            throw error;
+        } finally {
+            this.#downloadingHandoverAttachmentPackage.set(false);
         }
     }
 
@@ -571,6 +710,8 @@ export class ProjectWorkspaceStore {
         this.#commissionFreezeBindingDetail.set(null);
         this.#commissionFinalSettlement.set(null);
         this.#commissionRuleExplanation.set(null);
+        this.#handoverAttachmentChecklist.set(null);
+        this.#handoverAttachmentDownloadPackage.set(null);
         this.#loadingGuidance.set(false);
         this.#loadingContractHandover.set(false);
         this.#loadingPreSigning.set(false);
@@ -587,6 +728,10 @@ export class ProjectWorkspaceStore {
         this.#loadingCommissionFreezeBinding.set(false);
         this.#loadingCommissionFinalSettlement.set(false);
         this.#loadingCommissionRuleExplanation.set(false);
+        this.#loadingHandoverAttachments.set(false);
+        this.#refreshingHandoverAttachments.set(false);
+        this.#creatingHandoverAttachmentPackage.set(false);
+        this.#downloadingHandoverAttachmentPackage.set(false);
         this.#guidanceError.set(null);
         this.#contractHandoverError.set(null);
         this.#preSigningError.set(null);
@@ -601,6 +746,7 @@ export class ProjectWorkspaceStore {
         this.#commissionFreezeBindingError.set(null);
         this.#commissionFinalSettlementError.set(null);
         this.#commissionRuleExplanationError.set(null);
+        this.#handoverAttachmentError.set(null);
     }
 
     #readWorkspaceError(error: unknown, kind: WorkspaceErrorKind): string {
@@ -631,6 +777,8 @@ export class ProjectWorkspaceStore {
                         return '当前项目还没有形成有效最终结算快照，先完成最终发放登记或对应收口链冻结。';
                     case 'rule-explanation':
                         return '当前项目还没有形成可读取的规则解释快照，先完成最终结算收口链和规则解释快照生成。';
+                    case 'handover-attachments':
+                        return '当前项目还没有形成可读取的附件移交清单，请先完成项目移交前置事实。';
                 }
             }
 
@@ -660,5 +808,21 @@ export class ProjectWorkspaceStore {
 
     #isMissingWorkspaceView(error: unknown): boolean {
         return error instanceof HttpErrorResponse && error.status === 404;
+    }
+
+    #buildApiUrl(path: string): string {
+        const basePath = Array.isArray(this.#basePath) ? this.#basePath[0] ?? '' : this.#basePath;
+        return `${basePath}${path}`;
+    }
+
+    #extractFilename(response: HttpResponse<Blob>, fallback: string): string {
+        const disposition = response.headers.get('content-disposition') ?? '';
+        const encodedMatch = /filename\*=UTF-8''([^;]+)/i.exec(disposition);
+        if (encodedMatch?.[1]) {
+            return decodeURIComponent(encodedMatch[1]);
+        }
+
+        const plainMatch = /filename="?([^";]+)"?/i.exec(disposition);
+        return plainMatch?.[1] ?? fallback;
     }
 }

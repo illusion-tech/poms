@@ -1,7 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
     BaselineSelectionSource,
+    AttachmentHandoverApi,
+    AttachmentSecurityLevel,
     CommissionApi,
     CommissionFinalSettlementStatus,
     CommissionNonRetentionSettlementStatus,
@@ -38,6 +40,7 @@ import {
     ProjectBidCommercialProcessSummaryStatusEnum,
     ProjectCostApi,
     ProjectHandoverStatus,
+    ProjectHandoverAttachmentChecklistItemStatus,
     ProjectHandoverApi,
     ProjectHandoverParticipantConfirmationStatus,
     ProjectHandoverReceiptJudgmentSourceType,
@@ -56,6 +59,7 @@ import {
     ProjectTechnicalCostPackageSummaryTaxReviewStatusEnum,
     ProjectTechnicalCostPackageSummaryTechnicalFeasibilityDecisionEnum,
     ProjectWorkspaceStore,
+    type AttachmentDownloadPackageSummary,
     type BusinessAccountingFeedbackView,
     type CommissionFinalSettlementView,
     type CommissionRoleAssignmentDetailView,
@@ -64,6 +68,7 @@ import {
     type ContractHandoverSummaryView,
     type ContractReadinessDetail,
     type ProjectHandoverDetailView,
+    type ProjectHandoverAttachmentChecklistView,
     type ProjectBidCommercialWorkspaceView,
     type ProjectBusinessOutcomeOverviewView,
     type ProjectPricingMarginWorkspaceView,
@@ -404,6 +409,15 @@ describe('ProjectWorkspaceStore', () => {
         projectHandoverControllerGetContractHandoverSummary: jest.Mock;
         projectHandoverControllerGetProjectHandoverDetailByProject: jest.Mock;
     };
+    let attachmentHandoverApiMock: {
+        attachmentHandoverControllerGetChecklist: jest.Mock;
+        attachmentHandoverControllerRefreshChecklist: jest.Mock;
+        attachmentHandoverControllerCreateDownloadPackage: jest.Mock;
+        attachmentHandoverControllerGetDownloadPackage: jest.Mock;
+    };
+    let httpClientMock: {
+        get: jest.Mock;
+    };
     let contractReadinessApiMock: {
         contractReadinessControllerGetCurrentContractReadiness: jest.Mock;
     };
@@ -437,6 +451,15 @@ describe('ProjectWorkspaceStore', () => {
             projectHandoverControllerGetContractHandoverSummary: jest.fn(),
             projectHandoverControllerGetProjectHandoverDetailByProject: jest.fn()
         };
+        attachmentHandoverApiMock = {
+            attachmentHandoverControllerGetChecklist: jest.fn(),
+            attachmentHandoverControllerRefreshChecklist: jest.fn(),
+            attachmentHandoverControllerCreateDownloadPackage: jest.fn(),
+            attachmentHandoverControllerGetDownloadPackage: jest.fn()
+        };
+        httpClientMock = {
+            get: jest.fn()
+        };
         contractReadinessApiMock = {
             contractReadinessControllerGetCurrentContractReadiness: jest.fn()
         };
@@ -463,6 +486,14 @@ describe('ProjectWorkspaceStore', () => {
                 {
                     provide: ProjectHandoverApi,
                     useValue: projectHandoverApiMock
+                },
+                {
+                    provide: AttachmentHandoverApi,
+                    useValue: attachmentHandoverApiMock
+                },
+                {
+                    provide: HttpClient,
+                    useValue: httpClientMock
                 },
                 {
                     provide: ContractReadinessApi,
@@ -901,6 +932,135 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.projectHandoverDetail()).toEqual(projectHandoverDetail);
         expect(store.hasContractHandover()).toBe(true);
         expect(store.contractHandoverError()).toBeNull();
+    });
+
+    it('loads and refreshes project handover attachment checklist', async () => {
+        const checklist: ProjectHandoverAttachmentChecklistView = {
+            handoverId: 'handover-1',
+            projectId: 'project-1',
+            generatedAt: '2026-04-20T10:30:00.000Z',
+            counts: {
+                total: 1,
+                included: 1,
+                missing: 0,
+                excluded: 0,
+                sensitiveExcluded: 0,
+                staleVersion: 0,
+                downloadable: 1
+            },
+            items: [
+                {
+                    selectionId: 'selection-1',
+                    handoverId: 'handover-1',
+                    projectId: 'project-1',
+                    attachmentId: 'attachment-1',
+                    versionGroupId: 'version-group-1',
+                    displayName: '需求确认.pdf',
+                    category: '需求文档',
+                    securityLevel: AttachmentSecurityLevel.Normal,
+                    status: ProjectHandoverAttachmentChecklistItemStatus.Included,
+                    selectionReason: '最终版附件',
+                    exclusionReason: null,
+                    downloadEligible: true,
+                    staleVersion: false,
+                    sourceRefs: [],
+                    rowVersion: 1,
+                    updatedAt: '2026-04-20T10:30:00.000Z'
+                }
+            ]
+        };
+
+        attachmentHandoverApiMock.attachmentHandoverControllerGetChecklist.mockReturnValue(of(checklist));
+        attachmentHandoverApiMock.attachmentHandoverControllerRefreshChecklist.mockReturnValue(of(checklist));
+
+        await expect(store.loadHandoverAttachmentChecklist('handover-1')).resolves.toEqual(checklist);
+        await expect(store.refreshHandoverAttachmentChecklist('handover-1')).resolves.toEqual(checklist);
+
+        expect(attachmentHandoverApiMock.attachmentHandoverControllerGetChecklist).toHaveBeenCalledWith({
+            handoverId: 'handover-1'
+        });
+        expect(attachmentHandoverApiMock.attachmentHandoverControllerRefreshChecklist).toHaveBeenCalledWith({
+            handoverId: 'handover-1',
+            refreshProjectHandoverAttachmentChecklistRequest: {
+                preserveManualExclusions: true,
+                includeHistoricalSelections: true
+            }
+        });
+        expect(store.handoverAttachmentChecklist()).toEqual(checklist);
+        expect(store.handoverAttachmentError()).toBeNull();
+    });
+
+    it('creates and downloads project handover attachment package', async () => {
+        const downloadPackage = {
+            id: 'package-1',
+            handoverId: 'handover-1',
+            projectId: 'project-1',
+            status: 'ready',
+            manifestSummary: {
+                includedCount: 1,
+                excludedCount: 0,
+                includedAttachmentIds: ['attachment-1'],
+                excludedAttachmentIds: [],
+                excludedReasons: []
+            },
+            fileName: 'handover.zip',
+            expiresAt: '2026-04-20T11:00:00.000Z',
+            createdBy: 'user-1',
+            createdAt: '2026-04-20T10:30:00.000Z',
+            downloadedAt: null,
+            downloadCount: 0,
+            failedReason: null
+        } as AttachmentDownloadPackageSummary;
+
+        attachmentHandoverApiMock.attachmentHandoverControllerCreateDownloadPackage.mockReturnValue(of(downloadPackage));
+        httpClientMock.get.mockReturnValue(
+            of(
+                new HttpResponse({
+                    body: new Blob(['zip']),
+                    headers: new HttpHeaders({
+                        'content-disposition': "attachment; filename*=UTF-8''handover.zip"
+                    })
+                })
+            )
+        );
+
+        await expect(
+            store.createHandoverAttachmentDownloadPackage({
+                handoverId: 'handover-1',
+                selectionIds: ['selection-1'],
+                expectedSelectionVersions: [
+                    {
+                        selectionId: 'selection-1',
+                        rowVersion: 1
+                    }
+                ],
+                note: '由项目移交页面创建'
+            })
+        ).resolves.toEqual(downloadPackage);
+        await expect(store.downloadHandoverAttachmentPackage('package-1')).resolves.toEqual({
+            blob: expect.any(Blob),
+            fileName: 'handover.zip'
+        });
+
+        expect(attachmentHandoverApiMock.attachmentHandoverControllerCreateDownloadPackage).toHaveBeenCalledWith({
+            handoverId: 'handover-1',
+            createProjectHandoverAttachmentDownloadPackageRequest: {
+                selectionIds: ['selection-1'],
+                expectedSelectionVersions: [
+                    {
+                        selectionId: 'selection-1',
+                        rowVersion: 1
+                    }
+                ],
+                confirmedSensitiveExclusion: true,
+                note: '由项目移交页面创建'
+            }
+        });
+        expect(httpClientMock.get).toHaveBeenCalledWith('/api/attachment-download-packages/package-1/download', {
+            observe: 'response',
+            responseType: 'blob'
+        });
+        expect(store.handoverAttachmentDownloadPackage()).toEqual(downloadPackage);
     });
 
     it('loads operating overview and unified accounting into shared state', async () => {

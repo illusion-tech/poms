@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import {
+    AttachmentSecurityLevel,
     CommercialDiffLevel,
     CommercialDiffReviewStatus,
     ContractHandoverBaselineValidationStatus,
@@ -15,7 +16,9 @@ import {
     ContractStatus,
     type ContractHandoverSummaryView,
     ProjectHandoverStatus,
+    ProjectHandoverAttachmentChecklistItemStatus,
     type ProjectHandoverDetailView,
+    type ProjectHandoverAttachmentChecklistView,
     ProjectHandoverParticipantConfirmationStatus,
     ProjectHandoverReceiptJudgmentSourceType,
     ProjectHandoverReceiptJudgmentFreezeStatus,
@@ -147,31 +150,125 @@ function createProjectHandoverDetail(summary: ContractHandoverSummaryView): Proj
     } as ProjectHandoverDetailView;
 }
 
+function createAttachmentChecklist(): ProjectHandoverAttachmentChecklistView {
+    return {
+        handoverId: 'handover-1',
+        projectId: 'project-1',
+        generatedAt: '2026-04-20T10:30:00.000Z',
+        counts: {
+            total: 2,
+            included: 1,
+            missing: 0,
+            excluded: 0,
+            sensitiveExcluded: 1,
+            staleVersion: 0,
+            downloadable: 1
+        },
+        items: [
+            {
+                selectionId: 'selection-1',
+                handoverId: 'handover-1',
+                projectId: 'project-1',
+                attachmentId: 'attachment-1',
+                versionGroupId: 'version-group-1',
+                displayName: '需求确认.pdf',
+                category: '需求文档',
+                securityLevel: AttachmentSecurityLevel.Normal,
+                status: ProjectHandoverAttachmentChecklistItemStatus.Included,
+                selectionReason: '最终版附件',
+                exclusionReason: null,
+                downloadEligible: true,
+                staleVersion: false,
+                sourceRefs: [
+                    {
+                        sourceType: 'project',
+                        sourceId: 'project-1',
+                        relationType: 'handover',
+                        label: 'PRJ-001'
+                    }
+                ],
+                rowVersion: 1,
+                updatedAt: '2026-04-20T10:30:00.000Z'
+            },
+            {
+                selectionId: null,
+                handoverId: 'handover-1',
+                projectId: 'project-1',
+                attachmentId: 'attachment-2',
+                versionGroupId: 'version-group-2',
+                displayName: '内部报价.xlsx',
+                category: '报价文件',
+                securityLevel: AttachmentSecurityLevel.Sensitive,
+                status: ProjectHandoverAttachmentChecklistItemStatus.SensitiveExcluded,
+                selectionReason: null,
+                exclusionReason: '敏感附件默认排除',
+                downloadEligible: false,
+                staleVersion: false,
+                sourceRefs: [],
+                rowVersion: null,
+                updatedAt: null
+            }
+        ]
+    } as ProjectHandoverAttachmentChecklistView;
+}
+
 describe('ProjectContractHandover', () => {
     let fixture: ComponentFixture<ProjectContractHandover>;
     let contractHandoverSummarySignal: ReturnType<typeof signal<ContractHandoverSummaryView | null>>;
     let projectHandoverDetailSignal: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
+    let handoverAttachmentChecklistSignal: ReturnType<typeof signal<ProjectHandoverAttachmentChecklistView | null>>;
     let loadingSignal: ReturnType<typeof signal<boolean>>;
+    let loadingAttachmentsSignal: ReturnType<typeof signal<boolean>>;
+    let savingPackageSignal: ReturnType<typeof signal<boolean>>;
+    let handoverAttachmentErrorSignal: ReturnType<typeof signal<string | null>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
     let workspaceStoreMock: {
         contractHandoverSummary: ReturnType<typeof signal<ContractHandoverSummaryView | null>>;
         projectHandoverDetail: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
         loadingContractHandover: ReturnType<typeof signal<boolean>>;
         contractHandoverError: ReturnType<typeof signal<string | null>>;
+        handoverAttachmentChecklist: ReturnType<typeof signal<ProjectHandoverAttachmentChecklistView | null>>;
+        handoverAttachmentDownloadPackage: ReturnType<typeof signal<null>>;
+        loadingHandoverAttachments: ReturnType<typeof signal<boolean>>;
+        refreshingHandoverAttachments: ReturnType<typeof signal<boolean>>;
+        creatingHandoverAttachmentPackage: ReturnType<typeof signal<boolean>>;
+        downloadingHandoverAttachmentPackage: ReturnType<typeof signal<boolean>>;
+        handoverAttachmentError: ReturnType<typeof signal<string | null>>;
         loadContractHandover: jest.Mock;
+        loadHandoverAttachmentChecklist: jest.Mock;
+        refreshHandoverAttachmentChecklist: jest.Mock;
+        createHandoverAttachmentDownloadPackage: jest.Mock;
+        downloadHandoverAttachmentPackage: jest.Mock;
+        loadHandoverAttachmentDownloadPackage: jest.Mock;
     };
 
     async function setup(summary: ContractHandoverSummaryView | null = createContractHandoverSummary(), error: string | null = null) {
         contractHandoverSummarySignal = signal<ContractHandoverSummaryView | null>(summary);
         projectHandoverDetailSignal = signal<ProjectHandoverDetailView | null>(summary ? createProjectHandoverDetail(summary) : null);
+        handoverAttachmentChecklistSignal = signal<ProjectHandoverAttachmentChecklistView | null>(summary ? createAttachmentChecklist() : null);
         loadingSignal = signal(false);
+        loadingAttachmentsSignal = signal(false);
+        savingPackageSignal = signal(false);
         errorSignal = signal(error);
+        handoverAttachmentErrorSignal = signal(null);
         workspaceStoreMock = {
             contractHandoverSummary: contractHandoverSummarySignal,
             projectHandoverDetail: projectHandoverDetailSignal,
             loadingContractHandover: loadingSignal,
             contractHandoverError: errorSignal,
-            loadContractHandover: jest.fn().mockResolvedValue(undefined)
+            handoverAttachmentChecklist: handoverAttachmentChecklistSignal,
+            handoverAttachmentDownloadPackage: signal(null),
+            loadingHandoverAttachments: loadingAttachmentsSignal,
+            refreshingHandoverAttachments: signal(false),
+            creatingHandoverAttachmentPackage: savingPackageSignal,
+            downloadingHandoverAttachmentPackage: signal(false),
+            handoverAttachmentError: handoverAttachmentErrorSignal,
+            loadContractHandover: jest.fn().mockResolvedValue(undefined),
+            loadHandoverAttachmentChecklist: jest.fn().mockResolvedValue(handoverAttachmentChecklistSignal()),
+            refreshHandoverAttachmentChecklist: jest.fn().mockResolvedValue(handoverAttachmentChecklistSignal()),
+            createHandoverAttachmentDownloadPackage: jest.fn().mockResolvedValue(null),
+            downloadHandoverAttachmentPackage: jest.fn().mockResolvedValue({ blob: new Blob(['zip']), fileName: 'handover.zip' }),
+            loadHandoverAttachmentDownloadPackage: jest.fn().mockResolvedValue(null)
         };
 
         await TestBed.configureTestingModule({
@@ -214,11 +311,33 @@ describe('ProjectContractHandover', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(workspaceStoreMock.loadContractHandover).toHaveBeenCalledWith('project-1');
+        expect(workspaceStoreMock.loadHandoverAttachmentChecklist).toHaveBeenCalledWith('handover-1');
         expect(text).toContain('承接判断');
         expect(text).toContain('HT-001');
         expect(text).toContain('合同承接基线已稳定');
         expect(text).toContain('回款计划已初始化');
         expect(text).toContain('仍有一名参与人待确认');
+        expect(text).toContain('附件移交清单');
+        expect(text).toContain('需求确认.pdf');
+        expect(text).toContain('敏感排除');
+    });
+
+    it('creates a handover attachment package from selected eligible items', async () => {
+        await setup();
+
+        await fixture.componentInstance.createHandoverAttachmentDownloadPackage();
+
+        expect(workspaceStoreMock.createHandoverAttachmentDownloadPackage).toHaveBeenCalledWith({
+            handoverId: 'handover-1',
+            selectionIds: ['selection-1'],
+            expectedSelectionVersions: [
+                {
+                    selectionId: 'selection-1',
+                    rowVersion: 1
+                }
+            ],
+            note: '由项目移交页面创建'
+        });
     });
 
     it('renders contract set amount from backend projection', async () => {
