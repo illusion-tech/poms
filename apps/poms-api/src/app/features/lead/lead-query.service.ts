@@ -5,12 +5,16 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { mapLeadSourceToSummary, mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
 import { LeadRepository } from './lead.repository';
 import { LeadSource } from './lead.entity';
+import { LeadScoreService } from './lead-score.service';
 
 const LEAD_ASSIGNABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
 
 @Injectable()
 export class LeadQueryService {
-    constructor(private readonly leadRepository: LeadRepository) {}
+    constructor(
+        private readonly leadRepository: LeadRepository,
+        private readonly leadScoreService: LeadScoreService
+    ) {}
 
     async listLeadSources(query: LeadSourceListQuery = {}): Promise<LeadSourceSummary[]> {
         const sources = await this.leadRepository.findLeadSources(query);
@@ -27,6 +31,7 @@ export class LeadQueryService {
     async listLeads(query: LeadListQuery, user: UserPayload): Promise<LeadListView[]> {
         const leads = await this.leadRepository.findMany(this.resolveLeadListRepositoryQuery(query, user));
         const context = await this.loadListContext(leads);
+        const activeOverrideMap = await this.leadScoreService.findActiveOverridesByLeadIds(leads.map((lead) => lead.id));
 
         return leads.map((lead) =>
             mapLeadToListView(
@@ -34,6 +39,7 @@ export class LeadQueryService {
                 context.sourceMap.get(lead.sourceId) ?? null,
                 lead.ownerUserId ? context.userMap.get(lead.ownerUserId) ?? null : null,
                 lead.ownerOrgId ? context.orgUnitMap.get(lead.ownerOrgId) ?? null : null,
+                activeOverrideMap.get(lead.id) ?? null,
                 this.resolveAllowedActions(lead, user)
             )
         );
@@ -45,14 +51,15 @@ export class LeadQueryService {
             throw new NotFoundException(`Lead ${id} not found`);
         }
 
-        const [source, owner, ownerOrg, convertedProjects] = await Promise.all([
+        const [source, owner, ownerOrg, convertedProjects, activeOverride] = await Promise.all([
             this.leadRepository.findLeadSourceById(lead.sourceId),
             lead.ownerUserId ? this.leadRepository.findPlatformUserById(lead.ownerUserId) : Promise.resolve(null),
             lead.ownerOrgId ? this.leadRepository.findOrgUnitById(lead.ownerOrgId) : Promise.resolve(null),
-            lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([])
+            lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([]),
+            this.leadScoreService.findActiveOverrideByLeadId(lead.id)
         ]);
 
-        return mapLeadToDetailView(lead, source, owner, ownerOrg, convertedProjects[0] ?? null, this.resolveAllowedActions(lead, user));
+        return mapLeadToDetailView(lead, source, owner, ownerOrg, convertedProjects[0] ?? null, activeOverride, this.resolveAllowedActions(lead, user));
     }
 
     private resolveLeadListRepositoryQuery(query: LeadListQuery, user: UserPayload): LeadListQuery & { unassignedOnly?: boolean } {

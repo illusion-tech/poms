@@ -1,9 +1,10 @@
-import type { LeadAllowedAction, LeadDetailView, LeadListView, LeadSourceSummary, LeadSummary } from '@poms/shared-contracts';
+import { LeadEffectiveScoreSourceValue, type LeadAllowedAction, type LeadDetailView, type LeadListView, type LeadSourceSummary, type LeadSummary } from '@poms/shared-contracts';
 import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
+import type { ActiveLeadScoreOverride } from './lead-score.service';
 import { buildLeadGateSummary } from './lead-scoring';
 
 export function mapLeadSourceToSummary(source: LeadSource, usageCount = 0): LeadSourceSummary {
@@ -23,7 +24,9 @@ export function mapLeadSourceToSummary(source: LeadSource, usageCount = 0): Lead
     };
 }
 
-export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null): LeadSummary {
+export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null, activeScoreOverride: ActiveLeadScoreOverride | null = null): LeadSummary {
+    const effectiveScore = resolveEffectiveScore(lead, activeScoreOverride);
+
     return {
         id: lead.id,
         leadNo: lead.leadNo,
@@ -42,6 +45,11 @@ export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null): 
         rating: lead.rating,
         scoreReason: lead.scoreReason,
         scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+        effectiveScore: effectiveScore.effectiveScore,
+        effectiveRating: effectiveScore.effectiveRating,
+        effectiveScoreReason: effectiveScore.effectiveScoreReason,
+        effectiveScoreSource: effectiveScore.effectiveScoreSource,
+        activeScoreOverrideId: effectiveScore.activeScoreOverrideId,
         gateSummary: buildLeadGateSummary(lead),
         status: lead.status,
         ownerOrgId: lead.ownerOrgId ?? null,
@@ -68,8 +76,11 @@ export function mapLeadToListView(
     source: LeadSource | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
+    activeScoreOverride: ActiveLeadScoreOverride | null,
     allowedActions: LeadAllowedAction[] = []
 ): LeadListView {
+    const effectiveScore = resolveEffectiveScore(lead, activeScoreOverride);
+
     return {
         id: lead.id,
         leadNo: lead.leadNo,
@@ -88,6 +99,11 @@ export function mapLeadToListView(
         rating: lead.rating,
         scoreReason: lead.scoreReason,
         scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+        effectiveScore: effectiveScore.effectiveScore,
+        effectiveRating: effectiveScore.effectiveRating,
+        effectiveScoreReason: effectiveScore.effectiveScoreReason,
+        effectiveScoreSource: effectiveScore.effectiveScoreSource,
+        activeScoreOverrideId: effectiveScore.activeScoreOverrideId,
         gateSummary: buildLeadGateSummary(lead),
         status: lead.status,
         ownerOrgId: lead.ownerOrgId ?? null,
@@ -109,10 +125,11 @@ export function mapLeadToDetailView(
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
     convertedProject: Project | null,
+    activeScoreOverride: ActiveLeadScoreOverride | null,
     allowedActions: LeadAllowedAction[] = []
 ): LeadDetailView {
     return {
-        ...mapLeadToSummary(lead, source),
+        ...mapLeadToSummary(lead, source, activeScoreOverride),
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
         sourceSummary: lead.sourceChannel ? `来源渠道：${lead.sourceChannel}` : null,
@@ -127,5 +144,25 @@ export function mapLeadToDetailView(
               }
             : null,
         allowedActions
+    };
+}
+
+function resolveEffectiveScore(lead: Pick<Lead, 'score' | 'rating' | 'scoreReason'>, activeScoreOverride: ActiveLeadScoreOverride | null): Pick<LeadSummary, 'effectiveScore' | 'effectiveRating' | 'effectiveScoreReason' | 'effectiveScoreSource' | 'activeScoreOverrideId'> {
+    if (activeScoreOverride) {
+        return {
+            effectiveScore: activeScoreOverride.requestedScore,
+            effectiveRating: activeScoreOverride.requestedRating,
+            effectiveScoreReason: `人工覆盖评分：${activeScoreOverride.reason}`,
+            effectiveScoreSource: LeadEffectiveScoreSourceValue.ManualOverride,
+            activeScoreOverrideId: activeScoreOverride.id
+        };
+    }
+
+    return {
+        effectiveScore: lead.score,
+        effectiveRating: lead.rating,
+        effectiveScoreReason: lead.scoreReason,
+        effectiveScoreSource: LeadEffectiveScoreSourceValue.System,
+        activeScoreOverrideId: null
     };
 }

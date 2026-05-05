@@ -1,7 +1,9 @@
 import { Project } from '../project/project.entity';
-import { LeadController } from './lead.controller';
+import type { LeadScoreOverrideSummary } from '@poms/shared-contracts';
+import { LeadController, LeadScoreOverrideController } from './lead.controller';
 import { Lead } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
+import { LeadScoreService } from './lead-score.service';
 import { LeadService } from './lead.service';
 
 describe('LeadController', () => {
@@ -14,7 +16,9 @@ describe('LeadController', () => {
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
 
     let controller: LeadController;
+    let overrideController: LeadScoreOverrideController;
     let leadQueryService: jest.Mocked<LeadQueryService>;
+    let leadScoreService: jest.Mocked<LeadScoreService>;
     let leadService: jest.Mocked<LeadService>;
 
     beforeEach(() => {
@@ -22,6 +26,14 @@ describe('LeadController', () => {
             listLeads: jest.fn(),
             getLead: jest.fn()
         } as unknown as jest.Mocked<LeadQueryService>;
+
+        leadScoreService = {
+            getLeadScoreHistory: jest.fn(),
+            submitLeadScoreOverride: jest.fn(),
+            approveLeadScoreOverride: jest.fn(),
+            rejectLeadScoreOverride: jest.fn(),
+            revokeLeadScoreOverride: jest.fn()
+        } as unknown as jest.Mocked<LeadScoreService>;
 
         leadService = {
             createLead: jest.fn(),
@@ -33,7 +45,8 @@ describe('LeadController', () => {
             closeLead: jest.fn()
         } as unknown as jest.Mocked<LeadService>;
 
-        controller = new LeadController(leadQueryService, leadService);
+        controller = new LeadController(leadQueryService, leadScoreService, leadService);
+        overrideController = new LeadScoreOverrideController(leadScoreService);
     });
 
     it('passes list filters to query service', async () => {
@@ -129,6 +142,42 @@ describe('LeadController', () => {
 
         expect(leadService.claimLeadOwner).toHaveBeenCalledWith(leadId, { expectedVersion: 1 }, userId);
         expect(result.assignmentType).toBe('claimed');
+    });
+
+    it('submits lead score override through score service', async () => {
+        leadScoreService.submitLeadScoreOverride.mockResolvedValue(createScoreOverrideSummary());
+
+        const result = await controller.submitScoreOverride(
+            leadId,
+            { score: 88, reason: '客户战略价值高', expectedLeadRowVersion: 1 },
+            { user: { sub: userId }, headers: { 'x-request-id': 'req-1' } } as never
+        );
+
+        expect(leadScoreService.submitLeadScoreOverride).toHaveBeenCalledWith(
+            leadId,
+            { score: 88, reason: '客户战略价值高', expectedLeadRowVersion: 1 },
+            userId,
+            'req-1'
+        );
+        expect(result.requestedScore).toBe(88);
+    });
+
+    it('approves lead score override through score service', async () => {
+        leadScoreService.approveLeadScoreOverride.mockResolvedValue(createScoreOverrideSummary({ status: 'approved' }));
+
+        const result = await overrideController.approve(
+            '54000000-0000-4000-8000-000000000001',
+            { expectedOverrideRowVersion: 1, note: '同意覆盖' },
+            { user: { sub: userId }, headers: { 'x-request-id': 'req-2' } } as never
+        );
+
+        expect(leadScoreService.approveLeadScoreOverride).toHaveBeenCalledWith(
+            '54000000-0000-4000-8000-000000000001',
+            { expectedOverrideRowVersion: 1, note: '同意覆盖' },
+            userId,
+            'req-2'
+        );
+        expect(result.status).toBe('approved');
     });
 
     it('assigns lead owner through service', async () => {
@@ -296,5 +345,31 @@ describe('LeadController', () => {
             updatedBy: userId,
             ...overrides
         });
+    }
+
+    function createScoreOverrideSummary(overrides: Partial<LeadScoreOverrideSummary> = {}): LeadScoreOverrideSummary {
+        return {
+            id: '54000000-0000-4000-8000-000000000001',
+            leadId,
+            requestedScore: overrides.requestedScore ?? 88,
+            requestedRating: 'A',
+            reason: '客户战略价值高',
+            status: overrides.status ?? 'pending',
+            systemScoreAtRequest: 70,
+            systemRatingAtRequest: 'B',
+            requestedBy: userId,
+            requestedAt: '2026-04-25T10:00:00.000Z',
+            approvedBy: null,
+            approvedAt: null,
+            approvalNote: null,
+            rejectedBy: null,
+            rejectedAt: null,
+            rejectReason: null,
+            revokedBy: null,
+            revokedAt: null,
+            revokeReason: null,
+            supersededById: null,
+            rowVersion: 1
+        };
     }
 });

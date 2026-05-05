@@ -21,6 +21,7 @@ import { Project } from '../project/project.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+import { LeadScoreService } from './lead-score.service';
 import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
 
 const LEAD_MUTABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
@@ -94,7 +95,8 @@ export class LeadService {
         private readonly leadRepository: LeadRepository,
         private readonly businessNumberService: BusinessNumberService,
         private readonly customerService: CustomerService,
-        private readonly attachmentService: AttachmentService
+        private readonly attachmentService: AttachmentService,
+        private readonly leadScoreService: LeadScoreService
     ) {}
 
     async createLeadSource(input: CreateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
@@ -157,6 +159,7 @@ export class LeadService {
         return this.leadRepository.getEntityManager().transactional(async (em) => {
             const leadNo = await this.businessNumberService.next('lead', new Date(), em);
             const lead = em.create(Lead, {
+                id: randomUUID(),
                 leadNo,
                 leadName: input.leadName,
                 customerId: customer.id,
@@ -186,6 +189,7 @@ export class LeadService {
 
             this.refreshLeadScore(lead);
             em.persist(lead);
+            await this.leadScoreService.recordSystemSnapshot(lead, 'create-lead', operator.id, null, em);
             await em.flush();
             return lead;
         });
@@ -234,6 +238,7 @@ export class LeadService {
         lead.updatedBy = operatorUserId;
         this.refreshLeadScore(lead);
         await this.leadRepository.save(lead);
+        await this.leadScoreService.recordSystemSnapshot(lead, 'update-lead', operatorUserId);
 
         return lead;
     }
@@ -311,8 +316,10 @@ export class LeadService {
         lead.qualifiedAt = now;
         lead.qualifiedBy = operatorUserId;
         lead.updatedBy = operatorUserId;
+        this.refreshLeadScore(lead);
 
         await this.leadRepository.save(lead);
+        await this.leadScoreService.recordSystemSnapshot(lead, 'qualify-lead', operatorUserId);
 
         return lead;
     }
@@ -329,8 +336,10 @@ export class LeadService {
         lead.closedAt = now;
         lead.closedBy = operatorUserId;
         lead.updatedBy = operatorUserId;
+        this.refreshLeadScore(lead);
 
         await this.leadRepository.save(lead);
+        await this.leadScoreService.recordSystemSnapshot(lead, 'close-lead', operatorUserId);
 
         return lead;
     }
@@ -380,6 +389,7 @@ export class LeadService {
             lead.convertedAt = now;
             lead.convertedBy = operator.id;
             lead.updatedBy = operator.id;
+            this.refreshLeadScore(lead);
 
             em.persist([lead, project]);
             await this.attachmentService.copyActiveLinksToTarget({
@@ -390,6 +400,7 @@ export class LeadService {
                 entityManager: em,
                 excludeCategories: ['finance', 'internal-assessment']
             });
+            await this.leadScoreService.recordSystemSnapshot(lead, 'convert-to-project', operator.id, project.id, em);
             await em.flush();
             return project;
         });
@@ -548,6 +559,7 @@ export class LeadService {
             lead: input.lead,
             record
         });
+        await this.leadScoreService.recordSystemSnapshot(input.lead, `${input.assignmentType}-lead-owner`, input.operatorUserId, record.id);
 
         return this.mapLeadOwnerAssignmentResult(input.lead, record);
     }

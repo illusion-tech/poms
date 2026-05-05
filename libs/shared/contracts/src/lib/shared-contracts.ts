@@ -97,6 +97,7 @@ export const PERMISSION_KEYS = [
     'lead:read',
     'lead:write',
     'lead:assign',
+    'lead:score:override',
     'lead:source:manage',
     // 项目
     'project:read',
@@ -142,6 +143,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'lead:read': { description: '查看销售线索', group: '线索' },
     'lead:write': { description: '登记/维护销售线索', group: '线索' },
     'lead:assign': { description: '分配/改派销售线索负责人', group: '线索' },
+    'lead:score:override': { description: '审批线索评分人工覆盖', group: '线索' },
     'lead:source:manage': { description: '管理线索来源字典', group: '线索' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
@@ -1326,6 +1328,63 @@ export const LeadOwnerAssignmentTypeValue = {
     Reassigned: 'reassigned'
 } as const satisfies Record<string, LeadOwnerAssignmentType>;
 
+export const LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS = defineEnumDefinitions([
+    { key: 'System', value: 'system', label: '系统评分', order: 10 },
+    { key: 'ManualOverride', value: 'manual-override', label: '人工覆盖', order: 20 }
+] as const);
+
+export const LeadEffectiveScoreSourceValue = enumDefinitionValueObject(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+
+export const LEAD_EFFECTIVE_SCORE_SOURCES = enumDefinitionValues(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+
+export type LeadEffectiveScoreSource = (typeof LEAD_EFFECTIVE_SCORE_SOURCES)[number];
+
+export const LeadEffectiveScoreSourceSchema = z.enum(LEAD_EFFECTIVE_SCORE_SOURCES).meta({ id: 'LeadEffectiveScoreSource' });
+
+export const LeadEffectiveScoreSourceLabel = enumDefinitionLabels(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+
+export const LeadEffectiveScoreSourceOptions = enumDefinitionOptions(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+
+export const LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS = defineEnumDefinitions([
+    { key: 'System', value: 'system', label: '系统评分', order: 10 },
+    { key: 'ManualOverride', value: 'manual-override', label: '人工覆盖', order: 20 },
+    { key: 'OverrideRevoked', value: 'override-revoked', label: '覆盖撤销', order: 30 }
+] as const);
+
+export const LeadScoreSnapshotKindValue = enumDefinitionValueObject(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+
+export const LEAD_SCORE_SNAPSHOT_KINDS = enumDefinitionValues(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+
+export type LeadScoreSnapshotKind = (typeof LEAD_SCORE_SNAPSHOT_KINDS)[number];
+
+export const LeadScoreSnapshotKindSchema = z.enum(LEAD_SCORE_SNAPSHOT_KINDS).meta({ id: 'LeadScoreSnapshotKind' });
+
+export const LeadScoreSnapshotKindLabel = enumDefinitionLabels(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+
+export const LeadScoreSnapshotKindOptions = enumDefinitionOptions(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+
+export const LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Pending', value: 'pending', label: '待审批', severity: 'warn', order: 10 },
+    { key: 'Approved', value: 'approved', label: '已批准', severity: 'success', order: 20 },
+    { key: 'Rejected', value: 'rejected', label: '已驳回', severity: 'danger', order: 30 },
+    { key: 'Revoked', value: 'revoked', label: '已撤销', severity: 'secondary', order: 40 },
+    { key: 'Superseded', value: 'superseded', label: '已替代', severity: 'contrast', order: 50 }
+] as const);
+
+export const LeadScoreOverrideStatusValue = enumDefinitionValueObject(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+
+export const LEAD_SCORE_OVERRIDE_STATUSES = enumDefinitionValues(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+
+export type LeadScoreOverrideStatus = (typeof LEAD_SCORE_OVERRIDE_STATUSES)[number];
+
+export const LeadScoreOverrideStatusSchema = z.enum(LEAD_SCORE_OVERRIDE_STATUSES).meta({ id: 'LeadScoreOverrideStatus' });
+
+export const LeadScoreOverrideStatusLabel = enumDefinitionLabels(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+
+export const LeadScoreOverrideStatusSeverity = enumDefinitionSeverities(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+
+export const LeadScoreOverrideStatusOptions = enumDefinitionOptions(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+
 const LeadEstimatedAmountStringSchema = z
     .string()
     .trim()
@@ -1431,6 +1490,11 @@ export const LeadSummarySchema = z
         rating: LeadRatingSchema,
         scoreReason: z.string(),
         scoreUpdatedAt: z.iso.datetime(),
+        effectiveScore: z.number().int().min(0).max(100),
+        effectiveRating: LeadRatingSchema,
+        effectiveScoreReason: z.string(),
+        effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+        activeScoreOverrideId: z.uuid().nullable(),
         gateSummary: LeadGateSummarySchema,
         status: LeadStatusSchema,
         ownerOrgId: z.uuid().nullable(),
@@ -1473,6 +1537,11 @@ export const LeadListViewSchema = z
         rating: LeadRatingSchema,
         scoreReason: z.string(),
         scoreUpdatedAt: z.iso.datetime(),
+        effectiveScore: z.number().int().min(0).max(100),
+        effectiveRating: LeadRatingSchema,
+        effectiveScoreReason: z.string(),
+        effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+        activeScoreOverrideId: z.uuid().nullable(),
         gateSummary: LeadGateSummarySchema,
         status: LeadStatusSchema,
         ownerOrgId: z.uuid().nullable(),
@@ -1622,6 +1691,116 @@ export const LeadOwnerAssignmentResultSchema = z
     .meta({ id: 'LeadOwnerAssignmentResult' });
 
 export type LeadOwnerAssignmentResult = z.infer<typeof LeadOwnerAssignmentResultSchema>;
+
+export const LeadScoreOverrideSummarySchema = z
+    .object({
+        id: z.uuid(),
+        leadId: z.uuid(),
+        requestedScore: z.number().int().min(0).max(100),
+        requestedRating: LeadRatingSchema,
+        reason: z.string(),
+        status: LeadScoreOverrideStatusSchema,
+        systemScoreAtRequest: z.number().int().min(0).max(100),
+        systemRatingAtRequest: LeadRatingSchema,
+        requestedBy: z.uuid().nullable(),
+        requestedAt: z.iso.datetime(),
+        approvedBy: z.uuid().nullable(),
+        approvedAt: z.iso.datetime().nullable(),
+        approvalNote: z.string().nullable(),
+        rejectedBy: z.uuid().nullable(),
+        rejectedAt: z.iso.datetime().nullable(),
+        rejectReason: z.string().nullable(),
+        revokedBy: z.uuid().nullable(),
+        revokedAt: z.iso.datetime().nullable(),
+        revokeReason: z.string().nullable(),
+        supersededById: z.uuid().nullable(),
+        rowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'LeadScoreOverrideSummary' });
+
+export type LeadScoreOverrideSummary = z.infer<typeof LeadScoreOverrideSummarySchema>;
+
+export const LeadScoreHistoryItemSchema = z
+    .object({
+        id: z.uuid(),
+        leadId: z.uuid(),
+        snapshotKind: LeadScoreSnapshotKindSchema,
+        overrideId: z.uuid().nullable(),
+        formulaVersion: z.string(),
+        systemScore: z.number().int().min(0).max(100),
+        systemRating: LeadRatingSchema,
+        effectiveScore: z.number().int().min(0).max(100),
+        effectiveRating: LeadRatingSchema,
+        effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+        scoreReason: z.string(),
+        componentBreakdown: z.record(z.string(), z.unknown()),
+        gateSummarySnapshot: LeadGateSummarySchema,
+        sourceCommand: z.string(),
+        sourceRecordId: z.uuid().nullable(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable()
+    })
+    .meta({ id: 'LeadScoreHistoryItem' });
+
+export type LeadScoreHistoryItem = z.infer<typeof LeadScoreHistoryItemSchema>;
+
+export const LeadScoreHistoryViewSchema = z
+    .object({
+        leadId: z.uuid(),
+        systemScore: z.number().int().min(0).max(100),
+        systemRating: LeadRatingSchema,
+        scoreReason: z.string(),
+        scoreUpdatedAt: z.iso.datetime(),
+        effectiveScore: z.number().int().min(0).max(100),
+        effectiveRating: LeadRatingSchema,
+        effectiveScoreReason: z.string(),
+        effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+        activeScoreOverrideId: z.uuid().nullable(),
+        activeOverride: LeadScoreOverrideSummarySchema.nullable(),
+        pendingOverride: LeadScoreOverrideSummarySchema.nullable(),
+        snapshots: z.array(LeadScoreHistoryItemSchema),
+        overrides: z.array(LeadScoreOverrideSummarySchema)
+    })
+    .meta({ id: 'LeadScoreHistoryView' });
+
+export type LeadScoreHistoryView = z.infer<typeof LeadScoreHistoryViewSchema>;
+
+export const SubmitLeadScoreOverrideRequestSchema = z
+    .object({
+        score: z.number().int().min(0).max(100),
+        reason: z.string().trim().min(1).max(1000),
+        expectedLeadRowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'SubmitLeadScoreOverrideRequest' });
+
+export type SubmitLeadScoreOverrideRequest = z.infer<typeof SubmitLeadScoreOverrideRequestSchema>;
+
+export const ApproveLeadScoreOverrideRequestSchema = z
+    .object({
+        expectedOverrideRowVersion: z.number().int().positive(),
+        note: z.string().trim().min(1).max(1000).nullable().optional()
+    })
+    .meta({ id: 'ApproveLeadScoreOverrideRequest' });
+
+export type ApproveLeadScoreOverrideRequest = z.infer<typeof ApproveLeadScoreOverrideRequestSchema>;
+
+export const RejectLeadScoreOverrideRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        expectedOverrideRowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'RejectLeadScoreOverrideRequest' });
+
+export type RejectLeadScoreOverrideRequest = z.infer<typeof RejectLeadScoreOverrideRequestSchema>;
+
+export const RevokeLeadScoreOverrideRequestSchema = z
+    .object({
+        reason: z.string().trim().min(1).max(1000),
+        expectedOverrideRowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'RevokeLeadScoreOverrideRequest' });
+
+export type RevokeLeadScoreOverrideRequest = z.infer<typeof RevokeLeadScoreOverrideRequestSchema>;
 
 export const LeadListQuerySchema = z
     .object({

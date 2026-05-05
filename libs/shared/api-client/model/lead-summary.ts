@@ -9,6 +9,7 @@
  */
 import { LeadRating } from './lead-rating';
 import { LeadGateSummary } from './lead-gate-summary';
+import { LeadEffectiveScoreSource } from './lead-effective-score-source';
 import { LeadUrgency } from './lead-urgency';
 import { LeadBudgetStatus } from './lead-budget-status';
 import { LeadStatus } from './lead-status';
@@ -32,6 +33,11 @@ export interface LeadSummary {
     rating: LeadRating;
     scoreReason: string;
     scoreUpdatedAt: string;
+    effectiveScore: number;
+    effectiveRating: LeadRating;
+    effectiveScoreReason: string;
+    effectiveScoreSource: LeadEffectiveScoreSource;
+    activeScoreOverrideId: string | null;
     gateSummary: LeadGateSummary;
     status: LeadStatus;
     ownerOrgId: string | null;

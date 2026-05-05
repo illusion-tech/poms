@@ -2852,6 +2852,88 @@
         ]
       }
     },
+    "/api/leads/{id}/score-history": {
+      "get": {
+        "operationId": "LeadController_getScoreHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadScoreHistoryView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "获取线索评分历史与人工覆盖状态",
+        "tags": [
+          "lead"
+        ]
+      }
+    },
+    "/api/leads/{id}/score-overrides": {
+      "post": {
+        "operationId": "LeadController_submitScoreOverride",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitLeadScoreOverrideRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "提交线索评分人工覆盖申请",
+        "tags": [
+          "lead"
+        ]
+      }
+    },
     "/api/leads/{id}:claim": {
       "post": {
         "operationId": "LeadController_claimOwner",
@@ -3077,6 +3159,144 @@
           }
         ],
         "summary": "将有效线索转为项目",
+        "tags": [
+          "lead"
+        ]
+      }
+    },
+    "/api/lead-score-overrides/{id}:approve": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_approve",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveLeadScoreOverrideRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "批准线索评分人工覆盖",
+        "tags": [
+          "lead"
+        ]
+      }
+    },
+    "/api/lead-score-overrides/{id}:reject": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_reject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectLeadScoreOverrideRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "驳回线索评分人工覆盖",
+        "tags": [
+          "lead"
+        ]
+      }
+    },
+    "/api/lead-score-overrides/{id}:revoke": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_revoke",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeLeadScoreOverrideRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "撤销线索评分人工覆盖",
         "tags": [
           "lead"
         ]
@@ -9870,6 +10090,7 @@
                 "lead:read",
                 "lead:write",
                 "lead:assign",
+                "lead:score:override",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -10003,6 +10224,7 @@
                 "lead:read",
                 "lead:write",
                 "lead:assign",
+                "lead:score:override",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -10574,6 +10796,7 @@
               "lead:read",
               "lead:write",
               "lead:assign",
+              "lead:score:override",
               "lead:source:manage",
               "project:read",
               "project:write",
@@ -10630,6 +10853,7 @@
               "lead:read",
               "lead:write",
               "lead:assign",
+              "lead:score:override",
               "lead:source:manage",
               "project:read",
               "project:write",
@@ -10742,6 +10966,7 @@
                 "lead:read",
                 "lead:write",
                 "lead:assign",
+                "lead:score:override",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -10873,6 +11098,7 @@
                 "lead:read",
                 "lead:write",
                 "lead:assign",
+                "lead:score:override",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -11283,6 +11509,7 @@
                 "lead:read",
                 "lead:write",
                 "lead:assign",
+                "lead:score:override",
                 "lead:source:manage",
                 "project:read",
                 "project:write",
@@ -12976,6 +13203,26 @@
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
           },
+          "effectiveScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "effectiveRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScoreReason": {
+            "type": "string"
+          },
+          "effectiveScoreSource": {
+            "$ref": "#/components/schemas/LeadEffectiveScoreSource"
+          },
+          "activeScoreOverrideId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "gateSummary": {
             "$ref": "#/components/schemas/LeadGateSummary"
           },
@@ -13054,6 +13301,11 @@
           "rating",
           "scoreReason",
           "scoreUpdatedAt",
+          "effectiveScore",
+          "effectiveRating",
+          "effectiveScoreReason",
+          "effectiveScoreSource",
+          "activeScoreOverrideId",
           "gateSummary",
           "status",
           "ownerOrgId",
@@ -13094,6 +13346,13 @@
           "B",
           "C",
           "D"
+        ]
+      },
+      "LeadEffectiveScoreSource": {
+        "type": "string",
+        "enum": [
+          "system",
+          "manual-override"
         ]
       },
       "LeadGateSummary": {
@@ -13311,6 +13570,26 @@
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
           },
+          "effectiveScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "effectiveRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScoreReason": {
+            "type": "string"
+          },
+          "effectiveScoreSource": {
+            "$ref": "#/components/schemas/LeadEffectiveScoreSource"
+          },
+          "activeScoreOverrideId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "gateSummary": {
             "$ref": "#/components/schemas/LeadGateSummary"
           },
@@ -13451,6 +13730,11 @@
           "rating",
           "scoreReason",
           "scoreUpdatedAt",
+          "effectiveScore",
+          "effectiveRating",
+          "effectiveScoreReason",
+          "effectiveScoreSource",
+          "activeScoreOverrideId",
           "gateSummary",
           "status",
           "ownerOrgId",
@@ -13474,6 +13758,342 @@
           "sourceSummary",
           "convertedProjectSummary",
           "allowedActions"
+        ]
+      },
+      "LeadScoreOverrideSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "leadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "requestedScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "requestedRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadScoreOverrideStatus"
+          },
+          "systemScoreAtRequest": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "systemRatingAtRequest": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "requestedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "requestedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "approvedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "approvalNote": {
+            "type": "string",
+            "nullable": true
+          },
+          "rejectedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rejectedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "rejectReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "revokedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "revokedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "revokeReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "supersededById": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "leadId",
+          "requestedScore",
+          "requestedRating",
+          "reason",
+          "status",
+          "systemScoreAtRequest",
+          "systemRatingAtRequest",
+          "requestedBy",
+          "requestedAt",
+          "approvedBy",
+          "approvedAt",
+          "approvalNote",
+          "rejectedBy",
+          "rejectedAt",
+          "rejectReason",
+          "revokedBy",
+          "revokedAt",
+          "revokeReason",
+          "supersededById",
+          "rowVersion"
+        ]
+      },
+      "LeadScoreOverrideStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "approved",
+          "rejected",
+          "revoked",
+          "superseded"
+        ]
+      },
+      "LeadScoreHistoryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "leadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotKind": {
+            "$ref": "#/components/schemas/LeadScoreSnapshotKind"
+          },
+          "overrideId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "formulaVersion": {
+            "type": "string"
+          },
+          "systemScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "systemRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "effectiveRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScoreSource": {
+            "$ref": "#/components/schemas/LeadEffectiveScoreSource"
+          },
+          "scoreReason": {
+            "type": "string"
+          },
+          "componentBreakdown": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "gateSummarySnapshot": {
+            "$ref": "#/components/schemas/LeadGateSummary"
+          },
+          "sourceCommand": {
+            "type": "string"
+          },
+          "sourceRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "leadId",
+          "snapshotKind",
+          "overrideId",
+          "formulaVersion",
+          "systemScore",
+          "systemRating",
+          "effectiveScore",
+          "effectiveRating",
+          "effectiveScoreSource",
+          "scoreReason",
+          "componentBreakdown",
+          "gateSummarySnapshot",
+          "sourceCommand",
+          "sourceRecordId",
+          "createdAt",
+          "createdBy"
+        ]
+      },
+      "LeadScoreSnapshotKind": {
+        "type": "string",
+        "enum": [
+          "system",
+          "manual-override",
+          "override-revoked"
+        ]
+      },
+      "LeadScoreHistoryView": {
+        "type": "object",
+        "properties": {
+          "leadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "systemScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "systemRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "scoreReason": {
+            "type": "string"
+          },
+          "scoreUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "effectiveScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "effectiveRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScoreReason": {
+            "type": "string"
+          },
+          "effectiveScoreSource": {
+            "$ref": "#/components/schemas/LeadEffectiveScoreSource"
+          },
+          "activeScoreOverrideId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "activeOverride": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "pendingOverride": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "snapshots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadScoreHistoryItem"
+            }
+          },
+          "overrides": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadScoreOverrideSummary"
+            }
+          }
+        },
+        "required": [
+          "leadId",
+          "systemScore",
+          "systemRating",
+          "scoreReason",
+          "scoreUpdatedAt",
+          "effectiveScore",
+          "effectiveRating",
+          "effectiveScoreReason",
+          "effectiveScoreSource",
+          "activeScoreOverrideId",
+          "activeOverride",
+          "pendingOverride",
+          "snapshots",
+          "overrides"
         ]
       },
       "CreateLeadRequest": {
@@ -13609,6 +14229,26 @@
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
           },
+          "effectiveScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "effectiveRating": {
+            "$ref": "#/components/schemas/LeadRating"
+          },
+          "effectiveScoreReason": {
+            "type": "string"
+          },
+          "effectiveScoreSource": {
+            "$ref": "#/components/schemas/LeadEffectiveScoreSource"
+          },
+          "activeScoreOverrideId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "gateSummary": {
             "$ref": "#/components/schemas/LeadGateSummary"
           },
@@ -13723,6 +14363,11 @@
           "rating",
           "scoreReason",
           "scoreUpdatedAt",
+          "effectiveScore",
+          "effectiveRating",
+          "effectiveScoreReason",
+          "effectiveScoreSource",
+          "activeScoreOverrideId",
           "gateSummary",
           "status",
           "ownerOrgId",
@@ -13741,6 +14386,31 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
+        ]
+      },
+      "SubmitLeadScoreOverrideRequest": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedLeadRowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "score",
+          "reason",
+          "expectedLeadRowVersion"
         ]
       },
       "ClaimLeadOwnerRequest": {
@@ -14051,6 +14721,63 @@
           "createdBy",
           "updatedAt",
           "updatedBy"
+        ]
+      },
+      "ApproveLeadScoreOverrideRequest": {
+        "type": "object",
+        "properties": {
+          "expectedOverrideRowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "expectedOverrideRowVersion"
+        ]
+      },
+      "RejectLeadScoreOverrideRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedOverrideRowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "reason",
+          "expectedOverrideRowVersion"
+        ]
+      },
+      "RevokeLeadScoreOverrideRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedOverrideRowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "reason",
+          "expectedOverrideRowVersion"
         ]
       },
       "LeadSourceSummary": {

@@ -17,6 +17,8 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ApproveLeadScoreOverrideRequest } from '../model/approve-lead-score-override-request';
+// @ts-ignore
 import { AssignLeadOwnerRequest } from '../model/assign-lead-owner-request';
 // @ts-ignore
 import { ClaimLeadOwnerRequest } from '../model/claim-lead-owner-request';
@@ -39,6 +41,10 @@ import { LeadOwnershipScope } from '../model/lead-ownership-scope';
 // @ts-ignore
 import { LeadRating } from '../model/lead-rating';
 // @ts-ignore
+import { LeadScoreHistoryView } from '../model/lead-score-history-view';
+// @ts-ignore
+import { LeadScoreOverrideSummary } from '../model/lead-score-override-summary';
+// @ts-ignore
 import { LeadStatus } from '../model/lead-status';
 // @ts-ignore
 import { LeadSummary } from '../model/lead-summary';
@@ -48,6 +54,12 @@ import { LeadUrgency } from '../model/lead-urgency';
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
 import { QualifyLeadRequest } from '../model/qualify-lead-request';
+// @ts-ignore
+import { RejectLeadScoreOverrideRequest } from '../model/reject-lead-score-override-request';
+// @ts-ignore
+import { RevokeLeadScoreOverrideRequest } from '../model/revoke-lead-score-override-request';
+// @ts-ignore
+import { SubmitLeadScoreOverrideRequest } from '../model/submit-lead-score-override-request';
 // @ts-ignore
 import { UpdateLeadRequest } from '../model/update-lead-request';
 
@@ -85,6 +97,10 @@ export interface LeadControllerGetByIdRequestParams {
     id: string;
 }
 
+export interface LeadControllerGetScoreHistoryRequestParams {
+    id: string;
+}
+
 export interface LeadControllerListRequestParams {
     status?: LeadStatus;
     sourceId?: string;
@@ -102,9 +118,29 @@ export interface LeadControllerQualifyRequestParams {
     qualifyLeadRequest: QualifyLeadRequest;
 }
 
+export interface LeadControllerSubmitScoreOverrideRequestParams {
+    id: string;
+    submitLeadScoreOverrideRequest: SubmitLeadScoreOverrideRequest;
+}
+
 export interface LeadControllerUpdateRequestParams {
     id: string;
     updateLeadRequest: UpdateLeadRequest;
+}
+
+export interface LeadScoreOverrideControllerApproveRequestParams {
+    id: string;
+    approveLeadScoreOverrideRequest: ApproveLeadScoreOverrideRequest;
+}
+
+export interface LeadScoreOverrideControllerRejectRequestParams {
+    id: string;
+    rejectLeadScoreOverrideRequest: RejectLeadScoreOverrideRequest;
+}
+
+export interface LeadScoreOverrideControllerRevokeRequestParams {
+    id: string;
+    revokeLeadScoreOverrideRequest: RevokeLeadScoreOverrideRequest;
 }
 
 
@@ -544,6 +580,66 @@ export class LeadApi extends BaseService {
     }
 
     /**
+     * 获取线索评分历史与人工覆盖状态
+     * @endpoint get /api/leads/{id}/score-history
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadControllerGetScoreHistory(requestParameters: LeadControllerGetScoreHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadScoreHistoryView>;
+    public leadControllerGetScoreHistory(requestParameters: LeadControllerGetScoreHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadScoreHistoryView>>;
+    public leadControllerGetScoreHistory(requestParameters: LeadControllerGetScoreHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadScoreHistoryView>>;
+    public leadControllerGetScoreHistory(requestParameters: LeadControllerGetScoreHistoryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadControllerGetScoreHistory.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/leads/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/score-history`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadScoreHistoryView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取线索列表
      * @endpoint get /api/leads
      * @param requestParameters
@@ -767,6 +863,80 @@ export class LeadApi extends BaseService {
     }
 
     /**
+     * 提交线索评分人工覆盖申请
+     * @endpoint post /api/leads/{id}/score-overrides
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadControllerSubmitScoreOverride(requestParameters: LeadControllerSubmitScoreOverrideRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadScoreOverrideSummary>;
+    public leadControllerSubmitScoreOverride(requestParameters: LeadControllerSubmitScoreOverrideRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadScoreOverrideSummary>>;
+    public leadControllerSubmitScoreOverride(requestParameters: LeadControllerSubmitScoreOverrideRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadScoreOverrideSummary>>;
+    public leadControllerSubmitScoreOverride(requestParameters: LeadControllerSubmitScoreOverrideRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadControllerSubmitScoreOverride.');
+        }
+        const submitLeadScoreOverrideRequest = requestParameters?.submitLeadScoreOverrideRequest;
+        if (submitLeadScoreOverrideRequest === null || submitLeadScoreOverrideRequest === undefined) {
+            throw new Error('Required parameter submitLeadScoreOverrideRequest was null or undefined when calling leadControllerSubmitScoreOverride.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/leads/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/score-overrides`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadScoreOverrideSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: submitLeadScoreOverrideRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 更新线索基础信息
      * @endpoint patch /api/leads/{id}
      * @param requestParameters
@@ -830,6 +1000,228 @@ export class LeadApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: updateLeadRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 批准线索评分人工覆盖
+     * @endpoint post /api/lead-score-overrides/{id}:approve
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadScoreOverrideControllerApprove(requestParameters: LeadScoreOverrideControllerApproveRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadScoreOverrideSummary>;
+    public leadScoreOverrideControllerApprove(requestParameters: LeadScoreOverrideControllerApproveRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerApprove(requestParameters: LeadScoreOverrideControllerApproveRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerApprove(requestParameters: LeadScoreOverrideControllerApproveRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadScoreOverrideControllerApprove.');
+        }
+        const approveLeadScoreOverrideRequest = requestParameters?.approveLeadScoreOverrideRequest;
+        if (approveLeadScoreOverrideRequest === null || approveLeadScoreOverrideRequest === undefined) {
+            throw new Error('Required parameter approveLeadScoreOverrideRequest was null or undefined when calling leadScoreOverrideControllerApprove.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/lead-score-overrides/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:approve`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadScoreOverrideSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: approveLeadScoreOverrideRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 驳回线索评分人工覆盖
+     * @endpoint post /api/lead-score-overrides/{id}:reject
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadScoreOverrideControllerReject(requestParameters: LeadScoreOverrideControllerRejectRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadScoreOverrideSummary>;
+    public leadScoreOverrideControllerReject(requestParameters: LeadScoreOverrideControllerRejectRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerReject(requestParameters: LeadScoreOverrideControllerRejectRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerReject(requestParameters: LeadScoreOverrideControllerRejectRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadScoreOverrideControllerReject.');
+        }
+        const rejectLeadScoreOverrideRequest = requestParameters?.rejectLeadScoreOverrideRequest;
+        if (rejectLeadScoreOverrideRequest === null || rejectLeadScoreOverrideRequest === undefined) {
+            throw new Error('Required parameter rejectLeadScoreOverrideRequest was null or undefined when calling leadScoreOverrideControllerReject.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/lead-score-overrides/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:reject`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadScoreOverrideSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: rejectLeadScoreOverrideRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 撤销线索评分人工覆盖
+     * @endpoint post /api/lead-score-overrides/{id}:revoke
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public leadScoreOverrideControllerRevoke(requestParameters: LeadScoreOverrideControllerRevokeRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadScoreOverrideSummary>;
+    public leadScoreOverrideControllerRevoke(requestParameters: LeadScoreOverrideControllerRevokeRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerRevoke(requestParameters: LeadScoreOverrideControllerRevokeRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadScoreOverrideSummary>>;
+    public leadScoreOverrideControllerRevoke(requestParameters: LeadScoreOverrideControllerRevokeRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling leadScoreOverrideControllerRevoke.');
+        }
+        const revokeLeadScoreOverrideRequest = requestParameters?.revokeLeadScoreOverrideRequest;
+        if (revokeLeadScoreOverrideRequest === null || revokeLeadScoreOverrideRequest === undefined) {
+            throw new Error('Required parameter revokeLeadScoreOverrideRequest was null or undefined when calling leadScoreOverrideControllerRevoke.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/lead-score-overrides/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:revoke`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LeadScoreOverrideSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: revokeLeadScoreOverrideRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

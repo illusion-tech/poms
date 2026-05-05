@@ -34,8 +34,19 @@ export interface LeadScoreSnapshot {
     scoreReason: string;
 }
 
+export interface LeadScoreComponentBreakdown {
+    source: number;
+    demand: number;
+    budget: number;
+    amount: number;
+    urgency: number;
+    expectedDecisionDate: number;
+    owner: number;
+}
+
 export function calculateLeadScore(input: LeadGateInput): LeadScoreSnapshot {
     const components: string[] = [];
+    const breakdown = buildLeadScoreComponentBreakdown(input);
     let score = 0;
 
     const add = (label: string, points: number) => {
@@ -46,22 +57,33 @@ export function calculateLeadScore(input: LeadGateInput): LeadScoreSnapshot {
         components.push(`${label}+${points}`);
     };
 
-    add('来源', input.sourceId ? 10 : 0);
-
-    const demandLength = input.demandDescription?.trim().length ?? 0;
-    add('需求', demandLength >= 30 ? 15 : demandLength > 0 ? 10 : 0);
-
-    add('预算', resolveBudgetScore(input.budgetStatus));
-    add('金额', parsePositiveAmount(input.estimatedAmount) ? 15 : 0);
-    add('紧迫', resolveUrgencyScore(input.urgency));
-    add('决策日期', input.expectedDecisionDate ? 10 : 0);
-    add('主责', input.ownerUserId && input.ownerOrgId ? 10 : 0);
+    add('来源', breakdown.source);
+    add('需求', breakdown.demand);
+    add('预算', breakdown.budget);
+    add('金额', breakdown.amount);
+    add('紧迫', breakdown.urgency);
+    add('决策日期', breakdown.expectedDecisionDate);
+    add('主责', breakdown.owner);
 
     const cappedScore = Math.min(score, 100);
     return {
         score: cappedScore,
         rating: resolveLeadRating(cappedScore),
         scoreReason: components.length > 0 ? components.join('；') : '暂无有效评分事实'
+    };
+}
+
+export function buildLeadScoreComponentBreakdown(input: LeadGateInput): LeadScoreComponentBreakdown {
+    const demandLength = input.demandDescription?.trim().length ?? 0;
+
+    return {
+        source: input.sourceId ? 10 : 0,
+        demand: demandLength >= 30 ? 15 : demandLength > 0 ? 10 : 0,
+        budget: resolveBudgetScore(input.budgetStatus),
+        amount: parsePositiveAmount(input.estimatedAmount) ? 15 : 0,
+        urgency: resolveUrgencyScore(input.urgency),
+        expectedDecisionDate: input.expectedDecisionDate ? 10 : 0,
+        owner: input.ownerUserId && input.ownerOrgId ? 10 : 0
     };
 }
 
@@ -146,7 +168,7 @@ function resolveUrgencyScore(urgency: LeadUrgency | null | undefined): number {
     }
 }
 
-function resolveLeadRating(score: number): LeadRating {
+export function resolveLeadRating(score: number): LeadRating {
     if (score >= 80) return LeadRatingValue.A;
     if (score >= 60) return LeadRatingValue.B;
     if (score >= 40) return LeadRatingValue.C;

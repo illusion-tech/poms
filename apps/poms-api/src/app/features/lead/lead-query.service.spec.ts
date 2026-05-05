@@ -3,6 +3,7 @@ import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
 import { LeadRepository } from './lead.repository';
+import { LeadScoreService } from './lead-score.service';
 
 describe('LeadQueryService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
@@ -14,6 +15,7 @@ describe('LeadQueryService', () => {
 
     let service: LeadQueryService;
     let leadRepository: jest.Mocked<LeadRepository>;
+    let leadScoreService: jest.Mocked<LeadScoreService>;
     const currentUser = { sub: userId, username: 'sales_rep', permissions: ['lead:read', 'lead:write', 'lead:assign'] } as never;
 
     beforeEach(() => {
@@ -28,7 +30,12 @@ describe('LeadQueryService', () => {
             findOrgUnitsByIds: jest.fn()
         } as unknown as jest.Mocked<LeadRepository>;
 
-        service = new LeadQueryService(leadRepository);
+        leadScoreService = {
+            findActiveOverridesByLeadIds: jest.fn().mockResolvedValue(new Map()),
+            findActiveOverrideByLeadId: jest.fn().mockResolvedValue(null)
+        } as unknown as jest.Mocked<LeadScoreService>;
+
+        service = new LeadQueryService(leadRepository, leadScoreService);
     });
 
     it('maps list leads with owner names and passes filters', async () => {
@@ -57,6 +64,7 @@ describe('LeadQueryService', () => {
             rating: 'A',
             keyword: '地铁'
         });
+        expect(leadScoreService.findActiveOverridesByLeadIds).toHaveBeenCalledWith([leadId]);
         expect(result).toEqual([
             expect.objectContaining({
                 id: leadId,
@@ -73,6 +81,10 @@ describe('LeadQueryService', () => {
                 ownerName: '销售人员',
                 ownerOrgName: '华南销售一部',
                 qualifiedAt: '2026-04-25T11:00:00.000Z',
+                effectiveScore: 95,
+                effectiveRating: 'A',
+                effectiveScoreSource: 'system',
+                activeScoreOverrideId: null,
                 rowVersion: 1,
                 allowedActions: ['assign-lead-owner']
             })
@@ -122,6 +134,7 @@ describe('LeadQueryService', () => {
 
         const result = await service.getLead(leadId, currentUser);
 
+        expect(leadScoreService.findActiveOverrideByLeadId).toHaveBeenCalledWith(leadId);
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
         expect(result.sourceSummary).toBe('来源渠道：转介绍');

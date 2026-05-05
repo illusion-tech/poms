@@ -5,6 +5,7 @@ import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+import { LeadScoreService } from './lead-score.service';
 import { LeadService } from './lead.service';
 
 describe('LeadService', () => {
@@ -21,6 +22,7 @@ describe('LeadService', () => {
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let attachmentService: jest.Mocked<Pick<AttachmentService, 'copyActiveLinksToTarget'>>;
+    let leadScoreService: jest.Mocked<Pick<LeadScoreService, 'recordSystemSnapshot'>>;
     let entityManager: {
         create: jest.Mock;
         persist: jest.Mock;
@@ -59,6 +61,9 @@ describe('LeadService', () => {
         attachmentService = {
             copyActiveLinksToTarget: jest.fn().mockResolvedValue(undefined)
         };
+        leadScoreService = {
+            recordSystemSnapshot: jest.fn().mockResolvedValue(null)
+        };
 
         leadRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
@@ -67,7 +72,7 @@ describe('LeadService', () => {
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
-        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never);
+        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never, leadScoreService as never);
     });
 
     it('creates an active lead source dictionary item', async () => {
@@ -132,6 +137,7 @@ describe('LeadService', () => {
             })
         );
         expect(entityManager.persist).toHaveBeenCalledWith(lead);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'create-lead', userId, null, entityManager);
         expect(entityManager.flush).toHaveBeenCalled();
         expect(lead.status).toBe('registered');
         expect(lead.score).toBeGreaterThan(0);
@@ -202,6 +208,7 @@ describe('LeadService', () => {
         expect(result.qualifiedAt).toBeInstanceOf(Date);
         expect(result.qualifiedBy).toBe(userId);
         expect(leadRepository.save).toHaveBeenCalledWith(lead);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'qualify-lead', userId);
     });
 
     it('rejects qualifying a closed lead', async () => {
@@ -230,6 +237,7 @@ describe('LeadService', () => {
         expect(result.closedReason).toBe('客户预算取消');
         expect(result.closedAt).toBeInstanceOf(Date);
         expect(result.closedBy).toBe(userId);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'close-lead', userId);
     });
 
     it('converts a qualified lead into a project and writes the lead conversion fact', async () => {
@@ -283,6 +291,7 @@ describe('LeadService', () => {
         expect(lead.convertedAt).toBeInstanceOf(Date);
         expect(lead.convertedBy).toBe(userId);
         expect(entityManager.persist).toHaveBeenCalledWith([lead, result]);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'convert-to-project', userId, result.id, entityManager);
         expect(entityManager.flush).toHaveBeenCalled();
     });
 
@@ -350,6 +359,7 @@ describe('LeadService', () => {
         });
         expect(lead.ownerUserId).toBe(userId);
         expect(lead.ownerOrgId).toBe(orgId);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'claimed-lead-owner', userId, expect.any(String));
         expect(result.assignmentType).toBe('claimed');
     });
 
