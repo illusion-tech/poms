@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-04-29
+**最后更新**: 2026-05-06
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -529,6 +529,7 @@
 48. 2026-05-05 `EX-52A` 已完成 `G4`：项目移交附件清单扫描 / 刷新、`project-handover` 附件 target、清单选择持久化、短期 zip 下载包、下载包状态 / 受控下载、OpenAPI / generated client、migration 和后端 focused tests 已落地；route inventory 已从 `planned` 切为 `aligned`，前端移交入口、敏感导出审批流、对象存储迁移和长期外链继续保持后续范围。
 49. 2026-05-05 `FE-55` 已进入 `G1 / Doing`：新增 `fe-55-project-handover-attachment-frontend-baseline.md`，冻结项目移交附件清单与批量下载前端入口范围；本片只消费 EX-52A generated client，在合同承接 / 项目移交页面展示清单、缺口、敏感排除、纳入项选择、短期下载包和受控下载，不新增后端 route、敏感导出审批流、对象存储迁移或长期外链。
 50. 2026-05-05 `FE-55` 已完成 `G4`：项目合同承接 / 移交页面已接入附件移交清单、统计、刷新扫描、敏感排除提示、可下载项选择、短期下载包创建和 authenticated blob 下载；`ProjectWorkspaceStore` 新增 EX-52A generated client 消费和下载包下载方法，并补 focused component / store tests；未新增 public API route、迁移、OpenAPI 或 generated client。
+51. 2026-05-06 `EX-54` 已完成 `G4`：新增 `ex-54-lead-scoring-history-override-governance-baseline.md` 和 closeout，冻结系统评分、人工覆盖评分、当前有效评分、历史快照、审批 / 撤销、权限审计和 planned routes；执行板新增 `EX-54A` 后端运行时与 `FE-56` 前端入口，`EX-55` 智能评分增强评估不得绕过 EX-54 的可解释历史与 override 边界。
 
 ---
 

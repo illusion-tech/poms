@@ -1,7 +1,7 @@
 # API Canonical Inventory
 
 **文档状态**: Active
-**最后更新**: 2026-04-29
+**最后更新**: 2026-05-06
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -391,6 +391,16 @@
 | `attachment` | `createProjectHandoverAttachmentDownloadPackage` | `POST /project-handovers/{id}/attachment-download-packages` | `POST /project-handovers/{id}/attachment-download-packages` | `POST /project-handovers/{id}/attachment-download-packages` | `ADR-015` + `EX-52A` | `N/A`      | 已落地按移交清单创建短期批量下载包。         | `B11` | `aligned` |
 | `attachment` | `getAttachmentDownloadPackage`                   | `GET /attachment-download-packages/{id}`                    | `GET /attachment-download-packages/{id}`                    | `GET /attachment-download-packages/{id}`                    | `ADR-015` + `EX-52A` | `N/A`      | 已落地下载包状态和 manifest 摘要读取。       | `B11` | `aligned` |
 | `attachment` | `downloadAttachmentDownloadPackage`              | `GET /attachment-download-packages/{id}/download`           | `GET /attachment-download-packages/{id}/download`           | `GET /attachment-download-packages/{id}/download`           | `ADR-015` + `EX-52A` | `N/A`      | 已落地 ready 状态下载包的受控归档下载。      | `B11` | `aligned` |
+
+### 6.17 EX-54 Lead Score History / Manual Override
+
+| Domain         | Capability                 | Canonical Route                           | Current Implemented Route | Current Design Route                      | Authority           | Drift Type | Action                                                            | Batch | Status    |
+| -------------- | -------------------------- | ----------------------------------------- | ------------------------- | ----------------------------------------- | ------------------- | ---------- | ----------------------------------------------------------------- | ----- | --------- |
+| `lead-scoring` | `listLeadScoreHistory`     | `GET /leads/{id}/score-history`           | `N/A`                     | `GET /leads/{id}/score-history`           | `ADR-015` + `EX-54` | `N/A`      | Planned route; 后续 `EX-54A` 落地评分历史读取并切为 aligned。     | `B12` | `planned` |
+| `lead-scoring` | `submitLeadScoreOverride`  | `POST /leads/{id}/score-overrides`        | `N/A`                     | `POST /leads/{id}/score-overrides`        | `ADR-015` + `EX-54` | `N/A`      | Planned route; 后续 `EX-54A` 落地人工覆盖提交命令并切为 aligned。 | `B12` | `planned` |
+| `lead-scoring` | `approveLeadScoreOverride` | `POST /lead-score-overrides/{id}:approve` | `N/A`                     | `POST /lead-score-overrides/{id}:approve` | `ADR-015` + `EX-54` | `N/A`      | Planned route; 覆盖记录拥有独立 identity, 后续实现批准命令。      | `B12` | `planned` |
+| `lead-scoring` | `rejectLeadScoreOverride`  | `POST /lead-score-overrides/{id}:reject`  | `N/A`                     | `POST /lead-score-overrides/{id}:reject`  | `ADR-015` + `EX-54` | `N/A`      | Planned route; 后续实现驳回命令, 不影响当前有效评分。             | `B12` | `planned` |
+| `lead-scoring` | `revokeLeadScoreOverride`  | `POST /lead-score-overrides/{id}:revoke`  | `N/A`                     | `POST /lead-score-overrides/{id}:revoke`  | `ADR-015` + `EX-54` | `N/A`      | Planned route; 后续实现撤销命令并让有效评分回退最新系统评分。     | `B12` | `planned` |
 
 ## 7. 批次推进原则
 
