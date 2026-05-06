@@ -65,6 +65,39 @@ describe('FeishuIdentityProviderAdapter', () => {
         });
     });
 
+    it('fetches Feishu login identity with a user access token', async () => {
+        mockedAxios.get.mockResolvedValue({
+            data: {
+                code: 0,
+                data: {
+                    open_id: 'ou_feishu_user_1',
+                    union_id: 'on_union_1',
+                    name: '张三',
+                    email: 'zhangsan@example.com'
+                }
+            }
+        });
+
+        const result = await adapter.fetchExternalLoginIdentity({
+            config: createConfig(),
+            accessToken: 'login-access-token'
+        });
+
+        expect(mockedAxios.get).toHaveBeenCalledWith(
+            'https://open.feishu.cn/open-apis/authen/v1/user_info',
+            expect.objectContaining({
+                headers: { Authorization: 'Bearer login-access-token' },
+                timeout: 10_000
+            })
+        );
+        expect(result).toMatchObject({
+            subjectId: 'ou_feishu_user_1',
+            unionId: 'on_union_1',
+            displayName: '张三',
+            email: 'zhangsan@example.com'
+        });
+    });
+
     it('maps Feishu user search results into provider-neutral candidates', async () => {
         mockedAxios.get.mockResolvedValue({
             data: {

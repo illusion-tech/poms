@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IdentityProviderValue } from '@poms/shared-contracts';
 import axios from 'axios';
-import type { BuildAdminGrantAuthorizeUrlInput, ExchangeAdminGrantCodeInput, IdentityProviderAdapter, ProviderExternalUserCandidate, ProviderOAuthTokenSet, SearchExternalUsersInput } from './identity-provider.adapter';
+import type { BuildAdminGrantAuthorizeUrlInput, ExchangeAdminGrantCodeInput, IdentityProviderAdapter, ProviderExternalLoginIdentity, ProviderExternalUserCandidate, ProviderOAuthTokenSet, SearchExternalUsersInput } from './identity-provider.adapter';
 import { IdentityProviderAdapterError } from './identity-provider.adapter';
 
 type JsonRecord = Record<string, unknown>;
@@ -11,6 +11,14 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
     readonly provider = IdentityProviderValue.Feishu;
 
     buildAdminGrantAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string {
+        return this.buildAuthorizeUrl(input);
+    }
+
+    buildExternalLoginAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string {
+        return this.buildAuthorizeUrl(input);
+    }
+
+    private buildAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string {
         if (!input.config.redirectUri) {
             throw new IdentityProviderAdapterError('Feishu redirect URI is required before starting provider authorization.');
         }
@@ -28,6 +36,14 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
     }
 
     async exchangeAdminGrantCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet> {
+        return this.exchangeOAuthCode(input);
+    }
+
+    async exchangeExternalLoginCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet> {
+        return this.exchangeOAuthCode(input);
+    }
+
+    private async exchangeOAuthCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet> {
         if (!input.config.redirectUri) {
             throw new IdentityProviderAdapterError('Feishu redirect URI is required before exchanging provider authorization code.');
         }
@@ -56,6 +72,31 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
             expiresInSeconds: this.readNumber(payload, ['expires_in', 'expire']),
             refreshExpiresInSeconds: this.readNumber(payload, ['refresh_expires_in']),
             scopes: this.readScopes(payload)
+        };
+    }
+
+    async fetchExternalLoginIdentity(input: { accessToken: string }): Promise<ProviderExternalLoginIdentity> {
+        const endpoint = process.env['FEISHU_USER_INFO_URL'] ?? 'https://open.feishu.cn/open-apis/authen/v1/user_info';
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${input.accessToken}`
+            },
+            timeout: this.timeoutMs()
+        });
+        const payload = this.unwrapFeishuPayload(response.data, 'Feishu user info failed');
+        const subjectId = this.readString(payload, ['open_id', 'user_id', 'sub']);
+        const displayName = this.readString(payload, ['name', 'display_name', 'en_name']);
+        if (!subjectId || !displayName) {
+            throw new IdentityProviderAdapterError('Feishu user info response did not include a subject id and display name.');
+        }
+
+        return {
+            subjectId,
+            unionId: this.readString(payload, ['union_id']),
+            displayName,
+            avatarUrl: this.readString(payload, ['avatar_url', 'avatar_thumb', 'avatar_middle', 'avatar_big']),
+            email: this.readString(payload, ['email']),
+            mobile: this.readString(payload, ['mobile', 'mobile_visible'])
         };
     }
 

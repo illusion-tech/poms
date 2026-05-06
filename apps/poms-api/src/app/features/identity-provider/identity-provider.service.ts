@@ -1,7 +1,11 @@
 import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import {
+    type EnabledLoginProviderList,
     ExternalIdentityBindingStatusValue,
+    type ExternalLoginAuthorizeResult,
+    type ExternalLoginCallbackQuery,
+    type ExternalLoginCallbackResult,
     type ExternalUserSearchQuery,
     type ExternalUserSearchResult,
     IdentityProviderConfigStatusValue,
@@ -26,6 +30,7 @@ import {
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { ExternalIdentity } from './external-identity.entity';
+import { ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterError, type ProviderOAuthTokenSet } from './identity-provider.adapter';
 import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
 import { IdentityProviderConfig } from './identity-provider-config.entity';
@@ -134,6 +139,167 @@ export class IdentityProviderService {
         }
 
         return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Success, 'Local configuration is complete. Provider network verification is handled by the adapter slice.');
+    }
+
+    async listEnabledLoginProviders(): Promise<EnabledLoginProviderList> {
+        const configs = await this.identityProviderRepository.findLoginEnabledConfigs();
+        return configs.map((config) => ({
+            id: config.id,
+            provider: config.provider as EnabledLoginProviderList[number]['provider'],
+            tenantId: config.tenantId ?? null,
+            displayName: config.displayName,
+            loginScopes: config.loginScopes ?? []
+        }));
+    }
+
+    async authorizeExternalLogin(identityProviderConfigId: string): Promise<ExternalLoginAuthorizeResult> {
+        const config = await this.requireConfig(identityProviderConfigId);
+        this.assertLoginAllowed(config);
+
+        const state = this.createExternalLoginState(config.id);
+        const authorizeUrl = this.adapterRegistry.get(config.provider).buildExternalLoginAuthorizeUrl({
+            config,
+            state: state.value,
+            scopes: config.loginScopes ?? []
+        });
+
+        await this.recordConfigAudit('identity-provider.external-login.authorize-started', config, null, null, {
+            identityProviderConfigId: config.id,
+            provider: config.provider,
+            tenantId: config.tenantId ?? null,
+            stateExpiresAt: state.expiresAt.toISOString()
+        });
+
+        return {
+            authorizeUrl,
+            stateExpiresAt: state.expiresAt.toISOString()
+        };
+    }
+
+    async handleExternalLoginCallback(query: ExternalLoginCallbackQuery): Promise<ExternalLoginCallbackResult> {
+        if (query.error) {
+            throw new UnauthorizedException(query.error_description ? `${query.error}: ${query.error_description}` : query.error);
+        }
+        if (!query.code) {
+            throw new UnauthorizedException('Provider OAuth callback requires an authorization code.');
+        }
+
+        const state = this.verifyExternalLoginState(query.state);
+        const config = await this.requireConfig(state.identityProviderConfigId);
+        this.assertLoginAllowed(config);
+
+        let tokenSet: ProviderOAuthTokenSet;
+        try {
+            tokenSet = await this.adapterRegistry.get(config.provider).exchangeExternalLoginCode({
+                config,
+                clientSecret: this.decryptSecret(config.encryptedClientSecret ?? ''),
+                code: query.code
+            });
+            const externalIdentity = await this.adapterRegistry.get(config.provider).fetchExternalLoginIdentity({
+                config,
+                accessToken: tokenSet.accessToken
+            });
+            const tenantId = config.tenantId ?? null;
+            const binding = await this.identityProviderRepository.findActiveExternalIdentityBySubject(config.id, tenantId, externalIdentity.subjectId);
+            if (!binding) {
+                await this.recordExternalLoginFailure(config, externalIdentity.subjectId, 'external_identity_not_bound');
+                throw new UnauthorizedException('External identity is not bound to a POMS user.');
+            }
+
+            const user = await this.identityProviderRepository.findPlatformUserById(binding.pomsUserId);
+            if (!user?.isActive) {
+                await this.recordExternalLoginFailure(config, externalIdentity.subjectId, 'poms_user_inactive');
+                throw new UnauthorizedException('Bound POMS user is inactive or missing.');
+            }
+
+            const ticket = this.createLoginTicketValue();
+            const expiresAt = new Date(Date.now() + 2 * 60_000);
+            const entity = this.identityProviderRepository.createExternalLoginTicket({
+                ticketHash: this.ticketHash(ticket),
+                identityProviderConfigId: config.id,
+                externalIdentityId: binding.id,
+                pomsUserId: binding.pomsUserId,
+                provider: config.provider,
+                tenantId,
+                subjectId: externalIdentity.subjectId,
+                status: ExternalLoginTicketStatusValue.Issued,
+                expiresAt,
+                consumedAt: null
+            });
+
+            await this.identityProviderRepository.saveAll([entity]);
+            await this.runtimeAuditService.recordAuditLog({
+                eventType: 'identity-provider.external-login.ticket-issued',
+                targetType: 'ExternalLoginTicket',
+                targetId: entity.id,
+                operatorId: binding.pomsUserId,
+                result: 'success',
+                afterSnapshot: {
+                    identityProviderConfigId: config.id,
+                    provider: config.provider,
+                    tenantId,
+                    externalIdentityId: binding.id,
+                    pomsUserId: binding.pomsUserId,
+                    subjectId: externalIdentity.subjectId,
+                    expiresAt: expiresAt.toISOString(),
+                    ticketRedacted: true
+                }
+            });
+
+            return {
+                ticket,
+                expiresAt: expiresAt.toISOString(),
+                provider: config.provider as ExternalLoginCallbackResult['provider'],
+                identityProviderConfigId: config.id,
+                pomsUserId: binding.pomsUserId
+            };
+        } catch (error) {
+            if (error instanceof IdentityProviderAdapterError) throw new UnauthorizedException(error.message);
+            throw error;
+        }
+    }
+
+    async consumeExternalLoginSession(ticket: string): Promise<{ pomsUserId: string; externalIdentityId: string; identityProviderConfigId: string }> {
+        const entity = await this.identityProviderRepository.findExternalLoginTicketByHash(this.ticketHash(ticket));
+        if (!entity) {
+            throw new UnauthorizedException('External login ticket is invalid.');
+        }
+        if (entity.status !== ExternalLoginTicketStatusValue.Issued) {
+            throw new UnauthorizedException('External login ticket has already been consumed.');
+        }
+        if (entity.expiresAt.getTime() <= Date.now()) {
+            entity.status = ExternalLoginTicketStatusValue.Expired;
+            await this.identityProviderRepository.saveAll([entity]);
+            throw new UnauthorizedException('External login ticket has expired.');
+        }
+
+        entity.status = ExternalLoginTicketStatusValue.Consumed;
+        entity.consumedAt = new Date();
+        await this.identityProviderRepository.saveAll([entity]);
+
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'identity-provider.external-login.ticket-consumed',
+            targetType: 'ExternalLoginTicket',
+            targetId: entity.id,
+            operatorId: entity.pomsUserId,
+            result: 'success',
+            afterSnapshot: {
+                identityProviderConfigId: entity.identityProviderConfigId,
+                provider: entity.provider,
+                tenantId: entity.tenantId ?? null,
+                externalIdentityId: entity.externalIdentityId,
+                pomsUserId: entity.pomsUserId,
+                subjectId: entity.subjectId,
+                consumedAt: entity.consumedAt.toISOString(),
+                ticketRedacted: true
+            }
+        });
+
+        return {
+            pomsUserId: entity.pomsUserId,
+            externalIdentityId: entity.externalIdentityId,
+            identityProviderConfigId: entity.identityProviderConfigId
+        };
     }
 
     async getCurrentAdminProviderGrant(identityProviderConfigId: string, operatorId: string): Promise<IdentityProviderOAuthGrantSummary> {
@@ -427,6 +593,21 @@ export class IdentityProviderService {
         }
     }
 
+    private assertLoginAllowed(config: IdentityProviderConfig): void {
+        if (!config.enabled || config.status !== IdentityProviderConfigStatusValue.Active) {
+            throw new BadRequestException('Active and enabled identity provider config is required before external login.');
+        }
+        if (!config.loginEnabled) {
+            throw new BadRequestException('Identity provider config does not allow external login.');
+        }
+        if (!config.encryptedClientSecret) {
+            throw new BadRequestException('Identity provider client secret is required before external login.');
+        }
+        if (!config.redirectUri) {
+            throw new BadRequestException('Identity provider redirect URI is required before external login.');
+        }
+    }
+
     private resolveInitialStatus(enabled: boolean, encryptedClientSecret: string | null): string {
         if (!enabled) return IdentityProviderConfigStatusValue.Draft;
         return encryptedClientSecret ? IdentityProviderConfigStatusValue.Active : IdentityProviderConfigStatusValue.Misconfigured;
@@ -618,6 +799,22 @@ export class IdentityProviderService {
         });
     }
 
+    private async recordExternalLoginFailure(config: IdentityProviderConfig, subjectId: string, reason: string): Promise<void> {
+        await this.runtimeAuditService.recordAuditLog({
+            eventType: 'identity-provider.external-login.failed',
+            targetType: 'IdentityProviderConfig',
+            targetId: config.id,
+            operatorId: null,
+            result: 'failed',
+            reason,
+            metadata: {
+                provider: config.provider,
+                tenantId: config.tenantId ?? null,
+                subjectId
+            }
+        });
+    }
+
     private connectionTestResult(status: IdentityProviderConnectionTestResult['status'], message: string): IdentityProviderConnectionTestResult {
         return {
             status,
@@ -632,6 +829,21 @@ export class IdentityProviderService {
             purpose: 'identity-provider-admin-grant',
             identityProviderConfigId,
             operatorId,
+            nonce: randomBytes(16).toString('base64url'),
+            exp: expiresAt.getTime()
+        };
+        const encodedPayload = Buffer.from(JSON.stringify(payload), 'utf8').toString('base64url');
+        return {
+            value: `${encodedPayload}.${this.signOAuthState(encodedPayload)}`,
+            expiresAt
+        };
+    }
+
+    private createExternalLoginState(identityProviderConfigId: string): { value: string; expiresAt: Date } {
+        const expiresAt = new Date(Date.now() + 10 * 60_000);
+        const payload = {
+            purpose: 'identity-provider-login',
+            identityProviderConfigId,
             nonce: randomBytes(16).toString('base64url'),
             exp: expiresAt.getTime()
         };
@@ -675,6 +887,38 @@ export class IdentityProviderService {
         };
     }
 
+    private verifyExternalLoginState(state: string): { identityProviderConfigId: string } {
+        const [encodedPayload, signature, ...rest] = state.split('.');
+        if (!encodedPayload || !signature || rest.length > 0) {
+            throw new UnauthorizedException('Invalid provider OAuth state.');
+        }
+
+        const expected = this.signOAuthState(encodedPayload);
+        const actualSignature = Buffer.from(signature, 'base64url');
+        const expectedSignature = Buffer.from(expected, 'base64url');
+        if (actualSignature.length !== expectedSignature.length || !timingSafeEqual(actualSignature, expectedSignature)) {
+            throw new UnauthorizedException('Invalid provider OAuth state signature.');
+        }
+
+        let payload: Record<string, unknown>;
+        try {
+            payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8')) as Record<string, unknown>;
+        } catch {
+            throw new UnauthorizedException('Invalid provider OAuth state payload.');
+        }
+
+        if (payload['purpose'] !== 'identity-provider-login' || typeof payload['identityProviderConfigId'] !== 'string' || typeof payload['exp'] !== 'number') {
+            throw new UnauthorizedException('Invalid provider OAuth state payload.');
+        }
+        if (payload['exp'] <= Date.now()) {
+            throw new UnauthorizedException('Provider OAuth state has expired.');
+        }
+
+        return {
+            identityProviderConfigId: payload['identityProviderConfigId']
+        };
+    }
+
     private signOAuthState(encodedPayload: string): string {
         return createHmac('sha256', this.stateKey()).update(encodedPayload).digest('base64url');
     }
@@ -682,6 +926,14 @@ export class IdentityProviderService {
     private expiresAtFromNow(expiresInSeconds: number | null): Date | null {
         if (expiresInSeconds === null || expiresInSeconds <= 0) return null;
         return new Date(Date.now() + expiresInSeconds * 1000);
+    }
+
+    private createLoginTicketValue(): string {
+        return randomBytes(32).toString('base64url');
+    }
+
+    private ticketHash(ticket: string): string {
+        return createHash('sha256').update(ticket).digest('hex');
     }
 
     private encryptSecret(secret: string): string {

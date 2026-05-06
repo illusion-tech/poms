@@ -17,6 +17,14 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { CreateExternalLoginSessionRequest } from '../model/create-external-login-session-request';
+// @ts-ignore
+import { EnabledLoginProviderSummary } from '../model/enabled-login-provider-summary';
+// @ts-ignore
+import { ExternalLoginAuthorizeResult } from '../model/external-login-authorize-result';
+// @ts-ignore
+import { ExternalLoginCallbackResult } from '../model/external-login-callback-result';
+// @ts-ignore
 import { LoginRequest } from '../model/login-request';
 // @ts-ignore
 import { LoginResponse } from '../model/login-response';
@@ -30,6 +38,21 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { PomsApiConfiguration }                                     from '../configuration';
 import { BaseService } from '../api.base.service';
 
+
+export interface AuthControllerAuthorizeExternalLoginRequestParams {
+    id: string;
+}
+
+export interface AuthControllerCreateExternalLoginSessionRequestParams {
+    createExternalLoginSessionRequest: CreateExternalLoginSessionRequest;
+}
+
+export interface AuthControllerHandleExternalLoginCallbackRequestParams {
+    state: string;
+    code?: string;
+    error?: string;
+    errorDescription?: string;
+}
 
 export interface AuthControllerLoginRequestParams {
     loginRequest: LoginRequest;
@@ -47,6 +70,130 @@ export class AuthApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 生成外部身份提供商登录授权 URL
+     * @endpoint get /api/auth/identity-providers/{id}:authorize
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerAuthorizeExternalLogin(requestParameters: AuthControllerAuthorizeExternalLoginRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalLoginAuthorizeResult>;
+    public authControllerAuthorizeExternalLogin(requestParameters: AuthControllerAuthorizeExternalLoginRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalLoginAuthorizeResult>>;
+    public authControllerAuthorizeExternalLogin(requestParameters: AuthControllerAuthorizeExternalLoginRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalLoginAuthorizeResult>>;
+    public authControllerAuthorizeExternalLogin(requestParameters: AuthControllerAuthorizeExternalLoginRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling authControllerAuthorizeExternalLogin.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/identity-providers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:authorize`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalLoginAuthorizeResult>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 使用外部登录一次性票据交换 POMS JWT
+     * @endpoint post /api/auth/external-login-sessions
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LoginResponse>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LoginResponse>>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LoginResponse>>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const createExternalLoginSessionRequest = requestParameters?.createExternalLoginSessionRequest;
+        if (createExternalLoginSessionRequest === null || createExternalLoginSessionRequest === undefined) {
+            throw new Error('Required parameter createExternalLoginSessionRequest was null or undefined when calling authControllerCreateExternalLoginSession.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/external-login-sessions`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<LoginResponse>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createExternalLoginSessionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -92,6 +239,157 @@ export class AuthApi extends BaseService {
         let localVarPath = `/api/auth/profile`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<SanitizedUserWithOrgUnits>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 处理外部身份提供商登录 callback
+     * @endpoint get /api/auth/identity-providers:callback
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerHandleExternalLoginCallback(requestParameters: AuthControllerHandleExternalLoginCallbackRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalLoginCallbackResult>;
+    public authControllerHandleExternalLoginCallback(requestParameters: AuthControllerHandleExternalLoginCallbackRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalLoginCallbackResult>>;
+    public authControllerHandleExternalLoginCallback(requestParameters: AuthControllerHandleExternalLoginCallbackRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalLoginCallbackResult>>;
+    public authControllerHandleExternalLoginCallback(requestParameters: AuthControllerHandleExternalLoginCallbackRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const state = requestParameters?.state;
+        if (state === null || state === undefined) {
+            throw new Error('Required parameter state was null or undefined when calling authControllerHandleExternalLoginCallback.');
+        }
+        const code = requestParameters?.code;
+        const error = requestParameters?.error;
+        const errorDescription = requestParameters?.errorDescription;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'code',
+            <any>code,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'state',
+            <any>state,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'error',
+            <any>error,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'error_description',
+            <any>errorDescription,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/identity-providers:callback`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalLoginCallbackResult>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取可用于登录的外部身份提供商列表
+     * @endpoint get /api/auth/identity-providers
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerListEnabledLoginProviders(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<EnabledLoginProviderSummary>>;
+    public authControllerListEnabledLoginProviders(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<EnabledLoginProviderSummary>>>;
+    public authControllerListEnabledLoginProviders(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<EnabledLoginProviderSummary>>>;
+    public authControllerListEnabledLoginProviders(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/identity-providers`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<EnabledLoginProviderSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

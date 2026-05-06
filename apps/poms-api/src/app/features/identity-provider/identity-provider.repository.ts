@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import type { IdentityProvider, IdentityProviderConfigListQuery } from '@poms/shared-contracts';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ExternalIdentity } from './external-identity.entity';
+import { ExternalLoginTicket } from './external-login-ticket.entity';
 import { IdentityProviderConfig } from './identity-provider-config.entity';
 import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
 
@@ -16,6 +17,8 @@ export class IdentityProviderRepository {
         private readonly externalIdentityRepository: EntityRepository<ExternalIdentity>,
         @InjectRepository(IdentityProviderOAuthGrant)
         private readonly oauthGrantRepository: EntityRepository<IdentityProviderOAuthGrant>,
+        @InjectRepository(ExternalLoginTicket)
+        private readonly externalLoginTicketRepository: EntityRepository<ExternalLoginTicket>,
         @InjectRepository(PlatformUser)
         private readonly platformUserRepository: EntityRepository<PlatformUser>
     ) {}
@@ -36,6 +39,17 @@ export class IdentityProviderRepository {
 
     findConfigByProviderTenant(provider: IdentityProvider, tenantId: string | null): Promise<IdentityProviderConfig | null> {
         return this.configRepository.findOne({ provider, tenantId });
+    }
+
+    findLoginEnabledConfigs(): Promise<IdentityProviderConfig[]> {
+        return this.configRepository.find(
+            {
+                enabled: true,
+                loginEnabled: true,
+                status: 'active'
+            },
+            { orderBy: { createdAt: QueryOrder.DESC } }
+        );
     }
 
     createConfig(input: ConstructorParameters<typeof IdentityProviderConfig>[0]): IdentityProviderConfig {
@@ -81,6 +95,14 @@ export class IdentityProviderRepository {
 
     createOAuthGrant(input: ConstructorParameters<typeof IdentityProviderOAuthGrant>[0]): IdentityProviderOAuthGrant {
         return this.oauthGrantRepository.create(input);
+    }
+
+    findExternalLoginTicketByHash(ticketHash: string): Promise<ExternalLoginTicket | null> {
+        return this.externalLoginTicketRepository.findOne({ ticketHash });
+    }
+
+    createExternalLoginTicket(input: ConstructorParameters<typeof ExternalLoginTicket>[0]): ExternalLoginTicket {
+        return this.externalLoginTicketRepository.create(input);
     }
 
     async saveAll(entities: object[]): Promise<void> {

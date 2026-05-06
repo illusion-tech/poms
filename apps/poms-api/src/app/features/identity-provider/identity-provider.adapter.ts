@@ -38,10 +38,22 @@ export interface ProviderExternalUserCandidate {
     departmentNames: string[];
 }
 
+export interface ProviderExternalLoginIdentity {
+    subjectId: string;
+    unionId: string | null;
+    displayName: string;
+    avatarUrl: string | null;
+    email: string | null;
+    mobile: string | null;
+}
+
 export interface IdentityProviderAdapter {
     readonly provider: IdentityProvider;
     buildAdminGrantAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string;
     exchangeAdminGrantCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet>;
+    buildExternalLoginAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string;
+    exchangeExternalLoginCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet>;
+    fetchExternalLoginIdentity(input: { config: IdentityProviderConfig; accessToken: string }): Promise<ProviderExternalLoginIdentity>;
     searchExternalUsers(input: SearchExternalUsersInput): Promise<ProviderExternalUserCandidate[]>;
 }
 

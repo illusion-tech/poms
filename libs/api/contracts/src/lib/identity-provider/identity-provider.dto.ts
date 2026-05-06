@@ -1,6 +1,11 @@
 import {
     BindUserExternalIdentityRequestSchema,
+    CreateExternalLoginSessionRequestSchema,
     CreateIdentityProviderConfigRequestSchema,
+    EnabledLoginProviderListSchema,
+    ExternalLoginAuthorizeResultSchema,
+    ExternalLoginCallbackQuerySchema,
+    ExternalLoginCallbackResultSchema,
     ExternalIdentityBindingListSchema,
     ExternalIdentityBindingSummarySchema,
     ExternalUserSearchQuerySchema,
@@ -31,6 +36,16 @@ export class UpdateIdentityProviderConfigRequestDto extends createZodDto(UpdateI
 export class TestIdentityProviderConnectionRequestDto extends createZodDto(TestIdentityProviderConnectionRequestSchema) {}
 
 export class IdentityProviderConnectionTestResultDto extends createZodDto(IdentityProviderConnectionTestResultSchema) {}
+
+export class EnabledLoginProviderListDto extends createZodDto(EnabledLoginProviderListSchema) {}
+
+export class ExternalLoginAuthorizeResultDto extends createZodDto(ExternalLoginAuthorizeResultSchema) {}
+
+export class ExternalLoginCallbackQueryDto extends createZodDto(ExternalLoginCallbackQuerySchema) {}
+
+export class ExternalLoginCallbackResultDto extends createZodDto(ExternalLoginCallbackResultSchema) {}
+
+export class CreateExternalLoginSessionRequestDto extends createZodDto(CreateExternalLoginSessionRequestSchema) {}
 
 export class IdentityProviderOAuthGrantDto extends createZodDto(IdentityProviderOAuthGrantSummarySchema) {}
 

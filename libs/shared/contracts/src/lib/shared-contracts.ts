@@ -730,6 +730,62 @@ export const ExternalUserSearchResultSchema = z
 
 export type ExternalUserSearchResult = z.infer<typeof ExternalUserSearchResultSchema>;
 
+export const EnabledLoginProviderSummarySchema = z
+    .object({
+        id: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        displayName: z.string(),
+        loginScopes: IdentityProviderScopeListSchema
+    })
+    .meta({ id: 'EnabledLoginProviderSummary' });
+
+export type EnabledLoginProviderSummary = z.infer<typeof EnabledLoginProviderSummarySchema>;
+
+export const EnabledLoginProviderListSchema = z.array(EnabledLoginProviderSummarySchema).meta({ id: 'EnabledLoginProviderList' });
+
+export type EnabledLoginProviderList = z.infer<typeof EnabledLoginProviderListSchema>;
+
+export const ExternalLoginAuthorizeResultSchema = z
+    .object({
+        authorizeUrl: z.string().url(),
+        stateExpiresAt: z.iso.datetime()
+    })
+    .meta({ id: 'ExternalLoginAuthorizeResult' });
+
+export type ExternalLoginAuthorizeResult = z.infer<typeof ExternalLoginAuthorizeResultSchema>;
+
+export const ExternalLoginCallbackQuerySchema = z
+    .object({
+        code: z.string().trim().min(1).max(2048).optional(),
+        state: z.string().trim().min(1).max(4096),
+        error: z.string().trim().min(1).max(255).optional(),
+        error_description: z.string().trim().min(1).max(2048).optional()
+    })
+    .meta({ id: 'ExternalLoginCallbackQuery' });
+
+export type ExternalLoginCallbackQuery = z.infer<typeof ExternalLoginCallbackQuerySchema>;
+
+export const ExternalLoginCallbackResultSchema = z
+    .object({
+        ticket: z.string(),
+        expiresAt: z.iso.datetime(),
+        provider: IdentityProviderSchema,
+        identityProviderConfigId: z.uuid(),
+        pomsUserId: z.uuid()
+    })
+    .meta({ id: 'ExternalLoginCallbackResult' });
+
+export type ExternalLoginCallbackResult = z.infer<typeof ExternalLoginCallbackResultSchema>;
+
+export const CreateExternalLoginSessionRequestSchema = z
+    .object({
+        ticket: z.string().trim().min(32).max(4096)
+    })
+    .meta({ id: 'CreateExternalLoginSessionRequest' });
+
+export type CreateExternalLoginSessionRequest = z.infer<typeof CreateExternalLoginSessionRequestSchema>;
+
 export const ExternalIdentityBindingStatusValue = {
     Active: 'active',
     Revoked: 'revoked'

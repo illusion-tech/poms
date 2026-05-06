@@ -3,6 +3,7 @@ import { BadRequestException, ConflictException, NotFoundException } from '@nest
 import { ExternalIdentityBindingStatusValue, IdentityProviderConfigStatusValue, IdentityProviderOAuthGrantStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { ExternalIdentity } from './external-identity.entity';
+import { ExternalLoginTicket, ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
 import { IdentityProviderConfig } from './identity-provider-config.entity';
 import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
@@ -13,10 +14,12 @@ describe('IdentityProviderService', () => {
     const operatorId = '00000000-0000-4000-8000-000000000001';
     const providerConfigId = '91000000-0000-4000-8000-000000000001';
     const externalIdentityId = '92000000-0000-4000-8000-000000000001';
+    const externalLoginTicketId = '94000000-0000-4000-8000-000000000001';
     const oauthGrantId = '93000000-0000-4000-8000-000000000001';
     const pomsUserId = '00000000-0000-4000-8000-000000000002';
     let repository: {
         findConfigs: jest.Mock;
+        findLoginEnabledConfigs: jest.Mock;
         findConfigById: jest.Mock;
         findConfigByProviderTenant: jest.Mock;
         findPlatformUserById: jest.Mock;
@@ -25,9 +28,11 @@ describe('IdentityProviderService', () => {
         findActiveExternalIdentityBySubject: jest.Mock;
         findActiveExternalIdentityByUserProvider: jest.Mock;
         findOAuthGrantByUserProvider: jest.Mock;
+        findExternalLoginTicketByHash: jest.Mock;
         createConfig: jest.Mock;
         createExternalIdentity: jest.Mock;
         createOAuthGrant: jest.Mock;
+        createExternalLoginTicket: jest.Mock;
         saveAll: jest.Mock;
     };
     let runtimeAuditService: {
@@ -38,7 +43,10 @@ describe('IdentityProviderService', () => {
     };
     let adapter: {
         buildAdminGrantAuthorizeUrl: jest.Mock;
+        buildExternalLoginAuthorizeUrl: jest.Mock;
         exchangeAdminGrantCode: jest.Mock;
+        exchangeExternalLoginCode: jest.Mock;
+        fetchExternalLoginIdentity: jest.Mock;
         searchExternalUsers: jest.Mock;
     };
     let service: IdentityProviderService;
@@ -46,6 +54,7 @@ describe('IdentityProviderService', () => {
     beforeEach(() => {
         repository = {
             findConfigs: jest.fn(),
+            findLoginEnabledConfigs: jest.fn(),
             findConfigById: jest.fn(),
             findConfigByProviderTenant: jest.fn(),
             findPlatformUserById: jest.fn(),
@@ -54,9 +63,11 @@ describe('IdentityProviderService', () => {
             findActiveExternalIdentityBySubject: jest.fn(),
             findActiveExternalIdentityByUserProvider: jest.fn(),
             findOAuthGrantByUserProvider: jest.fn(),
+            findExternalLoginTicketByHash: jest.fn(),
             createConfig: jest.fn((input) => createConfig(input)),
             createExternalIdentity: jest.fn((input) => createExternalIdentity(input)),
             createOAuthGrant: jest.fn((input) => createOAuthGrant(input)),
+            createExternalLoginTicket: jest.fn((input) => createExternalLoginTicket(input)),
             saveAll: jest.fn().mockResolvedValue(undefined)
         };
         runtimeAuditService = {
@@ -64,12 +75,28 @@ describe('IdentityProviderService', () => {
         };
         adapter = {
             buildAdminGrantAuthorizeUrl: jest.fn().mockReturnValue('https://accounts.feishu.cn/open-apis/authen/v1/authorize?state=test'),
+            buildExternalLoginAuthorizeUrl: jest.fn().mockReturnValue('https://accounts.feishu.cn/open-apis/authen/v1/authorize?state=login'),
             exchangeAdminGrantCode: jest.fn().mockResolvedValue({
                 accessToken: 'user-access-token',
                 refreshToken: 'refresh-token',
                 expiresInSeconds: 7200,
                 refreshExpiresInSeconds: 30 * 24 * 60 * 60,
                 scopes: ['contact:user:search']
+            }),
+            exchangeExternalLoginCode: jest.fn().mockResolvedValue({
+                accessToken: 'login-access-token',
+                refreshToken: null,
+                expiresInSeconds: 7200,
+                refreshExpiresInSeconds: null,
+                scopes: ['openid']
+            }),
+            fetchExternalLoginIdentity: jest.fn().mockResolvedValue({
+                subjectId: 'ou_feishu_user_1',
+                unionId: 'on_union_1',
+                displayName: '张三',
+                avatarUrl: null,
+                email: 'zhangsan@example.com',
+                mobile: null
             }),
             searchExternalUsers: jest.fn().mockResolvedValue([
                 {
@@ -249,6 +276,97 @@ describe('IdentityProviderService', () => {
             status: 'failed',
             message: 'Identity provider is disabled.'
         });
+    });
+
+    it('lists enabled login providers without secrets', async () => {
+        repository.findLoginEnabledConfigs.mockResolvedValue([createLoginEnabledConfig()]);
+
+        const result = await service.listEnabledLoginProviders();
+
+        expect(result).toEqual([
+            {
+                id: providerConfigId,
+                provider: IdentityProviderValue.Feishu,
+                tenantId: null,
+                displayName: '飞书',
+                loginScopes: ['openid']
+            }
+        ]);
+    });
+
+    it('builds external login authorize URL with login scopes', async () => {
+        repository.findConfigById.mockResolvedValue(createLoginEnabledConfig());
+
+        const result = await service.authorizeExternalLogin(providerConfigId);
+
+        expect(adapter.buildExternalLoginAuthorizeUrl).toHaveBeenCalledWith(
+            expect.objectContaining({
+                config: expect.objectContaining({ id: providerConfigId }),
+                scopes: ['openid'],
+                state: expect.any(String)
+            })
+        );
+        expect(result.authorizeUrl).toContain('state=login');
+    });
+
+    it('handles external login callback by issuing a short-lived one-time ticket for a bound user', async () => {
+        const config = createLoginEnabledConfig();
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findActiveExternalIdentityBySubject.mockResolvedValue(createExternalIdentity());
+        repository.findPlatformUserById.mockResolvedValue({ id: pomsUserId, isActive: true });
+
+        await service.authorizeExternalLogin(providerConfigId);
+        const state = adapter.buildExternalLoginAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const result = await service.handleExternalLoginCallback({ code: 'auth-code', state });
+
+        expect(adapter.exchangeExternalLoginCode).toHaveBeenCalledWith(expect.objectContaining({ config, clientSecret: 'client-secret', code: 'auth-code' }));
+        expect(adapter.fetchExternalLoginIdentity).toHaveBeenCalledWith(expect.objectContaining({ accessToken: 'login-access-token' }));
+        expect(repository.findActiveExternalIdentityBySubject).toHaveBeenCalledWith(providerConfigId, null, 'ou_feishu_user_1');
+        const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as ExternalLoginTicket;
+        expect(saved.ticketHash).toHaveLength(64);
+        expect(saved.status).toBe(ExternalLoginTicketStatusValue.Issued);
+        expect(result).toMatchObject({
+            provider: IdentityProviderValue.Feishu,
+            identityProviderConfigId: providerConfigId,
+            pomsUserId,
+            ticket: expect.any(String)
+        });
+        expect(result.ticket).not.toBe(saved.ticketHash);
+    });
+
+    it('rejects external login callback when the external subject is not bound', async () => {
+        repository.findConfigById.mockResolvedValue(createLoginEnabledConfig());
+        repository.findActiveExternalIdentityBySubject.mockResolvedValue(null);
+
+        await service.authorizeExternalLogin(providerConfigId);
+        const state = adapter.buildExternalLoginAuthorizeUrl.mock.calls[0][0].state as string;
+
+        await expect(service.handleExternalLoginCallback({ code: 'auth-code', state })).rejects.toThrow('External identity is not bound');
+    });
+
+    it('consumes an issued external login ticket only once', async () => {
+        const ticket = createExternalLoginTicket();
+        repository.findExternalLoginTicketByHash.mockResolvedValue(ticket);
+
+        const result = await service.consumeExternalLoginSession('ticket-value');
+
+        expect(ticket.status).toBe(ExternalLoginTicketStatusValue.Consumed);
+        expect(ticket.consumedAt).toBeInstanceOf(Date);
+        expect(result).toMatchObject({
+            pomsUserId,
+            externalIdentityId,
+            identityProviderConfigId: providerConfigId
+        });
+    });
+
+    it('rejects expired external login tickets before issuing a POMS session', async () => {
+        const ticket = createExternalLoginTicket({ expiresAt: new Date('2026-05-06T00:00:00.000Z') });
+        repository.findExternalLoginTicketByHash.mockResolvedValue(ticket);
+
+        await expect(service.consumeExternalLoginSession('ticket-value')).rejects.toThrow('expired');
+
+        expect(ticket.status).toBe(ExternalLoginTicketStatusValue.Expired);
     });
 
     it('returns missing current-admin provider grant status before authorization', async () => {
@@ -529,6 +647,18 @@ describe('IdentityProviderService', () => {
         });
     }
 
+    function createLoginEnabledConfig(overrides: Partial<IdentityProviderConfig> = {}): IdentityProviderConfig {
+        return createConfig({
+            enabled: true,
+            loginEnabled: true,
+            status: IdentityProviderConfigStatusValue.Active,
+            encryptedClientSecret: encryptedSecret('client-secret'),
+            redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
+            loginScopes: ['openid'],
+            ...overrides
+        });
+    }
+
     function createExternalIdentity(overrides: Partial<ExternalIdentity> = {}): ExternalIdentity {
         return {
             id: externalIdentityId,
@@ -580,6 +710,26 @@ describe('IdentityProviderService', () => {
             updatedBy: operatorId,
             ...overrides
         } as IdentityProviderOAuthGrant;
+    }
+
+    function createExternalLoginTicket(overrides: Partial<ExternalLoginTicket> = {}): ExternalLoginTicket {
+        return {
+            id: externalLoginTicketId,
+            ticketHash: createHash('sha256').update('ticket-value').digest('hex'),
+            identityProviderConfigId: providerConfigId,
+            externalIdentityId,
+            pomsUserId,
+            provider: IdentityProviderValue.Feishu,
+            tenantId: null,
+            subjectId: 'ou_feishu_user_1',
+            status: ExternalLoginTicketStatusValue.Issued,
+            expiresAt: new Date('2026-05-08T00:00:00.000Z'),
+            consumedAt: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-05-07T01:00:00.000Z'),
+            updatedAt: new Date('2026-05-07T01:00:00.000Z'),
+            ...overrides
+        } as ExternalLoginTicket;
     }
 
     function encryptedSecret(secret: string): string {
