@@ -541,6 +541,7 @@
 59. 2026-05-06 `EX-63B` 已进入 `G1 / Doing`：冻结 CRM 销售事实字段级审计扩展范围，覆盖客户联系人、机会关系人、竞争态势、销售发现四类既有 `PATCH` 编辑命令；本片不新增 route / DTO / OpenAPI / migration，不改变销售情报缺口、评分或闸口算法。
 60. 2026-05-06 `EX-63B` 已推进到 `G3 / Ready for Review`：四类 CRM 销售事实编辑命令已写入字段级 audit log，使用 `metadata.changedFields`、脱敏字段摘要和业务上下文；业务写入与审计写入同事务提交，无实际变化不写成功审计。验证通过 `sales-intelligence.service` focused tests、`poms-api` lint/build。
 61. 2026-05-07 `EX-63B` 已完成 `G4 / Done`：CRM 销售事实字段级审计扩展可作为编辑历史读取输入；本片未新增 route / DTO / OpenAPI / migration，`expectedVersion` 收口留给后续契约切片。
+62. 2026-05-07 `EX-55` 已进入 `G1 / Doing`：冻结智能评分增强评估第一版结论，不直接引入 AI 自动改分；结构化销售事实、跟进活跃度和附件元数据可作为后续评分 v2 候选，OCR / LLM 必须另拆治理切片，私人画像和未经授权外部画像不进入评分体系。
 
 ---
 
