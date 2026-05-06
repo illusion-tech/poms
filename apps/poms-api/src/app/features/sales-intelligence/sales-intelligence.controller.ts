@@ -31,6 +31,7 @@ import type {
 } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { SalesIntelligenceService } from './sales-intelligence.service';
 
 @ApiTags('SalesIntelligence')
@@ -72,8 +73,8 @@ export class CustomerContactController {
     @HasPermissions('customer:write')
     @ApiOperation({ summary: '更新客户联系人' })
     @ApiOkResponse({ type: CustomerContactDto })
-    update(@Param('id') id: string, @Body() body: UpdateCustomerContactRequestDto, @Request() req: { user: UserPayload }): Promise<CustomerContactSummary> {
-        return this.salesIntelligenceService.updateCustomerContact(id, body, req.user.sub);
+    update(@Param('id') id: string, @Body() body: UpdateCustomerContactRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<CustomerContactSummary> {
+        return this.salesIntelligenceService.updateCustomerContact(id, body, req.user.sub, getRequestId(req));
     }
 }
 
@@ -121,8 +122,8 @@ export class OpportunityStakeholderController {
     @HasAnyPermissions('lead:write', 'project:write')
     @ApiOperation({ summary: '更新机会关系人' })
     @ApiOkResponse({ type: OpportunityStakeholderDto })
-    update(@Param('id') id: string, @Body() body: UpdateOpportunityStakeholderRequestDto, @Request() req: { user: UserPayload }): Promise<OpportunityStakeholderSummary> {
-        return this.salesIntelligenceService.updateOpportunityStakeholder(id, body, req.user.sub);
+    update(@Param('id') id: string, @Body() body: UpdateOpportunityStakeholderRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<OpportunityStakeholderSummary> {
+        return this.salesIntelligenceService.updateOpportunityStakeholder(id, body, req.user.sub, getRequestId(req));
     }
 }
 
@@ -171,8 +172,8 @@ export class CompetitorIntelligenceRecordController {
     @HasAnyPermissions('lead:write', 'project:write')
     @ApiOperation({ summary: '更新竞争态势记录' })
     @ApiOkResponse({ type: CompetitorIntelligenceRecordDto })
-    update(@Param('id') id: string, @Body() body: UpdateCompetitorIntelligenceRecordRequestDto, @Request() req: { user: UserPayload }): Promise<CompetitorIntelligenceRecordSummary> {
-        return this.salesIntelligenceService.updateCompetitorIntelligenceRecord(id, body, req.user.sub);
+    update(@Param('id') id: string, @Body() body: UpdateCompetitorIntelligenceRecordRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<CompetitorIntelligenceRecordSummary> {
+        return this.salesIntelligenceService.updateCompetitorIntelligenceRecord(id, body, req.user.sub, getRequestId(req));
     }
 }
 
@@ -218,8 +219,8 @@ export class SalesDiscoveryRecordController {
     @HasAnyPermissions('lead:write', 'project:write')
     @ApiOperation({ summary: '更新销售情报记录' })
     @ApiOkResponse({ type: SalesDiscoveryRecordDto })
-    update(@Param('id') id: string, @Body() body: UpdateSalesDiscoveryRecordRequestDto, @Request() req: { user: UserPayload }): Promise<SalesDiscoveryRecordSummary> {
-        return this.salesIntelligenceService.updateSalesDiscoveryRecord(id, body, req.user.sub);
+    update(@Param('id') id: string, @Body() body: UpdateSalesDiscoveryRecordRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<SalesDiscoveryRecordSummary> {
+        return this.salesIntelligenceService.updateSalesDiscoveryRecord(id, body, req.user.sub, getRequestId(req));
     }
 }
 

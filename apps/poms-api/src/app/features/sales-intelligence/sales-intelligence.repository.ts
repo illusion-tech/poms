@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { OpportunityContextQuery } from '@poms/shared-contracts';
@@ -26,8 +26,12 @@ export class SalesIntelligenceRepository {
         private readonly projectRepository: EntityRepository<Project>
     ) {}
 
-    async findCustomerById(id: string): Promise<Customer | null> {
-        return this.customerRepository.findOne({ id });
+    getEntityManager(): EntityManager {
+        return this.contactRepository.getEntityManager();
+    }
+
+    async findCustomerById(id: string, entityManager?: EntityManager): Promise<Customer | null> {
+        return (entityManager?.getRepository(Customer) ?? this.customerRepository).findOne({ id });
     }
 
     async findCustomersByIds(ids: string[]): Promise<Customer[]> {
@@ -37,8 +41,8 @@ export class SalesIntelligenceRepository {
         return this.customerRepository.find({ id: { $in: ids } });
     }
 
-    async findLeadById(id: string): Promise<Lead | null> {
-        return this.leadRepository.findOne({ id });
+    async findLeadById(id: string, entityManager?: EntityManager): Promise<Lead | null> {
+        return (entityManager?.getRepository(Lead) ?? this.leadRepository).findOne({ id });
     }
 
     async findLeadsByIds(ids: string[]): Promise<Lead[]> {
@@ -48,8 +52,8 @@ export class SalesIntelligenceRepository {
         return this.leadRepository.find({ id: { $in: ids } });
     }
 
-    async findProjectById(id: string): Promise<Project | null> {
-        return this.projectRepository.findOne({ id });
+    async findProjectById(id: string, entityManager?: EntityManager): Promise<Project | null> {
+        return (entityManager?.getRepository(Project) ?? this.projectRepository).findOne({ id });
     }
 
     async findProjectsByIds(ids: string[]): Promise<Project[]> {
@@ -63,8 +67,8 @@ export class SalesIntelligenceRepository {
         return this.contactRepository.find({ customerId }, { orderBy: { updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } });
     }
 
-    async findCustomerContactById(id: string): Promise<CustomerContact | null> {
-        return this.contactRepository.findOne({ id });
+    async findCustomerContactById(id: string, entityManager?: EntityManager): Promise<CustomerContact | null> {
+        return (entityManager?.getRepository(CustomerContact) ?? this.contactRepository).findOne({ id });
     }
 
     createCustomerContact(input: ConstructorParameters<typeof CustomerContact>[0]): CustomerContact {
@@ -81,8 +85,8 @@ export class SalesIntelligenceRepository {
         });
     }
 
-    async findOpportunityStakeholderById(id: string): Promise<OpportunityStakeholder | null> {
-        return this.stakeholderRepository.findOne({ id });
+    async findOpportunityStakeholderById(id: string, entityManager?: EntityManager): Promise<OpportunityStakeholder | null> {
+        return (entityManager?.getRepository(OpportunityStakeholder) ?? this.stakeholderRepository).findOne({ id });
     }
 
     createOpportunityStakeholder(input: ConstructorParameters<typeof OpportunityStakeholder>[0]): OpportunityStakeholder {
@@ -99,8 +103,8 @@ export class SalesIntelligenceRepository {
         });
     }
 
-    async findCompetitorRecordById(id: string): Promise<CompetitorIntelligenceRecord | null> {
-        return this.competitorRepository.findOne({ id });
+    async findCompetitorRecordById(id: string, entityManager?: EntityManager): Promise<CompetitorIntelligenceRecord | null> {
+        return (entityManager?.getRepository(CompetitorIntelligenceRecord) ?? this.competitorRepository).findOne({ id });
     }
 
     createCompetitorRecord(input: ConstructorParameters<typeof CompetitorIntelligenceRecord>[0]): CompetitorIntelligenceRecord {
@@ -117,8 +121,8 @@ export class SalesIntelligenceRepository {
         });
     }
 
-    async findDiscoveryRecordById(id: string): Promise<SalesDiscoveryRecord | null> {
-        return this.discoveryRepository.findOne({ id });
+    async findDiscoveryRecordById(id: string, entityManager?: EntityManager): Promise<SalesDiscoveryRecord | null> {
+        return (entityManager?.getRepository(SalesDiscoveryRecord) ?? this.discoveryRepository).findOne({ id });
     }
 
     createDiscoveryRecord(input: ConstructorParameters<typeof SalesDiscoveryRecord>[0]): SalesDiscoveryRecord {
