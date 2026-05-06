@@ -93,3 +93,13 @@
   - `lead-score-v2` 未来必须显式进入评分历史快照, 不静默覆盖现有系统评分。
   - 附件内容、OCR、LLM 和私人画像不属于本片输入。
   - 下一步可在 tracker 中拆出 `EX-55A-R` 后端运行时或先推进 `FE-58` 展示占位。
+
+## 9. G4 收口
+
+- Gate Status: `Done`
+- Closed By: `Codex local`
+- Closed At: `2026-05-07`
+- Evidence:
+  - 本片保持 docs-only / governance, 未修改运行时代码、migration、OpenAPI 或 generated client。
+  - 已拆出 `EX-55A-R` 后端运行时切片承接 `lead-score-v2` 实施。
+  - `FE-58`、`EX-55B`、`EX-55C` 继续作为后续评分解释、OCR 和 AI 建议治理入口。
