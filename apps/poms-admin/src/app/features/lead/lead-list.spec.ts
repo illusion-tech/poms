@@ -10,10 +10,13 @@ import {
     DictionaryStore,
     LeadAllowedAction,
     LeadBudgetStatus,
+    LeadEffectiveScoreSource,
     LeadGateMissingItem,
     LeadGateStatus,
     LeadOwnershipScope,
     LeadRating,
+    LeadScoreOverrideStatus,
+    LeadScoreSnapshotKind,
     LeadSourceStatus,
     LeadStatus,
     LeadStore,
@@ -33,6 +36,8 @@ import {
     type CustomerListView,
     type LeadDetailView,
     type LeadListView,
+    type LeadScoreHistoryView,
+    type LeadScoreOverrideSummary,
     type LeadSourceSummary,
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
@@ -96,6 +101,11 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         rating: LeadRating.A,
         scoreReason: '来源+10；需求+15；预算+20；金额+15；紧迫+15；决策日期+10；主责+10',
         scoreUpdatedAt: '2026-04-25T10:00:00.000Z',
+        effectiveScore: 95,
+        effectiveRating: LeadRating.A,
+        effectiveScoreReason: '来源+10；需求+15；预算+20；金额+15；紧迫+15；决策日期+10；主责+10',
+        effectiveScoreSource: LeadEffectiveScoreSource.System,
+        activeScoreOverrideId: null,
         gateSummary: {
             qualification: {
                 status: LeadGateStatus.Ready,
@@ -193,6 +203,74 @@ function createLeadDetail(overrides: Partial<LeadDetailView> = {}): LeadDetailVi
     };
 }
 
+function createScoreOverride(overrides: Partial<LeadScoreOverrideSummary> = {}): LeadScoreOverrideSummary {
+    return {
+        id: 'override-1',
+        leadId: 'lead-1',
+        requestedScore: 88,
+        requestedRating: LeadRating.B,
+        reason: '主管判断关键关系已明确，优先级高于系统评分。',
+        status: LeadScoreOverrideStatus.Pending,
+        systemScoreAtRequest: 70,
+        systemRatingAtRequest: LeadRating.C,
+        requestedBy: 'user-1',
+        requestedAt: '2026-04-25T11:00:00.000Z',
+        approvedBy: null,
+        approvedAt: null,
+        approvalNote: null,
+        rejectedBy: null,
+        rejectedAt: null,
+        rejectReason: null,
+        revokedBy: null,
+        revokedAt: null,
+        revokeReason: null,
+        supersededById: null,
+        rowVersion: 3,
+        ...overrides
+    };
+}
+
+function createScoreHistory(overrides: Partial<LeadScoreHistoryView> = {}): LeadScoreHistoryView {
+    const pendingOverride = createScoreOverride();
+    return {
+        leadId: 'lead-1',
+        systemScore: 70,
+        systemRating: LeadRating.C,
+        scoreReason: '来源+10；需求+10；预算+10；金额+10；紧迫+10；主责+10',
+        scoreUpdatedAt: '2026-04-25T10:00:00.000Z',
+        effectiveScore: 70,
+        effectiveRating: LeadRating.C,
+        effectiveScoreReason: '来源+10；需求+10；预算+10；金额+10；紧迫+10；主责+10',
+        effectiveScoreSource: LeadEffectiveScoreSource.System,
+        activeScoreOverrideId: null,
+        activeOverride: null,
+        pendingOverride,
+        snapshots: [
+            {
+                id: 'snapshot-1',
+                leadId: 'lead-1',
+                snapshotKind: LeadScoreSnapshotKind.System,
+                overrideId: null,
+                formulaVersion: 'lead-score-v1',
+                systemScore: 70,
+                systemRating: LeadRating.C,
+                effectiveScore: 70,
+                effectiveRating: LeadRating.C,
+                effectiveScoreSource: LeadEffectiveScoreSource.System,
+                scoreReason: '来源+10；需求+10；预算+10；金额+10；紧迫+10；主责+10',
+                componentBreakdown: {},
+                gateSummarySnapshot: readyConversionGate(),
+                sourceCommand: 'update',
+                sourceRecordId: null,
+                createdAt: '2026-04-25T10:00:00.000Z',
+                createdBy: 'user-1'
+            }
+        ],
+        overrides: [pendingOverride],
+        ...overrides
+    };
+}
+
 function createProjectSummary(overrides: Partial<ProjectSummary> = {}): ProjectSummary {
     return {
         id: 'project-1',
@@ -284,6 +362,7 @@ describe('LeadList', () => {
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
     let canAssignLead: ReturnType<typeof signal<boolean>>;
+    let canOverrideLeadScore: ReturnType<typeof signal<boolean>>;
     let queryParamMap: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
     let routerMock: { navigate: jest.Mock };
     let ownerUsers: ReturnType<typeof signal<OwnerReferenceUser[]>>;
@@ -306,6 +385,7 @@ describe('LeadList', () => {
         loadLeadSources: jest.Mock;
         loadLead: jest.Mock;
         createLead: jest.Mock;
+        updateLead: jest.Mock;
         createLeadSource: jest.Mock;
         updateLeadSource: jest.Mock;
         qualifyLead: jest.Mock;
@@ -313,6 +393,11 @@ describe('LeadList', () => {
         convertLeadToProject: jest.Mock;
         claimLeadOwner: jest.Mock;
         assignLeadOwner: jest.Mock;
+        loadLeadScoreHistory: jest.Mock;
+        submitLeadScoreOverride: jest.Mock;
+        approveLeadScoreOverride: jest.Mock;
+        rejectLeadScoreOverride: jest.Mock;
+        revokeLeadScoreOverride: jest.Mock;
         clearSelectedLead: jest.Mock;
     };
     let platformStoreMock: {
@@ -399,6 +484,7 @@ describe('LeadList', () => {
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
         canWriteLead = signal(true);
         canAssignLead = signal(true);
+        canOverrideLeadScore = signal(true);
         queryParamMap = new BehaviorSubject(convertToParamMap({}));
         ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
         ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
@@ -425,6 +511,7 @@ describe('LeadList', () => {
                 return detail;
             }),
             createLead: jest.fn().mockResolvedValue(createLead()),
+            updateLead: jest.fn().mockResolvedValue(createLead()),
             createLeadSource: jest.fn().mockResolvedValue(createLeadSource()),
             updateLeadSource: jest.fn().mockResolvedValue(createLeadSource({ status: LeadSourceStatus.Inactive })),
             qualifyLead: jest.fn().mockResolvedValue(createLead({ status: LeadStatus.Qualified })),
@@ -432,6 +519,11 @@ describe('LeadList', () => {
             convertLeadToProject: jest.fn().mockResolvedValue(createProjectSummary()),
             claimLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'claimed' }),
             assignLeadOwner: jest.fn().mockResolvedValue({ assignmentType: 'assigned' }),
+            loadLeadScoreHistory: jest.fn().mockResolvedValue(createScoreHistory()),
+            submitLeadScoreOverride: jest.fn().mockResolvedValue(createScoreOverride()),
+            approveLeadScoreOverride: jest.fn().mockResolvedValue(createScoreOverride({ status: LeadScoreOverrideStatus.Approved })),
+            rejectLeadScoreOverride: jest.fn().mockResolvedValue(createScoreOverride({ status: LeadScoreOverrideStatus.Rejected })),
+            revokeLeadScoreOverride: jest.fn().mockResolvedValue(createScoreOverride({ status: LeadScoreOverrideStatus.Revoked })),
             clearSelectedLead: jest.fn()
         };
         platformStoreMock = {
@@ -511,7 +603,7 @@ describe('LeadList', () => {
                             displayName: '张销售',
                             username: 'sales_rep',
                             roles: ['销售人员'],
-                            permissions: ['nav:leads:view', 'lead:read', 'lead:write', 'lead:source:manage'],
+                            permissions: ['nav:leads:view', 'lead:read', 'lead:write', 'lead:source:manage', 'lead:score:override'],
                             email: 'sales@example.com',
                             avatarUrl: null,
                             isActive: true,
@@ -532,7 +624,7 @@ describe('LeadList', () => {
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
                         hasAnyPermission: jest.fn((permissions: readonly string[]) =>
-                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:source:manage'))
+                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:score:override' ? canOverrideLeadScore() : permission === 'lead:source:manage'))
                         )
                     }
                 },
@@ -633,6 +725,88 @@ describe('LeadList', () => {
         expect(text).toContain('客户拜访');
         expect(text).toContain('张销售');
         expect(text).toContain('待确认');
+    });
+
+    it('highlights effective score without hiding the system score source', () => {
+        leads.set([
+            createLead({
+                score: 70,
+                rating: LeadRating.C,
+                effectiveScore: 88,
+                effectiveRating: LeadRating.B,
+                effectiveScoreSource: LeadEffectiveScoreSource.ManualOverride,
+                activeScoreOverrideId: 'override-1'
+            })
+        ]);
+
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+        expect(text).toContain('88');
+        expect(text).toContain('人工覆盖');
+        expect(text).toContain('系统 70');
+    });
+
+    it('falls back to system score fields when the running API has not returned effective score fields', () => {
+        leads.set([
+            createLead({
+                score: 80,
+                rating: LeadRating.A,
+                effectiveScore: undefined as never,
+                effectiveRating: undefined as never,
+                effectiveScoreSource: undefined as never,
+                effectiveScoreReason: undefined as never
+            })
+        ]);
+
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+        expect(text).toContain('80');
+        expect(text).toContain('A级');
+        expect(text).toContain('系统评分');
+        expect(text).not.toContain('未评级');
+    });
+
+    it('loads score history and submits an override request with the lead row version', async () => {
+        leadStoreMock.loadLeadScoreHistory.mockResolvedValueOnce(createScoreHistory({ pendingOverride: null, overrides: [] }));
+
+        await component.openScoreHistory(createLead({ score: 70, rating: LeadRating.C, effectiveScore: 70, effectiveRating: LeadRating.C }));
+        component.updateScoreOverrideScore(88);
+        component.updateScoreOverrideReason('  主管确认关键决策链已补齐。  ');
+        await component.submitScoreOverride();
+
+        expect(leadStoreMock.loadLeadScoreHistory).toHaveBeenCalledWith('lead-1');
+        expect(leadStoreMock.submitLeadScoreOverride).toHaveBeenCalledWith('lead-1', {
+            score: 88,
+            reason: '主管确认关键决策链已补齐。',
+            expectedLeadRowVersion: 1
+        });
+    });
+
+    it('approves, rejects and revokes score overrides with override row versions', async () => {
+        const pending = createScoreOverride({ id: 'pending-override', status: LeadScoreOverrideStatus.Pending, rowVersion: 5 });
+        const active = createScoreOverride({ id: 'active-override', status: LeadScoreOverrideStatus.Approved, rowVersion: 6 });
+
+        component.scoreOverrideApproveNote.set('  同意主管判断  ');
+        await component.approveScoreOverride(pending);
+        component.scoreOverrideRejectReason.set('  理由不足  ');
+        await component.rejectScoreOverride(pending);
+        component.scoreOverrideRevokeReason.set('  客户事实已变化  ');
+        await component.revokeScoreOverride(active);
+
+        expect(leadStoreMock.approveLeadScoreOverride).toHaveBeenCalledWith('pending-override', {
+            expectedOverrideRowVersion: 5,
+            note: '同意主管判断'
+        });
+        expect(leadStoreMock.rejectLeadScoreOverride).toHaveBeenCalledWith('pending-override', {
+            expectedOverrideRowVersion: 5,
+            reason: '理由不足'
+        });
+        expect(leadStoreMock.revokeLeadScoreOverride).toHaveBeenCalledWith('active-override', {
+            expectedOverrideRowVersion: 6,
+            reason: '客户事实已变化'
+        });
     });
 
     it('guides users into the lead-to-project conversion path from project entry', () => {
@@ -800,6 +974,35 @@ describe('LeadList', () => {
         );
     });
 
+    it('updates editable lead basic fields through the generated request shape', async () => {
+        const lead = createLead({
+            status: LeadStatus.Registered,
+            expectedDecisionDate: '2026-05-01'
+        });
+
+        component.showEditLeadDialog(lead);
+        component.updateEditField('leadName', '  更新后的线索名称  ');
+        component.updateEditSource('source-2');
+        component.updateEditField('demandDescription', '  客户补充了运维平台范围。  ');
+        component.updateEditBudgetStatus(LeadBudgetStatus.RoughBudget);
+        component.updateEditField('estimatedAmount', '  1800000.00  ');
+        component.updateEditUrgency(LeadUrgency.Normal);
+        component.updateEditExpectedDecisionDate(new Date(2026, 6, 15));
+
+        await component.updateLead();
+
+        expect(leadStoreMock.updateLead).toHaveBeenCalledWith('lead-1', {
+            leadName: '更新后的线索名称',
+            sourceId: 'source-2',
+            demandDescription: '客户补充了运维平台范围。',
+            budgetStatus: LeadBudgetStatus.RoughBudget,
+            estimatedAmount: '1800000.00',
+            urgency: LeadUrgency.Normal,
+            expectedDecisionDate: '2026-07-15'
+        });
+        expect(component.editDialogVisible).toBe(false);
+    });
+
     it('loads public pool scope and claims an unassigned lead', async () => {
         component.setOwnershipFilter(LeadOwnershipScope.PublicPool);
 
@@ -884,6 +1087,7 @@ describe('LeadList', () => {
 
         expect(fixture.nativeElement.textContent).toContain('当前账号只能查看线索。');
         expect(buttonText).not.toContain('登记线索');
+        expect(buttonText).not.toContain('编辑');
         expect(buttonText).not.toContain('确认有效');
         expect(buttonText).not.toContain('关闭线索');
     });
@@ -922,5 +1126,12 @@ describe('LeadList', () => {
         expect(component.canConvertLead(createLead({ status: LeadStatus.Registered }))).toBe(false);
         expect(component.canConvertLead(createLead({ status: LeadStatus.Converted, convertedProjectId: 'project-1' }))).toBe(false);
         expect(component.canConvertLead(createLead({ status: LeadStatus.Qualified, gateSummary: readyConversionGate() }))).toBe(true);
+    });
+
+    it('only allows editing registered or qualified leads', () => {
+        expect(component.canEditLead(createLead({ status: LeadStatus.Registered }))).toBe(true);
+        expect(component.canEditLead(createLead({ status: LeadStatus.Qualified }))).toBe(true);
+        expect(component.canEditLead(createLead({ status: LeadStatus.Converted }))).toBe(false);
+        expect(component.canEditLead(createLead({ status: LeadStatus.Closed }))).toBe(false);
     });
 });

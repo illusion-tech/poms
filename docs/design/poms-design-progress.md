@@ -138,17 +138,18 @@
 
 ### 4.5 当前控制与实施入口
 
-| 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
-| ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
-| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口        | 是                 |
-| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束    | 是                 |
-| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                          | 是                 |
-| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                    | 是                 |
-| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                           | 是                 |
-| `docs/reference/implementation-corrective-checkpoint-template.md` | Active   | 实施纠偏 checkpoint 模板，统一已开工后 drift 修复的 `G3` 阻断、修复范围与剩余阻断留痕   | 是                 |
-| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据  | 是                 |
-| `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕 | 是                 |
-| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                            | 是                 |
+| 文档                                                              | 当前状态 | 作用                                                                                       | 是否可作为下游输入 |
+| ----------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------------------ |
+| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口           | 是                 |
+| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束       | 是                 |
+| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                             | 是                 |
+| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                       | 是                 |
+| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                              | 是                 |
+| `docs/reference/implementation-corrective-checkpoint-template.md` | Active   | 实施纠偏 checkpoint 模板，统一已开工后 drift 修复的 `G3` 阻断、修复范围与剩余阻断留痕      | 是                 |
+| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据     | 是                 |
+| `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕    | 是                 |
+| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                               | 是                 |
+| `docs/design/ex-63-field-level-audit-governance-baseline.md`      | Active   | 字段级审计治理与首批范围需求精化，负责冻结业务历史 / 字段审计 / 安全事件边界和首批实施队列 | 是                 |
 
 ### 4.6 已归档过程资产
 
@@ -531,6 +532,9 @@
 50. 2026-05-05 `FE-55` 已完成 `G4`：项目合同承接 / 移交页面已接入附件移交清单、统计、刷新扫描、敏感排除提示、可下载项选择、短期下载包创建和 authenticated blob 下载；`ProjectWorkspaceStore` 新增 EX-52A generated client 消费和下载包下载方法，并补 focused component / store tests；未新增 public API route、迁移、OpenAPI 或 generated client。
 51. 2026-05-06 `EX-54` 已完成 `G4`：新增 `ex-54-lead-scoring-history-override-governance-baseline.md` 和 closeout，冻结系统评分、人工覆盖评分、当前有效评分、历史快照、审批 / 撤销、权限审计和 planned routes；执行板新增 `EX-54A` 后端运行时与 `FE-56` 前端入口，`EX-55` 智能评分增强评估不得绕过 EX-54 的可解释历史与 override 边界。
 52. 2026-05-06 `EX-54A` 已完成 `G4`：新增评分历史快照和人工覆盖运行时，落地 `lead_score_snapshot` / `lead_score_override` migration 与 entity、`GET /leads/{id}/score-history`、`POST /leads/{id}/score-overrides`、`POST /lead-score-overrides/{id}:approve|reject|revoke`、`lead:score:override` 权限、runtime audit、有效评分投影、OpenAPI / generated client 和 focused tests；验证通过 lead 单测、`poms-api` build、`poms-admin` build、generated client、migration-up 与 migration-check，`FE-56` 可开始前端入口。
+53. 2026-05-06 `FE-56` 已进入 `G1 / Doing`：新增 `fe-56-lead-score-history-override-frontend-baseline.md`，冻结线索列表 / 详情显示当前有效评分、系统评分标识、评分历史视图、人工覆盖提交和审批 / 驳回 / 撤销入口；本片只消费 EX-54A generated client，不新增后端 route、migration、OpenAPI、AI 评分或硬闸口策略变更。
+54. 2026-05-06 `FE-56` 已完成 `G4`：线索列表 / 详情已展示当前有效评分、系统评分和人工覆盖标识，并新增评分历史与人工覆盖对话框，支持覆盖提交、批准、驳回和撤销；`LeadStore` 消费 EX-54A generated client，验证通过 lead-list focused tests、`poms-admin` lint/build、Markdown / diff check。
+55. 2026-05-06 新增 `EX-63` 字段级审计治理与首批范围需求精化，冻结业务历史 / 字段审计 / 安全事件三层边界、字段 diff 与脱敏策略、首批 Lead / CRM / 项目合同优先级和实体级读取边界；执行板新增 `EX-63A` Lead 基础信息字段审计运行时、`EX-63B` CRM 销售事实字段审计扩展、`EX-63C` 实体级审计读取权限与查询出口、`FE-57` 编辑历史前端入口。
 
 ---
 

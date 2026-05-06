@@ -1,5 +1,24 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { AssignLeadOwnerRequest, ClaimLeadOwnerRequest, CloseLeadRequest, ConvertLeadToProjectRequest, CreateLeadRequest, CreateLeadSourceRequest, LeadDetailView, LeadListView, LeadSourceSummary, QualifyLeadRequest, UpdateLeadRequest, UpdateLeadSourceRequest } from '@poms/shared-api-client';
+import type {
+    ApproveLeadScoreOverrideRequest,
+    AssignLeadOwnerRequest,
+    ClaimLeadOwnerRequest,
+    CloseLeadRequest,
+    ConvertLeadToProjectRequest,
+    CreateLeadRequest,
+    CreateLeadSourceRequest,
+    LeadDetailView,
+    LeadListView,
+    LeadScoreHistoryView,
+    LeadScoreOverrideSummary,
+    LeadSourceSummary,
+    QualifyLeadRequest,
+    RejectLeadScoreOverrideRequest,
+    RevokeLeadScoreOverrideRequest,
+    SubmitLeadScoreOverrideRequest,
+    UpdateLeadRequest,
+    UpdateLeadSourceRequest
+} from '@poms/shared-api-client';
 import { LeadApi, LeadBudgetStatus, LeadOwnershipScope, LeadRating, LeadSourceApi, LeadSourceStatus, LeadStatus, LeadUrgency } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -239,7 +258,64 @@ export class LeadStore {
         }
     }
 
+    async loadLeadScoreHistory(id: string): Promise<LeadScoreHistoryView> {
+        return firstValueFrom(this.#leadApi.leadControllerGetScoreHistory({ id }));
+    }
+
+    async submitLeadScoreOverride(id: string, request: SubmitLeadScoreOverrideRequest): Promise<LeadScoreOverrideSummary> {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadControllerSubmitScoreOverride({ id, submitLeadScoreOverrideRequest: request }));
+            await this.refreshLeadAfterScoreAction(id);
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async approveLeadScoreOverride(id: string, request: ApproveLeadScoreOverrideRequest): Promise<LeadScoreOverrideSummary> {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadScoreOverrideControllerApprove({ id, approveLeadScoreOverrideRequest: request }));
+            await this.refreshLeadAfterScoreAction(result.leadId);
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async rejectLeadScoreOverride(id: string, request: RejectLeadScoreOverrideRequest): Promise<LeadScoreOverrideSummary> {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadScoreOverrideControllerReject({ id, rejectLeadScoreOverrideRequest: request }));
+            await this.refreshLeadAfterScoreAction(result.leadId);
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async revokeLeadScoreOverride(id: string, request: RevokeLeadScoreOverrideRequest): Promise<LeadScoreOverrideSummary> {
+        this.#saving.set(true);
+        try {
+            const result = await firstValueFrom(this.#leadApi.leadScoreOverrideControllerRevoke({ id, revokeLeadScoreOverrideRequest: request }));
+            await this.refreshLeadAfterScoreAction(result.leadId);
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
     clearSelectedLead() {
         this.#selectedLead.set(null);
+    }
+
+    private async refreshLeadAfterScoreAction(leadId: string): Promise<void> {
+        if (this.#selectedLead()?.id === leadId) {
+            await this.loadLead(leadId);
+        }
+        if (this.#loaded()) {
+            await this.loadLeads();
+        }
     }
 }

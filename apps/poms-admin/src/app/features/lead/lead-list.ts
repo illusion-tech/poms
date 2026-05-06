@@ -11,9 +11,12 @@ import {
     CustomerStore,
     LeadAllowedAction,
     LeadBudgetStatus,
+    LeadEffectiveScoreSource,
     LeadGateStatus,
     LeadOwnershipScope,
     LeadRating,
+    LeadScoreOverrideStatus,
+    LeadScoreSnapshotKind,
     LeadSourceStatus,
     LeadStatus,
     LeadStore,
@@ -22,6 +25,8 @@ import {
     type CustomerListView,
     type LeadDetailView,
     type LeadListView,
+    type LeadScoreHistoryView,
+    type LeadScoreOverrideSummary,
     type LeadSourceSummary,
     type OwnerReferenceUser
 } from '@poms/admin-data-access';
@@ -31,6 +36,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
@@ -88,6 +94,16 @@ interface CreateLeadForm {
     ownerOrgId: string | null;
 }
 
+interface EditLeadForm {
+    leadName: string;
+    sourceId: string | null;
+    demandDescription: string;
+    budgetStatus: LeadBudgetStatus;
+    estimatedAmount: string;
+    urgency: LeadUrgency;
+    expectedDecisionDate: Date | null;
+}
+
 interface LeadSourceForm {
     code: string;
     name: string;
@@ -104,6 +120,11 @@ interface ConvertProjectForm {
 interface AssignmentForm {
     ownerUserId: string | null;
     ownerOrgId: string | null;
+    reason: string;
+}
+
+interface ScoreOverrideForm {
+    score: number | null;
     reason: string;
 }
 
@@ -128,6 +149,19 @@ const LEAD_RATING_LABELS = LeadRatingLabel as Record<LeadRating, string>;
 const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
     [LeadSourceStatus.Active]: '启用',
     [LeadSourceStatus.Inactive]: '停用'
+};
+
+const LEAD_EFFECTIVE_SCORE_SOURCE_LABELS: Record<LeadEffectiveScoreSource, string> = {
+    [LeadEffectiveScoreSource.System]: '系统评分',
+    [LeadEffectiveScoreSource.ManualOverride]: '人工覆盖'
+};
+
+const LEAD_SCORE_OVERRIDE_STATUS_LABELS: Record<LeadScoreOverrideStatus, string> = {
+    [LeadScoreOverrideStatus.Pending]: '待审批',
+    [LeadScoreOverrideStatus.Approved]: '已批准',
+    [LeadScoreOverrideStatus.Rejected]: '已驳回',
+    [LeadScoreOverrideStatus.Revoked]: '已撤销',
+    [LeadScoreOverrideStatus.Superseded]: '已替代'
 };
 
 const LEAD_STATUS_VALUES = [LeadStatus.Registered, LeadStatus.Qualified, LeadStatus.Converted, LeadStatus.Closed] as const satisfies readonly LeadStatus[];
@@ -160,6 +194,16 @@ const EMPTY_CREATE_FORM: CreateLeadForm = {
     ownerOrgId: null
 };
 
+const EMPTY_EDIT_FORM: EditLeadForm = {
+    leadName: '',
+    sourceId: null,
+    demandDescription: '',
+    budgetStatus: DEFAULT_BUDGET_STATUS,
+    estimatedAmount: '',
+    urgency: DEFAULT_URGENCY,
+    expectedDecisionDate: null
+};
+
 const EMPTY_SOURCE_FORM: LeadSourceForm = {
     code: '',
     name: '',
@@ -179,10 +223,15 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
     reason: ''
 };
 
+const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
+    score: null,
+    reason: ''
+};
+
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, InputNumberModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
     providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -286,7 +335,7 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'status', 'ownerName', 'ownerOrgName']"
+                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'effectiveRating', 'status', 'ownerName', 'ownerOrgName']"
                         [tableStyle]="{ width: '100%' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
@@ -386,9 +435,13 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <td>
                                     <div class="flex flex-wrap items-center gap-2">
                                         <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" />
-                                        <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ lead.score }}</span>
-                                        <p-tag [value]="getLeadRatingName(lead.rating)" [severity]="getLeadRatingSeverity(lead.rating)" styleClass="rounded-[6px]" />
+                                        <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ getEffectiveScore(lead) }}</span>
+                                        <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" styleClass="rounded-[6px]" />
                                     </div>
+                                    @if (isManualEffectiveScore(lead)) {
+                                        <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">系统 {{ lead.score }} / {{ getLeadRatingName(lead.rating) }}</div>
+                                    }
                                     <div class="mt-2 flex items-start gap-1.5 text-xs leading-5" [ngClass]="canConvertLead(lead) ? 'text-green-600 dark:text-green-300' : 'text-amber-600 dark:text-amber-300'">
                                         <i class="pi mt-0.5 text-[0.7rem]" [ngClass]="canConvertLead(lead) ? 'pi-check-circle' : 'pi-exclamation-triangle'"></i>
                                         <span>{{ lead.gateSummary.conversion.explanation }}</span>
@@ -420,6 +473,10 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <td>
                                     <div class="flex flex-wrap justify-start gap-2">
                                         <p-button label="查看" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openLeadDetail(lead)" />
+                                        <p-button label="评分" icon="pi pi-history" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openScoreHistory(lead)" />
+                                        @if (canEditLead(lead)) {
+                                            <p-button label="编辑" icon="pi pi-pencil" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditLeadDialog(lead)" />
+                                        }
                                         @if (canClaimLead(lead)) {
                                             <p-button label="申领" icon="pi pi-user-plus" size="small" severity="primary" [outlined]="true" styleClass="rounded-md!" [loading]="saving()" (onClick)="claimLeadOwner(lead)" />
                                         }
@@ -641,6 +698,95 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                 </ng-template>
             </p-dialog>
 
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑线索" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetEditDialog()">
+                <div class="flex flex-col gap-4 py-2">
+                    @if (editError()) {
+                        <app-workspace-feedback severity="error" summary="线索没有保存成功" [detail]="editError()" />
+                    }
+
+                    @if (actionTarget(); as lead) {
+                        <app-workspace-feedback severity="info" summary="当前线索" [detail]="lead.leadNo + ' · ' + lead.customerName" />
+                    }
+
+                    <div class="flex flex-col gap-2">
+                        <label for="editLeadName" class="text-sm font-medium text-surface-900 dark:text-surface-0">线索标题</label>
+                        <input pInputText id="editLeadName" [ngModel]="editForm().leadName" (ngModelChange)="updateEditField('leadName', $event)" class="w-full rounded-md!" />
+                        @if (editAttempted() && !editForm().leadName.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写线索标题。</span>
+                        }
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <label for="editLeadSourceId" class="text-sm font-medium text-surface-900 dark:text-surface-0">来源渠道</label>
+                            <p-select
+                                inputId="editLeadSourceId"
+                                [ngModel]="editForm().sourceId"
+                                (ngModelChange)="updateEditSource($event)"
+                                [options]="leadSourceOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [filter]="true"
+                                filterBy="label"
+                                [loading]="loadingSources()"
+                                appendTo="body"
+                                styleClass="w-full rounded-md!"
+                            />
+                            @if (editAttempted() && !editForm().sourceId) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择来源渠道。</span>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="editLeadUrgency" class="text-sm font-medium text-surface-900 dark:text-surface-0">紧迫程度</label>
+                            <p-select inputId="editLeadUrgency" [ngModel]="editForm().urgency" (ngModelChange)="updateEditUrgency($event)" [options]="urgencyOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="editDemandDescription" class="text-sm font-medium text-surface-900 dark:text-surface-0">需求描述</label>
+                        <textarea pTextarea id="editDemandDescription" rows="4" [ngModel]="editForm().demandDescription" (ngModelChange)="updateEditField('demandDescription', $event)" class="w-full rounded-md!"></textarea>
+                        @if (editAttempted() && !editForm().demandDescription.trim()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写需求描述。</span>
+                        }
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                        <div class="flex flex-col gap-2">
+                            <label for="editBudgetStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">预算情况</label>
+                            <p-select inputId="editBudgetStatus" [ngModel]="editForm().budgetStatus" (ngModelChange)="updateEditBudgetStatus($event)" [options]="budgetStatusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="editEstimatedAmount" class="text-sm font-medium text-surface-900 dark:text-surface-0">预计金额</label>
+                            <input pInputText id="editEstimatedAmount" inputmode="decimal" [ngModel]="editForm().estimatedAmount" (ngModelChange)="updateEditField('estimatedAmount', $event)" class="w-full rounded-md!" />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="editExpectedDecisionDate" class="text-sm font-medium text-surface-900 dark:text-surface-0">预计决策日期</label>
+                            <p-datepicker
+                                inputId="editExpectedDecisionDate"
+                                [ngModel]="editForm().expectedDecisionDate"
+                                (ngModelChange)="updateEditExpectedDecisionDate($event)"
+                                [showButtonBar]="true"
+                                appendTo="body"
+                                dateFormat="yy-mm-dd"
+                                placeholder="可留空"
+                                styleClass="w-full"
+                                inputStyleClass="w-full rounded-md!"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="editDialogVisible = false" />
+                        <p-button label="保存修改" [loading]="saving()" [disabled]="!isEditFormValid()" styleClass="rounded-md!" (onClick)="updateLead()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
             <p-dialog [(visible)]="sourceDialogVisible" [modal]="true" header="线索来源维护" [style]="{ width: '44rem' }" styleClass="p-fluid" (onHide)="resetSourceDialog()">
                 <div class="flex flex-col gap-4 py-2">
                     @if (sourceError()) {
@@ -743,11 +889,18 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                                 <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ getBudgetStatusName(lead.budgetStatus) }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                                <dt class="text-xs text-surface-500 dark:text-surface-400">评分评级</dt>
-                                <dd class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
-                                    <span class="font-semibold">{{ lead.score }}</span>
-                                    <p-tag [value]="getLeadRatingName(lead.rating)" [severity]="getLeadRatingSeverity(lead.rating)" styleClass="rounded-[6px]" />
+                                <dt class="flex items-center justify-between gap-2 text-xs text-surface-500 dark:text-surface-400">
+                                    <span>当前有效评分</span>
+                                    <button pButton type="button" label="历史" icon="pi pi-history" severity="secondary" [text]="true" class="rounded-md! px-2! py-1!" (click)="openScoreHistory(lead)"></button>
+                                </dt>
+                                <dd class="mt-1 flex flex-wrap items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
+                                    <span class="font-semibold">{{ getEffectiveScore(lead) }}</span>
+                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" styleClass="rounded-[6px]" />
                                 </dd>
+                                @if (isManualEffectiveScore(lead)) {
+                                    <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">系统 {{ lead.score }} / {{ getLeadRatingName(lead.rating) }}</div>
+                                }
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">转项目闸口</dt>
@@ -779,7 +932,11 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                             <app-workspace-feedback severity="info" summary="需求描述" [detail]="lead.demandDescription" />
                         }
 
-                        <app-workspace-feedback severity="info" summary="评分说明" [detail]="lead.scoreReason" />
+                        <app-workspace-feedback severity="info" summary="有效评分说明" [detail]="getEffectiveScoreReason(lead)" />
+
+                        @if (isManualEffectiveScore(lead)) {
+                            <app-workspace-feedback severity="secondary" summary="系统评分说明" [detail]="lead.scoreReason" />
+                        }
 
                         @if (lead.gateSummary.conversion.status === LeadGateStatus.Blocked) {
                             <app-workspace-feedback severity="warn" summary="转项目前缺口" [detail]="lead.gateSummary.conversion.explanation" />
@@ -848,6 +1005,9 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
 
                     <ng-template #footer>
                         <div class="flex flex-wrap justify-end gap-2">
+                            @if (canEditLead(lead)) {
+                                <p-button label="编辑信息" icon="pi pi-pencil" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditLeadDialog(lead)" />
+                            }
                             @if (canClaimLead(lead)) {
                                 <p-button label="申领" icon="pi pi-user-plus" severity="primary" [outlined]="true" [loading]="saving()" styleClass="rounded-md!" (onClick)="claimLeadOwner(lead)" />
                             }
@@ -870,6 +1030,182 @@ const EMPTY_ASSIGNMENT_FORM: AssignmentForm = {
                         </div>
                     </ng-template>
                 }
+            </p-dialog>
+
+            <p-dialog [(visible)]="scoreHistoryDialogVisible" [modal]="true" header="评分历史与人工覆盖" [style]="{ width: '50rem' }" (onHide)="resetScoreHistoryDialog()">
+                @if (actionTarget(); as target) {
+                    <div class="flex flex-col gap-4">
+                        <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="min-w-0">
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ target.leadNo }}</div>
+                                    <h2 class="mt-1 truncate text-lg font-semibold text-surface-950 dark:text-surface-0">{{ target.leadName }}</h2>
+                                    <p class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ target.customerName }}</p>
+                                </div>
+                                <div class="flex shrink-0 flex-wrap items-center gap-2">
+                                    <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ getEffectiveScore(target) }}</span>
+                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(target))" [severity]="getLeadRatingSeverity(getEffectiveRating(target))" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(target))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(target))" styleClass="rounded-[6px]" />
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (scoreHistoryError()) {
+                            <app-workspace-feedback severity="error" summary="评分历史暂时无法处理" [detail]="scoreHistoryError()" />
+                        }
+
+                        @if (loadingScoreHistory()) {
+                            <app-workspace-feedback severity="info" summary="正在读取评分历史" detail="请稍候。" />
+                        } @else if (scoreHistory(); as history) {
+                            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">系统评分</div>
+                                    <div class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
+                                        <span class="font-semibold">{{ history.systemScore }}</span>
+                                        <p-tag [value]="getLeadRatingName(history.systemRating)" [severity]="getLeadRatingSeverity(history.systemRating)" styleClass="rounded-[6px]" />
+                                    </div>
+                                    <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ history.scoreReason }}</p>
+                                </div>
+                                <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">当前有效评分</div>
+                                    <div class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
+                                        <span class="font-semibold">{{ history.effectiveScore }}</span>
+                                        <p-tag [value]="getLeadRatingName(history.effectiveRating)" [severity]="getLeadRatingSeverity(history.effectiveRating)" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getEffectiveScoreSourceName(history.effectiveScoreSource)" [severity]="getEffectiveScoreSourceSeverity(history.effectiveScoreSource)" styleClass="rounded-[6px]" />
+                                    </div>
+                                    <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ history.effectiveScoreReason }}</p>
+                                </div>
+                            </div>
+
+                            @if (history.pendingOverride; as pendingOverride) {
+                                <div class="rounded-[8px] border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/60 dark:bg-amber-950/30">
+                                    <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                                        <div>
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <span class="text-sm font-semibold text-amber-900 dark:text-amber-100">待审批覆盖</span>
+                                                <p-tag [value]="getScoreOverrideStatusName(pendingOverride.status)" [severity]="getScoreOverrideStatusSeverity(pendingOverride.status)" styleClass="rounded-[6px]" />
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-amber-800 dark:text-amber-100">
+                                                申请 {{ pendingOverride.requestedScore }} / {{ getLeadRatingName(pendingOverride.requestedRating) }}，提交时系统 {{ pendingOverride.systemScoreAtRequest }} / {{ getLeadRatingName(pendingOverride.systemRatingAtRequest) }}。
+                                            </p>
+                                            <p class="mt-1 text-xs leading-5 text-amber-700 dark:text-amber-200">{{ pendingOverride.reason }}</p>
+                                            @if (hasSystemScoreDrift(pendingOverride, history)) {
+                                                <p class="mt-2 text-xs font-medium text-amber-800 dark:text-amber-100">提交后系统评分已变化，请审批前复核当前系统评分。</p>
+                                            }
+                                        </div>
+                                        @if (canManageScoreOverrides()) {
+                                            <div class="flex min-w-60 flex-col gap-2">
+                                                <textarea pTextarea rows="2" [ngModel]="scoreOverrideApproveNote()" (ngModelChange)="scoreOverrideApproveNote.set($event)" class="w-full rounded-md!" placeholder="批准备注，可留空"></textarea>
+                                                <textarea pTextarea rows="2" [ngModel]="scoreOverrideRejectReason()" (ngModelChange)="scoreOverrideRejectReason.set($event)" class="w-full rounded-md!" placeholder="驳回原因"></textarea>
+                                                <div class="flex flex-wrap justify-end gap-2">
+                                                    <p-button label="批准" icon="pi pi-check" size="small" severity="success" [loading]="saving()" styleClass="rounded-md!" (onClick)="approveScoreOverride(pendingOverride)" />
+                                                    <p-button label="驳回" icon="pi pi-times" size="small" severity="danger" [outlined]="true" [disabled]="!scoreOverrideRejectReason().trim()" [loading]="saving()" styleClass="rounded-md!" (onClick)="rejectScoreOverride(pendingOverride)" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (history.activeOverride; as activeOverride) {
+                                <div class="rounded-[8px] border border-blue-200 bg-blue-50 p-4 dark:border-blue-900/60 dark:bg-blue-950/30">
+                                    <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                                        <div>
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <span class="text-sm font-semibold text-blue-900 dark:text-blue-100">生效中的人工覆盖</span>
+                                                <p-tag [value]="getScoreOverrideStatusName(activeOverride.status)" [severity]="getScoreOverrideStatusSeverity(activeOverride.status)" styleClass="rounded-[6px]" />
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-blue-800 dark:text-blue-100">当前取 {{ activeOverride.requestedScore }} / {{ getLeadRatingName(activeOverride.requestedRating) }}。</p>
+                                            <p class="mt-1 text-xs leading-5 text-blue-700 dark:text-blue-200">{{ activeOverride.reason }}</p>
+                                        </div>
+                                        @if (canManageScoreOverrides()) {
+                                            <div class="flex min-w-60 flex-col gap-2">
+                                                <textarea pTextarea rows="2" [ngModel]="scoreOverrideRevokeReason()" (ngModelChange)="scoreOverrideRevokeReason.set($event)" class="w-full rounded-md!" placeholder="撤销原因"></textarea>
+                                                <div class="flex justify-end">
+                                                    <p-button label="撤销覆盖" icon="pi pi-undo" size="small" severity="danger" [outlined]="true" [disabled]="!scoreOverrideRevokeReason().trim()" [loading]="saving()" styleClass="rounded-md!" (onClick)="revokeScoreOverride(activeOverride)" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (canSubmitScoreOverride(target, history)) {
+                                <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-sm font-semibold text-surface-950 dark:text-surface-0">提交人工覆盖申请</h3>
+                                        <p class="text-xs leading-5 text-surface-500 dark:text-surface-400">人工覆盖只改变当前有效评分，不会补齐确认有效或转项目硬闸口缺口。</p>
+                                    </div>
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-[10rem_1fr]">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="scoreOverrideScore" class="text-sm font-medium text-surface-900 dark:text-surface-0">覆盖分数</label>
+                                            <p-inputnumber inputId="scoreOverrideScore" [ngModel]="scoreOverrideForm().score" (ngModelChange)="updateScoreOverrideScore($event)" [min]="0" [max]="100" [useGrouping]="false" styleClass="w-full" inputStyleClass="w-full rounded-md!" />
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <label for="scoreOverrideReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">覆盖原因</label>
+                                            <textarea pTextarea id="scoreOverrideReason" rows="3" [ngModel]="scoreOverrideForm().reason" (ngModelChange)="updateScoreOverrideReason($event)" class="w-full rounded-md!" placeholder="说明为什么系统评分无法表达当前业务判断"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 flex justify-end">
+                                        <p-button label="提交覆盖申请" icon="pi pi-send" severity="primary" [disabled]="!isScoreOverrideFormValid()" [loading]="saving()" styleClass="rounded-md!" (onClick)="submitScoreOverride()" />
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="text-sm font-semibold text-surface-950 dark:text-surface-0">评分快照</h3>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ history.snapshots.length }} 条</span>
+                                </div>
+                                <div class="mt-3 flex flex-col gap-3">
+                                    @for (snapshot of history.snapshots; track snapshot.id) {
+                                        <div class="rounded-[8px] border border-surface-100 p-3 dark:border-surface-800">
+                                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <p-tag [value]="getScoreSnapshotKindName(snapshot.snapshotKind)" severity="secondary" styleClass="rounded-[6px]" />
+                                                    <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ snapshot.effectiveScore }} / {{ getLeadRatingName(snapshot.effectiveRating) }}</span>
+                                                </div>
+                                                <span class="text-xs text-surface-500 dark:text-surface-400">{{ snapshot.createdAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                            </div>
+                                            <p class="mt-2 text-xs leading-5 text-surface-600 dark:text-surface-300">{{ snapshot.scoreReason }}</p>
+                                        </div>
+                                    } @empty {
+                                        <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-center text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无评分快照。</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="text-sm font-semibold text-surface-950 dark:text-surface-0">覆盖记录</h3>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ history.overrides.length }} 条</span>
+                                </div>
+                                <div class="mt-3 flex flex-col gap-3">
+                                    @for (override of history.overrides; track override.id) {
+                                        <div class="rounded-[8px] border border-surface-100 p-3 dark:border-surface-800">
+                                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <p-tag [value]="getScoreOverrideStatusName(override.status)" [severity]="getScoreOverrideStatusSeverity(override.status)" styleClass="rounded-[6px]" />
+                                                    <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ override.requestedScore }} / {{ getLeadRatingName(override.requestedRating) }}</span>
+                                                </div>
+                                                <span class="text-xs text-surface-500 dark:text-surface-400">{{ override.requestedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                            </div>
+                                            <p class="mt-2 text-xs leading-5 text-surface-600 dark:text-surface-300">{{ override.reason }}</p>
+                                        </div>
+                                    } @empty {
+                                        <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-center text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无人工覆盖记录。</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <ng-template #footer>
+                    <div class="flex justify-end">
+                        <p-button label="关闭" severity="secondary" styleClass="rounded-md!" (onClick)="scoreHistoryDialogVisible = false" />
+                    </div>
+                </ng-template>
             </p-dialog>
 
             <p-dialog [(visible)]="assignOwnerDialogVisible" [modal]="true" header="分配线索主责" [style]="{ width: '34rem' }" styleClass="p-fluid" (onHide)="resetAssignOwnerDialog()">
@@ -1078,7 +1414,9 @@ export class LeadList implements OnInit {
     readonly #router = inject(Router);
     readonly #destroyRef = inject(DestroyRef);
 
+    readonly LeadEffectiveScoreSource = LeadEffectiveScoreSource;
     readonly LeadGateStatus = LeadGateStatus;
+    readonly LeadScoreOverrideStatus = LeadScoreOverrideStatus;
     readonly LeadSourceStatus = LeadSourceStatus;
 
     readonly leads = this.#leadStore.leads;
@@ -1094,19 +1432,30 @@ export class LeadList implements OnInit {
     readonly ratingFilter = signal<LeadRating | LeadAllFilterValue>(ALL_FILTER_VALUE);
     readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
+    readonly editForm = signal<EditLeadForm>({ ...EMPTY_EDIT_FORM });
     readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
     readonly convertForm = signal<ConvertProjectForm>(EMPTY_CONVERT_FORM);
     readonly assignmentForm = signal<AssignmentForm>({ ...EMPTY_ASSIGNMENT_FORM });
+    readonly scoreOverrideForm = signal<ScoreOverrideForm>({ ...EMPTY_SCORE_OVERRIDE_FORM });
     readonly createAttempted = signal(false);
+    readonly editAttempted = signal(false);
     readonly sourceAttempted = signal(false);
     readonly assignmentAttempted = signal(false);
     readonly actionAttempted = signal(false);
+    readonly scoreOverrideAttempted = signal(false);
     readonly createError = signal<string | null>(null);
+    readonly editError = signal<string | null>(null);
     readonly sourceError = signal<string | null>(null);
     readonly assignmentError = signal<string | null>(null);
     readonly qualificationError = signal<string | null>(null);
     readonly convertError = signal<string | null>(null);
     readonly pageError = signal<string | null>(null);
+    readonly scoreHistory = signal<LeadScoreHistoryView | null>(null);
+    readonly loadingScoreHistory = signal(false);
+    readonly scoreHistoryError = signal<string | null>(null);
+    readonly scoreOverrideApproveNote = signal('');
+    readonly scoreOverrideRejectReason = signal('');
+    readonly scoreOverrideRevokeReason = signal('');
     readonly qualificationSummary = signal('');
     readonly closedReason = signal('');
     readonly actionTarget = signal<LeadActionTarget | null>(null);
@@ -1117,12 +1466,14 @@ export class LeadList implements OnInit {
     readonly rows = 10;
     first = 0;
     createDialogVisible = false;
+    editDialogVisible = false;
     sourceDialogVisible = false;
     detailDialogVisible = false;
     assignOwnerDialogVisible = false;
     qualifyDialogVisible = false;
     convertDialogVisible = false;
     closeDialogVisible = false;
+    scoreHistoryDialogVisible = false;
 
     readonly statusOptions = LEAD_STATUS_OPTIONS;
 
@@ -1177,6 +1528,7 @@ export class LeadList implements OnInit {
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
     readonly canAssignLead = computed(() => this.#authStore.hasAnyPermission(['lead:assign'] as const));
     readonly canManageLeadSources = computed(() => this.#authStore.hasAnyPermission(['lead:source:manage'] as const));
+    readonly canManageScoreOverrides = computed(() => this.#authStore.hasAnyPermission(['lead:score:override'] as const));
 
     readonly leadSourceOptions = computed<LeadFilterOption[]>(() =>
         this.leadSources()
@@ -1224,9 +1576,19 @@ export class LeadList implements OnInit {
         return Boolean(form.leadName.trim() && form.customerId && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
     });
 
+    readonly isEditFormValid = computed(() => {
+        const form = this.editForm();
+        return Boolean(form.leadName.trim() && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
+    });
+
     readonly isAssignmentFormValid = computed(() => {
         const form = this.assignmentForm();
         return Boolean(form.ownerUserId && form.reason.trim());
+    });
+
+    readonly isScoreOverrideFormValid = computed(() => {
+        const form = this.scoreOverrideForm();
+        return Number.isInteger(form.score) && form.score !== null && form.score >= 0 && form.score <= 100 && Boolean(form.reason.trim());
     });
 
     ngOnInit() {
@@ -1369,6 +1731,36 @@ export class LeadList implements OnInit {
         this.createError.set(null);
     }
 
+    showEditLeadDialog(lead: LeadActionTarget) {
+        if (!this.canEditLead(lead)) {
+            return;
+        }
+
+        if (!this.#leadStore.loadedSources()) {
+            void this.loadLeadSources();
+        }
+
+        this.actionTarget.set(lead);
+        this.editForm.set({
+            leadName: lead.leadName,
+            sourceId: lead.sourceId,
+            demandDescription: lead.demandDescription ?? '',
+            budgetStatus: lead.budgetStatus,
+            estimatedAmount: lead.estimatedAmount ?? '',
+            urgency: lead.urgency,
+            expectedDecisionDate: this.fromIsoDate(lead.expectedDecisionDate)
+        });
+        this.editAttempted.set(false);
+        this.editError.set(null);
+        this.editDialogVisible = true;
+    }
+
+    resetEditDialog() {
+        this.editAttempted.set(false);
+        this.editError.set(null);
+        this.editForm.set({ ...EMPTY_EDIT_FORM });
+    }
+
     showSourceDialog() {
         if (!this.canManageLeadSources()) {
             return;
@@ -1464,6 +1856,46 @@ export class LeadList implements OnInit {
         this.createError.set(null);
     }
 
+    updateEditField(field: 'leadName' | 'demandDescription' | 'estimatedAmount', value: string) {
+        this.editForm.update((form) => ({
+            ...form,
+            [field]: value
+        }));
+        this.editError.set(null);
+    }
+
+    updateEditSource(value: string | null | undefined) {
+        this.editForm.update((form) => ({
+            ...form,
+            sourceId: value ?? null
+        }));
+        this.editError.set(null);
+    }
+
+    updateEditBudgetStatus(value: LeadBudgetStatus | null | undefined) {
+        this.editForm.update((form) => ({
+            ...form,
+            budgetStatus: value ?? DEFAULT_BUDGET_STATUS
+        }));
+        this.editError.set(null);
+    }
+
+    updateEditUrgency(value: LeadUrgency | null | undefined) {
+        this.editForm.update((form) => ({
+            ...form,
+            urgency: value ?? DEFAULT_URGENCY
+        }));
+        this.editError.set(null);
+    }
+
+    updateEditExpectedDecisionDate(value: Date | null) {
+        this.editForm.update((form) => ({
+            ...form,
+            expectedDecisionDate: value
+        }));
+        this.editError.set(null);
+    }
+
     updateCreateSource(value: string | null | undefined) {
         this.createForm.update((form) => ({
             ...form,
@@ -1557,6 +1989,32 @@ export class LeadList implements OnInit {
         }
     }
 
+    async updateLead() {
+        this.editAttempted.set(true);
+        const target = this.actionTarget();
+        const form = this.editForm();
+        const sourceId = form.sourceId;
+
+        if (!target || !this.canEditLead(target) || !this.isEditFormValid() || !sourceId) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.updateLead(target.id, {
+                leadName: form.leadName.trim(),
+                sourceId,
+                demandDescription: form.demandDescription.trim(),
+                budgetStatus: form.budgetStatus,
+                estimatedAmount: this.optionalText(form.estimatedAmount),
+                urgency: form.urgency,
+                expectedDecisionDate: form.expectedDecisionDate ? this.toIsoDate(form.expectedDecisionDate) : null
+            });
+            this.editDialogVisible = false;
+        } catch {
+            this.editError.set('请确认线索仍处于可编辑状态，且来源渠道有效。');
+        }
+    }
+
     async openLeadDetail(lead: LeadListView) {
         this.followUpReminderEntry.set(null);
         this.queryOpenedLeadId.set(null);
@@ -1572,6 +2030,52 @@ export class LeadList implements OnInit {
         } catch {
             this.pageError.set('线索详情没有读取成功，请稍后重试。');
         }
+    }
+
+    async openScoreHistory(lead: LeadActionTarget) {
+        this.actionTarget.set(lead);
+        this.scoreHistoryDialogVisible = true;
+        this.resetScoreHistoryState();
+        this.resetScoreOverrideForm(lead);
+        await this.loadScoreHistory(lead.id);
+    }
+
+    async loadScoreHistory(leadId: string) {
+        this.loadingScoreHistory.set(true);
+        this.scoreHistoryError.set(null);
+
+        try {
+            const history = await this.#leadStore.loadLeadScoreHistory(leadId);
+            this.scoreHistory.set(history);
+            this.resetScoreOverrideForm(this.actionTarget());
+        } catch {
+            this.scoreHistoryError.set('评分历史没有读取成功，请稍后重试。');
+        } finally {
+            this.loadingScoreHistory.set(false);
+        }
+    }
+
+    resetScoreHistoryDialog() {
+        this.resetScoreHistoryState();
+        this.scoreOverrideForm.set({ ...EMPTY_SCORE_OVERRIDE_FORM });
+        this.scoreOverrideAttempted.set(false);
+    }
+
+    updateScoreOverrideScore(value: number | string | null | undefined) {
+        const numericValue = typeof value === 'number' ? value : value === null || value === undefined || value === '' ? null : Number(value);
+        this.scoreOverrideForm.update((form) => ({
+            ...form,
+            score: numericValue !== null && Number.isFinite(numericValue) ? numericValue : null
+        }));
+        this.scoreHistoryError.set(null);
+    }
+
+    updateScoreOverrideReason(value: string) {
+        this.scoreOverrideForm.update((form) => ({
+            ...form,
+            reason: value
+        }));
+        this.scoreHistoryError.set(null);
     }
 
     clearDetail() {
@@ -1680,6 +2184,81 @@ export class LeadList implements OnInit {
             this.assignOwnerDialogVisible = false;
         } catch {
             this.assignmentError.set('请确认目标销售和组织仍然有效，且线索状态允许分配。');
+        }
+    }
+
+    async submitScoreOverride() {
+        this.scoreOverrideAttempted.set(true);
+        const target = this.actionTarget();
+        const history = this.scoreHistory();
+        const form = this.scoreOverrideForm();
+
+        if (!target || !this.canSubmitScoreOverride(target, history) || !this.isScoreOverrideFormValid() || form.score === null) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.submitLeadScoreOverride(target.id, {
+                score: form.score,
+                reason: form.reason.trim(),
+                expectedLeadRowVersion: target.rowVersion
+            });
+            await this.loadScoreHistory(target.id);
+        } catch {
+            this.scoreHistoryError.set('人工覆盖申请没有提交成功，请确认线索仍可编辑且没有待审批覆盖。');
+        }
+    }
+
+    async approveScoreOverride(override: LeadScoreOverrideSummary) {
+        if (!this.canManageScoreOverrides() || override.status !== LeadScoreOverrideStatus.Pending) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.approveLeadScoreOverride(override.id, {
+                expectedOverrideRowVersion: override.rowVersion,
+                note: this.optionalText(this.scoreOverrideApproveNote())
+            });
+            this.scoreOverrideApproveNote.set('');
+            await this.loadScoreHistory(override.leadId);
+        } catch {
+            this.scoreHistoryError.set('人工覆盖没有批准成功，请确认记录仍处于待审批状态。');
+        }
+    }
+
+    async rejectScoreOverride(override: LeadScoreOverrideSummary) {
+        const reason = this.scoreOverrideRejectReason().trim();
+        if (!this.canManageScoreOverrides() || override.status !== LeadScoreOverrideStatus.Pending || !reason) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.rejectLeadScoreOverride(override.id, {
+                expectedOverrideRowVersion: override.rowVersion,
+                reason
+            });
+            this.scoreOverrideRejectReason.set('');
+            await this.loadScoreHistory(override.leadId);
+        } catch {
+            this.scoreHistoryError.set('人工覆盖没有驳回成功，请确认记录仍处于待审批状态。');
+        }
+    }
+
+    async revokeScoreOverride(override: LeadScoreOverrideSummary) {
+        const reason = this.scoreOverrideRevokeReason().trim();
+        if (!this.canManageScoreOverrides() || override.status !== LeadScoreOverrideStatus.Approved || !reason) {
+            return;
+        }
+
+        try {
+            await this.#leadStore.revokeLeadScoreOverride(override.id, {
+                expectedOverrideRowVersion: override.rowVersion,
+                reason
+            });
+            this.scoreOverrideRevokeReason.set('');
+            await this.loadScoreHistory(override.leadId);
+        } catch {
+            this.scoreHistoryError.set('人工覆盖没有撤销成功，请确认记录仍是生效覆盖。');
         }
     }
 
@@ -1813,6 +2392,10 @@ export class LeadList implements OnInit {
         return this.canAssignLead() && (lead.allowedActions ?? []).includes(LeadAllowedAction.AssignLeadOwner);
     }
 
+    canEditLead(lead: Pick<LeadActionTarget, 'status'>): boolean {
+        return this.canWriteLead() && (lead.status === LeadStatus.Registered || lead.status === LeadStatus.Qualified);
+    }
+
     canQualifyLead(lead: LeadActionTarget): boolean {
         return this.canWriteLead() && lead.gateSummary.qualification.status === LeadGateStatus.Ready;
     }
@@ -1825,8 +2408,36 @@ export class LeadList implements OnInit {
         return this.canWriteLead() && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
     }
 
+    canSubmitScoreOverride(lead: LeadActionTarget | null, history: LeadScoreHistoryView | null = this.scoreHistory()): boolean {
+        return Boolean(this.canWriteLead() && lead && lead.status !== LeadStatus.Closed && lead.status !== LeadStatus.Converted && !history?.pendingOverride);
+    }
+
     shouldShowConversionGapAction(lead: LeadActionTarget): boolean {
         return this.conversionGuideActive() && this.canWriteLead() && lead.status === LeadStatus.Qualified && !this.canConvertLead(lead);
+    }
+
+    getEffectiveScore(lead: Pick<LeadActionTarget, 'score' | 'effectiveScore'>): number {
+        return lead.effectiveScore ?? lead.score;
+    }
+
+    getEffectiveRating(lead: Pick<LeadActionTarget, 'rating' | 'effectiveRating'>): LeadRating {
+        return lead.effectiveRating ?? lead.rating;
+    }
+
+    getEffectiveScoreReason(lead: Pick<LeadActionTarget, 'scoreReason' | 'effectiveScoreReason'>): string {
+        return lead.effectiveScoreReason ?? lead.scoreReason;
+    }
+
+    getEffectiveScoreSource(lead: Pick<LeadActionTarget, 'effectiveScoreSource'>): LeadEffectiveScoreSource {
+        return lead.effectiveScoreSource ?? LeadEffectiveScoreSource.System;
+    }
+
+    isManualEffectiveScore(lead: Pick<LeadActionTarget, 'effectiveScoreSource'>): boolean {
+        return this.getEffectiveScoreSource(lead) === LeadEffectiveScoreSource.ManualOverride;
+    }
+
+    hasSystemScoreDrift(override: LeadScoreOverrideSummary, history: LeadScoreHistoryView): boolean {
+        return override.systemScoreAtRequest !== history.systemScore || override.systemRatingAtRequest !== history.systemRating;
     }
 
     getStatusName(status: LeadStatus): string {
@@ -1867,6 +2478,45 @@ export class LeadList implements OnInit {
                 return 'warn';
             default:
                 return 'secondary';
+        }
+    }
+
+    getEffectiveScoreSourceName(source: LeadEffectiveScoreSource | null | undefined): string {
+        return source ? LEAD_EFFECTIVE_SCORE_SOURCE_LABELS[source] : '系统评分';
+    }
+
+    getEffectiveScoreSourceSeverity(source: LeadEffectiveScoreSource | null | undefined) {
+        return source === LeadEffectiveScoreSource.ManualOverride ? 'warn' : 'secondary';
+    }
+
+    getScoreOverrideStatusName(status: LeadScoreOverrideStatus | null | undefined): string {
+        return status ? LEAD_SCORE_OVERRIDE_STATUS_LABELS[status] : '未知';
+    }
+
+    getScoreOverrideStatusSeverity(status: LeadScoreOverrideStatus | null | undefined) {
+        switch (status) {
+            case LeadScoreOverrideStatus.Pending:
+                return 'warn';
+            case LeadScoreOverrideStatus.Approved:
+                return 'success';
+            case LeadScoreOverrideStatus.Rejected:
+            case LeadScoreOverrideStatus.Revoked:
+                return 'danger';
+            default:
+                return 'secondary';
+        }
+    }
+
+    getScoreSnapshotKindName(kind: LeadScoreSnapshotKind | null | undefined): string {
+        switch (kind) {
+            case LeadScoreSnapshotKind.ManualOverride:
+                return '覆盖生效';
+            case LeadScoreSnapshotKind.OverrideRevoked:
+                return '覆盖撤销';
+            case LeadScoreSnapshotKind.System:
+                return '系统评分';
+            default:
+                return '评分记录';
         }
     }
 
@@ -1951,7 +2601,7 @@ export class LeadList implements OnInit {
     }
 
     private leadSearchText(lead: LeadListView): string {
-        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceName, lead.sourceChannel, this.getBudgetStatusName(lead.budgetStatus), this.getUrgencyName(lead.urgency), this.getLeadRatingName(lead.rating), String(lead.score), lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
+        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceName, lead.sourceChannel, this.getBudgetStatusName(lead.budgetStatus), this.getUrgencyName(lead.urgency), this.getLeadRatingName(lead.rating), this.getLeadRatingName(this.getEffectiveRating(lead)), this.getEffectiveScoreSourceName(this.getEffectiveScoreSource(lead)), String(lead.score), String(this.getEffectiveScore(lead)), lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
     }
 
     private normalize(value: string): string {
@@ -1961,6 +2611,23 @@ export class LeadList implements OnInit {
     private optionalText(value: string): string | null {
         const normalized = value.trim();
         return normalized ? normalized : null;
+    }
+
+    private resetScoreHistoryState(): void {
+        this.scoreHistory.set(null);
+        this.scoreHistoryError.set(null);
+        this.loadingScoreHistory.set(false);
+        this.scoreOverrideApproveNote.set('');
+        this.scoreOverrideRejectReason.set('');
+        this.scoreOverrideRevokeReason.set('');
+    }
+
+    private resetScoreOverrideForm(lead: LeadActionTarget | null): void {
+        this.scoreOverrideForm.set({
+            score: lead ? this.getEffectiveScore(lead) : null,
+            reason: ''
+        });
+        this.scoreOverrideAttempted.set(false);
     }
 
     private formatPercentage(value: number, total: number): string {
@@ -1977,6 +2644,19 @@ export class LeadList implements OnInit {
         const month = `${value.getMonth() + 1}`.padStart(2, '0');
         const day = `${value.getDate()}`.padStart(2, '0');
         return `${year}-${month}-${day}`;
+    }
+
+    private fromIsoDate(value: string | null | undefined): Date | null {
+        if (!value) {
+            return null;
+        }
+
+        const [year, month, day] = value.split('-').map((part) => Number(part));
+        if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+            return null;
+        }
+
+        return new Date(year, month - 1, day);
     }
 
     private async ensureAuthReady(): Promise<void> {
