@@ -31,13 +31,13 @@
 
 ## 2. 正式输入
 
-| Input Type                | Document / Source                                | Section / Anchor                                  | Status | Notes                        |
-| ------------------------- | ------------------------------------------------ | ------------------------------------------------- | ------ | ---------------------------- |
-| Business design           | `ex-63-field-level-audit-governance-baseline.md` | 编辑历史前端入口                                  | Pass   | 前端只读展示, 不做全局中心。 |
-| API / Query design        | `ex-63c-entity-audit-read-boundary-closeout.md`  | `GET /audit-logs/targets/{targetType}/{targetId}` | Pass   | 已完成 `G4`。                |
-| DTO / OpenAPI design      | `RuntimeAuditApi` generated client               | `runtimeAuditControllerListEntityAuditLogs`       | Pass   | Query 已生成。               |
-| Route inventory / ADR-015 | `api-route-canonical-inventory.md`               | `listEntityAuditLogs`                             | Pass   | 本片不新增 public route。    |
-| UI source                 | `lead-list`, `customer-list`, `project-detail`   | Existing detail containers                        | Pass   | 在详情上下文中增加局部入口。 |
+| Input Type                | Document / Source                                               | Section / Anchor                                  | Status | Notes                        |
+| ------------------------- | --------------------------------------------------------------- | ------------------------------------------------- | ------ | ---------------------------- |
+| Business design           | `archive/slices/ex-63-field-level-audit-governance-baseline.md` | 编辑历史前端入口                                  | Pass   | 前端只读展示, 不做全局中心。 |
+| API / Query design        | `archive/slices/ex-63c-entity-audit-read-boundary-closeout.md`  | `GET /audit-logs/targets/{targetType}/{targetId}` | Pass   | 已完成 `G4`。                |
+| DTO / OpenAPI design      | `RuntimeAuditApi` generated client                              | `runtimeAuditControllerListEntityAuditLogs`       | Pass   | Query 已生成。               |
+| Route inventory / ADR-015 | `api-route-canonical-inventory.md`                              | `listEntityAuditLogs`                             | Pass   | 本片不新增 public route。    |
+| UI source                 | `lead-list`, `customer-list`, `project-detail`                  | Existing detail containers                        | Pass   | 在详情上下文中增加局部入口。 |
 
 ## 3. 本次 SSOT
 

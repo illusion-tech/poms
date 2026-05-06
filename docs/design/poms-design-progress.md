@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-05-06
+**最后更新**: 2026-05-07
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -138,18 +138,18 @@
 
 ### 4.5 当前控制与实施入口
 
-| 文档                                                              | 当前状态 | 作用                                                                                       | 是否可作为下游输入 |
-| ----------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------------------ |
-| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口           | 是                 |
-| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束       | 是                 |
-| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                             | 是                 |
-| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                       | 是                 |
-| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                              | 是                 |
-| `docs/reference/implementation-corrective-checkpoint-template.md` | Active   | 实施纠偏 checkpoint 模板，统一已开工后 drift 修复的 `G3` 阻断、修复范围与剩余阻断留痕      | 是                 |
-| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据     | 是                 |
-| `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕    | 是                 |
-| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                               | 是                 |
-| `docs/design/ex-63-field-level-audit-governance-baseline.md`      | Active   | 字段级审计治理与首批范围需求精化，负责冻结业务历史 / 字段审计 / 安全事件边界和首批实施队列 | 是                 |
+| 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
+| ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
+| `docs/design/phase2-mainline-delivery-plan.md`                    | Active   | 第二阶段主线交付计划的当前精简入口，统一说明主线目标、当前阶段状态与当前实施入口        | 是                 |
+| `docs/design/phase2-lx-t04-full-mainline-development-decision.md` | Active   | 第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责给出 Go 结论、统一范围、顺序与约束    | 是                 |
+| `docs/design/implementation-delivery-guide.md`                    | Active   | 实施启动与交付流程说明，统一实施入口、切片流程、DoD 与回写规则                          | 是                 |
+| `docs/design/implementation-governance-gates.md`                  | Active   | 设计到实现治理闸口，统一冻结闸口、风险分层证据、例外授权链与过渡规则                    | 是                 |
+| `docs/reference/implementation-baseline-package-template.md`      | Active   | 实施基线包模板，统一 `G1` 前冻结输入、范围、SSOT 与一致性证据                           | 是                 |
+| `docs/reference/implementation-corrective-checkpoint-template.md` | Active   | 实施纠偏 checkpoint 模板，统一已开工后 drift 修复的 `G3` 阻断、修复范围与剩余阻断留痕   | 是                 |
+| `docs/reference/implementation-governance-checks.md`              | Active   | 实施治理最小校验矩阵，统一 PR / local checkpoint 按切片类型提交的自动化 / 半自动化证据  | 是                 |
+| `docs/reference/solo-worktree-governance.md`                      | Active   | 个人开发与本地工作树治理方式，统一无 PR 时的 checkpoint、commit message 与 tracker 留痕 | 是                 |
+| `docs/design/phase2-development-execution-tracker.md`             | Active   | 第二阶段开发执行追踪板，负责当前任务拆解、状态跟踪与执行回写                            | 是                 |
+| `docs/design/current-drift-inventory.md`                          | Active   | 当前实现 / 测试 / 文档生命周期漂移盘点，负责记录仍影响工程判断或归档判断的 drift        | 是                 |
 
 ### 4.6 已归档过程资产
 
@@ -547,6 +547,7 @@
 65. 2026-05-07 `EX-55A` 已完成 `G4 / Done`：评分 v2 治理片保持 docs-only，后端运行时拆为 `EX-55A-R`；前端评分解释、附件 OCR 和 AI 建议继续分别由 `FE-58`、`EX-55B`、`EX-55C` 承接。
 66. 2026-05-07 `EX-55A-R` 已进入 `G1 / Doing`：冻结结构化事实评分 v2 后端运行时边界，复用现有 `lead_score_snapshot` 和 `componentBreakdown`，不新增 public route / migration；实现时聚合销售情报缺口、跟进活跃度和附件元数据，保持人工覆盖投影不变。
 67. 2026-05-07 `EX-55A-R` 已推进到 `G3 / Ready for Review`：后端运行时已接入结构化事实聚合、`lead-score-v2` 纯函数评分、线索写路径重算和评分历史 v2 breakdown；lead focused tests、`poms-api` lint/build、diff check 已通过，全量 Jest 仅剩既有非本片 `sales-follow-up.repository.spec.ts` 优先级期望漂移。
+68. 2026-05-07 `EX-55A-R` 已完成 `G4 / Done`：实现提交 `38e4e19`，系统评分切到 `lead-score-v2`，评分历史快照写入结构化事实 breakdown；本轮同时新增当前 drift inventory，关闭 EX-55A-R post-G3 状态漂移、销售跟进提醒日期敏感测试漂移和已完成切片生命周期归档漂移，`FE-57` 因浏览器 UX 复核仍保持 `Doing / G3`。
 
 ---
 

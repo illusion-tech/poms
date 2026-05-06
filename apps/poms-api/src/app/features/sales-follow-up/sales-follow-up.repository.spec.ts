@@ -27,6 +27,8 @@ describe('SalesFollowUpRepository reminder todo sync', () => {
     };
 
     beforeEach(() => {
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date('2026-05-01T00:00:00.000Z'));
         em = {
             persist: jest.fn(),
             flush: jest.fn().mockResolvedValue(undefined),
@@ -46,6 +48,10 @@ describe('SalesFollowUpRepository reminder todo sync', () => {
             {} as never,
             {} as never
         );
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
     });
 
     it('creates one project reminder todo and completes the previous stream reminder', async () => {
