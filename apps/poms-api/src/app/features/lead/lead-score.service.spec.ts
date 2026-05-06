@@ -6,7 +6,9 @@ import { ConflictException } from '@nestjs/common';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { LeadScoreOverride, LeadScoreSnapshot } from './lead-score-history.entity';
 import { Lead } from './lead.entity';
+import { LeadScoreFactsService } from './lead-score-facts.service';
 import { LeadScoreService } from './lead-score.service';
+import { EMPTY_LEAD_SCORE_V2_FACT_SUMMARY } from './lead-scoring';
 
 describe('LeadScoreService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
@@ -19,6 +21,7 @@ describe('LeadScoreService', () => {
     let snapshotRepository: { find: jest.Mock; findOne: jest.Mock; getEntityManager: jest.Mock };
     let overrideRepository: { find: jest.Mock; findOne: jest.Mock; getEntityManager: jest.Mock };
     let runtimeAuditService: jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
+    let leadScoreFactsService: jest.Mocked<Pick<LeadScoreFactsService, 'collectLeadScoreFacts'>>;
     let entityManager: {
         findOne: jest.Mock;
         create: jest.Mock;
@@ -51,8 +54,11 @@ describe('LeadScoreService', () => {
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         };
+        leadScoreFactsService = {
+            collectLeadScoreFacts: jest.fn().mockResolvedValue(EMPTY_LEAD_SCORE_V2_FACT_SUMMARY)
+        };
 
-        service = new LeadScoreService(leadRepository as never, snapshotRepository as never, overrideRepository as never, runtimeAuditService as never);
+        service = new LeadScoreService(leadRepository as never, snapshotRepository as never, overrideRepository as never, runtimeAuditService as never, leadScoreFactsService as never);
     });
 
     it('submits a pending score override with system score snapshot at request time', async () => {
@@ -116,7 +122,15 @@ describe('LeadScoreService', () => {
                 overrideId,
                 effectiveScore: 88,
                 effectiveRating: 'A',
-                effectiveScoreSource: 'manual-override'
+                effectiveScoreSource: 'manual-override',
+                formulaVersion: 'lead-score-v2',
+                componentBreakdown: expect.objectContaining({
+                    formulaVersion: 'lead-score-v2',
+                    baseBusiness: expect.any(Number),
+                    salesIntelligence: 0,
+                    followUpActivity: 0,
+                    attachmentEvidence: 0
+                })
             })
         );
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(

@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import type { EntityManager } from '@mikro-orm/core';
 import { randomUUID } from 'node:crypto';
 import {
     AttachmentRelationTypeValue,
@@ -23,6 +24,7 @@ import { Project } from '../project/project.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+import { LeadScoreFactsService } from './lead-score-facts.service';
 import { LeadScoreService } from './lead-score.service';
 import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
 
@@ -115,6 +117,7 @@ export class LeadService {
         private readonly businessNumberService: BusinessNumberService,
         private readonly customerService: CustomerService,
         private readonly attachmentService: AttachmentService,
+        private readonly leadScoreFactsService: LeadScoreFactsService,
         private readonly leadScoreService: LeadScoreService,
         private readonly runtimeAuditService: RuntimeAuditService
     ) {}
@@ -207,7 +210,7 @@ export class LeadService {
                 updatedBy: operator.id
             });
 
-            this.refreshLeadScore(lead);
+            await this.refreshLeadScore(lead, em);
             em.persist(lead);
             await this.leadScoreService.recordSystemSnapshot(lead, 'create-lead', operator.id, null, em);
             await em.flush();
@@ -270,7 +273,7 @@ export class LeadService {
             }
 
             lead.updatedBy = operatorUserId;
-            this.refreshLeadScore(lead);
+            await this.refreshLeadScore(lead, em);
             em.persist(lead);
             await this.leadScoreService.recordSystemSnapshot(lead, 'update-lead', operatorUserId, null, em);
             await this.runtimeAuditService.recordAuditLog(
@@ -374,7 +377,7 @@ export class LeadService {
         lead.qualifiedAt = now;
         lead.qualifiedBy = operatorUserId;
         lead.updatedBy = operatorUserId;
-        this.refreshLeadScore(lead);
+        await this.refreshLeadScore(lead);
 
         await this.leadRepository.save(lead);
         await this.leadScoreService.recordSystemSnapshot(lead, 'qualify-lead', operatorUserId);
@@ -394,7 +397,7 @@ export class LeadService {
         lead.closedAt = now;
         lead.closedBy = operatorUserId;
         lead.updatedBy = operatorUserId;
-        this.refreshLeadScore(lead);
+        await this.refreshLeadScore(lead);
 
         await this.leadRepository.save(lead);
         await this.leadScoreService.recordSystemSnapshot(lead, 'close-lead', operatorUserId);
@@ -447,7 +450,7 @@ export class LeadService {
             lead.convertedAt = now;
             lead.convertedBy = operator.id;
             lead.updatedBy = operator.id;
-            this.refreshLeadScore(lead);
+            await this.refreshLeadScore(lead, em);
 
             em.persist([lead, project]);
             await this.attachmentService.copyActiveLinksToTarget({
@@ -654,7 +657,7 @@ export class LeadService {
         input.lead.ownerUserId = input.ownerUserId;
         input.lead.ownerOrgId = input.ownerOrgId;
         input.lead.updatedBy = input.operatorUserId;
-        this.refreshLeadScore(input.lead);
+        await this.refreshLeadScore(input.lead);
 
         await this.leadRepository.saveLeadOwnerAssignment({
             lead: input.lead,
@@ -684,8 +687,9 @@ export class LeadService {
         };
     }
 
-    private refreshLeadScore(lead: Lead): void {
-        const snapshot = calculateLeadScore(lead);
+    private async refreshLeadScore(lead: Lead, entityManager?: EntityManager): Promise<void> {
+        const facts = await this.leadScoreFactsService.collectLeadScoreFacts(lead.id, entityManager);
+        const snapshot = calculateLeadScore(lead, facts);
         lead.score = snapshot.score;
         lead.rating = snapshot.rating;
         lead.scoreReason = snapshot.scoreReason;

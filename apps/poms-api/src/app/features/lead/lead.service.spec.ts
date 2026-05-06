@@ -6,7 +6,9 @@ import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
 import { LeadRepository } from './lead.repository';
+import { LeadScoreFactsService } from './lead-score-facts.service';
 import { LeadScoreService } from './lead-score.service';
+import { EMPTY_LEAD_SCORE_V2_FACT_SUMMARY } from './lead-scoring';
 import { LeadService } from './lead.service';
 
 describe('LeadService', () => {
@@ -23,6 +25,7 @@ describe('LeadService', () => {
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let attachmentService: jest.Mocked<Pick<AttachmentService, 'copyActiveLinksToTarget'>>;
+    let leadScoreFactsService: jest.Mocked<Pick<LeadScoreFactsService, 'collectLeadScoreFacts'>>;
     let leadScoreService: jest.Mocked<Pick<LeadScoreService, 'recordSystemSnapshot'>>;
     let runtimeAuditService: jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
     let entityManager: {
@@ -63,6 +66,9 @@ describe('LeadService', () => {
         attachmentService = {
             copyActiveLinksToTarget: jest.fn().mockResolvedValue(undefined)
         };
+        leadScoreFactsService = {
+            collectLeadScoreFacts: jest.fn().mockResolvedValue(EMPTY_LEAD_SCORE_V2_FACT_SUMMARY)
+        };
         leadScoreService = {
             recordSystemSnapshot: jest.fn().mockResolvedValue(null)
         };
@@ -77,7 +83,15 @@ describe('LeadService', () => {
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
-        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never, leadScoreService as never, runtimeAuditService as never);
+        service = new LeadService(
+            leadRepository,
+            businessNumberService as never,
+            customerService as never,
+            attachmentService as never,
+            leadScoreFactsService as never,
+            leadScoreService as never,
+            runtimeAuditService as never
+        );
     });
 
     it('creates an active lead source dictionary item', async () => {
@@ -142,11 +156,12 @@ describe('LeadService', () => {
             })
         );
         expect(entityManager.persist).toHaveBeenCalledWith(lead);
+        expect(leadScoreFactsService.collectLeadScoreFacts).toHaveBeenCalledWith(lead.id, entityManager);
         expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'create-lead', userId, null, entityManager);
         expect(entityManager.flush).toHaveBeenCalled();
         expect(lead.status).toBe('registered');
         expect(lead.score).toBeGreaterThan(0);
-        expect(lead.rating).toBe('B');
+        expect(lead.rating).toBe('C');
     });
 
     it('creates a public pool lead when owner is explicitly empty', async () => {

@@ -19,9 +19,10 @@ import {
     type SubmitLeadScoreOverrideRequest
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
-import { LeadScoreOverride, LeadScoreSnapshot, LEAD_SCORE_FORMULA_VERSION } from './lead-score-history.entity';
+import { LeadScoreOverride, LeadScoreSnapshot } from './lead-score-history.entity';
 import { Lead } from './lead.entity';
-import { buildLeadGateSummary, buildLeadScoreComponentBreakdown, resolveLeadRating } from './lead-scoring';
+import { LeadScoreFactsService } from './lead-score-facts.service';
+import { buildLeadGateSummary, buildLeadScoreComponentBreakdown, LEAD_SCORE_FORMULA_VERSION, resolveLeadRating } from './lead-scoring';
 
 export type ActiveLeadScoreOverride = Pick<LeadScoreOverride, 'id' | 'leadId' | 'requestedScore' | 'requestedRating' | 'reason'>;
 
@@ -60,7 +61,8 @@ export class LeadScoreService {
         private readonly snapshotRepository: EntityRepository<LeadScoreSnapshot>,
         @InjectRepository(LeadScoreOverride)
         private readonly overrideRepository: EntityRepository<LeadScoreOverride>,
-        private readonly runtimeAuditService: RuntimeAuditService
+        private readonly runtimeAuditService: RuntimeAuditService,
+        private readonly leadScoreFactsService: LeadScoreFactsService
     ) {}
 
     async getLeadScoreHistory(leadId: string): Promise<LeadScoreHistoryView> {
@@ -286,7 +288,7 @@ export class LeadScoreService {
             leadId: lead.id,
             status: LeadScoreOverrideStatusValue.Approved
         });
-        const snapshot = this.buildSnapshotInput(lead, activeOverride, LeadScoreSnapshotKindValue.System, sourceCommand, operatorUserId, sourceRecordId);
+        const snapshot = await this.buildSnapshotInput(lead, activeOverride, LeadScoreSnapshotKindValue.System, sourceCommand, operatorUserId, sourceRecordId, em);
         const latestSnapshot = await em.findOne(LeadScoreSnapshot, { leadId: lead.id }, { orderBy: { createdAt: QueryOrder.DESC } });
 
         if (latestSnapshot && this.isDuplicateSnapshot(latestSnapshot, snapshot)) {
@@ -316,21 +318,23 @@ export class LeadScoreService {
     ): Promise<LeadScoreSnapshot> {
         const entity = entityManager.create(LeadScoreSnapshot, {
             id: randomUUID(),
-            ...this.buildSnapshotInput(lead, activeOverride, snapshotKind, sourceCommand, operatorUserId, sourceRecordId)
+            ...(await this.buildSnapshotInput(lead, activeOverride, snapshotKind, sourceCommand, operatorUserId, sourceRecordId, entityManager))
         });
         entityManager.persist(entity);
         return entity;
     }
 
-    private buildSnapshotInput(
+    private async buildSnapshotInput(
         lead: Lead,
         activeOverride: ActiveLeadScoreOverride | null,
         snapshotKind: LeadScoreSnapshotKind,
         sourceCommand: string,
         operatorUserId: string | null,
-        sourceRecordId: string | null
-    ): LeadScoreSnapshotInput {
+        sourceRecordId: string | null,
+        entityManager?: EntityManager
+    ): Promise<LeadScoreSnapshotInput> {
         const effectiveScore = this.resolveEffectiveScore(lead, activeOverride);
+        const facts = await this.leadScoreFactsService.collectLeadScoreFacts(lead.id, entityManager);
 
         return {
             leadId: lead.id,
@@ -343,7 +347,7 @@ export class LeadScoreService {
             effectiveRating: effectiveScore.effectiveRating,
             effectiveScoreSource: effectiveScore.effectiveScoreSource,
             scoreReason: effectiveScore.effectiveScoreReason,
-            componentBreakdown: { ...buildLeadScoreComponentBreakdown(lead) },
+            componentBreakdown: { ...buildLeadScoreComponentBreakdown(lead, facts) },
             gateSummarySnapshot: buildLeadGateSummary(lead),
             sourceCommand,
             sourceRecordId,

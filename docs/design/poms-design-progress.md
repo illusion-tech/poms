@@ -546,6 +546,7 @@
 64. 2026-05-07 `EX-55A` 已进入 `G1 / Doing`：冻结 `lead-score-v2` 的 deterministic 增强信号边界，只接受结构化销售事实、跟进活跃度和附件元数据；未来运行时必须显式使用 `lead-score-v2` formulaVersion 并写入评分历史快照，不接入 OCR / LLM / 私人画像。
 65. 2026-05-07 `EX-55A` 已完成 `G4 / Done`：评分 v2 治理片保持 docs-only，后端运行时拆为 `EX-55A-R`；前端评分解释、附件 OCR 和 AI 建议继续分别由 `FE-58`、`EX-55B`、`EX-55C` 承接。
 66. 2026-05-07 `EX-55A-R` 已进入 `G1 / Doing`：冻结结构化事实评分 v2 后端运行时边界，复用现有 `lead_score_snapshot` 和 `componentBreakdown`，不新增 public route / migration；实现时聚合销售情报缺口、跟进活跃度和附件元数据，保持人工覆盖投影不变。
+67. 2026-05-07 `EX-55A-R` 已推进到 `G3 / Ready for Review`：后端运行时已接入结构化事实聚合、`lead-score-v2` 纯函数评分、线索写路径重算和评分历史 v2 breakdown；lead focused tests、`poms-api` lint/build、diff check 已通过，全量 Jest 仅剩既有非本片 `sales-follow-up.repository.spec.ts` 优先级期望漂移。
 
 ---
 
