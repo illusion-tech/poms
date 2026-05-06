@@ -45,6 +45,26 @@ describe('RuntimeAuditService', () => {
         expect(repository.saveAll).toHaveBeenCalledWith([expect.objectContaining({ id: 'audit-log-id' })]);
     });
 
+    it('can persist audit logs through an existing transaction entity manager', async () => {
+        const entityManager = {
+            persist: jest.fn()
+        };
+
+        await service.recordAuditLog(
+            {
+                eventType: 'lead.updated',
+                targetType: 'lead',
+                targetId: '50000000-0000-4000-8000-000000000001',
+                result: 'success',
+                metadata: { sourceCommand: 'update-lead' }
+            },
+            entityManager as never
+        );
+
+        expect(entityManager.persist).toHaveBeenCalledWith(expect.objectContaining({ id: 'audit-log-id' }));
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
     it('persists normalized security event payloads', async () => {
         await service.recordSecurityEvent({
             eventType: 'authz.permission.denied',

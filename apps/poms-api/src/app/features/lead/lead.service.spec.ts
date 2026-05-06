@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { Lead, LeadSource } from './lead.entity';
@@ -23,6 +24,7 @@ describe('LeadService', () => {
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
     let attachmentService: jest.Mocked<Pick<AttachmentService, 'copyActiveLinksToTarget'>>;
     let leadScoreService: jest.Mocked<Pick<LeadScoreService, 'recordSystemSnapshot'>>;
+    let runtimeAuditService: jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
     let entityManager: {
         create: jest.Mock;
         persist: jest.Mock;
@@ -64,6 +66,9 @@ describe('LeadService', () => {
         leadScoreService = {
             recordSystemSnapshot: jest.fn().mockResolvedValue(null)
         };
+        runtimeAuditService = {
+            recordAuditLog: jest.fn().mockResolvedValue(undefined)
+        };
 
         leadRepository.findPlatformUserById.mockResolvedValue({
             id: userId,
@@ -72,7 +77,7 @@ describe('LeadService', () => {
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
-        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never, leadScoreService as never);
+        service = new LeadService(leadRepository, businessNumberService as never, customerService as never, attachmentService as never, leadScoreService as never, runtimeAuditService as never);
     });
 
     it('creates an active lead source dictionary item', async () => {
@@ -325,11 +330,136 @@ describe('LeadService', () => {
     });
 
     it('rejects editing converted leads', async () => {
-        leadRepository.findById.mockResolvedValue(createLeadEntity({ status: 'converted' }));
+        entityManager.findOne.mockResolvedValue(createLeadEntity({ status: 'converted' }));
 
         await expect(
-            service.updateLead(leadId, { leadName: '不可编辑' }, userId)
+            service.updateLead(leadId, { leadName: '不可编辑' }, userId, 'req-update-1')
         ).rejects.toThrow(BadRequestException);
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('records a field audit log when updating mutable lead fields', async () => {
+        const replacementSourceId = '51000000-0000-4000-8000-000000000002';
+        const lead = createLeadEntity({
+            rowVersion: 3,
+            leadName: '原始线索名称',
+            sourceChannel: '客户拜访',
+            demandDescription: '客户需求明确',
+            budgetStatus: 'unknown',
+            estimatedAmount: null,
+            urgency: 'normal',
+            expectedDecisionDate: null
+        });
+        entityManager.findOne.mockResolvedValue(lead);
+        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({
+            id: replacementSourceId,
+            name: '行业活动'
+        }) as never);
+
+        const result = await service.updateLead(
+            leadId,
+            {
+                leadName: '更新后的线索名称',
+                sourceId: replacementSourceId,
+                demandDescription: '客户补充运维平台范围',
+                budgetStatus: 'rough-budget',
+                estimatedAmount: '1200000.00',
+                urgency: 'high',
+                expectedDecisionDate: '2026-06-01',
+                expectedVersion: 3
+            },
+            userId,
+            'req-update-2'
+        );
+
+        expect(result).toBe(lead);
+        expect(entityManager.persist).toHaveBeenCalledWith(lead);
+        expect(leadScoreService.recordSystemSnapshot).toHaveBeenCalledWith(lead, 'update-lead', userId, null, entityManager);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'lead.updated',
+                targetType: 'lead',
+                targetId: leadId,
+                operatorId: userId,
+                requestId: 'req-update-2',
+                result: 'success',
+                beforeSnapshot: expect.objectContaining({
+                    leadName: '原始线索名称',
+                    sourceId,
+                    sourceChannel: '客户拜访',
+                    demandDescription: { changed: true, length: 6 },
+                    budgetStatus: 'unknown',
+                    estimatedAmount: null,
+                    urgency: 'normal',
+                    expectedDecisionDate: null
+                }),
+                afterSnapshot: expect.objectContaining({
+                    leadName: '更新后的线索名称',
+                    sourceId: replacementSourceId,
+                    sourceChannel: '行业活动',
+                    demandDescription: { changed: true, length: 10 },
+                    budgetStatus: 'rough-budget',
+                    estimatedAmount: '1200000.00',
+                    urgency: 'high',
+                    expectedDecisionDate: '2026-06-01'
+                }),
+                metadata: expect.objectContaining({
+                    changedFields: expect.arrayContaining([
+                        'leadName',
+                        'sourceId',
+                        'sourceChannel',
+                        'demandDescription',
+                        'budgetStatus',
+                        'estimatedAmount',
+                        'urgency',
+                        'expectedDecisionDate'
+                    ]),
+                    sourceCommand: 'update-lead',
+                    expectedVersion: 3,
+                    redactedFields: ['demandDescription'],
+                    businessContext: { leadId }
+                })
+            }),
+            entityManager
+        );
+        expect(entityManager.flush).toHaveBeenCalled();
+    });
+
+    it('does not write field audit when submitted values do not change', async () => {
+        const lead = createLeadEntity();
+        entityManager.findOne.mockResolvedValue(lead);
+
+        const result = await service.updateLead(
+            leadId,
+            {
+                leadName: '华南地铁线索',
+                demandDescription: '客户需求明确',
+                budgetStatus: 'budget-confirmed',
+                estimatedAmount: '1000000.00',
+                urgency: 'normal',
+                expectedDecisionDate: null,
+                expectedVersion: 1
+            },
+            userId,
+            'req-update-3'
+        );
+
+        expect(result).toBe(lead);
+        expect(entityManager.persist).not.toHaveBeenCalled();
+        expect(entityManager.flush).not.toHaveBeenCalled();
+        expect(leadScoreService.recordSystemSnapshot).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('does not record a successful field audit when update version conflicts', async () => {
+        entityManager.findOne.mockResolvedValue(createLeadEntity({ rowVersion: 5 }));
+
+        await expect(
+            service.updateLead(leadId, { leadName: '版本冲突线索', expectedVersion: 4 }, userId, 'req-update-4')
+        ).rejects.toThrow(ConflictException);
+
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+        expect(leadScoreService.recordSystemSnapshot).not.toHaveBeenCalled();
     });
 
     it('claims a public pool lead and writes assignment record', async () => {

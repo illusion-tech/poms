@@ -998,7 +998,8 @@ describe('LeadList', () => {
             budgetStatus: LeadBudgetStatus.RoughBudget,
             estimatedAmount: '1800000.00',
             urgency: LeadUrgency.Normal,
-            expectedDecisionDate: '2026-07-15'
+            expectedDecisionDate: '2026-07-15',
+            expectedVersion: 1
         });
         expect(component.editDialogVisible).toBe(false);
     });

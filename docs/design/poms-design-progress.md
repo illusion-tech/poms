@@ -535,6 +535,7 @@
 53. 2026-05-06 `FE-56` 已进入 `G1 / Doing`：新增 `fe-56-lead-score-history-override-frontend-baseline.md`，冻结线索列表 / 详情显示当前有效评分、系统评分标识、评分历史视图、人工覆盖提交和审批 / 驳回 / 撤销入口；本片只消费 EX-54A generated client，不新增后端 route、migration、OpenAPI、AI 评分或硬闸口策略变更。
 54. 2026-05-06 `FE-56` 已完成 `G4`：线索列表 / 详情已展示当前有效评分、系统评分和人工覆盖标识，并新增评分历史与人工覆盖对话框，支持覆盖提交、批准、驳回和撤销；`LeadStore` 消费 EX-54A generated client，验证通过 lead-list focused tests、`poms-admin` lint/build、Markdown / diff check。
 55. 2026-05-06 新增 `EX-63` 字段级审计治理与首批范围需求精化，冻结业务历史 / 字段审计 / 安全事件三层边界、字段 diff 与脱敏策略、首批 Lead / CRM / 项目合同优先级和实体级读取边界；执行板新增 `EX-63A` Lead 基础信息字段审计运行时、`EX-63B` CRM 销售事实字段审计扩展、`EX-63C` 实体级审计读取权限与查询出口、`FE-57` 编辑历史前端入口。
+56. 2026-05-06 `EX-63A` 已完成 `G4`：`PATCH /leads/{id}` 已写入 `lead.updated` 字段级审计，业务更新、系统评分快照和审计日志同事务提交；`UpdateLeadRequest` 增加可选 `expectedVersion`，Admin 编辑线索时传入当前 `rowVersion`；长文本需求描述只记录长度摘要，无实际字段变化不写审计。验证通过 API/Admin focused tests、API/Admin lint/build、OpenAPI / generated client check、Markdown / diff check，可作为 `EX-63C` 输入。
 
 ---
 

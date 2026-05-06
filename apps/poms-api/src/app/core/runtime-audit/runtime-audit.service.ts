@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import type { EntityManager } from '@mikro-orm/core';
 import type { AuditLogListQuery, AuditLogSummary, SecurityEventListQuery, SecurityEventSummary } from '@poms/shared-contracts';
 import type { AuditSnapshot } from './audit-log.entity';
 import { RuntimeAuditRepository } from './runtime-audit.repository';
@@ -38,7 +39,7 @@ export type RecordSecurityEventInput = {
 export class RuntimeAuditService {
     constructor(private readonly runtimeAuditRepository: RuntimeAuditRepository) {}
 
-    async recordAuditLog(input: RecordAuditLogInput): Promise<void> {
+    async recordAuditLog(input: RecordAuditLogInput, entityManager?: EntityManager): Promise<void> {
         const entity = this.runtimeAuditRepository.createAuditLog({
             eventType: input.eventType,
             targetType: input.targetType,
@@ -52,6 +53,11 @@ export class RuntimeAuditService {
             metadata: input.metadata ?? null,
             occurredAt: input.occurredAt ?? new Date()
         });
+
+        if (entityManager) {
+            entityManager.persist(entity);
+            return;
+        }
 
         await this.runtimeAuditRepository.saveAll([entity]);
     }

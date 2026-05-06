@@ -16,6 +16,8 @@ import {
 } from '@poms/shared-contracts';
 import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import type { AuditSnapshot } from '../../core/runtime-audit/audit-log.entity';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { CustomerService } from '../customer/customer.service';
 import { Project } from '../project/project.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
@@ -25,6 +27,22 @@ import { LeadScoreService } from './lead-score.service';
 import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
 
 const LEAD_MUTABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
+const LEAD_FIELD_AUDIT_FIELDS = [
+    'leadName',
+    'customerId',
+    'customerName',
+    'sourceId',
+    'sourceChannel',
+    'demandDescription',
+    'budgetStatus',
+    'estimatedAmount',
+    'urgency',
+    'expectedDecisionDate'
+] as const;
+
+type LeadFieldAuditField = typeof LEAD_FIELD_AUDIT_FIELDS[number];
+type LeadFieldAuditValues = Record<LeadFieldAuditField, unknown>;
+const LEAD_FIELD_AUDIT_REDACTED_FIELDS = new Set<LeadFieldAuditField>(['demandDescription']);
 
 export interface CreateLeadSourceRecord {
     code: string;
@@ -62,6 +80,7 @@ export interface UpdateLeadRecord {
     estimatedAmount?: string | null;
     urgency?: LeadUrgency;
     expectedDecisionDate?: string | null;
+    expectedVersion?: number;
 }
 
 export interface ClaimLeadOwnerRecord {
@@ -96,7 +115,8 @@ export class LeadService {
         private readonly businessNumberService: BusinessNumberService,
         private readonly customerService: CustomerService,
         private readonly attachmentService: AttachmentService,
-        private readonly leadScoreService: LeadScoreService
+        private readonly leadScoreService: LeadScoreService,
+        private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async createLeadSource(input: CreateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
@@ -195,52 +215,90 @@ export class LeadService {
         });
     }
 
-    async updateLead(id: string, input: UpdateLeadRecord, operatorUserId: string): Promise<Lead> {
-        const lead = await this.requireLead(id);
-        this.assertLeadEditable(lead);
+    async updateLead(id: string, input: UpdateLeadRecord, operatorUserId: string, requestId?: string | null): Promise<Lead> {
+        const customer = input.customerId !== undefined ? await this.customerService.requireActiveCustomer(input.customerId) : null;
+        const source = input.sourceId !== undefined ? await this.requireActiveLeadSource(input.sourceId) : null;
 
-        if (input.leadName !== undefined) {
-            lead.leadName = input.leadName;
-        }
+        return this.leadRepository.getEntityManager().transactional(async (em) => {
+            const lead = await em.findOne(Lead, { id });
+            if (!lead) {
+                throw new NotFoundException(`Lead ${id} not found`);
+            }
+            this.assertLeadEditable(lead);
+            this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
 
-        if (input.customerId !== undefined) {
-            const customer = await this.customerService.requireActiveCustomer(input.customerId);
-            lead.customerId = customer.id;
-            lead.customerName = customer.displayName;
-        }
+            const beforeValues = this.buildLeadFieldAuditValues(lead);
 
-        if (input.sourceId !== undefined) {
-            const source = await this.requireActiveLeadSource(input.sourceId);
-            lead.sourceId = source.id;
-            lead.sourceChannel = source.name;
-        }
+            if (input.leadName !== undefined) {
+                lead.leadName = input.leadName;
+            }
 
-        if (input.demandDescription !== undefined) {
-            lead.demandDescription = input.demandDescription.trim();
-        }
+            if (customer) {
+                lead.customerId = customer.id;
+                lead.customerName = customer.displayName;
+            }
 
-        if (input.budgetStatus !== undefined) {
-            lead.budgetStatus = input.budgetStatus;
-        }
+            if (source) {
+                lead.sourceId = source.id;
+                lead.sourceChannel = source.name;
+            }
 
-        if (input.estimatedAmount !== undefined) {
-            lead.estimatedAmount = this.normalizeEstimatedAmount(input.estimatedAmount);
-        }
+            if (input.demandDescription !== undefined) {
+                lead.demandDescription = input.demandDescription.trim();
+            }
 
-        if (input.urgency !== undefined) {
-            lead.urgency = input.urgency;
-        }
+            if (input.budgetStatus !== undefined) {
+                lead.budgetStatus = input.budgetStatus;
+            }
 
-        if (input.expectedDecisionDate !== undefined) {
-            lead.expectedDecisionDate = this.normalizeDateOnly(input.expectedDecisionDate);
-        }
+            if (input.estimatedAmount !== undefined) {
+                lead.estimatedAmount = this.normalizeEstimatedAmount(input.estimatedAmount);
+            }
 
-        lead.updatedBy = operatorUserId;
-        this.refreshLeadScore(lead);
-        await this.leadRepository.save(lead);
-        await this.leadScoreService.recordSystemSnapshot(lead, 'update-lead', operatorUserId);
+            if (input.urgency !== undefined) {
+                lead.urgency = input.urgency;
+            }
 
-        return lead;
+            if (input.expectedDecisionDate !== undefined) {
+                lead.expectedDecisionDate = this.normalizeDateOnly(input.expectedDecisionDate);
+            }
+
+            const afterValues = this.buildLeadFieldAuditValues(lead);
+            const changedFields = this.collectLeadFieldAuditChangedFields(beforeValues, afterValues);
+            if (changedFields.length === 0) {
+                return lead;
+            }
+
+            lead.updatedBy = operatorUserId;
+            this.refreshLeadScore(lead);
+            em.persist(lead);
+            await this.leadScoreService.recordSystemSnapshot(lead, 'update-lead', operatorUserId, null, em);
+            await this.runtimeAuditService.recordAuditLog(
+                {
+                    eventType: 'lead.updated',
+                    targetType: 'lead',
+                    targetId: lead.id,
+                    operatorId: operatorUserId,
+                    requestId: requestId ?? null,
+                    result: 'success',
+                    beforeSnapshot: this.pickLeadFieldAuditSnapshot(beforeValues, changedFields),
+                    afterSnapshot: this.pickLeadFieldAuditSnapshot(afterValues, changedFields),
+                    metadata: {
+                        changedFields,
+                        sourceCommand: 'update-lead',
+                        expectedVersion: input.expectedVersion ?? null,
+                        redactedFields: changedFields.filter((field) => LEAD_FIELD_AUDIT_REDACTED_FIELDS.has(field)),
+                        businessContext: {
+                            leadId: lead.id
+                        }
+                    }
+                },
+                em
+            );
+            await em.flush();
+
+            return lead;
+        });
     }
 
     async claimLeadOwner(id: string, input: ClaimLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
@@ -462,6 +520,49 @@ export class LeadService {
     private normalizeDateOnly(value: string | null | undefined): string | null {
         const normalized = value?.trim();
         return normalized ? normalized.slice(0, 10) : null;
+    }
+
+    private buildLeadFieldAuditValues(lead: Lead): LeadFieldAuditValues {
+        return {
+            leadName: lead.leadName,
+            customerId: lead.customerId,
+            customerName: lead.customerName,
+            sourceId: lead.sourceId,
+            sourceChannel: lead.sourceChannel ?? null,
+            demandDescription: lead.demandDescription ?? null,
+            budgetStatus: lead.budgetStatus,
+            estimatedAmount: lead.estimatedAmount ?? null,
+            urgency: lead.urgency,
+            expectedDecisionDate: this.normalizeAuditDate(lead.expectedDecisionDate)
+        };
+    }
+
+    private collectLeadFieldAuditChangedFields(beforeValues: LeadFieldAuditValues, afterValues: LeadFieldAuditValues): LeadFieldAuditField[] {
+        return LEAD_FIELD_AUDIT_FIELDS.filter((field) => beforeValues[field] !== afterValues[field]);
+    }
+
+    private pickLeadFieldAuditSnapshot(values: LeadFieldAuditValues, fields: readonly LeadFieldAuditField[]): AuditSnapshot {
+        return fields.reduce<AuditSnapshot>((snapshot, field) => {
+            snapshot[field] = field === 'demandDescription'
+                ? this.summarizeAuditText(values[field])
+                : values[field] ?? null;
+            return snapshot;
+        }, {});
+    }
+
+    private summarizeAuditText(value: unknown): AuditSnapshot {
+        const text = typeof value === 'string' ? value : '';
+        return {
+            changed: true,
+            length: text.length
+        };
+    }
+
+    private normalizeAuditDate(value: Date | string | null | undefined): string | null {
+        if (value instanceof Date) {
+            return value.toISOString().slice(0, 10);
+        }
+        return this.normalizeDateOnly(value);
     }
 
     private async resolveOwner(

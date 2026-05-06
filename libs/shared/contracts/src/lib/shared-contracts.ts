@@ -1612,7 +1612,8 @@ export const UpdateLeadRequestSchema = z
         budgetStatus: LeadBudgetStatusSchema.optional(),
         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
         urgency: LeadUrgencySchema.optional(),
-        expectedDecisionDate: z.iso.date().nullable().optional()
+        expectedDecisionDate: z.iso.date().nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
     })
     .refine(
         (value) =>

@@ -20,4 +20,5 @@ export interface UpdateLeadRequest {
     estimatedAmount?: string | null;
     urgency?: LeadUrgency;
     expectedDecisionDate?: string | null;
+    expectedVersion?: number;
 }

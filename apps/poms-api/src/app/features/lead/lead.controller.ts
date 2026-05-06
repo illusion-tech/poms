@@ -161,7 +161,7 @@ export class LeadController {
     async update(
         @Param('id') id: string,
         @Body() body: UpdateLeadRequestDto,
-        @Request() req: { user: UserPayload }
+        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
     ): Promise<LeadSummary> {
         const lead = await this.leadService.updateLead(id, {
             leadName: body.leadName,
@@ -171,8 +171,9 @@ export class LeadController {
             budgetStatus: body.budgetStatus,
             estimatedAmount: body.estimatedAmount,
             urgency: body.urgency,
-            expectedDecisionDate: body.expectedDecisionDate
-        }, req.user.sub);
+            expectedDecisionDate: body.expectedDecisionDate,
+            expectedVersion: body.expectedVersion
+        }, req.user.sub, getRequestId(req));
 
         return mapLeadToSummary(lead);
     }

@@ -2007,7 +2007,8 @@ export class LeadList implements OnInit {
                 budgetStatus: form.budgetStatus,
                 estimatedAmount: this.optionalText(form.estimatedAmount),
                 urgency: form.urgency,
-                expectedDecisionDate: form.expectedDecisionDate ? this.toIsoDate(form.expectedDecisionDate) : null
+                expectedDecisionDate: form.expectedDecisionDate ? this.toIsoDate(form.expectedDecisionDate) : null,
+                expectedVersion: target.rowVersion
             });
             this.editDialogVisible = false;
         } catch {
