@@ -294,6 +294,15 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'platform/identity-providers',
+                loadComponent: () => import('./app/features/platform/identity-provider-list').then((c) => c.IdentityProviderList),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '外部身份提供商',
+                    requiredPermissions: ['platform:identity-providers:manage']
+                }
+            },
+            {
                 path: 'platform/navigation',
                 loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
                 canActivate: [permissionGuard],

@@ -97,6 +97,11 @@ export class AppMenu {
                     routerLink: ['/platform/dictionaries']
                 },
                 {
+                    label: '外部身份提供商',
+                    icon: 'pi pi-id-card',
+                    routerLink: ['/platform/identity-providers']
+                },
+                {
                     label: '导航菜单',
                     icon: 'pi pi-bars',
                     routerLink: ['/platform/navigation']

@@ -7,6 +7,7 @@ export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
 export * from './lib/dictionary/dictionary.store';
+export * from './lib/identity-provider/identity-provider.store';
 export * from './lib/poms-api/poms-api.tokens';
 export * from './lib/poms-api/poms-auth.interceptor';
 export * from './lib/poms-api/provide-poms-api-client';
@@ -44,6 +45,11 @@ export {
     CustomerApi,
     DictionaryApi,
     DictionaryDomain,
+    IdentityProviderApi,
+    IdentityProvider,
+    IdentityProviderConfigStatus,
+    IdentityProviderConnectionTestStatus,
+    IdentityProviderSearchGrantMode,
     LeadAllowedAction,
     LeadApi,
     LeadBudgetStatus,
@@ -307,6 +313,7 @@ export type {
     PlatformRoleSummary,
     PlatformOrgUnitSummary,
     CreatePlatformUserRequest,
+    CreateIdentityProviderConfigRequest,
     AssignUserRolesRequest,
     AssignUserOrgMembershipsRequest,
     CreateRoleRequest,
@@ -314,6 +321,10 @@ export type {
     CreateOrgUnitRequest,
     UpdateOrgUnitRequest,
     UpdatePlatformUserRequest,
+    UpdateIdentityProviderConfigRequest,
+    IdentityProviderConfigSummary,
+    IdentityProviderConnectionTestResult,
+    TestIdentityProviderConnectionRequest,
     UserOrgUnitSummary
 } from '@poms/shared-api-client';
 export type { DomainApprovalRecord } from '@poms/shared-contracts';

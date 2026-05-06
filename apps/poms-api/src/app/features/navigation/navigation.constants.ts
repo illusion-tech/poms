@@ -203,6 +203,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 children: null
             },
             {
+                id: 'nav-platform-identity-providers',
+                key: 'platform.identity-providers',
+                type: NavigationItemTypeValue.Basic,
+                title: '外部身份提供商',
+                subtitle: null,
+                link: '/platform/identity-providers',
+                icon: 'pi pi-id-card',
+                displayOrder: 35,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['platform:identity-providers:manage'],
+                meta: null,
+                children: null
+            },
+            {
                 id: 'nav-platform-navigation',
                 key: 'platform.navigation',
                 type: 'basic',

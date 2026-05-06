@@ -66,4 +66,12 @@ describe('appRoutes project permissions', () => {
         expect(route.data?.['breadcrumb']).toBe('业务字典');
         expect(route.data?.['requiredPermissions']).toEqual(['platform:dictionaries:manage']);
     });
+
+    it('guards platform identity provider management with provider manage permission', () => {
+        const route = getAppRoute('platform/identity-providers');
+
+        expect(route.canActivate).toContain(permissionGuard);
+        expect(route.data?.['breadcrumb']).toBe('外部身份提供商');
+        expect(route.data?.['requiredPermissions']).toEqual(['platform:identity-providers:manage']);
+    });
 });

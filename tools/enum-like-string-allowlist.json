@@ -175,6 +175,57 @@
         "cleanupDue": "N/A"
     },
     {
+        "id": "FE59A-A1-project-contract-handover-existing-fixtures",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts",
+        "reason": "Existing project handover specs contain attachment category and source fixtures; FE-59A classifies the current scan baseline without changing those tests.",
+        "cleanupOwner": "future attachment enum hardening slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "FE59A-A2-project-workspace-existing-fixtures",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts",
+        "reason": "Existing project workspace specs contain attachment category/status fixtures; FE-59A classifies the current scan baseline without changing those tests.",
+        "cleanupOwner": "future attachment enum hardening slice",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "FE59A-A3-attachment-version-template-mode",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/shared/ui/attachment-panel.ts",
+        "textIncludes": "mode: 'version'",
+        "reason": "Attachment panel version mode is a local template discriminant, not a persisted domain enum.",
+        "cleanupOwner": "future attachment frontend cleanup",
+        "cleanupDue": "TBD"
+    },
+    {
+        "id": "FE59A-A4-audit-history-existing-fixtures",
+        "ruleId": "enum-like-fixture",
+        "path": "apps/poms-admin/src/app/shared/ui/audit-history-panel.spec.ts",
+        "reason": "Existing audit history focused specs use generated target/result fixture values.",
+        "cleanupOwner": "FE-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "FE59A-A5-audit-history-field-labels",
+        "ruleId": "record-string-string",
+        "path": "apps/poms-admin/src/app/shared/ui/audit-history-panel.ts",
+        "textIncludes": "FIELD_LABELS",
+        "reason": "Audit history field labels are presentation labels keyed by returned field names, not a domain enum source.",
+        "cleanupOwner": "FE-57",
+        "cleanupDue": "N/A"
+    },
+    {
+        "id": "FE59A-A6-attachment-center-route-query-params",
+        "ruleId": "record-string-string",
+        "path": "libs/admin/data-access/src/lib/attachment/attachment-center.store.ts",
+        "textIncludes": "routeQueryParams",
+        "reason": "Route query params are transport parameters for navigation links, not domain enum values.",
+        "cleanupOwner": "future attachment frontend cleanup",
+        "cleanupDue": "TBD"
+    },
+    {
         "id": "EX59-A1-backend-inline-string-unions",
         "ruleId": "inline-string-union",
         "pathPrefix": "apps/poms-api/src/app/features/",
@@ -190,7 +241,7 @@
         "reason": "Existing backend runtime comparisons still contain enum-like literals; EX-59 classifies the current baseline without replacing EX-58A/EX-60 contract governance.",
         "cleanupOwner": "future backend enum hardening slices",
         "cleanupDue": "TBD",
-        "maxMatches": 115
+        "maxMatches": 119
     },
     {
         "id": "EX59-A3-backend-enum-like-fixtures-and-object-literals",
@@ -199,7 +250,7 @@
         "reason": "Existing backend services, repositories, Swagger schemas and specs still contain enum-like fixture/object literals; the expanded scan freezes this baseline for later typed replacement.",
         "cleanupOwner": "future backend enum hardening slices",
         "cleanupDue": "TBD",
-        "maxMatches": 812
+        "maxMatches": 876
     },
     {
         "id": "EX59-A4-project-cost-record-string-spec-helper",
@@ -216,7 +267,7 @@
         "reason": "Existing backend controller specs use as-const enum-like fixtures to satisfy narrow return types; future typed fixture helpers should replace them.",
         "cleanupOwner": "future backend enum hardening slices",
         "cleanupDue": "TBD",
-        "maxMatches": 19
+        "maxMatches": 20
     },
     {
         "id": "EX59-A6-shared-enum-object-values-helper",
