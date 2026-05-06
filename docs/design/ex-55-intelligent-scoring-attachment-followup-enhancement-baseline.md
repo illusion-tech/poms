@@ -97,3 +97,13 @@ EX-55 只做评估和治理边界冻结, 不交付运行时代码。
   - 第一阶段只允许结构化事实和销售活跃度作为后续评分 v2 候选。
   - OCR / LLM 必须先通过独立治理切片, 不得直接写入当前评分。
   - 私人画像和未经授权外部画像不进入 POMS 评分体系。
+
+## 9. G4 收口
+
+- Gate Status: `Done`
+- Closed By: `Codex local`
+- Closed At: `2026-05-07`
+- Evidence:
+  - 本片保持 docs-only / evaluation, 未修改运行时代码、migration、OpenAPI 或 generated client。
+  - 后续工程入口拆为 `EX-55A`、`EX-55B`、`EX-55C` 和 `FE-58`。
+  - 本片结论可作为 `lead-score-v2`、附件抽取治理和智能评分建议实验的前置约束。

@@ -542,6 +542,8 @@
 60. 2026-05-06 `EX-63B` 已推进到 `G3 / Ready for Review`：四类 CRM 销售事实编辑命令已写入字段级 audit log，使用 `metadata.changedFields`、脱敏字段摘要和业务上下文；业务写入与审计写入同事务提交，无实际变化不写成功审计。验证通过 `sales-intelligence.service` focused tests、`poms-api` lint/build。
 61. 2026-05-07 `EX-63B` 已完成 `G4 / Done`：CRM 销售事实字段级审计扩展可作为编辑历史读取输入；本片未新增 route / DTO / OpenAPI / migration，`expectedVersion` 收口留给后续契约切片。
 62. 2026-05-07 `EX-55` 已进入 `G1 / Doing`：冻结智能评分增强评估第一版结论，不直接引入 AI 自动改分；结构化销售事实、跟进活跃度和附件元数据可作为后续评分 v2 候选，OCR / LLM 必须另拆治理切片，私人画像和未经授权外部画像不进入评分体系。
+63. 2026-05-07 `EX-55` 已完成 `G4 / Done`：本片保持 docs-only / evaluation，不修改运行时代码；后续拆为 `EX-55A` 销售活跃度与结构化事实评分 v2 治理、`EX-55B` 附件内容抽取 / OCR 治理、`EX-55C` AI 评分建议实验和 `FE-58` 智能评分解释前端占位。
+64. 2026-05-07 `EX-55A` 已进入 `G1 / Doing`：冻结 `lead-score-v2` 的 deterministic 增强信号边界，只接受结构化销售事实、跟进活跃度和附件元数据；未来运行时必须显式使用 `lead-score-v2` formulaVersion 并写入评分历史快照，不接入 OCR / LLM / 私人画像。
 
 ---
 
