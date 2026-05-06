@@ -44,6 +44,16 @@ export interface RuntimeAuditControllerListAuditLogsRequestParams {
     limit?: number;
 }
 
+export interface RuntimeAuditControllerListEntityAuditLogsRequestParams {
+    targetType: 'lead' | 'customer' | 'customer-contact' | 'opportunity-stakeholder' | 'competitor-intelligence' | 'sales-discovery-record' | 'sales-follow-up-record' | 'project' | 'contract';
+    targetId: string;
+    from?: string;
+    to?: string;
+    eventType?: string;
+    result?: AuditLogResult;
+    limit?: number;
+}
+
 export interface RuntimeAuditControllerListSecurityEventsRequestParams {
     from?: string;
     to?: string;
@@ -194,6 +204,123 @@ export class RuntimeAuditApi extends BaseService {
         }
 
         let localVarPath = `/api/audit-logs`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<AuditLogSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 查询单个业务对象的审计日志
+     * @endpoint get /api/audit-logs/targets/{targetType}/{targetId}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public runtimeAuditControllerListEntityAuditLogs(requestParameters: RuntimeAuditControllerListEntityAuditLogsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<AuditLogSummary>>;
+    public runtimeAuditControllerListEntityAuditLogs(requestParameters: RuntimeAuditControllerListEntityAuditLogsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<AuditLogSummary>>>;
+    public runtimeAuditControllerListEntityAuditLogs(requestParameters: RuntimeAuditControllerListEntityAuditLogsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<AuditLogSummary>>>;
+    public runtimeAuditControllerListEntityAuditLogs(requestParameters: RuntimeAuditControllerListEntityAuditLogsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const targetType = requestParameters?.targetType;
+        if (targetType === null || targetType === undefined) {
+            throw new Error('Required parameter targetType was null or undefined when calling runtimeAuditControllerListEntityAuditLogs.');
+        }
+        const targetId = requestParameters?.targetId;
+        if (targetId === null || targetId === undefined) {
+            throw new Error('Required parameter targetId was null or undefined when calling runtimeAuditControllerListEntityAuditLogs.');
+        }
+        const from = requestParameters?.from;
+        const to = requestParameters?.to;
+        const eventType = requestParameters?.eventType;
+        const result = requestParameters?.result;
+        const limit = requestParameters?.limit;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'from',
+            <any>from,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'to',
+            <any>to,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'eventType',
+            <any>eventType,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'result',
+            <any>result,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'limit',
+            <any>limit,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/audit-logs/targets/${this.configuration.encodeParam({name: "targetType", value: targetType, in: "path", style: "simple", explode: false, dataType: "'lead' | 'customer' | 'customer-contact' | 'opportunity-stakeholder' | 'competitor-intelligence' | 'sales-discovery-record' | 'sales-follow-up-record' | 'project' | 'contract'", dataFormat: undefined})}/${this.configuration.encodeParam({name: "targetId", value: targetId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<AuditLogSummary>>('get', `${basePath}${localVarPath}`,
             {

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
-import type { AuditLogListQuery, AuditLogSummary, SecurityEventListQuery, SecurityEventSummary } from '@poms/shared-contracts';
+import { EntityAuditTargetTypeSchema, EntityAuditTargetTypeValue } from '@poms/shared-contracts';
+import type { AuditLogListQuery, AuditLogSummary, EntityAuditLogListQuery, EntityAuditTargetType, PermissionKey, SecurityEventListQuery, SecurityEventSummary, UserPayload } from '@poms/shared-contracts';
 import type { AuditSnapshot } from './audit-log.entity';
 import { RuntimeAuditRepository } from './runtime-audit.repository';
 import type { SecurityEventDetails } from './security-event.entity';
@@ -33,6 +34,18 @@ export type RecordSecurityEventInput = {
     userAgent?: string | null;
     details?: SecurityEventDetails | null;
     occurredAt?: Date;
+};
+
+const ENTITY_AUDIT_TARGET_READ_PERMISSIONS: Record<EntityAuditTargetType, readonly PermissionKey[]> = {
+    [EntityAuditTargetTypeValue.Lead]: ['lead:read'],
+    [EntityAuditTargetTypeValue.Customer]: ['customer:read'],
+    [EntityAuditTargetTypeValue.CustomerContact]: ['customer:read'],
+    [EntityAuditTargetTypeValue.OpportunityStakeholder]: ['lead:read', 'project:read'],
+    [EntityAuditTargetTypeValue.CompetitorIntelligence]: ['lead:read', 'project:read'],
+    [EntityAuditTargetTypeValue.SalesDiscoveryRecord]: ['lead:read', 'project:read'],
+    [EntityAuditTargetTypeValue.SalesFollowUpRecord]: ['customer:read', 'lead:read', 'project:read'],
+    [EntityAuditTargetTypeValue.Project]: ['project:read'],
+    [EntityAuditTargetTypeValue.Contract]: ['project:read']
 };
 
 @Injectable()
@@ -112,6 +125,27 @@ export class RuntimeAuditService {
         }));
     }
 
+    async listEntityAuditLogs(targetType: string, targetId: string, query: EntityAuditLogListQuery, user: UserPayload): Promise<AuditLogSummary[]> {
+        const normalizedTargetType = this.#requireEntityAuditTargetType(targetType);
+        const normalizedTargetId = targetId.trim();
+
+        if (!normalizedTargetId) {
+            throw new BadRequestException('targetId is required');
+        }
+
+        this.#assertCanReadEntityAudit(normalizedTargetType, user);
+
+        return this.listAuditLogs({
+            from: query.from,
+            to: query.to,
+            eventType: query.eventType,
+            targetType: normalizedTargetType,
+            targetId: normalizedTargetId,
+            result: query.result,
+            limit: query.limit
+        });
+    }
+
     async listSecurityEvents(query: SecurityEventListQuery): Promise<SecurityEventSummary[]> {
         const occurredAt = this.#createOccurredAtFilter(query.from, query.to);
         const entities = await this.runtimeAuditRepository.findSecurityEvents(
@@ -143,6 +177,24 @@ export class RuntimeAuditService {
             details: entity.details ?? null,
             occurredAt: entity.occurredAt.toISOString()
         }));
+    }
+
+    #requireEntityAuditTargetType(targetType: string): EntityAuditTargetType {
+        const parsed = EntityAuditTargetTypeSchema.safeParse(targetType);
+        if (!parsed.success) {
+            throw new BadRequestException(`Unsupported entity audit targetType: ${targetType}`);
+        }
+        return parsed.data;
+    }
+
+    #assertCanReadEntityAudit(targetType: EntityAuditTargetType, user: UserPayload): void {
+        const requiredPermissions = ENTITY_AUDIT_TARGET_READ_PERMISSIONS[targetType];
+        const userPermissions = new Set(user.permissions);
+        const hasPermission = requiredPermissions.some((permission) => userPermissions.has(permission));
+
+        if (!hasPermission) {
+            throw new ForbiddenException(`Missing permission to read ${targetType} audit logs`);
+        }
     }
 
     #createOccurredAtFilter(from?: string, to?: string): { $gte?: Date; $lte?: Date } | null {

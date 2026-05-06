@@ -1,4 +1,12 @@
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import type { PermissionKey, UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from './runtime-audit.service';
+
+const userWithPermissions = (permissions: PermissionKey[]): UserPayload => ({
+    sub: '00000000-0000-4000-8000-000000000011',
+    username: 'sales_rep',
+    permissions
+});
 
 describe('RuntimeAuditService', () => {
     let service: RuntimeAuditService;
@@ -116,6 +124,74 @@ describe('RuntimeAuditService', () => {
                 occurredAt: '2026-03-28T08:00:00.000Z'
             })
         ]);
+    });
+
+    it('lists audit logs for a supported entity target when the user has matching read permission', async () => {
+        repository.findAuditLogs.mockResolvedValue([
+            {
+                id: '0f6dceee-8176-4f12-b8ae-bca9231ca2db',
+                eventType: 'lead.updated',
+                targetType: 'lead',
+                targetId: '50000000-0000-4000-8000-000000000001',
+                operatorId: '00000000-0000-4000-8000-000000000011',
+                requestId: 'req-lead-audit',
+                result: 'success',
+                reason: null,
+                beforeSnapshot: { leadName: '旧线索' },
+                afterSnapshot: { leadName: '新线索' },
+                metadata: { changedFields: ['leadName'] },
+                occurredAt: new Date('2026-05-06T08:00:00.000Z')
+            }
+        ]);
+
+        const result = await service.listEntityAuditLogs(
+            'lead',
+            '50000000-0000-4000-8000-000000000001',
+            { eventType: 'lead.updated', limit: 10 },
+            userWithPermissions(['lead:read'])
+        );
+
+        expect(repository.findAuditLogs).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'lead.updated',
+                targetType: 'lead',
+                targetId: '50000000-0000-4000-8000-000000000001'
+            }),
+            10
+        );
+        expect(result).toEqual([
+            expect.objectContaining({
+                eventType: 'lead.updated',
+                metadata: { changedFields: ['leadName'] },
+                occurredAt: '2026-05-06T08:00:00.000Z'
+            })
+        ]);
+    });
+
+    it('rejects entity audit reads when the user lacks the target read permission', async () => {
+        await expect(
+            service.listEntityAuditLogs(
+                'lead',
+                '50000000-0000-4000-8000-000000000001',
+                {},
+                userWithPermissions(['customer:read'])
+            )
+        ).rejects.toThrow(ForbiddenException);
+
+        expect(repository.findAuditLogs).not.toHaveBeenCalled();
+    });
+
+    it('rejects unsupported entity audit target types', async () => {
+        await expect(
+            service.listEntityAuditLogs(
+                'PlatformUser',
+                '00000000-0000-4000-8000-000000000001',
+                {},
+                userWithPermissions(['platform:users:manage'])
+            )
+        ).rejects.toThrow(BadRequestException);
+
+        expect(repository.findAuditLogs).not.toHaveBeenCalled();
     });
 
     it('maps security event entities for read-side queries', async () => {

@@ -2,6 +2,7 @@ import {
     AuditLogListQuerySchema,
     AuditLogListSchema,
     AuditLogSummarySchema,
+    EntityAuditLogListQuerySchema,
     RecordRouteDeniedSecurityEventRequestSchema,
     SecurityEventListQuerySchema,
     SecurityEventListSchema,
@@ -14,6 +15,8 @@ export class AuditLogSummaryDto extends createZodDto(AuditLogSummarySchema) {}
 export class AuditLogListDto extends createZodDto(AuditLogListSchema) {}
 
 export class AuditLogListQueryDto extends createZodDto(AuditLogListQuerySchema) {}
+
+export class EntityAuditLogListQueryDto extends createZodDto(EntityAuditLogListQuerySchema) {}
 
 export class SecurityEventSummaryDto extends createZodDto(SecurityEventSummarySchema) {}
 

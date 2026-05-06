@@ -1,8 +1,9 @@
-import type { AuditLogListQuery, AuditLogSummary, SecurityEventListQuery, SecurityEventSummary, UserPayload } from '@poms/shared-contracts';
-import { AuditLogListDto, AuditLogListQueryDto, RecordRouteDeniedSecurityEventRequestDto, SecurityEventListDto, SecurityEventListQueryDto } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ENTITY_AUDIT_TARGET_TYPES, type AuditLogListQuery, type AuditLogSummary, type EntityAuditLogListQuery, type SecurityEventListQuery, type SecurityEventSummary, type UserPayload } from '@poms/shared-contracts';
+import { AuditLogListDto, AuditLogListQueryDto, EntityAuditLogListQueryDto, RecordRouteDeniedSecurityEventRequestDto, SecurityEventListDto, SecurityEventListQueryDto } from '@poms/api-contracts';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Authenticated } from '../auth/decorators/authenticated.decorator';
+import { HasAnyPermissions } from '../auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../auth/decorators/has-permissions.decorator';
 import { getRequestId, getRequestIp, getRequestUserAgent, type RuntimeAuditRequestLike } from './runtime-audit-request.utils';
 import { RuntimeAuditService } from './runtime-audit.service';
@@ -12,6 +13,29 @@ import { RuntimeAuditService } from './runtime-audit.service';
 @Controller()
 export class RuntimeAuditController {
     constructor(private readonly runtimeAuditService: RuntimeAuditService) {}
+
+    @Get('audit-logs/targets/:targetType/:targetId')
+    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
+    @ApiOperation({ summary: '查询单个业务对象的审计日志' })
+    @ApiParam({ name: 'targetType', enum: ENTITY_AUDIT_TARGET_TYPES })
+    @ApiParam({ name: 'targetId', type: String })
+    @ApiOkResponse({ type: AuditLogListDto })
+    async listEntityAuditLogs(
+        @Param('targetType') targetType: string,
+        @Param('targetId') targetId: string,
+        @Query() query: EntityAuditLogListQueryDto,
+        @Request() req: { user: UserPayload }
+    ): Promise<AuditLogSummary[]> {
+        const listQuery: EntityAuditLogListQuery = {
+            from: query.from,
+            to: query.to,
+            eventType: query.eventType,
+            result: query.result,
+            limit: query.limit
+        };
+
+        return this.runtimeAuditService.listEntityAuditLogs(targetType, targetId, listQuery, req.user);
+    }
 
     @Get('audit-logs')
     @HasPermissions('platform:users:manage')

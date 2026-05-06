@@ -873,6 +873,34 @@ export const AuditLogListQuerySchema = z
 
 export type AuditLogListQuery = z.infer<typeof AuditLogListQuerySchema>;
 
+export const EntityAuditTargetTypeValue = {
+    Lead: 'lead',
+    Customer: 'customer',
+    CustomerContact: 'customer-contact',
+    OpportunityStakeholder: 'opportunity-stakeholder',
+    CompetitorIntelligence: 'competitor-intelligence',
+    SalesDiscoveryRecord: 'sales-discovery-record',
+    SalesFollowUpRecord: 'sales-follow-up-record',
+    Project: 'project',
+    Contract: 'contract'
+} as const;
+
+export const ENTITY_AUDIT_TARGET_TYPES = enumObjectValues(EntityAuditTargetTypeValue);
+export type EntityAuditTargetType = (typeof ENTITY_AUDIT_TARGET_TYPES)[number];
+export const EntityAuditTargetTypeSchema = z.enum(ENTITY_AUDIT_TARGET_TYPES).meta({ id: 'EntityAuditTargetType' });
+
+export const EntityAuditLogListQuerySchema = z
+    .object({
+        from: z.iso.datetime().optional(),
+        to: z.iso.datetime().optional(),
+        eventType: z.string().min(1).max(128).optional(),
+        result: AuditLogResultSchema.optional(),
+        limit: z.coerce.number().int().min(1).max(100).optional()
+    })
+    .meta({ id: 'EntityAuditLogListQuery' });
+
+export type EntityAuditLogListQuery = z.infer<typeof EntityAuditLogListQuerySchema>;
+
 export const SecurityEventResultValue = {
     Blocked: 'blocked',
     Failed: 'failed',
