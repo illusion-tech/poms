@@ -18,6 +18,7 @@ export enum AssignRolePermissionsRequestPermissionKeysEnum {
     PlatformNavigationManage = 'platform:navigation:manage',
     PlatformOrgUnitsManage = 'platform:org-units:manage',
     PlatformDictionariesManage = 'platform:dictionaries:manage',
+    PlatformIdentityProvidersManage = 'platform:identity-providers:manage',
     CustomerRead = 'customer:read',
     CustomerWrite = 'customer:write',
     CommissionRuleVersionsManage = 'commission:rule-versions:manage',

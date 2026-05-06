@@ -17,6 +17,7 @@ import { ContractReadinessModule } from './features/contract-readiness/contract-
 import { ContractFinanceModule } from './features/contract-finance/contract-finance.module';
 import { CustomerModule } from './features/customer/customer.module';
 import { DictionaryModule } from './features/dictionary/dictionary.module';
+import { IdentityProviderModule } from './features/identity-provider/identity-provider.module';
 import { LeadModule } from './features/lead/lead.module';
 import { NavigationModule } from './features/navigation/navigation.module';
 import { PlatformModule } from './features/platform/platform.module';
@@ -36,6 +37,7 @@ import { SalesIntelligenceModule } from './features/sales-intelligence/sales-int
         PlatformModule,
         AttachmentModule,
         DictionaryModule,
+        IdentityProviderModule,
         CustomerModule,
         LeadModule,
         ProjectModule,

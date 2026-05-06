@@ -77,6 +77,7 @@ export const PERMISSION_KEYS = [
     'platform:navigation:manage',
     'platform:org-units:manage',
     'platform:dictionaries:manage',
+    'platform:identity-providers:manage',
     // 客户主数据
     'customer:read',
     'customer:write',
@@ -127,6 +128,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:navigation:manage': { description: '管理导航菜单', group: '平台管理' },
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
     'platform:dictionaries:manage': { description: '管理业务配置字典', group: '平台管理' },
+    'platform:identity-providers:manage': { description: '管理外部身份提供商配置', group: '平台管理' },
     'customer:read': { description: '查看客户主数据', group: '客户' },
     'customer:write': { description: '创建/维护客户主数据', group: '客户' },
     'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
@@ -470,6 +472,327 @@ export type PlatformPermissionSummary = z.infer<typeof PlatformPermissionSummary
 export const PlatformPermissionListSchema = z.array(PlatformPermissionSummarySchema).meta({ id: 'PlatformPermissionList' });
 
 export type PlatformPermissionList = z.infer<typeof PlatformPermissionListSchema>;
+
+// ---------------------------------------------------------------------------
+// External Identity Providers
+// ---------------------------------------------------------------------------
+
+export const IdentityProviderValue = {
+    Feishu: 'feishu'
+} as const;
+
+export const IDENTITY_PROVIDERS = enumObjectValues(IdentityProviderValue);
+export type IdentityProvider = (typeof IDENTITY_PROVIDERS)[number];
+export const IdentityProviderSchema = z.enum(IDENTITY_PROVIDERS).meta({ id: 'IdentityProvider' });
+
+export const IdentityProviderConfigStatusValue = {
+    Draft: 'draft',
+    Active: 'active',
+    Disabled: 'disabled',
+    Misconfigured: 'misconfigured'
+} as const;
+
+export const IDENTITY_PROVIDER_CONFIG_STATUSES = enumObjectValues(IdentityProviderConfigStatusValue);
+export type IdentityProviderConfigStatus = (typeof IDENTITY_PROVIDER_CONFIG_STATUSES)[number];
+export const IdentityProviderConfigStatusSchema = z.enum(IDENTITY_PROVIDER_CONFIG_STATUSES).meta({ id: 'IdentityProviderConfigStatus' });
+
+export const IdentityProviderSearchGrantModeValue = {
+    PerAdmin: 'per-admin',
+    ServiceAccount: 'service-account'
+} as const;
+
+export const IDENTITY_PROVIDER_SEARCH_GRANT_MODES = enumObjectValues(IdentityProviderSearchGrantModeValue);
+export type IdentityProviderSearchGrantMode = (typeof IDENTITY_PROVIDER_SEARCH_GRANT_MODES)[number];
+export const IdentityProviderSearchGrantModeSchema = z.enum(IDENTITY_PROVIDER_SEARCH_GRANT_MODES).meta({ id: 'IdentityProviderSearchGrantMode' });
+
+export const IdentityProviderConnectionTestStatusValue = {
+    Success: 'success',
+    Failed: 'failed'
+} as const;
+
+export const IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES = enumObjectValues(IdentityProviderConnectionTestStatusValue);
+export type IdentityProviderConnectionTestStatus = (typeof IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES)[number];
+export const IdentityProviderConnectionTestStatusSchema = z.enum(IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES).meta({ id: 'IdentityProviderConnectionTestStatus' });
+
+export const IdentityProviderScopeListSchema = z.array(z.string().trim().min(1).max(128)).max(32);
+export const IdentityProviderTenantAllowlistSchema = z.array(z.string().trim().min(1).max(128)).max(32);
+
+export const IdentityProviderConfigSummarySchema = z
+    .object({
+        id: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        displayName: z.string(),
+        status: IdentityProviderConfigStatusSchema,
+        enabled: z.boolean(),
+        loginEnabled: z.boolean(),
+        bindingEnabled: z.boolean(),
+        searchEnabled: z.boolean(),
+        clientId: z.string(),
+        secretConfigured: z.boolean(),
+        redirectUri: z.string().url().nullable(),
+        loginScopes: IdentityProviderScopeListSchema,
+        searchScopes: IdentityProviderScopeListSchema,
+        tenantAllowlist: IdentityProviderTenantAllowlistSchema,
+        searchGrantMode: IdentityProviderSearchGrantModeSchema,
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'IdentityProviderConfigSummary' });
+
+export type IdentityProviderConfigSummary = z.infer<typeof IdentityProviderConfigSummarySchema>;
+
+export const IdentityProviderConfigDetailSchema = IdentityProviderConfigSummarySchema.meta({ id: 'IdentityProviderConfigDetail' });
+
+export type IdentityProviderConfigDetail = z.infer<typeof IdentityProviderConfigDetailSchema>;
+
+export const IdentityProviderConfigListSchema = z.array(IdentityProviderConfigSummarySchema).meta({ id: 'IdentityProviderConfigList' });
+
+export type IdentityProviderConfigList = z.infer<typeof IdentityProviderConfigListSchema>;
+
+export const IdentityProviderConfigListQuerySchema = z
+    .object({
+        provider: IdentityProviderSchema.optional(),
+        status: IdentityProviderConfigStatusSchema.optional()
+    })
+    .meta({ id: 'IdentityProviderConfigListQuery' });
+
+export type IdentityProviderConfigListQuery = z.infer<typeof IdentityProviderConfigListQuerySchema>;
+
+export const CreateIdentityProviderConfigRequestSchema = z
+    .object({
+        provider: IdentityProviderSchema,
+        tenantId: z.string().trim().min(1).max(128).nullable().optional(),
+        displayName: z.string().trim().min(1).max(128),
+        enabled: z.boolean().optional(),
+        loginEnabled: z.boolean().optional(),
+        bindingEnabled: z.boolean().optional(),
+        searchEnabled: z.boolean().optional(),
+        clientId: z.string().trim().min(1).max(255),
+        clientSecret: z.string().trim().min(1).max(2048).optional(),
+        redirectUri: z.string().trim().url().nullable().optional(),
+        loginScopes: IdentityProviderScopeListSchema.optional(),
+        searchScopes: IdentityProviderScopeListSchema.optional(),
+        tenantAllowlist: IdentityProviderTenantAllowlistSchema.optional(),
+        searchGrantMode: IdentityProviderSearchGrantModeSchema.optional()
+    })
+    .meta({ id: 'CreateIdentityProviderConfigRequest' });
+
+export type CreateIdentityProviderConfigRequest = z.infer<typeof CreateIdentityProviderConfigRequestSchema>;
+
+export const UpdateIdentityProviderConfigRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(128).optional(),
+        enabled: z.boolean().optional(),
+        loginEnabled: z.boolean().optional(),
+        bindingEnabled: z.boolean().optional(),
+        searchEnabled: z.boolean().optional(),
+        clientId: z.string().trim().min(1).max(255).optional(),
+        clientSecret: z.string().trim().min(1).max(2048).optional(),
+        redirectUri: z.string().trim().url().nullable().optional(),
+        loginScopes: IdentityProviderScopeListSchema.optional(),
+        searchScopes: IdentityProviderScopeListSchema.optional(),
+        tenantAllowlist: IdentityProviderTenantAllowlistSchema.optional(),
+        searchGrantMode: IdentityProviderSearchGrantModeSchema.optional(),
+        status: IdentityProviderConfigStatusSchema.optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.displayName !== undefined ||
+            value.enabled !== undefined ||
+            value.loginEnabled !== undefined ||
+            value.bindingEnabled !== undefined ||
+            value.searchEnabled !== undefined ||
+            value.clientId !== undefined ||
+            value.clientSecret !== undefined ||
+            value.redirectUri !== undefined ||
+            value.loginScopes !== undefined ||
+            value.searchScopes !== undefined ||
+            value.tenantAllowlist !== undefined ||
+            value.searchGrantMode !== undefined ||
+            value.status !== undefined,
+        { message: 'At least one updatable field is required' }
+    )
+    .meta({ id: 'UpdateIdentityProviderConfigRequest' });
+
+export type UpdateIdentityProviderConfigRequest = z.infer<typeof UpdateIdentityProviderConfigRequestSchema>;
+
+export const TestIdentityProviderConnectionRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'TestIdentityProviderConnectionRequest' });
+
+export type TestIdentityProviderConnectionRequest = z.infer<typeof TestIdentityProviderConnectionRequestSchema>;
+
+export const IdentityProviderConnectionTestResultSchema = z
+    .object({
+        status: IdentityProviderConnectionTestStatusSchema,
+        message: z.string(),
+        checkedAt: z.iso.datetime()
+    })
+    .meta({ id: 'IdentityProviderConnectionTestResult' });
+
+export type IdentityProviderConnectionTestResult = z.infer<typeof IdentityProviderConnectionTestResultSchema>;
+
+export const IdentityProviderOAuthGrantStatusValue = {
+    Missing: 'missing',
+    Active: 'active',
+    Expired: 'expired',
+    Revoked: 'revoked'
+} as const;
+
+export const IDENTITY_PROVIDER_OAUTH_GRANT_STATUSES = enumObjectValues(IdentityProviderOAuthGrantStatusValue);
+export type IdentityProviderOAuthGrantStatus = (typeof IDENTITY_PROVIDER_OAUTH_GRANT_STATUSES)[number];
+export const IdentityProviderOAuthGrantStatusSchema = z.enum(IDENTITY_PROVIDER_OAUTH_GRANT_STATUSES).meta({ id: 'IdentityProviderOAuthGrantStatus' });
+
+export const IdentityProviderOAuthGrantSummarySchema = z
+    .object({
+        id: z.uuid().nullable(),
+        identityProviderConfigId: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        pomsUserId: z.uuid(),
+        status: IdentityProviderOAuthGrantStatusSchema,
+        scopes: IdentityProviderScopeListSchema,
+        grantedAt: z.iso.datetime().nullable(),
+        expiresAt: z.iso.datetime().nullable(),
+        refreshExpiresAt: z.iso.datetime().nullable(),
+        lastUsedAt: z.iso.datetime().nullable(),
+        lastError: z.string().nullable(),
+        rowVersion: z.number().int().nullable(),
+        updatedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'IdentityProviderOAuthGrantSummary' });
+
+export type IdentityProviderOAuthGrantSummary = z.infer<typeof IdentityProviderOAuthGrantSummarySchema>;
+
+export const IdentityProviderOAuthAuthorizeResultSchema = z
+    .object({
+        authorizeUrl: z.string().url(),
+        stateExpiresAt: z.iso.datetime()
+    })
+    .meta({ id: 'IdentityProviderOAuthAuthorizeResult' });
+
+export type IdentityProviderOAuthAuthorizeResult = z.infer<typeof IdentityProviderOAuthAuthorizeResultSchema>;
+
+export const IdentityProviderOAuthCallbackQuerySchema = z
+    .object({
+        code: z.string().trim().min(1).max(2048).optional(),
+        state: z.string().trim().min(1).max(4096),
+        error: z.string().trim().min(1).max(255).optional(),
+        error_description: z.string().trim().min(1).max(2048).optional()
+    })
+    .meta({ id: 'IdentityProviderOAuthCallbackQuery' });
+
+export type IdentityProviderOAuthCallbackQuery = z.infer<typeof IdentityProviderOAuthCallbackQuerySchema>;
+
+export const ExternalUserSearchQuerySchema = z
+    .object({
+        q: z.string().trim().min(1).max(128),
+        limit: z.coerce.number().int().min(1).max(50).optional()
+    })
+    .meta({ id: 'ExternalUserSearchQuery' });
+
+export type ExternalUserSearchQuery = z.infer<typeof ExternalUserSearchQuerySchema>;
+
+export const ExternalUserCandidateSchema = z
+    .object({
+        identityProviderConfigId: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        subjectId: z.string(),
+        unionId: z.string().nullable(),
+        displayName: z.string(),
+        avatarUrl: z.string().url().nullable(),
+        email: z.email().nullable(),
+        mobile: z.string().nullable(),
+        departmentNames: z.array(z.string()).max(16)
+    })
+    .meta({ id: 'ExternalUserCandidate' });
+
+export type ExternalUserCandidate = z.infer<typeof ExternalUserCandidateSchema>;
+
+export const ExternalUserSearchResultSchema = z
+    .object({
+        identityProviderConfigId: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        query: z.string(),
+        items: z.array(ExternalUserCandidateSchema),
+        searchedAt: z.iso.datetime()
+    })
+    .meta({ id: 'ExternalUserSearchResult' });
+
+export type ExternalUserSearchResult = z.infer<typeof ExternalUserSearchResultSchema>;
+
+export const ExternalIdentityBindingStatusValue = {
+    Active: 'active',
+    Revoked: 'revoked'
+} as const;
+
+export const EXTERNAL_IDENTITY_BINDING_STATUSES = enumObjectValues(ExternalIdentityBindingStatusValue);
+export type ExternalIdentityBindingStatus = (typeof EXTERNAL_IDENTITY_BINDING_STATUSES)[number];
+export const ExternalIdentityBindingStatusSchema = z.enum(EXTERNAL_IDENTITY_BINDING_STATUSES).meta({ id: 'ExternalIdentityBindingStatus' });
+
+export const ExternalIdentityBindingSummarySchema = z
+    .object({
+        id: z.uuid(),
+        identityProviderConfigId: z.uuid(),
+        provider: IdentityProviderSchema,
+        tenantId: z.string().nullable(),
+        pomsUserId: z.uuid(),
+        subjectId: z.string(),
+        unionId: z.string().nullable(),
+        subjectDisplayName: z.string().nullable(),
+        avatarUrl: z.string().url().nullable(),
+        email: z.email().nullable(),
+        mobile: z.string().nullable(),
+        status: ExternalIdentityBindingStatusSchema,
+        boundAt: z.iso.datetime(),
+        boundBy: z.uuid().nullable(),
+        revokedAt: z.iso.datetime().nullable(),
+        revokedBy: z.uuid().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'ExternalIdentityBindingSummary' });
+
+export type ExternalIdentityBindingSummary = z.infer<typeof ExternalIdentityBindingSummarySchema>;
+
+export const ExternalIdentityBindingListSchema = z.array(ExternalIdentityBindingSummarySchema).meta({ id: 'ExternalIdentityBindingList' });
+
+export type ExternalIdentityBindingList = z.infer<typeof ExternalIdentityBindingListSchema>;
+
+export const BindUserExternalIdentityRequestSchema = z
+    .object({
+        identityProviderConfigId: z.uuid(),
+        tenantId: z.string().trim().min(1).max(128).nullable().optional(),
+        subjectId: z.string().trim().min(1).max(255),
+        unionId: z.string().trim().min(1).max(255).nullable().optional(),
+        subjectDisplayName: z.string().trim().min(1).max(255).nullable().optional(),
+        avatarUrl: z.string().trim().url().nullable().optional(),
+        email: z.string().trim().email().nullable().optional(),
+        mobile: z.string().trim().min(1).max(64).nullable().optional()
+    })
+    .meta({ id: 'BindUserExternalIdentityRequest' });
+
+export type BindUserExternalIdentityRequest = z.infer<typeof BindUserExternalIdentityRequestSchema>;
+
+export const UnbindExternalIdentityRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'UnbindExternalIdentityRequest' });
+
+export type UnbindExternalIdentityRequest = z.infer<typeof UnbindExternalIdentityRequestSchema>;
 
 export const PlatformRoleSummarySchema = z
     .object({
@@ -2424,16 +2747,9 @@ export const UpdateSalesDiscoveryRecordRequestSchema = z
         nextContactPlan: z.string().trim().min(1).max(1000).nullable().optional(),
         remark: z.string().trim().min(1).max(2000).nullable().optional()
     })
-    .refine(
-        (value) =>
-            value.procurementProcess !== undefined ||
-            value.budgetSource !== undefined ||
-            value.customerPainPoints !== undefined ||
-            value.decisionCycle !== undefined ||
-            value.nextContactPlan !== undefined ||
-            value.remark !== undefined,
-        { message: 'At least one field is required for update' }
-    )
+    .refine((value) => value.procurementProcess !== undefined || value.budgetSource !== undefined || value.customerPainPoints !== undefined || value.decisionCycle !== undefined || value.nextContactPlan !== undefined || value.remark !== undefined, {
+        message: 'At least one field is required for update'
+    })
     .meta({ id: 'UpdateSalesDiscoveryRecordRequest' });
 
 export type UpdateSalesDiscoveryRecordRequest = z.infer<typeof UpdateSalesDiscoveryRecordRequestSchema>;
@@ -2905,9 +3221,7 @@ export const PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES = ['included', 
 
 export type ProjectHandoverAttachmentChecklistItemStatus = (typeof PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES)[number];
 
-export const ProjectHandoverAttachmentChecklistItemStatusSchema = z
-    .enum(PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES)
-    .meta({ id: 'ProjectHandoverAttachmentChecklistItemStatus' });
+export const ProjectHandoverAttachmentChecklistItemStatusSchema = z.enum(PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES).meta({ id: 'ProjectHandoverAttachmentChecklistItemStatus' });
 
 export const ProjectHandoverAttachmentChecklistItemStatusValue = {
     Included: 'included',
@@ -4616,9 +4930,7 @@ export const CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES = enumDefinitionValu
 
 export type ContractHandoverBaselineValidationStatus = (typeof CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)[number];
 
-export const ContractHandoverBaselineValidationStatusSchema = z
-    .enum(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES)
-    .meta({ id: 'ContractHandoverBaselineValidationStatus' });
+export const ContractHandoverBaselineValidationStatusSchema = z.enum(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES).meta({ id: 'ContractHandoverBaselineValidationStatus' });
 
 export const ContractHandoverBaselineValidationStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUS_DEFINITIONS);
 
@@ -4654,9 +4966,7 @@ export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES = enumDefinitionVal
 
 export type ContractHandoverCurrentBaselineSourceType = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)[number];
 
-export const ContractHandoverCurrentBaselineSourceTypeSchema = z
-    .enum(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)
-    .meta({ id: 'ContractHandoverCurrentBaselineSourceType' });
+export const ContractHandoverCurrentBaselineSourceTypeSchema = z.enum(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES).meta({ id: 'ContractHandoverCurrentBaselineSourceType' });
 
 export const ContractHandoverCurrentBaselineSourceTypeLabel = enumDefinitionLabels(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
 
@@ -4693,9 +5003,7 @@ export const CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES = enumDefinitionValu
 
 export type ContractHandoverRebaselineBlockingStatus = (typeof CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)[number];
 
-export const ContractHandoverRebaselineBlockingStatusSchema = z
-    .enum(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES)
-    .meta({ id: 'ContractHandoverRebaselineBlockingStatus' });
+export const ContractHandoverRebaselineBlockingStatusSchema = z.enum(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES).meta({ id: 'ContractHandoverRebaselineBlockingStatus' });
 
 export const ContractHandoverRebaselineBlockingStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUS_DEFINITIONS);
 
@@ -4713,9 +5021,7 @@ export const CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES = enumDefinitionVal
 
 export type ContractHandoverReceivablePlanInitStatus = (typeof CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)[number];
 
-export const ContractHandoverReceivablePlanInitStatusSchema = z
-    .enum(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES)
-    .meta({ id: 'ContractHandoverReceivablePlanInitStatus' });
+export const ContractHandoverReceivablePlanInitStatusSchema = z.enum(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES).meta({ id: 'ContractHandoverReceivablePlanInitStatus' });
 
 export const ContractHandoverReceivablePlanInitStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUS_DEFINITIONS);
 
@@ -4829,9 +5135,7 @@ export const PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES = enumDefinition
 
 export type ProjectHandoverParticipantConfirmationStatus = (typeof PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)[number];
 
-export const ProjectHandoverParticipantConfirmationStatusSchema = z
-    .enum(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES)
-    .meta({ id: 'ProjectHandoverParticipantConfirmationStatus' });
+export const ProjectHandoverParticipantConfirmationStatusSchema = z.enum(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES).meta({ id: 'ProjectHandoverParticipantConfirmationStatus' });
 
 export const ProjectHandoverParticipantConfirmationStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUS_DEFINITIONS);
 
@@ -4848,9 +5152,7 @@ export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = enumDefinitionV
 
 export type ProjectHandoverReceiptJudgmentFreezeStatus = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)[number];
 
-export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z
-    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)
-    .meta({ id: 'ProjectHandoverReceiptJudgmentFreezeStatus' });
+export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z.enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES).meta({ id: 'ProjectHandoverReceiptJudgmentFreezeStatus' });
 
 export const ProjectHandoverReceiptJudgmentFreezeStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
 
@@ -4868,9 +5170,7 @@ export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES = enumDefinitionValu
 
 export type ProjectHandoverReceiptJudgmentSourceType = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)[number];
 
-export const ProjectHandoverReceiptJudgmentSourceTypeSchema = z
-    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)
-    .meta({ id: 'ProjectHandoverReceiptJudgmentSourceType' });
+export const ProjectHandoverReceiptJudgmentSourceTypeSchema = z.enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES).meta({ id: 'ProjectHandoverReceiptJudgmentSourceType' });
 
 export const ProjectHandoverReceiptJudgmentSourceTypeLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
 
@@ -6007,11 +6307,7 @@ export const CommissionPayoutStageValue = {
     Retention: 'retention'
 } as const satisfies Record<string, CommissionPayoutStage>;
 
-export const NON_RETENTION_COMMISSION_PAYOUT_STAGES = [
-    CommissionPayoutStageValue.First,
-    CommissionPayoutStageValue.Second,
-    CommissionPayoutStageValue.Final
-] as const;
+export const NON_RETENTION_COMMISSION_PAYOUT_STAGES = [CommissionPayoutStageValue.First, CommissionPayoutStageValue.Second, CommissionPayoutStageValue.Final] as const;
 
 export type NonRetentionCommissionPayoutStage = (typeof NON_RETENTION_COMMISSION_PAYOUT_STAGES)[number];
 

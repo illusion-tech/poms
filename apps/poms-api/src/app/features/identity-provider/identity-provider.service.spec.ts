@@ -1,0 +1,593 @@
+import { createCipheriv, createHash, randomBytes } from 'node:crypto';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { ExternalIdentityBindingStatusValue, IdentityProviderConfigStatusValue, IdentityProviderOAuthGrantStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { ExternalIdentity } from './external-identity.entity';
+import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
+import { IdentityProviderConfig } from './identity-provider-config.entity';
+import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
+import { IdentityProviderRepository } from './identity-provider.repository';
+import { IdentityProviderService } from './identity-provider.service';
+
+describe('IdentityProviderService', () => {
+    const operatorId = '00000000-0000-4000-8000-000000000001';
+    const providerConfigId = '91000000-0000-4000-8000-000000000001';
+    const externalIdentityId = '92000000-0000-4000-8000-000000000001';
+    const oauthGrantId = '93000000-0000-4000-8000-000000000001';
+    const pomsUserId = '00000000-0000-4000-8000-000000000002';
+    let repository: {
+        findConfigs: jest.Mock;
+        findConfigById: jest.Mock;
+        findConfigByProviderTenant: jest.Mock;
+        findPlatformUserById: jest.Mock;
+        findExternalIdentitiesByUserId: jest.Mock;
+        findExternalIdentityById: jest.Mock;
+        findActiveExternalIdentityBySubject: jest.Mock;
+        findActiveExternalIdentityByUserProvider: jest.Mock;
+        findOAuthGrantByUserProvider: jest.Mock;
+        createConfig: jest.Mock;
+        createExternalIdentity: jest.Mock;
+        createOAuthGrant: jest.Mock;
+        saveAll: jest.Mock;
+    };
+    let runtimeAuditService: {
+        recordAuditLog: jest.Mock;
+    };
+    let adapterRegistry: {
+        get: jest.Mock;
+    };
+    let adapter: {
+        buildAdminGrantAuthorizeUrl: jest.Mock;
+        exchangeAdminGrantCode: jest.Mock;
+        searchExternalUsers: jest.Mock;
+    };
+    let service: IdentityProviderService;
+
+    beforeEach(() => {
+        repository = {
+            findConfigs: jest.fn(),
+            findConfigById: jest.fn(),
+            findConfigByProviderTenant: jest.fn(),
+            findPlatformUserById: jest.fn(),
+            findExternalIdentitiesByUserId: jest.fn(),
+            findExternalIdentityById: jest.fn(),
+            findActiveExternalIdentityBySubject: jest.fn(),
+            findActiveExternalIdentityByUserProvider: jest.fn(),
+            findOAuthGrantByUserProvider: jest.fn(),
+            createConfig: jest.fn((input) => createConfig(input)),
+            createExternalIdentity: jest.fn((input) => createExternalIdentity(input)),
+            createOAuthGrant: jest.fn((input) => createOAuthGrant(input)),
+            saveAll: jest.fn().mockResolvedValue(undefined)
+        };
+        runtimeAuditService = {
+            recordAuditLog: jest.fn().mockResolvedValue(undefined)
+        };
+        adapter = {
+            buildAdminGrantAuthorizeUrl: jest.fn().mockReturnValue('https://accounts.feishu.cn/open-apis/authen/v1/authorize?state=test'),
+            exchangeAdminGrantCode: jest.fn().mockResolvedValue({
+                accessToken: 'user-access-token',
+                refreshToken: 'refresh-token',
+                expiresInSeconds: 7200,
+                refreshExpiresInSeconds: 30 * 24 * 60 * 60,
+                scopes: ['contact:user:search']
+            }),
+            searchExternalUsers: jest.fn().mockResolvedValue([
+                {
+                    subjectId: 'ou_feishu_user_1',
+                    unionId: 'on_union_1',
+                    displayName: '张三',
+                    avatarUrl: null,
+                    email: 'zhangsan@example.com',
+                    mobile: null,
+                    departmentNames: ['销售部']
+                }
+            ])
+        };
+        adapterRegistry = {
+            get: jest.fn().mockReturnValue(adapter)
+        };
+        service = new IdentityProviderService(repository as never as IdentityProviderRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as IdentityProviderAdapterRegistry);
+    });
+
+    it('creates an enabled Feishu config with encrypted write-only secret and audit redaction', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+
+        const result = await service.createIdentityProviderConfig(
+            {
+                provider: IdentityProviderValue.Feishu,
+                tenantId: 'tenant-a',
+                displayName: '飞书',
+                enabled: true,
+                loginEnabled: true,
+                bindingEnabled: true,
+                searchEnabled: true,
+                clientId: 'cli_a',
+                clientSecret: 'raw-secret',
+                redirectUri: 'https://poms.example.com/auth/identity-providers/callback',
+                loginScopes: ['openid', 'profile'],
+                searchScopes: ['contact:user:search']
+            },
+            operatorId
+        );
+
+        const saved = repository.saveAll.mock.calls[0][0][0] as IdentityProviderConfig;
+        expect(saved.encryptedClientSecret).toMatch(/^v1:/);
+        expect(saved.encryptedClientSecret).not.toContain('raw-secret');
+        expect(result).toMatchObject({
+            provider: IdentityProviderValue.Feishu,
+            tenantId: 'tenant-a',
+            status: IdentityProviderConfigStatusValue.Active,
+            enabled: true,
+            secretConfigured: true
+        });
+        expect(result).not.toHaveProperty('encryptedClientSecret');
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'identity-provider.config.created',
+                targetType: 'IdentityProviderConfig',
+                operatorId,
+                beforeSnapshot: null,
+                metadata: { secretRedacted: true }
+            })
+        );
+        expect(runtimeAuditService.recordAuditLog.mock.calls[0][0].afterSnapshot).not.toHaveProperty('encryptedClientSecret');
+        expect(runtimeAuditService.recordAuditLog.mock.calls[0][0].afterSnapshot).not.toHaveProperty('clientSecret');
+    });
+
+    it('rejects duplicate provider tenant configs', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(createConfig());
+
+        await expect(
+            service.createIdentityProviderConfig({
+                provider: IdentityProviderValue.Feishu,
+                tenantId: null,
+                displayName: '飞书',
+                clientId: 'cli_a'
+            })
+        ).rejects.toThrow(ConflictException);
+    });
+
+    it('keeps first version on per-admin provider search grants only', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+
+        await expect(
+            service.createIdentityProviderConfig({
+                provider: IdentityProviderValue.Feishu,
+                displayName: '飞书',
+                clientId: 'cli_a',
+                searchGrantMode: IdentityProviderSearchGrantModeValue.ServiceAccount
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects enabling login without a redirect URI', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+
+        await expect(
+            service.createIdentityProviderConfig({
+                provider: IdentityProviderValue.Feishu,
+                displayName: '飞书',
+                enabled: true,
+                loginEnabled: true,
+                clientId: 'cli_a',
+                clientSecret: 'raw-secret'
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('updates config with optimistic lock and redacted audit snapshots', async () => {
+        const existing = createConfig({
+            displayName: '旧飞书',
+            rowVersion: 3,
+            encryptedClientSecret: 'v1:old-secret'
+        });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        const result = await service.updateIdentityProviderConfig(
+            providerConfigId,
+            {
+                displayName: '飞书正式环境',
+                clientSecret: 'new-secret',
+                expectedVersion: 3
+            },
+            operatorId
+        );
+
+        expect(existing.displayName).toBe('飞书正式环境');
+        expect(existing.encryptedClientSecret).toMatch(/^v1:/);
+        expect(existing.encryptedClientSecret).not.toContain('new-secret');
+        expect(result.displayName).toBe('飞书正式环境');
+        expect(result.secretConfigured).toBe(true);
+        expect(repository.saveAll).toHaveBeenCalledWith([existing]);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'identity-provider.config.updated',
+                beforeSnapshot: expect.objectContaining({ displayName: '旧飞书', secretConfigured: true }),
+                afterSnapshot: expect.objectContaining({ displayName: '飞书正式环境', secretConfigured: true }),
+                metadata: { secretRedacted: true }
+            })
+        );
+    });
+
+    it('rejects update version conflicts before mutating the entity', async () => {
+        const existing = createConfig({ rowVersion: 2, displayName: '旧飞书' });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        await expect(service.updateIdentityProviderConfig(providerConfigId, { displayName: '新飞书', expectedVersion: 3 }, operatorId)).rejects.toThrow(ConflictException);
+
+        expect(existing.displayName).toBe('旧飞书');
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('returns not found for missing configs', async () => {
+        repository.findConfigById.mockResolvedValue(null);
+
+        await expect(service.getIdentityProviderConfig(providerConfigId)).rejects.toThrow(NotFoundException);
+    });
+
+    it('tests local connection state without provider network calls in this slice', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: 'v1:secret'
+            })
+        );
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, { expectedVersion: 1 });
+
+        expect(result.status).toBe('success');
+        expect(result.message).toContain('Local configuration is complete');
+    });
+
+    it('fails connection test when config is disabled', async () => {
+        repository.findConfigById.mockResolvedValue(createConfig({ enabled: false, status: IdentityProviderConfigStatusValue.Disabled }));
+
+        const result = await service.testIdentityProviderConnection(providerConfigId);
+
+        expect(result).toMatchObject({
+            status: 'failed',
+            message: 'Identity provider is disabled.'
+        });
+    });
+
+    it('returns missing current-admin provider grant status before authorization', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+
+        const result = await service.getCurrentAdminProviderGrant(providerConfigId, operatorId);
+
+        expect(result).toMatchObject({
+            id: null,
+            identityProviderConfigId: providerConfigId,
+            pomsUserId: operatorId,
+            status: IdentityProviderOAuthGrantStatusValue.Missing
+        });
+    });
+
+    it('builds a provider authorization URL for current-admin search grant', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+
+        const result = await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+
+        expect(adapterRegistry.get).toHaveBeenCalledWith(IdentityProviderValue.Feishu);
+        expect(adapter.buildAdminGrantAuthorizeUrl).toHaveBeenCalledWith(
+            expect.objectContaining({
+                config: expect.objectContaining({ id: providerConfigId }),
+                scopes: ['contact:user:search'],
+                state: expect.any(String)
+            })
+        );
+        expect(result).toMatchObject({
+            authorizeUrl: 'https://accounts.feishu.cn/open-apis/authen/v1/authorize?state=test',
+            stateExpiresAt: expect.any(String)
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.oauth-grant.authorize-started' }));
+    });
+
+    it('exchanges provider callback code and stores encrypted current-admin grant tokens', async () => {
+        const config = createSearchEnabledConfig();
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+
+        await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+        const state = adapter.buildAdminGrantAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const result = await service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state });
+
+        expect(adapter.exchangeAdminGrantCode).toHaveBeenCalledWith(
+            expect.objectContaining({
+                config,
+                clientSecret: 'client-secret',
+                code: 'auth-code'
+            })
+        );
+        const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as IdentityProviderOAuthGrant;
+        expect(saved.encryptedAccessToken).toMatch(/^v1:/);
+        expect(saved.encryptedAccessToken).not.toContain('user-access-token');
+        expect(saved.encryptedRefreshToken).toMatch(/^v1:/);
+        expect(result).toMatchObject({
+            identityProviderConfigId: providerConfigId,
+            pomsUserId: operatorId,
+            status: IdentityProviderOAuthGrantStatusValue.Active,
+            scopes: ['contact:user:search']
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.oauth-grant.updated' }));
+    });
+
+    it('searches external users through the current admin provider grant', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(createOAuthGrant({ encryptedAccessToken: encryptedSecret('user-access-token') }));
+
+        const result = await service.searchExternalUsers(providerConfigId, { q: '张', limit: 10 }, operatorId);
+
+        expect(adapter.searchExternalUsers).toHaveBeenCalledWith(
+            expect.objectContaining({
+                accessToken: 'user-access-token',
+                query: '张',
+                limit: 10
+            })
+        );
+        expect(result.items).toEqual([
+            expect.objectContaining({
+                identityProviderConfigId: providerConfigId,
+                subjectId: 'ou_feishu_user_1',
+                displayName: '张三'
+            })
+        ]);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.external-users.searched' }));
+    });
+
+    it('rejects external user search when the current admin grant is expired', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(createOAuthGrant({ expiresAt: new Date('2026-05-06T00:00:00.000Z') }));
+
+        await expect(service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId)).rejects.toThrow(BadRequestException);
+
+        expect(adapter.searchExternalUsers).not.toHaveBeenCalled();
+    });
+
+    it('lists external identity bindings for an existing platform user', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: pomsUserId });
+        repository.findExternalIdentitiesByUserId.mockResolvedValue([createExternalIdentity()]);
+
+        const result = await service.listUserExternalIdentities(pomsUserId);
+
+        expect(repository.findPlatformUserById).toHaveBeenCalledWith(pomsUserId);
+        expect(repository.findExternalIdentitiesByUserId).toHaveBeenCalledWith(pomsUserId);
+        expect(result).toEqual([
+            expect.objectContaining({
+                id: externalIdentityId,
+                pomsUserId,
+                subjectId: 'ou_feishu_user_1',
+                status: ExternalIdentityBindingStatusValue.Active
+            })
+        ]);
+    });
+
+    it('binds an external subject to an existing POMS user with conflict checks and audit', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: pomsUserId });
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                bindingEnabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                tenantId: 'tenant-a',
+                encryptedClientSecret: 'v1:secret'
+            })
+        );
+        repository.findActiveExternalIdentityBySubject.mockResolvedValue(null);
+        repository.findActiveExternalIdentityByUserProvider.mockResolvedValue(null);
+
+        const result = await service.bindUserExternalIdentity(
+            pomsUserId,
+            {
+                identityProviderConfigId: providerConfigId,
+                subjectId: 'ou_feishu_user_1',
+                unionId: 'on_union_1',
+                subjectDisplayName: '张三',
+                email: 'zhangsan@example.com'
+            },
+            operatorId
+        );
+
+        expect(repository.findActiveExternalIdentityBySubject).toHaveBeenCalledWith(providerConfigId, 'tenant-a', 'ou_feishu_user_1');
+        expect(repository.findActiveExternalIdentityByUserProvider).toHaveBeenCalledWith(pomsUserId, providerConfigId);
+        expect(repository.saveAll.mock.calls[0][0][0]).toMatchObject({
+            pomsUserId,
+            subjectId: 'ou_feishu_user_1',
+            unionId: 'on_union_1',
+            subjectDisplayName: '张三',
+            status: ExternalIdentityBindingStatusValue.Active
+        });
+        expect(result).toMatchObject({
+            pomsUserId,
+            subjectId: 'ou_feishu_user_1',
+            tenantId: 'tenant-a',
+            status: ExternalIdentityBindingStatusValue.Active
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'external-identity.bound',
+                targetType: 'ExternalIdentity',
+                operatorId,
+                beforeSnapshot: null
+            })
+        );
+    });
+
+    it('rejects binding when provider config is not binding-enabled', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: pomsUserId });
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                bindingEnabled: false,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: 'v1:secret'
+            })
+        );
+
+        await expect(
+            service.bindUserExternalIdentity(pomsUserId, {
+                identityProviderConfigId: providerConfigId,
+                subjectId: 'ou_feishu_user_1'
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects binding when external subject is already active', async () => {
+        repository.findPlatformUserById.mockResolvedValue({ id: pomsUserId });
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                bindingEnabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: 'v1:secret'
+            })
+        );
+        repository.findActiveExternalIdentityBySubject.mockResolvedValue(createExternalIdentity());
+
+        await expect(
+            service.bindUserExternalIdentity(pomsUserId, {
+                identityProviderConfigId: providerConfigId,
+                subjectId: 'ou_feishu_user_1'
+            })
+        ).rejects.toThrow(ConflictException);
+    });
+
+    it('unbinds an active external identity with optimistic lock and audit', async () => {
+        const binding = createExternalIdentity({ rowVersion: 2 });
+        repository.findExternalIdentityById.mockResolvedValue(binding);
+
+        const result = await service.unbindExternalIdentity(externalIdentityId, { expectedVersion: 2 }, operatorId);
+
+        expect(binding.status).toBe(ExternalIdentityBindingStatusValue.Revoked);
+        expect(binding.revokedBy).toBe(operatorId);
+        expect(binding.revokedAt).toBeInstanceOf(Date);
+        expect(result.status).toBe(ExternalIdentityBindingStatusValue.Revoked);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'external-identity.unbound',
+                beforeSnapshot: expect.objectContaining({ status: ExternalIdentityBindingStatusValue.Active }),
+                afterSnapshot: expect.objectContaining({ status: ExternalIdentityBindingStatusValue.Revoked })
+            })
+        );
+    });
+
+    it('rejects unbind version conflicts before mutating the binding', async () => {
+        const binding = createExternalIdentity({ rowVersion: 1 });
+        repository.findExternalIdentityById.mockResolvedValue(binding);
+
+        await expect(service.unbindExternalIdentity(externalIdentityId, { expectedVersion: 2 }, operatorId)).rejects.toThrow(ConflictException);
+
+        expect(binding.status).toBe(ExternalIdentityBindingStatusValue.Active);
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    function createConfig(overrides: Partial<IdentityProviderConfig> = {}): IdentityProviderConfig {
+        return {
+            id: providerConfigId,
+            provider: IdentityProviderValue.Feishu,
+            tenantId: null,
+            displayName: '飞书',
+            status: IdentityProviderConfigStatusValue.Draft,
+            enabled: false,
+            loginEnabled: false,
+            bindingEnabled: false,
+            searchEnabled: false,
+            clientId: 'cli_a',
+            encryptedClientSecret: null,
+            secretUpdatedAt: null,
+            redirectUri: null,
+            loginScopes: [],
+            searchScopes: [],
+            tenantAllowlist: [],
+            searchGrantMode: IdentityProviderSearchGrantModeValue.PerAdmin,
+            rowVersion: 1,
+            createdAt: new Date('2026-05-07T00:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-05-07T00:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as IdentityProviderConfig;
+    }
+
+    function createSearchEnabledConfig(overrides: Partial<IdentityProviderConfig> = {}): IdentityProviderConfig {
+        return createConfig({
+            enabled: true,
+            searchEnabled: true,
+            status: IdentityProviderConfigStatusValue.Active,
+            encryptedClientSecret: encryptedSecret('client-secret'),
+            redirectUri: 'https://poms.example.com/platform/identity-provider-oauth-grants:callback',
+            searchScopes: ['contact:user:search'],
+            ...overrides
+        });
+    }
+
+    function createExternalIdentity(overrides: Partial<ExternalIdentity> = {}): ExternalIdentity {
+        return {
+            id: externalIdentityId,
+            identityProviderConfigId: providerConfigId,
+            provider: IdentityProviderValue.Feishu,
+            tenantId: 'tenant-a',
+            pomsUserId,
+            subjectId: 'ou_feishu_user_1',
+            unionId: null,
+            subjectDisplayName: '张三',
+            avatarUrl: null,
+            email: 'zhangsan@example.com',
+            mobile: null,
+            status: ExternalIdentityBindingStatusValue.Active,
+            boundAt: new Date('2026-05-07T01:00:00.000Z'),
+            boundBy: operatorId,
+            revokedAt: null,
+            revokedBy: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-05-07T01:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-05-07T01:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as ExternalIdentity;
+    }
+
+    function createOAuthGrant(overrides: Partial<IdentityProviderOAuthGrant> = {}): IdentityProviderOAuthGrant {
+        return {
+            id: oauthGrantId,
+            identityProviderConfigId: providerConfigId,
+            provider: IdentityProviderValue.Feishu,
+            tenantId: 'tenant-a',
+            pomsUserId: operatorId,
+            encryptedAccessToken: encryptedSecret('user-access-token'),
+            encryptedRefreshToken: encryptedSecret('refresh-token'),
+            scopes: ['contact:user:search'],
+            status: IdentityProviderOAuthGrantStatusValue.Active,
+            grantedAt: new Date('2026-05-07T01:00:00.000Z'),
+            expiresAt: new Date('2026-05-08T01:00:00.000Z'),
+            refreshExpiresAt: new Date('2026-06-07T01:00:00.000Z'),
+            lastUsedAt: null,
+            revokedAt: null,
+            lastError: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-05-07T01:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-05-07T01:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as IdentityProviderOAuthGrant;
+    }
+
+    function encryptedSecret(secret: string): string {
+        const key = createHash('sha256').update(process.env['IDENTITY_PROVIDER_SECRET_KEY'] ?? process.env['JWT_SECRET'] ?? 'poms-dev-secret-change-in-production').digest();
+        const iv = randomBytes(12);
+        const cipher = createCipheriv('aes-256-gcm', key, iv);
+        const encrypted = Buffer.concat([cipher.update(secret, 'utf8'), cipher.final()]);
+        const tag = cipher.getAuthTag();
+        return `v1:${iv.toString('base64')}:${tag.toString('base64')}:${encrypted.toString('base64')}`;
+    }
+});
