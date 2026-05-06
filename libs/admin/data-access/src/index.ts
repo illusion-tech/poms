@@ -1,6 +1,7 @@
 export * from './lib/auth/auth.store';
 export * from './lib/attachment/attachment-center.store';
 export * from './lib/attachment/attachment.store';
+export * from './lib/audit-history/audit-history.store';
 export * from './lib/business-discussion/business-discussion.store';
 export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';

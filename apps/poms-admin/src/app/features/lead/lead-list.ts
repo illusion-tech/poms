@@ -42,6 +42,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
@@ -231,7 +232,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, InputNumberModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, InputNumberModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AuditHistoryPanel, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
     providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -1005,6 +1006,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                     <ng-template #footer>
                         <div class="flex flex-wrap justify-end gap-2">
+                            <app-audit-history-panel targetType="lead" [targetId]="lead.id" [targetTitle]="lead.leadName" />
                             @if (canEditLead(lead)) {
                                 <p-button label="编辑信息" icon="pi pi-pencil" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditLeadDialog(lead)" />
                             }

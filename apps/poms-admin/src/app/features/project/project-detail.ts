@@ -28,6 +28,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
@@ -169,6 +170,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
         DialogModule,
         SelectModule,
         TextareaModule,
+        AuditHistoryPanel,
         AttachmentPanel,
         BusinessDiscussionPanel,
         ProjectContextHeader,
@@ -198,6 +200,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                 >
                     <ng-template #actions>
                         <div class="flex flex-wrap items-center gap-2">
+                            <app-audit-history-panel targetType="project" [targetId]="project.id" [targetTitle]="project.projectName" />
                             @if (canOpenWorkspace(project)) {
                                 <p-button label="项目工作区" icon="pi pi-sitemap" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToWorkspace()" />
                             }

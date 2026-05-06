@@ -2,6 +2,7 @@ import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import {
+    AuditHistoryStore,
     AttachmentStore,
     AttachmentTargetType,
     AuthStore,
@@ -37,6 +38,7 @@ import {
     type SalesIntelligenceGapSummary
 } from '@poms/admin-data-access';
 import { of } from 'rxjs';
+import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
@@ -500,6 +502,23 @@ describe('ProjectDetail', () => {
                         {
                             provide: AttachmentStore,
                             useValue: attachmentStoreMock
+                        }
+                    ]
+                }
+            })
+            .overrideComponent(AuditHistoryPanel, {
+                set: {
+                    template: '<button type="button">编辑历史</button>',
+                    providers: [
+                        {
+                            provide: AuditHistoryStore,
+                            useValue: {
+                                records: signal([]),
+                                loading: signal(false),
+                                error: signal(null),
+                                loadEntityAuditLogs: jest.fn().mockResolvedValue([]),
+                                clear: jest.fn()
+                            }
                         }
                     ]
                 }

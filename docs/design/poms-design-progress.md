@@ -537,6 +537,7 @@
 55. 2026-05-06 新增 `EX-63` 字段级审计治理与首批范围需求精化，冻结业务历史 / 字段审计 / 安全事件三层边界、字段 diff 与脱敏策略、首批 Lead / CRM / 项目合同优先级和实体级读取边界；执行板新增 `EX-63A` Lead 基础信息字段审计运行时、`EX-63B` CRM 销售事实字段审计扩展、`EX-63C` 实体级审计读取权限与查询出口、`FE-57` 编辑历史前端入口。
 56. 2026-05-06 `EX-63A` 已完成 `G4`：`PATCH /leads/{id}` 已写入 `lead.updated` 字段级审计，业务更新、系统评分快照和审计日志同事务提交；`UpdateLeadRequest` 增加可选 `expectedVersion`，Admin 编辑线索时传入当前 `rowVersion`；长文本需求描述只记录长度摘要，无实际字段变化不写审计。验证通过 API/Admin focused tests、API/Admin lint/build、OpenAPI / generated client check、Markdown / diff check，可作为 `EX-63C` 输入。
 57. 2026-05-06 `EX-63C` 已完成 `G4`：新增实体级只读审计出口 `GET /audit-logs/targets/{targetType}/{targetId}`，限定销售 / 客户 / 项目合同相关 targetType 并按现有读权限做 service 级裁决；平台级 `GET /audit-logs` 仍保留 `platform:users:manage`。验证通过 runtime-audit focused tests、`poms-api` lint/build、`poms-admin` build、OpenAPI / generated client check，可作为 `FE-57` 前端入口输入。
+58. 2026-05-06 `FE-57` 已推进到 `G3 / Ready for Review`：新增 `AuditHistoryStore` 和统一 `AuditHistoryPanel`，在线索、客户、项目详情接入只读“编辑历史”；前端只展示后端返回的 `metadata.changedFields` 与 snapshots，不自行计算 diff。验证通过 audit panel / lead / customer / project focused tests、`poms-admin` lint/build 和 `admin-data-access` lint，待浏览器 UX 复核后推进 `G4 / Done`。
 
 ---
 

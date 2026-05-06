@@ -13,6 +13,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
@@ -97,7 +98,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 @Component({
     selector: 'app-customer-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AuditHistoryPanel, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -322,7 +323,10 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                     <h2 class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ customer.displayName }}</h2>
                                     <p class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ displayText(customer.legalName || customer.shortName, '未维护法定名称/简称') }}</p>
                                 </div>
-                                <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" />
+                                <div class="flex shrink-0 flex-wrap items-center gap-2">
+                                    <app-audit-history-panel targetType="customer" [targetId]="customer.id" [targetTitle]="customer.displayName" />
+                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" />
+                                </div>
                             </div>
                         </div>
 
