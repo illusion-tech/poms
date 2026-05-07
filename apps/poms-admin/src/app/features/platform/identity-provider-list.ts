@@ -15,12 +15,10 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { TooltipModule } from 'primeng/tooltip';
+import { IdentityProviderCard } from './identity-provider-card';
 
 type ProviderFilterValue = IdentityProvider | 'all';
 type StatusFilterValue = IdentityProviderConfigStatus | 'all';
@@ -115,16 +113,14 @@ const EMPTY_FORM: IdentityProviderForm = {
     imports: [
         CommonModule,
         FormsModule,
-        TableModule,
         ButtonModule,
         DialogModule,
         InputTextModule,
         SelectModule,
-        TagModule,
         TextareaModule,
         ToastModule,
         ToggleSwitchModule,
-        TooltipModule
+        IdentityProviderCard
     ],
     providers: [IdentityProviderStore, MessageService],
     template: `
@@ -164,134 +160,55 @@ const EMPTY_FORM: IdentityProviderForm = {
                 <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ pageError() }}</div>
             }
 
-            <section class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
-                <p-table
-                    [value]="configs()"
-                    [loading]="store.loading()"
-                    [rowHover]="true"
-                    [showGridlines]="true"
-                    [paginator]="true"
-                    [rows]="10"
-                    dataKey="id"
-                    responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%', 'min-width': '92rem' }"
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                    currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个 Provider 配置"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                >
-                    <ng-template #caption>
-                        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                            <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                                <p-select
-                                    [ngModel]="providerFilter()"
-                                    (ngModelChange)="setProviderFilter($event)"
-                                    [options]="providerFilterOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    ariaLabel="按 provider 筛选"
-                                    styleClass="w-full md:w-48 rounded-md!"
-                                />
+            <section class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
+                        <p-select
+                            [ngModel]="providerFilter()"
+                            (ngModelChange)="setProviderFilter($event)"
+                            [options]="providerFilterOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            ariaLabel="按 provider 筛选"
+                            styleClass="w-full md:w-48 rounded-md!"
+                        />
 
-                                <p-select
-                                    [ngModel]="statusFilter()"
-                                    (ngModelChange)="setStatusFilter($event)"
-                                    [options]="statusFilterOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    ariaLabel="按状态筛选"
-                                    styleClass="w-full md:w-40 rounded-md!"
-                                />
-                            </div>
+                        <p-select
+                            [ngModel]="statusFilter()"
+                            (ngModelChange)="setStatusFilter($event)"
+                            [options]="statusFilterOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            ariaLabel="按状态筛选"
+                            styleClass="w-full md:w-40 rounded-md!"
+                        />
+                    </div>
 
-                            <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
-                        </div>
-                    </ng-template>
+                    <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                </div>
 
-                    <ng-template #header>
-                        <tr>
-                            <th class="min-w-64">Provider</th>
-                            <th class="min-w-40">状态</th>
-                            <th class="min-w-64">能力开关</th>
-                            <th class="min-w-64">凭据</th>
-                            <th class="min-w-64">OAuth</th>
-                            <th class="min-w-48">搜索授权</th>
-                            <th class="min-w-28">版本</th>
-                            <th class="min-w-56">操作</th>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template #body let-config>
-                        <tr>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ config.displayName }}</span>
-                                    <span class="text-xs font-mono text-surface-500">{{ providerLabel(config.provider) }}</span>
-                                    <span class="text-xs text-surface-500">租户: {{ config.tenantId || '默认' }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <p-tag [value]="statusLabel(config.status)" [severity]="statusSeverity(config.status)" styleClass="rounded-[6px]" />
-                            </td>
-                            <td>
-                                <div class="flex flex-wrap gap-2">
-                                    <p-tag [value]="config.enabled ? '总开关' : '总开关关闭'" [severity]="config.enabled ? 'success' : 'secondary'" styleClass="rounded-[6px]" />
-                                    <p-tag [value]="config.loginEnabled ? '登录' : '登录关闭'" [severity]="config.loginEnabled ? 'info' : 'secondary'" styleClass="rounded-[6px]" />
-                                    <p-tag [value]="config.bindingEnabled ? '绑定' : '绑定关闭'" [severity]="config.bindingEnabled ? 'info' : 'secondary'" styleClass="rounded-[6px]" />
-                                    <p-tag [value]="config.searchEnabled ? '搜索' : '搜索关闭'" [severity]="config.searchEnabled ? 'info' : 'secondary'" styleClass="rounded-[6px]" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-xs font-mono text-surface-700 dark:text-surface-200">{{ config.clientId }}</span>
-                                    <p-tag [value]="config.secretConfigured ? 'secret 已配置' : 'secret 未配置'" [severity]="config.secretConfigured ? 'success' : 'warn'" styleClass="w-fit rounded-[6px]" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="break-all text-xs text-surface-600 dark:text-surface-300">{{ config.redirectUri || '未配置 redirect URI' }}</span>
-                                    <span class="text-xs text-surface-500">login scopes: {{ scopeText(config.loginScopes) }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-sm text-surface-700 dark:text-surface-200">{{ searchGrantModeLabel(config.searchGrantMode) }}</span>
-                                    <span class="text-xs text-surface-500">search scopes: {{ scopeText(config.searchScopes) }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="text-xs font-mono text-surface-600 dark:text-surface-300">v{{ config.rowVersion }}</span>
-                            </td>
-                            <td>
-                                <div class="flex flex-wrap gap-2">
-                                    <p-button icon="pi pi-pencil" label="编辑" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditDialog(config)" />
-                                    <p-button
-                                        icon="pi pi-bolt"
-                                        label="测试"
-                                        size="small"
-                                        severity="secondary"
-                                        [outlined]="true"
-                                        styleClass="rounded-md!"
-                                        [loading]="store.testingConfigId() === config.id"
-                                        (onClick)="testConnection(config)"
-                                    />
-                                </div>
-                                @if (testResults()[config.id]; as result) {
-                                    <div class="mt-2">
-                                        <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" styleClass="rounded-[6px]" />
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template #emptymessage>
-                        <tr>
-                            <td colspan="8" class="px-6 py-12 text-center text-surface-500 dark:text-surface-400">{{ store.loading() ? '正在读取 Provider 配置' : '暂无 Provider 配置' }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                @if (store.loading()) {
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取 Provider 配置</div>
+                } @else if (configs().length === 0) {
+                    <div class="rounded-[8px] border border-dashed border-surface-300 bg-surface-0 px-6 py-12 text-center dark:border-surface-700 dark:bg-surface-900">
+                        <p class="text-base font-medium text-surface-900 dark:text-surface-0">暂无 Provider 配置</p>
+                        <p class="mt-2 text-sm text-surface-500 dark:text-surface-400">新增一个 provider 后，可以在这里管理启用状态、凭据、scope 和测试连接。</p>
+                    </div>
+                } @else {
+                    <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+                        @for (config of configs(); track config.id) {
+                            <app-identity-provider-card
+                                [config]="config"
+                                [testing]="store.testingConfigId() === config.id"
+                                [testResult]="testResultFor(config.id)"
+                                (editRequested)="showEditDialog($event)"
+                                (testRequested)="testConnection($event)"
+                            />
+                        }
+                    </div>
+                }
             </section>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新增 Provider 配置" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
@@ -647,6 +564,10 @@ export class IdentityProviderList {
 
     connectionResultSeverity(result: IdentityProviderConnectionTestResult): 'success' | 'danger' {
         return result.status === IdentityProviderConnectionTestStatus.Success ? 'success' : 'danger';
+    }
+
+    testResultFor(configId: string): IdentityProviderConnectionTestResult | null {
+        return this.testResults()[configId] ?? null;
     }
 
     private validateForm(isEdit: boolean, setError: boolean): boolean {
