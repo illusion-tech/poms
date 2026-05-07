@@ -66,6 +66,7 @@ describe('IdentityProviderCard', () => {
 
     it('renders provider config as an action card without exposing raw secret', () => {
         const text = fixture.nativeElement.textContent;
+        const logo = fixture.nativeElement.querySelector('img[alt="飞书 logo"]') as HTMLImageElement | null;
 
         expect(text).toContain('飞书生产租户');
         expect(text).toContain('飞书');
@@ -73,6 +74,7 @@ describe('IdentityProviderCard', () => {
         expect(text).toContain('secret 已配置');
         expect(text).toContain('contact:user.base:readonly');
         expect(text).not.toContain('secret-value');
+        expect(logo?.getAttribute('src')).toBe('/identity-providers/feishu.svg');
     });
 
     it('shows the latest connection test result', async () => {

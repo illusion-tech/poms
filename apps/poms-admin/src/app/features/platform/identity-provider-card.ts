@@ -21,6 +21,10 @@ const PROVIDER_ICONS: Record<IdentityProvider, string> = {
     [IdentityProvider.Feishu]: 'pi pi-send'
 };
 
+const PROVIDER_LOGOS: Partial<Record<IdentityProvider, string>> = {
+    [IdentityProvider.Feishu]: '/identity-providers/feishu.svg'
+};
+
 const STATUS_LABELS: Record<IdentityProviderConfigStatus, string> = {
     [IdentityProviderConfigStatus.Draft]: '草稿',
     [IdentityProviderConfigStatus.Active]: '已激活',
@@ -42,7 +46,11 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
             <div class="flex items-start justify-between gap-4">
                 <div class="flex min-w-0 items-start gap-3">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-primary-50 text-primary-700 dark:bg-primary-950/30 dark:text-primary-300">
-                        <i [class]="providerIcon(provider())"></i>
+                        @if (providerLogo(provider()); as logoSrc) {
+                            <img [src]="logoSrc" [alt]="providerLabel(provider()) + ' logo'" class="h-7 w-7 object-contain" />
+                        } @else {
+                            <i [class]="providerIcon(provider())"></i>
+                        }
                     </div>
                     <div class="min-w-0">
                         <p class="text-xs font-medium uppercase tracking-wide text-surface-500 dark:text-surface-400">{{ providerLabel(provider()) }}</p>
@@ -179,6 +187,10 @@ export class IdentityProviderCard {
     readonly testRequested = output<IdentityProviderConfigSummary>();
 
     readonly defaultSearchGrantMode = IdentityProviderSearchGrantMode.PerAdmin;
+
+    providerLogo(provider: IdentityProvider): string | null {
+        return PROVIDER_LOGOS[provider] ?? null;
+    }
 
     providerLabel(provider: IdentityProvider): string {
         return PROVIDER_LABELS[provider] ?? provider;
