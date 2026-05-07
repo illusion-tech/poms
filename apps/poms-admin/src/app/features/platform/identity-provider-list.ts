@@ -19,6 +19,7 @@ import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { TooltipModule } from 'primeng/tooltip';
 import { IdentityProviderCard } from './identity-provider-card';
 
 type ProviderFilterValue = IdentityProvider | 'all';
@@ -89,6 +90,16 @@ const SEARCH_GRANT_MODE_OPTIONS: Option<IdentityProviderSearchGrantMode>[] = (Ob
     value: mode
 }));
 
+const FEISHU_CONFIG_TIPS = {
+    clientId: '填写飞书开放平台应用凭证中的 AppID。',
+    clientSecret: '填写飞书开放平台应用凭证中的 AppSecret。POMS 只保存加密后的 secret，保存后不会回显明文。',
+    redirectUri: '填写飞书 OAuth 回调地址，并在飞书开放平台的重定向 URL 白名单中配置完全一致的地址。登录联调使用 /auth/identity-providers:callback。',
+    loginScopes: '用于员工登录身份读取的飞书授权范围。按飞书开放平台实际开通的权限填写，每行或空格分隔一个 scope。',
+    searchScopes: '用于管理员姓名模糊搜索飞书用户的授权范围。第一版通常需要 contact:user:search，并要求管理员完成个人授权。',
+    searchGrantMode: '第一版选择“管理员授权”。每个管理员用自己的飞书授权进行搜索，不使用全局通讯录同步。',
+    tenantAllowlist: '限制允许登录或绑定的飞书租户 ID。默认租户可留空；多租户场景每行填写一个外部租户 ID。'
+} as const;
+
 const EMPTY_FORM: IdentityProviderForm = {
     id: '',
     provider: IdentityProvider.Feishu,
@@ -123,6 +134,7 @@ const EMPTY_FORM: IdentityProviderForm = {
         TextareaModule,
         ToastModule,
         ToggleSwitchModule,
+        TooltipModule,
         IdentityProviderCard
     ],
     providers: [IdentityProviderStore, MessageService],
@@ -263,11 +275,33 @@ const EMPTY_FORM: IdentityProviderForm = {
                             <input pInputText id="identityProviderDisplayName" [ngModel]="form().displayName" (ngModelChange)="updateText('displayName', $event)" class="w-full rounded-md!" />
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderClientId" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client ID *</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderClientId" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client ID *</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('clientId')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 AppID 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <input pInputText id="identityProviderClientId" [ngModel]="form().clientId" (ngModelChange)="updateText('clientId', $event)" class="w-full rounded-md!" />
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderClientSecret" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client Secret</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderClientSecret" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client Secret</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('clientSecret')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 AppSecret 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <input
                                 pInputText
                                 id="identityProviderClientSecret"
@@ -282,7 +316,18 @@ const EMPTY_FORM: IdentityProviderForm = {
                             }
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderRedirectUri" class="text-sm font-medium text-surface-900 dark:text-surface-0">Redirect URI</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderRedirectUri" class="text-sm font-medium text-surface-900 dark:text-surface-0">Redirect URI</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('redirectUri')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 Redirect URI 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <input pInputText id="identityProviderRedirectUri" [ngModel]="form().redirectUri" (ngModelChange)="updateText('redirectUri', $event)" placeholder="https://poms.example.com/auth/identity-providers:callback" class="w-full rounded-md!" />
                         </div>
                     </div>
@@ -308,7 +353,18 @@ const EMPTY_FORM: IdentityProviderForm = {
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderSearchMode" class="text-sm font-medium text-surface-900 dark:text-surface-0">搜索授权模式</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderSearchMode" class="text-sm font-medium text-surface-900 dark:text-surface-0">搜索授权模式</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('searchGrantMode')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书搜索授权模式配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <p-select inputId="identityProviderSearchMode" [ngModel]="form().searchGrantMode" (ngModelChange)="updateSearchGrantMode($event)" [options]="searchGrantModeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
                         </div>
                         @if (mode === 'edit') {
@@ -321,15 +377,48 @@ const EMPTY_FORM: IdentityProviderForm = {
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderLoginScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Login scopes</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderLoginScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Login scopes</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('loginScopes')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 Login scopes 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <textarea pTextarea id="identityProviderLoginScopes" rows="3" [ngModel]="form().loginScopesText" (ngModelChange)="updateText('loginScopesText', $event)" placeholder="每行或空格分隔一个 scope" class="w-full rounded-md!"></textarea>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderSearchScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search scopes</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderSearchScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search scopes</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('searchScopes')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 Search scopes 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <textarea pTextarea id="identityProviderSearchScopes" rows="3" [ngModel]="form().searchScopesText" (ngModelChange)="updateText('searchScopesText', $event)" placeholder="每行或空格分隔一个 scope" class="w-full rounded-md!"></textarea>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderTenantAllowlist" class="text-sm font-medium text-surface-900 dark:text-surface-0">Tenant allowlist</label>
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderTenantAllowlist" class="text-sm font-medium text-surface-900 dark:text-surface-0">Tenant allowlist</label>
+                                <button
+                                    type="button"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border border-surface-300 text-surface-500 transition-colors hover:border-primary-300 hover:text-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 dark:border-surface-600 dark:text-surface-400 dark:hover:border-primary-500 dark:hover:text-primary-300"
+                                    [pTooltip]="feishuConfigTip('tenantAllowlist')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 Tenant allowlist 配置说明"
+                                >
+                                    <i class="pi pi-question text-[0.65rem]"></i>
+                                </button>
+                            </div>
                             <textarea pTextarea id="identityProviderTenantAllowlist" rows="3" [ngModel]="form().tenantAllowlistText" (ngModelChange)="updateText('tenantAllowlistText', $event)" placeholder="每行一个外部租户 ID" class="w-full rounded-md!"></textarea>
                         </div>
                     </div>
@@ -575,6 +664,10 @@ export class IdentityProviderList {
     }
 
     readonly identityProviderLabel = identityProviderLabel;
+
+    feishuConfigTip(field: keyof typeof FEISHU_CONFIG_TIPS): string {
+        return FEISHU_CONFIG_TIPS[field];
+    }
 
     statusLabel(status: IdentityProviderConfigStatus): string {
         return STATUS_LABELS[status] ?? status;

@@ -153,6 +153,28 @@ describe('IdentityProviderList', () => {
         expect(component.createDialogHeader()).toBe('配置 飞书');
     });
 
+    it('shows Feishu configuration help icons in the provider form', () => {
+        component.showCreateDialog(IdentityProvider.Feishu);
+        fixture.detectChanges();
+
+        const helpButtons = Array.from(fixture.nativeElement.querySelectorAll('button[aria-label*="飞书"]')) as HTMLButtonElement[];
+        const helpLabels = helpButtons.map((button) => button.getAttribute('aria-label'));
+
+        expect(helpLabels).toEqual(
+            expect.arrayContaining([
+                '飞书 AppID 配置说明',
+                '飞书 AppSecret 配置说明',
+                '飞书 Redirect URI 配置说明',
+                '飞书搜索授权模式配置说明',
+                '飞书 Login scopes 配置说明',
+                '飞书 Search scopes 配置说明',
+                '飞书 Tenant allowlist 配置说明'
+            ])
+        );
+        expect(component.feishuConfigTip('clientId')).toContain('AppID');
+        expect(component.feishuConfigTip('clientSecret')).toContain('AppSecret');
+    });
+
     it('reloads provider configs with selected filters', async () => {
         storeMock.loadConfigs.mockClear();
         component.providerFilter.set(IdentityProvider.Feishu);
