@@ -160,6 +160,7 @@ describe('IdentityProviderList', () => {
         const helpButtons = Array.from(fixture.nativeElement.querySelectorAll('button[aria-label*="飞书"]')) as HTMLButtonElement[];
         const helpLabels = helpButtons.map((button) => button.getAttribute('aria-label'));
 
+        expect(helpButtons.every((button) => button.classList.contains('provider-help-trigger'))).toBe(true);
         expect(helpLabels).toEqual(
             expect.arrayContaining([
                 '飞书 AppID 配置说明',
