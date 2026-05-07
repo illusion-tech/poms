@@ -322,6 +322,10 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/auth/login').then((c) => c.Login)
             },
             {
+                path: 'identity-providers:callback',
+                loadComponent: () => import('./app/features/auth/identity-provider-callback').then((c) => c.IdentityProviderCallback)
+            },
+            {
                 path: 'register',
                 loadComponent: () => import('./app/features/auth/register').then((c) => c.Register)
             },

@@ -8,22 +8,11 @@ import {
     type IdentityProviderConfigSummary,
     type IdentityProviderConnectionTestResult
 } from '@poms/admin-data-access';
+import { identityProviderIcon, identityProviderLabel, identityProviderLogo } from '../../shared/ui/identity-provider-presentation';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger';
-
-const PROVIDER_LABELS: Record<IdentityProvider, string> = {
-    [IdentityProvider.Feishu]: '飞书'
-};
-
-const PROVIDER_ICONS: Record<IdentityProvider, string> = {
-    [IdentityProvider.Feishu]: 'pi pi-send'
-};
-
-const PROVIDER_LOGOS: Partial<Record<IdentityProvider, string>> = {
-    [IdentityProvider.Feishu]: '/identity-providers/feishu.svg'
-};
 
 const STATUS_LABELS: Record<IdentityProviderConfigStatus, string> = {
     [IdentityProviderConfigStatus.Draft]: '草稿',
@@ -46,19 +35,19 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
             <div class="flex items-start justify-between gap-4">
                 <div class="flex min-w-0 items-start gap-3">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded bg-surface-100 text-primary-700 dark:bg-surface-800 dark:text-primary-300">
-                        @if (providerLogo(provider()); as logoSrc) {
-                            <img [src]="logoSrc" [alt]="providerLabel(provider()) + ' logo'" class="h-7 w-7 object-contain" />
+                        @if (identityProviderLogo(provider()); as logoSrc) {
+                            <img [src]="logoSrc" [alt]="identityProviderLabel(provider()) + ' logo'" class="h-7 w-7 object-contain" />
                         } @else {
-                            <i [class]="providerIcon(provider())"></i>
+                            <i [class]="identityProviderIcon(provider())"></i>
                         }
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-medium uppercase tracking-wide text-surface-500 dark:text-surface-400">{{ providerLabel(provider()) }}</p>
+                        <p class="text-xs font-medium uppercase tracking-wide text-surface-500 dark:text-surface-400">{{ identityProviderLabel(provider()) }}</p>
                         @if (config(); as currentConfig) {
                             <h2 class="mt-1 truncate text-lg font-semibold leading-7 text-surface-950 dark:text-surface-0">{{ currentConfig.displayName }}</h2>
                             <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">租户: {{ currentConfig.tenantId || '默认' }}</p>
                         } @else {
-                            <h2 class="mt-1 truncate text-lg font-semibold leading-7 text-surface-950 dark:text-surface-0">{{ providerLabel(provider()) }}</h2>
+                            <h2 class="mt-1 truncate text-lg font-semibold leading-7 text-surface-950 dark:text-surface-0">{{ identityProviderLabel(provider()) }}</h2>
                             <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">租户: 默认</p>
                         }
                     </div>
@@ -122,7 +111,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                 <div class="mt-5 flex flex-col gap-4">
                     <div class="grid grid-cols-[7rem_1fr] gap-3 text-sm">
                         <span class="text-surface-500 dark:text-surface-400">Provider</span>
-                        <span class="text-surface-800 dark:text-surface-100">{{ providerLabel(provider()) }}</span>
+                        <span class="text-surface-800 dark:text-surface-100">{{ identityProviderLabel(provider()) }}</span>
 
                         <span class="text-surface-500 dark:text-surface-400">Secret</span>
                         <span>
@@ -187,18 +176,9 @@ export class IdentityProviderCard {
     readonly testRequested = output<IdentityProviderConfigSummary>();
 
     readonly defaultSearchGrantMode = IdentityProviderSearchGrantMode.PerAdmin;
-
-    providerLogo(provider: IdentityProvider): string | null {
-        return PROVIDER_LOGOS[provider] ?? null;
-    }
-
-    providerLabel(provider: IdentityProvider): string {
-        return PROVIDER_LABELS[provider] ?? provider;
-    }
-
-    providerIcon(provider: IdentityProvider): string {
-        return PROVIDER_ICONS[provider] ?? 'pi pi-id-card';
-    }
+    readonly identityProviderLogo = identityProviderLogo;
+    readonly identityProviderLabel = identityProviderLabel;
+    readonly identityProviderIcon = identityProviderIcon;
 
     statusLabel(status: IdentityProviderConfigStatus): string {
         return STATUS_LABELS[status] ?? status;

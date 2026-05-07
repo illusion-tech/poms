@@ -10,6 +10,7 @@ import {
     type IdentityProviderConfigSummary,
     type IdentityProviderConnectionTestResult
 } from '@poms/admin-data-access';
+import { identityProviderLabel } from '../../shared/ui/identity-provider-presentation';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -57,10 +58,6 @@ interface IdentityProviderCardSlot {
 
 const ALL_FILTER_VALUE = 'all';
 
-const PROVIDER_LABELS: Record<IdentityProvider, string> = {
-    [IdentityProvider.Feishu]: '飞书'
-};
-
 const STATUS_LABELS: Record<IdentityProviderConfigStatus, string> = {
     [IdentityProviderConfigStatus.Draft]: '草稿',
     [IdentityProviderConfigStatus.Active]: '已激活',
@@ -74,7 +71,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
 };
 
 const PROVIDER_OPTIONS: Option<IdentityProvider>[] = (Object.values(IdentityProvider) as IdentityProvider[]).map((provider) => ({
-    label: PROVIDER_LABELS[provider] ?? provider,
+    label: identityProviderLabel(provider),
     value: provider
 }));
 
@@ -424,7 +421,7 @@ export class IdentityProviderList {
         this.form.set({
             ...EMPTY_FORM,
             provider,
-            displayName: this.providerLabel(provider)
+            displayName: this.identityProviderLabel(provider)
         });
         this.formError.set(null);
         this.createDialogVisible = true;
@@ -566,7 +563,7 @@ export class IdentityProviderList {
     }
 
     createDialogHeader(): string {
-        return `配置 ${this.providerLabel(this.form().provider)}`;
+        return `配置 ${this.identityProviderLabel(this.form().provider)}`;
     }
 
     isCardTesting(card: IdentityProviderCardSlot): boolean {
@@ -577,9 +574,7 @@ export class IdentityProviderList {
         return card.config ? this.testResultFor(card.config.id) : null;
     }
 
-    providerLabel(provider: IdentityProvider): string {
-        return PROVIDER_LABELS[provider] ?? provider;
-    }
+    readonly identityProviderLabel = identityProviderLabel;
 
     statusLabel(status: IdentityProviderConfigStatus): string {
         return STATUS_LABELS[status] ?? status;

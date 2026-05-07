@@ -17,6 +17,14 @@ function getChildRoute(parentPath: string, childPath: string): Route {
     return route as Route;
 }
 
+function getAuthRoute(path: string): Route {
+    const authRoute = appRoutes.find((route) => route.path === 'auth');
+    const route = authRoute?.children?.find((child) => child.path === path);
+
+    expect(route).toBeDefined();
+    return route as Route;
+}
+
 function expectAllModePermissions(route: Route, requiredPermissions: string[]): void {
     expect(route.canActivate).toContain(permissionGuard);
     expect(route.data?.['requiredPermissions']).toEqual(requiredPermissions);
@@ -73,5 +81,12 @@ describe('appRoutes project permissions', () => {
         expect(route.canActivate).toContain(permissionGuard);
         expect(route.data?.['breadcrumb']).toBe('外部身份提供商');
         expect(route.data?.['requiredPermissions']).toEqual(['platform:identity-providers:manage']);
+    });
+
+    it('exposes the public external identity provider callback route under auth layout', () => {
+        const route = getAuthRoute('identity-providers:callback');
+
+        expect(route.canActivate).toBeUndefined();
+        expect(route.loadComponent).toBeDefined();
     });
 });

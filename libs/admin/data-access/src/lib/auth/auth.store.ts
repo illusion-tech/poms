@@ -1,6 +1,15 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { PermissionKey } from '@poms/shared-contracts';
-import type { NavigationItem, SanitizedUserWithOrgUnits, TodoItemSummary, UpdateCurrentUserProfileRequest } from '@poms/shared-api-client';
+import type {
+    EnabledLoginProviderSummary,
+    ExternalLoginAuthorizeResult,
+    ExternalLoginCallbackResult,
+    LoginResponse,
+    NavigationItem,
+    SanitizedUserWithOrgUnits,
+    TodoItemSummary,
+    UpdateCurrentUserProfileRequest
+} from '@poms/shared-api-client';
 import { ApprovalApi, AuthApi, NavigationApi, NavigationItemType, TodoStatus } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
 
@@ -39,10 +48,35 @@ export class AuthStore {
 
     async login(username: string, password: string): Promise<void> {
         const response = await firstValueFrom(this.#authApi.authControllerLogin({ loginRequest: { username, password } }));
-        const { accessToken } = response;
-        localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
-        this.token.set(accessToken);
-        await this.#loadUserData();
+        await this.#acceptLoginResponse(response);
+    }
+
+    async loadEnabledLoginProviders(): Promise<EnabledLoginProviderSummary[]> {
+        return (await firstValueFrom(this.#authApi.authControllerListEnabledLoginProviders())) ?? [];
+    }
+
+    async authorizeExternalLogin(identityProviderConfigId: string): Promise<ExternalLoginAuthorizeResult> {
+        return firstValueFrom(this.#authApi.authControllerAuthorizeExternalLogin({ id: identityProviderConfigId }));
+    }
+
+    async completeExternalLoginCallback(input: { state: string; code?: string; error?: string; errorDescription?: string }): Promise<ExternalLoginCallbackResult> {
+        const callbackResult = await firstValueFrom(
+            this.#authApi.authControllerHandleExternalLoginCallback({
+                state: input.state,
+                code: input.code,
+                error: input.error,
+                errorDescription: input.errorDescription
+            })
+        );
+        const loginResponse = await firstValueFrom(
+            this.#authApi.authControllerCreateExternalLoginSession({
+                createExternalLoginSessionRequest: {
+                    ticket: callbackResult.ticket
+                }
+            })
+        );
+        await this.#acceptLoginResponse(loginResponse);
+        return callbackResult;
     }
 
     logout(): void {
@@ -96,6 +130,13 @@ export class AuthStore {
         this.currentUser.set(user);
         this.navigationTree.set(nav ?? []);
         this.myTodos.set(todos ?? []);
+    }
+
+    async #acceptLoginResponse(response: LoginResponse): Promise<void> {
+        const { accessToken } = response;
+        localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
+        this.token.set(accessToken);
+        await this.#loadUserData();
     }
 
     #toMenuModel(items: NavigationItem[], isRoot = false): MenuItem[] {
