@@ -57,6 +57,7 @@ describe('IdentityProviderCard', () => {
 
         fixture = TestBed.createComponent(IdentityProviderCard);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('provider', IdentityProvider.Feishu);
         fixture.componentRef.setInput('config', config);
         fixture.detectChanges();
         await fixture.whenStable();
@@ -83,6 +84,19 @@ describe('IdentityProviderCard', () => {
         expect(fixture.nativeElement.textContent).toContain('Local configuration is complete.');
     });
 
+    it('renders an unconfigured provider slot with a configure action', async () => {
+        fixture.componentRef.setInput('config', null);
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('飞书');
+        expect(text).toContain('待配置');
+        expect(text).toContain('secret 未配置');
+        expect(text).toContain('配置');
+    });
+
     it('emits edit and test actions to the parent page', () => {
         const editSpy = jest.fn();
         const testSpy = jest.fn();
@@ -94,5 +108,14 @@ describe('IdentityProviderCard', () => {
 
         expect(editSpy).toHaveBeenCalledWith(config);
         expect(testSpy).toHaveBeenCalledWith(config);
+    });
+
+    it('emits configure action for an unconfigured provider slot', () => {
+        const configureSpy = jest.fn();
+        component.configureRequested.subscribe(configureSpy);
+
+        component.configureRequested.emit(IdentityProvider.Feishu);
+
+        expect(configureSpy).toHaveBeenCalledWith(IdentityProvider.Feishu);
     });
 });

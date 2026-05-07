@@ -127,6 +127,30 @@ describe('IdentityProviderList', () => {
         expect(text).toContain('secret 已配置');
         expect(text).toContain('飞书测试租户');
         expect(text).toContain('secret 未配置');
+        expect(text).not.toContain('新增 Provider');
+    });
+
+    it('renders fixed provider card slots when a provider has not been configured', () => {
+        configs.set([]);
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+
+        expect(text).toContain('飞书');
+        expect(text).toContain('待配置');
+        expect(text).toContain('secret 未配置');
+        expect(text).toContain('配置');
+        expect(text).not.toContain('暂无 Provider 配置');
+    });
+
+    it('opens create dialog from a fixed provider card with provider locked', () => {
+        component.showCreateDialog(IdentityProvider.Feishu);
+
+        expect(component.createDialogVisible).toBe(true);
+        expect(component.createProviderLocked).toBe(true);
+        expect(component.form().provider).toBe(IdentityProvider.Feishu);
+        expect(component.form().displayName).toBe('飞书');
+        expect(component.createDialogHeader()).toBe('配置 飞书');
     });
 
     it('reloads provider configs with selected filters', async () => {

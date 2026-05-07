@@ -49,6 +49,12 @@ interface IdentityProviderForm {
     expectedVersion: number;
 }
 
+interface IdentityProviderCardSlot {
+    key: string;
+    provider: IdentityProvider;
+    config: IdentityProviderConfigSummary | null;
+}
+
 const ALL_FILTER_VALUE = 'all';
 
 const PROVIDER_LABELS: Record<IdentityProvider, string> = {
@@ -132,13 +138,11 @@ const EMPTY_FORM: IdentityProviderForm = {
                         <p class="text-sm font-medium text-surface-500 dark:text-surface-400">平台配置</p>
                         <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">外部身份提供商</h1>
                     </div>
-
-                    <p-button label="新增 Provider" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
                 </div>
 
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-4">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">配置数</div>
+                        <div class="text-sm text-surface-500 dark:text-surface-400">已配置</div>
                         <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ configs().length }}</div>
                     </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -191,18 +195,19 @@ const EMPTY_FORM: IdentityProviderForm = {
 
                 @if (store.loading()) {
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取 Provider 配置</div>
-                } @else if (configs().length === 0) {
+                } @else if (providerCards().length === 0) {
                     <div class="rounded-[8px] border border-dashed border-surface-300 bg-surface-0 px-6 py-12 text-center dark:border-surface-700 dark:bg-surface-900">
-                        <p class="text-base font-medium text-surface-900 dark:text-surface-0">暂无 Provider 配置</p>
-                        <p class="mt-2 text-sm text-surface-500 dark:text-surface-400">新增一个 provider 后，可以在这里管理启用状态、凭据、scope 和测试连接。</p>
+                        <p class="text-base font-medium text-surface-900 dark:text-surface-0">没有符合筛选条件的 Provider 配置</p>
                     </div>
                 } @else {
                     <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-                        @for (config of configs(); track config.id) {
+                        @for (card of providerCards(); track card.key) {
                             <app-identity-provider-card
-                                [config]="config"
-                                [testing]="store.testingConfigId() === config.id"
-                                [testResult]="testResultFor(config.id)"
+                                [provider]="card.provider"
+                                [config]="card.config"
+                                [testing]="isCardTesting(card)"
+                                [testResult]="testResultForCard(card)"
+                                (configureRequested)="showCreateDialog($event)"
                                 (editRequested)="showEditDialog($event)"
                                 (testRequested)="testConnection($event)"
                             />
@@ -211,7 +216,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                 }
             </section>
 
-            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新增 Provider 配置" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
+            <p-dialog [(visible)]="createDialogVisible" [modal]="true" [header]="createDialogHeader()" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
                 <ng-container *ngTemplateOutlet="providerFormTemplate; context: { mode: 'create' }" />
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
@@ -248,7 +253,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 optionLabel="label"
                                 optionValue="value"
                                 appendTo="body"
-                                [disabled]="mode === 'edit'"
+                                [disabled]="mode === 'edit' || createProviderLocked"
                                 styleClass="w-full rounded-md!"
                             />
                         </div>
@@ -355,8 +360,33 @@ export class IdentityProviderList {
 
     createDialogVisible = false;
     editDialogVisible = false;
+    createProviderLocked = false;
 
     readonly configs = this.store.configs;
+    readonly providerCards = computed<IdentityProviderCardSlot[]>(() => {
+        const configs = this.configs();
+        const configuredCards = configs.map((config) => ({
+            key: config.id,
+            provider: config.provider,
+            config
+        }));
+
+        if (this.statusFilter() !== ALL_FILTER_VALUE) {
+            return configuredCards;
+        }
+
+        const providerFilter = this.providerFilter();
+        const configuredProviders = new Set(configs.map((config) => config.provider));
+        const missingProviderCards = PROVIDER_OPTIONS.filter((option) => providerFilter === ALL_FILTER_VALUE || option.value === providerFilter)
+            .filter((option) => !configuredProviders.has(option.value))
+            .map((option) => ({
+                key: `unconfigured-${option.value}`,
+                provider: option.value,
+                config: null
+            }));
+
+        return [...configuredCards, ...missingProviderCards];
+    });
     readonly activeCount = computed(() => this.configs().filter((config) => config.status === IdentityProviderConfigStatus.Active).length);
     readonly loginEnabledCount = computed(() => this.configs().filter((config) => config.enabled && config.loginEnabled).length);
     readonly searchEnabledCount = computed(() => this.configs().filter((config) => config.enabled && config.searchEnabled).length);
@@ -389,13 +419,19 @@ export class IdentityProviderList {
         void this.reload();
     }
 
-    showCreateDialog(): void {
-        this.form.set({ ...EMPTY_FORM });
+    showCreateDialog(provider: IdentityProvider = IdentityProvider.Feishu): void {
+        this.createProviderLocked = true;
+        this.form.set({
+            ...EMPTY_FORM,
+            provider,
+            displayName: this.providerLabel(provider)
+        });
         this.formError.set(null);
         this.createDialogVisible = true;
     }
 
     showEditDialog(config: IdentityProviderConfigSummary): void {
+        this.createProviderLocked = false;
         this.form.set({
             id: config.id,
             provider: config.provider,
@@ -527,6 +563,18 @@ export class IdentityProviderList {
         } catch {
             this.pageError.set('测试连接没有完成，请刷新配置后重试。');
         }
+    }
+
+    createDialogHeader(): string {
+        return `配置 ${this.providerLabel(this.form().provider)}`;
+    }
+
+    isCardTesting(card: IdentityProviderCardSlot): boolean {
+        return Boolean(card.config && this.store.testingConfigId() === card.config.id);
+    }
+
+    testResultForCard(card: IdentityProviderCardSlot): IdentityProviderConnectionTestResult | null {
+        return card.config ? this.testResultFor(card.config.id) : null;
     }
 
     providerLabel(provider: IdentityProvider): string {
