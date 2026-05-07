@@ -92,11 +92,13 @@ describe('IdentityProviderCard', () => {
         fixture.detectChanges();
 
         const text = fixture.nativeElement.textContent;
+        const card = fixture.nativeElement.querySelector('article') as HTMLElement | null;
 
         expect(text).toContain('飞书');
         expect(text).toContain('待配置');
         expect(text).toContain('secret 未配置');
         expect(text).toContain('配置');
+        expect(card?.className).not.toContain('border-dashed');
     });
 
     it('emits edit and test actions to the parent page', () => {

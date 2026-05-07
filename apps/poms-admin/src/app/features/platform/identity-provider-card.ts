@@ -42,10 +42,10 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
     standalone: true,
     imports: [CommonModule, ButtonModule, TagModule],
     template: `
-        <article class="flex h-full min-h-[28rem] flex-col rounded-[8px] border border-surface-200 bg-surface-0 p-5 shadow-sm transition-colors hover:border-primary-200 dark:border-surface-700 dark:bg-surface-900 dark:hover:border-primary-700" [class.border-dashed]="!config()">
+        <article class="flex h-full min-h-[28rem] flex-col rounded border border-surface-200 bg-surface-0 p-6 dark:border-surface-700 dark:bg-surface-900">
             <div class="flex items-start justify-between gap-4">
                 <div class="flex min-w-0 items-start gap-3">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-primary-50 text-primary-700 dark:bg-primary-950/30 dark:text-primary-300">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded bg-surface-100 text-primary-700 dark:bg-surface-800 dark:text-primary-300">
                         @if (providerLogo(provider()); as logoSrc) {
                             <img [src]="logoSrc" [alt]="providerLabel(provider()) + ' logo'" class="h-7 w-7 object-contain" />
                         } @else {
