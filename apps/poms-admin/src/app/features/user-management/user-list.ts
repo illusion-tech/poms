@@ -17,6 +17,7 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
+import { UserExternalIdentityPanel } from './user-external-identity-panel';
 
 @Component({
     selector: 'app-user-list',
@@ -36,7 +37,8 @@ import { ToastModule } from 'primeng/toast';
         CheckboxModule,
         MenuModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        UserExternalIdentityPanel
     ],
     providers: [ConfirmationService, MessageService],
     template: `
@@ -244,6 +246,7 @@ import { ToastModule } from 'primeng/toast';
                                 </div>
                             }
                         </div>
+                        <app-user-external-identity-panel [userId]="user.id" [userDisplayName]="user.displayName" />
                         @if (user.lastLoginAt) {
                             <div class="flex flex-col gap-1">
                                 <span class="text-surface-500 text-xs uppercase tracking-wide">最后登录</span>
