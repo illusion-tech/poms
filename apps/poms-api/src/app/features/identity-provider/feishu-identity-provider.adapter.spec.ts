@@ -17,6 +17,7 @@ describe('FeishuIdentityProviderAdapter', () => {
     it('builds a Feishu OAuth authorize URL with scopes and signed state placeholder', () => {
         const url = adapter.buildAdminGrantAuthorizeUrl({
             config: createConfig(),
+            redirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             state: 'state-token',
             scopes: ['contact:user:search']
         });
@@ -44,6 +45,7 @@ describe('FeishuIdentityProviderAdapter', () => {
 
         const result = await adapter.exchangeAdminGrantCode({
             config: createConfig(),
+            redirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             clientSecret: 'client-secret',
             code: 'auth-code'
         });
@@ -54,7 +56,8 @@ describe('FeishuIdentityProviderAdapter', () => {
                 grant_type: 'authorization_code',
                 client_id: 'cli_a',
                 client_secret: 'client-secret',
-                code: 'auth-code'
+                code: 'auth-code',
+                redirect_uri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback'
             }),
             expect.objectContaining({ timeout: 10_000 })
         );
@@ -158,7 +161,8 @@ describe('FeishuIdentityProviderAdapter', () => {
             clientId: 'cli_a',
             encryptedClientSecret: 'v1:redacted',
             secretUpdatedAt: null,
-            redirectUri: 'https://poms.example.com/platform/identity-provider-oauth-grants:callback',
+            redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
+            searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             loginScopes: [],
             searchScopes: ['contact:user:search'],
             tenantAllowlist: [],

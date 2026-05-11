@@ -74,6 +74,7 @@ export class IdentityProviderService {
             encryptedClientSecret,
             secretUpdatedAt: encryptedClientSecret ? new Date() : null,
             redirectUri: request.redirectUri ?? null,
+            searchRedirectUri: request.searchRedirectUri ?? null,
             loginScopes: request.loginScopes ?? [],
             searchScopes: request.searchScopes ?? [],
             tenantAllowlist: request.tenantAllowlist ?? [],
@@ -108,6 +109,7 @@ export class IdentityProviderService {
             config.secretUpdatedAt = new Date();
         }
         if (request.redirectUri !== undefined) config.redirectUri = request.redirectUri ?? null;
+        if (request.searchRedirectUri !== undefined) config.searchRedirectUri = request.searchRedirectUri ?? null;
         if (request.loginScopes !== undefined) config.loginScopes = request.loginScopes;
         if (request.searchScopes !== undefined) config.searchScopes = request.searchScopes;
         if (request.tenantAllowlist !== undefined) config.tenantAllowlist = request.tenantAllowlist;
@@ -137,6 +139,12 @@ export class IdentityProviderService {
         if (!config.clientId || !config.encryptedClientSecret) {
             return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Client id and client secret are required.');
         }
+        if (config.loginEnabled && !config.redirectUri) {
+            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Login redirect URI is required.');
+        }
+        if (config.searchEnabled && !config.searchRedirectUri) {
+            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Search redirect URI is required.');
+        }
 
         return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Success, 'Local configuration is complete. Provider network verification is handled by the adapter slice.');
     }
@@ -156,9 +164,11 @@ export class IdentityProviderService {
         const config = await this.requireConfig(identityProviderConfigId);
         this.assertLoginAllowed(config);
 
+        const redirectUri = this.requireLoginRedirectUri(config);
         const state = this.createExternalLoginState(config.id);
         const authorizeUrl = this.adapterRegistry.get(config.provider).buildExternalLoginAuthorizeUrl({
             config,
+            redirectUri,
             state: state.value,
             scopes: config.loginScopes ?? []
         });
@@ -188,10 +198,12 @@ export class IdentityProviderService {
         const config = await this.requireConfig(state.identityProviderConfigId);
         this.assertLoginAllowed(config);
 
+        const redirectUri = this.requireLoginRedirectUri(config);
         let tokenSet: ProviderOAuthTokenSet;
         try {
             tokenSet = await this.adapterRegistry.get(config.provider).exchangeExternalLoginCode({
                 config,
+                redirectUri,
                 clientSecret: this.decryptSecret(config.encryptedClientSecret ?? ''),
                 code: query.code
             });
@@ -314,9 +326,11 @@ export class IdentityProviderService {
         const config = await this.requireConfig(identityProviderConfigId);
         this.assertSearchGrantAllowed(config);
 
+        const redirectUri = this.requireSearchRedirectUri(config);
         const state = this.createOAuthState(config.id, operatorId);
         const authorizeUrl = this.adapterRegistry.get(config.provider).buildAdminGrantAuthorizeUrl({
             config,
+            redirectUri,
             state: state.value,
             scopes: config.searchScopes ?? []
         });
@@ -347,10 +361,12 @@ export class IdentityProviderService {
         const config = await this.requireConfig(state.identityProviderConfigId);
         this.assertSearchGrantAllowed(config);
 
+        const redirectUri = this.requireSearchRedirectUri(config);
         let tokenSet: ProviderOAuthTokenSet;
         try {
             tokenSet = await this.adapterRegistry.get(config.provider).exchangeAdminGrantCode({
                 config,
+                redirectUri,
                 clientSecret: this.decryptSecret(config.encryptedClientSecret ?? ''),
                 code: query.code
             });
@@ -564,6 +580,9 @@ export class IdentityProviderService {
         if (config.loginEnabled && !config.redirectUri) {
             throw new BadRequestException('Login enabled identity provider config requires a redirect URI.');
         }
+        if (config.searchEnabled && !config.searchRedirectUri) {
+            throw new BadRequestException('Search enabled identity provider config requires a search redirect URI.');
+        }
     }
 
     private assertBindingAllowed(config: IdentityProviderConfig): void {
@@ -588,9 +607,7 @@ export class IdentityProviderService {
         if (!config.encryptedClientSecret) {
             throw new BadRequestException('Identity provider client secret is required before starting provider authorization.');
         }
-        if (!config.redirectUri) {
-            throw new BadRequestException('Identity provider redirect URI is required before starting provider authorization.');
-        }
+        this.requireSearchRedirectUri(config);
     }
 
     private assertLoginAllowed(config: IdentityProviderConfig): void {
@@ -603,9 +620,21 @@ export class IdentityProviderService {
         if (!config.encryptedClientSecret) {
             throw new BadRequestException('Identity provider client secret is required before external login.');
         }
+        this.requireLoginRedirectUri(config);
+    }
+
+    private requireLoginRedirectUri(config: IdentityProviderConfig): string {
         if (!config.redirectUri) {
             throw new BadRequestException('Identity provider redirect URI is required before external login.');
         }
+        return config.redirectUri;
+    }
+
+    private requireSearchRedirectUri(config: IdentityProviderConfig): string {
+        if (!config.searchRedirectUri) {
+            throw new BadRequestException('Identity provider search redirect URI is required before starting provider authorization.');
+        }
+        return config.searchRedirectUri;
     }
 
     private resolveInitialStatus(enabled: boolean, encryptedClientSecret: string | null): string {
@@ -627,6 +656,7 @@ export class IdentityProviderService {
             clientId: config.clientId,
             secretConfigured: Boolean(config.encryptedClientSecret),
             redirectUri: config.redirectUri ?? null,
+            searchRedirectUri: config.searchRedirectUri ?? null,
             loginScopes: config.loginScopes ?? [],
             searchScopes: config.searchScopes ?? [],
             tenantAllowlist: config.tenantAllowlist ?? [],
@@ -652,6 +682,7 @@ export class IdentityProviderService {
             clientId: config.clientId,
             secretConfigured: Boolean(config.encryptedClientSecret),
             redirectUri: config.redirectUri ?? null,
+            searchRedirectUri: config.searchRedirectUri ?? null,
             loginScopes: config.loginScopes ?? [],
             searchScopes: config.searchScopes ?? [],
             tenantAllowlist: config.tenantAllowlist ?? [],

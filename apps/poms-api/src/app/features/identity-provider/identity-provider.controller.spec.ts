@@ -98,6 +98,7 @@ describe('IdentityProviderController', () => {
             clientId: 'cli_a',
             secretConfigured: true,
             redirectUri: 'https://poms.example.com/auth/identity-providers/callback',
+            searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             loginScopes: ['openid'],
             searchScopes: ['contact:user:search'],
             tenantAllowlist: [],

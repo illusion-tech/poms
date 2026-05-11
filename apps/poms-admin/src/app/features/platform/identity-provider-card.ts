@@ -88,6 +88,10 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                         <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Redirect URI</span>
                         <span class="line-clamp-2 break-all text-sm text-surface-500 dark:text-surface-400">{{ currentConfig.redirectUri || '未配置 redirect URI' }}</span>
                     </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Search Redirect URI</span>
+                        <span class="line-clamp-2 break-all text-sm text-surface-500 dark:text-surface-400">{{ currentConfig.searchRedirectUri || '未配置 search redirect URI' }}</span>
+                    </div>
 
                     <div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
                         <div class="flex flex-col gap-1">
@@ -128,6 +132,10 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                     <div class="flex flex-col gap-2">
                         <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Redirect URI</span>
                         <span class="line-clamp-2 break-all text-sm text-surface-500 dark:text-surface-400">未配置 redirect URI</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Search Redirect URI</span>
+                        <span class="line-clamp-2 break-all text-sm text-surface-500 dark:text-surface-400">未配置 search redirect URI</span>
                     </div>
 
                     <div class="grid grid-cols-1 gap-3 xl:grid-cols-2">

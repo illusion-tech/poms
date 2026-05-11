@@ -131,6 +131,7 @@ describe('IdentityProviderService', () => {
                 clientId: 'cli_a',
                 clientSecret: 'raw-secret',
                 redirectUri: 'https://poms.example.com/auth/identity-providers/callback',
+                searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
                 loginScopes: ['openid', 'profile'],
                 searchScopes: ['contact:user:search']
             },
@@ -196,6 +197,21 @@ describe('IdentityProviderService', () => {
                 displayName: '飞书',
                 enabled: true,
                 loginEnabled: true,
+                clientId: 'cli_a',
+                clientSecret: 'raw-secret'
+            })
+        ).rejects.toThrow(BadRequestException);
+    });
+
+    it('rejects enabling search without a search redirect URI', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+
+        await expect(
+            service.createIdentityProviderConfig({
+                provider: IdentityProviderValue.Feishu,
+                displayName: '飞书',
+                enabled: true,
+                searchEnabled: true,
                 clientId: 'cli_a',
                 clientSecret: 'raw-secret'
             })
@@ -302,6 +318,7 @@ describe('IdentityProviderService', () => {
         expect(adapter.buildExternalLoginAuthorizeUrl).toHaveBeenCalledWith(
             expect.objectContaining({
                 config: expect.objectContaining({ id: providerConfigId }),
+                redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
                 scopes: ['openid'],
                 state: expect.any(String)
             })
@@ -320,7 +337,7 @@ describe('IdentityProviderService', () => {
 
         const result = await service.handleExternalLoginCallback({ code: 'auth-code', state });
 
-        expect(adapter.exchangeExternalLoginCode).toHaveBeenCalledWith(expect.objectContaining({ config, clientSecret: 'client-secret', code: 'auth-code' }));
+        expect(adapter.exchangeExternalLoginCode).toHaveBeenCalledWith(expect.objectContaining({ config, redirectUri: 'https://poms.example.com/auth/identity-providers:callback', clientSecret: 'client-secret', code: 'auth-code' }));
         expect(adapter.fetchExternalLoginIdentity).toHaveBeenCalledWith(expect.objectContaining({ accessToken: 'login-access-token' }));
         expect(repository.findActiveExternalIdentityBySubject).toHaveBeenCalledWith(providerConfigId, null, 'ou_feishu_user_1');
         const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as ExternalLoginTicket;
@@ -361,7 +378,7 @@ describe('IdentityProviderService', () => {
     });
 
     it('rejects expired external login tickets before issuing a POMS session', async () => {
-        const ticket = createExternalLoginTicket({ expiresAt: new Date('2026-05-06T00:00:00.000Z') });
+        const ticket = createExternalLoginTicket({ expiresAt: new Date(Date.now() - 60_000) });
         repository.findExternalLoginTicketByHash.mockResolvedValue(ticket);
 
         await expect(service.consumeExternalLoginSession('ticket-value')).rejects.toThrow('expired');
@@ -394,6 +411,7 @@ describe('IdentityProviderService', () => {
         expect(adapter.buildAdminGrantAuthorizeUrl).toHaveBeenCalledWith(
             expect.objectContaining({
                 config: expect.objectContaining({ id: providerConfigId }),
+                redirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
                 scopes: ['contact:user:search'],
                 state: expect.any(String)
             })
@@ -419,6 +437,7 @@ describe('IdentityProviderService', () => {
         expect(adapter.exchangeAdminGrantCode).toHaveBeenCalledWith(
             expect.objectContaining({
                 config,
+                redirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
                 clientSecret: 'client-secret',
                 code: 'auth-code'
             })
@@ -463,7 +482,7 @@ describe('IdentityProviderService', () => {
     it('rejects external user search when the current admin grant is expired', async () => {
         repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
         repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
-        repository.findOAuthGrantByUserProvider.mockResolvedValue(createOAuthGrant({ expiresAt: new Date('2026-05-06T00:00:00.000Z') }));
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(createOAuthGrant({ expiresAt: new Date(Date.now() - 60_000) }));
 
         await expect(service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId)).rejects.toThrow(BadRequestException);
 
@@ -622,6 +641,7 @@ describe('IdentityProviderService', () => {
             encryptedClientSecret: null,
             secretUpdatedAt: null,
             redirectUri: null,
+            searchRedirectUri: null,
             loginScopes: [],
             searchScopes: [],
             tenantAllowlist: [],
@@ -641,7 +661,7 @@ describe('IdentityProviderService', () => {
             searchEnabled: true,
             status: IdentityProviderConfigStatusValue.Active,
             encryptedClientSecret: encryptedSecret('client-secret'),
-            redirectUri: 'https://poms.example.com/platform/identity-provider-oauth-grants:callback',
+            searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             searchScopes: ['contact:user:search'],
             ...overrides
         });
@@ -698,8 +718,8 @@ describe('IdentityProviderService', () => {
             scopes: ['contact:user:search'],
             status: IdentityProviderOAuthGrantStatusValue.Active,
             grantedAt: new Date('2026-05-07T01:00:00.000Z'),
-            expiresAt: new Date('2026-05-08T01:00:00.000Z'),
-            refreshExpiresAt: new Date('2026-06-07T01:00:00.000Z'),
+            expiresAt: new Date(Date.now() + 60 * 60_000),
+            refreshExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60_000),
             lastUsedAt: null,
             revokedAt: null,
             lastError: null,
@@ -723,7 +743,7 @@ describe('IdentityProviderService', () => {
             tenantId: null,
             subjectId: 'ou_feishu_user_1',
             status: ExternalLoginTicketStatusValue.Issued,
-            expiresAt: new Date('2026-05-08T00:00:00.000Z'),
+            expiresAt: new Date(Date.now() + 60_000),
             consumedAt: null,
             rowVersion: 1,
             createdAt: new Date('2026-05-07T01:00:00.000Z'),

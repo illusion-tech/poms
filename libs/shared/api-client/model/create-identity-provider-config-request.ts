@@ -22,6 +22,7 @@ export interface CreateIdentityProviderConfigRequest {
     clientId: string;
     clientSecret?: string;
     redirectUri?: string | null;
+    searchRedirectUri?: string | null;
     loginScopes?: Array<string>;
     searchScopes?: Array<string>;
     tenantAllowlist?: Array<string>;

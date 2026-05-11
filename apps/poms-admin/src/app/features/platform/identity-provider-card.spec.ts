@@ -23,6 +23,7 @@ function createIdentityProviderConfig(overrides: Partial<IdentityProviderConfigS
         clientId: 'cli_feishu_prod',
         secretConfigured: true,
         redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
+        searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
         loginScopes: ['contact:user.base:readonly'],
         searchScopes: ['contact:user.employee_id:readonly'],
         tenantAllowlist: [],
@@ -73,6 +74,7 @@ describe('IdentityProviderCard', () => {
         expect(text).toContain('已激活');
         expect(text).toContain('secret 已配置');
         expect(text).toContain('contact:user.base:readonly');
+        expect(text).toContain('Search Redirect URI');
         expect(text).not.toContain('secret-value');
         expect(logo?.getAttribute('src')).toBe('/identity-providers/feishu.svg');
     });

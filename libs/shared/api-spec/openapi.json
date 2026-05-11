@@ -12565,6 +12565,11 @@
             "format": "uri",
             "nullable": true
           },
+          "searchRedirectUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
           "loginScopes": {
             "maxItems": 32,
             "type": "array",
@@ -12636,6 +12641,7 @@
           "clientId",
           "secretConfigured",
           "redirectUri",
+          "searchRedirectUri",
           "loginScopes",
           "searchScopes",
           "tenantAllowlist",
@@ -12713,6 +12719,11 @@
             "format": "uri",
             "nullable": true
           },
+          "searchRedirectUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
           "loginScopes": {
             "maxItems": 32,
             "type": "array",
@@ -12784,6 +12795,11 @@
             "maxLength": 2048
           },
           "redirectUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "searchRedirectUri": {
             "type": "string",
             "format": "uri",
             "nullable": true

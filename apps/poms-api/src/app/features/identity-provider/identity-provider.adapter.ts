@@ -3,12 +3,14 @@ import type { IdentityProviderConfig } from './identity-provider-config.entity';
 
 export interface BuildAdminGrantAuthorizeUrlInput {
     config: IdentityProviderConfig;
+    redirectUri: string;
     state: string;
     scopes: string[];
 }
 
 export interface ExchangeAdminGrantCodeInput {
     config: IdentityProviderConfig;
+    redirectUri: string;
     clientSecret: string;
     code: string;
 }

@@ -25,6 +25,7 @@ export interface IdentityProviderConfigSummary {
     clientId: string;
     secretConfigured: boolean;
     redirectUri: string | null;
+    searchRedirectUri: string | null;
     loginScopes: Array<string>;
     searchScopes: Array<string>;
     tenantAllowlist: Array<string>;

@@ -42,6 +42,7 @@ interface IdentityProviderForm {
     clientId: string;
     clientSecret: string;
     redirectUri: string;
+    searchRedirectUri: string;
     loginScopesText: string;
     searchScopesText: string;
     tenantAllowlistText: string;
@@ -93,7 +94,8 @@ const SEARCH_GRANT_MODE_OPTIONS: Option<IdentityProviderSearchGrantMode>[] = (Ob
 const FEISHU_CONFIG_TIPS = {
     clientId: '填写飞书开放平台应用凭证中的 AppID。',
     clientSecret: '填写飞书开放平台应用凭证中的 AppSecret。POMS 只保存加密后的 secret，保存后不会回显明文。',
-    redirectUri: '填写飞书 OAuth 回调地址，并在飞书开放平台的重定向 URL 白名单中配置完全一致的地址。登录联调使用 /auth/identity-providers:callback。',
+    redirectUri: '填写飞书登录 OAuth 回调地址，并在飞书开放平台的重定向 URL 白名单中配置完全一致的地址。登录联调使用前端 /auth/identity-providers:callback。',
+    searchRedirectUri: '填写管理员搜索授权 OAuth 回调地址，并加入飞书重定向 URL 白名单。第一版通常使用后端 /api/platform/identity-provider-oauth-grants:callback。',
     loginScopes: '用于员工登录身份读取的飞书授权范围。按飞书开放平台实际开通的权限填写，每行或空格分隔一个 scope。',
     searchScopes: '用于管理员姓名模糊搜索飞书用户的授权范围。第一版通常需要 contact:user:search，并要求管理员完成个人授权。',
     searchGrantMode: '第一版选择“管理员授权”。每个管理员用自己的飞书授权进行搜索，不使用全局通讯录同步。',
@@ -112,6 +114,7 @@ const EMPTY_FORM: IdentityProviderForm = {
     clientId: '',
     clientSecret: '',
     redirectUri: '',
+    searchRedirectUri: '',
     loginScopesText: '',
     searchScopesText: '',
     tenantAllowlistText: '',
@@ -365,6 +368,28 @@ const EMPTY_FORM: IdentityProviderForm = {
                             </div>
                             <input pInputText id="identityProviderRedirectUri" [ngModel]="form().redirectUri" (ngModelChange)="updateText('redirectUri', $event)" placeholder="https://poms.example.com/auth/identity-providers:callback" class="w-full rounded-md!" />
                         </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-2">
+                                <label for="identityProviderSearchRedirectUri" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search Redirect URI</label>
+                                <button
+                                    type="button"
+                                    class="provider-help-trigger"
+                                    [pTooltip]="feishuConfigTip('searchRedirectUri')"
+                                    tooltipPosition="top"
+                                    aria-label="飞书 Search Redirect URI 配置说明"
+                                >
+                                    <i class="pi pi-question provider-help-icon"></i>
+                                </button>
+                            </div>
+                            <input
+                                pInputText
+                                id="identityProviderSearchRedirectUri"
+                                [ngModel]="form().searchRedirectUri"
+                                (ngModelChange)="updateText('searchRedirectUri', $event)"
+                                placeholder="https://poms.example.com/api/platform/identity-provider-oauth-grants:callback"
+                                class="w-full rounded-md!"
+                            />
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 gap-3 md:grid-cols-4">
@@ -565,6 +590,7 @@ export class IdentityProviderList {
             clientId: config.clientId,
             clientSecret: '',
             redirectUri: config.redirectUri ?? '',
+            searchRedirectUri: config.searchRedirectUri ?? '',
             loginScopesText: config.loginScopes.join('\n'),
             searchScopesText: config.searchScopes.join('\n'),
             tenantAllowlistText: config.tenantAllowlist.join('\n'),
@@ -596,7 +622,7 @@ export class IdentityProviderList {
         this.formError.set(null);
     }
 
-    updateText(field: 'tenantId' | 'displayName' | 'clientId' | 'clientSecret' | 'redirectUri' | 'loginScopesText' | 'searchScopesText' | 'tenantAllowlistText', value: string): void {
+    updateText(field: 'tenantId' | 'displayName' | 'clientId' | 'clientSecret' | 'redirectUri' | 'searchRedirectUri' | 'loginScopesText' | 'searchScopesText' | 'tenantAllowlistText', value: string): void {
         this.form.update((form) => ({ ...form, [field]: value }));
         this.formError.set(null);
     }
@@ -630,6 +656,7 @@ export class IdentityProviderList {
                 clientId: form.clientId.trim(),
                 clientSecret: this.optionalText(form.clientSecret) ?? undefined,
                 redirectUri: this.optionalText(form.redirectUri),
+                searchRedirectUri: this.optionalText(form.searchRedirectUri),
                 loginScopes: this.toList(form.loginScopesText),
                 searchScopes: this.toList(form.searchScopesText),
                 tenantAllowlist: this.toList(form.tenantAllowlistText),
@@ -657,6 +684,7 @@ export class IdentityProviderList {
                 clientId: form.clientId.trim(),
                 ...(this.optionalText(form.clientSecret) ? { clientSecret: form.clientSecret.trim() } : {}),
                 redirectUri: this.optionalText(form.redirectUri),
+                searchRedirectUri: this.optionalText(form.searchRedirectUri),
                 loginScopes: this.toList(form.loginScopesText),
                 searchScopes: this.toList(form.searchScopesText),
                 tenantAllowlist: this.toList(form.tenantAllowlistText),
@@ -755,6 +783,8 @@ export class IdentityProviderList {
             error = '启用 provider、登录、绑定、搜索或激活状态前必须配置 Client Secret。';
         } else if (form.loginEnabled && !form.redirectUri.trim()) {
             error = '启用登录前必须配置 Redirect URI。';
+        } else if (form.searchEnabled && !form.searchRedirectUri.trim()) {
+            error = '启用搜索前必须配置 Search Redirect URI。';
         } else if (form.status === IdentityProviderConfigStatus.Active && !form.enabled) {
             error = '激活状态必须同时打开总开关。';
         }

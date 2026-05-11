@@ -19,13 +19,13 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
     }
 
     private buildAuthorizeUrl(input: BuildAdminGrantAuthorizeUrlInput): string {
-        if (!input.config.redirectUri) {
+        if (!input.redirectUri) {
             throw new IdentityProviderAdapterError('Feishu redirect URI is required before starting provider authorization.');
         }
 
         const url = new URL(process.env['FEISHU_OAUTH_AUTHORIZE_URL'] ?? 'https://accounts.feishu.cn/open-apis/authen/v1/authorize');
         url.searchParams.set('client_id', input.config.clientId);
-        url.searchParams.set('redirect_uri', input.config.redirectUri);
+        url.searchParams.set('redirect_uri', input.redirectUri);
         url.searchParams.set('response_type', 'code');
         url.searchParams.set('state', input.state);
         if (input.scopes.length > 0) {
@@ -44,7 +44,7 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
     }
 
     private async exchangeOAuthCode(input: ExchangeAdminGrantCodeInput): Promise<ProviderOAuthTokenSet> {
-        if (!input.config.redirectUri) {
+        if (!input.redirectUri) {
             throw new IdentityProviderAdapterError('Feishu redirect URI is required before exchanging provider authorization code.');
         }
 
@@ -56,7 +56,7 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
                 client_id: input.config.clientId,
                 client_secret: input.clientSecret,
                 code: input.code,
-                redirect_uri: input.config.redirectUri
+                redirect_uri: input.redirectUri
             },
             { timeout: this.timeoutMs() }
         );

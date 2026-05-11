@@ -25,6 +25,7 @@ function createIdentityProviderConfig(overrides: Partial<IdentityProviderConfigS
         clientId: 'cli_feishu_prod',
         secretConfigured: true,
         redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
+        searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
         loginScopes: ['contact:user.base:readonly'],
         searchScopes: ['contact:user.employee_id:readonly'],
         tenantAllowlist: [],
@@ -69,6 +70,7 @@ describe('IdentityProviderList', () => {
                 searchEnabled: false,
                 secretConfigured: false,
                 redirectUri: null,
+                searchRedirectUri: null,
                 loginScopes: [],
                 searchScopes: [],
                 rowVersion: 1
@@ -166,6 +168,7 @@ describe('IdentityProviderList', () => {
                 '飞书 AppID 配置说明',
                 '飞书 AppSecret 配置说明',
                 '飞书 Redirect URI 配置说明',
+                '飞书 Search Redirect URI 配置说明',
                 '飞书搜索授权模式配置说明',
                 '飞书 Login scopes 配置说明',
                 '飞书 Search scopes 配置说明',
@@ -195,6 +198,7 @@ describe('IdentityProviderList', () => {
         component.updateText('clientId', 'cli_feishu');
         component.updateText('clientSecret', 'secret-value');
         component.updateText('redirectUri', 'https://poms.example.com/auth/identity-providers:callback');
+        component.updateText('searchRedirectUri', 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback');
         component.updateText('loginScopesText', 'contact:user.base:readonly');
         component.updateText('searchScopesText', 'contact:user.employee_id:readonly');
         component.updateToggle('enabled', true);
@@ -215,6 +219,7 @@ describe('IdentityProviderList', () => {
             clientId: 'cli_feishu',
             clientSecret: 'secret-value',
             redirectUri: 'https://poms.example.com/auth/identity-providers:callback',
+            searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
             loginScopes: ['contact:user.base:readonly'],
             searchScopes: ['contact:user.employee_id:readonly'],
             tenantAllowlist: [],

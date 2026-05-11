@@ -531,6 +531,7 @@ export const IdentityProviderConfigSummarySchema = z
         clientId: z.string(),
         secretConfigured: z.boolean(),
         redirectUri: z.string().url().nullable(),
+        searchRedirectUri: z.string().url().nullable(),
         loginScopes: IdentityProviderScopeListSchema,
         searchScopes: IdentityProviderScopeListSchema,
         tenantAllowlist: IdentityProviderTenantAllowlistSchema,
@@ -574,6 +575,7 @@ export const CreateIdentityProviderConfigRequestSchema = z
         clientId: z.string().trim().min(1).max(255),
         clientSecret: z.string().trim().min(1).max(2048).optional(),
         redirectUri: z.string().trim().url().nullable().optional(),
+        searchRedirectUri: z.string().trim().url().nullable().optional(),
         loginScopes: IdentityProviderScopeListSchema.optional(),
         searchScopes: IdentityProviderScopeListSchema.optional(),
         tenantAllowlist: IdentityProviderTenantAllowlistSchema.optional(),
@@ -593,6 +595,7 @@ export const UpdateIdentityProviderConfigRequestSchema = z
         clientId: z.string().trim().min(1).max(255).optional(),
         clientSecret: z.string().trim().min(1).max(2048).optional(),
         redirectUri: z.string().trim().url().nullable().optional(),
+        searchRedirectUri: z.string().trim().url().nullable().optional(),
         loginScopes: IdentityProviderScopeListSchema.optional(),
         searchScopes: IdentityProviderScopeListSchema.optional(),
         tenantAllowlist: IdentityProviderTenantAllowlistSchema.optional(),
@@ -610,6 +613,7 @@ export const UpdateIdentityProviderConfigRequestSchema = z
             value.clientId !== undefined ||
             value.clientSecret !== undefined ||
             value.redirectUri !== undefined ||
+            value.searchRedirectUri !== undefined ||
             value.loginScopes !== undefined ||
             value.searchScopes !== undefined ||
             value.tenantAllowlist !== undefined ||
