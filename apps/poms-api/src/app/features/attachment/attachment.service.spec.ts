@@ -280,6 +280,34 @@ describe('AttachmentService', () => {
         expect(storageService.openReadStream).not.toHaveBeenCalled();
     });
 
+    it('opens legacy local attachment downloads through the storage service', async () => {
+        const stream = Readable.from(['legacy local bytes']);
+        const attachment = createAttachment({
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachments/legacy/original.pdf'
+        });
+        repository.findAttachmentById.mockResolvedValue(attachment);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([createLink({ attachmentId: attachment.id })]);
+        storageService.openReadStream.mockResolvedValue(stream);
+
+        const result = await service.openAttachmentDownload(attachment.id, user(['lead:read']), 'request-download');
+
+        expect(result.stream).toBe(stream);
+        expect(storageService.openReadStream).toHaveBeenCalledWith({
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachments/legacy/original.pdf'
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.downloaded',
+                targetId: attachment.id,
+                requestId: 'request-download'
+            })
+        );
+    });
+
     it('opens supported previews and audits the read', async () => {
         const stream = Readable.from(['image bytes']);
         const attachment = createAttachment({
@@ -321,6 +349,38 @@ describe('AttachmentService', () => {
 
         await expect(service.openAttachmentPreview(attachment.id, user(['lead:read']))).rejects.toThrow(UnsupportedMediaTypeException);
         expect(storageService.openReadStream).not.toHaveBeenCalled();
+    });
+
+    it('opens image thumbnails through the same protected storage path', async () => {
+        const stream = Readable.from(['thumbnail bytes']);
+        const attachment = createAttachment({
+            originalName: '现场照片.png',
+            displayName: '现场照片.png',
+            extension: 'png',
+            mimeType: 'image/png',
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachments/legacy/photo.png'
+        });
+        repository.findAttachmentById.mockResolvedValue(attachment);
+        repository.findActiveLinksByAttachmentId.mockResolvedValue([createLink({ attachmentId: attachment.id })]);
+        storageService.openReadStream.mockResolvedValue(stream);
+
+        const result = await service.openAttachmentThumbnail(attachment.id, user(['lead:read']), 'request-thumbnail');
+
+        expect(result.stream).toBe(stream);
+        expect(storageService.openReadStream).toHaveBeenCalledWith({
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachments/legacy/photo.png'
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.thumbnail_viewed',
+                targetId: attachment.id,
+                requestId: 'request-thumbnail'
+            })
+        );
     });
 
     it('creates a new version from the latest attachment and copies active links', async () => {

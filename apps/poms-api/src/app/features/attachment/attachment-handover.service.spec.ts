@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import { AttachmentDownloadPackageStatusValue, ProjectHandoverAttachmentChecklistItemStatusValue, type UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { DictionaryService } from '../dictionary/dictionary.service';
@@ -148,6 +149,35 @@ describe('AttachmentService handover runtime', () => {
         expect(savedBuffer.subarray(0, 4).toString('hex')).toBe('504b0304');
     });
 
+    it('opens ready local download packages through the storage service', async () => {
+        const stream = Readable.from(['zip bytes']);
+        const downloadPackage = makeDownloadPackage({
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachment-download-packages/pkg.zip'
+        });
+        repository.findDownloadPackageById.mockResolvedValue(downloadPackage);
+        storageService.openReadStream.mockResolvedValue(stream);
+
+        const result = await service.openAttachmentDownloadPackage(downloadPackage.id, user(['project:read']), 'request-package-download');
+
+        expect(result.stream).toBe(stream);
+        expect(storageService.openReadStream).toHaveBeenCalledWith({
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachment-download-packages/pkg.zip'
+        });
+        expect(downloadPackage.downloadCount).toBe(1);
+        expect(repository.saveHandoverEntities).toHaveBeenCalledWith([downloadPackage]);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'attachment.batch_package_downloaded',
+                targetId: downloadPackage.id,
+                requestId: 'request-package-download'
+            })
+        );
+    });
+
     function user(permissions: string[]): UserPayload {
         return {
             sub: userId,
@@ -221,6 +251,35 @@ describe('AttachmentService handover runtime', () => {
             status: 'active',
             linkedBy: userId,
             linkedAt: baseDate,
+            ...overrides
+        });
+    }
+
+    function makeDownloadPackage(overrides: Partial<AttachmentDownloadPackage> = {}): AttachmentDownloadPackage {
+        return Object.assign(new AttachmentDownloadPackage(), {
+            id: '79000000-0000-4000-8000-000000000001',
+            handoverId,
+            projectId,
+            status: AttachmentDownloadPackageStatusValue.Ready,
+            manifestSummary: {
+                includedCount: 1,
+                excludedCount: 0,
+                sensitiveExcludedCount: 0,
+                includedAttachmentIds: ['60000000-0000-4000-8000-000000000010'],
+                excludedAttachmentIds: []
+            },
+            storageProvider: 'local',
+            storageBucket: null,
+            storageKey: 'attachment-download-packages/pkg.zip',
+            fileName: '项目移交附件包.zip',
+            expiresAt: new Date('2099-05-11T08:00:00.000Z'),
+            createdBy: userId,
+            createdAt: baseDate,
+            updatedAt: baseDate,
+            downloadedAt: null,
+            downloadCount: 0,
+            failedReason: null,
+            rowVersion: 1,
             ...overrides
         });
     }
