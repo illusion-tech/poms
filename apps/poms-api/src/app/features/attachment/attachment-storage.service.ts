@@ -3,7 +3,7 @@ import { extname, join } from 'node:path';
 import type { Readable } from 'node:stream';
 import { AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
 import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
-import type { AttachmentObjectLocation, StoredAttachmentFile } from './attachment-object-storage-provider.types';
+import type { AttachmentObjectLocation, AttachmentObjectMetadata, AttachmentObjectUploadPlan, AttachmentPresignedPutTarget, StoredAttachmentFile } from './attachment-object-storage-provider.types';
 
 @Injectable()
 export class AttachmentStorageService {
@@ -19,6 +19,33 @@ export class AttachmentStorageService {
             storageKey: join('attachments', yyyy, mm, dd, input.attachmentId, `original${extension}`).replace(/\\/g, '/'),
             body: input.buffer
         });
+    }
+
+    async createOriginalUploadPlan(input: { sessionId: string; originalName: string; sizeBytes: number; createdAt?: Date }): Promise<AttachmentObjectUploadPlan> {
+        const createdAt = input.createdAt ?? new Date();
+        const extension = extname(input.originalName).toLowerCase() || '.bin';
+        const yyyy = String(createdAt.getUTCFullYear());
+        const mm = String(createdAt.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(createdAt.getUTCDate()).padStart(2, '0');
+        return this.storageProviderRegistry.createUploadPlanWithDefaultProvider({
+            storageKey: join('attachments', 'uploads', yyyy, mm, dd, input.sessionId, `original${extension}`).replace(/\\/g, '/'),
+            sizeBytes: input.sizeBytes
+        });
+    }
+
+    async createPresignedPutTarget(location: AttachmentObjectLocation, input: { contentType?: string | null; expiresAt: Date }): Promise<AttachmentPresignedPutTarget> {
+        return this.storageProviderRegistry.createPresignedPutTarget(location, input);
+    }
+
+    async saveUploadSessionObject(location: AttachmentObjectLocation, input: { buffer: Buffer; contentType?: string | null }): Promise<StoredAttachmentFile> {
+        return this.storageProviderRegistry.putObject(location, {
+            body: input.buffer,
+            contentType: input.contentType
+        });
+    }
+
+    async headObject(location: AttachmentObjectLocation): Promise<AttachmentObjectMetadata> {
+        return this.storageProviderRegistry.headObject(location);
     }
 
     async openReadStream(location: AttachmentObjectLocation | string): Promise<Readable> {

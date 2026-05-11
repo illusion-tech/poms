@@ -66,6 +66,30 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
         });
     });
 
+    it('creates presigned put targets without exposing credentials in headers', async () => {
+        const target = await provider.createPresignedPutTarget(
+            config(),
+            {
+                storageProvider: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+                storageBucket: 'poms-prod',
+                storageKey: 'attachments/2026/需求.pdf'
+            },
+            {
+                contentType: 'application/pdf',
+                expiresAt: new Date('2099-05-11T00:00:00.000Z')
+            }
+        );
+
+        const url = new URL(target.url);
+        expect(target.method).toBe('PUT');
+        expect(target.headers).toEqual({ 'content-type': 'application/pdf' });
+        expect(url.searchParams.get('X-Amz-Algorithm')).toBe('AWS4-HMAC-SHA256');
+        expect(url.searchParams.get('X-Amz-Credential')).toContain('AK/');
+        expect(url.searchParams.get('X-Amz-SignedHeaders')).toBe('host');
+        expect(url.searchParams.get('X-Amz-Signature')).toHaveLength(64);
+        expect(target.headers).not.toHaveProperty('authorization');
+    });
+
     it('uses a signed bucket head request for connection tests', async () => {
         const result = await provider.testConnection(config());
 

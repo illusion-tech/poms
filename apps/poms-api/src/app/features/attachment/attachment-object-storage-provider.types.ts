@@ -1,5 +1,6 @@
 import type { Readable } from 'node:stream';
 import type {
+    AttachmentUploadMode,
     AttachmentStorageProviderConfigStatus,
     AttachmentStorageProviderConnectionTestResult,
     AttachmentStorageProviderType
@@ -30,6 +31,17 @@ export interface AttachmentObjectMetadata {
     contentType: string | null;
 }
 
+export interface AttachmentObjectUploadPlan extends AttachmentObjectLocation {
+    uploadMode: AttachmentUploadMode;
+}
+
+export interface AttachmentPresignedPutTarget {
+    method: 'PUT';
+    url: string;
+    headers: Record<string, string>;
+    expiresAt: string;
+}
+
 export interface AttachmentStorageProviderRuntimeConfig {
     id: string | null;
     providerType: AttachmentStorageProviderType;
@@ -51,5 +63,10 @@ export interface AttachmentObjectStorageProvider {
     readObject(config: AttachmentStorageProviderRuntimeConfig, location: AttachmentObjectLocation): Promise<Readable>;
     headObject(config: AttachmentStorageProviderRuntimeConfig, location: AttachmentObjectLocation): Promise<AttachmentObjectMetadata>;
     deleteObject(config: AttachmentStorageProviderRuntimeConfig, location: AttachmentObjectLocation): Promise<void>;
+    createPresignedPutTarget?(
+        config: AttachmentStorageProviderRuntimeConfig,
+        location: AttachmentObjectLocation,
+        input: { contentType?: string | null; expiresAt: Date }
+    ): Promise<AttachmentPresignedPutTarget>;
     testConnection(config: AttachmentStorageProviderRuntimeConfig): Promise<AttachmentStorageProviderConnectionTestResult>;
 }

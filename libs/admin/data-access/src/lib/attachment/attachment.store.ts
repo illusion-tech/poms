@@ -1,7 +1,10 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
     AttachmentApi,
+    AttachmentUploadMode,
+    AttachmentUploadSessionApi,
+    AttachmentUploadSessionOperationType,
     BASE_PATH,
     type AttachmentRelationType,
     type AttachmentSecurityLevel,
@@ -58,7 +61,9 @@ export interface UploadAttachmentVersionInput {
 @Injectable()
 export class AttachmentStore {
     readonly #attachmentApi = inject(AttachmentApi);
+    readonly #attachmentUploadSessionApi = inject(AttachmentUploadSessionApi);
     readonly #httpClient = inject(HttpClient);
+    readonly #directUploadHttpClient = new HttpClient(inject(HttpBackend));
     readonly #basePath = inject(BASE_PATH, { optional: true }) ?? '';
 
     readonly #attachments = signal<AttachmentSummary[]>([]);
@@ -93,16 +98,28 @@ export class AttachmentStore {
     async uploadAttachment(input: UploadAttachmentInput) {
         this.#saving.set(true);
         try {
+            const session = await firstValueFrom(
+                this.#attachmentUploadSessionApi.attachmentUploadSessionControllerCreate({
+                    createAttachmentUploadSessionRequest: {
+                        operationType: AttachmentUploadSessionOperationType.CreateAttachment,
+                        targetType: input.targetType,
+                        targetId: input.targetId,
+                        category: input.category,
+                        securityLevel: input.securityLevel,
+                        relationType: input.relationType,
+                        displayName: input.displayName,
+                        description: input.description,
+                        originalName: input.file.name,
+                        mimeType: input.file.type || 'application/octet-stream',
+                        sizeBytes: input.file.size
+                    }
+                })
+            );
+            await this.uploadObjectForSession(session.id, input.file);
             return await firstValueFrom(
-                this.#attachmentApi.attachmentControllerUpload({
-                    file: input.file,
-                    targetType: input.targetType,
-                    targetId: input.targetId,
-                    category: input.category,
-                    securityLevel: input.securityLevel,
-                    relationType: input.relationType,
-                    displayName: input.displayName,
-                    description: input.description
+                this.#attachmentUploadSessionApi.attachmentUploadSessionControllerComplete({
+                    id: session.id,
+                    completeAttachmentUploadSessionRequest: {}
                 })
             );
         } finally {
@@ -150,15 +167,27 @@ export class AttachmentStore {
     async uploadAttachmentVersion(input: UploadAttachmentVersionInput) {
         this.#saving.set(true);
         try {
+            const session = await firstValueFrom(
+                this.#attachmentUploadSessionApi.attachmentUploadSessionControllerCreate({
+                    createAttachmentUploadSessionRequest: {
+                        operationType: AttachmentUploadSessionOperationType.CreateVersion,
+                        baseAttachmentId: input.id,
+                        changeNote: input.changeNote,
+                        displayName: input.displayName,
+                        category: input.category,
+                        securityLevel: input.securityLevel,
+                        description: input.description,
+                        originalName: input.file.name,
+                        mimeType: input.file.type || 'application/octet-stream',
+                        sizeBytes: input.file.size
+                    }
+                })
+            );
+            await this.uploadObjectForSession(session.id, input.file);
             return await firstValueFrom(
-                this.#attachmentApi.attachmentControllerUploadVersion({
-                    id: input.id,
-                    file: input.file,
-                    changeNote: input.changeNote,
-                    displayName: input.displayName,
-                    category: input.category,
-                    securityLevel: input.securityLevel,
-                    description: input.description
+                this.#attachmentUploadSessionApi.attachmentUploadSessionControllerComplete({
+                    id: session.id,
+                    completeAttachmentUploadSessionRequest: {}
                 })
             );
         } finally {
@@ -235,6 +264,37 @@ export class AttachmentStore {
     clearAttachments() {
         this.#attachments.set([]);
         this.#loaded.set(false);
+    }
+
+    private async uploadObjectForSession(sessionId: string, file: File): Promise<void> {
+        const target = await firstValueFrom(
+            this.#attachmentUploadSessionApi.attachmentUploadSessionControllerCreateUploadTarget({
+                id: sessionId,
+                createAttachmentUploadTargetRequest: {}
+            })
+        );
+
+        if (target.uploadMode === AttachmentUploadMode.Proxy) {
+            await firstValueFrom(
+                this.#attachmentUploadSessionApi.attachmentUploadSessionControllerProxyUploadObject({
+                    id: sessionId,
+                    body: file
+                })
+            );
+            return;
+        }
+
+        if (target.uploadMode === AttachmentUploadMode.PresignedPut) {
+            await firstValueFrom(
+                this.#directUploadHttpClient.put(target.url, file, {
+                    headers: new HttpHeaders(target.headers),
+                    responseType: 'text'
+                })
+            );
+            return;
+        }
+
+        throw new Error(`Unsupported attachment upload mode: ${target.uploadMode}`);
     }
 
     private buildApiUrl(path: string): string {

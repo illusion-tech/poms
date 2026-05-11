@@ -95,6 +95,28 @@ describe('AttachmentStorageProviderRegistry', () => {
         );
     });
 
+    it('freezes upload plans with provider type, bucket and prefixed key', async () => {
+        repository.findDefaultConfig.mockResolvedValue(
+            createConfig({
+                providerType: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+                bucket: 'poms-prod',
+                keyPrefix: 'tenant-a'
+            })
+        );
+
+        const plan = await registry.createUploadPlanWithDefaultProvider({
+            storageKey: '/attachments/uploads/session/original.pdf',
+            sizeBytes: 128
+        });
+
+        expect(plan).toEqual({
+            storageProvider: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+            storageBucket: 'poms-prod',
+            storageKey: 'tenant-a/attachments/uploads/session/original.pdf',
+            uploadMode: 'presigned-put'
+        });
+    });
+
     it('resolves historical reads using the longest matching key prefix even when provider is disabled', async () => {
         const fallback = createConfig({
             providerType: AttachmentStorageProviderTypeValue.HuaweiObsS3,

@@ -17,6 +17,7 @@ import {
     AttachmentLink,
     ProjectHandoverAttachmentSelection
 } from './attachment.entity';
+import { AttachmentUploadSession } from './attachment-upload-session.entity';
 
 export interface AttachmentListFilters {
     targetType: AttachmentTargetType;
@@ -51,6 +52,8 @@ export class AttachmentRepository {
         private readonly attachmentDownloadPackageRepository: EntityRepository<AttachmentDownloadPackage>,
         @InjectRepository(AttachmentDownloadPackageItem)
         private readonly attachmentDownloadPackageItemRepository: EntityRepository<AttachmentDownloadPackageItem>,
+        @InjectRepository(AttachmentUploadSession)
+        private readonly attachmentUploadSessionRepository: EntityRepository<AttachmentUploadSession>,
         @InjectRepository(PlatformUser)
         private readonly platformUserRepository: EntityRepository<PlatformUser>
     ) {}
@@ -79,11 +82,15 @@ export class AttachmentRepository {
         return this.attachmentDownloadPackageItemRepository.create(input);
     }
 
+    createUploadSession(input: ConstructorParameters<typeof AttachmentUploadSession>[0]): AttachmentUploadSession {
+        return this.attachmentUploadSessionRepository.create(input);
+    }
+
     async saveAttachmentWithLink(attachment: Attachment, link: AttachmentLink): Promise<void> {
         await this.getEntityManager().persist([attachment, link]).flush();
     }
 
-    async saveAll(entities: Array<Attachment | AttachmentLink>): Promise<void> {
+    async saveAll(entities: object[]): Promise<void> {
         await this.getEntityManager().persist(entities).flush();
     }
 
@@ -263,6 +270,14 @@ export class AttachmentRepository {
                 orderBy: { createdAt: QueryOrder.ASC }
             }
         );
+    }
+
+    async findUploadSessionById(id: string): Promise<AttachmentUploadSession | null> {
+        return this.attachmentUploadSessionRepository.findOne({ id });
+    }
+
+    async saveUploadSession(uploadSession: AttachmentUploadSession): Promise<void> {
+        await this.attachmentUploadSessionRepository.getEntityManager().persist(uploadSession).flush();
     }
 
     async findPlatformUsersByIds(ids: string[]): Promise<PlatformUser[]> {

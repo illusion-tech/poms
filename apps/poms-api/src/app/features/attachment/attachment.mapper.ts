@@ -1,6 +1,7 @@
-import type { AttachmentLinkSummary, AttachmentSummary } from '@poms/shared-contracts';
+import type { AttachmentLinkSummary, AttachmentSummary, AttachmentUploadSessionSummary } from '@poms/shared-contracts';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Attachment, AttachmentLink } from './attachment.entity';
+import { AttachmentUploadSession } from './attachment-upload-session.entity';
 import { buildAttachmentPreviewUrl, buildAttachmentThumbnailUrl, isPreviewSupported, isThumbnailAvailable } from './attachment-preview.util';
 
 export function mapAttachmentLinkToSummary(link: AttachmentLink): AttachmentLinkSummary {
@@ -54,5 +55,39 @@ export function mapAttachmentToSummary(
         updatedAt: attachment.updatedAt.toISOString(),
         deletedAt: attachment.deletedAt?.toISOString() ?? null,
         links: links.map(mapAttachmentLinkToSummary)
+    };
+}
+
+export function mapAttachmentUploadSessionToSummary(session: AttachmentUploadSession): AttachmentUploadSessionSummary {
+    return {
+        id: session.id,
+        operationType: session.operationType,
+        status: session.status,
+        uploadMode: session.uploadMode,
+        providerType: session.providerType,
+        targetType: session.targetType ?? null,
+        targetId: session.targetId ?? null,
+        baseAttachmentId: session.baseAttachmentId ?? null,
+        completedAttachmentId: session.completedAttachmentId ?? null,
+        originalName: session.originalName,
+        displayName: session.displayName,
+        extension: session.extension,
+        mimeType: session.mimeType,
+        sizeBytes: session.sizeBytes,
+        checksumSha256: session.checksumSha256 ?? null,
+        category: session.category ?? null,
+        securityLevel: session.securityLevel ?? null,
+        relationType: session.relationType ?? null,
+        description: session.description ?? null,
+        changeNote: session.changeNote ?? null,
+        expiresAt: session.expiresAt.toISOString(),
+        uploadedAt: session.uploadedAt?.toISOString() ?? null,
+        completedAt: session.completedAt?.toISOString() ?? null,
+        abortedAt: session.abortedAt?.toISOString() ?? null,
+        failedReason: session.failedReason ?? null,
+        rowVersion: session.rowVersion,
+        createdAt: session.createdAt.toISOString(),
+        createdBy: session.createdBy ?? null,
+        updatedAt: session.updatedAt.toISOString()
     };
 }

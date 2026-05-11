@@ -8,6 +8,7 @@ import type {
     AttachmentObjectMetadata,
     AttachmentObjectPutInput,
     AttachmentObjectStorageProvider,
+    AttachmentPresignedPutTarget,
     AttachmentStorageProviderRuntimeConfig,
     StoredAttachmentFile
 } from './attachment-object-storage-provider.types';
@@ -76,6 +77,40 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
             method: 'DELETE',
             key: location.storageKey
         });
+    }
+
+    async createPresignedPutTarget(
+        config: AttachmentStorageProviderRuntimeConfig,
+        location: AttachmentObjectLocation,
+        input: { contentType?: string | null; expiresAt: Date }
+    ): Promise<AttachmentPresignedPutTarget> {
+        const url = this.buildObjectUrl(config, location.storageKey);
+        const now = new Date();
+        const amzDate = this.toAmzDate(now);
+        const dateStamp = amzDate.slice(0, 8);
+        const credentialScope = `${dateStamp}/${this.requireRegion(config)}/s3/aws4_request`;
+        const expiresInSeconds = Math.max(1, Math.min(3600, Math.floor((input.expiresAt.getTime() - now.getTime()) / 1000)));
+        const signedHeaders = 'host';
+
+        url.searchParams.set('X-Amz-Algorithm', 'AWS4-HMAC-SHA256');
+        url.searchParams.set('X-Amz-Credential', `${this.requireAccessKeyId(config)}/${credentialScope}`);
+        url.searchParams.set('X-Amz-Date', amzDate);
+        url.searchParams.set('X-Amz-Expires', String(expiresInSeconds));
+        url.searchParams.set('X-Amz-SignedHeaders', signedHeaders);
+
+        const canonicalHeaders = `host:${url.host}\n`;
+        const canonicalRequest = ['PUT', url.pathname || '/', this.canonicalQueryString(url.searchParams), canonicalHeaders, signedHeaders, 'UNSIGNED-PAYLOAD'].join('\n');
+        const stringToSign = ['AWS4-HMAC-SHA256', amzDate, credentialScope, createHash('sha256').update(canonicalRequest).digest('hex')].join('\n');
+        const signingKey = this.signingKey(this.requireSecretAccessKey(config), dateStamp, this.requireRegion(config));
+        const signature = createHmac('sha256', signingKey).update(stringToSign).digest('hex');
+        url.searchParams.set('X-Amz-Signature', signature);
+
+        return {
+            method: 'PUT',
+            url: url.toString(),
+            headers: input.contentType ? { 'content-type': input.contentType } : {},
+            expiresAt: input.expiresAt.toISOString()
+        };
     }
 
     async testConnection(config: AttachmentStorageProviderRuntimeConfig) {
@@ -171,6 +206,20 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
             .filter((part, index, list) => part.length > 0 || (index === 0 && list.length === 1))
             .map((part) => encodeURIComponent(part))
             .join('/');
+    }
+
+    private canonicalQueryString(searchParams: URLSearchParams): string {
+        return [...searchParams.entries()]
+            .sort(([leftKey, leftValue], [rightKey, rightValue]) => {
+                const keyComparison = leftKey.localeCompare(rightKey);
+                return keyComparison === 0 ? leftValue.localeCompare(rightValue) : keyComparison;
+            })
+            .map(([key, value]) => `${this.encodeQueryComponent(key)}=${this.encodeQueryComponent(value)}`)
+            .join('&');
+    }
+
+    private encodeQueryComponent(value: string): string {
+        return encodeURIComponent(value).replace(/[!'()*]/g, (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`);
     }
 
     private toAmzDate(date: Date): string {

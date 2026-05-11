@@ -8,6 +8,7 @@ api/app.service.ts
 api/approval.service.ts
 api/attachment-handover.service.ts
 api/attachment-storage-provider.service.ts
+api/attachment-upload-session.service.ts
 api/attachment.service.ts
 api/auth.service.ts
 api/business-discussion.service.ts
@@ -38,6 +39,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/abort-attachment-upload-session-request.ts
 model/acceptance-record-summary.ts
 model/accounting-tax-deductibility-status.ts
 model/accounting-tax-treatment-snapshot-summary.ts
@@ -74,6 +76,13 @@ model/attachment-storage-provider-connection-test-status.ts
 model/attachment-storage-provider-type.ts
 model/attachment-summary.ts
 model/attachment-target-type.ts
+model/attachment-upload-mode.ts
+model/attachment-upload-session-operation-type.ts
+model/attachment-upload-session-status.ts
+model/attachment-upload-session-summary.ts
+model/attachment-upload-target-method.ts
+model/attachment-upload-target-result.ts
+model/attachment-upload-target.ts
 model/audit-log-result.ts
 model/audit-log-summary.ts
 model/baseline-selection-source.ts
@@ -133,6 +142,7 @@ model/commission-rule-version-summary-tier-definition-json.ts
 model/commission-rule-version-summary.ts
 model/competitor-intelligence-record-summary.ts
 model/competitor-position.ts
+model/complete-attachment-upload-session-request.ts
 model/confirm-accounting-tax-treatment-request.ts
 model/confirm-commission-calculation-request.ts
 model/confirm-cost-stage-attribution-mode.ts
@@ -178,6 +188,8 @@ model/creatable-operating-snapshot-mode.ts
 model/create-acceptance-record-request.ts
 model/create-attachment-link-request.ts
 model/create-attachment-storage-provider-config-request.ts
+model/create-attachment-upload-session-request.ts
+model/create-attachment-upload-target-request.ts
 model/create-business-discussion-comment-request.ts
 model/create-commercial-baseline-diff-item-input.ts
 model/create-commercial-release-baseline-request.ts

@@ -14,8 +14,12 @@ import {
     AttachmentSecurityLevelValue,
     AttachmentStatusValue,
     AttachmentTargetTypeValue,
+    AttachmentUploadModeValue,
+    AttachmentUploadSessionOperationTypeValue,
+    AttachmentUploadSessionStatusValue,
     DictionaryDomainValue,
     ProjectHandoverAttachmentChecklistItemStatusValue,
+    type AbortAttachmentUploadSessionRequest,
     type AttachmentCategory,
     type AttachmentDownloadPackageManifestSummary,
     type AttachmentDownloadPackageSummary,
@@ -25,8 +29,14 @@ import {
     type AttachmentStorageProviderType,
     type AttachmentSummary,
     type AttachmentTargetType,
+    type AttachmentUploadSessionSummary,
+    type AttachmentUploadTarget,
+    type AttachmentUploadTargetResult,
     type AttachmentVersionSummary,
     type ClearAttachmentFinalRequest,
+    type CompleteAttachmentUploadSessionRequest,
+    type CreateAttachmentUploadSessionRequest,
+    type CreateAttachmentUploadTargetRequest,
     type CreateProjectHandoverAttachmentDownloadPackageRequest,
     type CreateAttachmentVersionRequest,
     type CreateAttachmentLinkRequest,
@@ -50,7 +60,8 @@ import { Project } from '../project/project.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
 import { Attachment, AttachmentDownloadPackage, ProjectHandoverAttachmentSelection, AttachmentLink } from './attachment.entity';
-import { mapAttachmentToSummary } from './attachment.mapper';
+import { AttachmentUploadSession } from './attachment-upload-session.entity';
+import { mapAttachmentToSummary, mapAttachmentUploadSessionToSummary } from './attachment.mapper';
 import { getAttachmentPreviewKind, isThumbnailAvailable } from './attachment-preview.util';
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentStorageService } from './attachment-storage.service';
@@ -82,6 +93,7 @@ const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] 
 const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = ['quotation', 'contract', 'finance', 'internal-assessment'];
 const BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Normal, AttachmentSecurityLevelValue.Internal];
 const HANDOVER_DOWNLOAD_PACKAGE_TTL_MS = 24 * 60 * 60 * 1000;
+const ATTACHMENT_UPLOAD_SESSION_TTL_MS = 60 * 60 * 1000;
 
 interface HandoverAttachmentCandidate {
     attachment: Attachment;
@@ -104,6 +116,229 @@ export class AttachmentService {
         private readonly runtimeAuditService: RuntimeAuditService,
         private readonly dictionaryService: DictionaryService
     ) {}
+
+    async createAttachmentUploadSession(request: CreateAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentUploadSessionSummary> {
+        if (request.sizeBytes > this.maxAttachmentSizeBytes()) {
+            throw new BadRequestException('Attachment file exceeds size limit');
+        }
+
+        const now = new Date();
+        const originalName = this.sanitizeOriginalName(request.originalName);
+        const extension = this.extractExtension(originalName);
+        this.assertAllowedExtension(extension);
+
+        const normalized = await this.normalizeUploadSessionRequest(request, user);
+        const sessionId = randomUUID();
+        const uploadPlan = await this.storageService.createOriginalUploadPlan({
+            sessionId,
+            originalName,
+            sizeBytes: request.sizeBytes,
+            createdAt: now
+        });
+        const session = this.attachmentRepository.createUploadSession({
+            id: sessionId,
+            operationType: request.operationType,
+            status: AttachmentUploadSessionStatusValue.Pending,
+            uploadMode: uploadPlan.uploadMode,
+            providerType: uploadPlan.storageProvider,
+            storageBucket: uploadPlan.storageBucket,
+            storageKey: uploadPlan.storageKey,
+            targetType: normalized.targetType,
+            targetId: normalized.targetId,
+            baseAttachmentId: normalized.baseAttachmentId,
+            completedAttachmentId: null,
+            originalName,
+            displayName: request.displayName?.trim() || originalName,
+            extension,
+            mimeType: request.mimeType?.trim() || 'application/octet-stream',
+            sizeBytes: request.sizeBytes,
+            checksumSha256: request.checksumSha256?.trim() || null,
+            category: normalized.category,
+            securityLevel: normalized.securityLevel,
+            relationType: normalized.relationType,
+            description: request.description?.trim() || null,
+            changeNote: normalized.changeNote,
+            expiresAt: new Date(now.getTime() + ATTACHMENT_UPLOAD_SESSION_TTL_MS),
+            uploadedAt: null,
+            completedAt: null,
+            abortedAt: null,
+            failedReason: null,
+            createdAt: now,
+            createdBy: user.sub,
+            updatedAt: now
+        });
+
+        await this.attachmentRepository.saveUploadSession(session);
+        await this.recordAudit('attachment_upload_session.created', session.id, user.sub, requestId, 'success', {
+            operationType: session.operationType,
+            uploadMode: session.uploadMode,
+            providerType: session.providerType,
+            targetType: session.targetType,
+            targetId: session.targetId,
+            baseAttachmentId: session.baseAttachmentId,
+            sizeBytes: session.sizeBytes
+        });
+
+        return mapAttachmentUploadSessionToSummary(session);
+    }
+
+    async getAttachmentUploadSession(id: string, user: UserPayload): Promise<AttachmentUploadSessionSummary> {
+        const session = await this.requireUploadSession(id);
+        await this.requireUploadSessionAccess(session, user, 'read');
+        return mapAttachmentUploadSessionToSummary(session);
+    }
+
+    async createAttachmentUploadTarget(id: string, request: CreateAttachmentUploadTargetRequest, user: UserPayload): Promise<AttachmentUploadTarget> {
+        const session = await this.requireUploadSession(id);
+        await this.requireUploadSessionAccess(session, user, 'write');
+        this.assertExpectedUploadSessionVersion(session, request.expectedVersion);
+        await this.assertUploadSessionCanReceiveObject(session);
+
+        if (session.status === AttachmentUploadSessionStatusValue.Pending) {
+            session.status = AttachmentUploadSessionStatusValue.Uploading;
+            await this.attachmentRepository.saveUploadSession(session);
+        }
+
+        const expiresAt = session.expiresAt;
+        if (session.uploadMode === AttachmentUploadModeValue.Proxy) {
+            return {
+                sessionId: session.id,
+                uploadMode: session.uploadMode,
+                method: 'PUT',
+                url: `/api/attachment-upload-sessions/${session.id}/object`,
+                headers: { 'content-type': session.mimeType },
+                expiresAt: expiresAt.toISOString(),
+                providerType: session.providerType,
+                maxSizeBytes: this.maxAttachmentSizeBytes()
+            };
+        }
+
+        const target = await this.storageService.createPresignedPutTarget(this.storageLocationForUploadSession(session), {
+            contentType: session.mimeType,
+            expiresAt
+        });
+
+        return {
+            sessionId: session.id,
+            uploadMode: session.uploadMode,
+            method: target.method,
+            url: target.url,
+            headers: target.headers,
+            expiresAt: target.expiresAt,
+            providerType: session.providerType,
+            maxSizeBytes: this.maxAttachmentSizeBytes()
+        };
+    }
+
+    async proxyUploadAttachmentObject(id: string, buffer: Buffer, user: UserPayload): Promise<AttachmentUploadTargetResult> {
+        const session = await this.requireUploadSession(id);
+        await this.requireUploadSessionAccess(session, user, 'write');
+        await this.assertUploadSessionCanReceiveObject(session);
+
+        if (session.uploadMode !== AttachmentUploadModeValue.Proxy) {
+            throw new BadRequestException('Attachment upload session does not use backend proxy upload mode');
+        }
+        if (buffer.length !== session.sizeBytes) {
+            throw new BadRequestException('Attachment upload object size does not match the declared session size');
+        }
+        const actualChecksum = createHash('sha256').update(buffer).digest('hex');
+        if (session.checksumSha256) {
+            if (actualChecksum !== session.checksumSha256) {
+                throw new BadRequestException('Attachment upload object checksum does not match the declared session checksum');
+            }
+        } else {
+            session.checksumSha256 = actualChecksum;
+        }
+
+        await this.storageService.saveUploadSessionObject(this.storageLocationForUploadSession(session), {
+            buffer,
+            contentType: session.mimeType
+        });
+
+        session.status = AttachmentUploadSessionStatusValue.Uploaded;
+        session.uploadedAt = new Date();
+        await this.attachmentRepository.saveUploadSession(session);
+
+        return this.mapUploadTargetResult(session);
+    }
+
+    async completeAttachmentUploadSession(
+        id: string,
+        request: CompleteAttachmentUploadSessionRequest,
+        user: UserPayload,
+        requestId?: string | null
+    ): Promise<AttachmentSummary> {
+        const session = await this.requireUploadSession(id);
+        await this.requireUploadSessionAccess(session, user, 'write');
+        this.assertExpectedUploadSessionVersion(session, request.expectedVersion);
+        this.assertUploadSessionNotTerminal(session);
+        await this.assertUploadSessionNotExpired(session);
+
+        if (request.checksumSha256 && session.checksumSha256 && request.checksumSha256 !== session.checksumSha256) {
+            throw new BadRequestException('Attachment upload completion checksum does not match the session checksum');
+        }
+
+        session.status = AttachmentUploadSessionStatusValue.Validating;
+        await this.attachmentRepository.saveUploadSession(session);
+
+        try {
+            const location = this.storageLocationForUploadSession(session);
+            const metadata = await this.storageService.headObject(location);
+            if (metadata.sizeBytes !== session.sizeBytes) {
+                throw new ConflictException('Attachment upload object size does not match the declared session size');
+            }
+            const declaredChecksum = request.checksumSha256 ?? session.checksumSha256;
+            if (declaredChecksum || !session.checksumSha256) {
+                const actualChecksum = createHash('sha256').update(await this.storageService.readBuffer(location)).digest('hex');
+                if (declaredChecksum && actualChecksum !== declaredChecksum) {
+                    throw new BadRequestException('Attachment upload object checksum does not match the declared session checksum');
+                }
+                session.checksumSha256 = actualChecksum;
+            }
+            session.uploadedAt ??= new Date();
+
+            const attachment =
+                session.operationType === AttachmentUploadSessionOperationTypeValue.CreateAttachment
+                    ? await this.createAttachmentFromUploadSession(session, user, requestId)
+                    : await this.createAttachmentVersionFromUploadSession(session, user, requestId);
+
+            session.status = AttachmentUploadSessionStatusValue.Completed;
+            session.completedAttachmentId = attachment.id;
+            session.completedAt = new Date();
+            session.failedReason = null;
+            await this.attachmentRepository.saveUploadSession(session);
+            return attachment;
+        } catch (error) {
+            session.status = AttachmentUploadSessionStatusValue.Failed;
+            session.failedReason = error instanceof Error ? error.message : 'Attachment upload session completion failed';
+            await this.attachmentRepository.saveUploadSession(session);
+            throw error;
+        }
+    }
+
+    async abortAttachmentUploadSession(id: string, request: AbortAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentUploadSessionSummary> {
+        const session = await this.requireUploadSession(id);
+        await this.requireUploadSessionAccess(session, user, 'write');
+        this.assertExpectedUploadSessionVersion(session, request.expectedVersion);
+
+        if (session.status === AttachmentUploadSessionStatusValue.Completed) {
+            throw new ConflictException(`Attachment upload session ${id} is already completed`);
+        }
+
+        if (!this.isTerminalUploadSessionStatus(session.status)) {
+            await this.storageService.remove(this.storageLocationForUploadSession(session));
+            session.status = AttachmentUploadSessionStatusValue.Aborted;
+            session.abortedAt = new Date();
+            session.failedReason = request.reason?.trim() || null;
+            await this.attachmentRepository.saveUploadSession(session);
+            await this.recordAudit('attachment_upload_session.aborted', session.id, user.sub, requestId, 'success', {
+                reason: session.failedReason,
+                operationType: session.operationType
+            });
+        }
+
+        return mapAttachmentUploadSessionToSummary(session);
+    }
 
     async uploadAttachment(file: UploadedAttachmentFile | undefined, metadata: UploadAttachmentMetadata, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
         if (!file?.buffer?.length) {
@@ -927,6 +1162,304 @@ export class AttachmentService {
         });
 
         return { downloadPackage, stream };
+    }
+
+    private async normalizeUploadSessionRequest(
+        request: CreateAttachmentUploadSessionRequest,
+        user: UserPayload
+    ): Promise<{
+        targetType: AttachmentTargetType | null;
+        targetId: string | null;
+        baseAttachmentId: string | null;
+        category: AttachmentCategory | null;
+        securityLevel: AttachmentSecurityLevel | null;
+        relationType: AttachmentRelationType | null;
+        changeNote: string | null;
+    }> {
+        if (request.operationType === AttachmentUploadSessionOperationTypeValue.CreateAttachment) {
+            if (!request.targetType || !request.targetId || !request.category) {
+                throw new BadRequestException('Attachment upload session target and category are required');
+            }
+
+            const targetType = this.parseTargetType(request.targetType);
+            const category = await this.requireAttachmentCategory(request.category);
+            await this.requireTargetAccess(targetType, request.targetId, user, 'write');
+
+            return {
+                targetType,
+                targetId: request.targetId,
+                baseAttachmentId: null,
+                category,
+                securityLevel: this.parseSecurityLevel(request.securityLevel ?? this.defaultSecurityLevel(category)),
+                relationType: this.parseRelationType(request.relationType ?? AttachmentRelationTypeValue.Normal),
+                changeNote: null
+            };
+        }
+
+        if (!request.baseAttachmentId || !request.changeNote?.trim()) {
+            throw new BadRequestException('Attachment version upload session requires baseAttachmentId and changeNote');
+        }
+
+        const baseAttachment = await this.requireAttachment(request.baseAttachmentId);
+        const versionGroupId = this.resolveVersionGroupId(baseAttachment);
+        const latest = (await this.attachmentRepository.findLatestAttachmentByVersionGroupId(versionGroupId)) ?? baseAttachment;
+        const latestLinks = await this.attachmentRepository.findActiveLinksByAttachmentId(latest.id);
+        this.assertCanMutateAttachment(latest, latestLinks, user);
+
+        if (latest.status !== AttachmentStatusValue.Active) {
+            throw new ConflictException(`Attachment ${latest.id} is not active`);
+        }
+
+        return {
+            targetType: latestLinks[0]?.targetType ?? null,
+            targetId: latestLinks[0]?.targetId ?? null,
+            baseAttachmentId: request.baseAttachmentId,
+            category: request.category ? await this.requireAttachmentCategory(request.category) : latest.category,
+            securityLevel: request.securityLevel ? this.parseSecurityLevel(request.securityLevel) : latest.securityLevel,
+            relationType: null,
+            changeNote: request.changeNote.trim()
+        };
+    }
+
+    private async createAttachmentFromUploadSession(session: AttachmentUploadSession, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
+        if (!session.targetType || !session.targetId || !session.category || !session.securityLevel || !session.relationType) {
+            throw new BadRequestException('Attachment upload session is missing create-attachment metadata');
+        }
+        if (!session.checksumSha256) {
+            throw new BadRequestException('Attachment upload session is missing checksum metadata');
+        }
+
+        await this.requireTargetAccess(session.targetType, session.targetId, user, 'write');
+
+        const attachmentId = randomUUID();
+        const uploadedAt = session.uploadedAt ?? new Date();
+        const attachment = this.attachmentRepository.createAttachment({
+            id: attachmentId,
+            originalName: session.originalName,
+            displayName: session.displayName,
+            extension: session.extension,
+            mimeType: session.mimeType,
+            sizeBytes: session.sizeBytes,
+            checksumSha256: session.checksumSha256,
+            category: session.category,
+            securityLevel: session.securityLevel,
+            storageProvider: session.providerType,
+            storageBucket: session.storageBucket,
+            storageKey: session.storageKey,
+            status: AttachmentStatusValue.Active,
+            description: session.description ?? null,
+            versionGroupId: attachmentId,
+            versionNo: 1,
+            isLatest: true,
+            isFinal: false,
+            previousAttachmentId: null,
+            changeNote: null,
+            uploadedBy: user.sub,
+            uploadedAt,
+            createdAt: uploadedAt,
+            updatedAt: uploadedAt
+        });
+        const link = this.attachmentRepository.createLink({
+            attachmentId,
+            targetType: session.targetType,
+            targetId: session.targetId,
+            relationType: session.relationType,
+            status: AttachmentLinkStatusValue.Active,
+            linkedBy: user.sub,
+            linkedAt: uploadedAt
+        });
+
+        await this.attachmentRepository.saveAttachmentWithLink(attachment, link);
+        await this.recordAudit('attachment.uploaded', attachment.id, user.sub, requestId, 'success', {
+            targetType: session.targetType,
+            targetId: session.targetId,
+            category: session.category,
+            securityLevel: session.securityLevel,
+            relationType: session.relationType,
+            fileName: session.originalName,
+            sizeBytes: session.sizeBytes,
+            uploadSessionId: session.id
+        });
+
+        return mapAttachmentToSummary(attachment, [link], { uploadedBy: null });
+    }
+
+    private async createAttachmentVersionFromUploadSession(session: AttachmentUploadSession, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
+        if (!session.baseAttachmentId || !session.changeNote?.trim()) {
+            throw new BadRequestException('Attachment upload session is missing create-version metadata');
+        }
+        if (!session.checksumSha256) {
+            throw new BadRequestException('Attachment upload session is missing checksum metadata');
+        }
+
+        const baseAttachment = await this.requireAttachment(session.baseAttachmentId);
+        const versionGroupId = this.resolveVersionGroupId(baseAttachment);
+        const latest = (await this.attachmentRepository.findLatestAttachmentByVersionGroupId(versionGroupId)) ?? baseAttachment;
+        const latestLinks = await this.attachmentRepository.findActiveLinksByAttachmentId(latest.id);
+        this.assertCanMutateAttachment(latest, latestLinks, user);
+
+        if (latest.status !== AttachmentStatusValue.Active) {
+            throw new ConflictException(`Attachment ${latest.id} is not active`);
+        }
+
+        const attachmentId = randomUUID();
+        const uploadedAt = session.uploadedAt ?? new Date();
+        const category = session.category ?? latest.category;
+        const securityLevel = session.securityLevel ?? latest.securityLevel;
+
+        latest.versionGroupId = versionGroupId;
+        latest.isLatest = false;
+
+        const attachment = this.attachmentRepository.createAttachment({
+            id: attachmentId,
+            originalName: session.originalName,
+            displayName: session.displayName,
+            extension: session.extension,
+            mimeType: session.mimeType,
+            sizeBytes: session.sizeBytes,
+            checksumSha256: session.checksumSha256,
+            category,
+            securityLevel,
+            storageProvider: session.providerType,
+            storageBucket: session.storageBucket,
+            storageKey: session.storageKey,
+            status: AttachmentStatusValue.Active,
+            description: session.description ?? latest.description,
+            versionGroupId,
+            versionNo: latest.versionNo + 1,
+            isLatest: true,
+            isFinal: false,
+            previousAttachmentId: latest.id,
+            changeNote: session.changeNote.trim(),
+            uploadedBy: user.sub,
+            uploadedAt,
+            createdAt: uploadedAt,
+            updatedAt: uploadedAt
+        });
+        const copiedLinks = latestLinks.map((link) =>
+            this.attachmentRepository.createLink({
+                attachmentId,
+                targetType: link.targetType,
+                targetId: link.targetId,
+                relationType: link.relationType,
+                status: AttachmentLinkStatusValue.Active,
+                linkedBy: user.sub,
+                linkedAt: uploadedAt
+            })
+        );
+
+        await this.attachmentRepository.saveAll([latest, attachment, ...copiedLinks]);
+        await this.recordAudit('attachment.version_created', attachment.id, user.sub, requestId, 'success', {
+            previousAttachmentId: latest.id,
+            versionGroupId,
+            versionNo: attachment.versionNo,
+            category,
+            securityLevel,
+            fileName: session.originalName,
+            sizeBytes: session.sizeBytes,
+            changeNote: attachment.changeNote,
+            uploadSessionId: session.id
+        });
+
+        return mapAttachmentToSummary(attachment, copiedLinks, { uploadedBy: null });
+    }
+
+    private async requireUploadSession(id: string): Promise<AttachmentUploadSession> {
+        const session = await this.attachmentRepository.findUploadSessionById(id);
+        if (!session) {
+            throw new NotFoundException(`Attachment upload session ${id} not found`);
+        }
+
+        return session;
+    }
+
+    private async requireUploadSessionAccess(session: AttachmentUploadSession, user: UserPayload, mode: 'read' | 'write'): Promise<void> {
+        if (session.createdBy && session.createdBy !== user.sub) {
+            throw new ForbiddenException('Attachment upload session belongs to another user');
+        }
+
+        if (session.targetType && session.targetId) {
+            await this.requireTargetAccess(session.targetType, session.targetId, user, mode);
+            return;
+        }
+
+        if (!session.baseAttachmentId) {
+            return;
+        }
+
+        const attachment = await this.requireAttachment(session.baseAttachmentId);
+        const links = await this.attachmentRepository.findActiveLinksByAttachmentId(attachment.id);
+        if (mode === 'write') {
+            this.assertCanMutateAttachment(attachment, links, user);
+            return;
+        }
+
+        if (!this.canReadAttachmentSecurity(attachment, user.permissions)) {
+            throw new ForbiddenException('Insufficient attachment security permission');
+        }
+
+        if (attachment.uploadedBy !== user.sub && !(await this.canAccessAnyLink(links, user, 'read'))) {
+            throw new ForbiddenException('Insufficient attachment target permission');
+        }
+    }
+
+    private assertExpectedUploadSessionVersion(session: AttachmentUploadSession, expectedVersion: number | undefined): void {
+        if (expectedVersion !== undefined && session.rowVersion !== expectedVersion) {
+            throw new ConflictException(`Attachment upload session ${session.id} version mismatch`);
+        }
+    }
+
+    private async assertUploadSessionCanReceiveObject(session: AttachmentUploadSession): Promise<void> {
+        this.assertUploadSessionNotTerminal(session);
+        await this.assertUploadSessionNotExpired(session);
+
+        if (session.status !== AttachmentUploadSessionStatusValue.Pending && session.status !== AttachmentUploadSessionStatusValue.Uploading) {
+            throw new ConflictException(`Attachment upload session ${session.id} cannot receive another object in status ${session.status}`);
+        }
+    }
+
+    private assertUploadSessionNotTerminal(session: AttachmentUploadSession): void {
+        if (this.isTerminalUploadSessionStatus(session.status)) {
+            throw new ConflictException(`Attachment upload session ${session.id} is already ${session.status}`);
+        }
+    }
+
+    private async assertUploadSessionNotExpired(session: AttachmentUploadSession): Promise<void> {
+        if (session.expiresAt.getTime() > Date.now()) {
+            return;
+        }
+
+        session.status = AttachmentUploadSessionStatusValue.Expired;
+        session.failedReason = 'Attachment upload session expired';
+        await this.attachmentRepository.saveUploadSession(session);
+        throw new ConflictException(`Attachment upload session ${session.id} has expired`);
+    }
+
+    private isTerminalUploadSessionStatus(status: AttachmentUploadSession['status']): boolean {
+        const terminalStatuses: Array<AttachmentUploadSession['status']> = [
+            AttachmentUploadSessionStatusValue.Completed,
+            AttachmentUploadSessionStatusValue.Failed,
+            AttachmentUploadSessionStatusValue.Expired,
+            AttachmentUploadSessionStatusValue.Aborted
+        ];
+        return terminalStatuses.includes(status);
+    }
+
+    private mapUploadTargetResult(session: AttachmentUploadSession): AttachmentUploadTargetResult {
+        return {
+            sessionId: session.id,
+            status: session.status,
+            uploadedAt: session.uploadedAt?.toISOString() ?? null,
+            rowVersion: session.rowVersion
+        };
+    }
+
+    private storageLocationForUploadSession(session: AttachmentUploadSession): AttachmentObjectLocation {
+        return {
+            storageProvider: session.providerType,
+            storageBucket: session.storageBucket ?? null,
+            storageKey: session.storageKey
+        };
     }
 
     private async requireProjectHandoverContext(handoverId: string, user: UserPayload, mode: 'read' | 'write'): Promise<{ handover: ProjectHandover; project: Project }> {

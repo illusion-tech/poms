@@ -3371,6 +3371,175 @@ export const AttachmentListQuerySchema = z
 
 export type AttachmentListQuery = z.infer<typeof AttachmentListQuerySchema>;
 
+export const AttachmentUploadSessionOperationTypeValue = {
+    CreateAttachment: 'create-attachment',
+    CreateVersion: 'create-version'
+} as const;
+
+export const ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES = enumObjectValues(AttachmentUploadSessionOperationTypeValue);
+export type AttachmentUploadSessionOperationType = (typeof ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES)[number];
+export const AttachmentUploadSessionOperationTypeSchema = z.enum(ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES).meta({ id: 'AttachmentUploadSessionOperationType' });
+
+export const AttachmentUploadSessionStatusValue = {
+    Pending: 'pending',
+    Uploading: 'uploading',
+    Uploaded: 'uploaded',
+    Validating: 'validating',
+    Completed: 'completed',
+    Failed: 'failed',
+    Expired: 'expired',
+    Aborted: 'aborted'
+} as const;
+
+export const ATTACHMENT_UPLOAD_SESSION_STATUSES = enumObjectValues(AttachmentUploadSessionStatusValue);
+export type AttachmentUploadSessionStatus = (typeof ATTACHMENT_UPLOAD_SESSION_STATUSES)[number];
+export const AttachmentUploadSessionStatusSchema = z.enum(ATTACHMENT_UPLOAD_SESSION_STATUSES).meta({ id: 'AttachmentUploadSessionStatus' });
+
+export const AttachmentUploadModeValue = {
+    Proxy: 'proxy',
+    PresignedPut: 'presigned-put',
+    Multipart: 'multipart'
+} as const;
+
+export const ATTACHMENT_UPLOAD_MODES = enumObjectValues(AttachmentUploadModeValue);
+export type AttachmentUploadMode = (typeof ATTACHMENT_UPLOAD_MODES)[number];
+export const AttachmentUploadModeSchema = z.enum(ATTACHMENT_UPLOAD_MODES).meta({ id: 'AttachmentUploadMode' });
+
+export const ATTACHMENT_UPLOAD_TARGET_METHODS = ['PUT'] as const;
+export type AttachmentUploadTargetMethod = (typeof ATTACHMENT_UPLOAD_TARGET_METHODS)[number];
+export const AttachmentUploadTargetMethodSchema = z.enum(ATTACHMENT_UPLOAD_TARGET_METHODS).meta({ id: 'AttachmentUploadTargetMethod' });
+
+export const CreateAttachmentUploadSessionRequestSchema = z
+    .object({
+        operationType: AttachmentUploadSessionOperationTypeSchema,
+        targetType: AttachmentTargetTypeSchema.optional(),
+        targetId: z.uuid().optional(),
+        baseAttachmentId: z.uuid().optional(),
+        originalName: z.string().trim().min(1).max(255),
+        displayName: z.string().trim().min(1).max(255).optional(),
+        mimeType: z.string().trim().min(1).max(255).optional(),
+        sizeBytes: z.number().int().positive(),
+        checksumSha256: z.string().trim().length(64).optional(),
+        category: AttachmentCategorySchema.optional(),
+        securityLevel: AttachmentSecurityLevelSchema.optional(),
+        relationType: AttachmentRelationTypeSchema.optional(),
+        description: z.string().trim().max(4000).nullable().optional(),
+        changeNote: z.string().trim().min(1).max(2000).optional()
+    })
+    .superRefine((value, ctx) => {
+        if (value.operationType === AttachmentUploadSessionOperationTypeValue.CreateAttachment) {
+            if (!value.targetType) {
+                ctx.addIssue({ code: 'custom', path: ['targetType'], message: 'targetType is required for create-attachment upload sessions' });
+            }
+            if (!value.targetId) {
+                ctx.addIssue({ code: 'custom', path: ['targetId'], message: 'targetId is required for create-attachment upload sessions' });
+            }
+            if (!value.category) {
+                ctx.addIssue({ code: 'custom', path: ['category'], message: 'category is required for create-attachment upload sessions' });
+            }
+        }
+
+        if (value.operationType === AttachmentUploadSessionOperationTypeValue.CreateVersion) {
+            if (!value.baseAttachmentId) {
+                ctx.addIssue({ code: 'custom', path: ['baseAttachmentId'], message: 'baseAttachmentId is required for create-version upload sessions' });
+            }
+            if (!value.changeNote) {
+                ctx.addIssue({ code: 'custom', path: ['changeNote'], message: 'changeNote is required for create-version upload sessions' });
+            }
+        }
+    })
+    .meta({ id: 'CreateAttachmentUploadSessionRequest' });
+
+export type CreateAttachmentUploadSessionRequest = z.infer<typeof CreateAttachmentUploadSessionRequestSchema>;
+
+export const AttachmentUploadSessionSummarySchema = z
+    .object({
+        id: z.uuid(),
+        operationType: AttachmentUploadSessionOperationTypeSchema,
+        status: AttachmentUploadSessionStatusSchema,
+        uploadMode: AttachmentUploadModeSchema,
+        providerType: AttachmentStorageProviderTypeSchema,
+        targetType: AttachmentTargetTypeSchema.nullable(),
+        targetId: z.uuid().nullable(),
+        baseAttachmentId: z.uuid().nullable(),
+        completedAttachmentId: z.uuid().nullable(),
+        originalName: z.string(),
+        displayName: z.string(),
+        extension: z.string(),
+        mimeType: z.string(),
+        sizeBytes: z.number().int().positive(),
+        checksumSha256: z.string().length(64).nullable(),
+        category: AttachmentCategorySchema.nullable(),
+        securityLevel: AttachmentSecurityLevelSchema.nullable(),
+        relationType: AttachmentRelationTypeSchema.nullable(),
+        description: z.string().nullable(),
+        changeNote: z.string().nullable(),
+        expiresAt: z.iso.datetime(),
+        uploadedAt: z.iso.datetime().nullable(),
+        completedAt: z.iso.datetime().nullable(),
+        abortedAt: z.iso.datetime().nullable(),
+        failedReason: z.string().nullable(),
+        rowVersion: z.number().int().positive(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'AttachmentUploadSessionSummary' });
+
+export type AttachmentUploadSessionSummary = z.infer<typeof AttachmentUploadSessionSummarySchema>;
+
+export const CreateAttachmentUploadTargetRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'CreateAttachmentUploadTargetRequest' });
+
+export type CreateAttachmentUploadTargetRequest = z.infer<typeof CreateAttachmentUploadTargetRequestSchema>;
+
+export const AttachmentUploadTargetSchema = z
+    .object({
+        sessionId: z.uuid(),
+        uploadMode: AttachmentUploadModeSchema,
+        method: AttachmentUploadTargetMethodSchema,
+        url: z.string().min(1),
+        headers: z.record(z.string(), z.string()),
+        expiresAt: z.iso.datetime(),
+        providerType: AttachmentStorageProviderTypeSchema,
+        maxSizeBytes: z.number().int().positive()
+    })
+    .meta({ id: 'AttachmentUploadTarget' });
+
+export type AttachmentUploadTarget = z.infer<typeof AttachmentUploadTargetSchema>;
+
+export const AttachmentUploadTargetResultSchema = z
+    .object({
+        sessionId: z.uuid(),
+        status: AttachmentUploadSessionStatusSchema,
+        uploadedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int().positive()
+    })
+    .meta({ id: 'AttachmentUploadTargetResult' });
+
+export type AttachmentUploadTargetResult = z.infer<typeof AttachmentUploadTargetResultSchema>;
+
+export const CompleteAttachmentUploadSessionRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional(),
+        checksumSha256: z.string().trim().length(64).optional()
+    })
+    .meta({ id: 'CompleteAttachmentUploadSessionRequest' });
+
+export type CompleteAttachmentUploadSessionRequest = z.infer<typeof CompleteAttachmentUploadSessionRequestSchema>;
+
+export const AbortAttachmentUploadSessionRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional(),
+        reason: z.string().trim().min(1).max(1000).optional()
+    })
+    .meta({ id: 'AbortAttachmentUploadSessionRequest' });
+
+export type AbortAttachmentUploadSessionRequest = z.infer<typeof AbortAttachmentUploadSessionRequestSchema>;
+
 export const UpdateAttachmentRequestSchema = z
     .object({
         displayName: z.string().trim().min(1).max(255).optional(),

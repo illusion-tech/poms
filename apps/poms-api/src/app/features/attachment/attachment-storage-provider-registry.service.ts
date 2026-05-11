@@ -4,6 +4,7 @@ import {
     AttachmentStorageProviderConfigStatusValue,
     AttachmentStorageProviderConnectionTestStatusValue,
     AttachmentStorageProviderTypeValue,
+    AttachmentUploadModeValue,
     type AttachmentStorageProviderConnectionTestResult,
     type AttachmentStorageProviderType
 } from '@poms/shared-contracts';
@@ -16,6 +17,8 @@ import type {
     AttachmentObjectMetadata,
     AttachmentObjectPutInput,
     AttachmentObjectStorageProvider,
+    AttachmentObjectUploadPlan,
+    AttachmentPresignedPutTarget,
     AttachmentStorageProviderRuntimeConfig,
     StoredAttachmentFile
 } from './attachment-object-storage-provider.types';
@@ -38,6 +41,35 @@ export class AttachmentStorageProviderRegistry {
             ...input,
             storageKey
         });
+    }
+
+    async createUploadPlanWithDefaultProvider(input: { storageKey: string; sizeBytes: number }): Promise<AttachmentObjectUploadPlan> {
+        const config = await this.resolveDefaultRuntimeConfig();
+        const storageKey = this.applyKeyPrefix(config.keyPrefix, input.storageKey);
+        return {
+            storageProvider: config.providerType,
+            storageBucket: config.bucket ?? null,
+            storageKey,
+            uploadMode: config.providerType === AttachmentStorageProviderTypeValue.Local ? AttachmentUploadModeValue.Proxy : AttachmentUploadModeValue.PresignedPut
+        };
+    }
+
+    async putObject(location: AttachmentObjectLocation, input: Omit<AttachmentObjectPutInput, 'storageKey'>): Promise<StoredAttachmentFile> {
+        const config = await this.resolveRuntimeConfigForLocation(location);
+        return this.providerFor(location.storageProvider).putObject(config, {
+            ...input,
+            storageKey: location.storageKey
+        });
+    }
+
+    async createPresignedPutTarget(location: AttachmentObjectLocation, input: { contentType?: string | null; expiresAt: Date }): Promise<AttachmentPresignedPutTarget> {
+        const config = await this.resolveRuntimeConfigForLocation(location);
+        const provider = this.providerFor(location.storageProvider);
+        if (!provider.createPresignedPutTarget) {
+            throw new BadRequestException(`Attachment storage provider ${location.storageProvider} does not support presigned uploads.`);
+        }
+
+        return provider.createPresignedPutTarget(config, location, input);
     }
 
     async readObject(location: AttachmentObjectLocation): Promise<Readable> {

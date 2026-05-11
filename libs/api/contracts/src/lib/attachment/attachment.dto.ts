@@ -7,12 +7,19 @@ import {
     AttachmentStorageProviderConnectionTestResultSchema,
     AttachmentSummarySchema,
     AttachmentVersionListSchema,
+    AttachmentUploadSessionSummarySchema,
+    AttachmentUploadTargetResultSchema,
+    AttachmentUploadTargetSchema,
+    AbortAttachmentUploadSessionRequestSchema,
     AttachmentDownloadPackageSummarySchema,
     ClearAttachmentFinalRequestSchema,
     CreateAttachmentStorageProviderConfigRequestSchema,
+    CreateAttachmentUploadSessionRequestSchema,
+    CreateAttachmentUploadTargetRequestSchema,
     CreateProjectHandoverAttachmentDownloadPackageRequestSchema,
     CreateAttachmentVersionRequestSchema,
     CreateAttachmentLinkRequestSchema,
+    CompleteAttachmentUploadSessionRequestSchema,
     MarkAttachmentFinalRequestSchema,
     ProjectHandoverAttachmentChecklistViewSchema,
     RefreshProjectHandoverAttachmentChecklistRequestSchema,
@@ -29,6 +36,20 @@ export class AttachmentDto extends createZodDto(AttachmentSummarySchema) {}
 export class AttachmentListDto extends createZodDto(AttachmentListSchema) {}
 
 export class AttachmentListQueryDto extends createZodDto(AttachmentListQuerySchema) {}
+
+export class CreateAttachmentUploadSessionRequestDto extends createZodDto(CreateAttachmentUploadSessionRequestSchema) {}
+
+export class AttachmentUploadSessionDto extends createZodDto(AttachmentUploadSessionSummarySchema) {}
+
+export class CreateAttachmentUploadTargetRequestDto extends createZodDto(CreateAttachmentUploadTargetRequestSchema) {}
+
+export class AttachmentUploadTargetDto extends createZodDto(AttachmentUploadTargetSchema) {}
+
+export class AttachmentUploadTargetResultDto extends createZodDto(AttachmentUploadTargetResultSchema) {}
+
+export class CompleteAttachmentUploadSessionRequestDto extends createZodDto(CompleteAttachmentUploadSessionRequestSchema) {}
+
+export class AbortAttachmentUploadSessionRequestDto extends createZodDto(AbortAttachmentUploadSessionRequestSchema) {}
 
 export class AttachmentStorageProviderConfigDto extends createZodDto(AttachmentStorageProviderConfigDetailSchema) {}
 

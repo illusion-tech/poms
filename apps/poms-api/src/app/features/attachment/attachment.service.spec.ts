@@ -1,4 +1,5 @@
 import { ForbiddenException, UnsupportedMediaTypeException } from '@nestjs/common';
+import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
 import type { UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
@@ -6,6 +7,7 @@ import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Attachment, AttachmentLink } from './attachment.entity';
+import { AttachmentUploadSession } from './attachment-upload-session.entity';
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentStorageService } from './attachment-storage.service';
 import { AttachmentService } from './attachment.service';
@@ -27,9 +29,12 @@ describe('AttachmentService', () => {
         repository = {
             createAttachment: jest.fn((input) => createAttachment(input as Partial<Attachment>)),
             createLink: jest.fn((input) => createLink(input as Partial<AttachmentLink>)),
+            createUploadSession: jest.fn((input) => createUploadSession(input as Partial<AttachmentUploadSession>)),
             saveAttachmentWithLink: jest.fn().mockResolvedValue(undefined),
             saveAll: jest.fn().mockResolvedValue(undefined),
+            saveUploadSession: jest.fn().mockResolvedValue(undefined),
             findAttachmentById: jest.fn(),
+            findUploadSessionById: jest.fn(),
             findLinkById: jest.fn(),
             findActiveLinksByAttachmentId: jest.fn(),
             findAttachmentsByTarget: jest.fn(),
@@ -49,6 +54,20 @@ describe('AttachmentService', () => {
                 storageBucket: null,
                 storageKey: 'attachments/2026/04/30/file/original.pdf'
             }),
+            createOriginalUploadPlan: jest.fn().mockResolvedValue({
+                storageProvider: 'local',
+                storageBucket: null,
+                storageKey: 'attachments/uploads/2026/04/30/session/original.pdf',
+                uploadMode: 'proxy'
+            }),
+            saveUploadSessionObject: jest.fn().mockResolvedValue({
+                storageProvider: 'local',
+                storageBucket: null,
+                storageKey: 'attachments/uploads/2026/04/30/session/original.pdf'
+            }),
+            createPresignedPutTarget: jest.fn(),
+            headObject: jest.fn(),
+            readBuffer: jest.fn(),
             openReadStream: jest.fn(),
             remove: jest.fn()
         } as unknown as jest.Mocked<AttachmentStorageService>;
@@ -60,6 +79,95 @@ describe('AttachmentService', () => {
         };
 
         service = new AttachmentService(repository, storageService, runtimeAuditService, dictionaryService as never);
+    });
+
+    it('creates an upload session without creating an attachment row', async () => {
+        const result = await service.createAttachmentUploadSession(
+            {
+                operationType: 'create-attachment',
+                targetType: 'lead',
+                targetId: leadId,
+                category: 'demand',
+                originalName: '需求确认.pdf',
+                mimeType: 'application/pdf',
+                sizeBytes: 16
+            },
+            user(['lead:write']),
+            'request-session'
+        );
+
+        expect(storageService.createOriginalUploadPlan).toHaveBeenCalledWith(
+            expect.objectContaining({
+                originalName: '需求确认.pdf',
+                sizeBytes: 16
+            })
+        );
+        expect(repository.createUploadSession).toHaveBeenCalledWith(
+            expect.objectContaining({
+                operationType: 'create-attachment',
+                status: 'pending',
+                uploadMode: 'proxy',
+                targetType: 'lead',
+                targetId: leadId,
+                category: 'demand'
+            })
+        );
+        expect(repository.createAttachment).not.toHaveBeenCalled();
+        expect(repository.saveUploadSession).toHaveBeenCalledWith(expect.any(AttachmentUploadSession));
+        expect(result.status).toBe('pending');
+        expect(result.uploadMode).toBe('proxy');
+    });
+
+    it('stores a proxy upload object and creates the attachment only when the session completes', async () => {
+        const buffer = Buffer.from('attachment bytes');
+        const checksumSha256 = createHash('sha256').update(buffer).digest('hex');
+        const session = createUploadSession({
+            sizeBytes: buffer.length,
+            checksumSha256
+        });
+        repository.findUploadSessionById.mockResolvedValue(session);
+        storageService.headObject.mockResolvedValue({
+            sizeBytes: buffer.length,
+            eTag: null,
+            lastModified: baseDate.toISOString(),
+            contentType: 'application/pdf'
+        });
+        storageService.readBuffer.mockResolvedValue(buffer);
+
+        const uploadResult = await service.proxyUploadAttachmentObject(session.id, buffer, user(['lead:write']));
+
+        expect(storageService.saveUploadSessionObject).toHaveBeenCalledWith(
+            expect.objectContaining({
+                storageProvider: 'local',
+                storageKey: session.storageKey
+            }),
+            expect.objectContaining({
+                buffer
+            })
+        );
+        expect(uploadResult.status).toBe('uploaded');
+        expect(repository.createAttachment).not.toHaveBeenCalled();
+
+        const completed = await service.completeAttachmentUploadSession(session.id, { expectedVersion: session.rowVersion }, user(['lead:write']), 'request-complete');
+
+        expect(storageService.headObject).toHaveBeenCalledWith(
+            expect.objectContaining({
+                storageProvider: 'local',
+                storageKey: session.storageKey
+            })
+        );
+        expect(repository.createAttachment).toHaveBeenCalledWith(
+            expect.objectContaining({
+                originalName: session.originalName,
+                storageKey: session.storageKey,
+                checksumSha256,
+                status: 'active'
+            })
+        );
+        expect(repository.saveAttachmentWithLink).toHaveBeenCalledWith(expect.any(Attachment), expect.any(AttachmentLink));
+        expect(completed.links).toHaveLength(1);
+        expect(session.status).toBe('completed');
+        expect(session.completedAttachmentId).toBe(completed.id);
     });
 
     it('uploads attachment metadata, stores the file, links the target and audits the action', async () => {
@@ -419,6 +527,43 @@ describe('AttachmentService', () => {
             linkedAt: baseDate,
             unlinkedBy: null,
             unlinkedAt: null,
+            ...overrides
+        });
+    }
+
+    function createUploadSession(overrides: Partial<AttachmentUploadSession> = {}): AttachmentUploadSession {
+        return Object.assign(new AttachmentUploadSession(), {
+            id: '62000000-0000-4000-8000-000000000001',
+            operationType: 'create-attachment',
+            status: 'pending',
+            uploadMode: 'proxy',
+            providerType: 'local',
+            storageBucket: null,
+            storageKey: 'attachments/uploads/2026/04/30/session/original.pdf',
+            targetType: 'lead',
+            targetId: leadId,
+            baseAttachmentId: null,
+            completedAttachmentId: null,
+            originalName: '需求确认.pdf',
+            displayName: '需求确认.pdf',
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            sizeBytes: 16,
+            checksumSha256: null,
+            category: 'demand',
+            securityLevel: 'internal',
+            relationType: 'normal',
+            description: null,
+            changeNote: null,
+            expiresAt: new Date('2099-05-11T08:00:00.000Z'),
+            uploadedAt: null,
+            completedAt: null,
+            abortedAt: null,
+            failedReason: null,
+            rowVersion: 1,
+            createdAt: baseDate,
+            createdBy: userId,
+            updatedAt: baseDate,
             ...overrides
         });
     }

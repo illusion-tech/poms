@@ -15,6 +15,8 @@ import { AttachmentStorageProviderRegistry } from './attachment-storage-provider
 import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
 import { AttachmentController } from './attachment.controller';
+import { AttachmentUploadSessionController } from './attachment-upload-session.controller';
+import { AttachmentUploadSession } from './attachment-upload-session.entity';
 import {
     Attachment,
     AttachmentDownloadPackage,
@@ -33,6 +35,7 @@ import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-
         MikroOrmModule.forFeature([
             Attachment,
             AttachmentStorageProviderConfig,
+            AttachmentUploadSession,
             AttachmentLink,
             ProjectHandoverAttachmentSelection,
             AttachmentDownloadPackage,
@@ -47,7 +50,7 @@ import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-
         ]),
         DictionaryModule
     ],
-    controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController],
+    controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController, AttachmentUploadSessionController],
     providers: [
         AttachmentRepository,
         AttachmentService,
