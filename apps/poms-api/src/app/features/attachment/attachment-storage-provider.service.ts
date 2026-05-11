@@ -13,22 +13,19 @@ import {
     type UpdateAttachmentStorageProviderConfigRequest
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
-import { SecretCipherService, type SecretCipherOptions } from '../../core/secret/secret-cipher.service';
+import { SecretCipherService } from '../../core/secret/secret-cipher.service';
 import { AttachmentStorageProviderConfig } from './attachment-storage-provider-config.entity';
+import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
 import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
-
-const ATTACHMENT_STORAGE_SECRET_CIPHER_OPTIONS: SecretCipherOptions = {
-    envKeys: ['ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY', 'POMS_SECRET_KEY', 'JWT_SECRET'],
-    defaultValue: 'poms-dev-secret-change-in-production',
-    unreadableMessage: 'Attachment storage provider secret is not readable.'
-};
+import { ATTACHMENT_STORAGE_SECRET_CIPHER_OPTIONS } from './attachment-storage-provider-secret.constants';
 
 @Injectable()
 export class AttachmentStorageProviderService {
     constructor(
         private readonly repository: AttachmentStorageProviderRepository,
         private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly secretCipherService: SecretCipherService
+        private readonly secretCipherService: SecretCipherService,
+        private readonly storageProviderRegistry: AttachmentStorageProviderRegistry
     ) {}
 
     async listAttachmentStorageProviderConfigs(query: AttachmentStorageProviderConfigListQuery = {}): Promise<AttachmentStorageProviderConfigList> {
@@ -137,11 +134,7 @@ export class AttachmentStorageProviderService {
             return this.connectionTestResult(AttachmentStorageProviderConnectionTestStatusValue.Failed, `Attachment storage provider configuration is incomplete: ${missing.join(', ')}.`);
         }
 
-        if (config.providerType === AttachmentStorageProviderTypeValue.Local) {
-            return this.connectionTestResult(AttachmentStorageProviderConnectionTestStatusValue.Success, 'Local storage provider configuration is complete. Filesystem path verification is handled by the storage provider runtime slice.');
-        }
-
-        return this.connectionTestResult(AttachmentStorageProviderConnectionTestStatusValue.Success, 'Huawei OBS S3-compatible configuration is complete. Provider network verification is deferred to the storage provider runtime slice.');
+        return this.storageProviderRegistry.testConfig(config);
     }
 
     async setDefaultAttachmentStorageProvider(id: string, request: SetDefaultAttachmentStorageProviderRequest = {}, operatorId?: string | null): Promise<AttachmentStorageProviderConfigDetail> {

@@ -22,6 +22,7 @@ import {
     type AttachmentListQuery,
     type AttachmentRelationType,
     type AttachmentSecurityLevel,
+    type AttachmentStorageProviderType,
     type AttachmentSummary,
     type AttachmentTargetType,
     type AttachmentVersionSummary,
@@ -53,6 +54,7 @@ import { mapAttachmentToSummary } from './attachment.mapper';
 import { getAttachmentPreviewKind, isThumbnailAvailable } from './attachment-preview.util';
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentStorageService } from './attachment-storage.service';
+import type { AttachmentObjectLocation } from './attachment-object-storage-provider.types';
 
 export interface UploadedAttachmentFile {
     originalname: string;
@@ -183,7 +185,7 @@ export class AttachmentService {
 
             return mapAttachmentToSummary(attachment, [link], { uploadedBy: null });
         } catch (error) {
-            await this.storageService.remove(stored.storageKey);
+            await this.storageService.remove(stored);
             throw error;
         }
     }
@@ -211,7 +213,7 @@ export class AttachmentService {
 
     async openAttachmentDownload(id: string, user: UserPayload, requestId?: string | null): Promise<{ attachment: Attachment; stream: Readable }> {
         const { attachment } = await this.requireReadableAttachment(id, user);
-        const stream = await this.storageService.openReadStream(attachment.storageKey);
+        const stream = await this.storageService.openReadStream(this.storageLocationForAttachment(attachment));
         await this.recordAudit('attachment.downloaded', attachment.id, user.sub, requestId, 'success', {
             fileName: attachment.originalName,
             category: attachment.category,
@@ -229,7 +231,7 @@ export class AttachmentService {
             throw new UnsupportedMediaTypeException(`Attachment ${id} does not support preview`);
         }
 
-        const stream = await this.storageService.openReadStream(attachment.storageKey);
+        const stream = await this.storageService.openReadStream(this.storageLocationForAttachment(attachment));
         await this.recordAudit('attachment.previewed', attachment.id, user.sub, requestId, 'success', {
             fileName: attachment.originalName,
             category: attachment.category,
@@ -249,7 +251,7 @@ export class AttachmentService {
             throw new UnsupportedMediaTypeException(`Attachment ${id} does not have an available thumbnail`);
         }
 
-        const stream = await this.storageService.openReadStream(attachment.storageKey);
+        const stream = await this.storageService.openReadStream(this.storageLocationForAttachment(attachment));
         await this.recordAudit('attachment.thumbnail_viewed', attachment.id, user.sub, requestId, 'success', {
             fileName: attachment.originalName,
             category: attachment.category,
@@ -380,7 +382,7 @@ export class AttachmentService {
 
             return mapAttachmentToSummary(attachment, copiedLinks, { uploadedBy: null });
         } catch (error) {
-            await this.storageService.remove(stored.storageKey);
+            await this.storageService.remove(stored);
             throw error;
         }
     }
@@ -913,7 +915,7 @@ export class AttachmentService {
             throw new ConflictException(`Attachment download package ${packageId} is not ready`);
         }
 
-        const stream = await this.storageService.openReadStream(downloadPackage.storageKey);
+        const stream = await this.storageService.openReadStream(this.storageLocationForDownloadPackage(downloadPackage));
         downloadPackage.downloadedAt = new Date();
         downloadPackage.downloadCount += 1;
         await this.attachmentRepository.saveHandoverEntities([downloadPackage]);
@@ -1195,7 +1197,7 @@ export class AttachmentService {
             }
 
             const attachment = await this.requireAttachment(selection.attachmentId);
-            const fileBuffer = await this.storageService.readBuffer(attachment.storageKey);
+            const fileBuffer = await this.storageService.readBuffer(this.storageLocationForAttachment(attachment));
             entries.push({
                 name: this.buildPackageEntryName(selection, index),
                 data: fileBuffer
@@ -1313,6 +1315,26 @@ export class AttachmentService {
             downloadedAt: downloadPackage.downloadedAt?.toISOString() ?? null,
             downloadCount: downloadPackage.downloadCount,
             failedReason: downloadPackage.failedReason ?? null
+        };
+    }
+
+    private storageLocationForAttachment(attachment: Attachment): AttachmentObjectLocation {
+        return {
+            storageProvider: attachment.storageProvider as AttachmentStorageProviderType,
+            storageBucket: attachment.storageBucket ?? null,
+            storageKey: attachment.storageKey
+        };
+    }
+
+    private storageLocationForDownloadPackage(downloadPackage: AttachmentDownloadPackage): AttachmentObjectLocation {
+        if (!downloadPackage.storageKey) {
+            throw new ConflictException(`Attachment download package ${downloadPackage.id} has no stored file`);
+        }
+
+        return {
+            storageProvider: (downloadPackage.storageProvider ?? 'local') as AttachmentStorageProviderType,
+            storageBucket: downloadPackage.storageBucket ?? null,
+            storageKey: downloadPackage.storageKey
         };
     }
 

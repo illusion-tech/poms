@@ -550,6 +550,7 @@
 68. 2026-05-07 `EX-55A-R` 已完成 `G4 / Done`：实现提交 `38e4e19`，系统评分切到 `lead-score-v2`，评分历史快照写入结构化事实 breakdown；本轮同时新增当前 drift inventory，关闭 EX-55A-R post-G3 状态漂移、销售跟进提醒日期敏感测试漂移和已完成切片生命周期归档漂移，`FE-57` 因浏览器 UX 复核仍保持 `Doing / G3`。
 69. 2026-05-11 `EX-65A` 已完成 `G1`：新增 `ex-65a-attachment-storage-provider-upload-session-baseline.md`，冻结附件存储 provider 配置、local proxy、华为云 OBS S3-compatible 签名直传 / 分片上传、upload session 状态机、旧 multipart 上传接口 direct cutover 和 `B14` planned routes；本片不写运行时代码，后端运行时从 `EX-65B` 开始。
 70. 2026-05-11 `EX-65B` 已完成 `G4`：落地 `attachment_storage_provider_config` 表、附件存储 provider config API、`platform:attachment-storage-providers:manage` 权限、共享 `SecretCipherService`、OpenAPI / generated client、migration 和 focused / full API tests；真实 OBS 网络连通性留给 `EX-65C` / `EX-65E` 验证，`EX-65C` 可开始 provider registry。
+71. 2026-05-11 `EX-65C` 已完成 `G4`：落地附件对象存储 provider runtime contract、registry、local provider、Huawei OBS S3-compatible provider、runtime `testConnection` 和现有附件读写路径接入；本片不新增 route / OpenAPI / migration，`EX-65D` 可开始 upload session、local proxy、OBS presigned / multipart 与旧上传入口 direct cutover。
 
 ---
 

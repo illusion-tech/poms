@@ -187,7 +187,11 @@ describe('AttachmentService', () => {
         const result = await service.openAttachmentPreview(attachment.id, user(['lead:read']), 'request-preview');
 
         expect(result.stream).toBe(stream);
-        expect(storageService.openReadStream).toHaveBeenCalledWith(attachment.storageKey);
+        expect(storageService.openReadStream).toHaveBeenCalledWith({
+            storageProvider: attachment.storageProvider,
+            storageBucket: attachment.storageBucket,
+            storageKey: attachment.storageKey
+        });
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
                 eventType: 'attachment.previewed',

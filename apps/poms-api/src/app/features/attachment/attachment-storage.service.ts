@@ -1,18 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { createReadStream } from 'node:fs';
-import { mkdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
-import { dirname, extname, join, resolve, sep } from 'node:path';
+import { Injectable } from '@nestjs/common';
+import { extname, join } from 'node:path';
 import type { Readable } from 'node:stream';
-
-export interface StoredAttachmentFile {
-    storageProvider: 'local';
-    storageBucket: string | null;
-    storageKey: string;
-}
+import { AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
+import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
+import type { AttachmentObjectLocation, StoredAttachmentFile } from './attachment-object-storage-provider.types';
 
 @Injectable()
 export class AttachmentStorageService {
-    readonly #root = resolve(process.env['POMS_ATTACHMENT_LOCAL_ROOT'] ?? 'storage/attachments');
+    constructor(private readonly storageProviderRegistry: AttachmentStorageProviderRegistry) {}
 
     async saveOriginal(input: { attachmentId: string; originalName: string; buffer: Buffer; uploadedAt?: Date }): Promise<StoredAttachmentFile> {
         const uploadedAt = input.uploadedAt ?? new Date();
@@ -20,39 +15,18 @@ export class AttachmentStorageService {
         const yyyy = String(uploadedAt.getUTCFullYear());
         const mm = String(uploadedAt.getUTCMonth() + 1).padStart(2, '0');
         const dd = String(uploadedAt.getUTCDate()).padStart(2, '0');
-        const storageKey = join('attachments', yyyy, mm, dd, input.attachmentId, `original${extension}`).replace(/\\/g, '/');
-        const absolutePath = this.resolveKey(storageKey);
-
-        await mkdir(dirname(absolutePath), { recursive: true });
-        await writeFile(absolutePath, input.buffer);
-
-        return {
-            storageProvider: 'local',
-            storageBucket: null,
-            storageKey
-        };
+        return this.storageProviderRegistry.putWithDefaultProvider({
+            storageKey: join('attachments', yyyy, mm, dd, input.attachmentId, `original${extension}`).replace(/\\/g, '/'),
+            body: input.buffer
+        });
     }
 
-    async openReadStream(storageKey: string): Promise<Readable> {
-        const absolutePath = this.resolveKey(storageKey);
-
-        try {
-            await stat(absolutePath);
-        } catch {
-            throw new NotFoundException(`Attachment file ${storageKey} not found`);
-        }
-
-        return createReadStream(absolutePath);
+    async openReadStream(location: AttachmentObjectLocation | string): Promise<Readable> {
+        return this.storageProviderRegistry.readObject(this.normalizeLocation(location));
     }
 
-    async readBuffer(storageKey: string): Promise<Buffer> {
-        const absolutePath = this.resolveKey(storageKey);
-
-        try {
-            return await readFile(absolutePath);
-        } catch {
-            throw new NotFoundException(`Attachment file ${storageKey} not found`);
-        }
+    async readBuffer(location: AttachmentObjectLocation | string): Promise<Buffer> {
+        return this.storageProviderRegistry.readBuffer(this.normalizeLocation(location));
     }
 
     async saveDownloadPackage(input: { packageId: string; fileName: string; buffer: Buffer; createdAt?: Date }): Promise<StoredAttachmentFile> {
@@ -61,35 +35,30 @@ export class AttachmentStorageService {
         const mm = String(createdAt.getUTCMonth() + 1).padStart(2, '0');
         const dd = String(createdAt.getUTCDate()).padStart(2, '0');
         const safeFileName = input.fileName.replace(/[\\/:*?"<>|]+/g, '_') || `${input.packageId}.zip`;
-        const storageKey = join('attachment-download-packages', yyyy, mm, dd, input.packageId, safeFileName).replace(/\\/g, '/');
-        const absolutePath = this.resolveKey(storageKey);
-
-        await mkdir(dirname(absolutePath), { recursive: true });
-        await writeFile(absolutePath, input.buffer);
-
-        return {
-            storageProvider: 'local',
-            storageBucket: null,
-            storageKey
-        };
+        return this.storageProviderRegistry.putWithDefaultProvider({
+            storageKey: join('attachment-download-packages', yyyy, mm, dd, input.packageId, safeFileName).replace(/\\/g, '/'),
+            body: input.buffer,
+            contentType: 'application/zip'
+        });
     }
 
-    async remove(storageKey: string): Promise<void> {
+    async remove(location: AttachmentObjectLocation | string): Promise<void> {
         try {
-            await unlink(this.resolveKey(storageKey));
+            await this.storageProviderRegistry.deleteObject(this.normalizeLocation(location));
         } catch {
             // Best-effort cleanup only. DB state remains authoritative.
         }
     }
 
-    private resolveKey(storageKey: string): string {
-        const normalized = storageKey.replace(/\\/g, '/').replace(/^\/+/, '');
-        const absolutePath = resolve(this.#root, normalized);
-
-        if (absolutePath !== this.#root && !absolutePath.startsWith(`${this.#root}${sep}`)) {
-            throw new Error('Invalid attachment storage key');
+    private normalizeLocation(location: AttachmentObjectLocation | string): AttachmentObjectLocation {
+        if (typeof location !== 'string') {
+            return location;
         }
 
-        return absolutePath;
+        return {
+            storageProvider: AttachmentStorageProviderTypeValue.Local,
+            storageBucket: null,
+            storageKey: location
+        };
     }
 }

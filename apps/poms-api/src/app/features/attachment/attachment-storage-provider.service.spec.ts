@@ -7,6 +7,7 @@ import {
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SecretCipherService } from '../../core/secret/secret-cipher.service';
 import { AttachmentStorageProviderConfig } from './attachment-storage-provider-config.entity';
+import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
 import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
 
@@ -25,6 +26,9 @@ describe('AttachmentStorageProviderService', () => {
     let runtimeAuditService: {
         recordAuditLog: jest.Mock;
     };
+    let storageProviderRegistry: {
+        testConfig: jest.Mock;
+    };
     let service: AttachmentStorageProviderService;
 
     beforeEach(() => {
@@ -39,7 +43,19 @@ describe('AttachmentStorageProviderService', () => {
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         };
-        service = new AttachmentStorageProviderService(repository as never as AttachmentStorageProviderRepository, runtimeAuditService as never as RuntimeAuditService, new SecretCipherService());
+        storageProviderRegistry = {
+            testConfig: jest.fn().mockResolvedValue({
+                status: AttachmentStorageProviderConnectionTestStatusValue.Success,
+                message: 'ok',
+                checkedAt: '2026-05-11T00:00:00.000Z'
+            })
+        };
+        service = new AttachmentStorageProviderService(
+            repository as never as AttachmentStorageProviderRepository,
+            runtimeAuditService as never as RuntimeAuditService,
+            new SecretCipherService(),
+            storageProviderRegistry as never as AttachmentStorageProviderRegistry
+        );
     });
 
     it('creates an enabled Huawei OBS config with encrypted write-only credentials and redacted audit', async () => {
@@ -120,6 +136,26 @@ describe('AttachmentStorageProviderService', () => {
         expect(result.message).toContain('bucket');
         expect(result.message).toContain('accessKeyId');
         expect(result.message).toContain('secretAccessKey');
+        expect(storageProviderRegistry.testConfig).not.toHaveBeenCalled();
+    });
+
+    it('delegates complete provider connection tests to the runtime registry', async () => {
+        const config = createConfig({
+            providerType: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+            enabled: true,
+            status: AttachmentStorageProviderConfigStatusValue.Active,
+            endpoint: 'https://obs.cn-south-1.myhuaweicloud.com',
+            region: 'cn-south-1',
+            bucket: 'poms-prod',
+            encryptedAccessKeyId: 'v1:mock',
+            encryptedSecretAccessKey: 'v1:mock'
+        });
+        repository.findConfigById.mockResolvedValue(config);
+
+        const result = await service.testAttachmentStorageProviderConnection(configId, { expectedVersion: 1 });
+
+        expect(storageProviderRegistry.testConfig).toHaveBeenCalledWith(config);
+        expect(result.status).toBe(AttachmentStorageProviderConnectionTestStatusValue.Success);
     });
 
     it('sets an active provider as default and demotes the previous default', async () => {

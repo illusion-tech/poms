@@ -35,6 +35,18 @@ export class AttachmentStorageProviderRepository {
         });
     }
 
+    findConfigsByProviderLocation(providerType: AttachmentStorageProviderType, bucket: string | null): Promise<AttachmentStorageProviderConfig[]> {
+        return this.configRepository.find(
+            {
+                providerType,
+                bucket
+            },
+            {
+                orderBy: { createdAt: QueryOrder.DESC }
+            }
+        );
+    }
+
     findDefaultConfig(): Promise<AttachmentStorageProviderConfig | null> {
         return this.configRepository.findOne({ enabled: true, isDefault: true });
     }

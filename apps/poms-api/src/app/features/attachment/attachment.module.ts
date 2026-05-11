@@ -11,6 +11,7 @@ import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.e
 import { AttachmentHandoverController } from './attachment-handover.controller';
 import { AttachmentStorageProviderConfig } from './attachment-storage-provider-config.entity';
 import { AttachmentStorageProviderController } from './attachment-storage-provider.controller';
+import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
 import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
 import { AttachmentController } from './attachment.controller';
@@ -24,6 +25,8 @@ import {
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentService } from './attachment.service';
 import { AttachmentStorageService } from './attachment-storage.service';
+import { HuaweiObsS3AttachmentObjectStorageProvider } from './huawei-obs-s3-attachment-object-storage.provider';
+import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-storage.provider';
 
 @Module({
     imports: [
@@ -45,7 +48,16 @@ import { AttachmentStorageService } from './attachment-storage.service';
         DictionaryModule
     ],
     controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController],
-    providers: [AttachmentRepository, AttachmentService, AttachmentStorageService, AttachmentStorageProviderRepository, AttachmentStorageProviderService],
-    exports: [AttachmentRepository, AttachmentService, AttachmentStorageService, AttachmentStorageProviderService]
+    providers: [
+        AttachmentRepository,
+        AttachmentService,
+        AttachmentStorageService,
+        AttachmentStorageProviderRepository,
+        AttachmentStorageProviderService,
+        AttachmentStorageProviderRegistry,
+        LocalAttachmentObjectStorageProvider,
+        HuaweiObsS3AttachmentObjectStorageProvider
+    ],
+    exports: [AttachmentRepository, AttachmentService, AttachmentStorageService, AttachmentStorageProviderService, AttachmentStorageProviderRegistry]
 })
 export class AttachmentModule {}
