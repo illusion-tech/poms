@@ -548,6 +548,8 @@
 66. 2026-05-07 `EX-55A-R` 已进入 `G1 / Doing`：冻结结构化事实评分 v2 后端运行时边界，复用现有 `lead_score_snapshot` 和 `componentBreakdown`，不新增 public route / migration；实现时聚合销售情报缺口、跟进活跃度和附件元数据，保持人工覆盖投影不变。
 67. 2026-05-07 `EX-55A-R` 已推进到 `G3 / Ready for Review`：后端运行时已接入结构化事实聚合、`lead-score-v2` 纯函数评分、线索写路径重算和评分历史 v2 breakdown；lead focused tests、`poms-api` lint/build、diff check 已通过，全量 Jest 仅剩既有非本片 `sales-follow-up.repository.spec.ts` 优先级期望漂移。
 68. 2026-05-07 `EX-55A-R` 已完成 `G4 / Done`：实现提交 `38e4e19`，系统评分切到 `lead-score-v2`，评分历史快照写入结构化事实 breakdown；本轮同时新增当前 drift inventory，关闭 EX-55A-R post-G3 状态漂移、销售跟进提醒日期敏感测试漂移和已完成切片生命周期归档漂移，`FE-57` 因浏览器 UX 复核仍保持 `Doing / G3`。
+69. 2026-05-11 `EX-65A` 已完成 `G1`：新增 `ex-65a-attachment-storage-provider-upload-session-baseline.md`，冻结附件存储 provider 配置、local proxy、华为云 OBS S3-compatible 签名直传 / 分片上传、upload session 状态机、旧 multipart 上传接口 direct cutover 和 `B14` planned routes；本片不写运行时代码，后端运行时从 `EX-65B` 开始。
+70. 2026-05-11 `EX-65B` 已完成 `G4`：落地 `attachment_storage_provider_config` 表、附件存储 provider config API、`platform:attachment-storage-providers:manage` 权限、共享 `SecretCipherService`、OpenAPI / generated client、migration 和 focused / full API tests；真实 OBS 网络连通性留给 `EX-65C` / `EX-65E` 验证，`EX-65C` 可开始 provider registry。
 
 ---
 

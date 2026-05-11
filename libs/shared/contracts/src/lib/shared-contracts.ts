@@ -78,6 +78,7 @@ export const PERMISSION_KEYS = [
     'platform:org-units:manage',
     'platform:dictionaries:manage',
     'platform:identity-providers:manage',
+    'platform:attachment-storage-providers:manage',
     // 客户主数据
     'customer:read',
     'customer:write',
@@ -129,6 +130,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
     'platform:dictionaries:manage': { description: '管理业务配置字典', group: '平台管理' },
     'platform:identity-providers:manage': { description: '管理外部身份提供商配置', group: '平台管理' },
+    'platform:attachment-storage-providers:manage': { description: '管理附件存储 Provider 配置', group: '平台管理' },
     'customer:read': { description: '查看客户主数据', group: '客户' },
     'customer:write': { description: '创建/维护客户主数据', group: '客户' },
     'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
@@ -3065,6 +3067,155 @@ export type VoidSalesFollowUpRecordRequest = z.infer<typeof VoidSalesFollowUpRec
 // ---------------------------------------------------------------------------
 // Attachment
 // ---------------------------------------------------------------------------
+
+export const AttachmentStorageProviderTypeValue = {
+    Local: 'local',
+    HuaweiObsS3: 'huawei-obs-s3'
+} as const;
+
+export const ATTACHMENT_STORAGE_PROVIDER_TYPES = enumObjectValues(AttachmentStorageProviderTypeValue);
+export type AttachmentStorageProviderType = (typeof ATTACHMENT_STORAGE_PROVIDER_TYPES)[number];
+export const AttachmentStorageProviderTypeSchema = z.enum(ATTACHMENT_STORAGE_PROVIDER_TYPES).meta({ id: 'AttachmentStorageProviderType' });
+
+export const AttachmentStorageProviderConfigStatusValue = {
+    Draft: 'draft',
+    Active: 'active',
+    Disabled: 'disabled',
+    Misconfigured: 'misconfigured'
+} as const;
+
+export const ATTACHMENT_STORAGE_PROVIDER_CONFIG_STATUSES = enumObjectValues(AttachmentStorageProviderConfigStatusValue);
+export type AttachmentStorageProviderConfigStatus = (typeof ATTACHMENT_STORAGE_PROVIDER_CONFIG_STATUSES)[number];
+export const AttachmentStorageProviderConfigStatusSchema = z.enum(ATTACHMENT_STORAGE_PROVIDER_CONFIG_STATUSES).meta({ id: 'AttachmentStorageProviderConfigStatus' });
+
+export const AttachmentStorageProviderConnectionTestStatusValue = {
+    Success: 'success',
+    Failed: 'failed'
+} as const;
+
+export const ATTACHMENT_STORAGE_PROVIDER_CONNECTION_TEST_STATUSES = enumObjectValues(AttachmentStorageProviderConnectionTestStatusValue);
+export type AttachmentStorageProviderConnectionTestStatus = (typeof ATTACHMENT_STORAGE_PROVIDER_CONNECTION_TEST_STATUSES)[number];
+export const AttachmentStorageProviderConnectionTestStatusSchema = z.enum(ATTACHMENT_STORAGE_PROVIDER_CONNECTION_TEST_STATUSES).meta({ id: 'AttachmentStorageProviderConnectionTestStatus' });
+
+export const AttachmentStorageProviderConfigSummarySchema = z
+    .object({
+        id: z.uuid(),
+        providerType: AttachmentStorageProviderTypeSchema,
+        displayName: z.string(),
+        status: AttachmentStorageProviderConfigStatusSchema,
+        enabled: z.boolean(),
+        isDefault: z.boolean(),
+        endpoint: z.string().nullable(),
+        region: z.string().nullable(),
+        bucket: z.string().nullable(),
+        keyPrefix: z.string().nullable(),
+        forcePathStyle: z.boolean(),
+        accessKeyConfigured: z.boolean(),
+        secretAccessKeyConfigured: z.boolean(),
+        credentialsUpdatedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'AttachmentStorageProviderConfigSummary' });
+
+export type AttachmentStorageProviderConfigSummary = z.infer<typeof AttachmentStorageProviderConfigSummarySchema>;
+
+export const AttachmentStorageProviderConfigDetailSchema = AttachmentStorageProviderConfigSummarySchema.meta({ id: 'AttachmentStorageProviderConfigDetail' });
+
+export type AttachmentStorageProviderConfigDetail = z.infer<typeof AttachmentStorageProviderConfigDetailSchema>;
+
+export const AttachmentStorageProviderConfigListSchema = z.array(AttachmentStorageProviderConfigSummarySchema).meta({ id: 'AttachmentStorageProviderConfigList' });
+
+export type AttachmentStorageProviderConfigList = z.infer<typeof AttachmentStorageProviderConfigListSchema>;
+
+export const AttachmentStorageProviderConfigListQuerySchema = z
+    .object({
+        providerType: AttachmentStorageProviderTypeSchema.optional(),
+        status: AttachmentStorageProviderConfigStatusSchema.optional(),
+        enabled: z.coerce.boolean().optional()
+    })
+    .meta({ id: 'AttachmentStorageProviderConfigListQuery' });
+
+export type AttachmentStorageProviderConfigListQuery = z.infer<typeof AttachmentStorageProviderConfigListQuerySchema>;
+
+export const CreateAttachmentStorageProviderConfigRequestSchema = z
+    .object({
+        providerType: AttachmentStorageProviderTypeSchema,
+        displayName: z.string().trim().min(1).max(128),
+        enabled: z.boolean().optional(),
+        isDefault: z.boolean().optional(),
+        endpoint: z.string().trim().min(1).max(512).nullable().optional(),
+        region: z.string().trim().min(1).max(128).nullable().optional(),
+        bucket: z.string().trim().min(1).max(255).nullable().optional(),
+        keyPrefix: z.string().trim().min(1).max(512).nullable().optional(),
+        forcePathStyle: z.boolean().optional(),
+        accessKeyId: z.string().trim().min(1).max(2048).optional(),
+        secretAccessKey: z.string().trim().min(1).max(2048).optional()
+    })
+    .meta({ id: 'CreateAttachmentStorageProviderConfigRequest' });
+
+export type CreateAttachmentStorageProviderConfigRequest = z.infer<typeof CreateAttachmentStorageProviderConfigRequestSchema>;
+
+export const UpdateAttachmentStorageProviderConfigRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(128).optional(),
+        enabled: z.boolean().optional(),
+        status: AttachmentStorageProviderConfigStatusSchema.optional(),
+        endpoint: z.string().trim().min(1).max(512).nullable().optional(),
+        region: z.string().trim().min(1).max(128).nullable().optional(),
+        bucket: z.string().trim().min(1).max(255).nullable().optional(),
+        keyPrefix: z.string().trim().min(1).max(512).nullable().optional(),
+        forcePathStyle: z.boolean().optional(),
+        accessKeyId: z.string().trim().min(1).max(2048).nullable().optional(),
+        secretAccessKey: z.string().trim().min(1).max(2048).nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.displayName !== undefined ||
+            value.enabled !== undefined ||
+            value.status !== undefined ||
+            value.endpoint !== undefined ||
+            value.region !== undefined ||
+            value.bucket !== undefined ||
+            value.keyPrefix !== undefined ||
+            value.forcePathStyle !== undefined ||
+            value.accessKeyId !== undefined ||
+            value.secretAccessKey !== undefined,
+        { message: 'At least one updatable field is required' }
+    )
+    .meta({ id: 'UpdateAttachmentStorageProviderConfigRequest' });
+
+export type UpdateAttachmentStorageProviderConfigRequest = z.infer<typeof UpdateAttachmentStorageProviderConfigRequestSchema>;
+
+export const TestAttachmentStorageProviderConnectionRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'TestAttachmentStorageProviderConnectionRequest' });
+
+export type TestAttachmentStorageProviderConnectionRequest = z.infer<typeof TestAttachmentStorageProviderConnectionRequestSchema>;
+
+export const SetDefaultAttachmentStorageProviderRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'SetDefaultAttachmentStorageProviderRequest' });
+
+export type SetDefaultAttachmentStorageProviderRequest = z.infer<typeof SetDefaultAttachmentStorageProviderRequestSchema>;
+
+export const AttachmentStorageProviderConnectionTestResultSchema = z
+    .object({
+        status: AttachmentStorageProviderConnectionTestStatusSchema,
+        message: z.string(),
+        checkedAt: z.iso.datetime()
+    })
+    .meta({ id: 'AttachmentStorageProviderConnectionTestResult' });
+
+export type AttachmentStorageProviderConnectionTestResult = z.infer<typeof AttachmentStorageProviderConnectionTestResultSchema>;
 
 export type AttachmentCategory = DictionaryCode;
 

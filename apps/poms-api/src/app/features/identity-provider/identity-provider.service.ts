@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import {
     type EnabledLoginProviderList,
@@ -29,6 +29,7 @@ import {
     type UpdateIdentityProviderConfigRequest
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { SecretCipherService, type SecretCipherOptions } from '../../core/secret/secret-cipher.service';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterError, type ProviderOAuthTokenSet } from './identity-provider.adapter';
@@ -37,12 +38,19 @@ import { IdentityProviderConfig } from './identity-provider-config.entity';
 import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
 import { IdentityProviderRepository } from './identity-provider.repository';
 
+const IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS: SecretCipherOptions = {
+    envKeys: ['IDENTITY_PROVIDER_SECRET_KEY', 'JWT_SECRET'],
+    defaultValue: 'poms-dev-secret-change-in-production',
+    unreadableMessage: 'Identity provider secret is not readable.'
+};
+
 @Injectable()
 export class IdentityProviderService {
     constructor(
         private readonly identityProviderRepository: IdentityProviderRepository,
         private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly adapterRegistry: IdentityProviderAdapterRegistry
+        private readonly adapterRegistry: IdentityProviderAdapterRegistry,
+        private readonly secretCipherService: SecretCipherService
     ) {}
 
     async listIdentityProviderConfigs(query: IdentityProviderConfigListQuery = {}): Promise<IdentityProviderConfigList> {
@@ -968,27 +976,11 @@ export class IdentityProviderService {
     }
 
     private encryptSecret(secret: string): string {
-        const iv = randomBytes(12);
-        const cipher = createCipheriv('aes-256-gcm', this.secretKey(), iv);
-        const encrypted = Buffer.concat([cipher.update(secret, 'utf8'), cipher.final()]);
-        const tag = cipher.getAuthTag();
-        return `v1:${iv.toString('base64')}:${tag.toString('base64')}:${encrypted.toString('base64')}`;
+        return this.secretCipherService.encrypt(secret, IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS);
     }
 
     private decryptSecret(encryptedSecret: string): string {
-        const [version, ivValue, tagValue, encryptedValue] = encryptedSecret.split(':');
-        if (version !== 'v1' || !ivValue || !tagValue || !encryptedValue) {
-            throw new BadRequestException('Identity provider secret is not readable.');
-        }
-
-        const decipher = createDecipheriv('aes-256-gcm', this.secretKey(), Buffer.from(ivValue, 'base64'));
-        decipher.setAuthTag(Buffer.from(tagValue, 'base64'));
-        return Buffer.concat([decipher.update(Buffer.from(encryptedValue, 'base64')), decipher.final()]).toString('utf8');
-    }
-
-    private secretKey(): Buffer {
-        const source = process.env['IDENTITY_PROVIDER_SECRET_KEY'] ?? process.env['JWT_SECRET'] ?? 'poms-dev-secret-change-in-production';
-        return createHash('sha256').update(source).digest();
+        return this.secretCipherService.decrypt(encryptedSecret, IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS);
     }
 
     private stateKey(): Buffer {

@@ -9,6 +9,10 @@ import { Project } from '../project/project.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
 import { AttachmentHandoverController } from './attachment-handover.controller';
+import { AttachmentStorageProviderConfig } from './attachment-storage-provider-config.entity';
+import { AttachmentStorageProviderController } from './attachment-storage-provider.controller';
+import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
+import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
 import { AttachmentController } from './attachment.controller';
 import {
     Attachment,
@@ -25,6 +29,7 @@ import { AttachmentStorageService } from './attachment-storage.service';
     imports: [
         MikroOrmModule.forFeature([
             Attachment,
+            AttachmentStorageProviderConfig,
             AttachmentLink,
             ProjectHandoverAttachmentSelection,
             AttachmentDownloadPackage,
@@ -39,8 +44,8 @@ import { AttachmentStorageService } from './attachment-storage.service';
         ]),
         DictionaryModule
     ],
-    controllers: [AttachmentController, AttachmentHandoverController],
-    providers: [AttachmentRepository, AttachmentService, AttachmentStorageService],
-    exports: [AttachmentRepository, AttachmentService, AttachmentStorageService]
+    controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController],
+    providers: [AttachmentRepository, AttachmentService, AttachmentStorageService, AttachmentStorageProviderRepository, AttachmentStorageProviderService],
+    exports: [AttachmentRepository, AttachmentService, AttachmentStorageService, AttachmentStorageProviderService]
 })
 export class AttachmentModule {}

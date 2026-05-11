@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
 import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
+import { SecretCipherModule } from './core/secret/secret-cipher.module';
 import { SensitiveFieldProjectionModule } from './core/sensitive-field-projection/sensitive-field-projection.module';
 import { ApprovalModule } from './features/approval/approval.module';
 import { ApprovalSummaryModule } from './features/approval-summary/approval-summary.module';
@@ -31,6 +32,7 @@ import { SalesIntelligenceModule } from './features/sales-intelligence/sales-int
     imports: [
         PersistenceModule,
         RuntimeAuditModule,
+        SecretCipherModule,
         SensitiveFieldProjectionModule,
         AuthModule,
         NavigationModule,

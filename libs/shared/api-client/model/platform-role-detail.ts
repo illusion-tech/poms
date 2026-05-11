@@ -29,6 +29,7 @@ export enum PlatformRoleDetailPermissionKeysEnum {
     PlatformOrgUnitsManage = 'platform:org-units:manage',
     PlatformDictionariesManage = 'platform:dictionaries:manage',
     PlatformIdentityProvidersManage = 'platform:identity-providers:manage',
+    PlatformAttachmentStorageProvidersManage = 'platform:attachment-storage-providers:manage',
     CustomerRead = 'customer:read',
     CustomerWrite = 'customer:write',
     CommissionRuleVersionsManage = 'commission:rule-versions:manage',

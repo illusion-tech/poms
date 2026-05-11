@@ -2,6 +2,7 @@ import { createCipheriv, createHash, randomBytes } from 'node:crypto';
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { ExternalIdentityBindingStatusValue, IdentityProviderConfigStatusValue, IdentityProviderOAuthGrantStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { SecretCipherService } from '../../core/secret/secret-cipher.service';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicket, ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
@@ -113,7 +114,12 @@ describe('IdentityProviderService', () => {
         adapterRegistry = {
             get: jest.fn().mockReturnValue(adapter)
         };
-        service = new IdentityProviderService(repository as never as IdentityProviderRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as IdentityProviderAdapterRegistry);
+        service = new IdentityProviderService(
+            repository as never as IdentityProviderRepository,
+            runtimeAuditService as never as RuntimeAuditService,
+            adapterRegistry as never as IdentityProviderAdapterRegistry,
+            new SecretCipherService()
+        );
     });
 
     it('creates an enabled Feishu config with encrypted write-only secret and audit redaction', async () => {

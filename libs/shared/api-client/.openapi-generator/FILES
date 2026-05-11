@@ -7,6 +7,7 @@ api/api.ts
 api/app.service.ts
 api/approval.service.ts
 api/attachment-handover.service.ts
+api/attachment-storage-provider.service.ts
 api/attachment.service.ts
 api/auth.service.ts
 api/business-discussion.service.ts
@@ -66,6 +67,11 @@ model/attachment-relation-type.ts
 model/attachment-security-level.ts
 model/attachment-selection-version-expectation.ts
 model/attachment-status.ts
+model/attachment-storage-provider-config-status.ts
+model/attachment-storage-provider-config-summary.ts
+model/attachment-storage-provider-connection-test-result.ts
+model/attachment-storage-provider-connection-test-status.ts
+model/attachment-storage-provider-type.ts
 model/attachment-summary.ts
 model/attachment-target-type.ts
 model/audit-log-result.ts
@@ -171,6 +177,7 @@ model/cost-stage-attribution-snapshot-summary.ts
 model/creatable-operating-snapshot-mode.ts
 model/create-acceptance-record-request.ts
 model/create-attachment-link-request.ts
+model/create-attachment-storage-provider-config-request.ts
 model/create-business-discussion-comment-request.ts
 model/create-commercial-baseline-diff-item-input.ts
 model/create-commercial-release-baseline-request.ts
@@ -441,6 +448,7 @@ model/sensitive-field-package-key.ts
 model/sensitive-projection-mode.ts
 model/sensitive-projection-reason-code.ts
 model/sensitive-string-field-projection.ts
+model/set-default-attachment-storage-provider-request.ts
 model/shared-cost-allocation-basis-summary.ts
 model/shared-cost-allocation-result-summary.ts
 model/submit-commission-adjustment-approval-request.ts
@@ -452,6 +460,7 @@ model/submit-lead-score-override-request.ts
 model/submit-non-retention-commission-payout-approval-request.ts
 model/submit-retention-commission-payout-approval-request.ts
 model/target-object-type.ts
+model/test-attachment-storage-provider-connection-request.ts
 model/test-identity-provider-connection-request.ts
 model/todo-item-summary.ts
 model/todo-priority.ts
@@ -460,6 +469,7 @@ model/todo-status.ts
 model/todo-type.ts
 model/unbind-external-identity-request.ts
 model/update-attachment-request.ts
+model/update-attachment-storage-provider-config-request.ts
 model/update-competitor-intelligence-record-request.ts
 model/update-contract-basic-info-request.ts
 model/update-current-user-profile-request.ts
