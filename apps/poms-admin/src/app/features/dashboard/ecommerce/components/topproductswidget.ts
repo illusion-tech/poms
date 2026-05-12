@@ -13,7 +13,7 @@ import { MultiLineChart } from '../../ui/charts/multilinechart';
     template: ` <section-card class="xl:flex-1 xl:col-span-2 flex flex-col">
         <ng-template #title>Top Products</ng-template>
         <ng-template #action>
-            <p-select [(ngModel)]="selectedTopProductChartRange" [options]="topProductChartRanges" optionLabel="name" placeholder="Select a Range" styleClass="w-28" />
+            <p-select [(ngModel)]="selectedTopProductChartRange" [options]="topProductChartRanges" optionLabel="name" placeholder="Select a Range" class="w-28" />
         </ng-template>
         <div class="flex-1 w-full overflow-auto mt-5">
             <multi-line-chart [datasets]="randomData" [labels]="labels" [bgColors]="bgColors" [borderColors]="borderColors" [option]="selectedTopProductChartRange.unit" class="min-w-104 min-h-72" />

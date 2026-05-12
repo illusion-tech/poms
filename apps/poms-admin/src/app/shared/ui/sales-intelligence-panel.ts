@@ -381,7 +381,7 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactGender" class="text-sm font-medium text-surface-900 dark:text-surface-0">性别</label>
-                        <p-select inputId="salesIntelligenceContactGender" [ngModel]="contactForm().gender" (ngModelChange)="updateContactGender($event)" [options]="contactGenderOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceContactGender" [ngModel]="contactForm().gender" (ngModelChange)="updateContactGender($event)" [options]="contactGenderOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactDepartment" class="text-sm font-medium text-surface-900 dark:text-surface-0">部门</label>
@@ -432,26 +432,26 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="flex flex-col gap-2 sm:col-span-2">
                         <label for="salesIntelligenceStakeholderContact" class="text-sm font-medium text-surface-900 dark:text-surface-0">联系人</label>
-                        <p-select inputId="salesIntelligenceStakeholderContact" [ngModel]="stakeholderForm().contactId" (ngModelChange)="updateStakeholderContact($event)" [options]="contactOptions()" optionLabel="label" optionValue="value" appendTo="body" placeholder="选择联系人" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceStakeholderContact" [ngModel]="stakeholderForm().contactId" (ngModelChange)="updateStakeholderContact($event)" [options]="contactOptions()" optionLabel="label" optionValue="value" appendTo="body" placeholder="选择联系人" class="w-full rounded-md!" />
                         @if (stakeholderAttempted() && !stakeholderForm().contactId) {
                             <span class="text-xs text-red-600 dark:text-red-300">请选择联系人。</span>
                         }
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceStakeholderRole" class="text-sm font-medium text-surface-900 dark:text-surface-0">角色</label>
-                        <p-select inputId="salesIntelligenceStakeholderRole" [ngModel]="stakeholderForm().role" (ngModelChange)="updateStakeholderEnum('role', $event)" [options]="stakeholderRoleOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceStakeholderRole" [ngModel]="stakeholderForm().role" (ngModelChange)="updateStakeholderEnum('role', $event)" [options]="stakeholderRoleOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceStakeholderAttitude" class="text-sm font-medium text-surface-900 dark:text-surface-0">态度</label>
-                        <p-select inputId="salesIntelligenceStakeholderAttitude" [ngModel]="stakeholderForm().attitude" (ngModelChange)="updateStakeholderEnum('attitude', $event)" [options]="stakeholderAttitudeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceStakeholderAttitude" [ngModel]="stakeholderForm().attitude" (ngModelChange)="updateStakeholderEnum('attitude', $event)" [options]="stakeholderAttitudeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceStakeholderInfluence" class="text-sm font-medium text-surface-900 dark:text-surface-0">影响力</label>
-                        <p-select inputId="salesIntelligenceStakeholderInfluence" [ngModel]="stakeholderForm().influenceLevel" (ngModelChange)="updateStakeholderEnum('influenceLevel', $event)" [options]="stakeholderInfluenceOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceStakeholderInfluence" [ngModel]="stakeholderForm().influenceLevel" (ngModelChange)="updateStakeholderEnum('influenceLevel', $event)" [options]="stakeholderInfluenceOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceStakeholderAccess" class="text-sm font-medium text-surface-900 dark:text-surface-0">可接触程度</label>
-                        <p-select inputId="salesIntelligenceStakeholderAccess" [ngModel]="stakeholderForm().accessLevel" (ngModelChange)="updateStakeholderEnum('accessLevel', $event)" [options]="stakeholderAccessOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceStakeholderAccess" [ngModel]="stakeholderForm().accessLevel" (ngModelChange)="updateStakeholderEnum('accessLevel', $event)" [options]="stakeholderAccessOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <label class="flex items-center gap-2 text-sm text-surface-700 dark:text-surface-200">
                         <p-toggleswitch [ngModel]="stakeholderForm().isPrimary" (ngModelChange)="updateStakeholderPrimary($event)" />
@@ -490,15 +490,15 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceCompetitorPosition" class="text-sm font-medium text-surface-900 dark:text-surface-0">竞争位置</label>
-                        <p-select inputId="salesIntelligenceCompetitorPosition" [ngModel]="competitorForm().position" (ngModelChange)="updateCompetitorEnum('position', $event)" [options]="competitorPositionOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceCompetitorPosition" [ngModel]="competitorForm().position" (ngModelChange)="updateCompetitorEnum('position', $event)" [options]="competitorPositionOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceCustomerPreference" class="text-sm font-medium text-surface-900 dark:text-surface-0">客户倾向</label>
-                        <p-select inputId="salesIntelligenceCustomerPreference" [ngModel]="competitorForm().customerPreference" (ngModelChange)="updateCompetitorEnum('customerPreference', $event)" [options]="customerPreferenceOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceCustomerPreference" [ngModel]="competitorForm().customerPreference" (ngModelChange)="updateCompetitorEnum('customerPreference', $event)" [options]="customerPreferenceOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceWinProbability" class="text-sm font-medium text-surface-900 dark:text-surface-0">胜率判断</label>
-                        <p-select inputId="salesIntelligenceWinProbability" [ngModel]="competitorForm().winProbability" (ngModelChange)="updateCompetitorEnum('winProbability', $event)" [options]="winProbabilityOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="salesIntelligenceWinProbability" [ngModel]="competitorForm().winProbability" (ngModelChange)="updateCompetitorEnum('winProbability', $event)" [options]="winProbabilityOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div></div>
                     <div class="flex flex-col gap-2">

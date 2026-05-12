@@ -182,7 +182,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                                     optionValue="value"
                                     appendTo="body"
                                     ariaLabel="按字典域筛选"
-                                    styleClass="w-full md:w-48 rounded-md!"
+                                    class="w-full md:w-48 rounded-md!"
                                 />
 
                                 <p-select
@@ -193,7 +193,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                                     optionValue="value"
                                     appendTo="body"
                                     ariaLabel="按状态筛选"
-                                    styleClass="w-full md:w-36 rounded-md!"
+                                    class="w-full md:w-36 rounded-md!"
                                 />
 
                                 <p-iconfield class="w-full md:w-80">
@@ -289,7 +289,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
 
                     <div class="flex flex-col gap-2">
                         <label for="dictionaryCreateDomain" class="text-sm font-medium text-surface-900 dark:text-surface-0">字典域 *</label>
-                        <p-select inputId="dictionaryCreateDomain" [ngModel]="createForm().domain" (ngModelChange)="updateCreateDomain($event)" [options]="domainOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                        <p-select inputId="dictionaryCreateDomain" [ngModel]="createForm().domain" (ngModelChange)="updateCreateDomain($event)" [options]="domainOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -351,7 +351,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <label for="dictionaryEditStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                            <p-select inputId="dictionaryEditStatus" [ngModel]="editForm().status" (ngModelChange)="updateEditStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                            <p-select inputId="dictionaryEditStatus" [ngModel]="editForm().status" (ngModelChange)="updateEditStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="dictionaryEditSortOrder" class="text-sm font-medium text-surface-900 dark:text-surface-0">排序</label>

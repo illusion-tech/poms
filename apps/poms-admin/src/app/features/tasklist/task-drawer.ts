@@ -68,7 +68,7 @@ interface StatusOption {
 
                 <div class="flex flex-col gap-2">
                     <label for="task-status" class="text-surface-900 dark:text-surface-0 font-medium text-sm">Status</label>
-                    <p-select id="task-status" [(ngModel)]="formData.status" [options]="statusOptions" optionLabel="label" optionValue="value" placeholder="Select status" styleClass="w-full" />
+                    <p-select id="task-status" [(ngModel)]="formData.status" [options]="statusOptions" optionLabel="label" optionValue="value" placeholder="Select status" class="w-full" />
                 </div>
 
                 <p-divider styleClass="my-2" />

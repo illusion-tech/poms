@@ -118,13 +118,14 @@ describe('AttachmentStorageProviderList', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(storeMock.loadConfigs).toHaveBeenCalledWith();
-        expect(text).toContain('附件存储 Provider');
+        expect(text).toContain('附件存储提供商');
         expect(text).toContain('本地附件存储');
         expect(text).toContain('华为云 OBS 生产');
         expect(text).toContain('无需 AK/SK');
         expect(text).toContain('AK/SK 已配置');
         expect(text).not.toContain('secret-value');
-        expect(text).not.toContain('新增 Provider');
+        expect(text).not.toContain('新增提供商');
+        expect((fixture.nativeElement.querySelector('[data-testid="provider-card-grid"]') as HTMLElement | null)?.className).toContain('2xl:grid-cols-3');
     });
 
     it('renders fixed unconfigured slots without dashed cards', () => {

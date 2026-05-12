@@ -8,7 +8,6 @@ import {
     type AttachmentStorageProviderConnectionTestResult
 } from '@poms/admin-data-access';
 import {
-    attachmentStorageProviderDescription,
     attachmentStorageProviderIcon,
     attachmentStorageProviderLabel,
     attachmentStorageProviderShortLabel
@@ -30,7 +29,7 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
     standalone: true,
     imports: [CommonModule, ButtonModule, TagModule],
     template: `
-        <article class="flex h-full min-h-[30rem] flex-col rounded border border-surface-200 bg-surface-0 p-6 dark:border-surface-700 dark:bg-surface-900">
+        <article class="flex h-full min-h-[28rem] flex-col rounded border border-surface-200 bg-surface-0 p-6 dark:border-surface-700 dark:bg-surface-900">
             <div class="flex items-start justify-between gap-4">
                 <div class="flex min-w-0 items-start gap-3">
                     <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded bg-surface-100 text-primary-700 dark:bg-surface-800 dark:text-primary-300">
@@ -40,10 +39,11 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                         <p class="text-xs font-medium uppercase tracking-wide text-surface-500 dark:text-surface-400">{{ attachmentStorageProviderShortLabel(providerType()) }}</p>
                         @if (config(); as currentConfig) {
                             <h2 class="mt-1 truncate text-lg font-semibold leading-7 text-surface-950 dark:text-surface-0">{{ currentConfig.displayName }}</h2>
+                            <p class="mt-1 truncate text-sm text-surface-500 dark:text-surface-400">提供商: {{ attachmentStorageProviderLabel(currentConfig.providerType) }}</p>
                         } @else {
                             <h2 class="mt-1 truncate text-lg font-semibold leading-7 text-surface-950 dark:text-surface-0">{{ attachmentStorageProviderLabel(providerType()) }}</h2>
+                            <p class="mt-1 truncate text-sm text-surface-500 dark:text-surface-400">提供商: {{ attachmentStorageProviderLabel(providerType()) }}</p>
                         }
-                        <p class="mt-1 line-clamp-2 text-sm leading-5 text-surface-500 dark:text-surface-400">{{ attachmentStorageProviderDescription(providerType()) }}</p>
                     </div>
                 </div>
                 @if (config(); as currentConfig) {
@@ -63,23 +63,24 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
 
                 <div class="mt-5 flex flex-col gap-4">
                     <div class="grid grid-cols-[7rem_1fr] gap-3 text-sm">
-                        <span class="text-surface-500 dark:text-surface-400">Provider</span>
-                        <span class="text-surface-800 dark:text-surface-100">{{ attachmentStorageProviderLabel(currentConfig.providerType) }}</span>
-
-                        <span class="text-surface-500 dark:text-surface-400">Endpoint</span>
-                        <span class="truncate font-mono text-surface-800 dark:text-surface-100">{{ currentConfig.endpoint || endpointFallback(currentConfig.providerType) }}</span>
-
                         <span class="text-surface-500 dark:text-surface-400">Region</span>
                         <span class="truncate font-mono text-surface-800 dark:text-surface-100">{{ currentConfig.region || '-' }}</span>
 
                         <span class="text-surface-500 dark:text-surface-400">Bucket</span>
                         <span class="truncate font-mono text-surface-800 dark:text-surface-100">{{ currentConfig.bucket || bucketFallback(currentConfig.providerType) }}</span>
 
-                        <span class="text-surface-500 dark:text-surface-400">Key Prefix</span>
-                        <span class="truncate font-mono text-surface-800 dark:text-surface-100">{{ currentConfig.keyPrefix || 'root' }}</span>
-
                         <span class="text-surface-500 dark:text-surface-400">版本</span>
                         <span class="font-mono text-surface-800 dark:text-surface-100">v{{ currentConfig.rowVersion }}</span>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Endpoint</span>
+                        <span class="line-clamp-2 break-all font-mono text-sm text-surface-500 dark:text-surface-400">{{ currentConfig.endpoint || endpointFallback(currentConfig.providerType) }}</span>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-medium text-surface-700 dark:text-surface-200">Key Prefix</span>
+                        <span class="line-clamp-2 break-all font-mono text-sm text-surface-500 dark:text-surface-400">{{ currentConfig.keyPrefix || 'root' }}</span>
                     </div>
 
                     <div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
@@ -103,7 +104,7 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
 
                 <div class="mt-5 flex flex-col gap-4">
                     <div class="grid grid-cols-[7rem_1fr] gap-3 text-sm">
-                        <span class="text-surface-500 dark:text-surface-400">Provider</span>
+                        <span class="text-surface-500 dark:text-surface-400">提供商</span>
                         <span class="text-surface-800 dark:text-surface-100">{{ attachmentStorageProviderLabel(providerType()) }}</span>
 
                         <span class="text-surface-500 dark:text-surface-400">Endpoint</span>
@@ -130,20 +131,20 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                         </div>
                     }
 
-                    <div class="flex flex-col gap-2 sm:flex-row">
+                    <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
                         <p-button icon="pi pi-pencil" label="编辑" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" (onClick)="editRequested.emit(currentConfig)" />
                         <p-button icon="pi pi-bolt" label="测试连接" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" [loading]="testing()" (onClick)="testRequested.emit(currentConfig)" />
+                        <p-button
+                            icon="pi pi-check-circle"
+                            [label]="currentConfig.isDefault ? '已默认' : '设为默认'"
+                            severity="success"
+                            [outlined]="!currentConfig.isDefault"
+                            styleClass="w-full rounded-md!"
+                            [disabled]="!canSetDefault(currentConfig)"
+                            [loading]="settingDefault()"
+                            (onClick)="setDefaultRequested.emit(currentConfig)"
+                        />
                     </div>
-                    <p-button
-                        icon="pi pi-check-circle"
-                        [label]="currentConfig.isDefault ? '已是默认' : '设为默认'"
-                        severity="success"
-                        [outlined]="!currentConfig.isDefault"
-                        styleClass="w-full rounded-md!"
-                        [disabled]="!canSetDefault(currentConfig)"
-                        [loading]="settingDefault()"
-                        (onClick)="setDefaultRequested.emit(currentConfig)"
-                    />
                 } @else {
                     <p-button icon="pi pi-cog" label="配置" severity="primary" styleClass="w-full rounded-md!" (onClick)="configureRequested.emit(providerType())" />
                 }
@@ -167,7 +168,6 @@ export class AttachmentStorageProviderCard {
     readonly attachmentStorageProviderLabel = attachmentStorageProviderLabel;
     readonly attachmentStorageProviderShortLabel = attachmentStorageProviderShortLabel;
     readonly attachmentStorageProviderIcon = attachmentStorageProviderIcon;
-    readonly attachmentStorageProviderDescription = attachmentStorageProviderDescription;
 
     statusLabel(status: AttachmentStorageProviderConfigStatus): string {
         return STATUS_LABELS[status] ?? status;
@@ -202,7 +202,7 @@ export class AttachmentStorageProviderCard {
     }
 
     endpointFallback(providerType: AttachmentStorageProviderType): string {
-        return providerType === AttachmentStorageProviderType.Local ? 'POMS local proxy' : '未配置 endpoint';
+        return providerType === AttachmentStorageProviderType.Local ? 'POMS 本地代理' : '未配置 endpoint';
     }
 
     bucketFallback(providerType: AttachmentStorageProviderType): string {

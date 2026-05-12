@@ -22,6 +22,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { AttachmentStorageProviderCard } from './attachment-storage-provider-card';
+import { ProviderCardGrid } from './provider-card-grid';
 
 interface Option<T extends string> {
     label: string;
@@ -113,7 +114,8 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
         ToastModule,
         ToggleSwitchModule,
         TooltipModule,
-        AttachmentStorageProviderCard
+        AttachmentStorageProviderCard,
+        ProviderCardGrid
     ],
     providers: [AttachmentStorageProviderStore, MessageService],
     styles: [
@@ -158,7 +160,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                 <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-surface-500 dark:text-surface-400">平台配置</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">附件存储 Provider</h1>
+                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">附件存储提供商</h1>
                     </div>
                     <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
                 </div>
@@ -173,7 +175,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                         <div class="mt-2 text-2xl font-semibold leading-8 text-emerald-700 dark:text-emerald-300">{{ enabledCount() }}</div>
                     </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">默认 Provider</div>
+                        <div class="text-sm text-surface-500 dark:text-surface-400">默认存储</div>
                         <div class="mt-2 truncate text-2xl font-semibold leading-8 text-sky-700 dark:text-sky-300">{{ defaultProviderLabel() }}</div>
                     </div>
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -189,9 +191,9 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
 
             <section class="flex flex-col gap-4">
                 @if (store.loading()) {
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取附件存储 Provider 配置</div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取附件存储提供商配置</div>
                 } @else {
-                    <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                    <app-provider-card-grid>
                         @for (card of providerCards(); track card.key) {
                             <app-attachment-storage-provider-card
                                 [providerType]="card.providerType"
@@ -205,7 +207,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                                 (setDefaultRequested)="setDefaultConfig($event)"
                             />
                         }
-                    </div>
+                    </app-provider-card-grid>
                 }
             </section>
 
@@ -219,7 +221,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                 </ng-template>
             </p-dialog>
 
-            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑附件存储 Provider" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑附件存储提供商" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
                 <ng-container *ngTemplateOutlet="storageProviderFormTemplate; context: { mode: 'edit' }" />
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
@@ -237,7 +239,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <label for="attachmentStorageProviderType" class="text-sm font-medium text-surface-900 dark:text-surface-0">Provider *</label>
+                            <label for="attachmentStorageProviderType" class="text-sm font-medium text-surface-900 dark:text-surface-0">提供商 *</label>
                             <p-select
                                 inputId="attachmentStorageProviderType"
                                 [ngModel]="form().providerType"
@@ -247,7 +249,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                                 optionValue="value"
                                 appendTo="body"
                                 [disabled]="true"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                         <div class="flex flex-col gap-2">
@@ -268,7 +270,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                         @if (mode === 'edit') {
                             <div class="flex flex-col gap-2">
                                 <label for="attachmentStorageStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                                <p-select inputId="attachmentStorageStatus" [ngModel]="form().status" (ngModelChange)="updateStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                                <p-select inputId="attachmentStorageStatus" [ngModel]="form().status" (ngModelChange)="updateStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                             </div>
                         }
                     </div>
@@ -420,7 +422,7 @@ export class AttachmentStorageProviderList {
         try {
             await this.store.loadConfigs();
         } catch {
-            this.pageError.set('附件存储 Provider 配置没有读取成功，请确认权限或稍后重试。');
+            this.pageError.set('附件存储提供商配置没有读取成功，请确认权限或稍后重试。');
         }
     }
 
@@ -504,7 +506,7 @@ export class AttachmentStorageProviderList {
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
         } catch {
-            this.formError.set('附件存储 Provider 配置没有创建成功，请确认 provider 未重复且 OBS 字段满足启用条件。');
+            this.formError.set('附件存储提供商配置没有创建成功，请确认提供商未重复且 OBS 字段满足启用条件。');
         }
     }
 
@@ -519,7 +521,7 @@ export class AttachmentStorageProviderList {
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: `${form.displayName.trim()} 已更新` });
             await this.reload();
         } catch {
-            this.formError.set('附件存储 Provider 配置没有保存成功，请刷新后重试。');
+            this.formError.set('附件存储提供商配置没有保存成功，请刷新后重试。');
         }
     }
 
@@ -543,7 +545,7 @@ export class AttachmentStorageProviderList {
             this.#messageService.add({ severity: 'success', summary: '默认存储已更新', detail: `${config.displayName} 已设为默认` });
             await this.reload();
         } catch {
-            this.pageError.set('默认 Provider 没有更新成功，只能将已启用且已激活的配置设为默认。');
+            this.pageError.set('默认存储没有更新成功，只能将已启用且已激活的配置设为默认。');
         }
     }
 

@@ -307,7 +307,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/attachment-storage-provider-list').then((c) => c.AttachmentStorageProviderList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '附件存储 Provider',
+                    breadcrumb: '附件存储提供商',
                     requiredPermissions: ['platform:attachment-storage-providers:manage']
                 }
             },

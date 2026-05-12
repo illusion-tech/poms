@@ -96,7 +96,7 @@ const GRANT_STATUS_LABELS: Record<IdentityProviderOAuthGrantStatus, string> = {
             <div class="flex flex-col gap-4 py-2">
                 <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-end">
                     <div class="flex flex-col gap-2">
-                        <label class="font-medium">Provider 配置</label>
+                        <label class="font-medium">提供商配置</label>
                         <p-select
                             [ngModel]="selectedConfigId()"
                             (ngModelChange)="selectConfig($event)"

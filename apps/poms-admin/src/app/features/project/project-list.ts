@@ -143,7 +143,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                                         optionValue="value"
                                         appendTo="body"
                                         ariaLabel="按阶段筛选"
-                                        styleClass="w-full md:w-44 rounded-md!"
+                                        class="w-full md:w-44 rounded-md!"
                                     />
 
                                     <p-select
@@ -154,7 +154,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                                         optionValue="value"
                                         appendTo="body"
                                         ariaLabel="按状态筛选"
-                                        styleClass="w-full md:w-40 rounded-md!"
+                                        class="w-full md:w-40 rounded-md!"
                                     />
                                 </div>
 
@@ -174,7 +174,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                                         <span class="flex items-center gap-2">阶段/状态 <p-sortIcon field="currentStage" /></span>
                                         <p-columnFilter field="currentStage" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
-                                                <p-select [ngModel]="value" [options]="stageColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意阶段" appendTo="body" (onChange)="filter($event.value)" styleClass="w-48" />
+                                                <p-select [ngModel]="value" [options]="stageColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意阶段" appendTo="body" (onChange)="filter($event.value)" class="w-48" />
                                             </ng-template>
                                         </p-columnFilter>
                                     </div>
@@ -279,7 +279,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                             [loading]="customerLoading()"
                             appendTo="body"
                             placeholder="选择客户主数据"
-                            styleClass="w-full rounded-md!"
+                            class="w-full rounded-md!"
                         />
                         @if (createAttempted() && !createForm().customerId) {
                             <span class="text-xs text-red-600 dark:text-red-300">请选择客户。</span>

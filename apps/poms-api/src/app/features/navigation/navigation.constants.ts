@@ -218,6 +218,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 children: null
             },
             {
+                id: 'nav-platform-attachment-storage-providers',
+                key: 'platform.attachment-storage-providers',
+                type: NavigationItemTypeValue.Basic,
+                title: '附件存储提供商',
+                subtitle: null,
+                link: '/platform/attachment-storage-providers',
+                icon: 'pi pi-cloud',
+                displayOrder: 37,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['platform:attachment-storage-providers:manage'],
+                meta: null,
+                children: null
+            },
+            {
                 id: 'nav-platform-navigation',
                 key: 'platform.navigation',
                 type: 'basic',

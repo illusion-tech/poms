@@ -105,7 +105,7 @@ const EMPTY_DISCUSSION_FORM: DiscussionForm = {
 
                 <div class="flex flex-col gap-2">
                     <label for="businessDiscussionType" class="text-sm font-medium text-surface-900 dark:text-surface-0">讨论类型</label>
-                    <p-select inputId="businessDiscussionType" [ngModel]="form().discussionType" (ngModelChange)="updateDiscussionType($event)" [options]="discussionTypeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                    <p-select inputId="businessDiscussionType" [ngModel]="form().discussionType" (ngModelChange)="updateDiscussionType($event)" [options]="discussionTypeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                 </div>
 
                 <div class="flex flex-col gap-2">

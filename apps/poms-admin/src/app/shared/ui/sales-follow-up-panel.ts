@@ -156,7 +156,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                             optionLabel="label"
                             optionValue="value"
                             appendTo="body"
-                            styleClass="w-full rounded-md!"
+                            class="w-full rounded-md!"
                         />
                     </div>
 
@@ -230,7 +230,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                             optionLabel="label"
                             optionValue="value"
                             appendTo="body"
-                            styleClass="w-full rounded-md!"
+                            class="w-full rounded-md!"
                         />
                     </div>
 

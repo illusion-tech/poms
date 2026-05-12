@@ -297,7 +297,7 @@ interface Country {
 
                             <div class="flex flex-col gap-2">
                                 <label class="text-surface-900 dark:text-surface-0 text-base">Country</label>
-                                <p-select [(ngModel)]="formData.country" [options]="countries" optionLabel="label" optionValue="value" placeholder="United States" styleClass="w-full" />
+                                <p-select [(ngModel)]="formData.country" [options]="countries" optionLabel="label" optionValue="value" placeholder="United States" class="w-full" />
                             </div>
 
                             <div class="flex flex-col gap-2">

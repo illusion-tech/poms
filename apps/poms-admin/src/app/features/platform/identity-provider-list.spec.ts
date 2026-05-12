@@ -129,7 +129,8 @@ describe('IdentityProviderList', () => {
         expect(text).toContain('secret 已配置');
         expect(text).toContain('飞书测试租户');
         expect(text).toContain('secret 未配置');
-        expect(text).not.toContain('新增 Provider');
+        expect(text).not.toContain('新增提供商');
+        expect((fixture.nativeElement.querySelector('[data-testid="provider-card-grid"]') as HTMLElement | null)?.className).toContain('2xl:grid-cols-3');
     });
 
     it('renders fixed provider card slots when a provider has not been configured', () => {
@@ -142,7 +143,7 @@ describe('IdentityProviderList', () => {
         expect(text).toContain('待配置');
         expect(text).toContain('secret 未配置');
         expect(text).toContain('配置');
-        expect(text).not.toContain('暂无 Provider 配置');
+        expect(text).not.toContain('暂无提供商配置');
     });
 
     it('opens create dialog from a fixed provider card with provider locked', () => {

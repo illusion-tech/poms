@@ -102,7 +102,7 @@ export class AppMenu {
                     routerLink: ['/platform/identity-providers']
                 },
                 {
-                    label: '附件存储 Provider',
+                    label: '附件存储提供商',
                     icon: 'pi pi-cloud',
                     routerLink: ['/platform/attachment-storage-providers']
                 },

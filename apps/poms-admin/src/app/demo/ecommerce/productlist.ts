@@ -37,11 +37,11 @@ interface SelectOption {
                     </div>
 
                     <div class="w-full sm:w-[148px]">
-                        <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label" optionValue="value" placeholder="Category" styleClass="w-full rounded-xl border border-surface-200 dark:border-surface-700" />
+                        <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label" optionValue="value" placeholder="Category" class="w-full rounded-xl border border-surface-200 dark:border-surface-700" />
                     </div>
 
                     <div class="w-full sm:w-[148px]">
-                        <p-select [(ngModel)]="selectedSort" [options]="sortOptions" optionLabel="label" optionValue="value" placeholder="Sort By" styleClass="w-full rounded-xl border border-surface-200 dark:border-surface-700" />
+                        <p-select [(ngModel)]="selectedSort" [options]="sortOptions" optionLabel="label" optionValue="value" placeholder="Sort By" class="w-full rounded-xl border border-surface-200 dark:border-surface-700" />
                     </div>
                 </div>
             </div>

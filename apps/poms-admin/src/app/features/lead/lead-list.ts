@@ -360,7 +360,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         optionValue="value"
                                         appendTo="body"
                                         ariaLabel="按状态筛选"
-                                        styleClass="w-full md:w-40 rounded-md!"
+                                        class="w-full md:w-40 rounded-md!"
                                     />
 
                                     <p-select
@@ -371,7 +371,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         optionValue="value"
                                         appendTo="body"
                                         ariaLabel="按评级筛选"
-                                        styleClass="w-full md:w-36 rounded-md!"
+                                        class="w-full md:w-36 rounded-md!"
                                     />
 
                                     <p-select
@@ -382,7 +382,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         optionValue="value"
                                         appendTo="body"
                                         ariaLabel="按归属筛选"
-                                        styleClass="w-full md:w-36 rounded-md!"
+                                        class="w-full md:w-36 rounded-md!"
                                     />
                                 </div>
 
@@ -403,7 +403,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <span class="flex items-center gap-2">状态/评分 <p-sortIcon field="status" /></span>
                                         <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
-                                                <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-44" />
+                                                <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
                                             </ng-template>
                                         </p-columnFilter>
                                     </div>
@@ -544,7 +544,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             [loading]="customerLoading()"
                             appendTo="body"
                             placeholder="选择客户主数据"
-                            styleClass="w-full rounded-md!"
+                            class="w-full rounded-md!"
                         />
                         @if (createAttempted() && !createForm().customerId) {
                             <span class="text-xs text-red-600 dark:text-red-300">请选择客户。</span>
@@ -571,7 +571,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 [loading]="loadingSources()"
                                 appendTo="body"
                                 placeholder="选择来源"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                             @if (createAttempted() && !createForm().sourceId) {
                                 <span class="text-xs text-red-600 dark:text-red-300">请选择来源渠道。</span>
@@ -588,7 +588,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 optionLabel="label"
                                 optionValue="value"
                                 appendTo="body"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                     </div>
@@ -620,7 +620,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 optionLabel="label"
                                 optionValue="value"
                                 appendTo="body"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
 
@@ -667,7 +667,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 [loading]="ownerReferenceLoading()"
                                 appendTo="body"
                                 placeholder="留空进入公共池"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                             <span class="text-xs text-surface-500 dark:text-surface-400">留空后进入公共池，后续可由销售申领或主管分配。</span>
                         </div>
@@ -685,7 +685,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 [loading]="ownerReferenceLoading()"
                                 appendTo="body"
                                 placeholder="可留空"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                     </div>
@@ -731,7 +731,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 filterBy="label"
                                 [loading]="loadingSources()"
                                 appendTo="body"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                             @if (editAttempted() && !editForm().sourceId) {
                                 <span class="text-xs text-red-600 dark:text-red-300">请选择来源渠道。</span>
@@ -740,7 +740,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                         <div class="flex flex-col gap-2">
                             <label for="editLeadUrgency" class="text-sm font-medium text-surface-900 dark:text-surface-0">紧迫程度</label>
-                            <p-select inputId="editLeadUrgency" [ngModel]="editForm().urgency" (ngModelChange)="updateEditUrgency($event)" [options]="urgencyOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                            <p-select inputId="editLeadUrgency" [ngModel]="editForm().urgency" (ngModelChange)="updateEditUrgency($event)" [options]="urgencyOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                         </div>
                     </div>
 
@@ -755,7 +755,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                         <div class="flex flex-col gap-2">
                             <label for="editBudgetStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">预算情况</label>
-                            <p-select inputId="editBudgetStatus" [ngModel]="editForm().budgetStatus" (ngModelChange)="updateEditBudgetStatus($event)" [options]="budgetStatusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                            <p-select inputId="editBudgetStatus" [ngModel]="editForm().budgetStatus" (ngModelChange)="updateEditBudgetStatus($event)" [options]="budgetStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -1234,7 +1234,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 [loading]="ownerReferenceLoading()"
                                 appendTo="body"
                                 placeholder="选择销售主责"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                             @if (assignmentAttempted() && !assignmentForm().ownerUserId) {
                                 <span class="text-xs text-red-600 dark:text-red-300">请选择销售主责。</span>
@@ -1254,7 +1254,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 [loading]="ownerReferenceLoading()"
                                 appendTo="body"
                                 placeholder="可留空"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                     </div>

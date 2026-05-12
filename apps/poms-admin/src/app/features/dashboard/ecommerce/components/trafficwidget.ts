@@ -12,7 +12,7 @@ import { MeterGroupModule } from 'primeng/metergroup';
     template: ` <section-card class="xl:col-span-1 flex flex-col">
         <ng-template #title>Traffic</ng-template>
         <ng-template #action>
-            <p-select [(ngModel)]="selectedTrafficMeterRange" [options]="trafficMeterRanges" optionLabel="name" placeholder="Select a Range" styleClass="w-28" />
+            <p-select [(ngModel)]="selectedTrafficMeterRange" [options]="trafficMeterRanges" optionLabel="name" placeholder="Select a Range" class="w-28" />
         </ng-template>
         <p-meter-group [value]="traffic" labelPosition="end" class="mt-6 flex-1">
             <ng-template #meter let-value let-styleClass="class" let-width="size" let-index="index">

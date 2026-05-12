@@ -211,7 +211,7 @@ interface StatusOption {
                                 </div>
                             </p-accordion-header>
                             <p-accordion-content [pt]="accordionContentPT">
-                                <p-select [(ngModel)]="status" [options]="statusOptions" optionLabel="label" optionValue="value" styleClass="!w-full" />
+                                <p-select [(ngModel)]="status" [options]="statusOptions" optionLabel="label" optionValue="value" class="!w-full" />
                             </p-accordion-content>
                         </p-accordion-panel>
                         <p-accordion-panel value="visibility" [pt]="accordionPanelPT">

@@ -34,7 +34,7 @@ export class Migration20260511140000_ex65b_attachment_storage_provider_config ex
         this.addSql(`alter table "poms"."attachment_storage_provider_config" add constraint "chk_attachment_storage_provider_type" check ("provider_type" in ('local', 'huawei-obs-s3'));`);
         this.addSql(`alter table "poms"."attachment_storage_provider_config" add constraint "chk_attachment_storage_provider_status" check ("status" in ('draft', 'active', 'disabled', 'misconfigured'));`);
 
-        this.addSql(`comment on table "poms"."attachment_storage_provider_config" is '附件存储 Provider 配置';`);
+        this.addSql(`comment on table "poms"."attachment_storage_provider_config" is '附件存储提供商配置';`);
         this.addSql(`comment on column "poms"."attachment_storage_provider_config"."encrypted_access_key_id" is '加密后的 OBS access key id，API 不返回明文';`);
         this.addSql(`comment on column "poms"."attachment_storage_provider_config"."encrypted_secret_access_key" is '加密后的 OBS secret access key，API 不返回明文';`);
         this.addAttachmentStorageProviderManagePermissionToPlatformAdmin();

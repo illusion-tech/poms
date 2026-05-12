@@ -15,7 +15,7 @@ export const AttachmentStorageProviderConfigSchema = defineEntity({
     name: 'AttachmentStorageProviderConfig',
     tableName: 'attachment_storage_provider_config',
     schema: 'poms',
-    comment: '附件存储 Provider 配置',
+    comment: '附件存储提供商配置',
     indexes: [
         {
             name: 'uq_attachment_storage_provider_enabled_location',

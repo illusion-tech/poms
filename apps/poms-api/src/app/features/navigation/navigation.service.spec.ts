@@ -71,6 +71,14 @@ describe('NavigationService', () => {
         expect(platform?.children?.some((c) => c.key === 'platform.identity-providers')).toBe(true);
     });
 
+    it('shows platform attachment storage provider menu when attachment storage provider manage permission is satisfied', () => {
+        const result = service.getNavigationForUser(['platform:attachment-storage-providers:manage']);
+
+        const platform = result.find((item) => item.key === 'platform');
+        expect(platform).toBeDefined();
+        expect(platform?.children?.some((c) => c.key === 'platform.attachment-storage-providers')).toBe(true);
+    });
+
     it('filters out children whose permissions are not satisfied within a visible group', () => {
         const result = service.getNavigationForUser(['platform:users:manage']);
 
@@ -98,6 +106,7 @@ describe('NavigationService', () => {
             'platform:org-units:manage',
             'platform:dictionaries:manage',
             'platform:identity-providers:manage',
+            'platform:attachment-storage-providers:manage',
             'platform:navigation:manage'
         ]);
 
@@ -111,6 +120,7 @@ describe('NavigationService', () => {
         expect(keys).toContain('platform');
         expect(keys).toContain('platform.dictionaries');
         expect(keys).toContain('platform.identity-providers');
+        expect(keys).toContain('platform.attachment-storage-providers');
         expect(keys).toContain('my_profile');
     });
 
@@ -157,6 +167,7 @@ describe('NavigationService', () => {
             expect(snapshot.routeLinks).toContain('/platform/users');
             expect(snapshot.routeLinks).toContain('/platform/dictionaries');
             expect(snapshot.routeLinks).toContain('/platform/identity-providers');
+            expect(snapshot.routeLinks).toContain('/platform/attachment-storage-providers');
         });
     });
 });

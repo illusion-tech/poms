@@ -87,7 +87,7 @@ describe('appRoutes project permissions', () => {
         const route = getAppRoute('platform/attachment-storage-providers');
 
         expect(route.canActivate).toContain(permissionGuard);
-        expect(route.data?.['breadcrumb']).toBe('附件存储 Provider');
+        expect(route.data?.['breadcrumb']).toBe('附件存储提供商');
         expect(route.data?.['requiredPermissions']).toEqual(['platform:attachment-storage-providers:manage']);
     });
 

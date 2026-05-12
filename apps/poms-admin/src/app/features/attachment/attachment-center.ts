@@ -105,9 +105,9 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                     <p-inputicon class="pi pi-search" />
                     <input pInputText class="w-full rounded-md!" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" placeholder="搜索文件名、业务对象、上传人" />
                 </p-iconfield>
-                <p-select [ngModel]="targetTypeFilter()" (ngModelChange)="targetTypeFilter.set($event)" [options]="targetTypeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
-                <p-select [ngModel]="categoryFilter()" (ngModelChange)="categoryFilter.set($event)" [options]="categoryFilterOptions()" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
-                <p-select [ngModel]="uploaderFilter()" (ngModelChange)="uploaderFilter.set($event)" [options]="uploaderFilterOptions()" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                <p-select [ngModel]="targetTypeFilter()" (ngModelChange)="targetTypeFilter.set($event)" [options]="targetTypeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                <p-select [ngModel]="categoryFilter()" (ngModelChange)="categoryFilter.set($event)" [options]="categoryFilterOptions()" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                <p-select [ngModel]="uploaderFilter()" (ngModelChange)="uploaderFilter.set($event)" [options]="uploaderFilterOptions()" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                 <input type="date" class="h-10 rounded-md border border-surface-300 bg-surface-0 px-3 text-sm text-surface-900 outline-none focus:border-primary dark:border-surface-700 dark:bg-surface-900 dark:text-surface-0" [ngModel]="uploadedFrom()" (ngModelChange)="uploadedFrom.set($event)" />
                 <input type="date" class="h-10 rounded-md border border-surface-300 bg-surface-0 px-3 text-sm text-surface-900 outline-none focus:border-primary dark:border-surface-700 dark:bg-surface-900 dark:text-surface-0" [ngModel]="uploadedTo()" (ngModelChange)="uploadedTo.set($event)" />
             </section>

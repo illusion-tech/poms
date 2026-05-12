@@ -92,7 +92,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                                     <span class="flex items-center gap-2">金额/状态 <p-sortIcon field="signedAmount" /></span>
                                     <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                         <ng-template #filter let-value let-filter="filterCallback">
-                                            <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" styleClass="w-44" />
+                                            <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
                                         </ng-template>
                                     </p-columnFilter>
                                 </div>

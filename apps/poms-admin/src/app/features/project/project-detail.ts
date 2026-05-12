@@ -596,7 +596,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                             [loading]="customerLoading()"
                             appendTo="body"
                             placeholder="选择客户主数据"
-                            styleClass="w-full rounded-md!"
+                            class="w-full rounded-md!"
                         />
                     </div>
 

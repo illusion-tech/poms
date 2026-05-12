@@ -170,7 +170,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                     optionValue="value"
                                     appendTo="body"
                                     ariaLabel="按状态筛选"
-                                    styleClass="w-full md:w-40 rounded-md!"
+                                    class="w-full md:w-40 rounded-md!"
                                 />
                             </div>
 
@@ -283,7 +283,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                 optionLabel="label"
                                 optionValue="value"
                                 appendTo="body"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                     }
@@ -350,7 +350,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                 <h3 class="text-base font-semibold text-surface-950 dark:text-surface-0">客户别名</h3>
                                 <div class="flex gap-2">
                                     <input pInputText [ngModel]="aliasForm().aliasName" (ngModelChange)="updateAliasName($event)" placeholder="新增别名" class="w-44 rounded-md!" />
-                                    <p-select [ngModel]="aliasForm().aliasType" (ngModelChange)="updateAliasType($event)" [options]="aliasTypeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-36 rounded-md!" />
+                                    <p-select [ngModel]="aliasForm().aliasType" (ngModelChange)="updateAliasType($event)" [options]="aliasTypeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-36 rounded-md!" />
                                     <p-button icon="pi pi-plus" label="添加" [loading]="saving()" [disabled]="!aliasForm().aliasName.trim()" styleClass="rounded-md!" (onClick)="createAlias(customer)" />
                                 </div>
                             </div>

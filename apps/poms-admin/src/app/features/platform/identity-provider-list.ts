@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { IdentityProviderCard } from './identity-provider-card';
+import { ProviderCardGrid } from './provider-card-grid';
 
 type ProviderFilterValue = IdentityProvider | 'all';
 type StatusFilterValue = IdentityProviderConfigStatus | 'all';
@@ -77,7 +78,7 @@ const PROVIDER_OPTIONS: Option<IdentityProvider>[] = (Object.values(IdentityProv
     value: provider
 }));
 
-const PROVIDER_FILTER_OPTIONS: Option<ProviderFilterValue>[] = [{ label: '全部 provider', value: ALL_FILTER_VALUE }, ...PROVIDER_OPTIONS];
+const PROVIDER_FILTER_OPTIONS: Option<ProviderFilterValue>[] = [{ label: '全部提供商', value: ALL_FILTER_VALUE }, ...PROVIDER_OPTIONS];
 
 const STATUS_OPTIONS: Option<IdentityProviderConfigStatus>[] = (Object.values(IdentityProviderConfigStatus) as IdentityProviderConfigStatus[]).map((status) => ({
     label: STATUS_LABELS[status] ?? status,
@@ -138,7 +139,8 @@ const EMPTY_FORM: IdentityProviderForm = {
         ToastModule,
         ToggleSwitchModule,
         TooltipModule,
-        IdentityProviderCard
+        IdentityProviderCard,
+        ProviderCardGrid
     ],
     providers: [IdentityProviderStore, MessageService],
     styles: [
@@ -221,8 +223,8 @@ const EMPTY_FORM: IdentityProviderForm = {
                             optionLabel="label"
                             optionValue="value"
                             appendTo="body"
-                            ariaLabel="按 provider 筛选"
-                            styleClass="w-full md:w-48 rounded-md!"
+                            ariaLabel="按提供商筛选"
+                            class="w-full md:w-48 rounded-md!"
                         />
 
                         <p-select
@@ -233,7 +235,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                             optionValue="value"
                             appendTo="body"
                             ariaLabel="按状态筛选"
-                            styleClass="w-full md:w-40 rounded-md!"
+                            class="w-full md:w-40 rounded-md!"
                         />
                     </div>
 
@@ -241,13 +243,13 @@ const EMPTY_FORM: IdentityProviderForm = {
                 </div>
 
                 @if (store.loading()) {
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取 Provider 配置</div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取外部身份提供商配置</div>
                 } @else if (providerCards().length === 0) {
                     <div class="rounded-[8px] border border-dashed border-surface-300 bg-surface-0 px-6 py-12 text-center dark:border-surface-700 dark:bg-surface-900">
-                        <p class="text-base font-medium text-surface-900 dark:text-surface-0">没有符合筛选条件的 Provider 配置</p>
+                        <p class="text-base font-medium text-surface-900 dark:text-surface-0">没有符合筛选条件的提供商配置</p>
                     </div>
                 } @else {
-                    <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+                    <app-provider-card-grid>
                         @for (card of providerCards(); track card.key) {
                             <app-identity-provider-card
                                 [provider]="card.provider"
@@ -259,7 +261,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 (testRequested)="testConnection($event)"
                             />
                         }
-                    </div>
+                    </app-provider-card-grid>
                 }
             </section>
 
@@ -273,7 +275,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                 </ng-template>
             </p-dialog>
 
-            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑 Provider 配置" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑提供商配置" [style]="{ width: 'min(52rem, 94vw)' }" styleClass="p-fluid" (onHide)="resetFormError()">
                 <ng-container *ngTemplateOutlet="providerFormTemplate; context: { mode: 'edit' }" />
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
@@ -291,7 +293,7 @@ const EMPTY_FORM: IdentityProviderForm = {
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <label for="identityProviderProvider" class="text-sm font-medium text-surface-900 dark:text-surface-0">Provider *</label>
+                            <label for="identityProviderProvider" class="text-sm font-medium text-surface-900 dark:text-surface-0">提供商 *</label>
                             <p-select
                                 inputId="identityProviderProvider"
                                 [ngModel]="form().provider"
@@ -301,7 +303,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 optionValue="value"
                                 appendTo="body"
                                 [disabled]="mode === 'edit' || createProviderLocked"
-                                styleClass="w-full rounded-md!"
+                                class="w-full rounded-md!"
                             />
                         </div>
                         <div class="flex flex-col gap-2">
@@ -425,12 +427,12 @@ const EMPTY_FORM: IdentityProviderForm = {
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <p-select inputId="identityProviderSearchMode" [ngModel]="form().searchGrantMode" (ngModelChange)="updateSearchGrantMode($event)" [options]="searchGrantModeOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                            <p-select inputId="identityProviderSearchMode" [ngModel]="form().searchGrantMode" (ngModelChange)="updateSearchGrantMode($event)" [options]="searchGrantModeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                         </div>
                         @if (mode === 'edit') {
                             <div class="flex flex-col gap-2">
                                 <label for="identityProviderStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                                <p-select inputId="identityProviderStatus" [ngModel]="form().status" (ngModelChange)="updateStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full rounded-md!" />
+                                <p-select inputId="identityProviderStatus" [ngModel]="form().status" (ngModelChange)="updateStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                             </div>
                         }
                     </div>
@@ -551,7 +553,7 @@ export class IdentityProviderList {
                 status: status === ALL_FILTER_VALUE ? undefined : status
             });
         } catch {
-            this.pageError.set('Provider 配置没有读取成功，请确认权限或稍后重试。');
+            this.pageError.set('提供商配置没有读取成功，请确认权限或稍后重试。');
         }
     }
 
@@ -666,7 +668,7 @@ export class IdentityProviderList {
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
         } catch {
-            this.formError.set('Provider 配置没有创建成功，请确认租户未重复、secret 和 redirect URI 满足启用条件。');
+            this.formError.set('提供商配置没有创建成功，请确认租户未重复、secret 和 redirect URI 满足启用条件。');
         }
     }
 
@@ -696,7 +698,7 @@ export class IdentityProviderList {
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: `${form.displayName.trim()} 已更新` });
             await this.reload();
         } catch {
-            this.formError.set('Provider 配置没有保存成功，请刷新后重试。');
+            this.formError.set('提供商配置没有保存成功，请刷新后重试。');
         }
     }
 

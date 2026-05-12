@@ -28,7 +28,7 @@ export class AttachmentStorageProviderController {
 
     @Get()
     @HasPermissions('platform:attachment-storage-providers:manage')
-    @ApiOperation({ summary: '获取附件存储 Provider 配置列表' })
+    @ApiOperation({ summary: '获取附件存储提供商配置列表' })
     @ApiOkResponse({ type: AttachmentStorageProviderConfigListDto })
     listAttachmentStorageProviderConfigs(@Query() query: AttachmentStorageProviderConfigListQueryDto): Promise<AttachmentStorageProviderConfigList> {
         const listQuery: AttachmentStorageProviderConfigListQuery = {
@@ -41,7 +41,7 @@ export class AttachmentStorageProviderController {
 
     @Post()
     @HasPermissions('platform:attachment-storage-providers:manage')
-    @ApiOperation({ summary: '创建附件存储 Provider 配置' })
+    @ApiOperation({ summary: '创建附件存储提供商配置' })
     @ApiCreatedResponse({ type: AttachmentStorageProviderConfigDto })
     createAttachmentStorageProviderConfig(@Body() body: CreateAttachmentStorageProviderConfigRequestDto, @Request() req: { user: UserPayload }): Promise<AttachmentStorageProviderConfigDetail> {
         return this.storageProviderService.createAttachmentStorageProviderConfig(body, req.user.sub);
@@ -49,7 +49,7 @@ export class AttachmentStorageProviderController {
 
     @Get(':id')
     @HasPermissions('platform:attachment-storage-providers:manage')
-    @ApiOperation({ summary: '获取附件存储 Provider 配置详情' })
+    @ApiOperation({ summary: '获取附件存储提供商配置详情' })
     @ApiOkResponse({ type: AttachmentStorageProviderConfigDto })
     getAttachmentStorageProviderConfig(@Param('id') id: string): Promise<AttachmentStorageProviderConfigDetail> {
         return this.storageProviderService.getAttachmentStorageProviderConfig(id);
@@ -57,7 +57,7 @@ export class AttachmentStorageProviderController {
 
     @Patch(':id')
     @HasPermissions('platform:attachment-storage-providers:manage')
-    @ApiOperation({ summary: '更新附件存储 Provider 配置' })
+    @ApiOperation({ summary: '更新附件存储提供商配置' })
     @ApiOkResponse({ type: AttachmentStorageProviderConfigDto })
     updateAttachmentStorageProviderConfig(@Param('id') id: string, @Body() body: UpdateAttachmentStorageProviderConfigRequestDto, @Request() req: { user: UserPayload }): Promise<AttachmentStorageProviderConfigDetail> {
         return this.storageProviderService.updateAttachmentStorageProviderConfig(id, body, req.user.sub);
@@ -66,7 +66,7 @@ export class AttachmentStorageProviderController {
     @Post(':id\\:testConnection')
     @HasPermissions('platform:attachment-storage-providers:manage')
     @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: '测试附件存储 Provider 配置完整性' })
+    @ApiOperation({ summary: '测试附件存储提供商配置完整性' })
     @ApiOkResponse({ type: AttachmentStorageProviderConnectionTestResultDto })
     testAttachmentStorageProviderConnection(@Param('id') id: string, @Body() body: TestAttachmentStorageProviderConnectionRequestDto): Promise<AttachmentStorageProviderConnectionTestResult> {
         return this.storageProviderService.testAttachmentStorageProviderConnection(id, body);
@@ -75,7 +75,7 @@ export class AttachmentStorageProviderController {
     @Post(':id\\:set-default')
     @HasPermissions('platform:attachment-storage-providers:manage')
     @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: '设为默认附件存储 Provider' })
+    @ApiOperation({ summary: '设为默认附件存储提供商' })
     @ApiOkResponse({ type: AttachmentStorageProviderConfigDto })
     setDefaultAttachmentStorageProvider(@Param('id') id: string, @Body() body: SetDefaultAttachmentStorageProviderRequestDto, @Request() req: { user: UserPayload }): Promise<AttachmentStorageProviderConfigDetail> {
         return this.storageProviderService.setDefaultAttachmentStorageProvider(id, body, req.user.sub);

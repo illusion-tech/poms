@@ -81,7 +81,7 @@ interface ColorOption {
                         <div class="text-surface-500 dark:text-surface-400 text-base font-normal leading-normal">It will help customer to find the product</div>
                     </div>
                     <div class="flex-1 flex flex-col justify-start items-start gap-3 w-full lg:w-auto">
-                        <p-select [(ngModel)]="product.category" [options]="categories" optionLabel="label" optionValue="value" placeholder="Select category" styleClass="w-full" />
+                        <p-select [(ngModel)]="product.category" [options]="categories" optionLabel="label" optionValue="value" placeholder="Select category" class="w-full" />
                         <input type="text" pInputText [(ngModel)]="product.brand" placeholder="Enter brand name" class="w-full" />
                     </div>
                 </div>
