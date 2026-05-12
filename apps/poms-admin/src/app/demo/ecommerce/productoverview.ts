@@ -48,7 +48,7 @@ interface Size {
                 <div class="w-full xl:w-96 shrink-0 flex flex-col justify-start items-start gap-6">
                     <div class="w-full bg-surface-0 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-3xl overflow-hidden">
                         <div class="p-6 border-b border-surface-200 dark:border-surface-700 flex flex-col justify-start items-start gap-4">
-                            <p-tag value="High Score" severity="warn" styleClass="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200" />
+                            <p-tag value="High Score" severity="warn" class="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200" />
 
                             <div class="w-full flex flex-col justify-start items-start">
                                 <h1 class="text-surface-950 dark:text-surface-0 text-xl font-medium leading-7 mb-1">AeroShield™ Storm Jacket</h1>

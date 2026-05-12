@@ -79,7 +79,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
                                             <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ entry.label }}</span>
-                                            <p-tag [value]="entry.statusLabel" [severity]="entry.statusSeverity" styleClass="rounded-[6px]!" />
+                                            <p-tag [value]="entry.statusLabel" [severity]="entry.statusSeverity" class="rounded-[6px]!" />
                                         </div>
                                         <div class="mt-2 text-sm leading-6 text-surface-500 dark:text-surface-400">{{ entry.description }}</div>
                                         @if (entry.disabledReason) {
@@ -103,8 +103,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                         <app-workspace-fact-grid class="mt-4 block" [items]="readinessFactItems(currentReadiness)" [columns]="4" />
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="readinessItems(currentReadiness)"
                             [rowHover]="true"
                             [paginator]="readinessItems(currentReadiness).length > 6"
@@ -126,7 +125,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>{{ readinessItemTypeLabel(item.itemType) }}</td>
                                     <td>
-                                        <p-tag [value]="readinessItemStatusLabel(item.status)" [severity]="readinessItemStatusSeverity(item.status)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="readinessItemStatusLabel(item.status)" [severity]="readinessItemStatusSeverity(item.status)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.responsibleRole ?? '待确认' }}</td>
                                     <td>{{ item.summary ?? item.navigationHint ?? '待确认' }}</td>

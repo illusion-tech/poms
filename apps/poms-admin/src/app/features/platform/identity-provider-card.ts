@@ -53,18 +53,18 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                     </div>
                 </div>
                 @if (config(); as currentConfig) {
-                    <p-tag [value]="statusLabel(currentConfig.status)" [severity]="statusSeverity(currentConfig.status)" styleClass="rounded-[6px]" />
+                    <p-tag [value]="statusLabel(currentConfig.status)" [severity]="statusSeverity(currentConfig.status)" class="rounded-[6px]" />
                 } @else {
-                    <p-tag value="待配置" severity="warn" styleClass="rounded-[6px]" />
+                    <p-tag value="待配置" severity="warn" class="rounded-[6px]" />
                 }
             </div>
 
             @if (config(); as currentConfig) {
                 <div class="mt-5 grid grid-cols-2 gap-2">
-                    <p-tag [value]="currentConfig.enabled ? '总开关' : '总开关关闭'" [severity]="currentConfig.enabled ? 'success' : 'secondary'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="currentConfig.loginEnabled ? '登录' : '登录关闭'" [severity]="currentConfig.loginEnabled ? 'info' : 'secondary'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="currentConfig.bindingEnabled ? '绑定' : '绑定关闭'" [severity]="currentConfig.bindingEnabled ? 'info' : 'secondary'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="currentConfig.searchEnabled ? '搜索' : '搜索关闭'" [severity]="currentConfig.searchEnabled ? 'info' : 'secondary'" styleClass="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.enabled ? '总开关' : '总开关关闭'" [severity]="currentConfig.enabled ? 'success' : 'secondary'" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.loginEnabled ? '登录' : '登录关闭'" [severity]="currentConfig.loginEnabled ? 'info' : 'secondary'" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.bindingEnabled ? '绑定' : '绑定关闭'" [severity]="currentConfig.bindingEnabled ? 'info' : 'secondary'" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.searchEnabled ? '搜索' : '搜索关闭'" [severity]="currentConfig.searchEnabled ? 'info' : 'secondary'" class="justify-center rounded-[6px]" />
                 </div>
 
                 <div class="mt-5 flex flex-col gap-4">
@@ -74,7 +74,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
 
                         <span class="text-surface-500 dark:text-surface-400">Secret</span>
                         <span>
-                            <p-tag [value]="currentConfig.secretConfigured ? 'secret 已配置' : 'secret 未配置'" [severity]="currentConfig.secretConfigured ? 'success' : 'warn'" styleClass="rounded-[6px]" />
+                            <p-tag [value]="currentConfig.secretConfigured ? 'secret 已配置' : 'secret 未配置'" [severity]="currentConfig.secretConfigured ? 'success' : 'warn'" class="rounded-[6px]" />
                         </span>
 
                         <span class="text-surface-500 dark:text-surface-400">授权模式</span>
@@ -106,10 +106,10 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                 </div>
             } @else {
                 <div class="mt-5 grid grid-cols-2 gap-2">
-                    <p-tag value="总开关" severity="secondary" styleClass="justify-center rounded-[6px]" />
-                    <p-tag value="登录" severity="secondary" styleClass="justify-center rounded-[6px]" />
-                    <p-tag value="绑定" severity="secondary" styleClass="justify-center rounded-[6px]" />
-                    <p-tag value="搜索" severity="secondary" styleClass="justify-center rounded-[6px]" />
+                    <p-tag value="总开关" severity="secondary" class="justify-center rounded-[6px]" />
+                    <p-tag value="登录" severity="secondary" class="justify-center rounded-[6px]" />
+                    <p-tag value="绑定" severity="secondary" class="justify-center rounded-[6px]" />
+                    <p-tag value="搜索" severity="secondary" class="justify-center rounded-[6px]" />
                 </div>
 
                 <div class="mt-5 flex flex-col gap-4">
@@ -119,7 +119,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
 
                         <span class="text-surface-500 dark:text-surface-400">Secret</span>
                         <span>
-                            <p-tag value="secret 未配置" severity="warn" styleClass="rounded-[6px]" />
+                            <p-tag value="secret 未配置" severity="warn" class="rounded-[6px]" />
                         </span>
 
                         <span class="text-surface-500 dark:text-surface-400">授权模式</span>
@@ -159,7 +159,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
                                 <p class="text-sm font-medium text-surface-800 dark:text-surface-100">{{ connectionResultLabel(result) }}</p>
                                 <p class="truncate text-xs text-surface-500 dark:text-surface-400">{{ result.message }}</p>
                             </div>
-                            <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" styleClass="rounded-[6px]" />
+                            <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" class="rounded-[6px]" />
                         </div>
                     }
 

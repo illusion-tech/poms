@@ -47,7 +47,7 @@ export interface ProjectLifecycleTimelineItem {
                                 <div class="lc-stage">
                                     <div class="lc-label">{{ item.label }}</div>
                                     <p class="lc-copy">{{ item.description }}</p>
-                                    <p-tag [value]="stateLabel(item.state)" [severity]="item.severity ?? stateSeverity(item.state)" styleClass="lc-tag" />
+                                    <p-tag [value]="stateLabel(item.state)" [severity]="item.severity ?? stateSeverity(item.state)" class="lc-tag" />
                                     @if (detailText(item)) {
                                         <div class="lc-detail">{{ detailText(item) }}</div>
                                     }
@@ -69,7 +69,7 @@ export interface ProjectLifecycleTimelineItem {
                         <div class="lc-stage lc-stage-v">
                             <div class="lc-label">{{ item.label }}</div>
                             <p class="lc-copy">{{ item.description }}</p>
-                            <p-tag [value]="stateLabel(item.state)" [severity]="item.severity ?? stateSeverity(item.state)" styleClass="lc-tag" />
+                            <p-tag [value]="stateLabel(item.state)" [severity]="item.severity ?? stateSeverity(item.state)" class="lc-tag" />
                             @if (detailText(item)) {
                                 <div class="lc-detail">{{ detailText(item) }}</div>
                             }

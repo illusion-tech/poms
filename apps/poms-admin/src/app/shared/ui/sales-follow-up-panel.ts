@@ -98,8 +98,8 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                                 <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-2">
                                         <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ record.summary }}</span>
-                                        <p-tag [value]="getStatusName(record.status)" [severity]="getStatusSeverity(record.status)" styleClass="rounded-[6px]" />
-                                        <p-tag [value]="getOutcomeName(record.outcome)" severity="secondary" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getStatusName(record.status)" [severity]="getStatusSeverity(record.status)" class="rounded-[6px]" />
+                                        <p-tag [value]="getOutcomeName(record.outcome)" severity="secondary" class="rounded-[6px]" />
                                     </div>
                                     <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
                                         <span>{{ record.occurredAt | date: 'yyyy-MM-dd HH:mm' }}</span>

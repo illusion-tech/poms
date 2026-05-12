@@ -49,8 +49,7 @@ export interface WorkspaceVersionHistoryRow {
             }
 
             <p-table
-                class="mt-4 block"
-                styleClass="p-datatable-sm"
+                class="mt-4 block p-datatable-sm"
                 [value]="rows"
                 [loading]="loading"
                 [rowHover]="true"
@@ -82,15 +81,15 @@ export interface WorkspaceVersionHistoryRow {
                     <tr>
                         <td class="font-medium text-surface-950 dark:text-surface-0">{{ row.versionLabel }}</td>
                         <td>
-                            <p-tag [value]="row.isCurrent ? '当前' : '历史'" [severity]="row.isCurrent ? 'success' : 'secondary'" styleClass="rounded-[6px]!" />
+                            <p-tag [value]="row.isCurrent ? '当前' : '历史'" [severity]="row.isCurrent ? 'success' : 'secondary'" class="rounded-[6px]!" />
                         </td>
                         <td>
-                            <p-tag [value]="row.statusLabel" [severity]="row.statusSeverity" styleClass="rounded-[6px]!" />
+                            <p-tag [value]="row.statusLabel" [severity]="row.statusSeverity" class="rounded-[6px]!" />
                         </td>
                         <td>
                             <div class="text-xs text-surface-500 dark:text-surface-400">{{ row.primaryLabel }}</div>
                             @if (row.primarySeverity) {
-                                <p-tag [value]="row.primaryValue" [severity]="row.primarySeverity" styleClass="mt-1 rounded-[6px]!" />
+                                <p-tag [value]="row.primaryValue" [severity]="row.primarySeverity" class="mt-1 rounded-[6px]!" />
                             } @else {
                                 <div class="mt-1 text-sm font-medium text-surface-900 dark:text-surface-0">{{ row.primaryValue }}</div>
                             }
@@ -98,7 +97,7 @@ export interface WorkspaceVersionHistoryRow {
                         <td>
                             <div class="text-xs text-surface-500 dark:text-surface-400">{{ row.secondaryLabel }}</div>
                             @if (row.secondarySeverity) {
-                                <p-tag [value]="row.secondaryValue" [severity]="row.secondarySeverity" styleClass="mt-1 rounded-[6px]!" />
+                                <p-tag [value]="row.secondaryValue" [severity]="row.secondarySeverity" class="mt-1 rounded-[6px]!" />
                             } @else {
                                 <div class="mt-1 text-sm font-medium text-surface-900 dark:text-surface-0">{{ row.secondaryValue }}</div>
                             }
@@ -106,7 +105,7 @@ export interface WorkspaceVersionHistoryRow {
                         <td>
                             <div class="text-xs text-surface-500 dark:text-surface-400">{{ row.outcomeLabel }}</div>
                             @if (row.outcomeSeverity) {
-                                <p-tag [value]="row.outcomeValue" [severity]="row.outcomeSeverity" styleClass="mt-1 rounded-[6px]!" />
+                                <p-tag [value]="row.outcomeValue" [severity]="row.outcomeSeverity" class="mt-1 rounded-[6px]!" />
                             } @else {
                                 <div class="mt-1 text-sm font-medium text-surface-900 dark:text-surface-0">{{ row.outcomeValue }}</div>
                             }

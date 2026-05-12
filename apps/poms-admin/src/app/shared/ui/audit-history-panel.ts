@@ -81,7 +81,7 @@ const FIELD_LABELS: Record<string, string> = {
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
                                             <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ record.eventType }}</span>
-                                            <p-tag [value]="resultLabel(record.result)" [severity]="resultSeverity(record.result)" styleClass="rounded-[6px]!" />
+                                            <p-tag [value]="resultLabel(record.result)" [severity]="resultSeverity(record.result)" class="rounded-[6px]!" />
                                         </div>
                                         <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
                                             <span>{{ record.occurredAt | date: 'yyyy-MM-dd HH:mm' }}</span>

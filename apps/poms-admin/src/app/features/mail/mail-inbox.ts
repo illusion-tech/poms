@@ -126,7 +126,7 @@ interface MenuItemData {
 
                 <!-- Table -->
                 <div class="flex-1 flex flex-col min-h-0">
-                    <p-table [value]="paginatedEmails()" [(selection)]="selectedEmails" dataKey="id" [paginator]="false" styleClass="mail-table" [scrollable]="true" scrollHeight="flex">
+                    <p-table [value]="paginatedEmails()" [(selection)]="selectedEmails" dataKey="id" [paginator]="false" class="mail-table" [scrollable]="true" scrollHeight="flex">
                         <ng-template #header>
                             <tr>
                                 <th style="width: 3rem">
@@ -172,7 +172,7 @@ interface MenuItemData {
                                 </td>
                                 <td>
                                     @if (email.tag) {
-                                        <p-tag [value]="email.tag" severity="secondary" styleClass="text-xs" [ngClass]="email.read ? 'opacity-60' : ''" />
+                                        <p-tag [value]="email.tag" severity="secondary" class="text-xs" [ngClass]="email.read ? 'opacity-60' : ''" />
                                     }
                                 </td>
                                 <td (click)="$event.stopPropagation()">

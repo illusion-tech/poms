@@ -18,7 +18,7 @@ interface Section {
                     <div class="flex flex-col gap-6 mb-8">
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
-                                <p-tag value="INDUSTRIAL ECONOMICS" severity="secondary" styleClass="!font-normal !leading-normal" />
+                                <p-tag value="INDUSTRIAL ECONOMICS" severity="secondary" class="!font-normal !leading-normal" />
                                 <div class="text-surface-500 dark:text-surface-400 text-base">Newest Blog • 6 Min</div>
                             </div>
                             <h1 id="manufacturing-giants" class="text-surface-900 dark:text-surface-0 text-4xl font-medium leading-tight break-words">How Manufacturing Giants Drive Economic Growth</h1>

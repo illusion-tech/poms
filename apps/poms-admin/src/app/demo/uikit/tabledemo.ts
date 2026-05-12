@@ -223,7 +223,7 @@ interface RowGroupMeta {
             <div class="font-semibold text-xl mb-4">Frozen Columns</div>
             <p-togglebutton [(ngModel)]="balanceFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Balance'" offLabel="Balance" />
 
-            <p-table [value]="customers2" [scrollable]="true" scrollHeight="400px" styleClass="mt-4">
+            <p-table [value]="customers2" [scrollable]="true" scrollHeight="400px" class="mt-4">
                 <ng-template #header>
                     <tr>
                         <th style="min-width:200px" pFrozenColumn class="font-bold">Name</th>

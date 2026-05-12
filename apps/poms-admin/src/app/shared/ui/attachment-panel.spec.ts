@@ -4,11 +4,15 @@ import {
     ActiveInactiveStatus,
     AttachmentRelationType,
     AttachmentSecurityLevel,
+    AttachmentStorageProviderType,
     AttachmentStatus,
     AttachmentStore,
     AttachmentTargetType,
+    AttachmentUploadMode,
+    AttachmentUploadSessionOperationType,
     DictionaryDomain,
     DictionaryStore,
+    type AttachmentUploadProgressState,
     type DictionaryItemSummary,
     type AttachmentSummary
 } from '@poms/admin-data-access';
@@ -70,6 +74,24 @@ function createAttachment(overrides: Partial<AttachmentSummary> = {}): Attachmen
     };
 }
 
+function uploadProgress(overrides: Partial<AttachmentUploadProgressState> = {}): AttachmentUploadProgressState {
+    return {
+        phase: 'idle',
+        operationType: null,
+        sessionId: null,
+        uploadMode: null,
+        providerType: null,
+        fileName: null,
+        progressPercent: 0,
+        loadedBytes: 0,
+        totalBytes: 0,
+        message: '',
+        canAbort: false,
+        error: null,
+        ...overrides
+    };
+}
+
 describe('AttachmentPanel', () => {
     let fixture: ComponentFixture<AttachmentPanel>;
     let component: AttachmentPanel;
@@ -80,9 +102,11 @@ describe('AttachmentPanel', () => {
         loading: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
         loaded: ReturnType<typeof signal<boolean>>;
+        uploadProgress: ReturnType<typeof signal<AttachmentUploadProgressState>>;
         loadAttachments: jest.Mock;
         uploadAttachment: jest.Mock;
         uploadAttachmentVersion: jest.Mock;
+        abortCurrentUpload: jest.Mock;
         voidAttachment: jest.Mock;
         loadAttachmentVersions: jest.Mock;
         markAttachmentFinal: jest.Mock;
@@ -91,6 +115,7 @@ describe('AttachmentPanel', () => {
         thumbnailAttachment: jest.Mock;
         downloadAttachment: jest.Mock;
         clearAttachments: jest.Mock;
+        clearUploadProgress: jest.Mock;
     };
     let dictionaryStoreMock: {
         items: typeof dictionaryItems;
@@ -110,9 +135,11 @@ describe('AttachmentPanel', () => {
             loading: signal(false),
             saving: signal(false),
             loaded: signal(true),
+            uploadProgress: signal(uploadProgress()),
             loadAttachments: jest.fn().mockResolvedValue(attachments()),
             uploadAttachment: jest.fn().mockResolvedValue(createAttachment({ id: 'attachment-2' })),
             uploadAttachmentVersion: jest.fn().mockResolvedValue(createAttachment({ id: 'attachment-2', versionNo: 2, previousAttachmentId: 'attachment-1' })),
+            abortCurrentUpload: jest.fn().mockResolvedValue(undefined),
             voidAttachment: jest.fn().mockResolvedValue(createAttachment({ status: AttachmentStatus.Voided })),
             loadAttachmentVersions: jest.fn().mockResolvedValue([createAttachment({ versionNo: 2, isLatest: true }), createAttachment({ id: 'attachment-old', versionNo: 1, isLatest: false })]),
             markAttachmentFinal: jest.fn().mockResolvedValue(createAttachment({ isFinal: true })),
@@ -120,7 +147,8 @@ describe('AttachmentPanel', () => {
             previewAttachment: jest.fn().mockResolvedValue({ blob: new Blob(['pdf'], { type: 'application/pdf' }), mimeType: 'application/pdf', fileName: '需求确认.pdf' }),
             thumbnailAttachment: jest.fn().mockResolvedValue(null),
             downloadAttachment: jest.fn(),
-            clearAttachments: jest.fn(() => attachments.set([]))
+            clearAttachments: jest.fn(() => attachments.set([])),
+            clearUploadProgress: jest.fn(() => storeMock.uploadProgress.set(uploadProgress()))
         };
         dictionaryStoreMock = {
             items: dictionaryItems,
@@ -193,6 +221,57 @@ describe('AttachmentPanel', () => {
         expect(storeMock.loadAttachments).toHaveBeenCalledTimes(2);
     });
 
+    it('shows upload session progress and lets the user abort the current session', async () => {
+        component.showUploadDialog();
+        storeMock.uploadProgress.set(
+            uploadProgress({
+                phase: 'uploading',
+                operationType: AttachmentUploadSessionOperationType.CreateAttachment,
+                sessionId: 'upload-session-1',
+                uploadMode: AttachmentUploadMode.PresignedPut,
+                providerType: AttachmentStorageProviderType.HuaweiObsS3,
+                fileName: '会议纪要.pdf',
+                progressPercent: 42,
+                loadedBytes: 420,
+                totalBytes: 1000,
+                message: '正在直传到对象存储',
+                canAbort: true
+            })
+        );
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('正在上传');
+        expect(fixture.nativeElement.textContent).toContain('OBS Direct');
+        expect(fixture.nativeElement.textContent).toContain('42%');
+
+        await component.abortUpload();
+
+        expect(storeMock.abortCurrentUpload).toHaveBeenCalledWith('用户在附件面板中止附件上传。');
+    });
+
+    it('keeps selected file and metadata after upload failure so the user can retry', async () => {
+        const file = new File(['hello'], '会议纪要.pdf', { type: 'application/pdf' });
+        storeMock.uploadAttachment.mockRejectedValueOnce(new Error('provider unavailable'));
+
+        component.showUploadDialog();
+        component.selectedFile.set(file);
+        component.updateUploadField('category', COMMUNICATION_ATTACHMENT_CATEGORY);
+        component.updateUploadField('displayName', '会议纪要');
+
+        await component.upload();
+
+        expect(component.uploadDialogVisible).toBe(true);
+        expect(component.selectedFile()).toBe(file);
+        expect(component.uploadForm().displayName).toBe('会议纪要');
+        expect(component.uploadError()).toContain('存储 provider');
+
+        storeMock.uploadAttachment.mockResolvedValueOnce(createAttachment({ id: 'attachment-3' }));
+        await component.upload();
+
+        expect(storeMock.uploadAttachment).toHaveBeenCalledTimes(2);
+        expect(component.uploadDialogVisible).toBe(false);
+    });
+
     it('loads attachment versions for the selected attachment', async () => {
         await component.openVersions(createAttachment());
 
@@ -220,6 +299,33 @@ describe('AttachmentPanel', () => {
             description: '客户提供的需求材料'
         });
         expect(storeMock.loadAttachments).toHaveBeenCalledTimes(2);
+    });
+
+    it('shows the same upload session progress for version uploads', async () => {
+        component.showVersionUploadDialog(createAttachment());
+        storeMock.uploadProgress.set(
+            uploadProgress({
+                phase: 'uploading',
+                operationType: AttachmentUploadSessionOperationType.CreateVersion,
+                sessionId: 'upload-session-2',
+                uploadMode: AttachmentUploadMode.Proxy,
+                providerType: AttachmentStorageProviderType.Local,
+                fileName: '需求确认-v2.pdf',
+                progressPercent: 64,
+                loadedBytes: 640,
+                totalBytes: 1000,
+                message: '正在通过 POMS 代理上传',
+                canAbort: true
+            })
+        );
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('POMS Proxy');
+        expect(fixture.nativeElement.textContent).toContain('64%');
+
+        await component.abortUpload();
+
+        expect(storeMock.abortCurrentUpload).toHaveBeenCalledWith('用户在附件面板中止附件上传。');
     });
 
     it('marks and clears the final version state through explicit commands', async () => {

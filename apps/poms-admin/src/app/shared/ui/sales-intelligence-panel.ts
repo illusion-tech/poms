@@ -219,8 +219,8 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                             <div class="min-w-0">
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     <span class="font-medium text-surface-950 dark:text-surface-0">{{ contact.name }}</span>
-                                                    <p-tag [value]="contactGenderLabel(contact.gender)" severity="secondary" styleClass="rounded-[6px]" />
-                                                    <p-tag [value]="contactStatusLabel(contact.status)" [severity]="contactStatusSeverity(contact.status)" styleClass="rounded-[6px]" />
+                                                    <p-tag [value]="contactGenderLabel(contact.gender)" severity="secondary" class="rounded-[6px]" />
+                                                    <p-tag [value]="contactStatusLabel(contact.status)" [severity]="contactStatusSeverity(contact.status)" class="rounded-[6px]" />
                                                 </div>
                                                 <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(contact.department, '未填部门') }} · {{ displayText(contact.title, '未填职务') }}</div>
                                             </div>
@@ -252,8 +252,8 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                             <div class="flex flex-wrap items-center justify-between gap-2">
                                                 <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ gap.label }}</span>
                                                 <div class="flex flex-wrap gap-2">
-                                                    <p-tag [value]="gap.isMissing ? '待补齐' : '已覆盖'" [severity]="gap.isMissing ? 'warn' : 'success'" styleClass="rounded-[6px]" />
-                                                    <p-tag [value]="gapSeverityLabel(gap.severity)" [severity]="gapSeverity(gap.severity)" styleClass="rounded-[6px]" />
+                                                    <p-tag [value]="gap.isMissing ? '待补齐' : '已覆盖'" [severity]="gap.isMissing ? 'warn' : 'success'" class="rounded-[6px]" />
+                                                    <p-tag [value]="gapSeverityLabel(gap.severity)" [severity]="gapSeverity(gap.severity)" class="rounded-[6px]" />
                                                 </div>
                                             </div>
                                             <div class="text-xs leading-5 text-surface-600 dark:text-surface-300">{{ gap.explanation }}</div>
@@ -279,15 +279,15 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                             <div class="flex flex-wrap items-center gap-2">
                                                 <span class="font-medium text-surface-950 dark:text-surface-0">{{ stakeholder.contactName }}</span>
                                                 @if (stakeholder.isPrimary) {
-                                                    <p-tag value="关键" severity="contrast" styleClass="rounded-[6px]" />
+                                                    <p-tag value="关键" severity="contrast" class="rounded-[6px]" />
                                                 }
                                             </div>
                                             <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(stakeholder.contactDepartment, '未填部门') }} · {{ displayText(stakeholder.contactTitle, '未填职务') }}</div>
                                             <div class="mt-2 flex flex-wrap gap-2">
-                                                <p-tag [value]="stakeholderRoleLabel(stakeholder.role)" severity="secondary" styleClass="rounded-[6px]" />
-                                                <p-tag [value]="stakeholderAttitudeLabel(stakeholder.attitude)" [severity]="stakeholderAttitudeSeverity(stakeholder.attitude)" styleClass="rounded-[6px]" />
-                                                <p-tag [value]="stakeholderInfluenceLabel(stakeholder.influenceLevel)" [severity]="stakeholderInfluenceSeverity(stakeholder.influenceLevel)" styleClass="rounded-[6px]" />
-                                                <p-tag [value]="stakeholderAccessLabel(stakeholder.accessLevel)" [severity]="stakeholderAccessSeverity(stakeholder.accessLevel)" styleClass="rounded-[6px]" />
+                                                <p-tag [value]="stakeholderRoleLabel(stakeholder.role)" severity="secondary" class="rounded-[6px]" />
+                                                <p-tag [value]="stakeholderAttitudeLabel(stakeholder.attitude)" [severity]="stakeholderAttitudeSeverity(stakeholder.attitude)" class="rounded-[6px]" />
+                                                <p-tag [value]="stakeholderInfluenceLabel(stakeholder.influenceLevel)" [severity]="stakeholderInfluenceSeverity(stakeholder.influenceLevel)" class="rounded-[6px]" />
+                                                <p-tag [value]="stakeholderAccessLabel(stakeholder.accessLevel)" [severity]="stakeholderAccessSeverity(stakeholder.accessLevel)" class="rounded-[6px]" />
                                             </div>
                                             @if (stakeholder.focusAreas.length) {
                                                 <div class="mt-2 flex flex-wrap gap-1">
@@ -316,11 +316,11 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                         <article class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                             <div class="flex flex-wrap items-center justify-between gap-2">
                                                 <span class="font-medium text-surface-950 dark:text-surface-0">{{ record.competitorName }}</span>
-                                                <p-tag [value]="winProbabilityLabel(record.winProbability)" [severity]="winProbabilitySeverity(record.winProbability)" styleClass="rounded-[6px]" />
+                                                <p-tag [value]="winProbabilityLabel(record.winProbability)" [severity]="winProbabilitySeverity(record.winProbability)" class="rounded-[6px]" />
                                             </div>
                                             <div class="mt-2 flex flex-wrap gap-2">
-                                                <p-tag [value]="competitorPositionLabel(record.position)" severity="secondary" styleClass="rounded-[6px]" />
-                                                <p-tag [value]="customerPreferenceLabel(record.customerPreference)" [severity]="customerPreferenceSeverity(record.customerPreference)" styleClass="rounded-[6px]" />
+                                                <p-tag [value]="competitorPositionLabel(record.position)" severity="secondary" class="rounded-[6px]" />
+                                                <p-tag [value]="customerPreferenceLabel(record.customerPreference)" [severity]="customerPreferenceSeverity(record.customerPreference)" class="rounded-[6px]" />
                                             </div>
                                             <dl class="mt-2 grid grid-cols-1 gap-2 text-xs text-surface-600 dark:text-surface-300">
                                                 <div><dt class="font-medium text-surface-500 dark:text-surface-400">我方优势</dt><dd class="mt-1">{{ displayText(record.ourAdvantages, '待补充') }}</dd></div>

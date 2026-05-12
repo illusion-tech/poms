@@ -222,8 +222,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                         <ng-template #description>有条件放行、升级或阻断项必须明确责任角色、截止时间和处理结论。</ng-template>
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="conditionItems(currentWorkspace)"
                             [rowHover]="true"
                             [paginator]="conditionItems(currentWorkspace).length > 6"
@@ -247,7 +246,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>{{ conditionTypeLabel(item.conditionType) }}</td>
                                     <td>
-                                        <p-tag [value]="conditionStatusLabel(item.conditionStatus)" [severity]="conditionStatusSeverity(item)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="conditionStatusLabel(item.conditionStatus)" [severity]="conditionStatusSeverity(item)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.requiredForContracting ? '必须完成' : '非阻断条件' }}</td>
                                     <td>{{ item.responsibleRole ?? '待确认' }}</td>

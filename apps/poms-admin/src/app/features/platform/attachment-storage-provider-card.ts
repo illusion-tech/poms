@@ -47,18 +47,18 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                     </div>
                 </div>
                 @if (config(); as currentConfig) {
-                    <p-tag [value]="statusLabel(currentConfig.status)" [severity]="statusSeverity(currentConfig.status)" styleClass="rounded-[6px]" />
+                    <p-tag [value]="statusLabel(currentConfig.status)" [severity]="statusSeverity(currentConfig.status)" class="rounded-[6px]" />
                 } @else {
-                    <p-tag value="待配置" severity="warn" styleClass="rounded-[6px]" />
+                    <p-tag value="待配置" severity="warn" class="rounded-[6px]" />
                 }
             </div>
 
             @if (config(); as currentConfig) {
                 <div class="mt-5 grid grid-cols-2 gap-2">
-                    <p-tag [value]="currentConfig.enabled ? '启用' : '停用'" [severity]="currentConfig.enabled ? 'success' : 'secondary'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="currentConfig.isDefault ? '默认存储' : '非默认'" [severity]="currentConfig.isDefault ? 'info' : 'secondary'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="credentialsLabel(currentConfig)" [severity]="credentialsSeverity(currentConfig)" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="accessModeLabel(currentConfig)" severity="secondary" styleClass="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.enabled ? '启用' : '停用'" [severity]="currentConfig.enabled ? 'success' : 'secondary'" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="currentConfig.isDefault ? '默认存储' : '非默认'" [severity]="currentConfig.isDefault ? 'info' : 'secondary'" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="credentialsLabel(currentConfig)" [severity]="credentialsSeverity(currentConfig)" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="accessModeLabel(currentConfig)" severity="secondary" class="justify-center rounded-[6px]" />
                 </div>
 
                 <div class="mt-5 flex flex-col gap-4">
@@ -95,10 +95,10 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                 </div>
             } @else {
                 <div class="mt-5 grid grid-cols-2 gap-2">
-                    <p-tag value="未启用" severity="secondary" styleClass="justify-center rounded-[6px]" />
-                    <p-tag value="非默认" severity="secondary" styleClass="justify-center rounded-[6px]" />
-                    <p-tag [value]="providerType() === huaweiObsProviderType ? 'AK/SK 未配置' : '无需 AK/SK'" [severity]="providerType() === huaweiObsProviderType ? 'warn' : 'success'" styleClass="justify-center rounded-[6px]" />
-                    <p-tag value="待配置" severity="warn" styleClass="justify-center rounded-[6px]" />
+                    <p-tag value="未启用" severity="secondary" class="justify-center rounded-[6px]" />
+                    <p-tag value="非默认" severity="secondary" class="justify-center rounded-[6px]" />
+                    <p-tag [value]="providerType() === huaweiObsProviderType ? 'AK/SK 未配置' : '无需 AK/SK'" [severity]="providerType() === huaweiObsProviderType ? 'warn' : 'success'" class="justify-center rounded-[6px]" />
+                    <p-tag value="待配置" severity="warn" class="justify-center rounded-[6px]" />
                 </div>
 
                 <div class="mt-5 flex flex-col gap-4">
@@ -126,7 +126,7 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                                 <p class="text-sm font-medium text-surface-800 dark:text-surface-100">{{ connectionResultLabel(result) }}</p>
                                 <p class="truncate text-xs text-surface-500 dark:text-surface-400">{{ result.message }}</p>
                             </div>
-                            <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" styleClass="rounded-[6px]" />
+                            <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" class="rounded-[6px]" />
                         </div>
                     }
 

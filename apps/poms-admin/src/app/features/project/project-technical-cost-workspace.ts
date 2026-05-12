@@ -79,7 +79,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                         <ng-template #title>范围边界</ng-template>
                         <ng-template #description>范围内、排除项和假设必须在进入报价前清楚可读。</ng-template>
 
-                        <p-table class="mt-4 block" styleClass="p-datatable-sm" [value]="currentWorkspace.scopeItems" [rowHover]="true" [scrollable]="true" [tableStyle]="{ 'min-width': '42rem' }">
+                        <p-table class="mt-4 block p-datatable-sm" [value]="currentWorkspace.scopeItems" [rowHover]="true" [scrollable]="true" [tableStyle]="{ 'min-width': '42rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>类型</th>
@@ -90,7 +90,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                             <ng-template pTemplate="body" let-item>
                                 <tr>
                                     <td>
-                                        <p-tag [value]="scopeTypeLabel(item.scopeType)" [severity]="scopeTypeSeverity(item.scopeType)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="scopeTypeLabel(item.scopeType)" [severity]="scopeTypeSeverity(item.scopeType)" class="rounded-[6px]!" />
                                     </td>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>{{ item.description }}</td>
@@ -109,8 +109,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                         <ng-template #description>阻塞下一阶段的风险必须明确责任角色和缓解计划。</ng-template>
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="riskItems(currentWorkspace)"
                             [rowHover]="true"
                             [paginator]="riskItems(currentWorkspace).length > 6"
@@ -131,7 +130,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                             <ng-template pTemplate="body" let-item>
                                 <tr>
                                     <td>
-                                        <p-tag [value]="item.riskLevel" [severity]="riskLevelSeverity(item.riskLevel)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="item.riskLevel" [severity]="riskLevelSeverity(item.riskLevel)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.riskCategory }}</td>
                                     <td>
@@ -139,7 +138,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                         <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ item.impactScope }}</div>
                                     </td>
                                     <td>
-                                        <p-tag [value]="riskStatusLabel(item.riskStatus)" [severity]="riskStatusSeverity(item)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="riskStatusLabel(item.riskStatus)" [severity]="riskStatusSeverity(item)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.ownerRole }}</td>
                                     <td>{{ item.mitigationPlan }}</td>
@@ -160,8 +159,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                         <app-workspace-fact-grid class="mt-4 block" [items]="costFactItems(currentPackage)" [columns]="4" />
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="costItems(currentWorkspace)"
                             [rowHover]="true"
                             [paginator]="costItems(currentWorkspace).length > 6"
@@ -193,7 +191,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <td>{{ moneyText(item.taxCostAmount, item.currencyCode) }}</td>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ moneyText(item.amountIncludingTax, item.currencyCode) }}</td>
                                     <td>
-                                        <p-tag [value]="confidenceLabel(item.confidenceLevel)" [severity]="confidenceSeverity(item)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="confidenceLabel(item.confidenceLevel)" [severity]="confidenceSeverity(item)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.responsibleRole ?? '待确认' }}</td>
                                 </tr>

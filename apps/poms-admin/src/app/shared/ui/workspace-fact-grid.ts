@@ -55,7 +55,7 @@ export interface WorkspaceFactGridItem {
 
                         @if (item.severity) {
                             <div class="mt-2 flex items-center gap-2">
-                                <p-tag [value]="valueText(item)" [severity]="item.severity" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="valueText(item)" [severity]="item.severity" class="rounded-[6px]!" />
                             </div>
                         } @else {
                             <div class="mt-2 break-words font-medium text-surface-950 dark:text-surface-0" [ngClass]="item.emphasis ? 'text-lg' : 'text-sm'">

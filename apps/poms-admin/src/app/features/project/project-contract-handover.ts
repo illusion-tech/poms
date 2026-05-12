@@ -143,7 +143,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                     <ng-template #description>合同集合是进入移交确认的上游事实，不在前端重新计算口径。</ng-template>
                     <app-workspace-fact-grid class="mt-4 block" [items]="contractSetItems()" [columns]="3" />
 
-                    <p-table class="mt-4 block" styleClass="p-datatable-sm" [value]="contractItems()" [rowHover]="true" [paginator]="contractItems().length > 5" [rows]="5" [scrollable]="true" [tableStyle]="{ 'min-width': '48rem' }">
+                    <p-table class="mt-4 block p-datatable-sm" [value]="contractItems()" [rowHover]="true" [paginator]="contractItems().length > 5" [rows]="5" [scrollable]="true" [tableStyle]="{ 'min-width': '48rem' }">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>合同编号</th>
@@ -157,7 +157,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                             <tr>
                                 <td class="font-medium text-surface-950 dark:text-surface-0">{{ contract.contractNo }}</td>
                                 <td>
-                                    <p-tag [value]="contractStatusLabel(contract.status)" [severity]="contractStatusSeverity(contract.status)" styleClass="rounded-[6px]!" />
+                                    <p-tag [value]="contractStatusLabel(contract.status)" [severity]="contractStatusSeverity(contract.status)" class="rounded-[6px]!" />
                                 </td>
                                 <td>{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</td>
                                 <td>{{ formatDateTime(contract.signedAt) }}</td>
@@ -230,7 +230,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                 <div class="mt-4 rounded-md border border-surface-200 p-3 text-sm dark:border-surface-700">
                                     <div class="flex flex-wrap items-center justify-between gap-2">
                                         <div class="font-semibold text-surface-950 dark:text-surface-0">最近下载包</div>
-                                        <p-tag [value]="downloadPackageStatusLabel(downloadPackage.status)" [severity]="downloadPackageStatusSeverity(downloadPackage.status)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="downloadPackageStatusLabel(downloadPackage.status)" [severity]="downloadPackageStatusSeverity(downloadPackage.status)" class="rounded-[6px]!" />
                                     </div>
                                     <div class="mt-2 grid gap-2 text-surface-600 md:grid-cols-3 dark:text-surface-300">
                                         <span>纳入 {{ downloadPackage.manifestSummary.includedCount }} 项</span>
@@ -243,7 +243,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                 </div>
                             }
 
-                            <p-table class="mt-4 block" styleClass="p-datatable-sm" [value]="handoverAttachmentItems()" [rowHover]="true" [paginator]="handoverAttachmentItems().length > 8" [rows]="8" [scrollable]="true" [tableStyle]="{ 'min-width': '58rem' }">
+                            <p-table class="mt-4 block p-datatable-sm" [value]="handoverAttachmentItems()" [rowHover]="true" [paginator]="handoverAttachmentItems().length > 8" [rows]="8" [scrollable]="true" [tableStyle]="{ 'min-width': '58rem' }">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="w-16">纳入</th>
@@ -269,7 +269,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                         <td>{{ item.category ?? '未分类' }}</td>
                                         <td>{{ item.securityLevel ?? '未标记' }}</td>
                                         <td>
-                                            <p-tag [value]="handoverAttachmentStatusLabel(item.status)" [severity]="handoverAttachmentStatusSeverity(item.status)" styleClass="rounded-[6px]!" />
+                                            <p-tag [value]="handoverAttachmentStatusLabel(item.status)" [severity]="handoverAttachmentStatusSeverity(item.status)" class="rounded-[6px]!" />
                                         </td>
                                         <td>{{ handoverAttachmentSourceText(item) }}</td>
                                         <td>{{ item.exclusionReason ?? item.selectionReason ?? '无' }}</td>

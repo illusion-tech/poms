@@ -200,8 +200,8 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                                     <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }}</div>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
-                                    <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" styleClass="rounded-[6px]!" />
-                                    <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" styleClass="rounded-[6px]!" />
+                                    <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" class="rounded-[6px]!" />
+                                    <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" class="rounded-[6px]!" />
                                 </div>
                             </div>
                             @if (project.customerProjectNo) {

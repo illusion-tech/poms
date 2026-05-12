@@ -202,8 +202,8 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                                 </td>
                                 <td>
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" styleClass="rounded-[6px]!" />
-                                        <p-tag [value]="getStatusName(project.status)" [severity]="getStatusSeverity(project.status)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" class="rounded-[6px]!" />
+                                        <p-tag [value]="getStatusName(project.status)" [severity]="getStatusSeverity(project.status)" class="rounded-[6px]!" />
                                     </div>
                                 </td>
                                 <td>

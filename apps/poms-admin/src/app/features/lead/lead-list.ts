@@ -435,10 +435,10 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 </td>
                                 <td>
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" class="rounded-[6px]" />
                                         <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ getEffectiveScore(lead) }}</span>
-                                        <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" styleClass="rounded-[6px]" />
-                                        <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" class="rounded-[6px]" />
+                                        <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" class="rounded-[6px]" />
                                     </div>
                                     @if (isManualEffectiveScore(lead)) {
                                         <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">系统 {{ lead.score }} / {{ getLeadRatingName(lead.rating) }}</div>
@@ -834,7 +834,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <div class="flex flex-wrap items-center gap-2">
                                             <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ source.name }}</span>
                                             <span class="text-xs text-surface-500 dark:text-surface-400">{{ source.code }}</span>
-                                            <p-tag [value]="getSourceStatusName(source.status)" [severity]="getSourceStatusSeverity(source.status)" styleClass="rounded-[6px]" />
+                                            <p-tag [value]="getSourceStatusName(source.status)" [severity]="getSourceStatusSeverity(source.status)" class="rounded-[6px]" />
                                         </div>
                                         <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
                                             已引用 {{ source.usageCount }} 条<span class="mx-1">·</span>{{ displayText(source.description, '无描述') }}
@@ -876,7 +876,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     <h2 class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ lead.leadName }}</h2>
                                     <p class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ lead.customerName }}</p>
                                 </div>
-                                <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" styleClass="rounded-[6px]" />
+                                <p-tag [value]="getStatusName(lead.status)" [severity]="getStatusSeverity(lead.status)" class="rounded-[6px]" />
                             </div>
                         </div>
 
@@ -896,8 +896,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 </dt>
                                 <dd class="mt-1 flex flex-wrap items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
                                     <span class="font-semibold">{{ getEffectiveScore(lead) }}</span>
-                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" styleClass="rounded-[6px]" />
-                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(lead))" [severity]="getLeadRatingSeverity(getEffectiveRating(lead))" class="rounded-[6px]" />
+                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(lead))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(lead))" class="rounded-[6px]" />
                                 </dd>
                                 @if (isManualEffectiveScore(lead)) {
                                     <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">系统 {{ lead.score }} / {{ getLeadRatingName(lead.rating) }}</div>
@@ -1046,8 +1046,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                 </div>
                                 <div class="flex shrink-0 flex-wrap items-center gap-2">
                                     <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ getEffectiveScore(target) }}</span>
-                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(target))" [severity]="getLeadRatingSeverity(getEffectiveRating(target))" styleClass="rounded-[6px]" />
-                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(target))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(target))" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="getLeadRatingName(getEffectiveRating(target))" [severity]="getLeadRatingSeverity(getEffectiveRating(target))" class="rounded-[6px]" />
+                                    <p-tag [value]="getEffectiveScoreSourceName(getEffectiveScoreSource(target))" [severity]="getEffectiveScoreSourceSeverity(getEffectiveScoreSource(target))" class="rounded-[6px]" />
                                 </div>
                             </div>
                         </div>
@@ -1064,7 +1064,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     <div class="text-xs text-surface-500 dark:text-surface-400">系统评分</div>
                                     <div class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
                                         <span class="font-semibold">{{ history.systemScore }}</span>
-                                        <p-tag [value]="getLeadRatingName(history.systemRating)" [severity]="getLeadRatingSeverity(history.systemRating)" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getLeadRatingName(history.systemRating)" [severity]="getLeadRatingSeverity(history.systemRating)" class="rounded-[6px]" />
                                     </div>
                                     <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ history.scoreReason }}</p>
                                 </div>
@@ -1072,8 +1072,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     <div class="text-xs text-surface-500 dark:text-surface-400">当前有效评分</div>
                                     <div class="mt-1 flex items-center gap-2 text-sm text-surface-900 dark:text-surface-0">
                                         <span class="font-semibold">{{ history.effectiveScore }}</span>
-                                        <p-tag [value]="getLeadRatingName(history.effectiveRating)" [severity]="getLeadRatingSeverity(history.effectiveRating)" styleClass="rounded-[6px]" />
-                                        <p-tag [value]="getEffectiveScoreSourceName(history.effectiveScoreSource)" [severity]="getEffectiveScoreSourceSeverity(history.effectiveScoreSource)" styleClass="rounded-[6px]" />
+                                        <p-tag [value]="getLeadRatingName(history.effectiveRating)" [severity]="getLeadRatingSeverity(history.effectiveRating)" class="rounded-[6px]" />
+                                        <p-tag [value]="getEffectiveScoreSourceName(history.effectiveScoreSource)" [severity]="getEffectiveScoreSourceSeverity(history.effectiveScoreSource)" class="rounded-[6px]" />
                                     </div>
                                     <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ history.effectiveScoreReason }}</p>
                                 </div>
@@ -1085,7 +1085,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <div>
                                             <div class="flex flex-wrap items-center gap-2">
                                                 <span class="text-sm font-semibold text-amber-900 dark:text-amber-100">待审批覆盖</span>
-                                                <p-tag [value]="getScoreOverrideStatusName(pendingOverride.status)" [severity]="getScoreOverrideStatusSeverity(pendingOverride.status)" styleClass="rounded-[6px]" />
+                                                <p-tag [value]="getScoreOverrideStatusName(pendingOverride.status)" [severity]="getScoreOverrideStatusSeverity(pendingOverride.status)" class="rounded-[6px]" />
                                             </div>
                                             <p class="mt-2 text-sm leading-6 text-amber-800 dark:text-amber-100">
                                                 申请 {{ pendingOverride.requestedScore }} / {{ getLeadRatingName(pendingOverride.requestedRating) }}，提交时系统 {{ pendingOverride.systemScoreAtRequest }} / {{ getLeadRatingName(pendingOverride.systemRatingAtRequest) }}。
@@ -1115,7 +1115,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <div>
                                             <div class="flex flex-wrap items-center gap-2">
                                                 <span class="text-sm font-semibold text-blue-900 dark:text-blue-100">生效中的人工覆盖</span>
-                                                <p-tag [value]="getScoreOverrideStatusName(activeOverride.status)" [severity]="getScoreOverrideStatusSeverity(activeOverride.status)" styleClass="rounded-[6px]" />
+                                                <p-tag [value]="getScoreOverrideStatusName(activeOverride.status)" [severity]="getScoreOverrideStatusSeverity(activeOverride.status)" class="rounded-[6px]" />
                                             </div>
                                             <p class="mt-2 text-sm leading-6 text-blue-800 dark:text-blue-100">当前取 {{ activeOverride.requestedScore }} / {{ getLeadRatingName(activeOverride.requestedRating) }}。</p>
                                             <p class="mt-1 text-xs leading-5 text-blue-700 dark:text-blue-200">{{ activeOverride.reason }}</p>
@@ -1164,7 +1164,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <div class="rounded-[8px] border border-surface-100 p-3 dark:border-surface-800">
                                             <div class="flex flex-wrap items-center justify-between gap-2">
                                                 <div class="flex flex-wrap items-center gap-2">
-                                                    <p-tag [value]="getScoreSnapshotKindName(snapshot.snapshotKind)" severity="secondary" styleClass="rounded-[6px]" />
+                                                    <p-tag [value]="getScoreSnapshotKindName(snapshot.snapshotKind)" severity="secondary" class="rounded-[6px]" />
                                                     <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ snapshot.effectiveScore }} / {{ getLeadRatingName(snapshot.effectiveRating) }}</span>
                                                 </div>
                                                 <span class="text-xs text-surface-500 dark:text-surface-400">{{ snapshot.createdAt | date: 'yyyy-MM-dd HH:mm' }}</span>
@@ -1187,7 +1187,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                         <div class="rounded-[8px] border border-surface-100 p-3 dark:border-surface-800">
                                             <div class="flex flex-wrap items-center justify-between gap-2">
                                                 <div class="flex flex-wrap items-center gap-2">
-                                                    <p-tag [value]="getScoreOverrideStatusName(override.status)" [severity]="getScoreOverrideStatusSeverity(override.status)" styleClass="rounded-[6px]" />
+                                                    <p-tag [value]="getScoreOverrideStatusName(override.status)" [severity]="getScoreOverrideStatusSeverity(override.status)" class="rounded-[6px]" />
                                                     <span class="text-sm font-semibold text-surface-900 dark:text-surface-0">{{ override.requestedScore }} / {{ getLeadRatingName(override.requestedRating) }}</span>
                                                 </div>
                                                 <span class="text-xs text-surface-500 dark:text-surface-400">{{ override.requestedAt | date: 'yyyy-MM-dd HH:mm' }}</span>

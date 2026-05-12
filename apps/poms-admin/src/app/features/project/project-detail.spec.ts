@@ -19,6 +19,7 @@ import {
     SalesIntelligenceStore,
     SalesFollowUpStore,
     type AttachmentSummary,
+    type AttachmentUploadProgressState,
     type BusinessDiscussionCommentSummary,
     type CompetitorIntelligenceRecordSummary,
     type CustomerContactSummary,
@@ -52,6 +53,23 @@ function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = val
         value,
         displayText: value ?? '经营敏感字段已隐藏',
         reasonCode: value === null ? 'missing-sensitive-read-permission' : 'allowed'
+    };
+}
+
+function idleAttachmentUploadProgress(): AttachmentUploadProgressState {
+    return {
+        phase: 'idle',
+        operationType: null,
+        sessionId: null,
+        uploadMode: null,
+        providerType: null,
+        fileName: null,
+        progressPercent: 0,
+        loadedBytes: 0,
+        totalBytes: 0,
+        message: '',
+        canAbort: false,
+        error: null
     };
 }
 
@@ -257,11 +275,14 @@ describe('ProjectDetail', () => {
         loading: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
         loaded: ReturnType<typeof signal<boolean>>;
+        uploadProgress: ReturnType<typeof signal<AttachmentUploadProgressState>>;
         loadAttachments: jest.Mock;
         uploadAttachment: jest.Mock;
+        abortCurrentUpload: jest.Mock;
         voidAttachment: jest.Mock;
         downloadAttachment: jest.Mock;
         clearAttachments: jest.Mock;
+        clearUploadProgress: jest.Mock;
     };
     let salesFollowUpStoreMock: {
         followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
@@ -377,11 +398,14 @@ describe('ProjectDetail', () => {
             loading: signal(false),
             saving: signal(false),
             loaded: signal(true),
+            uploadProgress: signal(idleAttachmentUploadProgress()),
             loadAttachments: jest.fn().mockResolvedValue([]),
             uploadAttachment: jest.fn(),
+            abortCurrentUpload: jest.fn().mockResolvedValue(undefined),
             voidAttachment: jest.fn(),
             downloadAttachment: jest.fn(),
-            clearAttachments: jest.fn()
+            clearAttachments: jest.fn(),
+            clearUploadProgress: jest.fn(() => attachmentStoreMock.uploadProgress.set(idleAttachmentUploadProgress()))
         };
         salesFollowUpStoreMock = {
             followUps: signal<SalesFollowUpRecordSummary[]>([]),

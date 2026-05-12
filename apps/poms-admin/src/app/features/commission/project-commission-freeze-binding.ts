@@ -95,8 +95,7 @@ interface FreezeBindingBanner {
                     <app-workspace-fact-grid class="mt-4 block" [items]="responsibilityItems()" [columns]="4" />
 
                     <p-table
-                        class="mt-4 block"
-                        styleClass="p-datatable-sm"
+                        class="mt-4 block p-datatable-sm"
                         [value]="participants()"
                         [rowHover]="true"
                         [scrollable]="true"

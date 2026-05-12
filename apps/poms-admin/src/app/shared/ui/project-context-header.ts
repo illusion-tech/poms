@@ -34,10 +34,10 @@ export type ProjectContextTagSeverity = UiTagSeverity;
                 <ng-template #end>
                     <div class="mt-4 flex flex-wrap items-center justify-start gap-2 lg:mt-0 lg:justify-end">
                         @if (stageLabel) {
-                            <p-tag [value]="stageLabel" [severity]="stageSeverity" styleClass="rounded-[6px]!" />
+                            <p-tag [value]="stageLabel" [severity]="stageSeverity" class="rounded-[6px]!" />
                         }
                         @if (statusLabel) {
-                            <p-tag [value]="statusLabel" [severity]="statusSeverity" styleClass="rounded-[6px]!" />
+                            <p-tag [value]="statusLabel" [severity]="statusSeverity" class="rounded-[6px]!" />
                         }
                         @if (actionsTemplate) {
                             <ng-container [ngTemplateOutlet]="actionsTemplate"></ng-container>

@@ -113,13 +113,13 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
             </section>
 
             <p-table
+                class="rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
                 [value]="filteredRecords()"
                 [loading]="store.loading()"
                 [paginator]="true"
                 [rows]="10"
                 sortMode="multiple"
                 dataKey="id"
-                styleClass="rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
                 tableStyleClass="min-w-[72rem]"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                 currentPageReportTemplate="当前 {first} - {last} / 共 {totalRecords} 个附件"
@@ -151,7 +151,7 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                         <td>
                             <div class="flex flex-col gap-1">
                                 <div class="flex items-center gap-2">
-                                    <p-tag [value]="targetTypeLabel(record.targetType)" [severity]="targetTypeSeverity(record.targetType)" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="targetTypeLabel(record.targetType)" [severity]="targetTypeSeverity(record.targetType)" class="rounded-[6px]" />
                                     <span class="font-medium text-surface-900 dark:text-surface-0">{{ record.targetName }}</span>
                                 </div>
                                 <span class="text-xs text-surface-500 dark:text-surface-400">{{ record.targetNo }}</span>
@@ -162,12 +162,12 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                         <td>{{ record.attachment.uploadedAt | date: 'yyyy-MM-dd HH:mm' }}</td>
                         <td>
                             <div class="flex flex-wrap gap-2">
-                                <p-tag [value]="'v' + record.attachment.versionNo" severity="info" styleClass="rounded-[6px]" />
+                                <p-tag [value]="'v' + record.attachment.versionNo" severity="info" class="rounded-[6px]" />
                                 @if (record.attachment.isFinal) {
-                                    <p-tag value="最终版" severity="warn" styleClass="rounded-[6px]" />
+                                    <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
                                 }
                                 @if (record.attachment.previewSupported) {
-                                    <p-tag value="可预览" severity="success" styleClass="rounded-[6px]" />
+                                    <p-tag value="可预览" severity="success" class="rounded-[6px]" />
                                 }
                             </div>
                         </td>

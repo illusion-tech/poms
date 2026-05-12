@@ -211,11 +211,11 @@ interface Document {
                     </div>
 
                     <p-table
+                        class="bg-surface-0 dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden [&>[data-pc-section=paginatorcontainer]]:border-0! [&_[data-pc-name=pcpaginator]]:rounded-none!"
                         [value]="filteredDocuments()"
                         [paginator]="true"
                         [rows]="rows"
                         sortMode="multiple"
-                        styleClass="bg-surface-0 dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden [&>[data-pc-section=paginatorcontainer]]:border-0! [&_[data-pc-name=pcpaginator]]:rounded-none!"
                         tableStyleClass="w-full"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="Shows {first} to {last} of {totalRecords} results"
@@ -241,7 +241,7 @@ interface Document {
                                     </div>
                                 </td>
                                 <td>
-                                    <p-tag [value]="doc.type" [severity]="getTagSeverity(doc.type)" styleClass="px-2 py-1" />
+                                    <p-tag [value]="doc.type" [severity]="getTagSeverity(doc.type)" class="px-2 py-1" />
                                 </td>
                                 <td>
                                     <span class="text-surface-500 text-sm whitespace-nowrap">{{ doc.fileSize }}</span>
@@ -317,7 +317,7 @@ interface Document {
                                         <div class="flex flex-col gap-1 min-h-[44px]">
                                             <label class="text-surface-500 text-xs font-medium uppercase tracking-wide">Type</label>
                                             @if (editForm.type) {
-                                                <p-tag [value]="editForm.type" [severity]="getTagSeverity(editForm.type)" styleClass="px-2 py-1 text-xs w-fit" />
+                                                <p-tag [value]="editForm.type" [severity]="getTagSeverity(editForm.type)" class="px-2 py-1 text-xs w-fit" />
                                             } @else {
                                                 <span class="text-surface-700 dark:text-surface-300 text-sm font-medium">&nbsp;</span>
                                             }

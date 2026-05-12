@@ -206,7 +206,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             </td>
                             <td>
                                 <div class="mb-2">
-                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" class="rounded-[6px]" />
                                 </div>
                                 <div class="flex flex-wrap gap-1.5">
                                     <span class="rounded-[6px] bg-surface-100 px-2 py-1 text-xs text-surface-700 dark:bg-surface-800 dark:text-surface-200">线索 {{ customer.leadCount }}</span>
@@ -325,7 +325,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                                 </div>
                                 <div class="flex shrink-0 flex-wrap items-center gap-2">
                                     <app-audit-history-panel targetType="customer" [targetId]="customer.id" [targetTitle]="customer.displayName" />
-                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" styleClass="rounded-[6px]" />
+                                    <p-tag [value]="statusLabel(customer.status)" [severity]="statusSeverity(customer.status)" class="rounded-[6px]" />
                                 </div>
                             </div>
                         </div>

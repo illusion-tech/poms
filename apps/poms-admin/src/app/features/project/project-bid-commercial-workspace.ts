@@ -190,8 +190,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                         <ng-template #description>进入报价前，投标材料、责任角色和阻断状态必须清楚可读。</ng-template>
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="materialItems(currentWorkspace)"
                             [rowHover]="true"
                             [paginator]="materialItems(currentWorkspace).length > 6"
@@ -213,7 +212,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>
-                                        <p-tag [value]="materialStatusLabel(item.materialStatus)" [severity]="materialStatusSeverity(item)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="materialStatusLabel(item.materialStatus)" [severity]="materialStatusSeverity(item)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ item.responsibleRole ?? '待确认' }}</td>
                                     <td>{{ formatDateTime(item.dueAt) }}</td>
@@ -234,8 +233,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                         <ng-template #description>时间线用于解释当前结果是否来自正式过程，而不是页面临时判断。</ng-template>
 
                         <p-table
-                            class="mt-4 block"
-                            styleClass="p-datatable-sm"
+                            class="mt-4 block p-datatable-sm"
                             [value]="timelineItems(currentWorkspace)"
                             [rowHover]="true"
                             [paginator]="timelineItems(currentWorkspace).length > 6"
@@ -257,7 +255,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>
-                                        <p-tag [value]="timelineStatusLabel(item.timelineStatus)" [severity]="timelineStatusSeverity(item.timelineStatus)" styleClass="rounded-[6px]!" />
+                                        <p-tag [value]="timelineStatusLabel(item.timelineStatus)" [severity]="timelineStatusSeverity(item.timelineStatus)" class="rounded-[6px]!" />
                                     </td>
                                     <td>{{ formatDateTime(item.occurredAt) }}</td>
                                     <td>{{ formatDateTime(item.dueAt) }}</td>

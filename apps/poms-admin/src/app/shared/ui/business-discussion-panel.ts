@@ -68,12 +68,12 @@ const EMPTY_DISCUSSION_FORM: DiscussionForm = {
                                 <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
-                                            <p-tag [value]="discussionTypeLabel(comment.discussionType)" severity="secondary" styleClass="rounded-[6px]" />
+                                            <p-tag [value]="discussionTypeLabel(comment.discussionType)" severity="secondary" class="rounded-[6px]" />
                                             @if (comment.isPinned) {
-                                                <p-tag value="置顶" severity="contrast" styleClass="rounded-[6px]" />
+                                                <p-tag value="置顶" severity="contrast" class="rounded-[6px]" />
                                             }
                                             @if (comment.isKeyConclusion) {
-                                                <p-tag value="关键结论" severity="success" styleClass="rounded-[6px]" />
+                                                <p-tag value="关键结论" severity="success" class="rounded-[6px]" />
                                             }
                                         </div>
                                         <div class="mt-2 whitespace-pre-line text-sm leading-6 text-surface-700 dark:text-surface-200">{{ comment.body }}</div>

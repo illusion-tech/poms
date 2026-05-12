@@ -238,7 +238,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ item.name }}</span>
                                     @if (item.isSystem) {
-                                        <p-tag value="系统项" severity="contrast" styleClass="rounded-[6px]" />
+                                        <p-tag value="系统项" severity="contrast" class="rounded-[6px]" />
                                     }
                                 </div>
                             </td>
@@ -246,7 +246,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                                 <span class="text-sm text-surface-600 dark:text-surface-300">{{ item.description || '—' }}</span>
                             </td>
                             <td>
-                                <p-tag [value]="statusLabel(item.status)" [severity]="statusSeverity(item.status)" styleClass="rounded-[6px]" />
+                                <p-tag [value]="statusLabel(item.status)" [severity]="statusSeverity(item.status)" class="rounded-[6px]" />
                             </td>
                             <td>{{ item.sortOrder }}</td>
                             <td>

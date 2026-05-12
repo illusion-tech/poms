@@ -123,14 +123,14 @@ interface Order {
                                             <span class="text-surface-950 dark:text-surface-0 text-base xl:text-lg font-medium">{{ order.orderNumber }}</span>
                                         </div>
                                         <div class="block sm:hidden">
-                                            <p-tag [value]="order.statusLabel" [severity]="order.statusColor" styleClass="text-xs font-semibold whitespace-nowrap" />
+                                            <p-tag [value]="order.statusLabel" [severity]="order.statusColor" class="text-xs font-semibold whitespace-nowrap" />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 xl:gap-8 w-full xl:w-auto">
                                     <div class="hidden sm:block xl:w-40">
-                                        <p-tag [value]="order.statusLabel" [severity]="order.statusColor" styleClass="text-sm font-semibold whitespace-nowrap" />
+                                        <p-tag [value]="order.statusLabel" [severity]="order.statusColor" class="text-sm font-semibold whitespace-nowrap" />
                                     </div>
 
                                     <div class="flex justify-between items-center gap-4 w-full sm:w-auto">

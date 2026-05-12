@@ -7,6 +7,7 @@ import {
     AttachmentRelationType,
     AttachmentSecurityLevel,
     AttachmentStore,
+    AttachmentUploadMode,
     DictionaryDomain,
     DictionaryStore,
     type AttachmentSummary,
@@ -93,14 +94,14 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
                                             <span class="max-w-full truncate text-sm font-semibold text-surface-950 dark:text-surface-0">{{ attachment.displayName }}</span>
-                                            <p-tag [value]="categoryLabel(attachment.category)" severity="secondary" styleClass="rounded-[6px]" />
-                                            <p-tag [value]="securityLabel(attachment.securityLevel)" [severity]="securitySeverity(attachment.securityLevel)" styleClass="rounded-[6px]" />
-                                            <p-tag [value]="'v' + attachment.versionNo" severity="info" styleClass="rounded-[6px]" />
+                                            <p-tag [value]="categoryLabel(attachment.category)" severity="secondary" class="rounded-[6px]" />
+                                            <p-tag [value]="securityLabel(attachment.securityLevel)" [severity]="securitySeverity(attachment.securityLevel)" class="rounded-[6px]" />
+                                            <p-tag [value]="'v' + attachment.versionNo" severity="info" class="rounded-[6px]" />
                                             @if (attachment.isLatest) {
-                                                <p-tag value="最新" severity="success" styleClass="rounded-[6px]" />
+                                                <p-tag value="最新" severity="success" class="rounded-[6px]" />
                                             }
                                             @if (attachment.isFinal) {
-                                                <p-tag value="最终版" severity="warn" styleClass="rounded-[6px]" />
+                                                <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
                                             }
                                         </div>
                                         <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
@@ -143,7 +144,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
             </div>
         </section>
 
-        <p-dialog [(visible)]="uploadDialogVisible" [modal]="true" header="上传附件" [style]="{ width: '34rem' }" styleClass="p-fluid" (onHide)="resetUploadDialog()">
+        <p-dialog [(visible)]="uploadDialogVisible" [modal]="true" header="上传附件" [style]="{ width: '34rem' }" styleClass="p-fluid" [closable]="!store.saving()" [closeOnEscape]="!store.saving()" (onHide)="resetUploadDialog()">
             <div class="flex flex-col gap-4 py-2">
                 @if (uploadError()) {
                     <app-workspace-feedback severity="error" summary="附件没有上传成功" [detail]="uploadError()" />
@@ -160,13 +161,15 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                     </div>
                 </div>
 
+                <ng-container *ngTemplateOutlet="uploadSessionProgressTemplate" />
+
                 <ng-container *ngTemplateOutlet="metadataForm; context: { form: uploadForm(), mode: 'create' }" />
             </div>
 
             <ng-template #footer>
                 <div class="flex justify-end gap-2">
-                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="uploadDialogVisible = false" />
-                    <p-button label="上传" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedFile() || !uploadForm().category" styleClass="rounded-md!" (onClick)="upload()" />
+                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="store.saving()" (onClick)="uploadDialogVisible = false" />
+                    <p-button [label]="store.uploadProgress().phase === 'failed' ? '重试上传' : '上传'" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedFile() || !uploadForm().category || store.saving()" styleClass="rounded-md!" (onClick)="upload()" />
                 </div>
             </ng-template>
         </p-dialog>
@@ -217,10 +220,10 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                                         <span class="font-semibold text-surface-950 dark:text-surface-0">v{{ version.versionNo }}</span>
                                         <span class="truncate text-sm text-surface-700 dark:text-surface-200">{{ version.displayName }}</span>
                                         @if (version.isLatest) {
-                                            <p-tag value="最新" severity="success" styleClass="rounded-[6px]" />
+                                            <p-tag value="最新" severity="success" class="rounded-[6px]" />
                                         }
                                         @if (version.isFinal) {
-                                            <p-tag value="最终版" severity="warn" styleClass="rounded-[6px]" />
+                                            <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
                                         }
                                     </div>
                                     <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
@@ -261,7 +264,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="versionUploadDialogVisible" [modal]="true" header="上传新版本" [style]="{ width: '34rem' }" styleClass="p-fluid" (onHide)="resetVersionUploadDialog()">
+        <p-dialog [(visible)]="versionUploadDialogVisible" [modal]="true" header="上传新版本" [style]="{ width: '34rem' }" styleClass="p-fluid" [closable]="!store.saving()" [closeOnEscape]="!store.saving()" (onHide)="resetVersionUploadDialog()">
             <div class="flex flex-col gap-4 py-2">
                 @if (versionUploadError()) {
                     <app-workspace-feedback severity="error" summary="新版本没有上传成功" [detail]="versionUploadError()" />
@@ -277,6 +280,8 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                         <p-button label="选择文件" icon="pi pi-folder-open" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="versionFileInput.click()" />
                     </div>
                 </div>
+
+                <ng-container *ngTemplateOutlet="uploadSessionProgressTemplate" />
 
                 <div class="flex flex-col gap-2">
                     <label for="attachmentChangeNote" class="text-sm font-medium text-surface-900 dark:text-surface-0">版本说明</label>
@@ -296,8 +301,8 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
 
             <ng-template #footer>
                 <div class="flex justify-end gap-2">
-                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="versionUploadDialogVisible = false" />
-                    <p-button label="上传新版本" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedVersionFile() || !versionUploadForm().changeNote.trim()" styleClass="rounded-md!" (onClick)="uploadVersion()" />
+                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="store.saving()" (onClick)="versionUploadDialogVisible = false" />
+                    <p-button [label]="store.uploadProgress().phase === 'failed' ? '重试上传新版本' : '上传新版本'" icon="pi pi-upload" [loading]="store.saving()" [disabled]="!selectedVersionFile() || !versionUploadForm().changeNote.trim() || store.saving()" styleClass="rounded-md!" (onClick)="uploadVersion()" />
                 </div>
             </ng-template>
         </p-dialog>
@@ -338,6 +343,32 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                 </div>
             </ng-template>
         </p-dialog>
+
+        <ng-template #uploadSessionProgressTemplate>
+            @if (store.uploadProgress().phase !== 'idle') {
+                <div class="rounded-[8px] border border-surface-200 bg-surface-0 p-3 dark:border-surface-700 dark:bg-surface-900">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ uploadPhaseLabel() }}</span>
+                                <p-tag [value]="uploadModeLabel()" [severity]="uploadProgressSeverity()" class="rounded-[6px]" />
+                            </div>
+                            <p class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ store.uploadProgress().message }}</p>
+                        </div>
+                        @if (store.uploadProgress().canAbort) {
+                            <p-button icon="pi pi-times" label="中止" size="small" severity="warn" [outlined]="true" styleClass="rounded-md!" (onClick)="abortUpload()" />
+                        }
+                    </div>
+                    <div class="mt-3 h-2 w-full overflow-hidden rounded bg-surface-100 dark:bg-surface-800" aria-hidden="true">
+                        <div class="h-2 rounded bg-primary transition-all" [style.width.%]="store.uploadProgress().progressPercent"></div>
+                    </div>
+                    <div class="mt-2 flex flex-wrap justify-between gap-2 text-xs text-surface-500 dark:text-surface-400">
+                        <span>{{ uploadProgressDetail() }}</span>
+                        <span>{{ store.uploadProgress().progressPercent }}%</span>
+                    </div>
+                </div>
+            }
+        </ng-template>
 
         <ng-template #metadataForm let-form="form" let-mode="mode">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -496,21 +527,27 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
     showUploadDialog(): void {
         this.uploadDialogVisible = true;
         this.uploadError.set(null);
+        this.store.clearUploadProgress();
     }
 
     resetUploadDialog(): void {
+        if (this.store.saving()) {
+            return;
+        }
         this.selectedFile.set(null);
         this.uploadForm.set({
             ...DEFAULT_UPLOAD_FORM,
             category: this.defaultCategory()
         });
         this.uploadError.set(null);
+        this.store.clearUploadProgress();
     }
 
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0] ?? null;
         this.selectedFile.set(file);
+        this.store.clearUploadProgress();
         if (file && !this.uploadForm().displayName) {
             this.updateUploadField('displayName', file.name);
         }
@@ -556,7 +593,9 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
             this.resetUploadDialog();
             await this.reload();
         } catch {
-            this.uploadError.set('请确认文件类型、大小和当前权限后重试。');
+            if (this.store.uploadProgress().phase !== 'aborted') {
+                this.uploadError.set('请确认文件类型、大小、存储 provider 和当前权限后重试。');
+            }
         }
     }
 
@@ -627,6 +666,7 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
     showVersionUploadDialog(attachment: AttachmentSummary): void {
         this.versionUploadTarget.set(attachment);
         this.selectedVersionFile.set(null);
+        this.store.clearUploadProgress();
         this.versionUploadForm.set({
             category: attachment.category || this.defaultCategory(),
             securityLevel: attachment.securityLevel,
@@ -639,6 +679,9 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
     }
 
     resetVersionUploadDialog(): void {
+        if (this.store.saving()) {
+            return;
+        }
         this.versionUploadTarget.set(null);
         this.selectedVersionFile.set(null);
         this.versionUploadForm.set({
@@ -646,12 +689,14 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
             category: this.defaultCategory()
         });
         this.versionUploadError.set(null);
+        this.store.clearUploadProgress();
     }
 
     onVersionFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0] ?? null;
         this.selectedVersionFile.set(file);
+        this.store.clearUploadProgress();
         if (file && !this.versionUploadForm().displayName) {
             this.updateVersionUploadField('displayName', file.name);
         }
@@ -684,7 +729,22 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
                 await this.refreshVersions();
             }
         } catch {
-            this.versionUploadError.set('请确认新版本文件、版本说明和当前权限后重试。');
+            if (this.store.uploadProgress().phase !== 'aborted') {
+                this.versionUploadError.set('请确认新版本文件、版本说明、存储 provider 和当前权限后重试。');
+            }
+        }
+    }
+
+    async abortUpload(): Promise<void> {
+        try {
+            await this.store.abortCurrentUpload('用户在附件面板中止附件上传。');
+        } catch {
+            const message = '上传会话没有中止成功，请稍后重试。';
+            if (this.versionUploadDialogVisible) {
+                this.versionUploadError.set(message);
+            } else {
+                this.uploadError.set(message);
+            }
         }
     }
 
@@ -808,6 +868,63 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
         }
 
         return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[unitIndex]}`;
+    }
+
+    uploadPhaseLabel(): string {
+        switch (this.store.uploadProgress().phase) {
+            case 'creating-session':
+                return '创建上传会话';
+            case 'creating-target':
+                return '准备上传目标';
+            case 'uploading':
+                return '正在上传';
+            case 'completing':
+                return '正在完成';
+            case 'completed':
+                return '上传完成';
+            case 'aborting':
+                return '正在中止';
+            case 'aborted':
+                return '已中止';
+            case 'failed':
+                return '上传失败';
+            default:
+                return '等待上传';
+        }
+    }
+
+    uploadModeLabel(): string {
+        const state = this.store.uploadProgress();
+        if (!state.uploadMode) {
+            return 'Session';
+        }
+        if (state.uploadMode === AttachmentUploadMode.Proxy) {
+            return 'POMS Proxy';
+        }
+        if (state.uploadMode === AttachmentUploadMode.PresignedPut) {
+            return 'OBS Direct';
+        }
+        return 'Multipart';
+    }
+
+    uploadProgressSeverity(): 'success' | 'secondary' | 'info' | 'warn' | 'danger' {
+        const phase = this.store.uploadProgress().phase;
+        if (phase === 'completed') return 'success';
+        if (phase === 'failed') return 'danger';
+        if (phase === 'aborted' || phase === 'aborting') return 'warn';
+        if (phase === 'idle') return 'secondary';
+        return 'info';
+    }
+
+    uploadProgressDetail(): string {
+        const state = this.store.uploadProgress();
+        if (state.phase === 'failed' && state.error) {
+            return state.error;
+        }
+        if (state.loadedBytes || state.totalBytes) {
+            return `${this.formatSize(state.loadedBytes)} / ${this.formatSize(state.totalBytes || state.loadedBytes)}`;
+        }
+        return state.fileName ?? '等待上传文件';
     }
 
     private ensureUploadCategory(codes: string[]): void {

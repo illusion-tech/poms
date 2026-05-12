@@ -239,7 +239,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                                     <div class="mt-1 text-base font-semibold text-surface-950 dark:text-surface-0">{{ sourceLead.leadName }}</div>
                                     <div class="mt-1 text-sm text-surface-600 dark:text-surface-300">{{ sourceLead.customerName }}</div>
                                 </div>
-                                <p-tag [value]="getLeadStatusName(sourceLead.status)" [severity]="getLeadStatusSeverity(sourceLead.status)" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getLeadStatusName(sourceLead.status)" [severity]="getLeadStatusSeverity(sourceLead.status)" class="rounded-[6px]!" />
                             </div>
 
                             <p-button label="查看线索列表" icon="pi pi-compass" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToLeads()" />
@@ -258,9 +258,9 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                             <app-workspace-loading class="mt-4 block" label="正在读取归档记录" />
                         } @else if (currentArchiveRecord(archiveRecords()); as archiveRecord) {
                             <div class="mt-4 flex flex-wrap items-center gap-2">
-                                <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
-                                <p-tag [value]="getArchiveStatusName(archiveRecord.status)" [severity]="getArchiveStatusSeverity(archiveRecord.status)" styleClass="rounded-[6px]!" />
-                                <p-tag [value]="getStageName(archiveRecord.archiveAnchorStage)" [severity]="getStageSeverity(archiveRecord.archiveAnchorStage)" styleClass="rounded-[6px]!" />
+                                <p-tag value="已形成归档记录" severity="contrast" class="rounded-[6px]!" />
+                                <p-tag [value]="getArchiveStatusName(archiveRecord.status)" [severity]="getArchiveStatusSeverity(archiveRecord.status)" class="rounded-[6px]!" />
+                                <p-tag [value]="getStageName(archiveRecord.archiveAnchorStage)" [severity]="getStageSeverity(archiveRecord.archiveAnchorStage)" class="rounded-[6px]!" />
                             </div>
 
                             <div class="mt-4 rounded-[8px] border border-surface-200 px-4 py-3 dark:border-surface-700">
@@ -300,8 +300,8 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                             }
                         } @else if (archiveSummary(project, projectTimeline()); as archive) {
                             <div class="mt-4 flex flex-wrap items-center gap-2">
-                                <p-tag value="已形成归档记录" severity="contrast" styleClass="rounded-[6px]!" />
-                                <p-tag [value]="getStageName(archive.stage)" [severity]="getStageSeverity(archive.stage)" styleClass="rounded-[6px]!" />
+                                <p-tag value="已形成归档记录" severity="contrast" class="rounded-[6px]!" />
+                                <p-tag [value]="getStageName(archive.stage)" [severity]="getStageSeverity(archive.stage)" class="rounded-[6px]!" />
                             </div>
 
                             <div class="mt-4 rounded-[8px] border border-surface-200 px-4 py-3 dark:border-surface-700">
@@ -337,8 +337,8 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                                                     <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">归档时间 {{ formatDateTime(record.archivedAt) }} · {{ displayText(record.archivedByName, '待确认操作人') }}</div>
                                                 </div>
                                                 <div class="flex flex-wrap gap-2">
-                                                    <p-tag [value]="getArchiveStatusName(record.status)" [severity]="getArchiveStatusSeverity(record.status)" styleClass="rounded-[6px]!" />
-                                                    <p-tag [value]="getStageName(record.archiveAnchorStage)" [severity]="getStageSeverity(record.archiveAnchorStage)" styleClass="rounded-[6px]!" />
+                                                    <p-tag [value]="getArchiveStatusName(record.status)" [severity]="getArchiveStatusSeverity(record.status)" class="rounded-[6px]!" />
+                                                    <p-tag [value]="getStageName(record.archiveAnchorStage)" [severity]="getStageSeverity(record.archiveAnchorStage)" class="rounded-[6px]!" />
                                                 </div>
                                             </div>
 
@@ -445,8 +445,8 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
 
                         <div class="mt-4 flex flex-col gap-4">
                             <div class="flex flex-wrap gap-2">
-                                <p-tag [value]="getStageName(project.stageSummary.currentStage)" [severity]="getStageSeverity(project.stageSummary.currentStage)" styleClass="rounded-[6px]!" />
-                                <p-tag [value]="getStatusName(project.stageSummary.status)" [severity]="getStatusSeverity(project.stageSummary.status)" styleClass="rounded-[6px]!" />
+                                <p-tag [value]="getStageName(project.stageSummary.currentStage)" [severity]="getStageSeverity(project.stageSummary.currentStage)" class="rounded-[6px]!" />
+                                <p-tag [value]="getStatusName(project.stageSummary.status)" [severity]="getStatusSeverity(project.stageSummary.status)" class="rounded-[6px]!" />
                             </div>
 
                             @if (project.stageSummary.blockingReasons.length > 0) {
@@ -484,7 +484,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                                     <p-tag
                                         [value]="getContractStatusName(project.currentContractSummary.latestContractStatus)"
                                         [severity]="getContractStatusSeverity(project.currentContractSummary.latestContractStatus)"
-                                        styleClass="mt-1 rounded-[6px]!"
+                                        class="mt-1 rounded-[6px]!"
                                     />
                                 } @else {
                                     <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">待形成</div>
@@ -533,7 +533,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                         <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700 sm:col-span-3">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">确认状态</div>
-                                <p-tag [value]="getConfirmationStatusName(project.currentConfirmationSummary.status)" [severity]="getConfirmationStatusSeverity(project.currentConfirmationSummary.status)" styleClass="mt-1 rounded-[6px]!" />
+                                <p-tag [value]="getConfirmationStatusName(project.currentConfirmationSummary.status)" [severity]="getConfirmationStatusSeverity(project.currentConfirmationSummary.status)" class="mt-1 rounded-[6px]!" />
                             </div>
                             <div class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
                                 <div class="text-xs text-surface-500 dark:text-surface-400">需要确认</div>
