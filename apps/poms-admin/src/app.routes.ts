@@ -303,6 +303,15 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'platform/attachment-storage-providers',
+                loadComponent: () => import('./app/features/platform/attachment-storage-provider-list').then((c) => c.AttachmentStorageProviderList),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '附件存储 Provider',
+                    requiredPermissions: ['platform:attachment-storage-providers:manage']
+                }
+            },
+            {
                 path: 'platform/navigation',
                 loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
                 canActivate: [permissionGuard],

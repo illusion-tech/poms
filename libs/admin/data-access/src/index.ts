@@ -1,6 +1,7 @@
 export * from './lib/auth/auth.store';
 export * from './lib/attachment/attachment-center.store';
 export * from './lib/attachment/attachment.store';
+export * from './lib/attachment-storage-provider/attachment-storage-provider.store';
 export * from './lib/audit-history/audit-history.store';
 export * from './lib/business-discussion/business-discussion.store';
 export * from './lib/commission/commission.store';
@@ -27,6 +28,10 @@ export {
     ApprovalStatus,
     ApprovalType,
     AttachmentApi,
+    AttachmentStorageProviderApi,
+    AttachmentStorageProviderConfigStatus,
+    AttachmentStorageProviderConnectionTestStatus,
+    AttachmentStorageProviderType,
     AttachmentRelationType,
     AttachmentSecurityLevel,
     AttachmentStatus,
@@ -321,7 +326,10 @@ export type {
     PlatformRoleSummary,
     PlatformOrgUnitSummary,
     BindUserExternalIdentityRequest,
+    AttachmentStorageProviderConfigSummary,
+    AttachmentStorageProviderConnectionTestResult,
     CreatePlatformUserRequest,
+    CreateAttachmentStorageProviderConfigRequest,
     CreateIdentityProviderConfigRequest,
     ExternalIdentityBindingSummary,
     ExternalUserCandidate,
@@ -332,6 +340,9 @@ export type {
     CreateOrgUnitRequest,
     UpdateOrgUnitRequest,
     UpdatePlatformUserRequest,
+    SetDefaultAttachmentStorageProviderRequest,
+    TestAttachmentStorageProviderConnectionRequest,
+    UpdateAttachmentStorageProviderConfigRequest,
     UpdateIdentityProviderConfigRequest,
     IdentityProviderConfigSummary,
     IdentityProviderConnectionTestResult,

@@ -553,6 +553,8 @@
 71. 2026-05-11 `EX-65C` 已完成 `G4`：落地附件对象存储 provider runtime contract、registry、local provider、Huawei OBS S3-compatible provider、runtime `testConnection` 和现有附件读写路径接入；本片不新增 route / OpenAPI / migration，`EX-65D` 可开始 upload session、local proxy、OBS presigned / multipart 与旧上传入口 direct cutover。
 72. 2026-05-11 `EX-65D` 已完成 `G4`：新增 `attachment_upload_session` 表、upload session API、local proxy upload target、Huawei OBS S3-compatible presigned PUT、complete 时 `headObject` / size / checksum 校验、旧 `POST /attachments` 与 `POST /attachments/{id}/versions` public route direct cutover、OpenAPI / generated client 和 Admin `AttachmentStore` 最小 adapter；OBS multipart target 作为 `EX65D-E3-MULTIPART-TARGET-DEFERRED` 转交 `EX-65E` / 后续上传增强评估。
 73. 2026-05-11 `EX-65E` 已完成 `G4`：补齐历史 local 附件下载、缩略图和项目移交 ready 下载包读侧回归，收口 provider registry fallback、OBS SigV4 mock、upload session、migration-check、OpenAPI / generated client、lint/build/full tests 与回滚策略；`EX-65` 后端最小闭环完成，multipart target 重分类为未来大文件上传增强，前端后续进入 `FE-60A/B`。
+74. 2026-05-11 `FE-60A` 已进入 `G1 / Doing`：新增 `fe-60a-attachment-storage-provider-config-frontend-baseline.md`，冻结附件存储 provider 配置卡片页范围；本片只消费 `EX-65B` generated client，在平台配置中固定展示 local 与 Huawei OBS S3-compatible 卡片，支持 write-only AK / SK、测试连接和设默认，不新增后端 route、OpenAPI、migration 或附件上传 UX。
+75. 2026-05-11 `FE-60A` 已完成 `G4`：新增附件存储 provider data-access store、`/platform/attachment-storage-providers` route / 菜单、固定 local / Huawei OBS 卡片页、write-only AK / SK 表单、测试连接与设默认动作；验证通过 poms-admin focused/admin tests、poms-admin lint/build、admin-data-access lint，真实 OBS 租户 smoke 与附件面板 upload session UX 继续由生产启用清单和 `FE-60B` 承接。
 
 ---
 

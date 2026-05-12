@@ -83,6 +83,14 @@ describe('appRoutes project permissions', () => {
         expect(route.data?.['requiredPermissions']).toEqual(['platform:identity-providers:manage']);
     });
 
+    it('guards platform attachment storage provider management with provider manage permission', () => {
+        const route = getAppRoute('platform/attachment-storage-providers');
+
+        expect(route.canActivate).toContain(permissionGuard);
+        expect(route.data?.['breadcrumb']).toBe('附件存储 Provider');
+        expect(route.data?.['requiredPermissions']).toEqual(['platform:attachment-storage-providers:manage']);
+    });
+
     it('exposes the public external identity provider callback route under auth layout', () => {
         const route = getAuthRoute('identity-providers:callback');
 
