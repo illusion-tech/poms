@@ -32,9 +32,6 @@ import { AppBreadcrumb } from './app.breadcrumb';
                         <i class="pi pi-search"></i>
                     </a>
                 </li>
-                <li class="right-sidebar-item">
-                    <button class="app-config-button" (click)="onConfigButtonClick()"><i class="pi pi-cog"></i></button>
-                </li>
                 <li class="right-sidebar-item static sm:relative">
                     <a
                         class="right-sidebar-button relative z-50"
@@ -109,7 +106,7 @@ import { AppBreadcrumb } from './app.breadcrumb';
                 </li>
                 <li class="profile-item static sm:relative">
                     <a class="right-sidebar-button relative z-50" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveActiveClass="animate-fadeout" leaveToClass="hidden" [hideOnOutsideClick]="true">
-                        <p-avatar styleClass="w-10! h-10!">
+                        <p-avatar class="w-10! h-10!">
                             <img src="/layout/images/profile.jpg" />
                         </p-avatar>
                     </a>
@@ -137,11 +134,6 @@ import { AppBreadcrumb } from './app.breadcrumb';
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li class="right-sidebar-item">
-                    <a tabindex="0" class="right-sidebar-button" (click)="showRightMenu()">
-                        <i class="pi pi-align-right"></i>
-                    </a>
                 </li>
             </ul>
         </div>
@@ -193,14 +185,6 @@ export class AppTopbar {
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();
-    }
-
-    showRightMenu() {
-        this.layoutService.toggleRightMenu();
-    }
-
-    onConfigButtonClick() {
-        this.layoutService.showConfigSidebar();
     }
 
     toggleSearchBar() {

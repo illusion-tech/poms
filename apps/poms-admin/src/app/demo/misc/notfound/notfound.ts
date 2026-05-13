@@ -1,12 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppConfigurator } from '../../../layout/components/app.configurator';
-import { LayoutService } from '../../../layout/service/layout.service';
 
 @Component({
     selector: 'app-notfound',
     standalone: true,
-    imports: [RouterModule, AppConfigurator],
+    imports: [RouterModule],
     template: ` <section class="animate-fadein animate-duration-300 animate-ease-in relative min-h-screen flex items-center justify-center">
             <div class="landing-container mx-auto relative z-10 px-12">
                 <div class="relative mt-24 max-w-184 mx-auto">
@@ -341,14 +339,6 @@ import { LayoutService } from '../../../layout/service/layout.service';
                     </div>
                 </div>
             </div>
-        </section>
-        <button class="layout-config-button config-link" (click)="layoutService.toggleConfigSidebar()">
-            <i class="pi pi-cog"></i>
-        </button>
-        @defer (when layoutService.layoutState().configSidebarVisible) {
-            <app-configurator simple />
-        }`
+        </section>`
 })
-export class Notfound {
-    layoutService = inject(LayoutService);
-}
+export class Notfound {}

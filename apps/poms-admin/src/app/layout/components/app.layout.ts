@@ -1,19 +1,17 @@
 import { AppBreadcrumb } from './app.breadcrumb';
 import { AppFooter } from './app.footer';
-import { AppRightMenu } from './app.rightmenu';
 import { AppSearch } from './app.search';
 import { LayoutService } from '../service/layout.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppConfigurator } from './app.configurator';
 import { AppSidebar } from './app.sidebar';
 import { AppTopbar } from './app.topbar';
 
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppConfigurator, AppBreadcrumb, AppFooter, AppSearch, AppRightMenu],
+    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppBreadcrumb, AppFooter, AppSearch],
     template: `
         <div class="layout-wrapper" [ngClass]="containerClass()">
             <div app-sidebar></div>
@@ -27,14 +25,8 @@ import { AppTopbar } from './app.topbar';
                     <div app-footer></div>
                 </div>
             </div>
-            @defer (when layoutService.layoutState().configSidebarVisible) {
-                <app-configurator />
-            }
             @defer (when layoutService.layoutState().searchBarActive) {
                 <div app-search></div>
-            }
-            @defer (when layoutService.layoutState().rightMenuVisible) {
-                <div app-rightmenu></div>
             }
             <div class="layout-mask"></div>
         </div>
